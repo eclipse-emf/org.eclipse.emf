@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.28 2005/11/18 19:14:57 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.29 2005/11/21 22:03:34 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -258,7 +258,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 		return (<%=genFeature.getImportedType()%>)eContainer();
       <%} else {%>
         <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
-		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%>);
+		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%><%if (!genFeature.isReferenceType()) {%>, <%=genFeature.getUpperName()%>_EDEFAULT<%}%>);
         <%}%>
         <%if (genFeature.isResolveProxies()) {%>
 		if (<%=genFeature.getSafeName()%> != null && <%=genFeature.getSafeNameAsEObject()%>.eIsProxy())
@@ -294,11 +294,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
         <%if (genClass.isFlag(genFeature)) {%>
 		return (<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0;
         <%} else {%>
-          <%if (genModel.isVirtualDelegation() && !genFeature.isReferenceType() && !genFeature.isPrimitiveType()) {%>
-		return <%=genFeature.getSafeName()%> == null ? <%=genFeature.getUpperName()%>_EDEFAULT : <%=genFeature.getSafeName()%>;
-          <%} else {%>
 		return <%=genFeature.getSafeName()%>;
-          <%}%>
         <%}%>
       <%}%>
     <%} else {//volatile%>
@@ -1087,7 +1083,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
       <%}%>
     <%} else {%>
       <%if (genFeature.isEnumType() && genFeature.isField() && (genClass.getImplementedGenFeatures().contains(genFeature) ? genModel.isVirtualDelegation() : genFeature.getGenModel().isVirtualDelegation())) {%>
-				return eVirtualIsSet(<%=genClass.getQualifiedFeatureID(genFeature)%>) && eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%>) != <%=genFeature.getUpperName()%>_EDEFAULT;
+				return eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%>, <%=genFeature.getUpperName()%>_EDEFAULT) != <%=genFeature.getUpperName()%>_EDEFAULT;
       <%} else {%>
 				return <%=genFeature.getGetAccessor()%>() != <%=genFeature.getUpperName()%>_EDEFAULT;
       <%}%>
@@ -1097,7 +1093,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 				return <%=genFeature.getUpperName()%>_EDEFAULT == null ? <%=genFeature.getSafeName()%> != null : !<%=genFeature.getUpperName()%>_EDEFAULT.equals(<%=genFeature.getSafeName()%>);
     <%} else {%>
       <%if (genFeature.isField() && (genClass.getImplementedGenFeatures().contains(genFeature) ? genModel.isVirtualDelegation() : genFeature.getGenModel().isVirtualDelegation())) {%>
-				<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = eVirtualIsSet(<%=genClass.getQualifiedFeatureID(genFeature)%>) ? (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%>) : <%=genFeature.getUpperName()%>_EDEFAULT;
+				<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%>, <%=genFeature.getUpperName()%>_EDEFAULT);
 				return <%=genFeature.getUpperName()%>_EDEFAULT == null ? <%=genFeature.getSafeName()%> != null : !<%=genFeature.getUpperName()%>_EDEFAULT.equals(<%=genFeature.getSafeName()%>);
       <%} else {%>
 				return <%=genFeature.getUpperName()%>_EDEFAULT == null ? <%=genFeature.getGetAccessor()%>() != null : !<%=genFeature.getUpperName()%>_EDEFAULT.equals(<%=genFeature.getGetAccessor()%>());
@@ -1252,7 +1248,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
         <%}%>
       <%} else {%>
         <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
-		result.append(eVirtualIsSet(<%=genClass.getQualifiedFeatureID(genFeature)%>) ? eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%>) : <%if (genFeature.isListType() || genFeature.isReferenceType()){%>null<%} else {%><%=genFeature.getUpperName()%>_EDEFAULT<%}%>);
+		result.append(eVirtualGet(<%=genClass.getQualifiedFeatureID(genFeature)%><%if (!genFeature.isListType() && !genFeature.isReferenceType()){%>, <%=genFeature.getUpperName()%>_EDEFAULT<%}%>));
         <%} else {%>
           <%if (genClass.isFlag(genFeature)) {%>
 		result.append((<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0);

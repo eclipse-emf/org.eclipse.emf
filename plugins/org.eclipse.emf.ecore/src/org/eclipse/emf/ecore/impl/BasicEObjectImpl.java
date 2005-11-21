@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.12 2005/11/19 10:52:40 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.13 2005/11/21 22:03:26 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -945,18 +946,13 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     throw new UnsupportedOperationException();
   }
 
-  protected Object[] eVirtualValues()
-  {
-    throw new UnsupportedOperationException();
-    //return eVirtualValues;
-  }
-
-  protected void eSetVirtualValues(Object[] newValues)
-  {
-    throw new UnsupportedOperationException();
-    //eVirtualValues = newValues;
-  }
-
+  /**
+   * Returns the number of bits that are on in the two's complement bit pattern.
+   * This is used to maintain the bit set repesenting which feature IDs
+   * currently have and index allocated in the {@link #eVirtualValues() virtual values}.
+   * @param value a two's complement bit pattern.
+   * @return the number of bits that are on.
+   */
   protected static int eVirtualBitCount(int value)
   {
     value -= value >>> 1 & 0x55555555;
@@ -967,30 +963,76 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     return value & 0x3F;
   }
 
-  protected static final int EVIRTUAL_SET = 0;
-
-  protected static final int EVIRTUAL_UNSET = 1;
-
-  protected static final int EVIRTUAL_GET = 2;
-
-  protected static final int EVIRTUAL_IS_SET = 3;
-
+  /**
+   * Returns the bit pattern at the given offset within the sequence of bit patterns 
+   * representing which features are assigned an index in the {@link #eVirtualValues() virtual values}.
+   * @param offset the offset within the bit sequence of bit patterns.
+   * @return the bit pattern at the offset.
+   */
   protected int eVirtualIndexBits(int offset)
   {
+    // return eVirtualIndexBits[offset];
     throw new UnsupportedOperationException();
-    //return eVirtualIndexBits[offset];
   }
 
+  /**
+   * Sets the bit pattern at the given offset within the sequence of bit patterns 
+   * representing which features are assigned an index in the {@link #eVirtualValues() virtual values}.
+   * @param offset the offset within the bit sequence of bit patterns.
+   * @param newIndexBits the new bit pattern at the offset.
+   */
   protected void eSetVirtualIndexBits(int offset, int newIndexBits)
   {
+    // eVirtualIndexBits[offset] = newIndexBits;
     throw new UnsupportedOperationException();
-    //eVirtualIndexBits[offset] = newIndexBits;
   }
+  
+  /**
+   * An action code indicating that an {@link #eVirtualIndex(int, int) index} 
+   * needs to be computed to perform a {@link #eVirtualSet(int, Object)} set.
+   */
+  protected static final int EVIRTUAL_SET = 0;
 
+  /**
+   * An action code indicating that an {@link #eVirtualIndex(int, int)} index 
+   * needs to be computed to perform an {@link #eVirtualUnset(int) unset}.
+   */
+  protected static final int EVIRTUAL_UNSET = 1;
+
+  /**
+   * An action code indicating that an {@link #eVirtualIndex(int, int) index} 
+   * needs to be computed to perform a {@link #eVirtualGet(int) get}.
+   */
+  protected static final int EVIRTUAL_GET = 2;
+
+  /**
+   * An action code indicating that an {@link #eVirtualIndex(int, int) index} 
+   * needs to be computed to perform an {@link #eVirtualIsSet(int) isSet}.
+   */
+  protected static final int EVIRTUAL_IS_SET = 3;
+  
+  /**
+   * Returns the index in the {@link #eVirtualValues() virtual values} for the feature ID,
+   * with the side effect of toggling the necessary bits to suit the action code.
+   * A result of less than zero indicates that the feature ID is not assigned an index.
+   * In the case of a set action, when the value was not previously set,
+   * the result will be the complement of the assigned index,
+   * which can be corrected by <code>~index</code>.
+   * @param eDerivedStructuralFeatureID the ID of a feature of the class.
+   * @param action the reason for computing the ID.
+   * @return the virtual index.
+   */
   protected int eVirtualIndex(int eDerivedStructuralFeatureID, int action)
   {
+    // Compute the offset in the sequence of bit patterns for this feature ID
+    // and then get the bit pattern at that index.
+    //
     int offset = eDerivedStructuralFeatureID >>> 5;
     int bits = eVirtualIndexBits(offset);
+    
+    // Compute the index within that bit pattern for this feature ID
+    // and fetch that bit at that index.
+    //
     int bitIndex = eDerivedStructuralFeatureID & 31;
     int bit = bits >>> bitIndex & 1;
 
@@ -998,130 +1040,260 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     {
       case EVIRTUAL_IS_SET:
       {
-        return bit;
+        // For isSet, we only need to check the bit and return -1 when the bit is 0.
+        //
+        return bit - 1;
       }
       case EVIRTUAL_GET:
       case EVIRTUAL_UNSET:
       {
         if (bit == 0)
         {
-          return 0;
+          // If the value index set, there's no index to return.
+          //
+          return -1;
         }
+        // Continue to compute the offset.
       }
       case EVIRTUAL_SET:
       default:
       {
+        // Depending on the action and the current state, we'll toggle the state.
+        // i.e., for unset, we need to turn it off if it's on, 
+        // and for set we need to turn it on if it's off.
+        //
         if (bit == action)
         {
           eSetVirtualIndexBits(offset, bits ^ (1 << bitIndex));
         }
 
+        // Count just the bits up to this one.
+        //
         int result = eVirtualBitCount(bits << 31 - bitIndex);
 
-        for (int i = 0; i < offset; i++)
+        // Count all the bits in the bit patterns up to this one in the sequence of bit patterns.
+        //
+        for (int i = offset; --i >= 0;)
         {
           result += eVirtualBitCount(eVirtualIndexBits(i));
         }
 
-        return (result << 1) - bit;
+        // If the index was previously assigned, return it.
+        // Otherwise, return a negative result that encodes the newly assigned index.
+        //
+        return bit != 0 ? result - 1 : ~result;
       }
     }
   }
 
-  protected Object eVirtualGet(int eDerivedStructuralFeatureID)
+  /**
+   * Returns the array of virtual values of the features that are current set.
+   * @return the array of virtual values of the features that are current set.
+   */
+  protected Object[] eVirtualValues()
   {
-    int index = eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_GET);
-    return (index & 1) == 0 ? null : eVirtualValues()[index >>> 1];
+    // return eVirtualValues;
+    throw new UnsupportedOperationException();
   }
 
+  /**
+   * Sets the array of virtual values of the features that are current set.
+   * @param newValues the new array of virtual values.
+   */
+  protected void eSetVirtualValues(Object[] newValues)
+  {
+    // eVirtualValues = newValues;
+    throw new UnsupportedOperationException();
+  }
+  
+  /**
+   * Returns the value at the index.
+   * @param index the {@link #eVirtualIndex(int, int) index} in the {@link #eVirtualValues() virtual values}.
+   * @return the value at the index.
+   */
+  protected Object eVirtualGetValue(int index)
+  {
+    return eVirtualValues()[index];
+  }
+  
+  /**
+   * Sets the value at the index.
+   * @param index the {@link #eVirtualIndex(int, int) index} in the {@link #eVirtualValues() virtual values}.
+   * @return the previous value at the index.
+   */
+  protected Object eVirtualSetValue(int index, Object value)
+  {
+    Object[] values = eVirtualValues();
+    Object oldValue = values[index];
+    values[index] = value;
+    return oldValue;
+  }
+  
+  protected int eVirtualGrow(int minimumCapacity)
+  {
+    // return minimumCapacity;
+    return minimumCapacity + (minimumCapacity >> 3) + 2;
+  }
+  
+  /**
+   * Adds the value at the index.
+   * @param index the {@link #eVirtualIndex(int, int) index} in the {@link #eVirtualValues() virtual values}.
+   */
+  protected void eVirtualAddValue(int index, Object value)
+  {
+    Object[] values = eVirtualValues();
+    if (values == null)
+    {
+      int newLength = eVirtualGrow(1);
+      values = new Object [newLength];
+      values[0] = value;
+      for (int i = 1; i < newLength; ++i)
+      {
+        values[i] = EVIRTUAL_NO_VALUE;
+      }
+      eSetVirtualValues(values);
+    }
+    else
+    {
+      int length = values.length;
+      if (values[length - 1] == EVIRTUAL_NO_VALUE)
+      {
+        if (index + 1 < length)
+        {
+          System.arraycopy(values, index, values, index + 1, length - index - 1);
+        }
+  
+        values[index] = value;
+      }
+      else
+      {
+        int newLength = eVirtualGrow(length + 1);
+        Object[] newValues = new Object [newLength];
+        
+        Arrays.fill(newValues, length + 1, newLength, EVIRTUAL_NO_VALUE);
+  
+        if (index > 0)
+        {
+          System.arraycopy(values, 0, newValues, 0, index);
+        }
+  
+        if (index < length)
+        {
+          System.arraycopy(values, index, newValues, index + 1, length - index);
+        }
+  
+        newValues[index] = value;
+        eSetVirtualValues(newValues);
+      }
+    }
+  }
+
+  /**
+   * Removes the value at the index.
+   * @param index the {@link #eVirtualIndex(int, int) index} in the {@link #eVirtualValues() virtual values}.
+   * @return the value at the index.
+   */
+  protected Object eVirtualRemoveValue(int index)
+  {
+    Object[] values = eVirtualValues();
+    Object oldValue = values[index];
+    int length = values.length - 1;
+    
+    if (index == 0 && (length == 0 || values[1] == EVIRTUAL_NO_VALUE))
+    {
+      eSetVirtualValues(null);
+    }
+    else
+    {
+      if (index < length)
+      {
+        System.arraycopy(values, index + 1, values, index, length - index);
+      }
+    }
+    return oldValue;
+  }
+  
+  /**
+   * Returns the value for the feature ID, or <code>null</code>, if there isn't one.
+   * @param eDerivedStructuralFeatureID the feature ID to fetch.
+   * @return the value for the feature ID.
+   */
+  protected Object eVirtualGet(int eDerivedStructuralFeatureID)
+  {
+    return eVirtualGet(eDerivedStructuralFeatureID, null);
+  }
+  
+  /**
+   * Returns the value for the feature ID, or the default value, if there isn't one.
+   * @param eDerivedStructuralFeatureID the feature ID to fetch.
+   * @param defaultValue the default value.
+   * @return the value for the feature ID.
+   */
+  protected Object eVirtualGet(int eDerivedStructuralFeatureID, Object defaultValue)
+  {
+    // Determine the index for the feature and return the value at that index, if an index is assigned.
+    //
+    int index = eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_GET);
+    return index < 0 ? defaultValue : eVirtualGetValue(index);
+  }
+
+  /**
+   * Returns whether there is a value set for the feature ID.
+   * @param eDerivedStructuralFeatureID the feature ID to test.
+   * @return whether there is a value set for the feature ID.
+   */
   protected boolean eVirtualIsSet(int eDerivedStructuralFeatureID)
   {
-    return (eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_IS_SET) & 1) != 0;
+    // Determine if an index is assigned.
+    //
+    return eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_IS_SET) >= 0;
   }
 
   protected static final Object EVIRTUAL_NO_VALUE = new Object();
 
+  /**
+   * Sets the value for the feature ID.
+   * @param eDerivedStructuralFeatureID the feature ID to set.
+   * @return the previous value for the feature ID or {@link #EVIRTUAL_NO_VALUE}.
+   */
   protected Object eVirtualSet(int eDerivedStructuralFeatureID, Object value)
   {
+    // Determine the index.
+    //
     int index = eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_SET);
-    int position = index >>> 1;
-    Object[] values = eVirtualValues();
-
-    if ((index & 1) != 0)
+    if (index < 0)
     {
-      Object oldValue = values[position];
-      values[position] = value;
-      return oldValue;
+      // If it's newly allocated, add a new value, and indicate there was no previous value.
+      //
+      eVirtualAddValue(~index, value);
+      return EVIRTUAL_NO_VALUE;
     }
     else
     {
-      if (values == null)
-      {
-        eSetVirtualValues(new Object []{ value });
-      }
-      else
-      {
-        int length = values.length;
-        Object[] newValues = new Object [length + 1];
-
-        if (position > 0)
-        {
-          System.arraycopy(values, 0, newValues, 0, position);
-        }
-
-        if (position < length)
-        {
-          System.arraycopy(values, position, newValues, position + 1, length - position);
-        }
-
-        newValues[position] = value;
-        eSetVirtualValues(newValues);
-      }
-
-      return EVIRTUAL_NO_VALUE;
+      // Set the value at the previously allocated index and return the previous value there.
+      //
+      return eVirtualSetValue(index, value);
     }
   }
-
+  
+  /**
+   * Unsets the value for the feature ID.
+   * @param eDerivedStructuralFeatureID the feature ID to unset.
+   * @return the previous value for the feature ID or {@link #EVIRTUAL_NO_VALUE}.
+   */
   protected Object eVirtualUnset(int eDerivedStructuralFeatureID)
   {
     int index = eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_UNSET);
-
-    if ((index & 1) == 0)
+    if (index < 0)
     {
       return EVIRTUAL_NO_VALUE;
     }
     else
     {
-      int position = index >>> 1;
-      Object[] values = eVirtualValues();
-      Object oldValue = values[position];
-      int length = values.length - 1;
-
-      if (length == 0)
-      {
-        eSetVirtualValues(null);
-      }
-      else
-      {
-        Object[] newValues = new Object [length];
-
-        if (position > 0)
-        {
-          System.arraycopy(values, 0, newValues, 0, position);
-        }
-
-        if (position < length)
-        {
-          System.arraycopy(values, position + 1, newValues, position, length - position);
-        }
-
-        eSetVirtualValues(newValues);
-      }
-
-      return oldValue;
+      return eVirtualRemoveValue(index);
     }
   }
-
+  
   public String toString()
   {
     // Should use the following code to improve debuggability. Will need to
