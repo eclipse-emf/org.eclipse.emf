@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTestPerformancePlugin.java,v 1.32 2005/07/18 00:03:10 nickb Exp $
+ * $Id: EMFTestPerformancePlugin.java,v 1.33 2005/11/21 23:08:16 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
@@ -22,13 +22,13 @@ package org.eclipse.emf.test.performance;
 //import java.lang.reflect.Method;
 //import java.util.Properties;
 
-//import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleContext;
 //
 //import org.eclipse.core.runtime.Platform;
-//import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Plugin;
 
 
-public class EMFTestPerformancePlugin// extends Plugin
+public class EMFTestPerformancePlugin extends Plugin
 {
 //  private static class DerbyHelper
 //  {
@@ -189,10 +189,10 @@ public class EMFTestPerformancePlugin// extends Plugin
     return instance;
   }
 
-//  public void start(BundleContext context) throws Exception
-//  {
-//    super.start(context);
-//
+  public void start(BundleContext context) throws Exception
+  {
+    super.start(context);
+
 //    DerbyHelper derbyHelper = new DerbyHelper();
 //    if (false)
 //    {
@@ -206,7 +206,7 @@ public class EMFTestPerformancePlugin// extends Plugin
 //      derbyHelper.writeSystemProperties();
 //      derbyHelper.printSystemProperties();
 //    }
-//  }
+  }
 
 //  private void setDerbyAttributes(DerbyHelper derbyHelper)
 //  {
