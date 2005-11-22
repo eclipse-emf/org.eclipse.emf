@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.18 2005/06/12 13:29:22 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.19 2005/11/22 22:35:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -38,8 +38,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 
 
-public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implements FeatureMap.Internal
+public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
 {
+  protected FeatureMap.Internal.Wrapper wrapper = this;
   protected final FeatureMapUtil.Validator featureMapValidator;
   protected final EStructuralFeature eStructuralFeature;
 
@@ -64,7 +65,22 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return theList;
   }
 */
+  
+  public Wrapper getWrapper()
+  {
+    return wrapper;
+  }
 
+  public void setWrapper(Wrapper wrapper)
+  {
+    this.wrapper = wrapper;
+  }
+
+  public FeatureMap featureMap()
+  {
+    return this;
+  }
+  
   protected Object validate(int index, Object object)
   {
     Object result = super.validate(index, object);
@@ -2135,7 +2151,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       if (eFeature instanceof EReference && ((EReference)eFeature).isContainer())
       {
-        return eSettingDelegate(eFeature).dynamicGet(this, null, -1, true);
+        return eSettingDelegate(eFeature).dynamicGet(this, null, -1, true, true);
       }
       else
       {
@@ -2268,4 +2284,9 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       return result;
     }
   }
+
+   public void set(Object newValue)
+   {
+     super.set(newValue instanceof FeatureMap ? newValue : ((FeatureMap.Internal.Wrapper)newValue).featureMap());
+   }
 }

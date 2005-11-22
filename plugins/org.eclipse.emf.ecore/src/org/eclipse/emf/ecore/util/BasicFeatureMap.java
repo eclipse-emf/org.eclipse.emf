@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.18 2005/06/12 13:29:22 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.19 2005/11/22 22:34:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -35,9 +35,9 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 
-
-public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Internal
+public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
 {
+  protected Wrapper wrapper = this;
   protected final FeatureMapUtil.Validator featureMapValidator;
 
   public BasicFeatureMap(InternalEObject owner, int featureID)
@@ -47,6 +47,21 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     featureMapValidator = FeatureMapUtil.getValidator(owner.eClass(), getEStructuralFeature());
   }
 
+  public Wrapper getWrapper()
+  {
+    return wrapper;
+  }
+
+  public void setWrapper(Wrapper wrapper)
+  {
+    this.wrapper = wrapper;
+  }
+
+  public FeatureMap featureMap()
+  {
+    return this;
+  }
+  
   protected Object validate(int index, Object object)
   {
     Object result = super.validate(index, object);
@@ -1681,7 +1696,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
     }
 
-    if (!removeAll(entryCollection))
+    if (!removeAll(entryCollection) && owner.eNotificationRequired())
     {
       dispatchNotification
         (feature.isMany() ?
@@ -2125,7 +2140,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     {
       if (eFeature instanceof EReference && ((EReference)eFeature).isContainer())
       {
-        return eSettingDelegate(eFeature).dynamicGet(this, null, -1, true);
+        return eSettingDelegate(eFeature).dynamicGet(this, null, -1, true, true);
       }
       else
       {
@@ -2257,5 +2272,10 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       result = "org.eclipse.emf.ecore.impl.EObjectImpl" + result.substring(result.indexOf("@"));
       return result;
     }
+  }
+
+  public void set(Object newValue)
+  {
+    super.set(newValue instanceof FeatureMap ? newValue : ((FeatureMap.Internal.Wrapper)newValue).featureMap());
   }
 }
