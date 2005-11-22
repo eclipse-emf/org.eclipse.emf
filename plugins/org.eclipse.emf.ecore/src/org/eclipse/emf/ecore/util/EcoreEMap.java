@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.4 2005/08/05 17:19:25 emerks Exp $
+ * $Id: EcoreEMap.java,v 1.5 2005/11/22 21:16:09 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -21,10 +21,12 @@ import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.BasicEMap;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -41,6 +43,13 @@ public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, ES
     this.entryClass = entryClass;
     this.entryEClass = entryEClass;
     delegateEList = new DelegateEObjectContainmentEList(entryClass, owner, featureID);
+  }
+  
+  public EcoreEMap(EClass entryEClass, Class entryClass, EList delegateEList)
+  {
+    this.entryClass = entryClass;
+    this.entryEClass = entryEClass;
+    this.delegateEList = delegateEList;
   }
 
   protected void initializeDelegateEList()
@@ -193,7 +202,15 @@ public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, ES
 
   public void set(Object value)
   {
-    ((EStructuralFeature.Setting)delegateEList).set(value);
+    if (value instanceof Map)
+    {
+      ((EStructuralFeature.Setting)delegateEList).unset();
+      putAll((Map)value);
+    }
+    else
+    {
+      ((EStructuralFeature.Setting)delegateEList).set(value);
+    }
   }
 
   public boolean isSet()
