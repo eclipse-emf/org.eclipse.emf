@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.6 2005/11/22 21:10:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -29,6 +29,7 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -37,6 +38,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.DelegatingEcoreEList;
 import org.eclipse.emf.ecore.util.DelegatingFeatureMap;
 import org.eclipse.emf.ecore.util.EcoreEList;
+import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 
@@ -571,7 +573,21 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
 
   protected EList createList(EStructuralFeature eStructuralFeature)
   {
-    return new EStoreEList(this, eStructuralFeature, eStore());
+    EClassifier eType = eStructuralFeature.getEType();
+    if (eType.getInstanceClassName() == "java.util.Map$Entry")
+    {
+      return 
+        new EcoreEMap
+          ((EClass)eType, 
+           eType.getInstanceClass(), 
+           this, 
+           eClass().getFeatureID(eStructuralFeature),
+           new EStoreEList(this, eStructuralFeature, eStore()));
+    }
+    else
+    {
+      return new EStoreEList(this, eStructuralFeature, eStore());
+    }
   }
 
   protected FeatureMap createFeatureMap(EStructuralFeature eStructuralFeature)
