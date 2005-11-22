@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SAXXMLHandler.java,v 1.7 2005/07/21 19:47:33 elena Exp $
+ * $Id: SAXXMLHandler.java,v 1.8 2005/11/22 19:35:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -63,10 +63,12 @@ public class SAXXMLHandler extends XMLHandler
     Class locatorClass = locator.getClass();
     try
     {
-
       Method encodingMethod = locatorClass.getMethod("getEncoding", null);
       String encoding = (String)encodingMethod.invoke(locator, null);
-      this.xmlResource.setEncoding(encoding);
+      if (encoding != null)
+      {
+        this.xmlResource.setEncoding(encoding);
+      }
     }
     catch (NoSuchMethodException e)
     {
