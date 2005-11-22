@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.6 2005/11/22 20:20:51 marcelop Exp $
+ * $Id: BasicDiagnostic.java,v 1.7 2005/11/22 20:24:29 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -283,11 +283,7 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     
     public Throwable getException()
     {
-      if (throwable != null)
-      {
-        return throwable;
-      }
-      return diagnostic.getException();
+      return throwable != null ? throwable : diagnostic.getException();
     }
     
     public String getMessage()
