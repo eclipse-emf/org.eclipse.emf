@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EContentAdapter.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EContentAdapter.java,v 1.4 2005/11/22 21:32:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
@@ -151,21 +152,31 @@ public class EContentAdapter extends AdapterImpl
   public void setTarget(Notifier target)
   {
     super.setTarget(target);
-
-    Collection contents = 
-      target instanceof EObject ?
-        ((EObject)target).eContents() :
-        target instanceof ResourceSet ?
-          ((ResourceSet)target).getResources() :
-          target instanceof Resource ?
-            ((Resource)target).getContents() :
-            null;
-    if (contents != null)
+    
+    if (target instanceof EObject)
     {
-      for (Iterator i = contents.iterator(); i.hasNext(); )
+      for (Iterator i = ((EObject)target).eContents().iterator(); i.hasNext(); )
       {
         Notifier notifier = (Notifier)i.next();
-        addAdapter(notifier); 
+        addAdapter(notifier);
+      }
+    }
+    else if (target instanceof Resource)
+    {
+      List contents = ((Resource)target).getContents();
+      for (int i = 0, size = contents.size(); i < size; ++i)
+      {
+        Notifier notifier = (Notifier)contents.get(i);
+        addAdapter(notifier);
+      }
+    }
+    else if (target instanceof ResourceSet)
+    {
+      List resources =  ((ResourceSet)target).getResources();
+      for (int i = 0; i < resources.size(); ++i)
+      {
+        Notifier notifier = (Notifier)resources.get(i);
+        addAdapter(notifier);
       }
     }
   }
