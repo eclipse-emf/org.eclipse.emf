@@ -12,75 +12,71 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.8 2005/07/18 00:06:52 nickb Exp $
+ * $Id: TestUtil.java,v 1.9 2005/11/22 19:47:45 nickb Exp $
  */
 package org.eclipse.emf.test.performance;
 
 import java.io.File;
-import java.io.IOException;
-//import java.net.URL;
+import java.net.URL;
 
-//import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Platform;
 
 public class TestUtil
 {
-//  private static final String PLUGIN_ID = "org.eclipse.emf.test.performance";
-//  private static final String CLASS_FILE = "org/eclipse/emf/test/performance/TestUtil.class";
+  private static final String PLUGIN_ID = "org.eclipse.emf.test.performance";
+  private static final String CLASS_FILE = "org/eclipse/emf/test/performance/TestUtil.class";
   
-//  private static int runningUnderEclipseFlag = -1;
+  private static int runningUnderEclipseFlag = -1;
   
   public final static String getPluginDirectory()
   {
-    try {
-        //return new File(Platform.asLocalURL(EMFTestPerformancePlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
-//    	System.out.println((new File(".")).getCanonicalPath());
-		return (new File(".")).getCanonicalPath();
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
+    try
+    {
+      return new File(Platform.asLocalURL(EMFTestPerformancePlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
+    }
+    catch (Throwable t)
+    {
+    }
 
-//    URL url = ClassLoader.getSystemResource(CLASS_FILE);
-//    if (url != null)
-//    {
-//      String path = url.getPath();
-//      if (path.indexOf(PLUGIN_ID)>=0) {
-//    	  path = path.substring(0, path.indexOf(PLUGIN_ID));
-//      }
-//      if (path.startsWith("file:"))
-//      {
-//        path = path.substring("file:".length());
-//      }
-//      File parentDir = new File(path);
-//      if (parentDir.isDirectory())
-//      {
-//        File[] files = parentDir.listFiles();
-//        for (int i = 0, maxi = files.length; i < maxi; i++)
-//        {
-//          if (files[i].isDirectory() && files[i].getName().startsWith(PLUGIN_ID))
-//          {
-//            return files[i].getAbsolutePath();
-//          }
-//        }
-//      }
-//    }
+    URL url = ClassLoader.getSystemResource(CLASS_FILE);
+    if (url != null)
+    {
+      String path = url.getPath();
+      path = path.substring(0, path.indexOf(PLUGIN_ID));
+      if (path.startsWith("file:"))
+      {
+        path = path.substring("file:".length());
+      }
+      File parentDir = new File(path);
+      if (parentDir.isDirectory())
+      {
+        File[] files = parentDir.listFiles();
+        for (int i = 0, maxi = files.length; i < maxi; i++)
+        {
+          if (files[i].isDirectory() && files[i].getName().startsWith(PLUGIN_ID))
+          {
+            return files[i].getAbsolutePath();
+          }
+        }
+      }
+    }
 
     return null;
   }
   
   public final static boolean isRunningUnderEclipse()
   {
-//    if (runningUnderEclipseFlag == -1)
-//    {
-//      runningUnderEclipseFlag = 0; 
-//      try
-//      {
-//        if (Platform.isRunning()) runningUnderEclipseFlag = 1;
-//      }
-//      catch (Throwable t)
-//      {
-//      }
-//    }
-//    return (runningUnderEclipseFlag == 1);
-    return true;
+    if (runningUnderEclipseFlag == -1)
+    {
+      runningUnderEclipseFlag = 0; 
+      try
+      {
+        if (Platform.isRunning()) runningUnderEclipseFlag = 1;
+      }
+      catch (Throwable t)
+      {
+      }
+    }
+    return (runningUnderEclipseFlag == 1);
   }
 }
