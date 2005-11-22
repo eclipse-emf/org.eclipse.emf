@@ -12,15 +12,24 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: URIConverter.java,v 1.4 2005/11/22 19:34:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.Writer;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.util.URI;
 
@@ -126,6 +135,135 @@ public interface URIConverter
   InputStream createInputStream(URI uri) throws IOException;
 
   /**
+   * An interface that is optionally implemented by the input streams returned from 
+   * {@link URIConverter#createInputStream(URI)}.
+   * @see ReadableInputStream
+   */
+  interface Readable
+  {
+    /**
+     * Returns a reader that provides access to the same underlying data as the input stream itself.
+     * @return a reader that provides access to the same underlying data as the input stream itself.
+     */
+    Reader asReader();
+    
+    /**
+     * Returns the encoding used to convert the reader's characters to bytes.
+     * @return the encoding used to convert the reader's characters to bytes.
+     */
+    String getEncoding();
+  }
+
+  /**
+   * A wrapper around a reader that implements an input stream but can be unwrapped to access the reader directly.
+   */
+  public class ReadableInputStream extends InputStream implements Readable
+  {
+    private static final Pattern XML_HEADER = Pattern.compile("<\\?xml\\s+(?:version\\s*=\\s*\"[^\"]*\"\\s+)encoding\\s*=\\s*\"\\s*([^\\s\"]*)\"\\s*\\?>");
+    
+    public static String getEncoding(String xmlString)
+    {
+      Matcher matcher = XML_HEADER.matcher(xmlString);
+      return
+        matcher.lookingAt() ?
+          matcher.group(1) :
+          null;
+    }
+    
+    protected String encoding;
+    protected Reader reader;
+    protected Buffer buffer;
+    
+    public ReadableInputStream(Reader reader, String encoding)
+    {
+      super();
+      this.reader = reader;
+      this.encoding = encoding;
+    }
+    
+    public ReadableInputStream(String string, String encoding)
+    {
+      this(new StringReader(string), encoding);
+    }
+    
+    public ReadableInputStream(String xmlString)
+    {
+      this(new StringReader(xmlString), getEncoding(xmlString));
+    }
+    
+    public int read() throws IOException
+    {
+      if (buffer == null)
+      {
+        buffer = new Buffer(100);
+      }
+      
+      return buffer.read();
+    }
+
+    public Reader asReader()
+    {
+      return reader;
+    }
+    
+    public String getEncoding()
+    {
+      return encoding; 
+    }
+
+    public void close() throws IOException
+    {
+      super.close();
+      reader.close();
+    }
+
+    public void reset() throws IOException
+    {
+      super.reset();
+      reader.reset();
+    }
+    
+    protected class Buffer extends ByteArrayOutputStream
+    {
+      protected int index;
+      protected char [] characters;
+      protected OutputStreamWriter writer;
+      
+      public Buffer(int size) throws IOException
+      {
+        super(size);
+        characters = new char [size];
+        writer = new OutputStreamWriter(this, encoding);
+      }
+      
+      public int read() throws IOException
+      {
+        if (index < count)
+        {
+          return buf[index++];
+        }
+        else
+        {
+          index = 0;
+          reset();
+          
+          int readCount = reader.read(characters);
+          if (readCount < 0)
+          {
+            return -1;
+          }
+          else
+          {
+            writer.write(characters, 0, readCount);
+            writer.flush();
+            return buf[index++];
+          }
+        }
+      }
+    }
+  }
+  
+  /**
    * Creates an output stream for the URI and returns it.
    * <p>
    * It {@link #normalize normalizes} the URI and uses that as the basis for further processing.
@@ -136,4 +274,120 @@ public interface URIConverter
    * @exception IOException if there is a problem obtaining an open output stream.
    */
   OutputStream createOutputStream(URI uri) throws IOException;
+  
+  /**
+   * An interface that is optionally implemented by the output streams returned from 
+   * {@link URIConverter#createOutputStream(URI)}.
+   * @see WriteableOutputStream
+   */
+  interface Writeable
+  {
+    /**
+     * Returns a writer that provides access to the same underlying data as the input stream itself.
+     * @return a writer that provides access to the same underlying data as the input stream itself.
+     */
+    Writer asWriter();
+    
+    /**
+     * Returns the encoding used to convert the writer's bytes to characters.
+     * @return the encoding used to convert the writer's bytes to characters.
+     */
+    String getEncoding();
+  }
+
+  /**
+   * A wrapper around a writer that implements an output stream but can be unwrapped to access the writer directly.
+   */
+  public static class WriteableOutputStream extends OutputStream implements Writeable
+  {
+    protected String encoding;
+    protected Writer writer;
+    protected Buffer buffer;
+
+    public WriteableOutputStream(Writer writer, String encoding)
+    {
+      super();
+      this.writer = writer;
+      this.encoding = encoding;
+    }
+    
+    public void write(int b) throws IOException
+    {
+      if (buffer == null)
+      {
+        buffer = new Buffer(100);
+      }
+      
+      buffer.write(b);
+    }
+
+    public Writer asWriter()
+    {
+      return writer;
+    }
+
+    public String getEncoding()
+    {
+      return encoding;
+    }
+    
+    public void close() throws IOException
+    {
+      super.close();
+      writer.close();
+    }
+    
+    public void flush() throws IOException
+    {
+      super.flush();
+      buffer.flush();
+      writer.flush();
+    }
+
+    protected class Buffer extends ByteArrayInputStream
+    {
+      protected int index;
+      protected char [] characters;
+      protected InputStreamReader reader;
+      
+      public Buffer(int size) throws IOException
+      {
+        super(new byte [size], 0, 0);
+        characters = new char [size];
+        reader = new InputStreamReader(this, encoding);
+      }
+      
+      public void write(int b) throws IOException
+      {
+        if (count < buf.length)
+        {
+          buf[count++] = (byte)b;
+        }
+        else
+        {
+          int readCount = reader.read(characters);
+          if (readCount > 0)
+          {
+            writer.write(characters, 0, readCount);
+          }
+          count = 0;
+          index = 0;
+          pos = 0;
+          write(b);
+        }
+      }
+      
+      public void flush() throws IOException
+      {
+        int readCount = reader.read(characters);
+        if (readCount > 0)
+        {
+          writer.write(characters, 0, readCount);
+        }
+        count = 0;
+        index = 0;
+        pos = 0;
+      }
+    }
+  }
 }
