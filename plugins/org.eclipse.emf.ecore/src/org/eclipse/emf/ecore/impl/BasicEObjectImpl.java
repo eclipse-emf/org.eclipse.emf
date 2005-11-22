@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.14 2005/11/22 13:10:47 khussey Exp $
+ * $Id: BasicEObjectImpl.java,v 1.15 2005/11/22 22:33:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -528,16 +528,48 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public Object eGet(EStructuralFeature eFeature, boolean resolve)
   {
-    return eDynamicGet(eFeature, resolve);
+    return eGet(eFeature, resolve, true);
   }
 
+  public Object eGet(EStructuralFeature eFeature, boolean resolve, boolean coreType)
+  {
+    int featureID = eDerivedStructuralFeatureID(eFeature);
+    if (featureID >= 0)
+    {
+      return eGet(featureID, resolve, coreType);
+    }
+    else
+    {
+      return eOpenGet(eFeature, resolve);
+    }
+  }
+
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
+    int dynamicFeatureID = featureID - eStaticFeatureCount();
+      
+    return dynamicFeatureID < 0 ?
+      eGet(eFeature, resolve) /* backward compatibility with old generated overrides */ : 
+      eSettingDelegate(eFeature).dynamicGet(this, eSettings(), dynamicFeatureID, resolve, coreType);
+  }
+  
   public Object eDynamicGet(EStructuralFeature eFeature, boolean resolve)
   {
-    int dynamicFeatureID = eDynamicFeatureID(eFeature);
+    return eDynamicGet(eDynamicFeatureID(eFeature), eFeature, resolve, true);
+  }
+  
+  public Object eDynamicGet(int featureID, boolean resolve, boolean coreType)
+  {
+    return eDynamicGet(featureID - eStaticFeatureCount(), eClass().getEStructuralFeature(featureID), resolve, coreType);
+  }
+
+  protected Object eDynamicGet(int dynamicFeatureID, EStructuralFeature eFeature, boolean resolve, boolean coreType)
+  {
     return
-      dynamicFeatureID <= -1 ?
+      dynamicFeatureID < 0 ?
         eOpenGet(eFeature, resolve) :
-        eSettingDelegate(eFeature).dynamicGet(this, eSettings(), dynamicFeatureID, resolve);
+        eSettingDelegate(eFeature).dynamicGet(this, eSettings(), dynamicFeatureID, resolve, coreType);
   }
 
   public Object eOpenGet(EStructuralFeature eFeature, boolean resolve)
@@ -560,22 +592,53 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public void eSet(EStructuralFeature eFeature, Object newValue) 
   {
-    eDynamicSet(eFeature, newValue);
+    int featureID = eDerivedStructuralFeatureID(eFeature);
+    if (featureID >= 0)
+    {
+      eSet(featureID, newValue);
+    }
+    else
+    {
+      eOpenSet(eFeature, newValue);
+    }
+  }
+
+  public void eSet(int featureID, Object newValue)
+  {
+    EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
+    int dynamicFeatureID = featureID - eStaticFeatureCount();
+    if (dynamicFeatureID < 0)
+    {
+      eSet(eFeature, newValue); /* backward compatibility with old generated overrides */ 
+    }
+    else
+    {
+      eDynamicSet(dynamicFeatureID, eFeature, newValue);
+    }
   }
 
   public void eDynamicSet(EStructuralFeature eFeature, Object newValue) 
   {
-    if (!eFeature.isChangeable())
-    {
-      throw new IllegalArgumentException("The feature '" + eFeature.getName() + "' is not a valid changeable feature");
-    }
-    int dynamicFeatureID = eDynamicFeatureID(eFeature);
-    if (dynamicFeatureID <= -1)
+    eDynamicSet(eDynamicFeatureID(eFeature), eFeature, newValue);
+  }
+
+  public void eDynamicSet(int featureID, Object newValue)
+  {
+    eDynamicSet(featureID - eStaticFeatureCount(), eClass().getEStructuralFeature(featureID), newValue);
+  }
+
+  protected void eDynamicSet(int dynamicFeatureID, EStructuralFeature eFeature, Object newValue)
+  {
+    if (dynamicFeatureID < 0)
     {
       eOpenSet(eFeature, newValue);
     }
     else
     {
+      if (!eFeature.isChangeable())
+      {
+        throw new IllegalArgumentException("The feature '" + eFeature.getName() + "' is not a valid changeable feature");
+      }
       eSettingDelegate(eFeature).dynamicSet(this, eSettings(), dynamicFeatureID, newValue);
     }
   }
@@ -600,22 +663,53 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public void eUnset(EStructuralFeature eFeature) 
   {
-    eDynamicUnset(eFeature);
+    int featureID = eDerivedStructuralFeatureID(eFeature);
+    if (featureID >= 0)
+    {
+      eUnset(featureID);
+    }
+    else
+    {
+      eOpenUnset(eFeature);
+    }
+  }
+
+  public void eUnset(int featureID)
+  {
+    EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
+    int dynamicFeatureID = featureID - eStaticFeatureCount();
+    if (dynamicFeatureID < 0)
+    {
+      eUnset(eFeature); /* backward compatibility with old generated overrides */ 
+    }
+    else
+    {
+      eDynamicUnset(dynamicFeatureID, eFeature);
+    }
   }
 
   public void eDynamicUnset(EStructuralFeature eFeature) 
   {
-    if (!eFeature.isChangeable())
-    {
-      throw new IllegalArgumentException("The feature '" + eFeature.getName() + "' is not a valid changeable feature");
-    }
-    int dynamicFeatureID = eDynamicFeatureID(eFeature);
-    if (dynamicFeatureID <= -1)
+    eDynamicUnset(eDynamicFeatureID(eFeature), eFeature);
+  }
+
+  public void eDynamicUnset(int featureID)
+  {
+    eDynamicUnset(featureID - eStaticFeatureCount(), eClass().getEStructuralFeature(featureID));
+  }
+
+  protected void eDynamicUnset(int dynamicFeatureID, EStructuralFeature eFeature)
+  {
+    if (dynamicFeatureID < 0)
     {
       eOpenUnset(eFeature);
     }
     else
     {
+      if (!eFeature.isChangeable())
+      {
+        throw new IllegalArgumentException("The feature '" + eFeature.getName() + "' is not a valid changeable feature");
+      }
       eSettingDelegate(eFeature).dynamicUnset(this, eSettings(), dynamicFeatureID);
     }
   }
@@ -640,16 +734,43 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public boolean eIsSet(EStructuralFeature eFeature) 
   {
-    return eDynamicIsSet(eFeature);
+    int featureID = eDerivedStructuralFeatureID(eFeature);
+    if (featureID >= 0)
+    {
+      return eIsSet(featureID);
+    }
+    else
+    {
+      return eOpenIsSet(eFeature);
+    }
+  }
+
+  public boolean eIsSet(int featureID)
+  {
+    EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
+    int dynamicFeatureID = featureID - eStaticFeatureCount();
+      
+    return dynamicFeatureID < 0 ?
+      eIsSet(eFeature) /* backward compatibility with old generated overrides */ : 
+      eSettingDelegate(eFeature).dynamicIsSet(this, eSettings(), dynamicFeatureID);
   }
 
   public boolean eDynamicIsSet(EStructuralFeature eFeature) 
   {
-    int dynamicFeatureID = eDynamicFeatureID(eFeature);
+    return eDynamicIsSet(eDynamicFeatureID(eFeature), eFeature);
+  }
+
+  public boolean eDynamicIsSet(int featureID)
+  {
+    return eDynamicIsSet(featureID - eStaticFeatureCount(), eClass().getEStructuralFeature(featureID));
+  }
+
+  protected boolean eDynamicIsSet(int dynamicFeatureID, EStructuralFeature eFeature)
+  {
     return
-      dynamicFeatureID <= -1 ?
+      dynamicFeatureID < 0 ?
         eOpenIsSet(eFeature) :
-        eHasSettings() && eSettingDelegate(eFeature).dynamicIsSet(this, eSettings(), dynamicFeatureID);
+        eSettingDelegate(eFeature).dynamicIsSet(this, eSettings(), dynamicFeatureID);
   }
 
   public boolean eOpenIsSet(EStructuralFeature eFeature) 
