@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceEList.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: ECrossReferenceEList.java,v 1.5 2005/11/22 21:31:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -47,27 +46,16 @@ public class ECrossReferenceEList extends EContentsEList
 
   public static class FeatureIteratorImpl extends EContentsEList.FeatureIteratorImpl
   {
+    protected static final EStructuralFeature[] NO_FEATURES = new EStructuralFeature [0];
+    
     public FeatureIteratorImpl(EObject eObject)
     {
-      super(eObject, (EStructuralFeature [])((BasicEList)eObject.eClass().getEAllReferences()).data());
+      this(eObject, ((EClassImpl.FeatureSubsetSupplier)eObject.eClass().getEAllStructuralFeatures()).crossReferences());
     }
 
     public FeatureIteratorImpl(EObject eObject, EStructuralFeature [] eStructuralFeatures)
     {
-      super(eObject, eStructuralFeatures);
-    }
-
-    protected boolean isIncluded(EStructuralFeature eStructuralFeature)
-    {
-      if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
-      {
-        return true;
-      }
-      else
-      {
-        EReference eReference = (EReference)eStructuralFeature;
-        return !eReference.isContainment() && !eReference.isContainer();
-      }
+      super(eObject, eStructuralFeatures == null ? NO_FEATURES : eStructuralFeatures);
     }
 
     protected boolean isIncludedEntry(EStructuralFeature eStructuralFeature)
