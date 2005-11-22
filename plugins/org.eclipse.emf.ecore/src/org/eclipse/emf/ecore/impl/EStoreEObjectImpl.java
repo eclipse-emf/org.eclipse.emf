@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.6 2005/11/22 21:10:51 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.7 2005/11/22 21:14:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -580,8 +580,6 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
         new EcoreEMap
           ((EClass)eType, 
            eType.getInstanceClass(), 
-           this, 
-           eClass().getFeatureID(eStructuralFeature),
            new EStoreEList(this, eStructuralFeature, eStore()));
     }
     else
