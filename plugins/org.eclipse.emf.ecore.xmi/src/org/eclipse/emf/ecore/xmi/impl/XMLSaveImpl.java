@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.46 2005/11/18 19:09:10 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.47 2005/11/22 19:37:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -43,6 +43,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -203,11 +204,19 @@ public class XMLSaveImpl implements XMLSave
 
   public void save(XMLResource resource, OutputStream outputStream, Map options) throws IOException
   {
+    if (outputStream instanceof URIConverter.Writeable)
+    {
+      URIConverter.Writeable writeable = (URIConverter.Writeable)outputStream;
+      resource.setEncoding(writeable.getEncoding());
+      save(resource, writeable.asWriter(), options);
+      return;
+    }
+    
     init(resource, options);
     List contents = resource.getContents();
     traverse(contents);
 
-    if (encoding.equals("US-ASCII") || encoding.equals("ASCII"))
+    if ("US-ASCII".equals(encoding) || "ASCII".equals(encoding))
     {
       writeAscii(outputStream);
       outputStream.flush();
@@ -215,7 +224,7 @@ public class XMLSaveImpl implements XMLSave
     else
     {
       OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, helper.getJavaEncoding(encoding));
-      write(outputStreamWriter);
+      write((Writer)outputStreamWriter);
       outputStreamWriter.flush();
     }
 
