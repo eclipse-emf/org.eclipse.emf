@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostic.java,v 1.3 2005/06/08 06:19:08 nickb Exp $
+ * $Id: Diagnostic.java,v 1.4 2005/11/22 20:16:58 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -69,6 +69,11 @@ public interface Diagnostic
    * Returns {@link #getSource source-specific} identity code.
    */
   int getCode();
+  
+  /**
+   * Returns the relevant low-level exception, or <code>null</code> if none. 
+   */  
+  Throwable getException();  
 
   /**
    * Returns the arbitrary associated list of data.
