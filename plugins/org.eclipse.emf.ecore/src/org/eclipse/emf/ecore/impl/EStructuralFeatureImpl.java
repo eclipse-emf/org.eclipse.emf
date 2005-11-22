@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.13 2005/11/18 19:06:38 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.14 2005/11/22 22:33:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.NotificationChainImpl;
 import org.eclipse.emf.common.util.BasicEMap;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -220,7 +221,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   public EClass getEContainingClass()
   {
     if (eContainerFeatureID != EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS) return null;
-    return (EClass)eContainer;
+    return (EClass)eContainer();
   }
 
   /**
@@ -352,206 +353,6 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * @ordered
    */
   protected static final int DERIVED_EFLAG = 1 << 14;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
-        return getEAnnotations();
-      case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
-        return getName();
-      case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
-        return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
-      case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
-        return isUnique() ? Boolean.TRUE : Boolean.FALSE;
-      case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
-        return new Integer(getLowerBound());
-      case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
-        return new Integer(getUpperBound());
-      case EcorePackage.ESTRUCTURAL_FEATURE__MANY:
-        return isMany() ? Boolean.TRUE : Boolean.FALSE;
-      case EcorePackage.ESTRUCTURAL_FEATURE__REQUIRED:
-        return isRequired() ? Boolean.TRUE : Boolean.FALSE;
-      case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
-        if (resolve) return getEType();
-        return basicGetEType();
-      case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
-        return isChangeable() ? Boolean.TRUE : Boolean.FALSE;
-      case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
-        return isVolatile() ? Boolean.TRUE : Boolean.FALSE;
-      case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
-        return isTransient() ? Boolean.TRUE : Boolean.FALSE;
-      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
-        return getDefaultValueLiteral();
-      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE:
-        return getDefaultValue();
-      case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
-        return isUnsettable() ? Boolean.TRUE : Boolean.FALSE;
-      case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
-        return isDerived() ? Boolean.TRUE : Boolean.FALSE;
-      case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
-        return getEContainingClass();
-    }
-    return eDynamicGet(eFeature, resolve);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean eIsSet(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
-        return eAnnotations != null && !eAnnotations.isEmpty();
-      case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
-        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
-        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
-        return lowerBound != LOWER_BOUND_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
-        return upperBound != UPPER_BOUND_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__MANY:
-        return isMany() != MANY_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__REQUIRED:
-        return isRequired() != REQUIRED_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
-        return eType != null;
-      case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
-        return ((eFlags & CHANGEABLE_EFLAG) != 0) != CHANGEABLE_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
-        return ((eFlags & VOLATILE_EFLAG) != 0) != VOLATILE_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
-        return ((eFlags & TRANSIENT_EFLAG) != 0) != TRANSIENT_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
-        return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
-      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE:
-        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
-      case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
-        return ((eFlags & UNSETTABLE_EFLAG) != 0) != UNSETTABLE_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
-        return ((eFlags & DERIVED_EFLAG) != 0) != DERIVED_EDEFAULT;
-      case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
-        return getEContainingClass() != null;
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
-        getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
-        setName((String)newValue);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
-        setOrdered(((Boolean)newValue).booleanValue());
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
-        setUnique(((Boolean)newValue).booleanValue());
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
-        setLowerBound(((Integer)newValue).intValue());
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
-        setUpperBound(((Integer)newValue).intValue());
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
-        setEType((EClassifier)newValue);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
-        setChangeable(((Boolean)newValue).booleanValue());
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
-        setVolatile(((Boolean)newValue).booleanValue());
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
-        setTransient(((Boolean)newValue).booleanValue());
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
-        setDefaultValueLiteral((String)newValue);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
-        setUnsettable(((Boolean)newValue).booleanValue());
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
-        setDerived(((Boolean)newValue).booleanValue());
-        return;
-    }
-    eDynamicSet(eFeature, newValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eUnset(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
-        getEAnnotations().clear();
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
-        setOrdered(ORDERED_EDEFAULT);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
-        setUnique(UNIQUE_EDEFAULT);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
-        setLowerBound(LOWER_BOUND_EDEFAULT);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
-        setUpperBound(UPPER_BOUND_EDEFAULT);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
-        setEType((EClassifier)null);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
-        setChangeable(CHANGEABLE_EDEFAULT);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
-        setVolatile(VOLATILE_EDEFAULT);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
-        setTransient(TRANSIENT_EDEFAULT);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
-        setDefaultValueLiteral(DEFAULT_VALUE_LITERAL_EDEFAULT);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
-        setUnsettable(UNSETTABLE_EDEFAULT);
-        return;
-      case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
-        setDerived(DERIVED_EDEFAULT);
-        return;
-    }
-    eDynamicUnset(eFeature);
-  }
 
   /**
    * <!-- begin-user-doc -->
@@ -693,14 +494,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
           return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
         case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -739,12 +540,212 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       switch (eContainerFeatureID)
       {
         case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
-          return eContainer.eInverseRemove(this, EcorePackage.ECLASS__ESTRUCTURAL_FEATURES, EClass.class, msgs);
+          return eInternalContainer().eInverseRemove(this, EcorePackage.ECLASS__ESTRUCTURAL_FEATURES, EClass.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
+        return getEAnnotations();
+      case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
+        return getName();
+      case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
+        return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
+      case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
+        return isUnique() ? Boolean.TRUE : Boolean.FALSE;
+      case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
+        return new Integer(getLowerBound());
+      case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
+        return new Integer(getUpperBound());
+      case EcorePackage.ESTRUCTURAL_FEATURE__MANY:
+        return isMany() ? Boolean.TRUE : Boolean.FALSE;
+      case EcorePackage.ESTRUCTURAL_FEATURE__REQUIRED:
+        return isRequired() ? Boolean.TRUE : Boolean.FALSE;
+      case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
+        if (resolve) return getEType();
+        return basicGetEType();
+      case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
+        return isChangeable() ? Boolean.TRUE : Boolean.FALSE;
+      case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
+        return isVolatile() ? Boolean.TRUE : Boolean.FALSE;
+      case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
+        return isTransient() ? Boolean.TRUE : Boolean.FALSE;
+      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
+        return getDefaultValueLiteral();
+      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE:
+        return getDefaultValue();
+      case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
+        return isUnsettable() ? Boolean.TRUE : Boolean.FALSE;
+      case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
+        return isDerived() ? Boolean.TRUE : Boolean.FALSE;
+      case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
+        return getEContainingClass();
+    }
+    return eDynamicGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
+        getEAnnotations().clear();
+        getEAnnotations().addAll((Collection)newValue);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
+        setName((String)newValue);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
+        setOrdered(((Boolean)newValue).booleanValue());
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
+        setUnique(((Boolean)newValue).booleanValue());
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
+        setLowerBound(((Integer)newValue).intValue());
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
+        setUpperBound(((Integer)newValue).intValue());
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
+        setEType((EClassifier)newValue);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
+        setChangeable(((Boolean)newValue).booleanValue());
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
+        setVolatile(((Boolean)newValue).booleanValue());
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
+        setTransient(((Boolean)newValue).booleanValue());
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
+        setDefaultValueLiteral((String)newValue);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
+        setUnsettable(((Boolean)newValue).booleanValue());
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
+        setDerived(((Boolean)newValue).booleanValue());
+        return;
+    }
+    eDynamicSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
+        getEAnnotations().clear();
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
+        setName(NAME_EDEFAULT);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
+        setOrdered(ORDERED_EDEFAULT);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
+        setUnique(UNIQUE_EDEFAULT);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
+        setLowerBound(LOWER_BOUND_EDEFAULT);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
+        setUpperBound(UPPER_BOUND_EDEFAULT);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
+        setEType((EClassifier)null);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
+        setChangeable(CHANGEABLE_EDEFAULT);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
+        setVolatile(VOLATILE_EDEFAULT);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
+        setTransient(TRANSIENT_EDEFAULT);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
+        setDefaultValueLiteral(DEFAULT_VALUE_LITERAL_EDEFAULT);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
+        setUnsettable(UNSETTABLE_EDEFAULT);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
+        setDerived(DERIVED_EDEFAULT);
+        return;
+    }
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
+        return eAnnotations != null && !eAnnotations.isEmpty();
+      case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case EcorePackage.ESTRUCTURAL_FEATURE__ORDERED:
+        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__UNIQUE:
+        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__LOWER_BOUND:
+        return lowerBound != LOWER_BOUND_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__UPPER_BOUND:
+        return upperBound != UPPER_BOUND_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__MANY:
+        return isMany() != MANY_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__REQUIRED:
+        return isRequired() != REQUIRED_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
+        return eType != null;
+      case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
+        return ((eFlags & CHANGEABLE_EFLAG) != 0) != CHANGEABLE_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
+        return ((eFlags & VOLATILE_EFLAG) != 0) != VOLATILE_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__TRANSIENT:
+        return ((eFlags & TRANSIENT_EFLAG) != 0) != TRANSIENT_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL:
+        return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
+      case EcorePackage.ESTRUCTURAL_FEATURE__DEFAULT_VALUE:
+        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
+      case EcorePackage.ESTRUCTURAL_FEATURE__UNSETTABLE:
+        return ((eFlags & UNSETTABLE_EFLAG) != 0) != UNSETTABLE_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__DERIVED:
+        return ((eFlags & DERIVED_EFLAG) != 0) != DERIVED_EDEFAULT;
+      case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
+        return getEContainingClass() != null;
+    }
+    return eDynamicIsSet(featureID);
   }
 
   public void setContainerClass(Class containerClass)
@@ -944,9 +945,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         {
           if (dataClass == FeatureMap.Entry.class)
           {
-            settingDelegate = 
-              new InternalSettingDelegateMany
-                (InternalSettingDelegateMany.FEATURE_MAP, this);
+            settingDelegate = createFeatureMapSettingDelegate();
           }
           else if (isUnique())
           {
@@ -1238,9 +1237,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       {
         if (dataClass == FeatureMap.Entry.class)
         {
-          settingDelegate = 
-            new InternalSettingDelegateMany
-              (InternalSettingDelegateMany.FEATURE_MAP, this);
+          settingDelegate = createFeatureMapSettingDelegate();
         }
         else if (isUnsettable())
         {
@@ -1373,6 +1370,11 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     return settingDelegate;
   }
 
+  protected EStructuralFeature.Internal.SettingDelegate createFeatureMapSettingDelegate()
+  {
+    return new InternalSettingDelegateMany(InternalSettingDelegateMany.FEATURE_MAP, this);
+  }
+
   public void setSettingDelegate(EStructuralFeature.Internal.SettingDelegate settingDelegate)
   {
     this.settingDelegate = settingDelegate;
@@ -1399,7 +1401,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return createDynamicSetting(owner);
     }
 
-    public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve)
+    public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve, boolean coreType)
     {
       FeatureMap.Internal featureMap = (FeatureMap.Internal)owner.eGet(featureMapFeature);
       return featureMap.setting(feature).get(resolve);
@@ -1629,12 +1631,20 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           new SettingMany(owner, feature, (List)settings.dynamicGet(index));
     }
 
-    public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve)
+    public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve, boolean coreType)
     {
       Object result = settings.dynamicGet(index);
       if (result == null)
       {
         settings.dynamicSet(index, result = createDynamicSetting(owner));
+      }
+      if (!coreType)
+      {
+        switch (style)
+        {
+          case EMAP : return ((EMap)result).map();
+          case FEATURE_MAP : return ((FeatureMap.Internal)result).getWrapper();
+        }
       }
       return result;
     }
@@ -1723,7 +1733,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
           public Object get(boolean resolve)
           {
-            return dynamicGet(owner, settings, index, resolve);
+            return dynamicGet(owner, settings, index, resolve, true);
           }
 
           public void set(Object newValue)
@@ -1768,7 +1778,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       this.inverseFeature = inverseFeature;
     }
 
-    public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve)
+    public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve, boolean coreType)
     {
       return owner.eContainmentFeature() == inverseFeature ? isResolveProxies() && resolve ? owner.eContainer() : owner.eInternalContainer() : null;
     }
@@ -1900,7 +1910,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       throw new ClassCastException();
     }
 
-    public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve)
+    public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve, boolean coreType)
     {
       Object result = settings.dynamicGet(index);
       if (result == null)
@@ -1921,7 +1931,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       if (owner.eNotificationRequired())
       {
-        Object oldValue = dynamicGet(owner, settings, index, false);
+        Object oldValue = dynamicGet(owner, settings, index, false, true);
 
         if (newValue == null)
         {
@@ -1982,7 +1992,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       if (owner.eNotificationRequired())
       {
-        Object oldValue = dynamicGet(owner, settings, index, false);
+        Object oldValue = dynamicGet(owner, settings, index, false, true);
         settings.dynamicUnset(index);
         owner.eNotify
           (new ENotificationImpl
@@ -2237,7 +2247,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return false;
     }
 
-    public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve)
+    public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve, boolean coreType)
     {
       Object result = settings.dynamicGet(index);
       if (isUnsettable() && result == NIL)
