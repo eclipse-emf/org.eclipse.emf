@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementImpl.java,v 1.6 2005/11/07 21:59:29 davidms Exp $
+ * $Id: ETypedElementImpl.java,v 1.7 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -22,7 +22,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -300,8 +299,8 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
   {
     if (eType != null && eType.eIsProxy())
     {
-      EClassifier oldEType = eType;
-      eType = (EClassifier)eResolveProxy((InternalEObject)eType);
+      InternalEObject oldEType = (InternalEObject)eType;
+      eType = (EClassifier)eResolveProxy(oldEType);
       if (eType != oldEType)
       {
         if (eNotificationRequired())
@@ -344,9 +343,9 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.ETYPED_ELEMENT__EANNOTATIONS:
         return getEAnnotations();
@@ -368,7 +367,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
         if (resolve) return getEType();
         return basicGetEType();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -376,62 +375,9 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.ETYPED_ELEMENT__EANNOTATIONS:
-        return eAnnotations != null && !eAnnotations.isEmpty();
-      case EcorePackage.ETYPED_ELEMENT__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case EcorePackage.ETYPED_ELEMENT__ORDERED:
-        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
-      case EcorePackage.ETYPED_ELEMENT__UNIQUE:
-        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
-      case EcorePackage.ETYPED_ELEMENT__LOWER_BOUND:
-        return lowerBound != LOWER_BOUND_EDEFAULT;
-      case EcorePackage.ETYPED_ELEMENT__UPPER_BOUND:
-        return upperBound != UPPER_BOUND_EDEFAULT;
-      case EcorePackage.ETYPED_ELEMENT__MANY:
-        return isMany() != MANY_EDEFAULT;
-      case EcorePackage.ETYPED_ELEMENT__REQUIRED:
-        return isRequired() != REQUIRED_EDEFAULT;
-      case EcorePackage.ETYPED_ELEMENT__ETYPE:
-        return eType != null;
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String toString()
-  {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (ordered: ");
-    result.append((eFlags & ORDERED_EFLAG) != 0);
-    result.append(", unique: ");
-    result.append((eFlags & UNIQUE_EFLAG) != 0);
-    result.append(", lowerBound: ");
-    result.append(lowerBound);
-    result.append(", upperBound: ");
-    result.append(upperBound);
-    result.append(')');
-    return result.toString();
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.ETYPED_ELEMENT__EANNOTATIONS:
         getEAnnotations().clear();
@@ -456,7 +402,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
         setEType((EClassifier)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -464,9 +410,9 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.ETYPED_ELEMENT__EANNOTATIONS:
         getEAnnotations().clear();
@@ -490,7 +436,60 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
         setEType((EClassifier)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ETYPED_ELEMENT__EANNOTATIONS:
+        return eAnnotations != null && !eAnnotations.isEmpty();
+      case EcorePackage.ETYPED_ELEMENT__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case EcorePackage.ETYPED_ELEMENT__ORDERED:
+        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
+      case EcorePackage.ETYPED_ELEMENT__UNIQUE:
+        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
+      case EcorePackage.ETYPED_ELEMENT__LOWER_BOUND:
+        return lowerBound != LOWER_BOUND_EDEFAULT;
+      case EcorePackage.ETYPED_ELEMENT__UPPER_BOUND:
+        return upperBound != UPPER_BOUND_EDEFAULT;
+      case EcorePackage.ETYPED_ELEMENT__MANY:
+        return isMany() != MANY_EDEFAULT;
+      case EcorePackage.ETYPED_ELEMENT__REQUIRED:
+        return isRequired() != REQUIRED_EDEFAULT;
+      case EcorePackage.ETYPED_ELEMENT__ETYPE:
+        return eType != null;
+    }
+    return eDynamicIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (ordered: ");
+    result.append((eFlags & ORDERED_EFLAG) != 0);
+    result.append(", unique: ");
+    result.append((eFlags & UNIQUE_EFLAG) != 0);
+    result.append(", lowerBound: ");
+    result.append(lowerBound);
+    result.append(", upperBound: ");
+    result.append(upperBound);
+    result.append(')');
+    return result.toString();
   }
 
 } //ETypedElementImpl

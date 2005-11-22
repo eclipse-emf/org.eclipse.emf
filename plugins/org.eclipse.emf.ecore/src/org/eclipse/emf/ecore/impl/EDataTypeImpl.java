@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataTypeImpl.java,v 1.7 2005/11/07 21:59:29 davidms Exp $
+ * $Id: EDataTypeImpl.java,v 1.8 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -22,7 +22,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 
 
@@ -174,9 +173,9 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EDATA_TYPE__EANNOTATIONS:
         return getEAnnotations();
@@ -193,7 +192,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
         return isSerializable() ? Boolean.TRUE : Boolean.FALSE;
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -201,15 +200,25 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    * <!-- end-user-doc -->
    * @generated
    */
-  public String toString()
+  public void eSet(int featureID, Object newValue)
   {
-    if (eIsProxy()) return super.toString();
-
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (serializable: ");
-    result.append((eFlags & SERIALIZABLE_EFLAG) != 0);
-    result.append(')');
-    return result.toString();
+    switch (featureID)
+    {
+      case EcorePackage.EDATA_TYPE__EANNOTATIONS:
+        getEAnnotations().clear();
+        getEAnnotations().addAll((Collection)newValue);
+        return;
+      case EcorePackage.EDATA_TYPE__NAME:
+        setName((String)newValue);
+        return;
+      case EcorePackage.EDATA_TYPE__INSTANCE_CLASS_NAME:
+        setInstanceClassName((String)newValue);
+        return;
+      case EcorePackage.EDATA_TYPE__SERIALIZABLE:
+        setSerializable(((Boolean)newValue).booleanValue());
+        return;
+    }
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -217,9 +226,34 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
+    {
+      case EcorePackage.EDATA_TYPE__EANNOTATIONS:
+        getEAnnotations().clear();
+        return;
+      case EcorePackage.EDATA_TYPE__NAME:
+        setName(NAME_EDEFAULT);
+        return;
+      case EcorePackage.EDATA_TYPE__INSTANCE_CLASS_NAME:
+        setInstanceClassName(INSTANCE_CLASS_NAME_EDEFAULT);
+        return;
+      case EcorePackage.EDATA_TYPE__SERIALIZABLE:
+        setSerializable(SERIALIZABLE_EDEFAULT);
+        return;
+    }
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
     {
       case EcorePackage.EDATA_TYPE__EANNOTATIONS:
         return eAnnotations != null && !eAnnotations.isEmpty();
@@ -236,7 +270,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
         return ((eFlags & SERIALIZABLE_EFLAG) != 0) != SERIALIZABLE_EDEFAULT;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**
@@ -244,50 +278,15 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public String toString()
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EDATA_TYPE__EANNOTATIONS:
-        getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
-        return;
-      case EcorePackage.EDATA_TYPE__NAME:
-        setName((String)newValue);
-        return;
-      case EcorePackage.EDATA_TYPE__INSTANCE_CLASS_NAME:
-        setInstanceClassName((String)newValue);
-        return;
-      case EcorePackage.EDATA_TYPE__SERIALIZABLE:
-        setSerializable(((Boolean)newValue).booleanValue());
-        return;
-    }
-    eDynamicSet(eFeature, newValue);
-  }
+    if (eIsProxy()) return super.toString();
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eUnset(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EDATA_TYPE__EANNOTATIONS:
-        getEAnnotations().clear();
-        return;
-      case EcorePackage.EDATA_TYPE__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case EcorePackage.EDATA_TYPE__INSTANCE_CLASS_NAME:
-        setInstanceClassName(INSTANCE_CLASS_NAME_EDEFAULT);
-        return;
-      case EcorePackage.EDATA_TYPE__SERIALIZABLE:
-        setSerializable(SERIALIZABLE_EDEFAULT);
-        return;
-    }
-    eDynamicUnset(eFeature);
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (serializable: ");
+    result.append((eFlags & SERIALIZABLE_EFLAG) != 0);
+    result.append(')');
+    return result.toString();
   }
 
 }

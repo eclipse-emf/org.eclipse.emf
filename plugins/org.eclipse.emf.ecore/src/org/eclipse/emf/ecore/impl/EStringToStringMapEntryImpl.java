@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryImpl.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EStringToStringMapEntryImpl.java,v 1.4 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -22,7 +22,6 @@ import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 
 
@@ -153,16 +152,16 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY__KEY:
         return getTypedKey();
       case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY__VALUE:
         return getTypedValue();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -170,9 +169,9 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY__KEY:
         setTypedKey((String)newValue);
@@ -181,7 +180,7 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
         setTypedValue((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -189,9 +188,9 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY__KEY:
         setTypedKey(KEY_EDEFAULT);
@@ -200,7 +199,7 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
         setTypedValue(VALUE_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -208,16 +207,16 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY__KEY:
         return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
       case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY__VALUE:
         return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

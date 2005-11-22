@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.8 2005/11/08 12:19:28 emerks Exp $
+ * $Id: EAttributeImpl.java,v 1.9 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 
@@ -188,9 +187,9 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EATTRIBUTE__EANNOTATIONS:
         return getEAnnotations();
@@ -233,7 +232,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
         if (resolve) return getEAttributeType();
         return basicGetEAttributeType();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -241,60 +240,9 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EATTRIBUTE__EANNOTATIONS:
-        return eAnnotations != null && !eAnnotations.isEmpty();
-      case EcorePackage.EATTRIBUTE__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case EcorePackage.EATTRIBUTE__ORDERED:
-        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__UNIQUE:
-        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__LOWER_BOUND:
-        return lowerBound != LOWER_BOUND_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__UPPER_BOUND:
-        return upperBound != UPPER_BOUND_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__MANY:
-        return isMany() != MANY_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__REQUIRED:
-        return isRequired() != REQUIRED_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__ETYPE:
-        return eType != null;
-      case EcorePackage.EATTRIBUTE__CHANGEABLE:
-        return ((eFlags & CHANGEABLE_EFLAG) != 0) != CHANGEABLE_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__VOLATILE:
-        return ((eFlags & VOLATILE_EFLAG) != 0) != VOLATILE_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__TRANSIENT:
-        return ((eFlags & TRANSIENT_EFLAG) != 0) != TRANSIENT_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__DEFAULT_VALUE_LITERAL:
-        return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
-      case EcorePackage.EATTRIBUTE__DEFAULT_VALUE:
-        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
-      case EcorePackage.EATTRIBUTE__UNSETTABLE:
-        return ((eFlags & UNSETTABLE_EFLAG) != 0) != UNSETTABLE_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__DERIVED:
-        return ((eFlags & DERIVED_EFLAG) != 0) != DERIVED_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__ECONTAINING_CLASS:
-        return getEContainingClass() != null;
-      case EcorePackage.EATTRIBUTE__ID:
-        return ((eFlags & ID_EFLAG) != 0) != ID_EDEFAULT;
-      case EcorePackage.EATTRIBUTE__EATTRIBUTE_TYPE:
-        return basicGetEAttributeType() != null;
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EATTRIBUTE__EANNOTATIONS:
         getEAnnotations().clear();
@@ -340,7 +288,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
         setID(((Boolean)newValue).booleanValue());
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -348,9 +296,9 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EATTRIBUTE__EANNOTATIONS:
         getEAnnotations().clear();
@@ -395,7 +343,58 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
         setID(ID_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EATTRIBUTE__EANNOTATIONS:
+        return eAnnotations != null && !eAnnotations.isEmpty();
+      case EcorePackage.EATTRIBUTE__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case EcorePackage.EATTRIBUTE__ORDERED:
+        return ((eFlags & ORDERED_EFLAG) != 0) != ORDERED_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__UNIQUE:
+        return ((eFlags & UNIQUE_EFLAG) != 0) != UNIQUE_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__LOWER_BOUND:
+        return lowerBound != LOWER_BOUND_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__UPPER_BOUND:
+        return upperBound != UPPER_BOUND_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__MANY:
+        return isMany() != MANY_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__REQUIRED:
+        return isRequired() != REQUIRED_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__ETYPE:
+        return eType != null;
+      case EcorePackage.EATTRIBUTE__CHANGEABLE:
+        return ((eFlags & CHANGEABLE_EFLAG) != 0) != CHANGEABLE_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__VOLATILE:
+        return ((eFlags & VOLATILE_EFLAG) != 0) != VOLATILE_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__TRANSIENT:
+        return ((eFlags & TRANSIENT_EFLAG) != 0) != TRANSIENT_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__DEFAULT_VALUE_LITERAL:
+        return DEFAULT_VALUE_LITERAL_EDEFAULT == null ? defaultValueLiteral != null : !DEFAULT_VALUE_LITERAL_EDEFAULT.equals(defaultValueLiteral);
+      case EcorePackage.EATTRIBUTE__DEFAULT_VALUE:
+        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
+      case EcorePackage.EATTRIBUTE__UNSETTABLE:
+        return ((eFlags & UNSETTABLE_EFLAG) != 0) != UNSETTABLE_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__DERIVED:
+        return ((eFlags & DERIVED_EFLAG) != 0) != DERIVED_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__ECONTAINING_CLASS:
+        return getEContainingClass() != null;
+      case EcorePackage.EATTRIBUTE__ID:
+        return ((eFlags & ID_EFLAG) != 0) != ID_EDEFAULT;
+      case EcorePackage.EATTRIBUTE__EATTRIBUTE_TYPE:
+        return basicGetEAttributeType() != null;
+    }
+    return eDynamicIsSet(featureID);
   }
 
   /**

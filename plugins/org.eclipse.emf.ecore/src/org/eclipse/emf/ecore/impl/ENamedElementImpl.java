@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ENamedElementImpl.java,v 1.4 2005/11/07 21:59:29 davidms Exp $
+ * $Id: ENamedElementImpl.java,v 1.5 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -22,7 +22,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 
 
@@ -142,16 +141,16 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.ENAMED_ELEMENT__EANNOTATIONS:
         return getEAnnotations();
       case EcorePackage.ENAMED_ELEMENT__NAME:
         return getName();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -159,26 +158,9 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.ENAMED_ELEMENT__EANNOTATIONS:
-        return eAnnotations != null && !eAnnotations.isEmpty();
-      case EcorePackage.ENAMED_ELEMENT__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.ENAMED_ELEMENT__EANNOTATIONS:
         getEAnnotations().clear();
@@ -188,7 +170,7 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
         setName((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -196,9 +178,9 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.ENAMED_ELEMENT__EANNOTATIONS:
         getEAnnotations().clear();
@@ -207,7 +189,24 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
         setName(NAME_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ENAMED_ELEMENT__EANNOTATIONS:
+        return eAnnotations != null && !eAnnotations.isEmpty();
+      case EcorePackage.ENAMED_ELEMENT__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+    }
+    return eDynamicIsSet(featureID);
   }
 
 }

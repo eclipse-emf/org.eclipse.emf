@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EAnnotationImpl.java,v 1.4 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -169,7 +169,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
   public EModelElement getEModelElement()
   {
     if (eContainerFeatureID != EcorePackage.EANNOTATION__EMODEL_ELEMENT) return null;
-    return (EModelElement)eContainer;
+    return (EModelElement)eContainer();
   }
 
   /**
@@ -179,12 +179,12 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    */
   public void setEModelElement(EModelElement newEModelElement)
   {
-    if (newEModelElement != eContainer || (eContainerFeatureID != EcorePackage.EANNOTATION__EMODEL_ELEMENT && newEModelElement != null))
+    if (newEModelElement != eInternalContainer() || (eContainerFeatureID != EcorePackage.EANNOTATION__EMODEL_ELEMENT && newEModelElement != null))
     {
       if (EcoreUtil.isAncestor(this, newEModelElement))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newEModelElement != null)
         msgs = ((InternalEObject)newEModelElement).eInverseAdd(this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EModelElement.class, msgs);
@@ -237,14 +237,14 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
         case EcorePackage.EANNOTATION__EANNOTATIONS:
           return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
         case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -287,12 +287,12 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
       switch (eContainerFeatureID)
       {
         case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
-          return eContainer.eInverseRemove(this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EModelElement.class, msgs);
+          return eInternalContainer().eInverseRemove(this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EModelElement.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
@@ -300,16 +300,17 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EANNOTATION__EANNOTATIONS:
         return getEAnnotations();
       case EcorePackage.EANNOTATION__SOURCE:
         return getSource();
       case EcorePackage.EANNOTATION__DETAILS:
-        return getDetails();
+        if (coreType) return getDetails();
+        else return getDetails().map();
       case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
         return getEModelElement();
       case EcorePackage.EANNOTATION__CONTENTS:
@@ -317,7 +318,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
       case EcorePackage.EANNOTATION__REFERENCES:
         return getReferences();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -325,9 +326,9 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EANNOTATION__EANNOTATIONS:
         getEAnnotations().clear();
@@ -337,8 +338,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
         setSource((String)newValue);
         return;
       case EcorePackage.EANNOTATION__DETAILS:
-        getDetails().clear();
-        getDetails().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getDetails()).set(newValue);
         return;
       case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
         setEModelElement((EModelElement)newValue);
@@ -352,7 +352,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
         getReferences().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -360,9 +360,9 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EANNOTATION__EANNOTATIONS:
         getEAnnotations().clear();
@@ -383,7 +383,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
         getReferences().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -391,9 +391,9 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EANNOTATION__EANNOTATIONS:
         return eAnnotations != null && !eAnnotations.isEmpty();
@@ -408,7 +408,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
       case EcorePackage.EANNOTATION__REFERENCES:
         return references != null && !references.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

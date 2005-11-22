@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.14 2005/10/28 14:00:47 davidms Exp $
+ * $Id: EFactoryImpl.java,v 1.15 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -39,7 +39,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -162,7 +161,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -187,6 +186,79 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       }
     }
     return eBasicSetContainer(null, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EFACTORY__EANNOTATIONS:
+        return getEAnnotations();
+      case EcorePackage.EFACTORY__EPACKAGE:
+        return getEPackage();
+    }
+    return eDynamicGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EFACTORY__EANNOTATIONS:
+        getEAnnotations().clear();
+        getEAnnotations().addAll((Collection)newValue);
+        return;
+      case EcorePackage.EFACTORY__EPACKAGE:
+        setEPackage((EPackage)newValue);
+        return;
+    }
+    eDynamicSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EFACTORY__EANNOTATIONS:
+        getEAnnotations().clear();
+        return;
+      case EcorePackage.EFACTORY__EPACKAGE:
+        setEPackage((EPackage)null);
+        return;
+    }
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EFACTORY__EANNOTATIONS:
+        return eAnnotations != null && !eAnnotations.isEmpty();
+      case EcorePackage.EFACTORY__EPACKAGE:
+        return ePackage != null;
+    }
+    return eDynamicIsSet(featureID);
   }
 
   /**
@@ -513,78 +585,5 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     new SafeSimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
     new SafeSimpleDateFormat("yyyy-MM-dd")
   };
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EFACTORY__EANNOTATIONS:
-        return getEAnnotations();
-      case EcorePackage.EFACTORY__EPACKAGE:
-        return getEPackage();
-    }
-    return eDynamicGet(eFeature, resolve);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean eIsSet(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EFACTORY__EANNOTATIONS:
-        return eAnnotations != null && !eAnnotations.isEmpty();
-      case EcorePackage.EFACTORY__EPACKAGE:
-        return ePackage != null;
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EFACTORY__EANNOTATIONS:
-        getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
-        return;
-      case EcorePackage.EFACTORY__EPACKAGE:
-        setEPackage((EPackage)newValue);
-        return;
-    }
-    eDynamicSet(eFeature, newValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eUnset(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EFACTORY__EANNOTATIONS:
-        getEAnnotations().clear();
-        return;
-      case EcorePackage.EFACTORY__EPACKAGE:
-        setEPackage((EPackage)null);
-        return;
-    }
-    eDynamicUnset(eFeature);
-  }
 
 }

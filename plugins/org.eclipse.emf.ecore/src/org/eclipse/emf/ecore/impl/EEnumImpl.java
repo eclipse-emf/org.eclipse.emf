@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.8 2005/11/07 21:59:29 davidms Exp $
+ * $Id: EEnumImpl.java,v 1.9 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -25,7 +25,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -154,9 +153,9 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EENUM__EANNOTATIONS:
         return getEAnnotations();
@@ -175,7 +174,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
       case EcorePackage.EENUM__ELITERALS:
         return getELiterals();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -183,38 +182,9 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EENUM__EANNOTATIONS:
-        return eAnnotations != null && !eAnnotations.isEmpty();
-      case EcorePackage.EENUM__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case EcorePackage.EENUM__INSTANCE_CLASS_NAME:
-        return INSTANCE_CLASS_NAME_EDEFAULT == null ? instanceClassName != null : !INSTANCE_CLASS_NAME_EDEFAULT.equals(instanceClassName);
-      case EcorePackage.EENUM__INSTANCE_CLASS:
-        return INSTANCE_CLASS_EDEFAULT == null ? getInstanceClass() != null : !INSTANCE_CLASS_EDEFAULT.equals(getInstanceClass());
-      case EcorePackage.EENUM__DEFAULT_VALUE:
-        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
-      case EcorePackage.EENUM__EPACKAGE:
-        return getEPackage() != null;
-      case EcorePackage.EENUM__SERIALIZABLE:
-        return ((eFlags & SERIALIZABLE_EFLAG) != 0) != SERIALIZABLE_EDEFAULT;
-      case EcorePackage.EENUM__ELITERALS:
-        return eLiterals != null && !eLiterals.isEmpty();
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EENUM__EANNOTATIONS:
         getEAnnotations().clear();
@@ -234,7 +204,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
         getELiterals().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -242,9 +212,9 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EENUM__EANNOTATIONS:
         getEAnnotations().clear();
@@ -262,7 +232,36 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
         getELiterals().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EENUM__EANNOTATIONS:
+        return eAnnotations != null && !eAnnotations.isEmpty();
+      case EcorePackage.EENUM__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case EcorePackage.EENUM__INSTANCE_CLASS_NAME:
+        return INSTANCE_CLASS_NAME_EDEFAULT == null ? instanceClassName != null : !INSTANCE_CLASS_NAME_EDEFAULT.equals(instanceClassName);
+      case EcorePackage.EENUM__INSTANCE_CLASS:
+        return INSTANCE_CLASS_EDEFAULT == null ? getInstanceClass() != null : !INSTANCE_CLASS_EDEFAULT.equals(getInstanceClass());
+      case EcorePackage.EENUM__DEFAULT_VALUE:
+        return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
+      case EcorePackage.EENUM__EPACKAGE:
+        return getEPackage() != null;
+      case EcorePackage.EENUM__SERIALIZABLE:
+        return ((eFlags & SERIALIZABLE_EFLAG) != 0) != SERIALIZABLE_EDEFAULT;
+      case EcorePackage.EENUM__ELITERALS:
+        return eLiterals != null && !eLiterals.isEmpty();
+    }
+    return eDynamicIsSet(featureID);
   }
 
   /**
@@ -327,7 +326,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
         case EcorePackage.EENUM__EANNOTATIONS:
           return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
         case EcorePackage.EENUM__EPACKAGE:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, EcorePackage.EENUM__EPACKAGE, msgs);
         case EcorePackage.EENUM__ELITERALS:
@@ -336,7 +335,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }

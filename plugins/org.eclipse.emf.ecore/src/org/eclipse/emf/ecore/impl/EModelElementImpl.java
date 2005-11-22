@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EModelElementImpl.java,v 1.6 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -173,7 +173,7 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -203,14 +203,14 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EMODEL_ELEMENT__EANNOTATIONS:
         return getEAnnotations();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -218,16 +218,16 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EMODEL_ELEMENT__EANNOTATIONS:
         getEAnnotations().clear();
         getEAnnotations().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -235,15 +235,15 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EMODEL_ELEMENT__EANNOTATIONS:
         getEAnnotations().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -251,14 +251,14 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EMODEL_ELEMENT__EANNOTATIONS:
         return eAnnotations != null && !eAnnotations.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   public String eURIFragmentSegment(EStructuralFeature eStructuralFeature, EObject eObject)

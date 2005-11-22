@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterImpl.java,v 1.6 2005/11/07 21:59:29 davidms Exp $
+ * $Id: EParameterImpl.java,v 1.7 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -21,7 +21,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -86,14 +85,14 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
         case EcorePackage.EPARAMETER__EANNOTATIONS:
           return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
         case EcorePackage.EPARAMETER__EOPERATION:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, EcorePackage.EPARAMETER__EOPERATION, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -132,12 +131,12 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
       switch (eContainerFeatureID)
       {
         case EcorePackage.EPARAMETER__EOPERATION:
-          return eContainer.eInverseRemove(this, EcorePackage.EOPERATION__EPARAMETERS, EOperation.class, msgs);
+          return eInternalContainer().eInverseRemove(this, EcorePackage.EOPERATION__EPARAMETERS, EOperation.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
@@ -145,9 +144,9 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EPARAMETER__EANNOTATIONS:
         return getEAnnotations();
@@ -171,7 +170,7 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
       case EcorePackage.EPARAMETER__EOPERATION:
         return getEOperation();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -179,9 +178,9 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EPARAMETER__EANNOTATIONS:
         return eAnnotations != null && !eAnnotations.isEmpty();
@@ -204,7 +203,7 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
       case EcorePackage.EPARAMETER__EOPERATION:
         return getEOperation() != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
 } //EParameterImpl

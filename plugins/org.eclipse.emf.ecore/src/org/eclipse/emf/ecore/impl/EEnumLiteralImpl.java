@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.6 2005/11/02 20:16:43 davidms Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.7 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -25,7 +25,6 @@ import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -247,14 +246,14 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
         case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
           return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
         case EcorePackage.EENUM_LITERAL__EENUM:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, EcorePackage.EENUM_LITERAL__EENUM, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -293,12 +292,12 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
       switch (eContainerFeatureID)
       {
         case EcorePackage.EENUM_LITERAL__EENUM:
-          return eContainer.eInverseRemove(this, EcorePackage.EENUM__ELITERALS, EEnum.class, msgs);
+          return eInternalContainer().eInverseRemove(this, EcorePackage.EENUM__ELITERALS, EEnum.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
@@ -306,9 +305,9 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
         return getEAnnotations();
@@ -323,7 +322,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
       case EcorePackage.EENUM_LITERAL__EENUM:
         return getEEnum();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -331,34 +330,9 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
-        return eAnnotations != null && !eAnnotations.isEmpty();
-      case EcorePackage.EENUM_LITERAL__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case EcorePackage.EENUM_LITERAL__VALUE:
-        return value != VALUE_EDEFAULT;
-      case EcorePackage.EENUM_LITERAL__INSTANCE:
-        return INSTANCE_EDEFAULT == null ? instance != null : !INSTANCE_EDEFAULT.equals(instance);
-      case EcorePackage.EENUM_LITERAL__LITERAL:
-        return LITERAL_EDEFAULT == null ? literal != null : !LITERAL_EDEFAULT.equals(literal);
-      case EcorePackage.EENUM_LITERAL__EENUM:
-        return getEEnum() != null;
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
         getEAnnotations().clear();
@@ -377,7 +351,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
         setLiteral((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -385,9 +359,9 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
         getEAnnotations().clear();
@@ -405,7 +379,32 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
         setLiteral(LITERAL_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
+        return eAnnotations != null && !eAnnotations.isEmpty();
+      case EcorePackage.EENUM_LITERAL__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case EcorePackage.EENUM_LITERAL__VALUE:
+        return value != VALUE_EDEFAULT;
+      case EcorePackage.EENUM_LITERAL__INSTANCE:
+        return INSTANCE_EDEFAULT == null ? instance != null : !INSTANCE_EDEFAULT.equals(instance);
+      case EcorePackage.EENUM_LITERAL__LITERAL:
+        return LITERAL_EDEFAULT == null ? literal != null : !LITERAL_EDEFAULT.equals(literal);
+      case EcorePackage.EENUM_LITERAL__EENUM:
+        return getEEnum() != null;
+    }
+    return eDynamicIsSet(featureID);
   }
 
   public String toString()

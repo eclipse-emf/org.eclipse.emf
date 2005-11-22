@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.16 2005/06/12 13:29:22 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.17 2005/11/22 22:34:11 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -185,135 +185,6 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    */
   public void setNamespaceURI(String nsURI)
   {
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EPACKAGE__EANNOTATIONS:
-        return getEAnnotations();
-      case EcorePackage.EPACKAGE__NAME:
-        return getName();
-      case EcorePackage.EPACKAGE__NS_URI:
-        return getNsURI();
-      case EcorePackage.EPACKAGE__NS_PREFIX:
-        return getNsPrefix();
-      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
-        return getEFactoryInstance();
-      case EcorePackage.EPACKAGE__ECLASSIFIERS:
-        return getEClassifiers();
-      case EcorePackage.EPACKAGE__ESUBPACKAGES:
-        return getESubpackages();
-      case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
-        return getESuperPackage();
-    }
-    return eDynamicGet(eFeature, resolve);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean eIsSet(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EPACKAGE__EANNOTATIONS:
-        return eAnnotations != null && !eAnnotations.isEmpty();
-      case EcorePackage.EPACKAGE__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case EcorePackage.EPACKAGE__NS_URI:
-        return NS_URI_EDEFAULT == null ? nsURI != null : !NS_URI_EDEFAULT.equals(nsURI);
-      case EcorePackage.EPACKAGE__NS_PREFIX:
-        return NS_PREFIX_EDEFAULT == null ? nsPrefix != null : !NS_PREFIX_EDEFAULT.equals(nsPrefix);
-      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
-        return eFactoryInstance != null;
-      case EcorePackage.EPACKAGE__ECLASSIFIERS:
-        return eClassifiers != null && !eClassifiers.isEmpty();
-      case EcorePackage.EPACKAGE__ESUBPACKAGES:
-        return eSubpackages != null && !eSubpackages.isEmpty();
-      case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
-        return getESuperPackage() != null;
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EPACKAGE__EANNOTATIONS:
-        getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
-        return;
-      case EcorePackage.EPACKAGE__NAME:
-        setName((String)newValue);
-        return;
-      case EcorePackage.EPACKAGE__NS_URI:
-        setNsURI((String)newValue);
-        return;
-      case EcorePackage.EPACKAGE__NS_PREFIX:
-        setNsPrefix((String)newValue);
-        return;
-      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
-        setEFactoryInstance((EFactory)newValue);
-        return;
-      case EcorePackage.EPACKAGE__ECLASSIFIERS:
-        getEClassifiers().clear();
-        getEClassifiers().addAll((Collection)newValue);
-        return;
-      case EcorePackage.EPACKAGE__ESUBPACKAGES:
-        getESubpackages().clear();
-        getESubpackages().addAll((Collection)newValue);
-        return;
-    }
-    eDynamicSet(eFeature, newValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eUnset(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case EcorePackage.EPACKAGE__EANNOTATIONS:
-        getEAnnotations().clear();
-        return;
-      case EcorePackage.EPACKAGE__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case EcorePackage.EPACKAGE__NS_URI:
-        setNsURI(NS_URI_EDEFAULT);
-        return;
-      case EcorePackage.EPACKAGE__NS_PREFIX:
-        setNsPrefix(NS_PREFIX_EDEFAULT);
-        return;
-      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
-        setEFactoryInstance((EFactory)null);
-        return;
-      case EcorePackage.EPACKAGE__ECLASSIFIERS:
-        getEClassifiers().clear();
-        return;
-      case EcorePackage.EPACKAGE__ESUBPACKAGES:
-        getESubpackages().clear();
-        return;
-    }
-    eDynamicUnset(eFeature);
   }
 
   /**
@@ -558,14 +429,14 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
         case EcorePackage.EPACKAGE__ESUBPACKAGES:
           return ((InternalEList)getESubpackages()).basicAdd(otherEnd, msgs);
         case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, EcorePackage.EPACKAGE__ESUPER_PACKAGE, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -610,12 +481,141 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       switch (eContainerFeatureID)
       {
         case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
-          return eContainer.eInverseRemove(this, EcorePackage.EPACKAGE__ESUBPACKAGES, EPackage.class, msgs);
+          return eInternalContainer().eInverseRemove(this, EcorePackage.EPACKAGE__ESUBPACKAGES, EPackage.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EPACKAGE__EANNOTATIONS:
+        return getEAnnotations();
+      case EcorePackage.EPACKAGE__NAME:
+        return getName();
+      case EcorePackage.EPACKAGE__NS_URI:
+        return getNsURI();
+      case EcorePackage.EPACKAGE__NS_PREFIX:
+        return getNsPrefix();
+      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+        return getEFactoryInstance();
+      case EcorePackage.EPACKAGE__ECLASSIFIERS:
+        return getEClassifiers();
+      case EcorePackage.EPACKAGE__ESUBPACKAGES:
+        return getESubpackages();
+      case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
+        return getESuperPackage();
+    }
+    return eDynamicGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EPACKAGE__EANNOTATIONS:
+        getEAnnotations().clear();
+        getEAnnotations().addAll((Collection)newValue);
+        return;
+      case EcorePackage.EPACKAGE__NAME:
+        setName((String)newValue);
+        return;
+      case EcorePackage.EPACKAGE__NS_URI:
+        setNsURI((String)newValue);
+        return;
+      case EcorePackage.EPACKAGE__NS_PREFIX:
+        setNsPrefix((String)newValue);
+        return;
+      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+        setEFactoryInstance((EFactory)newValue);
+        return;
+      case EcorePackage.EPACKAGE__ECLASSIFIERS:
+        getEClassifiers().clear();
+        getEClassifiers().addAll((Collection)newValue);
+        return;
+      case EcorePackage.EPACKAGE__ESUBPACKAGES:
+        getESubpackages().clear();
+        getESubpackages().addAll((Collection)newValue);
+        return;
+    }
+    eDynamicSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EPACKAGE__EANNOTATIONS:
+        getEAnnotations().clear();
+        return;
+      case EcorePackage.EPACKAGE__NAME:
+        setName(NAME_EDEFAULT);
+        return;
+      case EcorePackage.EPACKAGE__NS_URI:
+        setNsURI(NS_URI_EDEFAULT);
+        return;
+      case EcorePackage.EPACKAGE__NS_PREFIX:
+        setNsPrefix(NS_PREFIX_EDEFAULT);
+        return;
+      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+        setEFactoryInstance((EFactory)null);
+        return;
+      case EcorePackage.EPACKAGE__ECLASSIFIERS:
+        getEClassifiers().clear();
+        return;
+      case EcorePackage.EPACKAGE__ESUBPACKAGES:
+        getESubpackages().clear();
+        return;
+    }
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EPACKAGE__EANNOTATIONS:
+        return eAnnotations != null && !eAnnotations.isEmpty();
+      case EcorePackage.EPACKAGE__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case EcorePackage.EPACKAGE__NS_URI:
+        return NS_URI_EDEFAULT == null ? nsURI != null : !NS_URI_EDEFAULT.equals(nsURI);
+      case EcorePackage.EPACKAGE__NS_PREFIX:
+        return NS_PREFIX_EDEFAULT == null ? nsPrefix != null : !NS_PREFIX_EDEFAULT.equals(nsPrefix);
+      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+        return eFactoryInstance != null;
+      case EcorePackage.EPACKAGE__ECLASSIFIERS:
+        return eClassifiers != null && !eClassifiers.isEmpty();
+      case EcorePackage.EPACKAGE__ESUBPACKAGES:
+        return eSubpackages != null && !eSubpackages.isEmpty();
+      case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
+        return getESuperPackage() != null;
+    }
+    return eDynamicIsSet(featureID);
   }
 
   /**
