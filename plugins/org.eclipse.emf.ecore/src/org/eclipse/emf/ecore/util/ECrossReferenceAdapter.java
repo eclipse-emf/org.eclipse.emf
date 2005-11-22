@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.1 2005/11/09 19:37:37 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.2 2005/11/22 21:31:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -44,16 +45,33 @@ public class ECrossReferenceAdapter extends AdapterImpl
 {
   protected Set unloadedResources = new HashSet();
   
-  protected static class InverseCrossReferencer extends EcoreUtil.CrossReferencer
+  protected class InverseCrossReferencer extends EcoreUtil.CrossReferencer
   {
     protected InverseCrossReferencer()
     {
       super((Collection)null);
     }
     
+    protected EContentsEList.FeatureIterator getCrossReferences(EObject eObject)
+    {
+      return
+        new ECrossReferenceEList.FeatureIteratorImpl(eObject)
+        {
+          protected boolean isIncluded(EStructuralFeature eStructuralFeature)
+          {
+            return FeatureMapUtil.isFeatureMap(eStructuralFeature) || ECrossReferenceAdapter.this.isIncluded((EReference)eStructuralFeature);
+          }
+
+          protected boolean resolve()
+          {
+            return InverseCrossReferencer.this.resolve();
+          }
+        };
+    }
+
     protected boolean crossReference(EObject eObject, EReference eReference, EObject crossReferencedEObject)
     {
-      return eReference.getEOpposite() == null;
+      return isIncluded(eReference);
     }
     
     protected Collection newCollection()
@@ -114,15 +132,71 @@ public class ECrossReferenceAdapter extends AdapterImpl
     }
   }
   
-  protected InverseCrossReferencer inverseCrossReferencer = new InverseCrossReferencer();
+  protected InverseCrossReferencer inverseCrossReferencer;
   
-  protected void adapt(Notifier notifier)
+  public ECrossReferenceAdapter()
   {
-    List eAdapters = notifier.eAdapters();
-    if (!eAdapters.contains(this))
+    inverseCrossReferencer = createInverseCrossReferencer();
+  }
+  
+  public Collection getNonNavigableInverseReferences(EObject eObject)
+  {
+    Collection result = (Collection)inverseCrossReferencer.get(eObject);
+    if (result == null)
     {
-      eAdapters.add(this);
+      result = Collections.EMPTY_LIST;
     }
+    return result;
+  }
+  
+  public Collection getInverseReferences(EObject eObject)
+  {
+    Collection result = new ArrayList();
+    
+    EObject eContainer = eObject.eContainer();
+    if (eContainer != null)
+    {
+      result.add(((InternalEObject)eContainer).eSetting(eObject.eContainmentFeature()));
+    }
+    
+    Collection nonNavigableInverseReferences = (Collection)inverseCrossReferencer.get(eObject);
+    if (nonNavigableInverseReferences != null)
+    {
+      result.addAll(nonNavigableInverseReferences);
+    }
+    
+    for (Iterator i = eObject.eClass().getEAllReferences().iterator(); i.hasNext(); )
+    {
+      EReference eReference = (EReference)i.next();
+      EReference eOpposite = eReference.getEOpposite();
+      if (eOpposite != null && !eReference.isContainer() && !eReference.isContainment() && eObject.eIsSet(eReference))
+      {
+        if (eReference.isMany())
+        {
+          for (Iterator j = ((Collection)eObject.eGet(eReference)).iterator(); j.hasNext(); )
+          {
+            InternalEObject referencingEObject = (InternalEObject)j.next();
+            result.add(referencingEObject.eSetting(eOpposite));
+          }
+        }
+        else
+        {
+          result.add(((InternalEObject)eObject.eGet(eReference)).eSetting(eOpposite));
+        }
+      }
+    }
+    
+    return result;
+  }
+  
+  protected boolean isIncluded(EReference eReference)
+  {
+    return eReference.getEOpposite() == null && !eReference.isDerived();
+  }
+  
+  protected InverseCrossReferencer createInverseCrossReferencer()
+  {
+    return new InverseCrossReferencer();
   }
   
   /**
@@ -152,7 +226,7 @@ public class ECrossReferenceAdapter extends AdapterImpl
         {
           handleContainment(notification);
         }
-        else if (reference.getEOpposite() == null)
+        else if (isIncluded(reference))
         {
           handleCrossReference(reference, notification);
         }
@@ -178,7 +252,7 @@ public class ECrossReferenceAdapter extends AdapterImpl
             for (Iterator i = ((Resource)notifier).getContents().iterator(); i.hasNext(); )
             {
               Notifier child = (Notifier)i.next();
-              adapt(child);
+              addAdapter(child);
             }
           }
           else
@@ -211,7 +285,7 @@ public class ECrossReferenceAdapter extends AdapterImpl
         Notifier newValue = (Notifier)notification.getNewValue();
         if (newValue != null)
         {
-          adapt(newValue);
+          addAdapter(newValue);
         }
         break;
       }
@@ -220,7 +294,7 @@ public class ECrossReferenceAdapter extends AdapterImpl
         Notifier newValue = (Notifier)notification.getNewValue();
         if (newValue != null)
         {
-          adapt(newValue);
+          addAdapter(newValue);
         }
         break;
       }
@@ -230,7 +304,7 @@ public class ECrossReferenceAdapter extends AdapterImpl
         for (Iterator i = newValues.iterator(); i.hasNext(); )
         {
           Notifier newValue = (Notifier)i.next();
-          adapt(newValue);
+          addAdapter(newValue);
         }
         break;
       }
@@ -312,7 +386,11 @@ public class ECrossReferenceAdapter extends AdapterImpl
     {
       EObject eObject = (EObject)target;
       inverseCrossReferencer.add(eObject);
-      handleChildren(eObject.eContents());
+      for (Iterator i = eObject.eContents().iterator(); i.hasNext(); )
+      {
+        Notifier notifier = (Notifier)i.next();
+        addAdapter(notifier);
+      }
     }
     else if (target instanceof Resource)
     {
@@ -321,22 +399,23 @@ public class ECrossReferenceAdapter extends AdapterImpl
       {
         unloadedResources.add(resource);
       }
-      handleChildren(resource.getContents());
+      List contents = resource.getContents();
+      for (int i = 0, size = contents.size(); i < size; ++i)
+      {
+        Notifier notifier = (Notifier)contents.get(i);
+        addAdapter(notifier);
+      }
     }
     else if (target instanceof ResourceSet)
     {
-      handleChildren(((ResourceSet)target).getResources());
+      List resources =  ((ResourceSet)target).getResources();
+      for (int i = 0; i < resources.size(); ++i)
+      {
+        Notifier notifier = (Notifier)resources.get(i);
+        addAdapter(notifier);
+      }
     }
   }
-  
-  protected void handleChildren(Collection contents)
-  {
-    for (Iterator i = contents.iterator(); i.hasNext(); )
-    {
-      Notifier notifier = (Notifier)i.next();
-      adapt(notifier);
-    }
-  } 
 
   /**
    * Handles installation of the adapter
@@ -357,9 +436,23 @@ public class ECrossReferenceAdapter extends AdapterImpl
       for (Iterator i = contents.iterator(); i.hasNext(); )
       {
         Notifier notifier = (Notifier)i.next();
-        notifier.eAdapters().remove(this);
+        removeAdapter(notifier);
       }
     }
+  }
+  
+  protected void addAdapter(Notifier notifier)
+  {
+    List eAdapters = notifier.eAdapters();
+    if (!eAdapters.contains(this))
+    {
+      eAdapters.add(this);
+    }
+  }
+  
+  protected void removeAdapter(Notifier notifier)
+  {
+    notifier.eAdapters().remove(this); 
   }
   
   public void dump()
