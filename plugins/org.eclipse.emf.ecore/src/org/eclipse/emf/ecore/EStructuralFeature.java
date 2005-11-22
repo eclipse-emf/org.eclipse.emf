@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.7 2005/11/07 21:58:41 davidms Exp $
+ * $Id: EStructuralFeature.java,v 1.8 2005/11/22 22:32:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -375,10 +375,11 @@ public interface EStructuralFeature extends ETypedElement
        * @param settings the owner's array of cached values.
        * @param dynamicFeatureID the feature's index in the owner's cached dynamic values.
        * @param resolve whether to resolve.
+       * @param coreType return the core EMF object if value is a non-EMF wrapper/view.
        * @return the value of the feature of this owner.
        * @see EObject#eGet(EStructuralFeature, boolean)
        */
-      Object dynamicGet(InternalEObject owner, DynamicValueHolder settings, int dynamicFeatureID, boolean resolve);
+      Object dynamicGet(InternalEObject owner, DynamicValueHolder settings, int dynamicFeatureID, boolean resolve, boolean coreType);
 
       /**
        * Sets the value of the given feature of the owner to the new value.
