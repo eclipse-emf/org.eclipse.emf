@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.13 2005/11/21 22:03:26 khussey Exp $
+ * $Id: BasicEObjectImpl.java,v 1.14 2005/11/22 13:10:47 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
-import java.util.Arrays;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -1169,8 +1168,11 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       {
         int newLength = eVirtualGrow(length + 1);
         Object[] newValues = new Object [newLength];
-        
-        Arrays.fill(newValues, length + 1, newLength, EVIRTUAL_NO_VALUE);
+  
+        for (int i = length; ++i < newLength;)
+        {
+          newValues[i] = EVIRTUAL_NO_VALUE;
+        }
   
         if (index > 0)
         {
