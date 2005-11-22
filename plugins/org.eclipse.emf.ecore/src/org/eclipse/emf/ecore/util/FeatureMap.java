@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMap.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: FeatureMap.java,v 1.4 2005/11/22 22:35:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -117,5 +117,13 @@ public interface FeatureMap extends EList
     Object get(EStructuralFeature feature, int index, boolean resolve);
     Object set(EStructuralFeature feature, int index, Object object);
     Object setUnique(EStructuralFeature feature, int index, Object object);
+
+    interface Wrapper
+    {
+      FeatureMap featureMap();
+    }
+
+    Wrapper getWrapper();
+    void setWrapper(Wrapper wrapper);
   }
 }

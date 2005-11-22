@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.21 2005/08/26 11:29:58 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.22 2005/11/22 22:35:50 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -741,8 +741,10 @@ public final class FeatureMapUtil
     }
   }
 
-  public static class FeatureFeatureMap extends FeatureEList implements FeatureMap.Internal
+  public static class FeatureFeatureMap extends FeatureEList implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
   {
+    protected FeatureMap.Internal.Wrapper wrapper = this;
+    
     public FeatureFeatureMap(EStructuralFeature feature, FeatureMap.Internal featureMap)
     {
       super(feature, featureMap);
@@ -1029,6 +1031,21 @@ public final class FeatureMapUtil
     public void unset(EStructuralFeature feature)
     {
       featureMap.unset(feature);
+    }
+    
+    public Wrapper getWrapper()
+    {
+      return wrapper;
+    }
+
+    public void setWrapper(Wrapper wrapper)
+    {
+      this.wrapper = wrapper;
+    }
+
+    public FeatureMap featureMap()
+    {
+      return this;
     }
   }
 
