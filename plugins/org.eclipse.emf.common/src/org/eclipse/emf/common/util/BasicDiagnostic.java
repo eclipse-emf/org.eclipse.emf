@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.5 2005/11/18 12:00:16 emerks Exp $
+ * $Id: BasicDiagnostic.java,v 1.6 2005/11/22 20:20:51 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -113,6 +113,11 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
       return new BasicEList.UnmodifiableEList(copy.length, copy);
     }
   }
+  
+  protected void setSeverity(int severity)
+  {
+    this.severity = severity;
+  }
 
   public int getSeverity()
   {
@@ -137,9 +142,19 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
         Collections.unmodifiableList(children);
   }
 
+  protected void setSource(String source)
+  {
+    this.source = source;
+  }
+
   public String getSource()
   {
     return source;
+  }
+  
+  protected void setCode(int code)
+  {
+    this.code = code;
   }
 
   public int getCode()
@@ -200,6 +215,27 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
 
     return severity;
   }
+  
+  /**
+   * Returns the first throwable object available in the {@link #data} list, 
+   * which is set when this diagnostic is instantiated.
+   */
+  public Throwable getException()
+  {
+    List data = getData();
+    if (data != null)
+    {
+      for (Iterator i = data.iterator(); i.hasNext(); )
+      {
+        Object d = i.next();
+        if (d instanceof Throwable)
+        {
+          return (Throwable)d;
+        }
+      }
+    }
+    return null;
+  }
 
   private static class Wrapper implements IStatus
   {
@@ -251,15 +287,7 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
       {
         return throwable;
       }
-      for (Iterator i = diagnostic.getData().iterator(); i.hasNext(); )
-      {
-        Object data = i.next();
-        if (data instanceof Throwable)
-        {
-          return (Throwable)data;
-        }
-      }
-      return null;
+      return diagnostic.getException();
     }
     
     public String getMessage()
