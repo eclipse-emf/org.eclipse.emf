@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.9 2005/07/21 19:47:33 elena Exp $
+ * $Id: XMLLoadImpl.java,v 1.10 2005/11/22 19:36:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -43,6 +43,7 @@ import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.DefaultHandler;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMIException;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -75,6 +76,22 @@ public class XMLLoadImpl implements XMLLoad
    */
   public void load(XMLResource resource, InputStream inputStream, Map options) throws IOException
   {
+    if (inputStream instanceof URIConverter.Readable)
+    {
+      URIConverter.Readable readable = (URIConverter.Readable)inputStream;
+      resource.setEncoding(readable.getEncoding());
+      
+      InputSource inputSource =  new InputSource(readable.asReader());
+      if (resource.getURI() != null)
+      {
+        String resourceURI = resource.getURI().toString();
+        inputSource.setPublicId(resourceURI);
+        inputSource.setSystemId(resourceURI);
+      }
+      load(resource, inputSource, options);
+      return;
+    }
+    
     this.resource = resource;
     is = inputStream;
     this.options = options;
