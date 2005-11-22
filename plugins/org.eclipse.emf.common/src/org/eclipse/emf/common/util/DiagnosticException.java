@@ -12,11 +12,9 @@
  *
  * </copyright>
  *
- * $Id: DiagnosticException.java,v 1.1 2005/11/18 12:01:42 emerks Exp $
+ * $Id: DiagnosticException.java,v 1.2 2005/11/22 20:26:13 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
-
-import java.util.Iterator;
 
 import org.eclipse.core.runtime.CoreException;
 
@@ -33,23 +31,10 @@ public class DiagnosticException extends Exception
 
   public DiagnosticException(Diagnostic diagnostic) 
   {
-    super(diagnostic.getMessage(), getException(diagnostic));
+    super(diagnostic.getMessage(), diagnostic.getException());
     this.diagnostic = diagnostic;
   }
   
-  private static Throwable getException(Diagnostic diagnostic)
-  {
-    for (Iterator i = diagnostic.getData().iterator(); i.hasNext(); )
-    {
-      Object data = i.next();
-      if (data instanceof Throwable)
-      {
-        return (Throwable)data;
-      }
-    }
-    return null;
-  }
-
   public final Diagnostic getDiagnostic() 
   {
     return diagnostic;
