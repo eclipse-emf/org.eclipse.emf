@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.7 2005/11/23 13:57:05 emerks Exp $
+ * $Id: JClassImpl.java,v 1.8 2005/11/23 18:09:54 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -245,7 +245,7 @@ public class JClassImpl extends JMemberImpl implements JClass
    */
   protected EClass eStaticClass()
   {
-    return JavaPackage.eINSTANCE.getJClass();
+    return JavaPackage.Literals.JCLASS;
   }
 
   /**

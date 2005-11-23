@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoImpl.java,v 1.4 2005/11/23 13:57:11 emerks Exp $
+ * $Id: XMLInfoImpl.java,v 1.5 2005/11/23 18:09:44 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -91,7 +91,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
    */
   protected EClass eStaticClass()
   {
-    return Ecore2XMLPackage.eINSTANCE.getXMLInfo();
+    return Ecore2XMLPackage.Literals.XML_INFO;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackageItemProvider.java,v 1.5 2005/06/08 06:21:29 nickb Exp $
+ * $Id: JPackageItemProvider.java,v 1.6 2005/11/23 18:10:05 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -89,7 +89,7 @@ public class JPackageItemProvider
          getResourceLocator(),
          getString("_UI_JPackage_javaPackage_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JPackage_javaPackage_feature", "_UI_JPackage_type"),
-         JavaPackage.eINSTANCE.getJPackage_JavaPackage(),
+         JavaPackage.Literals.JPACKAGE__JAVA_PACKAGE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -110,7 +110,7 @@ public class JPackageItemProvider
          getResourceLocator(),
          getString("_UI_JPackage_types_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JPackage_types_feature", "_UI_JPackage_type"),
-         JavaPackage.eINSTANCE.getJPackage_Types(),
+         JavaPackage.Literals.JPACKAGE__TYPES,
          true,
          null,
          null,
@@ -130,7 +130,7 @@ public class JPackageItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(JavaPackage.eINSTANCE.getJPackage_Types());
+      childrenFeatures.add(JavaPackage.Literals.JPACKAGE__TYPES);
     }
     return childrenFeatures;
   }

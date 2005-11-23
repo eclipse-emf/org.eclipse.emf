@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceFactoryImpl.java,v 1.8 2005/11/23 13:56:58 emerks Exp $
+ * $Id: XMLNamespaceFactoryImpl.java,v 1.9 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -177,7 +177,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
     RuntimeException exception = null;
     try
     {
-      result = (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getLanguage(), initialValue);
+      result = (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.LANGUAGE, initialValue);
       if (result != null && Diagnostician.INSTANCE.validate(eDataType, result, null, null))
       {
         return result;
@@ -189,7 +189,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
     }
     try
     {
-      result = (String)createLangTypeNullFromString(XMLNamespacePackage.eINSTANCE.getLangTypeNull(), initialValue);
+      result = (String)createLangTypeNullFromString(XMLNamespacePackage.Literals.LANG_TYPE_NULL, initialValue);
       if (result != null && Diagnostician.INSTANCE.validate(eDataType, result, null, null))
       {
         return result;
@@ -212,22 +212,22 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
   public String convertLangTypeToString(EDataType eDataType, Object instanceValue)
   {
     if (instanceValue == null) return null;
-    if (XMLTypePackage.eINSTANCE.getLanguage().isInstance(instanceValue))
+    if (XMLTypePackage.Literals.LANGUAGE.isInstance(instanceValue))
     {
       try
       {
-        String value = XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getLanguage(), instanceValue);
+        String value = XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.LANGUAGE, instanceValue);
         if (value != null) return value;
       }
       catch (Exception e)
       {
       }
     }
-    if (XMLNamespacePackage.eINSTANCE.getLangTypeNull().isInstance(instanceValue))
+    if (XMLNamespacePackage.Literals.LANG_TYPE_NULL.isInstance(instanceValue))
     {
       try
       {
-        String value = convertLangTypeNullToString(XMLNamespacePackage.eINSTANCE.getLangTypeNull(), instanceValue);
+        String value = convertLangTypeNullToString(XMLNamespacePackage.Literals.LANG_TYPE_NULL, instanceValue);
         if (value != null) return value;
       }
       catch (Exception e)
@@ -244,7 +244,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    */
   public String createLangTypeNullFromString(EDataType eDataType, String initialValue)
   {
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getString(), initialValue);
+    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.STRING, initialValue);
   }
 
   /**
@@ -254,7 +254,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    */
   public String convertLangTypeNullToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getString(), instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.STRING, instanceValue);
   }
 
   /**
@@ -264,7 +264,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    */
   public SpaceType createSpaceTypeObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (SpaceType)createSpaceTypeFromString(XMLNamespacePackage.eINSTANCE.getSpaceType(), initialValue);
+    return (SpaceType)createSpaceTypeFromString(XMLNamespacePackage.Literals.SPACE_TYPE, initialValue);
   }
 
   /**
@@ -274,7 +274,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    */
   public String convertSpaceTypeObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return convertSpaceTypeToString(XMLNamespacePackage.eINSTANCE.getSpaceType(), instanceValue);
+    return convertSpaceTypeToString(XMLNamespacePackage.Literals.SPACE_TYPE, instanceValue);
   }
 
   /**

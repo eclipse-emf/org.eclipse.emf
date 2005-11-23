@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureItemProvider.java,v 1.7 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EStructuralFeatureItemProvider.java,v 1.8 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -98,7 +98,7 @@ public class EStructuralFeatureItemProvider
          getResourceLocator(),
          getString("_UI_EStructuralFeature_changeable_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_changeable_feature", "_UI_EStructuralFeature_type"),
-         EcorePackage.eINSTANCE.getEStructuralFeature_Changeable(),
+         EcorePackage.Literals.ESTRUCTURAL_FEATURE__CHANGEABLE,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -119,7 +119,7 @@ public class EStructuralFeatureItemProvider
          getResourceLocator(),
          getString("_UI_EStructuralFeature_volatile_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_volatile_feature", "_UI_EStructuralFeature_type"),
-         EcorePackage.eINSTANCE.getEStructuralFeature_Volatile(),
+         EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -140,7 +140,7 @@ public class EStructuralFeatureItemProvider
          getResourceLocator(),
          getString("_UI_EStructuralFeature_transient_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_transient_feature", "_UI_EStructuralFeature_type"),
-         EcorePackage.eINSTANCE.getEStructuralFeature_Transient(),
+         EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -161,7 +161,7 @@ public class EStructuralFeatureItemProvider
          getResourceLocator(),
          getString("_UI_EStructuralFeature_defaultValueLiteral_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValueLiteral_feature", "_UI_EStructuralFeature_type"),
-         EcorePackage.eINSTANCE.getEStructuralFeature_DefaultValueLiteral(),
+         EcorePackage.Literals.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -182,7 +182,7 @@ public class EStructuralFeatureItemProvider
          getResourceLocator(),
          getString("_UI_EStructuralFeature_defaultValue_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValue_feature", "_UI_EStructuralFeature_type"),
-         EcorePackage.eINSTANCE.getEStructuralFeature_DefaultValue(),
+         EcorePackage.Literals.ESTRUCTURAL_FEATURE__DEFAULT_VALUE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -203,7 +203,7 @@ public class EStructuralFeatureItemProvider
          getResourceLocator(),
          getString("_UI_EStructuralFeature_unsettable_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_unsettable_feature", "_UI_EStructuralFeature_type"),
-         EcorePackage.eINSTANCE.getEStructuralFeature_Unsettable(),
+         EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -224,7 +224,7 @@ public class EStructuralFeatureItemProvider
          getResourceLocator(),
          getString("_UI_EStructuralFeature_derived_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_derived_feature", "_UI_EStructuralFeature_type"),
-         EcorePackage.eINSTANCE.getEStructuralFeature_Derived(),
+         EcorePackage.Literals.ESTRUCTURAL_FEATURE__DERIVED,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -245,7 +245,7 @@ public class EStructuralFeatureItemProvider
          getResourceLocator(),
          getString("_UI_EStructuralFeature_eContainingClass_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_eContainingClass_feature", "_UI_EStructuralFeature_type"),
-         EcorePackage.eINSTANCE.getEStructuralFeature_EContainingClass(),
+         EcorePackage.Literals.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS,
          false,
          null,
          null,

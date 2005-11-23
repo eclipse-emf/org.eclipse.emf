@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumItemProvider.java,v 1.5 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EEnumItemProvider.java,v 1.6 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -86,7 +86,7 @@ public class EEnumItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(EcorePackage.eINSTANCE.getEEnum_ELiterals());
+      childrenFeatures.add(EcorePackage.Literals.EENUM__ELITERALS);
     }
     return childrenFeatures;
   }
@@ -149,7 +149,7 @@ public class EEnumItemProvider
 
     newChildDescriptors.add
       (createChildParameter
-        (EcorePackage.eINSTANCE.getEEnum_ELiterals(),
+        (EcorePackage.Literals.EENUM__ELITERALS,
          EcoreFactory.eINSTANCE.createEEnumLiteral()));
   }
 

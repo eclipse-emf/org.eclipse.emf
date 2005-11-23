@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMemberItemProvider.java,v 1.5 2005/06/13 14:26:57 emerks Exp $
+ * $Id: JMemberItemProvider.java,v 1.6 2005/11/23 18:10:05 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -90,7 +90,7 @@ public class JMemberItemProvider
          getResourceLocator(),
          getString("_UI_JMember_static_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_static_feature", "_UI_JMember_type"),
-         JavaPackage.eINSTANCE.getJMember_Static(),
+         JavaPackage.Literals.JMEMBER__STATIC,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -111,7 +111,7 @@ public class JMemberItemProvider
          getResourceLocator(),
          getString("_UI_JMember_visibility_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_visibility_feature", "_UI_JMember_type"),
-         JavaPackage.eINSTANCE.getJMember_Visibility(),
+         JavaPackage.Literals.JMEMBER__VISIBILITY,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -132,7 +132,7 @@ public class JMemberItemProvider
          getResourceLocator(),
          getString("_UI_JMember_comment_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_comment_feature", "_UI_JMember_type"),
-         JavaPackage.eINSTANCE.getJMember_Comment(),
+         JavaPackage.Literals.JMEMBER__COMMENT,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -153,7 +153,7 @@ public class JMemberItemProvider
          getResourceLocator(),
          getString("_UI_JMember_containingType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_containingType_feature", "_UI_JMember_type"),
-         JavaPackage.eINSTANCE.getJMember_ContainingType(),
+         JavaPackage.Literals.JMEMBER__CONTAINING_TYPE,
          true,
          null,
          null,

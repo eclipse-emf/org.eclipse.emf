@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeItemProvider.java,v 1.7 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EAttributeItemProvider.java,v 1.8 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -90,7 +90,7 @@ public class EAttributeItemProvider
          getResourceLocator(),
          getString("_UI_EAttribute_iD_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EAttribute_iD_feature", "_UI_EAttribute_type"),
-         EcorePackage.eINSTANCE.getEAttribute_ID(),
+         EcorePackage.Literals.EATTRIBUTE__ID,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -111,7 +111,7 @@ public class EAttributeItemProvider
          getResourceLocator(),
          getString("_UI_EAttribute_eAttributeType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EAttribute_eAttributeType_feature", "_UI_EAttribute_type"),
-         EcorePackage.eINSTANCE.getEAttribute_EAttributeType(),
+         EcorePackage.Literals.EATTRIBUTE__EATTRIBUTE_TYPE,
          false,
          null,
          null,

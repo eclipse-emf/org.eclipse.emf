@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializerImpl.java,v 1.5 2005/11/23 13:57:05 emerks Exp $
+ * $Id: JInitializerImpl.java,v 1.6 2005/11/23 18:09:53 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -80,7 +80,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    */
   protected EClass eStaticClass()
   {
-    return JavaPackage.eINSTANCE.getJInitializer();
+    return JavaPackage.Literals.JINITIALIZER;
   }
 
   /**

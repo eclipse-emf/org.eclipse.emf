@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeImpl.java,v 1.5 2005/11/23 13:56:51 emerks Exp $
+ * $Id: TreeNodeImpl.java,v 1.6 2005/11/23 18:09:58 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -88,7 +88,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    */
   protected EClass eStaticClass()
   {
-    return TreePackage.eINSTANCE.getTreeNode();
+    return TreePackage.Literals.TREE_NODE;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ENamedElementImpl.java,v 1.5 2005/11/22 22:34:11 emerks Exp $
+ * $Id: ENamedElementImpl.java,v 1.6 2005/11/23 18:10:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -77,7 +77,7 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getENamedElement();
+    return EcorePackage.Literals.ENAMED_ELEMENT;
   }
 
   /**

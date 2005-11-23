@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.22 2005/11/23 13:57:00 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.23 2005/11/23 18:10:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -165,7 +165,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    */
   protected EClass eStaticClass()
   {
-    return ChangePackage.eINSTANCE.getFeatureChange();
+    return ChangePackage.Literals.FEATURE_CHANGE;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyTypeImpl.java,v 1.5 2005/11/23 13:56:58 emerks Exp $
+ * $Id: SimpleAnyTypeImpl.java,v 1.6 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -91,7 +91,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    */
   protected EClass eStaticClass()
   {
-    return XMLTypePackage.eINSTANCE.getSimpleAnyType();
+    return XMLTypePackage.Literals.SIMPLE_ANY_TYPE;
   }
 
   /**

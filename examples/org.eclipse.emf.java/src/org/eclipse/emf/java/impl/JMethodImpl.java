@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodImpl.java,v 1.6 2005/11/23 13:57:05 emerks Exp $
+ * $Id: JMethodImpl.java,v 1.7 2005/11/23 18:09:54 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -277,7 +277,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    */
   protected EClass eStaticClass()
   {
-    return JavaPackage.eINSTANCE.getJMethod();
+    return JavaPackage.Literals.JMETHOD;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMemberImpl.java,v 1.4 2005/11/23 13:57:05 emerks Exp $
+ * $Id: JMemberImpl.java,v 1.5 2005/11/23 18:09:53 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -124,7 +124,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    */
   protected EClass eStaticClass()
   {
-    return JavaPackage.eINSTANCE.getJMember();
+    return JavaPackage.Literals.JMEMBER;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceValidator.java,v 1.1 2005/09/23 17:46:43 emerks Exp $
+ * $Id: XMLNamespaceValidator.java,v 1.2 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.util;
 
@@ -174,11 +174,11 @@ public class XMLNamespaceValidator extends EObjectValidator
     if (diagnostics != null)
     {
       BasicDiagnostic tempDiagnostics = new BasicDiagnostic();
-      if (XMLTypePackage.eINSTANCE.getLanguage().isInstance(langType))
+      if (XMLTypePackage.Literals.LANGUAGE.isInstance(langType))
       {
         if (xmlTypeValidator.validateLanguage((String)langType, tempDiagnostics, context)) return true;
       }
-      if (XMLNamespacePackage.eINSTANCE.getLangTypeNull().isInstance(langType))
+      if (XMLNamespacePackage.Literals.LANG_TYPE_NULL.isInstance(langType))
       {
         if (validateLangTypeNull((String)langType, tempDiagnostics, context)) return true;
       }
@@ -190,11 +190,11 @@ public class XMLNamespaceValidator extends EObjectValidator
     }
     else
     {
-      if (XMLTypePackage.eINSTANCE.getLanguage().isInstance(langType))
+      if (XMLTypePackage.Literals.LANGUAGE.isInstance(langType))
       {
         if (xmlTypeValidator.validateLanguage((String)langType, null, context)) return true;
       }
-      if (XMLNamespacePackage.eINSTANCE.getLangTypeNull().isInstance(langType))
+      if (XMLNamespacePackage.Literals.LANG_TYPE_NULL.isInstance(langType))
       {
         if (validateLangTypeNull((String)langType, null, context)) return true;
       }

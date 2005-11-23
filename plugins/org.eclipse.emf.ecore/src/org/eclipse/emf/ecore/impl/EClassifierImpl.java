@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.11 2005/11/22 22:34:11 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.12 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -70,7 +70,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEClassifier();
+    return EcorePackage.Literals.ECLASSIFIER;
   }
 
   /**

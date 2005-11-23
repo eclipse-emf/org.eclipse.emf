@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryItemProvider.java,v 1.7 2005/06/08 06:17:29 nickb Exp $
+ * $Id: EObjectToChangesMapEntryItemProvider.java,v 1.8 2005/11/23 18:09:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -96,7 +96,7 @@ public class EObjectToChangesMapEntryItemProvider
          getResourceLocator(),
          getString("_UI_EObjectToChangesMapEntry_key_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EObjectToChangesMapEntry_key_feature", "_UI_EObjectToChangesMapEntry_type"),
-         ChangePackage.eINSTANCE.getEObjectToChangesMapEntry_Key(),
+         ChangePackage.Literals.EOBJECT_TO_CHANGES_MAP_ENTRY__KEY,
          true,
          null,
          null,
@@ -116,7 +116,7 @@ public class EObjectToChangesMapEntryItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(ChangePackage.eINSTANCE.getEObjectToChangesMapEntry_Value());
+      childrenFeatures.add(ChangePackage.Literals.EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE);
     }
     return childrenFeatures;
   }

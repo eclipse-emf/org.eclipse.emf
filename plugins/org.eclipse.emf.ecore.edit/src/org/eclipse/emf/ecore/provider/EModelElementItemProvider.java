@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementItemProvider.java,v 1.5 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EModelElementItemProvider.java,v 1.6 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -85,7 +85,7 @@ public class EModelElementItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(EcorePackage.eINSTANCE.getEModelElement_EAnnotations());
+      childrenFeatures.add(EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS);
     }
     return childrenFeatures;
   }
@@ -134,7 +134,7 @@ public class EModelElementItemProvider
 
     newChildDescriptors.add
       (createChildParameter
-        (EcorePackage.eINSTANCE.getEModelElement_EAnnotations(),
+        (EcorePackage.Literals.EMODEL_ELEMENT__EANNOTATIONS,
          EcoreFactory.eINSTANCE.createEAnnotation()));
   }
 

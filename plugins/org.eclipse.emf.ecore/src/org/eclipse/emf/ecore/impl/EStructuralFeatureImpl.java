@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.14 2005/11/22 22:33:11 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.15 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -97,7 +97,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEStructuralFeature();
+    return EcorePackage.Literals.ESTRUCTURAL_FEATURE;
   }
 
   protected Object defaultValue = null;

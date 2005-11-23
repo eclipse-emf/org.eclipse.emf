@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.15 2005/11/22 22:34:11 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.16 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -89,7 +89,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEFactory();
+    return EcorePackage.Literals.EFACTORY;
   }
 
   /**

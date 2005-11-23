@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitImpl.java,v 1.6 2005/11/23 13:57:05 emerks Exp $
+ * $Id: JCompilationUnitImpl.java,v 1.7 2005/11/23 18:09:54 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -155,7 +155,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    */
   protected EClass eStaticClass()
   {
-    return JavaPackage.eINSTANCE.getJCompilationUnit();
+    return JavaPackage.Literals.JCOMPILATION_UNIT;
   }
 
   /**

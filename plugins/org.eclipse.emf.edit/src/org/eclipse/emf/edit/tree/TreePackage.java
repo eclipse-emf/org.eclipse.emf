@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreePackage.java,v 1.4 2005/08/24 13:37:45 marcelop Exp $
+ * $Id: TreePackage.java,v 1.5 2005/11/23 18:09:58 emerks Exp $
  */
 package org.eclipse.emf.edit.tree;
 
@@ -162,5 +162,55 @@ public interface TreePackage extends EPackage{
    * @generated
    */
   TreeFactory getTreeFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.edit.tree.impl.TreeNodeImpl <em>Node</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.edit.tree.impl.TreeNodeImpl
+     * @see org.eclipse.emf.edit.tree.impl.TreePackageImpl#getTreeNode()
+     * @generated
+     */
+    EClass TREE_NODE = eINSTANCE.getTreeNode();
+
+    /**
+     * The meta object literal for the '<em><b>Parent</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference TREE_NODE__PARENT = eINSTANCE.getTreeNode_Parent();
+
+    /**
+     * The meta object literal for the '<em><b>Children</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference TREE_NODE__CHILDREN = eINSTANCE.getTreeNode_Children();
+
+    /**
+     * The meta object literal for the '<em><b>Data</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference TREE_NODE__DATA = eINSTANCE.getTreeNode_Data();
+
+  }
 
 } //TreePackage

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.8 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EReferenceItemProvider.java,v 1.9 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -100,7 +100,7 @@ public class EReferenceItemProvider
          getResourceLocator(),
          getString("_UI_EReference_containment_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_containment_feature", "_UI_EReference_type"),
-         EcorePackage.eINSTANCE.getEReference_Containment(),
+         EcorePackage.Literals.EREFERENCE__CONTAINMENT,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -121,7 +121,7 @@ public class EReferenceItemProvider
          getResourceLocator(),
          getString("_UI_EReference_container_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_container_feature", "_UI_EReference_type"),
-         EcorePackage.eINSTANCE.getEReference_Container(),
+         EcorePackage.Literals.EREFERENCE__CONTAINER,
          false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -142,7 +142,7 @@ public class EReferenceItemProvider
          getResourceLocator(),
          getString("_UI_EReference_resolveProxies_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_resolveProxies_feature", "_UI_EReference_type"),
-         EcorePackage.eINSTANCE.getEReference_ResolveProxies(),
+         EcorePackage.Literals.EREFERENCE__RESOLVE_PROXIES,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -262,7 +262,7 @@ public class EReferenceItemProvider
          getResourceLocator(),
          getString("_UI_EReference_eReferenceType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_eReferenceType_feature", "_UI_EReference_type"),
-         EcorePackage.eINSTANCE.getEReference_EReferenceType(),
+         EcorePackage.Literals.EREFERENCE__EREFERENCE_TYPE,
          false,
          null,
          null,

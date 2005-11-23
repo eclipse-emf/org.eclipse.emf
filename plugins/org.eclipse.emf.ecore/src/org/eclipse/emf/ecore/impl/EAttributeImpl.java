@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.9 2005/11/22 22:34:11 emerks Exp $
+ * $Id: EAttributeImpl.java,v 1.10 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -83,7 +83,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEAttribute();
+    return EcorePackage.Literals.EATTRIBUTE;
   }
 
   /**

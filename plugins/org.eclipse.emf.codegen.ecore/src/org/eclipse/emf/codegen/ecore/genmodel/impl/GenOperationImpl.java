@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.20 2005/11/23 17:30:54 khussey Exp $
+ * $Id: GenOperationImpl.java,v 1.21 2005/11/23 18:09:29 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -38,7 +38,6 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;

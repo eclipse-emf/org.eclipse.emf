@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.9 2005/11/23 17:30:53 khussey Exp $
+ * $Id: GenEnumImpl.java,v 1.10 2005/11/23 18:09:29 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -39,7 +39,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;

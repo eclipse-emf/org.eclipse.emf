@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageItemProvider.java,v 1.7 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EPackageItemProvider.java,v 1.8 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -93,7 +93,7 @@ public class EPackageItemProvider
          getResourceLocator(),
          getString("_UI_EPackage_nsURI_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_nsURI_feature", "_UI_EPackage_type"),
-         EcorePackage.eINSTANCE.getEPackage_NsURI(),
+         EcorePackage.Literals.EPACKAGE__NS_URI,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -114,7 +114,7 @@ public class EPackageItemProvider
          getResourceLocator(),
          getString("_UI_EPackage_nsPrefix_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_nsPrefix_feature", "_UI_EPackage_type"),
-         EcorePackage.eINSTANCE.getEPackage_NsPrefix(),
+         EcorePackage.Literals.EPACKAGE__NS_PREFIX,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -135,7 +135,7 @@ public class EPackageItemProvider
          getResourceLocator(),
          getString("_UI_EPackage_eFactoryInstance_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_eFactoryInstance_feature", "_UI_EPackage_type"),
-         EcorePackage.eINSTANCE.getEPackage_EFactoryInstance(),
+         EcorePackage.Literals.EPACKAGE__EFACTORY_INSTANCE,
          true,
          null,
          null,
@@ -155,8 +155,8 @@ public class EPackageItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(EcorePackage.eINSTANCE.getEPackage_EClassifiers());
-      childrenFeatures.add(EcorePackage.eINSTANCE.getEPackage_ESubpackages());
+      childrenFeatures.add(EcorePackage.Literals.EPACKAGE__ECLASSIFIERS);
+      childrenFeatures.add(EcorePackage.Literals.EPACKAGE__ESUBPACKAGES);
     }
     return childrenFeatures;
   }
@@ -238,22 +238,22 @@ public class EPackageItemProvider
 
     newChildDescriptors.add
       (createChildParameter
-        (EcorePackage.eINSTANCE.getEPackage_EClassifiers(),
+        (EcorePackage.Literals.EPACKAGE__ECLASSIFIERS,
          EcoreFactory.eINSTANCE.createEClass()));
 
     newChildDescriptors.add
       (createChildParameter
-        (EcorePackage.eINSTANCE.getEPackage_EClassifiers(),
+        (EcorePackage.Literals.EPACKAGE__ECLASSIFIERS,
          EcoreFactory.eINSTANCE.createEDataType()));
 
     newChildDescriptors.add
       (createChildParameter
-        (EcorePackage.eINSTANCE.getEPackage_EClassifiers(),
+        (EcorePackage.Literals.EPACKAGE__ECLASSIFIERS,
          EcoreFactory.eINSTANCE.createEEnum()));
 
     newChildDescriptors.add
       (createChildParameter
-        (EcorePackage.eINSTANCE.getEPackage_ESubpackages(),
+        (EcorePackage.Literals.EPACKAGE__ESUBPACKAGES,
          EcoreFactory.eINSTANCE.createEPackage()));
   }
 

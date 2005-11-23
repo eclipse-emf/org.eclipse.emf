@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeItemProvider.java,v 1.7 2005/06/08 06:17:29 nickb Exp $
+ * $Id: FeatureChangeItemProvider.java,v 1.8 2005/11/23 18:09:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -95,7 +95,7 @@ public class FeatureChangeItemProvider
          getResourceLocator(),
          getString("_UI_FeatureChange_set_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_set_feature", "_UI_FeatureChange_type"),
-         ChangePackage.eINSTANCE.getFeatureChange_Set(),
+         ChangePackage.Literals.FEATURE_CHANGE__SET,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -116,7 +116,7 @@ public class FeatureChangeItemProvider
          getResourceLocator(),
          getString("_UI_FeatureChange_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_value_feature", "_UI_FeatureChange_type"),
-         ChangePackage.eINSTANCE.getFeatureChange_Value(),
+         ChangePackage.Literals.FEATURE_CHANGE__VALUE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -137,7 +137,7 @@ public class FeatureChangeItemProvider
          getResourceLocator(),
          getString("_UI_FeatureChange_feature_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_feature_feature", "_UI_FeatureChange_type"),
-         ChangePackage.eINSTANCE.getFeatureChange_Feature(),
+         ChangePackage.Literals.FEATURE_CHANGE__FEATURE,
          true,
          null,
          null,
@@ -157,7 +157,7 @@ public class FeatureChangeItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(ChangePackage.eINSTANCE.getFeatureChange_ListChanges());
+      childrenFeatures.add(ChangePackage.Literals.FEATURE_CHANGE__LIST_CHANGES);
     }
     return childrenFeatures;
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FunctionPairImpl.java,v 1.5 2005/11/23 13:56:59 emerks Exp $
+ * $Id: FunctionPairImpl.java,v 1.6 2005/11/23 18:10:08 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -84,7 +84,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    */
   protected EClass eStaticClass()
   {
-    return MappingPackage.eINSTANCE.getFunctionPair();
+    return MappingPackage.Literals.FUNCTION_PAIR;
   }
 
   /**

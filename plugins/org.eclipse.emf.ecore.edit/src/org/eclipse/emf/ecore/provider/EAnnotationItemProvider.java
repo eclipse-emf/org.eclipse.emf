@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.10 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.11 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -91,7 +91,7 @@ public class EAnnotationItemProvider
          getResourceLocator(),
          getString("_UI_EAnnotation_source_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EAnnotation_source_feature", "_UI_EAnnotation_type"),
-         EcorePackage.eINSTANCE.getEAnnotation_Source(),
+         EcorePackage.Literals.EANNOTATION__SOURCE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -112,7 +112,7 @@ public class EAnnotationItemProvider
          getResourceLocator(),
          getString("_UI_EAnnotation_references_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EAnnotation_references_feature", "_UI_EAnnotation_type"),
-         EcorePackage.eINSTANCE.getEAnnotation_References(),
+         EcorePackage.Literals.EANNOTATION__REFERENCES,
          true,
          null,
          null,
@@ -132,8 +132,8 @@ public class EAnnotationItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(EcorePackage.eINSTANCE.getEAnnotation_Details());
-      childrenFeatures.add(EcorePackage.eINSTANCE.getEAnnotation_Contents());
+      childrenFeatures.add(EcorePackage.Literals.EANNOTATION__DETAILS);
+      childrenFeatures.add(EcorePackage.Literals.EANNOTATION__CONTENTS);
     }
     return childrenFeatures;
   }

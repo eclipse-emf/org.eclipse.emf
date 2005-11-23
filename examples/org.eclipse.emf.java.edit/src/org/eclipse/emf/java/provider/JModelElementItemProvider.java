@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JModelElementItemProvider.java,v 1.4 2005/06/08 06:21:29 nickb Exp $
+ * $Id: JModelElementItemProvider.java,v 1.5 2005/11/23 18:10:05 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -89,7 +89,7 @@ public class JModelElementItemProvider
          getResourceLocator(),
          getString("_UI_JModelElement_name_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JModelElement_name_feature", "_UI_JModelElement_type"),
-         JavaPackage.eINSTANCE.getJModelElement_Name(),
+         JavaPackage.Literals.JMODEL_ELEMENT__NAME,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -110,7 +110,7 @@ public class JModelElementItemProvider
          getResourceLocator(),
          getString("_UI_JModelElement_jNode_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JModelElement_jNode_feature", "_UI_JModelElement_type"),
-         JavaPackage.eINSTANCE.getJModelElement_JNode(),
+         JavaPackage.Literals.JMODEL_ELEMENT__JNODE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryImpl.java,v 1.4 2005/11/23 13:57:00 emerks Exp $
+ * $Id: FeatureMapEntryImpl.java,v 1.5 2005/11/23 18:10:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -126,7 +126,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
    */
   protected EClass eStaticClass()
   {
-    return ChangePackage.eINSTANCE.getFeatureMapEntry();
+    return ChangePackage.Literals.FEATURE_MAP_ENTRY;
   }
 
   /**

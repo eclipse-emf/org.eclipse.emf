@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.12 2005/11/23 13:57:00 emerks Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.13 2005/11/23 18:10:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -126,7 +126,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    */
   protected EClass eStaticClass()
   {
-    return ChangePackage.eINSTANCE.getChangeDescription();
+    return ChangePackage.Literals.CHANGE_DESCRIPTION;
   }
 
   /**
@@ -138,7 +138,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
   {
     if (objectChanges == null)
     {
-      objectChanges = new EcoreEMap(ChangePackage.eINSTANCE.getEObjectToChangesMapEntry(), EObjectToChangesMapEntryImpl.class, this, ChangePackage.CHANGE_DESCRIPTION__OBJECT_CHANGES);
+      objectChanges = new EcoreEMap(ChangePackage.Literals.EOBJECT_TO_CHANGES_MAP_ENTRY, EObjectToChangesMapEntryImpl.class, this, ChangePackage.CHANGE_DESCRIPTION__OBJECT_CHANGES);
     }
     return objectChanges;
   }

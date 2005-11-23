@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRootImpl.java,v 1.5 2005/11/23 13:56:58 emerks Exp $
+ * $Id: XMLTypeDocumentRootImpl.java,v 1.6 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -130,7 +130,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    */
   protected EClass eStaticClass()
   {
-    return XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot();
+    return XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT;
   }
 
   /**
@@ -156,7 +156,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
   {
     if (xMLNSPrefixMap == null)
     {
-      xMLNSPrefixMap = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
+      xMLNSPrefixMap = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
     }
     return xMLNSPrefixMap;
   }
@@ -170,7 +170,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
   {
     if (xSISchemaLocation == null)
     {
-      xSISchemaLocation = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+      xSISchemaLocation = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
     }
     return xSISchemaLocation;
   }
@@ -182,7 +182,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    */
   public String getText()
   {
-    return (String)getMixed().get(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text(), true);
+    return (String)getMixed().get(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT, true);
   }
 
   /**
@@ -192,7 +192,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    */
   public void setText(String newText)
   {
-    ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text(), newText);
+    ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT, newText);
   }
 
   /**
@@ -341,7 +341,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    */
   public String getCDATA()
   {
-    return (String)getMixed().get(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), true);
+    return (String)getMixed().get(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA, true);
   }
 
   /**
@@ -351,7 +351,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    */
   public void setCDATA(String newCDATA)
   {
-    ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), newCDATA);
+    ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA, newCDATA);
   }
 
   /**
@@ -361,7 +361,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    */
   public String getComment()
   {
-    return (String)getMixed().get(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment(), true);
+    return (String)getMixed().get(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT, true);
   }
 
   /**
@@ -371,7 +371,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    */
   public void setComment(String newComment)
   {
-    ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment(), newComment);
+    ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT, newComment);
   }
 
   /**

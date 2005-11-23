@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameterImpl.java,v 1.4 2005/11/23 13:57:05 emerks Exp $
+ * $Id: JParameterImpl.java,v 1.5 2005/11/23 18:09:54 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -93,7 +93,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    */
   protected EClass eStaticClass()
   {
-    return JavaPackage.eINSTANCE.getJParameter();
+    return JavaPackage.Literals.JPARAMETER;
   }
 
   /**

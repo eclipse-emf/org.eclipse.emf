@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackage.java,v 1.4 2005/08/24 13:37:44 marcelop Exp $
+ * $Id: JavaPackage.java,v 1.5 2005/11/23 18:09:55 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -1839,5 +1839,605 @@ public interface JavaPackage extends EPackage{
    * @generated
    */
   JavaFactory getJavaFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.java.impl.JClassImpl <em>JClass</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.java.impl.JClassImpl
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJClass()
+     * @generated
+     */
+    EClass JCLASS = eINSTANCE.getJClass();
+
+    /**
+     * The meta object literal for the '<em><b>Abstract</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JCLASS__ABSTRACT = eINSTANCE.getJClass_Abstract();
+
+    /**
+     * The meta object literal for the '<em><b>Final</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JCLASS__FINAL = eINSTANCE.getJClass_Final();
+
+    /**
+     * The meta object literal for the '<em><b>Interface</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JCLASS__INTERFACE = eINSTANCE.getJClass_Interface();
+
+    /**
+     * The meta object literal for the '<em><b>Throwable</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JCLASS__THROWABLE = eINSTANCE.getJClass_Throwable();
+
+    /**
+     * The meta object literal for the '<em><b>Java Class</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JCLASS__JAVA_CLASS = eINSTANCE.getJClass_JavaClass();
+
+    /**
+     * The meta object literal for the '<em><b>Fields</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__FIELDS = eINSTANCE.getJClass_Fields();
+
+    /**
+     * The meta object literal for the '<em><b>Methods</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__METHODS = eINSTANCE.getJClass_Methods();
+
+    /**
+     * The meta object literal for the '<em><b>Super Types</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__SUPER_TYPES = eINSTANCE.getJClass_SuperTypes();
+
+    /**
+     * The meta object literal for the '<em><b>All Super Types</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__ALL_SUPER_TYPES = eINSTANCE.getJClass_AllSuperTypes();
+
+    /**
+     * The meta object literal for the '<em><b>Members</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__MEMBERS = eINSTANCE.getJClass_Members();
+
+    /**
+     * The meta object literal for the '<em><b>Component Type</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__COMPONENT_TYPE = eINSTANCE.getJClass_ComponentType();
+
+    /**
+     * The meta object literal for the '<em><b>Array Type</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__ARRAY_TYPE = eINSTANCE.getJClass_ArrayType();
+
+    /**
+     * The meta object literal for the '<em><b>Unit</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__UNIT = eINSTANCE.getJClass_Unit();
+
+    /**
+     * The meta object literal for the '<em><b>All Methods</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__ALL_METHODS = eINSTANCE.getJClass_AllMethods();
+
+    /**
+     * The meta object literal for the '<em><b>All Fields</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__ALL_FIELDS = eINSTANCE.getJClass_AllFields();
+
+    /**
+     * The meta object literal for the '<em><b>Package</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__PACKAGE = eINSTANCE.getJClass_Package();
+
+    /**
+     * The meta object literal for the '<em><b>Types</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__TYPES = eINSTANCE.getJClass_Types();
+
+    /**
+     * The meta object literal for the '<em><b>All Types</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCLASS__ALL_TYPES = eINSTANCE.getJClass_AllTypes();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.java.impl.JCompilationUnitImpl <em>JCompilation Unit</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.java.impl.JCompilationUnitImpl
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJCompilationUnit()
+     * @generated
+     */
+    EClass JCOMPILATION_UNIT = eINSTANCE.getJCompilationUnit();
+
+    /**
+     * The meta object literal for the '<em><b>Imports</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JCOMPILATION_UNIT__IMPORTS = eINSTANCE.getJCompilationUnit_Imports();
+
+    /**
+     * The meta object literal for the '<em><b>Comment</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JCOMPILATION_UNIT__COMMENT = eINSTANCE.getJCompilationUnit_Comment();
+
+    /**
+     * The meta object literal for the '<em><b>Types</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCOMPILATION_UNIT__TYPES = eINSTANCE.getJCompilationUnit_Types();
+
+    /**
+     * The meta object literal for the '<em><b>Imported Packages</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCOMPILATION_UNIT__IMPORTED_PACKAGES = eINSTANCE.getJCompilationUnit_ImportedPackages();
+
+    /**
+     * The meta object literal for the '<em><b>Imported Types</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCOMPILATION_UNIT__IMPORTED_TYPES = eINSTANCE.getJCompilationUnit_ImportedTypes();
+
+    /**
+     * The meta object literal for the '<em><b>Package</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JCOMPILATION_UNIT__PACKAGE = eINSTANCE.getJCompilationUnit_Package();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.java.impl.JFieldImpl <em>JField</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.java.impl.JFieldImpl
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJField()
+     * @generated
+     */
+    EClass JFIELD = eINSTANCE.getJField();
+
+    /**
+     * The meta object literal for the '<em><b>Final</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JFIELD__FINAL = eINSTANCE.getJField_Final();
+
+    /**
+     * The meta object literal for the '<em><b>Transient</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JFIELD__TRANSIENT = eINSTANCE.getJField_Transient();
+
+    /**
+     * The meta object literal for the '<em><b>Volatile</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JFIELD__VOLATILE = eINSTANCE.getJField_Volatile();
+
+    /**
+     * The meta object literal for the '<em><b>Java Field</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JFIELD__JAVA_FIELD = eINSTANCE.getJField_JavaField();
+
+    /**
+     * The meta object literal for the '<em><b>Initializer</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JFIELD__INITIALIZER = eINSTANCE.getJField_Initializer();
+
+    /**
+     * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JFIELD__TYPE = eINSTANCE.getJField_Type();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.java.impl.JInitializerImpl <em>JInitializer</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.java.impl.JInitializerImpl
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJInitializer()
+     * @generated
+     */
+    EClass JINITIALIZER = eINSTANCE.getJInitializer();
+
+    /**
+     * The meta object literal for the '<em><b>Body</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JINITIALIZER__BODY = eINSTANCE.getJInitializer_Body();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.java.impl.JMemberImpl <em>JMember</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.java.impl.JMemberImpl
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJMember()
+     * @generated
+     */
+    EClass JMEMBER = eINSTANCE.getJMember();
+
+    /**
+     * The meta object literal for the '<em><b>Static</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMEMBER__STATIC = eINSTANCE.getJMember_Static();
+
+    /**
+     * The meta object literal for the '<em><b>Visibility</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMEMBER__VISIBILITY = eINSTANCE.getJMember_Visibility();
+
+    /**
+     * The meta object literal for the '<em><b>Comment</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMEMBER__COMMENT = eINSTANCE.getJMember_Comment();
+
+    /**
+     * The meta object literal for the '<em><b>Containing Type</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JMEMBER__CONTAINING_TYPE = eINSTANCE.getJMember_ContainingType();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.java.impl.JMethodImpl <em>JMethod</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.java.impl.JMethodImpl
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJMethod()
+     * @generated
+     */
+    EClass JMETHOD = eINSTANCE.getJMethod();
+
+    /**
+     * The meta object literal for the '<em><b>Abstract</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMETHOD__ABSTRACT = eINSTANCE.getJMethod_Abstract();
+
+    /**
+     * The meta object literal for the '<em><b>Final</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMETHOD__FINAL = eINSTANCE.getJMethod_Final();
+
+    /**
+     * The meta object literal for the '<em><b>Native</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMETHOD__NATIVE = eINSTANCE.getJMethod_Native();
+
+    /**
+     * The meta object literal for the '<em><b>Synchronized</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMETHOD__SYNCHRONIZED = eINSTANCE.getJMethod_Synchronized();
+
+    /**
+     * The meta object literal for the '<em><b>Java Method</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMETHOD__JAVA_METHOD = eINSTANCE.getJMethod_JavaMethod();
+
+    /**
+     * The meta object literal for the '<em><b>Constructor</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMETHOD__CONSTRUCTOR = eINSTANCE.getJMethod_Constructor();
+
+    /**
+     * The meta object literal for the '<em><b>Java Constructor</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMETHOD__JAVA_CONSTRUCTOR = eINSTANCE.getJMethod_JavaConstructor();
+
+    /**
+     * The meta object literal for the '<em><b>Body</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMETHOD__BODY = eINSTANCE.getJMethod_Body();
+
+    /**
+     * The meta object literal for the '<em><b>Parameters</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JMETHOD__PARAMETERS = eINSTANCE.getJMethod_Parameters();
+
+    /**
+     * The meta object literal for the '<em><b>Exceptions</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JMETHOD__EXCEPTIONS = eINSTANCE.getJMethod_Exceptions();
+
+    /**
+     * The meta object literal for the '<em><b>Return Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JMETHOD__RETURN_TYPE = eINSTANCE.getJMethod_ReturnType();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.java.impl.JModelElementImpl <em>JModel Element</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.java.impl.JModelElementImpl
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJModelElement()
+     * @generated
+     */
+    EClass JMODEL_ELEMENT = eINSTANCE.getJModelElement();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMODEL_ELEMENT__NAME = eINSTANCE.getJModelElement_Name();
+
+    /**
+     * The meta object literal for the '<em><b>JNode</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JMODEL_ELEMENT__JNODE = eINSTANCE.getJModelElement_JNode();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.java.impl.JPackageImpl <em>JPackage</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.java.impl.JPackageImpl
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJPackage()
+     * @generated
+     */
+    EClass JPACKAGE = eINSTANCE.getJPackage();
+
+    /**
+     * The meta object literal for the '<em><b>Java Package</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JPACKAGE__JAVA_PACKAGE = eINSTANCE.getJPackage_JavaPackage();
+
+    /**
+     * The meta object literal for the '<em><b>Types</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JPACKAGE__TYPES = eINSTANCE.getJPackage_Types();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.java.impl.JParameterImpl <em>JParameter</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.java.impl.JParameterImpl
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJParameter()
+     * @generated
+     */
+    EClass JPARAMETER = eINSTANCE.getJParameter();
+
+    /**
+     * The meta object literal for the '<em><b>Final</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute JPARAMETER__FINAL = eINSTANCE.getJParameter_Final();
+
+    /**
+     * The meta object literal for the '<em><b>Method</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JPARAMETER__METHOD = eINSTANCE.getJParameter_Method();
+
+    /**
+     * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference JPARAMETER__TYPE = eINSTANCE.getJParameter_Type();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.java.JVisibility <em>JVisibility</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.java.JVisibility
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJVisibility()
+     * @generated
+     */
+    EEnum JVISIBILITY = eINSTANCE.getJVisibility();
+
+    /**
+     * The meta object literal for the '<em>Class</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Class
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJavaClass()
+     * @generated
+     */
+    EDataType JAVA_CLASS = eINSTANCE.getJavaClass();
+
+    /**
+     * The meta object literal for the '<em>Constructor</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.reflect.Constructor
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJavaConstructor()
+     * @generated
+     */
+    EDataType JAVA_CONSTRUCTOR = eINSTANCE.getJavaConstructor();
+
+    /**
+     * The meta object literal for the '<em>Field</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.reflect.Field
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJavaField()
+     * @generated
+     */
+    EDataType JAVA_FIELD = eINSTANCE.getJavaField();
+
+    /**
+     * The meta object literal for the '<em>Method</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.reflect.Method
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJavaMethod()
+     * @generated
+     */
+    EDataType JAVA_METHOD = eINSTANCE.getJavaMethod();
+
+    /**
+     * The meta object literal for the '<em>Package</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Package
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJavaPackage()
+     * @generated
+     */
+    EDataType JAVA_PACKAGE = eINSTANCE.getJavaPackage();
+
+    /**
+     * The meta object literal for the '<em>JNode</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.java.impl.JavaPackageImpl#getJNode()
+     * @generated
+     */
+    EDataType JNODE = eINSTANCE.getJNode();
+
+  }
 
 } //JavaPackage

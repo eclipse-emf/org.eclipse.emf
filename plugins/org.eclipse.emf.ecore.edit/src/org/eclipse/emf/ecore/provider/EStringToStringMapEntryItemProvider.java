@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryItemProvider.java,v 1.8 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EStringToStringMapEntryItemProvider.java,v 1.9 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -95,7 +95,7 @@ public class EStringToStringMapEntryItemProvider
          getResourceLocator(),
          getString("_UI_EStringToStringMapEntry_key_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStringToStringMapEntry_key_feature", "_UI_EStringToStringMapEntry_type"),
-         EcorePackage.eINSTANCE.getEStringToStringMapEntry_Key(),
+         EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__KEY,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -116,7 +116,7 @@ public class EStringToStringMapEntryItemProvider
          getResourceLocator(),
          getString("_UI_EStringToStringMapEntry_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStringToStringMapEntry_value_feature", "_UI_EStringToStringMapEntry_type"),
-         EcorePackage.eINSTANCE.getEStringToStringMapEntry_Value(),
+         EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__VALUE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,

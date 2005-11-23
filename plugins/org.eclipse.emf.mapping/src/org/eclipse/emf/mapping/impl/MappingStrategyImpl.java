@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingStrategyImpl.java,v 1.4 2005/11/08 14:18:51 emerks Exp $
+ * $Id: MappingStrategyImpl.java,v 1.5 2005/11/23 18:10:08 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -50,7 +50,7 @@ public class MappingStrategyImpl extends MappingHelperImpl implements MappingStr
    */
   protected EClass eStaticClass()
   {
-    return MappingPackage.eINSTANCE.getMappingStrategy();
+    return MappingPackage.Literals.MAPPING_STRATEGY;
   }
 
 } //MappingStrategyImpl

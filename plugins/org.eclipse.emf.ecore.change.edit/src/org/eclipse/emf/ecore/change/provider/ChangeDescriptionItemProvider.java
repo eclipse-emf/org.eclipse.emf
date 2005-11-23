@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionItemProvider.java,v 1.7 2005/06/08 06:17:29 nickb Exp $
+ * $Id: ChangeDescriptionItemProvider.java,v 1.8 2005/11/23 18:09:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -94,7 +94,7 @@ public class ChangeDescriptionItemProvider
          getResourceLocator(),
          getString("_UI_ChangeDescription_objectsToDetach_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ChangeDescription_objectsToDetach_feature", "_UI_ChangeDescription_type"),
-         ChangePackage.eINSTANCE.getChangeDescription_ObjectsToDetach(),
+         ChangePackage.Literals.CHANGE_DESCRIPTION__OBJECTS_TO_DETACH,
          true,
          null,
          null,
@@ -114,9 +114,9 @@ public class ChangeDescriptionItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(ChangePackage.eINSTANCE.getChangeDescription_ObjectChanges());
-      childrenFeatures.add(ChangePackage.eINSTANCE.getChangeDescription_ObjectsToAttach());
-      childrenFeatures.add(ChangePackage.eINSTANCE.getChangeDescription_ResourceChanges());
+      childrenFeatures.add(ChangePackage.Literals.CHANGE_DESCRIPTION__OBJECT_CHANGES);
+      childrenFeatures.add(ChangePackage.Literals.CHANGE_DESCRIPTION__OBJECTS_TO_ATTACH);
+      childrenFeatures.add(ChangePackage.Literals.CHANGE_DESCRIPTION__RESOURCE_CHANGES);
     }
     return childrenFeatures;
   }

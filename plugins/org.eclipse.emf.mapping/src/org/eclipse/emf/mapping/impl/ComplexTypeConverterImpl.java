@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComplexTypeConverterImpl.java,v 1.5 2005/11/23 13:56:59 emerks Exp $
+ * $Id: ComplexTypeConverterImpl.java,v 1.6 2005/11/23 18:10:08 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -83,7 +83,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    */
   protected EClass eStaticClass()
   {
-    return MappingPackage.eINSTANCE.getComplexTypeConverter();
+    return MappingPackage.Literals.COMPLEX_TYPE_CONVERTER;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.17 2005/11/22 22:34:11 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.18 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -177,7 +177,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEPackage();
+    return EcorePackage.Literals.EPACKAGE;
   }
 
   /**

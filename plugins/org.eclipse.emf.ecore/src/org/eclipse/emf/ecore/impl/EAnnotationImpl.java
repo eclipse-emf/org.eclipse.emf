@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.4 2005/11/22 22:34:11 emerks Exp $
+ * $Id: EAnnotationImpl.java,v 1.5 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -121,7 +121,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEAnnotation();
+    return EcorePackage.Literals.EANNOTATION;
   }
 
   /**
@@ -156,7 +156,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
   {
     if (details == null)
     {
-      details = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, EcorePackage.EANNOTATION__DETAILS);
+      details = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, EcorePackage.EANNOTATION__DETAILS);
     }
     return details;
   }

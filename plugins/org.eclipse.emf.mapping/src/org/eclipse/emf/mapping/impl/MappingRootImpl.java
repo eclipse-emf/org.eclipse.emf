@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootImpl.java,v 1.7 2005/11/23 13:56:59 emerks Exp $
+ * $Id: MappingRootImpl.java,v 1.8 2005/11/23 18:10:08 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -164,7 +164,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    */
   protected EClass eStaticClass()
   {
-    return MappingPackage.eINSTANCE.getMappingRoot();
+    return MappingPackage.Literals.MAPPING_ROOT;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcorePackage.java,v 1.5 2005/08/24 13:42:00 marcelop Exp $
+ * $Id: Ecore2EcorePackage.java,v 1.6 2005/11/23 18:10:08 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore;
 
@@ -189,5 +189,31 @@ public interface Ecore2EcorePackage extends EPackage{
    * @generated
    */
   Ecore2EcoreFactory getEcore2EcoreFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.ecore2ecore.impl.Ecore2EcoreMappingRootImpl <em>Mapping Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.ecore2ecore.impl.Ecore2EcoreMappingRootImpl
+     * @see org.eclipse.emf.mapping.ecore2ecore.impl.Ecore2EcorePackageImpl#getEcore2EcoreMappingRoot()
+     * @generated
+     */
+    EClass ECORE2_ECORE_MAPPING_ROOT = eINSTANCE.getEcore2EcoreMappingRoot();
+
+  }
 
 } //Ecore2EcorePackage

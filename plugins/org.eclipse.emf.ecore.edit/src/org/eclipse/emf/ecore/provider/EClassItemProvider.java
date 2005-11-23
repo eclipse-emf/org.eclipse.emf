@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.8 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EClassItemProvider.java,v 1.9 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -94,7 +94,7 @@ public class EClassItemProvider
          getResourceLocator(),
          getString("_UI_EClass_abstract_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EClass_abstract_feature", "_UI_EClass_type"),
-         EcorePackage.eINSTANCE.getEClass_Abstract(),
+         EcorePackage.Literals.ECLASS__ABSTRACT,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -115,7 +115,7 @@ public class EClassItemProvider
          getResourceLocator(),
          getString("_UI_EClass_interface_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EClass_interface_feature", "_UI_EClass_type"),
-         EcorePackage.eINSTANCE.getEClass_Interface(),
+         EcorePackage.Literals.ECLASS__INTERFACE,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -172,8 +172,8 @@ public class EClassItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(EcorePackage.eINSTANCE.getEClass_EOperations());
-      childrenFeatures.add(EcorePackage.eINSTANCE.getEClass_EStructuralFeatures());
+      childrenFeatures.add(EcorePackage.Literals.ECLASS__EOPERATIONS);
+      childrenFeatures.add(EcorePackage.Literals.ECLASS__ESTRUCTURAL_FEATURES);
     }
     return childrenFeatures;
   }
@@ -280,17 +280,17 @@ public class EClassItemProvider
 
     newChildDescriptors.add
       (createChildParameter
-        (EcorePackage.eINSTANCE.getEClass_EOperations(),
+        (EcorePackage.Literals.ECLASS__EOPERATIONS,
          EcoreFactory.eINSTANCE.createEOperation()));
 
     newChildDescriptors.add
       (createChildParameter
-        (EcorePackage.eINSTANCE.getEClass_EStructuralFeatures(),
+        (EcorePackage.Literals.ECLASS__ESTRUCTURAL_FEATURES,
          EcoreFactory.eINSTANCE.createEAttribute()));
 
     newChildDescriptors.add
       (createChildParameter
-        (EcorePackage.eINSTANCE.getEClass_EStructuralFeatures(),
+        (EcorePackage.Literals.ECLASS__ESTRUCTURAL_FEATURES,
          EcoreFactory.eINSTANCE.createEReference()));
   }
 

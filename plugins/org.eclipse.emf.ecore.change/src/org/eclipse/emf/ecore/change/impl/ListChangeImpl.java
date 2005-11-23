@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.8 2005/11/23 13:57:00 emerks Exp $
+ * $Id: ListChangeImpl.java,v 1.9 2005/11/23 18:10:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -195,7 +195,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    */
   protected EClass eStaticClass()
   {
-    return ChangePackage.eINSTANCE.getListChange();
+    return ChangePackage.Literals.LIST_CHANGE;
   }
 
   /**

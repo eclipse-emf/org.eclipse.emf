@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.7 2005/10/28 14:03:08 davidms Exp $
+ * $Id: EcorePackage.java,v 1.8 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -36,8 +36,7 @@ package org.eclipse.emf.ecore;
  * @model kind="package"
  * @generated
  */
-public interface EcorePackage extends EPackage
-{
+public interface EcorePackage extends EPackage{
   /**
    * The package name.
    * @generated
@@ -3421,6 +3420,1041 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EcoreFactory getEcoreFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EAttributeImpl <em>EAttribute</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EAttributeImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEAttribute()
+     * @generated
+     */
+    EClass EATTRIBUTE = eINSTANCE.getEAttribute();
+
+    /**
+     * The meta object literal for the '<em><b>ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EATTRIBUTE__ID = eINSTANCE.getEAttribute_ID();
+
+    /**
+     * The meta object literal for the '<em><b>EAttribute Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EATTRIBUTE__EATTRIBUTE_TYPE = eINSTANCE.getEAttribute_EAttributeType();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EAnnotationImpl <em>EAnnotation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EAnnotationImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEAnnotation()
+     * @generated
+     */
+    EClass EANNOTATION = eINSTANCE.getEAnnotation();
+
+    /**
+     * The meta object literal for the '<em><b>Source</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EANNOTATION__SOURCE = eINSTANCE.getEAnnotation_Source();
+
+    /**
+     * The meta object literal for the '<em><b>Details</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EANNOTATION__DETAILS = eINSTANCE.getEAnnotation_Details();
+
+    /**
+     * The meta object literal for the '<em><b>EModel Element</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EANNOTATION__EMODEL_ELEMENT = eINSTANCE.getEAnnotation_EModelElement();
+
+    /**
+     * The meta object literal for the '<em><b>Contents</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EANNOTATION__CONTENTS = eINSTANCE.getEAnnotation_Contents();
+
+    /**
+     * The meta object literal for the '<em><b>References</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EANNOTATION__REFERENCES = eINSTANCE.getEAnnotation_References();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EClassImpl <em>EClass</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EClassImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEClass()
+     * @generated
+     */
+    EClass ECLASS = eINSTANCE.getEClass();
+
+    /**
+     * The meta object literal for the '<em><b>Abstract</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ECLASS__ABSTRACT = eINSTANCE.getEClass_Abstract();
+
+    /**
+     * The meta object literal for the '<em><b>Interface</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ECLASS__INTERFACE = eINSTANCE.getEClass_Interface();
+
+    /**
+     * The meta object literal for the '<em><b>ESuper Types</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__ESUPER_TYPES = eINSTANCE.getEClass_ESuperTypes();
+
+    /**
+     * The meta object literal for the '<em><b>EOperations</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EOPERATIONS = eINSTANCE.getEClass_EOperations();
+
+    /**
+     * The meta object literal for the '<em><b>EAll Attributes</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EALL_ATTRIBUTES = eINSTANCE.getEClass_EAllAttributes();
+
+    /**
+     * The meta object literal for the '<em><b>EAll References</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EALL_REFERENCES = eINSTANCE.getEClass_EAllReferences();
+
+    /**
+     * The meta object literal for the '<em><b>EReferences</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EREFERENCES = eINSTANCE.getEClass_EReferences();
+
+    /**
+     * The meta object literal for the '<em><b>EAttributes</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EATTRIBUTES = eINSTANCE.getEClass_EAttributes();
+
+    /**
+     * The meta object literal for the '<em><b>EAll Containments</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EALL_CONTAINMENTS = eINSTANCE.getEClass_EAllContainments();
+
+    /**
+     * The meta object literal for the '<em><b>EAll Operations</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EALL_OPERATIONS = eINSTANCE.getEClass_EAllOperations();
+
+    /**
+     * The meta object literal for the '<em><b>EAll Structural Features</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EALL_STRUCTURAL_FEATURES = eINSTANCE.getEClass_EAllStructuralFeatures();
+
+    /**
+     * The meta object literal for the '<em><b>EAll Super Types</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EALL_SUPER_TYPES = eINSTANCE.getEClass_EAllSuperTypes();
+
+    /**
+     * The meta object literal for the '<em><b>EID Attribute</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EID_ATTRIBUTE = eINSTANCE.getEClass_EIDAttribute();
+
+    /**
+     * The meta object literal for the '<em><b>EStructural Features</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__ESTRUCTURAL_FEATURES = eINSTANCE.getEClass_EStructuralFeatures();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EClassifierImpl <em>EClassifier</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EClassifierImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEClassifier()
+     * @generated
+     */
+    EClass ECLASSIFIER = eINSTANCE.getEClassifier();
+
+    /**
+     * The meta object literal for the '<em><b>Instance Class Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ECLASSIFIER__INSTANCE_CLASS_NAME = eINSTANCE.getEClassifier_InstanceClassName();
+
+    /**
+     * The meta object literal for the '<em><b>Instance Class</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ECLASSIFIER__INSTANCE_CLASS = eINSTANCE.getEClassifier_InstanceClass();
+
+    /**
+     * The meta object literal for the '<em><b>Default Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ECLASSIFIER__DEFAULT_VALUE = eINSTANCE.getEClassifier_DefaultValue();
+
+    /**
+     * The meta object literal for the '<em><b>EPackage</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASSIFIER__EPACKAGE = eINSTANCE.getEClassifier_EPackage();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EDataTypeImpl <em>EData Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EDataTypeImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDataType()
+     * @generated
+     */
+    EClass EDATA_TYPE = eINSTANCE.getEDataType();
+
+    /**
+     * The meta object literal for the '<em><b>Serializable</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EDATA_TYPE__SERIALIZABLE = eINSTANCE.getEDataType_Serializable();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EEnumImpl <em>EEnum</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EEnumImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEEnum()
+     * @generated
+     */
+    EClass EENUM = eINSTANCE.getEEnum();
+
+    /**
+     * The meta object literal for the '<em><b>ELiterals</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EENUM__ELITERALS = eINSTANCE.getEEnum_ELiterals();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EEnumLiteralImpl <em>EEnum Literal</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EEnumLiteralImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEEnumLiteral()
+     * @generated
+     */
+    EClass EENUM_LITERAL = eINSTANCE.getEEnumLiteral();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EENUM_LITERAL__VALUE = eINSTANCE.getEEnumLiteral_Value();
+
+    /**
+     * The meta object literal for the '<em><b>Instance</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EENUM_LITERAL__INSTANCE = eINSTANCE.getEEnumLiteral_Instance();
+
+    /**
+     * The meta object literal for the '<em><b>Literal</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EENUM_LITERAL__LITERAL = eINSTANCE.getEEnumLiteral_Literal();
+
+    /**
+     * The meta object literal for the '<em><b>EEnum</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EENUM_LITERAL__EENUM = eINSTANCE.getEEnumLiteral_EEnum();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EFactoryImpl <em>EFactory</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EFactoryImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFactory()
+     * @generated
+     */
+    EClass EFACTORY = eINSTANCE.getEFactory();
+
+    /**
+     * The meta object literal for the '<em><b>EPackage</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EFACTORY__EPACKAGE = eINSTANCE.getEFactory_EPackage();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EModelElementImpl <em>EModel Element</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EModelElementImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEModelElement()
+     * @generated
+     */
+    EClass EMODEL_ELEMENT = eINSTANCE.getEModelElement();
+
+    /**
+     * The meta object literal for the '<em><b>EAnnotations</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EMODEL_ELEMENT__EANNOTATIONS = eINSTANCE.getEModelElement_EAnnotations();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.ENamedElementImpl <em>ENamed Element</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.ENamedElementImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getENamedElement()
+     * @generated
+     */
+    EClass ENAMED_ELEMENT = eINSTANCE.getENamedElement();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ENAMED_ELEMENT__NAME = eINSTANCE.getENamedElement_Name();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EObjectImpl <em>EObject</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EObjectImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEObject()
+     * @generated
+     */
+    EClass EOBJECT = eINSTANCE.getEObject();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EOperationImpl <em>EOperation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EOperationImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEOperation()
+     * @generated
+     */
+    EClass EOPERATION = eINSTANCE.getEOperation();
+
+    /**
+     * The meta object literal for the '<em><b>EContaining Class</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EOPERATION__ECONTAINING_CLASS = eINSTANCE.getEOperation_EContainingClass();
+
+    /**
+     * The meta object literal for the '<em><b>EParameters</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EOPERATION__EPARAMETERS = eINSTANCE.getEOperation_EParameters();
+
+    /**
+     * The meta object literal for the '<em><b>EExceptions</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EOPERATION__EEXCEPTIONS = eINSTANCE.getEOperation_EExceptions();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EPackageImpl <em>EPackage</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EPackageImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEPackage()
+     * @generated
+     */
+    EClass EPACKAGE = eINSTANCE.getEPackage();
+
+    /**
+     * The meta object literal for the '<em><b>Ns URI</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EPACKAGE__NS_URI = eINSTANCE.getEPackage_NsURI();
+
+    /**
+     * The meta object literal for the '<em><b>Ns Prefix</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EPACKAGE__NS_PREFIX = eINSTANCE.getEPackage_NsPrefix();
+
+    /**
+     * The meta object literal for the '<em><b>EFactory Instance</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EPACKAGE__EFACTORY_INSTANCE = eINSTANCE.getEPackage_EFactoryInstance();
+
+    /**
+     * The meta object literal for the '<em><b>EClassifiers</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EPACKAGE__ECLASSIFIERS = eINSTANCE.getEPackage_EClassifiers();
+
+    /**
+     * The meta object literal for the '<em><b>ESubpackages</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EPACKAGE__ESUBPACKAGES = eINSTANCE.getEPackage_ESubpackages();
+
+    /**
+     * The meta object literal for the '<em><b>ESuper Package</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EPACKAGE__ESUPER_PACKAGE = eINSTANCE.getEPackage_ESuperPackage();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EParameterImpl <em>EParameter</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EParameterImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEParameter()
+     * @generated
+     */
+    EClass EPARAMETER = eINSTANCE.getEParameter();
+
+    /**
+     * The meta object literal for the '<em><b>EOperation</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EPARAMETER__EOPERATION = eINSTANCE.getEParameter_EOperation();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EReferenceImpl <em>EReference</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EReferenceImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEReference()
+     * @generated
+     */
+    EClass EREFERENCE = eINSTANCE.getEReference();
+
+    /**
+     * The meta object literal for the '<em><b>Containment</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EREFERENCE__CONTAINMENT = eINSTANCE.getEReference_Containment();
+
+    /**
+     * The meta object literal for the '<em><b>Container</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EREFERENCE__CONTAINER = eINSTANCE.getEReference_Container();
+
+    /**
+     * The meta object literal for the '<em><b>Resolve Proxies</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute EREFERENCE__RESOLVE_PROXIES = eINSTANCE.getEReference_ResolveProxies();
+
+    /**
+     * The meta object literal for the '<em><b>EOpposite</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EREFERENCE__EOPPOSITE = eINSTANCE.getEReference_EOpposite();
+
+    /**
+     * The meta object literal for the '<em><b>EReference Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EREFERENCE__EREFERENCE_TYPE = eINSTANCE.getEReference_EReferenceType();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EStructuralFeatureImpl <em>EStructural Feature</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EStructuralFeatureImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEStructuralFeature()
+     * @generated
+     */
+    EClass ESTRUCTURAL_FEATURE = eINSTANCE.getEStructuralFeature();
+
+    /**
+     * The meta object literal for the '<em><b>Changeable</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ESTRUCTURAL_FEATURE__CHANGEABLE = eINSTANCE.getEStructuralFeature_Changeable();
+
+    /**
+     * The meta object literal for the '<em><b>Volatile</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ESTRUCTURAL_FEATURE__VOLATILE = eINSTANCE.getEStructuralFeature_Volatile();
+
+    /**
+     * The meta object literal for the '<em><b>Transient</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ESTRUCTURAL_FEATURE__TRANSIENT = eINSTANCE.getEStructuralFeature_Transient();
+
+    /**
+     * The meta object literal for the '<em><b>Default Value Literal</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL = eINSTANCE.getEStructuralFeature_DefaultValueLiteral();
+
+    /**
+     * The meta object literal for the '<em><b>Default Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ESTRUCTURAL_FEATURE__DEFAULT_VALUE = eINSTANCE.getEStructuralFeature_DefaultValue();
+
+    /**
+     * The meta object literal for the '<em><b>Unsettable</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ESTRUCTURAL_FEATURE__UNSETTABLE = eINSTANCE.getEStructuralFeature_Unsettable();
+
+    /**
+     * The meta object literal for the '<em><b>Derived</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ESTRUCTURAL_FEATURE__DERIVED = eINSTANCE.getEStructuralFeature_Derived();
+
+    /**
+     * The meta object literal for the '<em><b>EContaining Class</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ESTRUCTURAL_FEATURE__ECONTAINING_CLASS = eINSTANCE.getEStructuralFeature_EContainingClass();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.ETypedElementImpl <em>ETyped Element</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.ETypedElementImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getETypedElement()
+     * @generated
+     */
+    EClass ETYPED_ELEMENT = eINSTANCE.getETypedElement();
+
+    /**
+     * The meta object literal for the '<em><b>Ordered</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ETYPED_ELEMENT__ORDERED = eINSTANCE.getETypedElement_Ordered();
+
+    /**
+     * The meta object literal for the '<em><b>Unique</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ETYPED_ELEMENT__UNIQUE = eINSTANCE.getETypedElement_Unique();
+
+    /**
+     * The meta object literal for the '<em><b>Lower Bound</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ETYPED_ELEMENT__LOWER_BOUND = eINSTANCE.getETypedElement_LowerBound();
+
+    /**
+     * The meta object literal for the '<em><b>Upper Bound</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ETYPED_ELEMENT__UPPER_BOUND = eINSTANCE.getETypedElement_UpperBound();
+
+    /**
+     * The meta object literal for the '<em><b>Many</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ETYPED_ELEMENT__MANY = eINSTANCE.getETypedElement_Many();
+
+    /**
+     * The meta object literal for the '<em><b>Required</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ETYPED_ELEMENT__REQUIRED = eINSTANCE.getETypedElement_Required();
+
+    /**
+     * The meta object literal for the '<em><b>EType</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ETYPED_ELEMENT__ETYPE = eINSTANCE.getETypedElement_EType();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl <em>EString To String Map Entry</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEStringToStringMapEntry()
+     * @generated
+     */
+    EClass ESTRING_TO_STRING_MAP_ENTRY = eINSTANCE.getEStringToStringMapEntry();
+
+    /**
+     * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ESTRING_TO_STRING_MAP_ENTRY__KEY = eINSTANCE.getEStringToStringMapEntry_Key();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ESTRING_TO_STRING_MAP_ENTRY__VALUE = eINSTANCE.getEStringToStringMapEntry_Value();
+
+    /**
+     * The meta object literal for the '<em>EBig Decimal</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.math.BigDecimal
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEBigDecimal()
+     * @generated
+     */
+    EDataType EBIG_DECIMAL = eINSTANCE.getEBigDecimal();
+
+    /**
+     * The meta object literal for the '<em>EBig Integer</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.math.BigInteger
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEBigInteger()
+     * @generated
+     */
+    EDataType EBIG_INTEGER = eINSTANCE.getEBigInteger();
+
+    /**
+     * The meta object literal for the '<em>EBoolean</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEBoolean()
+     * @generated
+     */
+    EDataType EBOOLEAN = eINSTANCE.getEBoolean();
+
+    /**
+     * The meta object literal for the '<em>EBoolean Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Boolean
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEBooleanObject()
+     * @generated
+     */
+    EDataType EBOOLEAN_OBJECT = eINSTANCE.getEBooleanObject();
+
+    /**
+     * The meta object literal for the '<em>EByte</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEByte()
+     * @generated
+     */
+    EDataType EBYTE = eINSTANCE.getEByte();
+
+    /**
+     * The meta object literal for the '<em>EByte Array</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEByteArray()
+     * @generated
+     */
+    EDataType EBYTE_ARRAY = eINSTANCE.getEByteArray();
+
+    /**
+     * The meta object literal for the '<em>EByte Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Byte
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEByteObject()
+     * @generated
+     */
+    EDataType EBYTE_OBJECT = eINSTANCE.getEByteObject();
+
+    /**
+     * The meta object literal for the '<em>EChar</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEChar()
+     * @generated
+     */
+    EDataType ECHAR = eINSTANCE.getEChar();
+
+    /**
+     * The meta object literal for the '<em>ECharacter Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Character
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getECharacterObject()
+     * @generated
+     */
+    EDataType ECHARACTER_OBJECT = eINSTANCE.getECharacterObject();
+
+    /**
+     * The meta object literal for the '<em>EDate</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.Date
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDate()
+     * @generated
+     */
+    EDataType EDATE = eINSTANCE.getEDate();
+
+    /**
+     * The meta object literal for the '<em>EDiagnostic Chain</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.common.util.DiagnosticChain
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDiagnosticChain()
+     * @generated
+     */
+    EDataType EDIAGNOSTIC_CHAIN = eINSTANCE.getEDiagnosticChain();
+
+    /**
+     * The meta object literal for the '<em>EDouble</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDouble()
+     * @generated
+     */
+    EDataType EDOUBLE = eINSTANCE.getEDouble();
+
+    /**
+     * The meta object literal for the '<em>EDouble Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Double
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDoubleObject()
+     * @generated
+     */
+    EDataType EDOUBLE_OBJECT = eINSTANCE.getEDoubleObject();
+
+    /**
+     * The meta object literal for the '<em>EE List</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.common.util.EList
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEEList()
+     * @generated
+     */
+    EDataType EE_LIST = eINSTANCE.getEEList();
+
+    /**
+     * The meta object literal for the '<em>EEnumerator</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.common.util.Enumerator
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEEnumerator()
+     * @generated
+     */
+    EDataType EENUMERATOR = eINSTANCE.getEEnumerator();
+
+    /**
+     * The meta object literal for the '<em>EFeature Map</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.util.FeatureMap
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFeatureMap()
+     * @generated
+     */
+    EDataType EFEATURE_MAP = eINSTANCE.getEFeatureMap();
+
+    /**
+     * The meta object literal for the '<em>EFeature Map Entry</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.util.FeatureMap.Entry
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFeatureMapEntry()
+     * @generated
+     */
+    EDataType EFEATURE_MAP_ENTRY = eINSTANCE.getEFeatureMapEntry();
+
+    /**
+     * The meta object literal for the '<em>EFloat</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFloat()
+     * @generated
+     */
+    EDataType EFLOAT = eINSTANCE.getEFloat();
+
+    /**
+     * The meta object literal for the '<em>EFloat Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Float
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFloatObject()
+     * @generated
+     */
+    EDataType EFLOAT_OBJECT = eINSTANCE.getEFloatObject();
+
+    /**
+     * The meta object literal for the '<em>EInt</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEInt()
+     * @generated
+     */
+    EDataType EINT = eINSTANCE.getEInt();
+
+    /**
+     * The meta object literal for the '<em>EInteger Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Integer
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEIntegerObject()
+     * @generated
+     */
+    EDataType EINTEGER_OBJECT = eINSTANCE.getEIntegerObject();
+
+    /**
+     * The meta object literal for the '<em>EJava Class</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Class
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEJavaClass()
+     * @generated
+     */
+    EDataType EJAVA_CLASS = eINSTANCE.getEJavaClass();
+
+    /**
+     * The meta object literal for the '<em>EJava Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEJavaObject()
+     * @generated
+     */
+    EDataType EJAVA_OBJECT = eINSTANCE.getEJavaObject();
+
+    /**
+     * The meta object literal for the '<em>ELong</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getELong()
+     * @generated
+     */
+    EDataType ELONG = eINSTANCE.getELong();
+
+    /**
+     * The meta object literal for the '<em>ELong Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Long
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getELongObject()
+     * @generated
+     */
+    EDataType ELONG_OBJECT = eINSTANCE.getELongObject();
+
+    /**
+     * The meta object literal for the '<em>EMap</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.Map
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEMap()
+     * @generated
+     */
+    EDataType EMAP = eINSTANCE.getEMap();
+
+    /**
+     * The meta object literal for the '<em>EResource</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.resource.Resource
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEResource()
+     * @generated
+     */
+    EDataType ERESOURCE = eINSTANCE.getEResource();
+
+    /**
+     * The meta object literal for the '<em>EResource Set</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.resource.ResourceSet
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEResourceSet()
+     * @generated
+     */
+    EDataType ERESOURCE_SET = eINSTANCE.getEResourceSet();
+
+    /**
+     * The meta object literal for the '<em>EShort</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEShort()
+     * @generated
+     */
+    EDataType ESHORT = eINSTANCE.getEShort();
+
+    /**
+     * The meta object literal for the '<em>EShort Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Short
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEShortObject()
+     * @generated
+     */
+    EDataType ESHORT_OBJECT = eINSTANCE.getEShortObject();
+
+    /**
+     * The meta object literal for the '<em>EString</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEString()
+     * @generated
+     */
+    EDataType ESTRING = eINSTANCE.getEString();
+
+    /**
+     * The meta object literal for the '<em>ETree Iterator</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.common.util.TreeIterator
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getETreeIterator()
+     * @generated
+     */
+    EDataType ETREE_ITERATOR = eINSTANCE.getETreeIterator();
+
+  }
 
   boolean _INTERNAL_BOOTSTRAP = org.eclipse.emf.ecore.impl.EcorePackageImpl.internalBootstrap();
 

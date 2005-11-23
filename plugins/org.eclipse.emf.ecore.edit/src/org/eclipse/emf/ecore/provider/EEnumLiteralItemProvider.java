@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralItemProvider.java,v 1.8 2005/10/28 14:03:49 davidms Exp $
+ * $Id: EEnumLiteralItemProvider.java,v 1.9 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -91,7 +91,7 @@ public class EEnumLiteralItemProvider
          getResourceLocator(),
          getString("_UI_EEnumLiteral_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_value_feature", "_UI_EEnumLiteral_type"),
-         EcorePackage.eINSTANCE.getEEnumLiteral_Value(),
+         EcorePackage.Literals.EENUM_LITERAL__VALUE,
          true,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
@@ -112,7 +112,7 @@ public class EEnumLiteralItemProvider
          getResourceLocator(),
          getString("_UI_EEnumLiteral_instance_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_instance_feature", "_UI_EEnumLiteral_type"),
-         EcorePackage.eINSTANCE.getEEnumLiteral_Instance(),
+         EcorePackage.Literals.EENUM_LITERAL__INSTANCE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -133,7 +133,7 @@ public class EEnumLiteralItemProvider
          getResourceLocator(),
          getString("_UI_EEnumLiteral_literal_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_literal_feature", "_UI_EEnumLiteral_type"),
-         EcorePackage.eINSTANCE.getEEnumLiteral_Literal(),
+         EcorePackage.Literals.EENUM_LITERAL__LITERAL,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,

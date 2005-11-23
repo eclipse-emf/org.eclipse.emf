@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AnyTypeImpl.java,v 1.3 2005/11/23 13:56:58 emerks Exp $
+ * $Id: AnyTypeImpl.java,v 1.4 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -80,7 +80,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    */
   protected EClass eStaticClass()
   {
-    return XMLTypePackage.eINSTANCE.getAnyType();
+    return XMLTypePackage.Literals.ANY_TYPE;
   }
 
   /**
@@ -104,7 +104,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    */
   public FeatureMap getAny()
   {
-    return (FeatureMap)((FeatureMap)getMixed()).list(XMLTypePackage.eINSTANCE.getAnyType_Any());
+    return (FeatureMap)((FeatureMap)getMixed()).list(XMLTypePackage.Literals.ANY_TYPE__ANY);
   }
 
   /**

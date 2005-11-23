@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializerItemProvider.java,v 1.4 2005/06/08 06:21:29 nickb Exp $
+ * $Id: JInitializerItemProvider.java,v 1.5 2005/11/23 18:10:05 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -87,7 +87,7 @@ public class JInitializerItemProvider
          getResourceLocator(),
          getString("_UI_JInitializer_body_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JInitializer_body_feature", "_UI_JInitializer_type"),
-         JavaPackage.eINSTANCE.getJInitializer_Body(),
+         JavaPackage.Literals.JINITIALIZER__BODY,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,

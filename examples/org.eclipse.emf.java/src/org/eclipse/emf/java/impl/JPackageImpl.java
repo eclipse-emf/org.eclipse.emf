@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackageImpl.java,v 1.4 2005/11/23 13:57:05 emerks Exp $
+ * $Id: JPackageImpl.java,v 1.5 2005/11/23 18:09:54 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -97,7 +97,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    */
   protected EClass eStaticClass()
   {
-    return JavaPackage.eINSTANCE.getJPackage();
+    return JavaPackage.Literals.JPACKAGE;
   }
 
   /**

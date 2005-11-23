@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassItemProvider.java,v 1.6 2005/06/13 14:26:57 emerks Exp $
+ * $Id: JClassItemProvider.java,v 1.7 2005/11/23 18:10:05 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -104,7 +104,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_abstract_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_abstract_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_Abstract(),
+         JavaPackage.Literals.JCLASS__ABSTRACT,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -125,7 +125,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_final_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_Final(),
+         JavaPackage.Literals.JCLASS__FINAL,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -146,7 +146,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_interface_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_interface_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_Interface(),
+         JavaPackage.Literals.JCLASS__INTERFACE,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -167,7 +167,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_throwable_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_throwable_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_Throwable(),
+         JavaPackage.Literals.JCLASS__THROWABLE,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -188,7 +188,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_javaClass_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_javaClass_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_JavaClass(),
+         JavaPackage.Literals.JCLASS__JAVA_CLASS,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -209,7 +209,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_fields_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_fields_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_Fields(),
+         JavaPackage.Literals.JCLASS__FIELDS,
          true,
          null,
          null,
@@ -230,7 +230,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_methods_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_methods_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_Methods(),
+         JavaPackage.Literals.JCLASS__METHODS,
          true,
          null,
          null,
@@ -251,7 +251,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_superTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_superTypes_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_SuperTypes(),
+         JavaPackage.Literals.JCLASS__SUPER_TYPES,
          true,
          null,
          null,
@@ -272,7 +272,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_allSuperTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allSuperTypes_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_AllSuperTypes(),
+         JavaPackage.Literals.JCLASS__ALL_SUPER_TYPES,
          true,
          null,
          null,
@@ -293,7 +293,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_members_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_members_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_Members(),
+         JavaPackage.Literals.JCLASS__MEMBERS,
          true,
          null,
          null,
@@ -314,7 +314,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_componentType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_componentType_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_ComponentType(),
+         JavaPackage.Literals.JCLASS__COMPONENT_TYPE,
          true,
          null,
          null,
@@ -335,7 +335,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_unit_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_unit_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_Unit(),
+         JavaPackage.Literals.JCLASS__UNIT,
          true,
          null,
          null,
@@ -356,7 +356,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_allMethods_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allMethods_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_AllMethods(),
+         JavaPackage.Literals.JCLASS__ALL_METHODS,
          true,
          null,
          null,
@@ -377,7 +377,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_allFields_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allFields_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_AllFields(),
+         JavaPackage.Literals.JCLASS__ALL_FIELDS,
          true,
          null,
          null,
@@ -398,7 +398,7 @@ public class JClassItemProvider
          getResourceLocator(),
          getString("_UI_JClass_package_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_package_feature", "_UI_JClass_type"),
-         JavaPackage.eINSTANCE.getJClass_Package(),
+         JavaPackage.Literals.JCLASS__PACKAGE,
          true,
          null,
          null,
@@ -418,8 +418,8 @@ public class JClassItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(JavaPackage.eINSTANCE.getJClass_Members());
-      childrenFeatures.add(JavaPackage.eINSTANCE.getJClass_ArrayType());
+      childrenFeatures.add(JavaPackage.Literals.JCLASS__MEMBERS);
+      childrenFeatures.add(JavaPackage.Literals.JCLASS__ARRAY_TYPE);
     }
     return childrenFeatures;
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryItemProvider.java,v 1.2 2005/06/08 06:17:29 nickb Exp $
+ * $Id: FeatureMapEntryItemProvider.java,v 1.3 2005/11/23 18:09:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -98,7 +98,7 @@ public class FeatureMapEntryItemProvider
          getResourceLocator(),
          getString("_UI_FeatureMapEntry_featureName_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureMapEntry_featureName_feature", "_UI_FeatureMapEntry_type"),
-         ChangePackage.eINSTANCE.getFeatureMapEntry_FeatureName(),
+         ChangePackage.Literals.FEATURE_MAP_ENTRY__FEATURE_NAME,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -119,7 +119,7 @@ public class FeatureMapEntryItemProvider
          getResourceLocator(),
          getString("_UI_FeatureMapEntry_dataValue_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureMapEntry_dataValue_feature", "_UI_FeatureMapEntry_type"),
-         ChangePackage.eINSTANCE.getFeatureMapEntry_DataValue(),
+         ChangePackage.Literals.FEATURE_MAP_ENTRY__DATA_VALUE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -140,7 +140,7 @@ public class FeatureMapEntryItemProvider
          getResourceLocator(),
          getString("_UI_FeatureMapEntry_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureMapEntry_value_feature", "_UI_FeatureMapEntry_type"),
-         ChangePackage.eINSTANCE.getFeatureMapEntry_Value(),
+         ChangePackage.Literals.FEATURE_MAP_ENTRY__VALUE,
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -161,7 +161,7 @@ public class FeatureMapEntryItemProvider
          getResourceLocator(),
          getString("_UI_FeatureMapEntry_feature_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureMapEntry_feature_feature", "_UI_FeatureMapEntry_type"),
-         ChangePackage.eINSTANCE.getFeatureMapEntry_Feature(),
+         ChangePackage.Literals.FEATURE_MAP_ENTRY__FEATURE,
          true,
          null,
          null,
@@ -182,7 +182,7 @@ public class FeatureMapEntryItemProvider
          getResourceLocator(),
          getString("_UI_FeatureMapEntry_referenceValue_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureMapEntry_referenceValue_feature", "_UI_FeatureMapEntry_type"),
-         ChangePackage.eINSTANCE.getFeatureMapEntry_ReferenceValue(),
+         ChangePackage.Literals.FEATURE_MAP_ENTRY__REFERENCE_VALUE,
          true,
          null,
          null,

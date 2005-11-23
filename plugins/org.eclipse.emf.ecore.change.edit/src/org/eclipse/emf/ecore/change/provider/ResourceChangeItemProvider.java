@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChangeItemProvider.java,v 1.6 2005/05/10 11:19:58 emerks Exp $
+ * $Id: ResourceChangeItemProvider.java,v 1.7 2005/11/23 18:09:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -85,7 +85,7 @@ public class ResourceChangeItemProvider
          getResourceLocator(),
          getString("_UI_ResourceChange_resourceURI_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_resourceURI_feature", "_UI_ResourceChange_type"),
-         ChangePackage.eINSTANCE.getResourceChange_ResourceURI(),
+         ChangePackage.Literals.RESOURCE_CHANGE__RESOURCE_URI,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -106,7 +106,7 @@ public class ResourceChangeItemProvider
          getResourceLocator(),
          getString("_UI_ResourceChange_resource_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_resource_feature", "_UI_ResourceChange_type"),
-         ChangePackage.eINSTANCE.getResourceChange_Resource(),
+         ChangePackage.Literals.RESOURCE_CHANGE__RESOURCE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -127,7 +127,7 @@ public class ResourceChangeItemProvider
          getResourceLocator(),
          getString("_UI_ResourceChange_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_value_feature", "_UI_ResourceChange_type"),
-         ChangePackage.eINSTANCE.getResourceChange_Value(),
+         ChangePackage.Literals.RESOURCE_CHANGE__VALUE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -147,7 +147,7 @@ public class ResourceChangeItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(ChangePackage.eINSTANCE.getResourceChange_ListChanges());
+      childrenFeatures.add(ChangePackage.Literals.RESOURCE_CHANGE__LIST_CHANGES);
     }
     return childrenFeatures;
   }

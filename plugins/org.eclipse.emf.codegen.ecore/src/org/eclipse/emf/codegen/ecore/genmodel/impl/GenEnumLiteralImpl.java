@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.8 2005/11/23 17:30:53 khussey Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.9 2005/11/23 18:09:29 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -26,7 +26,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;

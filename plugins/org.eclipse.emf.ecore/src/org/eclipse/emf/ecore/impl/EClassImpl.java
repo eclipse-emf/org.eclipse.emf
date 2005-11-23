@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.19 2005/11/22 22:34:11 emerks Exp $
+ * $Id: EClassImpl.java,v 1.20 2005/11/23 18:10:01 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -130,7 +130,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEClass();
+    return EcorePackage.Literals.ECLASS;
   }
 
   /**

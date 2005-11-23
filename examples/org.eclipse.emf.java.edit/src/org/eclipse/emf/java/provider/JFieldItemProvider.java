@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldItemProvider.java,v 1.5 2005/06/13 14:26:57 emerks Exp $
+ * $Id: JFieldItemProvider.java,v 1.6 2005/11/23 18:10:05 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -92,7 +92,7 @@ public class JFieldItemProvider
          getResourceLocator(),
          getString("_UI_JField_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_final_feature", "_UI_JField_type"),
-         JavaPackage.eINSTANCE.getJField_Final(),
+         JavaPackage.Literals.JFIELD__FINAL,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -113,7 +113,7 @@ public class JFieldItemProvider
          getResourceLocator(),
          getString("_UI_JField_transient_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_transient_feature", "_UI_JField_type"),
-         JavaPackage.eINSTANCE.getJField_Transient(),
+         JavaPackage.Literals.JFIELD__TRANSIENT,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -134,7 +134,7 @@ public class JFieldItemProvider
          getResourceLocator(),
          getString("_UI_JField_volatile_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_volatile_feature", "_UI_JField_type"),
-         JavaPackage.eINSTANCE.getJField_Volatile(),
+         JavaPackage.Literals.JFIELD__VOLATILE,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -155,7 +155,7 @@ public class JFieldItemProvider
          getResourceLocator(),
          getString("_UI_JField_javaField_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_javaField_feature", "_UI_JField_type"),
-         JavaPackage.eINSTANCE.getJField_JavaField(),
+         JavaPackage.Literals.JFIELD__JAVA_FIELD,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -176,7 +176,7 @@ public class JFieldItemProvider
          getResourceLocator(),
          getString("_UI_JField_initializer_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_initializer_feature", "_UI_JField_type"),
-         JavaPackage.eINSTANCE.getJField_Initializer(),
+         JavaPackage.Literals.JFIELD__INITIALIZER,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -197,7 +197,7 @@ public class JFieldItemProvider
          getResourceLocator(),
          getString("_UI_JField_type_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JField_type_feature", "_UI_JField_type"),
-         JavaPackage.eINSTANCE.getJField_Type(),
+         JavaPackage.Literals.JFIELD__TYPE,
          true,
          null,
          null,

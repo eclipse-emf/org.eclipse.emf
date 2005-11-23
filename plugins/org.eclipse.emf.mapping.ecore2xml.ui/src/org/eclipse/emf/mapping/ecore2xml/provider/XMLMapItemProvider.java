@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapItemProvider.java,v 1.5 2005/11/08 14:22:57 emerks Exp $
+ * $Id: XMLMapItemProvider.java,v 1.6 2005/11/23 18:09:55 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -104,7 +104,7 @@ public class XMLMapItemProvider
          getResourceLocator(),
          getString("_UI_XMLMap_iDAttributeName_feature"), //$NON-NLS-1$
          getString("_UI_PropertyDescriptor_description", "_UI_XMLMap_iDAttributeName_feature", "_UI_XMLMap_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-         Ecore2XMLPackage.eINSTANCE.getXMLMap_IDAttributeName(),
+         Ecore2XMLPackage.Literals.XML_MAP__ID_ATTRIBUTE_NAME,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -125,7 +125,7 @@ public class XMLMapItemProvider
          getResourceLocator(),
          getString("_UI_XMLMap_noNamespacePackage_feature"), //$NON-NLS-1$
          getString("_UI_PropertyDescriptor_description", "_UI_XMLMap_noNamespacePackage_feature", "_UI_XMLMap_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-         Ecore2XMLPackage.eINSTANCE.getXMLMap_NoNamespacePackage(),
+         Ecore2XMLPackage.Literals.XML_MAP__NO_NAMESPACE_PACKAGE,
          true,
          null,
          null,
@@ -145,7 +145,7 @@ public class XMLMapItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(Ecore2XMLPackage.eINSTANCE.getXMLMap_EcoreToXMLInfo());
+      childrenFeatures.add(Ecore2XMLPackage.Literals.XML_MAP__ECORE_TO_XML_INFO);
     }
     return childrenFeatures;
   }
@@ -211,7 +211,7 @@ public class XMLMapItemProvider
 
     newChildDescriptors.add
       (createChildParameter
-        (Ecore2XMLPackage.eINSTANCE.getXMLMap_EcoreToXMLInfo(),
+        (Ecore2XMLPackage.Literals.XML_MAP__ECORE_TO_XML_INFO,
          Ecore2XMLFactory.eINSTANCE.create(Ecore2XMLPackage.eINSTANCE.getENamedElementToXMLInfoMapEntry())));
   }
 

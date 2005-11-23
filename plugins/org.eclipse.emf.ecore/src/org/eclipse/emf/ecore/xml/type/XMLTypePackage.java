@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackage.java,v 1.7 2005/08/25 03:33:29 marcelop Exp $
+ * $Id: XMLTypePackage.java,v 1.8 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -1688,5 +1688,715 @@ public interface XMLTypePackage extends EPackage{
    * @generated
    */
   XMLTypeFactory getXMLTypeFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xml.type.impl.AnyTypeImpl <em>Any Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.AnyTypeImpl
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getAnyType()
+     * @generated
+     */
+    EClass ANY_TYPE = eINSTANCE.getAnyType();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ANY_TYPE__MIXED = eINSTANCE.getAnyType_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>Any</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ANY_TYPE__ANY = eINSTANCE.getAnyType_Any();
+
+    /**
+     * The meta object literal for the '<em><b>Any Attribute</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ANY_TYPE__ANY_ATTRIBUTE = eINSTANCE.getAnyType_AnyAttribute();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xml.type.impl.SimpleAnyTypeImpl <em>Simple Any Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.SimpleAnyTypeImpl
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getSimpleAnyType()
+     * @generated
+     */
+    EClass SIMPLE_ANY_TYPE = eINSTANCE.getSimpleAnyType();
+
+    /**
+     * The meta object literal for the '<em><b>Raw Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute SIMPLE_ANY_TYPE__RAW_VALUE = eINSTANCE.getSimpleAnyType_RawValue();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute SIMPLE_ANY_TYPE__VALUE = eINSTANCE.getSimpleAnyType_Value();
+
+    /**
+     * The meta object literal for the '<em><b>Instance Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference SIMPLE_ANY_TYPE__INSTANCE_TYPE = eINSTANCE.getSimpleAnyType_InstanceType();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl <em>Document Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getXMLTypeDocumentRoot()
+     * @generated
+     */
+    EClass XML_TYPE_DOCUMENT_ROOT = eINSTANCE.getXMLTypeDocumentRoot();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_TYPE_DOCUMENT_ROOT__MIXED = eINSTANCE.getXMLTypeDocumentRoot_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>XMLNS Prefix Map</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP = eINSTANCE.getXMLTypeDocumentRoot_XMLNSPrefixMap();
+
+    /**
+     * The meta object literal for the '<em><b>XSI Schema Location</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getXMLTypeDocumentRoot_XSISchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>CDATA</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_TYPE_DOCUMENT_ROOT__CDATA = eINSTANCE.getXMLTypeDocumentRoot_CDATA();
+
+    /**
+     * The meta object literal for the '<em><b>Comment</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_TYPE_DOCUMENT_ROOT__COMMENT = eINSTANCE.getXMLTypeDocumentRoot_Comment();
+
+    /**
+     * The meta object literal for the '<em><b>Text</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_TYPE_DOCUMENT_ROOT__TEXT = eINSTANCE.getXMLTypeDocumentRoot_Text();
+
+    /**
+     * The meta object literal for the '<em>Any Simple Type</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getAnySimpleType()
+     * @generated
+     */
+    EDataType ANY_SIMPLE_TYPE = eINSTANCE.getAnySimpleType();
+
+    /**
+     * The meta object literal for the '<em>Any URI</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getAnyURI()
+     * @generated
+     */
+    EDataType ANY_URI = eINSTANCE.getAnyURI();
+
+    /**
+     * The meta object literal for the '<em>Base64 Binary</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getBase64Binary()
+     * @generated
+     */
+    EDataType BASE64_BINARY = eINSTANCE.getBase64Binary();
+
+    /**
+     * The meta object literal for the '<em>Boolean</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getBoolean()
+     * @generated
+     */
+    EDataType BOOLEAN = eINSTANCE.getBoolean();
+
+    /**
+     * The meta object literal for the '<em>Boolean Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Boolean
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getBooleanObject()
+     * @generated
+     */
+    EDataType BOOLEAN_OBJECT = eINSTANCE.getBooleanObject();
+
+    /**
+     * The meta object literal for the '<em>Byte</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getByte()
+     * @generated
+     */
+    EDataType BYTE = eINSTANCE.getByte();
+
+    /**
+     * The meta object literal for the '<em>Byte Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Byte
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getByteObject()
+     * @generated
+     */
+    EDataType BYTE_OBJECT = eINSTANCE.getByteObject();
+
+    /**
+     * The meta object literal for the '<em>Date</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDate()
+     * @generated
+     */
+    EDataType DATE = eINSTANCE.getDate();
+
+    /**
+     * The meta object literal for the '<em>Date Time</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDateTime()
+     * @generated
+     */
+    EDataType DATE_TIME = eINSTANCE.getDateTime();
+
+    /**
+     * The meta object literal for the '<em>Decimal</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.math.BigDecimal
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDecimal()
+     * @generated
+     */
+    EDataType DECIMAL = eINSTANCE.getDecimal();
+
+    /**
+     * The meta object literal for the '<em>Double</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDouble()
+     * @generated
+     */
+    EDataType DOUBLE = eINSTANCE.getDouble();
+
+    /**
+     * The meta object literal for the '<em>Double Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Double
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDoubleObject()
+     * @generated
+     */
+    EDataType DOUBLE_OBJECT = eINSTANCE.getDoubleObject();
+
+    /**
+     * The meta object literal for the '<em>Duration</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDuration()
+     * @generated
+     */
+    EDataType DURATION = eINSTANCE.getDuration();
+
+    /**
+     * The meta object literal for the '<em>ENTITIES</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.List
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getENTITIES()
+     * @generated
+     */
+    EDataType ENTITIES = eINSTANCE.getENTITIES();
+
+    /**
+     * The meta object literal for the '<em>ENTITIES Base</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.List
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getENTITIESBase()
+     * @generated
+     */
+    EDataType ENTITIES_BASE = eINSTANCE.getENTITIESBase();
+
+    /**
+     * The meta object literal for the '<em>ENTITY</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getENTITY()
+     * @generated
+     */
+    EDataType ENTITY = eINSTANCE.getENTITY();
+
+    /**
+     * The meta object literal for the '<em>Float</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getFloat()
+     * @generated
+     */
+    EDataType FLOAT = eINSTANCE.getFloat();
+
+    /**
+     * The meta object literal for the '<em>Float Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Float
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getFloatObject()
+     * @generated
+     */
+    EDataType FLOAT_OBJECT = eINSTANCE.getFloatObject();
+
+    /**
+     * The meta object literal for the '<em>GDay</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getGDay()
+     * @generated
+     */
+    EDataType GDAY = eINSTANCE.getGDay();
+
+    /**
+     * The meta object literal for the '<em>GMonth</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getGMonth()
+     * @generated
+     */
+    EDataType GMONTH = eINSTANCE.getGMonth();
+
+    /**
+     * The meta object literal for the '<em>GMonth Day</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getGMonthDay()
+     * @generated
+     */
+    EDataType GMONTH_DAY = eINSTANCE.getGMonthDay();
+
+    /**
+     * The meta object literal for the '<em>GYear</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getGYear()
+     * @generated
+     */
+    EDataType GYEAR = eINSTANCE.getGYear();
+
+    /**
+     * The meta object literal for the '<em>GYear Month</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getGYearMonth()
+     * @generated
+     */
+    EDataType GYEAR_MONTH = eINSTANCE.getGYearMonth();
+
+    /**
+     * The meta object literal for the '<em>Hex Binary</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getHexBinary()
+     * @generated
+     */
+    EDataType HEX_BINARY = eINSTANCE.getHexBinary();
+
+    /**
+     * The meta object literal for the '<em>ID</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getID()
+     * @generated
+     */
+    EDataType ID = eINSTANCE.getID();
+
+    /**
+     * The meta object literal for the '<em>IDREF</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getIDREF()
+     * @generated
+     */
+    EDataType IDREF = eINSTANCE.getIDREF();
+
+    /**
+     * The meta object literal for the '<em>IDREFS</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.List
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getIDREFS()
+     * @generated
+     */
+    EDataType IDREFS = eINSTANCE.getIDREFS();
+
+    /**
+     * The meta object literal for the '<em>IDREFS Base</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.List
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getIDREFSBase()
+     * @generated
+     */
+    EDataType IDREFS_BASE = eINSTANCE.getIDREFSBase();
+
+    /**
+     * The meta object literal for the '<em>Int</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getInt()
+     * @generated
+     */
+    EDataType INT = eINSTANCE.getInt();
+
+    /**
+     * The meta object literal for the '<em>Integer</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.math.BigInteger
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getInteger()
+     * @generated
+     */
+    EDataType INTEGER = eINSTANCE.getInteger();
+
+    /**
+     * The meta object literal for the '<em>Int Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Integer
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getIntObject()
+     * @generated
+     */
+    EDataType INT_OBJECT = eINSTANCE.getIntObject();
+
+    /**
+     * The meta object literal for the '<em>Language</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getLanguage()
+     * @generated
+     */
+    EDataType LANGUAGE = eINSTANCE.getLanguage();
+
+    /**
+     * The meta object literal for the '<em>Long</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getLong()
+     * @generated
+     */
+    EDataType LONG = eINSTANCE.getLong();
+
+    /**
+     * The meta object literal for the '<em>Long Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Long
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getLongObject()
+     * @generated
+     */
+    EDataType LONG_OBJECT = eINSTANCE.getLongObject();
+
+    /**
+     * The meta object literal for the '<em>Name</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getName_()
+     * @generated
+     */
+    EDataType NAME = eINSTANCE.getName_();
+
+    /**
+     * The meta object literal for the '<em>NC Name</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNCName()
+     * @generated
+     */
+    EDataType NC_NAME = eINSTANCE.getNCName();
+
+    /**
+     * The meta object literal for the '<em>Negative Integer</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.math.BigInteger
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNegativeInteger()
+     * @generated
+     */
+    EDataType NEGATIVE_INTEGER = eINSTANCE.getNegativeInteger();
+
+    /**
+     * The meta object literal for the '<em>NMTOKEN</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNMTOKEN()
+     * @generated
+     */
+    EDataType NMTOKEN = eINSTANCE.getNMTOKEN();
+
+    /**
+     * The meta object literal for the '<em>NMTOKENS</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.List
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNMTOKENS()
+     * @generated
+     */
+    EDataType NMTOKENS = eINSTANCE.getNMTOKENS();
+
+    /**
+     * The meta object literal for the '<em>NMTOKENS Base</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.util.List
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNMTOKENSBase()
+     * @generated
+     */
+    EDataType NMTOKENS_BASE = eINSTANCE.getNMTOKENSBase();
+
+    /**
+     * The meta object literal for the '<em>Non Negative Integer</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.math.BigInteger
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNonNegativeInteger()
+     * @generated
+     */
+    EDataType NON_NEGATIVE_INTEGER = eINSTANCE.getNonNegativeInteger();
+
+    /**
+     * The meta object literal for the '<em>Non Positive Integer</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.math.BigInteger
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNonPositiveInteger()
+     * @generated
+     */
+    EDataType NON_POSITIVE_INTEGER = eINSTANCE.getNonPositiveInteger();
+
+    /**
+     * The meta object literal for the '<em>Normalized String</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNormalizedString()
+     * @generated
+     */
+    EDataType NORMALIZED_STRING = eINSTANCE.getNormalizedString();
+
+    /**
+     * The meta object literal for the '<em>NOTATION</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNOTATION()
+     * @generated
+     */
+    EDataType NOTATION = eINSTANCE.getNOTATION();
+
+    /**
+     * The meta object literal for the '<em>Positive Integer</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.math.BigInteger
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getPositiveInteger()
+     * @generated
+     */
+    EDataType POSITIVE_INTEGER = eINSTANCE.getPositiveInteger();
+
+    /**
+     * The meta object literal for the '<em>QName</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getQName()
+     * @generated
+     */
+    EDataType QNAME = eINSTANCE.getQName();
+
+    /**
+     * The meta object literal for the '<em>Short</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getShort()
+     * @generated
+     */
+    EDataType SHORT = eINSTANCE.getShort();
+
+    /**
+     * The meta object literal for the '<em>Short Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Short
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getShortObject()
+     * @generated
+     */
+    EDataType SHORT_OBJECT = eINSTANCE.getShortObject();
+
+    /**
+     * The meta object literal for the '<em>String</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getString()
+     * @generated
+     */
+    EDataType STRING = eINSTANCE.getString();
+
+    /**
+     * The meta object literal for the '<em>Time</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getTime()
+     * @generated
+     */
+    EDataType TIME = eINSTANCE.getTime();
+
+    /**
+     * The meta object literal for the '<em>Token</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getToken()
+     * @generated
+     */
+    EDataType TOKEN = eINSTANCE.getToken();
+
+    /**
+     * The meta object literal for the '<em>Unsigned Byte</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedByte()
+     * @generated
+     */
+    EDataType UNSIGNED_BYTE = eINSTANCE.getUnsignedByte();
+
+    /**
+     * The meta object literal for the '<em>Unsigned Byte Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Short
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedByteObject()
+     * @generated
+     */
+    EDataType UNSIGNED_BYTE_OBJECT = eINSTANCE.getUnsignedByteObject();
+
+    /**
+     * The meta object literal for the '<em>Unsigned Int</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedInt()
+     * @generated
+     */
+    EDataType UNSIGNED_INT = eINSTANCE.getUnsignedInt();
+
+    /**
+     * The meta object literal for the '<em>Unsigned Int Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Long
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedIntObject()
+     * @generated
+     */
+    EDataType UNSIGNED_INT_OBJECT = eINSTANCE.getUnsignedIntObject();
+
+    /**
+     * The meta object literal for the '<em>Unsigned Long</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.math.BigInteger
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedLong()
+     * @generated
+     */
+    EDataType UNSIGNED_LONG = eINSTANCE.getUnsignedLong();
+
+    /**
+     * The meta object literal for the '<em>Unsigned Short</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedShort()
+     * @generated
+     */
+    EDataType UNSIGNED_SHORT = eINSTANCE.getUnsignedShort();
+
+    /**
+     * The meta object literal for the '<em>Unsigned Short Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Integer
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedShortObject()
+     * @generated
+     */
+    EDataType UNSIGNED_SHORT_OBJECT = eINSTANCE.getUnsignedShortObject();
+
+  }
 
 } //XMLTypePackage

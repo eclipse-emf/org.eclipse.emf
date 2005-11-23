@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLPackage.java,v 1.5 2005/11/08 14:22:25 emerks Exp $
+ * $Id: Ecore2XMLPackage.java,v 1.6 2005/11/23 18:09:44 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -328,5 +328,115 @@ public interface Ecore2XMLPackage extends EPackage{
    * @generated
    */
   Ecore2XMLFactory getEcore2XMLFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.ecore2xml.impl.XMLInfoImpl <em>XML Info</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.ecore2xml.impl.XMLInfoImpl
+     * @see org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLPackageImpl#getXMLInfo()
+     * @generated
+     */
+    EClass XML_INFO = eINSTANCE.getXMLInfo();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_INFO__NAME = eINSTANCE.getXMLInfo_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Target Namespace</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_INFO__TARGET_NAMESPACE = eINSTANCE.getXMLInfo_TargetNamespace();
+
+    /**
+     * The meta object literal for the '<em><b>XML Representation</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_INFO__XML_REPRESENTATION = eINSTANCE.getXMLInfo_XMLRepresentation();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.ecore2xml.impl.XMLMapImpl <em>XML Map</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.ecore2xml.impl.XMLMapImpl
+     * @see org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLPackageImpl#getXMLMap()
+     * @generated
+     */
+    EClass XML_MAP = eINSTANCE.getXMLMap();
+
+    /**
+     * The meta object literal for the '<em><b>ID Attribute Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_MAP__ID_ATTRIBUTE_NAME = eINSTANCE.getXMLMap_IDAttributeName();
+
+    /**
+     * The meta object literal for the '<em><b>Ecore To XML Info</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XML_MAP__ECORE_TO_XML_INFO = eINSTANCE.getXMLMap_EcoreToXMLInfo();
+
+    /**
+     * The meta object literal for the '<em><b>No Namespace Package</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XML_MAP__NO_NAMESPACE_PACKAGE = eINSTANCE.getXMLMap_NoNamespacePackage();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.ecore2xml.impl.ENamedElementToXMLInfoMapEntryImpl <em>ENamed Element To XML Info Map Entry</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.ecore2xml.impl.ENamedElementToXMLInfoMapEntryImpl
+     * @see org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLPackageImpl#getENamedElementToXMLInfoMapEntry()
+     * @generated
+     */
+    EClass ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY = eINSTANCE.getENamedElementToXMLInfoMapEntry();
+
+    /**
+     * The meta object literal for the '<em><b>Key</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__KEY = eINSTANCE.getENamedElementToXMLInfoMapEntry_Key();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE = eINSTANCE.getENamedElementToXMLInfoMapEntry_Value();
+
+  }
 
 } //Ecore2XMLPackage

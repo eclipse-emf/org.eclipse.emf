@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoItemProvider.java,v 1.4 2005/06/21 16:16:58 khussey Exp $
+ * $Id: XMLInfoItemProvider.java,v 1.5 2005/11/23 18:09:56 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -103,7 +103,7 @@ public class XMLInfoItemProvider
          getResourceLocator(),
          getString("_UI_XMLInfo_name_feature"), //$NON-NLS-1$
          getString("_UI_PropertyDescriptor_description", "_UI_XMLInfo_name_feature", "_UI_XMLInfo_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-         Ecore2XMLPackage.eINSTANCE.getXMLInfo_Name(),
+         Ecore2XMLPackage.Literals.XML_INFO__NAME,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -124,7 +124,7 @@ public class XMLInfoItemProvider
          getResourceLocator(),
          getString("_UI_XMLInfo_targetNamespace_feature"), //$NON-NLS-1$
          getString("_UI_PropertyDescriptor_description", "_UI_XMLInfo_targetNamespace_feature", "_UI_XMLInfo_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-         Ecore2XMLPackage.eINSTANCE.getXMLInfo_TargetNamespace(),
+         Ecore2XMLPackage.Literals.XML_INFO__TARGET_NAMESPACE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -145,7 +145,7 @@ public class XMLInfoItemProvider
          getResourceLocator(),
          getString("_UI_XMLInfo_xMLRepresentation_feature"), //$NON-NLS-1$
          getString("_UI_PropertyDescriptor_description", "_UI_XMLInfo_xMLRepresentation_feature", "_UI_XMLInfo_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-         Ecore2XMLPackage.eINSTANCE.getXMLInfo_XMLRepresentation(),
+         Ecore2XMLPackage.Literals.XML_INFO__XML_REPRESENTATION,
          true,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,

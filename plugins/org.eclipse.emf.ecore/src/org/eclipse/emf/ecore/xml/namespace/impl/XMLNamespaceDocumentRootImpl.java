@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRootImpl.java,v 1.5 2005/11/23 13:56:58 emerks Exp $
+ * $Id: XMLNamespaceDocumentRootImpl.java,v 1.6 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -193,7 +193,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    */
   protected EClass eStaticClass()
   {
-    return XMLNamespacePackage.eINSTANCE.getXMLNamespaceDocumentRoot();
+    return XMLNamespacePackage.Literals.XML_NAMESPACE_DOCUMENT_ROOT;
   }
 
   /**
@@ -219,7 +219,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
   {
     if (xMLNSPrefixMap == null)
     {
-      xMLNSPrefixMap = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
+      xMLNSPrefixMap = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
     }
     return xMLNSPrefixMap;
   }
@@ -233,7 +233,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
   {
     if (xSISchemaLocation == null)
     {
-      xSISchemaLocation = new EcoreEMap(EcorePackage.eINSTANCE.getEStringToStringMapEntry(), EStringToStringMapEntryImpl.class, this, XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+      xSISchemaLocation = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
     }
     return xSISchemaLocation;
   }

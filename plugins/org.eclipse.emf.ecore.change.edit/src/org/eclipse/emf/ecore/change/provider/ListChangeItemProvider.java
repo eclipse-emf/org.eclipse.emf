@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeItemProvider.java,v 1.8 2005/06/08 06:17:29 nickb Exp $
+ * $Id: ListChangeItemProvider.java,v 1.9 2005/11/23 18:09:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -97,7 +97,7 @@ public class ListChangeItemProvider
          getResourceLocator(),
          getString("_UI_ListChange_kind_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_kind_feature", "_UI_ListChange_type"),
-         ChangePackage.eINSTANCE.getListChange_Kind(),
+         ChangePackage.Literals.LIST_CHANGE__KIND,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -118,7 +118,7 @@ public class ListChangeItemProvider
          getResourceLocator(),
          getString("_UI_ListChange_index_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_index_feature", "_UI_ListChange_type"),
-         ChangePackage.eINSTANCE.getListChange_Index(),
+         ChangePackage.Literals.LIST_CHANGE__INDEX,
          true,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
@@ -139,7 +139,7 @@ public class ListChangeItemProvider
          getResourceLocator(),
          getString("_UI_ListChange_moveToIndex_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_moveToIndex_feature", "_UI_ListChange_type"),
-         ChangePackage.eINSTANCE.getListChange_MoveToIndex(),
+         ChangePackage.Literals.LIST_CHANGE__MOVE_TO_INDEX,
          true,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
@@ -160,7 +160,7 @@ public class ListChangeItemProvider
          getResourceLocator(),
          getString("_UI_ListChange_values_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_values_feature", "_UI_ListChange_type"),
-         ChangePackage.eINSTANCE.getListChange_Values(),
+         ChangePackage.Literals.LIST_CHANGE__VALUES,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -180,7 +180,7 @@ public class ListChangeItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(ChangePackage.eINSTANCE.getListChange_FeatureMapEntryValues());
+      childrenFeatures.add(ChangePackage.Literals.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES);
     }
     return childrenFeatures;
   }

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.4 2005/11/23 13:57:00 emerks Exp $
+ * $Id: ResourceChangeImpl.java,v 1.5 2005/11/23 18:10:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -131,7 +131,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    */
   protected EClass eStaticClass()
   {
-    return ChangePackage.eINSTANCE.getResourceChange();
+    return ChangePackage.Literals.RESOURCE_CHANGE;
   }
 
   /**

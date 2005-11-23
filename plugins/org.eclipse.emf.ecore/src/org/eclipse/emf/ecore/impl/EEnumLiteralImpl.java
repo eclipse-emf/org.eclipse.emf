@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.7 2005/11/22 22:34:11 emerks Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.8 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -126,7 +126,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEEnumLiteral();
+    return EcorePackage.Literals.EENUM_LITERAL;
   }
 
   /**

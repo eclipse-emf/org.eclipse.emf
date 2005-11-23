@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataTypeImpl.java,v 1.8 2005/11/22 22:34:11 emerks Exp $
+ * $Id: EDataTypeImpl.java,v 1.9 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -142,7 +142,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEDataType();
+    return EcorePackage.Literals.EDATA_TYPE;
   }
 
   /**

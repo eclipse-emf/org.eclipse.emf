@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreMappingRootImpl.java,v 1.6 2005/11/08 14:19:53 emerks Exp $
+ * $Id: Ecore2EcoreMappingRootImpl.java,v 1.7 2005/11/23 18:10:08 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -60,7 +60,7 @@ public class Ecore2EcoreMappingRootImpl extends MappingRootImpl implements Ecore
    */
   protected EClass eStaticClass()
   {
-    return Ecore2EcorePackage.eINSTANCE.getEcore2EcoreMappingRoot();
+    return Ecore2EcorePackage.Literals.ECORE2_ECORE_MAPPING_ROOT;
   }
 
   /* (non-Javadoc)

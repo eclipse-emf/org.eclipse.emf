@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.7 2005/11/22 22:34:11 emerks Exp $
+ * $Id: EReferenceImpl.java,v 1.8 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -124,7 +124,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEReference();
+    return EcorePackage.Literals.EREFERENCE;
   }
 
   public boolean isBidirectional()

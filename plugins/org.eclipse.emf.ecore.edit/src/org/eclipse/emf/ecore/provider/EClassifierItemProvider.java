@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.7 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EClassifierItemProvider.java,v 1.8 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -90,7 +90,7 @@ public class EClassifierItemProvider
          getResourceLocator(),
          getString("_UI_EClassifier_instanceClassName_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EClassifier_instanceClassName_feature", "_UI_EClassifier_type"),
-         EcorePackage.eINSTANCE.getEClassifier_InstanceClassName(),
+         EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -111,7 +111,7 @@ public class EClassifierItemProvider
          getResourceLocator(),
          getString("_UI_EClassifier_defaultValue_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EClassifier_defaultValue_feature", "_UI_EClassifier_type"),
-         EcorePackage.eINSTANCE.getEClassifier_DefaultValue(),
+         EcorePackage.Literals.ECLASSIFIER__DEFAULT_VALUE,
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackage.java,v 1.7 2005/09/23 17:46:24 emerks Exp $
+ * $Id: XMLNamespacePackage.java,v 1.8 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -40,8 +40,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface XMLNamespacePackage extends EPackage
-{
+public interface XMLNamespacePackage extends EPackage{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -338,5 +337,127 @@ public interface XMLNamespacePackage extends EPackage
    * @generated
    */
   XMLNamespaceFactory getXMLNamespaceFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl <em>Document Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceDocumentRootImpl
+     * @see org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespacePackageImpl#getXMLNamespaceDocumentRoot()
+     * @generated
+     */
+    EClass XML_NAMESPACE_DOCUMENT_ROOT = eINSTANCE.getXMLNamespaceDocumentRoot();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_NAMESPACE_DOCUMENT_ROOT__MIXED = eINSTANCE.getXMLNamespaceDocumentRoot_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>XMLNS Prefix Map</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XML_NAMESPACE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP = eINSTANCE.getXMLNamespaceDocumentRoot_XMLNSPrefixMap();
+
+    /**
+     * The meta object literal for the '<em><b>XSI Schema Location</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XML_NAMESPACE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = eINSTANCE.getXMLNamespaceDocumentRoot_XSISchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Base</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_NAMESPACE_DOCUMENT_ROOT__BASE = eINSTANCE.getXMLNamespaceDocumentRoot_Base();
+
+    /**
+     * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_NAMESPACE_DOCUMENT_ROOT__ID = eINSTANCE.getXMLNamespaceDocumentRoot_Id();
+
+    /**
+     * The meta object literal for the '<em><b>Lang</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_NAMESPACE_DOCUMENT_ROOT__LANG = eINSTANCE.getXMLNamespaceDocumentRoot_Lang();
+
+    /**
+     * The meta object literal for the '<em><b>Space</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XML_NAMESPACE_DOCUMENT_ROOT__SPACE = eINSTANCE.getXMLNamespaceDocumentRoot_Space();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xml.namespace.SpaceType <em>Space Type</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.namespace.SpaceType
+     * @see org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespacePackageImpl#getSpaceType()
+     * @generated
+     */
+    EEnum SPACE_TYPE = eINSTANCE.getSpaceType();
+
+    /**
+     * The meta object literal for the '<em>Lang Type</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespacePackageImpl#getLangType()
+     * @generated
+     */
+    EDataType LANG_TYPE = eINSTANCE.getLangType();
+
+    /**
+     * The meta object literal for the '<em>Lang Type Null</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.String
+     * @see org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespacePackageImpl#getLangTypeNull()
+     * @generated
+     */
+    EDataType LANG_TYPE_NULL = eINSTANCE.getLangTypeNull();
+
+    /**
+     * The meta object literal for the '<em>Space Type Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.namespace.SpaceType
+     * @see org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespacePackageImpl#getSpaceTypeObject()
+     * @generated
+     */
+    EDataType SPACE_TYPE_OBJECT = eINSTANCE.getSpaceTypeObject();
+
+  }
 
 } //XMLNamespacePackage

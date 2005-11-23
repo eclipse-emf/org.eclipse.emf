@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackage.java,v 1.7 2005/08/24 13:37:42 marcelop Exp $
+ * $Id: ChangePackage.java,v 1.8 2005/11/23 18:10:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -39,8 +39,7 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface ChangePackage extends EPackage
-{
+public interface ChangePackage extends EPackage{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -878,5 +877,331 @@ public interface ChangePackage extends EPackage
    * @generated
    */
   ChangeFactory getChangeFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl <em>Description</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl
+     * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getChangeDescription()
+     * @generated
+     */
+    EClass CHANGE_DESCRIPTION = eINSTANCE.getChangeDescription();
+
+    /**
+     * The meta object literal for the '<em><b>Object Changes</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CHANGE_DESCRIPTION__OBJECT_CHANGES = eINSTANCE.getChangeDescription_ObjectChanges();
+
+    /**
+     * The meta object literal for the '<em><b>Objects To Detach</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CHANGE_DESCRIPTION__OBJECTS_TO_DETACH = eINSTANCE.getChangeDescription_ObjectsToDetach();
+
+    /**
+     * The meta object literal for the '<em><b>Objects To Attach</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CHANGE_DESCRIPTION__OBJECTS_TO_ATTACH = eINSTANCE.getChangeDescription_ObjectsToAttach();
+
+    /**
+     * The meta object literal for the '<em><b>Resource Changes</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference CHANGE_DESCRIPTION__RESOURCE_CHANGES = eINSTANCE.getChangeDescription_ResourceChanges();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.change.impl.EObjectToChangesMapEntryImpl <em>EObject To Changes Map Entry</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.change.impl.EObjectToChangesMapEntryImpl
+     * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getEObjectToChangesMapEntry()
+     * @generated
+     */
+    EClass EOBJECT_TO_CHANGES_MAP_ENTRY = eINSTANCE.getEObjectToChangesMapEntry();
+
+    /**
+     * The meta object literal for the '<em><b>Key</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EOBJECT_TO_CHANGES_MAP_ENTRY__KEY = eINSTANCE.getEObjectToChangesMapEntry_Key();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE = eINSTANCE.getEObjectToChangesMapEntry_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.change.impl.FeatureChangeImpl <em>Feature Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.change.impl.FeatureChangeImpl
+     * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getFeatureChange()
+     * @generated
+     */
+    EClass FEATURE_CHANGE = eINSTANCE.getFeatureChange();
+
+    /**
+     * The meta object literal for the '<em><b>Feature Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FEATURE_CHANGE__FEATURE_NAME = eINSTANCE.getFeatureChange_FeatureName();
+
+    /**
+     * The meta object literal for the '<em><b>Data Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FEATURE_CHANGE__DATA_VALUE = eINSTANCE.getFeatureChange_DataValue();
+
+    /**
+     * The meta object literal for the '<em><b>Set</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FEATURE_CHANGE__SET = eINSTANCE.getFeatureChange_Set();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FEATURE_CHANGE__VALUE = eINSTANCE.getFeatureChange_Value();
+
+    /**
+     * The meta object literal for the '<em><b>Feature</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference FEATURE_CHANGE__FEATURE = eINSTANCE.getFeatureChange_Feature();
+
+    /**
+     * The meta object literal for the '<em><b>Reference Value</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference FEATURE_CHANGE__REFERENCE_VALUE = eINSTANCE.getFeatureChange_ReferenceValue();
+
+    /**
+     * The meta object literal for the '<em><b>List Changes</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference FEATURE_CHANGE__LIST_CHANGES = eINSTANCE.getFeatureChange_ListChanges();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.change.impl.ListChangeImpl <em>List Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.change.impl.ListChangeImpl
+     * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getListChange()
+     * @generated
+     */
+    EClass LIST_CHANGE = eINSTANCE.getListChange();
+
+    /**
+     * The meta object literal for the '<em><b>Kind</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LIST_CHANGE__KIND = eINSTANCE.getListChange_Kind();
+
+    /**
+     * The meta object literal for the '<em><b>Data Values</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LIST_CHANGE__DATA_VALUES = eINSTANCE.getListChange_DataValues();
+
+    /**
+     * The meta object literal for the '<em><b>Index</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LIST_CHANGE__INDEX = eINSTANCE.getListChange_Index();
+
+    /**
+     * The meta object literal for the '<em><b>Move To Index</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LIST_CHANGE__MOVE_TO_INDEX = eINSTANCE.getListChange_MoveToIndex();
+
+    /**
+     * The meta object literal for the '<em><b>Values</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LIST_CHANGE__VALUES = eINSTANCE.getListChange_Values();
+
+    /**
+     * The meta object literal for the '<em><b>Reference Values</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIST_CHANGE__REFERENCE_VALUES = eINSTANCE.getListChange_ReferenceValues();
+
+    /**
+     * The meta object literal for the '<em><b>Feature</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIST_CHANGE__FEATURE = eINSTANCE.getListChange_Feature();
+
+    /**
+     * The meta object literal for the '<em><b>Feature Map Entry Values</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES = eINSTANCE.getListChange_FeatureMapEntryValues();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.change.impl.ResourceChangeImpl <em>Resource Change</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.change.impl.ResourceChangeImpl
+     * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getResourceChange()
+     * @generated
+     */
+    EClass RESOURCE_CHANGE = eINSTANCE.getResourceChange();
+
+    /**
+     * The meta object literal for the '<em><b>Resource URI</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RESOURCE_CHANGE__RESOURCE_URI = eINSTANCE.getResourceChange_ResourceURI();
+
+    /**
+     * The meta object literal for the '<em><b>Resource</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RESOURCE_CHANGE__RESOURCE = eINSTANCE.getResourceChange_Resource();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RESOURCE_CHANGE__VALUE = eINSTANCE.getResourceChange_Value();
+
+    /**
+     * The meta object literal for the '<em><b>List Changes</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference RESOURCE_CHANGE__LIST_CHANGES = eINSTANCE.getResourceChange_ListChanges();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.change.impl.FeatureMapEntryImpl <em>Feature Map Entry</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.change.impl.FeatureMapEntryImpl
+     * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getFeatureMapEntry()
+     * @generated
+     */
+    EClass FEATURE_MAP_ENTRY = eINSTANCE.getFeatureMapEntry();
+
+    /**
+     * The meta object literal for the '<em><b>Feature Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FEATURE_MAP_ENTRY__FEATURE_NAME = eINSTANCE.getFeatureMapEntry_FeatureName();
+
+    /**
+     * The meta object literal for the '<em><b>Data Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FEATURE_MAP_ENTRY__DATA_VALUE = eINSTANCE.getFeatureMapEntry_DataValue();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FEATURE_MAP_ENTRY__VALUE = eINSTANCE.getFeatureMapEntry_Value();
+
+    /**
+     * The meta object literal for the '<em><b>Feature</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference FEATURE_MAP_ENTRY__FEATURE = eINSTANCE.getFeatureMapEntry_Feature();
+
+    /**
+     * The meta object literal for the '<em><b>Reference Value</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference FEATURE_MAP_ENTRY__REFERENCE_VALUE = eINSTANCE.getFeatureMapEntry_ReferenceValue();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.change.ChangeKind <em>Kind</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.change.ChangeKind
+     * @see org.eclipse.emf.ecore.change.impl.ChangePackageImpl#getChangeKind()
+     * @generated
+     */
+    EEnum CHANGE_KIND = eINSTANCE.getChangeKind();
+
+  }
 
 } //ChangePackage

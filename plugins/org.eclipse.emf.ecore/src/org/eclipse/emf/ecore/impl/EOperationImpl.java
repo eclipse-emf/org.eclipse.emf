@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.6 2005/11/22 22:34:11 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.7 2005/11/23 18:10:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -86,7 +86,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEOperation();
+    return EcorePackage.Literals.EOPERATION;
   }
 
   /**

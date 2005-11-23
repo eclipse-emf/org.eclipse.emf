@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperImpl.java,v 1.7 2005/11/23 13:56:59 emerks Exp $
+ * $Id: MappingHelperImpl.java,v 1.8 2005/11/23 18:10:08 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -90,7 +90,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    */
   protected EClass eStaticClass()
   {
-    return MappingPackage.eINSTANCE.getMappingHelper();
+    return MappingPackage.Literals.MAPPING_HELPER;
   }
 
   /**

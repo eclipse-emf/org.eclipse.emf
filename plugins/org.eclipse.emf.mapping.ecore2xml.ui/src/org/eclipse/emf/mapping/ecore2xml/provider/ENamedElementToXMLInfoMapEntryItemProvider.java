@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: ENamedElementToXMLInfoMapEntryItemProvider.java,v 1.4 2005/06/21 16:16:58 khussey Exp $
+ * $Id: ENamedElementToXMLInfoMapEntryItemProvider.java,v 1.5 2005/11/23 18:09:56 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -103,7 +103,7 @@ public class ENamedElementToXMLInfoMapEntryItemProvider
          getResourceLocator(),
          getString("_UI_ENamedElementToXMLInfoMapEntry_key_feature"), //$NON-NLS-1$
          getString("_UI_PropertyDescriptor_description", "_UI_ENamedElementToXMLInfoMapEntry_key_feature", "_UI_ENamedElementToXMLInfoMapEntry_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-         Ecore2XMLPackage.eINSTANCE.getENamedElementToXMLInfoMapEntry_Key(),
+         Ecore2XMLPackage.Literals.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__KEY,
          true,
          null,
          null,
@@ -123,7 +123,7 @@ public class ENamedElementToXMLInfoMapEntryItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(Ecore2XMLPackage.eINSTANCE.getENamedElementToXMLInfoMapEntry_Value());
+      childrenFeatures.add(Ecore2XMLPackage.Literals.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE);
     }
     return childrenFeatures;
   }
@@ -189,7 +189,7 @@ public class ENamedElementToXMLInfoMapEntryItemProvider
 
     newChildDescriptors.add
       (createChildParameter
-        (Ecore2XMLPackage.eINSTANCE.getENamedElementToXMLInfoMapEntry_Value(),
+        (Ecore2XMLPackage.Literals.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE,
          Ecore2XMLFactory.eINSTANCE.createXMLInfo()));
   }
 

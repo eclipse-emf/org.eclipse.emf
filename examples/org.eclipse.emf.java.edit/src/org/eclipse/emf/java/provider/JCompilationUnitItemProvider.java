@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitItemProvider.java,v 1.5 2005/06/08 06:21:29 nickb Exp $
+ * $Id: JCompilationUnitItemProvider.java,v 1.6 2005/11/23 18:10:05 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -93,7 +93,7 @@ public class JCompilationUnitItemProvider
          getResourceLocator(),
          getString("_UI_JCompilationUnit_imports_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_imports_feature", "_UI_JCompilationUnit_type"),
-         JavaPackage.eINSTANCE.getJCompilationUnit_Imports(),
+         JavaPackage.Literals.JCOMPILATION_UNIT__IMPORTS,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -114,7 +114,7 @@ public class JCompilationUnitItemProvider
          getResourceLocator(),
          getString("_UI_JCompilationUnit_package_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_package_feature", "_UI_JCompilationUnit_type"),
-         JavaPackage.eINSTANCE.getJCompilationUnit_Package(),
+         JavaPackage.Literals.JCOMPILATION_UNIT__PACKAGE,
          true,
          null,
          null,
@@ -134,7 +134,7 @@ public class JCompilationUnitItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(JavaPackage.eINSTANCE.getJCompilationUnit_Types());
+      childrenFeatures.add(JavaPackage.Literals.JCOMPILATION_UNIT__TYPES);
     }
     return childrenFeatures;
   }
@@ -153,7 +153,7 @@ public class JCompilationUnitItemProvider
          getResourceLocator(),
          getString("_UI_JCompilationUnit_comment_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_comment_feature", "_UI_JCompilationUnit_type"),
-         JavaPackage.eINSTANCE.getJCompilationUnit_Comment(),
+         JavaPackage.Literals.JCOMPILATION_UNIT__COMMENT,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -174,7 +174,7 @@ public class JCompilationUnitItemProvider
          getResourceLocator(),
          getString("_UI_JCompilationUnit_types_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_types_feature", "_UI_JCompilationUnit_type"),
-         JavaPackage.eINSTANCE.getJCompilationUnit_Types(),
+         JavaPackage.Literals.JCOMPILATION_UNIT__TYPES,
          true,
          null,
          null,
@@ -195,7 +195,7 @@ public class JCompilationUnitItemProvider
          getResourceLocator(),
          getString("_UI_JCompilationUnit_importedPackages_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_importedPackages_feature", "_UI_JCompilationUnit_type"),
-         JavaPackage.eINSTANCE.getJCompilationUnit_ImportedPackages(),
+         JavaPackage.Literals.JCOMPILATION_UNIT__IMPORTED_PACKAGES,
          true,
          null,
          null,
@@ -216,7 +216,7 @@ public class JCompilationUnitItemProvider
          getResourceLocator(),
          getString("_UI_JCompilationUnit_importedTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_importedTypes_feature", "_UI_JCompilationUnit_type"),
-         JavaPackage.eINSTANCE.getJCompilationUnit_ImportedTypes(),
+         JavaPackage.Literals.JCOMPILATION_UNIT__IMPORTED_TYPES,
          true,
          null,
          null,

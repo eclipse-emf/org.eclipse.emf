@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.3 2005/11/23 13:57:11 emerks Exp $
+ * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.4 2005/11/23 18:09:44 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -86,7 +86,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    */
   protected EClass eStaticClass()
   {
-    return Ecore2XMLPackage.eINSTANCE.getENamedElementToXMLInfoMapEntry();
+    return Ecore2XMLPackage.Literals.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY;
   }
 
   /**

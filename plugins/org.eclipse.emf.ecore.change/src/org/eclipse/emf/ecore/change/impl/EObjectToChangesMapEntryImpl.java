@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryImpl.java,v 1.11 2005/11/23 13:57:00 emerks Exp $
+ * $Id: EObjectToChangesMapEntryImpl.java,v 1.12 2005/11/23 18:10:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -93,7 +93,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    */
   protected EClass eStaticClass()
   {
-    return ChangePackage.eINSTANCE.getEObjectToChangesMapEntry();
+    return ChangePackage.Literals.EOBJECT_TO_CHANGES_MAP_ENTRY;
   }
 
   /**

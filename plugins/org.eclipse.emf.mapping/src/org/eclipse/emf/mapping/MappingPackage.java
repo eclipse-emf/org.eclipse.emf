@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingPackage.java,v 1.4 2005/08/24 13:41:56 marcelop Exp $
+ * $Id: MappingPackage.java,v 1.5 2005/11/23 18:10:08 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -919,6 +919,254 @@ public interface MappingPackage extends EPackage{
    * @generated
    */
   MappingFactory getMappingFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.impl.MappingHelperImpl <em>Helper</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.impl.MappingHelperImpl
+     * @see org.eclipse.emf.mapping.impl.MappingPackageImpl#getMappingHelper()
+     * @generated
+     */
+    EClass MAPPING_HELPER = eINSTANCE.getMappingHelper();
+
+    /**
+     * The meta object literal for the '<em><b>Mapper</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MAPPING_HELPER__MAPPER = eINSTANCE.getMappingHelper_Mapper();
+
+    /**
+     * The meta object literal for the '<em><b>Helped Object</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MAPPING_HELPER__HELPED_OBJECT = eINSTANCE.getMappingHelper_HelpedObject();
+
+    /**
+     * The meta object literal for the '<em><b>Nested In</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MAPPING_HELPER__NESTED_IN = eINSTANCE.getMappingHelper_NestedIn();
+
+    /**
+     * The meta object literal for the '<em><b>Nested</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MAPPING_HELPER__NESTED = eINSTANCE.getMappingHelper_Nested();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.impl.MappingImpl <em>Mapping</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.impl.MappingImpl
+     * @see org.eclipse.emf.mapping.impl.MappingPackageImpl#getMapping()
+     * @generated
+     */
+    EClass MAPPING = eINSTANCE.getMapping();
+
+    /**
+     * The meta object literal for the '<em><b>Helper</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MAPPING__HELPER = eINSTANCE.getMapping_Helper();
+
+    /**
+     * The meta object literal for the '<em><b>Nested</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MAPPING__NESTED = eINSTANCE.getMapping_Nested();
+
+    /**
+     * The meta object literal for the '<em><b>Nested In</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MAPPING__NESTED_IN = eINSTANCE.getMapping_NestedIn();
+
+    /**
+     * The meta object literal for the '<em><b>Inputs</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MAPPING__INPUTS = eINSTANCE.getMapping_Inputs();
+
+    /**
+     * The meta object literal for the '<em><b>Outputs</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MAPPING__OUTPUTS = eINSTANCE.getMapping_Outputs();
+
+    /**
+     * The meta object literal for the '<em><b>Type Mapping</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference MAPPING__TYPE_MAPPING = eINSTANCE.getMapping_TypeMapping();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.impl.TypeConverterImpl <em>Type Converter</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.impl.TypeConverterImpl
+     * @see org.eclipse.emf.mapping.impl.MappingPackageImpl#getTypeConverter()
+     * @generated
+     */
+    EClass TYPE_CONVERTER = eINSTANCE.getTypeConverter();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.impl.FunctionPairImpl <em>Function Pair</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.impl.FunctionPairImpl
+     * @see org.eclipse.emf.mapping.impl.MappingPackageImpl#getFunctionPair()
+     * @generated
+     */
+    EClass FUNCTION_PAIR = eINSTANCE.getFunctionPair();
+
+    /**
+     * The meta object literal for the '<em><b>In2out</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference FUNCTION_PAIR__IN2OUT = eINSTANCE.getFunctionPair_In2out();
+
+    /**
+     * The meta object literal for the '<em><b>Out2in</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference FUNCTION_PAIR__OUT2IN = eINSTANCE.getFunctionPair_Out2in();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.impl.FunctionNamePairImpl <em>Function Name Pair</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.impl.FunctionNamePairImpl
+     * @see org.eclipse.emf.mapping.impl.MappingPackageImpl#getFunctionNamePair()
+     * @generated
+     */
+    EClass FUNCTION_NAME_PAIR = eINSTANCE.getFunctionNamePair();
+
+    /**
+     * The meta object literal for the '<em><b>In2out</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FUNCTION_NAME_PAIR__IN2OUT = eINSTANCE.getFunctionNamePair_In2out();
+
+    /**
+     * The meta object literal for the '<em><b>Out2in</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FUNCTION_NAME_PAIR__OUT2IN = eINSTANCE.getFunctionNamePair_Out2in();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.impl.MappingStrategyImpl <em>Strategy</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.impl.MappingStrategyImpl
+     * @see org.eclipse.emf.mapping.impl.MappingPackageImpl#getMappingStrategy()
+     * @generated
+     */
+    EClass MAPPING_STRATEGY = eINSTANCE.getMappingStrategy();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.impl.MappingRootImpl <em>Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.impl.MappingRootImpl
+     * @see org.eclipse.emf.mapping.impl.MappingPackageImpl#getMappingRoot()
+     * @generated
+     */
+    EClass MAPPING_ROOT = eINSTANCE.getMappingRoot();
+
+    /**
+     * The meta object literal for the '<em><b>Output Read Only</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MAPPING_ROOT__OUTPUT_READ_ONLY = eINSTANCE.getMappingRoot_OutputReadOnly();
+
+    /**
+     * The meta object literal for the '<em><b>Top To Bottom</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MAPPING_ROOT__TOP_TO_BOTTOM = eINSTANCE.getMappingRoot_TopToBottom();
+
+    /**
+     * The meta object literal for the '<em><b>Command Stack</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute MAPPING_ROOT__COMMAND_STACK = eINSTANCE.getMappingRoot_CommandStack();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.impl.ComplexTypeConverterImpl <em>Complex Type Converter</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.impl.ComplexTypeConverterImpl
+     * @see org.eclipse.emf.mapping.impl.MappingPackageImpl#getComplexTypeConverter()
+     * @generated
+     */
+    EClass COMPLEX_TYPE_CONVERTER = eINSTANCE.getComplexTypeConverter();
+
+    /**
+     * The meta object literal for the '<em><b>In2out</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference COMPLEX_TYPE_CONVERTER__IN2OUT = eINSTANCE.getComplexTypeConverter_In2out();
+
+    /**
+     * The meta object literal for the '<em><b>Out2in</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference COMPLEX_TYPE_CONVERTER__OUT2IN = eINSTANCE.getComplexTypeConverter_Out2in();
+
+  }
 
 } //MappingPackage
 

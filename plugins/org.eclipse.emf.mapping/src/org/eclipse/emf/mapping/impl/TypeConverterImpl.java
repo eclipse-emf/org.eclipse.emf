@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypeConverterImpl.java,v 1.4 2005/11/08 14:18:51 emerks Exp $
+ * $Id: TypeConverterImpl.java,v 1.5 2005/11/23 18:10:08 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -50,7 +50,7 @@ public class TypeConverterImpl extends MappingHelperImpl implements TypeConverte
    */
   protected EClass eStaticClass()
   {
-    return MappingPackage.eINSTANCE.getTypeConverter();
+    return MappingPackage.Literals.TYPE_CONVERTER;
   }
 
 } //TypeConverterImpl

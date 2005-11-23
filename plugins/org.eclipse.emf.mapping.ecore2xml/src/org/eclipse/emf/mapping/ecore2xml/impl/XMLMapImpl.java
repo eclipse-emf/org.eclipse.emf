@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapImpl.java,v 1.4 2005/11/23 13:57:11 emerks Exp $
+ * $Id: XMLMapImpl.java,v 1.5 2005/11/23 18:09:44 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -95,7 +95,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    */
   protected EClass eStaticClass()
   {
-    return Ecore2XMLPackage.eINSTANCE.getXMLMap();
+    return Ecore2XMLPackage.Literals.XML_MAP;
   }
 
   /**
@@ -130,7 +130,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   {
     if (ecoreToXMLInfo == null)
     {
-      ecoreToXMLInfo = new EcoreEMap(Ecore2XMLPackage.eINSTANCE.getENamedElementToXMLInfoMapEntry(), ENamedElementToXMLInfoMapEntryImpl.class, this, Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO);
+      ecoreToXMLInfo = new EcoreEMap(Ecore2XMLPackage.Literals.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY, ENamedElementToXMLInfoMapEntryImpl.class, this, Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO);
     }
     return ecoreToXMLInfo;
   }

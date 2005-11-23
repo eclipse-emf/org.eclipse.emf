@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameterItemProvider.java,v 1.4 2005/06/08 06:21:29 nickb Exp $
+ * $Id: JParameterItemProvider.java,v 1.5 2005/11/23 18:10:05 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -89,7 +89,7 @@ public class JParameterItemProvider
          getResourceLocator(),
          getString("_UI_JParameter_final_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JParameter_final_feature", "_UI_JParameter_type"),
-         JavaPackage.eINSTANCE.getJParameter_Final(),
+         JavaPackage.Literals.JPARAMETER__FINAL,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -110,7 +110,7 @@ public class JParameterItemProvider
          getResourceLocator(),
          getString("_UI_JParameter_method_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JParameter_method_feature", "_UI_JParameter_type"),
-         JavaPackage.eINSTANCE.getJParameter_Method(),
+         JavaPackage.Literals.JPARAMETER__METHOD,
          true,
          null,
          null,
@@ -131,7 +131,7 @@ public class JParameterItemProvider
          getResourceLocator(),
          getString("_UI_JParameter_type_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_JParameter_type_feature", "_UI_JParameter_type"),
-         JavaPackage.eINSTANCE.getJParameter_Type(),
+         JavaPackage.Literals.JPARAMETER__TYPE,
          true,
          null,
          null,

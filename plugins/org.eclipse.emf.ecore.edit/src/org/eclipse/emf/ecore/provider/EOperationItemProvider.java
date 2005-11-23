@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationItemProvider.java,v 1.8 2005/09/06 23:01:28 davidms Exp $
+ * $Id: EOperationItemProvider.java,v 1.9 2005/11/23 18:10:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -91,7 +91,7 @@ public class EOperationItemProvider
          getResourceLocator(),
          getString("_UI_EOperation_eExceptions_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EOperation_eExceptions_feature", "_UI_EOperation_type"),
-         EcorePackage.eINSTANCE.getEOperation_EExceptions(),
+         EcorePackage.Literals.EOPERATION__EEXCEPTIONS,
          true,
          null,
          null,
@@ -111,7 +111,7 @@ public class EOperationItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(EcorePackage.eINSTANCE.getEOperation_EParameters());
+      childrenFeatures.add(EcorePackage.Literals.EOPERATION__EPARAMETERS);
     }
     return childrenFeatures;
   }
@@ -210,7 +210,7 @@ public class EOperationItemProvider
 
     newChildDescriptors.add
       (createChildParameter
-        (EcorePackage.eINSTANCE.getEOperation_EParameters(),
+        (EcorePackage.Literals.EOPERATION__EPARAMETERS,
          EcoreFactory.eINSTANCE.createEParameter()));
   }
 
