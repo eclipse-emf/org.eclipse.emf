@@ -12,23 +12,22 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.6 2005/10/07 19:43:33 emerks Exp $
+ * $Id: XSDImporter.java,v 1.7 2005/11/23 19:07:04 emerks Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -97,15 +96,15 @@ public class XSDImporter extends ModelImporter
     return mappingRoot;
   }
 
-  protected IStatus doComputeEPackages(IProgressMonitor progressMonitor) throws Exception
+  protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
-    IStatus xsdStatus = null;
+    BasicDiagnostic basicDiagnostic = null;
 
     List locationURIs = getModelLocationURIs();
     if (locationURIs.isEmpty())
     {
-      xsdStatus = new Status(
-        IStatus.ERROR,
+      basicDiagnostic = new BasicDiagnostic(
+        Diagnostic.ERROR,
         ImporterPlugin.ID,
         ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
         XSDImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidXMLSchema_message"),
@@ -113,8 +112,8 @@ public class XSDImporter extends ModelImporter
     }
     else
     {
-      progressMonitor.beginTask("", 2);
-      progressMonitor.subTask(XSDImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ locationURIs }));
+      monitor.beginTask("", 2);
+      monitor.subTask(XSDImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ locationURIs }));
 
       XSDEcoreBuilder ecoreBuilder = new XSDEcoreBuilder();
       if (createEcoreMap())
@@ -129,7 +128,7 @@ public class XSDImporter extends ModelImporter
         List diagnostics = (List)lastElement;
         if (!diagnostics.isEmpty())
         {
-          MultiStatus status = new MultiStatus(
+          BasicDiagnostic diagnostic = new BasicDiagnostic(
             ImporterPlugin.ID,
             ImporterUtil.ACTION_MESSAGE_NONE,
             XSDImporterPlugin.INSTANCE.getString("_UI_ErrorsWereDetectedXMLSchema_message"),
@@ -138,14 +137,14 @@ public class XSDImporter extends ModelImporter
           for (Iterator i = diagnostics.iterator(); i.hasNext();)
           {
             List information = (List)i.next();
-            status.add(new Status(
-              "error".equals(information.get(0)) ? IStatus.ERROR : "warning".equals(information.get(0)) ? IStatus.WARNING : IStatus.INFO,
+            diagnostic.add(new BasicDiagnostic(
+              "error".equals(information.get(0)) ? Diagnostic.ERROR : "warning".equals(information.get(0)) ? Diagnostic.WARNING : Diagnostic.INFO,
               XSDImporterPlugin.getPlugin().getBundle().getSymbolicName(),
               0,
               (String)information.get(1),
               null));
           }
-          xsdStatus = status;
+          basicDiagnostic = diagnostic;
         }
 
         lastElement = removeNonEPackageFromTheEnd(result);
@@ -159,13 +158,13 @@ public class XSDImporter extends ModelImporter
       getEPackages().addAll(result);
     }
 
-    if (xsdStatus == null)
+    if (basicDiagnostic == null)
     {
-      return Status.OK_STATUS;
+      return Diagnostic.OK_INSTANCE;
     }
     else
     {
-      return xsdStatus;
+      return basicDiagnostic;
     }
   }
 
@@ -187,9 +186,9 @@ public class XSDImporter extends ModelImporter
     genPackage.setResource(GenResourceKind.XML_LITERAL);
   }
 
-  protected void adjustGenModel(IProgressMonitor progressMonitor)
+  protected void adjustGenModel(Monitor monitor)
   {
-    super.adjustGenModel(progressMonitor);
+    super.adjustGenModel(monitor);
 
     IPath genModelFileFullPath = getGenModelPath();
     URI genModelURI = createFileURI(genModelFileFullPath.toString());
@@ -218,7 +217,7 @@ public class XSDImporter extends ModelImporter
     return resources;
   }
 
-  protected void loadOriginalGenModel(URI genModelURI) throws CoreException
+  protected void loadOriginalGenModel(URI genModelURI) throws DiagnosticException
   {
     super.loadOriginalGenModel(genModelURI);
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterApplication.java,v 1.7 2005/06/08 06:21:26 nickb Exp $
+ * $Id: XSDImporterApplication.java,v 1.8 2005/11/23 19:07:04 emerks Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -25,10 +25,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
 
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -182,29 +182,29 @@ public class XSDImporterApplication extends ModelImporterApplication
     return "##local".equals(nsURI) ? null : nsURI;
   }
 
-  protected void adjustModelImporter(IProgressMonitor progressMonitor)
+  protected void adjustModelImporter(Monitor monitor)
   {
     try
     {
-      progressMonitor.beginTask("", 2);
+      monitor.beginTask("", 2);
 
-      super.adjustModelImporter(new SubProgressMonitor(progressMonitor, 1));
+      super.adjustModelImporter(CodeGenUtil.createMonitor(monitor, 1));
       handleGenModelPath(genModelFullPath);
       getModelImporter().setModelLocation(xsdModelURIs);
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
 
-  protected void adjustEPackages(IProgressMonitor progressMonitor)
+  protected void adjustEPackages(Monitor monitor)
   {
     try
     {
-      progressMonitor.beginTask("", 2);
+      monitor.beginTask("", 2);
 
-      super.adjustEPackages(new SubProgressMonitor(progressMonitor, 1));
+      super.adjustEPackages(CodeGenUtil.createMonitor(monitor, 1));
 
       for (Iterator i = getModelImporter().getEPackages().iterator(); i.hasNext();)
       {
@@ -225,11 +225,11 @@ public class XSDImporterApplication extends ModelImporterApplication
         handleEPackage(ePackage, isNotReferencedEPackage);
       }
       
-      getModelImporter().adjustEPackages(new SubProgressMonitor(progressMonitor, 1));
+      getModelImporter().adjustEPackages(CodeGenUtil.createMonitor(monitor, 1));
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
 }
