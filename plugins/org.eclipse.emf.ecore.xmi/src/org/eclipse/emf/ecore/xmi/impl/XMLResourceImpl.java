@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.12 2005/11/23 14:13:50 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.13 2005/11/23 14:17:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -423,7 +423,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   
   protected boolean isAttachedDetachedHelperRequired()
   {
-    return useIDs() && (idToEObjectMap != null || eObjectToIDMap != null) || super.isAttachedDetachedHelperRequired();
+    return useIDs() && (useUUIDs() || idToEObjectMap != null || eObjectToIDMap != null) || super.isAttachedDetachedHelperRequired();
   }
 
   protected void attachedHelper(EObject eObject)
