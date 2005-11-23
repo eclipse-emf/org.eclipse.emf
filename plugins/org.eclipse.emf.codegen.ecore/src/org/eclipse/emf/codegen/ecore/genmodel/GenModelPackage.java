@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.25 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenModelPackage.java,v 1.26 2005/11/23 17:30:54 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -2391,5 +2391,917 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   GenModelFactory getGenModelFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl <em>Gen Model</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenModel()
+     * @generated
+     */
+    EClass GEN_MODEL = eINSTANCE.getGenModel();
+
+    /**
+     * The meta object literal for the '<em><b>Copyright Text</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__COPYRIGHT_TEXT = eINSTANCE.getGenModel_CopyrightText();
+
+    /**
+     * The meta object literal for the '<em><b>Model Directory</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__MODEL_DIRECTORY = eINSTANCE.getGenModel_ModelDirectory();
+
+    /**
+     * The meta object literal for the '<em><b>Creation Commands</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__CREATION_COMMANDS = eINSTANCE.getGenModel_CreationCommands();
+
+    /**
+     * The meta object literal for the '<em><b>Creation Icons</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__CREATION_ICONS = eINSTANCE.getGenModel_CreationIcons();
+
+    /**
+     * The meta object literal for the '<em><b>Edit Directory</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__EDIT_DIRECTORY = eINSTANCE.getGenModel_EditDirectory();
+
+    /**
+     * The meta object literal for the '<em><b>Editor Directory</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__EDITOR_DIRECTORY = eINSTANCE.getGenModel_EditorDirectory();
+
+    /**
+     * The meta object literal for the '<em><b>Model Plugin ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__MODEL_PLUGIN_ID = eINSTANCE.getGenModel_ModelPluginID();
+
+    /**
+     * The meta object literal for the '<em><b>Template Directory</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__TEMPLATE_DIRECTORY = eINSTANCE.getGenModel_TemplateDirectory();
+
+    /**
+     * The meta object literal for the '<em><b>Runtime Jar</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__RUNTIME_JAR = eINSTANCE.getGenModel_RuntimeJar();
+
+    /**
+     * The meta object literal for the '<em><b>Foreign Model</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__FOREIGN_MODEL = eINSTANCE.getGenModel_ForeignModel();
+
+    /**
+     * The meta object literal for the '<em><b>Dynamic Templates</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__DYNAMIC_TEMPLATES = eINSTANCE.getGenModel_DynamicTemplates();
+
+    /**
+     * The meta object literal for the '<em><b>Redirection</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__REDIRECTION = eINSTANCE.getGenModel_Redirection();
+
+    /**
+     * The meta object literal for the '<em><b>Force Overwrite</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__FORCE_OVERWRITE = eINSTANCE.getGenModel_ForceOverwrite();
+
+    /**
+     * The meta object literal for the '<em><b>Non Externalized String Tag</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__NON_EXTERNALIZED_STRING_TAG = eINSTANCE.getGenModel_NonExternalizedStringTag();
+
+    /**
+     * The meta object literal for the '<em><b>Model Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__MODEL_NAME = eINSTANCE.getGenModel_ModelName();
+
+    /**
+     * The meta object literal for the '<em><b>Model Plugin Class</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__MODEL_PLUGIN_CLASS = eINSTANCE.getGenModel_ModelPluginClass();
+
+    /**
+     * The meta object literal for the '<em><b>Edit Plugin Class</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__EDIT_PLUGIN_CLASS = eINSTANCE.getGenModel_EditPluginClass();
+
+    /**
+     * The meta object literal for the '<em><b>Editor Plugin Class</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__EDITOR_PLUGIN_CLASS = eINSTANCE.getGenModel_EditorPluginClass();
+
+    /**
+     * The meta object literal for the '<em><b>Update Classpath</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__UPDATE_CLASSPATH = eINSTANCE.getGenModel_UpdateClasspath();
+
+    /**
+     * The meta object literal for the '<em><b>Generate Schema</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__GENERATE_SCHEMA = eINSTANCE.getGenModel_GenerateSchema();
+
+    /**
+     * The meta object literal for the '<em><b>Non NLS Markers</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__NON_NLS_MARKERS = eINSTANCE.getGenModel_NonNLSMarkers();
+
+    /**
+     * The meta object literal for the '<em><b>Static Packages</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__STATIC_PACKAGES = eINSTANCE.getGenModel_StaticPackages();
+
+    /**
+     * The meta object literal for the '<em><b>Model Plugin Variables</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__MODEL_PLUGIN_VARIABLES = eINSTANCE.getGenModel_ModelPluginVariables();
+
+    /**
+     * The meta object literal for the '<em><b>Root Extends Interface</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__ROOT_EXTENDS_INTERFACE = eINSTANCE.getGenModel_RootExtendsInterface();
+
+    /**
+     * The meta object literal for the '<em><b>Root Extends Class</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__ROOT_EXTENDS_CLASS = eINSTANCE.getGenModel_RootExtendsClass();
+
+    /**
+     * The meta object literal for the '<em><b>Root Implements Interface</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__ROOT_IMPLEMENTS_INTERFACE = eINSTANCE.getGenModel_RootImplementsInterface();
+
+    /**
+     * The meta object literal for the '<em><b>Suppress EMF Types</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__SUPPRESS_EMF_TYPES = eINSTANCE.getGenModel_SuppressEMFTypes();
+
+    /**
+     * The meta object literal for the '<em><b>Feature Map Wrapper Interface</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE = eINSTANCE.getGenModel_FeatureMapWrapperInterface();
+
+    /**
+     * The meta object literal for the '<em><b>Feature Map Wrapper Internal Interface</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE = eINSTANCE.getGenModel_FeatureMapWrapperInternalInterface();
+
+    /**
+     * The meta object literal for the '<em><b>Feature Map Wrapper Class</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS = eINSTANCE.getGenModel_FeatureMapWrapperClass();
+
+    /**
+     * The meta object literal for the '<em><b>Runtime Compatibility</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__RUNTIME_COMPATIBILITY = eINSTANCE.getGenModel_RuntimeCompatibility();
+
+    /**
+     * The meta object literal for the '<em><b>Rich Client Platform</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__RICH_CLIENT_PLATFORM = eINSTANCE.getGenModel_RichClientPlatform();
+
+    /**
+     * The meta object literal for the '<em><b>Reflective Delegation</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__REFLECTIVE_DELEGATION = eINSTANCE.getGenModel_ReflectiveDelegation();
+
+    /**
+     * The meta object literal for the '<em><b>Code Formatting</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__CODE_FORMATTING = eINSTANCE.getGenModel_CodeFormatting();
+
+    /**
+     * The meta object literal for the '<em><b>Tests Directory</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__TESTS_DIRECTORY = eINSTANCE.getGenModel_TestsDirectory();
+
+    /**
+     * The meta object literal for the '<em><b>Test Suite Class</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__TEST_SUITE_CLASS = eINSTANCE.getGenModel_TestSuiteClass();
+
+    /**
+     * The meta object literal for the '<em><b>Boolean Flags Field</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__BOOLEAN_FLAGS_FIELD = eINSTANCE.getGenModel_BooleanFlagsField();
+
+    /**
+     * The meta object literal for the '<em><b>Boolean Flags Reserved Bits</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS = eINSTANCE.getGenModel_BooleanFlagsReservedBits();
+
+    /**
+     * The meta object literal for the '<em><b>Importer ID</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__IMPORTER_ID = eINSTANCE.getGenModel_ImporterID();
+
+    /**
+     * The meta object literal for the '<em><b>Bundle Manifest</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__BUNDLE_MANIFEST = eINSTANCE.getGenModel_BundleManifest();
+
+    /**
+     * The meta object literal for the '<em><b>Feature Delegation</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__FEATURE_DELEGATION = eINSTANCE.getGenModel_FeatureDelegation();
+
+    /**
+     * The meta object literal for the '<em><b>Containment Proxies</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__CONTAINMENT_PROXIES = eINSTANCE.getGenModel_ContainmentProxies();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_MODEL__GEN_PACKAGES = eINSTANCE.getGenModel_GenPackages();
+
+    /**
+     * The meta object literal for the '<em><b>Used Gen Packages</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_MODEL__USED_GEN_PACKAGES = eINSTANCE.getGenModel_UsedGenPackages();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenPackage()
+     * @generated
+     */
+    EClass GEN_PACKAGE = eINSTANCE.getGenPackage();
+
+    /**
+     * The meta object literal for the '<em><b>Prefix</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__PREFIX = eINSTANCE.getGenPackage_Prefix();
+
+    /**
+     * The meta object literal for the '<em><b>Base Package</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__BASE_PACKAGE = eINSTANCE.getGenPackage_BasePackage();
+
+    /**
+     * The meta object literal for the '<em><b>Resource</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__RESOURCE = eINSTANCE.getGenPackage_Resource();
+
+    /**
+     * The meta object literal for the '<em><b>Disposable Provider Factory</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY = eINSTANCE.getGenPackage_DisposableProviderFactory();
+
+    /**
+     * The meta object literal for the '<em><b>Adapter Factory</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__ADAPTER_FACTORY = eINSTANCE.getGenPackage_AdapterFactory();
+
+    /**
+     * The meta object literal for the '<em><b>Load Initialization</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__LOAD_INITIALIZATION = eINSTANCE.getGenPackage_LoadInitialization();
+
+    /**
+     * The meta object literal for the '<em><b>Interface Package Suffix</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX = eINSTANCE.getGenPackage_InterfacePackageSuffix();
+
+    /**
+     * The meta object literal for the '<em><b>Reflection Package Suffix</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX = eINSTANCE.getGenPackage_ReflectionPackageSuffix();
+
+    /**
+     * The meta object literal for the '<em><b>Class Package Suffix</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__CLASS_PACKAGE_SUFFIX = eINSTANCE.getGenPackage_ClassPackageSuffix();
+
+    /**
+     * The meta object literal for the '<em><b>Utility Package Suffix</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX = eINSTANCE.getGenPackage_UtilityPackageSuffix();
+
+    /**
+     * The meta object literal for the '<em><b>Provider Package Suffix</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX = eINSTANCE.getGenPackage_ProviderPackageSuffix();
+
+    /**
+     * The meta object literal for the '<em><b>Presentation Package Suffix</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX = eINSTANCE.getGenPackage_PresentationPackageSuffix();
+
+    /**
+     * The meta object literal for the '<em><b>Tests Package Suffix</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__TESTS_PACKAGE_SUFFIX = eINSTANCE.getGenPackage_TestsPackageSuffix();
+
+    /**
+     * The meta object literal for the '<em><b>Generate Example Class</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__GENERATE_EXAMPLE_CLASS = eINSTANCE.getGenPackage_GenerateExampleClass();
+
+    /**
+     * The meta object literal for the '<em><b>Literals Interface</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__LITERALS_INTERFACE = eINSTANCE.getGenPackage_LiteralsInterface();
+
+    /**
+     * The meta object literal for the '<em><b>Ecore Package</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_PACKAGE__ECORE_PACKAGE = eINSTANCE.getGenPackage_EcorePackage();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Model</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_PACKAGE__GEN_MODEL = eINSTANCE.getGenPackage_GenModel();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Enums</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_PACKAGE__GEN_ENUMS = eINSTANCE.getGenPackage_GenEnums();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Data Types</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_PACKAGE__GEN_DATA_TYPES = eINSTANCE.getGenPackage_GenDataTypes();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Classes</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_PACKAGE__GEN_CLASSES = eINSTANCE.getGenPackage_GenClasses();
+
+    /**
+     * The meta object literal for the '<em><b>Nested Gen Packages</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_PACKAGE__NESTED_GEN_PACKAGES = eINSTANCE.getGenPackage_NestedGenPackages();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Classifiers</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_PACKAGE__GEN_CLASSIFIERS = eINSTANCE.getGenPackage_GenClassifiers();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl <em>Gen Class</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenClass()
+     * @generated
+     */
+    EClass GEN_CLASS = eINSTANCE.getGenClass();
+
+    /**
+     * The meta object literal for the '<em><b>Provider</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_CLASS__PROVIDER = eINSTANCE.getGenClass_Provider();
+
+    /**
+     * The meta object literal for the '<em><b>Image</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_CLASS__IMAGE = eINSTANCE.getGenClass_Image();
+
+    /**
+     * The meta object literal for the '<em><b>Ecore Class</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_CLASS__ECORE_CLASS = eINSTANCE.getGenClass_EcoreClass();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Features</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_CLASS__GEN_FEATURES = eINSTANCE.getGenClass_GenFeatures();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Operations</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_CLASS__GEN_OPERATIONS = eINSTANCE.getGenClass_GenOperations();
+
+    /**
+     * The meta object literal for the '<em><b>Label Feature</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_CLASS__LABEL_FEATURE = eINSTANCE.getGenClass_LabelFeature();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl <em>Gen Feature</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenFeature()
+     * @generated
+     */
+    EClass GEN_FEATURE = eINSTANCE.getGenFeature();
+
+    /**
+     * The meta object literal for the '<em><b>Property</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_FEATURE__PROPERTY = eINSTANCE.getGenFeature_Property();
+
+    /**
+     * The meta object literal for the '<em><b>Notify</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_FEATURE__NOTIFY = eINSTANCE.getGenFeature_Notify();
+
+    /**
+     * The meta object literal for the '<em><b>Children</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_FEATURE__CHILDREN = eINSTANCE.getGenFeature_Children();
+
+    /**
+     * The meta object literal for the '<em><b>Create Child</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_FEATURE__CREATE_CHILD = eINSTANCE.getGenFeature_CreateChild();
+
+    /**
+     * The meta object literal for the '<em><b>Property Category</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_FEATURE__PROPERTY_CATEGORY = eINSTANCE.getGenFeature_PropertyCategory();
+
+    /**
+     * The meta object literal for the '<em><b>Property Filter Flags</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_FEATURE__PROPERTY_FILTER_FLAGS = eINSTANCE.getGenFeature_PropertyFilterFlags();
+
+    /**
+     * The meta object literal for the '<em><b>Property Description</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_FEATURE__PROPERTY_DESCRIPTION = eINSTANCE.getGenFeature_PropertyDescription();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Class</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_FEATURE__GEN_CLASS = eINSTANCE.getGenFeature_GenClass();
+
+    /**
+     * The meta object literal for the '<em><b>Ecore Feature</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_FEATURE__ECORE_FEATURE = eINSTANCE.getGenFeature_EcoreFeature();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenBaseImpl <em>Gen Base</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenBaseImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenBase()
+     * @generated
+     */
+    EClass GEN_BASE = eINSTANCE.getGenBase();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumImpl <em>Gen Enum</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenEnum()
+     * @generated
+     */
+    EClass GEN_ENUM = eINSTANCE.getGenEnum();
+
+    /**
+     * The meta object literal for the '<em><b>Ecore Enum</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_ENUM__ECORE_ENUM = eINSTANCE.getGenEnum_EcoreEnum();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Enum Literals</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_ENUM__GEN_ENUM_LITERALS = eINSTANCE.getGenEnum_GenEnumLiterals();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumLiteralImpl <em>Gen Enum Literal</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumLiteralImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenEnumLiteral()
+     * @generated
+     */
+    EClass GEN_ENUM_LITERAL = eINSTANCE.getGenEnumLiteral();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Enum</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_ENUM_LITERAL__GEN_ENUM = eINSTANCE.getGenEnumLiteral_GenEnum();
+
+    /**
+     * The meta object literal for the '<em><b>Ecore Enum Literal</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL = eINSTANCE.getGenEnumLiteral_EcoreEnumLiteral();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl <em>Gen Classifier</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenClassifier()
+     * @generated
+     */
+    EClass GEN_CLASSIFIER = eINSTANCE.getGenClassifier();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Package</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_CLASSIFIER__GEN_PACKAGE = eINSTANCE.getGenClassifier_GenPackage();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl <em>Gen Data Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenDataType()
+     * @generated
+     */
+    EClass GEN_DATA_TYPE = eINSTANCE.getGenDataType();
+
+    /**
+     * The meta object literal for the '<em><b>Ecore Data Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_DATA_TYPE__ECORE_DATA_TYPE = eINSTANCE.getGenDataType_EcoreDataType();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl <em>Gen Operation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenOperationImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenOperation()
+     * @generated
+     */
+    EClass GEN_OPERATION = eINSTANCE.getGenOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Class</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_OPERATION__GEN_CLASS = eINSTANCE.getGenOperation_GenClass();
+
+    /**
+     * The meta object literal for the '<em><b>Ecore Operation</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_OPERATION__ECORE_OPERATION = eINSTANCE.getGenOperation_EcoreOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Parameters</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_OPERATION__GEN_PARAMETERS = eINSTANCE.getGenOperation_GenParameters();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl <em>Gen Parameter</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenParameter()
+     * @generated
+     */
+    EClass GEN_PARAMETER = eINSTANCE.getGenParameter();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Operation</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_PARAMETER__GEN_OPERATION = eINSTANCE.getGenParameter_GenOperation();
+
+    /**
+     * The meta object literal for the '<em><b>Ecore Parameter</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_PARAMETER__ECORE_PARAMETER = eINSTANCE.getGenParameter_EcoreParameter();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypedElementImpl <em>Gen Typed Element</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypedElementImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenTypedElement()
+     * @generated
+     */
+    EClass GEN_TYPED_ELEMENT = eINSTANCE.getGenTypedElement();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenProviderKind()
+     * @generated
+     */
+    EEnum GEN_PROVIDER_KIND = eINSTANCE.getGenProviderKind();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind <em>Gen Property Kind</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenPropertyKind()
+     * @generated
+     */
+    EEnum GEN_PROPERTY_KIND = eINSTANCE.getGenPropertyKind();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind <em>Gen Resource Kind</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenResourceKind()
+     * @generated
+     */
+    EEnum GEN_RESOURCE_KIND = eINSTANCE.getGenResourceKind();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind <em>Gen Delegation Kind</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenDelegationKind()
+     * @generated
+     */
+    EEnum GEN_DELEGATION_KIND = eINSTANCE.getGenDelegationKind();
+
+  }
 
 } //GenModelPackage

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.8 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenEnumImpl.java,v 1.9 2005/11/23 17:30:53 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -99,7 +99,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    */
   protected EClass eStaticClass()
   {
-    return GenModelPackage.eINSTANCE.getGenEnum();
+    return GenModelPackage.Literals.GEN_ENUM;
   }
 
   /**

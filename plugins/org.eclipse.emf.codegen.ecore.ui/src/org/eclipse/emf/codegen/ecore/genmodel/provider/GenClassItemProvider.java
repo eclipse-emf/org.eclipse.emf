@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.10 2005/06/08 06:17:51 nickb Exp $
+ * $Id: GenClassItemProvider.java,v 1.11 2005/11/23 17:31:02 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -98,7 +98,7 @@ public class GenClassItemProvider
          getResourceLocator(),
          getString("_UI_GenClass_provider_feature"),
          getString("_UI_GenClass_provider_description"),
-         GenModelPackage.eINSTANCE.getGenClass_Provider(),
+         GenModelPackage.Literals.GEN_CLASS__PROVIDER,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
@@ -119,7 +119,7 @@ public class GenClassItemProvider
          getResourceLocator(),
          getString("_UI_GenClass_image_feature"),
          getString("_UI_GenClass_image_description"),
-         GenModelPackage.eINSTANCE.getGenClass_Image(),
+         GenModelPackage.Literals.GEN_CLASS__IMAGE,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
@@ -140,7 +140,7 @@ public class GenClassItemProvider
          getResourceLocator(),
          getString("_UI_GenClass_ecoreClass_feature"),
          getString("_UI_GenClass_ecoreClass_description"),
-         GenModelPackage.eINSTANCE.getGenClass_EcoreClass(),
+         GenModelPackage.Literals.GEN_CLASS__ECORE_CLASS,
          false,
          null,
          getString("_UI_EcorePropertyCategory"),
@@ -182,8 +182,8 @@ public class GenClassItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(GenModelPackage.eINSTANCE.getGenClass_GenFeatures());
-      childrenFeatures.add(GenModelPackage.eINSTANCE.getGenClass_GenOperations());
+      childrenFeatures.add(GenModelPackage.Literals.GEN_CLASS__GEN_FEATURES);
+      childrenFeatures.add(GenModelPackage.Literals.GEN_CLASS__GEN_OPERATIONS);
     }
     return childrenFeatures;
   }

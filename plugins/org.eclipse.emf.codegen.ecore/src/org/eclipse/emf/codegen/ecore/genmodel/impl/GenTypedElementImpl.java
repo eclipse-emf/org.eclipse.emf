@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.5 2005/11/23 13:32:11 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.6 2005/11/23 17:30:54 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -49,7 +49,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
    */
   protected EClass eStaticClass()
   {
-    return GenModelPackage.eINSTANCE.getGenTypedElement();
+    return GenModelPackage.Literals.GEN_TYPED_ELEMENT;
   }
 
   public abstract ETypedElement getEcoreTypedElement();

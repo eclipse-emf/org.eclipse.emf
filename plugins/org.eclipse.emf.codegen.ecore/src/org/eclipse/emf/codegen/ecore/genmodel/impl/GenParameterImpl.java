@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.8 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenParameterImpl.java,v 1.9 2005/11/23 17:30:53 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -78,7 +78,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    */
   protected EClass eStaticClass()
   {
-    return GenModelPackage.eINSTANCE.getGenParameter();
+    return GenModelPackage.Literals.GEN_PARAMETER;
   }
 
   /**

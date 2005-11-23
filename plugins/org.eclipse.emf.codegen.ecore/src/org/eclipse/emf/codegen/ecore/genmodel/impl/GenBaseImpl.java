@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.34 2005/11/18 12:07:49 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.35 2005/11/23 17:30:53 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -130,7 +130,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected EClass eStaticClass()
   {
-    return GenModelPackage.eINSTANCE.getGenBase();
+    return GenModelPackage.Literals.GEN_BASE;
   }
 
   public GenModel getGenModel()

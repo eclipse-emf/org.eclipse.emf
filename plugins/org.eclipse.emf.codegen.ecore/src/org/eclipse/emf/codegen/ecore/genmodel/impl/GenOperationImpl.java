@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.19 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenOperationImpl.java,v 1.20 2005/11/23 17:30:54 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -101,7 +101,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    */
   protected EClass eStaticClass()
   {
-    return GenModelPackage.eINSTANCE.getGenOperation();
+    return GenModelPackage.Literals.GEN_OPERATION;
   }
 
   /**

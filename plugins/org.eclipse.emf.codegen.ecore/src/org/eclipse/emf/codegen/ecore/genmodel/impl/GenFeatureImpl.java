@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.27 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenFeatureImpl.java,v 1.28 2005/11/23 17:30:53 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -243,7 +243,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    */
   protected EClass eStaticClass()
   {
-    return GenModelPackage.eINSTANCE.getGenFeature();
+    return GenModelPackage.Literals.GEN_FEATURE;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.13 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenDataTypeImpl.java,v 1.14 2005/11/23 17:30:53 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -80,7 +80,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    */
   protected EClass eStaticClass()
   {
-    return GenModelPackage.eINSTANCE.getGenDataType();
+    return GenModelPackage.Literals.GEN_DATA_TYPE;
   }
 
   /**

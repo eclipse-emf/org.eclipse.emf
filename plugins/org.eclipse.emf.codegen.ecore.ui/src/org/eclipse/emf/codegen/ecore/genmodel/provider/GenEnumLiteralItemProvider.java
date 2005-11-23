@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralItemProvider.java,v 1.8 2005/06/08 06:17:51 nickb Exp $
+ * $Id: GenEnumLiteralItemProvider.java,v 1.9 2005/11/23 17:31:02 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -89,7 +89,7 @@ public class GenEnumLiteralItemProvider
          getResourceLocator(),
          getString("_UI_GenEnumLiteral_ecoreEnumLiteral_feature"),
          getString("_UI_GenEnumLiteral_ecoreEnumLiteral_description"),
-         GenModelPackage.eINSTANCE.getGenEnumLiteral_EcoreEnumLiteral(),
+         GenModelPackage.Literals.GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL,
          false,
          null,
          getString("_UI_EcorePropertyCategory"),

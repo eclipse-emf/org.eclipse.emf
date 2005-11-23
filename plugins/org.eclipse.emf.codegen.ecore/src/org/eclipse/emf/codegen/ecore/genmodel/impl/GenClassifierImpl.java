@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.7 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenClassifierImpl.java,v 1.8 2005/11/23 17:30:54 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -61,7 +61,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    */
   protected EClass eStaticClass()
   {
-    return GenModelPackage.eINSTANCE.getGenClassifier();
+    return GenModelPackage.Literals.GEN_CLASSIFIER;
   }
 
   /**

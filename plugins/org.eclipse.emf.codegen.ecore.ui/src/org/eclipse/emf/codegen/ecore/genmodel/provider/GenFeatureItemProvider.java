@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureItemProvider.java,v 1.11 2005/06/08 06:17:51 nickb Exp $
+ * $Id: GenFeatureItemProvider.java,v 1.12 2005/11/23 17:31:02 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -99,7 +99,7 @@ public class GenFeatureItemProvider
          getResourceLocator(),
          getString("_UI_GenFeature_property_feature"),
          getString("_UI_GenFeature_property_description"),
-         GenModelPackage.eINSTANCE.getGenFeature_Property(),
+         GenModelPackage.Literals.GEN_FEATURE__PROPERTY,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
@@ -120,7 +120,7 @@ public class GenFeatureItemProvider
          getResourceLocator(),
          getString("_UI_GenFeature_notify_feature"),
          getString("_UI_GenFeature_notify_description"),
-         GenModelPackage.eINSTANCE.getGenFeature_Notify(),
+         GenModelPackage.Literals.GEN_FEATURE__NOTIFY,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
@@ -141,7 +141,7 @@ public class GenFeatureItemProvider
          getResourceLocator(),
          getString("_UI_GenFeature_children_feature"),
          getString("_UI_GenFeature_children_description"),
-         GenModelPackage.eINSTANCE.getGenFeature_Children(),
+         GenModelPackage.Literals.GEN_FEATURE__CHILDREN,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
@@ -162,7 +162,7 @@ public class GenFeatureItemProvider
          getResourceLocator(),
          getString("_UI_GenFeature_createChild_feature"),
          getString("_UI_GenFeature_createChild_description"),
-         GenModelPackage.eINSTANCE.getGenFeature_CreateChild(),
+         GenModelPackage.Literals.GEN_FEATURE__CREATE_CHILD,
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
@@ -183,7 +183,7 @@ public class GenFeatureItemProvider
          getResourceLocator(),
          getString("_UI_GenFeature_propertyCategory_feature"),
          getString("_UI_GenFeature_propertyCategory_description"),
-         GenModelPackage.eINSTANCE.getGenFeature_PropertyCategory(),
+         GenModelPackage.Literals.GEN_FEATURE__PROPERTY_CATEGORY,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
@@ -204,7 +204,7 @@ public class GenFeatureItemProvider
          getResourceLocator(),
          getString("_UI_GenFeature_propertyFilterFlags_feature"),
          getString("_UI_GenFeature_propertyFilterFlags_description"),
-         GenModelPackage.eINSTANCE.getGenFeature_PropertyFilterFlags(),
+         GenModelPackage.Literals.GEN_FEATURE__PROPERTY_FILTER_FLAGS,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
@@ -225,7 +225,7 @@ public class GenFeatureItemProvider
          getResourceLocator(),
          getString("_UI_GenFeature_propertyDescription_feature"),
          getString("_UI_GenFeature_propertyDescription_description"),
-         GenModelPackage.eINSTANCE.getGenFeature_PropertyDescription(),
+         GenModelPackage.Literals.GEN_FEATURE__PROPERTY_DESCRIPTION,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
@@ -246,7 +246,7 @@ public class GenFeatureItemProvider
          getResourceLocator(),
          getString("_UI_GenFeature_ecoreFeature_feature"),
          getString("_UI_GenFeature_ecoreFeature_description"),
-         GenModelPackage.eINSTANCE.getGenFeature_EcoreFeature(),
+         GenModelPackage.Literals.GEN_FEATURE__ECORE_FEATURE,
          false,
          null,
          getString("_UI_EcorePropertyCategory"),

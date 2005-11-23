@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.7 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.8 2005/11/23 17:30:53 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -75,7 +75,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    */
   protected EClass eStaticClass()
   {
-    return GenModelPackage.eINSTANCE.getGenEnumLiteral();
+    return GenModelPackage.Literals.GEN_ENUM_LITERAL;
   }
 
   /**
