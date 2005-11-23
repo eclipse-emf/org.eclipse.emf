@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifier.java,v 1.5 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenClassifier.java,v 1.6 2005/11/23 17:11:40 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -62,6 +62,7 @@ public interface GenClassifier extends GenBase {
 
   String getName();
   String getClassifierAccessorName();
+  String getQualifiedClassifierAccessor();
 
   String getSafeUncapName();
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.15 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenFeature.java,v 1.16 2005/11/23 17:11:40 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -322,7 +322,8 @@ public interface GenFeature extends GenTypedElement {
   GenPackage getGenPackage(); // returns the package in which this feature is defined
   String getFeatureAccessorName(); // returns the name of the feature get method in the package interface (e.g. Company_Name)
   String getQualifiedFeatureAccessorName(); // returns the name of the feature get method in the package interface (e.g. Xyz.eINSTANCE.getCompany_Name)
-
+  String getQualifiedFeatureAccessor();
+  
   String getMetaType(); // this returns either "EAttribute" or "EReference"
   String getImportedMetaType();
   String getFeatureKind(); // this returns either "attribute", "attribute list", "reference", or "reference list"

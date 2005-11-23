@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.41 2005/11/18 19:13:25 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.42 2005/11/23 17:11:40 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -107,6 +107,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getPresentationPackageSuffix <em>Presentation Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getTestsPackageSuffix <em>Tests Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isGenerateExampleClass <em>Generate Example Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isLiteralsInterface <em>Literals Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenEnums <em>Gen Enums</em>}</li>
@@ -402,6 +403,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected boolean generateExampleClass = GENERATE_EXAMPLE_CLASS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isLiteralsInterface() <em>Literals Interface</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isLiteralsInterface()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean LITERALS_INTERFACE_EDEFAULT = true;
+
+  /**
+   * The cached value of the '{@link #isLiteralsInterface() <em>Literals Interface</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isLiteralsInterface()
+   * @generated
+   * @ordered
+   */
+  protected boolean literalsInterface = LITERALS_INTERFACE_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getEcorePackage() <em>Ecore Package</em>}' reference.
@@ -817,6 +838,29 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS, oldGenerateExampleClass, generateExampleClass));
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isLiteralsInterface()
+  {
+    return literalsInterface;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setLiteralsInterface(boolean newLiteralsInterface)
+  {
+    boolean oldLiteralsInterface = literalsInterface;
+    literalsInterface = newLiteralsInterface;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE, oldLiteralsInterface, literalsInterface));
+  }
+
   public  EModelElement getEcoreModelElement()
   {
     return getEcorePackage();
@@ -1057,9 +1101,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_PACKAGE__PREFIX:
         return getPrefix();
@@ -1089,6 +1133,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return getTestsPackageSuffix();
       case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
         return isGenerateExampleClass() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
+        return isLiteralsInterface() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         if (resolve) return getEcorePackage();
         return basicGetEcorePackage();
@@ -1105,7 +1151,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__GEN_CLASSIFIERS:
         return getGenClassifiers();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -1113,64 +1159,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case GenModelPackage.GEN_PACKAGE__PREFIX:
-        return PREFIX_EDEFAULT == null ? prefix != null : !PREFIX_EDEFAULT.equals(prefix);
-      case GenModelPackage.GEN_PACKAGE__BASE_PACKAGE:
-        return BASE_PACKAGE_EDEFAULT == null ? basePackage != null : !BASE_PACKAGE_EDEFAULT.equals(basePackage);
-      case GenModelPackage.GEN_PACKAGE__RESOURCE:
-        return resource != RESOURCE_EDEFAULT;
-      case GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY:
-        return disposableProviderFactory != DISPOSABLE_PROVIDER_FACTORY_EDEFAULT;
-      case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
-        return adapterFactory != ADAPTER_FACTORY_EDEFAULT;
-      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
-        return loadInitialization != LOAD_INITIALIZATION_EDEFAULT;
-      case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
-        return INTERFACE_PACKAGE_SUFFIX_EDEFAULT == null ? interfacePackageSuffix != null : !INTERFACE_PACKAGE_SUFFIX_EDEFAULT.equals(interfacePackageSuffix);
-      case GenModelPackage.GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX:
-        return REFLECTION_PACKAGE_SUFFIX_EDEFAULT == null ? reflectionPackageSuffix != null : !REFLECTION_PACKAGE_SUFFIX_EDEFAULT.equals(reflectionPackageSuffix);
-      case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
-        return CLASS_PACKAGE_SUFFIX_EDEFAULT == null ? classPackageSuffix != null : !CLASS_PACKAGE_SUFFIX_EDEFAULT.equals(classPackageSuffix);
-      case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
-        return UTILITY_PACKAGE_SUFFIX_EDEFAULT == null ? utilityPackageSuffix != null : !UTILITY_PACKAGE_SUFFIX_EDEFAULT.equals(utilityPackageSuffix);
-      case GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX:
-        return PROVIDER_PACKAGE_SUFFIX_EDEFAULT == null ? providerPackageSuffix != null : !PROVIDER_PACKAGE_SUFFIX_EDEFAULT.equals(providerPackageSuffix);
-      case GenModelPackage.GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX:
-        return PRESENTATION_PACKAGE_SUFFIX_EDEFAULT == null ? presentationPackageSuffix != null : !PRESENTATION_PACKAGE_SUFFIX_EDEFAULT.equals(presentationPackageSuffix);
-      case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
-        return TESTS_PACKAGE_SUFFIX_EDEFAULT == null ? testsPackageSuffix != null : !TESTS_PACKAGE_SUFFIX_EDEFAULT.equals(testsPackageSuffix);
-      case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
-        return generateExampleClass != GENERATE_EXAMPLE_CLASS_EDEFAULT;
-      case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
-        return ecorePackage != null;
-      case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
-        return getGenModel() != null;
-      case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:
-        return genEnums != null && !genEnums.isEmpty();
-      case GenModelPackage.GEN_PACKAGE__GEN_DATA_TYPES:
-        return genDataTypes != null && !genDataTypes.isEmpty();
-      case GenModelPackage.GEN_PACKAGE__GEN_CLASSES:
-        return genClasses != null && !genClasses.isEmpty();
-      case GenModelPackage.GEN_PACKAGE__NESTED_GEN_PACKAGES:
-        return nestedGenPackages != null && !nestedGenPackages.isEmpty();
-      case GenModelPackage.GEN_PACKAGE__GEN_CLASSIFIERS:
-        return !getGenClassifiers().isEmpty();
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_PACKAGE__PREFIX:
         setPrefix((String)newValue);
@@ -1214,6 +1205,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
         setGenerateExampleClass(((Boolean)newValue).booleanValue());
         return;
+      case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
+        setLiteralsInterface(((Boolean)newValue).booleanValue());
+        return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)newValue);
         return;
@@ -1237,7 +1231,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         getNestedGenPackages().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -1245,9 +1239,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_PACKAGE__PREFIX:
         setPrefix(PREFIX_EDEFAULT);
@@ -1291,6 +1285,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
         setGenerateExampleClass(GENERATE_EXAMPLE_CLASS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
+        setLiteralsInterface(LITERALS_INTERFACE_EDEFAULT);
+        return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)null);
         return;
@@ -1310,7 +1307,64 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         getNestedGenPackages().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_PACKAGE__PREFIX:
+        return PREFIX_EDEFAULT == null ? prefix != null : !PREFIX_EDEFAULT.equals(prefix);
+      case GenModelPackage.GEN_PACKAGE__BASE_PACKAGE:
+        return BASE_PACKAGE_EDEFAULT == null ? basePackage != null : !BASE_PACKAGE_EDEFAULT.equals(basePackage);
+      case GenModelPackage.GEN_PACKAGE__RESOURCE:
+        return resource != RESOURCE_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__DISPOSABLE_PROVIDER_FACTORY:
+        return disposableProviderFactory != DISPOSABLE_PROVIDER_FACTORY_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
+        return adapterFactory != ADAPTER_FACTORY_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
+        return loadInitialization != LOAD_INITIALIZATION_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
+        return INTERFACE_PACKAGE_SUFFIX_EDEFAULT == null ? interfacePackageSuffix != null : !INTERFACE_PACKAGE_SUFFIX_EDEFAULT.equals(interfacePackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX:
+        return REFLECTION_PACKAGE_SUFFIX_EDEFAULT == null ? reflectionPackageSuffix != null : !REFLECTION_PACKAGE_SUFFIX_EDEFAULT.equals(reflectionPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
+        return CLASS_PACKAGE_SUFFIX_EDEFAULT == null ? classPackageSuffix != null : !CLASS_PACKAGE_SUFFIX_EDEFAULT.equals(classPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
+        return UTILITY_PACKAGE_SUFFIX_EDEFAULT == null ? utilityPackageSuffix != null : !UTILITY_PACKAGE_SUFFIX_EDEFAULT.equals(utilityPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX:
+        return PROVIDER_PACKAGE_SUFFIX_EDEFAULT == null ? providerPackageSuffix != null : !PROVIDER_PACKAGE_SUFFIX_EDEFAULT.equals(providerPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX:
+        return PRESENTATION_PACKAGE_SUFFIX_EDEFAULT == null ? presentationPackageSuffix != null : !PRESENTATION_PACKAGE_SUFFIX_EDEFAULT.equals(presentationPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
+        return TESTS_PACKAGE_SUFFIX_EDEFAULT == null ? testsPackageSuffix != null : !TESTS_PACKAGE_SUFFIX_EDEFAULT.equals(testsPackageSuffix);
+      case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
+        return generateExampleClass != GENERATE_EXAMPLE_CLASS_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
+        return literalsInterface != LITERALS_INTERFACE_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
+        return ecorePackage != null;
+      case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
+        return getGenModel() != null;
+      case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:
+        return genEnums != null && !genEnums.isEmpty();
+      case GenModelPackage.GEN_PACKAGE__GEN_DATA_TYPES:
+        return genDataTypes != null && !genDataTypes.isEmpty();
+      case GenModelPackage.GEN_PACKAGE__GEN_CLASSES:
+        return genClasses != null && !genClasses.isEmpty();
+      case GenModelPackage.GEN_PACKAGE__NESTED_GEN_PACKAGES:
+        return nestedGenPackages != null && !nestedGenPackages.isEmpty();
+      case GenModelPackage.GEN_PACKAGE__GEN_CLASSIFIERS:
+        return !getGenClassifiers().isEmpty();
+    }
+    return eDynamicIsSet(featureID);
   }
 
   /**
@@ -1351,6 +1405,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(testsPackageSuffix);
     result.append(", generateExampleClass: ");
     result.append(generateExampleClass);
+    result.append(", literalsInterface: ");
+    result.append(literalsInterface);
     result.append(')');
     return result.toString();
   }
@@ -3230,6 +3286,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     setPresentationPackageSuffix(oldGenPackageVersion.getPresentationPackageSuffix());
     setTestsPackageSuffix(oldGenPackageVersion.getTestsPackageSuffix());
     setGenerateExampleClass(oldGenPackageVersion.isGenerateExampleClass());
+    setLiteralsInterface(oldGenPackageVersion.isLiteralsInterface());
   }
 
   public boolean reconcile()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.26 2005/11/18 19:12:52 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.27 2005/11/23 17:11:40 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -602,9 +602,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_FEATURE__PROPERTY:
         return getProperty();
@@ -626,7 +626,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         if (resolve) return getEcoreFeature();
         return basicGetEcoreFeature();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -634,40 +634,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case GenModelPackage.GEN_FEATURE__PROPERTY:
-        return property != PROPERTY_EDEFAULT;
-      case GenModelPackage.GEN_FEATURE__NOTIFY:
-        return notify != NOTIFY_EDEFAULT;
-      case GenModelPackage.GEN_FEATURE__CHILDREN:
-        return children != CHILDREN_EDEFAULT;
-      case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
-        return isSetCreateChild();
-      case GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY:
-        return PROPERTY_CATEGORY_EDEFAULT == null ? propertyCategory != null : !PROPERTY_CATEGORY_EDEFAULT.equals(propertyCategory);
-      case GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS:
-        return propertyFilterFlags != null && !propertyFilterFlags.isEmpty();
-      case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
-        return PROPERTY_DESCRIPTION_EDEFAULT == null ? propertyDescription != null : !PROPERTY_DESCRIPTION_EDEFAULT.equals(propertyDescription);
-      case GenModelPackage.GEN_FEATURE__GEN_CLASS:
-        return getGenClass() != null;
-      case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
-        return ecoreFeature != null;
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_FEATURE__PROPERTY:
         setProperty((GenPropertyKind)newValue);
@@ -698,7 +667,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         setEcoreFeature((EStructuralFeature)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -706,9 +675,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_FEATURE__PROPERTY:
         setProperty(PROPERTY_EDEFAULT);
@@ -738,7 +707,38 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         setEcoreFeature((EStructuralFeature)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_FEATURE__PROPERTY:
+        return property != PROPERTY_EDEFAULT;
+      case GenModelPackage.GEN_FEATURE__NOTIFY:
+        return notify != NOTIFY_EDEFAULT;
+      case GenModelPackage.GEN_FEATURE__CHILDREN:
+        return children != CHILDREN_EDEFAULT;
+      case GenModelPackage.GEN_FEATURE__CREATE_CHILD:
+        return isSetCreateChild();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY:
+        return PROPERTY_CATEGORY_EDEFAULT == null ? propertyCategory != null : !PROPERTY_CATEGORY_EDEFAULT.equals(propertyCategory);
+      case GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS:
+        return propertyFilterFlags != null && !propertyFilterFlags.isEmpty();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
+        return PROPERTY_DESCRIPTION_EDEFAULT == null ? propertyDescription != null : !PROPERTY_DESCRIPTION_EDEFAULT.equals(propertyDescription);
+      case GenModelPackage.GEN_FEATURE__GEN_CLASS:
+        return getGenClass() != null;
+      case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
+        return ecoreFeature != null;
+    }
+    return eDynamicIsSet(featureID);
   }
 
   /**
@@ -870,6 +870,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   public String getQualifiedFeatureAccessorName()
   {
     return getGenPackage().getImportedPackageInterfaceName() + ".eINSTANCE.get" + getFeatureAccessorName();
+  }
+
+  public String getQualifiedFeatureAccessor()
+  {
+    return getGenPackage().isLiteralsInterface() ? getGenPackage().getImportedPackageInterfaceName() + ".Literals."
+      + getGenClass().getFeatureID(this) : getQualifiedFeatureAccessorName() + "()";
   }
 
   public String getMetaType()

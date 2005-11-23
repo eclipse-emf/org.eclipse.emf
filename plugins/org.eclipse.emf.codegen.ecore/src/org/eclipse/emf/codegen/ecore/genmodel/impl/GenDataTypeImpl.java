@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.12 2005/11/18 19:13:25 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.13 2005/11/23 17:11:40 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -131,9 +131,9 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_DATA_TYPE__GEN_PACKAGE:
         return getGenPackage();
@@ -141,7 +141,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
         if (resolve) return getEcoreDataType();
         return basicGetEcoreDataType();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -149,15 +149,15 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         setEcoreDataType((EDataType)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -165,15 +165,15 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         setEcoreDataType((EDataType)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -181,16 +181,16 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_DATA_TYPE__GEN_PACKAGE:
         return getGenPackage() != null;
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         return ecoreDataType != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   public EClassifier getEcoreClassifier()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.15 2005/11/14 20:48:25 emerks Exp $
+ * $Id: GenPackageItemProvider.java,v 1.16 2005/11/23 17:11:46 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -86,6 +86,7 @@ public class GenPackageItemProvider
       addPresentationPackageSuffixPropertyDescriptor(object);
       addTestsPackageSuffixPropertyDescriptor(object);
       addGenerateExampleClassPropertyDescriptor(object);
+      addLiteralsInterfacePropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -386,6 +387,27 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Literals Interface feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addLiteralsInterfacePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_literalsInterface_feature"),
+         getString("_UI_GenPackage_literalsInterface_description"),
+         GenModelPackage.eINSTANCE.getGenPackage_LiteralsInterface(),
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * This adds a property descriptor for the Ecore Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -488,6 +510,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__PRESENTATION_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
+      case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;

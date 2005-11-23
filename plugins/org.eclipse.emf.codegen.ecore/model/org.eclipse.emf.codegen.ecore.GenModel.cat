@@ -345,7 +345,13 @@
 		    quid       	"429D345C01E3"
 		    type       	"boolean"
 		    initv      	"true"
-		    exportControl 	"Public")))
+		    exportControl 	"Public")
+		(object ClassAttribute "literalsInterface"
+		    quid       	"429D345C01E4"
+		    type       	"boolean"
+		    initv      	"true"
+		    exportControl 	"Public")
+				))
 	(object Class "GenClass"
 	    quid       	"3C1759410016"
 	    superclasses 	(list inheritance_relationship_list

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.42 2005/11/18 19:11:50 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.43 2005/11/23 17:11:40 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1688,9 +1688,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_CLASS__GEN_PACKAGE:
         return getGenPackage();
@@ -1709,7 +1709,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         if (resolve) return getLabelFeature();
         return basicGetLabelFeature();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -1717,36 +1717,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case GenModelPackage.GEN_CLASS__GEN_PACKAGE:
-        return getGenPackage() != null;
-      case GenModelPackage.GEN_CLASS__PROVIDER:
-        return provider != PROVIDER_EDEFAULT;
-      case GenModelPackage.GEN_CLASS__IMAGE:
-        return image != IMAGE_EDEFAULT;
-      case GenModelPackage.GEN_CLASS__ECORE_CLASS:
-        return ecoreClass != null;
-      case GenModelPackage.GEN_CLASS__GEN_FEATURES:
-        return genFeatures != null && !genFeatures.isEmpty();
-      case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
-        return genOperations != null && !genOperations.isEmpty();
-      case GenModelPackage.GEN_CLASS__LABEL_FEATURE:
-        return labelFeature != null;
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_CLASS__PROVIDER:
         setProvider((GenProviderKind)newValue);
@@ -1769,7 +1742,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         setLabelFeature((GenFeature)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -1777,9 +1750,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_CLASS__PROVIDER:
         setProvider(PROVIDER_EDEFAULT);
@@ -1800,7 +1773,34 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         setLabelFeature((GenFeature)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_CLASS__GEN_PACKAGE:
+        return getGenPackage() != null;
+      case GenModelPackage.GEN_CLASS__PROVIDER:
+        return provider != PROVIDER_EDEFAULT;
+      case GenModelPackage.GEN_CLASS__IMAGE:
+        return image != IMAGE_EDEFAULT;
+      case GenModelPackage.GEN_CLASS__ECORE_CLASS:
+        return ecoreClass != null;
+      case GenModelPackage.GEN_CLASS__GEN_FEATURES:
+        return genFeatures != null && !genFeatures.isEmpty();
+      case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
+        return genOperations != null && !genOperations.isEmpty();
+      case GenModelPackage.GEN_CLASS__LABEL_FEATURE:
+        return labelFeature != null;
+    }
+    return eDynamicIsSet(featureID);
   }
 
   /**
@@ -2189,10 +2189,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       GenClass mapGenClass = genFeature.getMapEntryTypeGenClass();
       sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EcoreEMap"));
       sb.append("(");
-      sb.append(mapGenClass.getGenPackage().getImportedPackageInterfaceName());
-      sb.append(".eINSTANCE.get");
-      sb.append(mapGenClass.getName());
-      sb.append("(), ");
+      sb.append(mapGenClass.getQualifiedClassifierAccessor());
+      sb.append(", ");
       sb.append(genFeature.getImportedMapEntryType());
       sb.append(".class, this, ");
       sb.append(getQualifiedFeatureID(genFeature));

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.19 2005/09/30 21:43:37 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.20 2005/11/23 17:11:41 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -102,7 +102,7 @@ public class <%=genClass.getProviderClassName()%>
   <%} else {%>
 				 getString("_UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_description"),<%=genModel.getNonNLS()%>
   <%}%>
-				 <%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>(),
+				 <%=genFeature.getQualifiedFeatureAccessor()%>,
 				 <%=genFeature.getProperty() == GenPropertyKind.EDITABLE_LITERAL ? "true" : "false"%>,
   <%if (genFeature.isReferenceType()) {%>
 				 null,
@@ -143,7 +143,7 @@ public class <%=genClass.getProviderClassName()%>
 		{
 			super.getChildrenFeatures(object);
 <%for (Iterator i=genClass.getChildrenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
-			childrenFeatures.add(<%=genFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=genFeature.getFeatureAccessorName()%>());
+			childrenFeatures.add(<%=genFeature.getQualifiedFeatureAccessor()%>);
 <%}%>
 		}
 		return childrenFeatures;
@@ -198,7 +198,7 @@ public class <%=genClass.getProviderClassName()%>
 		String label = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();
     <%} else {%>
       <%if (genClass.isExternalInterface()) {%>
-		<%=genModel.getImportedName("java.lang.Object")%> labelValue = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)object).eGet(<%=labelFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=labelFeature.getFeatureAccessorName()%>());
+		<%=genModel.getImportedName("java.lang.Object")%> labelValue = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)object).eGet(<%=labelFeature.getQualifiedFeatureAccessor()%>);
       <%} else {%>
 		<%=labelFeature.getImportedType()%> labelValue = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();
       <%}%>
@@ -269,9 +269,9 @@ public class <%=genClass.getProviderClassName()%>
 
 		newChildDescriptors.add
 			(createChildParameter
-				(<%=createFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createFeature.getFeatureAccessorName()%>(),
+				(<%=createFeature.getQualifiedFeatureAccessor()%>,
       <%if (createClass.isMapEntry()) { %>
-				 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create(<%=createClass.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createClass.getName()%>())));
+				 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create(<%=createClass.getQualifiedClassifierAccessor()%>)));
       <%} else {%>
 				 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create<%=createClass.getName()%>()));
       <%}%>
@@ -285,11 +285,11 @@ public class <%=genClass.getProviderClassName()%>
 
 		newChildDescriptors.add
 			(createChildParameter
-				(<%=createFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createFeature.getFeatureAccessorName()%>(),
+				(<%=createFeature.getQualifiedFeatureAccessor()%>,
 				 <%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil")%>.createEntry
-					(<%=delegatedFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=delegatedFeature.getFeatureAccessorName()%>(),
+					(<%=delegatedFeature.getQualifiedFeatureAccessor()%>,
             <%if (createClass.isMapEntry()) { %>
-					 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create(<%=createClass.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createClass.getName()%>()))));
+					 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create(<%=createClass.getQualifiedClassifierAccessor()%>))));
             <%} else {%>
 					 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create<%=createClass.getName()%>())));
             <%}%>
@@ -298,15 +298,15 @@ public class <%=genClass.getProviderClassName()%>
 
 		newChildDescriptors.add
 			(createChildParameter
-				(<%=createFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createFeature.getFeatureAccessorName()%>(),
+				(<%=createFeature.getQualifiedFeatureAccessor()%>,
 				 <%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMapUtil")%>.createEntry
-					(<%=delegatedFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=delegatedFeature.getFeatureAccessorName()%>(),
+					(<%=delegatedFeature.getQualifiedFeatureAccessor()%>,
           <%if (delegatedFeature.isEnumBasedType()) {%>
 					 <%=delegatedFeature.getTypeGenEnum().getStaticValue(delegatedFeature.getEcoreFeature().getDefaultValueLiteral())%>)));
           <%} else if (delegatedFeature.isStringBasedType()) {%>
 					 <%=delegatedFeature.getCreateChildValueLiteral()%>)));<%=genModel.getNonNLS()%>
           <%} else { String literal = delegatedFeature.getCreateChildValueLiteral(); GenDataType createDataType = delegatedFeature.getTypeGenDataType();%>
-					 <%=createDataType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=createDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createDataType.getClassifierAccessorName()%>(), <%=literal%>))));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
+					 <%=createDataType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=createDataType.getQualifiedClassifierAccessor()%>, <%=literal%>))));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
           <%}%>
         <%}%>
       <%}%>
@@ -315,7 +315,7 @@ public class <%=genClass.getProviderClassName()%>
 
 		newChildDescriptors.add
 			(createChildParameter
-				(<%=createFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createFeature.getFeatureAccessorName()%>(),
+				(<%=createFeature.getQualifiedFeatureAccessor()%>,
         <%if (createClass.isMapEntry()) { %>
 				 <%=createClass.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.create(<%=createClass.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createClass.getName()%>())));
         <%} else {%>
@@ -326,13 +326,13 @@ public class <%=genClass.getProviderClassName()%>
 
 		newChildDescriptors.add
 			(createChildParameter
-				(<%=createFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createFeature.getFeatureAccessorName()%>(),
+				(<%=createFeature.getQualifiedFeatureAccessor()%>,
       <%if (createFeature.isEnumBasedType()) {%>
 				 <%=createFeature.getTypeGenEnum().getStaticValue(createFeature.getEcoreFeature().getDefaultValueLiteral())%>));
       <%} else if (createFeature.isStringBasedType()) {%>
 				 <%=createFeature.getCreateChildValueLiteral()%>));<%=genModel.getNonNLS()%>
       <%} else { String literal = createFeature.getCreateChildValueLiteral(); GenDataType createDataType = createFeature.getTypeGenDataType();%>
-				 <%=createDataType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=createDataType.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createDataType.getClassifierAccessorName()%>(), <%=literal%>)));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
+				 <%=createDataType.getGenPackage().getImportedFactoryInterfaceName()%>.eINSTANCE.createFromString(<%=createDataType.getQualifiedClassifierAccessor()%>, <%=literal%>)));<%if (literal != null) {%><%=genModel.getNonNLS()%><%} else {%> // TODO: ensure this is a valid literal value<%}%>
       <%}%>
     <%}%>
   <%}%>
@@ -361,7 +361,7 @@ public class <%=genClass.getProviderClassName()%>
     <%}%>
 		boolean qualify =
     <%for (Iterator i = genClass.getSharedClassCreateChildFeatures().iterator(); i.hasNext();) { GenFeature createFeature = (GenFeature)i.next();%>
-			childFeature == <%=createFeature.getGenPackage().getImportedPackageInterfaceName()%>.eINSTANCE.get<%=createFeature.getFeatureAccessorName()%>()<%=i.hasNext() ? " ||" : ";"%>
+			childFeature == <%=createFeature.getQualifiedFeatureAccessor()%><%=i.hasNext() ? " ||" : ";"%>
     <%}%>
 
 		if (qualify)

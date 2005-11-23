@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.6 2005/10/28 13:51:49 davidms Exp $
+ * $Id: GenClassifierImpl.java,v 1.7 2005/11/23 17:11:40 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -79,14 +79,14 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_CLASSIFIER__GEN_PACKAGE:
         return getGenPackage();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -94,14 +94,14 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_CLASSIFIER__GEN_PACKAGE:
         return getGenPackage() != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   public EModelElement getEcoreModelElement()
@@ -142,6 +142,13 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
       result += "_";
     }
     return result;
+  }
+
+  public String getQualifiedClassifierAccessor()
+  {
+    return getGenPackage().isLiteralsInterface()
+      ? getGenPackage().getImportedPackageInterfaceName() + ".Literals." + getClassifierID()
+      : getGenPackage().getImportedPackageInterfaceName() + ".eINSTANCE.get" + getClassifierAccessorName() + "()";
   }
 
   public String getFormattedName()

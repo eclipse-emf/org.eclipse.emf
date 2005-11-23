@@ -147,6 +147,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/testsPackageSuffix"/>
       <genFeatures createChild="false" propertyCategory="Tests" propertyDescription="Whether to generate an example class in the test plugin"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/generateExampleClass"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to generate an interface defining metadata literals"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/literalsInterface"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this package" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/ecorePackage"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genModel"/>

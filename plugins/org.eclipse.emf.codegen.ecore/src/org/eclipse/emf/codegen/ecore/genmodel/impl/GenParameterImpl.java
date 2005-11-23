@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.7 2005/11/18 19:13:25 emerks Exp $
+ * $Id: GenParameterImpl.java,v 1.8 2005/11/23 17:11:40 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -227,9 +227,9 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_PARAMETER__GEN_OPERATION:
         return getGenOperation();
@@ -237,7 +237,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
         if (resolve) return getEcoreParameter();
         return basicGetEcoreParameter();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -245,26 +245,9 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case GenModelPackage.GEN_PARAMETER__GEN_OPERATION:
-        return getGenOperation() != null;
-      case GenModelPackage.GEN_PARAMETER__ECORE_PARAMETER:
-        return ecoreParameter != null;
-    }
-    return eDynamicIsSet(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_PARAMETER__GEN_OPERATION:
         setGenOperation((GenOperation)newValue);
@@ -273,7 +256,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
         setEcoreParameter((EParameter)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -281,9 +264,9 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case GenModelPackage.GEN_PARAMETER__GEN_OPERATION:
         setGenOperation((GenOperation)null);
@@ -292,7 +275,24 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
         setEcoreParameter((EParameter)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_PARAMETER__GEN_OPERATION:
+        return getGenOperation() != null;
+      case GenModelPackage.GEN_PARAMETER__ECORE_PARAMETER:
+        return ecoreParameter != null;
+    }
+    return eDynamicIsSet(featureID);
   }
 
   public ETypedElement getEcoreTypedElement()
