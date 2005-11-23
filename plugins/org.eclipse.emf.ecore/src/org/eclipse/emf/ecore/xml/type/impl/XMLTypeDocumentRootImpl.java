@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRootImpl.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLTypeDocumentRootImpl.java,v 1.5 2005/11/23 13:56:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
-
-import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EMap;
@@ -226,6 +224,121 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * <!-- end-user-doc -->
    * @generated
    */
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__MIXED:
+        if (coreType) return getMixed();
+        return ((FeatureMap.Internal)getMixed()).getWrapper();
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        if (coreType) return getXMLNSPrefixMap();
+        else return getXMLNSPrefixMap().map();
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        if (coreType) return getXSISchemaLocation();
+        else return getXSISchemaLocation().map();
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
+        return getCDATA();
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
+        return getComment();
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
+        return getText();
+    }
+    return eDynamicGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__MIXED:
+        ((FeatureMap.Internal)getMixed()).set(newValue);
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        ((EStructuralFeature.Setting)getXMLNSPrefixMap()).set(newValue);
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
+        setCDATA((String)newValue);
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
+        setComment((String)newValue);
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
+        setText((String)newValue);
+        return;
+    }
+    eDynamicSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__MIXED:
+        getMixed().clear();
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        getXMLNSPrefixMap().clear();
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        getXSISchemaLocation().clear();
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
+        setCDATA(CDATA_EDEFAULT);
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
+        setComment(COMMENT_EDEFAULT);
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
+        setText(TEXT_EDEFAULT);
+        return;
+    }
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__MIXED:
+        return mixed != null && !mixed.isEmpty();
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        return xMLNSPrefixMap != null && !xMLNSPrefixMap.isEmpty();
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        return xSISchemaLocation != null && !xSISchemaLocation.isEmpty();
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
+        return CDATA_EDEFAULT == null ? getCDATA() != null : !CDATA_EDEFAULT.equals(getCDATA());
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
+        return COMMENT_EDEFAULT == null ? getComment() != null : !COMMENT_EDEFAULT.equals(getComment());
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
+        return TEXT_EDEFAULT == null ? getText() != null : !TEXT_EDEFAULT.equals(getText());
+    }
+    return eDynamicIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public String getCDATA()
   {
     return (String)getMixed().get(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), true);
@@ -259,121 +372,6 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
   public void setComment(String newComment)
   {
     ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment(), newComment);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__MIXED:
-        return getMixed();
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        return getXMLNSPrefixMap();
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        return getXSISchemaLocation();
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
-        return getCDATA();
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
-        return getComment();
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
-        return getText();
-    }
-    return eDynamicGet(eFeature, resolve);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__MIXED:
-        getMixed().clear();
-        getMixed().addAll((Collection)newValue);
-        return;
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        getXMLNSPrefixMap().clear();
-        getXMLNSPrefixMap().addAll((Collection)newValue);
-        return;
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        getXSISchemaLocation().clear();
-        getXSISchemaLocation().addAll((Collection)newValue);
-        return;
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
-        setCDATA((String)newValue);
-        return;
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
-        setComment((String)newValue);
-        return;
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
-        setText((String)newValue);
-        return;
-    }
-    eDynamicSet(eFeature, newValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eUnset(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__MIXED:
-        getMixed().clear();
-        return;
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        getXMLNSPrefixMap().clear();
-        return;
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        getXSISchemaLocation().clear();
-        return;
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
-        setCDATA(CDATA_EDEFAULT);
-        return;
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
-        setComment(COMMENT_EDEFAULT);
-        return;
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
-        setText(TEXT_EDEFAULT);
-        return;
-    }
-    eDynamicUnset(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean eIsSet(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__MIXED:
-        return mixed != null && !mixed.isEmpty();
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        return xMLNSPrefixMap != null && !xMLNSPrefixMap.isEmpty();
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        return xSISchemaLocation != null && !xSISchemaLocation.isEmpty();
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
-        return CDATA_EDEFAULT == null ? getCDATA() != null : !CDATA_EDEFAULT.equals(getCDATA());
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
-        return COMMENT_EDEFAULT == null ? getComment() != null : !COMMENT_EDEFAULT.equals(getComment());
-      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
-        return TEXT_EDEFAULT == null ? getText() != null : !TEXT_EDEFAULT.equals(getText());
-    }
-    return eDynamicIsSet(eFeature);
   }
 
   /**

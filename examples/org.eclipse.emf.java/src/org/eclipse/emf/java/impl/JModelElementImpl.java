@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JModelElementImpl.java,v 1.3 2005/06/12 13:37:24 emerks Exp $
+ * $Id: JModelElementImpl.java,v 1.4 2005/11/23 13:57:05 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -23,7 +23,6 @@ import java.util.Iterator;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.java.JModelElement;
@@ -181,16 +180,16 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JMODEL_ELEMENT__NAME:
         return getName();
       case JavaPackage.JMODEL_ELEMENT__JNODE:
         return getJNode();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -198,9 +197,9 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JMODEL_ELEMENT__NAME:
         setName((String)newValue);
@@ -209,7 +208,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
         setJNode((Object)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -217,9 +216,9 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JMODEL_ELEMENT__NAME:
         setName(NAME_EDEFAULT);
@@ -228,7 +227,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
         setJNode(JNODE_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -236,16 +235,16 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JMODEL_ELEMENT__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case JavaPackage.JMODEL_ELEMENT__JNODE:
         return JNODE_EDEFAULT == null ? jNode != null : !JNODE_EDEFAULT.equals(jNode);
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaFactoryImpl.java,v 1.6 2005/11/08 14:15:25 emerks Exp $
+ * $Id: JavaFactoryImpl.java,v 1.7 2005/11/23 13:57:05 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -20,7 +20,11 @@ package org.eclipse.emf.java.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.java.*;
 
 
@@ -33,6 +37,29 @@ import org.eclipse.emf.java.*;
  */
 public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static JavaFactory init()
+  {
+    try
+    {
+      JavaFactory theJavaFactory = (JavaFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/Java"); 
+      if (theJavaFactory != null)
+      {
+        return theJavaFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new JavaFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

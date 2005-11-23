@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.11 2005/06/14 14:51:05 emerks Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.12 2005/11/23 13:57:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -588,12 +588,13 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.CHANGE_DESCRIPTION__OBJECT_CHANGES:
-        return getObjectChanges();
+        if (coreType) return getObjectChanges();
+        else return getObjectChanges().map();
       case ChangePackage.CHANGE_DESCRIPTION__OBJECTS_TO_DETACH:
         return getObjectsToDetach();
       case ChangePackage.CHANGE_DESCRIPTION__OBJECTS_TO_ATTACH:
@@ -601,7 +602,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       case ChangePackage.CHANGE_DESCRIPTION__RESOURCE_CHANGES:
         return getResourceChanges();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -609,13 +610,12 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.CHANGE_DESCRIPTION__OBJECT_CHANGES:
-        getObjectChanges().clear();
-        getObjectChanges().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getObjectChanges()).set(newValue);
         return;
       case ChangePackage.CHANGE_DESCRIPTION__OBJECTS_TO_DETACH:
         getObjectsToDetach().clear();
@@ -630,7 +630,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         getResourceChanges().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -638,9 +638,9 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.CHANGE_DESCRIPTION__OBJECT_CHANGES:
         getObjectChanges().clear();
@@ -655,7 +655,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         getResourceChanges().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -663,9 +663,9 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.CHANGE_DESCRIPTION__OBJECT_CHANGES:
         return objectChanges != null && !objectChanges.isEmpty();
@@ -676,7 +676,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       case ChangePackage.CHANGE_DESCRIPTION__RESOURCE_CHANGES:
         return resourceChanges != null && !resourceChanges.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
 } //ChangeDescriptionImpl

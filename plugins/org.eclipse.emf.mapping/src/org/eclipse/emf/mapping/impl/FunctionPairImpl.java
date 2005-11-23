@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FunctionPairImpl.java,v 1.4 2005/11/08 14:18:51 emerks Exp $
+ * $Id: FunctionPairImpl.java,v 1.5 2005/11/23 13:56:59 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -23,7 +23,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.mapping.FunctionPair;
@@ -97,8 +96,8 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
   {
     if (in2out != null && in2out.eIsProxy())
     {
-      EOperation oldIn2out = in2out;
-      in2out = (EOperation)eResolveProxy((InternalEObject)in2out);
+      InternalEObject oldIn2out = (InternalEObject)in2out;
+      in2out = (EOperation)eResolveProxy(oldIn2out);
       if (in2out != oldIn2out)
       {
         if (eNotificationRequired())
@@ -140,8 +139,8 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
   {
     if (out2in != null && out2in.eIsProxy())
     {
-      EOperation oldOut2in = out2in;
-      out2in = (EOperation)eResolveProxy((InternalEObject)out2in);
+      InternalEObject oldOut2in = (InternalEObject)out2in;
+      out2in = (EOperation)eResolveProxy(oldOut2in);
       if (out2in != oldOut2in)
       {
         if (eNotificationRequired())
@@ -179,9 +178,9 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.FUNCTION_PAIR__MAPPER:
         return getMapper();
@@ -199,7 +198,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
         if (resolve) return getOut2in();
         return basicGetOut2in();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -207,9 +206,9 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.FUNCTION_PAIR__MAPPER:
         setMapper((Mapping)newValue);
@@ -231,7 +230,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
         setOut2in((EOperation)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -239,9 +238,9 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.FUNCTION_PAIR__MAPPER:
         setMapper((Mapping)null);
@@ -262,7 +261,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
         setOut2in((EOperation)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -270,9 +269,9 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.FUNCTION_PAIR__MAPPER:
         return getMapper() != null;
@@ -287,7 +286,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
       case MappingPackage.FUNCTION_PAIR__OUT2IN:
         return out2in != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
 } //FunctionPairImpl

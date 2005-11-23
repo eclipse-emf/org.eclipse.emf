@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingImpl.java,v 1.3 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingImpl.java,v 1.4 2005/11/23 13:56:59 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -28,7 +28,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -202,7 +201,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
   public Mapping getNestedIn()
   {
     if (eContainerFeatureID != MappingPackage.MAPPING__NESTED_IN) return null;
-    return (Mapping)eContainer;
+    return (Mapping)eContainer();
   }
 
   /**
@@ -212,12 +211,12 @@ public class MappingImpl extends EObjectImpl implements Mapping
    */
   public void setNestedIn(Mapping newNestedIn)
   {
-    if (newNestedIn != eContainer || (eContainerFeatureID != MappingPackage.MAPPING__NESTED_IN && newNestedIn != null))
+    if (newNestedIn != eInternalContainer() || (eContainerFeatureID != MappingPackage.MAPPING__NESTED_IN && newNestedIn != null))
     {
       if (EcoreUtil.isAncestor(this, newNestedIn))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newNestedIn != null)
         msgs = ((InternalEObject)newNestedIn).eInverseAdd(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
@@ -265,8 +264,8 @@ public class MappingImpl extends EObjectImpl implements Mapping
   {
     if (typeMapping != null && typeMapping.eIsProxy())
     {
-      Mapping oldTypeMapping = typeMapping;
-      typeMapping = (Mapping)eResolveProxy((InternalEObject)typeMapping);
+      InternalEObject oldTypeMapping = (InternalEObject)typeMapping;
+      typeMapping = (Mapping)eResolveProxy(oldTypeMapping);
       if (typeMapping != oldTypeMapping)
       {
         if (eNotificationRequired())
@@ -317,14 +316,14 @@ public class MappingImpl extends EObjectImpl implements Mapping
         case MappingPackage.MAPPING__NESTED:
           return ((InternalEList)getNested()).basicAdd(otherEnd, msgs);
         case MappingPackage.MAPPING__NESTED_IN:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, MappingPackage.MAPPING__NESTED_IN, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -365,12 +364,12 @@ public class MappingImpl extends EObjectImpl implements Mapping
       switch (eContainerFeatureID)
       {
         case MappingPackage.MAPPING__NESTED_IN:
-          return eContainer.eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
+          return eInternalContainer().eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
@@ -378,9 +377,9 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING__HELPER:
         return getHelper();
@@ -396,7 +395,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
         if (resolve) return getTypeMapping();
         return basicGetTypeMapping();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -404,9 +403,9 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING__HELPER:
         setHelper((MappingHelper)newValue);
@@ -430,7 +429,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
         setTypeMapping((Mapping)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -438,9 +437,9 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING__HELPER:
         setHelper((MappingHelper)null);
@@ -461,7 +460,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
         setTypeMapping((Mapping)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -469,9 +468,9 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING__HELPER:
         return helper != null;
@@ -486,7 +485,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
       case MappingPackage.MAPPING__TYPE_MAPPING:
         return typeMapping != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   public Collection getMappedObjects()

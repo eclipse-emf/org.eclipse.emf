@@ -12,14 +12,18 @@
  *
  * </copyright>
  *
- * $Id: TreeFactoryImpl.java,v 1.5 2005/06/08 06:17:06 nickb Exp $
+ * $Id: TreeFactoryImpl.java,v 1.6 2005/11/23 13:56:51 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.edit.tree.*;
 
 
@@ -31,6 +35,29 @@ import org.eclipse.emf.edit.tree.*;
  */
 public class TreeFactoryImpl extends EFactoryImpl implements TreeFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static TreeFactory init()
+  {
+    try
+    {
+      TreeFactory theTreeFactory = (TreeFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/Tree"); 
+      if (theTreeFactory != null)
+      {
+        return theTreeFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new TreeFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

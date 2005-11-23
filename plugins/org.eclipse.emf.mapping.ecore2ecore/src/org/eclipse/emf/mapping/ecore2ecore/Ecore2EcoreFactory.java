@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreFactory.java,v 1.3 2005/06/08 06:21:24 nickb Exp $
+ * $Id: Ecore2EcoreFactory.java,v 1.4 2005/11/23 13:57:01 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore;
 
@@ -28,15 +28,14 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.emf.mapping.ecore2ecore.Ecore2EcorePackage
  * @generated
  */
-public interface Ecore2EcoreFactory extends EFactory
-{
+public interface Ecore2EcoreFactory extends EFactory{
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  Ecore2EcoreFactory eINSTANCE = new org.eclipse.emf.mapping.ecore2ecore.impl.Ecore2EcoreFactoryImpl();
+  Ecore2EcoreFactory eINSTANCE = org.eclipse.emf.mapping.ecore2ecore.impl.Ecore2EcoreFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Mapping Root</em>'.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingFactory.java,v 1.2 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingFactory.java,v 1.3 2005/11/23 13:56:59 emerks Exp $
  */
 package org.eclipse.emf.mapping;
 
@@ -28,12 +28,12 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.emf.mapping.MappingPackage
  * @generated
  */
-public interface MappingFactory extends EFactory {
+public interface MappingFactory extends EFactory{
   /**
    * The singleton instance of the factory.
    * @generated
    */
-  MappingFactory eINSTANCE = new org.eclipse.emf.mapping.impl.MappingFactoryImpl();
+  MappingFactory eINSTANCE = org.eclipse.emf.mapping.impl.MappingFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Helper</em>'.

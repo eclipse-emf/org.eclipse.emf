@@ -12,11 +12,9 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapImpl.java,v 1.3 2005/11/08 14:22:25 emerks Exp $
+ * $Id: XMLMapImpl.java,v 1.4 2005/11/23 13:57:11 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
-
-import java.util.Collection;
 
 import java.util.List;
 
@@ -145,7 +143,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
   public EPackage getNoNamespacePackage()
   {
     EPackage noNamespacePackage = basicGetNoNamespacePackage();
-    return noNamespacePackage == null ? null : (noNamespacePackage.eIsProxy() ? (EPackage)eResolveProxy((InternalEObject)noNamespacePackage) : noNamespacePackage);
+    return noNamespacePackage != null && noNamespacePackage.eIsProxy() ? (EPackage)eResolveProxy((InternalEObject)noNamespacePackage) : noNamespacePackage;
   }
 
   /**
@@ -196,19 +194,20 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.XML_MAP__ID_ATTRIBUTE_NAME:
         return getIDAttributeName();
       case Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO:
-        return getEcoreToXMLInfo();
+        if (coreType) return getEcoreToXMLInfo();
+        else return getEcoreToXMLInfo().map();
       case Ecore2XMLPackage.XML_MAP__NO_NAMESPACE_PACKAGE:
         if (resolve) return getNoNamespacePackage();
         return basicGetNoNamespacePackage();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -216,22 +215,21 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.XML_MAP__ID_ATTRIBUTE_NAME:
         setIDAttributeName((String)newValue);
         return;
       case Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO:
-        getEcoreToXMLInfo().clear();
-        getEcoreToXMLInfo().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getEcoreToXMLInfo()).set(newValue);
         return;
       case Ecore2XMLPackage.XML_MAP__NO_NAMESPACE_PACKAGE:
         setNoNamespacePackage((EPackage)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -239,9 +237,9 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.XML_MAP__ID_ATTRIBUTE_NAME:
         setIDAttributeName(ID_ATTRIBUTE_NAME_EDEFAULT);
@@ -253,7 +251,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
         setNoNamespacePackage((EPackage)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -261,9 +259,9 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.XML_MAP__ID_ATTRIBUTE_NAME:
         return ID_ATTRIBUTE_NAME_EDEFAULT == null ? getIDAttributeName() != null : !ID_ATTRIBUTE_NAME_EDEFAULT.equals(getIDAttributeName());
@@ -272,7 +270,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
       case Ecore2XMLPackage.XML_MAP__NO_NAMESPACE_PACKAGE:
         return basicGetNoNamespacePackage() != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   protected class DelegateXMLMapImpl extends org.eclipse.emf.ecore.xmi.impl.XMLMapImpl

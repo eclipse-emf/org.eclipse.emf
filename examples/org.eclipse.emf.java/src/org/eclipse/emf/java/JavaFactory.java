@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaFactory.java,v 1.2 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JavaFactory.java,v 1.3 2005/11/23 13:57:04 emerks Exp $
  */
 package org.eclipse.emf.java;
 
@@ -35,7 +35,7 @@ public interface JavaFactory extends EFactory{
    * <!-- end-user-doc -->
    * @generated
    */
-  JavaFactory eINSTANCE = new org.eclipse.emf.java.impl.JavaFactoryImpl();
+  JavaFactory eINSTANCE = org.eclipse.emf.java.impl.JavaFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>JClass</em>'.

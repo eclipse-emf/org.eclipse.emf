@@ -12,14 +12,12 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoImpl.java,v 1.3 2005/06/22 19:59:56 davidms Exp $
+ * $Id: XMLInfoImpl.java,v 1.4 2005/11/23 13:57:11 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -170,9 +168,9 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.XML_INFO__NAME:
         return getName();
@@ -181,7 +179,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
       case Ecore2XMLPackage.XML_INFO__XML_REPRESENTATION:
         return new Integer(getXMLRepresentation());
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -189,9 +187,9 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.XML_INFO__NAME:
         setName((String)newValue);
@@ -203,7 +201,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
         setXMLRepresentation(((Integer)newValue).intValue());
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -211,9 +209,9 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.XML_INFO__NAME:
         setName(NAME_EDEFAULT);
@@ -225,7 +223,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
         setXMLRepresentation(XML_REPRESENTATION_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -233,9 +231,9 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.XML_INFO__NAME:
         return NAME_EDEFAULT == null ? getName() != null : !NAME_EDEFAULT.equals(getName());
@@ -244,7 +242,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
       case Ecore2XMLPackage.XML_INFO__XML_REPRESENTATION:
         return getXMLRepresentation() != XML_REPRESENTATION_EDEFAULT;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   protected XMLResource.XMLInfo delegateXMLInfo = null;

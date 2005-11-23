@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.21 2005/06/08 06:16:16 nickb Exp $
+ * $Id: FeatureChangeImpl.java,v 1.22 2005/11/23 13:57:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -624,9 +624,9 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.FEATURE_CHANGE__FEATURE_NAME:
         return getFeatureName();
@@ -645,7 +645,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       case ChangePackage.FEATURE_CHANGE__LIST_CHANGES:
         return getListChanges();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -653,9 +653,9 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.FEATURE_CHANGE__FEATURE_NAME:
         setFeatureName((String)newValue);
@@ -677,7 +677,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
         getListChanges().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -685,9 +685,9 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.FEATURE_CHANGE__FEATURE_NAME:
         unsetFeatureName();
@@ -708,7 +708,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
         getListChanges().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -716,9 +716,9 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.FEATURE_CHANGE__FEATURE_NAME:
         return isSetFeatureName();
@@ -735,7 +735,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       case ChangePackage.FEATURE_CHANGE__LIST_CHANGES:
         return listChanges != null && !listChanges.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

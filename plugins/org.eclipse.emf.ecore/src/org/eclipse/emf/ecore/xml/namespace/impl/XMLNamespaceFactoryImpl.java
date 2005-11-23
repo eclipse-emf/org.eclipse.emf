@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceFactoryImpl.java,v 1.7 2005/11/08 13:00:54 emerks Exp $
+ * $Id: XMLNamespaceFactoryImpl.java,v 1.8 2005/11/23 13:56:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -20,7 +20,11 @@ package org.eclipse.emf.ecore.xml.namespace.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xml.namespace.*;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
@@ -35,6 +39,29 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  */
 public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespaceFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XMLNamespaceFactory init()
+  {
+    try
+    {
+      XMLNamespaceFactory theXMLNamespaceFactory = (XMLNamespaceFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.w3.org/XML/1998/namespace"); 
+      if (theXMLNamespaceFactory != null)
+      {
+        return theXMLNamespaceFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new XMLNamespaceFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

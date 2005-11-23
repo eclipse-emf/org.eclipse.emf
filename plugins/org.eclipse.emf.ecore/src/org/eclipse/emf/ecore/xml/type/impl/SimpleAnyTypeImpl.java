@@ -12,17 +12,15 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyTypeImpl.java,v 1.4 2005/11/08 13:02:43 emerks Exp $
+ * $Id: SimpleAnyTypeImpl.java,v 1.5 2005/11/23 13:56:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
@@ -177,16 +175,19 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XMLTypePackage.SIMPLE_ANY_TYPE__MIXED:
-        return getMixed();
+        if (coreType) return getMixed();
+        return ((FeatureMap.Internal)getMixed()).getWrapper();
       case XMLTypePackage.SIMPLE_ANY_TYPE__ANY:
-        return getAny();
+        if (coreType) return getAny();
+        return ((FeatureMap.Internal)getAny()).getWrapper();
       case XMLTypePackage.SIMPLE_ANY_TYPE__ANY_ATTRIBUTE:
-        return getAnyAttribute();
+        if (coreType) return getAnyAttribute();
+        return ((FeatureMap.Internal)getAnyAttribute()).getWrapper();
       case XMLTypePackage.SIMPLE_ANY_TYPE__RAW_VALUE:
         return getRawValue();
       case XMLTypePackage.SIMPLE_ANY_TYPE__VALUE:
@@ -194,7 +195,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
       case XMLTypePackage.SIMPLE_ANY_TYPE__INSTANCE_TYPE:
         return getInstanceType();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -202,21 +203,18 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XMLTypePackage.SIMPLE_ANY_TYPE__MIXED:
-        getMixed().clear();
-        getMixed().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getMixed()).set(newValue);
         return;
       case XMLTypePackage.SIMPLE_ANY_TYPE__ANY:
-        getAny().clear();
-        getAny().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getAny()).set(newValue);
         return;
       case XMLTypePackage.SIMPLE_ANY_TYPE__ANY_ATTRIBUTE:
-        getAnyAttribute().clear();
-        getAnyAttribute().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getAnyAttribute()).set(newValue);
         return;
       case XMLTypePackage.SIMPLE_ANY_TYPE__RAW_VALUE:
         setRawValue((String)newValue);
@@ -228,7 +226,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
         setInstanceType((EDataType)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -236,9 +234,9 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XMLTypePackage.SIMPLE_ANY_TYPE__MIXED:
         getMixed().clear();
@@ -259,7 +257,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
         setInstanceType((EDataType)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -267,9 +265,9 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XMLTypePackage.SIMPLE_ANY_TYPE__MIXED:
         return mixed != null && !mixed.isEmpty();
@@ -284,7 +282,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
       case XMLTypePackage.SIMPLE_ANY_TYPE__INSTANCE_TYPE:
         return instanceType != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
 } //SimpleAnyTypeImpl

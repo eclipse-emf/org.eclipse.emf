@@ -12,15 +12,12 @@
  *
  * </copyright>
  *
- * $Id: AnyTypeImpl.java,v 1.2 2005/06/08 06:20:10 nickb Exp $
+ * $Id: AnyTypeImpl.java,v 1.3 2005/11/23 13:56:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
@@ -153,18 +150,21 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XMLTypePackage.ANY_TYPE__MIXED:
-        return getMixed();
+        if (coreType) return getMixed();
+        return ((FeatureMap.Internal)getMixed()).getWrapper();
       case XMLTypePackage.ANY_TYPE__ANY:
-        return getAny();
+        if (coreType) return getAny();
+        return ((FeatureMap.Internal)getAny()).getWrapper();
       case XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE:
-        return getAnyAttribute();
+        if (coreType) return getAnyAttribute();
+        return ((FeatureMap.Internal)getAnyAttribute()).getWrapper();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -172,37 +172,34 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
+    {
+      case XMLTypePackage.ANY_TYPE__MIXED:
+        ((FeatureMap.Internal)getMixed()).set(newValue);
+        return;
+      case XMLTypePackage.ANY_TYPE__ANY:
+        ((FeatureMap.Internal)getAny()).set(newValue);
+        return;
+      case XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE:
+        ((FeatureMap.Internal)getAnyAttribute()).set(newValue);
+        return;
+    }
+    eDynamicSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
     {
       case XMLTypePackage.ANY_TYPE__MIXED:
         getMixed().clear();
-        getMixed().addAll((Collection)newValue);
-        return;
-      case XMLTypePackage.ANY_TYPE__ANY:
-        getAny().clear();
-        getAny().addAll((Collection)newValue);
-        return;
-      case XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE:
-        getAnyAttribute().clear();
-        getAnyAttribute().addAll((Collection)newValue);
-        return;
-    }
-    eDynamicSet(eFeature, newValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eUnset(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case XMLTypePackage.ANY_TYPE__MIXED:
-        getMixed().clear();
         return;
       case XMLTypePackage.ANY_TYPE__ANY:
         getAny().clear();
@@ -211,7 +208,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
         getAnyAttribute().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -219,9 +216,9 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XMLTypePackage.ANY_TYPE__MIXED:
         return mixed != null && !mixed.isEmpty();
@@ -230,7 +227,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
       case XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE:
         return anyAttribute != null && !anyAttribute.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodImpl.java,v 1.5 2005/11/08 14:15:26 emerks Exp $
+ * $Id: JMethodImpl.java,v 1.6 2005/11/23 13:57:05 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -31,7 +31,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -502,8 +501,8 @@ public class JMethodImpl extends JMemberImpl implements JMethod
   {
     if (returnType != null && returnType.eIsProxy())
     {
-      JClass oldReturnType = returnType;
-      returnType = (JClass)eResolveProxy((InternalEObject)returnType);
+      InternalEObject oldReturnType = (InternalEObject)returnType;
+      returnType = (JClass)eResolveProxy(oldReturnType);
       if (returnType != oldReturnType)
       {
         if (eNotificationRequired())
@@ -548,7 +547,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
       switch (eDerivedStructuralFeatureID(featureID, baseClass))
       {
         case JavaPackage.JMETHOD__CONTAINING_TYPE:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, JavaPackage.JMETHOD__CONTAINING_TYPE, msgs);
         case JavaPackage.JMETHOD__PARAMETERS:
@@ -557,7 +556,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -589,9 +588,9 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JMETHOD__NAME:
         return getName();
@@ -629,7 +628,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         if (resolve) return getReturnType();
         return basicGetReturnType();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -637,9 +636,9 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JMETHOD__NAME:
         setName((String)newValue);
@@ -695,7 +694,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         setReturnType((JClass)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -703,9 +702,9 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JMETHOD__NAME:
         setName(NAME_EDEFAULT);
@@ -759,7 +758,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         setReturnType((JClass)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -767,9 +766,9 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JMETHOD__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -806,7 +805,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
       case JavaPackage.JMETHOD__RETURN_TYPE:
         return returnType != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

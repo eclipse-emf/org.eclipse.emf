@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.6 2005/06/08 06:21:07 nickb Exp $
+ * $Id: JClassImpl.java,v 1.7 2005/11/23 13:57:05 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -461,7 +461,7 @@ public class JClassImpl extends JMemberImpl implements JClass
   public JClass getComponentType()
   {
     if (eContainerFeatureID != JavaPackage.JCLASS__COMPONENT_TYPE) return null;
-    return (JClass)eContainer;
+    return (JClass)eContainer();
   }
 
   /**
@@ -471,12 +471,12 @@ public class JClassImpl extends JMemberImpl implements JClass
    */
   public void setComponentType(JClass newComponentType)
   {
-    if (newComponentType != eContainer || (eContainerFeatureID != JavaPackage.JCLASS__COMPONENT_TYPE && newComponentType != null))
+    if (newComponentType != eInternalContainer() || (eContainerFeatureID != JavaPackage.JCLASS__COMPONENT_TYPE && newComponentType != null))
     {
       if (EcoreUtil.isAncestor(this, newComponentType))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newComponentType != null)
         msgs = ((InternalEObject)newComponentType).eInverseAdd(this, JavaPackage.JCLASS__ARRAY_TYPE, JClass.class, msgs);
@@ -543,7 +543,7 @@ public class JClassImpl extends JMemberImpl implements JClass
   public JCompilationUnit getUnit()
   {
     if (eContainerFeatureID != JavaPackage.JCLASS__UNIT) return null;
-    return (JCompilationUnit)eContainer;
+    return (JCompilationUnit)eContainer();
   }
 
   /**
@@ -553,12 +553,12 @@ public class JClassImpl extends JMemberImpl implements JClass
    */
   public void setUnit(JCompilationUnit newUnit)
   {
-    if (newUnit != eContainer || (eContainerFeatureID != JavaPackage.JCLASS__UNIT && newUnit != null))
+    if (newUnit != eInternalContainer() || (eContainerFeatureID != JavaPackage.JCLASS__UNIT && newUnit != null))
     {
       if (EcoreUtil.isAncestor(this, newUnit))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newUnit != null)
         msgs = ((InternalEObject)newUnit).eInverseAdd(this, JavaPackage.JCOMPILATION_UNIT__TYPES, JCompilationUnit.class, msgs);
@@ -615,8 +615,8 @@ public class JClassImpl extends JMemberImpl implements JClass
   {
     if (package_ != null && package_.eIsProxy())
     {
-      JPackage oldPackage = package_;
-      package_ = (JPackage)eResolveProxy((InternalEObject)package_);
+      InternalEObject oldPackage = (InternalEObject)package_;
+      package_ = (JPackage)eResolveProxy(oldPackage);
       if (package_ != oldPackage)
       {
         if (eNotificationRequired())
@@ -722,13 +722,13 @@ public class JClassImpl extends JMemberImpl implements JClass
       switch (eDerivedStructuralFeatureID(featureID, baseClass))
       {
         case JavaPackage.JCLASS__CONTAINING_TYPE:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, JavaPackage.JCLASS__CONTAINING_TYPE, msgs);
         case JavaPackage.JCLASS__MEMBERS:
           return ((InternalEList)getMembers()).basicAdd(otherEnd, msgs);
         case JavaPackage.JCLASS__COMPONENT_TYPE:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, JavaPackage.JCLASS__COMPONENT_TYPE, msgs);
         case JavaPackage.JCLASS__ARRAY_TYPE:
@@ -736,7 +736,7 @@ public class JClassImpl extends JMemberImpl implements JClass
             msgs = ((InternalEObject)arrayType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - JavaPackage.JCLASS__ARRAY_TYPE, null, msgs);
           return basicSetArrayType((JClass)otherEnd, msgs);
         case JavaPackage.JCLASS__UNIT:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, JavaPackage.JCLASS__UNIT, msgs);
         case JavaPackage.JCLASS__PACKAGE:
@@ -747,7 +747,7 @@ public class JClassImpl extends JMemberImpl implements JClass
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -794,16 +794,16 @@ public class JClassImpl extends JMemberImpl implements JClass
       switch (eContainerFeatureID)
       {
         case JavaPackage.JCLASS__CONTAINING_TYPE:
-          return eContainer.eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
+          return eInternalContainer().eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
         case JavaPackage.JCLASS__COMPONENT_TYPE:
-          return eContainer.eInverseRemove(this, JavaPackage.JCLASS__ARRAY_TYPE, JClass.class, msgs);
+          return eInternalContainer().eInverseRemove(this, JavaPackage.JCLASS__ARRAY_TYPE, JClass.class, msgs);
         case JavaPackage.JCLASS__UNIT:
-          return eContainer.eInverseRemove(this, JavaPackage.JCOMPILATION_UNIT__TYPES, JCompilationUnit.class, msgs);
+          return eInternalContainer().eInverseRemove(this, JavaPackage.JCOMPILATION_UNIT__TYPES, JCompilationUnit.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
@@ -811,9 +811,9 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JCLASS__NAME:
         return getName();
@@ -865,7 +865,7 @@ public class JClassImpl extends JMemberImpl implements JClass
       case JavaPackage.JCLASS__ALL_TYPES:
         return getAllTypes();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -873,9 +873,9 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JCLASS__NAME:
         setName((String)newValue);
@@ -959,7 +959,7 @@ public class JClassImpl extends JMemberImpl implements JClass
         getAllTypes().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -967,9 +967,9 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JCLASS__NAME:
         setName(NAME_EDEFAULT);
@@ -1044,7 +1044,7 @@ public class JClassImpl extends JMemberImpl implements JClass
         getAllTypes().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -1052,9 +1052,9 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JCLASS__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -1105,7 +1105,7 @@ public class JClassImpl extends JMemberImpl implements JClass
       case JavaPackage.JCLASS__ALL_TYPES:
         return allTypes != null && !allTypes.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

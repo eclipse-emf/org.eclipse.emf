@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryImpl.java,v 1.3 2005/06/08 06:16:16 nickb Exp $
+ * $Id: FeatureMapEntryImpl.java,v 1.4 2005/11/23 13:57:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -348,6 +348,104 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE_NAME:
+        return getFeatureName();
+      case ChangePackage.FEATURE_MAP_ENTRY__DATA_VALUE:
+        return getDataValue();
+      case ChangePackage.FEATURE_MAP_ENTRY__VALUE:
+        return getValue();
+      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE:
+        if (resolve) return getFeature();
+        return basicGetFeature();
+      case ChangePackage.FEATURE_MAP_ENTRY__REFERENCE_VALUE:
+        if (resolve) return getReferenceValue();
+        return basicGetReferenceValue();
+    }
+    return eDynamicGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE_NAME:
+        setFeatureName((String)newValue);
+        return;
+      case ChangePackage.FEATURE_MAP_ENTRY__DATA_VALUE:
+        setDataValue((String)newValue);
+        return;
+      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE:
+        setFeature((EStructuralFeature)newValue);
+        return;
+      case ChangePackage.FEATURE_MAP_ENTRY__REFERENCE_VALUE:
+        setReferenceValue((EObject)newValue);
+        return;
+    }
+    eDynamicSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE_NAME:
+        unsetFeatureName();
+        return;
+      case ChangePackage.FEATURE_MAP_ENTRY__DATA_VALUE:
+        setDataValue(DATA_VALUE_EDEFAULT);
+        return;
+      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE:
+        unsetFeature();
+        return;
+      case ChangePackage.FEATURE_MAP_ENTRY__REFERENCE_VALUE:
+        setReferenceValue((EObject)null);
+        return;
+    }
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE_NAME:
+        return isSetFeatureName();
+      case ChangePackage.FEATURE_MAP_ENTRY__DATA_VALUE:
+        return DATA_VALUE_EDEFAULT == null ? getDataValue() != null : !DATA_VALUE_EDEFAULT.equals(getDataValue());
+      case ChangePackage.FEATURE_MAP_ENTRY__VALUE:
+        return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
+      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE:
+        return isSetFeature();
+      case ChangePackage.FEATURE_MAP_ENTRY__REFERENCE_VALUE:
+        return basicGetReferenceValue() != null;
+    }
+    return eDynamicIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated NOT
    */
   public Object getValue()
@@ -386,104 +484,6 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
         setReferenceValue((EObject)value);
       }
     }
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE_NAME:
-        return getFeatureName();
-      case ChangePackage.FEATURE_MAP_ENTRY__DATA_VALUE:
-        return getDataValue();
-      case ChangePackage.FEATURE_MAP_ENTRY__VALUE:
-        return getValue();
-      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE:
-        if (resolve) return getFeature();
-        return basicGetFeature();
-      case ChangePackage.FEATURE_MAP_ENTRY__REFERENCE_VALUE:
-        if (resolve) return getReferenceValue();
-        return basicGetReferenceValue();
-    }
-    return eDynamicGet(eFeature, resolve);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE_NAME:
-        setFeatureName((String)newValue);
-        return;
-      case ChangePackage.FEATURE_MAP_ENTRY__DATA_VALUE:
-        setDataValue((String)newValue);
-        return;
-      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE:
-        setFeature((EStructuralFeature)newValue);
-        return;
-      case ChangePackage.FEATURE_MAP_ENTRY__REFERENCE_VALUE:
-        setReferenceValue((EObject)newValue);
-        return;
-    }
-    eDynamicSet(eFeature, newValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void eUnset(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE_NAME:
-        unsetFeatureName();
-        return;
-      case ChangePackage.FEATURE_MAP_ENTRY__DATA_VALUE:
-        setDataValue(DATA_VALUE_EDEFAULT);
-        return;
-      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE:
-        unsetFeature();
-        return;
-      case ChangePackage.FEATURE_MAP_ENTRY__REFERENCE_VALUE:
-        setReferenceValue((EObject)null);
-        return;
-    }
-    eDynamicUnset(eFeature);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean eIsSet(EStructuralFeature eFeature)
-  {
-    switch (eDerivedStructuralFeatureID(eFeature))
-    {
-      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE_NAME:
-        return isSetFeatureName();
-      case ChangePackage.FEATURE_MAP_ENTRY__DATA_VALUE:
-        return DATA_VALUE_EDEFAULT == null ? getDataValue() != null : !DATA_VALUE_EDEFAULT.equals(getDataValue());
-      case ChangePackage.FEATURE_MAP_ENTRY__VALUE:
-        return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
-      case ChangePackage.FEATURE_MAP_ENTRY__FEATURE:
-        return isSetFeature();
-      case ChangePackage.FEATURE_MAP_ENTRY__REFERENCE_VALUE:
-        return basicGetReferenceValue() != null;
-    }
-    return eDynamicIsSet(eFeature);
   }
 
   protected ListChange createListChange(EList changesList, ChangeKind kind, int index)

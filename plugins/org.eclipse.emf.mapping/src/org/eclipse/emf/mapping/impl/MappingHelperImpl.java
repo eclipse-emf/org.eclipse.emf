@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperImpl.java,v 1.6 2005/11/08 14:18:51 emerks Exp $
+ * $Id: MappingHelperImpl.java,v 1.7 2005/11/23 13:56:59 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -24,7 +24,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -102,7 +101,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
   public Mapping getMapper()
   {
     if (eContainerFeatureID != MappingPackage.MAPPING_HELPER__MAPPER) return null;
-    return (Mapping)eContainer;
+    return (Mapping)eContainer();
   }
 
   /**
@@ -112,12 +111,12 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    */
   public void setMapper(Mapping newMapper)
   {
-    if (newMapper != eContainer || (eContainerFeatureID != MappingPackage.MAPPING_HELPER__MAPPER && newMapper != null))
+    if (newMapper != eInternalContainer() || (eContainerFeatureID != MappingPackage.MAPPING_HELPER__MAPPER && newMapper != null))
     {
       if (EcoreUtil.isAncestor(this, newMapper))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newMapper != null)
         msgs = ((InternalEObject)newMapper).eInverseAdd(this, MappingPackage.MAPPING__HELPER, Mapping.class, msgs);
@@ -137,8 +136,8 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
   {
     if (helpedObject != null && helpedObject.eIsProxy())
     {
-      EObject oldHelpedObject = helpedObject;
-      helpedObject = eResolveProxy((InternalEObject)helpedObject);
+      InternalEObject oldHelpedObject = (InternalEObject)helpedObject;
+      helpedObject = eResolveProxy(oldHelpedObject);
       if (helpedObject != oldHelpedObject)
       {
         if (eNotificationRequired())
@@ -179,7 +178,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
   public MappingHelper getNestedIn()
   {
     if (eContainerFeatureID != MappingPackage.MAPPING_HELPER__NESTED_IN) return null;
-    return (MappingHelper)eContainer;
+    return (MappingHelper)eContainer();
   }
 
   /**
@@ -189,12 +188,12 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    */
   public void setNestedIn(MappingHelper newNestedIn)
   {
-    if (newNestedIn != eContainer || (eContainerFeatureID != MappingPackage.MAPPING_HELPER__NESTED_IN && newNestedIn != null))
+    if (newNestedIn != eInternalContainer() || (eContainerFeatureID != MappingPackage.MAPPING_HELPER__NESTED_IN && newNestedIn != null))
     {
       if (EcoreUtil.isAncestor(this, newNestedIn))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newNestedIn != null)
         msgs = ((InternalEObject)newNestedIn).eInverseAdd(this, MappingPackage.MAPPING_HELPER__NESTED, MappingHelper.class, msgs);
@@ -231,11 +230,11 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
       switch (eDerivedStructuralFeatureID(featureID, baseClass))
       {
         case MappingPackage.MAPPING_HELPER__MAPPER:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, MappingPackage.MAPPING_HELPER__MAPPER, msgs);
         case MappingPackage.MAPPING_HELPER__NESTED_IN:
-          if (eContainer != null)
+          if (eInternalContainer() != null)
             msgs = eBasicRemoveFromContainer(msgs);
           return eBasicSetContainer(otherEnd, MappingPackage.MAPPING_HELPER__NESTED_IN, msgs);
         case MappingPackage.MAPPING_HELPER__NESTED:
@@ -244,7 +243,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -285,14 +284,14 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
       switch (eContainerFeatureID)
       {
         case MappingPackage.MAPPING_HELPER__MAPPER:
-          return eContainer.eInverseRemove(this, MappingPackage.MAPPING__HELPER, Mapping.class, msgs);
+          return eInternalContainer().eInverseRemove(this, MappingPackage.MAPPING__HELPER, Mapping.class, msgs);
         case MappingPackage.MAPPING_HELPER__NESTED_IN:
-          return eContainer.eInverseRemove(this, MappingPackage.MAPPING_HELPER__NESTED, MappingHelper.class, msgs);
+          return eInternalContainer().eInverseRemove(this, MappingPackage.MAPPING_HELPER__NESTED, MappingHelper.class, msgs);
         default:
           return eDynamicBasicRemoveFromContainer(msgs);
       }
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
   }
 
   /**
@@ -300,9 +299,9 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING_HELPER__MAPPER:
         return getMapper();
@@ -314,7 +313,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
       case MappingPackage.MAPPING_HELPER__NESTED:
         return getNested();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -322,9 +321,9 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING_HELPER__MAPPER:
         setMapper((Mapping)newValue);
@@ -340,7 +339,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
         getNested().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -348,9 +347,9 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING_HELPER__MAPPER:
         setMapper((Mapping)null);
@@ -365,7 +364,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
         getNested().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -373,9 +372,9 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING_HELPER__MAPPER:
         return getMapper() != null;
@@ -386,7 +385,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
       case MappingPackage.MAPPING_HELPER__NESTED:
         return nested != null && !nested.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
 } //MappingHelperImpl

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeFactory.java,v 1.3 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ChangeFactory.java,v 1.4 2005/11/23 13:57:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -34,15 +34,14 @@ import org.eclipse.emf.ecore.resource.Resource;
  * @see org.eclipse.emf.ecore.change.ChangePackage
  * @generated
  */
-public interface ChangeFactory extends EFactory
-{
+public interface ChangeFactory extends EFactory{
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  ChangeFactory eINSTANCE = new org.eclipse.emf.ecore.change.impl.ChangeFactoryImpl();
+  ChangeFactory eINSTANCE = org.eclipse.emf.ecore.change.impl.ChangeFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Description</em>'.

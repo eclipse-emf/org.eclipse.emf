@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootImpl.java,v 1.6 2005/11/08 14:18:51 emerks Exp $
+ * $Id: MappingRootImpl.java,v 1.7 2005/11/23 13:56:59 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -34,7 +34,6 @@ import org.eclipse.emf.common.notify.impl.NotifyingListImpl;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.edit.provider.ChangeNotifier;
@@ -242,9 +241,9 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING_ROOT__HELPER:
         return getHelper();
@@ -266,7 +265,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       case MappingPackage.MAPPING_ROOT__COMMAND_STACK:
         return getCommandStack();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -274,9 +273,9 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING_ROOT__HELPER:
         setHelper((MappingHelper)newValue);
@@ -309,7 +308,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
         setCommandStack((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -317,9 +316,9 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING_ROOT__HELPER:
         setHelper((MappingHelper)null);
@@ -349,7 +348,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
         setCommandStack(COMMAND_STACK_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -357,9 +356,9 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.MAPPING_ROOT__HELPER:
         return helper != null;
@@ -380,7 +379,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       case MappingPackage.MAPPING_ROOT__COMMAND_STACK:
         return COMMAND_STACK_EDEFAULT == null ? commandStack != null : !COMMAND_STACK_EDEFAULT.equals(commandStack);
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

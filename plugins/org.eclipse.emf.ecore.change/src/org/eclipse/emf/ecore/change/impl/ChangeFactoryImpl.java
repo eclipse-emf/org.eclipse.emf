@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeFactoryImpl.java,v 1.7 2005/11/08 14:08:49 emerks Exp $
+ * $Id: ChangeFactoryImpl.java,v 1.8 2005/11/23 13:57:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -23,9 +23,13 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.change.*;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.ecore.resource.Resource;
 
 
@@ -37,6 +41,29 @@ import org.eclipse.emf.ecore.resource.Resource;
  */
 public class ChangeFactoryImpl extends EFactoryImpl implements ChangeFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static ChangeFactory init()
+  {
+    try
+    {
+      ChangeFactory theChangeFactory = (ChangeFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2003/Change"); 
+      if (theChangeFactory != null)
+      {
+        return theChangeFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new ChangeFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

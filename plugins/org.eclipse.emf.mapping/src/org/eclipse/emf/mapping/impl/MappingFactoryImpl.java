@@ -12,14 +12,18 @@
  *
  * </copyright>
  *
- * $Id: MappingFactoryImpl.java,v 1.5 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingFactoryImpl.java,v 1.6 2005/11/23 13:56:59 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.mapping.*;
 
 
@@ -31,6 +35,29 @@ import org.eclipse.emf.mapping.*;
  */
 public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static MappingFactory init()
+  {
+    try
+    {
+      MappingFactory theMappingFactory = (MappingFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/Mapping"); 
+      if (theMappingFactory != null)
+      {
+        return theMappingFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new MappingFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

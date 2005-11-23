@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.3 2004/11/08 18:06:32 marcelop Exp $
+ * $Id: ResourceChangeImpl.java,v 1.4 2005/11/23 13:57:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -16,7 +16,6 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.change.ChangePackage;
 import org.eclipse.emf.ecore.change.ListChange;
@@ -312,9 +311,9 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.RESOURCE_CHANGE__RESOURCE_URI:
         return getResourceURI();
@@ -325,7 +324,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
       case ChangePackage.RESOURCE_CHANGE__LIST_CHANGES:
         return getListChanges();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -333,9 +332,9 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.RESOURCE_CHANGE__RESOURCE_URI:
         setResourceURI((String)newValue);
@@ -348,7 +347,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
         getListChanges().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -356,9 +355,9 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.RESOURCE_CHANGE__RESOURCE_URI:
         setResourceURI(RESOURCE_URI_EDEFAULT);
@@ -370,7 +369,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
         getListChanges().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -378,9 +377,9 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case ChangePackage.RESOURCE_CHANGE__RESOURCE_URI:
         return RESOURCE_URI_EDEFAULT == null ? resourceURI != null : !RESOURCE_URI_EDEFAULT.equals(resourceURI);
@@ -391,7 +390,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
       case ChangePackage.RESOURCE_CHANGE__LIST_CHANGES:
         return listChanges != null && !listChanges.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

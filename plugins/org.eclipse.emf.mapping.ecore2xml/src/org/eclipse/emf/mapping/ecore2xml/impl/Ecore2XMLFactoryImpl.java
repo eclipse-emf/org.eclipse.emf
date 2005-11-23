@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLFactoryImpl.java,v 1.3 2005/06/21 16:17:03 khussey Exp $
+ * $Id: Ecore2XMLFactoryImpl.java,v 1.4 2005/11/23 13:57:11 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -22,7 +22,11 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.mapping.ecore2xml.*;
 
 /**
@@ -34,6 +38,29 @@ import org.eclipse.emf.mapping.ecore2xml.*;
 public class Ecore2XMLFactoryImpl extends EFactoryImpl implements Ecore2XMLFactory
 {
   
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static Ecore2XMLFactory init()
+  {
+    try
+    {
+      Ecore2XMLFactory theEcore2XMLFactory = (Ecore2XMLFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2005/Ecore2XML"); //$NON-NLS-1$ 
+      if (theEcore2XMLFactory != null)
+      {
+        return theEcore2XMLFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new Ecore2XMLFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

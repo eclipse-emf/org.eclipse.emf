@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.3 2005/11/23 13:57:11 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -25,7 +25,6 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -99,8 +98,8 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
   {
     if (key != null && key.eIsProxy())
     {
-      ENamedElement oldKey = key;
-      key = (ENamedElement)eResolveProxy((InternalEObject)key);
+      InternalEObject oldKey = (InternalEObject)key;
+      key = (ENamedElement)eResolveProxy(oldKey);
       if (key != oldKey)
       {
         if (eNotificationRequired())
@@ -206,9 +205,9 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__KEY:
         if (resolve) return getTypedKey();
@@ -216,7 +215,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
       case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE:
         return getTypedValue();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -224,9 +223,9 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__KEY:
         setTypedKey((ENamedElement)newValue);
@@ -235,7 +234,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
         setTypedValue((XMLInfo)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -243,9 +242,9 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__KEY:
         setTypedKey((ENamedElement)null);
@@ -254,7 +253,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
         setTypedValue((XMLInfo)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -262,16 +261,16 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__KEY:
         return key != null;
       case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE:
         return value != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreFactoryImpl.java,v 1.6 2005/06/08 06:21:24 nickb Exp $
+ * $Id: Ecore2EcoreFactoryImpl.java,v 1.7 2005/11/23 13:57:01 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.impl;
 
@@ -20,7 +20,11 @@ package org.eclipse.emf.mapping.ecore2ecore.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.eclipse.emf.mapping.ecore2ecore.*;
 
@@ -33,6 +37,29 @@ import org.eclipse.emf.mapping.ecore2ecore.*;
  */
 public class Ecore2EcoreFactoryImpl extends EFactoryImpl implements Ecore2EcoreFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static Ecore2EcoreFactory init()
+  {
+    try
+    {
+      Ecore2EcoreFactory theEcore2EcoreFactory = (Ecore2EcoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2004/Ecore2Ecore"); 
+      if (theEcore2EcoreFactory != null)
+      {
+        return theEcore2EcoreFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new Ecore2EcoreFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

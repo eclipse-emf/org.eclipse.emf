@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRootImpl.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLNamespaceDocumentRootImpl.java,v 1.5 2005/11/23 13:56:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
-
-import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -388,16 +386,19 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__MIXED:
-        return getMixed();
+        if (coreType) return getMixed();
+        return ((FeatureMap.Internal)getMixed()).getWrapper();
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        return getXMLNSPrefixMap();
+        if (coreType) return getXMLNSPrefixMap();
+        else return getXMLNSPrefixMap().map();
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        return getXSISchemaLocation();
+        if (coreType) return getXSISchemaLocation();
+        else return getXSISchemaLocation().map();
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__BASE:
         return getBase();
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__ID:
@@ -407,7 +408,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__SPACE:
         return getSpace();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -415,21 +416,18 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__MIXED:
-        getMixed().clear();
-        getMixed().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getMixed()).set(newValue);
         return;
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        getXMLNSPrefixMap().clear();
-        getXMLNSPrefixMap().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getXMLNSPrefixMap()).set(newValue);
         return;
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        getXSISchemaLocation().clear();
-        getXSISchemaLocation().addAll((Collection)newValue);
+        ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
         return;
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__BASE:
         setBase((String)newValue);
@@ -444,7 +442,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
         setSpace((SpaceType)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -452,9 +450,9 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__MIXED:
         getMixed().clear();
@@ -478,7 +476,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
         unsetSpace();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -486,9 +484,9 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__MIXED:
         return mixed != null && !mixed.isEmpty();
@@ -505,7 +503,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__SPACE:
         return isSetSpace();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

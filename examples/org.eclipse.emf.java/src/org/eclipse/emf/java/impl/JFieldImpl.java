@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldImpl.java,v 1.4 2005/11/08 14:15:25 emerks Exp $
+ * $Id: JFieldImpl.java,v 1.5 2005/11/23 13:57:05 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -25,7 +25,6 @@ import org.eclipse.jdt.core.jdom.IDOMField;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.java.JClass;
@@ -309,8 +308,8 @@ public class JFieldImpl extends JMemberImpl implements JField
   {
     if (type != null && type.eIsProxy())
     {
-      JClass oldType = type;
-      type = (JClass)eResolveProxy((InternalEObject)type);
+      InternalEObject oldType = (InternalEObject)type;
+      type = (JClass)eResolveProxy(oldType);
       if (type != oldType)
       {
         if (eNotificationRequired())
@@ -348,9 +347,9 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JFIELD__NAME:
         return getName();
@@ -378,7 +377,7 @@ public class JFieldImpl extends JMemberImpl implements JField
         if (resolve) return getType();
         return basicGetType();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -386,9 +385,9 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JFIELD__NAME:
         setName((String)newValue);
@@ -427,7 +426,7 @@ public class JFieldImpl extends JMemberImpl implements JField
         setType((JClass)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -435,9 +434,9 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JFIELD__NAME:
         setName(NAME_EDEFAULT);
@@ -476,7 +475,7 @@ public class JFieldImpl extends JMemberImpl implements JField
         setType((JClass)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -484,9 +483,9 @@ public class JFieldImpl extends JMemberImpl implements JField
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JFIELD__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -513,7 +512,7 @@ public class JFieldImpl extends JMemberImpl implements JField
       case JavaPackage.JFIELD__TYPE:
         return type != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackageImpl.java,v 1.3 2005/06/12 13:37:24 emerks Exp $
+ * $Id: JPackageImpl.java,v 1.4 2005/11/23 13:57:05 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -25,7 +25,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
@@ -155,7 +154,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -185,9 +184,9 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JPACKAGE__NAME:
         return getName();
@@ -198,7 +197,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
       case JavaPackage.JPACKAGE__TYPES:
         return getTypes();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -206,9 +205,9 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JPACKAGE__NAME:
         setName((String)newValue);
@@ -224,7 +223,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
         getTypes().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -232,9 +231,9 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JPACKAGE__NAME:
         setName(NAME_EDEFAULT);
@@ -249,7 +248,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
         getTypes().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -257,9 +256,9 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JPACKAGE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -270,7 +269,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
       case JavaPackage.JPACKAGE__TYPES:
         return types != null && !types.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

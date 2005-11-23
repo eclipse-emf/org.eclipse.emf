@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLFactory.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: Ecore2XMLFactory.java,v 1.3 2005/11/23 13:57:11 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml;
 
@@ -33,7 +33,7 @@ public interface Ecore2XMLFactory extends EFactory{
    * <!-- end-user-doc -->
    * @generated
    */
-  Ecore2XMLFactory eINSTANCE = new org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLFactoryImpl();
+  Ecore2XMLFactory eINSTANCE = org.eclipse.emf.mapping.ecore2xml.impl.Ecore2XMLFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>XML Info</em>'.

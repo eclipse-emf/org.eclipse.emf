@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializerImpl.java,v 1.4 2005/11/08 14:15:25 emerks Exp $
+ * $Id: JInitializerImpl.java,v 1.5 2005/11/23 13:57:05 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -21,7 +21,6 @@ import org.eclipse.jdt.core.jdom.IDOMInitializer;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.java.JClass;
 import org.eclipse.emf.java.JInitializer;
@@ -112,9 +111,9 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JINITIALIZER__NAME:
         return getName();
@@ -131,7 +130,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
       case JavaPackage.JINITIALIZER__BODY:
         return getBody();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -139,9 +138,9 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JINITIALIZER__NAME:
         setName((String)newValue);
@@ -165,7 +164,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
         setBody((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -173,9 +172,9 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JINITIALIZER__NAME:
         setName(NAME_EDEFAULT);
@@ -199,7 +198,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
         setBody(BODY_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -207,9 +206,9 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JINITIALIZER__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -226,7 +225,7 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
       case JavaPackage.JINITIALIZER__BODY:
         return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT.equals(body);
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

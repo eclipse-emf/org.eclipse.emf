@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceFactory.java,v 1.2 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLNamespaceFactory.java,v 1.3 2005/11/23 13:56:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -26,15 +26,14 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage
  * @generated
  */
-public interface XMLNamespaceFactory extends EFactory
-{
+public interface XMLNamespaceFactory extends EFactory{
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  XMLNamespaceFactory eINSTANCE = new org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceFactoryImpl();
+  XMLNamespaceFactory eINSTANCE = org.eclipse.emf.ecore.xml.namespace.impl.XMLNamespaceFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Document Root</em>'.

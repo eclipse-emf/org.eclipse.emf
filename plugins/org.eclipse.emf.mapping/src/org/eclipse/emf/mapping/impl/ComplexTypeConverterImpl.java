@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComplexTypeConverterImpl.java,v 1.4 2005/11/08 14:18:51 emerks Exp $
+ * $Id: ComplexTypeConverterImpl.java,v 1.5 2005/11/23 13:56:59 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -22,7 +22,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.mapping.ComplexTypeConverter;
@@ -96,8 +95,8 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
   {
     if (in2out != null && in2out.eIsProxy())
     {
-      Mapping oldIn2out = in2out;
-      in2out = (Mapping)eResolveProxy((InternalEObject)in2out);
+      InternalEObject oldIn2out = (InternalEObject)in2out;
+      in2out = (Mapping)eResolveProxy(oldIn2out);
       if (in2out != oldIn2out)
       {
         if (eNotificationRequired())
@@ -139,8 +138,8 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
   {
     if (out2in != null && out2in.eIsProxy())
     {
-      Mapping oldOut2in = out2in;
-      out2in = (Mapping)eResolveProxy((InternalEObject)out2in);
+      InternalEObject oldOut2in = (InternalEObject)out2in;
+      out2in = (Mapping)eResolveProxy(oldOut2in);
       if (out2in != oldOut2in)
       {
         if (eNotificationRequired())
@@ -178,9 +177,9 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.COMPLEX_TYPE_CONVERTER__MAPPER:
         return getMapper();
@@ -198,7 +197,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
         if (resolve) return getOut2in();
         return basicGetOut2in();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -206,9 +205,9 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.COMPLEX_TYPE_CONVERTER__MAPPER:
         setMapper((Mapping)newValue);
@@ -230,7 +229,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
         setOut2in((Mapping)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -238,9 +237,9 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.COMPLEX_TYPE_CONVERTER__MAPPER:
         setMapper((Mapping)null);
@@ -261,7 +260,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
         setOut2in((Mapping)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -269,9 +268,9 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case MappingPackage.COMPLEX_TYPE_CONVERTER__MAPPER:
         return getMapper() != null;
@@ -286,7 +285,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
       case MappingPackage.COMPLEX_TYPE_CONVERTER__OUT2IN:
         return out2in != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
 } //ComplexTypeConverterImpl

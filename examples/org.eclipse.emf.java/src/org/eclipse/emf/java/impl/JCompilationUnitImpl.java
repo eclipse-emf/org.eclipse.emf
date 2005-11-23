@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitImpl.java,v 1.5 2005/06/12 13:37:24 emerks Exp $
+ * $Id: JCompilationUnitImpl.java,v 1.6 2005/11/23 13:57:05 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -33,7 +33,6 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -168,8 +167,8 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
   {
     if (package_ != null && package_.eIsProxy())
     {
-      JPackage oldPackage = package_;
-      package_ = (JPackage)eResolveProxy((InternalEObject)package_);
+      InternalEObject oldPackage = (InternalEObject)package_;
+      package_ = (JPackage)eResolveProxy(oldPackage);
       if (package_ != oldPackage)
       {
         if (eNotificationRequired())
@@ -298,7 +297,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
     }
-    if (eContainer != null)
+    if (eInternalContainer() != null)
       msgs = eBasicRemoveFromContainer(msgs);
     return eBasicSetContainer(otherEnd, featureID, msgs);
   }
@@ -328,9 +327,9 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JCOMPILATION_UNIT__NAME:
         return getName();
@@ -350,7 +349,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
         if (resolve) return getPackage();
         return basicGetPackage();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -358,9 +357,9 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JCOMPILATION_UNIT__NAME:
         setName((String)newValue);
@@ -391,7 +390,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
         setPackage((JPackage)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -399,9 +398,9 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JCOMPILATION_UNIT__NAME:
         setName(NAME_EDEFAULT);
@@ -428,7 +427,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
         setPackage((JPackage)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -436,9 +435,9 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case JavaPackage.JCOMPILATION_UNIT__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
@@ -457,7 +456,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
       case JavaPackage.JCOMPILATION_UNIT__PACKAGE:
         return package_ != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

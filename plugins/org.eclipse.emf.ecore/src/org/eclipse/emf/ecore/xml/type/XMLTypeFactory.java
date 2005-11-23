@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactory.java,v 1.2 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLTypeFactory.java,v 1.3 2005/11/23 13:56:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -26,15 +26,14 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage
  * @generated
  */
-public interface XMLTypeFactory extends EFactory
-{
+public interface XMLTypeFactory extends EFactory{
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  XMLTypeFactory eINSTANCE = new org.eclipse.emf.ecore.xml.type.impl.XMLTypeFactoryImpl();
+  XMLTypeFactory eINSTANCE = org.eclipse.emf.ecore.xml.type.impl.XMLTypeFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Any Type</em>'.

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.18 2005/11/08 13:01:55 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.19 2005/11/23 13:56:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -31,7 +31,11 @@ import java.util.StringTokenizer;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.ecore.xml.type.*;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
@@ -48,6 +52,29 @@ import org.eclipse.emf.ecore.xml.type.internal.DataValue.XMLChar;
  */
 public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
 {
+
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XMLTypeFactory init()
+  {
+    try
+    {
+      XMLTypeFactory theXMLTypeFactory = (XMLTypeFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2003/XMLType"); 
+      if (theXMLTypeFactory != null)
+      {
+        return theXMLTypeFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new XMLTypeFactoryImpl();
+  }
 
   protected static final DateFormat [] EDATE_FORMATS =
   {

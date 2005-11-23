@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeFactory.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: TreeFactory.java,v 1.3 2005/11/23 13:56:51 emerks Exp $
  */
 package org.eclipse.emf.edit.tree;
 
@@ -28,13 +28,12 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.emf.edit.tree.TreePackage
  * @generated
  */
-public interface TreeFactory extends EFactory
-{
+public interface TreeFactory extends EFactory{
   /**
    * The singleton instance of the factory.
    * @generated
    */
-  TreeFactory eINSTANCE = new org.eclipse.emf.edit.tree.impl.TreeFactoryImpl();
+  TreeFactory eINSTANCE = org.eclipse.emf.edit.tree.impl.TreeFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Node</em>'.
