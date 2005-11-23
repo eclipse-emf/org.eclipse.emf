@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.20 2005/10/07 19:40:24 emerks Exp $
+ * $Id: ModelImporter.java,v 1.21 2005/11/23 19:07:04 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -34,13 +34,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -49,6 +45,10 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -237,7 +237,7 @@ public abstract class ModelImporter
     this.usePlatformURI = usePlatformURI;
   }
 
-  public void defineOriginalGenModelPath(IPath path) throws CoreException
+  public void defineOriginalGenModelPath(IPath path) throws DiagnosticException
   {
     if (getOriginalGenModelPath() == null)
     {
@@ -310,7 +310,7 @@ public abstract class ModelImporter
     return null;
   }
 
-  public IStatus checkGenModelFileName()
+  public Diagnostic checkGenModelFileName()
   {
     String message = null;
     String name = getGenModelFileName();
@@ -325,15 +325,15 @@ public abstract class ModelImporter
 
     if (message == null)
     {
-      return Status.OK_STATUS;
+      return Diagnostic.OK_INSTANCE;
     }
     else
     {
-      return new Status(IStatus.ERROR, ImporterPlugin.ID, ImporterUtil.ACTION_DEFAULT, message, null);
+      return new BasicDiagnostic(Diagnostic.ERROR, ImporterPlugin.ID, ImporterUtil.ACTION_DEFAULT, message, null);
     }
   }
 
-  public IStatus checkEcoreModelFileName(String fileName, String packageName)
+  public Diagnostic checkEcoreModelFileName(String fileName, String packageName)
   {
     String message = null;
 
@@ -351,11 +351,11 @@ public abstract class ModelImporter
     }
     if (message == null)
     {
-      return Status.OK_STATUS;
+      return Diagnostic.OK_INSTANCE;
     }
     else
     {
-      return new Status(IStatus.ERROR, ImporterPlugin.ID, ImporterUtil.ACTION_DEFAULT, message, null);
+      return new BasicDiagnostic(Diagnostic.ERROR, ImporterPlugin.ID, ImporterUtil.ACTION_DEFAULT, message, null);
     }
   }
 
@@ -639,7 +639,7 @@ public abstract class ModelImporter
     return ImporterUtil.createResourceSet();
   }
 
-  protected void loadOriginalGenModel(URI genModelURI) throws CoreException
+  protected void loadOriginalGenModel(URI genModelURI) throws DiagnosticException
   {
     Resource resource = createResourceSet().getResource(genModelURI, true);
     originalGenModel = (GenModel)resource.getContents().get(0);
@@ -648,10 +648,10 @@ public abstract class ModelImporter
     {
       getOriginalGenModel().reconcile();
 
-      IStatus status = getOriginalGenModel().validate();
-      if (!status.isOK())
+      Diagnostic diagnostic = getOriginalGenModel().diagnose();
+      if (diagnostic.getSeverity() != Diagnostic.OK)
       {
-        throw new CoreException(status);
+        throw new DiagnosticException(diagnostic);
       }
 
       setGenModelFileName(getOriginalGenModelPath().lastSegment());
@@ -666,12 +666,12 @@ public abstract class ModelImporter
     }
   }
 
-  public IStatus computeEPackages(IProgressMonitor progressMonitor) throws Exception
+  public Diagnostic computeEPackages(Monitor monitor) throws Exception
   {
     clearEPackagesCollections();
-    IStatus status = doComputeEPackages(progressMonitor);
+    Diagnostic diagnostic = doComputeEPackages(monitor);
     presetEPackagesToGenerate();
-    return status;
+    return diagnostic;
   }
   
   protected void presetEPackagesToGenerate()
@@ -691,9 +691,9 @@ public abstract class ModelImporter
     }    
   }
 
-  protected IStatus doComputeEPackages(IProgressMonitor progressMonitor) throws Exception
+  protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
-    return Status.OK_STATUS;
+    return Diagnostic.OK_INSTANCE;
   }
 
   public void clearEPackagesCollections()
@@ -715,7 +715,7 @@ public abstract class ModelImporter
     }
   }
 
-  public void adjustEPackages(IProgressMonitor progressMonitor)
+  public void adjustEPackages(Monitor monitor)
   {
     TreeIterator ePackagesIterator = new AbstractTreeIterator(getEPackages(), false)
     {
@@ -730,13 +730,13 @@ public abstract class ModelImporter
     while (ePackagesIterator.hasNext())
     {
       EPackage ePackage = (EPackage)ePackagesIterator.next();
-      adjustEPackage(progressMonitor, ePackage);
+      adjustEPackage(monitor, ePackage);
     }
     
     makeEcoreFileNamesUnique();
   }
 
-  protected void adjustEPackage(IProgressMonitor progressMonitor, EPackage ePackage)
+  protected void adjustEPackage(Monitor monitor, EPackage ePackage)
   {
     EPackageInfo ePackageInfo = getEPackageInfo(ePackage);
 
@@ -799,7 +799,7 @@ public abstract class ModelImporter
     return workspaceRoot;
   }
 
-  public void prepareGenModelAndEPackages(IProgressMonitor progressMonitor)
+  public void prepareGenModelAndEPackages(Monitor monitor)
   {
     ResourceSet resourceSet = getGenModelResourceSet();
     
@@ -835,7 +835,7 @@ public abstract class ModelImporter
     getGenModel().initialize(ePackages);
     getGenModel().getUsedGenPackages().addAll(getReferencedGenPackages());
     traverseGenPackages(getGenModel().getGenPackages());
-    adjustGenModel(progressMonitor);
+    adjustGenModel(monitor);
 
     // Restore all configured settings from the original.
     //
@@ -863,7 +863,7 @@ public abstract class ModelImporter
     }
   }
 
-  public void saveGenModelAndEPackages(IProgressMonitor progressMonitor) throws Exception
+  public void saveGenModelAndEPackages(Monitor monitor) throws Exception
   {
     String projectName = getModelProjectName();
     IProject project = getWorkspaceRoot().getProject(projectName);
@@ -875,7 +875,7 @@ public abstract class ModelImporter
         GenPackage genPackage = (GenPackage)i.next();
         referencedGenModels.add(genPackage.getGenModel());
       }
-      createProject(progressMonitor, project, referencedGenModels);
+      createProject(monitor, project, referencedGenModels);
     }
 
     
@@ -965,8 +965,7 @@ public abstract class ModelImporter
       }
       
       IFile[] files = (IFile[])workspaceFiles.toArray(new IFile [workspaceFiles.size()]);
-      IStatus status = workspace.validateEdit(files, context);
-      if (!status.isOK())
+      if (!workspace.validateEdit(files, context).isOK())
       {
         for (int i = 0; i < files.length; i++)
         {
@@ -991,7 +990,7 @@ public abstract class ModelImporter
       readOnlyFiles.deleteCharAt(0).deleteCharAt(0).toString();
   }
 
-  protected void createProject(IProgressMonitor progressMonitor, IProject project, Collection referencedGenModels)
+  protected void createProject(Monitor monitor, IProject project, Collection referencedGenModels)
   {
     IWorkspaceRoot workspaceRoot = getWorkspaceRoot();
 
@@ -1034,11 +1033,11 @@ public abstract class ModelImporter
       (new Path(path),
        getGenModelProjectLocation(),
        referencedProjects,
-       progressMonitor,
+       monitor,
        Generator.EMF_MODEL_PROJECT_STYLE | Generator.EMF_EMPTY_PROJECT_STYLE);
   }
 
-  protected void adjustGenModel(IProgressMonitor progressMonitor)
+  protected void adjustGenModel(Monitor monitor)
   {
     String modelName = URI.decode(getGenModelPath().removeFileExtension().lastSegment());
     int index = modelName.lastIndexOf('.');

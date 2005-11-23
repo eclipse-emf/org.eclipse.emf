@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.17 2005/06/22 15:00:23 marcelop Exp $
+ * $Id: RoseImporterApplication.java,v 1.18 2005/11/23 19:07:01 emerks Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.SubProgressMonitor;
 
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.importer.ModelImporter;
@@ -203,13 +203,13 @@ public class RoseImporterApplication extends ModelImporterApplication
     }
   }
 
-  protected void adjustModelImporter(IProgressMonitor progressMonitor)
+  protected void adjustModelImporter(Monitor monitor)
   {
     try
     {
-      progressMonitor.beginTask("", 2);
+      monitor.beginTask("", 2);
 
-      super.adjustModelImporter(new SubProgressMonitor(progressMonitor, 1));
+      super.adjustModelImporter(CodeGenUtil.createMonitor(monitor, 1));
       RoseImporter roseImporter = getRoseImporter();
       handleGenModelPath(genModelFullPath);
       roseImporter.setModelLocation(URI.createFileURI(roseModelFullPath.toOSString()).toString());
@@ -223,24 +223,24 @@ public class RoseImporterApplication extends ModelImporterApplication
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
 
-  protected void adjustEPackages(IProgressMonitor progressMonitor)
+  protected void adjustEPackages(Monitor monitor)
   {
     try
     {
-      progressMonitor.beginTask("", 2);
-      super.adjustEPackages(new SubProgressMonitor(progressMonitor, 1));
+      monitor.beginTask("", 2);
+      super.adjustEPackages(CodeGenUtil.createMonitor(monitor, 1));
       
       List ePackages = getRoseImporter().getEPackages();
       traverseEPackages(ePackages);
-      getRoseImporter().adjustEPackages(new SubProgressMonitor(progressMonitor, 1));
+      getRoseImporter().adjustEPackages(CodeGenUtil.createMonitor(monitor, 1));
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
   

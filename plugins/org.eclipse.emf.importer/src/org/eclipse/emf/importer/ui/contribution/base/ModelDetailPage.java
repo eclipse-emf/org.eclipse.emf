@@ -24,7 +24,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -40,6 +39,9 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 
 import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.importer.ImporterPlugin;
@@ -244,8 +246,8 @@ public class ModelDetailPage extends ModelImporterPage
     {
       usingInternalSetName = false;
       getModelImporter().setGenModelFileName(genModelNameText.getText());
-      IStatus status = getModelImporter().checkGenModelFileName();
-      handleStatus(status);
+      Diagnostic diagnostic = getModelImporter().checkGenModelFileName();
+      handleDiagnostic(diagnostic);
     }
     else if (event.type == SWT.Selection && event.widget == modelLocationBrowseFileSystemButton)
     {
@@ -427,27 +429,27 @@ public class ModelDetailPage extends ModelImporterPage
       {
         protected void execute(IProgressMonitor progressMonitor) throws CoreException
         {
-          IStatus errorStatus = null;
+          Diagnostic errorDiagnostic = null;
           setErrorMessage(null);
           setMessage(null);
           
           try
           {
-            refreshModel(progressMonitor);
+            refreshModel(BasicMonitor.toMonitor(progressMonitor));
           }
           catch (Exception exception)
           {
             ImporterPlugin.INSTANCE.log(exception);
-            errorStatus = ImporterUtil.createErrorStatus(exception, true);
+            errorDiagnostic = ImporterUtil.createErrorDiagnostic(exception, true);
           }
           finally
           {
             progressMonitor.done();
           }
           
-          if (errorStatus != null)
+          if (errorDiagnostic != null)
           {
-            handleStatus(errorStatus, errorStatus.getMessage(), ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message"));
+            handleDiagnostic(errorDiagnostic, errorDiagnostic.getMessage(), ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), ImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessing_message"));
           }
         }
       };
@@ -482,13 +484,13 @@ public class ModelDetailPage extends ModelImporterPage
       && !getModelImporter().getModelLocationURIs().isEmpty();
   }  
 
-  protected void refreshModel(IProgressMonitor progressMonitor) throws Exception
+  protected void refreshModel(Monitor monitor) throws Exception
   {
-    IStatus status = null;
+    Diagnostic diagnostic = null;
     try
     {
-      status = getModelImporter().computeEPackages(progressMonitor);
-      getModelImporter().adjustEPackages(progressMonitor);
+      diagnostic = getModelImporter().computeEPackages(monitor);
+      getModelImporter().adjustEPackages(monitor);
     }
     catch (WrappedException wrappedException)
     {
@@ -505,20 +507,20 @@ public class ModelDetailPage extends ModelImporterPage
     }
     
     internalSetGenModelFileName(getDefaultGenModelFileName());
-    IStatus nameStatus = getModelImporter().checkGenModelFileName();
-    if (!nameStatus.isOK())
+    Diagnostic nameDiagnostic = getModelImporter().checkGenModelFileName();
+    if (nameDiagnostic.getSeverity() != Diagnostic.OK)
     {
-      if (status.isOK())
+      if (diagnostic.getSeverity() == Diagnostic.OK)
       {
-        status = nameStatus;
+        diagnostic = nameDiagnostic;
       }
       else
       {
-        status = ImporterUtil.mergeStatus(status, nameStatus);
+        diagnostic = ImporterUtil.mergeDiagnostic(diagnostic, nameDiagnostic);
       }
     }
     
-    handleStatus(status);
+    handleDiagnostic(diagnostic);
   }
   
   protected String getDefaultGenModelFileName()

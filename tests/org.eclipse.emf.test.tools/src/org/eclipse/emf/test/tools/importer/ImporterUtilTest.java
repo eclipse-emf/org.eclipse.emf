@@ -16,17 +16,15 @@
  */
 package org.eclipse.emf.test.tools.importer;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Status;
-
-import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.importer.ImporterPlugin;
-import org.eclipse.emf.importer.util.ImporterUtil;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.importer.ImporterPlugin;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 public class ImporterUtilTest extends TestCase
 {
@@ -43,8 +41,8 @@ public class ImporterUtilTest extends TestCase
     TestSuite ts = new TestSuite("ImporterUtilTest");
     ts.addTest(new ImporterUtilTest("testDecodeAction"));
     ts.addTest(new ImporterUtilTest("testValidPluginID"));
-    ts.addTest(new ImporterUtilTest("testMergeStatus"));
-    ts.addTest(new ImporterUtilTest("testCreateErrorStatus"));
+    ts.addTest(new ImporterUtilTest("testMergeDiagnostic"));
+    ts.addTest(new ImporterUtilTest("testCreateErrorDiagnostic"));
     return ts;
   }
   
@@ -141,62 +139,62 @@ public class ImporterUtilTest extends TestCase
     assertEquals("ab.c.12", ImporterUtil.validPluginID("ab.c.12"));
     assertEquals("ab.c.12", ImporterUtil.validPluginID("a b. c. 1 2"));
     assertEquals("a_b.c._12", ImporterUtil.validPluginID("a-b .c.-1 2"));
-    assertEquals("a_bá.c._1ã2", ImporterUtil.validPluginID("a-bá.c.-1ã2"));
+    assertEquals("a_bï¿½.c._1ï¿½2", ImporterUtil.validPluginID("a-bï¿½.c.-1ï¿½2"));
   }
   
-  public void testMergeStatus()
+  public void testMergeDiagnostic()
   {
     Exception baseException = new Exception();
     Exception toBeMergedException = new Exception();
-    IStatus baseStatus = new Status(IStatus.INFO, "base", 1, "baseMessage", baseException);
-    IStatus statusToBeMerged = new Status(IStatus.OK, "merged", 1, "toBeMergedMessage", toBeMergedException);
-    MultiStatus mergedStatus = ImporterUtil.mergeStatus(baseStatus, statusToBeMerged);
-    assertTrue(mergedStatus.isMultiStatus());
-    assertEquals(baseStatus.getSeverity(), mergedStatus.getSeverity());
-    assertEquals(baseStatus.getPlugin(), mergedStatus.getPlugin());
-    assertEquals(baseStatus.getCode(), mergedStatus.getCode());
-    assertEquals(baseStatus.getMessage(), mergedStatus.getMessage());
-    assertEquals(baseStatus.getException(), mergedStatus.getException());
-    assertEquals(1, mergedStatus.getChildren().length);
-    assertEquals(statusToBeMerged, mergedStatus.getChildren()[0]);
+    Diagnostic baseDiagnostic = new BasicDiagnostic(Diagnostic.INFO, "base", 1, "baseMessage", new Object[]{baseException});
+    Diagnostic diagnosticToBeMerged = new BasicDiagnostic(Diagnostic.OK, "merged", 1, "toBeMergedMessage", new Object[]{toBeMergedException});
+    Diagnostic mergedDiagnostic = ImporterUtil.mergeDiagnostic(baseDiagnostic, diagnosticToBeMerged);
+    assertFalse(mergedDiagnostic.getChildren().isEmpty());
+    assertEquals(baseDiagnostic.getSeverity(), mergedDiagnostic.getSeverity());
+    assertEquals(baseDiagnostic.getSource(), mergedDiagnostic.getSource());
+    assertEquals(baseDiagnostic.getCode(), mergedDiagnostic.getCode());
+    assertEquals(baseDiagnostic.getMessage(), mergedDiagnostic.getMessage());
+    assertEquals(baseDiagnostic.getException(), mergedDiagnostic.getException());
+    assertEquals(1, mergedDiagnostic.getChildren().size());
+    assertEquals(diagnosticToBeMerged, mergedDiagnostic.getChildren().get(0));
   }
   
-  public void testCreateErrorStatus()
+  public void testCreateErrorDiagnostic()
   {
     Throwable throwable = new NullPointerException();
-    IStatus status = ImporterUtil.createErrorStatus(throwable, false);
-    assertEquals(IStatus.ERROR, status.getSeverity());
-    assertEquals(ImporterUtil.ACTION_DEFAULT, status.getCode());
-    assertEquals(throwable, status.getException());
+    Diagnostic diagnostic = ImporterUtil.createErrorDiagnostic(throwable, false);
+    assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
+    assertEquals(ImporterUtil.ACTION_DEFAULT, diagnostic.getCode());
+    assertEquals(throwable, diagnostic.getException());
     String message = ImporterPlugin.INSTANCE.getString("_UI_GenericException_message", new Object[]{"NullPointerException"}); 
-    assertEquals(message, status.getMessage());
+    assertEquals(message, diagnostic.getMessage());
 
     Exception rootException = new Exception("root");
-    status = ImporterUtil.createErrorStatus(rootException, true);
-    assertEquals(IStatus.ERROR, status.getSeverity());
-    assertEquals(ImporterUtil.ACTION_DIALOG_SHOW_ERROR, status.getCode());
-    assertEquals(rootException, status.getException());
-    assertEquals("root", status.getMessage());
+    diagnostic = ImporterUtil.createErrorDiagnostic(rootException, true);
+    assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
+    assertEquals(ImporterUtil.ACTION_DIALOG_SHOW_ERROR, diagnostic.getCode());
+    assertEquals(rootException, diagnostic.getException());
+    assertEquals("root", diagnostic.getMessage());
 
     throwable = new Exception(new Exception(new Exception(rootException)));
-    status = ImporterUtil.createErrorStatus(throwable, true);
-    assertEquals(IStatus.ERROR, status.getSeverity());
-    assertEquals(ImporterUtil.ACTION_DIALOG_SHOW_ERROR, status.getCode());
-    assertEquals(rootException, status.getException());
-    assertEquals("root", status.getMessage());
+    diagnostic = ImporterUtil.createErrorDiagnostic(throwable, true);
+    assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
+    assertEquals(ImporterUtil.ACTION_DIALOG_SHOW_ERROR, diagnostic.getCode());
+    assertEquals(rootException, diagnostic.getException());
+    assertEquals("root", diagnostic.getMessage());
 
     throwable = new WrappedException(new WrappedException(rootException));
-    status = ImporterUtil.createErrorStatus(throwable, true);
-    assertEquals(IStatus.ERROR, status.getSeverity());
-    assertEquals(ImporterUtil.ACTION_DIALOG_SHOW_ERROR, status.getCode());
-    assertEquals(rootException, status.getException());
-    assertEquals("root", status.getMessage());
+    diagnostic = ImporterUtil.createErrorDiagnostic(throwable, true);
+    assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
+    assertEquals(ImporterUtil.ACTION_DIALOG_SHOW_ERROR, diagnostic.getCode());
+    assertEquals(rootException, diagnostic.getException());
+    assertEquals("root", diagnostic.getMessage());
 
     throwable = new WrappedException(new Exception(new WrappedException(new Exception(rootException))));
-    status = ImporterUtil.createErrorStatus(throwable, false);
-    assertEquals(IStatus.ERROR, status.getSeverity());
-    assertEquals(ImporterUtil.ACTION_DEFAULT, status.getCode());
-    assertEquals(rootException, status.getException());
-    assertEquals("root", status.getMessage());
+    diagnostic = ImporterUtil.createErrorDiagnostic(throwable, false);
+    assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
+    assertEquals(ImporterUtil.ACTION_DEFAULT, diagnostic.getCode());
+    assertEquals(rootException, diagnostic.getException());
+    assertEquals("root", diagnostic.getMessage());
   }
 }

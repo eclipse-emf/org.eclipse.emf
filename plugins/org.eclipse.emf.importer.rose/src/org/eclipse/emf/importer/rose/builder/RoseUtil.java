@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseUtil.java,v 1.4 2005/06/12 13:36:38 emerks Exp $
+ * $Id: RoseUtil.java,v 1.5 2005/11/23 19:07:02 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -23,11 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Status;
-
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -64,7 +62,7 @@ public class RoseUtil
     this.uriConverter = uriConverter;
   }
 
-  MultiStatus status = new MultiStatus(
+    BasicDiagnostic basicDiagnostic = new BasicDiagnostic(
     RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(),
     0,
     RoseImporterPlugin.INSTANCE.getString("_UI_ProblemsWereEncounteredLoadingTheRoseModel_message"),
@@ -98,7 +96,7 @@ public class RoseUtil
     {
       if (loader.isValid())
       {
-        status = new MultiStatus(
+        basicDiagnostic = new BasicDiagnostic(
           RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(),
           1,
           RoseImporterPlugin.INSTANCE.getString("_UI_ProblemsWereEncounteredConvertingTheRoseModel_message"),
@@ -181,8 +179,8 @@ public class RoseUtil
       }
       else
       {
-        getStatus().add(
-          new Status(IStatus.INFO, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, 
+        basicDiagnostic.add(
+          new BasicDiagnostic(Diagnostic.INFO, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, 
             RoseImporterPlugin.INSTANCE.getString("_UI_TheUnitResolvesTo_message",
             new Object []{ Util.trimQuotes(fileNameNodeValue), fileName }), null));
         return null;
@@ -471,8 +469,8 @@ public class RoseUtil
     return ePackageToInformationMap;
   }
 
-  public MultiStatus getStatus()
+  public Diagnostic getDiagnostic()
   {
-    return status;
+    return basicDiagnostic;
   }
 }

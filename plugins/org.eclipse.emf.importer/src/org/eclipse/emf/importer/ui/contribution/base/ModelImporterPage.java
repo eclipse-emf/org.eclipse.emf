@@ -25,6 +25,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.util.ImporterUtil;
@@ -112,57 +114,57 @@ public abstract class ModelImporterPage extends WizardPage implements Listener
     
   }
 
-  protected void handleStatus(IStatus status)
+  protected void handleDiagnostic(Diagnostic diagnostic)
   {
-    handleStatus(status, null, null, null);
+    handleDiagnostic(diagnostic, null, null, null);
   }
   
-  protected void handleStatus(IStatus status, String message, String dialogTitle, String dialogMessage)
+  protected void handleDiagnostic(Diagnostic diagnostic, String message, String dialogTitle, String dialogMessage)
   {
-    if (status.isOK())
+    if (diagnostic.getSeverity() == Diagnostic.OK)
     {
-      handleOKStatus(status, message, dialogTitle, dialogMessage);
+      handleOKDiagnostic(diagnostic, message, dialogTitle, dialogMessage);
     }
     else
     {
-      handleNotOKStatus(status, decodeAction(status), message, dialogTitle, dialogMessage);
+      handleNotOKDiagnostic(diagnostic, decodeAction(diagnostic), message, dialogTitle, dialogMessage);
     }
   }
   
-  protected ImporterUtil.DecodedAction decodeAction(IStatus status)
+  protected ImporterUtil.DecodedAction decodeAction(Diagnostic diagnostic)
   {
-    int actionCode = ImporterUtil.computeActionCode(status);
+    int actionCode = ImporterUtil.computeActionCode(diagnostic);
     return ImporterUtil.decodeAction(actionCode);
   }
   
-  protected void handleOKStatus(IStatus status, String message, String dialogTitle, String dialogMessage)
+  protected void handleOKDiagnostic(Diagnostic diagnostic, String message, String dialogTitle, String dialogMessage)
   {
     setMessage(null);
     setErrorMessage(null);    
   }
   
-  protected void handleNotOKStatus(IStatus status, ImporterUtil.DecodedAction decodedAction, String message, String dialogTitle, String dialogMessage)
+  protected void handleNotOKDiagnostic(Diagnostic diagnostic, ImporterUtil.DecodedAction decodedAction, String message, String dialogTitle, String dialogMessage)
   {
     int messageType = 0;
-    switch(status.getSeverity())
+    switch(diagnostic.getSeverity())
     {
-      case IStatus.INFO:
+      case Diagnostic.INFO:
       {
         messageType = IMessageProvider.INFORMATION;
         if (dialogTitle == null) dialogTitle = ImporterPlugin.INSTANCE.getString("_UI_DialogInformation_title");
         break;
       }
-      case IStatus.WARNING:
+      case Diagnostic.WARNING:
         messageType = IMessageProvider.WARNING;
         if (dialogTitle == null) dialogTitle = ImporterPlugin.INSTANCE.getString("_UI_DialogWarning_title");
         break;
-      case IStatus.ERROR:
+      case Diagnostic.ERROR:
         messageType = IMessageProvider.ERROR;
         if (dialogTitle == null) dialogTitle = ImporterPlugin.INSTANCE.getString("_UI_DialogError_title");
         break;
     }
 
-    if (message == null) message = status.getMessage();
+    if (message == null) message = diagnostic.getMessage();
     setErrorMessage(null);
     setMessage(null);
     switch(decodedAction.message)
@@ -197,15 +199,15 @@ public abstract class ModelImporterPage extends WizardPage implements Listener
       case ImporterUtil.ACTION_DEFAULT:
       case ImporterUtil.ACTION_DIALOG_SHOW_IF_HAS_CHILD:
       {
-        if (status.getChildren().length > 0)
+        if (!diagnostic.getChildren().isEmpty())
         {
-          ErrorDialog.openError(getShell(), dialogTitle, dialogMessage, status);
+          ErrorDialog.openError(getShell(), dialogTitle, dialogMessage, BasicDiagnostic.toIStatus(diagnostic));
         }
         break;
       }
       case ImporterUtil.ACTION_DIALOG_SHOW:
       {
-        ErrorDialog.openError(getShell(), dialogTitle, dialogMessage, status);
+        ErrorDialog.openError(getShell(), dialogTitle, dialogMessage, BasicDiagnostic.toIStatus(diagnostic));
         break;
       }
       case ImporterUtil.ACTION_DIALOG_SHOW_ERROR:
@@ -213,7 +215,7 @@ public abstract class ModelImporterPage extends WizardPage implements Listener
         new ErrorDialog(getShell(),
           dialogTitle,
           dialogMessage,
-          status, IStatus.INFO | IStatus.WARNING | IStatus.ERROR)
+          BasicDiagnostic.toIStatus(diagnostic), IStatus.INFO | IStatus.WARNING | IStatus.ERROR)
           {
             protected Image getImage()
             {

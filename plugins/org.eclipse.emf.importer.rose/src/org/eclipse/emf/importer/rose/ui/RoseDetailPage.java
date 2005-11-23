@@ -12,13 +12,10 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.11 2005/06/12 13:36:38 emerks Exp $
+ * $Id: RoseDetailPage.java,v 1.12 2005/11/23 19:07:01 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
@@ -43,6 +40,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.common.ui.celleditor.ExtendedTableEditor;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.edit.provider.ItemProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
@@ -335,40 +335,40 @@ public class RoseDetailPage extends ModelDetailPage
   
   protected void loadPathMapSymbols()
   {
-    IStatus status = null;
+    Diagnostic diagnostic = null;
     try
     {
-      status = getRoseImporter().loadPathMap(new NullProgressMonitor());
+      diagnostic = getRoseImporter().loadPathMap(new BasicMonitor());
     }
     catch (Exception exception)
     {
-      status = ImporterUtil.createErrorStatus(exception, false);       
+      diagnostic = ImporterUtil.createErrorDiagnostic(exception, false);       
     }
     
-    internalSetGenModelFileName(status.isOK() ? 
+    internalSetGenModelFileName(diagnostic.getSeverity() == Diagnostic.OK ? 
       getRoseImporter().getGenModelFileName() : 
       getRoseImporter().computeDefaultGenModelFileName());
     
-    IStatus nameStatus = getRoseImporter().checkGenModelFileName();
-    if (!nameStatus.isOK())
+    Diagnostic nameDiagnostic = getRoseImporter().checkGenModelFileName();
+    if (nameDiagnostic.getSeverity() != Diagnostic.OK)
     {
-      if (status.isOK())
+      if (diagnostic.getSeverity() == Diagnostic.OK)
       {
-        status = nameStatus;
+        diagnostic = nameDiagnostic;
       }
       else
       {
-        status = ImporterUtil.mergeStatus(status, nameStatus);
+        diagnostic = ImporterUtil.mergeDiagnostic(diagnostic, nameDiagnostic);
       }
     }
     
-    if (status.isOK() && getRoseImporter().getPathMap().isEmpty())
+    if (diagnostic.getSeverity() == Diagnostic.OK && getRoseImporter().getPathMap().isEmpty())
     {
-      status = new Status(IStatus.INFO, ImporterPlugin.ID, 
+      diagnostic = new BasicDiagnostic(Diagnostic.INFO, ImporterPlugin.ID, 
         ImporterUtil.ACTION_DEFAULT, RoseImporterPlugin.INSTANCE.getString("_UI_NoPathMap_message"), null);
     }
     
     pathMapTableViewer.setInput(new ItemProvider(getRoseImporter().getPathMap().keySet()));
-    handleStatus(status, null, RoseImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), RoseImporterPlugin.INSTANCE.getString("_UI_RoseLoadFailed_message"));
+    handleDiagnostic(diagnostic, null, RoseImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), RoseImporterPlugin.INSTANCE.getString("_UI_RoseLoadFailed_message"));
   }
 }

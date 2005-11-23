@@ -12,15 +12,17 @@
  *
  * </copyright>
  *
- * $Id: JavaPackagePage.java,v 1.7 2005/06/09 14:52:31 davidms Exp $
+ * $Id: JavaPackagePage.java,v 1.8 2005/11/23 19:07:03 emerks Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.java.JavaImporter;
 import org.eclipse.emf.importer.java.JavaImporterPlugin;
@@ -73,9 +75,10 @@ public class JavaPackagePage extends ModelPackagePage
       {
         protected void execute(IProgressMonitor progressMonitor) throws CoreException
         {
+          Monitor monitor = BasicMonitor.toMonitor(progressMonitor);
           try
           {
-            computeEPackages(progressMonitor);
+            computeEPackages(monitor);
           }
           catch (Exception e)
           {
@@ -83,7 +86,7 @@ public class JavaPackagePage extends ModelPackagePage
           }
           finally
           {
-            progressMonitor.done();
+            monitor.done();
           }
         }
       };
@@ -98,12 +101,12 @@ public class JavaPackagePage extends ModelPackagePage
     }
   }
 
-  protected void computeEPackages(IProgressMonitor progressMonitor) throws Exception
+  protected void computeEPackages(Monitor monitor) throws Exception
   {
-    IStatus status = getJavaImporter().computeEPackages(progressMonitor);
-    getJavaImporter().adjustEPackages(progressMonitor);
+    Diagnostic diagnostic = getJavaImporter().computeEPackages(monitor);
+    getJavaImporter().adjustEPackages(monitor);
     
     String message = JavaImporterPlugin.INSTANCE.getString("_UI_ProblemsEncounteredProcessingJava_message");
-    handleStatus(status, message, JavaImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), message);
+    handleDiagnostic(diagnostic, message, JavaImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"), message);
   }
 }

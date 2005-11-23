@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaImporter.java,v 1.2 2005/06/08 06:17:32 nickb Exp $
+ * $Id: JavaImporter.java,v 1.3 2005/11/23 19:07:03 emerks Exp $
  */
 package org.eclipse.emf.importer.java;
 
@@ -20,10 +20,10 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.JavaCore;
 
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.java.builder.JavaEcoreBuilder;
 
@@ -66,19 +66,19 @@ public class JavaImporter extends ModelImporter
     return null;
   }
 
-  protected IStatus doComputeEPackages(IProgressMonitor progressMonitor) throws Exception
+  protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
-    progressMonitor.beginTask("", 2);
-    progressMonitor.subTask(JavaImporterPlugin.INSTANCE.getString("_UI_CreatingPackages_message"));
+    monitor.beginTask("", 2);
+    monitor.subTask(JavaImporterPlugin.INSTANCE.getString("_UI_CreatingPackages_message"));
 
     JavaEcoreBuilder javaEcoreBuilder = new JavaEcoreBuilder(getGenModelFile(), getOriginalGenModel());
-    javaEcoreBuilder.computeEPackages(progressMonitor, this);
-    return javaEcoreBuilder.getStatus();
+    javaEcoreBuilder.computeEPackages(monitor, this);
+    return javaEcoreBuilder.getDiagnostic();
   }
   
-  protected void adjustGenModel(IProgressMonitor progressMonitor)
+  protected void adjustGenModel(Monitor monitor)
   {
-    super.adjustGenModel(progressMonitor);
+    super.adjustGenModel(monitor);
     getGenModel().getForeignModel().add("@model");
   }  
 }

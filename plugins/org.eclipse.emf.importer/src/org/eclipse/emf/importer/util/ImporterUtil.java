@@ -16,11 +16,12 @@
  */
 package org.eclipse.emf.importer.util;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Status;
+import java.util.Iterator;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -105,100 +106,63 @@ public class ImporterUtil
     return decodedAction;
   }
   
-  public static int computeActionCode(IStatus status)
+  public static int computeActionCode(Diagnostic diagnostic)
   {
-    if (ImporterPlugin.ID.equals(status.getPlugin()))
+    if (ImporterPlugin.ID.equals(diagnostic.getSource()))
     {
-      int actionCode = status.getCode();
-      if (status.isMultiStatus())
+      int actionCode = diagnostic.getCode();
+      for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext();)
       {
-        IStatus[] children = status.getChildren();
-        for (int i = 0; i < children.length; i++)
-        {
-          actionCode |= computeActionCode(children[i]);
-        }
+        Diagnostic child = (Diagnostic)i.next();
+        actionCode |= computeActionCode(child);
       }
       return actionCode;
     }
     else
     {
-      return ImporterUtil.ACTION_DEFAULT;
+      return ACTION_DEFAULT;
     }
   }
   
-  
-  public static class MergedStatus extends MultiStatus
+  public static Diagnostic createDiagnostic(Diagnostic baseDiagnostic, String source, int code)
   {
-    public MergedStatus(IStatus baseStatus)
-    {
-      super(baseStatus.getPlugin(), 
-        baseStatus.getCode(), 
-        baseStatus.getChildren(),
-        baseStatus.getMessage(),
-        baseStatus.getException());
-      
-      setSeverity(baseStatus.getSeverity());
-    }
-    
-    public void setPlugin(String pluginId)
-    {
-      super.setPlugin(pluginId);
-    }
-    
-    public void setCode(int code)
-    {
-      super.setCode(code);
-    }
+    BasicDiagnostic basicDiagnostic = new BasicDiagnostic(
+      baseDiagnostic.getSeverity(), source, code, 
+      baseDiagnostic.getMessage(), baseDiagnostic.getData().toArray());
+    basicDiagnostic.addAll(baseDiagnostic);
+    return basicDiagnostic;
   }
   
-  public static MultiStatus mergeStatus(IStatus baseStatus, IStatus statusToBeMerged)
+  public static Diagnostic mergeDiagnostic(Diagnostic baseDiagnostic, Diagnostic diagnosticToBeMerged)
   {
-    if (baseStatus == null)
+    if (diagnosticToBeMerged == null)
     {
-      if (statusToBeMerged == null)
-      {
-        return null;
-      }
-      else
-      {
-        return new MergedStatus(statusToBeMerged);
-      }
-    }
-
-    MultiStatus multiStatus = null; 
-    if (baseStatus instanceof MultiStatus)
-    {
-      multiStatus = ((MultiStatus)baseStatus);
+      return baseDiagnostic;
     }
     else
     {
-      multiStatus = new MergedStatus(baseStatus);
+      if (baseDiagnostic == null)
+      {
+        return diagnosticToBeMerged;
+      }
+      else if (baseDiagnostic instanceof DiagnosticChain)
+      {
+        ((DiagnosticChain)baseDiagnostic).merge(diagnosticToBeMerged);
+        return baseDiagnostic;
+      }
+      else
+      {
+        BasicDiagnostic basicDiagnostic = new BasicDiagnostic(
+          baseDiagnostic.getSeverity(), baseDiagnostic.getSource(), baseDiagnostic.getCode(), 
+          baseDiagnostic.getMessage(), baseDiagnostic.getData().toArray());
+        basicDiagnostic.addAll(baseDiagnostic);
+        basicDiagnostic.add(diagnosticToBeMerged);
+        return basicDiagnostic;
+      }
     }
-
-    if (statusToBeMerged != null)
-    {
-      multiStatus.merge(statusToBeMerged);
-    }
-    return multiStatus;
   }
-
-  /**
-   * Creates a new status based on the specified status, setting a new pluginID and
-   * code.
-   * @param baseStatus
-   * @param pluginID
-   * @param code
-   * @return IStatus
-   */
-  public static IStatus createStatus(IStatus baseStatus, String pluginID, int code)
-  {
-    MergedStatus mergedStatus = new MergedStatus(baseStatus);
-    mergedStatus.setPlugin(pluginID);
-    mergedStatus.setCode(code);
-    return mergedStatus;
-  }
-  
-  public static IStatus createErrorStatus(Throwable throwable, boolean showErrorDialog)
+    
+  public static Diagnostic createErrorDiagnostic(Throwable throwable, boolean showErrorDialog)
   {
     while (true)
     {
@@ -217,17 +181,13 @@ public class ImporterUtil
       }
     }
     
-    IStatus status = null;
-    if (throwable instanceof CoreException)
+    Diagnostic diagnostic = null;
+    if (throwable instanceof DiagnosticException)
     {
-      IStatus originalStatus = ((CoreException)throwable).getStatus();
-      if (originalStatus != null && originalStatus.getSeverity() == IStatus.ERROR)
-      {
-        status = originalStatus;
-      }
+      diagnostic = ((DiagnosticException)throwable).getDiagnostic();
     }
 
-    if (status == null)
+    if (diagnostic == null)
     {
       String message = throwable.getLocalizedMessage();
       if (message == null)
@@ -245,12 +205,12 @@ public class ImporterUtil
         message = ImporterPlugin.INSTANCE.getString("_UI_GenericException_message", new Object[]{exceptionName});
       }
   
-      status = new Status(IStatus.ERROR,
+      diagnostic = new BasicDiagnostic(Diagnostic.ERROR,
         ImporterPlugin.ID, showErrorDialog ? ACTION_DIALOG_SHOW_ERROR : ACTION_DEFAULT,
-        message, throwable);
+        message, new Object[]{throwable});
     }
     
-    return status;
+    return diagnostic;
   }
   
   public static ResourceSet createResourceSet()

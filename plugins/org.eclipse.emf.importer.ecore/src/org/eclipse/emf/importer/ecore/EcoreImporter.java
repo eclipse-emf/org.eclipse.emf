@@ -12,18 +12,17 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporter.java,v 1.6 2005/10/07 19:43:30 emerks Exp $
+ * $Id: EcoreImporter.java,v 1.7 2005/11/23 19:07:05 emerks Exp $
  */
 package org.eclipse.emf.importer.ecore;
 
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -40,15 +39,15 @@ public class EcoreImporter extends ModelImporter
     return "org.eclipse.emf.importer.ecore";
   }
 
-  protected IStatus doComputeEPackages(IProgressMonitor progressMonitor) throws Exception
+  protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
-    IStatus status = Status.OK_STATUS;
+    Diagnostic diagnostic = Diagnostic.OK_INSTANCE;
 
     List locationURIs = getModelLocationURIs();
     if (locationURIs.isEmpty())
     {
-      status = new Status(
-        IStatus.ERROR,
+      diagnostic = new BasicDiagnostic(
+        Diagnostic.ERROR,
         EcoreImporterPlugin.getPlugin().getBundle().getSymbolicName(),
         0,
         EcoreImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidCoreModel_message"),
@@ -56,8 +55,8 @@ public class EcoreImporter extends ModelImporter
     }
     else
     {
-      progressMonitor.beginTask("", 2);
-      progressMonitor.subTask(EcoreImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ locationURIs }));
+      monitor.beginTask("", 2);
+      monitor.subTask(EcoreImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ locationURIs }));
 
       ResourceSet ecoreResourceSet = createResourceSet();
       for (Iterator i = locationURIs.iterator(); i.hasNext(); )
@@ -73,7 +72,7 @@ public class EcoreImporter extends ModelImporter
         getEPackages().addAll(EcoreUtil.getObjectsByType(resource.getContents(), EcorePackage.eINSTANCE.getEPackage()));
       }
     }
-    return status;
+    return diagnostic;
   }
   
   public void addToResource(EPackage ePackage, ResourceSet resourceSet)
@@ -91,9 +90,9 @@ public class EcoreImporter extends ModelImporter
     super.addToResource(ePackage, resourceSet);
   }
 
-  protected void adjustGenModel(IProgressMonitor progressMonitor)
+  protected void adjustGenModel(Monitor monitor)
   {
-    super.adjustGenModel(progressMonitor);
+    super.adjustGenModel(monitor);
 
     URI genModelURI = createFileURI(getGenModelPath().toString());
     for (Iterator i = getModelLocationURIs().iterator(); i.hasNext();)
@@ -102,7 +101,7 @@ public class EcoreImporter extends ModelImporter
     }
   }
 
-  protected void loadOriginalGenModel(URI genModelURI) throws CoreException
+  protected void loadOriginalGenModel(URI genModelURI) throws DiagnosticException
   {
     super.loadOriginalGenModel(genModelURI);
 

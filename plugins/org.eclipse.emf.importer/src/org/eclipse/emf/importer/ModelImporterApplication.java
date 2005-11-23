@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.12 2005/11/21 18:43:56 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.13 2005/11/23 19:07:04 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -35,12 +35,15 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.CodeGenUtil.StreamProgressMonitor;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -102,7 +105,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
             {
               throw new CoreException(new Status(
                 IStatus.ERROR,
-                ImporterPlugin.getPlugin().getBundle().getSymbolicName(),
+                ImporterPlugin.ID,
                 0,
                 "Error",
                 exception));
@@ -128,11 +131,26 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
   }
 
+  protected IProgressMonitor getProgressMonitor()
+  {
+    return quiet ? new NullProgressMonitor() : new StreamProgressMonitor(System.out);
+  }
+  
+  protected Monitor getMonitor()
+  {
+    return quiet ? new BasicMonitor() : new BasicMonitor.Printing(System.out);
+  }  
+
   public void run(IProgressMonitor progressMonitor, String[] arguments) throws Exception
+  {
+    run(BasicMonitor.toMonitor(progressMonitor), arguments); 
+  }
+
+  public void run(Monitor monitor, String[] arguments) throws Exception
   {
     try
     {
-      progressMonitor.beginTask("", 1);
+      monitor.beginTask("", 1);
 
       if (arguments.length == 0 || "-help".equalsIgnoreCase(arguments[0].toString()))
       {
@@ -141,20 +159,15 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       else
       {
         processArguments(arguments, 0);
-        execute(new SubProgressMonitor(progressMonitor, 1));
+        execute(CodeGenUtil.createMonitor(monitor, 1));
       }
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
-
-  protected IProgressMonitor getProgressMonitor()
-  {
-    return quiet ? new NullProgressMonitor() : new StreamProgressMonitor(System.out);
-  }
-
+    
   public void printUsage()
   {
     System.out.println(getUsage());
@@ -174,24 +187,24 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     return buffer;
   }
 
-  public void execute(IProgressMonitor progressMonitor) throws Exception
+  public void execute(Monitor monitor) throws Exception
   {
     try
     {
-      progressMonitor.beginTask("", 6);
+      monitor.beginTask("", 6);
 
-      adjustAttributes(new SubProgressMonitor(progressMonitor, 1));
-      adjustModelImporter(new SubProgressMonitor(progressMonitor, 1));
+      adjustAttributes(CodeGenUtil.createMonitor(monitor, 1));
+      adjustModelImporter(CodeGenUtil.createMonitor(monitor, 1));
   
-      computeEPackages(new SubProgressMonitor(progressMonitor, 1));
-      adjustEPackages(new SubProgressMonitor(progressMonitor, 1));
-      adjustGenModel(new SubProgressMonitor(progressMonitor, 1));
+      computeEPackages(CodeGenUtil.createMonitor(monitor, 1));
+      adjustEPackages(CodeGenUtil.createMonitor(monitor, 1));
+      adjustGenModel(CodeGenUtil.createMonitor(monitor, 1));
   
-      doExecute(new SubProgressMonitor(progressMonitor, 1));
+      doExecute(CodeGenUtil.createMonitor(monitor, 1));
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
 
@@ -282,11 +295,11 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     throw new IllegalArgumentException("Unrecognized argument: '" + argument + "'");
   }
 
-  protected void adjustAttributes(IProgressMonitor progressMonitor)
+  protected void adjustAttributes(Monitor monitor)
   {
     try
     {
-      progressMonitor.beginTask("", 1);
+      monitor.beginTask("", 1);
 
       if (modelProjectLocationPath == null)
       {
@@ -300,15 +313,15 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
 
-  protected void adjustModelImporter(IProgressMonitor progressMonitor)
+  protected void adjustModelImporter(Monitor monitor)
   {
     try
     {
-      progressMonitor.beginTask("", 1);
+      monitor.beginTask("", 1);
 
       ModelImporter modelImporter = getModelImporter();
       modelImporter.setUsePlatformURI(false);
@@ -324,7 +337,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
 
@@ -337,7 +350,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       {
         modelImporter.defineOriginalGenModelPath(genModelFullPath);
       }
-      catch (CoreException exception)
+      catch (DiagnosticException exception)
       {
         throw new RuntimeException(exception);
       }
@@ -349,24 +362,24 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
   }
 
-  protected final void computeEPackages(IProgressMonitor progressMonitor) throws Exception
+  protected final void computeEPackages(Monitor monitor) throws Exception
   {
     try
     {
-      progressMonitor.beginTask("", 1);
-      getModelImporter().computeEPackages(new SubProgressMonitor(progressMonitor, 1));
+      monitor.beginTask("", 1);
+      getModelImporter().computeEPackages(CodeGenUtil.createMonitor(monitor, 1));
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
 
-  protected void adjustEPackages(IProgressMonitor progressMonitor)
+  protected void adjustEPackages(Monitor monitor)
   {
     try
     {
-      progressMonitor.beginTask("", 1);
+      monitor.beginTask("", 1);
 
       if (referencedGenModelPathToEPackageNSURIs != null)
       {
@@ -392,7 +405,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
   
@@ -420,11 +433,11 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
   }
 
-  protected void adjustGenModel(IProgressMonitor progressMonitor)
+  protected void adjustGenModel(Monitor monitor)
   {
     try
     {
-      progressMonitor.beginTask("", 1);
+      monitor.beginTask("", 1);
 
       GenModel genModel = getModelImporter().getGenModel();
       if (editProjectLocationPath != null)
@@ -451,7 +464,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
 
@@ -460,18 +473,18 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     Generator.setSDODefaults(genModel);
   }
 
-  protected void doExecute(IProgressMonitor progressMonitor) throws Exception
+  protected void doExecute(Monitor monitor) throws Exception
   {
     try
     {
-      progressMonitor.beginTask("", 3);
-      getModelImporter().prepareGenModelAndEPackages(new SubProgressMonitor(progressMonitor, 1));
+      monitor.beginTask("", 3);
+      getModelImporter().prepareGenModelAndEPackages(CodeGenUtil.createMonitor(monitor, 1));
       handleReferencedEPackages();
-      getModelImporter().saveGenModelAndEPackages(new SubProgressMonitor(progressMonitor, 1));
+      getModelImporter().saveGenModelAndEPackages(CodeGenUtil.createMonitor(monitor, 1));
     }
     finally
     {
-      progressMonitor.done();
+      monitor.done();
     }
   }
   

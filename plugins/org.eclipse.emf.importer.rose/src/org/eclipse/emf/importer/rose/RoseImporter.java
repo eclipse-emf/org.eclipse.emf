@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.10 2005/10/07 19:43:32 emerks Exp $
+ * $Id: RoseImporter.java,v 1.11 2005/11/23 19:07:01 emerks Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -22,15 +22,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.importer.ImporterPlugin;
@@ -136,16 +136,16 @@ public class RoseImporter extends ModelImporter
     roseEPackageInformationMap = null;
   }
   
-  public IStatus loadPathMap(IProgressMonitor progressMonitor) throws Exception
+  public Diagnostic loadPathMap(Monitor monitor) throws Exception
   {
     clearEPackagesCollections();
    
-    IStatus status = null;
+    Diagnostic diagnostic = null;
     
     File roseModelFile = computeRoseModelFile();
     if (roseModelFile == null)
     {
-      status = new Status(IStatus.ERROR, 
+      diagnostic = new BasicDiagnostic(Diagnostic.ERROR, 
         ImporterPlugin.ID, ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
         RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidRoseModel_message"), null);
     }
@@ -153,8 +153,8 @@ public class RoseImporter extends ModelImporter
     {
       String roseModelAbsolutePath = roseModelFile.getAbsolutePath();
 
-      progressMonitor.beginTask("", 2);
-      progressMonitor.subTask(RoseImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ roseModelAbsolutePath }));
+      monitor.beginTask("", 2);
+      monitor.subTask(RoseImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ roseModelAbsolutePath }));
 
       Map pathMap = getPathMap();
       for (;;)
@@ -167,7 +167,7 @@ public class RoseImporter extends ModelImporter
         unitTreeNode = roseUtil.createRoseUnitTreeAndTable(roseModelAbsolutePath, null);
         if (unitTreeNode == null)
         {
-          status = new Status(IStatus.ERROR, 
+          diagnostic = new BasicDiagnostic(Diagnostic.ERROR, 
             ImporterPlugin.ID, ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
             RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidRoseModel_message"), null);
         }
@@ -180,7 +180,7 @@ public class RoseImporter extends ModelImporter
           }
           if (!hasSymbolWithoutValue)
           {
-            status = ImporterUtil.mergeStatus(status, roseUtil.getStatus());
+            diagnostic = ImporterUtil.mergeDiagnostic(diagnostic, roseUtil.getDiagnostic());
           }
           
           if (getGenModelFileName() == null)
@@ -205,7 +205,7 @@ public class RoseImporter extends ModelImporter
       }
     }
 
-    return status != null ? status : Status.OK_STATUS;
+    return diagnostic != null ? diagnostic : Diagnostic.OK_INSTANCE;
   }
   
   protected boolean adjustPathMap(RoseUtil roseUtil)
@@ -241,7 +241,7 @@ public class RoseImporter extends ModelImporter
   /**
    * Returns whether the Rose model properties includes genmodel information about a given ePackage.  
    * This method should only be used after invoking 
-   * {@link ModelImporter#computeEPackages(IProgressMonitor)}.
+   * {@link ModelImporter#computeEPackages(Monitor)}.
    * @param ePackage
    * @return boolean
    */
@@ -250,15 +250,15 @@ public class RoseImporter extends ModelImporter
     return roseEPackageInformationMap != null && roseEPackageInformationMap.get(ePackage) != null;
   }
 
-  protected IStatus doComputeEPackages(IProgressMonitor progressMonitor) throws Exception
+  protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
-    progressMonitor.beginTask("", 2);
-    IStatus status = loadPathMap(progressMonitor);
-    if (status.isOK())
+    monitor.beginTask("", 2);
+    Diagnostic diagnostic = loadPathMap(monitor);
+    if (diagnostic.getSeverity() == Diagnostic.OK)
     {
-      if (getPathMap().values().contains(null) && !roseUtil.getStatus().isOK())
+      if (getPathMap().values().contains(null) && roseUtil.getDiagnostic().getSeverity() != Diagnostic.OK)
       {
-        status = new Status(IStatus.ERROR, 
+        diagnostic = new BasicDiagnostic(Diagnostic.ERROR, 
           ImporterPlugin.ID, ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
           RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyTheSymbolLocations_message"), null);        
       }
@@ -267,7 +267,7 @@ public class RoseImporter extends ModelImporter
         roseUtil.createExtent4RoseUnitTree(unitTreeNode);
         roseUtil.processUnitTree(unitTreeNode);
         roseEPackageInformationMap = roseUtil.getEPackageToInformationMap();
-        status = ImporterUtil.createStatus(roseUtil.getStatus(), ImporterPlugin.ID, ImporterUtil.ACTION_MESSAGE_NONE);
+        diagnostic = ImporterUtil.createDiagnostic(roseUtil.getDiagnostic(), ImporterPlugin.ID, ImporterUtil.ACTION_MESSAGE_NONE);
         
         for (Iterator i = roseUtil.getEPackageToInformationMap().entrySet().iterator(); i.hasNext();)
         {
@@ -284,8 +284,8 @@ public class RoseImporter extends ModelImporter
         traverseEPackages(unitTreeNode);
       }
     }
-    progressMonitor.done();
-    return status;
+    monitor.done();
+    return diagnostic;
   }
 
   protected void traverseEPackages(UnitTreeNode subNode)
@@ -335,9 +335,9 @@ public class RoseImporter extends ModelImporter
     }
   }
   
-  protected void adjustGenModel(IProgressMonitor progressMonitor)
+  protected void adjustGenModel(Monitor monitor)
   {
-    super.adjustGenModel(progressMonitor);
+    super.adjustGenModel(monitor);
 
     GenModel genModel = getGenModel();
     String projectName = getModelProjectName();
@@ -380,7 +380,7 @@ public class RoseImporter extends ModelImporter
     }
   }
 
-  protected void loadOriginalGenModel(URI genModelURI) throws CoreException
+  protected void loadOriginalGenModel(URI genModelURI) throws DiagnosticException
   {
     super.loadOriginalGenModel(genModelURI);
 

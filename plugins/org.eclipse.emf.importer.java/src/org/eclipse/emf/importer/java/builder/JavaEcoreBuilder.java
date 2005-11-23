@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.10 2005/10/29 14:31:37 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.11 2005/11/23 19:07:03 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -41,9 +41,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -62,8 +59,12 @@ import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -186,7 +187,7 @@ public class JavaEcoreBuilder
    */
   protected Collection usedGenPackages = new ArrayList();
 
-  protected MultiStatus status;
+  protected BasicDiagnostic basicDiagnostic;
 
   /**
    * The old version to against which to reconcile.
@@ -200,7 +201,7 @@ public class JavaEcoreBuilder
   {
     this.genModelFile = genModelFile;
 
-    status = new MultiStatus(
+    basicDiagnostic = new BasicDiagnostic(
       JavaImporterPlugin.getPlugin().getBundle().getSymbolicName(),
       0,
       CodeGenEcorePlugin.INSTANCE.getString("_UI_ErrorsWereDetectedJava_message"),
@@ -427,8 +428,13 @@ public class JavaEcoreBuilder
 
   public void computeEPackages(IProgressMonitor progressMonitor, ModelImporter modelImporter) throws Exception
   {
+    computeEPackages(BasicMonitor.toMonitor(progressMonitor), modelImporter);
+  }
+  
+  public void computeEPackages(Monitor monitor, ModelImporter modelImporter) throws Exception
+  {
     IProject project = genModelFile.getProject();
-    project.open(progressMonitor);
+    project.open(BasicMonitor.toIProgressMonitor(monitor));
     
     Collection allGenModelFiles = new ArrayList();
     Collection allReferencedProjects = new ArrayList();
@@ -1947,12 +1953,12 @@ public class JavaEcoreBuilder
   }
 
   /**
-   * Returns the status.
+   * Returns the diagnostic.
    * @return the status.
    */
-  public IStatus getStatus()
+  public Diagnostic getDiagnostic()
   {
-    return status;
+    return basicDiagnostic;
   }
 
   /**
@@ -1971,7 +1977,7 @@ public class JavaEcoreBuilder
   protected void error(String message)
   {
     System.err.println("-->Error: " + message);
-    status.add(new Status(IStatus.ERROR, JavaImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
+    basicDiagnostic.add(new BasicDiagnostic(Diagnostic.ERROR, JavaImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
   }
 
   /**
@@ -1981,6 +1987,6 @@ public class JavaEcoreBuilder
   protected void warning(String message)
   {
     System.err.println("-->Warning: " + message);
-    status.add(new Status(IStatus.WARNING, JavaImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
+    basicDiagnostic.add(new BasicDiagnostic(Diagnostic.WARNING, JavaImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
   }
 }

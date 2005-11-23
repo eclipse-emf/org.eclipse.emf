@@ -23,7 +23,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.IPageChangeProvider;
 import org.eclipse.jface.dialogs.IPageChangedListener;
@@ -44,6 +43,11 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
@@ -199,14 +203,14 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
       {
         getModelImporter().defineOriginalGenModelPath(originalGenModelFile.getFullPath());
       }
-      catch (CoreException exception)
+      catch (DiagnosticException exception)
       {
-        IStatus status = exception.getStatus();
+        Diagnostic diagnostic = exception.getDiagnostic();
         ErrorDialog.openError
           (getShell(),
            GenModelEditPlugin.INSTANCE.getString("_UI_ModelProblems_title"),
            ImporterPlugin.INSTANCE.getString("_UI_InvalidModel_message"),
-           status);
+           BasicDiagnostic.toIStatus(diagnostic));
       }
     }
   }
@@ -287,14 +291,15 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
         {
           protected void execute(IProgressMonitor progressMonitor) throws CoreException
           {
+            Monitor monitor = BasicMonitor.toMonitor(progressMonitor);
             try
             {
-              getModelImporter().prepareGenModelAndEPackages(progressMonitor);
-              getModelImporter().saveGenModelAndEPackages(progressMonitor);
+              getModelImporter().prepareGenModelAndEPackages(monitor);
+              getModelImporter().saveGenModelAndEPackages(monitor);
             }
             catch (Exception exception)
             {
-              throw new CoreException(ImporterUtil.createErrorStatus(exception, true));
+              throw DiagnosticException.toCoreException(new DiagnosticException(ImporterUtil.createErrorDiagnostic(exception, true)));
             }
             finally
             {
@@ -310,7 +315,7 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
       catch (Exception exception)
       {
         ImporterPlugin.INSTANCE.log(exception);
-        ErrorDialog.openError(getShell(), ImporterPlugin.INSTANCE.getString("_UI_SaveError_title"), null, ImporterUtil.createErrorStatus(exception, true));
+        ErrorDialog.openError(getShell(), ImporterPlugin.INSTANCE.getString("_UI_SaveError_title"), null, BasicDiagnostic.toIStatus(ImporterUtil.createErrorDiagnostic(exception, true)));
         return false;
       }
 

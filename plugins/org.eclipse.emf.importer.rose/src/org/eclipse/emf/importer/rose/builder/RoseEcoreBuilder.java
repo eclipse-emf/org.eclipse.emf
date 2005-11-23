@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.7 2005/10/21 21:34:54 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.8 2005/11/23 19:07:02 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -30,12 +30,12 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -2118,13 +2118,13 @@ public class RoseEcoreBuilder implements RoseVisitor
   protected void warning(String message)
   {
     System.err.println("-->Warning: " + message);
-    roseUtil.getStatus().add(new Status(IStatus.WARNING, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
+    ((DiagnosticChain)roseUtil.getDiagnostic()).add(new BasicDiagnostic(Diagnostic.WARNING, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
   }
 
   protected void error(String message)
   {
     System.err.println("-->Error: " + message);
-    roseUtil.getStatus().add(new Status(IStatus.ERROR, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
+    ((DiagnosticChain)roseUtil.getDiagnostic()).add(new BasicDiagnostic(Diagnostic.ERROR, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
   }
 
   protected String getQualifiedTypeName(ETypedElement typedElement, String type)

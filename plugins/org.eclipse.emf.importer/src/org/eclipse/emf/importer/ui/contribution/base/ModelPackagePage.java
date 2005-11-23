@@ -27,7 +27,6 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -73,6 +72,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.common.ui.celleditor.ExtendedTableEditor;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClassifier;
@@ -685,9 +685,9 @@ public class ModelPackagePage extends ModelImporterPage
 
   protected boolean validateEcoreModelFileName(String fileName, String packageName)
   {
-    IStatus status = getModelImporter().checkEcoreModelFileName(fileName, packageName);
-    handleStatus(status);
-    return status.isOK();
+    Diagnostic diagnostic = getModelImporter().checkEcoreModelFileName(fileName, packageName);
+    handleDiagnostic(diagnostic);
+    return diagnostic.getSeverity() == Diagnostic.OK;
   }
 
   protected void filterPackagesTable(boolean reloadReferencedGenPackagesTable)
