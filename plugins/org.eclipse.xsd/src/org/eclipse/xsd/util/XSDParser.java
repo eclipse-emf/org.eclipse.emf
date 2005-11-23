@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.7 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDParser.java,v 1.8 2005/11/23 18:53:01 elena Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -134,6 +134,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   protected XSDSchema xsdSchema;
   protected List xsdDiagnostics = new ArrayList();
   protected SAXParser saxParser;
+  protected JAXPPool jaxpPool;
   protected Document document;
   protected Stack stack = new Stack();
   protected Element element;
@@ -142,6 +143,10 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
   protected int column;
   protected String encoding;
 
+  /**
+   * @deprecated since 2.2
+   *
+   */
   public XSDParser()
   {
     try 
@@ -167,6 +172,42 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
       fatalError(exception);
     }
   }
+  
+  public XSDParser(Map options)
+  {
+    JAXPConfiguration config = null;
+    if (options != null)
+    {
+      jaxpPool = (JAXPPool)options.get(XSDResourceImpl.XSD_JAXP_POOL);
+      config = (JAXPConfiguration)options.get(XSDResourceImpl.XSD_JAXP_CONFIG);
+    }
+    try
+    {
+      if (jaxpPool == null)
+      {      
+        if (config != null)
+        {
+          saxParser = config.createSAXParser(this);
+        }
+        else
+        {
+          saxParser = new DefaultJAXPConfiguration().createSAXParser(this);
+        }
+      }
+      else
+      {
+        saxParser = jaxpPool.getSAXParser(this);
+      }
+    }
+    catch (SAXException exception)
+    {
+      fatalError(exception);
+    }
+    catch (ParserConfigurationException exception)
+    {
+      fatalError(exception);
+    }
+  }
 
   public void parse(String uri)
   {
@@ -183,6 +224,13 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
       if (xsdDiagnostics.isEmpty())
       {
         fatalError(exception);
+      }
+    }
+    finally
+    {
+      if (jaxpPool != null)
+      {
+        jaxpPool.releaseSAXParser(saxParser);
       }
     }
   }
@@ -209,6 +257,13 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
         fatalError(exception);
       }
     }
+    finally
+    {
+      if (jaxpPool != null)
+      {
+        jaxpPool.releaseSAXParser(saxParser);
+      }
+    }
   }
 
   public void parse(InputStream inputStream)
@@ -226,6 +281,13 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
       if (xsdDiagnostics.isEmpty())
       {
         fatalError(exception);
+      }
+    }
+    finally
+    {
+      if (jaxpPool != null)
+      {
+        jaxpPool.releaseSAXParser(saxParser);
       }
     }
   }
