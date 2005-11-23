@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.13 2005/11/23 19:07:04 emerks Exp $
+ * $Id: ModelImporterApplication.java,v 1.14 2005/11/23 23:41:47 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -530,6 +530,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
           else
           {
             i.remove();
+            referencedGenModel.getUsedGenPackages().add(genPackage);
             GenModel ecoreGenModel = (GenModel)EcoreUtil.create(genModel.eClass());
             genModel.eResource().getContents().add(ecoreGenModel);
             ecoreGenModel.getGenPackages().add(genPackage);
