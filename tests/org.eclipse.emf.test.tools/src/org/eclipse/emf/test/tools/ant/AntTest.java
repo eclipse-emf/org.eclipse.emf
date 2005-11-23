@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.18 2005/06/13 15:48:42 marcelop Exp $
+ * $Id: AntTest.java,v 1.19 2005/11/23 12:32:27 emerks Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -29,6 +29,8 @@ import org.eclipse.emf.test.tools.TestUtil;
 
 public class AntTest extends TestCase
 {
+  public static boolean UPDATE_EXPECTED_RESULT_ON_FAILURE = System.getProperty("org.eclipse.emf.test.tools.ant.Update") != null;
+
   public static final String TEST_TOKEN = "@TEST_TOKEN@";
     
   private static final File EXAMPLES_COPY_DIR = new File(TestUtil.getPluginDirectory() + "/ant.example.tmp");
@@ -326,7 +328,21 @@ public class AntTest extends TestCase
     expectedContent = expectedContent.replaceAll("\\$Id.*\\$", "");
     generatedContent = generatedContent.replaceAll("\\$Id.*\\$", "");
         
-    assertEquals("File: " + file, expectedContent, generatedContent);
+    if (UPDATE_EXPECTED_RESULT_ON_FAILURE)
+    {
+      try
+      {
+        assertEquals("File: " + file, expectedContent, generatedContent);
+      }
+      catch (Throwable exception)
+      {
+        TestUtil.copyFile(generatedFile, expectedFile, true);
+      }
+    }
+    else
+    {
+      assertEquals("File: " + file, expectedContent, generatedContent);
+    }
   }
   
   private String upperCaseDriveLetter(String path)
