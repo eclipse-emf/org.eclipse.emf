@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseUtil.java,v 1.5 2005/11/23 19:07:02 emerks Exp $
+ * $Id: RoseUtil.java,v 1.6 2005/11/23 21:46:00 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -62,7 +62,7 @@ public class RoseUtil
     this.uriConverter = uriConverter;
   }
 
-    BasicDiagnostic basicDiagnostic = new BasicDiagnostic(
+  BasicDiagnostic basicDiagnostic = new BasicDiagnostic(
     RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(),
     0,
     RoseImporterPlugin.INSTANCE.getString("_UI_ProblemsWereEncounteredLoadingTheRoseModel_message"),
@@ -472,5 +472,10 @@ public class RoseUtil
   public Diagnostic getDiagnostic()
   {
     return basicDiagnostic;
+  }
+
+  public void addDiagnostic(Diagnostic diagnostic)
+  {
+    basicDiagnostic.add(diagnostic);
   }
 }

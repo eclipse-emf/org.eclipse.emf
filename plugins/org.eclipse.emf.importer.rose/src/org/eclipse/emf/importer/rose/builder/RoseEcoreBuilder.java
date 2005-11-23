@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.8 2005/11/23 19:07:02 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.9 2005/11/23 21:46:00 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -2118,13 +2118,13 @@ public class RoseEcoreBuilder implements RoseVisitor
   protected void warning(String message)
   {
     System.err.println("-->Warning: " + message);
-    ((DiagnosticChain)roseUtil.getDiagnostic()).add(new BasicDiagnostic(Diagnostic.WARNING, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
+    roseUtil.addDiagnostic(new BasicDiagnostic(Diagnostic.WARNING, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
   }
 
   protected void error(String message)
   {
     System.err.println("-->Error: " + message);
-    ((DiagnosticChain)roseUtil.getDiagnostic()).add(new BasicDiagnostic(Diagnostic.ERROR, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
+    roseUtil.addDiagnostic(new BasicDiagnostic(Diagnostic.ERROR, RoseImporterPlugin.getPlugin().getBundle().getSymbolicName(), 0, message, null));
   }
 
   protected String getQualifiedTypeName(ETypedElement typedElement, String type)
