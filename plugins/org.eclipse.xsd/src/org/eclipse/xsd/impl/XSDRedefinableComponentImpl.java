@@ -12,14 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefinableComponentImpl.java,v 1.6 2005/11/08 14:05:36 emerks Exp $
+ * $Id: XSDRedefinableComponentImpl.java,v 1.7 2005/11/23 13:56:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.xsd.XSDPackage;
 import org.eclipse.xsd.XSDRedefinableComponent;
 
@@ -96,9 +94,9 @@ public abstract class XSDRedefinableComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_REDEFINABLE_COMPONENT__ELEMENT:
         return getElement();
@@ -125,7 +123,7 @@ public abstract class XSDRedefinableComponentImpl
       case XSDPackage.XSD_REDEFINABLE_COMPONENT__CIRCULAR:
         return isCircular() ? Boolean.TRUE : Boolean.FALSE;
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -133,9 +131,9 @@ public abstract class XSDRedefinableComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_REDEFINABLE_COMPONENT__ELEMENT:
         return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
@@ -162,7 +160,7 @@ public abstract class XSDRedefinableComponentImpl
       case XSDPackage.XSD_REDEFINABLE_COMPONENT__CIRCULAR:
         return isCircular() != CIRCULAR_EDEFAULT;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
 } 

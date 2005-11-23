@@ -12,14 +12,18 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreFactoryImpl.java,v 1.6 2005/11/08 14:24:46 emerks Exp $
+ * $Id: XSD2EcoreFactoryImpl.java,v 1.7 2005/11/23 13:56:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.emf.mapping.xsd2ecore.*;
 
 
@@ -31,6 +35,29 @@ import org.eclipse.emf.mapping.xsd2ecore.*;
  */
 public class XSD2EcoreFactoryImpl extends EFactoryImpl implements XSD2EcoreFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static XSD2EcoreFactory init()
+  {
+    try
+    {
+      XSD2EcoreFactory theXSD2EcoreFactory = (XSD2EcoreFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2002/XSD2Ecore"); 
+      if (theXSD2EcoreFactory != null)
+      {
+        return theXSD2EcoreFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new XSD2EcoreFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

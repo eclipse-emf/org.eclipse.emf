@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDBoundedFacetImpl.java,v 1.5 2005/11/08 14:05:36 emerks Exp $
+ * $Id: XSDBoundedFacetImpl.java,v 1.6 2005/11/23 13:56:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -23,7 +23,6 @@ import org.w3c.dom.Element;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.xsd.XSDAnnotation;
@@ -116,9 +115,9 @@ public class XSDBoundedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_BOUNDED_FACET__ELEMENT:
         return getElement();
@@ -143,7 +142,7 @@ public class XSDBoundedFacetImpl
       case XSDPackage.XSD_BOUNDED_FACET__VALUE:
         return isValue() ? Boolean.TRUE : Boolean.FALSE;
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -151,9 +150,9 @@ public class XSDBoundedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_BOUNDED_FACET__ELEMENT:
         setElement((Element)newValue);
@@ -172,7 +171,7 @@ public class XSDBoundedFacetImpl
         setValue(((Boolean)newValue).booleanValue());
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -180,9 +179,9 @@ public class XSDBoundedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_BOUNDED_FACET__ELEMENT:
         setElement(ELEMENT_EDEFAULT);
@@ -200,7 +199,7 @@ public class XSDBoundedFacetImpl
         setValue(VALUE_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -208,9 +207,9 @@ public class XSDBoundedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_BOUNDED_FACET__ELEMENT:
         return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
@@ -235,7 +234,7 @@ public class XSDBoundedFacetImpl
       case XSDPackage.XSD_BOUNDED_FACET__VALUE:
         return ((eFlags & VALUE_EFLAG) != 0) != VALUE_EDEFAULT;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

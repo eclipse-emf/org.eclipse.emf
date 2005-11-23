@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.6 2005/08/15 19:02:25 emerks Exp $
+ * $Id: XSDWildcardImpl.java,v 1.7 2005/11/23 13:56:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -32,7 +32,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
@@ -408,9 +407,9 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_WILDCARD__ELEMENT:
         return getElement();
@@ -435,7 +434,7 @@ public class XSDWildcardImpl
       case XSDPackage.XSD_WILDCARD__ANNOTATIONS:
         return getAnnotations();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -443,9 +442,9 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_WILDCARD__ELEMENT:
         setElement((Element)newValue);
@@ -476,7 +475,7 @@ public class XSDWildcardImpl
         getAnnotations().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -484,9 +483,9 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_WILDCARD__ELEMENT:
         setElement(ELEMENT_EDEFAULT);
@@ -513,7 +512,7 @@ public class XSDWildcardImpl
         getAnnotations().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -521,9 +520,9 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_WILDCARD__ELEMENT:
         return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
@@ -548,7 +547,7 @@ public class XSDWildcardImpl
       case XSDPackage.XSD_WILDCARD__ANNOTATIONS:
         return annotations != null && !annotations.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

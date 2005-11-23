@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTypeDefinitionImpl.java,v 1.5 2005/06/25 13:31:38 emerks Exp $
+ * $Id: XSDTypeDefinitionImpl.java,v 1.6 2005/11/23 13:56:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -29,7 +29,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectEList;
@@ -412,9 +411,9 @@ for (Iterator i = list.iterator(); i.hasNext(); )
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_TYPE_DEFINITION__ELEMENT:
         return getElement();
@@ -455,7 +454,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
       case XSDPackage.XSD_TYPE_DEFINITION__COMPLEX_TYPE:
         return getComplexType();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -463,9 +462,9 @@ for (Iterator i = list.iterator(); i.hasNext(); )
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_TYPE_DEFINITION__ELEMENT:
         setElement((Element)newValue);
@@ -491,7 +490,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
         getAnnotations().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -499,9 +498,9 @@ for (Iterator i = list.iterator(); i.hasNext(); )
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_TYPE_DEFINITION__ELEMENT:
         setElement(ELEMENT_EDEFAULT);
@@ -525,7 +524,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
         getAnnotations().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -533,9 +532,9 @@ for (Iterator i = list.iterator(); i.hasNext(); )
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_TYPE_DEFINITION__ELEMENT:
         return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
@@ -576,7 +575,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
       case XSDPackage.XSD_TYPE_DEFINITION__COMPLEX_TYPE:
         return getComplexType() != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   public boolean isCircular()

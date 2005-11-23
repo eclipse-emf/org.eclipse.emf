@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.5 2005/11/23 13:56:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -29,7 +29,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -355,9 +354,9 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ELEMENT:
         return getElement();
@@ -392,7 +391,7 @@ public class XSDIdentityConstraintDefinitionImpl
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS:
         return getFields();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -400,9 +399,9 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ELEMENT:
         setElement((Element)newValue);
@@ -434,7 +433,7 @@ public class XSDIdentityConstraintDefinitionImpl
         getFields().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -442,9 +441,9 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ELEMENT:
         setElement(ELEMENT_EDEFAULT);
@@ -474,7 +473,7 @@ public class XSDIdentityConstraintDefinitionImpl
         getFields().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -482,9 +481,9 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ELEMENT:
         return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
@@ -519,7 +518,7 @@ public class XSDIdentityConstraintDefinitionImpl
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS:
         return fields != null && !fields.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

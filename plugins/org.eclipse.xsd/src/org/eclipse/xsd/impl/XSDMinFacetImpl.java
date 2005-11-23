@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinFacetImpl.java,v 1.6 2005/11/08 14:05:36 emerks Exp $
+ * $Id: XSDMinFacetImpl.java,v 1.7 2005/11/23 13:56:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -24,7 +24,6 @@ import org.w3c.dom.Element;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.xsd.XSDAnnotation;
@@ -178,9 +177,9 @@ public abstract class XSDMinFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_MIN_FACET__ELEMENT:
         return getElement();
@@ -211,7 +210,7 @@ public abstract class XSDMinFacetImpl
       case XSDPackage.XSD_MIN_FACET__EXCLUSIVE:
         return isExclusive() ? Boolean.TRUE : Boolean.FALSE;
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -219,9 +218,9 @@ public abstract class XSDMinFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_MIN_FACET__ELEMENT:
         setElement((Element)newValue);
@@ -243,7 +242,7 @@ public abstract class XSDMinFacetImpl
         setValue((Object)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -251,9 +250,9 @@ public abstract class XSDMinFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_MIN_FACET__ELEMENT:
         setElement(ELEMENT_EDEFAULT);
@@ -274,7 +273,7 @@ public abstract class XSDMinFacetImpl
         setValue(VALUE_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -282,9 +281,9 @@ public abstract class XSDMinFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_MIN_FACET__ELEMENT:
         return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
@@ -315,7 +314,7 @@ public abstract class XSDMinFacetImpl
       case XSDPackage.XSD_MIN_FACET__EXCLUSIVE:
         return isExclusive() != EXCLUSIVE_EDEFAULT;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

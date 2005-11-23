@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.8 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.9 2005/11/23 13:56:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -28,7 +28,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -861,9 +860,9 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_ATTRIBUTE_DECLARATION__ELEMENT:
         return getElement();
@@ -916,7 +915,7 @@ public class XSDAttributeDeclarationImpl
       case XSDPackage.XSD_ATTRIBUTE_DECLARATION__RESOLVED_ATTRIBUTE_DECLARATION:
         return getResolvedAttributeDeclaration();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -924,9 +923,9 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_ATTRIBUTE_DECLARATION__ELEMENT:
         setElement((Element)newValue);
@@ -966,7 +965,7 @@ public class XSDAttributeDeclarationImpl
         setResolvedAttributeDeclaration((XSDAttributeDeclaration)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -974,9 +973,9 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_ATTRIBUTE_DECLARATION__ELEMENT:
         setElement(ELEMENT_EDEFAULT);
@@ -1015,7 +1014,7 @@ public class XSDAttributeDeclarationImpl
         setResolvedAttributeDeclaration((XSDAttributeDeclaration)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -1023,9 +1022,9 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_ATTRIBUTE_DECLARATION__ELEMENT:
         return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
@@ -1078,7 +1077,7 @@ public class XSDAttributeDeclarationImpl
       case XSDPackage.XSD_ATTRIBUTE_DECLARATION__RESOLVED_ATTRIBUTE_DECLARATION:
         return resolvedAttributeDeclaration != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   public String getQName()

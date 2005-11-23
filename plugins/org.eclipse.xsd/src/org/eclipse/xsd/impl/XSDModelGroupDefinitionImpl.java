@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.7 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.8 2005/11/23 13:56:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -27,7 +27,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -602,9 +601,9 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ELEMENT:
         return getElement();
@@ -639,7 +638,7 @@ public class XSDModelGroupDefinitionImpl
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__RESOLVED_MODEL_GROUP_DEFINITION:
         return getResolvedModelGroupDefinition();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -647,9 +646,9 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ELEMENT:
         setElement((Element)newValue);
@@ -674,7 +673,7 @@ public class XSDModelGroupDefinitionImpl
         setResolvedModelGroupDefinition((XSDModelGroupDefinition)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -682,9 +681,9 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ELEMENT:
         setElement(ELEMENT_EDEFAULT);
@@ -708,7 +707,7 @@ public class XSDModelGroupDefinitionImpl
         setResolvedModelGroupDefinition((XSDModelGroupDefinition)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -716,9 +715,9 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ELEMENT:
         return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
@@ -753,7 +752,7 @@ public class XSDModelGroupDefinitionImpl
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__RESOLVED_MODEL_GROUP_DEFINITION:
         return resolvedModelGroupDefinition != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   public String getQName()

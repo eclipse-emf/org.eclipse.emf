@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIncludeImpl.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDIncludeImpl.java,v 1.5 2005/11/23 13:56:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -25,7 +25,6 @@ import org.w3c.dom.Node;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -174,9 +173,9 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_INCLUDE__ELEMENT:
         return getElement();
@@ -197,7 +196,7 @@ public class XSDIncludeImpl
       case XSDPackage.XSD_INCLUDE__ANNOTATION:
         return getAnnotation();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -205,9 +204,9 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_INCLUDE__ELEMENT:
         setElement((Element)newValue);
@@ -229,7 +228,7 @@ public class XSDIncludeImpl
         setAnnotation((XSDAnnotation)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -237,9 +236,9 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_INCLUDE__ELEMENT:
         setElement(ELEMENT_EDEFAULT);
@@ -260,7 +259,7 @@ public class XSDIncludeImpl
         setAnnotation((XSDAnnotation)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -268,9 +267,9 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_INCLUDE__ELEMENT:
         return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
@@ -291,7 +290,7 @@ public class XSDIncludeImpl
       case XSDPackage.XSD_INCLUDE__ANNOTATION:
         return annotation != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   public Element createElement()

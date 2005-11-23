@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreFactory.java,v 1.2 2005/06/08 06:18:57 nickb Exp $
+ * $Id: XSD2EcoreFactory.java,v 1.3 2005/11/23 13:56:51 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore;
 
@@ -28,14 +28,14 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage
  * @generated
  */
-public interface XSD2EcoreFactory extends EFactory {
+public interface XSD2EcoreFactory extends EFactory{
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  XSD2EcoreFactory eINSTANCE = new org.eclipse.emf.mapping.xsd2ecore.impl.XSD2EcoreFactoryImpl();
+  XSD2EcoreFactory eINSTANCE = org.eclipse.emf.mapping.xsd2ecore.impl.XSD2EcoreFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Mapping Root</em>'.

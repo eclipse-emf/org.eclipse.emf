@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.12 2005/09/15 11:33:24 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.13 2005/11/23 13:56:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -38,7 +38,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
@@ -2403,9 +2402,9 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__ELEMENT:
         return getElement();
@@ -2530,7 +2529,7 @@ public class XSDSimpleTypeDefinitionImpl
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__SYNTHETIC_FACETS:
         return getSyntheticFacets();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -2538,9 +2537,9 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__ELEMENT:
         setElement((Element)newValue);
@@ -2614,7 +2613,7 @@ public class XSDSimpleTypeDefinitionImpl
         getSyntheticFacets().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -2622,9 +2621,9 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__ELEMENT:
         setElement(ELEMENT_EDEFAULT);
@@ -2687,7 +2686,7 @@ public class XSDSimpleTypeDefinitionImpl
         getSyntheticFacets().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -2695,9 +2694,9 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__ELEMENT:
         return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
@@ -2822,7 +2821,7 @@ public class XSDSimpleTypeDefinitionImpl
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__SYNTHETIC_FACETS:
         return syntheticFacets != null && !syntheticFacets.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**

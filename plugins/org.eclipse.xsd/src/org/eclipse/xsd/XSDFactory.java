@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFactory.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDFactory.java,v 1.3 2005/11/23 13:56:56 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -28,13 +28,12 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.xsd.XSDPackage
  * @generated
  */
-public interface XSDFactory extends EFactory
-{
+public interface XSDFactory extends EFactory{
   /**
    * The singleton instance of the factory.
    * @generated
    */
-  XSDFactory eINSTANCE = new org.eclipse.xsd.impl.XSDFactoryImpl();
+  XSDFactory eINSTANCE = org.eclipse.xsd.impl.XSDFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Schema</em>'.
