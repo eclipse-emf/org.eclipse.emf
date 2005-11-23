@@ -10,7 +10,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -394,9 +393,9 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.BOOK__TITLE:
         return getTitle();
@@ -408,7 +407,7 @@ public class BookImpl extends EObjectImpl implements Book
         if (resolve) return getAuthor();
         return basicGetAuthor();
     }
-    return eDynamicGet(eFeature, resolve);
+    return eDynamicGet(featureID, resolve, coreType);
   }
 
   /**
@@ -416,9 +415,9 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.BOOK__TITLE:
         setTitle((String)newValue);
@@ -433,7 +432,7 @@ public class BookImpl extends EObjectImpl implements Book
         setAuthor((Writer)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    eDynamicSet(featureID, newValue);
   }
 
   /**
@@ -441,9 +440,9 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.BOOK__TITLE:
         setTitle(TITLE_EDEFAULT);
@@ -458,7 +457,7 @@ public class BookImpl extends EObjectImpl implements Book
         setAuthor((Writer)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    eDynamicUnset(featureID);
   }
 
   /**
@@ -466,9 +465,9 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case LibraryPackage.BOOK__TITLE:
         return TITLE_EDEFAULT == null ? title != null : !TITLE_EDEFAULT.equals(title);
@@ -479,7 +478,7 @@ public class BookImpl extends EObjectImpl implements Book
       case LibraryPackage.BOOK__AUTHOR:
         return author != null;
     }
-    return eDynamicIsSet(eFeature);
+    return eDynamicIsSet(featureID);
   }
 
   /**
