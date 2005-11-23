@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.9 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.10 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -157,7 +157,7 @@ public abstract class XSDConcreteComponentImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDConcreteComponent();
+    return XSDPackage.Literals.XSD_CONCRETE_COMPONENT;
   }
 
   protected XSDFactory getXSDFactory()

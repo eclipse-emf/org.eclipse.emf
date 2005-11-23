@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFacetImpl.java,v 1.5 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDFacetImpl.java,v 1.6 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -126,7 +126,7 @@ public abstract class XSDFacetImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDFacet();
+    return XSDPackage.Literals.XSD_FACET;
   }
 
   /**

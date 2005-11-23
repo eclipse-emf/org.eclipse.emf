@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDScopeImpl.java,v 1.4 2005/11/08 14:05:36 emerks Exp $
+ * $Id: XSDScopeImpl.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -53,7 +53,7 @@ public abstract class XSDScopeImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDScope();
+    return XSDPackage.Literals.XSD_SCOPE;
   }
 
 }

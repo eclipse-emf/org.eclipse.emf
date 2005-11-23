@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImportImpl.java,v 1.4 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDImportImpl.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -127,7 +127,7 @@ public class XSDImportImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDImport();
+    return XSDPackage.Literals.XSD_IMPORT;
   }
 
   /**

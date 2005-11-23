@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.9 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.10 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -151,7 +151,7 @@ public class XSDAttributeDeclarationImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDAttributeDeclaration();
+    return XSDPackage.Literals.XSD_ATTRIBUTE_DECLARATION;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.21 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.22 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -779,7 +779,7 @@ public class XSDSchemaImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDSchema();
+    return XSDPackage.Literals.XSD_SCHEMA;
   }
 
   /**

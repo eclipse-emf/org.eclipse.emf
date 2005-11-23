@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRepeatableFacetImpl.java,v 1.6 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDRepeatableFacetImpl.java,v 1.7 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -93,7 +93,7 @@ public abstract class XSDRepeatableFacetImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDRepeatableFacet();
+    return XSDPackage.Literals.XSD_REPEATABLE_FACET;
   }
 
   /**

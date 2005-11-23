@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNumericFacetImpl.java,v 1.6 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDNumericFacetImpl.java,v 1.7 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -84,7 +84,7 @@ public class XSDNumericFacetImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDNumericFacet();
+    return XSDPackage.Literals.XSD_NUMERIC_FACET;
   }
 
   /**

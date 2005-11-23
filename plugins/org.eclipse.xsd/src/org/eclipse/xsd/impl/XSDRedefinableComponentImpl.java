@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefinableComponentImpl.java,v 1.7 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDRedefinableComponentImpl.java,v 1.8 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -66,7 +66,7 @@ public abstract class XSDRedefinableComponentImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDRedefinableComponent();
+    return XSDPackage.Literals.XSD_REDEFINABLE_COMPONENT;
   }
 
   /**

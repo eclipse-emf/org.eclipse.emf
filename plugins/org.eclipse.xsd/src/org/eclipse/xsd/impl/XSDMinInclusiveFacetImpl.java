@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinInclusiveFacetImpl.java,v 1.5 2005/11/08 14:05:36 emerks Exp $
+ * $Id: XSDMinInclusiveFacetImpl.java,v 1.6 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -74,7 +74,7 @@ public class XSDMinInclusiveFacetImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDMinInclusiveFacet();
+    return XSDPackage.Literals.XSD_MIN_INCLUSIVE_FACET;
   }
 
   public Element createElement()

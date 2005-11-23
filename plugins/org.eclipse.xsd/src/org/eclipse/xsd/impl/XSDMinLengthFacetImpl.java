@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinLengthFacetImpl.java,v 1.7 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDMinLengthFacetImpl.java,v 1.8 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -107,7 +107,7 @@ public class XSDMinLengthFacetImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDMinLengthFacet();
+    return XSDPackage.Literals.XSD_MIN_LENGTH_FACET;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackage.java,v 1.4 2005/08/24 13:41:58 marcelop Exp $
+ * $Id: XSDPackage.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -11413,6 +11413,2610 @@ public interface XSDPackage extends EPackage{
    * @generated
    */
   XSDFactory getXSDFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDAnnotationImpl <em>Annotation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDAnnotationImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDAnnotation()
+     * @generated
+     */
+    EClass XSD_ANNOTATION = eINSTANCE.getXSDAnnotation();
+
+    /**
+     * The meta object literal for the '<em><b>Application Information</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ANNOTATION__APPLICATION_INFORMATION = eINSTANCE.getXSDAnnotation_ApplicationInformation();
+
+    /**
+     * The meta object literal for the '<em><b>User Information</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ANNOTATION__USER_INFORMATION = eINSTANCE.getXSDAnnotation_UserInformation();
+
+    /**
+     * The meta object literal for the '<em><b>Attributes</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ANNOTATION__ATTRIBUTES = eINSTANCE.getXSDAnnotation_Attributes();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDAttributeDeclarationImpl <em>Attribute Declaration</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDAttributeDeclarationImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDAttributeDeclaration()
+     * @generated
+     */
+    EClass XSD_ATTRIBUTE_DECLARATION = eINSTANCE.getXSDAttributeDeclaration();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Declaration Reference</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ATTRIBUTE_DECLARATION__ATTRIBUTE_DECLARATION_REFERENCE = eINSTANCE.getXSDAttributeDeclaration_AttributeDeclarationReference();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_DECLARATION__ANNOTATION = eINSTANCE.getXSDAttributeDeclaration_Annotation();
+
+    /**
+     * The meta object literal for the '<em><b>Anonymous Type Definition</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_DECLARATION__ANONYMOUS_TYPE_DEFINITION = eINSTANCE.getXSDAttributeDeclaration_AnonymousTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Type Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_DECLARATION__TYPE_DEFINITION = eINSTANCE.getXSDAttributeDeclaration_TypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Resolved Attribute Declaration</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_DECLARATION__RESOLVED_ATTRIBUTE_DECLARATION = eINSTANCE.getXSDAttributeDeclaration_ResolvedAttributeDeclaration();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDAttributeGroupContentImpl <em>Attribute Group Content</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDAttributeGroupContentImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDAttributeGroupContent()
+     * @generated
+     */
+    EClass XSD_ATTRIBUTE_GROUP_CONTENT = eINSTANCE.getXSDAttributeGroupContent();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDAttributeGroupDefinitionImpl <em>Attribute Group Definition</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDAttributeGroupDefinitionImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDAttributeGroupDefinition()
+     * @generated
+     */
+    EClass XSD_ATTRIBUTE_GROUP_DEFINITION = eINSTANCE.getXSDAttributeGroupDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Group Definition Reference</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_GROUP_DEFINITION_REFERENCE = eINSTANCE.getXSDAttributeGroupDefinition_AttributeGroupDefinitionReference();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION = eINSTANCE.getXSDAttributeGroupDefinition_Annotation();
+
+    /**
+     * The meta object literal for the '<em><b>Contents</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_GROUP_DEFINITION__CONTENTS = eINSTANCE.getXSDAttributeGroupDefinition_Contents();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Uses</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_USES = eINSTANCE.getXSDAttributeGroupDefinition_AttributeUses();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Wildcard Content</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_WILDCARD_CONTENT = eINSTANCE.getXSDAttributeGroupDefinition_AttributeWildcardContent();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Wildcard</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_WILDCARD = eINSTANCE.getXSDAttributeGroupDefinition_AttributeWildcard();
+
+    /**
+     * The meta object literal for the '<em><b>Resolved Attribute Group Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_GROUP_DEFINITION__RESOLVED_ATTRIBUTE_GROUP_DEFINITION = eINSTANCE.getXSDAttributeGroupDefinition_ResolvedAttributeGroupDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Synthetic Wildcard</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_GROUP_DEFINITION__SYNTHETIC_WILDCARD = eINSTANCE.getXSDAttributeGroupDefinition_SyntheticWildcard();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDAttributeUseImpl <em>Attribute Use</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDAttributeUseImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDAttributeUse()
+     * @generated
+     */
+    EClass XSD_ATTRIBUTE_USE = eINSTANCE.getXSDAttributeUse();
+
+    /**
+     * The meta object literal for the '<em><b>Required</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ATTRIBUTE_USE__REQUIRED = eINSTANCE.getXSDAttributeUse_Required();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ATTRIBUTE_USE__VALUE = eINSTANCE.getXSDAttributeUse_Value();
+
+    /**
+     * The meta object literal for the '<em><b>Constraint</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ATTRIBUTE_USE__CONSTRAINT = eINSTANCE.getXSDAttributeUse_Constraint();
+
+    /**
+     * The meta object literal for the '<em><b>Use</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ATTRIBUTE_USE__USE = eINSTANCE.getXSDAttributeUse_Use();
+
+    /**
+     * The meta object literal for the '<em><b>Lexical Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ATTRIBUTE_USE__LEXICAL_VALUE = eINSTANCE.getXSDAttributeUse_LexicalValue();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Declaration</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_USE__ATTRIBUTE_DECLARATION = eINSTANCE.getXSDAttributeUse_AttributeDeclaration();
+
+    /**
+     * The meta object literal for the '<em><b>Content</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ATTRIBUTE_USE__CONTENT = eINSTANCE.getXSDAttributeUse_Content();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDBoundedFacetImpl <em>Bounded Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDBoundedFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDBoundedFacet()
+     * @generated
+     */
+    EClass XSD_BOUNDED_FACET = eINSTANCE.getXSDBoundedFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_BOUNDED_FACET__VALUE = eINSTANCE.getXSDBoundedFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDCardinalityFacetImpl <em>Cardinality Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDCardinalityFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDCardinalityFacet()
+     * @generated
+     */
+    EClass XSD_CARDINALITY_FACET = eINSTANCE.getXSDCardinalityFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_CARDINALITY_FACET__VALUE = eINSTANCE.getXSDCardinalityFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDComplexTypeContentImpl <em>Complex Type Content</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDComplexTypeContentImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDComplexTypeContent()
+     * @generated
+     */
+    EClass XSD_COMPLEX_TYPE_CONTENT = eINSTANCE.getXSDComplexTypeContent();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDComplexTypeDefinitionImpl <em>Complex Type Definition</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDComplexTypeDefinitionImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDComplexTypeDefinition()
+     * @generated
+     */
+    EClass XSD_COMPLEX_TYPE_DEFINITION = eINSTANCE.getXSDComplexTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Derivation Method</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_COMPLEX_TYPE_DEFINITION__DERIVATION_METHOD = eINSTANCE.getXSDComplexTypeDefinition_DerivationMethod();
+
+    /**
+     * The meta object literal for the '<em><b>Final</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_COMPLEX_TYPE_DEFINITION__FINAL = eINSTANCE.getXSDComplexTypeDefinition_Final();
+
+    /**
+     * The meta object literal for the '<em><b>Abstract</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_COMPLEX_TYPE_DEFINITION__ABSTRACT = eINSTANCE.getXSDComplexTypeDefinition_Abstract();
+
+    /**
+     * The meta object literal for the '<em><b>Content Type Category</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_COMPLEX_TYPE_DEFINITION__CONTENT_TYPE_CATEGORY = eINSTANCE.getXSDComplexTypeDefinition_ContentTypeCategory();
+
+    /**
+     * The meta object literal for the '<em><b>Prohibited Substitutions</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_COMPLEX_TYPE_DEFINITION__PROHIBITED_SUBSTITUTIONS = eINSTANCE.getXSDComplexTypeDefinition_ProhibitedSubstitutions();
+
+    /**
+     * The meta object literal for the '<em><b>Lexical Final</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_COMPLEX_TYPE_DEFINITION__LEXICAL_FINAL = eINSTANCE.getXSDComplexTypeDefinition_LexicalFinal();
+
+    /**
+     * The meta object literal for the '<em><b>Block</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_COMPLEX_TYPE_DEFINITION__BLOCK = eINSTANCE.getXSDComplexTypeDefinition_Block();
+
+    /**
+     * The meta object literal for the '<em><b>Mixed</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_COMPLEX_TYPE_DEFINITION__MIXED = eINSTANCE.getXSDComplexTypeDefinition_Mixed();
+
+    /**
+     * The meta object literal for the '<em><b>Content Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__CONTENT_ANNOTATION = eINSTANCE.getXSDComplexTypeDefinition_ContentAnnotation();
+
+    /**
+     * The meta object literal for the '<em><b>Base Type Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__BASE_TYPE_DEFINITION = eINSTANCE.getXSDComplexTypeDefinition_BaseTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Content</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__CONTENT = eINSTANCE.getXSDComplexTypeDefinition_Content();
+
+    /**
+     * The meta object literal for the '<em><b>Content Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__CONTENT_TYPE = eINSTANCE.getXSDComplexTypeDefinition_ContentType();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Uses</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_USES = eINSTANCE.getXSDComplexTypeDefinition_AttributeUses();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Contents</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_CONTENTS = eINSTANCE.getXSDComplexTypeDefinition_AttributeContents();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Wildcard</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_WILDCARD = eINSTANCE.getXSDComplexTypeDefinition_AttributeWildcard();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Wildcard Content</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_WILDCARD_CONTENT = eINSTANCE.getXSDComplexTypeDefinition_AttributeWildcardContent();
+
+    /**
+     * The meta object literal for the '<em><b>Root Type Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__ROOT_TYPE_DEFINITION = eINSTANCE.getXSDComplexTypeDefinition_RootTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Synthetic Particle</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__SYNTHETIC_PARTICLE = eINSTANCE.getXSDComplexTypeDefinition_SyntheticParticle();
+
+    /**
+     * The meta object literal for the '<em><b>Synthetic Wildcard</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_COMPLEX_TYPE_DEFINITION__SYNTHETIC_WILDCARD = eINSTANCE.getXSDComplexTypeDefinition_SyntheticWildcard();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDComponentImpl <em>Component</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDComponentImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDComponent()
+     * @generated
+     */
+    EClass XSD_COMPONENT = eINSTANCE.getXSDComponent();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDConcreteComponentImpl <em>Concrete Component</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDConcreteComponentImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDConcreteComponent()
+     * @generated
+     */
+    EClass XSD_CONCRETE_COMPONENT = eINSTANCE.getXSDConcreteComponent();
+
+    /**
+     * The meta object literal for the '<em><b>Element</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_CONCRETE_COMPONENT__ELEMENT = eINSTANCE.getXSDConcreteComponent_Element();
+
+    /**
+     * The meta object literal for the '<em><b>Container</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_CONCRETE_COMPONENT__CONTAINER = eINSTANCE.getXSDConcreteComponent_Container();
+
+    /**
+     * The meta object literal for the '<em><b>Root Container</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_CONCRETE_COMPONENT__ROOT_CONTAINER = eINSTANCE.getXSDConcreteComponent_RootContainer();
+
+    /**
+     * The meta object literal for the '<em><b>Schema</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_CONCRETE_COMPONENT__SCHEMA = eINSTANCE.getXSDConcreteComponent_Schema();
+
+    /**
+     * The meta object literal for the '<em><b>Diagnostics</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_CONCRETE_COMPONENT__DIAGNOSTICS = eINSTANCE.getXSDConcreteComponent_Diagnostics();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDConstrainingFacetImpl <em>Constraining Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDConstrainingFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDConstrainingFacet()
+     * @generated
+     */
+    EClass XSD_CONSTRAINING_FACET = eINSTANCE.getXSDConstrainingFacet();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDDiagnosticImpl <em>Diagnostic</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDDiagnosticImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDDiagnostic()
+     * @generated
+     */
+    EClass XSD_DIAGNOSTIC = eINSTANCE.getXSDDiagnostic();
+
+    /**
+     * The meta object literal for the '<em><b>Severity</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_DIAGNOSTIC__SEVERITY = eINSTANCE.getXSDDiagnostic_Severity();
+
+    /**
+     * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_DIAGNOSTIC__MESSAGE = eINSTANCE.getXSDDiagnostic_Message();
+
+    /**
+     * The meta object literal for the '<em><b>Location URI</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_DIAGNOSTIC__LOCATION_URI = eINSTANCE.getXSDDiagnostic_LocationURI();
+
+    /**
+     * The meta object literal for the '<em><b>Line</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_DIAGNOSTIC__LINE = eINSTANCE.getXSDDiagnostic_Line();
+
+    /**
+     * The meta object literal for the '<em><b>Column</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_DIAGNOSTIC__COLUMN = eINSTANCE.getXSDDiagnostic_Column();
+
+    /**
+     * The meta object literal for the '<em><b>Node</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_DIAGNOSTIC__NODE = eINSTANCE.getXSDDiagnostic_Node();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation URI</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_DIAGNOSTIC__ANNOTATION_URI = eINSTANCE.getXSDDiagnostic_AnnotationURI();
+
+    /**
+     * The meta object literal for the '<em><b>Components</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_DIAGNOSTIC__COMPONENTS = eINSTANCE.getXSDDiagnostic_Components();
+
+    /**
+     * The meta object literal for the '<em><b>Primary Component</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_DIAGNOSTIC__PRIMARY_COMPONENT = eINSTANCE.getXSDDiagnostic_PrimaryComponent();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDElementDeclarationImpl <em>Element Declaration</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDElementDeclarationImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDElementDeclaration()
+     * @generated
+     */
+    EClass XSD_ELEMENT_DECLARATION = eINSTANCE.getXSDElementDeclaration();
+
+    /**
+     * The meta object literal for the '<em><b>Nillable</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ELEMENT_DECLARATION__NILLABLE = eINSTANCE.getXSDElementDeclaration_Nillable();
+
+    /**
+     * The meta object literal for the '<em><b>Disallowed Substitutions</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ELEMENT_DECLARATION__DISALLOWED_SUBSTITUTIONS = eINSTANCE.getXSDElementDeclaration_DisallowedSubstitutions();
+
+    /**
+     * The meta object literal for the '<em><b>Substitution Group Exclusions</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP_EXCLUSIONS = eINSTANCE.getXSDElementDeclaration_SubstitutionGroupExclusions();
+
+    /**
+     * The meta object literal for the '<em><b>Abstract</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ELEMENT_DECLARATION__ABSTRACT = eINSTANCE.getXSDElementDeclaration_Abstract();
+
+    /**
+     * The meta object literal for the '<em><b>Lexical Final</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ELEMENT_DECLARATION__LEXICAL_FINAL = eINSTANCE.getXSDElementDeclaration_LexicalFinal();
+
+    /**
+     * The meta object literal for the '<em><b>Block</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ELEMENT_DECLARATION__BLOCK = eINSTANCE.getXSDElementDeclaration_Block();
+
+    /**
+     * The meta object literal for the '<em><b>Element Declaration Reference</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ELEMENT_DECLARATION__ELEMENT_DECLARATION_REFERENCE = eINSTANCE.getXSDElementDeclaration_ElementDeclarationReference();
+
+    /**
+     * The meta object literal for the '<em><b>Circular</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ELEMENT_DECLARATION__CIRCULAR = eINSTANCE.getXSDElementDeclaration_Circular();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ELEMENT_DECLARATION__ANNOTATION = eINSTANCE.getXSDElementDeclaration_Annotation();
+
+    /**
+     * The meta object literal for the '<em><b>Anonymous Type Definition</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ELEMENT_DECLARATION__ANONYMOUS_TYPE_DEFINITION = eINSTANCE.getXSDElementDeclaration_AnonymousTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Type Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ELEMENT_DECLARATION__TYPE_DEFINITION = eINSTANCE.getXSDElementDeclaration_TypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Identity Constraint Definitions</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ELEMENT_DECLARATION__IDENTITY_CONSTRAINT_DEFINITIONS = eINSTANCE.getXSDElementDeclaration_IdentityConstraintDefinitions();
+
+    /**
+     * The meta object literal for the '<em><b>Resolved Element Declaration</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ELEMENT_DECLARATION__RESOLVED_ELEMENT_DECLARATION = eINSTANCE.getXSDElementDeclaration_ResolvedElementDeclaration();
+
+    /**
+     * The meta object literal for the '<em><b>Substitution Group Affiliation</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP_AFFILIATION = eINSTANCE.getXSDElementDeclaration_SubstitutionGroupAffiliation();
+
+    /**
+     * The meta object literal for the '<em><b>Substitution Group</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP = eINSTANCE.getXSDElementDeclaration_SubstitutionGroup();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDEnumerationFacetImpl <em>Enumeration Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDEnumerationFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDEnumerationFacet()
+     * @generated
+     */
+    EClass XSD_ENUMERATION_FACET = eINSTANCE.getXSDEnumerationFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ENUMERATION_FACET__VALUE = eINSTANCE.getXSDEnumerationFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDFacetImpl <em>Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDFacet()
+     * @generated
+     */
+    EClass XSD_FACET = eINSTANCE.getXSDFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Lexical Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FACET__LEXICAL_VALUE = eINSTANCE.getXSDFacet_LexicalValue();
+
+    /**
+     * The meta object literal for the '<em><b>Facet Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FACET__FACET_NAME = eINSTANCE.getXSDFacet_FacetName();
+
+    /**
+     * The meta object literal for the '<em><b>Effective Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FACET__EFFECTIVE_VALUE = eINSTANCE.getXSDFacet_EffectiveValue();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_FACET__ANNOTATION = eINSTANCE.getXSDFacet_Annotation();
+
+    /**
+     * The meta object literal for the '<em><b>Simple Type Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_FACET__SIMPLE_TYPE_DEFINITION = eINSTANCE.getXSDFacet_SimpleTypeDefinition();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDFeatureImpl <em>Feature</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDFeatureImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDFeature()
+     * @generated
+     */
+    EClass XSD_FEATURE = eINSTANCE.getXSDFeature();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FEATURE__VALUE = eINSTANCE.getXSDFeature_Value();
+
+    /**
+     * The meta object literal for the '<em><b>Constraint</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FEATURE__CONSTRAINT = eINSTANCE.getXSDFeature_Constraint();
+
+    /**
+     * The meta object literal for the '<em><b>Form</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FEATURE__FORM = eINSTANCE.getXSDFeature_Form();
+
+    /**
+     * The meta object literal for the '<em><b>Lexical Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FEATURE__LEXICAL_VALUE = eINSTANCE.getXSDFeature_LexicalValue();
+
+    /**
+     * The meta object literal for the '<em><b>Global</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FEATURE__GLOBAL = eINSTANCE.getXSDFeature_Global();
+
+    /**
+     * The meta object literal for the '<em><b>Feature Reference</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FEATURE__FEATURE_REFERENCE = eINSTANCE.getXSDFeature_FeatureReference();
+
+    /**
+     * The meta object literal for the '<em><b>Scope</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_FEATURE__SCOPE = eINSTANCE.getXSDFeature_Scope();
+
+    /**
+     * The meta object literal for the '<em><b>Resolved Feature</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_FEATURE__RESOLVED_FEATURE = eINSTANCE.getXSDFeature_ResolvedFeature();
+
+    /**
+     * The meta object literal for the '<em><b>Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_FEATURE__TYPE = eINSTANCE.getXSDFeature_Type();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDFixedFacetImpl <em>Fixed Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDFixedFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDFixedFacet()
+     * @generated
+     */
+    EClass XSD_FIXED_FACET = eINSTANCE.getXSDFixedFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Fixed</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FIXED_FACET__FIXED = eINSTANCE.getXSDFixedFacet_Fixed();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDFractionDigitsFacetImpl <em>Fraction Digits Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDFractionDigitsFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDFractionDigitsFacet()
+     * @generated
+     */
+    EClass XSD_FRACTION_DIGITS_FACET = eINSTANCE.getXSDFractionDigitsFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_FRACTION_DIGITS_FACET__VALUE = eINSTANCE.getXSDFractionDigitsFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDFundamentalFacetImpl <em>Fundamental Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDFundamentalFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDFundamentalFacet()
+     * @generated
+     */
+    EClass XSD_FUNDAMENTAL_FACET = eINSTANCE.getXSDFundamentalFacet();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDIdentityConstraintDefinitionImpl <em>Identity Constraint Definition</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDIdentityConstraintDefinitionImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDIdentityConstraintDefinition()
+     * @generated
+     */
+    EClass XSD_IDENTITY_CONSTRAINT_DEFINITION = eINSTANCE.getXSDIdentityConstraintDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Identity Constraint Category</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_IDENTITY_CONSTRAINT_DEFINITION__IDENTITY_CONSTRAINT_CATEGORY = eINSTANCE.getXSDIdentityConstraintDefinition_IdentityConstraintCategory();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_IDENTITY_CONSTRAINT_DEFINITION__ANNOTATION = eINSTANCE.getXSDIdentityConstraintDefinition_Annotation();
+
+    /**
+     * The meta object literal for the '<em><b>Referenced Key</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_IDENTITY_CONSTRAINT_DEFINITION__REFERENCED_KEY = eINSTANCE.getXSDIdentityConstraintDefinition_ReferencedKey();
+
+    /**
+     * The meta object literal for the '<em><b>Selector</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_IDENTITY_CONSTRAINT_DEFINITION__SELECTOR = eINSTANCE.getXSDIdentityConstraintDefinition_Selector();
+
+    /**
+     * The meta object literal for the '<em><b>Fields</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS = eINSTANCE.getXSDIdentityConstraintDefinition_Fields();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDImportImpl <em>Import</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDImportImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDImport()
+     * @generated
+     */
+    EClass XSD_IMPORT = eINSTANCE.getXSDImport();
+
+    /**
+     * The meta object literal for the '<em><b>Namespace</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_IMPORT__NAMESPACE = eINSTANCE.getXSDImport_Namespace();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_IMPORT__ANNOTATION = eINSTANCE.getXSDImport_Annotation();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDIncludeImpl <em>Include</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDIncludeImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDInclude()
+     * @generated
+     */
+    EClass XSD_INCLUDE = eINSTANCE.getXSDInclude();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_INCLUDE__ANNOTATION = eINSTANCE.getXSDInclude_Annotation();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDLengthFacetImpl <em>Length Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDLengthFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDLengthFacet()
+     * @generated
+     */
+    EClass XSD_LENGTH_FACET = eINSTANCE.getXSDLengthFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_LENGTH_FACET__VALUE = eINSTANCE.getXSDLengthFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDMaxExclusiveFacetImpl <em>Max Exclusive Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDMaxExclusiveFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDMaxExclusiveFacet()
+     * @generated
+     */
+    EClass XSD_MAX_EXCLUSIVE_FACET = eINSTANCE.getXSDMaxExclusiveFacet();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDMaxFacetImpl <em>Max Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDMaxFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDMaxFacet()
+     * @generated
+     */
+    EClass XSD_MAX_FACET = eINSTANCE.getXSDMaxFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_MAX_FACET__VALUE = eINSTANCE.getXSDMaxFacet_Value();
+
+    /**
+     * The meta object literal for the '<em><b>Inclusive</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_MAX_FACET__INCLUSIVE = eINSTANCE.getXSDMaxFacet_Inclusive();
+
+    /**
+     * The meta object literal for the '<em><b>Exclusive</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_MAX_FACET__EXCLUSIVE = eINSTANCE.getXSDMaxFacet_Exclusive();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDMaxInclusiveFacetImpl <em>Max Inclusive Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDMaxInclusiveFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDMaxInclusiveFacet()
+     * @generated
+     */
+    EClass XSD_MAX_INCLUSIVE_FACET = eINSTANCE.getXSDMaxInclusiveFacet();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDMaxLengthFacetImpl <em>Max Length Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDMaxLengthFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDMaxLengthFacet()
+     * @generated
+     */
+    EClass XSD_MAX_LENGTH_FACET = eINSTANCE.getXSDMaxLengthFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_MAX_LENGTH_FACET__VALUE = eINSTANCE.getXSDMaxLengthFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDMinExclusiveFacetImpl <em>Min Exclusive Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDMinExclusiveFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDMinExclusiveFacet()
+     * @generated
+     */
+    EClass XSD_MIN_EXCLUSIVE_FACET = eINSTANCE.getXSDMinExclusiveFacet();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDMinFacetImpl <em>Min Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDMinFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDMinFacet()
+     * @generated
+     */
+    EClass XSD_MIN_FACET = eINSTANCE.getXSDMinFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_MIN_FACET__VALUE = eINSTANCE.getXSDMinFacet_Value();
+
+    /**
+     * The meta object literal for the '<em><b>Inclusive</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_MIN_FACET__INCLUSIVE = eINSTANCE.getXSDMinFacet_Inclusive();
+
+    /**
+     * The meta object literal for the '<em><b>Exclusive</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_MIN_FACET__EXCLUSIVE = eINSTANCE.getXSDMinFacet_Exclusive();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDMinInclusiveFacetImpl <em>Min Inclusive Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDMinInclusiveFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDMinInclusiveFacet()
+     * @generated
+     */
+    EClass XSD_MIN_INCLUSIVE_FACET = eINSTANCE.getXSDMinInclusiveFacet();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDMinLengthFacetImpl <em>Min Length Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDMinLengthFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDMinLengthFacet()
+     * @generated
+     */
+    EClass XSD_MIN_LENGTH_FACET = eINSTANCE.getXSDMinLengthFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_MIN_LENGTH_FACET__VALUE = eINSTANCE.getXSDMinLengthFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDModelGroupImpl <em>Model Group</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDModelGroupImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDModelGroup()
+     * @generated
+     */
+    EClass XSD_MODEL_GROUP = eINSTANCE.getXSDModelGroup();
+
+    /**
+     * The meta object literal for the '<em><b>Compositor</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_MODEL_GROUP__COMPOSITOR = eINSTANCE.getXSDModelGroup_Compositor();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_MODEL_GROUP__ANNOTATION = eINSTANCE.getXSDModelGroup_Annotation();
+
+    /**
+     * The meta object literal for the '<em><b>Contents</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_MODEL_GROUP__CONTENTS = eINSTANCE.getXSDModelGroup_Contents();
+
+    /**
+     * The meta object literal for the '<em><b>Particles</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_MODEL_GROUP__PARTICLES = eINSTANCE.getXSDModelGroup_Particles();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDModelGroupDefinitionImpl <em>Model Group Definition</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDModelGroupDefinitionImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDModelGroupDefinition()
+     * @generated
+     */
+    EClass XSD_MODEL_GROUP_DEFINITION = eINSTANCE.getXSDModelGroupDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Model Group Definition Reference</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP_DEFINITION_REFERENCE = eINSTANCE.getXSDModelGroupDefinition_ModelGroupDefinitionReference();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_MODEL_GROUP_DEFINITION__ANNOTATION = eINSTANCE.getXSDModelGroupDefinition_Annotation();
+
+    /**
+     * The meta object literal for the '<em><b>Model Group</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP = eINSTANCE.getXSDModelGroupDefinition_ModelGroup();
+
+    /**
+     * The meta object literal for the '<em><b>Resolved Model Group Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_MODEL_GROUP_DEFINITION__RESOLVED_MODEL_GROUP_DEFINITION = eINSTANCE.getXSDModelGroupDefinition_ResolvedModelGroupDefinition();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDNamedComponentImpl <em>Named Component</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDNamedComponentImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDNamedComponent()
+     * @generated
+     */
+    EClass XSD_NAMED_COMPONENT = eINSTANCE.getXSDNamedComponent();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_NAMED_COMPONENT__NAME = eINSTANCE.getXSDNamedComponent_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Target Namespace</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_NAMED_COMPONENT__TARGET_NAMESPACE = eINSTANCE.getXSDNamedComponent_TargetNamespace();
+
+    /**
+     * The meta object literal for the '<em><b>Alias Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_NAMED_COMPONENT__ALIAS_NAME = eINSTANCE.getXSDNamedComponent_AliasName();
+
+    /**
+     * The meta object literal for the '<em><b>URI</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_NAMED_COMPONENT__URI = eINSTANCE.getXSDNamedComponent_URI();
+
+    /**
+     * The meta object literal for the '<em><b>Alias URI</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_NAMED_COMPONENT__ALIAS_URI = eINSTANCE.getXSDNamedComponent_AliasURI();
+
+    /**
+     * The meta object literal for the '<em><b>QName</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_NAMED_COMPONENT__QNAME = eINSTANCE.getXSDNamedComponent_QName();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDNotationDeclarationImpl <em>Notation Declaration</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDNotationDeclarationImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDNotationDeclaration()
+     * @generated
+     */
+    EClass XSD_NOTATION_DECLARATION = eINSTANCE.getXSDNotationDeclaration();
+
+    /**
+     * The meta object literal for the '<em><b>System Identifier</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_NOTATION_DECLARATION__SYSTEM_IDENTIFIER = eINSTANCE.getXSDNotationDeclaration_SystemIdentifier();
+
+    /**
+     * The meta object literal for the '<em><b>Public Identifier</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_NOTATION_DECLARATION__PUBLIC_IDENTIFIER = eINSTANCE.getXSDNotationDeclaration_PublicIdentifier();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_NOTATION_DECLARATION__ANNOTATION = eINSTANCE.getXSDNotationDeclaration_Annotation();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDNumericFacetImpl <em>Numeric Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDNumericFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDNumericFacet()
+     * @generated
+     */
+    EClass XSD_NUMERIC_FACET = eINSTANCE.getXSDNumericFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_NUMERIC_FACET__VALUE = eINSTANCE.getXSDNumericFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDOrderedFacetImpl <em>Ordered Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDOrderedFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDOrderedFacet()
+     * @generated
+     */
+    EClass XSD_ORDERED_FACET = eINSTANCE.getXSDOrderedFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_ORDERED_FACET__VALUE = eINSTANCE.getXSDOrderedFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDParticleImpl <em>Particle</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDParticleImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDParticle()
+     * @generated
+     */
+    EClass XSD_PARTICLE = eINSTANCE.getXSDParticle();
+
+    /**
+     * The meta object literal for the '<em><b>Min Occurs</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_PARTICLE__MIN_OCCURS = eINSTANCE.getXSDParticle_MinOccurs();
+
+    /**
+     * The meta object literal for the '<em><b>Max Occurs</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_PARTICLE__MAX_OCCURS = eINSTANCE.getXSDParticle_MaxOccurs();
+
+    /**
+     * The meta object literal for the '<em><b>Content</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_PARTICLE__CONTENT = eINSTANCE.getXSDParticle_Content();
+
+    /**
+     * The meta object literal for the '<em><b>Term</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_PARTICLE__TERM = eINSTANCE.getXSDParticle_Term();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDParticleContentImpl <em>Particle Content</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDParticleContentImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDParticleContent()
+     * @generated
+     */
+    EClass XSD_PARTICLE_CONTENT = eINSTANCE.getXSDParticleContent();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDPatternFacetImpl <em>Pattern Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDPatternFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDPatternFacet()
+     * @generated
+     */
+    EClass XSD_PATTERN_FACET = eINSTANCE.getXSDPatternFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_PATTERN_FACET__VALUE = eINSTANCE.getXSDPatternFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDRedefinableComponentImpl <em>Redefinable Component</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDRedefinableComponentImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDRedefinableComponent()
+     * @generated
+     */
+    EClass XSD_REDEFINABLE_COMPONENT = eINSTANCE.getXSDRedefinableComponent();
+
+    /**
+     * The meta object literal for the '<em><b>Circular</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_REDEFINABLE_COMPONENT__CIRCULAR = eINSTANCE.getXSDRedefinableComponent_Circular();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDRedefineContentImpl <em>Redefine Content</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDRedefineContentImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDRedefineContent()
+     * @generated
+     */
+    EClass XSD_REDEFINE_CONTENT = eINSTANCE.getXSDRedefineContent();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDRedefineImpl <em>Redefine</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDRedefineImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDRedefine()
+     * @generated
+     */
+    EClass XSD_REDEFINE = eINSTANCE.getXSDRedefine();
+
+    /**
+     * The meta object literal for the '<em><b>Annotations</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_REDEFINE__ANNOTATIONS = eINSTANCE.getXSDRedefine_Annotations();
+
+    /**
+     * The meta object literal for the '<em><b>Contents</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_REDEFINE__CONTENTS = eINSTANCE.getXSDRedefine_Contents();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDRepeatableFacetImpl <em>Repeatable Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDRepeatableFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDRepeatableFacet()
+     * @generated
+     */
+    EClass XSD_REPEATABLE_FACET = eINSTANCE.getXSDRepeatableFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Annotations</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_REPEATABLE_FACET__ANNOTATIONS = eINSTANCE.getXSDRepeatableFacet_Annotations();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDSchemaImpl <em>Schema</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDSchemaImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDSchema()
+     * @generated
+     */
+    EClass XSD_SCHEMA = eINSTANCE.getXSDSchema();
+
+    /**
+     * The meta object literal for the '<em><b>Document</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SCHEMA__DOCUMENT = eINSTANCE.getXSDSchema_Document();
+
+    /**
+     * The meta object literal for the '<em><b>Schema Location</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SCHEMA__SCHEMA_LOCATION = eINSTANCE.getXSDSchema_SchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Target Namespace</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SCHEMA__TARGET_NAMESPACE = eINSTANCE.getXSDSchema_TargetNamespace();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Form Default</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SCHEMA__ATTRIBUTE_FORM_DEFAULT = eINSTANCE.getXSDSchema_AttributeFormDefault();
+
+    /**
+     * The meta object literal for the '<em><b>Element Form Default</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SCHEMA__ELEMENT_FORM_DEFAULT = eINSTANCE.getXSDSchema_ElementFormDefault();
+
+    /**
+     * The meta object literal for the '<em><b>Final Default</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SCHEMA__FINAL_DEFAULT = eINSTANCE.getXSDSchema_FinalDefault();
+
+    /**
+     * The meta object literal for the '<em><b>Block Default</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SCHEMA__BLOCK_DEFAULT = eINSTANCE.getXSDSchema_BlockDefault();
+
+    /**
+     * The meta object literal for the '<em><b>Version</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SCHEMA__VERSION = eINSTANCE.getXSDSchema_Version();
+
+    /**
+     * The meta object literal for the '<em><b>Contents</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__CONTENTS = eINSTANCE.getXSDSchema_Contents();
+
+    /**
+     * The meta object literal for the '<em><b>Element Declarations</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__ELEMENT_DECLARATIONS = eINSTANCE.getXSDSchema_ElementDeclarations();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Declarations</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__ATTRIBUTE_DECLARATIONS = eINSTANCE.getXSDSchema_AttributeDeclarations();
+
+    /**
+     * The meta object literal for the '<em><b>Attribute Group Definitions</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__ATTRIBUTE_GROUP_DEFINITIONS = eINSTANCE.getXSDSchema_AttributeGroupDefinitions();
+
+    /**
+     * The meta object literal for the '<em><b>Type Definitions</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__TYPE_DEFINITIONS = eINSTANCE.getXSDSchema_TypeDefinitions();
+
+    /**
+     * The meta object literal for the '<em><b>Model Group Definitions</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__MODEL_GROUP_DEFINITIONS = eINSTANCE.getXSDSchema_ModelGroupDefinitions();
+
+    /**
+     * The meta object literal for the '<em><b>Identity Constraint Definitions</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__IDENTITY_CONSTRAINT_DEFINITIONS = eINSTANCE.getXSDSchema_IdentityConstraintDefinitions();
+
+    /**
+     * The meta object literal for the '<em><b>Notation Declarations</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__NOTATION_DECLARATIONS = eINSTANCE.getXSDSchema_NotationDeclarations();
+
+    /**
+     * The meta object literal for the '<em><b>Annotations</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__ANNOTATIONS = eINSTANCE.getXSDSchema_Annotations();
+
+    /**
+     * The meta object literal for the '<em><b>All Diagnostics</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__ALL_DIAGNOSTICS = eINSTANCE.getXSDSchema_AllDiagnostics();
+
+    /**
+     * The meta object literal for the '<em><b>Referencing Directives</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__REFERENCING_DIRECTIVES = eINSTANCE.getXSDSchema_ReferencingDirectives();
+
+    /**
+     * The meta object literal for the '<em><b>Root Version</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__ROOT_VERSION = eINSTANCE.getXSDSchema_RootVersion();
+
+    /**
+     * The meta object literal for the '<em><b>Original Version</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__ORIGINAL_VERSION = eINSTANCE.getXSDSchema_OriginalVersion();
+
+    /**
+     * The meta object literal for the '<em><b>Incorporated Versions</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__INCORPORATED_VERSIONS = eINSTANCE.getXSDSchema_IncorporatedVersions();
+
+    /**
+     * The meta object literal for the '<em><b>Schema For Schema</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA__SCHEMA_FOR_SCHEMA = eINSTANCE.getXSDSchema_SchemaForSchema();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDSchemaCompositorImpl <em>Schema Compositor</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDSchemaCompositorImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDSchemaCompositor()
+     * @generated
+     */
+    EClass XSD_SCHEMA_COMPOSITOR = eINSTANCE.getXSDSchemaCompositor();
+
+    /**
+     * The meta object literal for the '<em><b>Incorporated Schema</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA_COMPOSITOR__INCORPORATED_SCHEMA = eINSTANCE.getXSDSchemaCompositor_IncorporatedSchema();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDSchemaContentImpl <em>Schema Content</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDSchemaContentImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDSchemaContent()
+     * @generated
+     */
+    EClass XSD_SCHEMA_CONTENT = eINSTANCE.getXSDSchemaContent();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDSchemaDirectiveImpl <em>Schema Directive</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDSchemaDirectiveImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDSchemaDirective()
+     * @generated
+     */
+    EClass XSD_SCHEMA_DIRECTIVE = eINSTANCE.getXSDSchemaDirective();
+
+    /**
+     * The meta object literal for the '<em><b>Schema Location</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SCHEMA_DIRECTIVE__SCHEMA_LOCATION = eINSTANCE.getXSDSchemaDirective_SchemaLocation();
+
+    /**
+     * The meta object literal for the '<em><b>Resolved Schema</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SCHEMA_DIRECTIVE__RESOLVED_SCHEMA = eINSTANCE.getXSDSchemaDirective_ResolvedSchema();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDScopeImpl <em>Scope</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDScopeImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDScope()
+     * @generated
+     */
+    EClass XSD_SCOPE = eINSTANCE.getXSDScope();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDSimpleTypeDefinitionImpl <em>Simple Type Definition</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDSimpleTypeDefinitionImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDSimpleTypeDefinition()
+     * @generated
+     */
+    EClass XSD_SIMPLE_TYPE_DEFINITION = eINSTANCE.getXSDSimpleTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Variety</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SIMPLE_TYPE_DEFINITION__VARIETY = eINSTANCE.getXSDSimpleTypeDefinition_Variety();
+
+    /**
+     * The meta object literal for the '<em><b>Final</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SIMPLE_TYPE_DEFINITION__FINAL = eINSTANCE.getXSDSimpleTypeDefinition_Final();
+
+    /**
+     * The meta object literal for the '<em><b>Lexical Final</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SIMPLE_TYPE_DEFINITION__LEXICAL_FINAL = eINSTANCE.getXSDSimpleTypeDefinition_LexicalFinal();
+
+    /**
+     * The meta object literal for the '<em><b>Valid Facets</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_SIMPLE_TYPE_DEFINITION__VALID_FACETS = eINSTANCE.getXSDSimpleTypeDefinition_ValidFacets();
+
+    /**
+     * The meta object literal for the '<em><b>Contents</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__CONTENTS = eINSTANCE.getXSDSimpleTypeDefinition_Contents();
+
+    /**
+     * The meta object literal for the '<em><b>Facet Contents</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__FACET_CONTENTS = eINSTANCE.getXSDSimpleTypeDefinition_FacetContents();
+
+    /**
+     * The meta object literal for the '<em><b>Facets</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__FACETS = eINSTANCE.getXSDSimpleTypeDefinition_Facets();
+
+    /**
+     * The meta object literal for the '<em><b>Member Type Definitions</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__MEMBER_TYPE_DEFINITIONS = eINSTANCE.getXSDSimpleTypeDefinition_MemberTypeDefinitions();
+
+    /**
+     * The meta object literal for the '<em><b>Fundamental Facets</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__FUNDAMENTAL_FACETS = eINSTANCE.getXSDSimpleTypeDefinition_FundamentalFacets();
+
+    /**
+     * The meta object literal for the '<em><b>Base Type Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__BASE_TYPE_DEFINITION = eINSTANCE.getXSDSimpleTypeDefinition_BaseTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Primitive Type Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__PRIMITIVE_TYPE_DEFINITION = eINSTANCE.getXSDSimpleTypeDefinition_PrimitiveTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Item Type Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__ITEM_TYPE_DEFINITION = eINSTANCE.getXSDSimpleTypeDefinition_ItemTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Root Type Definition</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__ROOT_TYPE_DEFINITION = eINSTANCE.getXSDSimpleTypeDefinition_RootTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Min Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__MIN_FACET = eINSTANCE.getXSDSimpleTypeDefinition_MinFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Max Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__MAX_FACET = eINSTANCE.getXSDSimpleTypeDefinition_MaxFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Max Inclusive Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__MAX_INCLUSIVE_FACET = eINSTANCE.getXSDSimpleTypeDefinition_MaxInclusiveFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Min Inclusive Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__MIN_INCLUSIVE_FACET = eINSTANCE.getXSDSimpleTypeDefinition_MinInclusiveFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Min Exclusive Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__MIN_EXCLUSIVE_FACET = eINSTANCE.getXSDSimpleTypeDefinition_MinExclusiveFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Max Exclusive Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__MAX_EXCLUSIVE_FACET = eINSTANCE.getXSDSimpleTypeDefinition_MaxExclusiveFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Length Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__LENGTH_FACET = eINSTANCE.getXSDSimpleTypeDefinition_LengthFacet();
+
+    /**
+     * The meta object literal for the '<em><b>White Space Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__WHITE_SPACE_FACET = eINSTANCE.getXSDSimpleTypeDefinition_WhiteSpaceFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Enumeration Facets</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__ENUMERATION_FACETS = eINSTANCE.getXSDSimpleTypeDefinition_EnumerationFacets();
+
+    /**
+     * The meta object literal for the '<em><b>Pattern Facets</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__PATTERN_FACETS = eINSTANCE.getXSDSimpleTypeDefinition_PatternFacets();
+
+    /**
+     * The meta object literal for the '<em><b>Cardinality Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__CARDINALITY_FACET = eINSTANCE.getXSDSimpleTypeDefinition_CardinalityFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Numeric Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__NUMERIC_FACET = eINSTANCE.getXSDSimpleTypeDefinition_NumericFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Max Length Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__MAX_LENGTH_FACET = eINSTANCE.getXSDSimpleTypeDefinition_MaxLengthFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Min Length Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__MIN_LENGTH_FACET = eINSTANCE.getXSDSimpleTypeDefinition_MinLengthFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Total Digits Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__TOTAL_DIGITS_FACET = eINSTANCE.getXSDSimpleTypeDefinition_TotalDigitsFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Fraction Digits Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__FRACTION_DIGITS_FACET = eINSTANCE.getXSDSimpleTypeDefinition_FractionDigitsFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Ordered Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__ORDERED_FACET = eINSTANCE.getXSDSimpleTypeDefinition_OrderedFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Bounded Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__BOUNDED_FACET = eINSTANCE.getXSDSimpleTypeDefinition_BoundedFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Effective Max Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__EFFECTIVE_MAX_FACET = eINSTANCE.getXSDSimpleTypeDefinition_EffectiveMaxFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Effective White Space Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__EFFECTIVE_WHITE_SPACE_FACET = eINSTANCE.getXSDSimpleTypeDefinition_EffectiveWhiteSpaceFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Effective Max Length Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__EFFECTIVE_MAX_LENGTH_FACET = eINSTANCE.getXSDSimpleTypeDefinition_EffectiveMaxLengthFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Effective Fraction Digits Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__EFFECTIVE_FRACTION_DIGITS_FACET = eINSTANCE.getXSDSimpleTypeDefinition_EffectiveFractionDigitsFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Effective Pattern Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__EFFECTIVE_PATTERN_FACET = eINSTANCE.getXSDSimpleTypeDefinition_EffectivePatternFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Effective Enumeration Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__EFFECTIVE_ENUMERATION_FACET = eINSTANCE.getXSDSimpleTypeDefinition_EffectiveEnumerationFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Effective Total Digits Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__EFFECTIVE_TOTAL_DIGITS_FACET = eINSTANCE.getXSDSimpleTypeDefinition_EffectiveTotalDigitsFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Effective Min Length Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__EFFECTIVE_MIN_LENGTH_FACET = eINSTANCE.getXSDSimpleTypeDefinition_EffectiveMinLengthFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Effective Length Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__EFFECTIVE_LENGTH_FACET = eINSTANCE.getXSDSimpleTypeDefinition_EffectiveLengthFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Effective Min Facet</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__EFFECTIVE_MIN_FACET = eINSTANCE.getXSDSimpleTypeDefinition_EffectiveMinFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Synthetic Facets</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_SIMPLE_TYPE_DEFINITION__SYNTHETIC_FACETS = eINSTANCE.getXSDSimpleTypeDefinition_SyntheticFacets();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDTermImpl <em>Term</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDTermImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDTerm()
+     * @generated
+     */
+    EClass XSD_TERM = eINSTANCE.getXSDTerm();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDTotalDigitsFacetImpl <em>Total Digits Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDTotalDigitsFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDTotalDigitsFacet()
+     * @generated
+     */
+    EClass XSD_TOTAL_DIGITS_FACET = eINSTANCE.getXSDTotalDigitsFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_TOTAL_DIGITS_FACET__VALUE = eINSTANCE.getXSDTotalDigitsFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDTypeDefinitionImpl <em>Type Definition</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDTypeDefinitionImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDTypeDefinition()
+     * @generated
+     */
+    EClass XSD_TYPE_DEFINITION = eINSTANCE.getXSDTypeDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_TYPE_DEFINITION__ANNOTATION = eINSTANCE.getXSDTypeDefinition_Annotation();
+
+    /**
+     * The meta object literal for the '<em><b>Derivation Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION = eINSTANCE.getXSDTypeDefinition_DerivationAnnotation();
+
+    /**
+     * The meta object literal for the '<em><b>Annotations</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_TYPE_DEFINITION__ANNOTATIONS = eINSTANCE.getXSDTypeDefinition_Annotations();
+
+    /**
+     * The meta object literal for the '<em><b>Root Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_TYPE_DEFINITION__ROOT_TYPE = eINSTANCE.getXSDTypeDefinition_RootType();
+
+    /**
+     * The meta object literal for the '<em><b>Base Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_TYPE_DEFINITION__BASE_TYPE = eINSTANCE.getXSDTypeDefinition_BaseType();
+
+    /**
+     * The meta object literal for the '<em><b>Simple Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_TYPE_DEFINITION__SIMPLE_TYPE = eINSTANCE.getXSDTypeDefinition_SimpleType();
+
+    /**
+     * The meta object literal for the '<em><b>Complex Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_TYPE_DEFINITION__COMPLEX_TYPE = eINSTANCE.getXSDTypeDefinition_ComplexType();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDWhiteSpaceFacetImpl <em>White Space Facet</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDWhiteSpaceFacetImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDWhiteSpaceFacet()
+     * @generated
+     */
+    EClass XSD_WHITE_SPACE_FACET = eINSTANCE.getXSDWhiteSpaceFacet();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_WHITE_SPACE_FACET__VALUE = eINSTANCE.getXSDWhiteSpaceFacet_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDWildcardImpl <em>Wildcard</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDWildcardImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDWildcard()
+     * @generated
+     */
+    EClass XSD_WILDCARD = eINSTANCE.getXSDWildcard();
+
+    /**
+     * The meta object literal for the '<em><b>Namespace Constraint Category</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_WILDCARD__NAMESPACE_CONSTRAINT_CATEGORY = eINSTANCE.getXSDWildcard_NamespaceConstraintCategory();
+
+    /**
+     * The meta object literal for the '<em><b>Namespace Constraint</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_WILDCARD__NAMESPACE_CONSTRAINT = eINSTANCE.getXSDWildcard_NamespaceConstraint();
+
+    /**
+     * The meta object literal for the '<em><b>Process Contents</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_WILDCARD__PROCESS_CONTENTS = eINSTANCE.getXSDWildcard_ProcessContents();
+
+    /**
+     * The meta object literal for the '<em><b>Lexical Namespace Constraint</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_WILDCARD__LEXICAL_NAMESPACE_CONSTRAINT = eINSTANCE.getXSDWildcard_LexicalNamespaceConstraint();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_WILDCARD__ANNOTATION = eINSTANCE.getXSDWildcard_Annotation();
+
+    /**
+     * The meta object literal for the '<em><b>Annotations</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_WILDCARD__ANNOTATIONS = eINSTANCE.getXSDWildcard_Annotations();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDXPathDefinitionImpl <em>XPath Definition</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.impl.XSDXPathDefinitionImpl
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDXPathDefinition()
+     * @generated
+     */
+    EClass XSD_XPATH_DEFINITION = eINSTANCE.getXSDXPathDefinition();
+
+    /**
+     * The meta object literal for the '<em><b>Variety</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_XPATH_DEFINITION__VARIETY = eINSTANCE.getXSDXPathDefinition_Variety();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_XPATH_DEFINITION__VALUE = eINSTANCE.getXSDXPathDefinition_Value();
+
+    /**
+     * The meta object literal for the '<em><b>Annotation</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XSD_XPATH_DEFINITION__ANNOTATION = eINSTANCE.getXSDXPathDefinition_Annotation();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDAttributeUseCategory <em>Attribute Use Category</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDAttributeUseCategory
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDAttributeUseCategory()
+     * @generated
+     */
+    EEnum XSD_ATTRIBUTE_USE_CATEGORY = eINSTANCE.getXSDAttributeUseCategory();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDCardinality <em>Cardinality</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDCardinality
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDCardinality()
+     * @generated
+     */
+    EEnum XSD_CARDINALITY = eINSTANCE.getXSDCardinality();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDComplexFinal <em>Complex Final</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDComplexFinal
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDComplexFinal()
+     * @generated
+     */
+    EEnum XSD_COMPLEX_FINAL = eINSTANCE.getXSDComplexFinal();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDCompositor <em>Compositor</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDCompositor
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDCompositor()
+     * @generated
+     */
+    EEnum XSD_COMPOSITOR = eINSTANCE.getXSDCompositor();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDConstraint <em>Constraint</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDConstraint
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDConstraint()
+     * @generated
+     */
+    EEnum XSD_CONSTRAINT = eINSTANCE.getXSDConstraint();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDContentTypeCategory <em>Content Type Category</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDContentTypeCategory
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDContentTypeCategory()
+     * @generated
+     */
+    EEnum XSD_CONTENT_TYPE_CATEGORY = eINSTANCE.getXSDContentTypeCategory();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDDerivationMethod <em>Derivation Method</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDDerivationMethod
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDDerivationMethod()
+     * @generated
+     */
+    EEnum XSD_DERIVATION_METHOD = eINSTANCE.getXSDDerivationMethod();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDDiagnosticSeverity <em>Diagnostic Severity</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDDiagnosticSeverity
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDDiagnosticSeverity()
+     * @generated
+     */
+    EEnum XSD_DIAGNOSTIC_SEVERITY = eINSTANCE.getXSDDiagnosticSeverity();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDDisallowedSubstitutions <em>Disallowed Substitutions</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDDisallowedSubstitutions
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDDisallowedSubstitutions()
+     * @generated
+     */
+    EEnum XSD_DISALLOWED_SUBSTITUTIONS = eINSTANCE.getXSDDisallowedSubstitutions();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDForm <em>Form</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDForm
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDForm()
+     * @generated
+     */
+    EEnum XSD_FORM = eINSTANCE.getXSDForm();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDIdentityConstraintCategory <em>Identity Constraint Category</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDIdentityConstraintCategory
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDIdentityConstraintCategory()
+     * @generated
+     */
+    EEnum XSD_IDENTITY_CONSTRAINT_CATEGORY = eINSTANCE.getXSDIdentityConstraintCategory();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDNamespaceConstraintCategory <em>Namespace Constraint Category</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDNamespaceConstraintCategory
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDNamespaceConstraintCategory()
+     * @generated
+     */
+    EEnum XSD_NAMESPACE_CONSTRAINT_CATEGORY = eINSTANCE.getXSDNamespaceConstraintCategory();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDOrdered <em>Ordered</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDOrdered
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDOrdered()
+     * @generated
+     */
+    EEnum XSD_ORDERED = eINSTANCE.getXSDOrdered();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDProcessContents <em>Process Contents</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDProcessContents
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDProcessContents()
+     * @generated
+     */
+    EEnum XSD_PROCESS_CONTENTS = eINSTANCE.getXSDProcessContents();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDProhibitedSubstitutions <em>Prohibited Substitutions</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDProhibitedSubstitutions
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDProhibitedSubstitutions()
+     * @generated
+     */
+    EEnum XSD_PROHIBITED_SUBSTITUTIONS = eINSTANCE.getXSDProhibitedSubstitutions();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDSimpleFinal <em>Simple Final</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDSimpleFinal
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDSimpleFinal()
+     * @generated
+     */
+    EEnum XSD_SIMPLE_FINAL = eINSTANCE.getXSDSimpleFinal();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDSubstitutionGroupExclusions <em>Substitution Group Exclusions</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDSubstitutionGroupExclusions
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDSubstitutionGroupExclusions()
+     * @generated
+     */
+    EEnum XSD_SUBSTITUTION_GROUP_EXCLUSIONS = eINSTANCE.getXSDSubstitutionGroupExclusions();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDVariety <em>Variety</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDVariety
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDVariety()
+     * @generated
+     */
+    EEnum XSD_VARIETY = eINSTANCE.getXSDVariety();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDWhiteSpace <em>White Space</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDWhiteSpace
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDWhiteSpace()
+     * @generated
+     */
+    EEnum XSD_WHITE_SPACE = eINSTANCE.getXSDWhiteSpace();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.xsd.XSDXPathVariety <em>XPath Variety</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.xsd.XSDXPathVariety
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getXSDXPathVariety()
+     * @generated
+     */
+    EEnum XSD_XPATH_VARIETY = eINSTANCE.getXSDXPathVariety();
+
+    /**
+     * The meta object literal for the '<em>DOM Attr</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.w3c.dom.Attr
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getDOMAttr()
+     * @generated
+     */
+    EDataType DOM_ATTR = eINSTANCE.getDOMAttr();
+
+    /**
+     * The meta object literal for the '<em>DOM Document</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.w3c.dom.Document
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getDOMDocument()
+     * @generated
+     */
+    EDataType DOM_DOCUMENT = eINSTANCE.getDOMDocument();
+
+    /**
+     * The meta object literal for the '<em>DOM Element</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.w3c.dom.Element
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getDOMElement()
+     * @generated
+     */
+    EDataType DOM_ELEMENT = eINSTANCE.getDOMElement();
+
+    /**
+     * The meta object literal for the '<em>DOM Node</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.w3c.dom.Node
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getDOMNode()
+     * @generated
+     */
+    EDataType DOM_NODE = eINSTANCE.getDOMNode();
+
+    /**
+     * The meta object literal for the '<em>Value</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see java.lang.Object
+     * @see org.eclipse.xsd.impl.XSDPackageImpl#getValue()
+     * @generated
+     */
+    EDataType VALUE = eINSTANCE.getValue();
+
+  }
 
 } //XSDPackage
 

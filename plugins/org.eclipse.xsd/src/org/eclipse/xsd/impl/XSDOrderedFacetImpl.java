@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDOrderedFacetImpl.java,v 1.6 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDOrderedFacetImpl.java,v 1.7 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -85,7 +85,7 @@ public class XSDOrderedFacetImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDOrderedFacet();
+    return XSDPackage.Literals.XSD_ORDERED_FACET;
   }
 
   /**

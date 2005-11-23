@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreMappingRootImpl.java,v 1.4 2005/11/08 14:24:31 emerks Exp $
+ * $Id: XSD2EcoreMappingRootImpl.java,v 1.5 2005/11/23 18:09:45 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
@@ -51,7 +51,7 @@ public class XSD2EcoreMappingRootImpl extends MappingRootImpl implements XSD2Eco
    */
   protected EClass eStaticClass()
   {
-    return XSD2EcorePackage.eINSTANCE.getXSD2EcoreMappingRoot();
+    return XSD2EcorePackage.Literals.XSD2_ECORE_MAPPING_ROOT;
   }
 
 } //XSD2EcoreMappingRootImpl

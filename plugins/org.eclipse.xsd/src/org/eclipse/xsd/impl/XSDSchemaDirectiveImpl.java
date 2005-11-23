@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.10 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.11 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -114,7 +114,7 @@ public abstract class XSDSchemaDirectiveImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDSchemaDirective();
+    return XSDPackage.Literals.XSD_SCHEMA_DIRECTIVE;
   }
 
   /**

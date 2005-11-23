@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupImpl.java,v 1.4 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDModelGroupImpl.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -168,7 +168,7 @@ public class XSDModelGroupImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDModelGroup();
+    return XSDPackage.Literals.XSD_MODEL_GROUP;
   }
 
   /**

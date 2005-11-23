@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.5 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.6 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -164,7 +164,7 @@ public class XSDIdentityConstraintDefinitionImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDIdentityConstraintDefinition();
+    return XSDPackage.Literals.XSD_IDENTITY_CONSTRAINT_DEFINITION;
   }
 
   /**

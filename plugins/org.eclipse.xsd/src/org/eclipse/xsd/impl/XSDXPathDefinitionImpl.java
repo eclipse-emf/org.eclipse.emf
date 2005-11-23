@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDXPathDefinitionImpl.java,v 1.4 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDXPathDefinitionImpl.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -142,7 +142,7 @@ public class XSDXPathDefinitionImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDXPathDefinition();
+    return XSDPackage.Literals.XSD_XPATH_DEFINITION;
   }
 
   /**

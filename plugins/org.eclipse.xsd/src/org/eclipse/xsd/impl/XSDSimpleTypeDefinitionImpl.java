@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.13 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.14 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -332,7 +332,7 @@ public class XSDSimpleTypeDefinitionImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition();
+    return XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION;
   }
 
   /**

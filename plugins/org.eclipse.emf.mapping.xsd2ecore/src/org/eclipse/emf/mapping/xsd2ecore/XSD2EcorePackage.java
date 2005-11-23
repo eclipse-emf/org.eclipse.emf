@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackage.java,v 1.4 2005/08/24 13:41:57 marcelop Exp $
+ * $Id: XSD2EcorePackage.java,v 1.5 2005/11/23 18:09:45 emerks Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore;
 
@@ -189,5 +189,31 @@ public interface XSD2EcorePackage extends EPackage{
    * @generated
    */
   XSD2EcoreFactory getXSD2EcoreFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.mapping.xsd2ecore.impl.XSD2EcoreMappingRootImpl <em>Mapping Root</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.mapping.xsd2ecore.impl.XSD2EcoreMappingRootImpl
+     * @see org.eclipse.emf.mapping.xsd2ecore.impl.XSD2EcorePackageImpl#getXSD2EcoreMappingRoot()
+     * @generated
+     */
+    EClass XSD2_ECORE_MAPPING_ROOT = eINSTANCE.getXSD2EcoreMappingRoot();
+
+  }
 
 } //XSD2EcorePackage

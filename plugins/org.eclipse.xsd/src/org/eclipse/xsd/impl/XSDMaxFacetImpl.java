@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxFacetImpl.java,v 1.7 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDMaxFacetImpl.java,v 1.8 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -115,7 +115,7 @@ public abstract class XSDMaxFacetImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDMaxFacet();
+    return XSDPackage.Literals.XSD_MAX_FACET;
   }
 
   /**

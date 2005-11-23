@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationDeclarationImpl.java,v 1.5 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDNotationDeclarationImpl.java,v 1.6 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -136,7 +136,7 @@ public class XSDNotationDeclarationImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDNotationDeclaration();
+    return XSDPackage.Literals.XSD_NOTATION_DECLARATION;
   }
 
   /**

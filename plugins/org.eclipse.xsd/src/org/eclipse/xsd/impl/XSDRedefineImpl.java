@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.10 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDRedefineImpl.java,v 1.11 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -116,7 +116,7 @@ public class XSDRedefineImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDRedefine();
+    return XSDPackage.Literals.XSD_REDEFINE;
   }
 
   /**

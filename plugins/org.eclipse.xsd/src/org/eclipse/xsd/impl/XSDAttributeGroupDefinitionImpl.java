@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.8 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.9 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -194,7 +194,7 @@ public class XSDAttributeGroupDefinitionImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDAttributeGroupDefinition();
+    return XSDPackage.Literals.XSD_ATTRIBUTE_GROUP_DEFINITION;
   }
 
   /**

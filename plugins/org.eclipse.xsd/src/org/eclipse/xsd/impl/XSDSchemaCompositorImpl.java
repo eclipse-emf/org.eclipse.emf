@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaCompositorImpl.java,v 1.8 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDSchemaCompositorImpl.java,v 1.9 2005/11/23 18:09:40 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -85,7 +85,7 @@ public abstract class XSDSchemaCompositorImpl
    */
   protected EClass eStaticClass()
   {
-    return XSDPackage.eINSTANCE.getXSDSchemaCompositor();
+    return XSDPackage.Literals.XSD_SCHEMA_COMPOSITOR;
   }
 
   /**
