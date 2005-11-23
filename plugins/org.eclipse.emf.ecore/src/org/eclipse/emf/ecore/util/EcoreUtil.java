@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.34 2005/11/19 11:58:02 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.35 2005/11/23 12:00:21 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -268,9 +268,7 @@ public class EcoreUtil
     for (Iterator i = resource.getAllContents();  i.hasNext(); )
     {
       EObject eObject = (EObject)i.next();
-      for (Iterator j =  eObject.eCrossReferences().iterator();  j.hasNext(); j.next())
-      {
-      }
+      resolveCrossReferences(eObject);
     }
   }
 
@@ -280,12 +278,18 @@ public class EcoreUtil
    */
   public static void resolveAll(EObject eObject)
   {
+    resolveCrossReferences(eObject);
     for (Iterator i = eObject.eAllContents(); i.hasNext(); )
     {
       EObject childEObject = (EObject)i.next();
-      for (Iterator j =  childEObject.eCrossReferences().iterator();  j.hasNext(); j.next())
-      {
-      }
+      resolveCrossReferences(childEObject);
+    }
+  }
+
+  private static void resolveCrossReferences(EObject eObject)
+  {
+    for (Iterator i =  eObject.eCrossReferences().iterator();  i.hasNext(); i.next())
+    {
     }
   }
 
