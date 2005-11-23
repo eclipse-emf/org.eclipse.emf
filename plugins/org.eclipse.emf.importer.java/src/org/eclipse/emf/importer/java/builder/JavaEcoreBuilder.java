@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.11 2005/11/23 19:07:03 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.12 2005/11/23 21:45:20 davidms Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -426,11 +426,6 @@ public class JavaEcoreBuilder
     return targetFragmentRoot;
   }
 
-  public void computeEPackages(IProgressMonitor progressMonitor, ModelImporter modelImporter) throws Exception
-  {
-    computeEPackages(BasicMonitor.toMonitor(progressMonitor), modelImporter);
-  }
-  
   public void computeEPackages(Monitor monitor, ModelImporter modelImporter) throws Exception
   {
     IProject project = genModelFile.getProject();
