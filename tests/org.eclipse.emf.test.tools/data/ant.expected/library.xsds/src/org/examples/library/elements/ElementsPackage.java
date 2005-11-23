@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsPackage.java,v 1.4 2005/08/25 03:27:47 marcelop Exp $
+ * $Id: ElementsPackage.java,v 1.5 2005/11/23 18:14:52 emerks Exp $
  */
 package org.examples.library.elements;
 
@@ -297,5 +297,109 @@ public interface ElementsPackage extends EPackage
    * @generated
    */
   ElementsFactory getElementsFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.examples.library.elements.impl.BookImpl <em>Book</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.examples.library.elements.impl.BookImpl
+     * @see org.examples.library.elements.impl.ElementsPackageImpl#getBook()
+     * @generated
+     */
+    EClass BOOK = eINSTANCE.getBook();
+
+    /**
+     * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__TITLE = eINSTANCE.getBook_Title();
+
+    /**
+     * The meta object literal for the '<em><b>Pages</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__PAGES = eINSTANCE.getBook_Pages();
+
+    /**
+     * The meta object literal for the '<em><b>Category</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__CATEGORY = eINSTANCE.getBook_Category();
+
+    /**
+     * The meta object literal for the '<em><b>Author</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__AUTHOR = eINSTANCE.getBook_Author();
+
+    /**
+     * The meta object literal for the '{@link org.examples.library.elements.impl.WriterImpl <em>Writer</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.examples.library.elements.impl.WriterImpl
+     * @see org.examples.library.elements.impl.ElementsPackageImpl#getWriter()
+     * @generated
+     */
+    EClass WRITER = eINSTANCE.getWriter();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute WRITER__NAME = eINSTANCE.getWriter_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Books</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute WRITER__BOOKS = eINSTANCE.getWriter_Books();
+
+    /**
+     * The meta object literal for the '{@link org.examples.library.elements.BookCategory <em>Book Category</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.examples.library.elements.BookCategory
+     * @see org.examples.library.elements.impl.ElementsPackageImpl#getBookCategory()
+     * @generated
+     */
+    EEnum BOOK_CATEGORY = eINSTANCE.getBookCategory();
+
+    /**
+     * The meta object literal for the '<em>Book Category Object</em>' data type.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.examples.library.elements.BookCategory
+     * @see org.examples.library.elements.impl.ElementsPackageImpl#getBookCategoryObject()
+     * @generated
+     */
+    EDataType BOOK_CATEGORY_OBJECT = eINSTANCE.getBookCategoryObject();
+
+  }
 
 } //ElementsPackage

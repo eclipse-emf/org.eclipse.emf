@@ -96,7 +96,7 @@ public class WriterImpl extends EObjectImpl implements Writer
    */
   protected EClass eStaticClass()
   {
-    return LibraryPackage.eINSTANCE.getWriter();
+    return LibraryPackage.Literals.WRITER;
   }
 
   /**

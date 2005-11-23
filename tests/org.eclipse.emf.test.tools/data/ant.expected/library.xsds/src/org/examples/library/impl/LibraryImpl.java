@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.3 2005/11/23 12:30:33 emerks Exp $
+ * $Id: LibraryImpl.java,v 1.4 2005/11/23 18:14:52 emerks Exp $
  */
 package org.examples.library.impl;
 
@@ -109,7 +109,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    */
   protected EClass eStaticClass()
   {
-    return LibraryPackage.eINSTANCE.getLibrary();
+    return LibraryPackage.Literals.LIBRARY;
   }
 
   /**

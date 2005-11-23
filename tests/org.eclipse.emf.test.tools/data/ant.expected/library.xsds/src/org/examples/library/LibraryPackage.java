@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryPackage.java,v 1.4 2005/08/25 03:27:47 marcelop Exp $
+ * $Id: LibraryPackage.java,v 1.5 2005/11/23 18:14:52 emerks Exp $
  */
 package org.examples.library;
 
@@ -165,5 +165,55 @@ public interface LibraryPackage extends EPackage
    * @generated
    */
   LibraryFactory getLibraryFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.examples.library.impl.LibraryImpl <em>Library</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.examples.library.impl.LibraryImpl
+     * @see org.examples.library.impl.LibraryPackageImpl#getLibrary()
+     * @generated
+     */
+    EClass LIBRARY = eINSTANCE.getLibrary();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LIBRARY__NAME = eINSTANCE.getLibrary_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Writers</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__WRITERS = eINSTANCE.getLibrary_Writers();
+
+    /**
+     * The meta object literal for the '<em><b>Books</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__BOOKS = eINSTANCE.getLibrary_Books();
+
+  }
 
 } //LibraryPackage

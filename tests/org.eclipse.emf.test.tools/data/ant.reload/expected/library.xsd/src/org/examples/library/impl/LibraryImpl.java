@@ -129,7 +129,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    */
   protected EClass eStaticClass()
   {
-    return LibraryPackage.eINSTANCE.getLibrary();
+    return LibraryPackage.Literals.LIBRARY;
   }
 
   /**

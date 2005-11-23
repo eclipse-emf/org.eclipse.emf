@@ -146,4 +146,46 @@ public interface HRPackage extends EPackage
    */
   HRFactory getHRFactory();
 
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.examples.hr.impl.PersonImpl <em>Person</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.examples.hr.impl.PersonImpl
+     * @see org.examples.hr.impl.HRPackageImpl#getPerson()
+     * @generated
+     */
+    EClass PERSON = eINSTANCE.getPerson();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERSON__NAME = eINSTANCE.getPerson_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Library</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference PERSON__LIBRARY = eINSTANCE.getPerson_Library();
+
+  }
+
 } //HRPackage

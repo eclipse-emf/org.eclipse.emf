@@ -132,7 +132,7 @@ public class BookImpl extends EObjectImpl implements Book
    */
   protected EClass eStaticClass()
   {
-    return LibraryPackage.eINSTANCE.getBook();
+    return LibraryPackage.Literals.BOOK;
   }
 
   /**

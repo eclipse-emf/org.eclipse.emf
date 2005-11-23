@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryFactoryImpl.java,v 1.5 2005/11/14 20:44:47 emerks Exp $
+ * $Id: LibraryFactoryImpl.java,v 1.6 2005/11/23 18:14:51 emerks Exp $
  */
 package org.examples.library.impl;
 
@@ -181,7 +181,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    */
   public BookCategory createBookCategoryObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (BookCategory)createBookCategoryFromString(LibraryPackage.eINSTANCE.getBookCategory(), initialValue);
+    return (BookCategory)createBookCategoryFromString(LibraryPackage.Literals.BOOK_CATEGORY, initialValue);
   }
 
   /**
@@ -191,7 +191,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    */
   public String convertBookCategoryObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return convertBookCategoryToString(LibraryPackage.eINSTANCE.getBookCategory(), instanceValue);
+    return convertBookCategoryToString(LibraryPackage.Literals.BOOK_CATEGORY, instanceValue);
   }
 
   /**

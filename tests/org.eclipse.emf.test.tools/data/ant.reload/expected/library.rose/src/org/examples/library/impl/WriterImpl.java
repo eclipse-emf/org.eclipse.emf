@@ -77,7 +77,7 @@ public class WriterImpl extends PersonImpl implements Writer
    */
   protected EClass eStaticClass()
   {
-    return LibraryPackage.eINSTANCE.getWriter();
+    return LibraryPackage.Literals.WRITER;
   }
 
   /**

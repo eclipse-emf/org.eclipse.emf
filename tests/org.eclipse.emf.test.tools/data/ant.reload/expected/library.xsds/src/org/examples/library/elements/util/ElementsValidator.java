@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsValidator.java,v 1.1 2005/09/30 23:31:35 davidms Exp $
+ * $Id: ElementsValidator.java,v 1.2 2005/11/23 18:14:51 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -187,7 +187,7 @@ public class ElementsValidator extends EObjectValidator
     int length = uuid.length;  
     boolean result = length >= 16;
     if (!result && diagnostics != null) 
-      reportMinLengthViolation(ElementsPackage.eINSTANCE.getUUID(), uuid, length, 16, diagnostics, context);
+      reportMinLengthViolation(ElementsPackage.Literals.UUID, uuid, length, 16, diagnostics, context);
     return result;
   }
 
@@ -202,7 +202,7 @@ public class ElementsValidator extends EObjectValidator
     int length = uuid.length;  
     boolean result = length <= 16;
     if (!result && diagnostics != null) 
-      reportMaxLengthViolation(ElementsPackage.eINSTANCE.getUUID(), uuid, length, 16, diagnostics, context);
+      reportMaxLengthViolation(ElementsPackage.Literals.UUID, uuid, length, 16, diagnostics, context);
     return result;
   }
 

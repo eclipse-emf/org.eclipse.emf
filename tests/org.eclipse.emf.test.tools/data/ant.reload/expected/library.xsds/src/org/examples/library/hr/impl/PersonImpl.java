@@ -91,7 +91,7 @@ public class PersonImpl extends EObjectImpl implements Person
    */
   protected EClass eStaticClass()
   {
-    return HrPackage.eINSTANCE.getPerson();
+    return HrPackage.Literals.PERSON;
   }
 
   /**

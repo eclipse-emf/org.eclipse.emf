@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsFactoryImpl.java,v 1.5 2005/11/14 20:44:47 emerks Exp $
+ * $Id: ElementsFactoryImpl.java,v 1.6 2005/11/23 18:14:51 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -169,7 +169,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
    */
   public BookCategory createBookCategoryObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (BookCategory)createBookCategoryFromString(ElementsPackage.eINSTANCE.getBookCategory(), initialValue);
+    return (BookCategory)createBookCategoryFromString(ElementsPackage.Literals.BOOK_CATEGORY, initialValue);
   }
 
   /**
@@ -179,7 +179,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
    */
   public String convertBookCategoryObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return convertBookCategoryToString(ElementsPackage.eINSTANCE.getBookCategory(), instanceValue);
+    return convertBookCategoryToString(ElementsPackage.Literals.BOOK_CATEGORY, instanceValue);
   }
 
   /**

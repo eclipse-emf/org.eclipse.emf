@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.3 2005/11/23 12:30:33 emerks Exp $
+ * $Id: BookImpl.java,v 1.4 2005/11/23 18:14:51 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -157,7 +157,7 @@ public class BookImpl extends EObjectImpl implements Book
    */
   protected EClass eStaticClass()
   {
-    return ElementsPackage.eINSTANCE.getBook();
+    return ElementsPackage.Literals.BOOK;
   }
 
   /**

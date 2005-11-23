@@ -176,7 +176,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
    */
   public BookCategory createBookCategoryObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (BookCategory)createBookCategoryFromString(ElementsPackage.eINSTANCE.getBookCategory(), initialValue);
+    return (BookCategory)createBookCategoryFromString(ElementsPackage.Literals.BOOK_CATEGORY, initialValue);
   }
 
   /**
@@ -186,7 +186,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
    */
   public String convertBookCategoryObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return convertBookCategoryToString(ElementsPackage.eINSTANCE.getBookCategory(), instanceValue);
+    return convertBookCategoryToString(ElementsPackage.Literals.BOOK_CATEGORY, instanceValue);
   }
 
   /**
@@ -196,7 +196,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
    */
   public byte[] createUUIDFromString(EDataType eDataType, String initialValue)
   {
-    return (byte[])XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getHexBinary(), initialValue);
+    return (byte[])XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.Literals.HEX_BINARY, initialValue);
   }
 
   /**
@@ -206,7 +206,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
    */
   public String convertUUIDToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.eINSTANCE.getHexBinary(), instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertToString(XMLTypePackage.Literals.HEX_BINARY, instanceValue);
   }
 
   /**

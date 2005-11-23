@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.4 2005/11/23 12:30:33 emerks Exp $
+ * $Id: WriterImpl.java,v 1.5 2005/11/23 18:14:51 emerks Exp $
  */
 package org.examples.library.impl;
 
@@ -96,7 +96,7 @@ public class WriterImpl extends EObjectImpl implements Writer
    */
   protected EClass eStaticClass()
   {
-    return LibraryPackage.eINSTANCE.getWriter();
+    return LibraryPackage.Literals.WRITER;
   }
 
   /**
