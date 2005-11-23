@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.4 2005/09/16 22:01:51 davidms Exp $
+ * $Id: GenTypedElementImpl.java,v 1.5 2005/11/23 13:32:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -106,7 +106,11 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
 
   public String getImportedInternalType()
   {
-    if (isFeatureMapType()) return getImportedEffectiveFeatureMapWrapperInternalInterface();
+    if (isFeatureMapType())
+       return
+         isBlank(getGenModel().getFeatureMapWrapperInternalInterface()) ?
+             getImportedEffectiveFeatureMapWrapperClass() :
+             getImportedEffectiveFeatureMapWrapperInternalInterface();
     if (isMapType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EMap");
     if (isListType()) return getGenModel().getImportedName("org.eclipse.emf.common.util.EList");
     return getImportedType(getEcoreTypedElement().getEType(), false);
@@ -125,10 +129,10 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
 
   public boolean isWrappedFeatureMapType()
   {
-    return isFeatureMapType() &&  
-    !isBlank(getGenModel().getFeatureMapWrapperInterface()) &&
-    !isBlank(getGenModel().getFeatureMapWrapperInternalInterface()) &&
-    !isBlank(getGenModel().getFeatureMapWrapperClass());    
+    return 
+      isFeatureMapType() &&  
+        !isBlank(getGenModel().getFeatureMapWrapperInterface()) &&
+        !isBlank(getGenModel().getFeatureMapWrapperClass());    
   }
 
   /**
