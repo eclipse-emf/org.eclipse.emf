@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.emf.importer" id="modelImporterDescriptors" name="%_UI_ModelImporterDescriptors_extensionpoint"/>
       </appInfo>
       <documentation>
-         &lt;p&gt;This extension point is used to describe a Model Importer by defining itse name, id and the wizard which is presented to the user when the importer is used.&lt;/p&gt;
+         &lt;p&gt;This extension point is used to describe a Model Importer by defining its name, id and the wizard which is presented to the user when the importer is used.&lt;/p&gt;
 &lt;p&gt;The registered model importers are presented to the user when an EMF model or EMF project is created.&lt;/p&gt;
       </documentation>
    </annotation>
@@ -80,7 +80,7 @@
          <attribute name="wizard" type="string" use="required">
             <annotation>
                <documentation>
-                  The wizard that is presented to the wizard when this importer is selected in the EMF model creation wizard.
+                  The wizard that is presented to the user when this importer is selected in the EMF model creation wizard.
                </documentation>
                <appInfo>
                   <meta.attribute kind="java" basedOn="org.eclipse.emf.importer.ui.wizard.IModelImporterWizard"/>
