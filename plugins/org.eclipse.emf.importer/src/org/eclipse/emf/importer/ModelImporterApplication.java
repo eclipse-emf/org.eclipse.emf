@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.14 2005/11/23 23:41:47 emerks Exp $
+ * $Id: ModelImporterApplication.java,v 1.15 2005/11/24 04:40:03 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -136,11 +136,6 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     return quiet ? new NullProgressMonitor() : new StreamProgressMonitor(System.out);
   }
   
-  protected Monitor getMonitor()
-  {
-    return quiet ? new BasicMonitor() : new BasicMonitor.Printing(System.out);
-  }  
-
   public void run(IProgressMonitor progressMonitor, String[] arguments) throws Exception
   {
     run(BasicMonitor.toMonitor(progressMonitor), arguments); 
