@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.10 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.11 2005/11/24 18:21:47 elena Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1883,50 +1883,50 @@ public class XSDParticleImpl
 
   public XSDParticle.DFA getDFA()
   {
-    if (xsdNFA == null || xsdNFACheckSum != xsdNFA.checksum())
+    if (xsdNFA == null || (!getSchema().getSchemaForSchemaNamespace().equals(getSchema().getTargetNamespace()) && xsdNFACheckSum != xsdNFA.checksum()))
     {
-      xsdNFA = new XSDNFA(this, false);
-      if (xsdNFA.getStates().size() > MAXIMUM_STATES)
+      XSDNFA localNFA = new XSDNFA(this, false);
+      if (localNFA.getStates().size() > MAXIMUM_STATES)
       {
-        xsdNFA = new XSDNFA(this, true);
+        localNFA = new XSDNFA(this, true);
       }
-      if (xsdNFA.getStates().size() < MAXIMUM_STATES)
+      if (localNFA.getStates().size() < MAXIMUM_STATES)
       {
         if (debug)
         {
           System.out.println("-- NFA initial --");
-          xsdNFA.dump(System.out);
+          localNFA.dump(System.out);
           System.out.println("-- NFA no-epsilon --");
         }
-        xsdNFA.epsilonClosure();
+        localNFA.epsilonClosure();
         if (debug)
         {
-          xsdNFA.dump(System.out);
+          localNFA.dump(System.out);
           System.out.println("-- NFA minimal --");
         }
-        xsdNFA.minimize();
+        localNFA.minimize();
         if (debug)
         {
-          xsdNFA.dump(System.out);
+          localNFA.dump(System.out);
           System.out.println("-- DFA --");
         }
-        xsdNFA.determinize();
+        localNFA.determinize();
         if (debug)
         {
-          xsdNFA.dump(System.out);
+          localNFA.dump(System.out);
           System.out.println("-- DFA minimal--");
         }
-        xsdNFA.minimize();
+        localNFA.minimize();
         if (debug)
         {
-          xsdNFA.dump(System.out);
+          localNFA.dump(System.out);
         }
       }
       else
       {
         // Clean up bad transitions.
         //
-        for (Iterator i = xsdNFA.getStates().iterator(); i.hasNext(); )
+        for (Iterator i = localNFA.getStates().iterator(); i.hasNext(); )
         {
           DFA.State state = (DFA.State)i.next();
           for (Iterator j = state.getTransitions().iterator(); j.hasNext(); )
@@ -1939,6 +1939,7 @@ public class XSDParticleImpl
           }
         }
       }
+      xsdNFA = localNFA;
     }
     return xsdNFA;
   }
