@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.30 2005/11/18 19:10:10 emerks Exp $
+ * $Id: GenModel.java,v 1.31 2005/11/24 20:20:36 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -1005,9 +1005,6 @@ public interface GenModel extends GenBase{
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * <!-- begin-model-doc -->
-   * @deprecated
-   * <!-- end-model-doc -->
    * @return the value of the '<em>Reflective Delegation</em>' attribute.
    * @see #setReflectiveDelegation(boolean)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ReflectiveDelegation()
@@ -1019,7 +1016,7 @@ public interface GenModel extends GenBase{
   /**
    * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isReflectiveDelegation <em>Reflective Delegation</em>}' attribute.
    * <!-- begin-user-doc -->
-   * @deprecated
+   * @deprecated In 2.2. Please use {@link #setFeatureDelegation} instead.
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Reflective Delegation</em>' attribute.
    * @see #isReflectiveDelegation()

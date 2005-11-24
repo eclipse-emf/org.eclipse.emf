@@ -55,11 +55,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="runtimeCompatibility" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="richClientPlatform" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="reflectiveDelegation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        volatile="true" derived="true">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="documentation" value="@deprecated"/>
-      </eAnnotations>
-    </eStructuralFeatures>
+        volatile="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="codeFormatting" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="testsDirectory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         unsettable="true"/>
