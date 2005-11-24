@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.22 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.23 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1772,7 +1772,7 @@ public class XSDSchemaImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDSchema_Contents())
+    if (eReference == XSDPackage.Literals.XSD_SCHEMA__CONTENTS)
     {
       new XSDSwitch()
       {
@@ -1820,7 +1820,7 @@ public class XSDSchemaImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDSchema_Contents())
+    if (eReference == XSDPackage.Literals.XSD_SCHEMA__CONTENTS)
     {
       new XSDSwitch()
       {
@@ -2176,7 +2176,7 @@ public class XSDSchemaImpl
   public XSDAttributeDeclaration resolveAttributeDeclaration(String namespace, String localName)
   {
     XSDAttributeDeclaration result = 
-      (XSDAttributeDeclaration)resolveNamedComponent(XSDPackage.eINSTANCE.getXSDSchema_AttributeDeclarations(), namespace, localName);
+      (XSDAttributeDeclaration)resolveNamedComponent(XSDPackage.Literals.XSD_SCHEMA__ATTRIBUTE_DECLARATIONS, namespace, localName);
     if (result == null)
     {
       result = createUnresolvedAttributeDeclaration(namespace, localName);
@@ -2188,7 +2188,7 @@ public class XSDSchemaImpl
   {
     XSDAttributeGroupDefinition result = 
       (XSDAttributeGroupDefinition)resolveNamedComponent
-        (XSDPackage.eINSTANCE.getXSDSchema_AttributeGroupDefinitions(), namespace, localName);
+        (XSDPackage.Literals.XSD_SCHEMA__ATTRIBUTE_GROUP_DEFINITIONS, namespace, localName);
     if (result == null)
     {
       result = createUnresolvedAttributeGroupDefinition(namespace, localName);
@@ -2199,7 +2199,7 @@ public class XSDSchemaImpl
   public XSDElementDeclaration resolveElementDeclaration(String namespace, String localName)
   {
     XSDElementDeclaration result = 
-      (XSDElementDeclaration)resolveNamedComponent(XSDPackage.eINSTANCE.getXSDSchema_ElementDeclarations(), namespace, localName);
+      (XSDElementDeclaration)resolveNamedComponent(XSDPackage.Literals.XSD_SCHEMA__ELEMENT_DECLARATIONS, namespace, localName);
     if (result == null)
     {
       result = createUnresolvedElementDeclaration(namespace, localName);
@@ -2210,7 +2210,7 @@ public class XSDSchemaImpl
   public XSDTypeDefinition resolveTypeDefinition(String namespace, String localName)
   {
     XSDTypeDefinition result = 
-      (XSDTypeDefinition)resolveNamedComponent(XSDPackage.eINSTANCE.getXSDSchema_TypeDefinitions(), namespace, localName);
+      (XSDTypeDefinition)resolveNamedComponent(XSDPackage.Literals.XSD_SCHEMA__TYPE_DEFINITIONS, namespace, localName);
     if (result == null && 
           XSDConstants.isSchemaForSchemaNamespace(namespace) &&
           !XSDConstants.isSchemaForSchemaNamespace(getTargetNamespace()))
@@ -2227,7 +2227,7 @@ public class XSDSchemaImpl
   public XSDSimpleTypeDefinition resolveSimpleTypeDefinition(String namespace, String localName)
   {
     XSDTypeDefinition xsdTypeDefinition = 
-      (XSDTypeDefinition)resolveNamedComponent(XSDPackage.eINSTANCE.getXSDSchema_TypeDefinitions(), namespace, localName);
+      (XSDTypeDefinition)resolveNamedComponent(XSDPackage.Literals.XSD_SCHEMA__TYPE_DEFINITIONS, namespace, localName);
     XSDSimpleTypeDefinition result =
       xsdTypeDefinition instanceof XSDSimpleTypeDefinition ? (XSDSimpleTypeDefinition)xsdTypeDefinition : null;
     if (result == null)
@@ -2268,7 +2268,7 @@ public class XSDSchemaImpl
   public XSDComplexTypeDefinition resolveComplexTypeDefinition(String namespace, String localName)
   {
     XSDTypeDefinition xsdTypeDefinition = 
-      (XSDTypeDefinition)resolveNamedComponent(XSDPackage.eINSTANCE.getXSDSchema_TypeDefinitions(), namespace, localName);
+      (XSDTypeDefinition)resolveNamedComponent(XSDPackage.Literals.XSD_SCHEMA__TYPE_DEFINITIONS, namespace, localName);
     XSDComplexTypeDefinition result =
       xsdTypeDefinition instanceof XSDComplexTypeDefinition ? (XSDComplexTypeDefinition)xsdTypeDefinition : null;
     if (result == null &&
@@ -2287,7 +2287,7 @@ public class XSDSchemaImpl
   public XSDModelGroupDefinition resolveModelGroupDefinition(String namespace, String localName)
   {
     XSDModelGroupDefinition result = 
-      (XSDModelGroupDefinition)resolveNamedComponent(XSDPackage.eINSTANCE.getXSDSchema_ModelGroupDefinitions(), namespace, localName);
+      (XSDModelGroupDefinition)resolveNamedComponent(XSDPackage.Literals.XSD_SCHEMA__MODEL_GROUP_DEFINITIONS, namespace, localName);
     if (result == null)
     {
       result = createUnresolvedModelGroupDefinition(namespace, localName);
@@ -2299,7 +2299,7 @@ public class XSDSchemaImpl
   public XSDIdentityConstraintDefinition resolveIdentityConstraintDefinition(String namespace, String localName)
   {
     XSDIdentityConstraintDefinition result = 
-      (XSDIdentityConstraintDefinition)resolveNamedComponent(XSDPackage.eINSTANCE.getXSDSchema_IdentityConstraintDefinitions(), namespace, localName);
+      (XSDIdentityConstraintDefinition)resolveNamedComponent(XSDPackage.Literals.XSD_SCHEMA__IDENTITY_CONSTRAINT_DEFINITIONS, namespace, localName);
     if (result == null)
     {
       result = createUnresolvedIdentityConstraintDefinition(namespace, localName);
@@ -2310,7 +2310,7 @@ public class XSDSchemaImpl
   public XSDNotationDeclaration resolveNotationDeclaration(String namespace, String localName)
   {
     XSDNotationDeclaration result =
-      (XSDNotationDeclaration) resolveNamedComponent(XSDPackage.eINSTANCE.getXSDSchema_NotationDeclarations(), namespace, localName);
+      (XSDNotationDeclaration) resolveNamedComponent(XSDPackage.Literals.XSD_SCHEMA__NOTATION_DECLARATIONS, namespace, localName);
     if (result == null)
     {
       result = createUnresolvedNotationDeclaration(namespace, localName);
@@ -2320,7 +2320,7 @@ public class XSDSchemaImpl
 
   protected void changeAttribute(EAttribute eAttribute)
   {
-    if (eAttribute == XSDPackage.eINSTANCE.getXSDSchema_SchemaLocation())
+    if (eAttribute == XSDPackage.Literals.XSD_SCHEMA__SCHEMA_LOCATION)
     {
       patch();
     }
@@ -2330,7 +2330,7 @@ public class XSDSchemaImpl
       Element theElement = getElement();
       if (theElement != null)
       {
-        if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDSchema_Version())
+        if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SCHEMA__VERSION)
         {
           niceSetAttribute
             (theElement, 
@@ -2341,7 +2341,7 @@ public class XSDSchemaImpl
             traverseToRootForPatching();
           }
         }
-        if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDSchema_TargetNamespace())
+        if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SCHEMA__TARGET_NAMESPACE)
         {
           niceSetAttribute
             (theElement, 
@@ -2352,7 +2352,7 @@ public class XSDSchemaImpl
             traverseToRootForPatching();
           }
         }
-        if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDSchema_AttributeFormDefault())
+        if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SCHEMA__ATTRIBUTE_FORM_DEFAULT)
         {
           niceSetAttribute
             (theElement, 
@@ -2363,7 +2363,7 @@ public class XSDSchemaImpl
             traverseToRootForPatching();
           }
         }
-        if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDSchema_ElementFormDefault())
+        if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SCHEMA__ELEMENT_FORM_DEFAULT)
         {
           niceSetAttribute
             (theElement, 
@@ -2374,7 +2374,7 @@ public class XSDSchemaImpl
             traverseToRootForPatching();
           }
         }
-        if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDSchema_BlockDefault())
+        if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SCHEMA__BLOCK_DEFAULT)
         {
           niceSetAttribute
             (theElement, 
@@ -2385,7 +2385,7 @@ public class XSDSchemaImpl
             traverseToRootForPatching();
           }
         }
-        if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDSchema_FinalDefault())
+        if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SCHEMA__FINAL_DEFAULT)
         {
           niceSetAttribute
             (theElement, 
@@ -2403,7 +2403,7 @@ public class XSDSchemaImpl
   protected void changeReference(EReference eReference)
   {
     super.changeReference(eReference);
-    if (eReference == XSDPackage.eINSTANCE.getXSDSchema_ReferencingDirectives())
+    if (eReference == XSDPackage.Literals.XSD_SCHEMA__REFERENCING_DIRECTIVES)
     {
       boolean newHasRetargetedNamespace = false;
       for (Iterator i = getReferencingDirectives().iterator(); i.hasNext(); )

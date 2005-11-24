@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureImpl.java,v 1.8 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDFeatureImpl.java,v 1.9 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -451,8 +451,8 @@ public abstract class XSDFeatureImpl
     if (!isFeatureReference() && !isReconciling)
     {
       if (eAttribute == null || 
-            eAttribute == XSDPackage.eINSTANCE.getXSDFeature_LexicalValue() || 
-            eAttribute == XSDPackage.eINSTANCE.getXSDFeature_Constraint())
+            eAttribute == XSDPackage.Literals.XSD_FEATURE__LEXICAL_VALUE || 
+            eAttribute == XSDPackage.Literals.XSD_FEATURE__CONSTRAINT)
       {
         Element theElement = getElement();
         if (theElement != null)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.6 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.7 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -701,7 +701,7 @@ public class XSDIdentityConstraintDefinitionImpl
 
   protected void handleReconciliation(List newContents, List remainingContents)
   {
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDIdentityConstraintDefinition_Annotation(), newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_IDENTITY_CONSTRAINT_DEFINITION__ANNOTATION, newContents, remainingContents);
 
     XSDXPathDefinition newSelector = null;
     if (!newContents.isEmpty())
@@ -738,7 +738,7 @@ public class XSDIdentityConstraintDefinitionImpl
   {
     super.changeAttribute(eAttribute);
     Element theElement = getElement();
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDIdentityConstraintDefinition_IdentityConstraintCategory())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_IDENTITY_CONSTRAINT_DEFINITION__IDENTITY_CONSTRAINT_CATEGORY)
     {
       if (theElement != null && eAttribute != null && !isReconciling)
       {
@@ -777,7 +777,7 @@ public class XSDIdentityConstraintDefinitionImpl
     Element theElement = getElement();
     if (XSDIdentityConstraintCategory.KEYREF_LITERAL == getIdentityConstraintCategory())
     {
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDIdentityConstraintDefinition_ReferencedKey())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_IDENTITY_CONSTRAINT_DEFINITION__REFERENCED_KEY)
       {
         XSDIdentityConstraintDefinition theReferencedKey = getReferencedKey();
         if (theElement != null)

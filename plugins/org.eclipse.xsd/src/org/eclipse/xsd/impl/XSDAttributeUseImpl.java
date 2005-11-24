@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseImpl.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDAttributeUseImpl.java,v 1.6 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -507,23 +507,6 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetContent(XSDAttributeDeclaration newContent, NotificationChain msgs)
-  {
-    XSDAttributeDeclaration oldContent = content;
-    content = newContent;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_USE__CONTENT, oldContent, newContent);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
   {
     if (featureID >= 0)
@@ -539,6 +522,23 @@ public class XSDAttributeUseImpl
       }
     }
     return eBasicSetContainer(null, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetContent(XSDAttributeDeclaration newContent, NotificationChain msgs)
+  {
+    XSDAttributeDeclaration oldContent = content;
+    content = newContent;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_ATTRIBUTE_USE__CONTENT, oldContent, newContent);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
   }
 
   /**
@@ -936,14 +936,14 @@ public class XSDAttributeUseImpl
     Element theElement = getElement();
     if (theElement != null)
     {
-      if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDAttributeUse_Use())
+      if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_ATTRIBUTE_USE__USE)
       {
         niceSetAttribute(theElement, XSDConstants.USE_ATTRIBUTE, isSetUse() ? getUse().getName() : null);
       }
 
       if (eAttribute == null || 
-            eAttribute == XSDPackage.eINSTANCE.getXSDFeature_LexicalValue() || 
-            eAttribute == XSDPackage.eINSTANCE.getXSDAttributeUse_Constraint())
+            eAttribute == XSDPackage.Literals.XSD_FEATURE__LEXICAL_VALUE || 
+            eAttribute == XSDPackage.Literals.XSD_ATTRIBUTE_USE__CONSTRAINT)
       {
         if (getLexicalValue() != null)
         {
@@ -987,7 +987,7 @@ public class XSDAttributeUseImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDAttributeUse_Content())
+    if (eReference == XSDPackage.Literals.XSD_ATTRIBUTE_USE__CONTENT)
     {
       patchHelper();
       traverseToRootForPatching();
@@ -997,7 +997,7 @@ public class XSDAttributeUseImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDAttributeUse_Content())
+    if (eReference == XSDPackage.Literals.XSD_ATTRIBUTE_USE__CONTENT)
     {
       patchHelper();
       traverseToRootForPatching();

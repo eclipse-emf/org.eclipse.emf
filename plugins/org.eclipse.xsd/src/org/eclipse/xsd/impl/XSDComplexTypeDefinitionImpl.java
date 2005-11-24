@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.15 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.16 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2070,9 +2070,9 @@ public class XSDComplexTypeDefinitionImpl
 
   protected Node getAdoptionParentNode(EReference eReference)
   {
-    if (eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_Content() ||
-          eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_AttributeContents() ||
-          eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_AttributeWildcardContent())
+    if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT ||
+          eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_CONTENTS ||
+          eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_WILDCARD_CONTENT)
     {
       Element [] contentElementPair = getContentElementPair();
       if (contentElementPair[1] != null)
@@ -2220,9 +2220,9 @@ public class XSDComplexTypeDefinitionImpl
 
   protected void handleReconciliation(List newContents, List remainingContents)
   {
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDTypeDefinition_Annotation(), newContents, remainingContents);
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_ContentAnnotation(), newContents, remainingContents);
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDTypeDefinition_DerivationAnnotation(), newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_TYPE_DEFINITION__ANNOTATION, newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_ANNOTATION, newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION, newContents, remainingContents);
 
     XSDTypeDefinition newBaseTypeDefinition = null;
     XSDComplexTypeContent newContent =  null;
@@ -2341,14 +2341,14 @@ public class XSDComplexTypeDefinitionImpl
   {
     super.changeAttribute(eAttribute);
     Element theElement = getElement();
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_Abstract())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__ABSTRACT)
     {
       if (theElement != null)
       {
         niceSetAttribute(theElement, XSDConstants.ABSTRACT_ATTRIBUTE, isSetAbstract() ? isAbstract() ? "true" : "false" : null);
       }
     }
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_Mixed())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__MIXED)
     {
       if (theElement != null)
       {
@@ -2366,7 +2366,7 @@ public class XSDComplexTypeDefinitionImpl
         niceSetAttribute(targetElement, XSDConstants.MIXED_ATTRIBUTE, isSetMixed() ? isMixed() ? "true" : "false" : null);
       }
     }
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_LexicalFinal())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__LEXICAL_FINAL)
     {
       if (theElement != null)
       {
@@ -2380,7 +2380,7 @@ public class XSDComplexTypeDefinitionImpl
         traverseToRootForPatching();
       }
     }
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_Block())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__BLOCK)
     {
       if (theElement != null)
       {
@@ -2394,7 +2394,7 @@ public class XSDComplexTypeDefinitionImpl
         traverseToRootForPatching();
       }
     }
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_DerivationMethod())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__DERIVATION_METHOD)
     {
       if (theElement != null && !isReconciling && (eAttribute == null || !abbreviate()))
       {
@@ -2414,7 +2414,7 @@ public class XSDComplexTypeDefinitionImpl
   {
     super.changeReference(eReference);
     Element theElement = getElement();
-    if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_BaseTypeDefinition())
+    if (eReference == null || eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__BASE_TYPE_DEFINITION)
     {
       XSDTypeDefinition theBaseTypeDefinition = getBaseTypeDefinition();
       if (theElement != null && !isReconciling && (eReference == null || !abbreviate()))
@@ -2503,7 +2503,7 @@ public class XSDComplexTypeDefinitionImpl
 
           forceEngulf(contentElementPair[0], contentElementPair[1], theElement, startingNode);
 
-          changeReference(XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_BaseTypeDefinition());
+          changeReference(XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__BASE_TYPE_DEFINITION);
         }
       }
 
@@ -2558,7 +2558,7 @@ public class XSDComplexTypeDefinitionImpl
   {
     Node firstAdoptee = null;
 
-    if (eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_Content())
+    if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT)
     {
       if (xsdConcreteComponent instanceof XSDSimpleTypeDefinition)
       {
@@ -2598,14 +2598,14 @@ public class XSDComplexTypeDefinitionImpl
 
     super.adoptContent(eReference, xsdConcreteComponent);
 
-    if (eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_Content())
+    if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT)
     {
       Element theElement = getElement();
       if (theElement != null && !isReconciling)
       {
         if (xsdConcreteComponent instanceof XSDSimpleTypeDefinition)
         {
-          changeReference(XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_BaseTypeDefinition());
+          changeReference(XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__BASE_TYPE_DEFINITION);
         }
 
         Element [] contentElementPair = getContentElementPair();
@@ -2641,23 +2641,23 @@ public class XSDComplexTypeDefinitionImpl
 
       traverseToRootForPatching();
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_AttributeContents())
+    else if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_CONTENTS)
     {
       traverseToRootForPatching();
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_AttributeWildcardContent())
+    else if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_WILDCARD_CONTENT)
     {
       traverseToRootForPatching();
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDTypeDefinition_Annotation())
+    else if (eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__ANNOTATION)
     {
       getAnnotations().add(0, xsdConcreteComponent);
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDTypeDefinition_DerivationAnnotation())
+    else if (eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION)
     {
       getAnnotations().add(getAnnotation() == null ? 0 : 1, xsdConcreteComponent);
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_ContentAnnotation())
+    else if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_ANNOTATION)
     {
       getAnnotations().add(xsdConcreteComponent);
     }
@@ -2666,7 +2666,7 @@ public class XSDComplexTypeDefinitionImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     Node firstAdoptee = null;
-    if (eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_Content())
+    if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT)
     {
       if (xsdConcreteComponent instanceof XSDSimpleTypeDefinition)
       {
@@ -2699,7 +2699,7 @@ public class XSDComplexTypeDefinitionImpl
 
     super.orphanContent(eReference, xsdConcreteComponent);
 
-    if (eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_Content())
+    if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT)
     {
       if (firstAdoptee != null)
       {
@@ -2720,17 +2720,17 @@ public class XSDComplexTypeDefinitionImpl
 
       traverseToRootForPatching();
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_AttributeContents())
+    else if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_CONTENTS)
     {
       traverseToRootForPatching();
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_AttributeWildcardContent())
+    else if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_WILDCARD_CONTENT)
     {
       traverseToRootForPatching();
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDTypeDefinition_Annotation() ||
-               eReference == XSDPackage.eINSTANCE.getXSDTypeDefinition_DerivationAnnotation() ||
-               eReference == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_ContentAnnotation())
+    else if (eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__ANNOTATION ||
+               eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION ||
+               eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_ANNOTATION)
     {
       getAnnotations().remove(xsdConcreteComponent);
     }

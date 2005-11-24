@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxInclusiveFacetImpl.java,v 1.6 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDMaxInclusiveFacetImpl.java,v 1.7 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl; 
 
@@ -115,7 +115,7 @@ public class XSDMaxInclusiveFacetImpl
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
-    if (eAttribute == XSDPackage.eINSTANCE.getXSDFacet_LexicalValue())
+    if (eAttribute == XSDPackage.Literals.XSD_FACET__LEXICAL_VALUE)
     {
       traverseToRootForAnalysis();
     }

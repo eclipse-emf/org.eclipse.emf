@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDXPathDefinitionImpl.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDXPathDefinitionImpl.java,v 1.6 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -227,23 +227,6 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetAnnotation(XSDAnnotation newAnnotation, NotificationChain msgs)
-  {
-    XSDAnnotation oldAnnotation = annotation;
-    annotation = newAnnotation;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_XPATH_DEFINITION__ANNOTATION, oldAnnotation, newAnnotation);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
   {
     if (featureID >= 0)
@@ -259,6 +242,23 @@ public class XSDXPathDefinitionImpl
       }
     }
     return eBasicSetContainer(null, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetAnnotation(XSDAnnotation newAnnotation, NotificationChain msgs)
+  {
+    XSDAnnotation oldAnnotation = annotation;
+    annotation = newAnnotation;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_XPATH_DEFINITION__ANNOTATION, oldAnnotation, newAnnotation);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
   }
 
   /**
@@ -499,7 +499,7 @@ public class XSDXPathDefinitionImpl
   {
     super.changeAttribute(eAttribute);
     Element theElement = getElement();
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDXPathDefinition_Variety())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_XPATH_DEFINITION__VARIETY)
     {
       if (theElement != null && eAttribute != null && !isReconciling)
       {

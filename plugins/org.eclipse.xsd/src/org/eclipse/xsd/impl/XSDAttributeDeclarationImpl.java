@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.10 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.11 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -539,7 +539,7 @@ public class XSDAttributeDeclarationImpl
 
   protected void handleReconciliation(List newContents, List remainingContents)
   {
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDAttributeDeclaration_Annotation(), newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_ATTRIBUTE_DECLARATION__ANNOTATION, newContents, remainingContents);
     if (!isAttributeDeclarationReference())
     {
       Element theElement = getElement();
@@ -582,7 +582,7 @@ public class XSDAttributeDeclarationImpl
       Element theElement = getElement();
       if (theElement != null)
       {
-        if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDFeature_Form())
+        if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_FEATURE__FORM)
         {
           if (!(getScope() instanceof XSDSchema))
           {
@@ -590,7 +590,7 @@ public class XSDAttributeDeclarationImpl
           }
         }
       }
-      if (eAttribute == XSDPackage.eINSTANCE.getXSDFeature_Form())
+      if (eAttribute == XSDPackage.Literals.XSD_FEATURE__FORM)
       {
         patchTargetNamespaceAttribute();
       }
@@ -604,7 +604,7 @@ public class XSDAttributeDeclarationImpl
     if (isAttributeDeclarationReference())
     {
       XSDAttributeDeclaration theResolvedAttributeDeclaration = getResolvedAttributeDeclaration();
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDAttributeDeclaration_ResolvedAttributeDeclaration())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_ATTRIBUTE_DECLARATION__RESOLVED_ATTRIBUTE_DECLARATION)
       {
         if (theElement != null)
         {
@@ -618,12 +618,12 @@ public class XSDAttributeDeclarationImpl
     }
     else
     {
-      if (theElement != null && eReference == XSDPackage.eINSTANCE.getXSDAttributeDeclaration_ResolvedAttributeDeclaration())
+      if (theElement != null && eReference == XSDPackage.Literals.XSD_ATTRIBUTE_DECLARATION__RESOLVED_ATTRIBUTE_DECLARATION)
       {
         niceSetAttributeURIValue(theElement, XSDConstants.REF_ATTRIBUTE, null);
       }
       
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDAttributeDeclaration_TypeDefinition())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_ATTRIBUTE_DECLARATION__TYPE_DEFINITION)
       {
         XSDSimpleTypeDefinition theTypeDefinition = getTypeDefinition();
         XSDSimpleTypeDefinition theAnonymousTypeDefinition = getAnonymousTypeDefinition();
@@ -660,7 +660,7 @@ public class XSDAttributeDeclarationImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDAttributeDeclaration_AnonymousTypeDefinition())
+    if (eReference == XSDPackage.Literals.XSD_ATTRIBUTE_DECLARATION__ANONYMOUS_TYPE_DEFINITION)
     {
       setTypeDefinition((XSDSimpleTypeDefinition)xsdConcreteComponent);
     }
@@ -669,7 +669,7 @@ public class XSDAttributeDeclarationImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDAttributeDeclaration_AnonymousTypeDefinition())
+    if (eReference == XSDPackage.Literals.XSD_ATTRIBUTE_DECLARATION__ANONYMOUS_TYPE_DEFINITION)
     {
       if (getTypeDefinition() == xsdConcreteComponent)
       {

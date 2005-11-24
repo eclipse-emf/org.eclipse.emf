@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDLengthFacetImpl.java,v 1.8 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDLengthFacetImpl.java,v 1.9 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -339,7 +339,7 @@ public class XSDLengthFacetImpl
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
-    if (eAttribute == XSDPackage.eINSTANCE.getXSDFacet_LexicalValue())
+    if (eAttribute == XSDPackage.Literals.XSD_FACET__LEXICAL_VALUE)
     {
       if (getLexicalValue() == null)
       {

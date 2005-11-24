@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.8 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDWildcardImpl.java,v 1.9 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -800,7 +800,7 @@ public class XSDWildcardImpl
 
   protected void handleReconciliation(List newContents, List remainingContents)
   {
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDWildcard_Annotation(), newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_WILDCARD__ANNOTATION, newContents, remainingContents);
   }
 
   protected void changeAttribute(EAttribute eAttribute)
@@ -814,7 +814,7 @@ public class XSDWildcardImpl
     Element theElement = getElement();
     if (theElement != null)
     {
-      if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDWildcard_LexicalNamespaceConstraint())
+      if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_WILDCARD__LEXICAL_NAMESPACE_CONSTRAINT)
       {
         if (!isSetLexicalNamespaceConstraint())
         {
@@ -840,7 +840,7 @@ public class XSDWildcardImpl
           traverseToRootForPatching();
         }
       }
-      if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDWildcard_ProcessContents())
+      if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_WILDCARD__PROCESS_CONTENTS)
       {
         XSDProcessContents theProcessContents = getProcessContents();
         niceSetAttribute
@@ -852,7 +852,7 @@ public class XSDWildcardImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDWildcard_Annotation())
+    if (eReference == XSDPackage.Literals.XSD_WILDCARD__ANNOTATION)
     {
       getAnnotations().add(xsdConcreteComponent);
     }
@@ -861,7 +861,7 @@ public class XSDWildcardImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDWildcard_Annotation())
+    if (eReference == XSDPackage.Literals.XSD_WILDCARD__ANNOTATION)
     {
       int index = getAnnotations().indexOf(xsdConcreteComponent);
       if (index >= 0)

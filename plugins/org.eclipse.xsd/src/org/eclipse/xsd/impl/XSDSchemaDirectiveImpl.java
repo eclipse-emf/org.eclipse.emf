@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.11 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.12 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -304,7 +304,7 @@ public abstract class XSDSchemaDirectiveImpl
   {
     // Try to resolve again if the schema location changes and we previously failed.
     //
-    if (resolved && getResolvedSchema() == null && eAttribute == XSDPackage.eINSTANCE.getXSDSchemaDirective_SchemaLocation())
+    if (resolved && getResolvedSchema() == null && eAttribute == XSDPackage.Literals.XSD_SCHEMA_DIRECTIVE__SCHEMA_LOCATION)
     {
       resolved = false;
     }
@@ -315,7 +315,7 @@ public abstract class XSDSchemaDirectiveImpl
     }
 
     super.changeAttribute(eAttribute);
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDSchemaDirective_SchemaLocation())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SCHEMA_DIRECTIVE__SCHEMA_LOCATION)
     {
       Element theElement = getElement();
       if (theElement != null)
@@ -341,7 +341,7 @@ public abstract class XSDSchemaDirectiveImpl
           ResourceSet resourceSet = resource.getResourceSet();
           if (resourceSet != null)
           {
-            if (namespace == null)
+            if ("".equals(namespace))
             {
               namespace = xsdSchema.getTargetNamespace();
             }

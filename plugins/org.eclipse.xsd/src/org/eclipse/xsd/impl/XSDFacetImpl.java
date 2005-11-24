@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFacetImpl.java,v 1.6 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDFacetImpl.java,v 1.7 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -197,7 +197,7 @@ public abstract class XSDFacetImpl
 
   protected void handleReconciliation(List newContents, List remainingContents)
   {
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDFacet_Annotation(), newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_FACET__ANNOTATION, newContents, remainingContents);
   }
 
   protected void changeAttribute(EAttribute eAttribute)
@@ -211,7 +211,7 @@ public abstract class XSDFacetImpl
     Element theElement = getElement();
     if (theElement != null)
     {
-      if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDFacet_LexicalValue())
+      if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_FACET__LEXICAL_VALUE)
       {
         niceSetAttribute(theElement, XSDConstants.VALUE_ATTRIBUTE, getLexicalValue());
       }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupImpl.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDModelGroupImpl.java,v 1.6 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -589,7 +589,7 @@ public class XSDModelGroupImpl
     if (getContainer() instanceof XSDParticle)
     {
       xsdParticle = (XSDParticle)getContainer();
-      if (xsdParticle.eContainmentFeature() == XSDPackage.eINSTANCE.getXSDComplexTypeDefinition_SyntheticParticle())
+      if (xsdParticle.eContainmentFeature() == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__SYNTHETIC_PARTICLE)
       {
         diagnosticTarget = xsdParticle.getContainer();
       }
@@ -644,7 +644,7 @@ public class XSDModelGroupImpl
 
   protected void handleReconciliation(List newContents, List remainingContents)
   {
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDModelGroup_Annotation(), newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_MODEL_GROUP__ANNOTATION, newContents, remainingContents);
 
     if (!remainingContents.isEmpty())
     {
@@ -661,7 +661,7 @@ public class XSDModelGroupImpl
   {
     super.changeAttribute(eAttribute);
     Element theElement = getElement();
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDModelGroup_Compositor())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_MODEL_GROUP__COMPOSITOR)
     {
       if (theElement != null && eAttribute != null && !isReconciling)
       {
@@ -690,7 +690,7 @@ public class XSDModelGroupImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDModelGroup_Contents())
+    if (eReference == XSDPackage.Literals.XSD_MODEL_GROUP__CONTENTS)
     {
       traverseToRootForPatching();
     }
@@ -699,7 +699,7 @@ public class XSDModelGroupImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDModelGroup_Contents())
+    if (eReference == XSDPackage.Literals.XSD_MODEL_GROUP__CONTENTS)
     {
       traverseToRootForPatching();
     }

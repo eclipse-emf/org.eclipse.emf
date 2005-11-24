@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImportImpl.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDImportImpl.java,v 1.6 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -189,23 +189,6 @@ public class XSDImportImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetAnnotation(XSDAnnotation newAnnotation, NotificationChain msgs)
-  {
-    XSDAnnotation oldAnnotation = annotation;
-    annotation = newAnnotation;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_IMPORT__ANNOTATION, oldAnnotation, newAnnotation);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
   {
     if (featureID >= 0)
@@ -221,6 +204,23 @@ public class XSDImportImpl
       }
     }
     return eBasicSetContainer(null, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetAnnotation(XSDAnnotation newAnnotation, NotificationChain msgs)
+  {
+    XSDAnnotation oldAnnotation = annotation;
+    annotation = newAnnotation;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_IMPORT__ANNOTATION, oldAnnotation, newAnnotation);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
   }
 
   /**
@@ -513,7 +513,7 @@ public class XSDImportImpl
     }
 
     super.changeAttribute(eAttribute);
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDImport_Namespace())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_IMPORT__NAMESPACE)
     {
       Element theElement = getElement();
       if (theElement != null)

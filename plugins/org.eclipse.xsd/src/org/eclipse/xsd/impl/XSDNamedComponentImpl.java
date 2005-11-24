@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.8 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.9 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -758,7 +758,7 @@ public abstract class XSDNamedComponentImpl
     super.changeAttribute(eAttribute);
     if (!isNamedComponentReference())
     {
-      if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDNamedComponent_Name())
+      if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_NAMED_COMPONENT__NAME)
       {
         if (eAttribute != null)
         {

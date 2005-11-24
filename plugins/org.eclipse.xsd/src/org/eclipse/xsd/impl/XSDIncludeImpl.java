@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIncludeImpl.java,v 1.6 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDIncludeImpl.java,v 1.7 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -134,23 +134,6 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetAnnotation(XSDAnnotation newAnnotation, NotificationChain msgs)
-  {
-    XSDAnnotation oldAnnotation = annotation;
-    annotation = newAnnotation;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_INCLUDE__ANNOTATION, oldAnnotation, newAnnotation);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
   {
     if (featureID >= 0)
@@ -166,6 +149,23 @@ public class XSDIncludeImpl
       }
     }
     return eBasicSetContainer(null, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetAnnotation(XSDAnnotation newAnnotation, NotificationChain msgs)
+  {
+    XSDAnnotation oldAnnotation = annotation;
+    annotation = newAnnotation;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_INCLUDE__ANNOTATION, oldAnnotation, newAnnotation);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    return msgs;
   }
 
   /**

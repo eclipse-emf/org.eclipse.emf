@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.11 2005/11/24 18:21:47 elena Exp $
+ * $Id: XSDParticleImpl.java,v 1.12 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -702,14 +702,14 @@ public class XSDParticleImpl
     Element theElement = getElement();
     if (theElement != null)
     {
-      if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDParticle_MinOccurs())
+      if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_PARTICLE__MIN_OCCURS)
       {
         niceSetAttribute
           (theElement, 
            XSDConstants.MINOCCURS_ATTRIBUTE, 
            isSetMinOccurs() ? Integer.toString(getMinOccurs()) : null);
       }
-      if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDParticle_MaxOccurs())
+      if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_PARTICLE__MAX_OCCURS)
       {
         niceSetAttribute
           (theElement, 
@@ -722,7 +722,7 @@ public class XSDParticleImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDParticle_Content())
+    if (eReference == XSDPackage.Literals.XSD_PARTICLE__CONTENT)
     {
       patchHelper();
       traverseToRootForPatching();
@@ -732,7 +732,7 @@ public class XSDParticleImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDParticle_Content())
+    if (eReference == XSDPackage.Literals.XSD_PARTICLE__CONTENT)
     {
       patchHelper();
       traverseToRootForPatching();

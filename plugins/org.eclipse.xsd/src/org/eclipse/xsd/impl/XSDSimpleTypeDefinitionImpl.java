@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.14 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.15 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1660,9 +1660,9 @@ public class XSDSimpleTypeDefinitionImpl
 
   protected Node getAdoptionParentNode(EReference eReference)
   {
-    if (eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_FacetContents() ||
-          eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_Contents() ||
-          eReference == XSDPackage.eINSTANCE.getXSDTypeDefinition_DerivationAnnotation()) 
+    if (eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__FACET_CONTENTS ||
+          eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__CONTENTS ||
+          eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION) 
     {
       for (Node child = getElement().getFirstChild(); child != null; child = child.getNextSibling())
       {
@@ -1747,9 +1747,9 @@ public class XSDSimpleTypeDefinitionImpl
   {
     if (!newContents.isEmpty() && ((XSDConcreteComponent)newContents.get(0)).getElement().getParentNode() == getElement())
     {
-      handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDTypeDefinition_Annotation(), newContents, remainingContents);
+      handleAnnotationReconciliation(XSDPackage.Literals.XSD_TYPE_DEFINITION__ANNOTATION, newContents, remainingContents);
     }
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDTypeDefinition_DerivationAnnotation(), newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION, newContents, remainingContents);
 
     XSDSimpleTypeDefinition newBaseTypeDefinition = null;
     XSDTypeDefinition newComplexBaseTypeDefinition = null;
@@ -1932,7 +1932,7 @@ public class XSDSimpleTypeDefinitionImpl
   {
     super.changeAttribute(eAttribute);
     Element theElement = getElement();
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_LexicalFinal())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__LEXICAL_FINAL)
     {
       if (theElement != null)
       {
@@ -1946,7 +1946,7 @@ public class XSDSimpleTypeDefinitionImpl
         traverseToRootForPatching();
       }
     }
-    if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_Variety())
+    if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__VARIETY)
     {
       if (theElement != null && eAttribute != null) 
       {
@@ -1984,7 +1984,7 @@ public class XSDSimpleTypeDefinitionImpl
     Element theElement = getElement();
     if (theElement != null)
     {
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_BaseTypeDefinition())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__BASE_TYPE_DEFINITION)
       {
         if (!isReconciling && eReference != null)
         {
@@ -2012,7 +2012,7 @@ public class XSDSimpleTypeDefinitionImpl
           }
         }
       }
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_ItemTypeDefinition())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__ITEM_TYPE_DEFINITION)
       {
         if (!isReconciling && eReference != null)
         {
@@ -2036,7 +2036,7 @@ public class XSDSimpleTypeDefinitionImpl
           }
         }
       }
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_MemberTypeDefinitions())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__MEMBER_TYPE_DEFINITIONS)
       {
         if (!isReconciling && eReference != null)
         {
@@ -2087,16 +2087,16 @@ public class XSDSimpleTypeDefinitionImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_Contents() ||
-          eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_FacetContents())
+    if (eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__CONTENTS ||
+          eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__FACET_CONTENTS)
     {
       traverseToRootForPatching();
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDTypeDefinition_Annotation())
+    else if (eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__ANNOTATION)
     {
       getAnnotations().add(0, xsdConcreteComponent);
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDTypeDefinition_DerivationAnnotation())
+    else if (eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION)
     {
       getAnnotations().add(xsdConcreteComponent);
     }
@@ -2105,13 +2105,13 @@ public class XSDSimpleTypeDefinitionImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_Contents() || 
-          eReference == XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_FacetContents())
+    if (eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__CONTENTS || 
+          eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__FACET_CONTENTS)
     {
       traverseToRootForPatching();
     }
-    else if (eReference == XSDPackage.eINSTANCE.getXSDTypeDefinition_Annotation() ||
-               eReference == XSDPackage.eINSTANCE.getXSDTypeDefinition_DerivationAnnotation())
+    else if (eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__ANNOTATION ||
+               eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION)
     {
       getAnnotations().remove(xsdConcreteComponent);
     }
@@ -2885,7 +2885,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
     return 
       new EcoreEList.UnmodifiableEList.FastCompare
-        (this, XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_EnumerationFacets(), result.size(), result.toArray());
+        (this, XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__ENUMERATION_FACETS, result.size(), result.toArray());
   }
 
   public XSDEnumerationFacet getEffectiveEnumerationFacet()
@@ -2914,7 +2914,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
     return 
       new EcoreEList.UnmodifiableEList.FastCompare
-        (this, XSDPackage.eINSTANCE.getXSDSimpleTypeDefinition_PatternFacets(), result.size(), result.toArray());
+        (this, XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__PATTERN_FACETS, result.size(), result.toArray());
   }
 
   public XSDPatternFacet getEffectivePatternFacet()

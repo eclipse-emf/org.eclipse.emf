@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.9 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.10 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -593,7 +593,7 @@ public class XSDAttributeGroupDefinitionImpl
 
   protected void handleReconciliation(List newContents, List remainingContents)
   {
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDAttributeGroupDefinition_Annotation(), newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION, newContents, remainingContents);
   
     XSDWildcard newAttributeWildcard = null;
     if (!newContents.isEmpty())
@@ -650,7 +650,7 @@ public class XSDAttributeGroupDefinitionImpl
     Element theElement = getElement();
     if (theElement != null)
     {
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDAttributeGroupDefinition_ResolvedAttributeGroupDefinition())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_ATTRIBUTE_GROUP_DEFINITION__RESOLVED_ATTRIBUTE_GROUP_DEFINITION)
       {
         XSDAttributeGroupDefinition theResolvedAttributeGroupDefinition = getResolvedAttributeGroupDefinition();
         if (theResolvedAttributeGroupDefinition != this)
@@ -664,7 +664,7 @@ public class XSDAttributeGroupDefinitionImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDAttributeGroupDefinition_Contents())
+    if (eReference == XSDPackage.Literals.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTENTS)
     {
       traverseToRootForPatching();
     }
@@ -673,7 +673,7 @@ public class XSDAttributeGroupDefinitionImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDAttributeGroupDefinition_Contents())
+    if (eReference == XSDPackage.Literals.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTENTS)
     {
       traverseToRootForPatching();
     }

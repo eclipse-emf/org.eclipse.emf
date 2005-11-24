@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.12 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.13 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1205,7 +1205,7 @@ public class XSDElementDeclarationImpl
 
   protected void handleReconciliation(List newContents, List remainingContents)
   {
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDElementDeclaration_Annotation(), newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_ELEMENT_DECLARATION__ANNOTATION, newContents, remainingContents);
 
     if (!isElementDeclarationReference())
     {
@@ -1268,22 +1268,22 @@ public class XSDElementDeclarationImpl
         Element theElement = getElement();
         if (theElement != null)
         {
-          if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDElementDeclaration_Abstract())
+          if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__ABSTRACT)
           {
             niceSetAttribute(theElement, XSDConstants.ABSTRACT_ATTRIBUTE, isSetAbstract() ? isAbstract() ? "true" : "false" : null);
           }
-          if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDElementDeclaration_Nillable())
+          if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__NILLABLE)
           {
             niceSetAttribute(theElement, XSDConstants.NILLABLE_ATTRIBUTE, isSetNillable() ? isNillable() ? "true" : "false" : null);
           }
-          if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDFeature_Form())
+          if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_FEATURE__FORM)
           {
             if (!(getScope() instanceof XSDSchema))
             {
               niceSetAttribute(theElement, XSDConstants.FORM_ATTRIBUTE, isSetForm() ? getForm().getName() : null);
             }
           }
-          if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDElementDeclaration_LexicalFinal())
+          if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__LEXICAL_FINAL)
           {
             if (theElement != null)
             {
@@ -1298,7 +1298,7 @@ public class XSDElementDeclarationImpl
             }
           }
 
-          if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDElementDeclaration_Block())
+          if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__BLOCK)
           {
             if (theElement != null)
             {
@@ -1314,7 +1314,7 @@ public class XSDElementDeclarationImpl
           }
         }
       }
-      if (eAttribute == XSDPackage.eINSTANCE.getXSDFeature_Form())
+      if (eAttribute == XSDPackage.Literals.XSD_FEATURE__FORM)
       {
         patchTargetNamespaceAttribute();
       }
@@ -1328,7 +1328,7 @@ public class XSDElementDeclarationImpl
     Object oldValue = msg.getOldValue();
     Object newValue = msg.getNewValue();
 
-    if (feature == XSDPackage.eINSTANCE.getXSDElementDeclaration_SubstitutionGroupAffiliation())
+    if (feature == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP_AFFILIATION)
     {
       switch (eventType)
       {
@@ -1385,7 +1385,7 @@ public class XSDElementDeclarationImpl
     Element theElement = getElement();
     if (isElementDeclarationReference())
     {
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDElementDeclaration_ResolvedElementDeclaration())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__RESOLVED_ELEMENT_DECLARATION)
       {
         XSDElementDeclaration theResolvedElementDeclaration = getResolvedElementDeclaration();
         if (theElement != null)
@@ -1400,12 +1400,12 @@ public class XSDElementDeclarationImpl
     }
     else
     {
-      if (theElement != null && eReference == XSDPackage.eINSTANCE.getXSDElementDeclaration_ResolvedElementDeclaration())
+      if (theElement != null && eReference == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__RESOLVED_ELEMENT_DECLARATION)
       {
         niceSetAttributeURIValue(theElement, XSDConstants.REF_ATTRIBUTE, null);
       }
       
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDElementDeclaration_TypeDefinition())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__TYPE_DEFINITION)
       {
         XSDTypeDefinition theTypeDefinition = getTypeDefinition();
         XSDTypeDefinition theAnonymousTypeDefinition = getAnonymousTypeDefinition();
@@ -1432,7 +1432,7 @@ public class XSDElementDeclarationImpl
           }
         }
       }
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDElementDeclaration_SubstitutionGroupAffiliation())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP_AFFILIATION)
       {
         if (theElement != null)
         {
@@ -1453,7 +1453,7 @@ public class XSDElementDeclarationImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDElementDeclaration_AnonymousTypeDefinition())
+    if (eReference == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__ANONYMOUS_TYPE_DEFINITION)
     {
       setTypeDefinition((XSDTypeDefinition)xsdConcreteComponent);
     }
@@ -1462,7 +1462,7 @@ public class XSDElementDeclarationImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDElementDeclaration_AnonymousTypeDefinition())
+    if (eReference == XSDPackage.Literals.XSD_ELEMENT_DECLARATION__ANONYMOUS_TYPE_DEFINITION)
     {
       if (getTypeDefinition() == xsdConcreteComponent)
       {

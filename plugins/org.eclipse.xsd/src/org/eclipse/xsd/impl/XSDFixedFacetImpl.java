@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFixedFacetImpl.java,v 1.7 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDFixedFacetImpl.java,v 1.8 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -483,7 +483,7 @@ public abstract class XSDFixedFacetImpl
     super.changeAttribute(eAttribute);
     if (!isReconciling)
     {
-      if (eAttribute == null || eAttribute == XSDPackage.eINSTANCE.getXSDFixedFacet_Fixed())
+      if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_FIXED_FACET__FIXED)
       {
         Element theElement = getElement();
         if (theElement != null)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.10 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.11 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1074,7 +1074,7 @@ public abstract class XSDConcreteComponentImpl
     if (eClass().getEAllReferences().contains(feature))
     {
       EReference eReference = (EReference)feature;
-      if (feature == XSDPackage.eINSTANCE.getXSDConcreteComponent_Diagnostics())
+      if (feature == XSDPackage.Literals.XSD_CONCRETE_COMPONENT__DIAGNOSTICS)
       {
         switch (eventType)
         {
@@ -1226,7 +1226,7 @@ public abstract class XSDConcreteComponentImpl
 
   protected void changeAttribute(EAttribute eAttribute)
   {
-    if (eAttribute == XSDPackage.eINSTANCE.getXSDConcreteComponent_Element())
+    if (eAttribute == XSDPackage.Literals.XSD_CONCRETE_COMPONENT__ELEMENT)
     {
       Element theElement = getElement();
       if (theElement != null && !isReconciling)
@@ -1256,7 +1256,7 @@ public abstract class XSDConcreteComponentImpl
 
   protected void changeReference(EReference eReference)
   {
-    if (eReference == XSDPackage.eINSTANCE.getXSDConcreteComponent_Diagnostics())
+    if (eReference == XSDPackage.Literals.XSD_CONCRETE_COMPONENT__DIAGNOSTICS)
     {
     }
   }

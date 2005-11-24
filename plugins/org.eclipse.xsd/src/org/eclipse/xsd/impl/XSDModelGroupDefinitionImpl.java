@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.9 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.10 2005/11/24 19:06:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -395,7 +395,7 @@ public class XSDModelGroupDefinitionImpl
 
   protected void handleReconciliation(List newContents, List remainingContents)
   {
-    handleAnnotationReconciliation(XSDPackage.eINSTANCE.getXSDModelGroupDefinition_Annotation(), newContents, remainingContents);
+    handleAnnotationReconciliation(XSDPackage.Literals.XSD_MODEL_GROUP_DEFINITION__ANNOTATION, newContents, remainingContents);
 
     if (remainingContents.remove(getModelGroup()))
     {
@@ -414,7 +414,7 @@ public class XSDModelGroupDefinitionImpl
     Element theElement = getElement();
     if (theElement != null)
     {
-      if (eReference == null || eReference == XSDPackage.eINSTANCE.getXSDModelGroupDefinition_ResolvedModelGroupDefinition())
+      if (eReference == null || eReference == XSDPackage.Literals.XSD_MODEL_GROUP_DEFINITION__RESOLVED_MODEL_GROUP_DEFINITION)
       {
         XSDModelGroupDefinition theResolvedModelGroupDefinition = getResolvedModelGroupDefinition();
         if (theResolvedModelGroupDefinition != this)
@@ -433,7 +433,7 @@ public class XSDModelGroupDefinitionImpl
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDModelGroupDefinition_ModelGroup())
+    if (eReference == XSDPackage.Literals.XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP)
     {
       traverseToRootForPatching();
     }
@@ -442,7 +442,7 @@ public class XSDModelGroupDefinitionImpl
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
-    if (eReference == XSDPackage.eINSTANCE.getXSDModelGroupDefinition_ModelGroup())
+    if (eReference == XSDPackage.Literals.XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP)
     {
       traverseToRootForPatching();
     }
