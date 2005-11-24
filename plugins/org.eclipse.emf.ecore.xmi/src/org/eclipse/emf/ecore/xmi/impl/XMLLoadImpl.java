@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.10 2005/11/22 19:36:04 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.11 2005/11/24 19:51:38 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -458,7 +458,7 @@ public class XMLLoadImpl implements XMLLoad
     
     Node parent = element.getParentNode(); 
     // record namespaces in scope
-    while (parent.getNodeType() != Node.DOCUMENT_NODE)
+    while (parent != null && parent.getNodeType() != Node.DOCUMENT_NODE)
     {
       if (parent.hasAttributes())
       {
