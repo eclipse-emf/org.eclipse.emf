@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.15 2005/11/22 22:33:41 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.16 2005/11/24 20:19:23 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1231,7 +1231,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
    * @param index the {@link #eVirtualIndex(int, int) index} in the {@link #eVirtualValues() virtual values}.
    * @return the value at the index.
    */
-  protected Object eVirtualGetValue(int index)
+  protected Object eVirtualValue(int index)
   {
     return eVirtualValues()[index];
   }
@@ -1241,15 +1241,22 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
    * @param index the {@link #eVirtualIndex(int, int) index} in the {@link #eVirtualValues() virtual values}.
    * @return the previous value at the index.
    */
-  protected Object eVirtualSetValue(int index, Object value)
+  protected Object eSetVirtualValue(int index, Object value)
   {
     Object[] values = eVirtualValues();
     Object oldValue = values[index];
     values[index] = value;
     return oldValue;
   }
-  
-  protected int eVirtualGrow(int minimumCapacity)
+
+  /**
+   * This method controls the growth of the {@link #eVirtualValues() virtual values} by returning the new capacity
+   * that should be allocated for the given minimum required capacity. Subclasses can override this to be more or
+   * less liberal in growth.
+   * @param minimumCapacity the minimum number of virtual value entries required.
+   * @return the actual number of entries to allocate space for, including a growth factor.
+   */
+  protected int eComputeVirtualValuesCapacity(int minimumCapacity)
   {
     // return minimumCapacity;
     return minimumCapacity + (minimumCapacity >> 3) + 2;
@@ -1259,12 +1266,12 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
    * Adds the value at the index.
    * @param index the {@link #eVirtualIndex(int, int) index} in the {@link #eVirtualValues() virtual values}.
    */
-  protected void eVirtualAddValue(int index, Object value)
+  protected void eAddVirtualValue(int index, Object value)
   {
     Object[] values = eVirtualValues();
     if (values == null)
     {
-      int newLength = eVirtualGrow(1);
+      int newLength = eComputeVirtualValuesCapacity(1);
       values = new Object [newLength];
       values[0] = value;
       for (int i = 1; i < newLength; ++i)
@@ -1287,7 +1294,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       }
       else
       {
-        int newLength = eVirtualGrow(length + 1);
+        int newLength = eComputeVirtualValuesCapacity(length + 1);
         Object[] newValues = new Object [newLength];
   
         for (int i = length; ++i < newLength;)
@@ -1316,7 +1323,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
    * @param index the {@link #eVirtualIndex(int, int) index} in the {@link #eVirtualValues() virtual values}.
    * @return the value at the index.
    */
-  protected Object eVirtualRemoveValue(int index)
+  protected Object eRemoveVirtualValue(int index)
   {
     Object[] values = eVirtualValues();
     Object oldValue = values[index];
@@ -1357,7 +1364,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     // Determine the index for the feature and return the value at that index, if an index is assigned.
     //
     int index = eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_GET);
-    return index < 0 ? defaultValue : eVirtualGetValue(index);
+    return index < 0 ? defaultValue : eVirtualValue(index);
   }
 
   /**
@@ -1388,14 +1395,14 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     {
       // If it's newly allocated, add a new value, and indicate there was no previous value.
       //
-      eVirtualAddValue(~index, value);
+      eAddVirtualValue(~index, value);
       return EVIRTUAL_NO_VALUE;
     }
     else
     {
       // Set the value at the previously allocated index and return the previous value there.
       //
-      return eVirtualSetValue(index, value);
+      return eSetVirtualValue(index, value);
     }
   }
   
@@ -1413,7 +1420,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     }
     else
     {
-      return eVirtualRemoveValue(index);
+      return eRemoveVirtualValue(index);
     }
   }
   
