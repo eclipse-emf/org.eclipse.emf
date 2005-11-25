@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.7 2005/11/25 15:36:20 emerks Exp $
+ * $Id: EAnnotationImpl.java,v 1.8 2005/11/25 17:49:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -239,7 +239,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
           msgs = eBasicRemoveFromContainer(msgs);
         return eBasicSetContainer(otherEnd, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
     }
-    return eDynamicInverseAdd(otherEnd, featureID, null, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -260,7 +260,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
       case EcorePackage.EANNOTATION__CONTENTS:
         return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AnyTypeImpl.java,v 1.6 2005/11/25 15:36:20 emerks Exp $
+ * $Id: AnyTypeImpl.java,v 1.7 2005/11/25 17:49:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -137,7 +137,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
       case XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE:
         return ((InternalEList)getAnyAttribute()).basicRemove(otherEnd, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**

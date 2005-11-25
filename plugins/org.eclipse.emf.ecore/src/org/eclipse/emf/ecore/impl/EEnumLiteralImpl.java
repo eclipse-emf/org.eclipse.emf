@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.10 2005/11/25 15:36:20 emerks Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.11 2005/11/25 17:49:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -248,7 +248,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
           msgs = eBasicRemoveFromContainer(msgs);
         return eBasicSetContainer(otherEnd, EcorePackage.EENUM_LITERAL__EENUM, msgs);
     }
-    return eDynamicInverseAdd(otherEnd, featureID, null, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -265,7 +265,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
       case EcorePackage.EENUM_LITERAL__EENUM:
         return eBasicSetContainer(null, EcorePackage.EENUM_LITERAL__EENUM, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**

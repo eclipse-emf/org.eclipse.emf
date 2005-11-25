@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRootImpl.java,v 1.8 2005/11/25 15:36:20 emerks Exp $
+ * $Id: XMLTypeDocumentRootImpl.java,v 1.9 2005/11/25 17:49:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -211,7 +211,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
         return ((InternalEList)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**

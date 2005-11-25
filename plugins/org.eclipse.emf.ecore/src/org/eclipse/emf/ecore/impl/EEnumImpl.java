@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.12 2005/11/25 15:36:20 emerks Exp $
+ * $Id: EEnumImpl.java,v 1.13 2005/11/25 17:49:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -306,7 +306,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
       case EcorePackage.EENUM__ELITERALS:
         return ((InternalEList)getELiterals()).basicAdd(otherEnd, msgs);
     }
-    return eDynamicInverseAdd(otherEnd, featureID, null, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -325,7 +325,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
       case EcorePackage.EENUM__ELITERALS:
         return ((InternalEList)getELiterals()).basicRemove(otherEnd, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
 }

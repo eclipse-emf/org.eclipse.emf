@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.22 2005/11/25 15:36:20 emerks Exp $
+ * $Id: EClassImpl.java,v 1.23 2005/11/25 17:49:48 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -779,7 +779,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       case EcorePackage.ECLASS__ESTRUCTURAL_FEATURES:
         return ((InternalEList)getEStructuralFeatures()).basicAdd(otherEnd, msgs);
     }
-    return eDynamicInverseAdd(otherEnd, featureID, null, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -800,7 +800,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       case EcorePackage.ECLASS__ESTRUCTURAL_FEATURES:
         return ((InternalEList)getEStructuralFeatures()).basicRemove(otherEnd, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   protected EStructuralFeature[] getEAllStructuralFeaturesData()

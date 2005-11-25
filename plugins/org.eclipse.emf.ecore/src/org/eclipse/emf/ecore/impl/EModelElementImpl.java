@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.9 2005/11/25 15:36:20 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.10 2005/11/25 17:49:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -168,7 +168,7 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
       case EcorePackage.EMODEL_ELEMENT__EANNOTATIONS:
         return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
     }
-    return eDynamicInverseAdd(otherEnd, featureID, null, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -183,7 +183,7 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
       case EcorePackage.EMODEL_ELEMENT__EANNOTATIONS:
         return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
