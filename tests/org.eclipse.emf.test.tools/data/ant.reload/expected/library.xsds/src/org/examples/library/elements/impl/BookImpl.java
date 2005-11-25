@@ -370,7 +370,7 @@ public class BookImpl extends EObjectImpl implements Book
       case ElementsPackage.BOOK__UUID:
         return getUuid();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -398,7 +398,7 @@ public class BookImpl extends EObjectImpl implements Book
         setUuid((byte[])newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -426,7 +426,7 @@ public class BookImpl extends EObjectImpl implements Book
         setUuid(UUID_EDEFAULT);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -449,7 +449,7 @@ public class BookImpl extends EObjectImpl implements Book
       case ElementsPackage.BOOK__UUID:
         return UUID_EDEFAULT == null ? uuid != null : !UUID_EDEFAULT.equals(uuid);
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

@@ -197,21 +197,14 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case LibraryPackage.LIBRARY__EMPLOYEES:
-          return ((InternalEList)getEmployees()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case LibraryPackage.LIBRARY__EMPLOYEES:
+        return ((InternalEList)getEmployees()).basicAdd(otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -219,23 +212,18 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case LibraryPackage.LIBRARY__WRITERS:
-          return ((InternalEList)getWriters()).basicRemove(otherEnd, msgs);
-        case LibraryPackage.LIBRARY__BOOKS:
-          return ((InternalEList)getBooks()).basicRemove(otherEnd, msgs);
-        case LibraryPackage.LIBRARY__EMPLOYEES:
-          return ((InternalEList)getEmployees()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case LibraryPackage.LIBRARY__WRITERS:
+        return ((InternalEList)getWriters()).basicRemove(otherEnd, msgs);
+      case LibraryPackage.LIBRARY__BOOKS:
+        return ((InternalEList)getBooks()).basicRemove(otherEnd, msgs);
+      case LibraryPackage.LIBRARY__EMPLOYEES:
+        return ((InternalEList)getEmployees()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -256,7 +244,7 @@ public class LibraryImpl extends EObjectImpl implements Library
       case LibraryPackage.LIBRARY__EMPLOYEES:
         return getEmployees();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -284,7 +272,7 @@ public class LibraryImpl extends EObjectImpl implements Library
         getEmployees().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -309,7 +297,7 @@ public class LibraryImpl extends EObjectImpl implements Library
         getEmployees().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -330,7 +318,7 @@ public class LibraryImpl extends EObjectImpl implements Library
       case LibraryPackage.LIBRARY__EMPLOYEES:
         return employees != null && !employees.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

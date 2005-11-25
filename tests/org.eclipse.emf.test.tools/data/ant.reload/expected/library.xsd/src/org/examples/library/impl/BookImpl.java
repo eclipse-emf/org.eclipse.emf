@@ -349,23 +349,16 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case LibraryPackage.BOOK__AUTHOR:
-          if (author != null)
-            msgs = ((InternalEObject)author).eInverseRemove(this, LibraryPackage.WRITER__BOOKS, Writer.class, msgs);
-          return basicSetAuthor((Writer)otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case LibraryPackage.BOOK__AUTHOR:
+        if (author != null)
+          msgs = ((InternalEObject)author).eInverseRemove(this, LibraryPackage.WRITER__BOOKS, Writer.class, msgs);
+        return basicSetAuthor((Writer)otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -373,19 +366,14 @@ public class BookImpl extends EObjectImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case LibraryPackage.BOOK__AUTHOR:
-          return basicSetAuthor(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case LibraryPackage.BOOK__AUTHOR:
+        return basicSetAuthor(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -407,7 +395,7 @@ public class BookImpl extends EObjectImpl implements Book
         if (resolve) return getAuthor();
         return basicGetAuthor();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -432,7 +420,7 @@ public class BookImpl extends EObjectImpl implements Book
         setAuthor((Writer)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -457,7 +445,7 @@ public class BookImpl extends EObjectImpl implements Book
         setAuthor((Writer)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -478,7 +466,7 @@ public class BookImpl extends EObjectImpl implements Book
       case LibraryPackage.BOOK__AUTHOR:
         return author != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

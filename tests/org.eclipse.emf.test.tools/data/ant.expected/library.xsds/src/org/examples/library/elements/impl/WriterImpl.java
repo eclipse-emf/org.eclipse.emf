@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.4 2005/11/23 18:14:51 emerks Exp $
+ * $Id: WriterImpl.java,v 1.5 2005/11/25 13:14:10 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -146,7 +146,7 @@ public class WriterImpl extends EObjectImpl implements Writer
       case ElementsPackage.WRITER__BOOKS:
         return getBooks();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -166,7 +166,7 @@ public class WriterImpl extends EObjectImpl implements Writer
         getBooks().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -185,7 +185,7 @@ public class WriterImpl extends EObjectImpl implements Writer
         getBooks().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -202,7 +202,7 @@ public class WriterImpl extends EObjectImpl implements Writer
       case ElementsPackage.WRITER__BOOKS:
         return books != null && !books.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

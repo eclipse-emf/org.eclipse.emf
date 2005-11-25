@@ -99,23 +99,14 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case LibraryPackage.WRITER__LIBRARY:
-          return ((InternalEList)getLibrary()).basicAdd(otherEnd, msgs);
-        case LibraryPackage.WRITER__BOOKS:
-          return ((InternalEList)getBooks()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case LibraryPackage.WRITER__BOOKS:
+        return ((InternalEList)getBooks()).basicAdd(otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -123,21 +114,14 @@ public class WriterImpl extends PersonImpl implements Writer
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case LibraryPackage.WRITER__LIBRARY:
-          return ((InternalEList)getLibrary()).basicRemove(otherEnd, msgs);
-        case LibraryPackage.WRITER__BOOKS:
-          return ((InternalEList)getBooks()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case LibraryPackage.WRITER__BOOKS:
+        return ((InternalEList)getBooks()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -149,14 +133,10 @@ public class WriterImpl extends PersonImpl implements Writer
   {
     switch (featureID)
     {
-      case LibraryPackage.WRITER__NAME:
-        return getName();
-      case LibraryPackage.WRITER__LIBRARY:
-        return getLibrary();
       case LibraryPackage.WRITER__BOOKS:
         return getBooks();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -168,19 +148,12 @@ public class WriterImpl extends PersonImpl implements Writer
   {
     switch (featureID)
     {
-      case LibraryPackage.WRITER__NAME:
-        setName((String)newValue);
-        return;
-      case LibraryPackage.WRITER__LIBRARY:
-        getLibrary().clear();
-        getLibrary().addAll((Collection)newValue);
-        return;
       case LibraryPackage.WRITER__BOOKS:
         getBooks().clear();
         getBooks().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -192,17 +165,11 @@ public class WriterImpl extends PersonImpl implements Writer
   {
     switch (featureID)
     {
-      case LibraryPackage.WRITER__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case LibraryPackage.WRITER__LIBRARY:
-        getLibrary().clear();
-        return;
       case LibraryPackage.WRITER__BOOKS:
         getBooks().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -214,14 +181,10 @@ public class WriterImpl extends PersonImpl implements Writer
   {
     switch (featureID)
     {
-      case LibraryPackage.WRITER__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case LibraryPackage.WRITER__LIBRARY:
-        return library != null && !library.isEmpty();
       case LibraryPackage.WRITER__BOOKS:
         return books != null && !books.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
 } //WriterImpl

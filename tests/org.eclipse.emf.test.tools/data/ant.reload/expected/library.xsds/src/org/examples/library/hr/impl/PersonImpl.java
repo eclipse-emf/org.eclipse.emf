@@ -190,23 +190,16 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case HrPackage.PERSON__LIBRARY:
-          if (library != null)
-            msgs = ((InternalEObject)library).eInverseRemove(this, LibraryPackage.LIBRARY__EMPLOYEES, Library.class, msgs);
-          return basicSetLibrary((Library)otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case HrPackage.PERSON__LIBRARY:
+        if (library != null)
+          msgs = ((InternalEObject)library).eInverseRemove(this, LibraryPackage.LIBRARY__EMPLOYEES, Library.class, msgs);
+        return basicSetLibrary((Library)otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -214,19 +207,14 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case HrPackage.PERSON__LIBRARY:
-          return basicSetLibrary(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case HrPackage.PERSON__LIBRARY:
+        return basicSetLibrary(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -244,7 +232,7 @@ public class PersonImpl extends EObjectImpl implements Person
         if (resolve) return getLibrary();
         return basicGetLibrary();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -263,7 +251,7 @@ public class PersonImpl extends EObjectImpl implements Person
         setLibrary((Library)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -282,7 +270,7 @@ public class PersonImpl extends EObjectImpl implements Person
         setLibrary((Library)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -299,7 +287,7 @@ public class PersonImpl extends EObjectImpl implements Person
       case HrPackage.PERSON__LIBRARY:
         return library != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

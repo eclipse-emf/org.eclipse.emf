@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.4 2005/11/23 18:14:51 emerks Exp $
+ * $Id: BookImpl.java,v 1.5 2005/11/25 13:14:10 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -324,7 +324,7 @@ public class BookImpl extends EObjectImpl implements Book
       case ElementsPackage.BOOK__AUTHOR:
         return getAuthor();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -349,7 +349,7 @@ public class BookImpl extends EObjectImpl implements Book
         setAuthor((String)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -374,7 +374,7 @@ public class BookImpl extends EObjectImpl implements Book
         setAuthor(AUTHOR_EDEFAULT);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -395,7 +395,7 @@ public class BookImpl extends EObjectImpl implements Book
       case ElementsPackage.BOOK__AUTHOR:
         return AUTHOR_EDEFAULT == null ? author != null : !AUTHOR_EDEFAULT.equals(author);
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

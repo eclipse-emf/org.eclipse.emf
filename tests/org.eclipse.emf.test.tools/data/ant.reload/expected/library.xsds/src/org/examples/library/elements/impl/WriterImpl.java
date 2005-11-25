@@ -19,8 +19,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 
-import org.examples.library.Library;
-
 import org.examples.library.elements.ElementsPackage;
 import org.examples.library.elements.Writer;
 
@@ -101,15 +99,10 @@ public class WriterImpl extends PersonImpl implements Writer
   {
     switch (featureID)
     {
-      case ElementsPackage.WRITER__NAME:
-        return getName();
-      case ElementsPackage.WRITER__LIBRARY:
-        if (resolve) return getLibrary();
-        return basicGetLibrary();
       case ElementsPackage.WRITER__BOOKS:
         return getBooks();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -121,18 +114,12 @@ public class WriterImpl extends PersonImpl implements Writer
   {
     switch (featureID)
     {
-      case ElementsPackage.WRITER__NAME:
-        setName((String)newValue);
-        return;
-      case ElementsPackage.WRITER__LIBRARY:
-        setLibrary((Library)newValue);
-        return;
       case ElementsPackage.WRITER__BOOKS:
         getBooks().clear();
         getBooks().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -144,17 +131,11 @@ public class WriterImpl extends PersonImpl implements Writer
   {
     switch (featureID)
     {
-      case ElementsPackage.WRITER__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case ElementsPackage.WRITER__LIBRARY:
-        setLibrary((Library)null);
-        return;
       case ElementsPackage.WRITER__BOOKS:
         getBooks().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -166,14 +147,10 @@ public class WriterImpl extends PersonImpl implements Writer
   {
     switch (featureID)
     {
-      case ElementsPackage.WRITER__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case ElementsPackage.WRITER__LIBRARY:
-        return library != null;
       case ElementsPackage.WRITER__BOOKS:
         return books != null && !books.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

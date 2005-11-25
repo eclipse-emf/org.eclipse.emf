@@ -211,21 +211,16 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case LibraryPackage.LIBRARY__WRITERS:
-          return ((InternalEList)getWriters()).basicRemove(otherEnd, msgs);
-        case LibraryPackage.LIBRARY__BOOKS:
-          return ((InternalEList)getBooks()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case LibraryPackage.LIBRARY__WRITERS:
+        return ((InternalEList)getWriters()).basicRemove(otherEnd, msgs);
+      case LibraryPackage.LIBRARY__BOOKS:
+        return ((InternalEList)getBooks()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -246,7 +241,7 @@ public class LibraryImpl extends EObjectImpl implements Library
       case LibraryPackage.LIBRARY__BOOKS:
         return getBooks();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -273,7 +268,7 @@ public class LibraryImpl extends EObjectImpl implements Library
         getBooks().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -298,7 +293,7 @@ public class LibraryImpl extends EObjectImpl implements Library
         getBooks().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -319,7 +314,7 @@ public class LibraryImpl extends EObjectImpl implements Library
       case LibraryPackage.LIBRARY__BOOKS:
         return books != null && !books.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**
