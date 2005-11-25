@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JModelElementImpl.java,v 1.5 2005/11/23 18:09:54 emerks Exp $
+ * $Id: JModelElementImpl.java,v 1.6 2005/11/25 13:13:06 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -189,7 +189,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
       case JavaPackage.JMODEL_ELEMENT__JNODE:
         return getJNode();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -208,7 +208,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
         setJNode((Object)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -227,7 +227,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
         setJNode(JNODE_EDEFAULT);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -244,7 +244,7 @@ public abstract class JModelElementImpl extends EObjectImpl implements JModelEle
       case JavaPackage.JMODEL_ELEMENT__JNODE:
         return JNODE_EDEFAULT == null ? jNode != null : !JNODE_EDEFAULT.equals(jNode);
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

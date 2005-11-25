@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.21 2005/11/23 18:09:29 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.22 2005/11/25 13:11:55 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -199,25 +199,18 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case GenModelPackage.GEN_OPERATION__GEN_CLASS:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, GenModelPackage.GEN_OPERATION__GEN_CLASS, msgs);
-        case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
-          return ((InternalEList)getGenParameters()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case GenModelPackage.GEN_OPERATION__GEN_CLASS:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, GenModelPackage.GEN_OPERATION__GEN_CLASS, msgs);
+      case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
+        return ((InternalEList)getGenParameters()).basicAdd(otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -225,21 +218,16 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case GenModelPackage.GEN_OPERATION__GEN_CLASS:
-          return eBasicSetContainer(null, GenModelPackage.GEN_OPERATION__GEN_CLASS, msgs);
-        case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
-          return ((InternalEList)getGenParameters()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case GenModelPackage.GEN_OPERATION__GEN_CLASS:
+        return eBasicSetContainer(null, GenModelPackage.GEN_OPERATION__GEN_CLASS, msgs);
+      case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
+        return ((InternalEList)getGenParameters()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -247,19 +235,14 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case GenModelPackage.GEN_OPERATION__GEN_CLASS:
-          return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenClass.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case GenModelPackage.GEN_OPERATION__GEN_CLASS:
+        return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenClass.class, msgs);
     }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -279,7 +262,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
         return getGenParameters();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -302,7 +285,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         getGenParameters().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -324,7 +307,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         getGenParameters().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -343,7 +326,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
         return genParameters != null && !genParameters.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   public ETypedElement getEcoreTypedElement()

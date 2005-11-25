@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.9 2005/11/23 18:09:29 emerks Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.10 2005/11/25 13:11:55 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -164,23 +164,16 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -188,19 +181,14 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
-          return eBasicSetContainer(null, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
+        return eBasicSetContainer(null, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -208,19 +196,14 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
-          return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenEnum.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
+        return eInternalContainer().eInverseRemove(this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenEnum.class, msgs);
     }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -238,7 +221,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
         if (resolve) return getEcoreEnumLiteral();
         return basicGetEcoreEnumLiteral();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -257,7 +240,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
         setEcoreEnumLiteral((EEnumLiteral)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -276,7 +259,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
         setEcoreEnumLiteral((EEnumLiteral)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -293,7 +276,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
       case GenModelPackage.GEN_ENUM_LITERAL__ECORE_ENUM_LITERAL:
         return ecoreEnumLiteral != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   public String getName()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldImpl.java,v 1.6 2005/11/23 18:09:54 emerks Exp $
+ * $Id: JFieldImpl.java,v 1.7 2005/11/25 13:13:06 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.java.JClass;
 import org.eclipse.emf.java.JField;
-import org.eclipse.emf.java.JVisibility;
 import org.eclipse.emf.java.JavaPackage;
 import org.eclipse.emf.java.util.JavaUtil;
 
@@ -351,18 +350,6 @@ public class JFieldImpl extends JMemberImpl implements JField
   {
     switch (featureID)
     {
-      case JavaPackage.JFIELD__NAME:
-        return getName();
-      case JavaPackage.JFIELD__JNODE:
-        return getJNode();
-      case JavaPackage.JFIELD__STATIC:
-        return isStatic() ? Boolean.TRUE : Boolean.FALSE;
-      case JavaPackage.JFIELD__VISIBILITY:
-        return getVisibility();
-      case JavaPackage.JFIELD__COMMENT:
-        return getComment();
-      case JavaPackage.JFIELD__CONTAINING_TYPE:
-        return getContainingType();
       case JavaPackage.JFIELD__FINAL:
         return isFinal() ? Boolean.TRUE : Boolean.FALSE;
       case JavaPackage.JFIELD__TRANSIENT:
@@ -377,7 +364,7 @@ public class JFieldImpl extends JMemberImpl implements JField
         if (resolve) return getType();
         return basicGetType();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -389,24 +376,6 @@ public class JFieldImpl extends JMemberImpl implements JField
   {
     switch (featureID)
     {
-      case JavaPackage.JFIELD__NAME:
-        setName((String)newValue);
-        return;
-      case JavaPackage.JFIELD__JNODE:
-        setJNode((Object)newValue);
-        return;
-      case JavaPackage.JFIELD__STATIC:
-        setStatic(((Boolean)newValue).booleanValue());
-        return;
-      case JavaPackage.JFIELD__VISIBILITY:
-        setVisibility((JVisibility)newValue);
-        return;
-      case JavaPackage.JFIELD__COMMENT:
-        setComment((String)newValue);
-        return;
-      case JavaPackage.JFIELD__CONTAINING_TYPE:
-        setContainingType((JClass)newValue);
-        return;
       case JavaPackage.JFIELD__FINAL:
         setFinal(((Boolean)newValue).booleanValue());
         return;
@@ -426,7 +395,7 @@ public class JFieldImpl extends JMemberImpl implements JField
         setType((JClass)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -438,24 +407,6 @@ public class JFieldImpl extends JMemberImpl implements JField
   {
     switch (featureID)
     {
-      case JavaPackage.JFIELD__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case JavaPackage.JFIELD__JNODE:
-        setJNode(JNODE_EDEFAULT);
-        return;
-      case JavaPackage.JFIELD__STATIC:
-        setStatic(STATIC_EDEFAULT);
-        return;
-      case JavaPackage.JFIELD__VISIBILITY:
-        setVisibility(VISIBILITY_EDEFAULT);
-        return;
-      case JavaPackage.JFIELD__COMMENT:
-        setComment(COMMENT_EDEFAULT);
-        return;
-      case JavaPackage.JFIELD__CONTAINING_TYPE:
-        setContainingType((JClass)null);
-        return;
       case JavaPackage.JFIELD__FINAL:
         setFinal(FINAL_EDEFAULT);
         return;
@@ -475,7 +426,7 @@ public class JFieldImpl extends JMemberImpl implements JField
         setType((JClass)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -487,18 +438,6 @@ public class JFieldImpl extends JMemberImpl implements JField
   {
     switch (featureID)
     {
-      case JavaPackage.JFIELD__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case JavaPackage.JFIELD__JNODE:
-        return JNODE_EDEFAULT == null ? jNode != null : !JNODE_EDEFAULT.equals(jNode);
-      case JavaPackage.JFIELD__STATIC:
-        return static_ != STATIC_EDEFAULT;
-      case JavaPackage.JFIELD__VISIBILITY:
-        return visibility != VISIBILITY_EDEFAULT;
-      case JavaPackage.JFIELD__COMMENT:
-        return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
-      case JavaPackage.JFIELD__CONTAINING_TYPE:
-        return getContainingType() != null;
       case JavaPackage.JFIELD__FINAL:
         return final_ != FINAL_EDEFAULT;
       case JavaPackage.JFIELD__TRANSIENT:
@@ -512,7 +451,7 @@ public class JFieldImpl extends JMemberImpl implements JField
       case JavaPackage.JFIELD__TYPE:
         return type != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

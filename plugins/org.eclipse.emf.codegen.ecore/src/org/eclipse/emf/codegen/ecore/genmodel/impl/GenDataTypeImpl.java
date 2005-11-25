@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.15 2005/11/23 18:09:29 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.16 2005/11/25 13:11:55 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -134,13 +134,11 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   {
     switch (featureID)
     {
-      case GenModelPackage.GEN_DATA_TYPE__GEN_PACKAGE:
-        return getGenPackage();
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         if (resolve) return getEcoreDataType();
         return basicGetEcoreDataType();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -156,7 +154,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
         setEcoreDataType((EDataType)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -172,7 +170,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
         setEcoreDataType((EDataType)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -184,12 +182,10 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   {
     switch (featureID)
     {
-      case GenModelPackage.GEN_DATA_TYPE__GEN_PACKAGE:
-        return getGenPackage() != null;
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         return ecoreDataType != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   public EClassifier getEcoreClassifier()

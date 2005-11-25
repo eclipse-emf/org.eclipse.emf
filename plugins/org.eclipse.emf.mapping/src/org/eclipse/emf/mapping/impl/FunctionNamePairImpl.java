@@ -12,20 +12,15 @@
  *
  * </copyright>
  *
- * $Id: FunctionNamePairImpl.java,v 1.6 2005/11/23 18:10:08 emerks Exp $
+ * $Id: FunctionNamePairImpl.java,v 1.7 2005/11/25 13:13:14 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.mapping.FunctionNamePair;
-import org.eclipse.emf.mapping.Mapping;
-import org.eclipse.emf.mapping.MappingHelper;
 import org.eclipse.emf.mapping.MappingPackage;
 
 
@@ -160,21 +155,12 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
   {
     switch (featureID)
     {
-      case MappingPackage.FUNCTION_NAME_PAIR__MAPPER:
-        return getMapper();
-      case MappingPackage.FUNCTION_NAME_PAIR__HELPED_OBJECT:
-        if (resolve) return getHelpedObject();
-        return basicGetHelpedObject();
-      case MappingPackage.FUNCTION_NAME_PAIR__NESTED_IN:
-        return getNestedIn();
-      case MappingPackage.FUNCTION_NAME_PAIR__NESTED:
-        return getNested();
       case MappingPackage.FUNCTION_NAME_PAIR__IN2OUT:
         return getIn2out();
       case MappingPackage.FUNCTION_NAME_PAIR__OUT2IN:
         return getOut2in();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -186,19 +172,6 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
   {
     switch (featureID)
     {
-      case MappingPackage.FUNCTION_NAME_PAIR__MAPPER:
-        setMapper((Mapping)newValue);
-        return;
-      case MappingPackage.FUNCTION_NAME_PAIR__HELPED_OBJECT:
-        setHelpedObject((EObject)newValue);
-        return;
-      case MappingPackage.FUNCTION_NAME_PAIR__NESTED_IN:
-        setNestedIn((MappingHelper)newValue);
-        return;
-      case MappingPackage.FUNCTION_NAME_PAIR__NESTED:
-        getNested().clear();
-        getNested().addAll((Collection)newValue);
-        return;
       case MappingPackage.FUNCTION_NAME_PAIR__IN2OUT:
         setIn2out((String)newValue);
         return;
@@ -206,7 +179,7 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
         setOut2in((String)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -218,18 +191,6 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
   {
     switch (featureID)
     {
-      case MappingPackage.FUNCTION_NAME_PAIR__MAPPER:
-        setMapper((Mapping)null);
-        return;
-      case MappingPackage.FUNCTION_NAME_PAIR__HELPED_OBJECT:
-        setHelpedObject((EObject)null);
-        return;
-      case MappingPackage.FUNCTION_NAME_PAIR__NESTED_IN:
-        setNestedIn((MappingHelper)null);
-        return;
-      case MappingPackage.FUNCTION_NAME_PAIR__NESTED:
-        getNested().clear();
-        return;
       case MappingPackage.FUNCTION_NAME_PAIR__IN2OUT:
         setIn2out(IN2OUT_EDEFAULT);
         return;
@@ -237,7 +198,7 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
         setOut2in(OUT2IN_EDEFAULT);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -249,20 +210,12 @@ public class FunctionNamePairImpl extends TypeConverterImpl implements FunctionN
   {
     switch (featureID)
     {
-      case MappingPackage.FUNCTION_NAME_PAIR__MAPPER:
-        return getMapper() != null;
-      case MappingPackage.FUNCTION_NAME_PAIR__HELPED_OBJECT:
-        return helpedObject != null;
-      case MappingPackage.FUNCTION_NAME_PAIR__NESTED_IN:
-        return getNestedIn() != null;
-      case MappingPackage.FUNCTION_NAME_PAIR__NESTED:
-        return nested != null && !nested.isEmpty();
       case MappingPackage.FUNCTION_NAME_PAIR__IN2OUT:
         return IN2OUT_EDEFAULT == null ? in2out != null : !IN2OUT_EDEFAULT.equals(in2out);
       case MappingPackage.FUNCTION_NAME_PAIR__OUT2IN:
         return OUT2IN_EDEFAULT == null ? out2in != null : !OUT2IN_EDEFAULT.equals(out2in);
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

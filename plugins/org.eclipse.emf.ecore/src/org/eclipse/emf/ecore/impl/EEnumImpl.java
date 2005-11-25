@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.10 2005/11/23 18:10:02 emerks Exp $
+ * $Id: EEnumImpl.java,v 1.11 2005/11/25 13:12:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -122,30 +122,6 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
       eLiterals = new EObjectContainmentWithInverseEList(EEnumLiteral.class, this, EcorePackage.EENUM__ELITERALS, EcorePackage.EENUM_LITERAL__EENUM);
     }
     return eLiterals;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EENUM__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
-        case EcorePackage.EENUM__EPACKAGE:
-          return eBasicSetContainer(null, EcorePackage.EENUM__EPACKAGE, msgs);
-        case EcorePackage.EENUM__ELITERALS:
-          return ((InternalEList)getELiterals()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
   }
 
   /**
@@ -317,27 +293,39 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EENUM__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
-        case EcorePackage.EENUM__EPACKAGE:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, EcorePackage.EENUM__EPACKAGE, msgs);
-        case EcorePackage.EENUM__ELITERALS:
-          return ((InternalEList)getELiterals()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case EcorePackage.EENUM__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+      case EcorePackage.EENUM__EPACKAGE:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, EcorePackage.EENUM__EPACKAGE, msgs);
+      case EcorePackage.EENUM__ELITERALS:
+        return ((InternalEList)getELiterals()).basicAdd(otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EENUM__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EENUM__EPACKAGE:
+        return eBasicSetContainer(null, EcorePackage.EENUM__EPACKAGE, msgs);
+      case EcorePackage.EENUM__ELITERALS:
+        return ((InternalEList)getELiterals()).basicRemove(otherEnd, msgs);
+    }
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapImpl.java,v 1.5 2005/11/23 18:09:44 emerks Exp $
+ * $Id: XMLMapImpl.java,v 1.6 2005/11/25 13:13:11 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -174,19 +174,14 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO:
-          return ((InternalEList)getEcoreToXMLInfo()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case Ecore2XMLPackage.XML_MAP__ECORE_TO_XML_INFO:
+        return ((InternalEList)getEcoreToXMLInfo()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -207,7 +202,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
         if (resolve) return getNoNamespacePackage();
         return basicGetNoNamespacePackage();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -229,7 +224,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
         setNoNamespacePackage((EPackage)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -251,7 +246,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
         setNoNamespacePackage((EPackage)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -270,7 +265,7 @@ public class XMLMapImpl extends EObjectImpl implements XMLMap
       case Ecore2XMLPackage.XML_MAP__NO_NAMESPACE_PACKAGE:
         return basicGetNoNamespacePackage() != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   protected class DelegateXMLMapImpl extends org.eclipse.emf.ecore.xmi.impl.XMLMapImpl

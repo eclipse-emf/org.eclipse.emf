@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.8 2005/11/23 18:10:02 emerks Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.9 2005/11/25 13:12:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -237,25 +237,18 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
-        case EcorePackage.EENUM_LITERAL__EENUM:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, EcorePackage.EENUM_LITERAL__EENUM, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+      case EcorePackage.EENUM_LITERAL__EENUM:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, EcorePackage.EENUM_LITERAL__EENUM, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -263,21 +256,16 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
-        case EcorePackage.EENUM_LITERAL__EENUM:
-          return eBasicSetContainer(null, EcorePackage.EENUM_LITERAL__EENUM, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EENUM_LITERAL__EENUM:
+        return eBasicSetContainer(null, EcorePackage.EENUM_LITERAL__EENUM, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -285,19 +273,14 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case EcorePackage.EENUM_LITERAL__EENUM:
-          return eInternalContainer().eInverseRemove(this, EcorePackage.EENUM__ELITERALS, EEnum.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case EcorePackage.EENUM_LITERAL__EENUM:
+        return eInternalContainer().eInverseRemove(this, EcorePackage.EENUM__ELITERALS, EEnum.class, msgs);
     }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eDynamicBasicRemoveFromContainer(msgs);
   }
 
   /**

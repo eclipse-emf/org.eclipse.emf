@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.5 2005/11/23 18:10:02 emerks Exp $
+ * $Id: EAnnotationImpl.java,v 1.6 2005/11/25 13:12:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -228,25 +228,18 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EANNOTATION__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
-        case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case EcorePackage.EANNOTATION__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+      case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -254,25 +247,20 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EANNOTATION__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
-        case EcorePackage.EANNOTATION__DETAILS:
-          return ((InternalEList)getDetails()).basicRemove(otherEnd, msgs);
-        case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
-          return eBasicSetContainer(null, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
-        case EcorePackage.EANNOTATION__CONTENTS:
-          return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case EcorePackage.EANNOTATION__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EANNOTATION__DETAILS:
+        return ((InternalEList)getDetails()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
+        return eBasicSetContainer(null, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
+      case EcorePackage.EANNOTATION__CONTENTS:
+        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -280,19 +268,14 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
-          return eInternalContainer().eInverseRemove(this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EModelElement.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
+        return eInternalContainer().eInverseRemove(this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EModelElement.class, msgs);
     }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eDynamicBasicRemoveFromContainer(msgs);
   }
 
   /**

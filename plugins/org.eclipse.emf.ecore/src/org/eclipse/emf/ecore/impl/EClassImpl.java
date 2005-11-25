@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.20 2005/11/23 18:10:01 emerks Exp $
+ * $Id: EClassImpl.java,v 1.21 2005/11/25 13:12:13 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -527,32 +527,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.ECLASS__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
-        case EcorePackage.ECLASS__EPACKAGE:
-          return eBasicSetContainer(null, EcorePackage.ECLASS__EPACKAGE, msgs);
-        case EcorePackage.ECLASS__EOPERATIONS:
-          return ((InternalEList)getEOperations()).basicRemove(otherEnd, msgs);
-        case EcorePackage.ECLASS__ESTRUCTURAL_FEATURES:
-          return ((InternalEList)getEStructuralFeatures()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -785,6 +759,50 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return (EStructuralFeatureImpl)eNameToFeatureMap.get(name);
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ECLASS__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+      case EcorePackage.ECLASS__EPACKAGE:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, EcorePackage.ECLASS__EPACKAGE, msgs);
+      case EcorePackage.ECLASS__EOPERATIONS:
+        return ((InternalEList)getEOperations()).basicAdd(otherEnd, msgs);
+      case EcorePackage.ECLASS__ESTRUCTURAL_FEATURES:
+        return ((InternalEList)getEStructuralFeatures()).basicAdd(otherEnd, msgs);
+    }
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ECLASS__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.ECLASS__EPACKAGE:
+        return eBasicSetContainer(null, EcorePackage.ECLASS__EPACKAGE, msgs);
+      case EcorePackage.ECLASS__EOPERATIONS:
+        return ((InternalEList)getEOperations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.ECLASS__ESTRUCTURAL_FEATURES:
+        return ((InternalEList)getEStructuralFeatures()).basicRemove(otherEnd, msgs);
+    }
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
+  }
+
   protected EStructuralFeature[] getEAllStructuralFeaturesData()
   {
     if (eAllStructuralFeaturesData == null)
@@ -833,36 +851,6 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       }
     }
     return -1;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.ECLASS__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
-        case EcorePackage.ECLASS__EPACKAGE:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, EcorePackage.ECLASS__EPACKAGE, msgs);
-        case EcorePackage.ECLASS__EOPERATIONS:
-          return ((InternalEList)getEOperations()).basicAdd(otherEnd, msgs);
-        case EcorePackage.ECLASS__ESTRUCTURAL_FEATURES:
-          return ((InternalEList)getEStructuralFeatures()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
   }
 
   /**

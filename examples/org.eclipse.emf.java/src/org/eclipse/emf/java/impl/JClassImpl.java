@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.8 2005/11/23 18:09:54 emerks Exp $
+ * $Id: JClassImpl.java,v 1.9 2005/11/25 13:13:06 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -50,7 +50,6 @@ import org.eclipse.emf.java.JInitializer;
 import org.eclipse.emf.java.JMember;
 import org.eclipse.emf.java.JMethod;
 import org.eclipse.emf.java.JPackage;
-import org.eclipse.emf.java.JVisibility;
 import org.eclipse.emf.java.JavaFactory;
 import org.eclipse.emf.java.JavaPackage;
 import org.eclipse.emf.java.util.JavaUtil;
@@ -715,41 +714,30 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JCLASS__CONTAINING_TYPE:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, JavaPackage.JCLASS__CONTAINING_TYPE, msgs);
-        case JavaPackage.JCLASS__MEMBERS:
-          return ((InternalEList)getMembers()).basicAdd(otherEnd, msgs);
-        case JavaPackage.JCLASS__COMPONENT_TYPE:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, JavaPackage.JCLASS__COMPONENT_TYPE, msgs);
-        case JavaPackage.JCLASS__ARRAY_TYPE:
-          if (arrayType != null)
-            msgs = ((InternalEObject)arrayType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - JavaPackage.JCLASS__ARRAY_TYPE, null, msgs);
-          return basicSetArrayType((JClass)otherEnd, msgs);
-        case JavaPackage.JCLASS__UNIT:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, JavaPackage.JCLASS__UNIT, msgs);
-        case JavaPackage.JCLASS__PACKAGE:
-          if (package_ != null)
-            msgs = ((InternalEObject)package_).eInverseRemove(this, JavaPackage.JPACKAGE__TYPES, JPackage.class, msgs);
-          return basicSetPackage((JPackage)otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case JavaPackage.JCLASS__MEMBERS:
+        return ((InternalEList)getMembers()).basicAdd(otherEnd, msgs);
+      case JavaPackage.JCLASS__COMPONENT_TYPE:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, JavaPackage.JCLASS__COMPONENT_TYPE, msgs);
+      case JavaPackage.JCLASS__ARRAY_TYPE:
+        if (arrayType != null)
+          msgs = ((InternalEObject)arrayType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - JavaPackage.JCLASS__ARRAY_TYPE, null, msgs);
+        return basicSetArrayType((JClass)otherEnd, msgs);
+      case JavaPackage.JCLASS__UNIT:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, JavaPackage.JCLASS__UNIT, msgs);
+      case JavaPackage.JCLASS__PACKAGE:
+        if (package_ != null)
+          msgs = ((InternalEObject)package_).eInverseRemove(this, JavaPackage.JPACKAGE__TYPES, JPackage.class, msgs);
+        return basicSetPackage((JPackage)otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -757,29 +745,22 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JCLASS__CONTAINING_TYPE:
-          return eBasicSetContainer(null, JavaPackage.JCLASS__CONTAINING_TYPE, msgs);
-        case JavaPackage.JCLASS__MEMBERS:
-          return ((InternalEList)getMembers()).basicRemove(otherEnd, msgs);
-        case JavaPackage.JCLASS__COMPONENT_TYPE:
-          return eBasicSetContainer(null, JavaPackage.JCLASS__COMPONENT_TYPE, msgs);
-        case JavaPackage.JCLASS__ARRAY_TYPE:
-          return basicSetArrayType(null, msgs);
-        case JavaPackage.JCLASS__UNIT:
-          return eBasicSetContainer(null, JavaPackage.JCLASS__UNIT, msgs);
-        case JavaPackage.JCLASS__PACKAGE:
-          return basicSetPackage(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case JavaPackage.JCLASS__MEMBERS:
+        return ((InternalEList)getMembers()).basicRemove(otherEnd, msgs);
+      case JavaPackage.JCLASS__COMPONENT_TYPE:
+        return eBasicSetContainer(null, JavaPackage.JCLASS__COMPONENT_TYPE, msgs);
+      case JavaPackage.JCLASS__ARRAY_TYPE:
+        return basicSetArrayType(null, msgs);
+      case JavaPackage.JCLASS__UNIT:
+        return eBasicSetContainer(null, JavaPackage.JCLASS__UNIT, msgs);
+      case JavaPackage.JCLASS__PACKAGE:
+        return basicSetPackage(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -787,23 +768,16 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case JavaPackage.JCLASS__CONTAINING_TYPE:
-          return eInternalContainer().eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
-        case JavaPackage.JCLASS__COMPONENT_TYPE:
-          return eInternalContainer().eInverseRemove(this, JavaPackage.JCLASS__ARRAY_TYPE, JClass.class, msgs);
-        case JavaPackage.JCLASS__UNIT:
-          return eInternalContainer().eInverseRemove(this, JavaPackage.JCOMPILATION_UNIT__TYPES, JCompilationUnit.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case JavaPackage.JCLASS__COMPONENT_TYPE:
+        return eInternalContainer().eInverseRemove(this, JavaPackage.JCLASS__ARRAY_TYPE, JClass.class, msgs);
+      case JavaPackage.JCLASS__UNIT:
+        return eInternalContainer().eInverseRemove(this, JavaPackage.JCOMPILATION_UNIT__TYPES, JCompilationUnit.class, msgs);
     }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -815,18 +789,6 @@ public class JClassImpl extends JMemberImpl implements JClass
   {
     switch (featureID)
     {
-      case JavaPackage.JCLASS__NAME:
-        return getName();
-      case JavaPackage.JCLASS__JNODE:
-        return getJNode();
-      case JavaPackage.JCLASS__STATIC:
-        return isStatic() ? Boolean.TRUE : Boolean.FALSE;
-      case JavaPackage.JCLASS__VISIBILITY:
-        return getVisibility();
-      case JavaPackage.JCLASS__COMMENT:
-        return getComment();
-      case JavaPackage.JCLASS__CONTAINING_TYPE:
-        return getContainingType();
       case JavaPackage.JCLASS__ABSTRACT:
         return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
       case JavaPackage.JCLASS__FINAL:
@@ -865,7 +827,7 @@ public class JClassImpl extends JMemberImpl implements JClass
       case JavaPackage.JCLASS__ALL_TYPES:
         return getAllTypes();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -877,24 +839,6 @@ public class JClassImpl extends JMemberImpl implements JClass
   {
     switch (featureID)
     {
-      case JavaPackage.JCLASS__NAME:
-        setName((String)newValue);
-        return;
-      case JavaPackage.JCLASS__JNODE:
-        setJNode((Object)newValue);
-        return;
-      case JavaPackage.JCLASS__STATIC:
-        setStatic(((Boolean)newValue).booleanValue());
-        return;
-      case JavaPackage.JCLASS__VISIBILITY:
-        setVisibility((JVisibility)newValue);
-        return;
-      case JavaPackage.JCLASS__COMMENT:
-        setComment((String)newValue);
-        return;
-      case JavaPackage.JCLASS__CONTAINING_TYPE:
-        setContainingType((JClass)newValue);
-        return;
       case JavaPackage.JCLASS__ABSTRACT:
         setAbstract(((Boolean)newValue).booleanValue());
         return;
@@ -959,7 +903,7 @@ public class JClassImpl extends JMemberImpl implements JClass
         getAllTypes().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -971,24 +915,6 @@ public class JClassImpl extends JMemberImpl implements JClass
   {
     switch (featureID)
     {
-      case JavaPackage.JCLASS__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case JavaPackage.JCLASS__JNODE:
-        setJNode(JNODE_EDEFAULT);
-        return;
-      case JavaPackage.JCLASS__STATIC:
-        setStatic(STATIC_EDEFAULT);
-        return;
-      case JavaPackage.JCLASS__VISIBILITY:
-        setVisibility(VISIBILITY_EDEFAULT);
-        return;
-      case JavaPackage.JCLASS__COMMENT:
-        setComment(COMMENT_EDEFAULT);
-        return;
-      case JavaPackage.JCLASS__CONTAINING_TYPE:
-        setContainingType((JClass)null);
-        return;
       case JavaPackage.JCLASS__ABSTRACT:
         setAbstract(ABSTRACT_EDEFAULT);
         return;
@@ -1044,7 +970,7 @@ public class JClassImpl extends JMemberImpl implements JClass
         getAllTypes().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -1056,18 +982,6 @@ public class JClassImpl extends JMemberImpl implements JClass
   {
     switch (featureID)
     {
-      case JavaPackage.JCLASS__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case JavaPackage.JCLASS__JNODE:
-        return JNODE_EDEFAULT == null ? jNode != null : !JNODE_EDEFAULT.equals(jNode);
-      case JavaPackage.JCLASS__STATIC:
-        return static_ != STATIC_EDEFAULT;
-      case JavaPackage.JCLASS__VISIBILITY:
-        return visibility != VISIBILITY_EDEFAULT;
-      case JavaPackage.JCLASS__COMMENT:
-        return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
-      case JavaPackage.JCLASS__CONTAINING_TYPE:
-        return getContainingType() != null;
       case JavaPackage.JCLASS__ABSTRACT:
         return abstract_ != ABSTRACT_EDEFAULT;
       case JavaPackage.JCLASS__FINAL:
@@ -1105,7 +1019,7 @@ public class JClassImpl extends JMemberImpl implements JClass
       case JavaPackage.JCLASS__ALL_TYPES:
         return allTypes != null && !allTypes.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

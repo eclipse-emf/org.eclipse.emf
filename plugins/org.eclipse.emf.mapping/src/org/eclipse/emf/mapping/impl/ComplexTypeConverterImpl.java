@@ -12,21 +12,17 @@
  *
  * </copyright>
  *
- * $Id: ComplexTypeConverterImpl.java,v 1.6 2005/11/23 18:10:08 emerks Exp $
+ * $Id: ComplexTypeConverterImpl.java,v 1.7 2005/11/25 13:13:14 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.mapping.ComplexTypeConverter;
 import org.eclipse.emf.mapping.Mapping;
-import org.eclipse.emf.mapping.MappingHelper;
 import org.eclipse.emf.mapping.MappingPackage;
 
 
@@ -181,15 +177,6 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
   {
     switch (featureID)
     {
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__MAPPER:
-        return getMapper();
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__HELPED_OBJECT:
-        if (resolve) return getHelpedObject();
-        return basicGetHelpedObject();
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__NESTED_IN:
-        return getNestedIn();
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__NESTED:
-        return getNested();
       case MappingPackage.COMPLEX_TYPE_CONVERTER__IN2OUT:
         if (resolve) return getIn2out();
         return basicGetIn2out();
@@ -197,7 +184,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
         if (resolve) return getOut2in();
         return basicGetOut2in();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -209,19 +196,6 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
   {
     switch (featureID)
     {
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__MAPPER:
-        setMapper((Mapping)newValue);
-        return;
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__HELPED_OBJECT:
-        setHelpedObject((EObject)newValue);
-        return;
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__NESTED_IN:
-        setNestedIn((MappingHelper)newValue);
-        return;
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__NESTED:
-        getNested().clear();
-        getNested().addAll((Collection)newValue);
-        return;
       case MappingPackage.COMPLEX_TYPE_CONVERTER__IN2OUT:
         setIn2out((Mapping)newValue);
         return;
@@ -229,7 +203,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
         setOut2in((Mapping)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -241,18 +215,6 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
   {
     switch (featureID)
     {
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__MAPPER:
-        setMapper((Mapping)null);
-        return;
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__HELPED_OBJECT:
-        setHelpedObject((EObject)null);
-        return;
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__NESTED_IN:
-        setNestedIn((MappingHelper)null);
-        return;
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__NESTED:
-        getNested().clear();
-        return;
       case MappingPackage.COMPLEX_TYPE_CONVERTER__IN2OUT:
         setIn2out((Mapping)null);
         return;
@@ -260,7 +222,7 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
         setOut2in((Mapping)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -272,20 +234,12 @@ public class ComplexTypeConverterImpl extends TypeConverterImpl implements Compl
   {
     switch (featureID)
     {
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__MAPPER:
-        return getMapper() != null;
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__HELPED_OBJECT:
-        return helpedObject != null;
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__NESTED_IN:
-        return getNestedIn() != null;
-      case MappingPackage.COMPLEX_TYPE_CONVERTER__NESTED:
-        return nested != null && !nested.isEmpty();
       case MappingPackage.COMPLEX_TYPE_CONVERTER__IN2OUT:
         return in2out != null;
       case MappingPackage.COMPLEX_TYPE_CONVERTER__OUT2IN:
         return out2in != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
 } //ComplexTypeConverterImpl

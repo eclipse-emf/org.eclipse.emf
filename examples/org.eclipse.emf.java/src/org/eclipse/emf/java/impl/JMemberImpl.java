@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMemberImpl.java,v 1.5 2005/11/23 18:09:53 emerks Exp $
+ * $Id: JMemberImpl.java,v 1.6 2005/11/25 13:13:06 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -235,23 +235,16 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JMEMBER__CONTAINING_TYPE:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, JavaPackage.JMEMBER__CONTAINING_TYPE, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case JavaPackage.JMEMBER__CONTAINING_TYPE:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, JavaPackage.JMEMBER__CONTAINING_TYPE, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -259,19 +252,14 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JMEMBER__CONTAINING_TYPE:
-          return eBasicSetContainer(null, JavaPackage.JMEMBER__CONTAINING_TYPE, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case JavaPackage.JMEMBER__CONTAINING_TYPE:
+        return eBasicSetContainer(null, JavaPackage.JMEMBER__CONTAINING_TYPE, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -279,19 +267,14 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case JavaPackage.JMEMBER__CONTAINING_TYPE:
-          return eInternalContainer().eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case JavaPackage.JMEMBER__CONTAINING_TYPE:
+        return eInternalContainer().eInverseRemove(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
     }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -303,10 +286,6 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
   {
     switch (featureID)
     {
-      case JavaPackage.JMEMBER__NAME:
-        return getName();
-      case JavaPackage.JMEMBER__JNODE:
-        return getJNode();
       case JavaPackage.JMEMBER__STATIC:
         return isStatic() ? Boolean.TRUE : Boolean.FALSE;
       case JavaPackage.JMEMBER__VISIBILITY:
@@ -316,7 +295,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
       case JavaPackage.JMEMBER__CONTAINING_TYPE:
         return getContainingType();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -328,12 +307,6 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
   {
     switch (featureID)
     {
-      case JavaPackage.JMEMBER__NAME:
-        setName((String)newValue);
-        return;
-      case JavaPackage.JMEMBER__JNODE:
-        setJNode((Object)newValue);
-        return;
       case JavaPackage.JMEMBER__STATIC:
         setStatic(((Boolean)newValue).booleanValue());
         return;
@@ -347,7 +320,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
         setContainingType((JClass)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -359,12 +332,6 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
   {
     switch (featureID)
     {
-      case JavaPackage.JMEMBER__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case JavaPackage.JMEMBER__JNODE:
-        setJNode(JNODE_EDEFAULT);
-        return;
       case JavaPackage.JMEMBER__STATIC:
         setStatic(STATIC_EDEFAULT);
         return;
@@ -378,7 +345,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
         setContainingType((JClass)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -390,10 +357,6 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
   {
     switch (featureID)
     {
-      case JavaPackage.JMEMBER__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case JavaPackage.JMEMBER__JNODE:
-        return JNODE_EDEFAULT == null ? jNode != null : !JNODE_EDEFAULT.equals(jNode);
       case JavaPackage.JMEMBER__STATIC:
         return static_ != STATIC_EDEFAULT;
       case JavaPackage.JMEMBER__VISIBILITY:
@@ -403,7 +366,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
       case JavaPackage.JMEMBER__CONTAINING_TYPE:
         return getContainingType() != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

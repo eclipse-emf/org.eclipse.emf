@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameterImpl.java,v 1.5 2005/11/23 18:09:54 emerks Exp $
+ * $Id: JParameterImpl.java,v 1.6 2005/11/25 13:13:06 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -201,23 +201,16 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JPARAMETER__METHOD:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, JavaPackage.JPARAMETER__METHOD, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case JavaPackage.JPARAMETER__METHOD:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, JavaPackage.JPARAMETER__METHOD, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -225,19 +218,14 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JPARAMETER__METHOD:
-          return eBasicSetContainer(null, JavaPackage.JPARAMETER__METHOD, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case JavaPackage.JPARAMETER__METHOD:
+        return eBasicSetContainer(null, JavaPackage.JPARAMETER__METHOD, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -245,19 +233,14 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case JavaPackage.JPARAMETER__METHOD:
-          return eInternalContainer().eInverseRemove(this, JavaPackage.JMETHOD__PARAMETERS, JMethod.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case JavaPackage.JPARAMETER__METHOD:
+        return eInternalContainer().eInverseRemove(this, JavaPackage.JMETHOD__PARAMETERS, JMethod.class, msgs);
     }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -269,10 +252,6 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
   {
     switch (featureID)
     {
-      case JavaPackage.JPARAMETER__NAME:
-        return getName();
-      case JavaPackage.JPARAMETER__JNODE:
-        return getJNode();
       case JavaPackage.JPARAMETER__FINAL:
         return isFinal() ? Boolean.TRUE : Boolean.FALSE;
       case JavaPackage.JPARAMETER__METHOD:
@@ -281,7 +260,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
         if (resolve) return getType();
         return basicGetType();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -293,12 +272,6 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
   {
     switch (featureID)
     {
-      case JavaPackage.JPARAMETER__NAME:
-        setName((String)newValue);
-        return;
-      case JavaPackage.JPARAMETER__JNODE:
-        setJNode((Object)newValue);
-        return;
       case JavaPackage.JPARAMETER__FINAL:
         setFinal(((Boolean)newValue).booleanValue());
         return;
@@ -309,7 +282,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
         setType((JClass)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -321,12 +294,6 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
   {
     switch (featureID)
     {
-      case JavaPackage.JPARAMETER__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case JavaPackage.JPARAMETER__JNODE:
-        setJNode(JNODE_EDEFAULT);
-        return;
       case JavaPackage.JPARAMETER__FINAL:
         setFinal(FINAL_EDEFAULT);
         return;
@@ -337,7 +304,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
         setType((JClass)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -349,10 +316,6 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
   {
     switch (featureID)
     {
-      case JavaPackage.JPARAMETER__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case JavaPackage.JPARAMETER__JNODE:
-        return JNODE_EDEFAULT == null ? jNode != null : !JNODE_EDEFAULT.equals(jNode);
       case JavaPackage.JPARAMETER__FINAL:
         return final_ != FINAL_EDEFAULT;
       case JavaPackage.JPARAMETER__METHOD:
@@ -360,7 +323,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
       case JavaPackage.JPARAMETER__TYPE:
         return type != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.9 2005/11/23 18:09:29 emerks Exp $
+ * $Id: GenClassifierImpl.java,v 1.10 2005/11/25 13:11:55 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -85,7 +85,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
       case GenModelPackage.GEN_CLASSIFIER__GEN_PACKAGE:
         return getGenPackage();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -100,7 +100,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
       case GenModelPackage.GEN_CLASSIFIER__GEN_PACKAGE:
         return getGenPackage() != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   public EModelElement getEcoreModelElement()

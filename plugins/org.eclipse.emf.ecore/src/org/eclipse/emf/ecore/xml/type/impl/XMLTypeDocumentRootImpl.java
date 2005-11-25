@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRootImpl.java,v 1.6 2005/11/23 18:10:02 emerks Exp $
+ * $Id: XMLTypeDocumentRootImpl.java,v 1.7 2005/11/25 13:12:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -200,23 +200,18 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__MIXED:
-          return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
-        case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-          return ((InternalEList)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
-        case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-          return ((InternalEList)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__MIXED:
+        return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
+        return ((InternalEList)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
+        return ((InternalEList)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**

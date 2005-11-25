@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.44 2005/11/23 17:30:53 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.45 2005/11/25 13:11:55 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1642,23 +1642,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case GenModelPackage.GEN_CLASS__GEN_FEATURES:
-          return ((InternalEList)getGenFeatures()).basicAdd(otherEnd, msgs);
-        case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
-          return ((InternalEList)getGenOperations()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case GenModelPackage.GEN_CLASS__GEN_FEATURES:
+        return ((InternalEList)getGenFeatures()).basicAdd(otherEnd, msgs);
+      case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
+        return ((InternalEList)getGenOperations()).basicAdd(otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -1666,21 +1659,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case GenModelPackage.GEN_CLASS__GEN_FEATURES:
-          return ((InternalEList)getGenFeatures()).basicRemove(otherEnd, msgs);
-        case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
-          return ((InternalEList)getGenOperations()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case GenModelPackage.GEN_CLASS__GEN_FEATURES:
+        return ((InternalEList)getGenFeatures()).basicRemove(otherEnd, msgs);
+      case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
+        return ((InternalEList)getGenOperations()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -1692,8 +1680,6 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     switch (featureID)
     {
-      case GenModelPackage.GEN_CLASS__GEN_PACKAGE:
-        return getGenPackage();
       case GenModelPackage.GEN_CLASS__PROVIDER:
         return getProvider();
       case GenModelPackage.GEN_CLASS__IMAGE:
@@ -1709,7 +1695,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         if (resolve) return getLabelFeature();
         return basicGetLabelFeature();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -1742,7 +1728,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         setLabelFeature((GenFeature)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -1773,7 +1759,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         setLabelFeature((GenFeature)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -1785,8 +1771,6 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     switch (featureID)
     {
-      case GenModelPackage.GEN_CLASS__GEN_PACKAGE:
-        return getGenPackage() != null;
       case GenModelPackage.GEN_CLASS__PROVIDER:
         return provider != PROVIDER_EDEFAULT;
       case GenModelPackage.GEN_CLASS__IMAGE:
@@ -1800,7 +1784,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       case GenModelPackage.GEN_CLASS__LABEL_FEATURE:
         return labelFeature != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

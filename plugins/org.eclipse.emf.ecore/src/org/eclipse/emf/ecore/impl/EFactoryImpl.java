@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.16 2005/11/23 18:10:02 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.17 2005/11/25 13:12:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -138,54 +138,6 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       if (msgs == null) msgs = notification; else msgs.add(notification);
     }
     return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EFACTORY__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
-        case EcorePackage.EFACTORY__EPACKAGE:
-          if (ePackage != null)
-            msgs = ((InternalEObject)ePackage).eInverseRemove(this, EcorePackage.EPACKAGE__EFACTORY_INSTANCE, EPackage.class, msgs);
-          return basicSetEPackage((EPackage)otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EFACTORY__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
-        case EcorePackage.EFACTORY__EPACKAGE:
-          return basicSetEPackage(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
   }
 
   /**
@@ -547,6 +499,42 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     {
       return objectValue.toString();
     }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EFACTORY__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+      case EcorePackage.EFACTORY__EPACKAGE:
+        if (ePackage != null)
+          msgs = ((InternalEObject)ePackage).eInverseRemove(this, EcorePackage.EPACKAGE__EFACTORY_INSTANCE, EPackage.class, msgs);
+        return basicSetEPackage((EPackage)otherEnd, msgs);
+    }
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EFACTORY__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EFACTORY__EPACKAGE:
+        return basicSetEPackage(null, msgs);
+    }
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   protected String replaceWhiteSpace(String value)

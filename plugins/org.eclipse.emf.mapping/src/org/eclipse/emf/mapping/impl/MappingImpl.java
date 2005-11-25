@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingImpl.java,v 1.5 2005/11/23 18:10:08 emerks Exp $
+ * $Id: MappingImpl.java,v 1.6 2005/11/25 13:13:14 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -303,29 +303,22 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case MappingPackage.MAPPING__HELPER:
-          if (helper != null)
-            msgs = ((InternalEObject)helper).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MappingPackage.MAPPING__HELPER, null, msgs);
-          return basicSetHelper((MappingHelper)otherEnd, msgs);
-        case MappingPackage.MAPPING__NESTED:
-          return ((InternalEList)getNested()).basicAdd(otherEnd, msgs);
-        case MappingPackage.MAPPING__NESTED_IN:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, MappingPackage.MAPPING__NESTED_IN, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case MappingPackage.MAPPING__HELPER:
+        if (helper != null)
+          msgs = ((InternalEObject)helper).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - MappingPackage.MAPPING__HELPER, null, msgs);
+        return basicSetHelper((MappingHelper)otherEnd, msgs);
+      case MappingPackage.MAPPING__NESTED:
+        return ((InternalEList)getNested()).basicAdd(otherEnd, msgs);
+      case MappingPackage.MAPPING__NESTED_IN:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, MappingPackage.MAPPING__NESTED_IN, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -333,23 +326,18 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case MappingPackage.MAPPING__HELPER:
-          return basicSetHelper(null, msgs);
-        case MappingPackage.MAPPING__NESTED:
-          return ((InternalEList)getNested()).basicRemove(otherEnd, msgs);
-        case MappingPackage.MAPPING__NESTED_IN:
-          return eBasicSetContainer(null, MappingPackage.MAPPING__NESTED_IN, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case MappingPackage.MAPPING__HELPER:
+        return basicSetHelper(null, msgs);
+      case MappingPackage.MAPPING__NESTED:
+        return ((InternalEList)getNested()).basicRemove(otherEnd, msgs);
+      case MappingPackage.MAPPING__NESTED_IN:
+        return eBasicSetContainer(null, MappingPackage.MAPPING__NESTED_IN, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -357,19 +345,14 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case MappingPackage.MAPPING__NESTED_IN:
-          return eInternalContainer().eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case MappingPackage.MAPPING__NESTED_IN:
+        return eInternalContainer().eInverseRemove(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
     }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -395,7 +378,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
         if (resolve) return getTypeMapping();
         return basicGetTypeMapping();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -429,7 +412,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
         setTypeMapping((Mapping)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -460,7 +443,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
         setTypeMapping((Mapping)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -485,7 +468,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
       case MappingPackage.MAPPING__TYPE_MAPPING:
         return typeMapping != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   public Collection getMappedObjects()

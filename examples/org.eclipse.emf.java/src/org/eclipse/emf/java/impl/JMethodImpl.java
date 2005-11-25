@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodImpl.java,v 1.7 2005/11/23 18:09:54 emerks Exp $
+ * $Id: JMethodImpl.java,v 1.8 2005/11/25 13:13:06 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -39,7 +39,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.java.JClass;
 import org.eclipse.emf.java.JMethod;
 import org.eclipse.emf.java.JParameter;
-import org.eclipse.emf.java.JVisibility;
 import org.eclipse.emf.java.JavaFactory;
 import org.eclipse.emf.java.JavaPackage;
 import org.eclipse.emf.java.util.JavaUtil;
@@ -540,25 +539,14 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JMETHOD__CONTAINING_TYPE:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, JavaPackage.JMETHOD__CONTAINING_TYPE, msgs);
-        case JavaPackage.JMETHOD__PARAMETERS:
-          return ((InternalEList)getParameters()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case JavaPackage.JMETHOD__PARAMETERS:
+        return ((InternalEList)getParameters()).basicAdd(otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -566,21 +554,14 @@ public class JMethodImpl extends JMemberImpl implements JMethod
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JMETHOD__CONTAINING_TYPE:
-          return eBasicSetContainer(null, JavaPackage.JMETHOD__CONTAINING_TYPE, msgs);
-        case JavaPackage.JMETHOD__PARAMETERS:
-          return ((InternalEList)getParameters()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case JavaPackage.JMETHOD__PARAMETERS:
+        return ((InternalEList)getParameters()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -592,18 +573,6 @@ public class JMethodImpl extends JMemberImpl implements JMethod
   {
     switch (featureID)
     {
-      case JavaPackage.JMETHOD__NAME:
-        return getName();
-      case JavaPackage.JMETHOD__JNODE:
-        return getJNode();
-      case JavaPackage.JMETHOD__STATIC:
-        return isStatic() ? Boolean.TRUE : Boolean.FALSE;
-      case JavaPackage.JMETHOD__VISIBILITY:
-        return getVisibility();
-      case JavaPackage.JMETHOD__COMMENT:
-        return getComment();
-      case JavaPackage.JMETHOD__CONTAINING_TYPE:
-        return getContainingType();
       case JavaPackage.JMETHOD__ABSTRACT:
         return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
       case JavaPackage.JMETHOD__FINAL:
@@ -628,7 +597,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         if (resolve) return getReturnType();
         return basicGetReturnType();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -640,24 +609,6 @@ public class JMethodImpl extends JMemberImpl implements JMethod
   {
     switch (featureID)
     {
-      case JavaPackage.JMETHOD__NAME:
-        setName((String)newValue);
-        return;
-      case JavaPackage.JMETHOD__JNODE:
-        setJNode((Object)newValue);
-        return;
-      case JavaPackage.JMETHOD__STATIC:
-        setStatic(((Boolean)newValue).booleanValue());
-        return;
-      case JavaPackage.JMETHOD__VISIBILITY:
-        setVisibility((JVisibility)newValue);
-        return;
-      case JavaPackage.JMETHOD__COMMENT:
-        setComment((String)newValue);
-        return;
-      case JavaPackage.JMETHOD__CONTAINING_TYPE:
-        setContainingType((JClass)newValue);
-        return;
       case JavaPackage.JMETHOD__ABSTRACT:
         setAbstract(((Boolean)newValue).booleanValue());
         return;
@@ -694,7 +645,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         setReturnType((JClass)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -706,24 +657,6 @@ public class JMethodImpl extends JMemberImpl implements JMethod
   {
     switch (featureID)
     {
-      case JavaPackage.JMETHOD__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case JavaPackage.JMETHOD__JNODE:
-        setJNode(JNODE_EDEFAULT);
-        return;
-      case JavaPackage.JMETHOD__STATIC:
-        setStatic(STATIC_EDEFAULT);
-        return;
-      case JavaPackage.JMETHOD__VISIBILITY:
-        setVisibility(VISIBILITY_EDEFAULT);
-        return;
-      case JavaPackage.JMETHOD__COMMENT:
-        setComment(COMMENT_EDEFAULT);
-        return;
-      case JavaPackage.JMETHOD__CONTAINING_TYPE:
-        setContainingType((JClass)null);
-        return;
       case JavaPackage.JMETHOD__ABSTRACT:
         setAbstract(ABSTRACT_EDEFAULT);
         return;
@@ -758,7 +691,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
         setReturnType((JClass)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -770,18 +703,6 @@ public class JMethodImpl extends JMemberImpl implements JMethod
   {
     switch (featureID)
     {
-      case JavaPackage.JMETHOD__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case JavaPackage.JMETHOD__JNODE:
-        return JNODE_EDEFAULT == null ? jNode != null : !JNODE_EDEFAULT.equals(jNode);
-      case JavaPackage.JMETHOD__STATIC:
-        return static_ != STATIC_EDEFAULT;
-      case JavaPackage.JMETHOD__VISIBILITY:
-        return visibility != VISIBILITY_EDEFAULT;
-      case JavaPackage.JMETHOD__COMMENT:
-        return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
-      case JavaPackage.JMETHOD__CONTAINING_TYPE:
-        return getContainingType() != null;
       case JavaPackage.JMETHOD__ABSTRACT:
         return abstract_ != ABSTRACT_EDEFAULT;
       case JavaPackage.JMETHOD__FINAL:
@@ -805,7 +726,7 @@ public class JMethodImpl extends JMemberImpl implements JMethod
       case JavaPackage.JMETHOD__RETURN_TYPE:
         return returnType != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterImpl.java,v 1.8 2005/11/23 18:10:01 emerks Exp $
+ * $Id: EParameterImpl.java,v 1.9 2005/11/25 13:12:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -76,25 +76,18 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EPARAMETER__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
-        case EcorePackage.EPARAMETER__EOPERATION:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, EcorePackage.EPARAMETER__EOPERATION, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case EcorePackage.EPARAMETER__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+      case EcorePackage.EPARAMETER__EOPERATION:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, EcorePackage.EPARAMETER__EOPERATION, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -102,21 +95,16 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EPARAMETER__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
-        case EcorePackage.EPARAMETER__EOPERATION:
-          return eBasicSetContainer(null, EcorePackage.EPARAMETER__EOPERATION, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case EcorePackage.EPARAMETER__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EPARAMETER__EOPERATION:
+        return eBasicSetContainer(null, EcorePackage.EPARAMETER__EOPERATION, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -124,19 +112,14 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case EcorePackage.EPARAMETER__EOPERATION:
-          return eInternalContainer().eInverseRemove(this, EcorePackage.EOPERATION__EPARAMETERS, EOperation.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case EcorePackage.EPARAMETER__EOPERATION:
+        return eInternalContainer().eInverseRemove(this, EcorePackage.EOPERATION__EPARAMETERS, EOperation.class, msgs);
     }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return eDynamicBasicRemoveFromContainer(msgs);
   }
 
   /**

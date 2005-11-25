@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackageImpl.java,v 1.5 2005/11/23 18:09:54 emerks Exp $
+ * $Id: JPackageImpl.java,v 1.6 2005/11/25 13:13:06 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -142,21 +142,14 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JPACKAGE__TYPES:
-          return ((InternalEList)getTypes()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case JavaPackage.JPACKAGE__TYPES:
+        return ((InternalEList)getTypes()).basicAdd(otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -164,19 +157,14 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JPACKAGE__TYPES:
-          return ((InternalEList)getTypes()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case JavaPackage.JPACKAGE__TYPES:
+        return ((InternalEList)getTypes()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -188,16 +176,12 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
   {
     switch (featureID)
     {
-      case JavaPackage.JPACKAGE__NAME:
-        return getName();
-      case JavaPackage.JPACKAGE__JNODE:
-        return getJNode();
       case JavaPackage.JPACKAGE__JAVA_PACKAGE:
         return getJavaPackage();
       case JavaPackage.JPACKAGE__TYPES:
         return getTypes();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -209,12 +193,6 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
   {
     switch (featureID)
     {
-      case JavaPackage.JPACKAGE__NAME:
-        setName((String)newValue);
-        return;
-      case JavaPackage.JPACKAGE__JNODE:
-        setJNode((Object)newValue);
-        return;
       case JavaPackage.JPACKAGE__JAVA_PACKAGE:
         setJavaPackage((Package)newValue);
         return;
@@ -223,7 +201,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
         getTypes().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -235,12 +213,6 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
   {
     switch (featureID)
     {
-      case JavaPackage.JPACKAGE__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case JavaPackage.JPACKAGE__JNODE:
-        setJNode(JNODE_EDEFAULT);
-        return;
       case JavaPackage.JPACKAGE__JAVA_PACKAGE:
         setJavaPackage(JAVA_PACKAGE_EDEFAULT);
         return;
@@ -248,7 +220,7 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
         getTypes().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -260,16 +232,12 @@ public class JPackageImpl extends JModelElementImpl implements JPackage
   {
     switch (featureID)
     {
-      case JavaPackage.JPACKAGE__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case JavaPackage.JPACKAGE__JNODE:
-        return JNODE_EDEFAULT == null ? jNode != null : !JNODE_EDEFAULT.equals(jNode);
       case JavaPackage.JPACKAGE__JAVA_PACKAGE:
         return JAVA_PACKAGE_EDEFAULT == null ? javaPackage != null : !JAVA_PACKAGE_EDEFAULT.equals(javaPackage);
       case JavaPackage.JPACKAGE__TYPES:
         return types != null && !types.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

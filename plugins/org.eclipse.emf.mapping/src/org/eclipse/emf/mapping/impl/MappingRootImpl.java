@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingRootImpl.java,v 1.8 2005/11/23 18:10:08 emerks Exp $
+ * $Id: MappingRootImpl.java,v 1.9 2005/11/25 13:13:13 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -43,7 +43,6 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.mapping.MappedObjectState;
 import org.eclipse.emf.mapping.Mapping;
 import org.eclipse.emf.mapping.MappingFactory;
-import org.eclipse.emf.mapping.MappingHelper;
 import org.eclipse.emf.mapping.MappingPackage;
 import org.eclipse.emf.mapping.MappingRoot;
 import org.eclipse.emf.mapping.domain.MappingDomain;
@@ -245,19 +244,6 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
   {
     switch (featureID)
     {
-      case MappingPackage.MAPPING_ROOT__HELPER:
-        return getHelper();
-      case MappingPackage.MAPPING_ROOT__NESTED:
-        return getNested();
-      case MappingPackage.MAPPING_ROOT__NESTED_IN:
-        return getNestedIn();
-      case MappingPackage.MAPPING_ROOT__INPUTS:
-        return getInputs();
-      case MappingPackage.MAPPING_ROOT__OUTPUTS:
-        return getOutputs();
-      case MappingPackage.MAPPING_ROOT__TYPE_MAPPING:
-        if (resolve) return getTypeMapping();
-        return basicGetTypeMapping();
       case MappingPackage.MAPPING_ROOT__OUTPUT_READ_ONLY:
         return isOutputReadOnly() ? Boolean.TRUE : Boolean.FALSE;
       case MappingPackage.MAPPING_ROOT__TOP_TO_BOTTOM:
@@ -265,7 +251,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       case MappingPackage.MAPPING_ROOT__COMMAND_STACK:
         return getCommandStack();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -277,27 +263,6 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
   {
     switch (featureID)
     {
-      case MappingPackage.MAPPING_ROOT__HELPER:
-        setHelper((MappingHelper)newValue);
-        return;
-      case MappingPackage.MAPPING_ROOT__NESTED:
-        getNested().clear();
-        getNested().addAll((Collection)newValue);
-        return;
-      case MappingPackage.MAPPING_ROOT__NESTED_IN:
-        setNestedIn((Mapping)newValue);
-        return;
-      case MappingPackage.MAPPING_ROOT__INPUTS:
-        getInputs().clear();
-        getInputs().addAll((Collection)newValue);
-        return;
-      case MappingPackage.MAPPING_ROOT__OUTPUTS:
-        getOutputs().clear();
-        getOutputs().addAll((Collection)newValue);
-        return;
-      case MappingPackage.MAPPING_ROOT__TYPE_MAPPING:
-        setTypeMapping((Mapping)newValue);
-        return;
       case MappingPackage.MAPPING_ROOT__OUTPUT_READ_ONLY:
         setOutputReadOnly(((Boolean)newValue).booleanValue());
         return;
@@ -308,7 +273,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
         setCommandStack((String)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -320,24 +285,6 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
   {
     switch (featureID)
     {
-      case MappingPackage.MAPPING_ROOT__HELPER:
-        setHelper((MappingHelper)null);
-        return;
-      case MappingPackage.MAPPING_ROOT__NESTED:
-        getNested().clear();
-        return;
-      case MappingPackage.MAPPING_ROOT__NESTED_IN:
-        setNestedIn((Mapping)null);
-        return;
-      case MappingPackage.MAPPING_ROOT__INPUTS:
-        getInputs().clear();
-        return;
-      case MappingPackage.MAPPING_ROOT__OUTPUTS:
-        getOutputs().clear();
-        return;
-      case MappingPackage.MAPPING_ROOT__TYPE_MAPPING:
-        setTypeMapping((Mapping)null);
-        return;
       case MappingPackage.MAPPING_ROOT__OUTPUT_READ_ONLY:
         setOutputReadOnly(OUTPUT_READ_ONLY_EDEFAULT);
         return;
@@ -348,7 +295,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
         setCommandStack(COMMAND_STACK_EDEFAULT);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -360,18 +307,6 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
   {
     switch (featureID)
     {
-      case MappingPackage.MAPPING_ROOT__HELPER:
-        return helper != null;
-      case MappingPackage.MAPPING_ROOT__NESTED:
-        return nested != null && !nested.isEmpty();
-      case MappingPackage.MAPPING_ROOT__NESTED_IN:
-        return getNestedIn() != null;
-      case MappingPackage.MAPPING_ROOT__INPUTS:
-        return inputs != null && !inputs.isEmpty();
-      case MappingPackage.MAPPING_ROOT__OUTPUTS:
-        return outputs != null && !outputs.isEmpty();
-      case MappingPackage.MAPPING_ROOT__TYPE_MAPPING:
-        return typeMapping != null;
       case MappingPackage.MAPPING_ROOT__OUTPUT_READ_ONLY:
         return outputReadOnly != OUTPUT_READ_ONLY_EDEFAULT;
       case MappingPackage.MAPPING_ROOT__TOP_TO_BOTTOM:
@@ -379,7 +314,7 @@ public class MappingRootImpl extends MappingImpl implements MappingRoot
       case MappingPackage.MAPPING_ROOT__COMMAND_STACK:
         return COMMAND_STACK_EDEFAULT == null ? commandStack != null : !COMMAND_STACK_EDEFAULT.equals(commandStack);
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

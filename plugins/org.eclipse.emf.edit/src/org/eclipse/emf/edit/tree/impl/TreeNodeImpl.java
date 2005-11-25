@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeImpl.java,v 1.6 2005/11/23 18:09:58 emerks Exp $
+ * $Id: TreeNodeImpl.java,v 1.7 2005/11/25 13:13:02 emerks Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -187,25 +187,18 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case TreePackage.TREE_NODE__PARENT:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, TreePackage.TREE_NODE__PARENT, msgs);
-        case TreePackage.TREE_NODE__CHILDREN:
-          return ((InternalEList)getChildren()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case TreePackage.TREE_NODE__PARENT:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, TreePackage.TREE_NODE__PARENT, msgs);
+      case TreePackage.TREE_NODE__CHILDREN:
+        return ((InternalEList)getChildren()).basicAdd(otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -213,21 +206,16 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case TreePackage.TREE_NODE__PARENT:
-          return eBasicSetContainer(null, TreePackage.TREE_NODE__PARENT, msgs);
-        case TreePackage.TREE_NODE__CHILDREN:
-          return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case TreePackage.TREE_NODE__PARENT:
+        return eBasicSetContainer(null, TreePackage.TREE_NODE__PARENT, msgs);
+      case TreePackage.TREE_NODE__CHILDREN:
+        return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -235,19 +223,14 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case TreePackage.TREE_NODE__PARENT:
-          return eInternalContainer().eInverseRemove(this, TreePackage.TREE_NODE__CHILDREN, TreeNode.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case TreePackage.TREE_NODE__PARENT:
+        return eInternalContainer().eInverseRemove(this, TreePackage.TREE_NODE__CHILDREN, TreeNode.class, msgs);
     }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -267,7 +250,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
         if (resolve) return getData();
         return basicGetData();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -290,7 +273,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
         setData((EObject)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -312,7 +295,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
         setData((EObject)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -331,7 +314,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
       case TreePackage.TREE_NODE__DATA:
         return data != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
 } //TreeNodeImpl

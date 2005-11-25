@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AnyTypeImpl.java,v 1.4 2005/11/23 18:10:02 emerks Exp $
+ * $Id: AnyTypeImpl.java,v 1.5 2005/11/25 13:12:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -126,23 +126,18 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XMLTypePackage.ANY_TYPE__MIXED:
-          return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
-        case XMLTypePackage.ANY_TYPE__ANY:
-          return ((InternalEList)getAny()).basicRemove(otherEnd, msgs);
-        case XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE:
-          return ((InternalEList)getAnyAttribute()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XMLTypePackage.ANY_TYPE__MIXED:
+        return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
+      case XMLTypePackage.ANY_TYPE__ANY:
+        return ((InternalEList)getAny()).basicRemove(otherEnd, msgs);
+      case XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE:
+        return ((InternalEList)getAnyAttribute()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**

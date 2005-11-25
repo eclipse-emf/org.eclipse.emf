@@ -12,22 +12,17 @@
  *
  * </copyright>
  *
- * $Id: FunctionPairImpl.java,v 1.6 2005/11/23 18:10:08 emerks Exp $
+ * $Id: FunctionPairImpl.java,v 1.7 2005/11/25 13:13:14 emerks Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.mapping.FunctionPair;
-import org.eclipse.emf.mapping.Mapping;
-import org.eclipse.emf.mapping.MappingHelper;
 import org.eclipse.emf.mapping.MappingPackage;
 
 
@@ -182,15 +177,6 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
   {
     switch (featureID)
     {
-      case MappingPackage.FUNCTION_PAIR__MAPPER:
-        return getMapper();
-      case MappingPackage.FUNCTION_PAIR__HELPED_OBJECT:
-        if (resolve) return getHelpedObject();
-        return basicGetHelpedObject();
-      case MappingPackage.FUNCTION_PAIR__NESTED_IN:
-        return getNestedIn();
-      case MappingPackage.FUNCTION_PAIR__NESTED:
-        return getNested();
       case MappingPackage.FUNCTION_PAIR__IN2OUT:
         if (resolve) return getIn2out();
         return basicGetIn2out();
@@ -198,7 +184,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
         if (resolve) return getOut2in();
         return basicGetOut2in();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -210,19 +196,6 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
   {
     switch (featureID)
     {
-      case MappingPackage.FUNCTION_PAIR__MAPPER:
-        setMapper((Mapping)newValue);
-        return;
-      case MappingPackage.FUNCTION_PAIR__HELPED_OBJECT:
-        setHelpedObject((EObject)newValue);
-        return;
-      case MappingPackage.FUNCTION_PAIR__NESTED_IN:
-        setNestedIn((MappingHelper)newValue);
-        return;
-      case MappingPackage.FUNCTION_PAIR__NESTED:
-        getNested().clear();
-        getNested().addAll((Collection)newValue);
-        return;
       case MappingPackage.FUNCTION_PAIR__IN2OUT:
         setIn2out((EOperation)newValue);
         return;
@@ -230,7 +203,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
         setOut2in((EOperation)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -242,18 +215,6 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
   {
     switch (featureID)
     {
-      case MappingPackage.FUNCTION_PAIR__MAPPER:
-        setMapper((Mapping)null);
-        return;
-      case MappingPackage.FUNCTION_PAIR__HELPED_OBJECT:
-        setHelpedObject((EObject)null);
-        return;
-      case MappingPackage.FUNCTION_PAIR__NESTED_IN:
-        setNestedIn((MappingHelper)null);
-        return;
-      case MappingPackage.FUNCTION_PAIR__NESTED:
-        getNested().clear();
-        return;
       case MappingPackage.FUNCTION_PAIR__IN2OUT:
         setIn2out((EOperation)null);
         return;
@@ -261,7 +222,7 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
         setOut2in((EOperation)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -273,20 +234,12 @@ public class FunctionPairImpl extends TypeConverterImpl implements FunctionPair
   {
     switch (featureID)
     {
-      case MappingPackage.FUNCTION_PAIR__MAPPER:
-        return getMapper() != null;
-      case MappingPackage.FUNCTION_PAIR__HELPED_OBJECT:
-        return helpedObject != null;
-      case MappingPackage.FUNCTION_PAIR__NESTED_IN:
-        return getNestedIn() != null;
-      case MappingPackage.FUNCTION_PAIR__NESTED:
-        return nested != null && !nested.isEmpty();
       case MappingPackage.FUNCTION_PAIR__IN2OUT:
         return in2out != null;
       case MappingPackage.FUNCTION_PAIR__OUT2IN:
         return out2in != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
 } //FunctionPairImpl

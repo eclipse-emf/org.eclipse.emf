@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoImpl.java,v 1.5 2005/11/23 18:09:44 emerks Exp $
+ * $Id: XMLInfoImpl.java,v 1.6 2005/11/25 13:13:11 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -179,7 +179,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
       case Ecore2XMLPackage.XML_INFO__XML_REPRESENTATION:
         return new Integer(getXMLRepresentation());
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -201,7 +201,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
         setXMLRepresentation(((Integer)newValue).intValue());
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -223,7 +223,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
         setXMLRepresentation(XML_REPRESENTATION_EDEFAULT);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -242,7 +242,7 @@ public class XMLInfoImpl extends EObjectImpl implements XMLInfo
       case Ecore2XMLPackage.XML_INFO__XML_REPRESENTATION:
         return getXMLRepresentation() != XML_REPRESENTATION_EDEFAULT;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   protected XMLResource.XMLInfo delegateXMLInfo = null;

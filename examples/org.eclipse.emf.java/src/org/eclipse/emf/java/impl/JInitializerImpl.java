@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializerImpl.java,v 1.6 2005/11/23 18:09:53 emerks Exp $
+ * $Id: JInitializerImpl.java,v 1.7 2005/11/25 13:13:06 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -22,9 +22,7 @@ import org.eclipse.jdt.core.jdom.IDOMInitializer;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.java.JClass;
 import org.eclipse.emf.java.JInitializer;
-import org.eclipse.emf.java.JVisibility;
 import org.eclipse.emf.java.JavaPackage;
 
 
@@ -115,22 +113,10 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
   {
     switch (featureID)
     {
-      case JavaPackage.JINITIALIZER__NAME:
-        return getName();
-      case JavaPackage.JINITIALIZER__JNODE:
-        return getJNode();
-      case JavaPackage.JINITIALIZER__STATIC:
-        return isStatic() ? Boolean.TRUE : Boolean.FALSE;
-      case JavaPackage.JINITIALIZER__VISIBILITY:
-        return getVisibility();
-      case JavaPackage.JINITIALIZER__COMMENT:
-        return getComment();
-      case JavaPackage.JINITIALIZER__CONTAINING_TYPE:
-        return getContainingType();
       case JavaPackage.JINITIALIZER__BODY:
         return getBody();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -142,29 +128,11 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
   {
     switch (featureID)
     {
-      case JavaPackage.JINITIALIZER__NAME:
-        setName((String)newValue);
-        return;
-      case JavaPackage.JINITIALIZER__JNODE:
-        setJNode((Object)newValue);
-        return;
-      case JavaPackage.JINITIALIZER__STATIC:
-        setStatic(((Boolean)newValue).booleanValue());
-        return;
-      case JavaPackage.JINITIALIZER__VISIBILITY:
-        setVisibility((JVisibility)newValue);
-        return;
-      case JavaPackage.JINITIALIZER__COMMENT:
-        setComment((String)newValue);
-        return;
-      case JavaPackage.JINITIALIZER__CONTAINING_TYPE:
-        setContainingType((JClass)newValue);
-        return;
       case JavaPackage.JINITIALIZER__BODY:
         setBody((String)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -176,29 +144,11 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
   {
     switch (featureID)
     {
-      case JavaPackage.JINITIALIZER__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case JavaPackage.JINITIALIZER__JNODE:
-        setJNode(JNODE_EDEFAULT);
-        return;
-      case JavaPackage.JINITIALIZER__STATIC:
-        setStatic(STATIC_EDEFAULT);
-        return;
-      case JavaPackage.JINITIALIZER__VISIBILITY:
-        setVisibility(VISIBILITY_EDEFAULT);
-        return;
-      case JavaPackage.JINITIALIZER__COMMENT:
-        setComment(COMMENT_EDEFAULT);
-        return;
-      case JavaPackage.JINITIALIZER__CONTAINING_TYPE:
-        setContainingType((JClass)null);
-        return;
       case JavaPackage.JINITIALIZER__BODY:
         setBody(BODY_EDEFAULT);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -210,22 +160,10 @@ public class JInitializerImpl extends JMemberImpl implements JInitializer
   {
     switch (featureID)
     {
-      case JavaPackage.JINITIALIZER__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case JavaPackage.JINITIALIZER__JNODE:
-        return JNODE_EDEFAULT == null ? jNode != null : !JNODE_EDEFAULT.equals(jNode);
-      case JavaPackage.JINITIALIZER__STATIC:
-        return static_ != STATIC_EDEFAULT;
-      case JavaPackage.JINITIALIZER__VISIBILITY:
-        return visibility != VISIBILITY_EDEFAULT;
-      case JavaPackage.JINITIALIZER__COMMENT:
-        return COMMENT_EDEFAULT == null ? comment != null : !COMMENT_EDEFAULT.equals(comment);
-      case JavaPackage.JINITIALIZER__CONTAINING_TYPE:
-        return getContainingType() != null;
       case JavaPackage.JINITIALIZER__BODY:
         return BODY_EDEFAULT == null ? body != null : !BODY_EDEFAULT.equals(body);
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

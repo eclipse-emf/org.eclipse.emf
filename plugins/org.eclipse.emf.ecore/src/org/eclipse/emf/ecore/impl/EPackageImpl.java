@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.18 2005/11/23 18:10:02 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.19 2005/11/25 13:12:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -387,6 +387,71 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EPACKAGE__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+        if (eFactoryInstance != null)
+          msgs = ((InternalEObject)eFactoryInstance).eInverseRemove(this, EcorePackage.EFACTORY__EPACKAGE, EFactory.class, msgs);
+        return basicSetEFactoryInstance((EFactory)otherEnd, msgs);
+      case EcorePackage.EPACKAGE__ECLASSIFIERS:
+        return ((InternalEList)getEClassifiers()).basicAdd(otherEnd, msgs);
+      case EcorePackage.EPACKAGE__ESUBPACKAGES:
+        return ((InternalEList)getESubpackages()).basicAdd(otherEnd, msgs);
+      case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, EcorePackage.EPACKAGE__ESUPER_PACKAGE, msgs);
+    }
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.EPACKAGE__EANNOTATIONS:
+        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
+        return basicSetEFactoryInstance(null, msgs);
+      case EcorePackage.EPACKAGE__ECLASSIFIERS:
+        return ((InternalEList)getEClassifiers()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EPACKAGE__ESUBPACKAGES:
+        return ((InternalEList)getESubpackages()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
+        return eBasicSetContainer(null, EcorePackage.EPACKAGE__ESUPER_PACKAGE, msgs);
+    }
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
+  {
+    switch (eContainerFeatureID)
+    {
+      case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
+        return eInternalContainer().eInverseRemove(this, EcorePackage.EPACKAGE__ESUBPACKAGES, EPackage.class, msgs);
+    }
+    return eDynamicBasicRemoveFromContainer(msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getESubpackages()
   {
     if (eSubpackages == null)
@@ -406,88 +471,6 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     return (eContainerFeatureID == EcorePackage.EPACKAGE__ESUPER_PACKAGE) ? (EPackage)eContainer : null;
   }
 
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EPACKAGE__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
-        case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
-          if (eFactoryInstance != null)
-            msgs = ((InternalEObject)eFactoryInstance).eInverseRemove(this, EcorePackage.EFACTORY__EPACKAGE, EFactory.class, msgs);
-          return basicSetEFactoryInstance((EFactory)otherEnd, msgs);
-        case EcorePackage.EPACKAGE__ECLASSIFIERS:
-          return ((InternalEList)getEClassifiers()).basicAdd(otherEnd, msgs);
-        case EcorePackage.EPACKAGE__ESUBPACKAGES:
-          return ((InternalEList)getESubpackages()).basicAdd(otherEnd, msgs);
-        case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
-          if (eInternalContainer() != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, EcorePackage.EPACKAGE__ESUPER_PACKAGE, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EcorePackage.EPACKAGE__EANNOTATIONS:
-          return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
-        case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
-          return basicSetEFactoryInstance(null, msgs);
-        case EcorePackage.EPACKAGE__ECLASSIFIERS:
-          return ((InternalEList)getEClassifiers()).basicRemove(otherEnd, msgs);
-        case EcorePackage.EPACKAGE__ESUBPACKAGES:
-          return ((InternalEList)getESubpackages()).basicRemove(otherEnd, msgs);
-        case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
-          return eBasicSetContainer(null, EcorePackage.EPACKAGE__ESUPER_PACKAGE, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
-  {
-    if (eContainerFeatureID >= 0)
-    {
-      switch (eContainerFeatureID)
-      {
-        case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
-          return eInternalContainer().eInverseRemove(this, EcorePackage.EPACKAGE__ESUBPACKAGES, EPackage.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
-    }
-    return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
-  }
 
   /**
    * <!-- begin-user-doc -->

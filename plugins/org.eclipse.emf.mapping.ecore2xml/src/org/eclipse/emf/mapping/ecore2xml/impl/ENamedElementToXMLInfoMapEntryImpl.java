@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.4 2005/11/23 18:09:44 emerks Exp $
+ * $Id: ENamedElementToXMLInfoMapEntryImpl.java,v 1.5 2005/11/25 13:13:11 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.impl;
 
@@ -185,19 +185,14 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE:
-          return basicSetTypedValue(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE:
+        return basicSetTypedValue(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -215,7 +210,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
       case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE:
         return getTypedValue();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -234,7 +229,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
         setTypedValue((XMLInfo)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -253,7 +248,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
         setTypedValue((XMLInfo)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -270,7 +265,7 @@ public class ENamedElementToXMLInfoMapEntryImpl extends EObjectImpl implements B
       case Ecore2XMLPackage.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__VALUE:
         return value != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitImpl.java,v 1.7 2005/11/23 18:09:54 emerks Exp $
+ * $Id: JCompilationUnitImpl.java,v 1.8 2005/11/25 13:13:06 emerks Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -206,6 +206,36 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case JavaPackage.JCOMPILATION_UNIT__TYPES:
+        return ((InternalEList)getTypes()).basicAdd(otherEnd, msgs);
+    }
+    return super.eInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case JavaPackage.JCOMPILATION_UNIT__TYPES:
+        return ((InternalEList)getTypes()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getImports()
   {
     if (imports == null)
@@ -285,56 +315,10 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JCOMPILATION_UNIT__TYPES:
-          return ((InternalEList)getTypes()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case JavaPackage.JCOMPILATION_UNIT__TYPES:
-          return ((InternalEList)getTypes()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
     {
-      case JavaPackage.JCOMPILATION_UNIT__NAME:
-        return getName();
-      case JavaPackage.JCOMPILATION_UNIT__JNODE:
-        return getJNode();
       case JavaPackage.JCOMPILATION_UNIT__IMPORTS:
         return getImports();
       case JavaPackage.JCOMPILATION_UNIT__COMMENT:
@@ -349,7 +333,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
         if (resolve) return getPackage();
         return basicGetPackage();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -361,12 +345,6 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
   {
     switch (featureID)
     {
-      case JavaPackage.JCOMPILATION_UNIT__NAME:
-        setName((String)newValue);
-        return;
-      case JavaPackage.JCOMPILATION_UNIT__JNODE:
-        setJNode((Object)newValue);
-        return;
       case JavaPackage.JCOMPILATION_UNIT__IMPORTS:
         getImports().clear();
         getImports().addAll((Collection)newValue);
@@ -390,7 +368,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
         setPackage((JPackage)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -402,12 +380,6 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
   {
     switch (featureID)
     {
-      case JavaPackage.JCOMPILATION_UNIT__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case JavaPackage.JCOMPILATION_UNIT__JNODE:
-        setJNode(JNODE_EDEFAULT);
-        return;
       case JavaPackage.JCOMPILATION_UNIT__IMPORTS:
         getImports().clear();
         return;
@@ -427,7 +399,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
         setPackage((JPackage)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -439,10 +411,6 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
   {
     switch (featureID)
     {
-      case JavaPackage.JCOMPILATION_UNIT__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case JavaPackage.JCOMPILATION_UNIT__JNODE:
-        return JNODE_EDEFAULT == null ? jNode != null : !JNODE_EDEFAULT.equals(jNode);
       case JavaPackage.JCOMPILATION_UNIT__IMPORTS:
         return imports != null && !imports.isEmpty();
       case JavaPackage.JCOMPILATION_UNIT__COMMENT:
@@ -456,7 +424,7 @@ public class JCompilationUnitImpl extends JModelElementImpl implements JCompilat
       case JavaPackage.JCOMPILATION_UNIT__PACKAGE:
         return package_ != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.53 2005/11/23 17:30:53 khussey Exp $
+ * $Id: GenModelImpl.java,v 1.54 2005/11/25 13:11:55 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -132,6 +132,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isBundleManifest <em>Bundle Manifest</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureDelegation <em>Feature Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isContainmentProxies <em>Containment Proxies</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isMinimalReflectiveMethods <em>Minimal Reflective Methods</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -994,6 +995,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean containmentProxies = CONTAINMENT_PROXIES_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isMinimalReflectiveMethods() <em>Minimal Reflective Methods</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isMinimalReflectiveMethods()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean MINIMAL_REFLECTIVE_METHODS_EDEFAULT = true;
+
+  /**
+   * The cached value of the '{@link #isMinimalReflectiveMethods() <em>Minimal Reflective Methods</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isMinimalReflectiveMethods()
+   * @generated
+   * @ordered
+   */
+  protected boolean minimalReflectiveMethods = MINIMAL_REFLECTIVE_METHODS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -3754,6 +3775,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isMinimalReflectiveMethods()
+  {
+    return minimalReflectiveMethods;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setMinimalReflectiveMethods(boolean newMinimalReflectiveMethods)
+  {
+    boolean oldMinimalReflectiveMethods = minimalReflectiveMethods;
+    minimalReflectiveMethods = newMinimalReflectiveMethods;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS, oldMinimalReflectiveMethods, minimalReflectiveMethods));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -3813,21 +3857,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
-          return ((InternalEList)getGenPackages()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
+        return ((InternalEList)getGenPackages()).basicAdd(otherEnd, msgs);
     }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -3835,19 +3872,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
-          return ((InternalEList)getGenPackages()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
+        return ((InternalEList)getGenPackages()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -3943,12 +3975,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getFeatureDelegation();
       case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
         return isContainmentProxies() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
+        return isMinimalReflectiveMethods() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
         return getUsedGenPackages();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -4089,6 +4123,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
         setContainmentProxies(((Boolean)newValue).booleanValue());
         return;
+      case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
+        setMinimalReflectiveMethods(((Boolean)newValue).booleanValue());
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         getGenPackages().addAll((Collection)newValue);
@@ -4098,7 +4135,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         getUsedGenPackages().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -4236,6 +4273,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
         setContainmentProxies(CONTAINMENT_PROXIES_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
+        setMinimalReflectiveMethods(MINIMAL_REFLECTIVE_METHODS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -4243,7 +4283,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         getUsedGenPackages().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -4339,12 +4379,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return featureDelegation != FEATURE_DELEGATION_EDEFAULT;
       case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
         return containmentProxies != CONTAINMENT_PROXIES_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
+        return minimalReflectiveMethods != MINIMAL_REFLECTIVE_METHODS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
         return usedGenPackages != null && !usedGenPackages.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -4439,6 +4481,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(featureDelegation);
     result.append(", containmentProxies: ");
     result.append(containmentProxies);
+    result.append(", minimalReflectiveMethods: ");
+    result.append(minimalReflectiveMethods);
     result.append(')');
     return result.toString();
   }
@@ -5224,6 +5268,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     
     setFeatureDelegation(oldGenModelVersion.getFeatureDelegation());
     setContainmentProxies(oldGenModelVersion.isContainmentProxies());
+    setMinimalReflectiveMethods(oldGenModelVersion.isMinimalReflectiveMethods());
   }
 
   public boolean reconcile()
