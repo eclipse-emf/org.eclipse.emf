@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.22 2005/11/23 17:31:02 khussey Exp $
+ * $Id: GenModelItemProvider.java,v 1.23 2005/11/25 12:58:51 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -110,6 +110,7 @@ public class GenModelItemProvider
       addBundleManifestPropertyDescriptor(object);
       addFeatureDelegationPropertyDescriptor(object);
       addContainmentProxiesPropertyDescriptor(object);
+      addMinimalReflectiveMethodsPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -913,6 +914,27 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Minimal Reflective Methods feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addMinimalReflectiveMethodsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_minimalReflectiveMethods_feature"),
+         getString("_UI_GenModel_minimalReflectiveMethods_description"),
+         GenModelPackage.Literals.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1015,6 +1037,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__BUNDLE_MANIFEST:
       case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
       case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
+      case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
