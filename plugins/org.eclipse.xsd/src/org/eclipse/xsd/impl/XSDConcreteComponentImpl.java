@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.11 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.12 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1937,19 +1937,14 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_CONCRETE_COMPONENT__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_CONCRETE_COMPONENT__DIAGNOSTICS:
+        return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -1972,7 +1967,7 @@ public abstract class XSDConcreteComponentImpl
       case XSDPackage.XSD_CONCRETE_COMPONENT__DIAGNOSTICS:
         return getDiagnostics();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -1992,7 +1987,7 @@ public abstract class XSDConcreteComponentImpl
         getDiagnostics().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -2011,7 +2006,7 @@ public abstract class XSDConcreteComponentImpl
         getDiagnostics().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -2034,7 +2029,7 @@ public abstract class XSDConcreteComponentImpl
       case XSDPackage.XSD_CONCRETE_COMPONENT__DIAGNOSTICS:
         return diagnostics != null && !diagnostics.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

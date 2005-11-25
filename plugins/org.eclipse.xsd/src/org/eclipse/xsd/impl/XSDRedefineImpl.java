@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.11 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDRedefineImpl.java,v 1.12 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -152,21 +152,14 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_REDEFINE__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_REDEFINE__CONTENTS:
-          return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_REDEFINE__CONTENTS:
+        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -178,28 +171,12 @@ public class XSDRedefineImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_REDEFINE__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_REDEFINE__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_REDEFINE__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_REDEFINE__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_REDEFINE__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_REDEFINE__SCHEMA_LOCATION:
-        return getSchemaLocation();
-      case XSDPackage.XSD_REDEFINE__RESOLVED_SCHEMA:
-        return getResolvedSchema();
-      case XSDPackage.XSD_REDEFINE__INCORPORATED_SCHEMA:
-        return getIncorporatedSchema();
       case XSDPackage.XSD_REDEFINE__ANNOTATIONS:
         return getAnnotations();
       case XSDPackage.XSD_REDEFINE__CONTENTS:
         return getContents();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -211,22 +188,6 @@ public class XSDRedefineImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_REDEFINE__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_REDEFINE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_REDEFINE__SCHEMA_LOCATION:
-        setSchemaLocation((String)newValue);
-        return;
-      case XSDPackage.XSD_REDEFINE__RESOLVED_SCHEMA:
-        setResolvedSchema((XSDSchema)newValue);
-        return;
-      case XSDPackage.XSD_REDEFINE__INCORPORATED_SCHEMA:
-        setIncorporatedSchema((XSDSchema)newValue);
-        return;
       case XSDPackage.XSD_REDEFINE__ANNOTATIONS:
         getAnnotations().clear();
         getAnnotations().addAll((Collection)newValue);
@@ -236,7 +197,7 @@ public class XSDRedefineImpl
         getContents().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -248,21 +209,6 @@ public class XSDRedefineImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_REDEFINE__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_REDEFINE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_REDEFINE__SCHEMA_LOCATION:
-        setSchemaLocation(SCHEMA_LOCATION_EDEFAULT);
-        return;
-      case XSDPackage.XSD_REDEFINE__RESOLVED_SCHEMA:
-        setResolvedSchema((XSDSchema)null);
-        return;
-      case XSDPackage.XSD_REDEFINE__INCORPORATED_SCHEMA:
-        setIncorporatedSchema((XSDSchema)null);
-        return;
       case XSDPackage.XSD_REDEFINE__ANNOTATIONS:
         getAnnotations().clear();
         return;
@@ -270,7 +216,7 @@ public class XSDRedefineImpl
         getContents().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -282,28 +228,12 @@ public class XSDRedefineImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_REDEFINE__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_REDEFINE__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_REDEFINE__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_REDEFINE__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_REDEFINE__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_REDEFINE__SCHEMA_LOCATION:
-        return SCHEMA_LOCATION_EDEFAULT == null ? schemaLocation != null : !SCHEMA_LOCATION_EDEFAULT.equals(schemaLocation);
-      case XSDPackage.XSD_REDEFINE__RESOLVED_SCHEMA:
-        return resolvedSchema != null;
-      case XSDPackage.XSD_REDEFINE__INCORPORATED_SCHEMA:
-        return incorporatedSchema != null;
       case XSDPackage.XSD_REDEFINE__ANNOTATIONS:
         return annotations != null && !annotations.isEmpty();
       case XSDPackage.XSD_REDEFINE__CONTENTS:
         return contents != null && !contents.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   public Element createElement()

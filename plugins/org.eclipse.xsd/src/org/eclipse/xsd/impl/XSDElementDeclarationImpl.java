@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.13 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.14 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1900,25 +1900,18 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_ELEMENT_DECLARATION__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_ELEMENT_DECLARATION__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        case XSDPackage.XSD_ELEMENT_DECLARATION__ANONYMOUS_TYPE_DEFINITION:
-          return basicSetAnonymousTypeDefinition(null, msgs);
-        case XSDPackage.XSD_ELEMENT_DECLARATION__IDENTITY_CONSTRAINT_DEFINITIONS:
-          return ((InternalEList)getIdentityConstraintDefinitions()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_ELEMENT_DECLARATION__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
+      case XSDPackage.XSD_ELEMENT_DECLARATION__ANONYMOUS_TYPE_DEFINITION:
+        return basicSetAnonymousTypeDefinition(null, msgs);
+      case XSDPackage.XSD_ELEMENT_DECLARATION__IDENTITY_CONSTRAINT_DEFINITIONS:
+        return ((InternalEList)getIdentityConstraintDefinitions()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -1930,46 +1923,6 @@ public class XSDElementDeclarationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ELEMENT_DECLARATION__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__NAME:
-        return getName();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__TARGET_NAMESPACE:
-        return getTargetNamespace();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__ALIAS_NAME:
-        return getAliasName();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__URI:
-        return getURI();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__ALIAS_URI:
-        return getAliasURI();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__QNAME:
-        return getQName();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__VALUE:
-        return getValue();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__CONSTRAINT:
-        return getConstraint();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__FORM:
-        return getForm();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__LEXICAL_VALUE:
-        return getLexicalValue();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__GLOBAL:
-        return isGlobal() ? Boolean.TRUE : Boolean.FALSE;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__FEATURE_REFERENCE:
-        return isFeatureReference() ? Boolean.TRUE : Boolean.FALSE;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__SCOPE:
-        return getScope();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__RESOLVED_FEATURE:
-        return getResolvedFeature();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__TYPE:
-        return getType();
       case XSDPackage.XSD_ELEMENT_DECLARATION__NILLABLE:
         return isNillable() ? Boolean.TRUE : Boolean.FALSE;
       case XSDPackage.XSD_ELEMENT_DECLARATION__DISALLOWED_SUBSTITUTIONS:
@@ -2001,7 +1954,7 @@ public class XSDElementDeclarationImpl
       case XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP:
         return getSubstitutionGroup();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -2013,31 +1966,6 @@ public class XSDElementDeclarationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ELEMENT_DECLARATION__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__NAME:
-        setName((String)newValue);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__TARGET_NAMESPACE:
-        setTargetNamespace((String)newValue);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__VALUE:
-        setValue((Object)newValue);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__CONSTRAINT:
-        setConstraint((XSDConstraint)newValue);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__FORM:
-        setForm((XSDForm)newValue);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__LEXICAL_VALUE:
-        setLexicalValue((String)newValue);
-        return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__NILLABLE:
         setNillable(((Boolean)newValue).booleanValue());
         return;
@@ -2084,7 +2012,7 @@ public class XSDElementDeclarationImpl
         getSubstitutionGroup().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -2096,30 +2024,6 @@ public class XSDElementDeclarationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ELEMENT_DECLARATION__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__TARGET_NAMESPACE:
-        setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__VALUE:
-        setValue(VALUE_EDEFAULT);
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__CONSTRAINT:
-        unsetConstraint();
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__FORM:
-        unsetForm();
-        return;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__LEXICAL_VALUE:
-        setLexicalValue(LEXICAL_VALUE_EDEFAULT);
-        return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__NILLABLE:
         unsetNillable();
         return;
@@ -2160,7 +2064,7 @@ public class XSDElementDeclarationImpl
         getSubstitutionGroup().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -2172,46 +2076,6 @@ public class XSDElementDeclarationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ELEMENT_DECLARATION__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_ELEMENT_DECLARATION__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case XSDPackage.XSD_ELEMENT_DECLARATION__TARGET_NAMESPACE:
-        return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
-      case XSDPackage.XSD_ELEMENT_DECLARATION__ALIAS_NAME:
-        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
-      case XSDPackage.XSD_ELEMENT_DECLARATION__URI:
-        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
-      case XSDPackage.XSD_ELEMENT_DECLARATION__ALIAS_URI:
-        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
-      case XSDPackage.XSD_ELEMENT_DECLARATION__QNAME:
-        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
-      case XSDPackage.XSD_ELEMENT_DECLARATION__VALUE:
-        return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
-      case XSDPackage.XSD_ELEMENT_DECLARATION__CONSTRAINT:
-        return isSetConstraint();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__FORM:
-        return isSetForm();
-      case XSDPackage.XSD_ELEMENT_DECLARATION__LEXICAL_VALUE:
-        return LEXICAL_VALUE_EDEFAULT == null ? lexicalValue != null : !LEXICAL_VALUE_EDEFAULT.equals(lexicalValue);
-      case XSDPackage.XSD_ELEMENT_DECLARATION__GLOBAL:
-        return isGlobal() != GLOBAL_EDEFAULT;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__FEATURE_REFERENCE:
-        return isFeatureReference() != FEATURE_REFERENCE_EDEFAULT;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__SCOPE:
-        return getScope() != null;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__RESOLVED_FEATURE:
-        return getResolvedFeature() != null;
-      case XSDPackage.XSD_ELEMENT_DECLARATION__TYPE:
-        return getType() != null;
       case XSDPackage.XSD_ELEMENT_DECLARATION__NILLABLE:
         return isSetNillable();
       case XSDPackage.XSD_ELEMENT_DECLARATION__DISALLOWED_SUBSTITUTIONS:
@@ -2243,7 +2107,7 @@ public class XSDElementDeclarationImpl
       case XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP:
         return substitutionGroup != null && !substitutionGroup.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

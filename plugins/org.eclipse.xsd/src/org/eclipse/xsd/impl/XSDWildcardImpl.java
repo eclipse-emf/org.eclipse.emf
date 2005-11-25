@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.9 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDWildcardImpl.java,v 1.10 2005/11/25 13:13:59 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -385,21 +385,14 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_WILDCARD__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_WILDCARD__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_WILDCARD__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -411,16 +404,6 @@ public class XSDWildcardImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_WILDCARD__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_WILDCARD__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_WILDCARD__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_WILDCARD__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_WILDCARD__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT_CATEGORY:
         return getNamespaceConstraintCategory();
       case XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT:
@@ -434,7 +417,7 @@ public class XSDWildcardImpl
       case XSDPackage.XSD_WILDCARD__ANNOTATIONS:
         return getAnnotations();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -446,13 +429,6 @@ public class XSDWildcardImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_WILDCARD__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_WILDCARD__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT_CATEGORY:
         setNamespaceConstraintCategory((XSDNamespaceConstraintCategory)newValue);
         return;
@@ -475,7 +451,7 @@ public class XSDWildcardImpl
         getAnnotations().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -487,12 +463,6 @@ public class XSDWildcardImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_WILDCARD__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_WILDCARD__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT_CATEGORY:
         setNamespaceConstraintCategory(NAMESPACE_CONSTRAINT_CATEGORY_EDEFAULT);
         return;
@@ -512,7 +482,7 @@ public class XSDWildcardImpl
         getAnnotations().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -524,16 +494,6 @@ public class XSDWildcardImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_WILDCARD__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_WILDCARD__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_WILDCARD__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_WILDCARD__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_WILDCARD__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT_CATEGORY:
         return namespaceConstraintCategory != NAMESPACE_CONSTRAINT_CATEGORY_EDEFAULT;
       case XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT:
@@ -547,7 +507,7 @@ public class XSDWildcardImpl
       case XSDPackage.XSD_WILDCARD__ANNOTATIONS:
         return annotations != null && !annotations.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

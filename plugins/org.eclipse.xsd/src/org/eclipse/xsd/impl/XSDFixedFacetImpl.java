@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XSDFixedFacetImpl.java,v 1.8 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDFixedFacetImpl.java,v 1.9 2005/11/25 13:13:59 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import org.w3c.dom.Element;
@@ -28,7 +27,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDConstrainingFacet;
 import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDFacet;
@@ -212,30 +210,10 @@ public abstract class XSDFixedFacetImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FIXED_FACET__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_FIXED_FACET__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_FIXED_FACET__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_FIXED_FACET__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_FIXED_FACET__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_FIXED_FACET__LEXICAL_VALUE:
-        return getLexicalValue();
-      case XSDPackage.XSD_FIXED_FACET__FACET_NAME:
-        return getFacetName();
-      case XSDPackage.XSD_FIXED_FACET__EFFECTIVE_VALUE:
-        return getEffectiveValue();
-      case XSDPackage.XSD_FIXED_FACET__ANNOTATION:
-        return getAnnotation();
-      case XSDPackage.XSD_FIXED_FACET__SIMPLE_TYPE_DEFINITION:
-        return getSimpleTypeDefinition();
       case XSDPackage.XSD_FIXED_FACET__FIXED:
         return isFixed() ? Boolean.TRUE : Boolean.FALSE;
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -247,24 +225,11 @@ public abstract class XSDFixedFacetImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FIXED_FACET__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_FIXED_FACET__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_FIXED_FACET__LEXICAL_VALUE:
-        setLexicalValue((String)newValue);
-        return;
-      case XSDPackage.XSD_FIXED_FACET__ANNOTATION:
-        setAnnotation((XSDAnnotation)newValue);
-        return;
       case XSDPackage.XSD_FIXED_FACET__FIXED:
         setFixed(((Boolean)newValue).booleanValue());
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -276,23 +241,11 @@ public abstract class XSDFixedFacetImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FIXED_FACET__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_FIXED_FACET__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_FIXED_FACET__LEXICAL_VALUE:
-        setLexicalValue(LEXICAL_VALUE_EDEFAULT);
-        return;
-      case XSDPackage.XSD_FIXED_FACET__ANNOTATION:
-        setAnnotation((XSDAnnotation)null);
-        return;
       case XSDPackage.XSD_FIXED_FACET__FIXED:
         unsetFixed();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -304,30 +257,10 @@ public abstract class XSDFixedFacetImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FIXED_FACET__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_FIXED_FACET__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_FIXED_FACET__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_FIXED_FACET__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_FIXED_FACET__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_FIXED_FACET__LEXICAL_VALUE:
-        return LEXICAL_VALUE_EDEFAULT == null ? lexicalValue != null : !LEXICAL_VALUE_EDEFAULT.equals(lexicalValue);
-      case XSDPackage.XSD_FIXED_FACET__FACET_NAME:
-        return FACET_NAME_EDEFAULT == null ? getFacetName() != null : !FACET_NAME_EDEFAULT.equals(getFacetName());
-      case XSDPackage.XSD_FIXED_FACET__EFFECTIVE_VALUE:
-        return EFFECTIVE_VALUE_EDEFAULT == null ? getEffectiveValue() != null : !EFFECTIVE_VALUE_EDEFAULT.equals(getEffectiveValue());
-      case XSDPackage.XSD_FIXED_FACET__ANNOTATION:
-        return annotation != null;
-      case XSDPackage.XSD_FIXED_FACET__SIMPLE_TYPE_DEFINITION:
-        return getSimpleTypeDefinition() != null;
       case XSDPackage.XSD_FIXED_FACET__FIXED:
         return isSetFixed();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupImpl.java,v 1.6 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDModelGroupImpl.java,v 1.7 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -275,23 +275,16 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_MODEL_GROUP__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_MODEL_GROUP__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        case XSDPackage.XSD_MODEL_GROUP__CONTENTS:
-          return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_MODEL_GROUP__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
+      case XSDPackage.XSD_MODEL_GROUP__CONTENTS:
+        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -303,16 +296,6 @@ public class XSDModelGroupImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_MODEL_GROUP__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_MODEL_GROUP__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_MODEL_GROUP__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_MODEL_GROUP__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_MODEL_GROUP__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_MODEL_GROUP__COMPOSITOR:
         return getCompositor();
       case XSDPackage.XSD_MODEL_GROUP__ANNOTATION:
@@ -322,7 +305,7 @@ public class XSDModelGroupImpl
       case XSDPackage.XSD_MODEL_GROUP__PARTICLES:
         return getParticles();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -334,13 +317,6 @@ public class XSDModelGroupImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_MODEL_GROUP__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_MODEL_GROUP__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_MODEL_GROUP__COMPOSITOR:
         setCompositor((XSDCompositor)newValue);
         return;
@@ -356,7 +332,7 @@ public class XSDModelGroupImpl
         getParticles().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -368,12 +344,6 @@ public class XSDModelGroupImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_MODEL_GROUP__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_MODEL_GROUP__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_MODEL_GROUP__COMPOSITOR:
         setCompositor(COMPOSITOR_EDEFAULT);
         return;
@@ -387,7 +357,7 @@ public class XSDModelGroupImpl
         getParticles().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -399,16 +369,6 @@ public class XSDModelGroupImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_MODEL_GROUP__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_MODEL_GROUP__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_MODEL_GROUP__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_MODEL_GROUP__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_MODEL_GROUP__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_MODEL_GROUP__COMPOSITOR:
         return compositor != COMPOSITOR_EDEFAULT;
       case XSDPackage.XSD_MODEL_GROUP__ANNOTATION:
@@ -418,7 +378,7 @@ public class XSDModelGroupImpl
       case XSDPackage.XSD_MODEL_GROUP__PARTICLES:
         return particles != null && !particles.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

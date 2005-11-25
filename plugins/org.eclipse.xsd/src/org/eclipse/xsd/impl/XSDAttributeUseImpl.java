@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseImpl.java,v 1.6 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDAttributeUseImpl.java,v 1.7 2005/11/25 13:13:59 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -34,8 +34,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeUse;
 import org.eclipse.xsd.XSDAttributeUseCategory;
@@ -507,21 +505,14 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_ATTRIBUTE_USE__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_ATTRIBUTE_USE__CONTENT:
-          return basicSetContent(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_ATTRIBUTE_USE__CONTENT:
+        return basicSetContent(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -550,16 +541,6 @@ public class XSDAttributeUseImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ATTRIBUTE_USE__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_ATTRIBUTE_USE__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_ATTRIBUTE_USE__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_ATTRIBUTE_USE__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_ATTRIBUTE_USE__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_ATTRIBUTE_USE__REQUIRED:
         return isRequired() ? Boolean.TRUE : Boolean.FALSE;
       case XSDPackage.XSD_ATTRIBUTE_USE__VALUE:
@@ -575,7 +556,7 @@ public class XSDAttributeUseImpl
       case XSDPackage.XSD_ATTRIBUTE_USE__CONTENT:
         return getContent();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -587,13 +568,6 @@ public class XSDAttributeUseImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ATTRIBUTE_USE__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_ATTRIBUTE_USE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_ATTRIBUTE_USE__REQUIRED:
         setRequired(((Boolean)newValue).booleanValue());
         return;
@@ -616,7 +590,7 @@ public class XSDAttributeUseImpl
         setContent((XSDAttributeDeclaration)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -628,12 +602,6 @@ public class XSDAttributeUseImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ATTRIBUTE_USE__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_ATTRIBUTE_USE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_ATTRIBUTE_USE__REQUIRED:
         setRequired(REQUIRED_EDEFAULT);
         return;
@@ -656,7 +624,7 @@ public class XSDAttributeUseImpl
         setContent((XSDAttributeDeclaration)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -668,16 +636,6 @@ public class XSDAttributeUseImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ATTRIBUTE_USE__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_ATTRIBUTE_USE__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_ATTRIBUTE_USE__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_ATTRIBUTE_USE__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_ATTRIBUTE_USE__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_ATTRIBUTE_USE__REQUIRED:
         return ((eFlags & REQUIRED_EFLAG) != 0) != REQUIRED_EDEFAULT;
       case XSDPackage.XSD_ATTRIBUTE_USE__VALUE:
@@ -693,7 +651,7 @@ public class XSDAttributeUseImpl
       case XSDPackage.XSD_ATTRIBUTE_USE__CONTENT:
         return content != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

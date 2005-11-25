@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.9 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.10 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -567,16 +567,6 @@ public abstract class XSDNamedComponentImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_NAMED_COMPONENT__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_NAMED_COMPONENT__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_NAMED_COMPONENT__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_NAMED_COMPONENT__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_NAMED_COMPONENT__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_NAMED_COMPONENT__NAME:
         return getName();
       case XSDPackage.XSD_NAMED_COMPONENT__TARGET_NAMESPACE:
@@ -590,7 +580,7 @@ public abstract class XSDNamedComponentImpl
       case XSDPackage.XSD_NAMED_COMPONENT__QNAME:
         return getQName();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -602,13 +592,6 @@ public abstract class XSDNamedComponentImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_NAMED_COMPONENT__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_NAMED_COMPONENT__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_NAMED_COMPONENT__NAME:
         setName((String)newValue);
         return;
@@ -616,7 +599,7 @@ public abstract class XSDNamedComponentImpl
         setTargetNamespace((String)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -628,12 +611,6 @@ public abstract class XSDNamedComponentImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_NAMED_COMPONENT__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_NAMED_COMPONENT__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_NAMED_COMPONENT__NAME:
         setName(NAME_EDEFAULT);
         return;
@@ -641,7 +618,7 @@ public abstract class XSDNamedComponentImpl
         setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -653,16 +630,6 @@ public abstract class XSDNamedComponentImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_NAMED_COMPONENT__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_NAMED_COMPONENT__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_NAMED_COMPONENT__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_NAMED_COMPONENT__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_NAMED_COMPONENT__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_NAMED_COMPONENT__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case XSDPackage.XSD_NAMED_COMPONENT__TARGET_NAMESPACE:
@@ -676,7 +643,7 @@ public abstract class XSDNamedComponentImpl
       case XSDPackage.XSD_NAMED_COMPONENT__QNAME:
         return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

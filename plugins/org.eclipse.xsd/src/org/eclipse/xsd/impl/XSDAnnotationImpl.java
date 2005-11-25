@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotationImpl.java,v 1.7 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDAnnotationImpl.java,v 1.8 2005/11/25 13:13:59 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -173,16 +173,6 @@ public class XSDAnnotationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ANNOTATION__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_ANNOTATION__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_ANNOTATION__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_ANNOTATION__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_ANNOTATION__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_ANNOTATION__APPLICATION_INFORMATION:
         return getApplicationInformation();
       case XSDPackage.XSD_ANNOTATION__USER_INFORMATION:
@@ -190,7 +180,7 @@ public class XSDAnnotationImpl
       case XSDPackage.XSD_ANNOTATION__ATTRIBUTES:
         return getAttributes();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -202,13 +192,6 @@ public class XSDAnnotationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ANNOTATION__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_ANNOTATION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_ANNOTATION__APPLICATION_INFORMATION:
         getApplicationInformation().clear();
         getApplicationInformation().addAll((Collection)newValue);
@@ -222,7 +205,7 @@ public class XSDAnnotationImpl
         getAttributes().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -234,12 +217,6 @@ public class XSDAnnotationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ANNOTATION__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_ANNOTATION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_ANNOTATION__APPLICATION_INFORMATION:
         getApplicationInformation().clear();
         return;
@@ -250,7 +227,7 @@ public class XSDAnnotationImpl
         getAttributes().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -262,16 +239,6 @@ public class XSDAnnotationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ANNOTATION__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_ANNOTATION__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_ANNOTATION__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_ANNOTATION__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_ANNOTATION__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_ANNOTATION__APPLICATION_INFORMATION:
         return applicationInformation != null && !applicationInformation.isEmpty();
       case XSDPackage.XSD_ANNOTATION__USER_INFORMATION:
@@ -279,7 +246,7 @@ public class XSDAnnotationImpl
       case XSDPackage.XSD_ANNOTATION__ATTRIBUTES:
         return attributes != null && !attributes.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

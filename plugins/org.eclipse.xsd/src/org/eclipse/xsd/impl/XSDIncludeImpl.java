@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XSDIncludeImpl.java,v 1.7 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDIncludeImpl.java,v 1.8 2005/11/25 13:13:59 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
-
-import java.util.Collection;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,8 +25,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDDiagnosticSeverity;
@@ -134,21 +130,14 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_INCLUDE__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_INCLUDE__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_INCLUDE__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -177,26 +166,10 @@ public class XSDIncludeImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_INCLUDE__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_INCLUDE__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_INCLUDE__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_INCLUDE__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_INCLUDE__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_INCLUDE__SCHEMA_LOCATION:
-        return getSchemaLocation();
-      case XSDPackage.XSD_INCLUDE__RESOLVED_SCHEMA:
-        return getResolvedSchema();
-      case XSDPackage.XSD_INCLUDE__INCORPORATED_SCHEMA:
-        return getIncorporatedSchema();
       case XSDPackage.XSD_INCLUDE__ANNOTATION:
         return getAnnotation();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -208,27 +181,11 @@ public class XSDIncludeImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_INCLUDE__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_INCLUDE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_INCLUDE__SCHEMA_LOCATION:
-        setSchemaLocation((String)newValue);
-        return;
-      case XSDPackage.XSD_INCLUDE__RESOLVED_SCHEMA:
-        setResolvedSchema((XSDSchema)newValue);
-        return;
-      case XSDPackage.XSD_INCLUDE__INCORPORATED_SCHEMA:
-        setIncorporatedSchema((XSDSchema)newValue);
-        return;
       case XSDPackage.XSD_INCLUDE__ANNOTATION:
         setAnnotation((XSDAnnotation)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -240,26 +197,11 @@ public class XSDIncludeImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_INCLUDE__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_INCLUDE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_INCLUDE__SCHEMA_LOCATION:
-        setSchemaLocation(SCHEMA_LOCATION_EDEFAULT);
-        return;
-      case XSDPackage.XSD_INCLUDE__RESOLVED_SCHEMA:
-        setResolvedSchema((XSDSchema)null);
-        return;
-      case XSDPackage.XSD_INCLUDE__INCORPORATED_SCHEMA:
-        setIncorporatedSchema((XSDSchema)null);
-        return;
       case XSDPackage.XSD_INCLUDE__ANNOTATION:
         setAnnotation((XSDAnnotation)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -271,26 +213,10 @@ public class XSDIncludeImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_INCLUDE__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_INCLUDE__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_INCLUDE__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_INCLUDE__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_INCLUDE__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_INCLUDE__SCHEMA_LOCATION:
-        return SCHEMA_LOCATION_EDEFAULT == null ? schemaLocation != null : !SCHEMA_LOCATION_EDEFAULT.equals(schemaLocation);
-      case XSDPackage.XSD_INCLUDE__RESOLVED_SCHEMA:
-        return resolvedSchema != null;
-      case XSDPackage.XSD_INCLUDE__INCORPORATED_SCHEMA:
-        return incorporatedSchema != null;
       case XSDPackage.XSD_INCLUDE__ANNOTATION:
         return annotation != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   public Element createElement()

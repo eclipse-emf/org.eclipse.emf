@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.7 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.8 2005/11/25 13:13:59 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -328,25 +328,18 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__SELECTOR:
-          return basicSetSelector(null, msgs);
-        case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS:
-          return ((InternalEList)getFields()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
+      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__SELECTOR:
+        return basicSetSelector(null, msgs);
+      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS:
+        return ((InternalEList)getFields()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -358,28 +351,6 @@ public class XSDIdentityConstraintDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__NAME:
-        return getName();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__TARGET_NAMESPACE:
-        return getTargetNamespace();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ALIAS_NAME:
-        return getAliasName();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__URI:
-        return getURI();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ALIAS_URI:
-        return getAliasURI();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__QNAME:
-        return getQName();
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__IDENTITY_CONSTRAINT_CATEGORY:
         return getIdentityConstraintCategory();
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ANNOTATION:
@@ -391,7 +362,7 @@ public class XSDIdentityConstraintDefinitionImpl
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS:
         return getFields();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -403,19 +374,6 @@ public class XSDIdentityConstraintDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__NAME:
-        setName((String)newValue);
-        return;
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__TARGET_NAMESPACE:
-        setTargetNamespace((String)newValue);
-        return;
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__IDENTITY_CONSTRAINT_CATEGORY:
         setIdentityConstraintCategory((XSDIdentityConstraintCategory)newValue);
         return;
@@ -433,7 +391,7 @@ public class XSDIdentityConstraintDefinitionImpl
         getFields().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -445,18 +403,6 @@ public class XSDIdentityConstraintDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__TARGET_NAMESPACE:
-        setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
-        return;
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__IDENTITY_CONSTRAINT_CATEGORY:
         setIdentityConstraintCategory(IDENTITY_CONSTRAINT_CATEGORY_EDEFAULT);
         return;
@@ -473,7 +419,7 @@ public class XSDIdentityConstraintDefinitionImpl
         getFields().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -485,28 +431,6 @@ public class XSDIdentityConstraintDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__TARGET_NAMESPACE:
-        return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ALIAS_NAME:
-        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__URI:
-        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ALIAS_URI:
-        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
-      case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__QNAME:
-        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__IDENTITY_CONSTRAINT_CATEGORY:
         return identityConstraintCategory != IDENTITY_CONSTRAINT_CATEGORY_EDEFAULT;
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__ANNOTATION:
@@ -518,7 +442,7 @@ public class XSDIdentityConstraintDefinitionImpl
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS:
         return fields != null && !fields.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

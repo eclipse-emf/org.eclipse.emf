@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.23 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.24 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2473,23 +2473,16 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_SCHEMA__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_SCHEMA__CONTENTS:
-          return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_SCHEMA__INCORPORATED_VERSIONS:
-          return ((InternalEList)getIncorporatedVersions()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_SCHEMA__CONTENTS:
+        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
+      case XSDPackage.XSD_SCHEMA__INCORPORATED_VERSIONS:
+        return ((InternalEList)getIncorporatedVersions()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -2501,16 +2494,6 @@ public class XSDSchemaImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_SCHEMA__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_SCHEMA__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_SCHEMA__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_SCHEMA__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_SCHEMA__DOCUMENT:
         return getDocument();
       case XSDPackage.XSD_SCHEMA__SCHEMA_LOCATION:
@@ -2558,7 +2541,7 @@ public class XSDSchemaImpl
       case XSDPackage.XSD_SCHEMA__SCHEMA_FOR_SCHEMA:
         return getSchemaForSchema();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -2570,13 +2553,6 @@ public class XSDSchemaImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_SCHEMA__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_SCHEMA__DOCUMENT:
         setDocument((Document)newValue);
         return;
@@ -2652,7 +2628,7 @@ public class XSDSchemaImpl
         getIncorporatedVersions().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -2664,12 +2640,6 @@ public class XSDSchemaImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_SCHEMA__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_SCHEMA__DOCUMENT:
         setDocument(DOCUMENT_EDEFAULT);
         return;
@@ -2731,7 +2701,7 @@ public class XSDSchemaImpl
         getIncorporatedVersions().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -2743,16 +2713,6 @@ public class XSDSchemaImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_SCHEMA__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_SCHEMA__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_SCHEMA__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_SCHEMA__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_SCHEMA__DOCUMENT:
         return DOCUMENT_EDEFAULT == null ? document != null : !DOCUMENT_EDEFAULT.equals(document);
       case XSDPackage.XSD_SCHEMA__SCHEMA_LOCATION:
@@ -2800,7 +2760,7 @@ public class XSDSchemaImpl
       case XSDPackage.XSD_SCHEMA__SCHEMA_FOR_SCHEMA:
         return getSchemaForSchema() != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XSDFacetImpl.java,v 1.7 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDFacetImpl.java,v 1.8 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
-import java.util.Collection;
 import java.util.List;
 
 import org.w3c.dom.Element;
@@ -28,8 +27,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDFacet;
@@ -292,21 +289,14 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_FACET__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_FACET__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_FACET__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -318,16 +308,6 @@ public abstract class XSDFacetImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FACET__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_FACET__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_FACET__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_FACET__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_FACET__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_FACET__LEXICAL_VALUE:
         return getLexicalValue();
       case XSDPackage.XSD_FACET__FACET_NAME:
@@ -339,7 +319,7 @@ public abstract class XSDFacetImpl
       case XSDPackage.XSD_FACET__SIMPLE_TYPE_DEFINITION:
         return getSimpleTypeDefinition();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -351,13 +331,6 @@ public abstract class XSDFacetImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FACET__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_FACET__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_FACET__LEXICAL_VALUE:
         setLexicalValue((String)newValue);
         return;
@@ -365,7 +338,7 @@ public abstract class XSDFacetImpl
         setAnnotation((XSDAnnotation)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -377,12 +350,6 @@ public abstract class XSDFacetImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FACET__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_FACET__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_FACET__LEXICAL_VALUE:
         setLexicalValue(LEXICAL_VALUE_EDEFAULT);
         return;
@@ -390,7 +357,7 @@ public abstract class XSDFacetImpl
         setAnnotation((XSDAnnotation)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -402,16 +369,6 @@ public abstract class XSDFacetImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FACET__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_FACET__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_FACET__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_FACET__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_FACET__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_FACET__LEXICAL_VALUE:
         return LEXICAL_VALUE_EDEFAULT == null ? lexicalValue != null : !LEXICAL_VALUE_EDEFAULT.equals(lexicalValue);
       case XSDPackage.XSD_FACET__FACET_NAME:
@@ -423,7 +380,7 @@ public abstract class XSDFacetImpl
       case XSDPackage.XSD_FACET__SIMPLE_TYPE_DEFINITION:
         return getSimpleTypeDefinition() != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

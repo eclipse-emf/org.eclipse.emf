@@ -12,15 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.12 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.13 2005/11/25 13:13:59 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
-
 import org.w3c.dom.Element;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -172,22 +170,12 @@ public abstract class XSDSchemaDirectiveImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_SCHEMA_DIRECTIVE__SCHEMA_LOCATION:
         return getSchemaLocation();
       case XSDPackage.XSD_SCHEMA_DIRECTIVE__RESOLVED_SCHEMA:
         return getResolvedSchema();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -199,13 +187,6 @@ public abstract class XSDSchemaDirectiveImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_SCHEMA_DIRECTIVE__SCHEMA_LOCATION:
         setSchemaLocation((String)newValue);
         return;
@@ -213,7 +194,7 @@ public abstract class XSDSchemaDirectiveImpl
         setResolvedSchema((XSDSchema)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -225,12 +206,6 @@ public abstract class XSDSchemaDirectiveImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_SCHEMA_DIRECTIVE__SCHEMA_LOCATION:
         setSchemaLocation(SCHEMA_LOCATION_EDEFAULT);
         return;
@@ -238,7 +213,7 @@ public abstract class XSDSchemaDirectiveImpl
         setResolvedSchema((XSDSchema)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -250,22 +225,12 @@ public abstract class XSDSchemaDirectiveImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_SCHEMA_DIRECTIVE__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_SCHEMA_DIRECTIVE__SCHEMA_LOCATION:
         return SCHEMA_LOCATION_EDEFAULT == null ? schemaLocation != null : !SCHEMA_LOCATION_EDEFAULT.equals(schemaLocation);
       case XSDPackage.XSD_SCHEMA_DIRECTIVE__RESOLVED_SCHEMA:
         return resolvedSchema != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

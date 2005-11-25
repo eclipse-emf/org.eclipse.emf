@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.12 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.13 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -39,8 +39,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDCompositor;
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -373,21 +371,14 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_PARTICLE__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_PARTICLE__CONTENT:
-          return basicSetContent(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_PARTICLE__CONTENT:
+        return basicSetContent(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -399,16 +390,6 @@ public class XSDParticleImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_PARTICLE__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_PARTICLE__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_PARTICLE__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_PARTICLE__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_PARTICLE__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_PARTICLE__MIN_OCCURS:
         return new Integer(getMinOccurs());
       case XSDPackage.XSD_PARTICLE__MAX_OCCURS:
@@ -418,7 +399,7 @@ public class XSDParticleImpl
       case XSDPackage.XSD_PARTICLE__TERM:
         return getTerm();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -430,13 +411,6 @@ public class XSDParticleImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_PARTICLE__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_PARTICLE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_PARTICLE__MIN_OCCURS:
         setMinOccurs(((Integer)newValue).intValue());
         return;
@@ -450,7 +424,7 @@ public class XSDParticleImpl
         setTerm((XSDTerm)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -462,12 +436,6 @@ public class XSDParticleImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_PARTICLE__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_PARTICLE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_PARTICLE__MIN_OCCURS:
         unsetMinOccurs();
         return;
@@ -481,7 +449,7 @@ public class XSDParticleImpl
         setTerm((XSDTerm)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -493,16 +461,6 @@ public class XSDParticleImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_PARTICLE__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_PARTICLE__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_PARTICLE__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_PARTICLE__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_PARTICLE__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_PARTICLE__MIN_OCCURS:
         return isSetMinOccurs();
       case XSDPackage.XSD_PARTICLE__MAX_OCCURS:
@@ -512,7 +470,7 @@ public class XSDParticleImpl
       case XSDPackage.XSD_PARTICLE__TERM:
         return term != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

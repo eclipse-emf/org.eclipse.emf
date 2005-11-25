@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticImpl.java,v 1.7 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDDiagnosticImpl.java,v 1.8 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -505,16 +504,6 @@ public class XSDDiagnosticImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_DIAGNOSTIC__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_DIAGNOSTIC__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_DIAGNOSTIC__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_DIAGNOSTIC__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_DIAGNOSTIC__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_DIAGNOSTIC__SEVERITY:
         return getSeverity();
       case XSDPackage.XSD_DIAGNOSTIC__MESSAGE:
@@ -534,7 +523,7 @@ public class XSDDiagnosticImpl
       case XSDPackage.XSD_DIAGNOSTIC__PRIMARY_COMPONENT:
         return getPrimaryComponent();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -546,13 +535,6 @@ public class XSDDiagnosticImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_DIAGNOSTIC__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_DIAGNOSTIC__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_DIAGNOSTIC__SEVERITY:
         setSeverity((XSDDiagnosticSeverity)newValue);
         return;
@@ -582,7 +564,7 @@ public class XSDDiagnosticImpl
         setPrimaryComponent((XSDConcreteComponent)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -594,12 +576,6 @@ public class XSDDiagnosticImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_DIAGNOSTIC__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_DIAGNOSTIC__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_DIAGNOSTIC__SEVERITY:
         setSeverity(SEVERITY_EDEFAULT);
         return;
@@ -628,7 +604,7 @@ public class XSDDiagnosticImpl
         setPrimaryComponent((XSDConcreteComponent)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -640,16 +616,6 @@ public class XSDDiagnosticImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_DIAGNOSTIC__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_DIAGNOSTIC__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_DIAGNOSTIC__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_DIAGNOSTIC__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_DIAGNOSTIC__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_DIAGNOSTIC__SEVERITY:
         return severity != SEVERITY_EDEFAULT;
       case XSDPackage.XSD_DIAGNOSTIC__MESSAGE:
@@ -669,7 +635,7 @@ public class XSDDiagnosticImpl
       case XSDPackage.XSD_DIAGNOSTIC__PRIMARY_COMPONENT:
         return getPrimaryComponent() != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

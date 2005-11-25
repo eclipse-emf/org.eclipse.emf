@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XSDXPathDefinitionImpl.java,v 1.6 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDXPathDefinitionImpl.java,v 1.7 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
-
-import java.util.Collection;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,8 +26,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -227,21 +223,14 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_XPATH_DEFINITION__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_XPATH_DEFINITION__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_XPATH_DEFINITION__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -270,16 +259,6 @@ public class XSDXPathDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_XPATH_DEFINITION__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_XPATH_DEFINITION__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_XPATH_DEFINITION__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_XPATH_DEFINITION__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_XPATH_DEFINITION__DIAGNOSTICS:
-        return getDiagnostics();
       case XSDPackage.XSD_XPATH_DEFINITION__VARIETY:
         return getVariety();
       case XSDPackage.XSD_XPATH_DEFINITION__VALUE:
@@ -287,7 +266,7 @@ public class XSDXPathDefinitionImpl
       case XSDPackage.XSD_XPATH_DEFINITION__ANNOTATION:
         return getAnnotation();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -299,13 +278,6 @@ public class XSDXPathDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_XPATH_DEFINITION__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_XPATH_DEFINITION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
       case XSDPackage.XSD_XPATH_DEFINITION__VARIETY:
         setVariety((XSDXPathVariety)newValue);
         return;
@@ -316,7 +288,7 @@ public class XSDXPathDefinitionImpl
         setAnnotation((XSDAnnotation)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -328,12 +300,6 @@ public class XSDXPathDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_XPATH_DEFINITION__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_XPATH_DEFINITION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
       case XSDPackage.XSD_XPATH_DEFINITION__VARIETY:
         setVariety(VARIETY_EDEFAULT);
         return;
@@ -344,7 +310,7 @@ public class XSDXPathDefinitionImpl
         setAnnotation((XSDAnnotation)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -356,16 +322,6 @@ public class XSDXPathDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_XPATH_DEFINITION__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_XPATH_DEFINITION__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_XPATH_DEFINITION__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_XPATH_DEFINITION__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_XPATH_DEFINITION__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
       case XSDPackage.XSD_XPATH_DEFINITION__VARIETY:
         return variety != VARIETY_EDEFAULT;
       case XSDPackage.XSD_XPATH_DEFINITION__VALUE:
@@ -373,7 +329,7 @@ public class XSDXPathDefinitionImpl
       case XSDPackage.XSD_XPATH_DEFINITION__ANNOTATION:
         return annotation != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.10 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.11 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -907,27 +907,20 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTENTS:
-          return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_WILDCARD_CONTENT:
-          return basicSetAttributeWildcardContent(null, msgs);
-        case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__SYNTHETIC_WILDCARD:
-          return basicSetSyntheticWildcard(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
+      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTENTS:
+        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
+      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_WILDCARD_CONTENT:
+        return basicSetAttributeWildcardContent(null, msgs);
+      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__SYNTHETIC_WILDCARD:
+        return basicSetSyntheticWildcard(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -939,30 +932,6 @@ public class XSDAttributeGroupDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__NAME:
-        return getName();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__TARGET_NAMESPACE:
-        return getTargetNamespace();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ALIAS_NAME:
-        return getAliasName();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__URI:
-        return getURI();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ALIAS_URI:
-        return getAliasURI();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__QNAME:
-        return getQName();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CIRCULAR:
-        return isCircular() ? Boolean.TRUE : Boolean.FALSE;
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_GROUP_DEFINITION_REFERENCE:
         return isAttributeGroupDefinitionReference() ? Boolean.TRUE : Boolean.FALSE;
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION:
@@ -980,7 +949,7 @@ public class XSDAttributeGroupDefinitionImpl
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__SYNTHETIC_WILDCARD:
         return getSyntheticWildcard();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -992,19 +961,6 @@ public class XSDAttributeGroupDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__NAME:
-        setName((String)newValue);
-        return;
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__TARGET_NAMESPACE:
-        setTargetNamespace((String)newValue);
-        return;
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION:
         setAnnotation((XSDAnnotation)newValue);
         return;
@@ -1029,7 +985,7 @@ public class XSDAttributeGroupDefinitionImpl
         setSyntheticWildcard((XSDWildcard)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -1041,18 +997,6 @@ public class XSDAttributeGroupDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__TARGET_NAMESPACE:
-        setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
-        return;
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION:
         setAnnotation((XSDAnnotation)null);
         return;
@@ -1075,7 +1019,7 @@ public class XSDAttributeGroupDefinitionImpl
         setSyntheticWildcard((XSDWildcard)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -1087,30 +1031,6 @@ public class XSDAttributeGroupDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__TARGET_NAMESPACE:
-        return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ALIAS_NAME:
-        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__URI:
-        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ALIAS_URI:
-        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__QNAME:
-        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
-      case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CIRCULAR:
-        return isCircular() != CIRCULAR_EDEFAULT;
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_GROUP_DEFINITION_REFERENCE:
         return isAttributeGroupDefinitionReference() != ATTRIBUTE_GROUP_DEFINITION_REFERENCE_EDEFAULT;
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION:
@@ -1128,7 +1048,7 @@ public class XSDAttributeGroupDefinitionImpl
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__SYNTHETIC_WILDCARD:
         return syntheticWildcard != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   public String getQName()

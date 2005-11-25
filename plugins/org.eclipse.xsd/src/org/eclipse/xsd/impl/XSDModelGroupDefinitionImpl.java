@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.10 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.11 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
-import java.util.Collection;
 import java.util.List;
 
 import org.w3c.dom.Element;
@@ -29,8 +28,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDDiagnosticSeverity;
@@ -577,23 +574,16 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_MODEL_GROUP_DEFINITION__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        case XSDPackage.XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP:
-          return basicSetModelGroup(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
+      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP:
+        return basicSetModelGroup(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -605,30 +595,6 @@ public class XSDModelGroupDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__NAME:
-        return getName();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__TARGET_NAMESPACE:
-        return getTargetNamespace();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ALIAS_NAME:
-        return getAliasName();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__URI:
-        return getURI();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ALIAS_URI:
-        return getAliasURI();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__QNAME:
-        return getQName();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__CIRCULAR:
-        return isCircular() ? Boolean.TRUE : Boolean.FALSE;
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP_DEFINITION_REFERENCE:
         return isModelGroupDefinitionReference() ? Boolean.TRUE : Boolean.FALSE;
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ANNOTATION:
@@ -638,7 +604,7 @@ public class XSDModelGroupDefinitionImpl
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__RESOLVED_MODEL_GROUP_DEFINITION:
         return getResolvedModelGroupDefinition();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -650,19 +616,6 @@ public class XSDModelGroupDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__NAME:
-        setName((String)newValue);
-        return;
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__TARGET_NAMESPACE:
-        setTargetNamespace((String)newValue);
-        return;
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ANNOTATION:
         setAnnotation((XSDAnnotation)newValue);
         return;
@@ -673,7 +626,7 @@ public class XSDModelGroupDefinitionImpl
         setResolvedModelGroupDefinition((XSDModelGroupDefinition)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -685,18 +638,6 @@ public class XSDModelGroupDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__TARGET_NAMESPACE:
-        setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
-        return;
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ANNOTATION:
         setAnnotation((XSDAnnotation)null);
         return;
@@ -707,7 +648,7 @@ public class XSDModelGroupDefinitionImpl
         setResolvedModelGroupDefinition((XSDModelGroupDefinition)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -719,30 +660,6 @@ public class XSDModelGroupDefinitionImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__TARGET_NAMESPACE:
-        return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ALIAS_NAME:
-        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__URI:
-        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ALIAS_URI:
-        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__QNAME:
-        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
-      case XSDPackage.XSD_MODEL_GROUP_DEFINITION__CIRCULAR:
-        return isCircular() != CIRCULAR_EDEFAULT;
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__MODEL_GROUP_DEFINITION_REFERENCE:
         return isModelGroupDefinitionReference() != MODEL_GROUP_DEFINITION_REFERENCE_EDEFAULT;
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__ANNOTATION:
@@ -752,7 +669,7 @@ public class XSDModelGroupDefinitionImpl
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION__RESOLVED_MODEL_GROUP_DEFINITION:
         return resolvedModelGroupDefinition != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   public String getQName()

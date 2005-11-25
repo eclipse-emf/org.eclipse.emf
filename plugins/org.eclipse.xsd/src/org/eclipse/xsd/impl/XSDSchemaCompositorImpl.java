@@ -12,14 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaCompositorImpl.java,v 1.9 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDSchemaCompositorImpl.java,v 1.10 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
-
-import java.util.Collection;
-
-import org.w3c.dom.Element;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -120,24 +116,10 @@ public abstract class XSDSchemaCompositorImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__SCHEMA_LOCATION:
-        return getSchemaLocation();
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__RESOLVED_SCHEMA:
-        return getResolvedSchema();
       case XSDPackage.XSD_SCHEMA_COMPOSITOR__INCORPORATED_SCHEMA:
         return getIncorporatedSchema();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -149,24 +131,11 @@ public abstract class XSDSchemaCompositorImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__SCHEMA_LOCATION:
-        setSchemaLocation((String)newValue);
-        return;
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__RESOLVED_SCHEMA:
-        setResolvedSchema((XSDSchema)newValue);
-        return;
       case XSDPackage.XSD_SCHEMA_COMPOSITOR__INCORPORATED_SCHEMA:
         setIncorporatedSchema((XSDSchema)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -178,23 +147,11 @@ public abstract class XSDSchemaCompositorImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__SCHEMA_LOCATION:
-        setSchemaLocation(SCHEMA_LOCATION_EDEFAULT);
-        return;
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__RESOLVED_SCHEMA:
-        setResolvedSchema((XSDSchema)null);
-        return;
       case XSDPackage.XSD_SCHEMA_COMPOSITOR__INCORPORATED_SCHEMA:
         setIncorporatedSchema((XSDSchema)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -206,24 +163,10 @@ public abstract class XSDSchemaCompositorImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__SCHEMA_LOCATION:
-        return SCHEMA_LOCATION_EDEFAULT == null ? schemaLocation != null : !SCHEMA_LOCATION_EDEFAULT.equals(schemaLocation);
-      case XSDPackage.XSD_SCHEMA_COMPOSITOR__RESOLVED_SCHEMA:
-        return resolvedSchema != null;
       case XSDPackage.XSD_SCHEMA_COMPOSITOR__INCORPORATED_SCHEMA:
         return incorporatedSchema != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
 }

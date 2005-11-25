@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureImpl.java,v 1.9 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDFeatureImpl.java,v 1.10 2005/11/25 13:13:59 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
-
-import java.util.Collection;
 
 import org.w3c.dom.Element;
 
@@ -587,28 +585,6 @@ public abstract class XSDFeatureImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FEATURE__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_FEATURE__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_FEATURE__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_FEATURE__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_FEATURE__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_FEATURE__NAME:
-        return getName();
-      case XSDPackage.XSD_FEATURE__TARGET_NAMESPACE:
-        return getTargetNamespace();
-      case XSDPackage.XSD_FEATURE__ALIAS_NAME:
-        return getAliasName();
-      case XSDPackage.XSD_FEATURE__URI:
-        return getURI();
-      case XSDPackage.XSD_FEATURE__ALIAS_URI:
-        return getAliasURI();
-      case XSDPackage.XSD_FEATURE__QNAME:
-        return getQName();
       case XSDPackage.XSD_FEATURE__VALUE:
         return getValue();
       case XSDPackage.XSD_FEATURE__CONSTRAINT:
@@ -628,7 +604,7 @@ public abstract class XSDFeatureImpl
       case XSDPackage.XSD_FEATURE__TYPE:
         return getType();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -640,19 +616,6 @@ public abstract class XSDFeatureImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FEATURE__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_FEATURE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_FEATURE__NAME:
-        setName((String)newValue);
-        return;
-      case XSDPackage.XSD_FEATURE__TARGET_NAMESPACE:
-        setTargetNamespace((String)newValue);
-        return;
       case XSDPackage.XSD_FEATURE__VALUE:
         setValue((Object)newValue);
         return;
@@ -666,7 +629,7 @@ public abstract class XSDFeatureImpl
         setLexicalValue((String)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -678,18 +641,6 @@ public abstract class XSDFeatureImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FEATURE__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_FEATURE__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_FEATURE__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case XSDPackage.XSD_FEATURE__TARGET_NAMESPACE:
-        setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
-        return;
       case XSDPackage.XSD_FEATURE__VALUE:
         setValue(VALUE_EDEFAULT);
         return;
@@ -703,7 +654,7 @@ public abstract class XSDFeatureImpl
         setLexicalValue(LEXICAL_VALUE_EDEFAULT);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -715,28 +666,6 @@ public abstract class XSDFeatureImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_FEATURE__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_FEATURE__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_FEATURE__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_FEATURE__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_FEATURE__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_FEATURE__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case XSDPackage.XSD_FEATURE__TARGET_NAMESPACE:
-        return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
-      case XSDPackage.XSD_FEATURE__ALIAS_NAME:
-        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
-      case XSDPackage.XSD_FEATURE__URI:
-        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
-      case XSDPackage.XSD_FEATURE__ALIAS_URI:
-        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
-      case XSDPackage.XSD_FEATURE__QNAME:
-        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
       case XSDPackage.XSD_FEATURE__VALUE:
         return VALUE_EDEFAULT == null ? value != null : !VALUE_EDEFAULT.equals(value);
       case XSDPackage.XSD_FEATURE__CONSTRAINT:
@@ -756,7 +685,7 @@ public abstract class XSDFeatureImpl
       case XSDPackage.XSD_FEATURE__TYPE:
         return getType() != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
 } 

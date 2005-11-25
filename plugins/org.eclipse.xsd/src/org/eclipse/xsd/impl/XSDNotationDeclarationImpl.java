@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationDeclarationImpl.java,v 1.7 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDNotationDeclarationImpl.java,v 1.8 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
-
-import java.util.Collection;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,8 +26,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDFactory;
@@ -221,21 +217,14 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_NOTATION_DECLARATION__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_NOTATION_DECLARATION__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_NOTATION_DECLARATION__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -264,28 +253,6 @@ public class XSDNotationDeclarationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_NOTATION_DECLARATION__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_NOTATION_DECLARATION__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_NOTATION_DECLARATION__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_NOTATION_DECLARATION__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_NOTATION_DECLARATION__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_NOTATION_DECLARATION__NAME:
-        return getName();
-      case XSDPackage.XSD_NOTATION_DECLARATION__TARGET_NAMESPACE:
-        return getTargetNamespace();
-      case XSDPackage.XSD_NOTATION_DECLARATION__ALIAS_NAME:
-        return getAliasName();
-      case XSDPackage.XSD_NOTATION_DECLARATION__URI:
-        return getURI();
-      case XSDPackage.XSD_NOTATION_DECLARATION__ALIAS_URI:
-        return getAliasURI();
-      case XSDPackage.XSD_NOTATION_DECLARATION__QNAME:
-        return getQName();
       case XSDPackage.XSD_NOTATION_DECLARATION__SYSTEM_IDENTIFIER:
         return getSystemIdentifier();
       case XSDPackage.XSD_NOTATION_DECLARATION__PUBLIC_IDENTIFIER:
@@ -293,7 +260,7 @@ public class XSDNotationDeclarationImpl
       case XSDPackage.XSD_NOTATION_DECLARATION__ANNOTATION:
         return getAnnotation();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -305,19 +272,6 @@ public class XSDNotationDeclarationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_NOTATION_DECLARATION__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_NOTATION_DECLARATION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_NOTATION_DECLARATION__NAME:
-        setName((String)newValue);
-        return;
-      case XSDPackage.XSD_NOTATION_DECLARATION__TARGET_NAMESPACE:
-        setTargetNamespace((String)newValue);
-        return;
       case XSDPackage.XSD_NOTATION_DECLARATION__SYSTEM_IDENTIFIER:
         setSystemIdentifier((String)newValue);
         return;
@@ -328,7 +282,7 @@ public class XSDNotationDeclarationImpl
         setAnnotation((XSDAnnotation)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -340,18 +294,6 @@ public class XSDNotationDeclarationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_NOTATION_DECLARATION__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_NOTATION_DECLARATION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_NOTATION_DECLARATION__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case XSDPackage.XSD_NOTATION_DECLARATION__TARGET_NAMESPACE:
-        setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
-        return;
       case XSDPackage.XSD_NOTATION_DECLARATION__SYSTEM_IDENTIFIER:
         setSystemIdentifier(SYSTEM_IDENTIFIER_EDEFAULT);
         return;
@@ -362,7 +304,7 @@ public class XSDNotationDeclarationImpl
         setAnnotation((XSDAnnotation)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -374,28 +316,6 @@ public class XSDNotationDeclarationImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_NOTATION_DECLARATION__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_NOTATION_DECLARATION__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_NOTATION_DECLARATION__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_NOTATION_DECLARATION__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_NOTATION_DECLARATION__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_NOTATION_DECLARATION__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case XSDPackage.XSD_NOTATION_DECLARATION__TARGET_NAMESPACE:
-        return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
-      case XSDPackage.XSD_NOTATION_DECLARATION__ALIAS_NAME:
-        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
-      case XSDPackage.XSD_NOTATION_DECLARATION__URI:
-        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
-      case XSDPackage.XSD_NOTATION_DECLARATION__ALIAS_URI:
-        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
-      case XSDPackage.XSD_NOTATION_DECLARATION__QNAME:
-        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
       case XSDPackage.XSD_NOTATION_DECLARATION__SYSTEM_IDENTIFIER:
         return SYSTEM_IDENTIFIER_EDEFAULT == null ? systemIdentifier != null : !SYSTEM_IDENTIFIER_EDEFAULT.equals(systemIdentifier);
       case XSDPackage.XSD_NOTATION_DECLARATION__PUBLIC_IDENTIFIER:
@@ -403,7 +323,7 @@ public class XSDNotationDeclarationImpl
       case XSDPackage.XSD_NOTATION_DECLARATION__ANNOTATION:
         return annotation != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

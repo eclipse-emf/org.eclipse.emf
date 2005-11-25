@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTypeDefinitionImpl.java,v 1.7 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDTypeDefinitionImpl.java,v 1.8 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -32,8 +31,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDPackage;
@@ -387,23 +384,16 @@ for (Iterator i = list.iterator(); i.hasNext(); )
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case XSDPackage.XSD_TYPE_DEFINITION__DIAGNOSTICS:
-          return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
-        case XSDPackage.XSD_TYPE_DEFINITION__ANNOTATION:
-          return basicSetAnnotation(null, msgs);
-        case XSDPackage.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION:
-          return basicSetDerivationAnnotation(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case XSDPackage.XSD_TYPE_DEFINITION__ANNOTATION:
+        return basicSetAnnotation(null, msgs);
+      case XSDPackage.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION:
+        return basicSetDerivationAnnotation(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -415,30 +405,6 @@ for (Iterator i = list.iterator(); i.hasNext(); )
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_TYPE_DEFINITION__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_TYPE_DEFINITION__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_TYPE_DEFINITION__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_TYPE_DEFINITION__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_TYPE_DEFINITION__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_TYPE_DEFINITION__NAME:
-        return getName();
-      case XSDPackage.XSD_TYPE_DEFINITION__TARGET_NAMESPACE:
-        return getTargetNamespace();
-      case XSDPackage.XSD_TYPE_DEFINITION__ALIAS_NAME:
-        return getAliasName();
-      case XSDPackage.XSD_TYPE_DEFINITION__URI:
-        return getURI();
-      case XSDPackage.XSD_TYPE_DEFINITION__ALIAS_URI:
-        return getAliasURI();
-      case XSDPackage.XSD_TYPE_DEFINITION__QNAME:
-        return getQName();
-      case XSDPackage.XSD_TYPE_DEFINITION__CIRCULAR:
-        return isCircular() ? Boolean.TRUE : Boolean.FALSE;
       case XSDPackage.XSD_TYPE_DEFINITION__ANNOTATION:
         return getAnnotation();
       case XSDPackage.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION:
@@ -454,7 +420,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
       case XSDPackage.XSD_TYPE_DEFINITION__COMPLEX_TYPE:
         return getComplexType();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -466,19 +432,6 @@ for (Iterator i = list.iterator(); i.hasNext(); )
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_TYPE_DEFINITION__ELEMENT:
-        setElement((Element)newValue);
-        return;
-      case XSDPackage.XSD_TYPE_DEFINITION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
-        return;
-      case XSDPackage.XSD_TYPE_DEFINITION__NAME:
-        setName((String)newValue);
-        return;
-      case XSDPackage.XSD_TYPE_DEFINITION__TARGET_NAMESPACE:
-        setTargetNamespace((String)newValue);
-        return;
       case XSDPackage.XSD_TYPE_DEFINITION__ANNOTATION:
         setAnnotation((XSDAnnotation)newValue);
         return;
@@ -490,7 +443,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
         getAnnotations().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -502,18 +455,6 @@ for (Iterator i = list.iterator(); i.hasNext(); )
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_TYPE_DEFINITION__ELEMENT:
-        setElement(ELEMENT_EDEFAULT);
-        return;
-      case XSDPackage.XSD_TYPE_DEFINITION__DIAGNOSTICS:
-        getDiagnostics().clear();
-        return;
-      case XSDPackage.XSD_TYPE_DEFINITION__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case XSDPackage.XSD_TYPE_DEFINITION__TARGET_NAMESPACE:
-        setTargetNamespace(TARGET_NAMESPACE_EDEFAULT);
-        return;
       case XSDPackage.XSD_TYPE_DEFINITION__ANNOTATION:
         setAnnotation((XSDAnnotation)null);
         return;
@@ -524,7 +465,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
         getAnnotations().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -536,30 +477,6 @@ for (Iterator i = list.iterator(); i.hasNext(); )
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_TYPE_DEFINITION__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_TYPE_DEFINITION__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_TYPE_DEFINITION__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_TYPE_DEFINITION__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_TYPE_DEFINITION__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_TYPE_DEFINITION__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case XSDPackage.XSD_TYPE_DEFINITION__TARGET_NAMESPACE:
-        return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
-      case XSDPackage.XSD_TYPE_DEFINITION__ALIAS_NAME:
-        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
-      case XSDPackage.XSD_TYPE_DEFINITION__URI:
-        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
-      case XSDPackage.XSD_TYPE_DEFINITION__ALIAS_URI:
-        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
-      case XSDPackage.XSD_TYPE_DEFINITION__QNAME:
-        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
-      case XSDPackage.XSD_TYPE_DEFINITION__CIRCULAR:
-        return isCircular() != CIRCULAR_EDEFAULT;
       case XSDPackage.XSD_TYPE_DEFINITION__ANNOTATION:
         return annotation != null;
       case XSDPackage.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION:
@@ -575,7 +492,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
       case XSDPackage.XSD_TYPE_DEFINITION__COMPLEX_TYPE:
         return getComplexType() != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   public boolean isCircular()

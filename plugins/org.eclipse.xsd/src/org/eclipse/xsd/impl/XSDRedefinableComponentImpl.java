@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefinableComponentImpl.java,v 1.8 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDRedefinableComponentImpl.java,v 1.9 2005/11/25 13:14:00 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -98,32 +98,10 @@ public abstract class XSDRedefinableComponentImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__ELEMENT:
-        return getElement();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__CONTAINER:
-        return getContainer();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__ROOT_CONTAINER:
-        return getRootContainer();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__SCHEMA:
-        return getSchema();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__DIAGNOSTICS:
-        return getDiagnostics();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__NAME:
-        return getName();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__TARGET_NAMESPACE:
-        return getTargetNamespace();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__ALIAS_NAME:
-        return getAliasName();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__URI:
-        return getURI();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__ALIAS_URI:
-        return getAliasURI();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__QNAME:
-        return getQName();
       case XSDPackage.XSD_REDEFINABLE_COMPONENT__CIRCULAR:
         return isCircular() ? Boolean.TRUE : Boolean.FALSE;
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -135,32 +113,10 @@ public abstract class XSDRedefinableComponentImpl
   {
     switch (featureID)
     {
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__ELEMENT:
-        return ELEMENT_EDEFAULT == null ? element != null : !ELEMENT_EDEFAULT.equals(element);
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__CONTAINER:
-        return getContainer() != null;
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__ROOT_CONTAINER:
-        return getRootContainer() != null;
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__SCHEMA:
-        return getSchema() != null;
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__DIAGNOSTICS:
-        return diagnostics != null && !diagnostics.isEmpty();
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__TARGET_NAMESPACE:
-        return TARGET_NAMESPACE_EDEFAULT == null ? targetNamespace != null : !TARGET_NAMESPACE_EDEFAULT.equals(targetNamespace);
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__ALIAS_NAME:
-        return ALIAS_NAME_EDEFAULT == null ? getAliasName() != null : !ALIAS_NAME_EDEFAULT.equals(getAliasName());
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__URI:
-        return URI_EDEFAULT == null ? getURI() != null : !URI_EDEFAULT.equals(getURI());
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__ALIAS_URI:
-        return ALIAS_URI_EDEFAULT == null ? getAliasURI() != null : !ALIAS_URI_EDEFAULT.equals(getAliasURI());
-      case XSDPackage.XSD_REDEFINABLE_COMPONENT__QNAME:
-        return QNAME_EDEFAULT == null ? getQName() != null : !QNAME_EDEFAULT.equals(getQName());
       case XSDPackage.XSD_REDEFINABLE_COMPONENT__CIRCULAR:
         return isCircular() != CIRCULAR_EDEFAULT;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
 } 
