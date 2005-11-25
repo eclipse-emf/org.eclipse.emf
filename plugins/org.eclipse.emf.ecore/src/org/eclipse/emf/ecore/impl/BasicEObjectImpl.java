@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.16 2005/11/24 20:19:23 davidms Exp $
+ * $Id: BasicEObjectImpl.java,v 1.17 2005/11/25 12:57:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -866,12 +866,17 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     int eContainerFeatureID = eContainerFeatureID();
     if (eContainerFeatureID >= 0)
     {
-      return eDynamicBasicRemoveFromContainer(msgs);
+      return eBasicRemoveFromContainerFeature(msgs);
     }
     else 
     {
       return eInternalContainer().eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
     }
+  }
+  
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
+  {
+    return eDynamicBasicRemoveFromContainer(msgs);
   }
 
   public NotificationChain eDynamicBasicRemoveFromContainer(NotificationChain msgs)
@@ -884,7 +889,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   {
     if (featureID >= 0)
     {
-      return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
+      return eInverseAdd(otherEnd, eDerivedStructuralFeatureID(featureID, baseClass), msgs);
     }
     else
     {
@@ -895,33 +900,49 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       return eBasicSetContainer(otherEnd, featureID, msgs);
     }
   }
+  
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    return eDynamicInverseAdd(otherEnd, featureID - eStaticFeatureCount(), msgs);
+  }
 
   public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain msgs)
   {
-    EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
-    return 
-      feature.getSettingDelegate().dynamicInverseAdd
-        (this, eSettings(), featureID - eStaticFeatureCount(), otherEnd, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID - eStaticFeatureCount(), msgs);
   }
-
+  
+  protected NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
+    return feature.getSettingDelegate().dynamicInverseAdd(this, eSettings(), featureID, otherEnd, msgs);
+  }
 
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
   {
     if (featureID >= 0)
     {
-      return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
+      return eInverseRemove(otherEnd, eDerivedStructuralFeatureID(featureID, baseClass), msgs);
     }
     else
     {
       return eBasicSetContainer(null, featureID, msgs);
     }
   }
+  
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
+  }
 
   public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain msgs)
   {
+    return eDynamicInverseRemove(otherEnd, featureID - eStaticFeatureCount(), msgs);
+  }
+  
+  protected NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
     EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
-    return feature.getSettingDelegate().dynamicInverseRemove
-      (this, eSettings(), featureID - eStaticFeatureCount(), otherEnd, msgs);
+    return feature.getSettingDelegate().dynamicInverseRemove(this, eSettings(), featureID, otherEnd, msgs);
   }
 
   public URI eProxyURI()
