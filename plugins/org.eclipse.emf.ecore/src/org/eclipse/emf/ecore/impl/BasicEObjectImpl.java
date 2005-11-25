@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.18 2005/11/25 16:31:20 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.19 2005/11/25 22:19:21 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1209,8 +1209,9 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
         }
 
         // Count just the bits up to this one.
+        // Note that shifting 32 bits is a no op.
         //
-        int result = eVirtualBitCount(bits << 31 - bitIndex);
+        int result = eVirtualBitCount(bitIndex == 0 ? 0 : bits << 32 - bitIndex);
 
         // Count all the bits in the bit patterns up to this one in the sequence of bit patterns.
         //
@@ -1222,7 +1223,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
         // If the index was previously assigned, return it.
         // Otherwise, return a negative result that encodes the newly assigned index.
         //
-        return bit != 0 ? result - 1 : ~result;
+        return bit != 0 ? result : ~result;
       }
     }
   }
