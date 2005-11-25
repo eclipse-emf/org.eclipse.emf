@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryImpl.java,v 1.12 2005/11/23 18:10:07 emerks Exp $
+ * $Id: EObjectToChangesMapEntryImpl.java,v 1.13 2005/11/25 13:35:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -194,19 +194,14 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE:
-          return ((InternalEList)getTypedValue()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE:
+        return ((InternalEList)getTypedValue()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -224,7 +219,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
       case ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE:
         return getTypedValue();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -244,7 +239,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
         getTypedValue().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -263,7 +258,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
         getTypedValue().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -280,7 +275,7 @@ public class EObjectToChangesMapEntryImpl extends EObjectImpl implements BasicEM
       case ChangePackage.EOBJECT_TO_CHANGES_MAP_ENTRY__VALUE:
         return value != null && !value.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

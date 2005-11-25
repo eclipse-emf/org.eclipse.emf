@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeImpl.java,v 1.9 2005/11/23 18:10:07 emerks Exp $
+ * $Id: ListChangeImpl.java,v 1.10 2005/11/25 13:35:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -542,19 +542,14 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
-          return ((InternalEList)getFeatureMapEntryValues()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
+        return ((InternalEList)getFeatureMapEntryValues()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -584,7 +579,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
       case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
         return getFeatureMapEntryValues();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -625,7 +620,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
         getFeatureMapEntryValues().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -662,7 +657,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
         getFeatureMapEntryValues().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -691,7 +686,7 @@ public class ListChangeImpl extends EObjectImpl implements ListChange
       case ChangePackage.LIST_CHANGE__FEATURE_MAP_ENTRY_VALUES:
         return featureMapEntryValues != null && !featureMapEntryValues.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryImpl.java,v 1.5 2005/11/23 18:10:07 emerks Exp $
+ * $Id: FeatureMapEntryImpl.java,v 1.6 2005/11/25 13:35:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -367,7 +367,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
         if (resolve) return getReferenceValue();
         return basicGetReferenceValue();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -392,7 +392,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
         setReferenceValue((EObject)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -417,7 +417,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
         setReferenceValue((EObject)null);
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -440,7 +440,7 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
       case ChangePackage.FEATURE_MAP_ENTRY__REFERENCE_VALUE:
         return basicGetReferenceValue() != null;
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

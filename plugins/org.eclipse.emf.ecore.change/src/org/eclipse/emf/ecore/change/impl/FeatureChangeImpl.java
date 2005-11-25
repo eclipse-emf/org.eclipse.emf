@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.23 2005/11/23 18:10:07 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.24 2005/11/25 13:35:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -574,6 +574,21 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
     }
   }
   
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case ChangePackage.FEATURE_CHANGE__LIST_CHANGES:
+        return ((InternalEList)getListChanges()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
   protected boolean newIsSet;
   protected Object newValue;
   
@@ -604,26 +619,6 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case ChangePackage.FEATURE_CHANGE__LIST_CHANGES:
-          return ((InternalEList)getListChanges()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -645,7 +640,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       case ChangePackage.FEATURE_CHANGE__LIST_CHANGES:
         return getListChanges();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -677,7 +672,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
         getListChanges().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -708,7 +703,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
         getListChanges().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -735,7 +730,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
       case ChangePackage.FEATURE_CHANGE__LIST_CHANGES:
         return listChanges != null && !listChanges.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

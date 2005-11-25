@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChangeImpl.java,v 1.5 2005/11/23 18:10:07 emerks Exp $
+ * $Id: ResourceChangeImpl.java,v 1.6 2005/11/25 13:35:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -277,6 +277,21 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
     }
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case ChangePackage.RESOURCE_CHANGE__LIST_CHANGES:
+        return ((InternalEList)getListChanges()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
   protected void apply(EList toList)
   {
     for (Iterator iter = getListChanges().iterator(); iter.hasNext(); )
@@ -284,26 +299,6 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
       ListChange listChange = (ListChange)iter.next();
       listChange.apply(toList);
     }
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case ChangePackage.RESOURCE_CHANGE__LIST_CHANGES:
-          return ((InternalEList)getListChanges()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
   }
 
   /**
@@ -324,7 +319,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
       case ChangePackage.RESOURCE_CHANGE__LIST_CHANGES:
         return getListChanges();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -347,7 +342,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
         getListChanges().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -369,7 +364,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
         getListChanges().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -390,7 +385,7 @@ public class ResourceChangeImpl extends EObjectImpl implements ResourceChange
       case ChangePackage.RESOURCE_CHANGE__LIST_CHANGES:
         return listChanges != null && !listChanges.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
   /**

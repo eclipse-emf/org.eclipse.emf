@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.13 2005/11/23 18:10:07 emerks Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.14 2005/11/25 13:35:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -427,6 +427,25 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
     oldContainmentInformation = null;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case ChangePackage.CHANGE_DESCRIPTION__OBJECT_CHANGES:
+        return ((InternalEList)getObjectChanges()).basicRemove(otherEnd, msgs);
+      case ChangePackage.CHANGE_DESCRIPTION__OBJECTS_TO_ATTACH:
+        return ((InternalEList)getObjectsToAttach()).basicRemove(otherEnd, msgs);
+      case ChangePackage.CHANGE_DESCRIPTION__RESOURCE_CHANGES:
+        return ((InternalEList)getResourceChanges()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
   protected void preApply(boolean reverse)
   {
     // Make sure the changed values of bi-directional reference lists are cached before we
@@ -564,30 +583,6 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case ChangePackage.CHANGE_DESCRIPTION__OBJECT_CHANGES:
-          return ((InternalEList)getObjectChanges()).basicRemove(otherEnd, msgs);
-        case ChangePackage.CHANGE_DESCRIPTION__OBJECTS_TO_ATTACH:
-          return ((InternalEList)getObjectsToAttach()).basicRemove(otherEnd, msgs);
-        case ChangePackage.CHANGE_DESCRIPTION__RESOURCE_CHANGES:
-          return ((InternalEList)getResourceChanges()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -602,7 +597,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       case ChangePackage.CHANGE_DESCRIPTION__RESOURCE_CHANGES:
         return getResourceChanges();
     }
-    return eDynamicGet(featureID, resolve, coreType);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -630,7 +625,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         getResourceChanges().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(featureID, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -655,7 +650,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         getResourceChanges().clear();
         return;
     }
-    eDynamicUnset(featureID);
+    super.eUnset(featureID);
   }
 
   /**
@@ -676,7 +671,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
       case ChangePackage.CHANGE_DESCRIPTION__RESOURCE_CHANGES:
         return resourceChanges != null && !resourceChanges.isEmpty();
     }
-    return eDynamicIsSet(featureID);
+    return super.eIsSet(featureID);
   }
 
 } //ChangeDescriptionImpl
