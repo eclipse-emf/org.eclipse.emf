@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.17 2005/11/25 12:57:49 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.18 2005/11/25 16:31:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -903,18 +903,18 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    return eDynamicInverseAdd(otherEnd, featureID - eStaticFeatureCount(), msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
   public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain msgs)
   {
-    return eDynamicInverseAdd(otherEnd, featureID - eStaticFeatureCount(), msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
   
   protected NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
-    return feature.getSettingDelegate().dynamicInverseAdd(this, eSettings(), featureID, otherEnd, msgs);
+    return feature.getSettingDelegate().dynamicInverseAdd(this, eSettings(), featureID - eStaticFeatureCount(), otherEnd, msgs);
   }
 
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
@@ -936,13 +936,13 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain msgs)
   {
-    return eDynamicInverseRemove(otherEnd, featureID - eStaticFeatureCount(), msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
   
   protected NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
-    return feature.getSettingDelegate().dynamicInverseRemove(this, eSettings(), featureID, otherEnd, msgs);
+    return feature.getSettingDelegate().dynamicInverseRemove(this, eSettings(), featureID - eStaticFeatureCount(), otherEnd, msgs);
   }
 
   public URI eProxyURI()
