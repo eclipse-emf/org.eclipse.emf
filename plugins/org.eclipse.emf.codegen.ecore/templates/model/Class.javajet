@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.34 2005/11/25 15:35:20 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.35 2005/11/25 17:49:08 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -851,7 +851,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 <%if (genModel.isMinimalReflectiveMethods()) {%>
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 <%} else {%>
-		return eDynamicInverseAdd(otherEnd, featureID, null, msgs);
+		return eDynamicInverseAdd(otherEnd, featureID, msgs);
 <%}%>
 	}
 
@@ -890,7 +890,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassN
 <%if (genModel.isMinimalReflectiveMethods()) {%>
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 <%} else {%>
-		return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
+		return eDynamicInverseRemove(otherEnd, featureID, msgs);
 <%}%>
 	}
 

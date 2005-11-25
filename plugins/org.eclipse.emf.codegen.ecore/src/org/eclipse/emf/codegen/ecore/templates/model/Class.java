@@ -786,7 +786,7 @@ public class Class
   protected final String TEXT_769 = ")otherEnd, msgs);";
   protected final String TEXT_770 = NL + "\t\t}";
   protected final String TEXT_771 = NL + "\t\treturn super.eInverseAdd(otherEnd, featureID, msgs);";
-  protected final String TEXT_772 = NL + "\t\treturn eDynamicInverseAdd(otherEnd, featureID, null, msgs);";
+  protected final String TEXT_772 = NL + "\t\treturn eDynamicInverseAdd(otherEnd, featureID, msgs);";
   protected final String TEXT_773 = NL + "\t}" + NL;
   protected final String TEXT_774 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
   protected final String TEXT_775 = " eInverseRemove(";
@@ -813,7 +813,7 @@ public class Class
   protected final String TEXT_796 = "(null, msgs);";
   protected final String TEXT_797 = NL + "\t\t}";
   protected final String TEXT_798 = NL + "\t\treturn super.eInverseRemove(otherEnd, featureID, msgs);";
-  protected final String TEXT_799 = NL + "\t\treturn eDynamicInverseRemove(otherEnd, featureID, null, msgs);";
+  protected final String TEXT_799 = NL + "\t\treturn eDynamicInverseRemove(otherEnd, featureID, msgs);";
   protected final String TEXT_800 = NL + "\t}" + NL;
   protected final String TEXT_801 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
   protected final String TEXT_802 = " eBasicRemoveFromContainerFeature(";
