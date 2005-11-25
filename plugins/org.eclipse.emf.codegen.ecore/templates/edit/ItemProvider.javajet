@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.20 2005/11/23 17:11:41 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.21 2005/11/25 22:14:17 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -190,14 +190,14 @@ public class <%=genClass.getProviderClassName()%>
 		<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%>)object;
 		return "" + <%=genClass.getSafeUncapName()%>.getKey() + " -> " + <%=genClass.getSafeUncapName()%>.getValue();<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 <%} else if (genClass.getLabelFeature() != null) { GenFeature labelFeature = genClass.getLabelFeature();%>
-  <%if (labelFeature.isPrimitiveType()) {%>
+  <%if (labelFeature.isPrimitiveType() && !labelFeature.getGenClass().isDynamic()) {%>
 		<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%>)object;
 		return getString("_UI_<%=genClass.getName()%>_type") + " " + <%=genClass.getSafeUncapName()%>.<%=genClass.getLabelFeature().getGetAccessor()%>();<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
   <%} else {%>
-    <%if (labelFeature.isStringType() && !genClass.isExternalInterface()) {%>
+    <%if (labelFeature.isStringType() && !genClass.isExternalInterface() && !labelFeature.getGenClass().isDynamic()) {%>
 		String label = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();
     <%} else {%>
-      <%if (genClass.isExternalInterface()) {%>
+      <%if (genClass.isExternalInterface() || labelFeature.getGenClass().isDynamic()) {%>
 		<%=genModel.getImportedName("java.lang.Object")%> labelValue = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)object).eGet(<%=labelFeature.getQualifiedFeatureAccessor()%>);
       <%} else {%>
 		<%=labelFeature.getImportedType()%> labelValue = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();

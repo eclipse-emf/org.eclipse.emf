@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.27 2005/11/25 13:10:37 emerks Exp $
+ * $Id: GenModelPackage.java,v 1.28 2005/11/25 22:14:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -801,13 +801,22 @@ public interface GenModelPackage extends EPackage{
   int GEN_CLASS__IMAGE = GEN_CLASSIFIER_FEATURE_COUNT + 1;
 
   /**
+   * The feature id for the '<em><b>Dynamic</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_CLASS__DYNAMIC = GEN_CLASSIFIER_FEATURE_COUNT + 2;
+
+  /**
    * The feature id for the '<em><b>Ecore Class</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_CLASS__ECORE_CLASS = GEN_CLASSIFIER_FEATURE_COUNT + 2;
+  int GEN_CLASS__ECORE_CLASS = GEN_CLASSIFIER_FEATURE_COUNT + 3;
 
   /**
    * The feature id for the '<em><b>Gen Features</b></em>' containment reference list.
@@ -816,7 +825,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_CLASS__GEN_FEATURES = GEN_CLASSIFIER_FEATURE_COUNT + 3;
+  int GEN_CLASS__GEN_FEATURES = GEN_CLASSIFIER_FEATURE_COUNT + 4;
 
   /**
    * The feature id for the '<em><b>Gen Operations</b></em>' containment reference list.
@@ -825,7 +834,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_CLASS__GEN_OPERATIONS = GEN_CLASSIFIER_FEATURE_COUNT + 4;
+  int GEN_CLASS__GEN_OPERATIONS = GEN_CLASSIFIER_FEATURE_COUNT + 5;
 
   /**
    * The feature id for the '<em><b>Label Feature</b></em>' reference.
@@ -834,7 +843,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_CLASS__LABEL_FEATURE = GEN_CLASSIFIER_FEATURE_COUNT + 5;
+  int GEN_CLASS__LABEL_FEATURE = GEN_CLASSIFIER_FEATURE_COUNT + 6;
 
   /**
    * The number of structural features of the '<em>Gen Class</em>' class.
@@ -843,7 +852,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_CLASS_FEATURE_COUNT = GEN_CLASSIFIER_FEATURE_COUNT + 6;
+  int GEN_CLASS_FEATURE_COUNT = GEN_CLASSIFIER_FEATURE_COUNT + 7;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypedElementImpl <em>Gen Typed Element</em>}' class.
@@ -2010,6 +2019,17 @@ public interface GenModelPackage extends EPackage{
   EAttribute getGenClass_Image();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#isDynamic <em>Dynamic</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Dynamic</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenClass#isDynamic()
+   * @see #getGenClass()
+   * @generated
+   */
+  EAttribute getGenClass_Dynamic();
+
+  /**
    * Returns the meta object for the reference '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getEcoreClass <em>Ecore Class</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3006,6 +3026,14 @@ public interface GenModelPackage extends EPackage{
      * @generated
      */
     EAttribute GEN_CLASS__IMAGE = eINSTANCE.getGenClass_Image();
+
+    /**
+     * The meta object literal for the '<em><b>Dynamic</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_CLASS__DYNAMIC = eINSTANCE.getGenClass_Dynamic();
 
     /**
      * The meta object literal for the '<em><b>Ecore Class</b></em>' reference feature.

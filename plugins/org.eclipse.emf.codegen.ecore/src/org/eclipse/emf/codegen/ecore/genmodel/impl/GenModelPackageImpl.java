@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.28 2005/11/25 13:10:37 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.29 2005/11/25 22:14:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -964,9 +964,9 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenClass_EcoreClass()
+  public EAttribute getGenClass_Dynamic()
   {
-    return (EReference)genClassEClass.getEStructuralFeatures().get(2);
+    return (EAttribute)genClassEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -974,7 +974,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenClass_GenFeatures()
+  public EReference getGenClass_EcoreClass()
   {
     return (EReference)genClassEClass.getEStructuralFeatures().get(3);
   }
@@ -984,7 +984,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenClass_GenOperations()
+  public EReference getGenClass_GenFeatures()
   {
     return (EReference)genClassEClass.getEStructuralFeatures().get(4);
   }
@@ -994,9 +994,19 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenClass_LabelFeature()
+  public EReference getGenClass_GenOperations()
   {
     return (EReference)genClassEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getGenClass_LabelFeature()
+  {
+    return (EReference)genClassEClass.getEStructuralFeatures().get(6);
   }
 
   /**
@@ -1433,6 +1443,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     genClassEClass = createEClass(GEN_CLASS);
     createEAttribute(genClassEClass, GEN_CLASS__PROVIDER);
     createEAttribute(genClassEClass, GEN_CLASS__IMAGE);
+    createEAttribute(genClassEClass, GEN_CLASS__DYNAMIC);
     createEReference(genClassEClass, GEN_CLASS__ECORE_CLASS);
     createEReference(genClassEClass, GEN_CLASS__GEN_FEATURES);
     createEReference(genClassEClass, GEN_CLASS__GEN_OPERATIONS);
@@ -1598,6 +1609,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEClass(genClassEClass, GenClass.class, "GenClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getGenClass_Provider(), this.getGenProviderKind(), "provider", null, 0, 1, GenClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenClass_Image(), ecorePackage.getEBoolean(), "image", "true", 0, 1, GenClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenClass_Dynamic(), ecorePackage.getEBoolean(), "dynamic", null, 0, 1, GenClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenClass_EcoreClass(), theEcorePackage.getEClass(), null, "ecoreClass", null, 1, 1, GenClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenClass_GenFeatures(), this.getGenFeature(), this.getGenFeature_GenClass(), "genFeatures", null, 0, -1, GenClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenClass_GenOperations(), this.getGenOperation(), this.getGenOperation_GenClass(), "genOperations", null, 0, -1, GenClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

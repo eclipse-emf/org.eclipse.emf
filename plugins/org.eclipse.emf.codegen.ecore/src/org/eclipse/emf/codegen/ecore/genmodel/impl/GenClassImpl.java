@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.45 2005/11/25 13:11:55 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.46 2005/11/25 22:14:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -65,6 +65,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl#getProvider <em>Provider</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl#isImage <em>Image</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl#isDynamic <em>Dynamic</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl#getEcoreClass <em>Ecore Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl#getGenFeatures <em>Gen Features</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl#getGenOperations <em>Gen Operations</em>}</li>
@@ -115,6 +116,26 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @ordered
    */
   protected boolean image = IMAGE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isDynamic() <em>Dynamic</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isDynamic()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean DYNAMIC_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isDynamic() <em>Dynamic</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isDynamic()
+   * @generated
+   * @ordered
+   */
+  protected boolean dynamic = DYNAMIC_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getEcoreClass() <em>Ecore Class</em>}' reference.
@@ -232,6 +253,29 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isDynamic()
+  {
+    return dynamic;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDynamic(boolean newDynamic)
+  {
+    boolean oldDynamic = dynamic;
+    dynamic = newDynamic;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_CLASS__DYNAMIC, oldDynamic, dynamic));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getEcoreClass()
   {
     if (ecoreClass != null && ecoreClass.eIsProxy())
@@ -320,6 +364,15 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   protected String getInternalQualifiedInterfaceName()
   {
+    if (isDynamic())
+    {
+      GenClass genClass = getBaseGenClass();
+      return 
+        genClass == null ?
+          "org.eclipse.emf.ecore.EObject" :
+          ((GenClassImpl)genClass).getInternalQualifiedInterfaceName();
+    }
+
     return isExternalInterface() ?
       getEcoreClass().getInstanceClassName() :
       getGenPackage().getInterfacePackageName() + "." + getInterfaceName();
@@ -763,6 +816,15 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
   }
 
+  public String getCastFromEObject()
+  {
+    String qualifiedInterfaceName = getQualifiedInterfaceName();
+    return 
+      !"org.eclipse.emf.ecore.EObject".equals(qualifiedInterfaceName) ?
+      "(" + getGenModel().getImportedName(qualifiedInterfaceName) + ")" :
+      "";
+  }
+
   public boolean isAbstract()
   {
     // An interface should be abstract, but this makes sure of that fact.
@@ -789,7 +851,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getGeneratedInstanceClassFlag()
   {
-    String result = isExternalInterface() ? "!" : "";
+    String result = isExternalInterface() || isDynamic() ? "!" : "";
     return result + "IS_GENERATED_INSTANCE_CLASS";
   }
 
@@ -1684,6 +1746,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         return getProvider();
       case GenModelPackage.GEN_CLASS__IMAGE:
         return isImage() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_CLASS__DYNAMIC:
+        return isDynamic() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_CLASS__ECORE_CLASS:
         if (resolve) return getEcoreClass();
         return basicGetEcoreClass();
@@ -1712,6 +1776,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         return;
       case GenModelPackage.GEN_CLASS__IMAGE:
         setImage(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_CLASS__DYNAMIC:
+        setDynamic(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_CLASS__ECORE_CLASS:
         setEcoreClass((EClass)newValue);
@@ -1746,6 +1813,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       case GenModelPackage.GEN_CLASS__IMAGE:
         setImage(IMAGE_EDEFAULT);
         return;
+      case GenModelPackage.GEN_CLASS__DYNAMIC:
+        setDynamic(DYNAMIC_EDEFAULT);
+        return;
       case GenModelPackage.GEN_CLASS__ECORE_CLASS:
         setEcoreClass((EClass)null);
         return;
@@ -1775,6 +1845,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         return provider != PROVIDER_EDEFAULT;
       case GenModelPackage.GEN_CLASS__IMAGE:
         return image != IMAGE_EDEFAULT;
+      case GenModelPackage.GEN_CLASS__DYNAMIC:
+        return dynamic != DYNAMIC_EDEFAULT;
       case GenModelPackage.GEN_CLASS__ECORE_CLASS:
         return ecoreClass != null;
       case GenModelPackage.GEN_CLASS__GEN_FEATURES:
@@ -1801,6 +1873,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     result.append(provider);
     result.append(", image: ");
     result.append(image);
+    result.append(", dynamic: ");
+    result.append(dynamic);
     result.append(')');
     return result.toString();
   }
@@ -1823,6 +1897,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public String getImportedTestCaseClassName()
   {
     return getGenModel().getImportedName(getQualifiedTestCaseClassName());
+  }
+
+  public boolean canGenerate()
+  {
+    return super.canGenerate() && !isDynamic();
   }
 
   public boolean canGenerateEdit()
@@ -2005,6 +2084,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         setLabelFeature(findGenFeature(newLabelFeature));
       } 
     }
+    setDynamic(oldGenClassVersion.isDynamic());
   }
 
   public boolean reconcile()

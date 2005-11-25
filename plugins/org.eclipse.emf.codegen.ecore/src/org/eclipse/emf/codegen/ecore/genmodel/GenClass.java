@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.18 2005/11/14 16:47:10 khussey Exp $
+ * $Id: GenClass.java,v 1.19 2005/11/25 22:14:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EClass;
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getProvider <em>Provider</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#isImage <em>Image</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#isDynamic <em>Dynamic</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getEcoreClass <em>Ecore Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getGenFeatures <em>Gen Features</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#getGenOperations <em>Gen Operations</em>}</li>
@@ -102,6 +103,32 @@ public interface GenClass extends GenClassifier
    * @generated
    */
   void setImage(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Dynamic</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Dynamic</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Dynamic</em>' attribute.
+   * @see #setDynamic(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClass_Dynamic()
+   * @model
+   * @generated
+   */
+  boolean isDynamic();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClass#isDynamic <em>Dynamic</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Dynamic</em>' attribute.
+   * @see #isDynamic()
+   * @generated
+   */
+  void setDynamic(boolean value);
 
   /**
    * Returns the value of the '<em><b>Ecore Class</b></em>' reference.
@@ -261,6 +288,7 @@ public interface GenClass extends GenClassifier
 
   boolean isEObject();
   boolean isEObjectExtension();
+  String getCastFromEObject();
   boolean isAbstract();
   String getAbstractFlag();
   boolean isInterface();

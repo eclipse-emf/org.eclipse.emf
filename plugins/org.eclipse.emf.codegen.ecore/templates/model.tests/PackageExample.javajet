@@ -89,7 +89,11 @@ public class <%=genPackage.getExampleClassName()%>
   <%if (genPackage.getRootFeature() != null) { GenFeature rootFeature = rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();%>
 				<%=documentRoot.getImportedInterfaceName()%> documentRoot = <%=genPackage.getImportedFactoryInterfaceName()%>.eINSTANCE.create<%=documentRoot.getName()%>();
 				<%=rootClass.getImportedInterfaceName()%> root = <%=genPackage.getImportedFactoryInterfaceName()%>.eINSTANCE.create<%=rootClass.getName()%>();
+    <%if (documentRoot.isDynamic()) {%>
+				documentRoot.eSet(<%=rootFeature.getQualifiedFeatureAccessor()%>, root);
+    <%} else {%>
 				documentRoot.set<%=rootFeature.getCapName()%>(root);
+    <%}%>
 				resource.getContents().add(documentRoot);
   <%} else {%>
 				<%=rootClass.getImportedInterfaceName()%> root = <%=genPackage.getImportedFactoryInterfaceName()%>.eINSTANCE.create<%=rootClass.getName()%>();

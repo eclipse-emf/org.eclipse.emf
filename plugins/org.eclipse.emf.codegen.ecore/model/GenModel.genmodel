@@ -165,6 +165,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenClass/provider"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether to generate an icon file for this class"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenClass/image"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to use a dynamic implementation instead of a generated implementation"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenClass/dynamic"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this class" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/ecoreClass"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenClass/genFeatures"/>

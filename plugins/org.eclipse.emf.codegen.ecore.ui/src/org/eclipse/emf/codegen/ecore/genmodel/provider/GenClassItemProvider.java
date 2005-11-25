@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.11 2005/11/23 17:31:02 khussey Exp $
+ * $Id: GenClassItemProvider.java,v 1.12 2005/11/25 22:14:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -78,6 +78,7 @@ public class GenClassItemProvider
 
       addProviderPropertyDescriptor(object);
       addImagePropertyDescriptor(object);
+      addDynamicPropertyDescriptor(object);
       addEcoreClassPropertyDescriptor(object);
       addLabelFeaturePropertyDescriptor(object);
     }
@@ -123,6 +124,27 @@ public class GenClassItemProvider
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Dynamic feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addDynamicPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenClass_dynamic_feature"),
+         getString("_UI_GenClass_dynamic_description"),
+         GenModelPackage.Literals.GEN_CLASS__DYNAMIC,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
          null));
   }
 
@@ -259,6 +281,7 @@ public class GenClassItemProvider
       case GenModelPackage.GEN_CLASS__GEN_PACKAGE:
       case GenModelPackage.GEN_CLASS__PROVIDER:
       case GenModelPackage.GEN_CLASS__IMAGE:
+      case GenModelPackage.GEN_CLASS__DYNAMIC:
       case GenModelPackage.GEN_CLASS__ECORE_CLASS:
       case GenModelPackage.GEN_CLASS__LABEL_FEATURE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));

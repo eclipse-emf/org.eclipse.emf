@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.20 2005/11/23 17:11:40 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.21 2005/11/25 22:14:17 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -136,7 +136,7 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 	}
 <%}%>
 <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
-<%if (!genClass.isAbstract()) {%>
+  <%if (!genClass.isAbstract()) {%>
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -145,10 +145,14 @@ public class <%=genPackage.getFactoryClassName()%> extends <%=genModel.getImport
 	 */
 	public <%=genClass.getImportedInterfaceName()%> create<%=genClass.getName()%>()
 	{
+    <%if (genClass.isDynamic()) {%>
+		<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = <%=genClass.getCastFromEObject()%>super.create(<%=genClass.getQualifiedClassifierAccessor()%>);
+    <%} else {%>
 		<%=genClass.getImportedClassName()%> <%=genClass.getSafeUncapName()%> = new <%=genClass.getImportedClassName()%>();
+    <%}%>
 		return <%=genClass.getSafeUncapName()%>;
 	}
-<%}%>
+  <%}%>
 <%}%>
 <%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
   <%if (genDataType.isSerializable()) {%>
