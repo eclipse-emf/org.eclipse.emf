@@ -257,6 +257,11 @@
 		(object ClassAttribute "containmentProxies"
 		    quid       	"437DFFEA009F"
 		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "minimalReflectiveMethods"
+		    quid       	"4384B8AF001B"
+		    type       	"boolean"
+		    initv      	"true"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -2705,7 +2710,7 @@
 		    location   	(2704, 1664)
 		    label      	(object ItemLabel
 			Parent_View 	@147
-			location   	(2065, 583)
+			location   	(2065, 533)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	1278
@@ -2717,12 +2722,12 @@
 		    quidu      	"3C175881028E"
 		    compartment 	(object Compartment
 			Parent_View 	@147
-			location   	(2065, 643)
+			location   	(2065, 593)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	43
-			max_width  	0
+			nlines     	44
+			max_width  	1275
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
 			    "+ modelDirectory : String"
@@ -2749,7 +2754,7 @@
 			    "+ featureMapWrapperInternalInterface : String"
 			    "+ featureMapWrapperClass : String"))
 		    width      	1296
-		    height     	2186
+		    height     	2286
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenPackage" @148
@@ -2775,7 +2780,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	6
-			max_width  	0
+			max_width  	628
 			compartmentItems 	(list Compartment
 			    "+ prefix : String"
 			    "+ basePackage : String"
@@ -2803,7 +2808,7 @@
 		    client     	@147
 		    supplier   	@134
 		    line_style 	3
-		    origin_attachment 	(2715, 571)
+		    origin_attachment 	(2715, 521)
 		    terminal_attachment 	(2715, 387)
 		    drawSupplier 	@143)
 		(object ClassView "Class" "Logical View::genmodel::GenTypedElement" @151
@@ -2904,6 +2909,14 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"4373999700A7"
+		    compartment 	(object Compartment
+			Parent_View 	@157
+			location   	(1585, 1304)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	3
+			max_width  	181)
 		    width      	400
 		    height     	292
 		    autoResize 	TRUE)
@@ -2934,6 +2947,14 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D9D6E110209"
+		    compartment 	(object Compartment
+			Parent_View 	@158
+			location   	(1115, 1295)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	4
+			max_width  	112)
 		    width      	380
 		    height     	342
 		    autoResize 	TRUE)

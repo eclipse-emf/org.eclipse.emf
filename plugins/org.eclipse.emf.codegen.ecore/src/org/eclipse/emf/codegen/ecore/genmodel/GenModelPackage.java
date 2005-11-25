@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.26 2005/11/23 17:30:54 khussey Exp $
+ * $Id: GenModelPackage.java,v 1.27 2005/11/25 13:10:37 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -483,13 +483,22 @@ public interface GenModelPackage extends EPackage{
   int GEN_MODEL__CONTAINMENT_PROXIES = GEN_BASE_FEATURE_COUNT + 41;
 
   /**
+   * The feature id for the '<em><b>Minimal Reflective Methods</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__MINIMAL_REFLECTIVE_METHODS = GEN_BASE_FEATURE_COUNT + 42;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 42;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 43;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -498,7 +507,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 43;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 44;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -507,7 +516,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 44;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 45;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -1684,6 +1693,17 @@ public interface GenModelPackage extends EPackage{
   EAttribute getGenModel_ContainmentProxies();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isMinimalReflectiveMethods <em>Minimal Reflective Methods</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Minimal Reflective Methods</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isMinimalReflectiveMethods()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_MinimalReflectiveMethods();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2404,8 +2424,7 @@ public interface GenModelPackage extends EPackage{
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals
-  {
+  interface Literals {
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl <em>Gen Model</em>}' class.
      * <!-- begin-user-doc -->
@@ -2751,6 +2770,14 @@ public interface GenModelPackage extends EPackage{
      * @generated
      */
     EAttribute GEN_MODEL__CONTAINMENT_PROXIES = eINSTANCE.getGenModel_ContainmentProxies();
+
+    /**
+     * The meta object literal for the '<em><b>Minimal Reflective Methods</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__MINIMAL_REFLECTIVE_METHODS = eINSTANCE.getGenModel_MinimalReflectiveMethods();
 
     /**
      * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.

@@ -115,6 +115,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/featureDelegation"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to respect the resolveProxies setting for containment references"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/containmentProxies"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether reflective methods will call super and be smaller or duplicate the code from super and be faster"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/minimalReflectiveMethods"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>
