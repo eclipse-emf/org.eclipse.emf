@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.17 2005/11/25 13:12:13 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.18 2005/11/25 15:36:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -517,7 +517,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
           msgs = ((InternalEObject)ePackage).eInverseRemove(this, EcorePackage.EPACKAGE__EFACTORY_INSTANCE, EPackage.class, msgs);
         return basicSetEPackage((EPackage)otherEnd, msgs);
     }
-    return eDynamicInverseAdd(otherEnd, featureID, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, null, msgs);
   }
 
   /**
@@ -534,7 +534,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       case EcorePackage.EFACTORY__EPACKAGE:
         return basicSetEPackage(null, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
   }
 
   protected String replaceWhiteSpace(String value)

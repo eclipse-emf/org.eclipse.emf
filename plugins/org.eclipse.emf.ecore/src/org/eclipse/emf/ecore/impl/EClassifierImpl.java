@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.13 2005/11/25 13:12:13 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.14 2005/11/25 15:36:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -99,7 +99,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
           msgs = eBasicRemoveFromContainer(msgs);
         return eBasicSetContainer(otherEnd, EcorePackage.ECLASSIFIER__EPACKAGE, msgs);
     }
-    return eDynamicInverseAdd(otherEnd, featureID, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, null, msgs);
   }
 
   /**
@@ -116,7 +116,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       case EcorePackage.ECLASSIFIER__EPACKAGE:
         return eBasicSetContainer(null, EcorePackage.ECLASSIFIER__EPACKAGE, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
   }
 
   /**

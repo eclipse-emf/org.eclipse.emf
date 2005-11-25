@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.8 2005/11/25 13:12:13 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.9 2005/11/25 15:36:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -145,7 +145,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
       case EcorePackage.EOPERATION__EPARAMETERS:
         return ((InternalEList)getEParameters()).basicAdd(otherEnd, msgs);
     }
-    return eDynamicInverseAdd(otherEnd, featureID, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, null, msgs);
   }
 
   /**
@@ -164,7 +164,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
       case EcorePackage.EOPERATION__EPARAMETERS:
         return ((InternalEList)getEParameters()).basicRemove(otherEnd, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
   }
 
   /**

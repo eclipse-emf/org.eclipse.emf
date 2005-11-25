@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.16 2005/11/25 13:12:13 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.17 2005/11/25 15:36:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -496,7 +496,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           msgs = eBasicRemoveFromContainer(msgs);
         return eBasicSetContainer(otherEnd, EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS, msgs);
     }
-    return eDynamicInverseAdd(otherEnd, featureID, msgs);
+    return eDynamicInverseAdd(otherEnd, featureID, null, msgs);
   }
 
   /**
@@ -513,7 +513,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
         return eBasicSetContainer(null, EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS, msgs);
     }
-    return eDynamicInverseRemove(otherEnd, featureID, msgs);
+    return eDynamicInverseRemove(otherEnd, featureID, null, msgs);
   }
 
   /**
