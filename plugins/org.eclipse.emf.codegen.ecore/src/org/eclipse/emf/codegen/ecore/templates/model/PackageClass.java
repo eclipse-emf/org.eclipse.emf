@@ -55,7 +55,7 @@ public class PackageClass
   protected final String TEXT_36 = "());" + NL + "" + NL + "\t\tisInited = true;" + NL;
   protected final String TEXT_37 = NL + "\t\t// Initialize simple dependencies";
   protected final String TEXT_38 = NL + "\t\t";
-  protected final String TEXT_39 = ".init();";
+  protected final String TEXT_39 = ".eINSTANCE.eClass();";
   protected final String TEXT_40 = NL;
   protected final String TEXT_41 = NL + "\t\t// Obtain or create and register interdependencies";
   protected final String TEXT_42 = NL + "\t\t";
@@ -382,7 +382,7 @@ public class PackageClass
     stringBuffer.append(TEXT_37);
     for (Iterator p=genPackage.getPackageSimpleDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();
     stringBuffer.append(TEXT_38);
-    stringBuffer.append(dep.getImportedPackageClassName());
+    stringBuffer.append(dep.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_39);
     }
     stringBuffer.append(TEXT_40);
@@ -598,11 +598,11 @@ public class PackageClass
     stringBuffer.append(TEXT_134);
     for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();
     stringBuffer.append(TEXT_135);
-    stringBuffer.append(dep.getImportedPackageClassName());
+    stringBuffer.append(dep.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_136);
     stringBuffer.append(genPackage.getPackageInstanceVariable(dep));
     stringBuffer.append(TEXT_137);
-    stringBuffer.append(dep.getImportedPackageClassName());
+    stringBuffer.append(dep.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_138);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EPackage"));
     stringBuffer.append(TEXT_139);

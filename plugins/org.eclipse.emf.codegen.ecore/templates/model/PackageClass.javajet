@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.23 2005/11/25 22:14:17 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.24 2005/11/26 09:29:49 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -125,7 +125,7 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 <%if (!genPackage.getPackageSimpleDependencies().isEmpty()) {%>
 		// Initialize simple dependencies
   <%for (Iterator p=genPackage.getPackageSimpleDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
-		<%=dep.getImportedPackageClassName()%>.init();
+		<%=dep.getImportedPackageInterfaceName()%>.eINSTANCE.eClass();
   <%}%>
 
 <%}%>
@@ -318,7 +318,7 @@ public class <%=genPackage.getPackageClassName()%> extends <%=genModel.getImport
 
 		// Obtain other dependent packages
     <%for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
-		<%=dep.getImportedPackageClassName()%> <%=genPackage.getPackageInstanceVariable(dep)%> = (<%=dep.getImportedPackageClassName()%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=dep.getImportedPackageInterfaceName()%>.eNS_URI);
+		<%=dep.getImportedPackageInterfaceName()%> <%=genPackage.getPackageInstanceVariable(dep)%> = (<%=dep.getImportedPackageInterfaceName()%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=dep.getImportedPackageInterfaceName()%>.eNS_URI);
     <%}%>
   <%}%>
   <%if (!genPackage.getSubGenPackages().isEmpty()) {%>
