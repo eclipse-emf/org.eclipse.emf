@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SDOUtilProtectedGetTest.java,v 1.3 2005/06/08 06:17:25 nickb Exp $
+ * $Id: SDOUtilProtectedGetTest.java,v 1.4 2005/11/26 09:39:56 emerks Exp $
  */
 package org.eclipse.emf.test.sdo.types;
 
@@ -700,7 +700,8 @@ public class SDOUtilProtectedGetTest extends TestCase
     double randon = Math.random();
     assertEquals(new Date((long)randon), TypeConverter.getDate(new Long((long)randon)));
 
-    assertEquals(new Date(), TypeConverter.getDate(new Date()));
+    Date date = new Date();
+    assertEquals(date, TypeConverter.getDate(date));
 
     assertNull(TypeConverter.getDate(null));
   }
