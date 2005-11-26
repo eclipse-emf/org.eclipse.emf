@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsPackageImpl.java,v 1.3 2005/04/01 17:57:37 marcelop Exp $
+ * $Id: ElementsPackageImpl.java,v 1.4 2005/11/26 10:22:38 emerks Exp $
  */
 package org.examples.library.elements.impl;
 
@@ -15,8 +15,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 import org.examples.library.LibraryPackage;
 
@@ -130,7 +128,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
     LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) instanceof LibraryPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI) : LibraryPackage.eINSTANCE);
@@ -321,7 +319,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 
     // Add supertypes to classes
 

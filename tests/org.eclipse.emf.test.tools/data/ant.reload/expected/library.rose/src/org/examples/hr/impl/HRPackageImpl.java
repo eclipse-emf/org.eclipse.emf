@@ -208,7 +208,7 @@ public class HRPackageImpl extends EPackageImpl implements HRPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    LibraryPackageImpl theLibraryPackage = (LibraryPackageImpl)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
+    LibraryPackage theLibraryPackage = (LibraryPackage)EPackage.Registry.INSTANCE.getEPackage(LibraryPackage.eNS_URI);
 
     // Add supertypes to classes
 

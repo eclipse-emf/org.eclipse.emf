@@ -18,8 +18,6 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
-
 import org.examples.library.LibraryPackage;
 
 import org.examples.library.elements.Book;
@@ -145,7 +143,7 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Obtain or create and register interdependencies
     HrPackageImpl theHrPackage = (HrPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI) instanceof HrPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI) : HrPackage.eINSTANCE);
@@ -361,8 +359,8 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
-    HrPackageImpl theHrPackage = (HrPackageImpl)EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    HrPackage theHrPackage = (HrPackage)EPackage.Registry.INSTANCE.getEPackage(HrPackage.eNS_URI);
 
     // Add supertypes to classes
     writerEClass.getESuperTypes().add(theHrPackage.getPerson());

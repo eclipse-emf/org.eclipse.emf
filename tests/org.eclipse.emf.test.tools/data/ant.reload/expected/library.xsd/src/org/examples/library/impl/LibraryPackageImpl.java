@@ -17,8 +17,6 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
-
 import org.examples.library.Book;
 import org.examples.library.BookCategory;
 import org.examples.library.Library;
@@ -135,7 +133,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theLibraryPackage.createPackageContents();
@@ -377,7 +375,7 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 
     // Add supertypes to classes
 
