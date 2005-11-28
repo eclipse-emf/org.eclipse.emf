@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.10 2005/11/28 22:07:23 marcelop Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.11 2005/11/28 22:36:34 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -72,8 +72,6 @@ public class RoseEcoreBuilder implements RoseVisitor
   public boolean unsettablePrimitive = "true".equals(System.getProperty("EMF_UNSETTABLE_PRIMITIVE"));
 
   protected RoseUtil roseUtil;
-  protected EcorePackage ecorePackage;
-  protected EcoreFactory ecoreFactory;
   protected Set bounded = new HashSet();
 
   protected Map eStructuralFeatureToXMLNamespaceMap = new HashMap();
@@ -97,8 +95,6 @@ public class RoseEcoreBuilder implements RoseVisitor
   {
     super();
     this.roseUtil = roseUtil;
-    ecorePackage = EcorePackage.eINSTANCE;
-    ecoreFactory = EcoreFactory.eINSTANCE;
   }
 
   public void visitList(RoseNode roseNode)
@@ -174,7 +170,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         parent = idToParentMap.get(id);
       }
-      EPackage ePackage = ecoreFactory.createEPackage();
+      EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       if (parent instanceof EPackage)
       {
         // Add to package.
@@ -219,7 +215,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         // Map to an EClass.
         //
-        EClass eClass = ecoreFactory.createEClass();
+        EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         String classifierName = roseNode.getClassifierName();
         if (classifierName == null || classifierName.length() == 0)
         {
@@ -235,7 +231,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       else if (stereoTypeValue.equalsIgnoreCase(RoseStrings.ENUMERATION))
       {
         // Map to an EEnum.
-        EEnum eEnum = ecoreFactory.createEEnum();
+        EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
         String classifierName = roseNode.getClassifierName();
         if (classifierName == null || classifierName.length() == 0)
         {
@@ -250,7 +246,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         // Map to an EDataType.
         //
-        EDataType eDataType = ecoreFactory.createEDataType();
+        EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
         String classifierName = roseNode.getClassifierName();
         if (classifierName == null || classifierName.length() == 0)
         {
@@ -287,7 +283,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         // Map to an EDataType.
         //
-        EDataType eDataType = ecoreFactory.createEDataType();
+        EDataType eDataType = EcoreFactory.eINSTANCE.createEDataType();
         String classifierName = roseNode.getClassifierName();
         if (classifierName == null || classifierName.length() == 0)
         {
@@ -305,7 +301,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         // Map to an EClass.
         //
-        EClass eClass = ecoreFactory.createEClass();
+        EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         String classifierName = roseNode.getClassifierName();
         if (classifierName == null || classifierName.length() == 0)
         {
@@ -320,7 +316,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         // Map to an EClass.
         //
-        EClass eClass = ecoreFactory.createEClass();
+        EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         String classifierName = roseNode.getClassifierName();
         if (classifierName == null || classifierName.length() == 0)
         {
@@ -338,7 +334,7 @@ public class RoseEcoreBuilder implements RoseVisitor
 
         // Map to an eClass.
         //
-        EClass eClass = ecoreFactory.createEClass();
+        EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         String classifierName = roseNode.getClassifierName();
         if (classifierName == null || classifierName.length() == 0)
         {
@@ -354,7 +350,7 @@ public class RoseEcoreBuilder implements RoseVisitor
     {
       // Map to an eClass.
       //
-      EClass eClass = ecoreFactory.createEClass();
+      EClass eClass = EcoreFactory.eINSTANCE.createEClass();
       String classifierName = roseNode.getClassifierName();
       if (classifierName == null || classifierName.length() == 0)
       {
@@ -370,7 +366,7 @@ public class RoseEcoreBuilder implements RoseVisitor
   protected void visitOperation(RoseNode roseNode, String roseNodeValue, String objectKey, String objectName, Object parent)
   {
     // Map to an EOperation.
-    EOperation eOperation = ecoreFactory.createEOperation();
+    EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
     String operationName = roseNode.getOperationName();
     if (operationName == null || operationName.length() == 0)
     {
@@ -392,7 +388,7 @@ public class RoseEcoreBuilder implements RoseVisitor
   {
     // Map to an EParameter as input parameter for operation.
     //
-    EParameter eParameter = ecoreFactory.createEParameter();
+    EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
     eParameter.setName(validName(objectName));
     roseNode.setNode(eParameter);
 
@@ -431,7 +427,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       EEnumLiteral eEnumLiteral = ((EEnum)parent).getEEnumLiteral(objectName);
       if (eEnumLiteral == null)
       {
-        eEnumLiteral = ecoreFactory.createEEnumLiteral();
+        eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
         String literalName = roseNode.getAttributeName();
         if (literalName == null || literalName.length() == 0)
         {
@@ -470,7 +466,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       }
       else if (parent instanceof EClass)
       {
-        EAttribute eAttribute = ecoreFactory.createEAttribute();
+        EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
         String attributeName = roseNode.getAttributeName();
         if (attributeName == null || attributeName.length() == 0)
         {
@@ -501,7 +497,7 @@ public class RoseEcoreBuilder implements RoseVisitor
   {
     // map to EReference when is navigable
     //
-    EReference ref = ecoreFactory.createEReference();
+    EReference ref = EcoreFactory.eINSTANCE.createEReference();
     ref.setUpperBound(0);
     String referenceName = roseNode.getReferenceName();
     if (referenceName == null || referenceName.length() == 0)
@@ -820,7 +816,7 @@ public class RoseEcoreBuilder implements RoseVisitor
         EEnumLiteral lit = eEnum.getEEnumLiteral(name);
         if (lit == null)
         {
-          lit = ecoreFactory.createEEnumLiteral();
+          lit = EcoreFactory.eINSTANCE.createEEnumLiteral();
           lit.setName(validName(name));
           lit.setValue(numberValue);
           eLiterals.add(lit);
@@ -887,18 +883,18 @@ public class RoseEcoreBuilder implements RoseVisitor
     {
       if ("inv".equals(stereotype))
       {
-        eOperation.setEType(EcorePackage.eINSTANCE.getEBoolean());
+        eOperation.setEType(EcorePackage.Literals.EBOOLEAN);
 
         eOperation.getEParameters().clear();
 
-        EParameter eParameter = ecoreFactory.createEParameter();
+        EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
         eParameter.setName("diagnostics");
-        eParameter.setEType(EcorePackage.eINSTANCE.getEDiagnosticChain());
+        eParameter.setEType(EcorePackage.Literals.EDIAGNOSTIC_CHAIN);
         eOperation.getEParameters().add(eParameter);
 
-        eParameter = ecoreFactory.createEParameter();
+        eParameter = EcoreFactory.eINSTANCE.createEParameter();
         eParameter.setName("context");
-        eParameter.setEType(EcorePackage.eINSTANCE.getEMap());
+        eParameter.setEType(EcorePackage.Literals.EMAP);
         eOperation.getEParameters().add(eParameter);
       }
     }
@@ -1853,7 +1849,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       if (element instanceof EAttribute && eType instanceof EClass)
       {
         EAttribute eAttribute = (EAttribute)element;
-        EReference eReference = ecoreFactory.createEReference();
+        EReference eReference = EcoreFactory.eINSTANCE.createEReference();
 
         eReference.setName(eAttribute.getName());
         eReference.setTransient(eAttribute.isTransient());
@@ -1888,12 +1884,12 @@ public class RoseEcoreBuilder implements RoseVisitor
           || kind == ExtendedMetaData.GROUP_FEATURE)
         {
           convert = true;
-          eType = ecorePackage.getEFeatureMapEntry();
+          eType = EcorePackage.Literals.EFEATURE_MAP_ENTRY;
         }
 
         if (convert)
         {
-          EAttribute eAttribute = ecoreFactory.createEAttribute();
+          EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
 
           eAttribute.setName(eReference.getName());
           eAttribute.setTransient(eReference.isTransient());
@@ -1957,95 +1953,95 @@ public class RoseEcoreBuilder implements RoseVisitor
   {
     if (value.equals("boolean") || value.equalsIgnoreCase("eboolean"))
     {
-      return ecorePackage.getEBoolean();
+      return EcorePackage.Literals.EBOOLEAN;
     }
     else if (value.equalsIgnoreCase("boolean") || value.equalsIgnoreCase("ebooleanobject"))
     {
-      return ecorePackage.getEBooleanObject();
+      return EcorePackage.Literals.EBOOLEAN_OBJECT;
     }
     else if (value.equalsIgnoreCase("string") || value.equalsIgnoreCase("estring"))
     {
-      return ecorePackage.getEString();
+      return EcorePackage.Literals.ESTRING;
     }
     else if (value.equalsIgnoreCase("char") || value.equalsIgnoreCase("echar"))
     {
-      return ecorePackage.getEChar();
+      return EcorePackage.Literals.ECHAR;
     }
     else if (value.equalsIgnoreCase("character") || value.equalsIgnoreCase("echaracterobject"))
     {
-      return ecorePackage.getECharacterObject();
+      return EcorePackage.Literals.ECHARACTER_OBJECT;
     }
     else if (value.equals("double") || value.equalsIgnoreCase("edouble") || value.equalsIgnoreCase("currency"))
     {
-      return ecorePackage.getEDouble();
+      return EcorePackage.Literals.EDOUBLE;
     }
     else if (value.equalsIgnoreCase("double") || value.equalsIgnoreCase("edoubleobject"))
     {
-      return ecorePackage.getEDoubleObject();
+      return EcorePackage.Literals.EDOUBLE_OBJECT;
     }
     else if (value.equalsIgnoreCase("int") || value.equalsIgnoreCase("eint"))
     {
-      return ecorePackage.getEInt();
+      return EcorePackage.Literals.EINT;
     }
     else if (value.equalsIgnoreCase("integer") || value.equalsIgnoreCase("eintegerobject"))
     {
-      return ecorePackage.getEIntegerObject();
+      return EcorePackage.Literals.EINTEGER_OBJECT;
     }
     else if (value.equals("long long") || value.equals("long") || value.equalsIgnoreCase("elong"))
     {
-      return ecorePackage.getELong();
+      return EcorePackage.Literals.ELONG;
     }
     else if (value.equalsIgnoreCase("long") || value.equalsIgnoreCase("elongobject"))
     {
-      return ecorePackage.getELongObject();
+      return EcorePackage.Literals.ELONG_OBJECT;
     }
     else if (value.equals("float") || value.equalsIgnoreCase("efloat") || value.equalsIgnoreCase("single"))
     {
-      return ecorePackage.getEFloat();
+      return EcorePackage.Literals.EFLOAT;
     }
     else if (value.equalsIgnoreCase("float") || value.equalsIgnoreCase("efloatobject"))
     {
-      return ecorePackage.getEFloatObject();
+      return EcorePackage.Literals.EFLOAT_OBJECT;
     }
     else if (value.equals("short") || value.equalsIgnoreCase("eshort"))
     {
-      return ecorePackage.getEShort();
+      return EcorePackage.Literals.ESHORT;
     }
     else if (value.equalsIgnoreCase("short") || value.equalsIgnoreCase("eshortobject"))
     {
-      return ecorePackage.getEShortObject();
+      return EcorePackage.Literals.ESHORT_OBJECT;
     }
     else if (value.equals("byte") || value.equalsIgnoreCase("ebyte"))
     {
-      return ecorePackage.getEByte();
+      return EcorePackage.Literals.EBYTE;
     }
     else if (value.equals("byte[]") || value.equalsIgnoreCase("ebytearray") || value.equalsIgnoreCase("ebyte[]"))
     {
-      return ecorePackage.getEByteArray();
+      return EcorePackage.Literals.EBYTE_ARRAY;
     }
     else if (value.equalsIgnoreCase("byte") || value.equalsIgnoreCase("ebyteObject"))
     {
-      return ecorePackage.getEByteObject();
+      return EcorePackage.Literals.EBYTE_OBJECT;
     }
     else if (value.equalsIgnoreCase("ebigdecimal"))
     {
-      return ecorePackage.getEBigDecimal();
+      return EcorePackage.Literals.EBIG_DECIMAL;
     }
     else if (value.equalsIgnoreCase("ebiginteger"))
     {
-      return ecorePackage.getEBigInteger();
+      return EcorePackage.Literals.EBIG_INTEGER;
     }
     else if (value.equalsIgnoreCase("edate"))
     {
-      return ecorePackage.getEDate();
+      return EcorePackage.Literals.EDATE;
     }
     else if (value.equalsIgnoreCase("eobject"))
     {
-      return ecorePackage.getEObject();
+      return EcorePackage.Literals.EOBJECT;
     }
     else if (value.equalsIgnoreCase("efeaturemapentry"))
     {
-      return ecorePackage.getEFeatureMapEntry();
+      return EcorePackage.Literals.EFEATURE_MAP_ENTRY;
     }
     else
     {
@@ -2067,7 +2063,7 @@ public class RoseEcoreBuilder implements RoseVisitor
 
     if (!list.isEmpty())
     {
-      EPackage ePackage = ecoreFactory.createEPackage();
+      EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
       setEPackageProperties(roseNode, ePackage, packageName.toLowerCase());
 
       extent.add(ePackage);

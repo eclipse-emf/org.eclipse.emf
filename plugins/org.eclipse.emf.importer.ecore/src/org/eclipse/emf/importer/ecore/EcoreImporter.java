@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporter.java,v 1.7 2005/11/23 19:07:05 emerks Exp $
+ * $Id: EcoreImporter.java,v 1.8 2005/11/28 22:36:34 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore;
 
@@ -69,7 +69,7 @@ public class EcoreImporter extends ModelImporter
       for (Iterator i = ecoreResourceSet.getResources().iterator(); i.hasNext(); )
       {
         Resource resource = (Resource)i.next();
-        getEPackages().addAll(EcoreUtil.getObjectsByType(resource.getContents(), EcorePackage.eINSTANCE.getEPackage()));
+        getEPackages().addAll(EcoreUtil.getObjectsByType(resource.getContents(), EcorePackage.Literals.EPACKAGE));
       }
     }
     return diagnostic;

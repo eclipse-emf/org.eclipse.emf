@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.12 2005/11/23 21:45:20 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.13 2005/11/28 22:36:34 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -40,7 +40,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -297,7 +296,7 @@ public class JavaEcoreBuilder
       if (eClassifier == null)
       {
         error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheTypeDoesNotResolveCorrectly_message", new Object []{ typeName }));
-        eClassifier = EcorePackage.eINSTANCE.getEObject();
+        eClassifier = EcorePackage.Literals.EOBJECT;
       }
 
       // Finally set the type.
@@ -333,7 +332,7 @@ public class JavaEcoreBuilder
 
           if (eClassifier instanceof EClass)
           {
-            if (eClassifier != EcorePackage.eINSTANCE.getEObject())
+            if (eClassifier != EcorePackage.Literals.EOBJECT)
             {
               eClass.getESuperTypes().add(eClassifier);
               used(eClassifier);
@@ -1746,9 +1745,9 @@ public class JavaEcoreBuilder
       }
     }
 
-    if (EcorePackage.eINSTANCE.getEObject().getInstanceClassName().equals(typeName))
+    if (EcorePackage.Literals.EOBJECT.getInstanceClassName().equals(typeName))
     {
-      eClassifier = EcorePackage.eINSTANCE.getEObject();
+      eClassifier = EcorePackage.Literals.EOBJECT;
     }
 
     // Just to be helpful, we'll recognize a type of org.eclipse.emf.ecore.util.FeatureMap and convert it to EFeatureMapEntry.
@@ -1756,9 +1755,9 @@ public class JavaEcoreBuilder
     // change the instanceClass of a new EDataType that's implicitly being defined for FeatureMap.
     //
     if (eClassifier == null && recordDemandCreatedEDataType
-      && EcorePackage.eINSTANCE.getEFeatureMap().getInstanceClassName().equals(typeName))
+      && EcorePackage.Literals.EFEATURE_MAP.getInstanceClassName().equals(typeName))
     {
-      eClassifier = EcorePackage.eINSTANCE.getEFeatureMapEntry();
+      eClassifier = EcorePackage.Literals.EFEATURE_MAP_ENTRY;
     }
 
     // If we don't have one yet, maybe it's one of the special types...
