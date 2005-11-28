@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.9 2005/11/23 21:46:00 davidms Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.10 2005/11/28 22:07:23 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -35,7 +35,6 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAnnotation;
