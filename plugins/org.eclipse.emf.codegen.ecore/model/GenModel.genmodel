@@ -86,6 +86,12 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/rootImplementsInterface"/>
       <genFeatures createChild="false" propertyCategory="ModelFeature" propertyDescription="Whether to use standard Java, rather than EMF, collection and object types for features and operations"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressEMFTypes"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generated package from the interface"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressEMFMetaData"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the generation of @model tags in the Javadoc"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressEMFModelTags"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to generate separate interface and implementation classes"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressInterfaces"/>
       <genFeatures createChild="false" propertyCategory="ModelFeature" propertyDescription="An alternate interface for feature maps to be provided by a wrapper"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/featureMapWrapperInterface"/>
       <genFeatures createChild="false" propertyCategory="ModelFeature" propertyDescription="An internal interface for handling feature map wrappers within the class implementation"
@@ -136,7 +142,7 @@
       <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for interfaces"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/interfacePackageSuffix"/>
       <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for factory and package interfaces"
-          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/reflectionPackageSuffix"/>
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/metaDataPackageSuffix"/>
       <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the package for implementation classes"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/classPackageSuffix"/>
       <genFeatures createChild="false" propertyCategory="Package Suffixes" propertyDescription="The suffix of the utility package"

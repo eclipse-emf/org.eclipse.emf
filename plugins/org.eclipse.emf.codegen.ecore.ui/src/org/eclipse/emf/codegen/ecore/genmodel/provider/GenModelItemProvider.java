@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.23 2005/11/25 12:58:51 emerks Exp $
+ * $Id: GenModelItemProvider.java,v 1.24 2005/11/29 15:00:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -97,6 +97,9 @@ public class GenModelItemProvider
       addRootExtendsClassPropertyDescriptor(object);
       addRootImplementsInterfacePropertyDescriptor(object);
       addSuppressEMFTypesPropertyDescriptor(object);
+      addSuppressEMFMetaDataPropertyDescriptor(object);
+      addSuppressEMFModelTagsPropertyDescriptor(object);
+      addSuppressInterfacesPropertyDescriptor(object);
       addFeatureMapWrapperInterfacePropertyDescriptor(object);
       addFeatureMapWrapperInternalInterfacePropertyDescriptor(object);
       addFeatureMapWrapperClassPropertyDescriptor(object);
@@ -641,6 +644,69 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Suppress EMF Meta Data feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addSuppressEMFMetaDataPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_suppressEMFMetaData_feature"),
+         getString("_UI_GenModel_suppressEMFMetaData_description"),
+         GenModelPackage.Literals.GEN_MODEL__SUPPRESS_EMF_META_DATA,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Suppress EMF Model Tags feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addSuppressEMFModelTagsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_suppressEMFModelTags_feature"),
+         getString("_UI_GenModel_suppressEMFModelTags_description"),
+         GenModelPackage.Literals.GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Suppress Interfaces feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addSuppressInterfacesPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_suppressInterfaces_feature"),
+         getString("_UI_GenModel_suppressInterfaces_description"),
+         GenModelPackage.Literals.GEN_MODEL__SUPPRESS_INTERFACES,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * This adds a property descriptor for the Feature Map Wrapper Interface feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1022,6 +1088,9 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__ROOT_EXTENDS_CLASS:
       case GenModelPackage.GEN_MODEL__ROOT_IMPLEMENTS_INTERFACE:
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_TYPES:
+      case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_META_DATA:
+      case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS:
+      case GenModelPackage.GEN_MODEL__SUPPRESS_INTERFACES:
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE:
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE:
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS:

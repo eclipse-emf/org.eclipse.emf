@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.17 2005/11/23 17:31:02 khussey Exp $
+ * $Id: GenPackageItemProvider.java,v 1.18 2005/11/29 15:00:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -79,7 +79,7 @@ public class GenPackageItemProvider
       addAdapterFactoryPropertyDescriptor(object);
       addLoadInitializationPropertyDescriptor(object);
       addInterfacePackageSuffixPropertyDescriptor(object);
-      addReflectionPackageSuffixPropertyDescriptor(object);
+      addMetaDataPackageSuffixPropertyDescriptor(object);
       addClassPackageSuffixPropertyDescriptor(object);
       addUtilityPackageSuffixPropertyDescriptor(object);
       addProviderPackageSuffixPropertyDescriptor(object);
@@ -240,20 +240,20 @@ public class GenPackageItemProvider
   }
 
   /**
-   * This adds a property descriptor for the Reflection Package Suffix feature.
+   * This adds a property descriptor for the Meta Data Package Suffix feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void addReflectionPackageSuffixPropertyDescriptor(Object object)
+  protected void addMetaDataPackageSuffixPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
       (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
-         getString("_UI_GenPackage_reflectionPackageSuffix_feature"),
-         getString("_UI_GenPackage_reflectionPackageSuffix_description"),
-         GenModelPackage.Literals.GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX,
+         getString("_UI_GenPackage_metaDataPackageSuffix_feature"),
+         getString("_UI_GenPackage_metaDataPackageSuffix_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__META_DATA_PACKAGE_SUFFIX,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_PackageSuffixesPropertyCategory"),
@@ -503,7 +503,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__ADAPTER_FACTORY:
       case GenModelPackage.GEN_PACKAGE__LOAD_INITIALIZATION:
       case GenModelPackage.GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX:
-      case GenModelPackage.GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX:
+      case GenModelPackage.GEN_PACKAGE__META_DATA_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__CLASS_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX:
