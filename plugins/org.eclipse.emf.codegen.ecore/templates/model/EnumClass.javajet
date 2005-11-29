@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.7 2005/10/28 14:08:39 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.8 2005/11/29 15:03:03 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -22,7 +22,6 @@ package <%=genPackage.getInterfacePackageName()%>;
 <%genModel.addImport("java.util.Arrays");%>
 <%genModel.addImport("java.util.List");%>
 <%genModel.addImport("java.util.Collections");%>
-<%genModel.addImport("org.eclipse.emf.common.util.AbstractEnumerator");%>
 <%genModel.markImportLocation(stringBuffer, genPackage);%>
 
 /**
@@ -36,10 +35,12 @@ package <%=genPackage.getInterfacePackageName()%>;
  * <!-- end-model-doc -->
 <%}%>
  * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genEnum.getName()%>()
+<%if (!genModel.isSuppressEMFModelTags()) {%>
  * @model
+<%}%>
  * @generated
  */
-public final class <%=genEnum.getName()%> extends AbstractEnumerator
+public final class <%=genEnum.getName()%> extends <%=genModel.isSuppressEMFMetaData() && !genModel.isSuppressInterfaces() ? "Internal" + genEnum.getName() : genModel.getImportedName("org.eclipse.emf.common.util.AbstractEnumerator")%>
 {
 <%if (genModel.getCopyrightText() != null) {%>
 	/**
@@ -67,7 +68,7 @@ public final class <%=genEnum.getName()%> extends AbstractEnumerator
 	 * <!-- end-model-doc -->
 <%}%>
 	 * @see #<%=genEnumLiteral.getEnumLiteralID()%>_LITERAL
-<%{boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genEnumLiteral.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+<%if (!genModel.isSuppressEMFModelTags()) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genEnumLiteral.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
 	 * @model <%=modelInfo%>
 <%} else {%>
 	 *        <%=modelInfo%>
@@ -181,4 +182,26 @@ public final class <%=genEnum.getName()%> extends AbstractEnumerator
 	}
 
 } //<%=genEnum.getName()%>
+<%if (genModel.isSuppressEMFMetaData()&& !genModel.isSuppressInterfaces() ) {%>
+
+/**
+ * A private implementation class to construct the instances.
+ * <!-- begin-user-doc -->
+ * <!-- end-user-doc -->
+ * @generated
+ */
+class Internal<%=genEnum.getName()%> extends org.eclipse.emf.common.util.AbstractEnumerator
+{
+	/**
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected Internal<%=genEnum.getName()%>(int value, <%=genModel.getImportedName("java.lang.String")%> name, <%=genModel.getImportedName("java.lang.String")%> literal)
+	{
+		super(value, name, literal);
+	}
+}
+<%}%>
 <%genModel.emitSortedImports();%>

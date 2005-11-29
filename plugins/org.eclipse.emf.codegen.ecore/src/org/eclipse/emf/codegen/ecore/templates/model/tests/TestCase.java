@@ -66,7 +66,7 @@ public class TestCase
   protected final String TEXT_49 = ")fixture;";
   protected final String TEXT_50 = NL + "\t}";
   protected final String TEXT_51 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see junit.framework.TestCase#setUp()" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected void setUp() throws Exception" + NL + "\t{" + NL + "\t\tsetFixture(";
-  protected final String TEXT_52 = ".eINSTANCE.create";
+  protected final String TEXT_52 = ".create";
   protected final String TEXT_53 = "());" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @see junit.framework.TestCase#tearDown()" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected void tearDown() throws Exception" + NL + "\t{" + NL + "\t\tsetFixture(null);" + NL + "\t}";
   protected final String TEXT_54 = NL + NL + "\t/**" + NL + "\t * Tests the '{@link ";
   protected final String TEXT_55 = "#";
@@ -257,7 +257,7 @@ public class TestCase
     stringBuffer.append(TEXT_50);
     if (!genClass.isAbstract()) {
     stringBuffer.append(TEXT_51);
-    stringBuffer.append(genPackage.getImportedFactoryInterfaceName());
+    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_52);
     stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_53);

@@ -148,7 +148,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 */
 	protected void setUp() throws Exception
 	{
-		setFixture(<%=genPackage.getImportedFactoryInterfaceName()%>.eINSTANCE.create<%=genClass.getName()%>());
+		setFixture(<%=genPackage.getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=genClass.getName()%>());
 	}
 
 	/**

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.14 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.15 2005/11/29 15:03:05 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -88,7 +88,9 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
 <%}%>
+<%if (!genModel.isSuppressEMFMetaData()) {%>
 import <%=genPackage.getQualifiedFactoryInterfaceName()%>;
+<%}%>
 import <%=genPackage.getQualifiedPackageInterfaceName()%>;
 import <%=genPackage.getQualifiedEditPluginClassName()%>;
 
@@ -119,7 +121,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genPackage.getPackageInterfaceName()%> <%=genPackage.getUncapPackageInterfaceName()%> = <%=genPackage.getPackageInterfaceName()%>.eINSTANCE;
+	protected <%=genModel.isSuppressEMFMetaData() ? genModel.getImportedName("org.eclipse.emf.ecore.EPackage") : genPackage.getPackageInterfaceName()%> <%=genPackage.getUncapPackageInterfaceName()%> = <%=genPackage.getPackageInterfaceName()%>.eINSTANCE;
 
 	/**
 	 * This caches an instance of the model factory.
@@ -127,7 +129,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genPackage.getFactoryInterfaceName()%> <%=genPackage.getUncapFactoryInterfaceName()%> = <%=genPackage.getUncapPackageInterfaceName()%>.get<%=genPackage.getFactoryInterfaceName()%>();
+	protected <%=genModel.isSuppressEMFMetaData() ? genModel.getImportedName("org.eclipse.emf.ecore.EFactory") : genPackage.getFactoryInterfaceName()%> <%=genPackage.getUncapFactoryInterfaceName()%> = <%=genPackage.getUncapPackageInterfaceName()%>.get<%=genModel.isSuppressEMFMetaData() ? "EFactoryInstance" : genPackage.getFactoryInterfaceName()%>();
 
 <%if (!genModel.isRichClientPlatform()) {%>
 	/**

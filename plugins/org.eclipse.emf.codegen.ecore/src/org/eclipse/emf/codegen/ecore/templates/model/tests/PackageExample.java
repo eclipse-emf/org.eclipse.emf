@@ -38,10 +38,10 @@ public class PackageExample
   protected final String TEXT_22 = "\"));";
   protected final String TEXT_23 = NL + "\t\t\t\t";
   protected final String TEXT_24 = " documentRoot = ";
-  protected final String TEXT_25 = ".eINSTANCE.create";
+  protected final String TEXT_25 = ".create";
   protected final String TEXT_26 = "();" + NL + "\t\t\t\t";
   protected final String TEXT_27 = " root = ";
-  protected final String TEXT_28 = ".eINSTANCE.create";
+  protected final String TEXT_28 = ".create";
   protected final String TEXT_29 = "();";
   protected final String TEXT_30 = NL + "\t\t\t\tdocumentRoot.eSet(";
   protected final String TEXT_31 = ", root);";
@@ -50,7 +50,7 @@ public class PackageExample
   protected final String TEXT_34 = NL + "\t\t\t\tresource.getContents().add(documentRoot);";
   protected final String TEXT_35 = NL + "\t\t\t\t";
   protected final String TEXT_36 = " root = ";
-  protected final String TEXT_37 = ".eINSTANCE.create";
+  protected final String TEXT_37 = ".create";
   protected final String TEXT_38 = "();" + NL + "\t\t\t\tresource.getContents().add(root);";
   protected final String TEXT_39 = NL + "\t\t\t\tresource.save(";
   protected final String TEXT_40 = ".out, null);" + NL + "\t\t\t}" + NL + "\t\t\tcatch (";
@@ -150,13 +150,13 @@ String _ResourceSetImpl = genModel.getImportedName("org.eclipse.emf.ecore.resour
     stringBuffer.append(TEXT_23);
     stringBuffer.append(documentRoot.getImportedInterfaceName());
     stringBuffer.append(TEXT_24);
-    stringBuffer.append(genPackage.getImportedFactoryInterfaceName());
+    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_25);
     stringBuffer.append(documentRoot.getName());
     stringBuffer.append(TEXT_26);
     stringBuffer.append(rootClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_27);
-    stringBuffer.append(genPackage.getImportedFactoryInterfaceName());
+    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_28);
     stringBuffer.append(rootClass.getName());
     stringBuffer.append(TEXT_29);
@@ -174,7 +174,7 @@ String _ResourceSetImpl = genModel.getImportedName("org.eclipse.emf.ecore.resour
     stringBuffer.append(TEXT_35);
     stringBuffer.append(rootClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_36);
-    stringBuffer.append(genPackage.getImportedFactoryInterfaceName());
+    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_37);
     stringBuffer.append(rootClass.getName());
     stringBuffer.append(TEXT_38);
