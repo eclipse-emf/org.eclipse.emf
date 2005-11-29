@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.32 2005/11/25 13:10:37 emerks Exp $
+ * $Id: GenModel.java,v 1.33 2005/11/29 15:07:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -68,6 +68,9 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRootExtendsClass <em>Root Extends Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getRootImplementsInterface <em>Root Implements Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressEMFTypes <em>Suppress EMF Types</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressEMFMetaData <em>Suppress EMF Meta Data</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressEMFModelTags <em>Suppress EMF Model Tags</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressInterfaces <em>Suppress Interfaces</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureMapWrapperInterface <em>Feature Map Wrapper Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureMapWrapperInternalInterface <em>Feature Map Wrapper Internal Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureMapWrapperClass <em>Feature Map Wrapper Class</em>}</li>
@@ -869,6 +872,84 @@ public interface GenModel extends GenBase{
   void setSuppressEMFTypes(boolean value);
 
   /**
+   * Returns the value of the '<em><b>Suppress EMF Meta Data</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Suppress EMF Meta Data</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Suppress EMF Meta Data</em>' attribute.
+   * @see #setSuppressEMFMetaData(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_SuppressEMFMetaData()
+   * @model
+   * @generated
+   */
+  boolean isSuppressEMFMetaData();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressEMFMetaData <em>Suppress EMF Meta Data</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppress EMF Meta Data</em>' attribute.
+   * @see #isSuppressEMFMetaData()
+   * @generated
+   */
+  void setSuppressEMFMetaData(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Suppress EMF Model Tags</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Suppress EMF Model Tags</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Suppress EMF Model Tags</em>' attribute.
+   * @see #setSuppressEMFModelTags(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_SuppressEMFModelTags()
+   * @model
+   * @generated
+   */
+  boolean isSuppressEMFModelTags();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressEMFModelTags <em>Suppress EMF Model Tags</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppress EMF Model Tags</em>' attribute.
+   * @see #isSuppressEMFModelTags()
+   * @generated
+   */
+  void setSuppressEMFModelTags(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Suppress Interfaces</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Suppress Interfaces</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Suppress Interfaces</em>' attribute.
+   * @see #setSuppressInterfaces(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_SuppressInterfaces()
+   * @model
+   * @generated
+   */
+  boolean isSuppressInterfaces();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressInterfaces <em>Suppress Interfaces</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppress Interfaces</em>' attribute.
+   * @see #isSuppressInterfaces()
+   * @generated
+   */
+  void setSuppressInterfaces(boolean value);
+
+  /**
    * Returns the value of the '<em><b>Feature Map Wrapper Interface</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
@@ -1401,12 +1482,9 @@ public interface GenModel extends GenBase{
 
   JControlModel getJControlModel();
 
-  JETEmitter getInterfaceEmitter();
   JETEmitter getClassEmitter();
   JETEmitter getEnumClassEmitter();
-  JETEmitter getFactoryInterfaceEmitter();
   JETEmitter getFactoryClassEmitter();
-  JETEmitter getPackageInterfaceEmitter();
   JETEmitter getPackageClassEmitter();
   JETEmitter getAdapterFactoryClassEmitter();
   JETEmitter getSwitchClassEmitter();

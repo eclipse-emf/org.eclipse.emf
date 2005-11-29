@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.20 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenPackage.java,v 1.21 2005/11/29 15:07:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -39,7 +39,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isAdapterFactory <em>Adapter Factory</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isLoadInitialization <em>Load Initialization</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getInterfacePackageSuffix <em>Interface Package Suffix</em>}</li>
- *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getReflectionPackageSuffix <em>Reflection Package Suffix</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getMetaDataPackageSuffix <em>Meta Data Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getClassPackageSuffix <em>Class Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getUtilityPackageSuffix <em>Utility Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getProviderPackageSuffix <em>Provider Package Suffix</em>}</li>
@@ -250,31 +250,31 @@ public interface GenPackage extends GenBase{
   void setInterfacePackageSuffix(String value);
 
   /**
-   * Returns the value of the '<em><b>Reflection Package Suffix</b></em>' attribute.
+   * Returns the value of the '<em><b>Meta Data Package Suffix</b></em>' attribute.
    * The default value is <code>""</code>.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Reflection Package Suffix</em>' attribute isn't clear,
+   * If the meaning of the '<em>Meta Data Package Suffix</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Reflection Package Suffix</em>' attribute.
-   * @see #setReflectionPackageSuffix(String)
-   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_ReflectionPackageSuffix()
+   * @return the value of the '<em>Meta Data Package Suffix</em>' attribute.
+   * @see #setMetaDataPackageSuffix(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_MetaDataPackageSuffix()
    * @model default=""
    * @generated
    */
-  String getReflectionPackageSuffix();
+  String getMetaDataPackageSuffix();
 
   /**
-   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getReflectionPackageSuffix <em>Reflection Package Suffix</em>}' attribute.
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getMetaDataPackageSuffix <em>Meta Data Package Suffix</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Reflection Package Suffix</em>' attribute.
-   * @see #getReflectionPackageSuffix()
+   * @param value the new value of the '<em>Meta Data Package Suffix</em>' attribute.
+   * @see #getMetaDataPackageSuffix()
    * @generated
    */
-  void setReflectionPackageSuffix(String value);
+  void setMetaDataPackageSuffix(String value);
 
   /**
    * Returns the value of the '<em><b>Class Package Suffix</b></em>' attribute.
@@ -628,6 +628,10 @@ public interface GenPackage extends GenBase{
   String getFactoryClassName();
   String getQualifiedFactoryClassName();
   String getImportedFactoryClassName();
+  String getFactoryInstanceName();
+  String getQualifiedFactoryInstanceAccessor();
+  String getQualifiedEFactoryInstanceAccessor();
+  String getQualifiedEFactoryInternalInstanceAccessor();
 
   String getAdapterFactoryClassName();
   String getQualifiedAdapterFactoryClassName();

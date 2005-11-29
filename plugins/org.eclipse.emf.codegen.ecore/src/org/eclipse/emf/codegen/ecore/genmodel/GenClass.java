@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.19 2005/11/25 22:14:17 emerks Exp $
+ * $Id: GenClass.java,v 1.20 2005/11/29 15:07:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -399,4 +399,7 @@ public interface GenClass extends GenClassifier
   String getEVirtualValuesField();
   List/*of String*/ getEVirtualIndexBitFields(List eVirtualIndexBitFields);
   List/*of String*/ getAllEVirtualIndexBitFields(List allEVirtualIndexBitFields);
+  
+  boolean isJavaIOSerializable();
+  boolean hasFactoryInterfaceCreateMethod();
 }

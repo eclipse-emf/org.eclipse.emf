@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.36 2005/11/24 20:41:07 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.37 2005/11/29 15:07:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -371,6 +371,19 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
      String className, 
      JETEmitter jetEmitter)
   {
+    generate(progressMonitor, style, pluginVariables, targetDirectory, packageName, className, jetEmitter, new Object [] { this });
+  }
+
+  protected void generate
+    (Monitor progressMonitor, 
+     int style, 
+     List pluginVariables,
+     String targetDirectory, 
+     String packageName, 
+     String className, 
+     JETEmitter jetEmitter,
+     Object [] arguments)
+  {
     try
     {
       URI outputURI = URI.createPlatformResourceURI(targetDirectory).appendSegments(packageName.split("\\."));
@@ -384,7 +397,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         importManager.addMasterImport(packageName, className);
         setImportManager(importManager);
     
-        String emitterResult = jetEmitter.generate(createMonitor(progressMonitor, 1), new Object [] { this });
+        String emitterResult = jetEmitter.generate(createMonitor(progressMonitor, 1), arguments );
         progressMonitor.worked(1);
     
         boolean changed = true;

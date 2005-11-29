@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.28 2005/11/25 22:14:17 emerks Exp $
+ * $Id: GenModelPackage.java,v 1.29 2005/11/29 15:07:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -348,13 +348,40 @@ public interface GenModelPackage extends EPackage{
   int GEN_MODEL__SUPPRESS_EMF_TYPES = GEN_BASE_FEATURE_COUNT + 26;
 
   /**
+   * The feature id for the '<em><b>Suppress EMF Meta Data</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__SUPPRESS_EMF_META_DATA = GEN_BASE_FEATURE_COUNT + 27;
+
+  /**
+   * The feature id for the '<em><b>Suppress EMF Model Tags</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS = GEN_BASE_FEATURE_COUNT + 28;
+
+  /**
+   * The feature id for the '<em><b>Suppress Interfaces</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__SUPPRESS_INTERFACES = GEN_BASE_FEATURE_COUNT + 29;
+
+  /**
    * The feature id for the '<em><b>Feature Map Wrapper Interface</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE = GEN_BASE_FEATURE_COUNT + 27;
+  int GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE = GEN_BASE_FEATURE_COUNT + 30;
 
   /**
    * The feature id for the '<em><b>Feature Map Wrapper Internal Interface</b></em>' attribute.
@@ -363,7 +390,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE = GEN_BASE_FEATURE_COUNT + 28;
+  int GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE = GEN_BASE_FEATURE_COUNT + 31;
 
   /**
    * The feature id for the '<em><b>Feature Map Wrapper Class</b></em>' attribute.
@@ -372,7 +399,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS = GEN_BASE_FEATURE_COUNT + 29;
+  int GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS = GEN_BASE_FEATURE_COUNT + 32;
 
   /**
    * The feature id for the '<em><b>Runtime Compatibility</b></em>' attribute.
@@ -381,7 +408,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__RUNTIME_COMPATIBILITY = GEN_BASE_FEATURE_COUNT + 30;
+  int GEN_MODEL__RUNTIME_COMPATIBILITY = GEN_BASE_FEATURE_COUNT + 33;
 
   /**
    * The feature id for the '<em><b>Rich Client Platform</b></em>' attribute.
@@ -390,7 +417,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__RICH_CLIENT_PLATFORM = GEN_BASE_FEATURE_COUNT + 31;
+  int GEN_MODEL__RICH_CLIENT_PLATFORM = GEN_BASE_FEATURE_COUNT + 34;
 
   /**
    * The feature id for the '<em><b>Reflective Delegation</b></em>' attribute.
@@ -399,7 +426,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__REFLECTIVE_DELEGATION = GEN_BASE_FEATURE_COUNT + 32;
+  int GEN_MODEL__REFLECTIVE_DELEGATION = GEN_BASE_FEATURE_COUNT + 35;
 
   /**
    * The feature id for the '<em><b>Code Formatting</b></em>' attribute.
@@ -408,7 +435,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__CODE_FORMATTING = GEN_BASE_FEATURE_COUNT + 33;
+  int GEN_MODEL__CODE_FORMATTING = GEN_BASE_FEATURE_COUNT + 36;
 
   /**
    * The feature id for the '<em><b>Tests Directory</b></em>' attribute.
@@ -417,7 +444,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__TESTS_DIRECTORY = GEN_BASE_FEATURE_COUNT + 34;
+  int GEN_MODEL__TESTS_DIRECTORY = GEN_BASE_FEATURE_COUNT + 37;
 
   /**
    * The feature id for the '<em><b>Test Suite Class</b></em>' attribute.
@@ -426,7 +453,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__TEST_SUITE_CLASS = GEN_BASE_FEATURE_COUNT + 35;
+  int GEN_MODEL__TEST_SUITE_CLASS = GEN_BASE_FEATURE_COUNT + 38;
 
   /**
    * The feature id for the '<em><b>Boolean Flags Field</b></em>' attribute.
@@ -435,7 +462,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__BOOLEAN_FLAGS_FIELD = GEN_BASE_FEATURE_COUNT + 36;
+  int GEN_MODEL__BOOLEAN_FLAGS_FIELD = GEN_BASE_FEATURE_COUNT + 39;
 
   /**
    * The feature id for the '<em><b>Boolean Flags Reserved Bits</b></em>' attribute.
@@ -444,7 +471,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS = GEN_BASE_FEATURE_COUNT + 37;
+  int GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS = GEN_BASE_FEATURE_COUNT + 40;
 
   /**
    * The feature id for the '<em><b>Importer ID</b></em>' attribute.
@@ -453,7 +480,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__IMPORTER_ID = GEN_BASE_FEATURE_COUNT + 38;
+  int GEN_MODEL__IMPORTER_ID = GEN_BASE_FEATURE_COUNT + 41;
 
   /**
    * The feature id for the '<em><b>Bundle Manifest</b></em>' attribute.
@@ -462,7 +489,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__BUNDLE_MANIFEST = GEN_BASE_FEATURE_COUNT + 39;
+  int GEN_MODEL__BUNDLE_MANIFEST = GEN_BASE_FEATURE_COUNT + 42;
 
   /**
    * The feature id for the '<em><b>Feature Delegation</b></em>' attribute.
@@ -471,7 +498,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__FEATURE_DELEGATION = GEN_BASE_FEATURE_COUNT + 40;
+  int GEN_MODEL__FEATURE_DELEGATION = GEN_BASE_FEATURE_COUNT + 43;
 
   /**
    * The feature id for the '<em><b>Containment Proxies</b></em>' attribute.
@@ -480,7 +507,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__CONTAINMENT_PROXIES = GEN_BASE_FEATURE_COUNT + 41;
+  int GEN_MODEL__CONTAINMENT_PROXIES = GEN_BASE_FEATURE_COUNT + 44;
 
   /**
    * The feature id for the '<em><b>Minimal Reflective Methods</b></em>' attribute.
@@ -489,7 +516,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__MINIMAL_REFLECTIVE_METHODS = GEN_BASE_FEATURE_COUNT + 42;
+  int GEN_MODEL__MINIMAL_REFLECTIVE_METHODS = GEN_BASE_FEATURE_COUNT + 45;
 
   /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
@@ -498,7 +525,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 43;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 46;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -507,7 +534,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 44;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 47;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -516,7 +543,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 45;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 48;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -592,13 +619,13 @@ public interface GenModelPackage extends EPackage{
   int GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX = GEN_BASE_FEATURE_COUNT + 6;
 
   /**
-   * The feature id for the '<em><b>Reflection Package Suffix</b></em>' attribute.
+   * The feature id for the '<em><b>Meta Data Package Suffix</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX = GEN_BASE_FEATURE_COUNT + 7;
+  int GEN_PACKAGE__META_DATA_PACKAGE_SUFFIX = GEN_BASE_FEATURE_COUNT + 7;
 
   /**
    * The feature id for the '<em><b>Class Package Suffix</b></em>' attribute.
@@ -1537,6 +1564,39 @@ public interface GenModelPackage extends EPackage{
   EAttribute getGenModel_SuppressEMFTypes();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressEMFMetaData <em>Suppress EMF Meta Data</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppress EMF Meta Data</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressEMFMetaData()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_SuppressEMFMetaData();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressEMFModelTags <em>Suppress EMF Model Tags</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppress EMF Model Tags</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressEMFModelTags()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_SuppressEMFModelTags();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressInterfaces <em>Suppress Interfaces</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppress Interfaces</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressInterfaces()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_SuppressInterfaces();
+
+  /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureMapWrapperInterface <em>Feature Map Wrapper Interface</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1822,15 +1882,15 @@ public interface GenModelPackage extends EPackage{
   EAttribute getGenPackage_InterfacePackageSuffix();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getReflectionPackageSuffix <em>Reflection Package Suffix</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getMetaDataPackageSuffix <em>Meta Data Package Suffix</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Reflection Package Suffix</em>'.
-   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getReflectionPackageSuffix()
+   * @return the meta object for the attribute '<em>Meta Data Package Suffix</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getMetaDataPackageSuffix()
    * @see #getGenPackage()
    * @generated
    */
-  EAttribute getGenPackage_ReflectionPackageSuffix();
+  EAttribute getGenPackage_MetaDataPackageSuffix();
 
   /**
    * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getClassPackageSuffix <em>Class Package Suffix</em>}'.
@@ -2672,6 +2732,30 @@ public interface GenModelPackage extends EPackage{
     EAttribute GEN_MODEL__SUPPRESS_EMF_TYPES = eINSTANCE.getGenModel_SuppressEMFTypes();
 
     /**
+     * The meta object literal for the '<em><b>Suppress EMF Meta Data</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__SUPPRESS_EMF_META_DATA = eINSTANCE.getGenModel_SuppressEMFMetaData();
+
+    /**
+     * The meta object literal for the '<em><b>Suppress EMF Model Tags</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS = eINSTANCE.getGenModel_SuppressEMFModelTags();
+
+    /**
+     * The meta object literal for the '<em><b>Suppress Interfaces</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__SUPPRESS_INTERFACES = eINSTANCE.getGenModel_SuppressInterfaces();
+
+    /**
      * The meta object literal for the '<em><b>Feature Map Wrapper Interface</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2882,12 +2966,12 @@ public interface GenModelPackage extends EPackage{
     EAttribute GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX = eINSTANCE.getGenPackage_InterfacePackageSuffix();
 
     /**
-     * The meta object literal for the '<em><b>Reflection Package Suffix</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Meta Data Package Suffix</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX = eINSTANCE.getGenPackage_ReflectionPackageSuffix();
+    EAttribute GEN_PACKAGE__META_DATA_PACKAGE_SUFFIX = eINSTANCE.getGenPackage_MetaDataPackageSuffix();
 
     /**
      * The meta object literal for the '<em><b>Class Package Suffix</b></em>' attribute feature.

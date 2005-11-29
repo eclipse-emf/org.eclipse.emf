@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.55 2005/11/29 12:37:10 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.56 2005/11/29 15:07:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -117,6 +117,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getRootExtendsClass <em>Root Extends Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getRootImplementsInterface <em>Root Implements Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressEMFTypes <em>Suppress EMF Types</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressEMFMetaData <em>Suppress EMF Meta Data</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressEMFModelTags <em>Suppress EMF Model Tags</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressInterfaces <em>Suppress Interfaces</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureMapWrapperInterface <em>Feature Map Wrapper Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureMapWrapperInternalInterface <em>Feature Map Wrapper Internal Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureMapWrapperClass <em>Feature Map Wrapper Class</em>}</li>
@@ -687,6 +690,66 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean suppressEMFTypes = SUPPRESS_EMF_TYPES_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isSuppressEMFMetaData() <em>Suppress EMF Meta Data</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressEMFMetaData()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESS_EMF_META_DATA_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressEMFMetaData() <em>Suppress EMF Meta Data</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressEMFMetaData()
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressEMFMetaData = SUPPRESS_EMF_META_DATA_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isSuppressEMFModelTags() <em>Suppress EMF Model Tags</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressEMFModelTags()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESS_EMF_MODEL_TAGS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressEMFModelTags() <em>Suppress EMF Model Tags</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressEMFModelTags()
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressEMFModelTags = SUPPRESS_EMF_MODEL_TAGS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isSuppressInterfaces() <em>Suppress Interfaces</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressInterfaces()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESS_INTERFACES_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressInterfaces() <em>Suppress Interfaces</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressInterfaces()
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressInterfaces = SUPPRESS_INTERFACES_EDEFAULT;
 
   /**
    * The default value of the '{@link #getFeatureMapWrapperInterface() <em>Feature Map Wrapper Interface</em>}' attribute.
@@ -1310,7 +1373,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String interfaceTemplateName = "model/Interface.javajet";
   protected String classTemplateName = "model/Class.javajet";
   protected String enumClassTemplateName = "model/EnumClass.javajet";
-  protected String packageInterfaceTemplateName = "model/PackageInterface.javajet";
   protected String packageClassTemplateName = "model/PackageClass.javajet";
   protected String factoryInterfaceTemplateName = "model/FactoryInterface.javajet";
   protected String factoryClassTemplateName = "model/FactoryClass.javajet";
@@ -1419,16 +1481,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     jetEmitter.addVariable("EMF_ECORE", "org.eclipse.emf.ecore");
   }
 
-  public JETEmitter getInterfaceEmitter()
-  {
-    if (interfaceEmitter == null)
-    {
-      interfaceEmitter = createJETEmitter(interfaceTemplateName);
-      setMethod(interfaceEmitter, "org.eclipse.emf.codegen.ecore.templates.model.Interface");
-    }
-    return interfaceEmitter;
-  } 
-
   public JETEmitter getClassEmitter()
   {
     if (classEmitter == null)
@@ -1449,16 +1501,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return enumClassEmitter;
   } 
 
-  public JETEmitter getFactoryInterfaceEmitter()
-  {
-    if (factoryInterfaceEmitter == null)
-    {
-      factoryInterfaceEmitter = createJETEmitter(factoryInterfaceTemplateName);
-      setMethod(factoryInterfaceEmitter, "org.eclipse.emf.codegen.ecore.templates.model.FactoryInterface");
-    }
-    return factoryInterfaceEmitter;
-  } 
-
   public JETEmitter getFactoryClassEmitter()
   {
     if (factoryClassEmitter == null)
@@ -1467,16 +1509,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(factoryClassEmitter, "org.eclipse.emf.codegen.ecore.templates.model.FactoryClass");
     }
     return factoryClassEmitter;
-  } 
-
-  public JETEmitter getPackageInterfaceEmitter()
-  {
-    if (packageInterfaceEmitter == null)
-    {
-      packageInterfaceEmitter = createJETEmitter(packageInterfaceTemplateName);
-      setMethod(packageInterfaceEmitter, "org.eclipse.emf.codegen.ecore.templates.model.PackageInterface");
-    }
-    return packageInterfaceEmitter;
   } 
 
   public JETEmitter getPackageClassEmitter()
@@ -3358,6 +3390,75 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isSuppressEMFMetaData()
+  {
+    return suppressEMFMetaData;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setSuppressEMFMetaData(boolean newSuppressEMFMetaData)
+  {
+    boolean oldSuppressEMFMetaData = suppressEMFMetaData;
+    suppressEMFMetaData = newSuppressEMFMetaData;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__SUPPRESS_EMF_META_DATA, oldSuppressEMFMetaData, suppressEMFMetaData));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSuppressEMFModelTags()
+  {
+    return suppressEMFModelTags;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setSuppressEMFModelTags(boolean newSuppressEMFModelTags)
+  {
+    boolean oldSuppressEMFModelTags = suppressEMFModelTags;
+    suppressEMFModelTags = newSuppressEMFModelTags;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS, oldSuppressEMFModelTags, suppressEMFModelTags));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSuppressInterfaces()
+  {
+    return suppressInterfaces;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setSuppressInterfaces(boolean newSuppressInterfaces)
+  {
+    boolean oldSuppressInterfaces = suppressInterfaces;
+    suppressInterfaces = newSuppressInterfaces;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__SUPPRESS_INTERFACES, oldSuppressInterfaces, suppressInterfaces));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public String getFeatureMapWrapperInterface()
   {
     return featureMapWrapperInterface;
@@ -3945,6 +4046,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return getRootImplementsInterface();
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_TYPES:
         return isSuppressEMFTypes() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_META_DATA:
+        return isSuppressEMFMetaData() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS:
+        return isSuppressEMFModelTags() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_INTERFACES:
+        return isSuppressInterfaces() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE:
         return getFeatureMapWrapperInterface();
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE:
@@ -4077,6 +4184,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_TYPES:
         setSuppressEMFTypes(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_META_DATA:
+        setSuppressEMFMetaData(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS:
+        setSuppressEMFModelTags(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_INTERFACES:
+        setSuppressInterfaces(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE:
         setFeatureMapWrapperInterface((String)newValue);
@@ -4228,6 +4344,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_TYPES:
         setSuppressEMFTypes(SUPPRESS_EMF_TYPES_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_META_DATA:
+        setSuppressEMFMetaData(SUPPRESS_EMF_META_DATA_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS:
+        setSuppressEMFModelTags(SUPPRESS_EMF_MODEL_TAGS_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_INTERFACES:
+        setSuppressInterfaces(SUPPRESS_INTERFACES_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE:
         setFeatureMapWrapperInterface(FEATURE_MAP_WRAPPER_INTERFACE_EDEFAULT);
         return;
@@ -4349,6 +4474,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return ROOT_IMPLEMENTS_INTERFACE_EDEFAULT == null ? rootImplementsInterface != null : !ROOT_IMPLEMENTS_INTERFACE_EDEFAULT.equals(rootImplementsInterface);
       case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_TYPES:
         return suppressEMFTypes != SUPPRESS_EMF_TYPES_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_META_DATA:
+        return suppressEMFMetaData != SUPPRESS_EMF_META_DATA_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS:
+        return suppressEMFModelTags != SUPPRESS_EMF_MODEL_TAGS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_INTERFACES:
+        return suppressInterfaces != SUPPRESS_INTERFACES_EDEFAULT;
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE:
         return FEATURE_MAP_WRAPPER_INTERFACE_EDEFAULT == null ? featureMapWrapperInterface != null : !FEATURE_MAP_WRAPPER_INTERFACE_EDEFAULT.equals(featureMapWrapperInterface);
       case GenModelPackage.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE:
@@ -4453,6 +4584,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(rootImplementsInterface);
     result.append(", suppressEMFTypes: ");
     result.append(suppressEMFTypes);
+    result.append(", suppressEMFMetaData: ");
+    result.append(suppressEMFMetaData);
+    result.append(", suppressEMFModelTags: ");
+    result.append(suppressEMFModelTags);
+    result.append(", suppressInterfaces: ");
+    result.append(suppressInterfaces);
     result.append(", featureMapWrapperInterface: ");
     result.append(featureMapWrapperInterface);
     result.append(", featureMapWrapperInternalInterface: ");
@@ -4882,6 +5019,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       packageNames.add(genPackage.getInterfacePackageName());
       packageNames.add(genPackage.getClassPackageName());
       packageNames.add(genPackage.getUtilitiesPackageName());
+      if (!isBlank(genPackage.getMetaDataPackageSuffix()))
+      {
+        packageNames.add(genPackage.getReflectionPackageName());
+      }
     }
   }
 
@@ -5269,6 +5410,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setFeatureDelegation(oldGenModelVersion.getFeatureDelegation());
     setContainmentProxies(oldGenModelVersion.isContainmentProxies());
     setMinimalReflectiveMethods(oldGenModelVersion.isMinimalReflectiveMethods());
+    
+    setSuppressEMFMetaData(oldGenModelVersion.isSuppressEMFMetaData());
+    setSuppressEMFModelTags(oldGenModelVersion.isSuppressEMFModelTags());
   }
 
   public boolean reconcile()

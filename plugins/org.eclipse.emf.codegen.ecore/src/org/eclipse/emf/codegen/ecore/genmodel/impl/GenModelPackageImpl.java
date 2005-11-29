@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.29 2005/11/25 22:14:17 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.30 2005/11/29 15:07:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -43,7 +43,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 
 
 /**
@@ -225,7 +224,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     isInited = true;
 
     // Initialize simple dependencies
-    EcorePackageImpl.init();
+    EcorePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theGenModelPackage.createPackageContents();
@@ -524,7 +523,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_FeatureMapWrapperInterface()
+  public EAttribute getGenModel_SuppressEMFMetaData()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(27);
   }
@@ -534,7 +533,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_FeatureMapWrapperInternalInterface()
+  public EAttribute getGenModel_SuppressEMFModelTags()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(28);
   }
@@ -544,7 +543,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_FeatureMapWrapperClass()
+  public EAttribute getGenModel_SuppressInterfaces()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(29);
   }
@@ -554,7 +553,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_RuntimeCompatibility()
+  public EAttribute getGenModel_FeatureMapWrapperInterface()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(30);
   }
@@ -564,7 +563,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_RichClientPlatform()
+  public EAttribute getGenModel_FeatureMapWrapperInternalInterface()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(31);
   }
@@ -574,7 +573,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_ReflectiveDelegation()
+  public EAttribute getGenModel_FeatureMapWrapperClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(32);
   }
@@ -584,7 +583,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_CodeFormatting()
+  public EAttribute getGenModel_RuntimeCompatibility()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(33);
   }
@@ -594,7 +593,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_TestsDirectory()
+  public EAttribute getGenModel_RichClientPlatform()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(34);
   }
@@ -604,7 +603,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_TestSuiteClass()
+  public EAttribute getGenModel_ReflectiveDelegation()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(35);
   }
@@ -614,7 +613,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_BooleanFlagsField()
+  public EAttribute getGenModel_CodeFormatting()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(36);
   }
@@ -624,7 +623,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_BooleanFlagsReservedBits()
+  public EAttribute getGenModel_TestsDirectory()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(37);
   }
@@ -634,7 +633,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_ImporterID()
+  public EAttribute getGenModel_TestSuiteClass()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(38);
   }
@@ -644,7 +643,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_BundleManifest()
+  public EAttribute getGenModel_BooleanFlagsField()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(39);
   }
@@ -654,7 +653,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_FeatureDelegation()
+  public EAttribute getGenModel_BooleanFlagsReservedBits()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(40);
   }
@@ -664,7 +663,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_ContainmentProxies()
+  public EAttribute getGenModel_ImporterID()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(41);
   }
@@ -674,7 +673,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenModel_MinimalReflectiveMethods()
+  public EAttribute getGenModel_BundleManifest()
   {
     return (EAttribute)genModelEClass.getEStructuralFeatures().get(42);
   }
@@ -684,9 +683,39 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenModel_FeatureDelegation()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(43);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getGenModel_ContainmentProxies()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(44);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getGenModel_MinimalReflectiveMethods()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(45);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getGenModel_GenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(43);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(46);
   }
 
   /**
@@ -696,7 +725,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    */
   public EReference getGenModel_UsedGenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(44);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(47);
   }
 
   /**
@@ -784,7 +813,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getGenPackage_ReflectionPackageSuffix()
+  public EAttribute getGenPackage_MetaDataPackageSuffix()
   {
     return (EAttribute)genPackageEClass.getEStructuralFeatures().get(7);
   }
@@ -1397,6 +1426,9 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__ROOT_EXTENDS_CLASS);
     createEAttribute(genModelEClass, GEN_MODEL__ROOT_IMPLEMENTS_INTERFACE);
     createEAttribute(genModelEClass, GEN_MODEL__SUPPRESS_EMF_TYPES);
+    createEAttribute(genModelEClass, GEN_MODEL__SUPPRESS_EMF_META_DATA);
+    createEAttribute(genModelEClass, GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS);
+    createEAttribute(genModelEClass, GEN_MODEL__SUPPRESS_INTERFACES);
     createEAttribute(genModelEClass, GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE);
     createEAttribute(genModelEClass, GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE);
     createEAttribute(genModelEClass, GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS);
@@ -1424,7 +1456,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genPackageEClass, GEN_PACKAGE__ADAPTER_FACTORY);
     createEAttribute(genPackageEClass, GEN_PACKAGE__LOAD_INITIALIZATION);
     createEAttribute(genPackageEClass, GEN_PACKAGE__INTERFACE_PACKAGE_SUFFIX);
-    createEAttribute(genPackageEClass, GEN_PACKAGE__REFLECTION_PACKAGE_SUFFIX);
+    createEAttribute(genPackageEClass, GEN_PACKAGE__META_DATA_PACKAGE_SUFFIX);
     createEAttribute(genPackageEClass, GEN_PACKAGE__CLASS_PACKAGE_SUFFIX);
     createEAttribute(genPackageEClass, GEN_PACKAGE__UTILITY_PACKAGE_SUFFIX);
     createEAttribute(genPackageEClass, GEN_PACKAGE__PROVIDER_PACKAGE_SUFFIX);
@@ -1519,7 +1551,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+    EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
     // Add supertypes to classes
     genModelEClass.getESuperTypes().add(this.getGenBase());
@@ -1563,6 +1595,9 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_RootExtendsClass(), ecorePackage.getEString(), "rootExtendsClass", "org.eclipse.emf.ecore.impl.EObjectImpl", 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_RootImplementsInterface(), ecorePackage.getEString(), "rootImplementsInterface", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_SuppressEMFTypes(), ecorePackage.getEBoolean(), "suppressEMFTypes", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_SuppressEMFMetaData(), ecorePackage.getEBoolean(), "suppressEMFMetaData", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_SuppressEMFModelTags(), ecorePackage.getEBoolean(), "suppressEMFModelTags", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_SuppressInterfaces(), ecorePackage.getEBoolean(), "suppressInterfaces", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_FeatureMapWrapperInterface(), ecorePackage.getEString(), "featureMapWrapperInterface", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_FeatureMapWrapperInternalInterface(), ecorePackage.getEString(), "featureMapWrapperInternalInterface", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_FeatureMapWrapperClass(), ecorePackage.getEString(), "featureMapWrapperClass", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1590,7 +1625,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenPackage_AdapterFactory(), ecorePackage.getEBoolean(), "adapterFactory", "true", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_LoadInitialization(), ecorePackage.getEBoolean(), "loadInitialization", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_InterfacePackageSuffix(), ecorePackage.getEString(), "interfacePackageSuffix", "", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getGenPackage_ReflectionPackageSuffix(), ecorePackage.getEString(), "reflectionPackageSuffix", "", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenPackage_MetaDataPackageSuffix(), ecorePackage.getEString(), "metaDataPackageSuffix", "", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_ClassPackageSuffix(), ecorePackage.getEString(), "classPackageSuffix", "impl", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_UtilityPackageSuffix(), ecorePackage.getEString(), "utilityPackageSuffix", "util", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_ProviderPackageSuffix(), ecorePackage.getEString(), "providerPackageSuffix", "provider", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

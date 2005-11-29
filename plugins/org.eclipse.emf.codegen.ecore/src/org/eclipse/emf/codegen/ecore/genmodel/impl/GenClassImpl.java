@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.46 2005/11/25 22:14:17 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.47 2005/11/29 15:07:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -390,7 +390,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getClassName()
   {
-    return getImplClassName(getInterfaceName());
+    String result = getInterfaceName();
+    if (!getGenModel().isSuppressInterfaces())
+    {
+      result = getImplClassName(result);
+    }
+    return result;
   }
 
   public String getQualifiedClassName()
@@ -507,7 +512,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
     else
     {
-      String result = " implements " + getImportedInterfaceName();
+      String result = "";
+      if (!getGenModel().isSuppressInterfaces())
+      {
+        result = " implements " + getImportedInterfaceName();
+      }
       String rootImplementsInterface = getGenModel().getRootImplementsInterface();
       if (!isBlank(rootImplementsInterface))
       {
@@ -517,7 +526,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         //
         if (extendsClass != null && !rootImplementsInterface.equals(extendsClass.getGenModel().getRootImplementsInterface()))
         {
-          result += ", " + getGenModel().getImportedName(rootImplementsInterface);
+          if (result.length() == 0)
+          {
+            result += "implements " + getGenModel().getImportedName(rootImplementsInterface);
+          }
+          else
+          {
+            result += ", " + getGenModel().getImportedName(rootImplementsInterface);
+          }
         }
       }
 
@@ -1188,7 +1204,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       progressMonitor.beginTask("", fileCount);
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_Generating_message", new Object [] { getFormattedName() }));
 
-      if (!isExternalInterface())
+      if (!isExternalInterface() && (!getGenModel().isSuppressInterfaces() || isInterface()))
       {
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
@@ -1200,7 +1216,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
            getGenModel().getEffectiveModelPluginVariables(), 
            getGenModel().getModelDirectory(), 
            getGenPackage().getInterfacePackageName(), 
-           getInterfaceName(), getGenModel().getInterfaceEmitter());
+           getInterfaceName(), 
+           getGenModel().getClassEmitter(),
+           new Object [] { new Object [] { this, Boolean.TRUE, Boolean.FALSE }});
       }
 
       if (!isInterface())
@@ -1215,7 +1233,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
            getGenModel().getModelDirectory(), 
            getGenPackage().getClassPackageName(), 
            getClassName(), 
-           getGenModel().getClassEmitter());
+           getGenModel().getClassEmitter(),
+           new Object [] { new Object [] { this, getGenModel().isSuppressInterfaces() ? Boolean.TRUE : Boolean.FALSE, Boolean.TRUE }});
       }
     }
     finally
@@ -2555,5 +2574,37 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     GenClass classExtendsGenClass = getClassExtendsGenClass();
     return getEVirtualIndexBitFields(classExtendsGenClass == null
       ? allEVirtualIndexBitFields : classExtendsGenClass.getAllEVirtualIndexBitFields(allEVirtualIndexBitFields));
+  }
+  
+  public boolean isJavaIOSerializable()
+  {
+    for (Iterator i = getAllBaseGenClasses().iterator(); i.hasNext(); )
+    {
+      GenClass baseGenClass = (GenClass)i.next();
+      if ("java.io.Serializeable".equals(baseGenClass.getQualifiedInterfaceName()))
+      {
+        return true;
+        
+      }
+    }
+    GenClass rootImplementsInterfaceGenClass = getGenModel().getRootImplementsInterfaceGenClass();
+    if (rootImplementsInterfaceGenClass != null)
+    {
+      for (Iterator i = rootImplementsInterfaceGenClass.getAllBaseGenClasses().iterator(); i.hasNext(); )
+      {
+        GenClass baseGenClass = (GenClass)i.next();
+        if ("java.io.Serializable".equals(baseGenClass.getQualifiedInterfaceName()))
+        {
+          return true;
+          
+        }
+      }
+    }
+    return false;
+  }
+  
+  public boolean hasFactoryInterfaceCreateMethod()
+  {
+    return !isAbstract() && !isMapEntry() && !(getGenModel().isSuppressEMFMetaData() && "org.eclipse.emf.ecore.EObject".equals(getQualifiedInterfaceName()));
   }
 }
