@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.22 2005/11/18 12:06:46 emerks Exp $
+ * $Id: Generator.java,v 1.23 2005/11/29 15:00:10 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -483,6 +483,7 @@ public class Generator extends CodeGen
     genModel.setFeatureMapWrapperInternalInterface("org.eclipse.emf.ecore.sdo.util.ESequence");
     genModel.setFeatureMapWrapperClass("org.eclipse.emf.ecore.sdo.util.BasicESequence");
     genModel.setSuppressEMFTypes(true);
+    genModel.setSuppressEMFMetaData(true);
 
     genModel.getModelPluginVariables().add("EMF_COMMONJ_SDO=org.eclipse.emf.commonj.sdo");
     genModel.getModelPluginVariables().add("EMF_ECORE_SDO=org.eclipse.emf.ecore.sdo");
