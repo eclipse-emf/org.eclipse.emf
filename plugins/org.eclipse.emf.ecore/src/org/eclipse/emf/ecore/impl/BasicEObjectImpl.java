@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.19 2005/11/25 22:19:21 davidms Exp $
+ * $Id: BasicEObjectImpl.java,v 1.20 2005/11/30 18:45:39 khussey Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1370,7 +1370,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
    * @param eDerivedStructuralFeatureID the feature ID to fetch.
    * @return the value for the feature ID.
    */
-  protected Object eVirtualGet(int eDerivedStructuralFeatureID)
+  public Object eVirtualGet(int eDerivedStructuralFeatureID)
   {
     return eVirtualGet(eDerivedStructuralFeatureID, null);
   }
@@ -1381,7 +1381,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
    * @param defaultValue the default value.
    * @return the value for the feature ID.
    */
-  protected Object eVirtualGet(int eDerivedStructuralFeatureID, Object defaultValue)
+  public Object eVirtualGet(int eDerivedStructuralFeatureID, Object defaultValue)
   {
     // Determine the index for the feature and return the value at that index, if an index is assigned.
     //
@@ -1394,7 +1394,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
    * @param eDerivedStructuralFeatureID the feature ID to test.
    * @return whether there is a value set for the feature ID.
    */
-  protected boolean eVirtualIsSet(int eDerivedStructuralFeatureID)
+  public boolean eVirtualIsSet(int eDerivedStructuralFeatureID)
   {
     // Determine if an index is assigned.
     //
@@ -1408,7 +1408,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
    * @param eDerivedStructuralFeatureID the feature ID to set.
    * @return the previous value for the feature ID or {@link #EVIRTUAL_NO_VALUE}.
    */
-  protected Object eVirtualSet(int eDerivedStructuralFeatureID, Object value)
+  public Object eVirtualSet(int eDerivedStructuralFeatureID, Object value)
   {
     // Determine the index.
     //
@@ -1433,7 +1433,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
    * @param eDerivedStructuralFeatureID the feature ID to unset.
    * @return the previous value for the feature ID or {@link #EVIRTUAL_NO_VALUE}.
    */
-  protected Object eVirtualUnset(int eDerivedStructuralFeatureID)
+  public Object eVirtualUnset(int eDerivedStructuralFeatureID)
   {
     int index = eVirtualIndex(eDerivedStructuralFeatureID, EVIRTUAL_UNSET);
     if (index < 0)
