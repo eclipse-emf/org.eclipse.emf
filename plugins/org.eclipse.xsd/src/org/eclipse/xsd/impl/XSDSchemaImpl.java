@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.24 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.25 2005/12/01 14:16:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1533,7 +1533,11 @@ public class XSDSchemaImpl
     
     if (schemaLocation != null)
     {
-      analyze();
+      for (int i = 0, size = schemasToPatch.size(); i < size; ++i)
+      {
+        XSDSchemaImpl xsdSchema = (XSDSchemaImpl)schemasToPatch.get(i); 
+        xsdSchema.analyze();
+      }
     }
   }
   
