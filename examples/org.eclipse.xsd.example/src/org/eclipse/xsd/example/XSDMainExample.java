@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMainExample.java,v 1.1 2005/06/13 14:12:35 marcelop Exp $
+ * $Id: XSDMainExample.java,v 1.2 2005/12/01 14:17:19 emerks Exp $
  */
 package org.eclipse.xsd.example;
 
@@ -112,6 +112,16 @@ public class XSDMainExample // implements IPlatformRunnable
       // If there are no arguments...
       //
       String[] arguments = (String[])object;
+
+      // Filter out inappropriate arguments added by the PDE.
+      //
+      if (arguments.length > 0 && "-pdelaunch".equals(arguments[0]))
+      {
+        String [] oldArguments = arguments;
+        arguments = new String [arguments.length - 1];
+        System.arraycopy(oldArguments, 1, arguments, 0, arguments.length);
+      }
+      
       if (arguments.length == 0) 
       {
         // Serialize the Purchase Order schema sample.
