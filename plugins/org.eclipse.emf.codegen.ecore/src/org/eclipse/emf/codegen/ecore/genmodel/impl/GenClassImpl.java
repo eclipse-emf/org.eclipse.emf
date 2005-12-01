@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.47 2005/11/29 15:07:02 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.48 2005/12/01 16:49:04 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2447,7 +2447,19 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
     public boolean accept(GenOperation genOperation)
     {
-      if ((genOperation.getName().startsWith("get") || genOperation.getName().startsWith("is"))
+      if (genOperation.getName().startsWith("isSet") && genOperation.getGenParameters().isEmpty())
+      {
+        for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
+        {
+          GenFeature genFeature = (GenFeature)i.next();
+          if (genFeature.isChangeable() && genFeature.isUnsettable()
+            && genOperation.getName().equals("isSet" + genFeature.getAccessorName()))
+          {
+            return false;
+          }
+        }
+      }
+      else if ((genOperation.getName().startsWith("get") || genOperation.getName().startsWith("is"))
         && genOperation.getGenParameters().isEmpty())
       {
         for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
@@ -2479,18 +2491,6 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           GenFeature genFeature = (GenFeature)i.next();
           if (genFeature.isChangeable() && genFeature.isUnsettable()
             && genOperation.getName().equals("unset" + genFeature.getAccessorName()))
-          {
-            return false;
-          }
-        }
-      }
-      else if (genOperation.getName().startsWith("isSet") && genOperation.getGenParameters().isEmpty())
-      {
-        for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
-        {
-          GenFeature genFeature = (GenFeature)i.next();
-          if (genFeature.isChangeable() && genFeature.isUnsettable()
-            && genOperation.getName().equals("isSet" + genFeature.getAccessorName()))
           {
             return false;
           }
