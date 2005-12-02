@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.25 2005/11/29 15:03:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.26 2005/12/02 05:16:17 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -704,6 +704,21 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 		if (isFixed) return;
 		isFixed = true;
 		fixEClassifiers();
+	}
+
+	/**
+	 * Sets the instance class on the given classifier.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void fixInstanceClass(<%=genModel.getImportedName("org.eclipse.emf.ecore.EClassifier")%> eClassifier)
+	{
+		if (eClassifier.getInstanceClassName() == null)
+		{
+			eClassifier.setInstanceClassName("<%=genPackage.getInterfacePackageName()%>." + eClassifier.getName());<%=genModel.getNonNLS()%>
+			setGeneratedClassName(eClassifier);
+		}
 	}
 
   <%}%>

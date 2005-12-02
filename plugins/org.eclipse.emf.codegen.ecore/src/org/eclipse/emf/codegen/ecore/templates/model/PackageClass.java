@@ -384,38 +384,41 @@ public class PackageClass
   protected final String TEXT_365 = " exception)" + NL + "\t\t{" + NL + "\t\t\tthrow new ";
   protected final String TEXT_366 = "(exception);" + NL + "\t\t}" + NL + "\t\tinitializeFromLoadedEPackage(this, (";
   protected final String TEXT_367 = ")resource.getContents().get(0));" + NL + "\t\tcreateResource(eNS_URI);" + NL + "\t}" + NL;
-  protected final String TEXT_368 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate boolean isFixed = false;" + NL + "" + NL + "\t/**" + NL + "\t * Fixes up the loaded package, to make it appear as if it had been programmatically built." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void fixPackageContents()" + NL + "\t{" + NL + "\t\tif (isFixed) return;" + NL + "\t\tisFixed = true;" + NL + "\t\tfixEClassifiers();" + NL + "\t}" + NL;
-  protected final String TEXT_369 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * Defines literals for the meta objects that represent" + NL + "\t * <ul>" + NL + "\t *   <li>each class,</li>" + NL + "\t *   <li>each feature of each class,</li>" + NL + "\t *   <li>each enum,</li>" + NL + "\t *   <li>and each data type</li>" + NL + "\t * </ul>" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t";
-  protected final String TEXT_370 = "public ";
-  protected final String TEXT_371 = "interface Literals" + NL + "\t{";
-  protected final String TEXT_372 = NL + "\t\t/**";
-  protected final String TEXT_373 = NL + "\t\t * The meta object literal for the '{@link ";
-  protected final String TEXT_374 = " <em>";
-  protected final String TEXT_375 = "</em>}' class." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @see ";
+  protected final String TEXT_368 = NL + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate boolean isFixed = false;" + NL + "" + NL + "\t/**" + NL + "\t * Fixes up the loaded package, to make it appear as if it had been programmatically built." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void fixPackageContents()" + NL + "\t{" + NL + "\t\tif (isFixed) return;" + NL + "\t\tisFixed = true;" + NL + "\t\tfixEClassifiers();" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * Sets the instance class on the given classifier." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected void fixInstanceClass(";
+  protected final String TEXT_369 = " eClassifier)" + NL + "\t{" + NL + "\t\tif (eClassifier.getInstanceClassName() == null)" + NL + "\t\t{" + NL + "\t\t\teClassifier.setInstanceClassName(\"";
+  protected final String TEXT_370 = ".\" + eClassifier.getName());";
+  protected final String TEXT_371 = NL + "\t\t\tsetGeneratedClassName(eClassifier);" + NL + "\t\t}" + NL + "\t}" + NL;
+  protected final String TEXT_372 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * Defines literals for the meta objects that represent" + NL + "\t * <ul>" + NL + "\t *   <li>each class,</li>" + NL + "\t *   <li>each feature of each class,</li>" + NL + "\t *   <li>each enum,</li>" + NL + "\t *   <li>and each data type</li>" + NL + "\t * </ul>" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\t";
+  protected final String TEXT_373 = "public ";
+  protected final String TEXT_374 = "interface Literals" + NL + "\t{";
+  protected final String TEXT_375 = NL + "\t\t/**";
   protected final String TEXT_376 = NL + "\t\t * The meta object literal for the '{@link ";
   protected final String TEXT_377 = " <em>";
   protected final String TEXT_378 = "</em>}' class." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @see ";
   protected final String TEXT_379 = NL + "\t\t * The meta object literal for the '{@link ";
   protected final String TEXT_380 = " <em>";
-  protected final String TEXT_381 = "</em>}' enum." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @see ";
-  protected final String TEXT_382 = NL + "\t\t * The meta object literal for the '<em>";
-  protected final String TEXT_383 = "</em>' data type." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->";
-  protected final String TEXT_384 = NL + "\t\t * @see ";
-  protected final String TEXT_385 = NL + "\t\t * @see ";
-  protected final String TEXT_386 = "#get";
-  protected final String TEXT_387 = "()" + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\t";
-  protected final String TEXT_388 = " ";
-  protected final String TEXT_389 = " = eINSTANCE.get";
-  protected final String TEXT_390 = "();" + NL;
-  protected final String TEXT_391 = NL + "\t\t/**" + NL + "\t\t * The meta object literal for the '<em><b>";
-  protected final String TEXT_392 = "</b></em>' ";
-  protected final String TEXT_393 = " feature." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\t";
-  protected final String TEXT_394 = " ";
-  protected final String TEXT_395 = " = eINSTANCE.get";
-  protected final String TEXT_396 = "();" + NL;
-  protected final String TEXT_397 = NL + "\t}" + NL;
-  protected final String TEXT_398 = NL + "} //";
-  protected final String TEXT_399 = NL;
+  protected final String TEXT_381 = "</em>}' class." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @see ";
+  protected final String TEXT_382 = NL + "\t\t * The meta object literal for the '{@link ";
+  protected final String TEXT_383 = " <em>";
+  protected final String TEXT_384 = "</em>}' enum." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @see ";
+  protected final String TEXT_385 = NL + "\t\t * The meta object literal for the '<em>";
+  protected final String TEXT_386 = "</em>' data type." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->";
+  protected final String TEXT_387 = NL + "\t\t * @see ";
+  protected final String TEXT_388 = NL + "\t\t * @see ";
+  protected final String TEXT_389 = "#get";
+  protected final String TEXT_390 = "()" + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\t";
+  protected final String TEXT_391 = " ";
+  protected final String TEXT_392 = " = eINSTANCE.get";
+  protected final String TEXT_393 = "();" + NL;
+  protected final String TEXT_394 = NL + "\t\t/**" + NL + "\t\t * The meta object literal for the '<em><b>";
+  protected final String TEXT_395 = "</b></em>' ";
+  protected final String TEXT_396 = " feature." + NL + "\t\t * <!-- begin-user-doc -->" + NL + "\t\t * <!-- end-user-doc -->" + NL + "\t\t * @generated" + NL + "\t\t */" + NL + "\t\t";
+  protected final String TEXT_397 = " ";
+  protected final String TEXT_398 = " = eINSTANCE.get";
+  protected final String TEXT_399 = "();" + NL;
+  protected final String TEXT_400 = NL + "\t}" + NL;
+  protected final String TEXT_401 = NL + "} //";
+  protected final String TEXT_402 = NL;
 
   public String generate(Object argument)
   {
@@ -1299,83 +1302,89 @@ public class PackageClass
     stringBuffer.append(TEXT_367);
     }
     stringBuffer.append(TEXT_368);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EClassifier"));
+    stringBuffer.append(TEXT_369);
+    stringBuffer.append(genPackage.getInterfacePackageName());
+    stringBuffer.append(TEXT_370);
+    stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(TEXT_371);
     }
     }
     if (isInterface && genPackage.isLiteralsInterface()) {
-    stringBuffer.append(TEXT_369);
-    if (isImplementation) {
-    stringBuffer.append(TEXT_370);
-    }
-    stringBuffer.append(TEXT_371);
-    for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();
     stringBuffer.append(TEXT_372);
+    if (isImplementation) {
+    stringBuffer.append(TEXT_373);
+    }
+    stringBuffer.append(TEXT_374);
+    for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();
+    stringBuffer.append(TEXT_375);
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
     if (!genClass.isInterface()) {
-    stringBuffer.append(TEXT_373);
-    stringBuffer.append(genClass.getQualifiedClassName());
-    stringBuffer.append(TEXT_374);
-    stringBuffer.append(genClass.getFormattedName());
-    stringBuffer.append(TEXT_375);
-    stringBuffer.append(genClass.getQualifiedClassName());
-    } else {
     stringBuffer.append(TEXT_376);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(genClass.getQualifiedClassName());
     stringBuffer.append(TEXT_377);
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_378);
+    stringBuffer.append(genClass.getQualifiedClassName());
+    } else {
+    stringBuffer.append(TEXT_379);
+    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_380);
+    stringBuffer.append(genClass.getFormattedName());
+    stringBuffer.append(TEXT_381);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
     }
     } else if (genClassifier instanceof GenEnum) { GenEnum genEnum = (GenEnum)genClassifier;
-    stringBuffer.append(TEXT_379);
+    stringBuffer.append(TEXT_382);
     stringBuffer.append(genEnum.getQualifiedName());
-    stringBuffer.append(TEXT_380);
+    stringBuffer.append(TEXT_383);
     stringBuffer.append(genEnum.getFormattedName());
-    stringBuffer.append(TEXT_381);
+    stringBuffer.append(TEXT_384);
     stringBuffer.append(genEnum.getQualifiedName());
     } else if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;
-    stringBuffer.append(TEXT_382);
+    stringBuffer.append(TEXT_385);
     stringBuffer.append(genDataType.getFormattedName());
-    stringBuffer.append(TEXT_383);
+    stringBuffer.append(TEXT_386);
     if (!genDataType.isPrimitiveType() && !genDataType.isArrayType()) {
-    stringBuffer.append(TEXT_384);
+    stringBuffer.append(TEXT_387);
     stringBuffer.append(genDataType.getQualifiedInstanceClassName());
     }
     }
-    stringBuffer.append(TEXT_385);
-    stringBuffer.append(genPackage.getQualifiedPackageClassName());
-    stringBuffer.append(TEXT_386);
-    stringBuffer.append(genClassifier.getClassifierAccessorName());
-    stringBuffer.append(TEXT_387);
-    stringBuffer.append(publicStaticFinalFlag);
-    stringBuffer.append(genClassifier.getImportedMetaType());
     stringBuffer.append(TEXT_388);
-    stringBuffer.append(genPackage.getClassifierID(genClassifier));
+    stringBuffer.append(genPackage.getQualifiedPackageClassName());
     stringBuffer.append(TEXT_389);
     stringBuffer.append(genClassifier.getClassifierAccessorName());
     stringBuffer.append(TEXT_390);
+    stringBuffer.append(publicStaticFinalFlag);
+    stringBuffer.append(genClassifier.getImportedMetaType());
+    stringBuffer.append(TEXT_391);
+    stringBuffer.append(genPackage.getClassifierID(genClassifier));
+    stringBuffer.append(TEXT_392);
+    stringBuffer.append(genClassifier.getClassifierAccessorName());
+    stringBuffer.append(TEXT_393);
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
     for (Iterator f=genClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();
-    stringBuffer.append(TEXT_391);
+    stringBuffer.append(TEXT_394);
     stringBuffer.append(genFeature.getFormattedName());
-    stringBuffer.append(TEXT_392);
+    stringBuffer.append(TEXT_395);
     stringBuffer.append(genFeature.getFeatureKind());
-    stringBuffer.append(TEXT_393);
+    stringBuffer.append(TEXT_396);
     stringBuffer.append(publicStaticFinalFlag);
     stringBuffer.append(genFeature.getImportedMetaType());
-    stringBuffer.append(TEXT_394);
-    stringBuffer.append(genClass.getFeatureID(genFeature));
-    stringBuffer.append(TEXT_395);
-    stringBuffer.append(genFeature.getFeatureAccessorName());
-    stringBuffer.append(TEXT_396);
-    }
-    }
-    }
     stringBuffer.append(TEXT_397);
-    }
+    stringBuffer.append(genClass.getFeatureID(genFeature));
     stringBuffer.append(TEXT_398);
+    stringBuffer.append(genFeature.getFeatureAccessorName());
+    stringBuffer.append(TEXT_399);
+    }
+    }
+    }
+    stringBuffer.append(TEXT_400);
+    }
+    stringBuffer.append(TEXT_401);
     stringBuffer.append(isInterface ? genPackage.getPackageInterfaceName() : genPackage.getPackageClassName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_399);
+    stringBuffer.append(TEXT_402);
     return stringBuffer.toString();
   }
 }
