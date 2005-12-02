@@ -28,7 +28,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Writer extends Person {
+public interface Writer extends Person 
+{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
