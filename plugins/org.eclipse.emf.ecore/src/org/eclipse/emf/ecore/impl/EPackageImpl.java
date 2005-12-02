@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.22 2005/12/02 12:16:44 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.23 2005/12/02 17:40:00 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1202,12 +1202,33 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     return o;
   }
 
-  protected void addEParameter(EOperation owner, EClassifier type, String name)
+  protected EOperation addEOperation(EClass owner, EClassifier type, String name, int lowerBound, int UpperBound)
+  {
+    EOperation o = addEOperation(owner, type, name);
+    o.setLowerBound(lowerBound);
+    o.setUpperBound(UpperBound);
+    return o;
+  }
+
+  private EParameter internalAddEParameter(EOperation owner, EClassifier type, String name)
   {
     EParameter p = ecoreFactory.createEParameter();
     p.setEType(type);
     p.setName(name);
     owner.getEParameters().add(p);
+    return p;
+  }
+
+  protected void addEParameter(EOperation owner, EClassifier type, String name)
+  {
+    internalAddEParameter(owner, type, name);
+  }
+
+  protected void addEParameter(EOperation owner, EClassifier type, String name, int lowerBound, int UpperBound)
+  {
+    EParameter p = internalAddEParameter(owner, type, name);
+    p.setLowerBound(lowerBound);
+    p.setUpperBound(UpperBound);
   }
 
   protected void addEException(EOperation owner, EClassifier exception)
