@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.11 2005/11/28 22:36:34 marcelop Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.12 2005/12/02 16:32:30 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -1859,6 +1859,7 @@ public class RoseEcoreBuilder implements RoseVisitor
         eReference.setLowerBound(eAttribute.getLowerBound());
         eReference.setUpperBound(eAttribute.getUpperBound());
         eReference.setContainment(true);
+        eReference.setResolveProxies(false);
         eReference.getEAnnotations().addAll(eAttribute.getEAnnotations());
         eReference.setUnsettable(eAttribute.isUnsettable());
 
