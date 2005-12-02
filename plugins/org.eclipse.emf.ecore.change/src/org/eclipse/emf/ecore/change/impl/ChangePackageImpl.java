@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangePackageImpl.java,v 1.10 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ChangePackageImpl.java,v 1.11 2005/12/02 18:07:36 davidms Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -35,7 +35,6 @@ import org.eclipse.emf.ecore.change.FeatureMapEntry;
 import org.eclipse.emf.ecore.change.ListChange;
 import org.eclipse.emf.ecore.change.ResourceChange;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 
 
 /**
@@ -154,7 +153,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     isInited = true;
 
     // Initialize simple dependencies
-    EcorePackageImpl.init();
+    EcorePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theChangePackage.createPackageContents();
@@ -639,7 +638,7 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+    EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
     // Add supertypes to classes
 
@@ -668,10 +667,10 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     initEReference(getFeatureChange_ListChanges(), this.getListChange(), null, "listChanges", null, 0, -1, FeatureChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     EOperation op = addEOperation(featureChangeEClass, null, "apply");
-    addEParameter(op, theEcorePackage.getEObject(), "originalObject");
+    addEParameter(op, theEcorePackage.getEObject(), "originalObject", 0, 1);
 
     op = addEOperation(featureChangeEClass, null, "applyAndReverse");
-    addEParameter(op, theEcorePackage.getEObject(), "originalObject");
+    addEParameter(op, theEcorePackage.getEObject(), "originalObject", 0, 1);
 
     initEClass(listChangeEClass, ListChange.class, "ListChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getListChange_Kind(), this.getChangeKind(), "kind", null, 0, 1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -684,10 +683,10 @@ public class ChangePackageImpl extends EPackageImpl implements ChangePackage
     initEReference(getListChange_FeatureMapEntryValues(), this.getFeatureMapEntry(), null, "featureMapEntryValues", null, 0, -1, ListChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     op = addEOperation(listChangeEClass, null, "apply");
-    addEParameter(op, theEcorePackage.getEEList(), "originalList");
+    addEParameter(op, theEcorePackage.getEEList(), "originalList", 0, 1);
 
     op = addEOperation(listChangeEClass, null, "applyAndReverse");
-    addEParameter(op, theEcorePackage.getEEList(), "originalList");
+    addEParameter(op, theEcorePackage.getEEList(), "originalList", 0, 1);
 
     initEClass(resourceChangeEClass, ResourceChange.class, "ResourceChange", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getResourceChange_ResourceURI(), ecorePackage.getEString(), "resourceURI", null, 0, 1, ResourceChange.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreePackageImpl.java,v 1.7 2005/06/08 06:17:06 nickb Exp $
+ * $Id: TreePackageImpl.java,v 1.8 2005/12/02 18:07:42 davidms Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.edit.tree.TreeFactory;
 import org.eclipse.emf.edit.tree.TreeNode;
 import org.eclipse.emf.edit.tree.TreePackage;
@@ -102,7 +101,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
     isInited = true;
 
     // Initialize simple dependencies
-    EcorePackageImpl.init();
+    EcorePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theTreePackage.createPackageContents();
@@ -217,7 +216,7 @@ public class TreePackageImpl extends EPackageImpl implements TreePackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+    EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
     // Add supertypes to classes
 

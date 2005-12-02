@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.15 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.16 2005/12/02 18:07:47 davidms Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -1418,7 +1418,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage_1 = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage_1 = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 
     // Add supertypes to classes
     simpleAnyTypeEClass.getESuperTypes().add(this.getAnyType());

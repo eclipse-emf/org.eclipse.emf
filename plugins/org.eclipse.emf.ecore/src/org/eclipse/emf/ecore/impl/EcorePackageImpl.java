@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.12 2005/12/02 12:16:44 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.13 2005/12/02 18:07:47 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1898,19 +1898,19 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEReference(getEClass_EIDAttribute(), this.getEAttribute(), null, "eIDAttribute", null, 0, 1, EClass.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getEClass_EStructuralFeatures(), this.getEStructuralFeature(), this.getEStructuralFeature_EContainingClass(), "eStructuralFeatures", null, 0, -1, EClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    EOperation op = addEOperation(eClassEClass, ecorePackage.getEBoolean(), "isSuperTypeOf");
-    addEParameter(op, this.getEClass(), "someClass");
+    EOperation op = addEOperation(eClassEClass, ecorePackage.getEBoolean(), "isSuperTypeOf", 0, 1);
+    addEParameter(op, this.getEClass(), "someClass", 0, 1);
 
-    addEOperation(eClassEClass, ecorePackage.getEInt(), "getFeatureCount");
+    addEOperation(eClassEClass, ecorePackage.getEInt(), "getFeatureCount", 0, 1);
 
-    op = addEOperation(eClassEClass, this.getEStructuralFeature(), "getEStructuralFeature");
-    addEParameter(op, ecorePackage.getEInt(), "featureID");
+    op = addEOperation(eClassEClass, this.getEStructuralFeature(), "getEStructuralFeature", 0, 1);
+    addEParameter(op, ecorePackage.getEInt(), "featureID", 0, 1);
 
-    op = addEOperation(eClassEClass, ecorePackage.getEInt(), "getFeatureID");
-    addEParameter(op, this.getEStructuralFeature(), "feature");
+    op = addEOperation(eClassEClass, ecorePackage.getEInt(), "getFeatureID", 0, 1);
+    addEParameter(op, this.getEStructuralFeature(), "feature", 0, 1);
 
-    op = addEOperation(eClassEClass, this.getEStructuralFeature(), "getEStructuralFeature");
-    addEParameter(op, ecorePackage.getEString(), "featureName");
+    op = addEOperation(eClassEClass, this.getEStructuralFeature(), "getEStructuralFeature", 0, 1);
+    addEParameter(op, ecorePackage.getEString(), "featureName", 0, 1);
 
     initEClass(eClassifierEClass, EClassifier.class, "EClassifier", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEClassifier_InstanceClassName(), ecorePackage.getEString(), "instanceClassName", null, 0, 1, EClassifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1918,10 +1918,10 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEAttribute(getEClassifier_DefaultValue(), this.getEJavaObject(), "defaultValue", null, 0, 1, EClassifier.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getEClassifier_EPackage(), this.getEPackage(), this.getEPackage_EClassifiers(), "ePackage", null, 0, 1, EClassifier.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    op = addEOperation(eClassifierEClass, ecorePackage.getEBoolean(), "isInstance");
-    addEParameter(op, this.getEJavaObject(), "object");
+    op = addEOperation(eClassifierEClass, ecorePackage.getEBoolean(), "isInstance", 0, 1);
+    addEParameter(op, this.getEJavaObject(), "object", 0, 1);
 
-    addEOperation(eClassifierEClass, ecorePackage.getEInt(), "getClassifierID");
+    addEOperation(eClassifierEClass, ecorePackage.getEInt(), "getClassifierID", 0, 1);
 
     initEClass(eDataTypeEClass, EDataType.class, "EDataType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEDataType_Serializable(), ecorePackage.getEBoolean(), "serializable", "true", 0, 1, EDataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1929,14 +1929,14 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEClass(eEnumEClass, EEnum.class, "EEnum", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEEnum_ELiterals(), this.getEEnumLiteral(), this.getEEnumLiteral_EEnum(), "eLiterals", null, 0, -1, EEnum.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    op = addEOperation(eEnumEClass, this.getEEnumLiteral(), "getEEnumLiteral");
-    addEParameter(op, ecorePackage.getEString(), "name");
+    op = addEOperation(eEnumEClass, this.getEEnumLiteral(), "getEEnumLiteral", 0, 1);
+    addEParameter(op, ecorePackage.getEString(), "name", 0, 1);
 
-    op = addEOperation(eEnumEClass, this.getEEnumLiteral(), "getEEnumLiteral");
-    addEParameter(op, ecorePackage.getEInt(), "value");
+    op = addEOperation(eEnumEClass, this.getEEnumLiteral(), "getEEnumLiteral", 0, 1);
+    addEParameter(op, ecorePackage.getEInt(), "value", 0, 1);
 
-    op = addEOperation(eEnumEClass, this.getEEnumLiteral(), "getEEnumLiteralByLiteral");
-    addEParameter(op, ecorePackage.getEString(), "literal");
+    op = addEOperation(eEnumEClass, this.getEEnumLiteral(), "getEEnumLiteralByLiteral", 0, 1);
+    addEParameter(op, ecorePackage.getEString(), "literal", 0, 1);
 
     initEClass(eEnumLiteralEClass, EEnumLiteral.class, "EEnumLiteral", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEEnumLiteral_Value(), ecorePackage.getEInt(), "value", null, 0, 1, EEnumLiteral.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1947,62 +1947,62 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEClass(eFactoryEClass, EFactory.class, "EFactory", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEFactory_EPackage(), this.getEPackage(), this.getEPackage_EFactoryInstance(), "ePackage", null, 1, 1, EFactory.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    op = addEOperation(eFactoryEClass, this.getEObject(), "create");
-    addEParameter(op, this.getEClass(), "eClass");
+    op = addEOperation(eFactoryEClass, this.getEObject(), "create", 0, 1);
+    addEParameter(op, this.getEClass(), "eClass", 0, 1);
 
-    op = addEOperation(eFactoryEClass, this.getEJavaObject(), "createFromString");
-    addEParameter(op, this.getEDataType(), "eDataType");
-    addEParameter(op, ecorePackage.getEString(), "literalValue");
+    op = addEOperation(eFactoryEClass, this.getEJavaObject(), "createFromString", 0, 1);
+    addEParameter(op, this.getEDataType(), "eDataType", 0, 1);
+    addEParameter(op, ecorePackage.getEString(), "literalValue", 0, 1);
 
-    op = addEOperation(eFactoryEClass, ecorePackage.getEString(), "convertToString");
-    addEParameter(op, this.getEDataType(), "eDataType");
-    addEParameter(op, this.getEJavaObject(), "instanceValue");
+    op = addEOperation(eFactoryEClass, ecorePackage.getEString(), "convertToString", 0, 1);
+    addEParameter(op, this.getEDataType(), "eDataType", 0, 1);
+    addEParameter(op, this.getEJavaObject(), "instanceValue", 0, 1);
 
     initEClass(eModelElementEClass, EModelElement.class, "EModelElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEModelElement_EAnnotations(), this.getEAnnotation(), this.getEAnnotation_EModelElement(), "eAnnotations", null, 0, -1, EModelElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    op = addEOperation(eModelElementEClass, this.getEAnnotation(), "getEAnnotation");
-    addEParameter(op, ecorePackage.getEString(), "source");
+    op = addEOperation(eModelElementEClass, this.getEAnnotation(), "getEAnnotation", 0, 1);
+    addEParameter(op, ecorePackage.getEString(), "source", 0, 1);
 
     initEClass(eNamedElementEClass, ENamedElement.class, "ENamedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getENamedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, ENamedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(eObjectEClass, EObject.class, "EObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    addEOperation(eObjectEClass, this.getEClass(), "eClass");
+    addEOperation(eObjectEClass, this.getEClass(), "eClass", 0, 1);
 
-    addEOperation(eObjectEClass, ecorePackage.getEBoolean(), "eIsProxy");
+    addEOperation(eObjectEClass, ecorePackage.getEBoolean(), "eIsProxy", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEResource(), "eResource");
+    addEOperation(eObjectEClass, this.getEResource(), "eResource", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEObject(), "eContainer");
+    addEOperation(eObjectEClass, this.getEObject(), "eContainer", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEStructuralFeature(), "eContainingFeature");
+    addEOperation(eObjectEClass, this.getEStructuralFeature(), "eContainingFeature", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEReference(), "eContainmentFeature");
+    addEOperation(eObjectEClass, this.getEReference(), "eContainmentFeature", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEEList(), "eContents");
+    addEOperation(eObjectEClass, this.getEEList(), "eContents", 0, 1);
 
-    addEOperation(eObjectEClass, this.getETreeIterator(), "eAllContents");
+    addEOperation(eObjectEClass, this.getETreeIterator(), "eAllContents", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEEList(), "eCrossReferences");
+    addEOperation(eObjectEClass, this.getEEList(), "eCrossReferences", 0, 1);
 
-    op = addEOperation(eObjectEClass, this.getEJavaObject(), "eGet");
-    addEParameter(op, this.getEStructuralFeature(), "feature");
+    op = addEOperation(eObjectEClass, this.getEJavaObject(), "eGet", 0, 1);
+    addEParameter(op, this.getEStructuralFeature(), "feature", 0, 1);
 
-    op = addEOperation(eObjectEClass, this.getEJavaObject(), "eGet");
-    addEParameter(op, this.getEStructuralFeature(), "feature");
-    addEParameter(op, ecorePackage.getEBoolean(), "resolve");
+    op = addEOperation(eObjectEClass, this.getEJavaObject(), "eGet", 0, 1);
+    addEParameter(op, this.getEStructuralFeature(), "feature", 0, 1);
+    addEParameter(op, ecorePackage.getEBoolean(), "resolve", 0, 1);
 
     op = addEOperation(eObjectEClass, null, "eSet");
-    addEParameter(op, this.getEStructuralFeature(), "feature");
-    addEParameter(op, this.getEJavaObject(), "newValue");
+    addEParameter(op, this.getEStructuralFeature(), "feature", 0, 1);
+    addEParameter(op, this.getEJavaObject(), "newValue", 0, 1);
 
-    op = addEOperation(eObjectEClass, ecorePackage.getEBoolean(), "eIsSet");
-    addEParameter(op, this.getEStructuralFeature(), "feature");
+    op = addEOperation(eObjectEClass, ecorePackage.getEBoolean(), "eIsSet", 0, 1);
+    addEParameter(op, this.getEStructuralFeature(), "feature", 0, 1);
 
     op = addEOperation(eObjectEClass, null, "eUnset");
-    addEParameter(op, this.getEStructuralFeature(), "feature");
+    addEParameter(op, this.getEStructuralFeature(), "feature", 0, 1);
 
     initEClass(eOperationEClass, EOperation.class, "EOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEOperation_EContainingClass(), this.getEClass(), this.getEClass_EOperations(), "eContainingClass", null, 0, 1, EOperation.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2017,8 +2017,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEReference(getEPackage_ESubpackages(), this.getEPackage(), this.getEPackage_ESuperPackage(), "eSubpackages", null, 0, -1, EPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEPackage_ESuperPackage(), this.getEPackage(), this.getEPackage_ESubpackages(), "eSuperPackage", null, 0, 1, EPackage.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    op = addEOperation(ePackageEClass, this.getEClassifier(), "getEClassifier");
-    addEParameter(op, ecorePackage.getEString(), "name");
+    op = addEOperation(ePackageEClass, this.getEClassifier(), "getEClassifier", 0, 1);
+    addEParameter(op, ecorePackage.getEString(), "name", 0, 1);
 
     initEClass(eParameterEClass, EParameter.class, "EParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEParameter_EOperation(), this.getEOperation(), this.getEOperation_EParameters(), "eOperation", null, 0, 1, EParameter.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2040,9 +2040,9 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEAttribute(getEStructuralFeature_Derived(), ecorePackage.getEBoolean(), "derived", null, 0, 1, EStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEStructuralFeature_EContainingClass(), this.getEClass(), this.getEClass_EStructuralFeatures(), "eContainingClass", null, 0, 1, EStructuralFeature.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    addEOperation(eStructuralFeatureEClass, ecorePackage.getEInt(), "getFeatureID");
+    addEOperation(eStructuralFeatureEClass, ecorePackage.getEInt(), "getFeatureID", 0, 1);
 
-    addEOperation(eStructuralFeatureEClass, this.getEJavaClass(), "getContainerClass");
+    addEOperation(eStructuralFeatureEClass, this.getEJavaClass(), "getContainerClass", 0, 1);
 
     initEClass(eTypedElementEClass, ETypedElement.class, "ETypedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getETypedElement_Ordered(), ecorePackage.getEBoolean(), "ordered", "true", 0, 1, ETypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

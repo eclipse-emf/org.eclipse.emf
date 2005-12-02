@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.16 2005/12/02 12:16:44 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.17 2005/12/02 18:07:47 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -457,7 +457,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     if (eContainerFeatureID != EcorePackage.ECLASSIFIER__EPACKAGE) return null;
     return (EPackage)eContainer();
   }
-  
+
   /**
    */
   public EPackage getEPackage()

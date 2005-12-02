@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingPackageImpl.java,v 1.7 2005/06/08 06:21:43 nickb Exp $
+ * $Id: MappingPackageImpl.java,v 1.8 2005/12/02 18:07:49 davidms Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.mapping.ComplexTypeConverter;
 import org.eclipse.emf.mapping.FunctionNamePair;
 import org.eclipse.emf.mapping.FunctionPair;
@@ -159,7 +158,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
     isInited = true;
 
     // Initialize simple dependencies
-    EcorePackageImpl.init();
+    EcorePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theMappingPackage.createPackageContents();
@@ -534,7 +533,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    EcorePackageImpl theEcorePackage = (EcorePackageImpl)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+    EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
     // Add supertypes to classes
     typeConverterEClass.getESuperTypes().add(this.getMappingHelper());

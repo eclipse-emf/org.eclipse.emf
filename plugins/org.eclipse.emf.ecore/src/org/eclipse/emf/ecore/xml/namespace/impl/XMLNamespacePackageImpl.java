@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.10 2005/09/23 17:46:24 emerks Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.11 2005/12/02 18:07:47 davidms Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.xml.namespace.XMLNamespaceFactory;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.namespace.util.XMLNamespaceValidator;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
-import org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl;
 
 
 /**
@@ -136,7 +135,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     isInited = true;
 
     // Initialize simple dependencies
-    XMLTypePackageImpl.init();
+    XMLTypePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theXMLNamespacePackage.createPackageContents();
@@ -354,7 +353,7 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    XMLTypePackageImpl theXMLTypePackage = (XMLTypePackageImpl)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+    XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 
     // Add supertypes to classes
 
