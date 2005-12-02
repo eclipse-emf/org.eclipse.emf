@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataTypeImpl.java,v 1.9 2005/11/23 18:10:02 emerks Exp $
+ * $Id: EDataTypeImpl.java,v 1.10 2005/12/02 12:16:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -188,7 +188,8 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
       case EcorePackage.EDATA_TYPE__DEFAULT_VALUE:
         return getDefaultValue();
       case EcorePackage.EDATA_TYPE__EPACKAGE:
-        return getEPackage();
+        if (resolve) return getEPackage();
+        return basicGetEPackage();
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
         return isSerializable() ? Boolean.TRUE : Boolean.FALSE;
     }
@@ -266,7 +267,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
       case EcorePackage.EDATA_TYPE__DEFAULT_VALUE:
         return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.EDATA_TYPE__EPACKAGE:
-        return getEPackage() != null;
+        return basicGetEPackage() != null;
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
         return ((eFlags & SERIALIZABLE_EFLAG) != 0) != SERIALIZABLE_EDEFAULT;
     }

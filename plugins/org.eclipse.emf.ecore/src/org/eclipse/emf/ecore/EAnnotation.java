@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotation.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EAnnotation.java,v 1.4 2005/12/02 12:16:44 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -93,7 +93,7 @@ public interface EAnnotation extends EModelElement
    * @see #setEModelElement(EModelElement)
    * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation_EModelElement()
    * @see org.eclipse.emf.ecore.EModelElement#getEAnnotations
-   * @model opposite="eAnnotations"
+   * @model opposite="eAnnotations" resolveProxies="false"
    * @generated
    */
   EModelElement getEModelElement();
@@ -118,7 +118,7 @@ public interface EAnnotation extends EModelElement
    * <!-- end-user-doc -->
    * @return the value of the '<em>Contents</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation_Contents()
-   * @model type="org.eclipse.emf.ecore.EObject" containment="true"
+   * @model type="org.eclipse.emf.ecore.EObject" containment="true" resolveProxies="false"
    * @generated
    */
   EList getContents();

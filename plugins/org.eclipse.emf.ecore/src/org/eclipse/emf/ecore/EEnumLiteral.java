@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteral.java,v 1.4 2005/10/28 14:03:08 davidms Exp $
+ * $Id: EEnumLiteral.java,v 1.5 2005/12/02 12:16:44 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -130,7 +130,7 @@ public interface EEnumLiteral extends ENamedElement, Enumerator
    * @return the value of the '<em>EEnum</em>' container reference.
    * @see org.eclipse.emf.ecore.EcorePackage#getEEnumLiteral_EEnum()
    * @see org.eclipse.emf.ecore.EEnum#getELiterals
-   * @model opposite="eLiterals" changeable="false"
+   * @model opposite="eLiterals" resolveProxies="false" changeable="false"
    * @generated
    */
   EEnum getEEnum();

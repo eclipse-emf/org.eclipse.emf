@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.8 2005/11/22 22:32:25 emerks Exp $
+ * $Id: EStructuralFeature.java,v 1.9 2005/12/02 12:16:44 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -243,7 +243,7 @@ public interface EStructuralFeature extends ETypedElement
    * @return the value of the '<em>EContaining Class</em>' container reference.
    * @see org.eclipse.emf.ecore.EcorePackage#getEStructuralFeature_EContainingClass()
    * @see org.eclipse.emf.ecore.EClass#getEStructuralFeatures
-   * @model opposite="eStructuralFeatures" changeable="false"
+   * @model opposite="eStructuralFeatures" resolveProxies="false" changeable="false"
    * @generated
    */
   EClass getEContainingClass();

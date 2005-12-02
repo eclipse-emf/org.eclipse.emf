@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameter.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EParameter.java,v 1.4 2005/12/02 12:16:44 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -47,7 +47,7 @@ public interface EParameter extends ETypedElement
    * @return the value of the '<em>EOperation</em>' container reference.
    * @see org.eclipse.emf.ecore.EcorePackage#getEParameter_EOperation()
    * @see org.eclipse.emf.ecore.EOperation#getEParameters
-   * @model opposite="eParameters" changeable="false"
+   * @model opposite="eParameters" resolveProxies="false" changeable="false"
    * @generated
    */
   EOperation getEOperation();

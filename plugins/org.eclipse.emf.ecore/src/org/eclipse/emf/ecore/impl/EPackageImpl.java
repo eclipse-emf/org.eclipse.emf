@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.21 2005/11/25 17:49:48 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.22 2005/12/02 12:16:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -351,7 +351,8 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     if (eClassifiers == null)
     {
       eClassifiers = 
-        new EObjectContainmentWithInverseEList(EClassifier.class, this, EcorePackage.EPACKAGE__ECLASSIFIERS, EcorePackage.ECLASSIFIER__EPACKAGE)
+        new EObjectContainmentWithInverseEList.Resolving
+          (EClassifier.class, this, EcorePackage.EPACKAGE__ECLASSIFIERS, EcorePackage.ECLASSIFIER__EPACKAGE)
         {
           protected void didChange()
           {
@@ -456,7 +457,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   {
     if (eSubpackages == null)
     {
-      eSubpackages = new EObjectContainmentWithInverseEList(EPackage.class, this, EcorePackage.EPACKAGE__ESUBPACKAGES, EcorePackage.EPACKAGE__ESUPER_PACKAGE);
+      eSubpackages = new EObjectContainmentWithInverseEList.Resolving(EPackage.class, this, EcorePackage.EPACKAGE__ESUBPACKAGES, EcorePackage.EPACKAGE__ESUPER_PACKAGE);
     }
     return eSubpackages;
   }
@@ -471,6 +472,17 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     return (eContainerFeatureID == EcorePackage.EPACKAGE__ESUPER_PACKAGE) ? (EPackage)eContainer : null;
   }
 
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EPackage basicGetESuperPackage()
+  {
+    if (eContainerFeatureID != EcorePackage.EPACKAGE__ESUPER_PACKAGE) return null;
+    return (EPackage)eInternalContainer();
+  }
 
   /**
    * <!-- begin-user-doc -->
@@ -496,7 +508,8 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       case EcorePackage.EPACKAGE__ESUBPACKAGES:
         return getESubpackages();
       case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
-        return getESuperPackage();
+        if (resolve) return getESuperPackage();
+        return basicGetESuperPackage();
     }
     return eDynamicGet(featureID, resolve, coreType);
   }
@@ -596,7 +609,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       case EcorePackage.EPACKAGE__ESUBPACKAGES:
         return eSubpackages != null && !eSubpackages.isEmpty();
       case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
-        return getESuperPackage() != null;
+        return basicGetESuperPackage() != null;
     }
     return eDynamicIsSet(featureID);
   }

@@ -1111,7 +1111,11 @@
 			(object Attribute
 			    tool       	"IDL"
 			    name       	"uuid"
-			    value      	(value Text "DCE:9c192990-8398-11e1-0003-0060973f945c:1")))
+			    value      	(value Text "DCE:9c192990-8398-11e1-0003-0060973f945c:1"))
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3904D81303AC"
 		    label      	"eOperations"
 		    supplier   	"Logical View::ecore::EOperation"
@@ -1132,7 +1136,11 @@
 			(object Attribute
 			    tool       	"Ecore"
 			    name       	"isTransient"
-			    value      	TRUE))
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3904D81303AD"
 		    label      	"eContainingClass"
 		    supplier   	"Logical View::ecore::EClass"
@@ -1421,6 +1429,11 @@
 	    quid       	"3ACCDD3B0265"
 	    roles      	(list role_list
 		(object Role "eLiterals"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3ACCDD3C00F4"
 		    label      	"eLiterals"
 		    supplier   	"Logical View::ecore::EEnumLiteral"
@@ -1437,7 +1450,11 @@
 			(object Attribute
 			    tool       	"Ecore"
 			    name       	"isTransient"
-			    value      	TRUE))
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3ACCDD3C00FE"
 		    label      	"eEnum"
 		    supplier   	"Logical View::ecore::EEnum"
@@ -1504,6 +1521,11 @@
 	    quid       	"3B4DFCAB02B6"
 	    roles      	(list role_list
 		(object Role "eParameters"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3B4DFCAC02AD"
 		    label      	"eParameters"
 		    supplier   	"Logical View::ecore::EParameter"
@@ -1520,7 +1542,11 @@
 			(object Attribute
 			    tool       	"Ecore"
 			    name       	"isTransient"
-			    value      	TRUE))
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3B4DFCAC02CB"
 		    label      	"eOperation"
 		    supplier   	"Logical View::ecore::EOperation"
@@ -1684,6 +1710,11 @@
 	    quid       	"3D98A3F1034C"
 	    roles      	(list role_list
 		(object Role "eModelElement"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3D98A3F30241"
 		    label      	"eModelElement"
 		    supplier   	"Logical View::ecore::EModelElement"
@@ -1691,6 +1722,11 @@
 		    is_navigable 	TRUE
 		    is_aggregate 	TRUE)
 		(object Role "eAnnotations"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3D98A3F3024B"
 		    label      	"eAnnotations"
 		    supplier   	"Logical View::ecore::EAnnotation"
@@ -1702,11 +1738,21 @@
 	    quid       	"3DA70B0400EC"
 	    roles      	(list role_list
 		(object Role "$UNNAMED$36"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3DA70B04031D"
 		    supplier   	"Logical View::ecore::EAnnotation"
 		    quidu      	"3D98A1C701AB"
 		    is_aggregate 	TRUE)
 		(object Role "contents"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3DA70B040327"
 		    label      	"contents"
 		    supplier   	"Logical View::ecore::EObject"
@@ -1774,7 +1820,11 @@
 			(object Attribute
 			    tool       	"Ecore"
 			    name       	"isTransient"
-			    value      	TRUE))
+			    value      	TRUE)
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3F72EF6B0212"
 		    label      	"eContainingClass"
 		    supplier   	"Logical View::ecore::EClass"
@@ -1782,6 +1832,11 @@
 		    is_navigable 	TRUE
 		    is_aggregate 	TRUE)
 		(object Role "eStructuralFeatures"
+		    attributes 	(list Attribute_Set
+			(object Attribute
+			    tool       	"Ecore"
+			    name       	"isResolveProxies"
+			    value      	FALSE))
 		    quid       	"3F72EF6B0213"
 		    label      	"eStructuralFeatures"
 		    supplier   	"Logical View::ecore::EStructuralFeature"

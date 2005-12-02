@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperation.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EOperation.java,v 1.4 2005/12/02 12:16:44 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -51,7 +51,7 @@ public interface EOperation extends ETypedElement
    * @return the value of the '<em>EContaining Class</em>' container reference.
    * @see org.eclipse.emf.ecore.EcorePackage#getEOperation_EContainingClass()
    * @see org.eclipse.emf.ecore.EClass#getEOperations
-   * @model opposite="eOperations" changeable="false"
+   * @model opposite="eOperations" resolveProxies="false" changeable="false"
    * @generated
    */
   EClass getEContainingClass();
@@ -68,7 +68,7 @@ public interface EOperation extends ETypedElement
    * @return the value of the '<em>EParameters</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEOperation_EParameters()
    * @see org.eclipse.emf.ecore.EParameter#getEOperation
-   * @model type="org.eclipse.emf.ecore.EParameter" opposite="eOperation" containment="true"
+   * @model type="org.eclipse.emf.ecore.EParameter" opposite="eOperation" containment="true" resolveProxies="false"
    * @generated
    */
   EList getEParameters();

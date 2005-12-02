@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.23 2005/11/25 17:49:48 emerks Exp $
+ * $Id: EClassImpl.java,v 1.24 2005/12/02 12:16:44 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -542,7 +542,8 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       case EcorePackage.ECLASS__DEFAULT_VALUE:
         return getDefaultValue();
       case EcorePackage.ECLASS__EPACKAGE:
-        return getEPackage();
+        if (resolve) return getEPackage();
+        return basicGetEPackage();
       case EcorePackage.ECLASS__ABSTRACT:
         return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
       case EcorePackage.ECLASS__INTERFACE:
@@ -673,7 +674,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       case EcorePackage.ECLASS__DEFAULT_VALUE:
         return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.ECLASS__EPACKAGE:
-        return getEPackage() != null;
+        return basicGetEPackage() != null;
       case EcorePackage.ECLASS__ABSTRACT:
         return ((eFlags & ABSTRACT_EFLAG) != 0) != ABSTRACT_EDEFAULT;
       case EcorePackage.ECLASS__INTERFACE:

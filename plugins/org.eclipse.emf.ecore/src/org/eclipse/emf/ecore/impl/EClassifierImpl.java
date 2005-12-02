@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.15 2005/11/25 17:49:48 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.16 2005/12/02 12:16:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -450,11 +450,38 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated modifiable
+   * @generated
+   */
+  public EPackage getEPackageGen()
+  {
+    if (eContainerFeatureID != EcorePackage.ECLASSIFIER__EPACKAGE) return null;
+    return (EPackage)eContainer();
+  }
+  
+  /**
    */
   public EPackage getEPackage()
   {
-    return (eContainerFeatureID == EcorePackage.ECLASSIFIER__EPACKAGE) ? (EPackage)eContainer : null;
+    if (isFrozen())
+    {
+      if (eContainerFeatureID != EcorePackage.ECLASSIFIER__EPACKAGE) return null;
+      return (EPackage)eContainer;
+    }
+    else
+    {
+      return getEPackageGen();
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EPackage basicGetEPackage()
+  {
+    if (eContainerFeatureID != EcorePackage.ECLASSIFIER__EPACKAGE) return null;
+    return (EPackage)eInternalContainer();
   }
 
   /**
@@ -493,7 +520,8 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       case EcorePackage.ECLASSIFIER__DEFAULT_VALUE:
         return getDefaultValue();
       case EcorePackage.ECLASSIFIER__EPACKAGE:
-        return getEPackage();
+        if (resolve) return getEPackage();
+        return basicGetEPackage();
     }
     return eDynamicGet(featureID, resolve, coreType);
   }
@@ -563,7 +591,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       case EcorePackage.ECLASSIFIER__DEFAULT_VALUE:
         return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
       case EcorePackage.ECLASSIFIER__EPACKAGE:
-        return getEPackage() != null;
+        return basicGetEPackage() != null;
     }
     return eDynamicIsSet(featureID);
   }
