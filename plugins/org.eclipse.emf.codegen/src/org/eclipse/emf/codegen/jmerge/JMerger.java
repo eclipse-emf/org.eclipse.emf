@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.14 2005/11/18 12:05:31 emerks Exp $
+ * $Id: JMerger.java,v 1.15 2005/12/02 16:58:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -67,6 +67,7 @@ public class JMerger
   protected Map targetToSourceMap = new HashMap();
   protected Map orderedSourceChildrenMap = new HashMap();
   protected boolean isBlocked;
+  protected boolean fixInterfaceBrace;
 
   /**
    * This creates an empty instances, an when used as a runnable.
@@ -102,6 +103,16 @@ public class JMerger
     merge();
   }
 
+  public boolean isFixInterfaceBrace()
+  {
+    return fixInterfaceBrace;
+  }
+
+  public void setFixInterfaceBrace(boolean fixInterfaceBrace)
+  {
+    this.fixInterfaceBrace = fixInterfaceBrace;
+  }
+
   public JControlModel getControlModel()
   {
     return jControlModel;
@@ -130,9 +141,40 @@ public class JMerger
     // sourcePatternDictionary.dumpMarkup();
   }
   
+  protected static final Pattern INTERFACE_BRACE_PATTERN = 
+    Pattern.compile
+      ("^(\\s*)(?:public|private|protected|static|\\s)*interface\\s*\\w*[^\\{\\n\\r]*(\\{)(\\n\\r|\\r\\n|\\n|\\r)", 
+       Pattern.MULTILINE); // }}
+
   public String getTargetCompilationUnitContents()
   {
-    return targetCompilationUnit.getContents();
+    String result = targetCompilationUnit.getContents();
+    if (fixInterfaceBrace)
+    {
+      Matcher matcher = INTERFACE_BRACE_PATTERN.matcher(result);
+      int offset = 0;
+      while (matcher.find())
+      {
+        if (getControlModel().standardBraceStyle)
+        {
+          if (result.charAt(matcher.start(2) - 1) != ' ')
+          {
+            result = 
+              result.substring(0, offset + matcher.start(2)) + 
+                " {" + result.substring(offset + matcher.end(2), result.length()); // }
+            offset += 1;
+          }
+        }
+        else
+        {
+          result = 
+            result.substring(0, offset + matcher.start(2)) + matcher.group(3) + 
+              matcher.group(1) + "{" + result.substring(offset + matcher.end(2), result.length()); // }
+          offset += matcher.group(1).length() + matcher.group(3).length();
+        }
+      }
+    }
+    return result;
   }
 
   public IDOMCompilationUnit getTargetCompilationUnit()
