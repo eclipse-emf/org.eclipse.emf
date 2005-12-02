@@ -12,17 +12,17 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcorePackageImpl.java,v 1.7 2005/11/08 14:24:46 emerks Exp $
+ * $Id: XSD2EcorePackageImpl.java,v 1.8 2005/12/02 18:07:26 davidms Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.impl;
 
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.mapping.MappingPackage;
-import org.eclipse.emf.mapping.impl.MappingPackageImpl;
 import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreFactory;
 import org.eclipse.emf.mapping.xsd2ecore.XSD2EcoreMappingRoot;
 import org.eclipse.emf.mapping.xsd2ecore.XSD2EcorePackage;
@@ -102,8 +102,8 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
     isInited = true;
 
     // Initialize simple dependencies
-    MappingPackageImpl.init();
-    EcorePackageImpl.init();
+    MappingPackage.eINSTANCE.eClass();
+    EcorePackage.eINSTANCE.eClass();
 
     // Create package meta-data objects
     theXSD2EcorePackage.createPackageContents();
@@ -185,7 +185,7 @@ public class XSD2EcorePackageImpl extends EPackageImpl implements XSD2EcorePacka
     setNsURI(eNS_URI);
 
     // Obtain other dependent packages
-    MappingPackageImpl theMappingPackage = (MappingPackageImpl)EPackage.Registry.INSTANCE.getEPackage(MappingPackage.eNS_URI);
+    MappingPackage theMappingPackage = (MappingPackage)EPackage.Registry.INSTANCE.getEPackage(MappingPackage.eNS_URI);
 
     // Add supertypes to classes
     xsd2EcoreMappingRootEClass.getESuperTypes().add(theMappingPackage.getMappingRoot());
