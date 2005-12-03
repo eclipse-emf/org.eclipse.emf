@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapItemProvider.java,v 1.6 2005/11/23 18:09:55 emerks Exp $
+ * $Id: XMLMapItemProvider.java,v 1.7 2005/12/03 04:39:48 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -212,7 +212,7 @@ public class XMLMapItemProvider
     newChildDescriptors.add
       (createChildParameter
         (Ecore2XMLPackage.Literals.XML_MAP__ECORE_TO_XML_INFO,
-         Ecore2XMLFactory.eINSTANCE.create(Ecore2XMLPackage.eINSTANCE.getENamedElementToXMLInfoMapEntry())));
+         Ecore2XMLFactory.eINSTANCE.create(Ecore2XMLPackage.Literals.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY)));
   }
 
   /**
