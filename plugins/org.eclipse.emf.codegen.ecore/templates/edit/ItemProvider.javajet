@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.22 2005/11/29 15:03:05 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.23 2005/12/03 04:39:04 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -317,7 +317,7 @@ public class <%=genClass.getProviderClassName()%>
 			(createChildParameter
 				(<%=createFeature.getQualifiedFeatureAccessor()%>,
         <%if (createClass.isMapEntry()) { %>
-				 <%=createClass.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.create(<%=createClass.getQualifiedClassifierAccessor()%>())));
+				 <%=createClass.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.create(<%=createClass.getQualifiedClassifierAccessor()%>)));
         <%} else {%>
 				 <%=createClass.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=createClass.getName()%>()));
         <%}%>

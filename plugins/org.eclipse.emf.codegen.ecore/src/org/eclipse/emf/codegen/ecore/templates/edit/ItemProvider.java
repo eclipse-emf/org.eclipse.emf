@@ -163,7 +163,7 @@ public class ItemProvider
   protected final String TEXT_146 = ",";
   protected final String TEXT_147 = NL + "\t\t\t\t ";
   protected final String TEXT_148 = ".create(";
-  protected final String TEXT_149 = "())));";
+  protected final String TEXT_149 = ")));";
   protected final String TEXT_150 = NL + "\t\t\t\t ";
   protected final String TEXT_151 = ".create";
   protected final String TEXT_152 = "()));";
