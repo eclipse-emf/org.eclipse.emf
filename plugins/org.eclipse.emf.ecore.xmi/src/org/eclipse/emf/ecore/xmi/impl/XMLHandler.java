@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.41 2005/11/18 19:08:48 emerks Exp $
+ * $Id: XMLHandler.java,v 1.42 2005/12/04 17:44:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -271,6 +271,7 @@ public abstract class XMLHandler
   protected boolean deferIDREFResolution;
   protected boolean processAnyXML;
   protected EcoreBuilder ecoreBuilder;
+  protected boolean isRoot;
 
   /**
    */
@@ -450,6 +451,7 @@ public abstract class XMLHandler
 
   public void startDocument()
   {
+    isRoot = true;
   }
 
   /**
@@ -484,6 +486,10 @@ public abstract class XMLHandler
 
   protected void processElement(String name, String prefix, String localName)
   {
+    if (isRoot)
+    {
+      isRoot = false;
+    }
     if (isError())
     {
       types.push(ERROR_TYPE);

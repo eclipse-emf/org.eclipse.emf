@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIResource.java,v 1.4 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMIResource.java,v 1.5 2005/12/04 17:44:30 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -65,10 +65,38 @@ public interface XMIResource extends XMLResource
   String OPTION_USE_XMI_TYPE = "USE_XMI_TYPE";
 
   String VERSION_NAME = "version";
+
   String VERSION_VALUE = "2.0";
 
+  String XMI_NAMESPACE_PREFIX = "http://schema.omg.org/spec/XMI/";
+
   String XMI_NS = "xmi";
+
   String XMI_ID = "id";
+
   String XMI_TAG_NAME = "XMI";
+
   String XMI_URI = ExtendedMetaData.XMI_URI;
+
+  /**
+   * @return XMI version
+   */
+  String getXMIVersion();
+
+  /**
+   * Sets XMI version and automatically assigns corresponding namespace
+   * @param version
+   */
+  void setXMIVersion(String version);
+
+  /**
+   * @return XMI namespace
+   */ 
+  String getXMINamespace();
+
+  /**
+   * Sets XMI namespace and automatically assigns corresponding version
+   * @param namespace
+   */
+  void setXMINamespace(String namespace);
 }

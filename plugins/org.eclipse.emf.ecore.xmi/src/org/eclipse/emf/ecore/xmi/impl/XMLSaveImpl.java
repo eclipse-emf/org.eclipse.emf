@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.47 2005/11/22 19:37:10 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.48 2005/12/04 17:44:30 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -106,6 +106,7 @@ public class XMLSaveImpl implements XMLSave
   protected NameInfo nameInfo;
   protected boolean useCache;
   protected EObject root;
+  protected XMLResource xmlResource;
   
   protected static final int SKIP = 0;
   protected static final int SAME_DOC = 1;
@@ -173,6 +174,7 @@ public class XMLSaveImpl implements XMLSave
     toDOM = true;
     document = doc;
     this.handler = handler;
+    this.xmlResource = resource;
     
     init(resource, options);
     List contents = resource.getContents();
@@ -186,12 +188,13 @@ public class XMLSaveImpl implements XMLSave
     {
       e.printStackTrace();
     }
-    
+    xmlResource = null;
     return document;
   }
   
   public void save(XMLResource resource, Writer writer, Map options) throws IOException
   {
+    this.xmlResource = resource;
     init(resource, options);
     List contents = resource.getContents();
     traverse(contents);
@@ -200,6 +203,7 @@ public class XMLSaveImpl implements XMLSave
     writer.flush();
 
     endSave(contents);
+    this.xmlResource = null;
   }
 
   public void save(XMLResource resource, OutputStream outputStream, Map options) throws IOException
@@ -211,7 +215,7 @@ public class XMLSaveImpl implements XMLSave
       save(resource, writeable.asWriter(), options);
       return;
     }
-    
+    this.xmlResource = resource;
     init(resource, options);
     List contents = resource.getContents();
     traverse(contents);
@@ -229,6 +233,7 @@ public class XMLSaveImpl implements XMLSave
     }
 
     endSave(contents);
+    this.xmlResource = null;
   }
 
   private void endSave(List contents) throws IOException

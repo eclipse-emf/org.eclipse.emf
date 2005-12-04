@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.10 2005/11/18 19:09:21 emerks Exp $
+ * $Id: XMISaveImpl.java,v 1.11 2005/12/04 17:44:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -122,15 +122,22 @@ public class XMISaveImpl extends XMLSaveImpl
 
   public void addNamespaceDeclarations()
   {
+    String version = XMIResource.VERSION_VALUE;
+    String namespace =XMIResource.XMI_URI;
+    if (xmlResource != null)
+    {
+      version = ((XMIResource)xmlResource).getXMIVersion();
+      namespace = ((XMIResource)xmlResource).getXMINamespace();
+    }
     if (!toDOM)
     {
-      doc.addAttribute(XMI_VER_NS, XMIResource.VERSION_VALUE);
-      doc.addAttribute(XMI_XMLNS, XMIResource.XMI_URI);
+        doc.addAttribute(XMI_VER_NS, version);
+        doc.addAttribute(XMI_XMLNS, namespace);         
     }
     else
     {
-      ((Element)currentNode).setAttributeNS(XMIResource.XMI_URI, XMI_VER_NS, XMIResource.VERSION_VALUE);
-      ((Element)currentNode).setAttributeNS(ExtendedMetaData.XMLNS_URI, XMI_XMLNS, XMIResource.XMI_URI);
+      ((Element)currentNode).setAttributeNS(XMIResource.XMI_URI, XMI_VER_NS, version);
+      ((Element)currentNode).setAttributeNS(ExtendedMetaData.XMLNS_URI, XMI_XMLNS, namespace);
     }
     super.addNamespaceDeclarations();
   }
