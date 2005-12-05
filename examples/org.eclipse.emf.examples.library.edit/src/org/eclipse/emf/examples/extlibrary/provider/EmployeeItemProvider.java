@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EmployeeItemProvider.java,v 1.1 2005/11/10 18:56:40 marcelop Exp $
+ * $Id: EmployeeItemProvider.java,v 1.2 2005/12/05 12:36:45 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -42,112 +42,122 @@ import org.eclipse.emf.examples.extlibrary.Employee;
  * @generated
  */
 public class EmployeeItemProvider
-	extends PersonItemProvider
-	implements	
-		IEditingDomainItemProvider,	
-		IStructuredItemContentProvider,	
-		ITreeItemContentProvider,	
-		IItemLabelProvider,	
-		IItemPropertySource {
-	/**
-	 * This constructs an instance from a factory and a notifier.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EmployeeItemProvider(AdapterFactory adapterFactory) {
-		super(adapterFactory);
-	}
+  extends PersonItemProvider
+  implements  
+    IEditingDomainItemProvider,  
+    IStructuredItemContentProvider,  
+    ITreeItemContentProvider,  
+    IItemLabelProvider,  
+    IItemPropertySource 
+{
+  /**
+   * This constructs an instance from a factory and a notifier.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EmployeeItemProvider(AdapterFactory adapterFactory)
+  {
+    super(adapterFactory);
+  }
 
-	/**
-	 * This returns the property descriptors for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public List getPropertyDescriptors(Object object) {
-		if (itemPropertyDescriptors == null) {
-			super.getPropertyDescriptors(object);
+  /**
+   * This returns the property descriptors for the adapted class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getPropertyDescriptors(Object object)
+  {
+    if (itemPropertyDescriptors == null)
+    {
+      super.getPropertyDescriptors(object);
 
-			addManagerPropertyDescriptor(object);
-		}
-		return itemPropertyDescriptors;
-	}
+      addManagerPropertyDescriptor(object);
+    }
+    return itemPropertyDescriptors;
+  }
 
-	/**
-	 * This adds a property descriptor for the Manager feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addManagerPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Employee_manager_feature"), //$NON-NLS-1$
-				 getString("_UI_PropertyDescriptor_description", "_UI_Employee_manager_feature", "_UI_Employee_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				 EXTLibraryPackage.eINSTANCE.getEmployee_Manager(),
-				 true,
-				 null,
-				 null,
-				 null));
-	}
+  /**
+   * This adds a property descriptor for the Manager feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addManagerPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_Employee_manager_feature"), //$NON-NLS-1$
+         getString("_UI_PropertyDescriptor_description", "_UI_Employee_manager_feature", "_UI_Employee_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+         EXTLibraryPackage.Literals.EMPLOYEE__MANAGER,
+         true,
+         null,
+         null,
+         null));
+  }
 
-	/**
-	 * This returns Employee.gif.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object getImage(Object object) {
-		return getResourceLocator().getImage("full/obj16/Employee"); //$NON-NLS-1$
-	}
+  /**
+   * This returns Employee.gif.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object getImage(Object object)
+  {
+    return getResourceLocator().getImage("full/obj16/Employee"); //$NON-NLS-1$
+  }
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getText(Object object) {
-		String label = ((Employee)object).getLastName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Employee_type") : //$NON-NLS-1$
-			getString("_UI_Employee_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
-	}
+  /**
+   * This returns the label text for the adapted class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getText(Object object)
+  {
+    String label = ((Employee)object).getLastName();
+    return label == null || label.length() == 0 ?
+      getString("_UI_Employee_type") : //$NON-NLS-1$
+      getString("_UI_Employee_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
+  }
 
-	/**
-	 * This handles model notifications by calling {@link #updateChildren} to update any cached
-	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void notifyChanged(Notification notification) {
-		updateChildren(notification);
-		super.notifyChanged(notification);
-	}
+  /**
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void notifyChanged(Notification notification)
+  {
+    updateChildren(notification);
+    super.notifyChanged(notification);
+  }
 
-	/**
-	 * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing all of the children that can be created under this object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object) {
-		super.collectNewChildDescriptors(newChildDescriptors, object);
-	}
+  /**
+   * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
+   * describing all of the children that can be created under this object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  {
+    super.collectNewChildDescriptors(newChildDescriptors, object);
+  }
 
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ResourceLocator getResourceLocator() {
-		return EXTLibraryEditPlugin.INSTANCE;
-	}
+  /**
+   * Return the resource locator for this item provider's resources.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ResourceLocator getResourceLocator()
+  {
+    return EXTLibraryEditPlugin.INSTANCE;
+  }
 
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemImpl.java,v 1.1 2005/11/10 18:55:51 marcelop Exp $
+ * $Id: ItemImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -22,8 +22,6 @@ import java.util.Date;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -83,7 +81,7 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    */
   protected EClass eStaticClass()
   {
-    return EXTLibraryPackage.eINSTANCE.getItem();
+    return EXTLibraryPackage.Literals.ITEM;
   }
 
   /**
@@ -114,14 +112,14 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.ITEM__PUBLICATION_DATE:
         return getPublicationDate();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -129,15 +127,15 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.ITEM__PUBLICATION_DATE:
         setPublicationDate((Date)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -145,15 +143,15 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.ITEM__PUBLICATION_DATE:
         setPublicationDate(PUBLICATION_DATE_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -161,14 +159,14 @@ public abstract class ItemImpl extends EObjectImpl implements Item
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.ITEM__PUBLICATION_DATE:
         return PUBLICATION_DATE_EDEFAULT == null ? publicationDate != null : !PUBLICATION_DATE_EDEFAULT.equals(publicationDate);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**

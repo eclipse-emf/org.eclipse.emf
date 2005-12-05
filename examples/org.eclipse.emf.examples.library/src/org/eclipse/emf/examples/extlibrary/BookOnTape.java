@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookOnTape.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: BookOnTape.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -34,7 +34,7 @@ package org.eclipse.emf.examples.extlibrary;
  * @model
  * @generated
  */
-public interface BookOnTape extends AudoVisualItem
+public interface BookOnTape extends AudioVisualItem
 {
   /**
    * Returns the value of the '<em><b>Reader</b></em>' reference.

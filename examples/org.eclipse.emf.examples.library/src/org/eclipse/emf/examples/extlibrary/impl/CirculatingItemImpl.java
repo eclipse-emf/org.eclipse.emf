@@ -12,21 +12,18 @@
  *
  * </copyright>
  *
- * $Id: CirculatingItemImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: CirculatingItemImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
 
 import java.util.Collection;
-import java.util.Date;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -103,7 +100,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    */
   protected EClass eStaticClass()
   {
-    return EXTLibraryPackage.eINSTANCE.getCirculatingItem();
+    return EXTLibraryPackage.Literals.CIRCULATING_ITEM;
   }
 
   /**
@@ -148,21 +145,14 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
-          return ((InternalEList)getBorrowers()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
+        return ((InternalEList)getBorrowers()).basicAdd(otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -170,19 +160,14 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
-          return ((InternalEList)getBorrowers()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
+        return ((InternalEList)getBorrowers()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -190,18 +175,16 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.CIRCULATING_ITEM__PUBLICATION_DATE:
-        return getPublicationDate();
       case EXTLibraryPackage.CIRCULATING_ITEM__COPIES:
         return new Integer(getCopies());
       case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
         return getBorrowers();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -209,13 +192,10 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.CIRCULATING_ITEM__PUBLICATION_DATE:
-        setPublicationDate((Date)newValue);
-        return;
       case EXTLibraryPackage.CIRCULATING_ITEM__COPIES:
         setCopies(((Integer)newValue).intValue());
         return;
@@ -224,7 +204,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
         getBorrowers().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -232,13 +212,10 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.CIRCULATING_ITEM__PUBLICATION_DATE:
-        setPublicationDate(PUBLICATION_DATE_EDEFAULT);
-        return;
       case EXTLibraryPackage.CIRCULATING_ITEM__COPIES:
         setCopies(COPIES_EDEFAULT);
         return;
@@ -246,7 +223,7 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
         getBorrowers().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -254,18 +231,16 @@ public abstract class CirculatingItemImpl extends ItemImpl implements Circulatin
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.CIRCULATING_ITEM__PUBLICATION_DATE:
-        return PUBLICATION_DATE_EDEFAULT == null ? publicationDate != null : !PUBLICATION_DATE_EDEFAULT.equals(publicationDate);
       case EXTLibraryPackage.CIRCULATING_ITEM__COPIES:
         return copies != COPIES_EDEFAULT;
       case EXTLibraryPackage.CIRCULATING_ITEM__BORROWERS:
         return borrowers != null && !borrowers.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**

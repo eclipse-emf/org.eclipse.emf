@@ -12,18 +12,14 @@
  *
  * </copyright>
  *
- * $Id: PeriodicalImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: PeriodicalImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
 
-import java.util.Date;
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.examples.extlibrary.EXTLibraryPackage;
@@ -103,7 +99,7 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
    */
   protected EClass eStaticClass()
   {
-    return EXTLibraryPackage.eINSTANCE.getPeriodical();
+    return EXTLibraryPackage.Literals.PERIODICAL;
   }
 
   /**
@@ -157,18 +153,16 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.PERIODICAL__PUBLICATION_DATE:
-        return getPublicationDate();
       case EXTLibraryPackage.PERIODICAL__TITLE:
         return getTitle();
       case EXTLibraryPackage.PERIODICAL__ISSUES_PER_YEAR:
         return new Integer(getIssuesPerYear());
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -176,13 +170,10 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.PERIODICAL__PUBLICATION_DATE:
-        setPublicationDate((Date)newValue);
-        return;
       case EXTLibraryPackage.PERIODICAL__TITLE:
         setTitle((String)newValue);
         return;
@@ -190,7 +181,7 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
         setIssuesPerYear(((Integer)newValue).intValue());
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -198,13 +189,10 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.PERIODICAL__PUBLICATION_DATE:
-        setPublicationDate(PUBLICATION_DATE_EDEFAULT);
-        return;
       case EXTLibraryPackage.PERIODICAL__TITLE:
         setTitle(TITLE_EDEFAULT);
         return;
@@ -212,7 +200,7 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
         setIssuesPerYear(ISSUES_PER_YEAR_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -220,18 +208,16 @@ public abstract class PeriodicalImpl extends ItemImpl implements Periodical
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.PERIODICAL__PUBLICATION_DATE:
-        return PUBLICATION_DATE_EDEFAULT == null ? publicationDate != null : !PUBLICATION_DATE_EDEFAULT.equals(publicationDate);
       case EXTLibraryPackage.PERIODICAL__TITLE:
         return TITLE_EDEFAULT == null ? title != null : !TITLE_EDEFAULT.equals(title);
       case EXTLibraryPackage.PERIODICAL__ISSUES_PER_YEAR:
         return issuesPerYear != ISSUES_PER_YEAR_EDEFAULT;
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**

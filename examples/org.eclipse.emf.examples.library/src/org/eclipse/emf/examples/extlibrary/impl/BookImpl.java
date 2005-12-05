@@ -12,24 +12,18 @@
  *
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: BookImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
-
-import java.util.Collection;
-import java.util.Date;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.emf.examples.extlibrary.Book;
 import org.eclipse.emf.examples.extlibrary.BookCategory;
@@ -151,7 +145,7 @@ public class BookImpl extends CirculatingItemImpl implements Book
    */
   protected EClass eStaticClass()
   {
-    return EXTLibraryPackage.eINSTANCE.getBook();
+    return EXTLibraryPackage.Literals.BOOK;
   }
 
   /**
@@ -259,8 +253,8 @@ public class BookImpl extends CirculatingItemImpl implements Book
   {
     if (author != null && author.eIsProxy())
     {
-      Writer oldAuthor = author;
-      author = (Writer)eResolveProxy((InternalEObject)author);
+      InternalEObject oldAuthor = (InternalEObject)author;
+      author = (Writer)eResolveProxy(oldAuthor);
       if (author != oldAuthor)
       {
         if (eNotificationRequired())
@@ -323,25 +317,16 @@ public class BookImpl extends CirculatingItemImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EXTLibraryPackage.BOOK__BORROWERS:
-          return ((InternalEList)getBorrowers()).basicAdd(otherEnd, msgs);
-        case EXTLibraryPackage.BOOK__AUTHOR:
-          if (author != null)
-            msgs = ((InternalEObject)author).eInverseRemove(this, EXTLibraryPackage.WRITER__BOOKS, Writer.class, msgs);
-          return basicSetAuthor((Writer)otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case EXTLibraryPackage.BOOK__AUTHOR:
+        if (author != null)
+          msgs = ((InternalEObject)author).eInverseRemove(this, EXTLibraryPackage.WRITER__BOOKS, Writer.class, msgs);
+        return basicSetAuthor((Writer)otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -349,21 +334,14 @@ public class BookImpl extends CirculatingItemImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EXTLibraryPackage.BOOK__BORROWERS:
-          return ((InternalEList)getBorrowers()).basicRemove(otherEnd, msgs);
-        case EXTLibraryPackage.BOOK__AUTHOR:
-          return basicSetAuthor(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case EXTLibraryPackage.BOOK__AUTHOR:
+        return basicSetAuthor(null, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -371,16 +349,10 @@ public class BookImpl extends CirculatingItemImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BOOK__PUBLICATION_DATE:
-        return getPublicationDate();
-      case EXTLibraryPackage.BOOK__COPIES:
-        return new Integer(getCopies());
-      case EXTLibraryPackage.BOOK__BORROWERS:
-        return getBorrowers();
       case EXTLibraryPackage.BOOK__TITLE:
         return getTitle();
       case EXTLibraryPackage.BOOK__PAGES:
@@ -391,7 +363,7 @@ public class BookImpl extends CirculatingItemImpl implements Book
         if (resolve) return getAuthor();
         return basicGetAuthor();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -399,20 +371,10 @@ public class BookImpl extends CirculatingItemImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BOOK__PUBLICATION_DATE:
-        setPublicationDate((Date)newValue);
-        return;
-      case EXTLibraryPackage.BOOK__COPIES:
-        setCopies(((Integer)newValue).intValue());
-        return;
-      case EXTLibraryPackage.BOOK__BORROWERS:
-        getBorrowers().clear();
-        getBorrowers().addAll((Collection)newValue);
-        return;
       case EXTLibraryPackage.BOOK__TITLE:
         setTitle((String)newValue);
         return;
@@ -426,7 +388,7 @@ public class BookImpl extends CirculatingItemImpl implements Book
         setAuthor((Writer)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -434,19 +396,10 @@ public class BookImpl extends CirculatingItemImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BOOK__PUBLICATION_DATE:
-        setPublicationDate(PUBLICATION_DATE_EDEFAULT);
-        return;
-      case EXTLibraryPackage.BOOK__COPIES:
-        setCopies(COPIES_EDEFAULT);
-        return;
-      case EXTLibraryPackage.BOOK__BORROWERS:
-        getBorrowers().clear();
-        return;
       case EXTLibraryPackage.BOOK__TITLE:
         setTitle(TITLE_EDEFAULT);
         return;
@@ -460,7 +413,7 @@ public class BookImpl extends CirculatingItemImpl implements Book
         setAuthor((Writer)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -468,16 +421,10 @@ public class BookImpl extends CirculatingItemImpl implements Book
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BOOK__PUBLICATION_DATE:
-        return PUBLICATION_DATE_EDEFAULT == null ? publicationDate != null : !PUBLICATION_DATE_EDEFAULT.equals(publicationDate);
-      case EXTLibraryPackage.BOOK__COPIES:
-        return copies != COPIES_EDEFAULT;
-      case EXTLibraryPackage.BOOK__BORROWERS:
-        return borrowers != null && !borrowers.isEmpty();
       case EXTLibraryPackage.BOOK__TITLE:
         return TITLE_EDEFAULT == null ? title != null : !TITLE_EDEFAULT.equals(title);
       case EXTLibraryPackage.BOOK__PAGES:
@@ -487,7 +434,7 @@ public class BookImpl extends CirculatingItemImpl implements Book
       case EXTLibraryPackage.BOOK__AUTHOR:
         return author != null;
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**

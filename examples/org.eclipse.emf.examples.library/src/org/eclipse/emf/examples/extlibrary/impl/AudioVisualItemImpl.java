@@ -12,22 +12,17 @@
  *
  * </copyright>
  *
- * $Id: AudoVisualItemImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: AudioVisualItemImpl.java,v 1.1 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
 
-import java.util.Collection;
-import java.util.Date;
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.eclipse.emf.examples.extlibrary.AudoVisualItem;
+import org.eclipse.emf.examples.extlibrary.AudioVisualItem;
 import org.eclipse.emf.examples.extlibrary.EXTLibraryPackage;
 
 
@@ -38,15 +33,15 @@ import org.eclipse.emf.examples.extlibrary.EXTLibraryPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.AudoVisualItemImpl#getTitle <em>Title</em>}</li>
- *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.AudoVisualItemImpl#getMinutesLength <em>Minutes Length</em>}</li>
- *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.AudoVisualItemImpl#isDamaged <em>Damaged</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.AudioVisualItemImpl#getTitle <em>Title</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.AudioVisualItemImpl#getMinutesLength <em>Minutes Length</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.extlibrary.impl.AudioVisualItemImpl#isDamaged <em>Damaged</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements AudoVisualItem
+public abstract class AudioVisualItemImpl extends CirculatingItemImpl implements AudioVisualItem
 {
   /**
    * The default value of the '{@link #getTitle() <em>Title</em>}' attribute.
@@ -113,7 +108,7 @@ public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  protected AudoVisualItemImpl()
+  protected AudioVisualItemImpl()
   {
     super();
   }
@@ -125,7 +120,7 @@ public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements 
    */
   protected EClass eStaticClass()
   {
-    return EXTLibraryPackage.eINSTANCE.getAudoVisualItem();
+    return EXTLibraryPackage.Literals.AUDIO_VISUAL_ITEM;
   }
 
   /**
@@ -148,7 +143,7 @@ public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements 
     String oldTitle = title;
     title = newTitle;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EXTLibraryPackage.AUDO_VISUAL_ITEM__TITLE, oldTitle, title));
+      eNotify(new ENotificationImpl(this, Notification.SET, EXTLibraryPackage.AUDIO_VISUAL_ITEM__TITLE, oldTitle, title));
   }
 
   /**
@@ -171,7 +166,7 @@ public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements 
     int oldMinutesLength = minutesLength;
     minutesLength = newMinutesLength;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EXTLibraryPackage.AUDO_VISUAL_ITEM__MINUTES_LENGTH, oldMinutesLength, minutesLength));
+      eNotify(new ENotificationImpl(this, Notification.SET, EXTLibraryPackage.AUDIO_VISUAL_ITEM__MINUTES_LENGTH, oldMinutesLength, minutesLength));
   }
 
   /**
@@ -194,7 +189,7 @@ public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements 
     boolean oldDamaged = (eFlags & DAMAGED_EFLAG) != 0;
     if (newDamaged) eFlags |= DAMAGED_EFLAG; else eFlags &= ~DAMAGED_EFLAG;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EXTLibraryPackage.AUDO_VISUAL_ITEM__DAMAGED, oldDamaged, newDamaged));
+      eNotify(new ENotificationImpl(this, Notification.SET, EXTLibraryPackage.AUDIO_VISUAL_ITEM__DAMAGED, oldDamaged, newDamaged));
   }
 
   /**
@@ -202,24 +197,18 @@ public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__PUBLICATION_DATE:
-        return getPublicationDate();
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__COPIES:
-        return new Integer(getCopies());
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__BORROWERS:
-        return getBorrowers();
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__TITLE:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__TITLE:
         return getTitle();
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__MINUTES_LENGTH:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__MINUTES_LENGTH:
         return new Integer(getMinutesLength());
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__DAMAGED:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__DAMAGED:
         return isDamaged() ? Boolean.TRUE : Boolean.FALSE;
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -227,31 +216,21 @@ public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__PUBLICATION_DATE:
-        setPublicationDate((Date)newValue);
-        return;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__COPIES:
-        setCopies(((Integer)newValue).intValue());
-        return;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__BORROWERS:
-        getBorrowers().clear();
-        getBorrowers().addAll((Collection)newValue);
-        return;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__TITLE:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__TITLE:
         setTitle((String)newValue);
         return;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__MINUTES_LENGTH:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__MINUTES_LENGTH:
         setMinutesLength(((Integer)newValue).intValue());
         return;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__DAMAGED:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__DAMAGED:
         setDamaged(((Boolean)newValue).booleanValue());
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -259,30 +238,21 @@ public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__PUBLICATION_DATE:
-        setPublicationDate(PUBLICATION_DATE_EDEFAULT);
-        return;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__COPIES:
-        setCopies(COPIES_EDEFAULT);
-        return;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__BORROWERS:
-        getBorrowers().clear();
-        return;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__TITLE:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__TITLE:
         setTitle(TITLE_EDEFAULT);
         return;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__MINUTES_LENGTH:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__MINUTES_LENGTH:
         setMinutesLength(MINUTES_LENGTH_EDEFAULT);
         return;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__DAMAGED:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__DAMAGED:
         setDamaged(DAMAGED_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -290,24 +260,18 @@ public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements 
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__PUBLICATION_DATE:
-        return PUBLICATION_DATE_EDEFAULT == null ? publicationDate != null : !PUBLICATION_DATE_EDEFAULT.equals(publicationDate);
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__COPIES:
-        return copies != COPIES_EDEFAULT;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__BORROWERS:
-        return borrowers != null && !borrowers.isEmpty();
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__TITLE:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__TITLE:
         return TITLE_EDEFAULT == null ? title != null : !TITLE_EDEFAULT.equals(title);
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__MINUTES_LENGTH:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__MINUTES_LENGTH:
         return minutesLength != MINUTES_LENGTH_EDEFAULT;
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM__DAMAGED:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__DAMAGED:
         return ((eFlags & DAMAGED_EFLAG) != 0) != DAMAGED_EDEFAULT;
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**
@@ -330,4 +294,4 @@ public abstract class AudoVisualItemImpl extends CirculatingItemImpl implements 
     return result.toString();
   }
 
-} //AudoVisualItemImpl
+} //AudioVisualItemImpl

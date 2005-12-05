@@ -49,16 +49,16 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Periodical/title"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//Periodical/issuesPerYear"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="extlibrary.ecore#//AudoVisualItem" labelFeature="#//extlibrary/AudoVisualItem/title">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//AudoVisualItem/title"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//AudoVisualItem/minutesLength"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//AudoVisualItem/damaged"/>
+    <genClasses image="false" ecoreClass="extlibrary.ecore#//AudioVisualItem" labelFeature="#//extlibrary/AudioVisualItem/title">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//AudioVisualItem/title"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//AudioVisualItem/minutesLength"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute extlibrary.ecore#//AudioVisualItem/damaged"/>
     </genClasses>
-    <genClasses ecoreClass="extlibrary.ecore#//BookOnTape" labelFeature="#//extlibrary/AudoVisualItem/title">
+    <genClasses ecoreClass="extlibrary.ecore#//BookOnTape" labelFeature="#//extlibrary/AudioVisualItem/title">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//BookOnTape/reader"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//BookOnTape/author"/>
     </genClasses>
-    <genClasses ecoreClass="extlibrary.ecore#//VideoCassette" labelFeature="#//extlibrary/AudoVisualItem/title">
+    <genClasses ecoreClass="extlibrary.ecore#//VideoCassette" labelFeature="#//extlibrary/AudioVisualItem/title">
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference extlibrary.ecore#//VideoCassette/cast"/>
     </genClasses>
     <genClasses ecoreClass="extlibrary.ecore#//Borrower" labelFeature="#//extlibrary/Person/lastName">

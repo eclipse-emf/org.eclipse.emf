@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryItemProvider.java,v 1.1 2005/11/10 18:56:39 marcelop Exp $
+ * $Id: LibraryItemProvider.java,v 1.2 2005/12/05 12:36:45 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -48,235 +48,251 @@ import org.eclipse.emf.examples.extlibrary.Library;
  * @generated
  */
 public class LibraryItemProvider
-	extends ItemProviderAdapter
-	implements	
-		IEditingDomainItemProvider,	
-		IStructuredItemContentProvider,	
-		ITreeItemContentProvider,	
-		IItemLabelProvider,	
-		IItemPropertySource {
-	/**
-	 * This constructs an instance from a factory and a notifier.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public LibraryItemProvider(AdapterFactory adapterFactory) {
-		super(adapterFactory);
-	}
+  extends ItemProviderAdapter
+  implements  
+    IEditingDomainItemProvider,  
+    IStructuredItemContentProvider,  
+    ITreeItemContentProvider,  
+    IItemLabelProvider,  
+    IItemPropertySource 
+{
+  /**
+   * This constructs an instance from a factory and a notifier.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public LibraryItemProvider(AdapterFactory adapterFactory)
+  {
+    super(adapterFactory);
+  }
 
-	/**
-	 * This returns the property descriptors for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public List getPropertyDescriptors(Object object) {
-		if (itemPropertyDescriptors == null) {
-			super.getPropertyDescriptors(object);
+  /**
+   * This returns the property descriptors for the adapted class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getPropertyDescriptors(Object object)
+  {
+    if (itemPropertyDescriptors == null)
+    {
+      super.getPropertyDescriptors(object);
 
-			addAddressPropertyDescriptor(object);
-			addNamePropertyDescriptor(object);
-			addBooksPropertyDescriptor(object);
-		}
-		return itemPropertyDescriptors;
-	}
+      addAddressPropertyDescriptor(object);
+      addNamePropertyDescriptor(object);
+      addBooksPropertyDescriptor(object);
+    }
+    return itemPropertyDescriptors;
+  }
 
-	/**
-	 * This adds a property descriptor for the Address feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addAddressPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Addressable_address_feature"), //$NON-NLS-1$
-				 getString("_UI_PropertyDescriptor_description", "_UI_Addressable_address_feature", "_UI_Addressable_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				 EXTLibraryPackage.eINSTANCE.getAddressable_Address(),
-				 true,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
+  /**
+   * This adds a property descriptor for the Address feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addAddressPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_Addressable_address_feature"), //$NON-NLS-1$
+         getString("_UI_PropertyDescriptor_description", "_UI_Addressable_address_feature", "_UI_Addressable_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+         EXTLibraryPackage.Literals.ADDRESSABLE__ADDRESS,
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
+  }
 
-	/**
-	 * This adds a property descriptor for the Name feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Library_name_feature"), //$NON-NLS-1$
-				 getString("_UI_PropertyDescriptor_description", "_UI_Library_name_feature", "_UI_Library_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				 EXTLibraryPackage.eINSTANCE.getLibrary_Name(),
-				 true,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
+  /**
+   * This adds a property descriptor for the Name feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addNamePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_Library_name_feature"), //$NON-NLS-1$
+         getString("_UI_PropertyDescriptor_description", "_UI_Library_name_feature", "_UI_Library_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+         EXTLibraryPackage.Literals.LIBRARY__NAME,
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
+  }
 
-	/**
-	 * This adds a property descriptor for the Books feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addBooksPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Library_books_feature"), //$NON-NLS-1$
-				 getString("_UI_PropertyDescriptor_description", "_UI_Library_books_feature", "_UI_Library_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				 EXTLibraryPackage.eINSTANCE.getLibrary_Books(),
-				 false,
-				 null,
-				 null,
-				 null));
-	}
+  /**
+   * This adds a property descriptor for the Books feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addBooksPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_Library_books_feature"), //$NON-NLS-1$
+         getString("_UI_PropertyDescriptor_description", "_UI_Library_books_feature", "_UI_Library_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+         EXTLibraryPackage.Literals.LIBRARY__BOOKS,
+         false,
+         null,
+         null,
+         null));
+  }
 
-	/**
-	 * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
-	 * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
-	 * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Collection getChildrenFeatures(Object object) {
-		if (childrenFeatures == null) {
-			super.getChildrenFeatures(object);
-			childrenFeatures.add(EXTLibraryPackage.eINSTANCE.getLibrary_Writers());
-			childrenFeatures.add(EXTLibraryPackage.eINSTANCE.getLibrary_Employees());
-			childrenFeatures.add(EXTLibraryPackage.eINSTANCE.getLibrary_Borrowers());
-			childrenFeatures.add(EXTLibraryPackage.eINSTANCE.getLibrary_Stock());
-			childrenFeatures.add(EXTLibraryPackage.eINSTANCE.getLibrary_Branches());
-		}
-		return childrenFeatures;
-	}
+  /**
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Collection getChildrenFeatures(Object object)
+  {
+    if (childrenFeatures == null)
+    {
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(EXTLibraryPackage.Literals.LIBRARY__WRITERS);
+      childrenFeatures.add(EXTLibraryPackage.Literals.LIBRARY__EMPLOYEES);
+      childrenFeatures.add(EXTLibraryPackage.Literals.LIBRARY__BORROWERS);
+      childrenFeatures.add(EXTLibraryPackage.Literals.LIBRARY__STOCK);
+      childrenFeatures.add(EXTLibraryPackage.Literals.LIBRARY__BRANCHES);
+    }
+    return childrenFeatures;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected EStructuralFeature getChildFeature(Object object, Object child) {
-		// Check the type of the specified child object and return the proper feature to use for
-		// adding (see {@link AddCommand}) it as a child.
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected EStructuralFeature getChildFeature(Object object, Object child)
+  {
+    // Check the type of the specified child object and return the proper feature to use for
+    // adding (see {@link AddCommand}) it as a child.
 
-		return super.getChildFeature(object, child);
-	}
+    return super.getChildFeature(object, child);
+  }
 
-	/**
-	 * This returns Library.gif.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object getImage(Object object) {
-		return getResourceLocator().getImage("full/obj16/Library"); //$NON-NLS-1$
-	}
+  /**
+   * This returns Library.gif.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object getImage(Object object)
+  {
+    return getResourceLocator().getImage("full/obj16/Library"); //$NON-NLS-1$
+  }
 
-	/**
-	 * This returns the label text for the adapted class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getText(Object object) {
-		String label = ((Library)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_Library_type") : //$NON-NLS-1$
-			getString("_UI_Library_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
-	}
+  /**
+   * This returns the label text for the adapted class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getText(Object object)
+  {
+    String label = ((Library)object).getName();
+    return label == null || label.length() == 0 ?
+      getString("_UI_Library_type") : //$NON-NLS-1$
+      getString("_UI_Library_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
+  }
 
-	/**
-	 * This handles model notifications by calling {@link #updateChildren} to update any cached
-	 * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void notifyChanged(Notification notification) {
-		updateChildren(notification);
+  /**
+   * This handles model notifications by calling {@link #updateChildren} to update any cached
+   * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void notifyChanged(Notification notification)
+  {
+    updateChildren(notification);
 
-		switch (notification.getFeatureID(Library.class)) {
-			case EXTLibraryPackage.LIBRARY__ADDRESS:
-			case EXTLibraryPackage.LIBRARY__NAME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-			case EXTLibraryPackage.LIBRARY__WRITERS:
-			case EXTLibraryPackage.LIBRARY__EMPLOYEES:
-			case EXTLibraryPackage.LIBRARY__BORROWERS:
-			case EXTLibraryPackage.LIBRARY__STOCK:
-			case EXTLibraryPackage.LIBRARY__BRANCHES:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
-				return;
-		}
-		super.notifyChanged(notification);
-	}
+    switch (notification.getFeatureID(Library.class))
+    {
+      case EXTLibraryPackage.LIBRARY__ADDRESS:
+      case EXTLibraryPackage.LIBRARY__NAME:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+        return;
+      case EXTLibraryPackage.LIBRARY__WRITERS:
+      case EXTLibraryPackage.LIBRARY__EMPLOYEES:
+      case EXTLibraryPackage.LIBRARY__BORROWERS:
+      case EXTLibraryPackage.LIBRARY__STOCK:
+      case EXTLibraryPackage.LIBRARY__BRANCHES:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+        return;
+    }
+    super.notifyChanged(notification);
+  }
 
-	/**
-	 * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
-	 * describing all of the children that can be created under this object.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object) {
-		super.collectNewChildDescriptors(newChildDescriptors, object);
+  /**
+   * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s
+   * describing all of the children that can be created under this object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  {
+    super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add
-			(createChildParameter
-				(EXTLibraryPackage.eINSTANCE.getLibrary_Writers(),
-				 EXTLibraryFactory.eINSTANCE.createWriter()));
+    newChildDescriptors.add
+      (createChildParameter
+        (EXTLibraryPackage.Literals.LIBRARY__WRITERS,
+         EXTLibraryFactory.eINSTANCE.createWriter()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(EXTLibraryPackage.eINSTANCE.getLibrary_Employees(),
-				 EXTLibraryFactory.eINSTANCE.createEmployee()));
+    newChildDescriptors.add
+      (createChildParameter
+        (EXTLibraryPackage.Literals.LIBRARY__EMPLOYEES,
+         EXTLibraryFactory.eINSTANCE.createEmployee()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(EXTLibraryPackage.eINSTANCE.getLibrary_Borrowers(),
-				 EXTLibraryFactory.eINSTANCE.createBorrower()));
+    newChildDescriptors.add
+      (createChildParameter
+        (EXTLibraryPackage.Literals.LIBRARY__BORROWERS,
+         EXTLibraryFactory.eINSTANCE.createBorrower()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(EXTLibraryPackage.eINSTANCE.getLibrary_Stock(),
-				 EXTLibraryFactory.eINSTANCE.createBook()));
+    newChildDescriptors.add
+      (createChildParameter
+        (EXTLibraryPackage.Literals.LIBRARY__STOCK,
+         EXTLibraryFactory.eINSTANCE.createBook()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(EXTLibraryPackage.eINSTANCE.getLibrary_Stock(),
-				 EXTLibraryFactory.eINSTANCE.createBookOnTape()));
+    newChildDescriptors.add
+      (createChildParameter
+        (EXTLibraryPackage.Literals.LIBRARY__STOCK,
+         EXTLibraryFactory.eINSTANCE.createBookOnTape()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(EXTLibraryPackage.eINSTANCE.getLibrary_Stock(),
-				 EXTLibraryFactory.eINSTANCE.createVideoCassette()));
+    newChildDescriptors.add
+      (createChildParameter
+        (EXTLibraryPackage.Literals.LIBRARY__STOCK,
+         EXTLibraryFactory.eINSTANCE.createVideoCassette()));
 
-		newChildDescriptors.add
-			(createChildParameter
-				(EXTLibraryPackage.eINSTANCE.getLibrary_Branches(),
-				 EXTLibraryFactory.eINSTANCE.createLibrary()));
-	}
+    newChildDescriptors.add
+      (createChildParameter
+        (EXTLibraryPackage.Literals.LIBRARY__BRANCHES,
+         EXTLibraryFactory.eINSTANCE.createLibrary()));
+  }
 
-	/**
-	 * Return the resource locator for this item provider's resources.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ResourceLocator getResourceLocator() {
-		return EXTLibraryEditPlugin.INSTANCE;
-	}
+  /**
+   * Return the resource locator for this item provider's resources.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ResourceLocator getResourceLocator()
+  {
+    return EXTLibraryEditPlugin.INSTANCE;
+  }
 
 }

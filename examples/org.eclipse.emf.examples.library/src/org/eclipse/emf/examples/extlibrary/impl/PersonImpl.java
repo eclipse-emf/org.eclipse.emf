@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: PersonImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -20,8 +20,6 @@ package org.eclipse.emf.examples.extlibrary.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
@@ -123,7 +121,7 @@ public class PersonImpl extends EObjectImpl implements Person
    */
   protected EClass eStaticClass()
   {
-    return EXTLibraryPackage.eINSTANCE.getPerson();
+    return EXTLibraryPackage.Literals.PERSON;
   }
 
   /**
@@ -200,9 +198,9 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.PERSON__ADDRESS:
         return getAddress();
@@ -211,7 +209,7 @@ public class PersonImpl extends EObjectImpl implements Person
       case EXTLibraryPackage.PERSON__LAST_NAME:
         return getLastName();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -219,9 +217,9 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.PERSON__ADDRESS:
         setAddress((String)newValue);
@@ -233,7 +231,7 @@ public class PersonImpl extends EObjectImpl implements Person
         setLastName((String)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -241,9 +239,9 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.PERSON__ADDRESS:
         setAddress(ADDRESS_EDEFAULT);
@@ -255,7 +253,7 @@ public class PersonImpl extends EObjectImpl implements Person
         setLastName(LAST_NAME_EDEFAULT);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -263,9 +261,9 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.PERSON__ADDRESS:
         return ADDRESS_EDEFAULT == null ? address != null : !ADDRESS_EDEFAULT.equals(address);
@@ -274,7 +272,7 @@ public class PersonImpl extends EObjectImpl implements Person
       case EXTLibraryPackage.PERSON__LAST_NAME:
         return LAST_NAME_EDEFAULT == null ? lastName != null : !LAST_NAME_EDEFAULT.equals(lastName);
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**

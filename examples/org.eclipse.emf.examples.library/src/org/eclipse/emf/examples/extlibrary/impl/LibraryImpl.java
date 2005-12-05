@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: LibraryImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -23,7 +23,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
@@ -38,6 +37,8 @@ import org.eclipse.emf.examples.extlibrary.Book;
 import org.eclipse.emf.examples.extlibrary.EXTLibraryPackage;
 import org.eclipse.emf.examples.extlibrary.Item;
 import org.eclipse.emf.examples.extlibrary.Library;
+
+//import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 
 /**
@@ -161,7 +162,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    */
   protected EClass eStaticClass()
   {
-    return EXTLibraryPackage.eINSTANCE.getLibrary();
+    return EXTLibraryPackage.Literals.LIBRARY;
   }
 
   /**
@@ -217,7 +218,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    */
   public EList getWriters()
   {
-    return ((FeatureMap)getPeople()).list(EXTLibraryPackage.eINSTANCE.getLibrary_Writers());
+    return ((FeatureMap)getPeople()).list(EXTLibraryPackage.Literals.LIBRARY__WRITERS);
   }
 
   /**
@@ -227,7 +228,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    */
   public EList getEmployees()
   {
-    return ((FeatureMap)getPeople()).list(EXTLibraryPackage.eINSTANCE.getLibrary_Employees());
+    return ((FeatureMap)getPeople()).list(EXTLibraryPackage.Literals.LIBRARY__EMPLOYEES);
   }
 
   /**
@@ -237,7 +238,7 @@ public class LibraryImpl extends EObjectImpl implements Library
    */
   public EList getBorrowers()
   {
-    return ((FeatureMap)getPeople()).list(EXTLibraryPackage.eINSTANCE.getLibrary_Borrowers());
+    return ((FeatureMap)getPeople()).list(EXTLibraryPackage.Literals.LIBRARY__BORROWERS);
   }
 
   /**
@@ -349,7 +350,7 @@ public class LibraryImpl extends EObjectImpl implements Library
   public Library getParentBranch()
   {
     if (eContainerFeatureID != EXTLibraryPackage.LIBRARY__PARENT_BRANCH) return null;
-    return (Library)eContainer;
+    return (Library)eContainer();
   }
 
   /**
@@ -359,12 +360,12 @@ public class LibraryImpl extends EObjectImpl implements Library
    */
   public void setParentBranch(Library newParentBranch)
   {
-    if (newParentBranch != eContainer || (eContainerFeatureID != EXTLibraryPackage.LIBRARY__PARENT_BRANCH && newParentBranch != null))
+    if (newParentBranch != eInternalContainer() || (eContainerFeatureID != EXTLibraryPackage.LIBRARY__PARENT_BRANCH && newParentBranch != null))
     {
       if (EcoreUtil.isAncestor(this, newParentBranch))
         throw new IllegalArgumentException("Recursive containment not allowed for " + toString()); //$NON-NLS-1$
       NotificationChain msgs = null;
-      if (eContainer != null)
+      if (eInternalContainer() != null)
         msgs = eBasicRemoveFromContainer(msgs);
       if (newParentBranch != null)
         msgs = ((InternalEObject)newParentBranch).eInverseAdd(this, EXTLibraryPackage.LIBRARY__BRANCHES, Library.class, msgs);
@@ -394,25 +395,18 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EXTLibraryPackage.LIBRARY__BRANCHES:
-          return ((InternalEList)getBranches()).basicAdd(otherEnd, msgs);
-        case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
-          if (eContainer != null)
-            msgs = eBasicRemoveFromContainer(msgs);
-          return eBasicSetContainer(otherEnd, EXTLibraryPackage.LIBRARY__PARENT_BRANCH, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case EXTLibraryPackage.LIBRARY__BRANCHES:
+        return ((InternalEList)getBranches()).basicAdd(otherEnd, msgs);
+      case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
+        if (eInternalContainer() != null)
+          msgs = eBasicRemoveFromContainer(msgs);
+        return eBasicSetContainer(otherEnd, EXTLibraryPackage.LIBRARY__PARENT_BRANCH, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -420,31 +414,26 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EXTLibraryPackage.LIBRARY__WRITERS:
-          return ((InternalEList)getWriters()).basicRemove(otherEnd, msgs);
-        case EXTLibraryPackage.LIBRARY__EMPLOYEES:
-          return ((InternalEList)getEmployees()).basicRemove(otherEnd, msgs);
-        case EXTLibraryPackage.LIBRARY__BORROWERS:
-          return ((InternalEList)getBorrowers()).basicRemove(otherEnd, msgs);
-        case EXTLibraryPackage.LIBRARY__STOCK:
-          return ((InternalEList)getStock()).basicRemove(otherEnd, msgs);
-        case EXTLibraryPackage.LIBRARY__BRANCHES:
-          return ((InternalEList)getBranches()).basicRemove(otherEnd, msgs);
-        case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
-          return eBasicSetContainer(null, EXTLibraryPackage.LIBRARY__PARENT_BRANCH, msgs);
-        case EXTLibraryPackage.LIBRARY__PEOPLE:
-          return ((InternalEList)getPeople()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case EXTLibraryPackage.LIBRARY__WRITERS:
+        return ((InternalEList)getWriters()).basicRemove(otherEnd, msgs);
+      case EXTLibraryPackage.LIBRARY__EMPLOYEES:
+        return ((InternalEList)getEmployees()).basicRemove(otherEnd, msgs);
+      case EXTLibraryPackage.LIBRARY__BORROWERS:
+        return ((InternalEList)getBorrowers()).basicRemove(otherEnd, msgs);
+      case EXTLibraryPackage.LIBRARY__STOCK:
+        return ((InternalEList)getStock()).basicRemove(otherEnd, msgs);
+      case EXTLibraryPackage.LIBRARY__BRANCHES:
+        return ((InternalEList)getBranches()).basicRemove(otherEnd, msgs);
+      case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
+        return eBasicSetContainer(null, EXTLibraryPackage.LIBRARY__PARENT_BRANCH, msgs);
+      case EXTLibraryPackage.LIBRARY__PEOPLE:
+        return ((InternalEList)getPeople()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -452,19 +441,14 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eBasicRemoveFromContainer(NotificationChain msgs)
+  public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
-    if (eContainerFeatureID >= 0)
+    switch (eContainerFeatureID)
     {
-      switch (eContainerFeatureID)
-      {
-        case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
-          return eContainer.eInverseRemove(this, EXTLibraryPackage.LIBRARY__BRANCHES, Library.class, msgs);
-        default:
-          return eDynamicBasicRemoveFromContainer(msgs);
-      }
+      case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
+        return eInternalContainer().eInverseRemove(this, EXTLibraryPackage.LIBRARY__BRANCHES, Library.class, msgs);
     }
-    return eContainer.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - eContainerFeatureID, null, msgs);
+    return super.eBasicRemoveFromContainerFeature(msgs);
   }
 
   /**
@@ -472,9 +456,9 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.LIBRARY__ADDRESS:
         return getAddress();
@@ -495,9 +479,10 @@ public class LibraryImpl extends EObjectImpl implements Library
       case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
         return getParentBranch();
       case EXTLibraryPackage.LIBRARY__PEOPLE:
-        return getPeople();
+        if (coreType) return getPeople();
+        return ((FeatureMap.Internal)getPeople()).getWrapper();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -505,9 +490,9 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.LIBRARY__ADDRESS:
         setAddress((String)newValue);
@@ -543,11 +528,10 @@ public class LibraryImpl extends EObjectImpl implements Library
         setParentBranch((Library)newValue);
         return;
       case EXTLibraryPackage.LIBRARY__PEOPLE:
-        getPeople().clear();
-        getPeople().addAll((Collection)newValue);
+        ((FeatureMap.Internal)getPeople()).set(newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -555,9 +539,9 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.LIBRARY__ADDRESS:
         setAddress(ADDRESS_EDEFAULT);
@@ -590,7 +574,7 @@ public class LibraryImpl extends EObjectImpl implements Library
         getPeople().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -598,9 +582,9 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
       case EXTLibraryPackage.LIBRARY__ADDRESS:
         return ADDRESS_EDEFAULT == null ? address != null : !ADDRESS_EDEFAULT.equals(address);
@@ -623,7 +607,7 @@ public class LibraryImpl extends EObjectImpl implements Library
       case EXTLibraryPackage.LIBRARY__PEOPLE:
         return people != null && !people.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
   /**

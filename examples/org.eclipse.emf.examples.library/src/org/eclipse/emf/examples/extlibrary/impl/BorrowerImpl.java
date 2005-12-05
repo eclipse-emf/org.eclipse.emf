@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BorrowerImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: BorrowerImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -24,7 +24,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
@@ -77,7 +76,7 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    */
   protected EClass eStaticClass()
   {
-    return EXTLibraryPackage.eINSTANCE.getBorrower();
+    return EXTLibraryPackage.Literals.BORROWER;
   }
 
   /**
@@ -99,21 +98,14 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EXTLibraryPackage.BORROWER__BORROWED:
-          return ((InternalEList)getBorrowed()).basicAdd(otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
+      case EXTLibraryPackage.BORROWER__BORROWED:
+        return ((InternalEList)getBorrowed()).basicAdd(otherEnd, msgs);
     }
-    if (eContainer != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
+    return super.eInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -121,19 +113,14 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
-    if (featureID >= 0)
+    switch (featureID)
     {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case EXTLibraryPackage.BORROWER__BORROWED:
-          return ((InternalEList)getBorrowed()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
+      case EXTLibraryPackage.BORROWER__BORROWED:
+        return ((InternalEList)getBorrowed()).basicRemove(otherEnd, msgs);
     }
-    return eBasicSetContainer(null, featureID, msgs);
+    return super.eInverseRemove(otherEnd, featureID, msgs);
   }
 
   /**
@@ -141,20 +128,14 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BORROWER__ADDRESS:
-        return getAddress();
-      case EXTLibraryPackage.BORROWER__FIRST_NAME:
-        return getFirstName();
-      case EXTLibraryPackage.BORROWER__LAST_NAME:
-        return getLastName();
       case EXTLibraryPackage.BORROWER__BORROWED:
         return getBorrowed();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -162,25 +143,16 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BORROWER__ADDRESS:
-        setAddress((String)newValue);
-        return;
-      case EXTLibraryPackage.BORROWER__FIRST_NAME:
-        setFirstName((String)newValue);
-        return;
-      case EXTLibraryPackage.BORROWER__LAST_NAME:
-        setLastName((String)newValue);
-        return;
       case EXTLibraryPackage.BORROWER__BORROWED:
         getBorrowed().clear();
         getBorrowed().addAll((Collection)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -188,24 +160,15 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BORROWER__ADDRESS:
-        setAddress(ADDRESS_EDEFAULT);
-        return;
-      case EXTLibraryPackage.BORROWER__FIRST_NAME:
-        setFirstName(FIRST_NAME_EDEFAULT);
-        return;
-      case EXTLibraryPackage.BORROWER__LAST_NAME:
-        setLastName(LAST_NAME_EDEFAULT);
-        return;
       case EXTLibraryPackage.BORROWER__BORROWED:
         getBorrowed().clear();
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -213,20 +176,14 @@ public class BorrowerImpl extends PersonImpl implements Borrower
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BORROWER__ADDRESS:
-        return ADDRESS_EDEFAULT == null ? address != null : !ADDRESS_EDEFAULT.equals(address);
-      case EXTLibraryPackage.BORROWER__FIRST_NAME:
-        return FIRST_NAME_EDEFAULT == null ? firstName != null : !FIRST_NAME_EDEFAULT.equals(firstName);
-      case EXTLibraryPackage.BORROWER__LAST_NAME:
-        return LAST_NAME_EDEFAULT == null ? lastName != null : !LAST_NAME_EDEFAULT.equals(lastName);
       case EXTLibraryPackage.BORROWER__BORROWED:
         return borrowed != null && !borrowed.isEmpty();
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //BorrowerImpl

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WriterItemProvider.java,v 1.2 2005/12/05 12:36:45 emerks Exp $
+ * $Id: AudioVisualItemItemProvider.java,v 1.1 2005/12/05 12:36:44 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -34,17 +34,17 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
+import org.eclipse.emf.examples.extlibrary.AudioVisualItem;
 import org.eclipse.emf.examples.extlibrary.EXTLibraryPackage;
-import org.eclipse.emf.examples.extlibrary.Writer;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.examples.extlibrary.Writer} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.examples.extlibrary.AudioVisualItem} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class WriterItemProvider
-  extends PersonItemProvider
+public class AudioVisualItemItemProvider
+  extends CirculatingItemItemProvider
   implements  
     IEditingDomainItemProvider,  
     IStructuredItemContentProvider,  
@@ -58,7 +58,7 @@ public class WriterItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public WriterItemProvider(AdapterFactory adapterFactory)
+  public AudioVisualItemItemProvider(AdapterFactory adapterFactory)
   {
     super(adapterFactory);
   }
@@ -75,27 +75,28 @@ public class WriterItemProvider
     {
       super.getPropertyDescriptors(object);
 
-      addNamePropertyDescriptor(object);
-      addBooksPropertyDescriptor(object);
+      addTitlePropertyDescriptor(object);
+      addMinutesLengthPropertyDescriptor(object);
+      addDamagedPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
 
   /**
-   * This adds a property descriptor for the Name feature.
+   * This adds a property descriptor for the Title feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void addNamePropertyDescriptor(Object object)
+  protected void addTitlePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
       (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
-         getString("_UI_Writer_name_feature"), //$NON-NLS-1$
-         getString("_UI_PropertyDescriptor_description", "_UI_Writer_name_feature", "_UI_Writer_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-         EXTLibraryPackage.Literals.WRITER__NAME,
+         getString("_UI_AudioVisualItem_title_feature"), //$NON-NLS-1$
+         getString("_UI_PropertyDescriptor_description", "_UI_AudioVisualItem_title_feature", "_UI_AudioVisualItem_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+         EXTLibraryPackage.Literals.AUDIO_VISUAL_ITEM__TITLE,
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -103,35 +104,45 @@ public class WriterItemProvider
   }
 
   /**
-   * This adds a property descriptor for the Books feature.
+   * This adds a property descriptor for the Minutes Length feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void addBooksPropertyDescriptor(Object object)
+  protected void addMinutesLengthPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
       (createItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
-         getString("_UI_Writer_books_feature"), //$NON-NLS-1$
-         getString("_UI_PropertyDescriptor_description", "_UI_Writer_books_feature", "_UI_Writer_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-         EXTLibraryPackage.Literals.WRITER__BOOKS,
+         getString("_UI_AudioVisualItem_minutesLength_feature"), //$NON-NLS-1$
+         getString("_UI_PropertyDescriptor_description", "_UI_AudioVisualItem_minutesLength_feature", "_UI_AudioVisualItem_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+         EXTLibraryPackage.Literals.AUDIO_VISUAL_ITEM__MINUTES_LENGTH,
          true,
-         null,
+         ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));
   }
 
   /**
-   * This returns Writer.gif.
+   * This adds a property descriptor for the Damaged feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getImage(Object object)
+  protected void addDamagedPropertyDescriptor(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/Writer"); //$NON-NLS-1$
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_AudioVisualItem_damaged_feature"), //$NON-NLS-1$
+         getString("_UI_PropertyDescriptor_description", "_UI_AudioVisualItem_damaged_feature", "_UI_AudioVisualItem_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+         EXTLibraryPackage.Literals.AUDIO_VISUAL_ITEM__DAMAGED,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         null,
+         null));
   }
 
   /**
@@ -142,10 +153,10 @@ public class WriterItemProvider
    */
   public String getText(Object object)
   {
-    String label = ((Writer)object).getName();
+    String label = ((AudioVisualItem)object).getTitle();
     return label == null || label.length() == 0 ?
-      getString("_UI_Writer_type") : //$NON-NLS-1$
-      getString("_UI_Writer_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
+      getString("_UI_AudioVisualItem_type") : //$NON-NLS-1$
+      getString("_UI_AudioVisualItem_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
   }
 
   /**
@@ -159,9 +170,11 @@ public class WriterItemProvider
   {
     updateChildren(notification);
 
-    switch (notification.getFeatureID(Writer.class))
+    switch (notification.getFeatureID(AudioVisualItem.class))
     {
-      case EXTLibraryPackage.WRITER__NAME:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__TITLE:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__MINUTES_LENGTH:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM__DAMAGED:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
     }

@@ -12,18 +12,14 @@
  *
  * </copyright>
  *
- * $Id: BookOnTapeImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: BookOnTapeImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
 
-import java.util.Collection;
-import java.util.Date;
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -48,7 +44,7 @@ import org.eclipse.emf.examples.extlibrary.Writer;
  *
  * @generated
  */
-public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
+public class BookOnTapeImpl extends AudioVisualItemImpl implements BookOnTape
 {
   /**
    * The cached value of the '{@link #getReader() <em>Reader</em>}' reference.
@@ -87,7 +83,7 @@ public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
    */
   protected EClass eStaticClass()
   {
-    return EXTLibraryPackage.eINSTANCE.getBookOnTape();
+    return EXTLibraryPackage.Literals.BOOK_ON_TAPE;
   }
 
   /**
@@ -99,8 +95,8 @@ public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
   {
     if (reader != null && reader.eIsProxy())
     {
-      Person oldReader = reader;
-      reader = (Person)eResolveProxy((InternalEObject)reader);
+      InternalEObject oldReader = (InternalEObject)reader;
+      reader = (Person)eResolveProxy(oldReader);
       if (reader != oldReader)
       {
         if (eNotificationRequired())
@@ -142,8 +138,8 @@ public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
   {
     if (author != null && author.eIsProxy())
     {
-      Writer oldAuthor = author;
-      author = (Writer)eResolveProxy((InternalEObject)author);
+      InternalEObject oldAuthor = (InternalEObject)author;
+      author = (Writer)eResolveProxy(oldAuthor);
       if (author != oldAuthor)
       {
         if (eNotificationRequired())
@@ -181,22 +177,10 @@ public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BOOK_ON_TAPE__PUBLICATION_DATE:
-        return getPublicationDate();
-      case EXTLibraryPackage.BOOK_ON_TAPE__COPIES:
-        return new Integer(getCopies());
-      case EXTLibraryPackage.BOOK_ON_TAPE__BORROWERS:
-        return getBorrowers();
-      case EXTLibraryPackage.BOOK_ON_TAPE__TITLE:
-        return getTitle();
-      case EXTLibraryPackage.BOOK_ON_TAPE__MINUTES_LENGTH:
-        return new Integer(getMinutesLength());
-      case EXTLibraryPackage.BOOK_ON_TAPE__DAMAGED:
-        return isDamaged() ? Boolean.TRUE : Boolean.FALSE;
       case EXTLibraryPackage.BOOK_ON_TAPE__READER:
         if (resolve) return getReader();
         return basicGetReader();
@@ -204,7 +188,7 @@ public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
         if (resolve) return getAuthor();
         return basicGetAuthor();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -212,29 +196,10 @@ public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BOOK_ON_TAPE__PUBLICATION_DATE:
-        setPublicationDate((Date)newValue);
-        return;
-      case EXTLibraryPackage.BOOK_ON_TAPE__COPIES:
-        setCopies(((Integer)newValue).intValue());
-        return;
-      case EXTLibraryPackage.BOOK_ON_TAPE__BORROWERS:
-        getBorrowers().clear();
-        getBorrowers().addAll((Collection)newValue);
-        return;
-      case EXTLibraryPackage.BOOK_ON_TAPE__TITLE:
-        setTitle((String)newValue);
-        return;
-      case EXTLibraryPackage.BOOK_ON_TAPE__MINUTES_LENGTH:
-        setMinutesLength(((Integer)newValue).intValue());
-        return;
-      case EXTLibraryPackage.BOOK_ON_TAPE__DAMAGED:
-        setDamaged(((Boolean)newValue).booleanValue());
-        return;
       case EXTLibraryPackage.BOOK_ON_TAPE__READER:
         setReader((Person)newValue);
         return;
@@ -242,7 +207,7 @@ public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
         setAuthor((Writer)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -250,28 +215,10 @@ public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BOOK_ON_TAPE__PUBLICATION_DATE:
-        setPublicationDate(PUBLICATION_DATE_EDEFAULT);
-        return;
-      case EXTLibraryPackage.BOOK_ON_TAPE__COPIES:
-        setCopies(COPIES_EDEFAULT);
-        return;
-      case EXTLibraryPackage.BOOK_ON_TAPE__BORROWERS:
-        getBorrowers().clear();
-        return;
-      case EXTLibraryPackage.BOOK_ON_TAPE__TITLE:
-        setTitle(TITLE_EDEFAULT);
-        return;
-      case EXTLibraryPackage.BOOK_ON_TAPE__MINUTES_LENGTH:
-        setMinutesLength(MINUTES_LENGTH_EDEFAULT);
-        return;
-      case EXTLibraryPackage.BOOK_ON_TAPE__DAMAGED:
-        setDamaged(DAMAGED_EDEFAULT);
-        return;
       case EXTLibraryPackage.BOOK_ON_TAPE__READER:
         setReader((Person)null);
         return;
@@ -279,7 +226,7 @@ public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
         setAuthor((Writer)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -287,28 +234,16 @@ public class BookOnTapeImpl extends AudoVisualItemImpl implements BookOnTape
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.BOOK_ON_TAPE__PUBLICATION_DATE:
-        return PUBLICATION_DATE_EDEFAULT == null ? publicationDate != null : !PUBLICATION_DATE_EDEFAULT.equals(publicationDate);
-      case EXTLibraryPackage.BOOK_ON_TAPE__COPIES:
-        return copies != COPIES_EDEFAULT;
-      case EXTLibraryPackage.BOOK_ON_TAPE__BORROWERS:
-        return borrowers != null && !borrowers.isEmpty();
-      case EXTLibraryPackage.BOOK_ON_TAPE__TITLE:
-        return TITLE_EDEFAULT == null ? title != null : !TITLE_EDEFAULT.equals(title);
-      case EXTLibraryPackage.BOOK_ON_TAPE__MINUTES_LENGTH:
-        return minutesLength != MINUTES_LENGTH_EDEFAULT;
-      case EXTLibraryPackage.BOOK_ON_TAPE__DAMAGED:
-        return ((eFlags & DAMAGED_EFLAG) != 0) != DAMAGED_EDEFAULT;
       case EXTLibraryPackage.BOOK_ON_TAPE__READER:
         return reader != null;
       case EXTLibraryPackage.BOOK_ON_TAPE__AUTHOR:
         return author != null;
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //BookOnTapeImpl

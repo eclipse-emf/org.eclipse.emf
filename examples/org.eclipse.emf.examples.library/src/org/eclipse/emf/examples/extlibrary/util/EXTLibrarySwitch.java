@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibrarySwitch.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: EXTLibrarySwitch.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.util;
 
@@ -165,13 +165,13 @@ public class EXTLibrarySwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case EXTLibraryPackage.AUDO_VISUAL_ITEM:
+      case EXTLibraryPackage.AUDIO_VISUAL_ITEM:
       {
-        AudoVisualItem audoVisualItem = (AudoVisualItem)theEObject;
-        Object result = caseAudoVisualItem(audoVisualItem);
-        if (result == null) result = caseCirculatingItem(audoVisualItem);
-        if (result == null) result = caseItem(audoVisualItem);
-        if (result == null) result = caseLendable(audoVisualItem);
+        AudioVisualItem audioVisualItem = (AudioVisualItem)theEObject;
+        Object result = caseAudioVisualItem(audioVisualItem);
+        if (result == null) result = caseCirculatingItem(audioVisualItem);
+        if (result == null) result = caseItem(audioVisualItem);
+        if (result == null) result = caseLendable(audioVisualItem);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -179,7 +179,7 @@ public class EXTLibrarySwitch {
       {
         BookOnTape bookOnTape = (BookOnTape)theEObject;
         Object result = caseBookOnTape(bookOnTape);
-        if (result == null) result = caseAudoVisualItem(bookOnTape);
+        if (result == null) result = caseAudioVisualItem(bookOnTape);
         if (result == null) result = caseCirculatingItem(bookOnTape);
         if (result == null) result = caseItem(bookOnTape);
         if (result == null) result = caseLendable(bookOnTape);
@@ -190,7 +190,7 @@ public class EXTLibrarySwitch {
       {
         VideoCassette videoCassette = (VideoCassette)theEObject;
         Object result = caseVideoCassette(videoCassette);
-        if (result == null) result = caseAudoVisualItem(videoCassette);
+        if (result == null) result = caseAudioVisualItem(videoCassette);
         if (result == null) result = caseCirculatingItem(videoCassette);
         if (result == null) result = caseItem(videoCassette);
         if (result == null) result = caseLendable(videoCassette);
@@ -347,17 +347,17 @@ public class EXTLibrarySwitch {
   }
 
   /**
-   * Returns the result of interpretting the object as an instance of '<em>Audo Visual Item</em>'.
+   * Returns the result of interpretting the object as an instance of '<em>Audio Visual Item</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>Audo Visual Item</em>'.
+   * @return the result of interpretting the object as an instance of '<em>Audio Visual Item</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseAudoVisualItem(AudoVisualItem object)
+  public Object caseAudioVisualItem(AudioVisualItem object)
   {
     return null;
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AudoVisualItem.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: AudioVisualItem.java,v 1.1 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -25,17 +25,17 @@ package org.eclipse.emf.examples.extlibrary;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem#getTitle <em>Title</em>}</li>
- *   <li>{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem#getMinutesLength <em>Minutes Length</em>}</li>
- *   <li>{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem#isDamaged <em>Damaged</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#getTitle <em>Title</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#getMinutesLength <em>Minutes Length</em>}</li>
+ *   <li>{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#isDamaged <em>Damaged</em>}</li>
  * </ul>
  * </p>
  *
- * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getAudoVisualItem()
+ * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getAudioVisualItem()
  * @model abstract="true"
  * @generated
  */
-public interface AudoVisualItem extends CirculatingItem
+public interface AudioVisualItem extends CirculatingItem
 {
   /**
    * Returns the value of the '<em><b>Title</b></em>' attribute.
@@ -47,14 +47,14 @@ public interface AudoVisualItem extends CirculatingItem
    * <!-- end-user-doc -->
    * @return the value of the '<em>Title</em>' attribute.
    * @see #setTitle(String)
-   * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getAudoVisualItem_Title()
+   * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getAudioVisualItem_Title()
    * @model
    * @generated
    */
   String getTitle();
 
   /**
-   * Sets the value of the '{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem#getTitle <em>Title</em>}' attribute.
+   * Sets the value of the '{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#getTitle <em>Title</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Title</em>' attribute.
@@ -73,14 +73,14 @@ public interface AudoVisualItem extends CirculatingItem
    * <!-- end-user-doc -->
    * @return the value of the '<em>Minutes Length</em>' attribute.
    * @see #setMinutesLength(int)
-   * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getAudoVisualItem_MinutesLength()
+   * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getAudioVisualItem_MinutesLength()
    * @model required="true"
    * @generated
    */
   int getMinutesLength();
 
   /**
-   * Sets the value of the '{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem#getMinutesLength <em>Minutes Length</em>}' attribute.
+   * Sets the value of the '{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#getMinutesLength <em>Minutes Length</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Minutes Length</em>' attribute.
@@ -99,14 +99,14 @@ public interface AudoVisualItem extends CirculatingItem
    * <!-- end-user-doc -->
    * @return the value of the '<em>Damaged</em>' attribute.
    * @see #setDamaged(boolean)
-   * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getAudoVisualItem_Damaged()
+   * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getAudioVisualItem_Damaged()
    * @model
    * @generated
    */
   boolean isDamaged();
 
   /**
-   * Sets the value of the '{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem#isDamaged <em>Damaged</em>}' attribute.
+   * Sets the value of the '{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#isDamaged <em>Damaged</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Damaged</em>' attribute.
@@ -115,4 +115,4 @@ public interface AudoVisualItem extends CirculatingItem
    */
   void setDamaged(boolean value);
 
-} // AudoVisualItem
+} // AudioVisualItem

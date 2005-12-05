@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryPackage.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: EXTLibraryPackage.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -39,7 +39,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface EXTLibraryPackage extends EPackage{
+public interface EXTLibraryPackage extends EPackage
+{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -559,14 +560,14 @@ public interface EXTLibraryPackage extends EPackage{
   int PERIODICAL_FEATURE_COUNT = ITEM_FEATURE_COUNT + 2;
 
   /**
-   * The meta object id for the '{@link org.eclipse.emf.examples.extlibrary.impl.AudoVisualItemImpl <em>Audo Visual Item</em>}' class.
+   * The meta object id for the '{@link org.eclipse.emf.examples.extlibrary.impl.AudioVisualItemImpl <em>Audio Visual Item</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.eclipse.emf.examples.extlibrary.impl.AudoVisualItemImpl
-   * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getAudoVisualItem()
+   * @see org.eclipse.emf.examples.extlibrary.impl.AudioVisualItemImpl
+   * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getAudioVisualItem()
    * @generated
    */
-  int AUDO_VISUAL_ITEM = 7;
+  int AUDIO_VISUAL_ITEM = 7;
 
   /**
    * The feature id for the '<em><b>Publication Date</b></em>' attribute.
@@ -575,7 +576,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int AUDO_VISUAL_ITEM__PUBLICATION_DATE = CIRCULATING_ITEM__PUBLICATION_DATE;
+  int AUDIO_VISUAL_ITEM__PUBLICATION_DATE = CIRCULATING_ITEM__PUBLICATION_DATE;
 
   /**
    * The feature id for the '<em><b>Copies</b></em>' attribute.
@@ -584,7 +585,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int AUDO_VISUAL_ITEM__COPIES = CIRCULATING_ITEM__COPIES;
+  int AUDIO_VISUAL_ITEM__COPIES = CIRCULATING_ITEM__COPIES;
 
   /**
    * The feature id for the '<em><b>Borrowers</b></em>' reference list.
@@ -593,7 +594,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int AUDO_VISUAL_ITEM__BORROWERS = CIRCULATING_ITEM__BORROWERS;
+  int AUDIO_VISUAL_ITEM__BORROWERS = CIRCULATING_ITEM__BORROWERS;
 
   /**
    * The feature id for the '<em><b>Title</b></em>' attribute.
@@ -602,7 +603,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int AUDO_VISUAL_ITEM__TITLE = CIRCULATING_ITEM_FEATURE_COUNT + 0;
+  int AUDIO_VISUAL_ITEM__TITLE = CIRCULATING_ITEM_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Minutes Length</b></em>' attribute.
@@ -611,7 +612,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int AUDO_VISUAL_ITEM__MINUTES_LENGTH = CIRCULATING_ITEM_FEATURE_COUNT + 1;
+  int AUDIO_VISUAL_ITEM__MINUTES_LENGTH = CIRCULATING_ITEM_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Damaged</b></em>' attribute.
@@ -620,16 +621,16 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int AUDO_VISUAL_ITEM__DAMAGED = CIRCULATING_ITEM_FEATURE_COUNT + 2;
+  int AUDIO_VISUAL_ITEM__DAMAGED = CIRCULATING_ITEM_FEATURE_COUNT + 2;
 
   /**
-   * The number of structural features of the '<em>Audo Visual Item</em>' class.
+   * The number of structural features of the '<em>Audio Visual Item</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int AUDO_VISUAL_ITEM_FEATURE_COUNT = CIRCULATING_ITEM_FEATURE_COUNT + 3;
+  int AUDIO_VISUAL_ITEM_FEATURE_COUNT = CIRCULATING_ITEM_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.examples.extlibrary.impl.BookOnTapeImpl <em>Book On Tape</em>}' class.
@@ -648,7 +649,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int BOOK_ON_TAPE__PUBLICATION_DATE = AUDO_VISUAL_ITEM__PUBLICATION_DATE;
+  int BOOK_ON_TAPE__PUBLICATION_DATE = AUDIO_VISUAL_ITEM__PUBLICATION_DATE;
 
   /**
    * The feature id for the '<em><b>Copies</b></em>' attribute.
@@ -657,7 +658,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int BOOK_ON_TAPE__COPIES = AUDO_VISUAL_ITEM__COPIES;
+  int BOOK_ON_TAPE__COPIES = AUDIO_VISUAL_ITEM__COPIES;
 
   /**
    * The feature id for the '<em><b>Borrowers</b></em>' reference list.
@@ -666,7 +667,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int BOOK_ON_TAPE__BORROWERS = AUDO_VISUAL_ITEM__BORROWERS;
+  int BOOK_ON_TAPE__BORROWERS = AUDIO_VISUAL_ITEM__BORROWERS;
 
   /**
    * The feature id for the '<em><b>Title</b></em>' attribute.
@@ -675,7 +676,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int BOOK_ON_TAPE__TITLE = AUDO_VISUAL_ITEM__TITLE;
+  int BOOK_ON_TAPE__TITLE = AUDIO_VISUAL_ITEM__TITLE;
 
   /**
    * The feature id for the '<em><b>Minutes Length</b></em>' attribute.
@@ -684,7 +685,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int BOOK_ON_TAPE__MINUTES_LENGTH = AUDO_VISUAL_ITEM__MINUTES_LENGTH;
+  int BOOK_ON_TAPE__MINUTES_LENGTH = AUDIO_VISUAL_ITEM__MINUTES_LENGTH;
 
   /**
    * The feature id for the '<em><b>Damaged</b></em>' attribute.
@@ -693,7 +694,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int BOOK_ON_TAPE__DAMAGED = AUDO_VISUAL_ITEM__DAMAGED;
+  int BOOK_ON_TAPE__DAMAGED = AUDIO_VISUAL_ITEM__DAMAGED;
 
   /**
    * The feature id for the '<em><b>Reader</b></em>' reference.
@@ -702,7 +703,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int BOOK_ON_TAPE__READER = AUDO_VISUAL_ITEM_FEATURE_COUNT + 0;
+  int BOOK_ON_TAPE__READER = AUDIO_VISUAL_ITEM_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Author</b></em>' reference.
@@ -711,7 +712,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int BOOK_ON_TAPE__AUTHOR = AUDO_VISUAL_ITEM_FEATURE_COUNT + 1;
+  int BOOK_ON_TAPE__AUTHOR = AUDIO_VISUAL_ITEM_FEATURE_COUNT + 1;
 
   /**
    * The number of structural features of the '<em>Book On Tape</em>' class.
@@ -720,7 +721,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int BOOK_ON_TAPE_FEATURE_COUNT = AUDO_VISUAL_ITEM_FEATURE_COUNT + 2;
+  int BOOK_ON_TAPE_FEATURE_COUNT = AUDIO_VISUAL_ITEM_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.examples.extlibrary.impl.VideoCassetteImpl <em>Video Cassette</em>}' class.
@@ -739,7 +740,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int VIDEO_CASSETTE__PUBLICATION_DATE = AUDO_VISUAL_ITEM__PUBLICATION_DATE;
+  int VIDEO_CASSETTE__PUBLICATION_DATE = AUDIO_VISUAL_ITEM__PUBLICATION_DATE;
 
   /**
    * The feature id for the '<em><b>Copies</b></em>' attribute.
@@ -748,7 +749,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int VIDEO_CASSETTE__COPIES = AUDO_VISUAL_ITEM__COPIES;
+  int VIDEO_CASSETTE__COPIES = AUDIO_VISUAL_ITEM__COPIES;
 
   /**
    * The feature id for the '<em><b>Borrowers</b></em>' reference list.
@@ -757,7 +758,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int VIDEO_CASSETTE__BORROWERS = AUDO_VISUAL_ITEM__BORROWERS;
+  int VIDEO_CASSETTE__BORROWERS = AUDIO_VISUAL_ITEM__BORROWERS;
 
   /**
    * The feature id for the '<em><b>Title</b></em>' attribute.
@@ -766,7 +767,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int VIDEO_CASSETTE__TITLE = AUDO_VISUAL_ITEM__TITLE;
+  int VIDEO_CASSETTE__TITLE = AUDIO_VISUAL_ITEM__TITLE;
 
   /**
    * The feature id for the '<em><b>Minutes Length</b></em>' attribute.
@@ -775,7 +776,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int VIDEO_CASSETTE__MINUTES_LENGTH = AUDO_VISUAL_ITEM__MINUTES_LENGTH;
+  int VIDEO_CASSETTE__MINUTES_LENGTH = AUDIO_VISUAL_ITEM__MINUTES_LENGTH;
 
   /**
    * The feature id for the '<em><b>Damaged</b></em>' attribute.
@@ -784,7 +785,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int VIDEO_CASSETTE__DAMAGED = AUDO_VISUAL_ITEM__DAMAGED;
+  int VIDEO_CASSETTE__DAMAGED = AUDIO_VISUAL_ITEM__DAMAGED;
 
   /**
    * The feature id for the '<em><b>Cast</b></em>' reference list.
@@ -793,7 +794,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int VIDEO_CASSETTE__CAST = AUDO_VISUAL_ITEM_FEATURE_COUNT + 0;
+  int VIDEO_CASSETTE__CAST = AUDIO_VISUAL_ITEM_FEATURE_COUNT + 0;
 
   /**
    * The number of structural features of the '<em>Video Cassette</em>' class.
@@ -802,7 +803,7 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int VIDEO_CASSETTE_FEATURE_COUNT = AUDO_VISUAL_ITEM_FEATURE_COUNT + 1;
+  int VIDEO_CASSETTE_FEATURE_COUNT = AUDIO_VISUAL_ITEM_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.examples.extlibrary.impl.BorrowerImpl <em>Borrower</em>}' class.
@@ -1215,47 +1216,47 @@ public interface EXTLibraryPackage extends EPackage{
   EAttribute getPeriodical_IssuesPerYear();
 
   /**
-   * Returns the meta object for class '{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem <em>Audo Visual Item</em>}'.
+   * Returns the meta object for class '{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem <em>Audio Visual Item</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Audo Visual Item</em>'.
-   * @see org.eclipse.emf.examples.extlibrary.AudoVisualItem
+   * @return the meta object for class '<em>Audio Visual Item</em>'.
+   * @see org.eclipse.emf.examples.extlibrary.AudioVisualItem
    * @generated
    */
-  EClass getAudoVisualItem();
+  EClass getAudioVisualItem();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem#getTitle <em>Title</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#getTitle <em>Title</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Title</em>'.
-   * @see org.eclipse.emf.examples.extlibrary.AudoVisualItem#getTitle()
-   * @see #getAudoVisualItem()
+   * @see org.eclipse.emf.examples.extlibrary.AudioVisualItem#getTitle()
+   * @see #getAudioVisualItem()
    * @generated
    */
-  EAttribute getAudoVisualItem_Title();
+  EAttribute getAudioVisualItem_Title();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem#getMinutesLength <em>Minutes Length</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#getMinutesLength <em>Minutes Length</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Minutes Length</em>'.
-   * @see org.eclipse.emf.examples.extlibrary.AudoVisualItem#getMinutesLength()
-   * @see #getAudoVisualItem()
+   * @see org.eclipse.emf.examples.extlibrary.AudioVisualItem#getMinutesLength()
+   * @see #getAudioVisualItem()
    * @generated
    */
-  EAttribute getAudoVisualItem_MinutesLength();
+  EAttribute getAudioVisualItem_MinutesLength();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem#isDamaged <em>Damaged</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem#isDamaged <em>Damaged</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Damaged</em>'.
-   * @see org.eclipse.emf.examples.extlibrary.AudoVisualItem#isDamaged()
-   * @see #getAudoVisualItem()
+   * @see org.eclipse.emf.examples.extlibrary.AudioVisualItem#isDamaged()
+   * @see #getAudioVisualItem()
    * @generated
    */
-  EAttribute getAudoVisualItem_Damaged();
+  EAttribute getAudioVisualItem_Damaged();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.examples.extlibrary.BookOnTape <em>Book On Tape</em>}'.
@@ -1423,5 +1424,419 @@ public interface EXTLibraryPackage extends EPackage{
    * @generated
    */
   EXTLibraryFactory getEXTLibraryFactory();
+
+  /**
+   * <!-- begin-user-doc -->
+   * Defines literals for the meta objects that represent
+   * <ul>
+   *   <li>each class,</li>
+   *   <li>each feature of each class,</li>
+   *   <li>each enum,</li>
+   *   <li>and each data type</li>
+   * </ul>
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  interface Literals
+  {
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.BookImpl <em>Book</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.BookImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getBook()
+     * @generated
+     */
+    EClass BOOK = eINSTANCE.getBook();
+
+    /**
+     * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__TITLE = eINSTANCE.getBook_Title();
+
+    /**
+     * The meta object literal for the '<em><b>Pages</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__PAGES = eINSTANCE.getBook_Pages();
+
+    /**
+     * The meta object literal for the '<em><b>Category</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute BOOK__CATEGORY = eINSTANCE.getBook_Category();
+
+    /**
+     * The meta object literal for the '<em><b>Author</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BOOK__AUTHOR = eINSTANCE.getBook_Author();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.LibraryImpl <em>Library</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.LibraryImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getLibrary()
+     * @generated
+     */
+    EClass LIBRARY = eINSTANCE.getLibrary();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LIBRARY__NAME = eINSTANCE.getLibrary_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Writers</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__WRITERS = eINSTANCE.getLibrary_Writers();
+
+    /**
+     * The meta object literal for the '<em><b>Employees</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__EMPLOYEES = eINSTANCE.getLibrary_Employees();
+
+    /**
+     * The meta object literal for the '<em><b>Borrowers</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__BORROWERS = eINSTANCE.getLibrary_Borrowers();
+
+    /**
+     * The meta object literal for the '<em><b>Stock</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__STOCK = eINSTANCE.getLibrary_Stock();
+
+    /**
+     * The meta object literal for the '<em><b>Books</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__BOOKS = eINSTANCE.getLibrary_Books();
+
+    /**
+     * The meta object literal for the '<em><b>Branches</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__BRANCHES = eINSTANCE.getLibrary_Branches();
+
+    /**
+     * The meta object literal for the '<em><b>Parent Branch</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LIBRARY__PARENT_BRANCH = eINSTANCE.getLibrary_ParentBranch();
+
+    /**
+     * The meta object literal for the '<em><b>People</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LIBRARY__PEOPLE = eINSTANCE.getLibrary_People();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.WriterImpl <em>Writer</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.WriterImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getWriter()
+     * @generated
+     */
+    EClass WRITER = eINSTANCE.getWriter();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute WRITER__NAME = eINSTANCE.getWriter_Name();
+
+    /**
+     * The meta object literal for the '<em><b>Books</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference WRITER__BOOKS = eINSTANCE.getWriter_Books();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.ItemImpl <em>Item</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.ItemImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getItem()
+     * @generated
+     */
+    EClass ITEM = eINSTANCE.getItem();
+
+    /**
+     * The meta object literal for the '<em><b>Publication Date</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ITEM__PUBLICATION_DATE = eINSTANCE.getItem_PublicationDate();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.Lendable <em>Lendable</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.Lendable
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getLendable()
+     * @generated
+     */
+    EClass LENDABLE = eINSTANCE.getLendable();
+
+    /**
+     * The meta object literal for the '<em><b>Copies</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute LENDABLE__COPIES = eINSTANCE.getLendable_Copies();
+
+    /**
+     * The meta object literal for the '<em><b>Borrowers</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference LENDABLE__BORROWERS = eINSTANCE.getLendable_Borrowers();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.CirculatingItemImpl <em>Circulating Item</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.CirculatingItemImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getCirculatingItem()
+     * @generated
+     */
+    EClass CIRCULATING_ITEM = eINSTANCE.getCirculatingItem();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.PeriodicalImpl <em>Periodical</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.PeriodicalImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getPeriodical()
+     * @generated
+     */
+    EClass PERIODICAL = eINSTANCE.getPeriodical();
+
+    /**
+     * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERIODICAL__TITLE = eINSTANCE.getPeriodical_Title();
+
+    /**
+     * The meta object literal for the '<em><b>Issues Per Year</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERIODICAL__ISSUES_PER_YEAR = eINSTANCE.getPeriodical_IssuesPerYear();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.AudioVisualItemImpl <em>Audio Visual Item</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.AudioVisualItemImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getAudioVisualItem()
+     * @generated
+     */
+    EClass AUDIO_VISUAL_ITEM = eINSTANCE.getAudioVisualItem();
+
+    /**
+     * The meta object literal for the '<em><b>Title</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute AUDIO_VISUAL_ITEM__TITLE = eINSTANCE.getAudioVisualItem_Title();
+
+    /**
+     * The meta object literal for the '<em><b>Minutes Length</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute AUDIO_VISUAL_ITEM__MINUTES_LENGTH = eINSTANCE.getAudioVisualItem_MinutesLength();
+
+    /**
+     * The meta object literal for the '<em><b>Damaged</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute AUDIO_VISUAL_ITEM__DAMAGED = eINSTANCE.getAudioVisualItem_Damaged();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.BookOnTapeImpl <em>Book On Tape</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.BookOnTapeImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getBookOnTape()
+     * @generated
+     */
+    EClass BOOK_ON_TAPE = eINSTANCE.getBookOnTape();
+
+    /**
+     * The meta object literal for the '<em><b>Reader</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BOOK_ON_TAPE__READER = eINSTANCE.getBookOnTape_Reader();
+
+    /**
+     * The meta object literal for the '<em><b>Author</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BOOK_ON_TAPE__AUTHOR = eINSTANCE.getBookOnTape_Author();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.VideoCassetteImpl <em>Video Cassette</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.VideoCassetteImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getVideoCassette()
+     * @generated
+     */
+    EClass VIDEO_CASSETTE = eINSTANCE.getVideoCassette();
+
+    /**
+     * The meta object literal for the '<em><b>Cast</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference VIDEO_CASSETTE__CAST = eINSTANCE.getVideoCassette_Cast();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.BorrowerImpl <em>Borrower</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.BorrowerImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getBorrower()
+     * @generated
+     */
+    EClass BORROWER = eINSTANCE.getBorrower();
+
+    /**
+     * The meta object literal for the '<em><b>Borrowed</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference BORROWER__BORROWED = eINSTANCE.getBorrower_Borrowed();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.PersonImpl <em>Person</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.PersonImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getPerson()
+     * @generated
+     */
+    EClass PERSON = eINSTANCE.getPerson();
+
+    /**
+     * The meta object literal for the '<em><b>First Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERSON__FIRST_NAME = eINSTANCE.getPerson_FirstName();
+
+    /**
+     * The meta object literal for the '<em><b>Last Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PERSON__LAST_NAME = eINSTANCE.getPerson_LastName();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.impl.EmployeeImpl <em>Employee</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.impl.EmployeeImpl
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getEmployee()
+     * @generated
+     */
+    EClass EMPLOYEE = eINSTANCE.getEmployee();
+
+    /**
+     * The meta object literal for the '<em><b>Manager</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EMPLOYEE__MANAGER = eINSTANCE.getEmployee_Manager();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.Addressable <em>Addressable</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.Addressable
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getAddressable()
+     * @generated
+     */
+    EClass ADDRESSABLE = eINSTANCE.getAddressable();
+
+    /**
+     * The meta object literal for the '<em><b>Address</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ADDRESSABLE__ADDRESS = eINSTANCE.getAddressable_Address();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.examples.extlibrary.BookCategory <em>Book Category</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.examples.extlibrary.BookCategory
+     * @see org.eclipse.emf.examples.extlibrary.impl.EXTLibraryPackageImpl#getBookCategory()
+     * @generated
+     */
+    EEnum BOOK_CATEGORY = eINSTANCE.getBookCategory();
+
+  }
 
 } //EXTLibraryPackage

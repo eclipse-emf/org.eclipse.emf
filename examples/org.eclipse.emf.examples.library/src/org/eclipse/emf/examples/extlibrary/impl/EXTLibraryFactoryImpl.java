@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryFactoryImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: EXTLibraryFactoryImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -21,7 +21,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 
+import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.eclipse.emf.examples.extlibrary.*;
 
@@ -34,6 +38,29 @@ import org.eclipse.emf.examples.extlibrary.*;
  */
 public class EXTLibraryFactoryImpl extends EFactoryImpl implements EXTLibraryFactory
 {
+  /**
+   * Creates the default factory implementation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static EXTLibraryFactory init()
+  {
+    try
+    {
+      EXTLibraryFactory theEXTLibraryFactory = (EXTLibraryFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org/eclipse/emf/examples/library/extlibrary.ecore/1.0.0"); //$NON-NLS-1$ 
+      if (theEXTLibraryFactory != null)
+      {
+        return theEXTLibraryFactory;
+      }
+    }
+    catch (Exception exception)
+    {
+      EcorePlugin.INSTANCE.log(exception);
+    }
+    return new EXTLibraryFactoryImpl();
+  }
+
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VideoCassette.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: VideoCassette.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface VideoCassette extends AudoVisualItem
+public interface VideoCassette extends AudioVisualItem
 {
   /**
    * Returns the value of the '<em><b>Cast</b></em>' reference list.

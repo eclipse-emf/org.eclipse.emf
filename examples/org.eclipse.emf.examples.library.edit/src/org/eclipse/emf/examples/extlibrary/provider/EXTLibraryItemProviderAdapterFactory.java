@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryItemProviderAdapterFactory.java,v 1.1 2005/11/10 18:56:39 marcelop Exp $
+ * $Id: EXTLibraryItemProviderAdapterFactory.java,v 1.2 2005/12/05 12:36:45 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -46,325 +46,355 @@ import org.eclipse.emf.examples.extlibrary.util.EXTLibraryAdapterFactory;
  * <!-- end-user-doc -->
  * @generated
  */
-public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable {
-	/**
-	 * This keeps track of the root adapter factory that delegates to this adapter factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ComposedAdapterFactory parentAdapterFactory;
+public class EXTLibraryItemProviderAdapterFactory extends EXTLibraryAdapterFactory implements ComposeableAdapterFactory, IChangeNotifier, IDisposable 
+{
+  /**
+   * This keeps track of the root adapter factory that delegates to this adapter factory.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected ComposedAdapterFactory parentAdapterFactory;
 
-	/**
-	 * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected IChangeNotifier changeNotifier = new ChangeNotifier();
+  /**
+   * This is used to implement {@link org.eclipse.emf.edit.provider.IChangeNotifier}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected IChangeNotifier changeNotifier = new ChangeNotifier();
 
-	/**
-	 * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected Collection supportedTypes = new ArrayList();
+  /**
+   * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected Collection supportedTypes = new ArrayList();
 
-	/**
-	 * This constructs an instance.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EXTLibraryItemProviderAdapterFactory() {
-		supportedTypes.add(IEditingDomainItemProvider.class);
-		supportedTypes.add(IStructuredItemContentProvider.class);
-		supportedTypes.add(ITreeItemContentProvider.class);
-		supportedTypes.add(IItemLabelProvider.class);
-		supportedTypes.add(IItemPropertySource.class);		
-	}
+  /**
+   * This constructs an instance.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EXTLibraryItemProviderAdapterFactory()
+  {
+    supportedTypes.add(IEditingDomainItemProvider.class);
+    supportedTypes.add(IStructuredItemContentProvider.class);
+    supportedTypes.add(ITreeItemContentProvider.class);
+    supportedTypes.add(IItemLabelProvider.class);
+    supportedTypes.add(IItemPropertySource.class);		
+  }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Book} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected BookItemProvider bookItemProvider;
+  /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Book} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected BookItemProvider bookItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Book}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Adapter createBookAdapter() {
-		if (bookItemProvider == null) {
-			bookItemProvider = new BookItemProvider(this);
-		}
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Book}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createBookAdapter()
+  {
+    if (bookItemProvider == null)
+    {
+      bookItemProvider = new BookItemProvider(this);
+    }
 
-		return bookItemProvider;
-	}
+    return bookItemProvider;
+  }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Library} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected LibraryItemProvider libraryItemProvider;
+  /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Library} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected LibraryItemProvider libraryItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Library}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Adapter createLibraryAdapter() {
-		if (libraryItemProvider == null) {
-			libraryItemProvider = new LibraryItemProvider(this);
-		}
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Library}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createLibraryAdapter()
+  {
+    if (libraryItemProvider == null)
+    {
+      libraryItemProvider = new LibraryItemProvider(this);
+    }
 
-		return libraryItemProvider;
-	}
+    return libraryItemProvider;
+  }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Writer} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected WriterItemProvider writerItemProvider;
+  /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Writer} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected WriterItemProvider writerItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Writer}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Adapter createWriterAdapter() {
-		if (writerItemProvider == null) {
-			writerItemProvider = new WriterItemProvider(this);
-		}
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Writer}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createWriterAdapter()
+  {
+    if (writerItemProvider == null)
+    {
+      writerItemProvider = new WriterItemProvider(this);
+    }
 
-		return writerItemProvider;
-	}
+    return writerItemProvider;
+  }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.BookOnTape} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected BookOnTapeItemProvider bookOnTapeItemProvider;
+  /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.BookOnTape} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected BookOnTapeItemProvider bookOnTapeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.BookOnTape}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Adapter createBookOnTapeAdapter() {
-		if (bookOnTapeItemProvider == null) {
-			bookOnTapeItemProvider = new BookOnTapeItemProvider(this);
-		}
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.BookOnTape}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createBookOnTapeAdapter()
+  {
+    if (bookOnTapeItemProvider == null)
+    {
+      bookOnTapeItemProvider = new BookOnTapeItemProvider(this);
+    }
 
-		return bookOnTapeItemProvider;
-	}
+    return bookOnTapeItemProvider;
+  }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.VideoCassette} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected VideoCassetteItemProvider videoCassetteItemProvider;
+  /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.VideoCassette} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected VideoCassetteItemProvider videoCassetteItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.VideoCassette}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Adapter createVideoCassetteAdapter() {
-		if (videoCassetteItemProvider == null) {
-			videoCassetteItemProvider = new VideoCassetteItemProvider(this);
-		}
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.VideoCassette}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createVideoCassetteAdapter()
+  {
+    if (videoCassetteItemProvider == null)
+    {
+      videoCassetteItemProvider = new VideoCassetteItemProvider(this);
+    }
 
-		return videoCassetteItemProvider;
-	}
+    return videoCassetteItemProvider;
+  }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Borrower} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected BorrowerItemProvider borrowerItemProvider;
+  /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Borrower} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected BorrowerItemProvider borrowerItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Borrower}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Adapter createBorrowerAdapter() {
-		if (borrowerItemProvider == null) {
-			borrowerItemProvider = new BorrowerItemProvider(this);
-		}
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Borrower}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createBorrowerAdapter()
+  {
+    if (borrowerItemProvider == null)
+    {
+      borrowerItemProvider = new BorrowerItemProvider(this);
+    }
 
-		return borrowerItemProvider;
-	}
+    return borrowerItemProvider;
+  }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Person} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected PersonItemProvider personItemProvider;
+  /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Person} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected PersonItemProvider personItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Person}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Adapter createPersonAdapter() {
-		if (personItemProvider == null) {
-			personItemProvider = new PersonItemProvider(this);
-		}
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Person}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createPersonAdapter()
+  {
+    if (personItemProvider == null)
+    {
+      personItemProvider = new PersonItemProvider(this);
+    }
 
-		return personItemProvider;
-	}
+    return personItemProvider;
+  }
 
-	/**
-	 * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Employee} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected EmployeeItemProvider employeeItemProvider;
+  /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.examples.extlibrary.Employee} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected EmployeeItemProvider employeeItemProvider;
 
-	/**
-	 * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Employee}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Adapter createEmployeeAdapter() {
-		if (employeeItemProvider == null) {
-			employeeItemProvider = new EmployeeItemProvider(this);
-		}
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.examples.extlibrary.Employee}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createEmployeeAdapter()
+  {
+    if (employeeItemProvider == null)
+    {
+      employeeItemProvider = new EmployeeItemProvider(this);
+    }
 
-		return employeeItemProvider;
-	}
+    return employeeItemProvider;
+  }
 
-	/**
-	 * This returns the root adapter factory that contains this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ComposeableAdapterFactory getRootAdapterFactory() {
-		return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
-	}
+  /**
+   * This returns the root adapter factory that contains this factory.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ComposeableAdapterFactory getRootAdapterFactory()
+  {
+    return parentAdapterFactory == null ? this : parentAdapterFactory.getRootAdapterFactory();
+  }
 
-	/**
-	 * This sets the composed adapter factory that contains this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory) {
-		this.parentAdapterFactory = parentAdapterFactory;
-	}
+  /**
+   * This sets the composed adapter factory that contains this factory.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setParentAdapterFactory(ComposedAdapterFactory parentAdapterFactory)
+  {
+    this.parentAdapterFactory = parentAdapterFactory;
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isFactoryForType(Object type) {
-		return supportedTypes.contains(type) || super.isFactoryForType(type);
-	}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isFactoryForType(Object type)
+  {
+    return supportedTypes.contains(type) || super.isFactoryForType(type);
+  }
 
-	/**
-	 * This implementation substitutes the factory itself as the key for the adapter.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Adapter adapt(Notifier notifier, Object type) {
-		return super.adapt(notifier, this);
-	}
+  /**
+   * This implementation substitutes the factory itself as the key for the adapter.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter adapt(Notifier notifier, Object type)
+  {
+    return super.adapt(notifier, this);
+  }
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Object adapt(Object object, Object type) {
-		if (isFactoryForType(type)) {
-			Object adapter = super.adapt(object, type);
-			if (!(type instanceof Class) || (((Class)type).isInstance(adapter))) {
-				return adapter;
-			}
-		}
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object adapt(Object object, Object type)
+  {
+    if (isFactoryForType(type))
+    {
+      Object adapter = super.adapt(object, type);
+      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      {
+        return adapter;
+      }
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	/**
-	 * This adds a listener.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void addListener(INotifyChangedListener notifyChangedListener) {
-		changeNotifier.addListener(notifyChangedListener);
-	}
+  /**
+   * This adds a listener.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void addListener(INotifyChangedListener notifyChangedListener)
+  {
+    changeNotifier.addListener(notifyChangedListener);
+  }
 
-	/**
-	 * This removes a listener.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void removeListener(INotifyChangedListener notifyChangedListener) {
-		changeNotifier.removeListener(notifyChangedListener);
-	}
+  /**
+   * This removes a listener.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void removeListener(INotifyChangedListener notifyChangedListener)
+  {
+    changeNotifier.removeListener(notifyChangedListener);
+  }
 
-	/**
-	 * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void fireNotifyChanged(Notification notification) {
-		changeNotifier.fireNotifyChanged(notification);
+  /**
+   * This delegates to {@link #changeNotifier} and to {@link #parentAdapterFactory}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void fireNotifyChanged(Notification notification)
+  {
+    changeNotifier.fireNotifyChanged(notification);
 
-		if (parentAdapterFactory != null) {
-			parentAdapterFactory.fireNotifyChanged(notification);
-		}
-	}
+    if (parentAdapterFactory != null)
+    {
+      parentAdapterFactory.fireNotifyChanged(notification);
+    }
+  }
 
-	/**
-	 * This disposes all of the item providers created by this factory. 
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void dispose() {
-		if (bookItemProvider != null) bookItemProvider.dispose();
-		if (libraryItemProvider != null) libraryItemProvider.dispose();
-		if (writerItemProvider != null) writerItemProvider.dispose();
-		if (bookOnTapeItemProvider != null) bookOnTapeItemProvider.dispose();
-		if (videoCassetteItemProvider != null) videoCassetteItemProvider.dispose();
-		if (borrowerItemProvider != null) borrowerItemProvider.dispose();
-		if (personItemProvider != null) personItemProvider.dispose();
-		if (employeeItemProvider != null) employeeItemProvider.dispose();
-	}
+  /**
+   * This disposes all of the item providers created by this factory. 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void dispose()
+  {
+    if (bookItemProvider != null) bookItemProvider.dispose();
+    if (libraryItemProvider != null) libraryItemProvider.dispose();
+    if (writerItemProvider != null) writerItemProvider.dispose();
+    if (bookOnTapeItemProvider != null) bookOnTapeItemProvider.dispose();
+    if (videoCassetteItemProvider != null) videoCassetteItemProvider.dispose();
+    if (borrowerItemProvider != null) borrowerItemProvider.dispose();
+    if (personItemProvider != null) personItemProvider.dispose();
+    if (employeeItemProvider != null) employeeItemProvider.dispose();
+  }
 
 }

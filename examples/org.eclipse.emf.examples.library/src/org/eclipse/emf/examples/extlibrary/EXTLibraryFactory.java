@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryFactory.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: EXTLibraryFactory.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -36,7 +36,7 @@ public interface EXTLibraryFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  EXTLibraryFactory eINSTANCE = new org.eclipse.emf.examples.extlibrary.impl.EXTLibraryFactoryImpl();
+  EXTLibraryFactory eINSTANCE = org.eclipse.emf.examples.extlibrary.impl.EXTLibraryFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Book</em>'.

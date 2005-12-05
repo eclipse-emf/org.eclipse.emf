@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EmployeeImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: EmployeeImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.examples.extlibrary.impl;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -71,7 +70,7 @@ public class EmployeeImpl extends PersonImpl implements Employee
    */
   protected EClass eStaticClass()
   {
-    return EXTLibraryPackage.eINSTANCE.getEmployee();
+    return EXTLibraryPackage.Literals.EMPLOYEE;
   }
 
   /**
@@ -83,8 +82,8 @@ public class EmployeeImpl extends PersonImpl implements Employee
   {
     if (manager != null && manager.eIsProxy())
     {
-      Employee oldManager = manager;
-      manager = (Employee)eResolveProxy((InternalEObject)manager);
+      InternalEObject oldManager = (InternalEObject)manager;
+      manager = (Employee)eResolveProxy(oldManager);
       if (manager != oldManager)
       {
         if (eNotificationRequired())
@@ -122,21 +121,15 @@ public class EmployeeImpl extends PersonImpl implements Employee
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(EStructuralFeature eFeature, boolean resolve)
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.EMPLOYEE__ADDRESS:
-        return getAddress();
-      case EXTLibraryPackage.EMPLOYEE__FIRST_NAME:
-        return getFirstName();
-      case EXTLibraryPackage.EMPLOYEE__LAST_NAME:
-        return getLastName();
       case EXTLibraryPackage.EMPLOYEE__MANAGER:
         if (resolve) return getManager();
         return basicGetManager();
     }
-    return eDynamicGet(eFeature, resolve);
+    return super.eGet(featureID, resolve, coreType);
   }
 
   /**
@@ -144,24 +137,15 @@ public class EmployeeImpl extends PersonImpl implements Employee
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(EStructuralFeature eFeature, Object newValue)
+  public void eSet(int featureID, Object newValue)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.EMPLOYEE__ADDRESS:
-        setAddress((String)newValue);
-        return;
-      case EXTLibraryPackage.EMPLOYEE__FIRST_NAME:
-        setFirstName((String)newValue);
-        return;
-      case EXTLibraryPackage.EMPLOYEE__LAST_NAME:
-        setLastName((String)newValue);
-        return;
       case EXTLibraryPackage.EMPLOYEE__MANAGER:
         setManager((Employee)newValue);
         return;
     }
-    eDynamicSet(eFeature, newValue);
+    super.eSet(featureID, newValue);
   }
 
   /**
@@ -169,24 +153,15 @@ public class EmployeeImpl extends PersonImpl implements Employee
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(EStructuralFeature eFeature)
+  public void eUnset(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.EMPLOYEE__ADDRESS:
-        setAddress(ADDRESS_EDEFAULT);
-        return;
-      case EXTLibraryPackage.EMPLOYEE__FIRST_NAME:
-        setFirstName(FIRST_NAME_EDEFAULT);
-        return;
-      case EXTLibraryPackage.EMPLOYEE__LAST_NAME:
-        setLastName(LAST_NAME_EDEFAULT);
-        return;
       case EXTLibraryPackage.EMPLOYEE__MANAGER:
         setManager((Employee)null);
         return;
     }
-    eDynamicUnset(eFeature);
+    super.eUnset(featureID);
   }
 
   /**
@@ -194,20 +169,14 @@ public class EmployeeImpl extends PersonImpl implements Employee
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(EStructuralFeature eFeature)
+  public boolean eIsSet(int featureID)
   {
-    switch (eDerivedStructuralFeatureID(eFeature))
+    switch (featureID)
     {
-      case EXTLibraryPackage.EMPLOYEE__ADDRESS:
-        return ADDRESS_EDEFAULT == null ? address != null : !ADDRESS_EDEFAULT.equals(address);
-      case EXTLibraryPackage.EMPLOYEE__FIRST_NAME:
-        return FIRST_NAME_EDEFAULT == null ? firstName != null : !FIRST_NAME_EDEFAULT.equals(firstName);
-      case EXTLibraryPackage.EMPLOYEE__LAST_NAME:
-        return LAST_NAME_EDEFAULT == null ? lastName != null : !LAST_NAME_EDEFAULT.equals(lastName);
       case EXTLibraryPackage.EMPLOYEE__MANAGER:
         return manager != null;
     }
-    return eDynamicIsSet(eFeature);
+    return super.eIsSet(featureID);
   }
 
 } //EmployeeImpl

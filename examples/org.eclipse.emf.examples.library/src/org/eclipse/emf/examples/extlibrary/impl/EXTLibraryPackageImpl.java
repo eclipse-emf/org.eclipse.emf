@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryPackageImpl.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: EXTLibraryPackageImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.examples.extlibrary.Addressable;
-import org.eclipse.emf.examples.extlibrary.AudoVisualItem;
+import org.eclipse.emf.examples.extlibrary.AudioVisualItem;
 import org.eclipse.emf.examples.extlibrary.Book;
 import org.eclipse.emf.examples.extlibrary.BookCategory;
 import org.eclipse.emf.examples.extlibrary.BookOnTape;
@@ -106,7 +106,7 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass audoVisualItemEClass = null;
+  private EClass audioVisualItemEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -502,9 +502,9 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EClass getAudoVisualItem()
+  public EClass getAudioVisualItem()
   {
-    return audoVisualItemEClass;
+    return audioVisualItemEClass;
   }
 
   /**
@@ -512,9 +512,9 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getAudoVisualItem_Title()
+  public EAttribute getAudioVisualItem_Title()
   {
-    return (EAttribute)audoVisualItemEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)audioVisualItemEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -522,9 +522,9 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getAudoVisualItem_MinutesLength()
+  public EAttribute getAudioVisualItem_MinutesLength()
   {
-    return (EAttribute)audoVisualItemEClass.getEStructuralFeatures().get(1);
+    return (EAttribute)audioVisualItemEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -532,9 +532,9 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
    * <!-- end-user-doc -->
    * @generated
    */
-  public EAttribute getAudoVisualItem_Damaged()
+  public EAttribute getAudioVisualItem_Damaged()
   {
-    return (EAttribute)audoVisualItemEClass.getEStructuralFeatures().get(2);
+    return (EAttribute)audioVisualItemEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -751,10 +751,10 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
     createEAttribute(periodicalEClass, PERIODICAL__TITLE);
     createEAttribute(periodicalEClass, PERIODICAL__ISSUES_PER_YEAR);
 
-    audoVisualItemEClass = createEClass(AUDO_VISUAL_ITEM);
-    createEAttribute(audoVisualItemEClass, AUDO_VISUAL_ITEM__TITLE);
-    createEAttribute(audoVisualItemEClass, AUDO_VISUAL_ITEM__MINUTES_LENGTH);
-    createEAttribute(audoVisualItemEClass, AUDO_VISUAL_ITEM__DAMAGED);
+    audioVisualItemEClass = createEClass(AUDIO_VISUAL_ITEM);
+    createEAttribute(audioVisualItemEClass, AUDIO_VISUAL_ITEM__TITLE);
+    createEAttribute(audioVisualItemEClass, AUDIO_VISUAL_ITEM__MINUTES_LENGTH);
+    createEAttribute(audioVisualItemEClass, AUDIO_VISUAL_ITEM__DAMAGED);
 
     bookOnTapeEClass = createEClass(BOOK_ON_TAPE);
     createEReference(bookOnTapeEClass, BOOK_ON_TAPE__READER);
@@ -811,9 +811,9 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
     circulatingItemEClass.getESuperTypes().add(this.getItem());
     circulatingItemEClass.getESuperTypes().add(this.getLendable());
     periodicalEClass.getESuperTypes().add(this.getItem());
-    audoVisualItemEClass.getESuperTypes().add(this.getCirculatingItem());
-    bookOnTapeEClass.getESuperTypes().add(this.getAudoVisualItem());
-    videoCassetteEClass.getESuperTypes().add(this.getAudoVisualItem());
+    audioVisualItemEClass.getESuperTypes().add(this.getCirculatingItem());
+    bookOnTapeEClass.getESuperTypes().add(this.getAudioVisualItem());
+    videoCassetteEClass.getESuperTypes().add(this.getAudioVisualItem());
     borrowerEClass.getESuperTypes().add(this.getPerson());
     personEClass.getESuperTypes().add(this.getAddressable());
     employeeEClass.getESuperTypes().add(this.getPerson());
@@ -853,10 +853,10 @@ public class EXTLibraryPackageImpl extends EPackageImpl implements EXTLibraryPac
     initEAttribute(getPeriodical_Title(), ecorePackage.getEString(), "title", null, 0, 1, Periodical.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
     initEAttribute(getPeriodical_IssuesPerYear(), ecorePackage.getEInt(), "issuesPerYear", null, 1, 1, Periodical.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-    initEClass(audoVisualItemEClass, AudoVisualItem.class, "AudoVisualItem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
-    initEAttribute(getAudoVisualItem_Title(), ecorePackage.getEString(), "title", null, 0, 1, AudoVisualItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-    initEAttribute(getAudoVisualItem_MinutesLength(), ecorePackage.getEInt(), "minutesLength", null, 1, 1, AudoVisualItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
-    initEAttribute(getAudoVisualItem_Damaged(), ecorePackage.getEBoolean(), "damaged", null, 0, 1, AudoVisualItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEClass(audioVisualItemEClass, AudioVisualItem.class, "AudioVisualItem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+    initEAttribute(getAudioVisualItem_Title(), ecorePackage.getEString(), "title", null, 0, 1, AudioVisualItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEAttribute(getAudioVisualItem_MinutesLength(), ecorePackage.getEInt(), "minutesLength", null, 1, 1, AudioVisualItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEAttribute(getAudioVisualItem_Damaged(), ecorePackage.getEBoolean(), "damaged", null, 0, 1, AudioVisualItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
     initEClass(bookOnTapeEClass, BookOnTape.class, "BookOnTape", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
     initEReference(getBookOnTape_Reader(), this.getPerson(), null, "reader", null, 0, 1, BookOnTape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$

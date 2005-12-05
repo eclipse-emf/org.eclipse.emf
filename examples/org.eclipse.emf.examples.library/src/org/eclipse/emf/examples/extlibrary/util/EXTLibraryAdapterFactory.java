@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryAdapterFactory.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: EXTLibraryAdapterFactory.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.util;
 
@@ -117,9 +117,9 @@ public class EXTLibraryAdapterFactory extends AdapterFactoryImpl
       {
         return createPeriodicalAdapter();
       }
-      public Object caseAudoVisualItem(AudoVisualItem object)
+      public Object caseAudioVisualItem(AudioVisualItem object)
       {
-        return createAudoVisualItemAdapter();
+        return createAudioVisualItemAdapter();
       }
       public Object caseBookOnTape(BookOnTape object)
       {
@@ -271,16 +271,16 @@ public class EXTLibraryAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.eclipse.emf.examples.extlibrary.AudoVisualItem <em>Audo Visual Item</em>}'.
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.examples.extlibrary.AudioVisualItem <em>Audio Visual Item</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.eclipse.emf.examples.extlibrary.AudoVisualItem
+   * @see org.eclipse.emf.examples.extlibrary.AudioVisualItem
    * @generated
    */
-  public Adapter createAudoVisualItemAdapter()
+  public Adapter createAudioVisualItemAdapter()
   {
     return null;
   }
