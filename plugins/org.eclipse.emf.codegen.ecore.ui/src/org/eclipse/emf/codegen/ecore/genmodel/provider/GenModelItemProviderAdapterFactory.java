@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProviderAdapterFactory.java,v 1.4 2005/06/08 06:17:51 nickb Exp $
+ * $Id: GenModelItemProviderAdapterFactory.java,v 1.5 2005/12/05 20:12:37 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -278,6 +278,30 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
   }
 
   /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected GenAnnotationItemProvider genAnnotationItemProvider;
+
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createGenAnnotationAdapter()
+  {
+    if (genAnnotationItemProvider == null)
+    {
+      genAnnotationItemProvider = new GenAnnotationItemProvider(this);
+    }
+
+    return genAnnotationItemProvider;
+  }
+
+  /**
    * This returns the root adapter factory that contains this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -393,6 +417,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
     if (genEnumLiteralItemProvider != null) genEnumLiteralItemProvider.dispose();
     if (genDataTypeItemProvider != null) genDataTypeItemProvider.dispose();
     if (genOperationItemProvider != null) genOperationItemProvider.dispose();
+    if (genAnnotationItemProvider != null) genAnnotationItemProvider.dispose();
   }
 
 }
