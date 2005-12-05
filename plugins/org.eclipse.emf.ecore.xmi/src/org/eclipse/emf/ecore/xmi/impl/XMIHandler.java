@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.7 2005/12/05 20:49:02 elena Exp $
+ * $Id: XMIHandler.java,v 1.8 2005/12/05 21:13:12 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -60,7 +60,7 @@ public abstract class XMIHandler extends XMLHandler
     {
       types.push(XMI_ELEMENT_TYPE); 
       String namespace = helper.getURI(XMIResource.XMI_NS);
-      if (namespace.startsWith(XMIResource.XMI_NAMESPACE_PREFIX))
+      if (namespace != null && namespace.startsWith(XMIResource.XMI_NAMESPACE_PREFIX))
       {
         ((XMIResource)xmlResource).setXMIVersion(namespace.substring(XMIResource.XMI_NAMESPACE_PREFIX.length()));
       }  
@@ -69,7 +69,7 @@ public abstract class XMIHandler extends XMLHandler
     else if (isRoot)
     {   
       String namespace = helper.getURI(XMIResource.XMI_NS);
-      if (namespace.startsWith(XMIResource.XMI_NAMESPACE_PREFIX))
+      if (namespace != null && namespace.startsWith(XMIResource.XMI_NAMESPACE_PREFIX))
       {
         ((XMIResource)xmlResource).setXMIVersion(namespace.substring(XMIResource.XMI_NAMESPACE_PREFIX.length()));
       }  
