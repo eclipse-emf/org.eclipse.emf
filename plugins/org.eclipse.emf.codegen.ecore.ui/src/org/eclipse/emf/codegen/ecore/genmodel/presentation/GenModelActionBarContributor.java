@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.12 2005/06/08 06:17:51 nickb Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.13 2005/12/05 20:15:22 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -23,10 +23,6 @@ import java.util.Iterator;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
-import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -44,6 +40,22 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+
+import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
+import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CommandWrapper;
+import org.eclipse.emf.common.command.UnexecutableCommand;
+import org.eclipse.emf.common.ui.action.ViewerFilterAction;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.action.CommandActionHandler;
+import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 //
 //import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 //import org.eclipse.emf.edit.ui.action.ValidateAction;
@@ -302,12 +314,95 @@ public class GenModelActionBarContributor
       }
     } 
   }
+  
+  protected ViewerFilterAction showGenAnnotationsAction = new ViewerFilterAction(GenModelEditPlugin.INSTANCE.getString("_UI_ShowGenAnnotation_menu_item"), IAction.AS_CHECK_BOX)
+  {
+    public boolean select(Viewer viewer, Object parentElement, Object element)
+    {
+      return !(element instanceof GenAnnotation) || isChecked();
+    }    
+  };
+  
+  protected abstract class CreateAction extends CommandActionHandler
+  {
+    protected String label;
+    
+    public CreateAction(String text, String label)
+    {
+      super(null, text);
+      this.label = label;
+    }
+    
+    public void dispose()
+    {
+      setEditingDomain(null);
+    }
+    
+    public Command createCommand(Collection selection)
+    {
+      if (activeEditorPart instanceof IEditingDomainProvider)
+      {
+        setEditingDomain(((IEditingDomainProvider)activeEditorPart).getEditingDomain());
+      }
+      
+      if (getEditingDomain() != null && selection.size() == 1)
+      {
+        Object selectedObject = selection.iterator().next();
+        if (selectedObject instanceof GenBase)
+        {
+          Command command = doCreateCommand((GenBase)selectedObject);
+          if (command != null)
+          {
+            command = new CommandWrapper(label, null, command);
+          }
+          return command;
+        }
+      }
+      return UnexecutableCommand.INSTANCE;
+    }
+    
+    protected abstract Command doCreateCommand(GenBase selectedObject);
+  }
+  
+  protected CreateAction annotateAction = new CreateAction(
+    GenModelEditPlugin.INSTANCE.getString("_UI_Annotate_menu_item"),
+    GenModelEditPlugin.INSTANCE.getString("_UI_Annotate_text"))
+  {
+    protected Command doCreateCommand(GenBase selectedObject)
+    {
+      return AddCommand.create(getEditingDomain(), selectedObject, GenModelPackage.Literals.GEN_BASE__GEN_ANNOTATIONS, selectedObject.getGenModel().createGenAnnotation());
+    }
+  };
+
+  protected CreateAction addDetailAction = new CreateAction(
+    GenModelEditPlugin.INSTANCE.getString("_UI_AddDetail_menu_item"),
+    GenModelEditPlugin.INSTANCE.getString("_UI_AddDetail_text"))
+  {
+    protected Command doCreateCommand(GenBase selectedObject)
+    {
+      return AddCommand.create(getEditingDomain(), selectedObject, GenModelPackage.Literals.GEN_ANNOTATION__DETAILS, EcoreUtil.create(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY));
+    }
+  };
 
   /**
    * This creates an instance of the contributor.
    */
   public GenModelActionBarContributor()
   {
+    showGenAnnotationsAction.setChecked(
+      Boolean.valueOf(GenModelEditPlugin.getPlugin().getDialogSettings().get("showGenAnnotationsAction")).booleanValue());
+  }
+  
+  public void dispose()
+  {
+    GenModelEditPlugin.getPlugin().getDialogSettings().put(
+      "showGenAnnotationsAction", Boolean.toString(showGenAnnotationsAction.isChecked()));
+    
+    showGenAnnotationsAction.dispose();   
+    annotateAction.dispose();
+    addDetailAction.dispose();
+       
+    super.dispose();
   }
 
   /**
@@ -328,7 +423,11 @@ public class GenModelActionBarContributor
 
     generateMenuManager.add(new Separator("schema-actions"));
     generateMenuManager.add(generateSchemaAction);    
+
+    generateMenuManager.add(new Separator("annotation-actions"));
+    generateMenuManager.add(showGenAnnotationsAction);    
     
+    generateMenuManager.add(new Separator("annotation-actions"));
     generateMenuManager.add(new Separator("global-actions"));
   }
 
@@ -347,6 +446,17 @@ public class GenModelActionBarContributor
   public void setActiveEditor(IEditorPart part)
   {
     super.setActiveEditor(part);
+
+    if (part instanceof GenModelEditor)
+    {
+      showGenAnnotationsAction.addViewer(((GenModelEditor)part).getViewer());
+      showGenAnnotationsAction.setEnabled(true);
+    }
+    else
+    {
+      showGenAnnotationsAction.setEnabled(false);
+    }
+    
     activeEditorPart = part;
 
     // Switch to the new selection provider.
@@ -370,7 +480,7 @@ public class GenModelActionBarContributor
       {
         selectionChanged(new SelectionChangedEvent(selectionProvider, selectionProvider.getSelection()));
       }
-    }
+    }    
   }
 
   /**
@@ -381,6 +491,9 @@ public class GenModelActionBarContributor
   {
     IContributionItem[] items = generateMenuManager.getItems();
     for (int i = 0, len = items.length; i < len; i++) items[i].update();
+    
+    annotateAction.selectionChanged(event);
+    addDetailAction.selectionChanged(event);
   }
 
   /**
@@ -406,6 +519,13 @@ public class GenModelActionBarContributor
 
     menuManager.insertBefore("additions", new Separator("schema-actions"));
     menuManager.insertAfter("schema-actions", generateSchemaAction);
+    
+    if (showGenAnnotationsAction.isChecked())
+    {
+      menuManager.insertBefore("additions", new Separator("annotation-actions"));
+      if (addDetailAction.isEnabled()) menuManager.insertAfter("annotation-actions", addDetailAction);
+      if (annotateAction.isEnabled()) menuManager.insertAfter("annotation-actions", annotateAction);
+    }
   }
 
   /**
