@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.56 2005/11/29 15:07:02 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.57 2005/12/05 20:11:14 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -35,6 +35,8 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
+import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
@@ -5678,6 +5680,30 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public GenParameter createGenParameter()
   {
     return GenModelFactory.eINSTANCE.createGenParameter();
+  }
+  
+  public GenAnnotation createGenAnnotation()
+  {
+    return GenModelFactory.eINSTANCE.createGenAnnotation();
+  }
+  
+  public GenBase create(EClass eClass)
+  {
+    switch (eClass.getClassifierID())
+    {
+      case GenModelPackage.GEN_MODEL: return createGenModel();
+      case GenModelPackage.GEN_PACKAGE: return createGenPackage();
+      case GenModelPackage.GEN_CLASS: return createGenClass();
+      case GenModelPackage.GEN_FEATURE: return createGenFeature();
+      case GenModelPackage.GEN_ENUM: return createGenEnum();
+      case GenModelPackage.GEN_ENUM_LITERAL: return createGenEnumLiteral();
+      case GenModelPackage.GEN_DATA_TYPE: return createGenDataType();
+      case GenModelPackage.GEN_OPERATION: return createGenOperation();
+      case GenModelPackage.GEN_PARAMETER: return createGenParameter();
+      case GenModelPackage.GEN_ANNOTATION: return createGenAnnotation();
+      default:
+        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid GenModel classifier");
+    }
   }
   
   public Set getPropertyCategories()

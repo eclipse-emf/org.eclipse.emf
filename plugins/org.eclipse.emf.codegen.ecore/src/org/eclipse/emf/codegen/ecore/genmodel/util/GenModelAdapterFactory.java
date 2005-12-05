@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelAdapterFactory.java,v 1.5 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenModelAdapterFactory.java,v 1.6 2005/12/05 20:11:14 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -134,6 +134,10 @@ public class GenModelAdapterFactory extends AdapterFactoryImpl
       public Object caseGenTypedElement(GenTypedElement object)
       {
         return createGenTypedElementAdapter();
+      }
+      public Object caseGenAnnotation(GenAnnotation object)
+      {
+        return createGenAnnotationAdapter();
       }
       public Object defaultCase(EObject object)
       {
@@ -331,6 +335,21 @@ public class GenModelAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createGenTypedElementAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation <em>Gen Annotation</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation
+   * @generated
+   */
+  public Adapter createGenAnnotationAdapter()
   {
     return null;
   }

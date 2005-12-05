@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.38 2005/12/02 16:58:49 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.39 2005/12/05 20:11:14 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -57,6 +57,7 @@ import org.eclipse.text.edits.TextEdit;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.Generator;
+import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
@@ -76,7 +77,9 @@ import org.eclipse.emf.codegen.jmerge.PropertyMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.EMFPlugin;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -94,10 +97,13 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -107,12 +113,26 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * An implementation of the model object '<em><b>Gen Base</b></em>'.
  * <!-- end-user-doc -->
  * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenBaseImpl#getGenAnnotations <em>Gen Annotations</em>}</li>
+ * </ul>
  * </p>
  *
  * @generated
  */
 public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 {
+  /**
+   * The cached value of the '{@link #getGenAnnotations() <em>Gen Annotations</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getGenAnnotations()
+   * @generated
+   * @ordered
+   */
+  protected EList genAnnotations = null;
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -131,6 +151,146 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_BASE;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList getGenAnnotations()
+  {
+    if (genAnnotations == null)
+    {
+      genAnnotations = new EObjectContainmentWithInverseEList(GenAnnotation.class, this, GenModelPackage.GEN_BASE__GEN_ANNOTATIONS, GenModelPackage.GEN_ANNOTATION__GEN_BASE);
+    }
+    return genAnnotations;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public GenAnnotation getGenAnnotation(String source)
+  {
+    if (source == null)
+    {
+      for (Iterator i = getGenAnnotations().iterator(); i.hasNext(); )
+      {
+        GenAnnotation genAnnotation = (GenAnnotation)i.next();
+        if (genAnnotation.getSource() == null)
+        {
+          return genAnnotation;
+        }
+      }
+    }
+    else
+    {
+      for (Iterator i = getGenAnnotations().iterator(); i.hasNext(); )
+      {
+        GenAnnotation genAnnotation = (GenAnnotation)i.next();
+        if (source.equals(genAnnotation.getSource()))
+        {
+          return genAnnotation;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_BASE__GEN_ANNOTATIONS:
+        return ((InternalEList)getGenAnnotations()).basicAdd(otherEnd, msgs);
+    }
+    return super.eInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_BASE__GEN_ANNOTATIONS:
+        return ((InternalEList)getGenAnnotations()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_BASE__GEN_ANNOTATIONS:
+        return getGenAnnotations();
+    }
+    return super.eGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_BASE__GEN_ANNOTATIONS:
+        getGenAnnotations().clear();
+        getGenAnnotations().addAll((Collection)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_BASE__GEN_ANNOTATIONS:
+        getGenAnnotations().clear();
+        return;
+    }
+    super.eUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_BASE__GEN_ANNOTATIONS:
+        return genAnnotations != null && !genAnnotations.isEmpty();
+    }
+    return super.eIsSet(featureID);
   }
 
   public GenModel getGenModel()

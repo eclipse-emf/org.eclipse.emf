@@ -46,8 +46,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rootImplementsInterface"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressEMFTypes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressEMFMetaData"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressEMFMetaData" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressEMFModelTags" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressInterfaces" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureMapWrapperInterface"
@@ -152,7 +151,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreFeature" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="GenBase" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GenBase" abstract="true">
+    <eOperations name="getGenAnnotation" eType="#//GenAnnotation">
+      <eParameters name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genAnnotations" upperBound="-1"
+        eType="#//GenAnnotation" containment="true" eOpposite="#//GenAnnotation/genBase"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenEnum" eSuperTypes="#//GenDataType">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreEnum" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum"/>
@@ -209,5 +214,18 @@
     <eLiterals name="None"/>
     <eLiterals name="Reflective" value="1"/>
     <eLiterals name="Virtual" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenAnnotation" eSuperTypes="#//GenBase">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="details" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EStringToStringMapEntry"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genBase" eType="#//GenBase"
+        transient="true" eOpposite="#//GenBase/genAnnotations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="references" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="contents" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
+        containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

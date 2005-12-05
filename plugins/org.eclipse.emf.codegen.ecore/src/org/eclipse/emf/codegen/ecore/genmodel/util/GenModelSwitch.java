@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelSwitch.java,v 1.9 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenModelSwitch.java,v 1.10 2005/12/05 20:11:14 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -208,6 +208,14 @@ public class GenModelSwitch {
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case GenModelPackage.GEN_ANNOTATION:
+      {
+        GenAnnotation genAnnotation = (GenAnnotation)theEObject;
+        Object result = caseGenAnnotation(genAnnotation);
+        if (result == null) result = caseGenBase(genAnnotation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       default: return defaultCase(theEObject);
     }
   }
@@ -400,6 +408,22 @@ public class GenModelSwitch {
    * @generated
    */
   public Object caseGenTypedElement(GenTypedElement object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpretting the object as an instance of '<em>Gen Annotation</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Gen Annotation</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public Object caseGenAnnotation(GenAnnotation object)
   {
     return null;
   }

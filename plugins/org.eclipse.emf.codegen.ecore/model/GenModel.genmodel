@@ -200,7 +200,12 @@
           propertyDescription="The Ecore model element for this structural feature"
           ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/ecoreFeature"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="GenModel.ecore#//GenBase"/>
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenBase">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenBase/genAnnotations"/>
+      <genOperations ecoreOperation="GenModel.ecore#//GenBase/getGenAnnotation">
+        <genParameters ecoreParameter="GenModel.ecore#//GenBase/getGenAnnotation/source"/>
+      </genOperations>
+    </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenEnum">
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this enumerated type" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnum/ecoreEnum"/>
@@ -231,5 +236,12 @@
           ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/ecoreParameter"/>
     </genClasses>
     <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenTypedElement"/>
+    <genClasses ecoreClass="GenModel.ecore#//GenAnnotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute GenModel.ecore#//GenAnnotation/source"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenAnnotation/details"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenAnnotation/genBase"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenAnnotation/references"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenAnnotation/contents"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

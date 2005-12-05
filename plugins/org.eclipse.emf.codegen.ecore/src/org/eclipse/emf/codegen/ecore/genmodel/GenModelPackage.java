@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.29 2005/11/29 15:07:02 emerks Exp $
+ * $Id: GenModelPackage.java,v 1.30 2005/12/05 20:11:14 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -86,13 +86,22 @@ public interface GenModelPackage extends EPackage{
   int GEN_BASE = 4;
 
   /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_BASE__GEN_ANNOTATIONS = 0;
+
+  /**
    * The number of structural features of the '<em>Gen Base</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_BASE_FEATURE_COUNT = 0;
+  int GEN_BASE_FEATURE_COUNT = 1;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl <em>Gen Model</em>}' class.
@@ -103,6 +112,15 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   int GEN_MODEL = 0;
+
+  /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__GEN_ANNOTATIONS = GEN_BASE__GEN_ANNOTATIONS;
 
   /**
    * The feature id for the '<em><b>Copyright Text</b></em>' attribute.
@@ -556,6 +574,15 @@ public interface GenModelPackage extends EPackage{
   int GEN_PACKAGE = 1;
 
   /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__GEN_ANNOTATIONS = GEN_BASE__GEN_ANNOTATIONS;
+
+  /**
    * The feature id for the '<em><b>Prefix</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -773,6 +800,15 @@ public interface GenModelPackage extends EPackage{
   int GEN_CLASSIFIER = 7;
 
   /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_CLASSIFIER__GEN_ANNOTATIONS = GEN_BASE__GEN_ANNOTATIONS;
+
+  /**
    * The feature id for the '<em><b>Gen Package</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -799,6 +835,15 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   int GEN_CLASS = 2;
+
+  /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_CLASS__GEN_ANNOTATIONS = GEN_CLASSIFIER__GEN_ANNOTATIONS;
 
   /**
    * The feature id for the '<em><b>Gen Package</b></em>' reference.
@@ -892,6 +937,15 @@ public interface GenModelPackage extends EPackage{
   int GEN_TYPED_ELEMENT = 11;
 
   /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_TYPED_ELEMENT__GEN_ANNOTATIONS = GEN_BASE__GEN_ANNOTATIONS;
+
+  /**
    * The number of structural features of the '<em>Gen Typed Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -909,6 +963,15 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   int GEN_FEATURE = 3;
+
+  /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__GEN_ANNOTATIONS = GEN_TYPED_ELEMENT__GEN_ANNOTATIONS;
 
   /**
    * The feature id for the '<em><b>Property</b></em>' attribute.
@@ -1011,6 +1074,15 @@ public interface GenModelPackage extends EPackage{
   int GEN_DATA_TYPE = 8;
 
   /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_DATA_TYPE__GEN_ANNOTATIONS = GEN_CLASSIFIER__GEN_ANNOTATIONS;
+
+  /**
    * The feature id for the '<em><b>Gen Package</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1046,6 +1118,15 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   int GEN_ENUM = 5;
+
+  /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ENUM__GEN_ANNOTATIONS = GEN_DATA_TYPE__GEN_ANNOTATIONS;
 
   /**
    * The feature id for the '<em><b>Gen Package</b></em>' reference.
@@ -1103,6 +1184,15 @@ public interface GenModelPackage extends EPackage{
   int GEN_ENUM_LITERAL = 6;
 
   /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ENUM_LITERAL__GEN_ANNOTATIONS = GEN_BASE__GEN_ANNOTATIONS;
+
+  /**
    * The feature id for the '<em><b>Gen Enum</b></em>' container reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1138,6 +1228,15 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   int GEN_OPERATION = 9;
+
+  /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_OPERATION__GEN_ANNOTATIONS = GEN_TYPED_ELEMENT__GEN_ANNOTATIONS;
 
   /**
    * The feature id for the '<em><b>Gen Class</b></em>' container reference.
@@ -1186,6 +1285,15 @@ public interface GenModelPackage extends EPackage{
   int GEN_PARAMETER = 10;
 
   /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PARAMETER__GEN_ANNOTATIONS = GEN_TYPED_ELEMENT__GEN_ANNOTATIONS;
+
+  /**
    * The feature id for the '<em><b>Gen Operation</b></em>' container reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1214,6 +1322,79 @@ public interface GenModelPackage extends EPackage{
 
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenAnnotationImpl <em>Gen Annotation</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenAnnotationImpl
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenAnnotation()
+   * @generated
+   */
+  int GEN_ANNOTATION = 12;
+
+  /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ANNOTATION__GEN_ANNOTATIONS = GEN_BASE__GEN_ANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Source</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ANNOTATION__SOURCE = GEN_BASE_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Details</b></em>' map.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ANNOTATION__DETAILS = GEN_BASE_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>Gen Base</b></em>' container reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ANNOTATION__GEN_BASE = GEN_BASE_FEATURE_COUNT + 2;
+
+  /**
+   * The feature id for the '<em><b>References</b></em>' reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ANNOTATION__REFERENCES = GEN_BASE_FEATURE_COUNT + 3;
+
+  /**
+   * The feature id for the '<em><b>Contents</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ANNOTATION__CONTENTS = GEN_BASE_FEATURE_COUNT + 4;
+
+  /**
+   * The number of structural features of the '<em>Gen Annotation</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ANNOTATION_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 5;
+
+  /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1221,7 +1402,7 @@ public interface GenModelPackage extends EPackage{
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenProviderKind()
    * @generated
    */
-  int GEN_PROVIDER_KIND = 12;
+  int GEN_PROVIDER_KIND = 13;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind <em>Gen Property Kind</em>}' enum.
@@ -1231,7 +1412,7 @@ public interface GenModelPackage extends EPackage{
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenPropertyKind()
    * @generated
    */
-  int GEN_PROPERTY_KIND = 13;
+  int GEN_PROPERTY_KIND = 14;
 
 
   /**
@@ -1242,7 +1423,7 @@ public interface GenModelPackage extends EPackage{
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenResourceKind()
    * @generated
    */
-  int GEN_RESOURCE_KIND = 14;
+  int GEN_RESOURCE_KIND = 15;
 
 
   /**
@@ -1253,7 +1434,7 @@ public interface GenModelPackage extends EPackage{
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenDelegationKind()
    * @generated
    */
-  int GEN_DELEGATION_KIND = 15;
+  int GEN_DELEGATION_KIND = 16;
 
 
   /**
@@ -2253,6 +2434,17 @@ public interface GenModelPackage extends EPackage{
   EClass getGenBase();
 
   /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenBase#getGenAnnotations <em>Gen Annotations</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Gen Annotations</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenBase#getGenAnnotations()
+   * @see #getGenBase()
+   * @generated
+   */
+  EReference getGenBase_GenAnnotations();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum <em>Gen Enum</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2442,6 +2634,71 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   EClass getGenTypedElement();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation <em>Gen Annotation</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Gen Annotation</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation
+   * @generated
+   */
+  EClass getGenAnnotation();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getSource <em>Source</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Source</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getSource()
+   * @see #getGenAnnotation()
+   * @generated
+   */
+  EAttribute getGenAnnotation_Source();
+
+  /**
+   * Returns the meta object for the map '{@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getDetails <em>Details</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the map '<em>Details</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getDetails()
+   * @see #getGenAnnotation()
+   * @generated
+   */
+  EReference getGenAnnotation_Details();
+
+  /**
+   * Returns the meta object for the container reference '{@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getGenBase <em>Gen Base</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the container reference '<em>Gen Base</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getGenBase()
+   * @see #getGenAnnotation()
+   * @generated
+   */
+  EReference getGenAnnotation_GenBase();
+
+  /**
+   * Returns the meta object for the reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getReferences <em>References</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference list '<em>References</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getReferences()
+   * @see #getGenAnnotation()
+   * @generated
+   */
+  EReference getGenAnnotation_References();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getContents <em>Contents</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Contents</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getContents()
+   * @see #getGenAnnotation()
+   * @generated
+   */
+  EReference getGenAnnotation_Contents();
 
   /**
    * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}'.
@@ -3244,6 +3501,14 @@ public interface GenModelPackage extends EPackage{
     EClass GEN_BASE = eINSTANCE.getGenBase();
 
     /**
+     * The meta object literal for the '<em><b>Gen Annotations</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_BASE__GEN_ANNOTATIONS = eINSTANCE.getGenBase_GenAnnotations();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumImpl <em>Gen Enum</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3400,6 +3665,56 @@ public interface GenModelPackage extends EPackage{
      * @generated
      */
     EClass GEN_TYPED_ELEMENT = eINSTANCE.getGenTypedElement();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenAnnotationImpl <em>Gen Annotation</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenAnnotationImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenAnnotation()
+     * @generated
+     */
+    EClass GEN_ANNOTATION = eINSTANCE.getGenAnnotation();
+
+    /**
+     * The meta object literal for the '<em><b>Source</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_ANNOTATION__SOURCE = eINSTANCE.getGenAnnotation_Source();
+
+    /**
+     * The meta object literal for the '<em><b>Details</b></em>' map feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_ANNOTATION__DETAILS = eINSTANCE.getGenAnnotation_Details();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Base</b></em>' container reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_ANNOTATION__GEN_BASE = eINSTANCE.getGenAnnotation_GenBase();
+
+    /**
+     * The meta object literal for the '<em><b>References</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_ANNOTATION__REFERENCES = eINSTANCE.getGenAnnotation_References();
+
+    /**
+     * The meta object literal for the '<em><b>Contents</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_ANNOTATION__CONTENTS = eINSTANCE.getGenAnnotation_Contents();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}' enum.

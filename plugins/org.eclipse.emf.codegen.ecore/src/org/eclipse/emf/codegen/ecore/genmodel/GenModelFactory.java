@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactory.java,v 1.4 2005/11/14 20:48:12 emerks Exp $
+ * $Id: GenModelFactory.java,v 1.5 2005/12/05 20:11:14 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -115,6 +115,15 @@ public interface GenModelFactory extends EFactory{
    * @generated
    */
   GenParameter createGenParameter();
+
+  /**
+   * Returns a new object of class '<em>Gen Annotation</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Gen Annotation</em>'.
+   * @generated
+   */
+  GenAnnotation createGenAnnotation();
 
   /**
    * Returns the package supported by this factory.

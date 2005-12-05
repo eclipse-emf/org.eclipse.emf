@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactoryImpl.java,v 1.7 2005/11/14 20:48:12 emerks Exp $
+ * $Id: GenModelFactoryImpl.java,v 1.8 2005/12/05 20:11:14 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -88,6 +88,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
       case GenModelPackage.GEN_DATA_TYPE: return createGenDataType();
       case GenModelPackage.GEN_OPERATION: return createGenOperation();
       case GenModelPackage.GEN_PARAMETER: return createGenParameter();
+      case GenModelPackage.GEN_ANNOTATION: return createGenAnnotation();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -234,6 +235,17 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
   {
     GenParameterImpl genParameter = new GenParameterImpl();
     return genParameter;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenAnnotation createGenAnnotation()
+  {
+    GenAnnotationImpl genAnnotation = new GenAnnotationImpl();
+    return genAnnotation;
   }
 
   /**

@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.7 2005/11/18 12:07:27 emerks Exp $
+ * $Id: GenBase.java,v 1.8 2005/12/05 20:11:14 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
+
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -28,13 +30,44 @@ import org.eclipse.emf.ecore.EObject;
  * A representation of the model object '<em><b>Gen Base</b></em>'.
  * <!-- end-user-doc -->
  *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenBase#getGenAnnotations <em>Gen Annotations</em>}</li>
+ * </ul>
+ * </p>
  *
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenBase()
  * @model abstract="true"
  * @generated
  */
-public interface GenBase extends EObject
-{
+public interface GenBase extends EObject{
+  /**
+   * Returns the value of the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation}.
+   * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getGenBase <em>Gen Base</em>}'.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Gen Annotations</em>' containment reference list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Gen Annotations</em>' containment reference list.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenBase_GenAnnotations()
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation#getGenBase
+   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation" opposite="genBase" containment="true"
+   * @generated
+   */
+  EList getGenAnnotations();
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @model
+   * @generated
+   */
+  GenAnnotation getGenAnnotation(String source);
+
   GenModel getGenModel();
 
   String capName(String name);
