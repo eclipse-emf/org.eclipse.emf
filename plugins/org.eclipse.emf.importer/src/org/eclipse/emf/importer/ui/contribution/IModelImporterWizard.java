@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * IModelImporterWizard.java,v 1.4 2005/11/11 16:57:18 marcelop Exp
+ * IModelImporterWizard.java,v 1.5 2005/12/06 07:35:41 marcelop Exp
  */
 package org.eclipse.emf.importer.ui.contribution;
 
