@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.20 2005/11/29 15:07:02 emerks Exp $
+ * $Id: GenClass.java,v 1.21 2005/12/06 16:54:45 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -309,6 +309,8 @@ public interface GenClass extends GenClassifier
   List/*of GenClass*/ getImplementedGenClasses();
   List/*of GenFeature*/ getImplementedGenFeatures();
   List/*of GenOperation*/ getImplementedGenOperations();
+
+  GenModel getImplementingGenModel(GenFeature genFeature);
 
   // Returns whether this class implements any of the given features.
   public boolean implementsAny(Collection genFeatures);

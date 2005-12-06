@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.48 2005/12/01 16:49:04 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.49 2005/12/06 16:54:45 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -684,8 +684,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (isFlag(genFeature))
     {
-      String flagsField = getImplementedGenFeatures().contains(genFeature) ? getGenModel().getBooleanFlagsField()
-        : genFeature.getGenModel().getBooleanFlagsField();
+      String flagsField = getImplementingGenModel(genFeature).getBooleanFlagsField();
       if (!isBlank(flagsField))
       {
         int flagIndex = getFlagIndex(genFeature);
@@ -703,8 +702,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (isFlag(genFeature))
     {
-      int reservedBooleanFlags = getImplementedGenFeatures().contains(genFeature) ? getGenModel().getBooleanFlagsReservedBits()
-        : genFeature.getGenModel().getBooleanFlagsReservedBits();
+      int reservedBooleanFlags = getImplementingGenModel(genFeature).getBooleanFlagsReservedBits();
 	    int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
 
       for (Iterator otherGenFeatures = getAllGenFeatures().iterator(); otherGenFeatures.hasNext();)
@@ -730,8 +728,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (isESetFlag(genFeature))
     {
-      String isSetFlagsField = getImplementedGenFeatures().contains(genFeature) ? getGenModel().getBooleanFlagsField()
-        : genFeature.getGenModel().getBooleanFlagsField();
+      String isSetFlagsField = getImplementingGenModel(genFeature).getBooleanFlagsField();
       if (!isBlank(isSetFlagsField))
       {
         int isSetFlagIndex = getESetFlagIndex(genFeature);
@@ -749,8 +746,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (isESetFlag(genFeature))
     {
-      int reservedBooleanFlags = getImplementedGenFeatures().contains(genFeature) ? getGenModel().getBooleanFlagsReservedBits()
-        : genFeature.getGenModel().getBooleanFlagsReservedBits();
+      int reservedBooleanFlags = getImplementingGenModel(genFeature).getBooleanFlagsReservedBits();
       int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
 
       for (Iterator otherGenFeatures = getAllGenFeatures().iterator(); otherGenFeatures.hasNext();)
@@ -907,6 +903,19 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public List getImplementedGenFeatures()
   {
     return collectGenFeatures(getImplementedGenClasses(), null, null);
+  }
+
+  public GenModel getImplementingGenModel(GenFeature genFeature)
+  {
+    if (getImplementedGenFeatures().contains(genFeature))
+    {
+      return getGenModel();
+    }
+    else
+    {
+      GenClass classExtendsGenClass = getClassExtendsGenClass();
+      return classExtendsGenClass == null ? genFeature.getGenModel() : classExtendsGenClass.getImplementingGenModel(genFeature);
+    }
   }
 
   public List getImplementedGenOperations()
@@ -2405,25 +2414,24 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public boolean isFlag(GenFeature genFeature)
   {
-    GenModel genModel = getImplementedGenFeatures().contains(genFeature) ? getGenModel() : genFeature.getGenModel();
-    return genModel.isBooleanFlagsEnabled() && genFeature.isFlag();
+    return getImplementingGenModel(genFeature).isBooleanFlagsEnabled() && genFeature.isFlag();
   }
 
   public boolean isESetFlag(GenFeature genFeature)
   {
-    GenModel genModel = getImplementedGenFeatures().contains(genFeature) ? getGenModel() : genFeature.getGenModel();
+    GenModel genModel = getImplementingGenModel(genFeature);
     return (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) && genModel.isBooleanFlagsEnabled() && genFeature.isESetFlag();
   }
 
   public boolean isField(GenFeature genFeature)
   {
-    GenModel genModel = getImplementedGenFeatures().contains(genFeature) ? getGenModel() : genFeature.getGenModel();
+    GenModel genModel = getImplementingGenModel(genFeature);
     return !genModel.isReflectiveDelegation() && (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) && genFeature.isField();
   }
 
   public boolean isESetField(GenFeature genFeature)
   {
-    GenModel genModel = getImplementedGenFeatures().contains(genFeature) ? getGenModel() : genFeature.getGenModel();
+    GenModel genModel = getImplementingGenModel(genFeature);
     return !genModel.isReflectiveDelegation() && (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) && genFeature.isESetField();
   }
 

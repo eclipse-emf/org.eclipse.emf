@@ -3253,7 +3253,7 @@ public class Class
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_898);
     } else {
-    if (genClass.getImplementedGenFeatures().contains(genFeature) ? genModel.isVirtualDelegation() : genFeature.getGenModel().isVirtualDelegation()) {
+    if (genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
     stringBuffer.append(TEXT_899);
     stringBuffer.append(genFeature.getImportedType());
     stringBuffer.append(TEXT_900);
@@ -3607,7 +3607,7 @@ public class Class
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_1056);
     } else {
-    if (genFeature.isField() && (genClass.getImplementedGenFeatures().contains(genFeature) ? genModel.isVirtualDelegation() : genFeature.getGenModel().isVirtualDelegation())) {
+    if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
     stringBuffer.append(TEXT_1057);
     stringBuffer.append(genFeature.getImportedType());
     stringBuffer.append(TEXT_1058);
@@ -3638,7 +3638,7 @@ public class Class
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_1069);
     } else {
-    if (genFeature.isField() && (genClass.getImplementedGenFeatures().contains(genFeature) ? genModel.isVirtualDelegation() : genFeature.getGenModel().isVirtualDelegation())) {
+    if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
     stringBuffer.append(TEXT_1070);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1071);
@@ -3654,7 +3654,7 @@ public class Class
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_1075);
     } else {
-    if (genFeature.isField() && (genClass.getImplementedGenFeatures().contains(genFeature) ? genModel.isVirtualDelegation() : genFeature.getGenModel().isVirtualDelegation())) {
+    if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
     stringBuffer.append(TEXT_1076);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1077);
@@ -3682,7 +3682,7 @@ public class Class
     stringBuffer.append(TEXT_1086);
     }
     } else {
-    if (genFeature.isEnumType() && genFeature.isField() && (genClass.getImplementedGenFeatures().contains(genFeature) ? genModel.isVirtualDelegation() : genFeature.getGenModel().isVirtualDelegation())) {
+    if (genFeature.isEnumType() && genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
     stringBuffer.append(TEXT_1087);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1088);
@@ -3710,7 +3710,7 @@ public class Class
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_1098);
     } else {
-    if (genFeature.isField() && (genClass.getImplementedGenFeatures().contains(genFeature) ? genModel.isVirtualDelegation() : genFeature.getGenModel().isVirtualDelegation())) {
+    if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {
     stringBuffer.append(TEXT_1099);
     stringBuffer.append(genFeature.getImportedType());
     stringBuffer.append(TEXT_1100);
