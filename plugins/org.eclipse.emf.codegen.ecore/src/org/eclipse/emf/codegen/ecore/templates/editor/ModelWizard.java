@@ -505,6 +505,7 @@ public class ModelWizard
     stringBuffer.append(type);
     stringBuffer.append(TEXT_143);
     stringBuffer.append(genModel.getNonNLS());
+    stringBuffer.append(genModel.getNonNLS(2));
     stringBuffer.append(TEXT_144);
     stringBuffer.append(genModel.getImportedName(genModel.getQualifiedEditorPluginClassName()));
     stringBuffer.append(TEXT_145);

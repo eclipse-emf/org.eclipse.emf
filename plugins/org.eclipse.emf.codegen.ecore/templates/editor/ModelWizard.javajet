@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.15 2005/11/29 15:03:05 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ModelWizard" version="$Id: ModelWizard.javajet,v 1.16 2005/12/07 14:49:57 khussey Exp $" %>
 <%
 /**
  * <copyright>
@@ -779,7 +779,7 @@ public class <%=genPackage.getModelWizardClassName()%> extends Wizard implements
 		{
 			try
 			{
-				return <%=genPackage.getEditPluginClassName()%>.INSTANCE.getString("<%=prefix%>" + <%=type%>Name + "_<%=type%>");<%=genModel.getNonNLS()%>
+				return <%=genPackage.getEditPluginClassName()%>.INSTANCE.getString("<%=prefix%>" + <%=type%>Name + "_<%=type%>");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 			}
 			catch(MissingResourceException mre)
 			{
