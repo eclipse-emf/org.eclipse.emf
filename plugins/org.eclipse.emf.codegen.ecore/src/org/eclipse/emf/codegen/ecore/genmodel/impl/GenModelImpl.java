@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.57 2005/12/05 20:11:14 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.58 2005/12/07 16:09:50 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.codegen.ecore.genmodel.impl;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,6 +38,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -76,6 +76,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -3930,11 +3932,34 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         EPackage staticEPackage = eResource().getResourceSet().getPackageRegistry().getEPackage(nsURI);
         if (staticEPackage != null)
         {
-          GenModel genModel = getGenModel().createGenModel();
-          GenPackage staticGenPackage = getGenModel().createGenPackage();
-          staticGenPackages.add(staticGenPackage);
-          genModel.getGenPackages().add(staticGenPackage);
-          staticGenPackage.initialize(staticEPackage);
+          // See if a GenModel is registered for the package's URI, and if so, try to load it.
+          //
+          GenPackage staticGenPackage = null;
+          URI genModelURI = (URI)EcorePlugin.getEPackageNsURIToGenModelLocationMap().get(nsURI);
+          if (genModelURI != null)
+          {
+            try
+            {
+              Resource genModelResource = eResource().getResourceSet().getResource(genModelURI, true);
+              GenModel genModel = (GenModel)genModelResource.getContents().get(0);
+              staticGenPackage = genModel.findGenPackage(staticEPackage);
+            }
+            catch (Exception exception)
+            {
+              CodeGenEcorePlugin.INSTANCE.log(exception);
+            }
+          }
+
+          // If that didn't work, just synthesize one.
+          //
+          if (staticGenPackage == null)
+          {
+            GenModel genModel = getGenModel().createGenModel();
+            staticGenPackage = getGenModel().createGenPackage();
+            genModel.getGenPackages().add(staticGenPackage);
+            staticGenPackage.initialize(staticEPackage);
+          }
+          staticGenPackages.add(staticGenPackage);            
         }
       }
     }
