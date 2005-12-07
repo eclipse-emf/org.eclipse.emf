@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.6 2005/11/23 17:30:54 khussey Exp $
+ * $Id: GenTypedElementImpl.java,v 1.7 2005/12/07 00:06:30 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -228,8 +228,8 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
 
   public String getEObjectCast()
   {
-    return isEObjectExtensionType() && !isEffectiveSuppressEMFTypes() ? 
-      "" : "(" + getGenModel().getImportedName("org.eclipse.emf.ecore.EObject") + ")";
+    return !isEObjectExtensionType() || (isEObjectType() && isEffectiveSuppressEMFTypes()) ?
+      "(" + getGenModel().getImportedName("org.eclipse.emf.ecore.EObject") + ")" : "";
   }
 
   public String getInternalTypeCast()
