@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.39 2005/12/05 20:11:14 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.40 2005/12/07 19:39:40 elena Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -572,7 +572,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         if (EMFPlugin.IS_ECLIPSE_RUNNING)
         {
           JMerger jMerger = new JMerger();
-          jMerger.setFixInterfaceBrace(true);
+          //TODO this might make Pattern fail
+          jMerger.setFixInterfaceBrace(false);
           jMerger.setControlModel(jControlModel);
           jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
           // Create a code formatter for this compilation unit, if needed
