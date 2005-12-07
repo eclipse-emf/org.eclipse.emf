@@ -29,8 +29,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='Library' kind='elementOnly'"
  * @generated
  */
-public interface Library extends EObject
-{
+public interface Library extends EObject{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

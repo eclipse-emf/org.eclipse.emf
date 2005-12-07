@@ -30,8 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Library extends EObject
-{
+public interface Library extends EObject{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
