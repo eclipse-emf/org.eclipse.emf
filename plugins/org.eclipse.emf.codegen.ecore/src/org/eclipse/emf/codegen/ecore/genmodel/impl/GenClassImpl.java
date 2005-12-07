@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.50 2005/12/07 00:04:44 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.51 2005/12/07 15:58:17 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -374,7 +374,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           ((GenClassImpl)genClass).getInternalQualifiedInterfaceName();
     }
 
-    return isExternalInterface() ?
+    return getEcoreClass().getInstanceClassName() != null ?
       getEcoreClass().getInstanceClassName() :
       getGenPackage().getInterfacePackageName() + "." + getInterfaceName();
   }
