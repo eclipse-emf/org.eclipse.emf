@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoad.java,v 1.5 2005/07/21 19:47:33 elena Exp $
+ * $Id: XMLLoad.java,v 1.6 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -32,4 +32,5 @@ public interface XMLLoad
   void load(XMLResource resource, InputStream inputStream, Map options) throws IOException;
   void load(XMLResource resource, InputSource inputSource, Map options) throws IOException;
   void load(XMLResource resource, Node node, Map options) throws IOException;
+  XMLDefaultHandler createDefaultHandler();
 }

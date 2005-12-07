@@ -12,29 +12,45 @@
  *
  * </copyright>
  *
- * $Id: SAXWrapper.java,v 1.5 2005/06/22 14:45:00 khussey Exp $
+ * $Id: SAXWrapper.java,v 1.6 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
+
+import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
 
 import org.eclipse.emf.ecore.xmi.XMIException;
+import org.eclipse.emf.ecore.xmi.XMLDefaultHandler;
+import org.eclipse.emf.ecore.xmi.XMLHelper;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 
 
 /**
+ * @deprecated 
  * This class wraps an XMLHandler with a SAX DefaultHandler.
  */
-public class SAXWrapper extends DefaultHandler implements LexicalHandler
+public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
 {
   protected XMLHandler handler;
   
+  
+  public void prepare(XMLResource resource, XMLHelper helper, Map options)
+  {
+    handler.prepare(resource, helper, options);  
+  }
+
+  public void reset()
+  {
+   handler.reset();    
+  }
+
   /**
    * Constructor for SAXWrapper.
    */
@@ -61,6 +77,7 @@ public class SAXWrapper extends DefaultHandler implements LexicalHandler
 
   public void startPrefixMapping(String prefix, String uri) throws SAXException
   {
+    handler.startPrefixMapping(prefix, uri);
   }
 
   public void endPrefixMapping(String prefix) throws SAXException

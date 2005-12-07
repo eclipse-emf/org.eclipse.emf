@@ -12,11 +12,16 @@
  *
  * </copyright>
  *
- * $Id: ConfigurationCache.java,v 1.2 2005/06/08 06:16:07 nickb Exp $
+ * $Id: ConfigurationCache.java,v 1.3 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.xmi.impl.XMLSaveImpl.Escape;
 
 
@@ -31,6 +36,8 @@ public class ConfigurationCache
   public static final ConfigurationCache INSTANCE = new ConfigurationCache();
 
   protected static final int SIZE = 100;
+  
+  protected Map documentRoots = new HashMap();
 
   protected XMLString printers[] = new XMLString [SIZE];
 
@@ -106,6 +113,16 @@ public class ConfigurationCache
     {
       escapes[i] = null;
     }
+  }
+  
+  public synchronized EClass getDocumentRoot(EPackage ePackage)
+  {
+    return (EClass)documentRoots.get(ePackage);
+  }
+  
+  public synchronized void putDocumentRoot(EPackage ePackage, EClass documentRoot)
+  {
+    documentRoots.put(ePackage, documentRoot);
   }
 
 }

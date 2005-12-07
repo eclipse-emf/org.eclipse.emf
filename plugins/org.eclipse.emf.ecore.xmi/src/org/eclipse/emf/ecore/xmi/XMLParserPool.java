@@ -12,18 +12,21 @@
  *
  * </copyright>
  *
- *$Id: XMLParserPool.java,v 1.2 2005/06/08 06:16:07 nickb Exp $
+ *$Id: XMLParserPool.java,v 1.3 2005/12/07 18:52:31 elena Exp $
  */
 
 package org.eclipse.emf.ecore.xmi;
 
 import java.util.Map;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
+
 import org.xml.sax.SAXException;
 
 /**
- * A pool of parsers that a resource implementation can use to get a parser instance for parsing XML instance documents. 
+ * Defines an interface to cache parsers and parser's handlers (XMLDefaultHandler) to improve 
+ * deserialization performance. 
  * The use of a parser pool can be specified using {@link XMLResource#OPTION_USE_PARSER_POOL} load option.
  * <p>
  * The parser instance is retrieved and placed back to the pool
@@ -35,6 +38,11 @@ import org.xml.sax.SAXException;
  * <b>must</b> be provided when retrieving the parser from the pool and, even more importantly when, 
  * releasing the parser back to the pool.
  * Failure to do so will result in improperly configured parsers.
+ * </p>
+ * <p>
+ * The handler instance is retrieved and placed back to the pool
+ * based on the options map specified for loading a resource. 
+ * The default implementation is provided by {@link org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl XMLParserPoolImpl}.
  * </p>
  */
 public interface XMLParserPool
@@ -61,4 +69,20 @@ public interface XMLParserPool
    * @param useLexicalHandler whether a lexical handler was set during loading.
    */
   public void release(SAXParser parser, Map features, Map properties, boolean useLexicalHandler);
+  
+  /**
+   * Retrives XMLDefaultHandler from the pool and initializes / prepares it.
+   * @param resource - the resource
+   * @param xmlLoad - the XMLLoad
+   * @param helper - XMLHelper
+   * @param options
+   */
+  public XMLDefaultHandler getDefaultHandler(XMLResource resource, XMLLoad xmlLoad, XMLHelper helper, Map options);
+  
+  /**
+   * Returns the XMLDefaultHandler to the pool.
+   * @param handler the handler to return to the pool
+   * @param options
+   */
+  public void releaseDefaultHandler(XMLDefaultHandler handler, Map options);
 }

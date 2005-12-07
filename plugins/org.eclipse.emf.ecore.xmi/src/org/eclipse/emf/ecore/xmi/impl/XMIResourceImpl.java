@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIResourceImpl.java,v 1.3 2005/12/04 17:44:31 elena Exp $
+ * $Id: XMIResourceImpl.java,v 1.4 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -60,6 +60,11 @@ public class XMIResourceImpl extends XMLResourceImpl implements XMIResource
   protected XMLSave createXMLSave()
   {
     return new XMISaveImpl(createXMLHelper());
+  }
+  
+  protected boolean useIDs()
+  {
+    return true;
   }
 
   public String getXMIVersion()

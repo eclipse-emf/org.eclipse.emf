@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.29 2005/06/10 13:57:51 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.30 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -66,6 +66,7 @@ public class XMLHelperImpl implements XMLHelper
   protected static final Integer INTEGER_DATATYPE_SINGLE  = new Integer(DATATYPE_SINGLE);
   protected static final Integer INTEGER_IS_MANY_ADD      = new Integer(IS_MANY_ADD);
   protected static final Integer INTEGER_IS_MANY_MOVE     = new Integer(IS_MANY_MOVE);
+  protected static final Integer INTEGER_OTHER     = new Integer(OTHER);
 
   protected EPackage noNamespacePackage;
   protected XMLResource.XMLMap xmlMap;
@@ -719,49 +720,74 @@ public class XMLHelperImpl implements XMLHelper
       }
       else
       {
+        featuresToKinds.put(feature, INTEGER_OTHER);
         return OTHER;
       }
     }
   }
+  
+  public EObject createObject(EFactory eFactory, EClassifier type)
+  {
+    EObject newObject = null;
+    if (eFactory != null)
+    {
+      if (extendedMetaData != null)
+      {
+        if (type == null)
+        {
+          return null;
+        }
+        else if (type instanceof EClass)
+        {
+          newObject = eFactory.create((EClass)type);
+        }
+        else
+        {
+          SimpleAnyType result = (SimpleAnyType)EcoreUtil.create(anySimpleType);
+          result.setInstanceType((EDataType)type);
+          newObject = result;
+        }
+      }
+      else
+      {
+        if (type != null)
+        {
+          newObject = eFactory.create((EClass)type);
+        }
+      }
+    }
+    return newObject;
+  }
+  
+  
+  public EClassifier getType(EFactory eFactory, String typeName)
+  {
+    if (eFactory != null)
+    {
+      EPackage ePackage = eFactory.getEPackage();
+      if (extendedMetaData != null)
+      {
+        return extendedMetaData.getType(ePackage, typeName);
+      }
+      else
+      {
+        EClass eClass = (EClass)ePackage.getEClassifier(typeName);
+        if (eClass == null && xmlMap != null)
+        {
+          return (EClass)xmlMap.getClassifier(ePackage.getNsURI(), typeName);
+        }
+        return eClass;
+      }
+    }
+    return null;
+  }
 
+  /**
+   * @deprecated since 2.2
+   */
   public EObject createObject(EFactory eFactory, String classXMIName)
   {
-    EPackage ePackage = eFactory.getEPackage();
-    if (extendedMetaData != null)
-    {
-      EClassifier eClassifier = extendedMetaData.getType(ePackage, classXMIName);
-      if (eClassifier == null)
-      {
-        return null;
-      }
-      else if (eClassifier instanceof EClass)
-      {
-        return eFactory.create((EClass)eClassifier);
-      }
-      else
-      {
-        SimpleAnyType result = (SimpleAnyType)EcoreUtil.create(anySimpleType);
-        result.setInstanceType((EDataType)eClassifier);
-        return result;
-      }
-    }
-    else
-    {
-      EClass eClass = (EClass)ePackage.getEClassifier(classXMIName);
-      if (eClass == null && xmlMap != null)
-      {
-        eClass = (EClass) xmlMap.getClassifier(ePackage.getNsURI(), classXMIName);
-      }
-  
-      if (eClass != null)
-      {
-        return eFactory.create(eClass);
-      }
-      else
-      {
-        return null;
-      }
-    }
+    return createObject(eFactory, getType(eFactory, classXMIName));
   }
 
   public EStructuralFeature getFeature(EClass eClass, String namespaceURI, String name)
@@ -1121,6 +1147,11 @@ public class XMLHelperImpl implements XMLHelper
     }
   }
   
+  public String getPrefix (String namespaceURI)
+  {
+    return namespaceSupport.getPrefix(namespaceURI);
+  }
+  
   public Map getAnyContentPrefixToURIMapping()
   {
     anyPrefixesToURIs.clear();
@@ -1318,9 +1349,11 @@ public class XMLHelperImpl implements XMLHelper
       // find uri in current context
       for (int i = namespaceSize; i > 0; i -= 2) 
       {
-        if (namespace[i - 1].equals(uri)) 
+        String knownURI = namespace[i - 1];
+        if ((knownURI != null)? knownURI.equals(uri) : uri == knownURI) 
         {
-          if (getURI(namespace[i - 2]).equals(uri))
+          knownURI = getURI(namespace[i - 2]);
+          if ((knownURI != null)? knownURI.equals(uri) : uri == knownURI)
             return namespace[i - 2];
         }
       }

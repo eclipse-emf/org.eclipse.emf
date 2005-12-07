@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.30 2005/11/07 21:27:36 elena Exp $
+ * $Id: XMLResource.java,v 1.31 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -25,12 +25,14 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xmi.impl.ConfigurationCache;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -74,8 +76,26 @@ public interface XMLResource extends Resource
   String OPTION_USE_CACHED_LOOKUP_TABLE = "USE_CACHED_LOOKUP_TABLE";
   
   /**
+   * Use deprecated methods - the default is <code>true</code>. 
+   * To improve deserialization performance turn this option to <code>false</code>. 
+   * The methods affected are:
+   * <ul>
+   * <li>XMLHelper#createObject(org.eclipse.emf.ecore.EFactory, EClassifier)</li>, 
+   * <li>XMLHander#handleNamespaceAttribs()</li>, 
+   * <li>XMLHandler#createObjectFromFactory(EFactory factory, String typeName),</li> 
+   * <li>XMLLoadImpl#getEncoding()</li>
+   * </ul> 
+   */
+  String OPTION_USE_DEPRECATED_METHODS = "USE_DEPRECATED_METHODS";
+  
+  /**
    * Generic option for enable caching (during save and load) to improve performance.
-   * Note: this option might change in the future to define how the caching is done.
+   * This option uses {@link ConfigurationCache} to cache the following things:
+   * <ul>
+   *   <li>Escape class used during serialization</li>
+   *   <li>Printer class used during serialization</li>
+   *   <li>DocumentRoot class per EPackage - useful during loading of XML document</li>
+   *</ul>
    */
   String OPTION_CONFIGURATION_CACHE = "CONFIGURATION_CACHE";
   

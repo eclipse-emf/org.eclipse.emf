@@ -12,36 +12,43 @@
  *
  * </copyright>
  *
- * $Id: XMLParserPoolImpl.java,v 1.3 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLParserPoolImpl.java,v 1.4 2005/12/07 18:52:31 elena Exp $
  */
 
 package org.eclipse.emf.ecore.xmi.impl;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import org.eclipse.emf.ecore.xmi.XMLDefaultHandler;
+import org.eclipse.emf.ecore.xmi.XMLHelper;
+import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLParserPool;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.xml.sax.SAXException;
 
+
 /**
  * This is the default implementation of XMLParserPool. Note: this
- * implementation is not thread safe.
+ * implementation is thread safe.
  */
 public class XMLParserPoolImpl implements XMLParserPool
 {
+  private final Map parserCache = new HashMap();
 
-  private final HashMap parserCache = new HashMap();
+  private final Map handlersCache = new HashMap();
 
   /**
    * @see XMLParserPool#get(Map, Map, boolean)
    */
-  public synchronized SAXParser get(Map features, Map properties, boolean useLexicalHandler)
-      throws ParserConfigurationException, SAXException
+  public synchronized SAXParser get(Map features, Map properties, boolean useLexicalHandler) throws ParserConfigurationException, SAXException
   {
     Map map = new HashMap();
     map.putAll(features);
@@ -50,17 +57,17 @@ public class XMLParserPoolImpl implements XMLParserPool
     Object o = parserCache.get(map);
     if (o != null)
     {
-      ArrayList list = (ArrayList) o;
+      ArrayList list = (ArrayList)o;
       int size = list.size();
       if (size > 0)
       {
-        return (SAXParser) list.remove(size - 1);
-      } 
+        return (SAXParser)list.remove(size - 1);
+      }
       else
       {
         return makeParser(features, properties);
       }
-    } 
+    }
     else
     {
       parserCache.put(map, new ArrayList());
@@ -77,33 +84,71 @@ public class XMLParserPoolImpl implements XMLParserPool
     map.putAll(features);
     map.putAll(properties);
     map.put(XMLResource.OPTION_USE_LEXICAL_HANDLER, useLexicalHandler ? Boolean.TRUE : Boolean.FALSE);
-    ArrayList list = (ArrayList) parserCache.get(map);
+    ArrayList list = (ArrayList)parserCache.get(map);
     list.add(parser);
   }
 
-  private SAXParser makeParser(Map features, Map properties)
-      throws ParserConfigurationException, SAXException
+  private SAXParser makeParser(Map features, Map properties) throws ParserConfigurationException, SAXException
   {
     SAXParserFactory factory = SAXParserFactory.newInstance();
+    factory.setValidating(false);
+    factory.setNamespaceAware(true);
     SAXParser parser = factory.newSAXParser();
+    
     // set parser features and properties
     if (features != null)
     {
       for (Iterator i = features.keySet().iterator(); i.hasNext();)
       {
-        String feature = (String) i.next();
-        parser.getXMLReader().setFeature(feature,
-            ((Boolean) features.get(feature)).booleanValue());
+        String feature = (String)i.next();
+        parser.getXMLReader().setFeature(feature, ((Boolean)features.get(feature)).booleanValue());
       }
     }
     if (properties != null)
     {
       for (Iterator i = properties.keySet().iterator(); i.hasNext();)
       {
-        String property = (String) i.next();
+        String property = (String)i.next();
         parser.getXMLReader().setProperty(property, properties.get(property));
       }
     }
     return parser;
+  }
+
+  public synchronized XMLDefaultHandler getDefaultHandler(XMLResource resource, XMLLoad xmlLoad, XMLHelper helper, Map options)
+  {
+    Object o = handlersCache.get(options);
+    if (o != null)
+    {
+      ArrayList list = (ArrayList)o;
+      int size = list.size();
+      if (size > 0)
+      {
+        XMLDefaultHandler handler = (XMLDefaultHandler)list.remove(size - 1);
+        handler.prepare(resource, helper, options);
+        return handler;
+      }
+      else
+      {
+        return xmlLoad.createDefaultHandler();
+      }
+    }
+    else
+    {
+      handlersCache.put(options, new ArrayList());
+      return xmlLoad.createDefaultHandler();
+    }
+  }
+
+  public synchronized void releaseDefaultHandler(XMLDefaultHandler handler, Map options)
+  {
+    handler.reset();
+    ArrayList list = (ArrayList)handlersCache.get(options);
+    if (list == null)
+    {
+      list = new ArrayList();
+      handlersCache.put(options, list);
+    }
+    list.add(handler);
   }
 }

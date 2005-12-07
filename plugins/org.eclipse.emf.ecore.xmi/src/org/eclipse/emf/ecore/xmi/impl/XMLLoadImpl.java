@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.11 2005/11/24 19:51:38 elena Exp $
+ * $Id: XMLLoadImpl.java,v 1.12 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -46,6 +46,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMIException;
+import org.eclipse.emf.ecore.xmi.XMLDefaultHandler;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLParserPool;
@@ -102,20 +103,26 @@ public class XMLLoadImpl implements XMLLoad
     parserProperties = (parserProperties == null) ? Collections.EMPTY_MAP : parserProperties;
 
     // HACK: reading encoding
-    String encoding = getEncoding();
-    resource.setEncoding(encoding);
+    if (!Boolean.FALSE.equals(options.get(XMLResource.OPTION_USE_DEPRECATED_METHODS)))
+    {
+      String encoding = getEncoding();
+      resource.setEncoding(encoding);
+    }
     try
     {
-      SAXParser parser;      
+      SAXParser parser;  
+      DefaultHandler handler;
 
       if (pool != null)
       {
         // use the pool to retrieve the parser
         parser = pool.get(parserFeatures, parserProperties, Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)));
+        handler = (DefaultHandler)pool.getDefaultHandler(resource, this, helper, options);
       } 
       else 
       {
         parser = makeParser();
+        handler = makeDefaultHandler();
         // set features and properties
         if (parserFeatures != null)
         {
@@ -142,30 +149,29 @@ public class XMLLoadImpl implements XMLLoad
         inputSource.setPublicId(resourceURI);
         inputSource.setSystemId(resourceURI);
       }
-
-      DefaultHandler defaultHandler = makeDefaultHandler(); 
-      
+    
       // set lexical handler
       if (options != null && Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)))
       {
         if (parserProperties == null || parserProperties.get(SAX_LEXICAL_PROPERTY) == null) 
         {
-          parser.setProperty(SAX_LEXICAL_PROPERTY, defaultHandler);
+          parser.setProperty(SAX_LEXICAL_PROPERTY, handler);
         }
       }
       
-      parser.parse(inputSource, defaultHandler);
+      parser.parse(inputSource, handler);
       
       // avoid memory leak bug #85141
-      if (defaultHandler instanceof SAXWrapper)
+      if (handler instanceof SAXWrapper)
       {
-        ((SAXWrapper)defaultHandler).handler = null;
+        ((SAXWrapper)handler).handler = null;
       }
       
       // release parser back to the pool
       if (pool != null)
       {
         pool.release(parser, parserFeatures, parserProperties, Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)));
+        pool.releaseDefaultHandler((XMLDefaultHandler)handler, options);
       }
       
       helper = null;
@@ -216,16 +222,19 @@ public class XMLLoadImpl implements XMLLoad
 
     try
     {
-      SAXParser parser;      
+      SAXParser parser;  
+      DefaultHandler handler;
 
       if (pool != null)
       {
         // use the pool to retrieve the parser
         parser = pool.get(parserFeatures, parserProperties, Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)));
+        handler = (DefaultHandler)pool.getDefaultHandler(resource, this, helper, options);
       } 
       else 
       {
         parser = makeParser();
+        handler = makeDefaultHandler();
         // set features and properties
         if (parserFeatures != null)
         {
@@ -244,30 +253,29 @@ public class XMLLoadImpl implements XMLLoad
           }
         }
       }
-
-      DefaultHandler defaultHandler = makeDefaultHandler(); 
-      
+  
       // set lexical handler
       if (options != null && Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)))
       {
         if (parserProperties == null || parserProperties.get(SAX_LEXICAL_PROPERTY) == null) 
         {
-          parser.setProperty(SAX_LEXICAL_PROPERTY, defaultHandler);
+          parser.setProperty(SAX_LEXICAL_PROPERTY, handler);
         }
       }
       
-      parser.parse(inputSource, defaultHandler);
-      
+      parser.parse(inputSource, handler);
+
       // avoid memory leak bug #85141
-      if (defaultHandler instanceof SAXWrapper)
+      if (handler instanceof SAXWrapper)
       {
-        ((SAXWrapper)defaultHandler).handler = null;
+        ((SAXWrapper)handler).handler = null;
       }
       
       // release parser back to the pool
       if (pool != null)
       {
         pool.release(parser, parserFeatures, parserProperties, Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)));
+        pool.releaseDefaultHandler((XMLDefaultHandler)handler, options);
       }
       
       helper = null;
@@ -302,7 +310,6 @@ public class XMLLoadImpl implements XMLLoad
     }
   }
 
-
   /**
    * Make either a validating or non-validating parser;
    * throw an if one could not be made.
@@ -312,12 +319,21 @@ public class XMLLoadImpl implements XMLLoad
     SAXParserFactory f = SAXParserFactory.newInstance();
     return f.newSAXParser();
   }
+  
+  public XMLDefaultHandler createDefaultHandler()
+  {
+    return (XMLDefaultHandler)makeDefaultHandler();
+  }
 
   protected DefaultHandler makeDefaultHandler()
   {
-    return new SAXWrapper(new SAXXMLHandler(resource, helper, options));
+    return new SAXXMLHandler(resource, helper, options);
   }
 
+  /** 
+   * @deprecated since 2.2
+   * The encoding will be reported by the parser using SAX 2 Locator
+   */
   protected String getEncoding() throws IOException
   {
     if (!is.markSupported())
@@ -365,7 +381,16 @@ public class XMLLoadImpl implements XMLLoad
   {
     this.resource = resource;
     this.options = options;
-    DefaultHandler handler = makeDefaultHandler();
+    DefaultHandler handler;
+    XMLParserPool pool = (XMLParserPool)options.get(XMLResource.OPTION_USE_PARSER_POOL);
+    if (pool != null)
+    {
+      handler = (DefaultHandler)pool.getDefaultHandler(resource, this, helper, options);
+    }
+    else
+    {
+      handler = makeDefaultHandler();
+    }
     LexicalHandler lexicalHandler = null;
 
     if (options != null && Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)))
@@ -412,6 +437,10 @@ public class XMLLoadImpl implements XMLLoad
         }
       }
       throw new Resource.IOWrappedException(error);
+    }
+    if (pool != null)
+    {
+      pool.releaseDefaultHandler((XMLDefaultHandler)handler, options);
     }
 
     if (handler instanceof SAXWrapper)

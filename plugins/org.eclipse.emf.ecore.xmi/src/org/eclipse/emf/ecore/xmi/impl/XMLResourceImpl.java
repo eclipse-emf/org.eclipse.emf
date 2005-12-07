@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.14 2005/11/23 16:41:28 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.15 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -107,7 +107,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
 
   protected boolean useIDs()
   {
-    return true;
+    return eObjectToIDMap != null || idToEObjectMap != null || useUUIDs();
   }
 
   protected boolean useIDAttributes()

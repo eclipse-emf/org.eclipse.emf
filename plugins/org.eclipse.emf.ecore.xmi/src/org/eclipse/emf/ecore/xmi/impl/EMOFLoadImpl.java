@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFLoadImpl.java,v 1.2 2005/06/08 06:16:07 nickb Exp $
+ * $Id: EMOFLoadImpl.java,v 1.3 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -28,6 +28,6 @@ public class EMOFLoadImpl extends XMILoadImpl
 
   protected DefaultHandler makeDefaultHandler()
   {
-    return new SAXWrapper(new EMOFHandler(resource, (EMOFHandler.Helper)helper, options));
+    return new EMOFHandler(resource, (EMOFHandler.Helper)helper, options);
   }
 }

@@ -12,17 +12,12 @@
  *
  * </copyright>
  *
- * $Id: SAXXMLHandler.java,v 1.8 2005/11/22 19:35:24 emerks Exp $
+ * $Id: SAXXMLHandler.java,v 1.9 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
@@ -39,8 +34,6 @@ import org.eclipse.emf.ecore.xmi.XMLResource.XMLInfo;
  */
 public class SAXXMLHandler extends XMLHandler
 {
-  protected Locator locator;
-  protected Attributes attribs;
 
   /**
    * Constructor.
@@ -48,93 +41,6 @@ public class SAXXMLHandler extends XMLHandler
   public SAXXMLHandler(XMLResource xmiResource, XMLHelper helper, Map options)
   {
     super(xmiResource, helper, options);
-  }
-
-  protected Object setAttributes(Object attributes)
-  {
-    Object oldAttribs = attribs;
-    this.attribs = (Attributes)attributes;
-    return oldAttribs;
-  }
-
-  public void setLocator(Object locator)
-  {
-    this.locator = (Locator)locator;
-    Class locatorClass = locator.getClass();
-    try
-    {
-      Method encodingMethod = locatorClass.getMethod("getEncoding", null);
-      String encoding = (String)encodingMethod.invoke(locator, null);
-      if (encoding != null)
-      {
-        this.xmlResource.setEncoding(encoding);
-      }
-    }
-    catch (NoSuchMethodException e)
-    {
-    }
-    catch (IllegalAccessException e)
-    {
-    }
-    catch (InvocationTargetException e)
-    {
-    }
-  }
-
-  protected int getLineNumber()
-  {
-    if (locator != null)
-    {
-      return locator.getLineNumber();
-    }
-    else
-    {
-      return super.getLineNumber();
-    }
-  }
-
-  protected int getColumnNumber()
-  {
-    if (locator != null)
-    {
-      return locator.getColumnNumber();
-    }
-    else
-    {
-      return super.getColumnNumber();
-    }
-  }
-
-  /**
-   * Returns true if the xsi:nil attribute is in the list of attributes.
-   */
-  protected boolean isNull()
-  {
-    return attribs.getValue(NIL_ATTRIB) != null;
-  }
-
-
-  /**
-   * Handle the XML namespace attributes.
-   */
-  protected void handleNamespaceAttribs()
-  {
-    for (int i = 0, size = attribs.getLength(); i < size; ++i)
-    {
-      String attrib = attribs.getQName(i);
-      if (attrib.startsWith(XMLResource.XML_NS))
-      {
-        handleXMLNSAttribute(attrib, attribs.getValue(i));
-      }
-      else if (SCHEMA_LOCATION_ATTRIB.equals(attrib))
-      {
-        handleXSISchemaLocation(attribs.getValue(i));
-      }
-      else if (NO_NAMESPACE_SCHEMA_LOCATION_ATTRIB.equals(attrib))
-      {
-        handleXSINoNamespaceSchemaLocation(attribs.getValue(i));
-      }
-    }
   }
 
   protected String getXSIType()

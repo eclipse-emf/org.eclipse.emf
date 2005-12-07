@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.10 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLHelper.java,v 1.11 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -22,6 +22,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.ENamedElement;
@@ -157,6 +158,8 @@ public interface XMLHelper
    * @since 2.1.0
    */
   void populateNameInfo(NameInfo nameInfo, EStructuralFeature feature);
+  
+  String getPrefix(String namespaceURI);
 
   /**
    * Return the prefix used for this package.
@@ -200,8 +203,27 @@ public interface XMLHelper
 
   /**
    * Create an object given an EFactory and a type name.
+   * @deprecated since 2.2. Instead use #createObject(EFactory, EClassifier) and #getType(EFactory, String)
    */
   EObject createObject(EFactory eFactory, String name);
+  
+  /** Create an object given an EFactory and a type 
+   * @since 2.2
+   * @param eFactory
+   * @param type
+   * @return
+   * @see #createObject(EFactory, String)
+   */
+  EObject createObject(EFactory eFactory, EClassifier type);
+  
+  /**
+   * Given an EFactory and a type name, find and return the type
+   * @since 2.2
+   * @param eFactory
+   * @param typeName
+   * @see #createObject(EFactory, String)
+   */
+  public EClassifier getType(EFactory eFactory, String typeName);
 
   /**
    * Set the value of the feature for the object.

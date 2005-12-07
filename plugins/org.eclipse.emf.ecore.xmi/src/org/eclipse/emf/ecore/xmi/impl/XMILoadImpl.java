@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMILoadImpl.java,v 1.2 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMILoadImpl.java,v 1.3 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -35,7 +35,7 @@ public class XMILoadImpl extends XMLLoadImpl {
 
   protected DefaultHandler makeDefaultHandler()
   {
-    return new SAXWrapper(new SAXXMIHandler(resource, helper, options));
+    return new SAXXMIHandler(resource, helper, options);
   }
 
 }

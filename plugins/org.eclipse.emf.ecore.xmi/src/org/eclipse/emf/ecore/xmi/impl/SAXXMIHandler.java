@@ -12,14 +12,11 @@
  *
  * </copyright>
  *
- * $Id: SAXXMIHandler.java,v 1.4 2005/06/08 06:16:07 nickb Exp $
+ * $Id: SAXXMIHandler.java,v 1.5 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 import java.util.Map;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -32,8 +29,6 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  */
 public class SAXXMIHandler extends XMIHandler
 {
-  protected Locator locator;
-  protected Attributes attribs;
 
   /**
    * Constructor.
@@ -42,75 +37,7 @@ public class SAXXMIHandler extends XMIHandler
   {
     super(xmiResource, helper, options);
   }
-
-  protected Object setAttributes(Object attributes)
-  {
-    Object oldAttribs = attribs;
-    this.attribs = (Attributes)attributes;
-    return oldAttribs;
-  }
-
-  public void setLocator(Object locator)
-  {
-    this.locator = (Locator) locator;
-  }
-
-  protected int getLineNumber()
-  {
-    if (locator != null)
-    {
-      return locator.getLineNumber();
-    }
-    else
-    {
-      return super.getLineNumber();
-    }
-  }
-
-  protected int getColumnNumber()
-  {
-    if (locator != null)
-    {
-      return locator.getColumnNumber();
-    }
-    else
-    {
-      return super.getColumnNumber();
-    }
-  }
-
-  /**
-   * Returns true if the xsi:null attribute is in the list of attributes.
-   */
-  protected boolean isNull()
-  {
-    return attribs.getValue(NIL_ATTRIB) != null;
-  }
-
-
-  /**
-   * Handle the XML namespace attributes.
-   */
-  protected void handleNamespaceAttribs()
-  {
-    for (int i = 0, size = attribs.getLength(); i < size; ++i)
-    {
-      String attrib = attribs.getQName(i);
-      if (attrib.startsWith(XMLResource.XML_NS))
-      {
-        handleXMLNSAttribute(attrib, attribs.getValue(i));
-      }
-      else if (SCHEMA_LOCATION_ATTRIB.equals(attrib))
-      {
-        handleXSISchemaLocation(attribs.getValue(i));
-      }
-      else if (NO_NAMESPACE_SCHEMA_LOCATION_ATTRIB.equals(attrib))
-      {
-        handleXSINoNamespaceSchemaLocation(attribs.getValue(i));
-      }
-    }
-  }
-
+  
   protected String getXSIType()
   {
     String xsiType = attribs.getValue(TYPE_ATTRIB);

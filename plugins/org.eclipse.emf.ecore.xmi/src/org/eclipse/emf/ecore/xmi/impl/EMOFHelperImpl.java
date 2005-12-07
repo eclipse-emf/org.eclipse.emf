@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.6 2005/11/18 19:08:32 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.7 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -24,6 +24,7 @@ import java.util.Map;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
@@ -33,6 +34,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.EcorePackage.Literals;
 import org.eclipse.emf.ecore.util.EContentsEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -119,18 +121,18 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     return null;
   }
 
-  public EObject createObject(EFactory eFactory, String classXMIName)
+  public EClassifier getType(EFactory eFactory, String typeName)
   {
     EPackage ePackage = eFactory.getEPackage();
     if (ePackage == EcorePackage.eINSTANCE)
     {
-      if (EcorePackage.eINSTANCE.getEStructuralFeature().getName().equals(classXMIName))
+      if (EcorePackage.Literals.ESTRUCTURAL_FEATURE.getName().equals(typeName))
       {
         if (propertyClass == null)
         {
           propertyClass = EcoreFactory.eINSTANCE.createEClass();
-          propertyClass.getESuperTypes().add(EcorePackage.eINSTANCE.getEReference());
-          propertyClass.getESuperTypes().add(EcorePackage.eINSTANCE.getEAttribute());
+          propertyClass.getESuperTypes().add(EcorePackage.Literals.EREFERENCE);
+          propertyClass.getESuperTypes().add(EcorePackage.Literals.EATTRIBUTE);
           propertyClass.setName("EMOFProperty");
 
           EPackage propertyPackage = EcoreFactory.eINSTANCE.createEPackage();
@@ -138,18 +140,31 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
 
           propertyFeatureList = new ArrayList();
         }
-        EObject property = propertyClass.getEPackage().getEFactoryInstance().create(propertyClass);
-        propertyFeatureList.add(property);
-        return property;
+        return propertyClass;
       }
-      else if (EMOFExtendedMetaData.TAG.equals(classXMIName))
+      else if (EMOFExtendedMetaData.TAG.equals(typeName))
       {
-        EAnnotation annotation = EcoreFactory.eINSTANCE.createEAnnotation();
-        annotation.setSource(EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI);
-        return annotation;
+        return EcorePackage.eINSTANCE.getEAnnotation();
       }
     }
-    return super.createObject(eFactory, classXMIName);
+    return super.getType(eFactory, typeName);
+  }
+  
+  public EObject createObject(EFactory eFactory, EClassifier type)
+  {
+    if (EcorePackage.Literals.ESTRUCTURAL_FEATURE == type)
+    {
+      EObject property = propertyClass.getEPackage().getEFactoryInstance().create(propertyClass);
+      propertyFeatureList.add(property);
+      return property;
+    }
+    else if (EcorePackage.Literals.EANNOTATION == type)
+    {
+      EAnnotation annotation = EcoreFactory.eINSTANCE.createEAnnotation();
+      annotation.setSource(EMOFExtendedMetaData.EMOF_PACKAGE_NS_URI);
+      return annotation;
+    }
+    return super.createObject(eFactory, type);
   }
 
   public void convertPropertyFeatures()

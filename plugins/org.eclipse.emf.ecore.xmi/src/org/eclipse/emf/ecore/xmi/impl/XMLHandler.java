@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.42 2005/12/04 17:44:31 elena Exp $
+ * $Id: XMLHandler.java,v 1.43 2005/12/07 18:52:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -59,6 +61,7 @@ import org.eclipse.emf.ecore.xmi.PackageNotFoundException;
 import org.eclipse.emf.ecore.xmi.UnresolvedReferenceException;
 import org.eclipse.emf.ecore.xmi.XMIException;
 import org.eclipse.emf.ecore.xmi.XMIPlugin;
+import org.eclipse.emf.ecore.xmi.XMLDefaultHandler;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLOptions;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -67,6 +70,12 @@ import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 
 /**
@@ -74,7 +83,7 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
  * creating EObjects from them. Its subclasses include the SAXXMLHandler
  * class, which wraps this class in a SAX default handler.
  */
-public abstract class XMLHandler
+public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHandler
 {
   protected static final String ERROR_TYPE = "error";
   protected static final String OBJECT_TYPE = "object";
@@ -239,6 +248,7 @@ public abstract class XMLHandler
   protected Map externalURIToLocations;
   protected boolean processSchemaLocations;
   protected InternalEList extent;
+  //protected List deferredExtent;
   protected ResourceSet resourceSet;
   protected EPackage.Registry packageRegistry;
   protected URI resourceURI;
@@ -264,6 +274,7 @@ public abstract class XMLHandler
   protected EClass anyType;
   protected EClass anySimpleType;
   protected boolean recordUnknownFeature;
+  protected boolean useNewMethods;
   protected boolean recordAnyTypeNSDecls;
   protected Map eObjectToExtensionMap;
   protected EStructuralFeature contextFeature;
@@ -272,6 +283,10 @@ public abstract class XMLHandler
   protected boolean processAnyXML;
   protected EcoreBuilder ecoreBuilder;
   protected boolean isRoot;
+  protected Locator locator;
+  protected Attributes attribs;
+  protected Map featuresToKinds;
+  protected boolean useConfigurationCache;
 
   /**
    */
@@ -295,6 +310,7 @@ public abstract class XMLHandler
     packageRegistry = resourceSet == null ? EPackage.Registry.INSTANCE : resourceSet.getPackageRegistry();
     resourceURI  = xmlResource.getURI();
     extent       = (InternalEList) xmlResource.getContents();
+    //deferredExtent = new ArrayList();
     resolve      = resourceURI != null && resourceURI.isHierarchical() && !resourceURI.isRelative();
 
     eObjectToExtensionMap = xmlResource.getEObjectToExtensionMap();
@@ -325,6 +341,8 @@ public abstract class XMLHandler
     {
       setExtendedMetaDataOption(Boolean.TRUE);
     }
+    
+    useNewMethods = Boolean.FALSE.equals(options.get(XMLResource.OPTION_USE_DEPRECATED_METHODS));  
     
     XMLOptions xmlOptions = (XMLOptions)options.get(XMLResource.OPTION_XML_OPTIONS);
     if (xmlOptions != null)
@@ -388,6 +406,11 @@ public abstract class XMLHandler
     {
       helper.setCheckForDuplicates(deferIDREFResolution = true);
     }
+    
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_CONFIGURATION_CACHE)))
+    {
+      useConfigurationCache = true;
+    }
   }
 
   protected void setExtendedMetaDataOption(Object extendedMetaDataOption)
@@ -418,6 +441,187 @@ public abstract class XMLHandler
     helper.setExtendedMetaData(extendedMetaData);
   }
 
+  public void prepare(XMLResource resource, XMLHelper helper, Map options)
+  {
+    this.xmlResource = resource;
+    this.helper = helper;
+    if (helper instanceof XMLHelperImpl)
+    {
+      ((XMLHelperImpl)helper).featuresToKinds = featuresToKinds;
+    }
+    resourceSet = xmlResource.getResourceSet();
+    packageRegistry = resourceSet == null ? EPackage.Registry.INSTANCE : resourceSet.getPackageRegistry();
+    resourceURI = xmlResource.getURI();
+    extent = (InternalEList)xmlResource.getContents();
+    resolve = resourceURI != null && resourceURI.isHierarchical() && !resourceURI.isRelative();
+    eObjectToExtensionMap = xmlResource.getEObjectToExtensionMap();
+    eObjectToExtensionMap.clear();
+    setExtendedMetaDataOption(options.get(XMLResource.OPTION_EXTENDED_META_DATA));
+    helper.setOptions(options);
+    if (extendedMetaData != null)
+    {
+      AnyType anyType = XMLTypeFactory.eINSTANCE.createAnyType();
+      mixedTargets.push(anyType.getMixed());
+      text = new StringBuffer();
+    }
+  }
+
+  public void reset()
+  {
+    this.xmlResource = null;
+    this.extendedMetaData = null;
+    if (helper instanceof XMLHelperImpl)
+    {
+      featuresToKinds = ((XMLHelperImpl)helper).featuresToKinds;
+    }
+    this.helper = null;
+    elements.clear();
+    objects.clear();
+    mixedTargets.clear();
+
+    types.clear();
+    prefixesToFactories.clear();
+    forwardSingleReferences.clear();
+    forwardManyReferences.clear();
+    sameDocumentProxies.clear();
+    for (int i = 0; i < identifiers.length; i++)
+    {
+      identifiers[i] = null;
+    }
+    for (int i = 0; i < positions.length; i++)
+    {
+      positions[i] = 0;
+    }
+    capacity = ARRAY_SIZE;
+    resourceSet = null;
+    packageRegistry = null;
+    resourceURI = null;
+    extent = null;
+    //deferredExtent.clear();
+    attribs = null;
+    locator = null;
+  }
+
+  //
+  // Overwrite DefaultHandler methods
+  //
+
+  public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException
+  {
+  }
+
+  public void skippedEntity(String name) throws SAXException
+  {
+  }
+
+  public void warning(SAXParseException e) throws SAXException
+  {
+    XMIException xmi = new XMIException(e.getException() == null ? e : e.getException(), e.getSystemId(), e.getLineNumber(), e.getColumnNumber());
+    warning(xmi);
+  }
+
+  public void error(SAXParseException e) throws SAXException
+  {
+    XMIException xmi = new XMIException(e.getException() == null ? e : e.getException(), e.getSystemId(), e.getLineNumber(), e.getColumnNumber());
+    error(xmi);
+  }
+
+  public void fatalError(SAXParseException e) throws SAXException
+  {
+    XMIException xmi = new XMIException(e.getException() == null ? e : e.getException(), e.getSystemId(), e.getLineNumber(), e.getColumnNumber());
+    fatalError(xmi);
+    throw e;
+  }
+
+  public void setDocumentLocator(Locator locator)
+  {
+    setLocator(locator);
+  }
+
+  public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
+  {
+    setAttributes(attributes);
+    startElement(uri, localName, qName);
+  }
+
+  //
+  // Implement LexicalHandler methods
+  //
+
+  public void startEntity(java.lang.String name)
+  {
+  }
+
+  public void endEntity(java.lang.String name)
+  {
+  }
+
+  public void comment(char[] ch, int start, int length) // throws SAXException
+  {
+    if (mixedTargets.peek() != null)
+    {
+      if (text != null)
+      {
+        handleMixedText();
+      }
+
+      handleComment(new String(ch, start, length));
+    }
+  }
+
+  public void startCDATA()
+  {
+    if (mixedTargets.peek() != null)
+    {
+      if (text != null)
+      {
+        handleMixedText();
+      }
+      text = new StringBuffer();
+    }
+  }
+
+  public void endCDATA()
+  {
+    if (mixedTargets.peek() != null && text != null)
+    {
+      handleCDATA();
+    }
+  }
+  
+  //
+  // Implement DTDHandler methods
+  //
+  public void startDTD(String name, String publicId, String systemId)
+  {
+    xmlResource.setDoctypeInfo(publicId, systemId);
+  }
+
+  public void endDTD()
+  {
+  }
+
+  public void unparsedEntityDecl(String name, String publicId, String systemId, String notationName) throws SAXException
+  {
+  }
+
+  public void notationDecl(String name, String publicId, String systemId) throws SAXException
+  {
+  }
+
+  //
+  // Implement EntityResolver methods
+  //
+  public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
+  {
+    return null;
+  }
+
+  /**
+   * Returns the xsi type attribute's value.
+   */
+  protected abstract String getXSIType();
+  
   /**
    * Process the XML attributes for the newly created object.
    */
@@ -425,33 +629,94 @@ public abstract class XMLHandler
 
   /**
    * Process the XML namespace declarations.
+   * @deprecated since 2.2 
    */
-  protected abstract void handleNamespaceAttribs();
+  protected void handleNamespaceAttribs()
+  {
+    for (int i = 0, size = attribs.getLength(); i < size; ++i)
+    {
+      String attrib = attribs.getQName(i);
+      if (attrib.startsWith(XMLResource.XML_NS))
+      {
+        handleXMLNSAttribute(attrib, attribs.getValue(i));
+      }
+      else if (SCHEMA_LOCATION_ATTRIB.equals(attrib))
+      {
+        handleXSISchemaLocation(attribs.getValue(i));
+      }
+      else if (NO_NAMESPACE_SCHEMA_LOCATION_ATTRIB.equals(attrib))
+      {
+        handleXSINoNamespaceSchemaLocation(attribs.getValue(i));
+      }
+    }
+  }
+
+  protected void handleSchemaLocation()
+  {
+    for (int i = 0, size = attribs.getLength(); i < size; ++i)
+    {
+      String attrib = attribs.getQName(i);
+      if (SCHEMA_LOCATION_ATTRIB.equals(attrib))
+      {
+        handleXSISchemaLocation(attribs.getValue(i));
+      }
+      else if (NO_NAMESPACE_SCHEMA_LOCATION_ATTRIB.equals(attrib))
+      {
+        handleXSINoNamespaceSchemaLocation(attribs.getValue(i));
+      }
+    }
+  }
 
   /**
    * Returns true if the xsi:nil attribute is in the list of attributes.
    */
-  protected abstract boolean isNull();
+  protected boolean isNull()
+  {
+    return attribs.getValue(NIL_ATTRIB) != null;
+  }
 
   /**
    * Sets the current attributes and returns the old ones.
    */
-  protected abstract Object setAttributes(Object attributes);
+  protected Object setAttributes(Object attributes)
+  {
+    Object oldAttribs = attribs;
+    this.attribs = (Attributes)attributes;
+    return oldAttribs;
+  }
 
   /**
    * Sets the object that might be used for determining the line and
    * column number.
    */
-  protected abstract void setLocator(Object locator);
-
-  /**
-   * Returns the xsi type attribute's value.
-   */
-  protected abstract String getXSIType();
+  protected void setLocator(Object locator)
+  {
+    this.locator = (Locator)locator;
+    Class locatorClass = locator.getClass();
+    try
+    {
+      Method encodingMethod = locatorClass.getMethod("getEncoding", null);
+      String encoding = (String)encodingMethod.invoke(locator, null);
+      if (encoding != null)
+      {
+        this.xmlResource.setEncoding(encoding);
+      }
+    }
+    catch (NoSuchMethodException e)
+    {
+    }
+    catch (IllegalAccessException e)
+    {
+    }
+    catch (InvocationTargetException e)
+    {
+    }
+  }
 
   public void startDocument()
   {
     isRoot = true;
+    helper.pushContext();
   }
 
   /**
@@ -461,27 +726,36 @@ public abstract class XMLHandler
   public void startElement(String uri, String localName, String name)
   {
     helper.pushContext();
-    if (text != null && mixedTargets.peek() != null)
+    if (text != null && text.length() > 0 && mixedTargets.peek() != null)
     {
       handleMixedText();
     }
 
     elements.push(name);
-
-    handleNamespaceAttribs();
-
-    // Turning on namespace awareness is very expensive so this simulates the effect.
-    //
-    int index = name.indexOf(":");
     String prefix = "";
-    localName = name;
-    if (index != -1)
+       
+    if (useNewMethods)
     {
-      prefix    = name.substring(0, index);
-      localName = name.substring(index + 1);
+      if (isRoot)
+      {
+        handleSchemaLocation();
+      } 
+      prefix = helper.getPrefix((uri.length() == 0) ? null : uri);
+      prefix = (prefix == null) ? "" : prefix;
     }
-
+    else
+    {
+      handleNamespaceAttribs();
+      int index = name.indexOf(":");
+      localName = name;
+      if (index != -1)
+      {
+        prefix = name.substring(0, index);
+        localName = name.substring(index + 1);
+      }
+    }
     processElement(name, prefix, localName);
+    
   }
 
   protected void processElement(String name, String prefix, String localName)
@@ -680,8 +954,13 @@ public abstract class XMLHandler
    * set them.
    */
   public void endDocument()
-  {
+  {    
+    /*if (deferredExtent != null)
+    {
+       extent.addAll(deferredExtent);
+    }*/
     helper.recordPrefixToURIMapping();
+    helper.popContext();
     handleForwardReferences(true);
 
     if (disableNotify) 
@@ -772,12 +1051,22 @@ public abstract class XMLHandler
         eFactory = ePackage.getEFactoryInstance();
       }
     }
+    
     EObject documentRoot= createDocumentRoot(prefix, uri, name, eFactory, top);
     
     if (documentRoot != null) return documentRoot;
-
-    EObject newObject = createObjectFromFactory(eFactory, name);
+    
+    EObject newObject = null;
+    if (useNewMethods)
+    {
+      newObject = createObject(eFactory, helper.getType(eFactory, name) , false);     
+    }
+    else
+    {
+      newObject = createObjectFromFactory(eFactory, name);
+    }
     validateCreateObjectFromFactory(eFactory, name, newObject);
+    
     if (top)
     {
       processTopObject(newObject);
@@ -803,12 +1092,34 @@ public abstract class XMLHandler
   {
     if (extendedMetaData != null && eFactory != null)
     {
-      EClass eClass = extendedMetaData.getDocumentRoot(eFactory.getEPackage());
+      EPackage ePackage = eFactory.getEPackage();
+      EClass eClass = null;
+      if (useConfigurationCache)
+      {
+        eClass = ConfigurationCache.INSTANCE.getDocumentRoot(ePackage);
+        if (eClass == null)
+        {
+          eClass = extendedMetaData.getDocumentRoot(ePackage);
+          ConfigurationCache.INSTANCE.putDocumentRoot(ePackage, eClass);
+        }
+      }
+      else
+      {
+        eClass = extendedMetaData.getDocumentRoot(ePackage);
+      }
       if (eClass != null)
       {
         // EATM Kind of hacky.
-        String typeName = extendedMetaData.getName(eClass);
-        EObject newObject = helper.createObject(eFactory, typeName);
+        EObject newObject = null;
+        String typeName = extendedMetaData.getName(eClass);;
+        if (useNewMethods)
+        {
+          newObject = createObject(eFactory, eClass, true);
+        }
+        else
+        {         
+          newObject = helper.createObject(eFactory, typeName);          
+        }
         validateCreateObjectFromFactory(eFactory, typeName, newObject);
         if (top)
         {
@@ -833,8 +1144,13 @@ public abstract class XMLHandler
   {
     if (object != null)
     {
+      /*if (deferredExtent != null)
+      {
+        deferredExtent.add(object);
+      }*/
+      
       extent.addUnique(object);
-
+          
       if (extendedMetaData != null)
       {
         FeatureMap featureMap = (FeatureMap)mixedTargets.pop();
@@ -848,7 +1164,7 @@ public abstract class XMLHandler
 
             // Ignore a whitespace only text entry at the beginning.
             //
-            if (entry.getEStructuralFeature() !=  XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text() ||
+            if (entry.getEStructuralFeature() !=  XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT ||
                   !"".equals(XMLTypeUtil.normalize(entry.getValue().toString(), true)))
             {
               otherFeatureMap.add(entry.getEStructuralFeature(), entry.getValue());
@@ -937,7 +1253,10 @@ public abstract class XMLHandler
 
   public void startPrefixMapping(String prefix, String uri)
   {
-    helper.addPrefix(prefix, uri);
+    //if (useNonDeprecatedMethods)
+    //{
+        helper.addPrefix(prefix, uri);
+    //}
   }
 
   public void endPrefixMapping(String prefix)
@@ -962,43 +1281,6 @@ public abstract class XMLHandler
     // do nothing
   }
 
-  public void comment(char [] ch, int start, int length) // throws SAXException
-  {
-    if (mixedTargets.peek() != null)
-    {
-      if (text != null)
-      {
-        handleMixedText();
-      }
-
-      handleComment(new String(ch, start, length));
-    }
-  }
-
-  public void startCDATA()
-  {
-    if (mixedTargets.peek() != null)
-    {
-      if (text != null)
-      {
-        handleMixedText();
-      }
-      text = new StringBuffer();
-    }
-  }
-
-  public void endCDATA()
-  {
-    if (mixedTargets.peek() != null && text != null)
-    {
-      handleCDATA();
-    }
-  }
-  
-  public void startDTD(String name, String publicId, String systemId)
-  {
-    xmlResource.setDoctypeInfo(publicId, systemId);
-  }
 
   protected void handleXMLNSAttribute(String attrib, String value)
   {
@@ -1099,10 +1381,10 @@ public abstract class XMLHandler
     {
       // Ensure that anything can be handled, even if it's not recognized.
       //
-      String namespaceURI = helper.getURI(prefix);
-      if (extendedMetaData.getPackage(namespaceURI) == null)
+      String uri = helper.getURI(prefix);
+      if (extendedMetaData.getPackage(uri) == null)
       {
-        extendedMetaData.demandFeature(namespaceURI, name, true);
+        extendedMetaData.demandFeature(uri, name, true);
       }
     }
   }
@@ -1196,6 +1478,7 @@ public abstract class XMLHandler
       //
       if (xmlMap != null && (feature = getFeature(peekObject, null, "", true)) != null)
       {
+
         EFactory eFactory = getFactoryForPrefix(prefix);
 
         // This is for the case for a local unqualified element that has been bound.
@@ -1205,7 +1488,15 @@ public abstract class XMLHandler
           eFactory = feature.getEContainingClass().getEPackage().getEFactoryInstance();
         }
 
-        EObject newObject = createObjectFromFactory(eFactory, name);
+        EObject newObject = null;
+        if (useNewMethods)
+        {
+          newObject = createObject(eFactory, helper.getType(eFactory, name), false);
+        }
+        else
+        {
+            newObject = createObjectFromFactory(eFactory, name);
+        }
         newObject = validateCreateObjectFromFactory(eFactory, name, newObject, feature);
         if (newObject != null)
         {
@@ -1244,12 +1535,26 @@ public abstract class XMLHandler
 
   protected int getLineNumber()
   {
-    return -1;
+    if (locator != null)
+    {
+      return locator.getLineNumber();
+    }
+    else
+    {
+      return -1;
+    }
   }
 
   protected int getColumnNumber()
   {
-    return -1;
+    if (locator != null)
+    {
+      return locator.getColumnNumber();
+    }
+    else
+    {
+      return -1;
+    }
   }
 
   protected String getLocation()
@@ -1397,22 +1702,25 @@ public abstract class XMLHandler
       contextFeature = null;
       if (ePackage == null)
       {
-        error
-          (new PackageNotFoundException
-             (null,
-              getLocation(),
-              getLineNumber(),
-              getColumnNumber()));
+        error(new PackageNotFoundException(null, getLocation(), getLineNumber(), getColumnNumber()));
       }
       else
       {
         eFactory = ePackage.getEFactoryInstance();
       }
     }
-
-    EObject obj = createObjectFromFactory(eFactory, typeName);
+    EObject obj = null;
+    if (useNewMethods)
+    {
+      obj = createObject(eFactory, helper.getType(eFactory, typeName), false);
+    }
+    else
+    {
+      obj = createObjectFromFactory(eFactory, typeName);
+      
+    }
     obj = validateCreateObjectFromFactory(eFactory, typeName, obj, feature);
-
+    
     if (obj != null)
     {
       if (contextFeature == null)
@@ -1438,26 +1746,45 @@ public abstract class XMLHandler
     String typeName = null;
     EFactory factory = null;
     EClassifier eType = null;
+    EObject obj = null;
 
     if (feature != null && (eType = feature.getEType()) != null)
     {
-      if (extendedMetaData != null && 
-            eType == EcorePackage.eINSTANCE.getEObject() &&
-            extendedMetaData.getFeatureKind(feature) != ExtendedMetaData.UNSPECIFIED_FEATURE)
+      if (useNewMethods)
       {
-        typeName = extendedMetaData.getName(anyType);
-        factory = anyType.getEPackage().getEFactoryInstance();
+        if (extendedMetaData != null && eType == EcorePackage.Literals.EOBJECT && extendedMetaData.getFeatureKind(feature) != ExtendedMetaData.UNSPECIFIED_FEATURE)
+        {
+          eType = anyType;
+          typeName = extendedMetaData.getName(anyType);
+          factory = anyType.getEPackage().getEFactoryInstance();
+        }
+        else
+        {
+          factory = eType.getEPackage().getEFactoryInstance();
+          typeName = extendedMetaData == null ? eType.getName() : extendedMetaData.getName(eType);
+        }
+        obj = createObject(factory, eType, false);
       }
       else
       {
-        EClass eClass = (EClass) eType;
-        typeName = extendedMetaData == null ? eClass.getName() : extendedMetaData.getName(eClass);
-        factory = eClass.getEPackage().getEFactoryInstance();
-      }
-    }
 
-    EObject obj = createObjectFromFactory(factory, typeName);
+        if (extendedMetaData != null && eType == EcorePackage.Literals.EOBJECT && extendedMetaData.getFeatureKind(feature) != ExtendedMetaData.UNSPECIFIED_FEATURE)
+        {
+          typeName = extendedMetaData.getName(anyType);
+          factory = anyType.getEPackage().getEFactoryInstance();
+        }
+        else
+        {
+          EClass eClass = (EClass)eType;
+          typeName = extendedMetaData == null ? eClass.getName() : extendedMetaData.getName(eClass);
+          factory = eClass.getEPackage().getEFactoryInstance();
+        }
+        obj = createObjectFromFactory(factory, typeName);
+      }   
+    }
+    
     obj = validateCreateObjectFromFactory(factory, typeName, obj, feature);
+
     if (obj != null)
     {
       setFeatureValue(peekObject, feature, obj);
@@ -1468,6 +1795,7 @@ public abstract class XMLHandler
   }
 
   /**
+   * @deprecated since 2.2
    * Create an object given a content helper, a factory, and a type name,
    * and process the XML attributes.
    */
@@ -1486,20 +1814,49 @@ public abstract class XMLHandler
 
         handleObjectAttribs(newObject);
       }
-/*
-      else
-      {
-        error
-          (new ClassNotFoundException
-            (typeName,
-             factory,
-             getLocation(),
-             getLineNumber(),
-             getColumnNumber()));
-      }
-*/
     }
 
+    return newObject;
+  }
+  
+  EObject createObject(EFactory eFactory, EClassifier type, boolean documentRoot)
+  {
+    EObject newObject = helper.createObject(eFactory, type);
+    /*if (eFactory != null)
+    {
+      if (extendedMetaData != null)
+      {
+        if (type == null)
+        {
+          return null;
+        }
+        else if (type instanceof EClass)
+        {
+          newObject = eFactory.create((EClass)type);
+        }
+        else
+        {
+          SimpleAnyType result = (SimpleAnyType)EcoreUtil.create(anySimpleType);
+          result.setInstanceType((EDataType)type);
+          newObject = result;
+        }
+      }
+      else
+      {
+        if (type != null)
+        {
+          newObject = eFactory.create((EClass)type);
+        }
+      }
+    }*/
+    if (newObject != null && !documentRoot)
+    {
+      if (disableNotify)
+      {
+        newObject.eSetDeliver(false);
+      }
+      handleObjectAttribs(newObject);
+    }
     return newObject;
   }
 
@@ -1564,12 +1921,21 @@ public abstract class XMLHandler
     }
     else if (feature != null && factory != null && extendedMetaData != null)
     {
+      // processing unknown feature with xsi:type (xmi:type)
       if (recordUnknownFeature || processAnyXML)
       {
-        factory = 
-          extendedMetaData.demandType
-            (extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
-        EObject result = createObjectFromFactory(factory, typeName);
+        
+        EObject result = null;
+        if (useNewMethods)
+        {
+          EClassifier type = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName);
+          result = createObject(type.getEPackage().getEFactoryInstance(), type, false);
+        }
+        else
+        {
+          factory = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
+          result = createObjectFromFactory(factory, typeName);
+        }
         EObject peekObject = (EObject)objects.peek();
         if (!(peekObject instanceof AnyType))
         {
@@ -1595,10 +1961,16 @@ public abstract class XMLHandler
             case ExtendedMetaData.SKIP_PROCESSING:
             {
               // EATM Demand create metadata; needs to depend on processing mode...
-              factory = 
-                extendedMetaData.demandType
-                  (extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
-              return createObjectFromFactory(factory, typeName);
+              if (useNewMethods)
+              {
+                EClassifier type = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName);
+                return createObject(type.getEPackage().getEFactoryInstance(), type, false);
+              }
+              else
+              {
+                factory = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
+                return createObjectFromFactory(factory, typeName);
+              }
             }
           }
         }
@@ -1606,6 +1978,7 @@ public abstract class XMLHandler
     }
 
     validateCreateObjectFromFactory(factory, typeName, newObject);
+    
     return newObject;
   }
 
@@ -1658,10 +2031,10 @@ public abstract class XMLHandler
     EFactory factory = (EFactory) prefixesToFactories.get(prefix);
     if (factory == null)
     {
-      String uriString = helper.getURI(prefix);
-      EPackage ePackage = getPackageForURI(uriString);
+      String uri = helper.getURI(prefix);
+      EPackage ePackage = getPackageForURI(uri);
 
-      if (ePackage == null && uriString == null && prefix.equals(""))
+      if (ePackage == null && uri == null && prefix.equals(""))
       {
         ePackage = helper.getNoNamespacePackage();
       }
@@ -1934,7 +2307,6 @@ public abstract class XMLHandler
       prefix    = name.substring(0, index);
       localName = name.substring(index + 1);
     }
-
     EStructuralFeature feature = getFeature(object, prefix, localName, false);
     if (feature == null)
     {
@@ -2160,11 +2532,11 @@ public abstract class XMLHandler
   protected EStructuralFeature getFeature(EObject object, String prefix, String name)
   {
     EClass eClass = object.eClass();
-    String namespace = helper.getURI(prefix);
-    EStructuralFeature result = helper.getFeature(eClass, namespace, name, true);
+    String uri = helper.getURI(prefix);
+    EStructuralFeature result = helper.getFeature(eClass, uri, name, true);
     if (result == null)
     {
-      helper.getFeature(eClass, namespace, name, false);
+      helper.getFeature(eClass, uri, name, false);
     }
     return result;
   }
@@ -2175,16 +2547,16 @@ public abstract class XMLHandler
    */
   protected EStructuralFeature getFeature(EObject object, String prefix, String name, boolean isElement)
   {
-    String namespace = helper.getURI(prefix);
+    String uri = helper.getURI(prefix);
     EClass eClass = object.eClass();
     eClassFeatureNamePair.eClass = eClass;
     eClassFeatureNamePair.featureName = name;
-    eClassFeatureNamePair.namespaceURI = namespace;
+    eClassFeatureNamePair.namespaceURI = uri;
     eClassFeatureNamePair.isElement = isElement;
     EStructuralFeature result = (EStructuralFeature)eClassFeatureNamePairToEStructuralFeatureMap.get(eClassFeatureNamePair);
     if (result == null)
     {
-      result = helper.getFeature(eClass, namespace, name, isElement);
+      result = helper.getFeature(eClass, uri, name, isElement);
 
       if (result == null)
       {
@@ -2192,8 +2564,8 @@ public abstract class XMLHandler
         {
           EStructuralFeature wildcardFeature = 
             isElement ? 
-              extendedMetaData.getElementWildcardAffiliation(eClass, namespace, name) :
-              extendedMetaData.getAttributeWildcardAffiliation(eClass, namespace, name);
+              extendedMetaData.getElementWildcardAffiliation(eClass, uri, name) :
+              extendedMetaData.getAttributeWildcardAffiliation(eClass, uri, name);
           if (wildcardFeature != null)
           {
             switch (extendedMetaData.getProcessingKind(wildcardFeature))
@@ -2202,7 +2574,7 @@ public abstract class XMLHandler
               case ExtendedMetaData.SKIP_PROCESSING:
               {
                 // EATM Demand create metadata.
-                result = extendedMetaData.demandFeature(namespace, name, isElement);
+                result = extendedMetaData.demandFeature(uri, name, isElement);
                 break;
               }
             }
@@ -2219,7 +2591,7 @@ public abstract class XMLHandler
       EClassFeatureNamePair entry = new EClassFeatureNamePair();
       entry.eClass = eClass;
       entry.featureName = name;
-      entry.namespaceURI = namespace;
+      entry.namespaceURI = uri;
       entry.isElement = isElement;
       eClassFeatureNamePairToEStructuralFeatureMap.put(entry, result);
     }
@@ -2287,20 +2659,20 @@ public abstract class XMLHandler
   protected void handleComment(String comment)
   {
     FeatureMap featureMap = (FeatureMap)mixedTargets.peek();
-    featureMap.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment(), comment);
+    featureMap.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT, comment);
     text = null;
   }
   protected void handleMixedText()
   {
     FeatureMap featureMap = (FeatureMap)mixedTargets.peek();
-    featureMap.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text(), text.toString());
+    featureMap.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT, text.toString());
     text = null;
   }
 
   protected void handleCDATA()
   {
     FeatureMap featureMap = (FeatureMap)mixedTargets.peek();
-    featureMap.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA(), text.toString());
+    featureMap.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA, text.toString());
     text = null;
   }
   
