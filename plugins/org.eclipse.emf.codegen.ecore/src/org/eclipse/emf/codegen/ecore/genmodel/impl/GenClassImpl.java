@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.49 2005/12/06 16:54:45 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.50 2005/12/07 00:04:44 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -49,6 +49,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -869,7 +870,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public boolean isExternalInterface()
   {
-    return getEcoreClass().getInstanceClassName() != null;
+    return getEcoreClass().eIsSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_CLASS_NAME);
   }
 
   public boolean isMapEntry()
