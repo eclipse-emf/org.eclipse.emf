@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.31 2005/12/07 18:52:31 elena Exp $
+ * $Id: XMLResource.java,v 1.32 2005/12/08 11:30:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.7 2005/12/07 18:52:31 elena Exp $
+ * $Id: EMOFHelperImpl.java,v 1.8 2005/12/08 11:30:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -34,7 +34,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.EcorePackage.Literals;
 import org.eclipse.emf.ecore.util.EContentsEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
