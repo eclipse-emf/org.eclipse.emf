@@ -59,7 +59,6 @@
 				<group title="XML Schema Model To Ecore Model Conversion" packages="org.eclipse.xsd.ecore"/>
 				<group title="XML Schema Model Edit"                      packages="@org.eclipse.xsd.edit@"/>
 				<group title="XML Schema Model Editor"                    packages="@org.eclipse.xsd.editor@"/>
-				<group title="XML Schema Model Example"                   packages="@org.eclipse.xsd.example@"/>
 				<group title="XSD to Ecore Mapping Model"                 packages="org.eclipse.emf.mapping.xsd2ecore:org.eclipse.emf.mapping.xsd2ecore.impl:org.eclipse.emf.mapping.xsd2ecore.util"/>
 				<group title="XSD to Ecore Mapping Edit"                  packages="org.eclipse.emf.mapping.xsd2ecore.provider"/>
 				<group title="XSD to Ecore Mapping Editor"                packages="@org.eclipse.emf.mapping.xsd2ecore.editor@"/>
