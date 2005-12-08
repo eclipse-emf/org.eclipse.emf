@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.48 2005/12/04 17:44:30 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.49 2005/12/08 18:50:20 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2693,12 +2693,12 @@ public class XMLSaveImpl implements XMLSave
   {
     protected char[] value;
 
-    protected final char[] AMP   = { '&', 'a', 'm', 'p', ';' };
-    protected final char[] LESS  = { '&', 'l', 't',';' };
+    protected final char[] AMP = { '&', 'a', 'm', 'p', ';' };
+    protected final char[] LESS = { '&', 'l', 't', ';' };
     protected final char[] QUOTE = { '&', 'q', 'u', 'o', 't', ';' };
-    protected final char[] LF    = { '&', '#', 'x', 'A', ';' };
-    protected final char[] CR    = { '&', '#', 'x', 'D', ';' };
-    protected final char[] TAB   = { '&', '#', 'x', '9', ';' };
+    protected final char[] LF = { '&', '#', 'x', 'A', ';' };
+    protected final char[] CR = { '&', '#', 'x', 'D', ';' };
+    protected final char[] TAB = { '&', '#', 'x', '9', ';' };
     protected final char[] LINE_FEED = System.getProperty("line.separator").toCharArray();
 
     public Escape()
@@ -2717,59 +2717,69 @@ public class XMLSaveImpl implements XMLSave
      */
     public String convert(String input)
     {
-      //TODO: performance could be improved (e.g. avoid copy characters on each string)
       boolean changed = false;
       int inputLength = input.length();
       grow(inputLength);
-      input.getChars(0, inputLength, value, 0);
-      int pos = 0;
+      int outputPos = 0;
+      int inputPos = 0;
       char ch = 0;
       while (inputLength-- > 0)
       {
-        ch = value[pos];
+        ch = input.charAt(inputPos++); // value[outputPos];
         switch (ch)
         {
           case '&':
-            pos = replace(pos, AMP, inputLength);
+          {
+            outputPos = append(outputPos, AMP, inputLength);
             changed = true;
             break;
+          }
           case '<':
-            pos = replace(pos, LESS, inputLength);
+          {
+            outputPos = append(outputPos, LESS, inputLength);
             changed = true;
             break;
+          }
           case '"':
-            pos = replace(pos, QUOTE, inputLength);
+          {
+            outputPos = append(outputPos, QUOTE, inputLength);
             changed = true;
             break;
+          }
           case '\n':
           {
-            pos = replace(pos, LF, inputLength);
+            outputPos = append(outputPos, LF, inputLength);
             changed = true;
             break;
           }
           case '\r':
           {
-            pos = replace(pos, CR, inputLength);
+            outputPos = append(outputPos, CR, inputLength);
             changed = true;
             break;
           }
           case '\t':
           {
-            pos = replace(pos, TAB, inputLength);
+            outputPos = append(outputPos, TAB, inputLength);
             changed = true;
             break;
           }
           default:
+          {
             if (!XMLChar.isValid(ch))
             {
-              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch)+") was found in the element content:" +input);
+              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
             }
-            pos++;
+            else
+            {
+              value[outputPos] = ch;
+            }
+            outputPos++;
             break;
+          }
         }
       }
-
-      return changed ? new String(value, 0, pos) : input;
+      return changed ? new String(value, 0, outputPos) : input;
     }
 
     /*
@@ -2781,47 +2791,57 @@ public class XMLSaveImpl implements XMLSave
      */
     public String convertText(String input)
     {
-      //TODO: performance could be improved (e.g. avoid copy characters on each string)
       boolean changed = false;
       int inputLength = input.length();
       grow(inputLength);
-      input.getChars(0, inputLength, value, 0);
-      int pos = 0;
+      int outputPos = 0;
+      int inputPos = 0;
       char ch;
       while (inputLength-- > 0)
       {
-        ch = value[pos];
+        ch = input.charAt(inputPos++); // value[outputPos];
         switch (ch)
         {
           case '&':
-            pos = replace(pos, AMP, inputLength);
+          {
+            outputPos = append(outputPos, AMP, inputLength);
             changed = true;
             break;
+          }
           case '<':
-            pos = replace(pos, LESS, inputLength);
+          {
+            outputPos = append(outputPos, LESS, inputLength);
             changed = true;
             break;
+          }
           case '"':
-            pos = replace(pos, QUOTE, inputLength);
+          {
+            outputPos = append(outputPos, QUOTE, inputLength);
             changed = true;
             break;
+          }
           case '\n':
           {
-            pos = replace(pos, LINE_FEED, inputLength);
+            outputPos = append(outputPos, LINE_FEED, inputLength);
             changed = true;
             break;
           }
           default:
+          {
             if (!XMLChar.isValid(ch))
             {
-              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch)+") was found in the element content:" +input);
+              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
             }
-            pos++;
+            else
+            {
+              value[outputPos] = ch;
+            }
+            outputPos++;
             break;
+          }
         }
       }
-
-      return changed ? new String(value, 0, pos) : input;
+      return changed ? new String(value, 0, outputPos) : input;
     }
 
     /*
@@ -2833,33 +2853,33 @@ public class XMLSaveImpl implements XMLSave
       boolean changed = false;
       int inputLength = input.length();
       grow(inputLength);
-      input.getChars(0, inputLength, value, 0);
-      int pos = 0;
+      int outputPos = 0;
+      int inputPos = 0;
       while (inputLength-- > 0)
       {
-        switch (value[pos])
+        switch (input.charAt(inputPos++))
         {
           case '\n':
           {
-            pos = replace(pos, LINE_FEED, inputLength);
+            outputPos = append(outputPos, LINE_FEED, inputLength);
             changed = true;
             break;
           }
           default:
-            pos++;
+          {
+            outputPos++;
             break;
+          }
         }
       }
-
-      return changed ? new String(value, 0, pos) : input;
+      return changed ? new String(value, 0, outputPos) : input;
     }
 
-    protected int replace(int pos, char[] replacement, int inputLength)
+    protected int append(int pos, char[] replacement, int inputLength)
     {
       int rlen = replacement.length;
       int newPos = pos + rlen;
       grow(newPos + inputLength);
-      System.arraycopy(value, pos+1, value, newPos, inputLength);
       System.arraycopy(replacement, 0, value, pos, rlen);
       return newPos;
     }
@@ -2869,7 +2889,7 @@ public class XMLSaveImpl implements XMLSave
       int vlen = value.length;
       if (vlen < newSize)
       {
-        char[] newValue = new char[newSize + newSize/2];
+        char[] newValue = new char [newSize + newSize / 2];
         System.arraycopy(value, 0, newValue, 0, vlen);
         value = newValue;
       }
