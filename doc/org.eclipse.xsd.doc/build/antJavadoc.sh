@@ -31,6 +31,7 @@ function groupPackage
 groupPackage org.eclipse.xsd
 groupPackage org.eclipse.xsd.edit
 groupPackage org.eclipse.xsd.editor
+groupPackage org.eclipse.xsd.example
 groupPackage org.eclipse.emf.mapping.xsd2ecore
 groupPackage org.eclipse.emf.mapping.xsd2ecore.editor
 
