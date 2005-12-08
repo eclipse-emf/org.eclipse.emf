@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.17 2005/10/31 12:36:41 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.18 2005/12/08 05:08:46 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -474,7 +474,13 @@ public class GenModelEditor
 
     // Create the editing domain with a special command stack.
     //
-    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
+    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack)
+    {
+      public boolean isReadOnly(Resource resource)
+      {
+        return super.isReadOnly(resource) || getResourceSet().getResources().indexOf(resource) != 0;  
+      }
+    };
   }
 
   /**
