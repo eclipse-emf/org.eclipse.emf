@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenAnnotationImpl.java,v 1.1 2005/12/05 20:11:14 marcelop Exp $
+ * $Id: GenAnnotationImpl.java,v 1.2 2005/12/08 05:18:24 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -16,7 +16,6 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -392,11 +391,6 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
   public boolean reconcile()
   {
     return true;
-  }
-
-  public EModelElement getEcoreModelElement()
-  {
-    return null;
   }
 
   public String getName()

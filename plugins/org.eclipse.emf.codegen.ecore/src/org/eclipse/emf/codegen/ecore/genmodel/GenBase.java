@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.8 2005/12/05 20:11:14 marcelop Exp $
+ * $Id: GenBase.java,v 1.9 2005/12/08 05:18:24 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 
 
@@ -112,4 +113,6 @@ public interface GenBase extends EObject{
 
   boolean hasDocumentation();
   String getDocumentation(String indentation);
+  
+  EModelElement getEcoreModelElement();
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.40 2005/12/07 19:39:40 elena Exp $
+ * $Id: GenBaseImpl.java,v 1.41 2005/12/08 05:18:24 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2096,11 +2096,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return result.toString();
   }
 
-  public abstract EModelElement getEcoreModelElement();
-
   protected String getDocumentation()
   {
-    return EcoreUtil.getDocumentation(getEcoreModelElement());
+    EModelElement modelElement = getEcoreModelElement();
+    return modelElement != null ? EcoreUtil.getDocumentation(modelElement) : null;
   }
 
   public boolean hasDocumentation()
@@ -2690,5 +2689,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         new File(uri.toFileString()).delete();
       }
     }
+  }
+  
+  public EModelElement getEcoreModelElement()
+  {
+    return null;
   }
 } 
