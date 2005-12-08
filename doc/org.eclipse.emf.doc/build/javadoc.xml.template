@@ -67,7 +67,7 @@
 				<group title="Ecore Resources"                packages="org.eclipse.emf.ecore.resource:org.eclipse.emf.ecore.resource.impl"/>
 				<group title="Ecore Plugin"                   packages="org.eclipse.emf.ecore.plugin"/>
 				<group title="Ecore Edit"                     packages="@org.eclipse.emf.ecore.edit@"/>
-				<group title="Sample Ecore Editor"            packages="org.eclipse.emf.ecore.presentation"/>
+				<group title="Sample Ecore Editor"            packages="@org.eclipse.emf.ecore.editor@"/>
 
 				<group title="Edit Framework"                 packages="org.eclipse.emf.edit"/>
 				<group title="Editing Domain"                 packages="org.eclipse.emf.edit.domain"/>
@@ -75,8 +75,6 @@
 				<group title="Provider"                       packages="org.eclipse.emf.edit.provider:org.eclipse.emf.edit.provider.resource"/>
 				<group title="Edit Action"                    packages="org.eclipse.emf.edit.action"/>
 				<group title="Edit UI"                        packages="@org.eclipse.emf.edit.ui@"/>
-				
-				<group title="Sample Ecore Editor"            packages="@org.eclipse.emf.ecore.editor@"/>
 				
 				<group title="Codegen"                        packages="@org.eclipse.emf.codegen@"/>
 				<group title="Codegen UI"                     packages="@org.eclipse.emf.codegen.ui@"/>
