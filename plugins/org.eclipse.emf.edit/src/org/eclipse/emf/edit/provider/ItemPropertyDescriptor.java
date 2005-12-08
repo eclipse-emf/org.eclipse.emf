@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.19 2005/08/09 04:40:44 davidms Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.20 2005/12/08 05:02:35 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1124,7 +1124,21 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    */
   public boolean canSetProperty(Object object)
   {
-    return isSettable;
+    if (isSettable)
+    {
+      EditingDomain editingDomain = getEditingDomain(object);
+      if (editingDomain != null)
+      {
+        Resource resource = object instanceof EObject ?
+          ((EObject)object).eResource() :
+            object instanceof Resource ?
+            (Resource)object :
+            null;
+  
+        return resource == null || !editingDomain.isReadOnly(resource);
+      }
+    }
+    return false;
   }
 
   /**
