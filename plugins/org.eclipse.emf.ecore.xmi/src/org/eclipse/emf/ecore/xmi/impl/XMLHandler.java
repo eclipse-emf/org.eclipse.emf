@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.43 2005/12/07 18:52:31 elena Exp $
+ * $Id: XMLHandler.java,v 1.44 2005/12/08 05:47:45 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -612,7 +612,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   //
   // Implement EntityResolver methods
   //
-  public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
+  public InputSource resolveEntity(String publicId, String systemId) throws SAXException
   {
     return null;
   }
