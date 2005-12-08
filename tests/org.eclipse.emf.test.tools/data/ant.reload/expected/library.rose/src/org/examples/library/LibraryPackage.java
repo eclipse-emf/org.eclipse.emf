@@ -29,7 +29,8 @@ import org.examples.hr.HRPackage;
  * @model kind="package"
  * @generated
  */
-public interface LibraryPackage extends EPackage{
+public interface LibraryPackage extends EPackage
+{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -416,7 +417,8 @@ public interface LibraryPackage extends EPackage{
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals {
+  interface Literals 
+  {
     /**
      * The meta object literal for the '{@link org.examples.library.impl.BookImpl <em>Book</em>}' class.
      * <!-- begin-user-doc -->

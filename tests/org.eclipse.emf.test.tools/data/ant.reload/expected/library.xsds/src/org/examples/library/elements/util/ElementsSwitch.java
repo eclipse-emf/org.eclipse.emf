@@ -28,7 +28,8 @@ import org.examples.library.hr.Person;
  * @see org.examples.library.elements.ElementsPackage
  * @generated
  */
-public class ElementsSwitch {
+public class ElementsSwitch 
+{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

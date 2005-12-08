@@ -29,7 +29,8 @@ import org.examples.library.hr.HrPackage;
  * @model kind="package"
  * @generated
  */
-public interface ElementsPackage extends EPackage{
+public interface ElementsPackage extends EPackage
+{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -350,7 +351,8 @@ public interface ElementsPackage extends EPackage{
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals {
+  interface Literals 
+  {
     /**
      * The meta object literal for the '{@link org.examples.library.elements.impl.BookImpl <em>Book</em>}' class.
      * <!-- begin-user-doc -->

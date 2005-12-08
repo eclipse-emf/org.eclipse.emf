@@ -28,7 +28,8 @@ import org.examples.library.*;
  * @see org.examples.library.LibraryPackage
  * @generated
  */
-public class LibrarySwitch {
+public class LibrarySwitch 
+{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
