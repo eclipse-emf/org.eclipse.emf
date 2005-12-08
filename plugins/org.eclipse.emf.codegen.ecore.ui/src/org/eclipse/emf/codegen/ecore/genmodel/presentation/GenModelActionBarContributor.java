@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.13 2005/12/05 20:15:22 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.14 2005/12/08 05:15:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -39,6 +39,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
@@ -50,10 +51,13 @@ import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.ui.action.ViewerFilterAction;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.EMFEditUIUtil;
 import org.eclipse.emf.edit.ui.action.CommandActionHandler;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 //
@@ -383,7 +387,77 @@ public class GenModelActionBarContributor
       return AddCommand.create(getEditingDomain(), selectedObject, GenModelPackage.Literals.GEN_ANNOTATION__DETAILS, EcoreUtil.create(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY));
     }
   };
+    
+  protected static abstract class OpenEObjectEditorAction extends BaseSelectionListenerAction
+  {
+    protected EObject eObject;
 
+    public OpenEObjectEditorAction(String text)
+    {
+      super(text);
+    }
+    
+    public void dispose()
+    {
+      eObject = null;
+      clearCache();
+    }
+    
+    public void run()
+    {
+      if (eObject != null)
+      {
+        try
+        {
+          EMFEditUIUtil.openEditor(eObject);
+        }
+        catch (PartInitException e)
+        {
+          e.printStackTrace();
+        }
+      }
+    }
+    
+    protected boolean updateSelection(IStructuredSelection selection)
+    {
+      if (selection.size() == 1)
+      {
+        Object element = selection.getFirstElement();
+        eObject = getEObject(element);
+        return eObject != null;
+      }
+      return false;
+    }
+    
+    protected abstract EObject getEObject(Object element);
+  }
+  
+  protected OpenEObjectEditorAction openEcoreAction = new OpenEObjectEditorAction(GenModelEditPlugin.INSTANCE.getString("_UI_OpenEcore_menu_item"))
+  {
+    protected EObject getEObject(Object element)
+    {
+      return element instanceof GenBase ? ((GenBase)element).getEcoreModelElement() : null;
+    }
+  };
+
+  protected OpenEObjectEditorAction openGenModelAction = new OpenEObjectEditorAction(GenModelEditPlugin.INSTANCE.getString("_UI_OpenGenModel_menu_item"))
+  {
+    protected EObject getEObject(Object element)
+    {
+      if (activeEditorPart instanceof IEditingDomainProvider && element instanceof EObject)
+      {
+        EObject eObject = (EObject)element;
+        EditingDomain editingDomain = ((IEditingDomainProvider)activeEditorPart).getEditingDomain(); 
+        if (editingDomain.getResourceSet().getResources().indexOf(eObject.eResource()) != 0)
+        {
+          return eObject;
+        }
+      }
+      return null;
+    }
+  };
+
+  
   /**
    * This creates an instance of the contributor.
    */
@@ -401,6 +475,8 @@ public class GenModelActionBarContributor
     showGenAnnotationsAction.dispose();   
     annotateAction.dispose();
     addDetailAction.dispose();
+    openEcoreAction.dispose();
+    openGenModelAction.dispose();
        
     super.dispose();
   }
@@ -494,6 +570,8 @@ public class GenModelActionBarContributor
     
     annotateAction.selectionChanged(event);
     addDetailAction.selectionChanged(event);
+    openEcoreAction.selectionChanged(event);
+    openGenModelAction.selectionChanged(event);
   }
 
   /**
@@ -510,6 +588,11 @@ public class GenModelActionBarContributor
     refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
     
     super.menuAboutToShow(menuManager);
+    
+    menuManager.insertBefore("additions", new Separator("open-actions"));
+    menuManager.insertAfter("open-actions", openGenModelAction);
+    menuManager.insertAfter("open-actions", openEcoreAction);
+    
     menuManager.insertBefore("additions", new Separator("generate-actions"));
     menuManager.insertAfter("generate-actions", generateAllAction);
     menuManager.insertAfter("generate-actions", generateTestsAction);
