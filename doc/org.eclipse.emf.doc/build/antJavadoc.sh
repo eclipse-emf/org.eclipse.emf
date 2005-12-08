@@ -46,6 +46,8 @@ groupPackage org.eclipse.emf.mapping
 groupPackage org.eclipse.emf.mapping.ui
 groupPackage org.eclipse.emf.mapping.ecore2ecore
 groupPackage org.eclipse.emf.mapping.ecore2ecore.editor
+groupPackage org.eclipse.emf.mapping.ecore2xml
+groupPackage org.eclipse.emf.mapping.ecore2xml.ui
 
 # The directory of the emf plugins in the order they were built 
 pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | grep org.eclipse.emf | grep -v resources.jar | grep -v xsd | grep -v test  | grep -v org.eclipse.emf.java | grep -v sdo | cut -f2 -d' ' | sed -e 's/\(\/.*\)\/.*/\1/'`
