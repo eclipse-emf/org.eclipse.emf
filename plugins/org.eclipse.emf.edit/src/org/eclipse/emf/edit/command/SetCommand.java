@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.9 2005/08/09 04:39:28 davidms Exp $
+ * $Id: SetCommand.java,v 1.10 2005/12/08 17:55:06 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -179,7 +179,12 @@ public class SetCommand extends AbstractOverrideableCommand
                 Object object = i.next();
                 if (addedValues.contains(object))
                 {
-                  compound.append(AddCommand.create(domain, owner, feature, object, i.previousIndex()));
+                  int addIndex = i.previousIndex();
+                  if (addIndex > oldValues.size())
+                  {
+                    addIndex = -1;
+                  }
+                  compound.append(AddCommand.create(domain, owner, feature, object, addIndex));
                 }
               }
               return compound;
