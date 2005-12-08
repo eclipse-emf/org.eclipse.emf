@@ -15,19 +15,19 @@
   <eClassifiers xsi:type="ecore:EClass" name="Library" eSuperTypes="#//Addressable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="writers" upperBound="-1"
-        eType="#//Writer" volatile="true" transient="true" containment="true">
+        eType="#//Writer" volatile="true" transient="true" derived="true" containment="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="group" value="#people"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="employees" upperBound="-1"
-        eType="#//Employee" volatile="true" transient="true" containment="true">
+        eType="#//Employee" volatile="true" transient="true" derived="true" containment="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="group" value="#people"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="borrowers" upperBound="-1"
-        eType="#//Borrower" volatile="true" transient="true" containment="true">
+        eType="#//Borrower" volatile="true" transient="true" derived="true" containment="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="group" value="#people"/>
       </eAnnotations>
@@ -41,8 +41,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentBranch" eType="#//Library"
         eOpposite="#//Library/branches"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="people" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry"
-        derived="true">
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFeatureMapEntry">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="group"/>
       </eAnnotations>

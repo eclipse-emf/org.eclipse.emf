@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Library.java,v 1.1 2005/11/10 18:55:52 marcelop Exp $
+ * $Id: Library.java,v 1.2 2005/12/08 11:44:26 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary;
 
@@ -46,7 +46,8 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  * @model
  * @generated
  */
-public interface Library extends Addressable{
+public interface Library extends Addressable
+{
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -84,7 +85,7 @@ public interface Library extends Addressable{
    * <!-- end-user-doc -->
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Writers()
-   * @model type="org.eclipse.emf.examples.extlibrary.Writer" containment="true" transient="true" volatile="true"
+   * @model type="org.eclipse.emf.examples.extlibrary.Writer" containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="group='#people'"
    * @generated
    */
@@ -101,7 +102,7 @@ public interface Library extends Addressable{
    * <!-- end-user-doc -->
    * @return the value of the '<em>Employees</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Employees()
-   * @model type="org.eclipse.emf.examples.extlibrary.Employee" containment="true" transient="true" volatile="true"
+   * @model type="org.eclipse.emf.examples.extlibrary.Employee" containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="group='#people'"
    * @generated
    */
@@ -118,7 +119,7 @@ public interface Library extends Addressable{
    * <!-- end-user-doc -->
    * @return the value of the '<em>Borrowers</em>' containment reference list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_Borrowers()
-   * @model type="org.eclipse.emf.examples.extlibrary.Borrower" containment="true" transient="true" volatile="true"
+   * @model type="org.eclipse.emf.examples.extlibrary.Borrower" containment="true" transient="true" volatile="true" derived="true"
    *        extendedMetaData="group='#people'"
    * @generated
    */
@@ -213,7 +214,7 @@ public interface Library extends Addressable{
    * <!-- end-user-doc -->
    * @return the value of the '<em>People</em>' attribute list.
    * @see org.eclipse.emf.examples.extlibrary.EXTLibraryPackage#getLibrary_People()
-   * @model dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true" derived="true"
+   * @model dataType="org.eclipse.emf.ecore.EFeatureMapEntry" many="true"
    *        extendedMetaData="kind='group'"
    * @generated
    */
