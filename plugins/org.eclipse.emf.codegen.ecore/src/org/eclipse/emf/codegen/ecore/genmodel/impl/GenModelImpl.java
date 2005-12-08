@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.58 2005/12/07 16:09:50 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.59 2005/12/08 05:19:52 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -69,7 +69,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -5584,11 +5583,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
     return stringBuffer.substring(index + 1);
-  }
-
-  public  EModelElement getEcoreModelElement()
-  {
-    return ((GenPackage)getGenPackages().get(0)).getEcorePackage();
   }
 
   public List/*GenFeature*/ getAllGenFeatures()
