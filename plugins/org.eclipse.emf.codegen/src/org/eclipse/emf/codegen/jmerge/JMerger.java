@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.15 2005/12/02 16:58:25 emerks Exp $
+ * $Id: JMerger.java,v 1.16 2005/12/08 13:45:24 emerks Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -143,7 +143,7 @@ public class JMerger
   
   protected static final Pattern INTERFACE_BRACE_PATTERN = 
     Pattern.compile
-      ("^(\\s*)(?:public|private|protected|static|\\s)*interface\\s*\\w*[^\\{\\n\\r]*(\\{)(\\n\\r|\\r\\n|\\n|\\r)", 
+      ("(?:\\n\\r|\\r\\n|\\n|\\r)(\\s*)(?:public|private|protected|static|\\s)*(?:interface|class)\\s*[^\\{\\n\\r]*(\\{)(?:\\n\\r|\\r\\n|\\n|\\r)", 
        Pattern.MULTILINE); // }}
 
   public String getTargetCompilationUnitContents()
