@@ -51,7 +51,9 @@
 				<tag name="extends"    description="ignore" enabled="false"/>
 				<tag name="implements" description="ignore" enabled="false"/>
 				<tag name="ordered"    description="ignore" enabled="false"/>
-				
+
+				<!-- If you add a @plugin@ below, don't forget to update the antjavadoc.sh file -->				
+
 				<group title="XML Schema Model API"                       packages="org.eclipse.xsd:org.eclipse.xsd.util"/>
 				<group title="XML Schema Model Implementation"            packages="org.eclipse.xsd.impl:org.eclipse.xsd.impl.type"/>
 				<group title="XML Schema Model To Ecore Model Conversion" packages="org.eclipse.xsd.ecore"/>
@@ -62,6 +64,8 @@
 				<group title="XSD to Ecore Mapping Edit"                  packages="org.eclipse.emf.mapping.xsd2ecore.provider"/>
 				<group title="XSD to Ecore Mapping Editor"                packages="@org.eclipse.emf.mapping.xsd2ecore.editor@"/>
 
+				<!-- If you add a @plugin@ above, don't forget to update the antjavadoc.sh file -->
+				
 @packagesets@
 				
 		</javadoc>
