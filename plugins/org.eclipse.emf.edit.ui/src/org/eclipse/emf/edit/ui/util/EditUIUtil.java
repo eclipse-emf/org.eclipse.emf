@@ -12,10 +12,10 @@
  *
  * </copyright>
  *
- * $Id: EMFEditUIUtil.java,v 1.1 2005/12/08 05:12:16 marcelop Exp $
+ * $Id: EditUIUtil.java,v 1.1 2005/12/08 17:38:04 marcelop Exp $
  */
 
-package org.eclipse.emf.edit.ui;
+package org.eclipse.emf.edit.ui.util;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 /**
  * @since 2.2.0
  */
-public class EMFEditUIUtil
+public class EditUIUtil
 {
   /**
    * Opens the default editor for the resource that contains the specified

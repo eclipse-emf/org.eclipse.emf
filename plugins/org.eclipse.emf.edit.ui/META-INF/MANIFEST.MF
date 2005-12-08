@@ -12,6 +12,7 @@ Export-Package: org.eclipse.emf.edit.ui,
  org.eclipse.emf.edit.ui.celleditor,
  org.eclipse.emf.edit.ui.dnd,
  org.eclipse.emf.edit.ui.provider,
+ org.eclipse.emf.edit.ui.util,
  org.eclipse.emf.edit.ui.view
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.views;visibility:=reexport,

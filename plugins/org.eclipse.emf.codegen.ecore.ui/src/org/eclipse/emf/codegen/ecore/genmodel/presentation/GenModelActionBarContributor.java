@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.14 2005/12/08 05:15:15 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.15 2005/12/08 17:38:05 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -57,9 +57,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
-import org.eclipse.emf.edit.ui.EMFEditUIUtil;
 import org.eclipse.emf.edit.ui.action.CommandActionHandler;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+import org.eclipse.emf.edit.ui.util.EditUIUtil;
 //
 //import org.eclipse.emf.edit.ui.action.LoadResourceAction;
 //import org.eclipse.emf.edit.ui.action.ValidateAction;
@@ -409,7 +409,7 @@ public class GenModelActionBarContributor
       {
         try
         {
-          EMFEditUIUtil.openEditor(eObject);
+          EditUIUtil.openEditor(eObject);
         }
         catch (PartInitException e)
         {
