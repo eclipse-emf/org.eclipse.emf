@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseItemProvider.java,v 1.7 2005/12/05 20:24:04 marcelop Exp $
+ * $Id: GenBaseItemProvider.java,v 1.8 2005/12/08 05:07:55 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -227,7 +228,14 @@ public class GenBaseItemProvider
 
     public boolean canSetProperty(Object object)
     {
-      return isSettable && canEdit(object);
+      return super.canSetProperty(object) && canEdit(object);
+    }
+    
+    protected Object createPropertyValueWrapper(Object object, Object propertyValue)
+    {
+      return propertyValue instanceof EModelElement ?
+        new PropertyValueWrapper(adapterFactory, object, propertyValue, propertyValue) :
+        super.createPropertyValueWrapper(object, propertyValue);
     }
   }
 
