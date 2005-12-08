@@ -51,6 +51,8 @@
 				<tag name="implements" description="ignore" enabled="false"/>
 				<tag name="ordered"    description="ignore" enabled="false"/>
 
+				<!-- If you add a @plugin@ below, don't forget to update the antjavadoc.sh file -->
+
 				<group title="Notification"                   packages="org.eclipse.emf.common.notify:org.eclipse.emf.common.notify.impl"/>
 				<group title="Command"                        packages="org.eclipse.emf.common.command"/>
 				<group title="Utilities"                      packages="org.eclipse.emf.common.util"/>
@@ -96,6 +98,8 @@
 
 				<group title="Ecore to XML Mapping Model"     packages="@org.eclipse.emf.mapping.ecore2xml@"/>
 				<group title="Ecore to XML Mapping UI"        packages="@org.eclipse.emf.mapping.ecore2xml.ui@"/>
+				
+				<!-- If you add a @plugin@ above, don't forget to update the antjavadoc.sh file -->
 
 @packagesets@
 				
