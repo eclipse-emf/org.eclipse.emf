@@ -78,17 +78,20 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.examples.library"
          download-size="0"
          install-size="0"
+         unpack="false"
          version="2.2.0"/>
 
    <plugin
          id="org.eclipse.emf.examples.library.edit"
          download-size="0"
          install-size="0"
+         unpack="false"
          version="2.2.0"/>
 
    <plugin
          id="org.eclipse.emf.examples.library.editor"
          download-size="0"
          install-size="0"
+         unpack="false"
          version="2.2.0"/>
 </feature>
