@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.15 2005/12/08 17:38:05 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.16 2005/12/09 16:22:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -588,11 +588,7 @@ public class GenModelActionBarContributor
     refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
     
     super.menuAboutToShow(menuManager);
-    
-    menuManager.insertBefore("additions", new Separator("open-actions"));
-    menuManager.insertAfter("open-actions", openGenModelAction);
-    menuManager.insertAfter("open-actions", openEcoreAction);
-    
+
     menuManager.insertBefore("additions", new Separator("generate-actions"));
     menuManager.insertAfter("generate-actions", generateAllAction);
     menuManager.insertAfter("generate-actions", generateTestsAction);
@@ -602,6 +598,10 @@ public class GenModelActionBarContributor
 
     menuManager.insertBefore("additions", new Separator("schema-actions"));
     menuManager.insertAfter("schema-actions", generateSchemaAction);
+
+    menuManager.insertBefore("additions", new Separator("open-actions"));
+    menuManager.insertAfter("open-actions", openGenModelAction);
+    menuManager.insertAfter("open-actions", openEcoreAction);
     
     if (showGenAnnotationsAction.isChecked())
     {
