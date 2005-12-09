@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.18 2005/12/08 05:08:46 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.19 2005/12/09 19:08:50 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -463,7 +463,7 @@ public class GenModelEditor
                     setSelectionToViewer(mostRecentCommand.getAffectedObjects());
                   }
 
-                  if (propertySheetPage != null)
+                  if (propertySheetPage != null  && !propertySheetPage.getControl().isDisposed())
                   {
                     propertySheetPage.refresh();
                   }
