@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.17 2005/11/23 17:11:40 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.18 2005/12/10 13:29:44 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -294,10 +294,14 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 		{
 			<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic")%> tempDiagnostics = new BasicDiagnostic();
 <%for (ListIterator k = genDataType.getMemberTypes().listIterator(); k.hasNext(); ) { GenDataType memberType = (GenDataType)k.next(); String memberDelegate = memberType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(memberType.getGenPackage()) + "Validator.";%>
+  <%if (genDataType.isPrimitiveType()) {%>
+			if (<%=memberDelegate%>validate<%=memberType.getName()%>(<%=genClassifier.getSafeUncapName()%>, tempDiagnostics, <%=context%>)) return true;
+  <%} else {%>
 			if (<%=memberType.getQualifiedClassifierAccessor()%>.isInstance(<%=genClassifier.getSafeUncapName()%>))
 			{
 				if (<%=memberDelegate%>validate<%=memberType.getName()%>(<%if (memberType.isPrimitiveType()) {%>(<%}%>(<%=memberType.getObjectInstanceClassName()%>)<%=genClassifier.getSafeUncapName()%><%if (memberType.isPrimitiveType()) {%>).<%=memberType.getPrimitiveValueFunction()%>()<%}%>, tempDiagnostics, <%=context%>)) return true;
 			}
+  <%}%>
 <%}%>
 			<%=genModel.getImportedName("java.util.List")%> children = tempDiagnostics.getChildren();
 			for (int i = 0; i < children.size(); i++)
@@ -308,10 +312,14 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 		else
 		{
 <%for (ListIterator k = genDataType.getMemberTypes().listIterator(); k.hasNext(); ) { GenDataType memberType = (GenDataType)k.next(); String memberDelegate = memberType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(memberType.getGenPackage()) + "Validator.";%>
+  <%if (genDataType.isPrimitiveType()) {%>
+			if (<%=memberDelegate%>validate<%=memberType.getName()%>(<%=genClassifier.getSafeUncapName()%>, null, <%=context%>)) return true;
+  <%} else {%>
 			if (<%=memberType.getQualifiedClassifierAccessor()%>.isInstance(<%=genClassifier.getSafeUncapName()%>))
 			{
 				if (<%=memberDelegate%>validate<%=memberType.getName()%>(<%if (memberType.isPrimitiveType()) {%>(<%}%>(<%=memberType.getObjectInstanceClassName()%>)<%=genClassifier.getSafeUncapName()%><%if (memberType.isPrimitiveType()) {%>).<%=memberType.getPrimitiveValueFunction()%>()<%}%>, null, <%=context%>)) return true;
 			}
+  <%}%>
 <%}%>
 		}
 		return false;
