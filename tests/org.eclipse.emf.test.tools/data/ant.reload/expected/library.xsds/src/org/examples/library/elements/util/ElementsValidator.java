@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsValidator.java,v 1.2 2005/11/23 18:14:51 emerks Exp $
+ * $Id: ElementsValidator.java,v 1.3 2005/12/10 14:24:05 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -114,7 +114,7 @@ public class ElementsValidator extends EObjectValidator
       case ElementsPackage.WRITER:
         return validateWriter((Writer)value, diagnostics, context);
       case ElementsPackage.BOOK_CATEGORY:
-        return validateBookCategory((Object)value, diagnostics, context);
+        return validateBookCategory((BookCategory)value, diagnostics, context);
       case ElementsPackage.BOOK_CATEGORY_OBJECT:
         return validateBookCategoryObject((BookCategory)value, diagnostics, context);
       case ElementsPackage.UUID:
@@ -149,7 +149,7 @@ public class ElementsValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateBookCategory(Object bookCategory, DiagnosticChain diagnostics, Map context)
+  public boolean validateBookCategory(BookCategory bookCategory, DiagnosticChain diagnostics, Map context)
   {
     return true;
   }
