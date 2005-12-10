@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.11 2005/11/25 13:11:55 emerks Exp $
+ * $Id: GenEnumImpl.java,v 1.12 2005/12/10 13:26:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -285,6 +285,11 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   public String getImportedName()
   {
     return getGenModel().getImportedName(getQualifiedName());
+  }
+
+  public String getRawQualifiedInstanceClassName()
+  {
+    return getGenPackage().getInterfacePackageName() + "." + getName();
   }
 
 /*
