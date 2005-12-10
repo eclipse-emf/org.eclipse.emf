@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ResourceFactoryClass" version="$Id: ResourceFactoryClass.javajet,v 1.8 2005/10/26 19:55:24 elena Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ResourceFactoryClass" version="$Id: ResourceFactoryClass.javajet,v 1.9 2005/12/10 13:30:05 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -96,6 +96,9 @@ public class <%=genPackage.getResourceFactoryClassName()%> extends <%=genPackage
 		result.getDefaultSaveOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
 
 		result.getDefaultLoadOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
+<%if (genPackage.isDataTypeConverters()) {%>
+		result.getDefaultLoadOptions().put(<%=genPackage.getResourceClassName()%>.OPTION_USE_DATA_CONVERTER, Boolean.TRUE);
+<%}%>
 <%} else if (genPackage.hasXMLMap()) {%>
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%> result = new <%=genPackage.getResourceClassName()%>(uri);
 		result.getDefaultSaveOptions().put(<%=genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource")%>.OPTION_XML_MAP, xmlMap);
