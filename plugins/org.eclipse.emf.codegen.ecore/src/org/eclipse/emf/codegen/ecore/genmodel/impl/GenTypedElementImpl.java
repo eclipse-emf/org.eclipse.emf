@@ -2,11 +2,12 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.7 2005/12/07 00:06:30 davidms Exp $
+ * $Id: GenTypedElementImpl.java,v 1.8 2005/12/10 13:28:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -313,6 +314,12 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   {
     EClassifier eType = getEcoreTypedElement().getEType();
     return eType instanceof EClass ? findGenClass((EClass)eType) : null;
+  }
+
+  public GenClassifier getTypeGenClassifier()
+  {
+    EClassifier eType = getEcoreTypedElement().getEType();
+    return eType == null ? null : findGenClassifier(eType);
   }
 
   /**

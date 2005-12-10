@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.16 2005/11/25 13:11:55 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.17 2005/12/10 13:24:46 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -358,6 +358,22 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       }
     }
     return null;
+  }
+
+  public GenDataType getObjectType()
+  {
+    ExtendedMetaData extendedMetaData = getExtendedMetaData();
+    EDataType eDataType = getEcoreDataType();
+    EClassifier eClassifier = extendedMetaData.getType(eDataType.getEPackage(), extendedMetaData.getName(eDataType) + ":Object");
+    if (eClassifier instanceof EDataType)
+    {
+      GenDataType result = findGenDataType((EDataType)eClassifier);
+      if (result != null)
+      {
+        return result;
+      }
+    }
+    return this;
   }
 
   public String getMinLiteral()
