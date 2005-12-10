@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.30 2005/12/05 20:11:14 marcelop Exp $
+ * $Id: GenModelPackage.java,v 1.31 2005/12/10 13:20:07 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -42,7 +42,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface GenModelPackage extends EPackage{
+public interface GenModelPackage extends EPackage
+{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -537,13 +538,49 @@ public interface GenModelPackage extends EPackage{
   int GEN_MODEL__MINIMAL_REFLECTIVE_METHODS = GEN_BASE_FEATURE_COUNT + 45;
 
   /**
+   * The feature id for the '<em><b>Suppress Containment</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__SUPPRESS_CONTAINMENT = GEN_BASE_FEATURE_COUNT + 46;
+
+  /**
+   * The feature id for the '<em><b>Suppress Notification</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__SUPPRESS_NOTIFICATION = GEN_BASE_FEATURE_COUNT + 47;
+
+  /**
+   * The feature id for the '<em><b>Array Accessors</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__ARRAY_ACCESSORS = GEN_BASE_FEATURE_COUNT + 48;
+
+  /**
+   * The feature id for the '<em><b>Suppress Unsettable</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__SUPPRESS_UNSETTABLE = GEN_BASE_FEATURE_COUNT + 49;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 46;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 50;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -552,7 +589,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 47;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 51;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -561,7 +598,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 48;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 52;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -718,13 +755,22 @@ public interface GenModelPackage extends EPackage{
   int GEN_PACKAGE__LITERALS_INTERFACE = GEN_BASE_FEATURE_COUNT + 14;
 
   /**
+   * The feature id for the '<em><b>Data Type Converters</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__DATA_TYPE_CONVERTERS = GEN_BASE_FEATURE_COUNT + 15;
+
+  /**
    * The feature id for the '<em><b>Ecore Package</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__ECORE_PACKAGE = GEN_BASE_FEATURE_COUNT + 15;
+  int GEN_PACKAGE__ECORE_PACKAGE = GEN_BASE_FEATURE_COUNT + 16;
 
   /**
    * The feature id for the '<em><b>Gen Model</b></em>' container reference.
@@ -733,7 +779,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_MODEL = GEN_BASE_FEATURE_COUNT + 16;
+  int GEN_PACKAGE__GEN_MODEL = GEN_BASE_FEATURE_COUNT + 17;
 
   /**
    * The feature id for the '<em><b>Gen Enums</b></em>' containment reference list.
@@ -742,7 +788,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_ENUMS = GEN_BASE_FEATURE_COUNT + 17;
+  int GEN_PACKAGE__GEN_ENUMS = GEN_BASE_FEATURE_COUNT + 18;
 
   /**
    * The feature id for the '<em><b>Gen Data Types</b></em>' containment reference list.
@@ -751,7 +797,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_DATA_TYPES = GEN_BASE_FEATURE_COUNT + 18;
+  int GEN_PACKAGE__GEN_DATA_TYPES = GEN_BASE_FEATURE_COUNT + 19;
 
   /**
    * The feature id for the '<em><b>Gen Classes</b></em>' containment reference list.
@@ -760,7 +806,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_CLASSES = GEN_BASE_FEATURE_COUNT + 19;
+  int GEN_PACKAGE__GEN_CLASSES = GEN_BASE_FEATURE_COUNT + 20;
 
   /**
    * The feature id for the '<em><b>Nested Gen Packages</b></em>' containment reference list.
@@ -769,7 +815,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__NESTED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 20;
+  int GEN_PACKAGE__NESTED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 21;
 
   /**
    * The feature id for the '<em><b>Gen Classifiers</b></em>' reference list.
@@ -778,7 +824,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 21;
+  int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 22;
 
   /**
    * The number of structural features of the '<em>Gen Package</em>' class.
@@ -787,7 +833,7 @@ public interface GenModelPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 22;
+  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 23;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl <em>Gen Classifier</em>}' class.
@@ -1954,6 +2000,50 @@ public interface GenModelPackage extends EPackage{
   EAttribute getGenModel_MinimalReflectiveMethods();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressContainment <em>Suppress Containment</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppress Containment</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressContainment()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_SuppressContainment();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressNotification <em>Suppress Notification</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppress Notification</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressNotification()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_SuppressNotification();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isArrayAccessors <em>Array Accessors</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Array Accessors</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isArrayAccessors()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_ArrayAccessors();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressUnsettable <em>Suppress Unsettable</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Suppress Unsettable</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressUnsettable()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_SuppressUnsettable();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2149,6 +2239,17 @@ public interface GenModelPackage extends EPackage{
    * @generated
    */
   EAttribute getGenPackage_LiteralsInterface();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDataTypeConverters <em>Data Type Converters</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Data Type Converters</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDataTypeConverters()
+   * @see #getGenPackage()
+   * @generated
+   */
+  EAttribute getGenPackage_DataTypeConverters();
 
   /**
    * Returns the meta object for the reference '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}'.
@@ -2761,7 +2862,8 @@ public interface GenModelPackage extends EPackage{
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals {
+  interface Literals 
+  {
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl <em>Gen Model</em>}' class.
      * <!-- begin-user-doc -->
@@ -3141,6 +3243,38 @@ public interface GenModelPackage extends EPackage{
     EAttribute GEN_MODEL__MINIMAL_REFLECTIVE_METHODS = eINSTANCE.getGenModel_MinimalReflectiveMethods();
 
     /**
+     * The meta object literal for the '<em><b>Suppress Containment</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__SUPPRESS_CONTAINMENT = eINSTANCE.getGenModel_SuppressContainment();
+
+    /**
+     * The meta object literal for the '<em><b>Suppress Notification</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__SUPPRESS_NOTIFICATION = eINSTANCE.getGenModel_SuppressNotification();
+
+    /**
+     * The meta object literal for the '<em><b>Array Accessors</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__ARRAY_ACCESSORS = eINSTANCE.getGenModel_ArrayAccessors();
+
+    /**
+     * The meta object literal for the '<em><b>Suppress Unsettable</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__SUPPRESS_UNSETTABLE = eINSTANCE.getGenModel_SuppressUnsettable();
+
+    /**
      * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3285,6 +3419,14 @@ public interface GenModelPackage extends EPackage{
      * @generated
      */
     EAttribute GEN_PACKAGE__LITERALS_INTERFACE = eINSTANCE.getGenPackage_LiteralsInterface();
+
+    /**
+     * The meta object literal for the '<em><b>Data Type Converters</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__DATA_TYPE_CONVERTERS = eINSTANCE.getGenPackage_DataTypeConverters();
 
     /**
      * The meta object literal for the '<em><b>Ecore Package</b></em>' reference feature.

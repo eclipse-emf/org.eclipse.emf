@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.34 2005/12/05 20:11:14 marcelop Exp $
+ * $Id: GenModel.java,v 1.35 2005/12/10 13:19:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -88,6 +88,10 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFeatureDelegation <em>Feature Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isContainmentProxies <em>Containment Proxies</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isMinimalReflectiveMethods <em>Minimal Reflective Methods</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressContainment <em>Suppress Containment</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressNotification <em>Suppress Notification</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isArrayAccessors <em>Array Accessors</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressUnsettable <em>Suppress Unsettable</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -97,7 +101,8 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  * @model
  * @generated
  */
-public interface GenModel extends GenBase{
+public interface GenModel extends GenBase
+{
   /**
    * Returns the value of the '<em><b>Copyright Text</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -1425,6 +1430,110 @@ public interface GenModel extends GenBase{
    * @generated
    */
   void setMinimalReflectiveMethods(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Suppress Containment</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Suppress Containment</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Suppress Containment</em>' attribute.
+   * @see #setSuppressContainment(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_SuppressContainment()
+   * @model
+   * @generated
+   */
+  boolean isSuppressContainment();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressContainment <em>Suppress Containment</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppress Containment</em>' attribute.
+   * @see #isSuppressContainment()
+   * @generated
+   */
+  void setSuppressContainment(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Suppress Notification</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Suppress Notification</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Suppress Notification</em>' attribute.
+   * @see #setSuppressNotification(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_SuppressNotification()
+   * @model
+   * @generated
+   */
+  boolean isSuppressNotification();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressNotification <em>Suppress Notification</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppress Notification</em>' attribute.
+   * @see #isSuppressNotification()
+   * @generated
+   */
+  void setSuppressNotification(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Array Accessors</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Array Accessors</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Array Accessors</em>' attribute.
+   * @see #setArrayAccessors(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ArrayAccessors()
+   * @model
+   * @generated
+   */
+  boolean isArrayAccessors();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isArrayAccessors <em>Array Accessors</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Array Accessors</em>' attribute.
+   * @see #isArrayAccessors()
+   * @generated
+   */
+  void setArrayAccessors(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Suppress Unsettable</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Suppress Unsettable</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Suppress Unsettable</em>' attribute.
+   * @see #setSuppressUnsettable(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_SuppressUnsettable()
+   * @model
+   * @generated
+   */
+  boolean isSuppressUnsettable();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressUnsettable <em>Suppress Unsettable</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Suppress Unsettable</em>' attribute.
+   * @see #isSuppressUnsettable()
+   * @generated
+   */
+  void setSuppressUnsettable(boolean value);
 
   /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
