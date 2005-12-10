@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.51 2005/12/07 15:58:17 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.52 2005/12/10 13:22:49 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1041,7 +1041,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          {
            public boolean accept(GenFeature genFeature) 
            {
-             return genFeature.isContains() ||
+             return genFeature.isEffectiveContains() ||
                (genFeature.isBidirectional() &&
                 !genFeature.getReverse().isVolatile()) ||
                genFeature.isFeatureMapType();
@@ -2289,7 +2289,30 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       sb.append(getQualifiedFeatureID(genFeature));
       sb.append(")");
     }
-    else if (genFeature.isContains())
+    else if (genFeature.isFeatureMapType())
+    {
+      if (genFeature.isWrappedFeatureMapType())
+      {
+        sb.append(genFeature.getImportedEffectiveFeatureMapWrapperClass());
+        sb.append("(new ");
+      }
+      sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.BasicFeatureMap"));
+      sb.append("(this, ");
+      sb.append(getQualifiedFeatureID(genFeature));
+      sb.append(")");
+      if (genFeature.isWrappedFeatureMapType())
+      {
+        sb.append(")");
+      }
+    }
+    else if (getGenModel().isSuppressNotification())
+    {
+      sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.BasicInternalEList"));
+      sb.append("(");
+      sb.append(genFeature.getListItemType());
+      sb.append(".class)");
+    }
+    else if (genFeature.isEffectiveContains())
     {
       if (genFeature.isBidirectional())
       {
@@ -2364,22 +2387,6 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         sb.append(genFeature.getListItemType());
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
-        sb.append(")");
-      }
-    }
-    else if (genFeature.isFeatureMapType())
-    {
-      if (genFeature.isWrappedFeatureMapType())
-      {
-        sb.append(genFeature.getImportedEffectiveFeatureMapWrapperClass());
-        sb.append("(new ");
-      }
-      sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.BasicFeatureMap"));
-      sb.append("(this, ");
-      sb.append(getQualifiedFeatureID(genFeature));
-      sb.append(")");
-      if (genFeature.isWrappedFeatureMapType())
-      {
         sb.append(")");
       }
     }
