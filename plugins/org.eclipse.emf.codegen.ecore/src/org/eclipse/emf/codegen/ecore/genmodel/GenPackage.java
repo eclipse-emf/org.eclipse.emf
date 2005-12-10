@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.21 2005/11/29 15:07:02 emerks Exp $
+ * $Id: GenPackage.java,v 1.22 2005/12/10 13:20:42 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getTestsPackageSuffix <em>Tests Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isGenerateExampleClass <em>Generate Example Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isLiteralsInterface <em>Literals Interface</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDataTypeConverters <em>Data Type Converters</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenEnums <em>Gen Enums</em>}</li>
@@ -61,7 +62,8 @@ import org.eclipse.emf.ecore.EPackage;
  * @model
  * @generated
  */
-public interface GenPackage extends GenBase{
+public interface GenPackage extends GenBase
+{
   /**
    * Returns the value of the '<em><b>Prefix</b></em>' attribute.
    * <!-- begin-user-doc -->
@@ -464,6 +466,32 @@ public interface GenPackage extends GenBase{
    * @generated
    */
   void setLiteralsInterface(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Data Type Converters</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Data Type Converters</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Data Type Converters</em>' attribute.
+   * @see #setDataTypeConverters(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_DataTypeConverters()
+   * @model
+   * @generated
+   */
+  boolean isDataTypeConverters();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDataTypeConverters <em>Data Type Converters</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Data Type Converters</em>' attribute.
+   * @see #isDataTypeConverters()
+   * @generated
+   */
+  void setDataTypeConverters(boolean value);
 
   /**
    * Returns the value of the '<em><b>Ecore Package</b></em>' reference.
