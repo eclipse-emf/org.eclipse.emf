@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.16 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenFeature.java,v 1.17 2005/12/10 13:19:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -317,6 +317,7 @@ public interface GenFeature extends GenTypedElement {
   String getFormattedName(); // This returns a name like employeeNumber formatted like 'Employee Number'
   String getIsName(); // This returns the same as getCapName unless it starts with "is" in which case the "is" is stripped 
   String getAccessorName(); // This returns the name to be used in accessor method names; it's the same as getCapName, unless this is the key or value of a map entry, for which "Typed" is prepended
+  String getGetArrayAccessor(); // This returns the name of the get array-based accessor method for the list feature.
   String getGetAccessor(); // This returns the name of the get accessor method for the feature, i.e., either "is" or "get" is prefixed to getAccessorName
 
   GenPackage getGenPackage(); // returns the package in which this feature is defined
@@ -337,6 +338,7 @@ public interface GenFeature extends GenTypedElement {
 
   boolean isContainer();
   boolean isContains();
+  boolean isEffectiveContains();
   boolean isBidirectional();
   GenFeature getReverse();
 
