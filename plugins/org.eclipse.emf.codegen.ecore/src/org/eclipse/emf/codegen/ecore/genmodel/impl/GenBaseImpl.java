@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.42 2005/12/08 13:45:26 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.43 2005/12/10 13:21:57 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -522,6 +522,18 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     progressMonitor.done();
   }
 
+  public void gen
+    (Monitor progressMonitor, 
+     int style, 
+     List pluginVariables,
+     String targetDirectory, 
+     String packageName, 
+     String className, 
+     JETEmitter jetEmitter)
+  {
+    generate(progressMonitor, style, pluginVariables, targetDirectory, packageName, className, jetEmitter, new Object [] { this });
+  }
+
   protected void generate
     (Monitor progressMonitor, 
      int style, 
@@ -821,6 +833,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         xmlTypeGenPackage = (GenPackage)xmlTypeGenModel.getGenPackages().get(0);
         xmlTypeGenPackage.setPrefix("XMLType");
         xmlTypeGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
+        xmlTypeGenPackage.setDataTypeConverters(true);
         ((GenPackageImpl)xmlTypeGenPackage).setImportManager(getImportManager());
       }
       return xmlTypeGenPackage;
