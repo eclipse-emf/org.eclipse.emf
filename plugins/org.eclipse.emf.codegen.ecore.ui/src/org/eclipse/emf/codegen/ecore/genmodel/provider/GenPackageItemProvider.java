@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.18 2005/11/29 15:00:30 emerks Exp $
+ * $Id: GenPackageItemProvider.java,v 1.19 2005/12/10 13:31:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -87,6 +87,7 @@ public class GenPackageItemProvider
       addTestsPackageSuffixPropertyDescriptor(object);
       addGenerateExampleClassPropertyDescriptor(object);
       addLiteralsInterfacePropertyDescriptor(object);
+      addDataTypeConvertersPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -408,6 +409,27 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Data Type Converters feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addDataTypeConvertersPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_dataTypeConverters_feature"),
+         getString("_UI_GenPackage_dataTypeConverters_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__DATA_TYPE_CONVERTERS,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
    * This adds a property descriptor for the Ecore Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -511,6 +533,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__TESTS_PACKAGE_SUFFIX:
       case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
       case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
+      case GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;

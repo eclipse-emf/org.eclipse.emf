@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.59 2005/12/08 05:19:52 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.60 2005/12/10 13:27:47 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -139,6 +139,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFeatureDelegation <em>Feature Delegation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isContainmentProxies <em>Containment Proxies</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isMinimalReflectiveMethods <em>Minimal Reflective Methods</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressContainment <em>Suppress Containment</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressNotification <em>Suppress Notification</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isArrayAccessors <em>Array Accessors</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressUnsettable <em>Suppress Unsettable</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1081,6 +1085,86 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected boolean minimalReflectiveMethods = MINIMAL_REFLECTIVE_METHODS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isSuppressContainment() <em>Suppress Containment</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressContainment()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESS_CONTAINMENT_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressContainment() <em>Suppress Containment</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressContainment()
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressContainment = SUPPRESS_CONTAINMENT_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isSuppressNotification() <em>Suppress Notification</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressNotification()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESS_NOTIFICATION_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressNotification() <em>Suppress Notification</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressNotification()
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressNotification = SUPPRESS_NOTIFICATION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isArrayAccessors() <em>Array Accessors</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isArrayAccessors()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean ARRAY_ACCESSORS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isArrayAccessors() <em>Array Accessors</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isArrayAccessors()
+   * @generated
+   * @ordered
+   */
+  protected boolean arrayAccessors = ARRAY_ACCESSORS_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isSuppressUnsettable() <em>Suppress Unsettable</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressUnsettable()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SUPPRESS_UNSETTABLE_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isSuppressUnsettable() <em>Suppress Unsettable</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSuppressUnsettable()
+   * @generated
+   * @ordered
+   */
+  protected boolean suppressUnsettable = SUPPRESS_UNSETTABLE_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
@@ -3902,6 +3986,98 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public boolean isSuppressContainment()
+  {
+    return suppressContainment;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setSuppressContainment(boolean newSuppressContainment)
+  {
+    boolean oldSuppressContainment = suppressContainment;
+    suppressContainment = newSuppressContainment;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__SUPPRESS_CONTAINMENT, oldSuppressContainment, suppressContainment));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSuppressNotification()
+  {
+    return suppressNotification;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setSuppressNotification(boolean newSuppressNotification)
+  {
+    boolean oldSuppressNotification = suppressNotification;
+    suppressNotification = newSuppressNotification;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__SUPPRESS_NOTIFICATION, oldSuppressNotification, suppressNotification));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isArrayAccessors()
+  {
+    return arrayAccessors;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setArrayAccessors(boolean newArrayAccessors)
+  {
+    boolean oldArrayAccessors = arrayAccessors;
+    arrayAccessors = newArrayAccessors;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__ARRAY_ACCESSORS, oldArrayAccessors, arrayAccessors));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSuppressUnsettable()
+  {
+    return suppressUnsettable;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setSuppressUnsettable(boolean newSuppressUnsettable)
+  {
+    boolean oldSuppressUnsettable = suppressUnsettable;
+    suppressUnsettable = newSuppressUnsettable;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE, oldSuppressUnsettable, suppressUnsettable));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -4110,6 +4286,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isContainmentProxies() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
         return isMinimalReflectiveMethods() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_CONTAINMENT:
+        return isSuppressContainment() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_NOTIFICATION:
+        return isSuppressNotification() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__ARRAY_ACCESSORS:
+        return isArrayAccessors() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
+        return isSuppressUnsettable() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -4267,6 +4451,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
         setMinimalReflectiveMethods(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_CONTAINMENT:
+        setSuppressContainment(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_NOTIFICATION:
+        setSuppressNotification(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__ARRAY_ACCESSORS:
+        setArrayAccessors(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
+        setSuppressUnsettable(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -4427,6 +4623,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
         setMinimalReflectiveMethods(MINIMAL_REFLECTIVE_METHODS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_CONTAINMENT:
+        setSuppressContainment(SUPPRESS_CONTAINMENT_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_NOTIFICATION:
+        setSuppressNotification(SUPPRESS_NOTIFICATION_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__ARRAY_ACCESSORS:
+        setArrayAccessors(ARRAY_ACCESSORS_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
+        setSuppressUnsettable(SUPPRESS_UNSETTABLE_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -4538,6 +4746,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return containmentProxies != CONTAINMENT_PROXIES_EDEFAULT;
       case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
         return minimalReflectiveMethods != MINIMAL_REFLECTIVE_METHODS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_CONTAINMENT:
+        return suppressContainment != SUPPRESS_CONTAINMENT_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_NOTIFICATION:
+        return suppressNotification != SUPPRESS_NOTIFICATION_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__ARRAY_ACCESSORS:
+        return arrayAccessors != ARRAY_ACCESSORS_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
+        return suppressUnsettable != SUPPRESS_UNSETTABLE_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -4646,6 +4862,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(containmentProxies);
     result.append(", minimalReflectiveMethods: ");
     result.append(minimalReflectiveMethods);
+    result.append(", suppressContainment: ");
+    result.append(suppressContainment);
+    result.append(", suppressNotification: ");
+    result.append(suppressNotification);
+    result.append(", arrayAccessors: ");
+    result.append(arrayAccessors);
+    result.append(", suppressUnsettable: ");
+    result.append(suppressUnsettable);
     result.append(')');
     return result.toString();
   }
@@ -5439,6 +5663,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     
     setSuppressEMFMetaData(oldGenModelVersion.isSuppressEMFMetaData());
     setSuppressEMFModelTags(oldGenModelVersion.isSuppressEMFModelTags());
+    setSuppressNotification(oldGenModelVersion.isSuppressNotification());
+    setSuppressContainment(oldGenModelVersion.isSuppressContainment());
+    setSuppressUnsettable(oldGenModelVersion.isSuppressUnsettable());
+    setArrayAccessors(oldGenModelVersion.isArrayAccessors());
   }
 
   public boolean reconcile()

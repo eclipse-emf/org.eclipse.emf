@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.24 2005/11/29 15:00:30 emerks Exp $
+ * $Id: GenModelItemProvider.java,v 1.25 2005/12/10 13:31:33 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -114,6 +114,10 @@ public class GenModelItemProvider
       addFeatureDelegationPropertyDescriptor(object);
       addContainmentProxiesPropertyDescriptor(object);
       addMinimalReflectiveMethodsPropertyDescriptor(object);
+      addSuppressContainmentPropertyDescriptor(object);
+      addSuppressNotificationPropertyDescriptor(object);
+      addArrayAccessorsPropertyDescriptor(object);
+      addSuppressUnsettablePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1001,6 +1005,90 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Suppress Containment feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addSuppressContainmentPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_suppressContainment_feature"),
+         getString("_UI_GenModel_suppressContainment_description"),
+         GenModelPackage.Literals.GEN_MODEL__SUPPRESS_CONTAINMENT,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Suppress Notification feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addSuppressNotificationPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_suppressNotification_feature"),
+         getString("_UI_GenModel_suppressNotification_description"),
+         GenModelPackage.Literals.GEN_MODEL__SUPPRESS_NOTIFICATION,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Array Accessors feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addArrayAccessorsPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_arrayAccessors_feature"),
+         getString("_UI_GenModel_arrayAccessors_description"),
+         GenModelPackage.Literals.GEN_MODEL__ARRAY_ACCESSORS,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Suppress Unsettable feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addSuppressUnsettablePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_suppressUnsettable_feature"),
+         getString("_UI_GenModel_suppressUnsettable_description"),
+         GenModelPackage.Literals.GEN_MODEL__SUPPRESS_UNSETTABLE,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelFeaturePropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1107,6 +1195,10 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__FEATURE_DELEGATION:
       case GenModelPackage.GEN_MODEL__CONTAINMENT_PROXIES:
       case GenModelPackage.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS:
+      case GenModelPackage.GEN_MODEL__SUPPRESS_CONTAINMENT:
+      case GenModelPackage.GEN_MODEL__SUPPRESS_NOTIFICATION:
+      case GenModelPackage.GEN_MODEL__ARRAY_ACCESSORS:
+      case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
