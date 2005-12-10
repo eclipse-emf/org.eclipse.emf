@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.29 2005/11/25 13:11:55 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.30 2005/12/10 13:27:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -772,11 +772,26 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return isMapEntryFeature() ? "Typed" + getCapName() : getCapName();
   }
 
+  public String getGetArrayAccessor()
+  {
+    String result = getGetAccessor();
+    if (isListType() && !isFeatureMapType() && !isMapType() && getGenModel().isArrayAccessors())
+    {
+      result = result.substring(0, result.length() - 4);
+    }
+    return result;
+  }
+
   public String getGetAccessor()
   {
     String capName = getCapName();
     if (isMapEntryFeature()) return "getTyped" + capName;
     String result = isBooleanType() ? "is" + capName : "get" + ("Class".equals(capName) ? "Class_" : capName);
+    
+    if (isListType() && !isFeatureMapType() && !isMapType() && getGenModel().isArrayAccessors())
+    {
+      result += "List";
+    }
 
     GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
     if (rootImplementsInterface != null && !rootImplementsInterface.isEObject())
@@ -1076,8 +1091,15 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
   public boolean isUnsettable()
   {
-    EStructuralFeature eStructuralFeature = getEcoreFeature();
-    return eStructuralFeature.isUnsettable() && !isContainer();
+    if (getGenModel().isSuppressUnsettable())
+    {
+      return false;
+    }
+    else
+    {
+      EStructuralFeature eStructuralFeature = getEcoreFeature();
+      return eStructuralFeature.isUnsettable() && !isContainer();
+    }
   }
 
   public boolean isID()
@@ -1597,7 +1619,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   public boolean isBasicSet()
   {
     return !getGenModel().isReflectiveDelegation() && !isListType()
-      && (isBidirectional() && !isContainer() && !isVolatile() || isContains());
+      && (isBidirectional() && !isContainer() && !isVolatile() || isEffectiveContains());
   }
 
   public boolean isSet()
@@ -1607,7 +1629,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
   public boolean isBasicUnset()
   {
-    return isUnsettable() && isChangeable() && !isListType() && isReferenceType() && (isBidirectional() || isContains());
+    return isUnsettable() && isChangeable() && !isListType() && isReferenceType() && (isBidirectional() || isEffectiveContains());
   }
 
   public boolean isUnset()
@@ -1619,5 +1641,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   {
     return isUnsettable();
   }
-
+  
+  public boolean isEffectiveContains()
+  {
+    return isContains() && !getGenModel().isSuppressContainment();
+  }
 } //GenFeatureImpl
