@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.20 2005/11/23 18:10:02 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.21 2005/12/10 13:33:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -52,6 +52,1478 @@ import org.eclipse.emf.ecore.xml.type.internal.DataValue.XMLChar;
  */
 public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
 {
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createAnySimpleType(String literal)
+  {
+    return literal;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertAnySimpleType(Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT 
+   */
+  public String createAnyURI(String literal)
+  {
+    // Per Schema 1.0 it is not clear if the result returned should be a valid URI. 
+    // For the future if we plant to surport IRIs then it is better not to massage
+    // the initialValue. 
+    // We should thought consider where would be the best way to validate anyURI values -- EL
+    
+    /*initialValue = collapseWhiteSpace(initialValue);
+    if (initialValue != null)
+    {
+      //encode special characters using XLink 5.4 algorithm
+      initialValue = URI.encode(initialValue);
+      // Support for relative URLs
+      // According to Java 1.1: URLs may also be specified with a
+      // String and the URL object that it is related to.
+      try 
+      {
+        new URI(URI.BASE_URI, initialValue);
+      }
+      catch (URI.MalformedURIException e)
+      {
+        throw new InvalidDatatypeValueException("Invalid anyURI value: '"+initialValue+"' :"+e.toString());
+      }
+    }*/
+    return literal;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertAnyURI(String instanceValue)
+  {
+    return instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public byte[] createBase64Binary(String literal)
+  {
+    if (literal == null) return null;
+    byte[] value = Base64.decode(collapseWhiteSpace(literal));
+    if (value == null)
+    {
+      throw new InvalidDatatypeValueException("Invalid base64Binary value: '" + literal + "'");
+    }
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertBase64Binary(byte[] instanceValue)
+  {
+    return instanceValue == null ? null : Base64.encode(instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean createBoolean(String initialValue)
+  {
+    return initialValue == null ? false : primitiveBooleanValueOf(initialValue);	
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertBoolean(boolean instanceValue)
+  {
+    return instanceValue ? "true" : "false";
+  }	
+    
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Boolean createBooleanObject(String literal)
+  {
+    return literal == null ? null : booleanValueOf(literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertBooleanObject(Boolean instanceValue)
+  {
+    return instanceValue == null ? null : convertBoolean(instanceValue.booleanValue());
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public byte createByte(String literal)
+  {
+    return literal == null ? 0 : Byte.parseByte(collapseWhiteSpace(literal));
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertByte(byte instanceValue)
+  {
+    return Byte.toString(instanceValue);
+  }
+    
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Byte createByteObject(String literal)
+  {
+    return literal == null ? null : Byte.valueOf(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertByteObject(Byte instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createDate(String literal)
+  {
+    return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.DATE);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertDate(Object instanceValue)
+  {
+    if (instanceValue == null)
+    {
+      return null;
+    }
+    if (instanceValue instanceof Date)
+    {
+      return EDATE_FORMATS[1].format((Date)instanceValue);
+    }
+    return instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createDateTime(String literal)
+  {
+    return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.DATETIME);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertDateTime(Object instanceValue)
+  {
+    if (instanceValue == null)
+    {
+      return null;
+    }
+    if (instanceValue instanceof Date)
+    {
+      return EDATE_FORMATS[0].format((Date)instanceValue);
+    }
+    return instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public BigDecimal createDecimal(String literal)
+  {
+    return literal == null ? null : new BigDecimal(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertDecimal(BigDecimal instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public double createDouble(String literal)
+  {
+    return literal == null ? 0.0 : Double.parseDouble(collapseWhiteSpace(literal));
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertDouble(double instanceValue)
+  {
+    return Double.toString(instanceValue);
+  }	
+    
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Double createDoubleObject(String literal)
+  {
+    return literal == null ? null : Double.valueOf(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertDoubleObject(Double instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createDuration(String literal)
+  {
+    return literal == null ? null : new XMLDuration(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertDuration(Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public List createENTITIES(String literal)
+  {
+    return createENTITIESBase(literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List createENTITIESFromString(EDataType eDataType, String initialValue)
+  {
+    return (List)createENTITIESBaseFromString(XMLTypePackage.Literals.ENTITIES_BASE, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertENTITIES(List instanceValue)
+  {
+    return convertENTITIESBase(instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertENTITIESToString(EDataType eDataType, Object instanceValue)
+  {
+    return convertENTITIESBaseToString(XMLTypePackage.Literals.ENTITIES_BASE, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List createENTITIESBase(String literal)
+  {
+    if (literal == null) return null;
+    List result = new ArrayList();
+    for (StringTokenizer stringTokenizer = new StringTokenizer(literal); stringTokenizer.hasMoreTokens(); )
+    {
+      String item = stringTokenizer.nextToken();
+      result.add(createENTITY(item));
+    }
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List createENTITIESBaseFromString(EDataType eDataType, String initialValue)
+  {
+    return createENTITIESBase(initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertENTITIESBase(List instanceValue)
+  {
+    if (instanceValue == null) return null;
+    if (instanceValue.isEmpty()) return "";
+    StringBuffer result = new StringBuffer();
+    for (Iterator i = instanceValue.iterator(); i.hasNext(); )
+    {
+      result.append(convertENTITY((String)i.next()));
+      result.append(' ');
+    }
+    return result.substring(0, result.length() - 1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertENTITIESBaseToString(EDataType eDataType, Object instanceValue)
+  {
+    if (instanceValue == null) return null;
+    List list = (List)instanceValue;
+    if (list.isEmpty()) return "";
+    StringBuffer result = new StringBuffer();
+    for (Iterator i = list.iterator(); i.hasNext(); )
+    {
+      result.append(convertENTITYToString(XMLTypePackage.Literals.ENTITY, i.next()));
+      result.append(' ');
+    }
+    return result.substring(0, result.length() - 1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createENTITY(String literal)
+  {
+    return literal;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertENTITY(String instanceValue)
+  {
+    return instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public float createFloat(String literal)
+  {
+    return literal == null ? 0.0F : Float.parseFloat(collapseWhiteSpace(literal));
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertFloat(float instanceValue)
+  {
+    return Float.toString(instanceValue);
+  }	
+    
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Float createFloatObject(String literal)
+  {
+    return literal == null ? null : Float.valueOf(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertFloatObject(Float instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createGDay(String literal)
+  {
+    return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.GDAY);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertGDay(Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createGMonth(String literal)
+  {
+    return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.GMONTH);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertGMonth(Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createGMonthDay(String literal)
+  {
+    return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.GMONTHDAY);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertGMonthDay(Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createGYear(String literal)
+  {
+    return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.GYEAR);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertGYear(Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createGYearMonth(String literal)
+  {
+    return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.GYEARMONTH);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertGYearMonth(Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public byte[] createHexBinary(String literal)
+  {
+    if (literal == null) return null;
+    byte[] value = HexBin.decode(collapseWhiteSpace(literal));
+    if (value == null)
+    {
+      throw new InvalidDatatypeValueException("Invalid hexBinary value: '" + literal + "'");
+    }
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertHexBinary(byte[] instanceValue)
+  {
+    return instanceValue == null ? null : HexBin.encode((byte[])instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createID(String literal)
+  {
+    return (String)createNCNameFromString(XMLTypePackage.Literals.NC_NAME, literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createIDFromString(EDataType eDataType, String initialValue)
+  {
+    return initialValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertID(String instanceValue)
+  {
+    return instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createIDREF(String literal)
+  {
+    return literal;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createIDREFFromString(EDataType eDataType, String initialValue)
+  {
+    return initialValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertIDREF(String instanceValue)
+  {
+    return instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public List createIDREFS(String literal)
+  {
+    return createIDREFSBase(literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List createIDREFSFromString(EDataType eDataType, String initialValue)
+  {
+    return (List)createIDREFSBaseFromString(XMLTypePackage.Literals.IDREFS_BASE, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertIDREFS(List instanceValue)
+  {
+    return convertIDREFSBase(instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertIDREFSToString(EDataType eDataType, Object instanceValue)
+  {
+    return convertIDREFSBaseToString(XMLTypePackage.Literals.IDREFS_BASE, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List createIDREFSBase(String literal)
+  {
+    if (literal == null) return null;
+    List result = new ArrayList();
+    for (StringTokenizer stringTokenizer = new StringTokenizer(literal); stringTokenizer.hasMoreTokens(); )
+    {
+      String item = stringTokenizer.nextToken();
+      result.add(createIDREF(item));
+    }
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List createIDREFSBaseFromString(EDataType eDataType, String initialValue)
+  {
+    return createIDREFSBase(initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertIDREFSBase(List instanceValue)
+  {
+    if (instanceValue == null) return null;
+    if (instanceValue.isEmpty()) return "";
+    StringBuffer result = new StringBuffer();
+    for (Iterator i = instanceValue.iterator(); i.hasNext(); )
+    {
+      result.append(convertIDREF((String)i.next()));
+      result.append(' ');
+    }
+    return result.substring(0, result.length() - 1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertIDREFSBaseToString(EDataType eDataType, Object instanceValue)
+  {
+    return convertIDREFSBase((List)instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public int createInt(String initialValue)
+  {
+    return initialValue == null ? 0 : Integer.parseInt(collapseWhiteSpace(initialValue));
+  }	
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertInt(int instanceValue)
+  {
+    return Integer.toString(instanceValue);
+  }
+    
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public BigInteger createInteger(String literal)
+  {
+    return literal == null ? null : new BigInteger(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertInteger(BigInteger instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Integer createIntObject(String literal)
+  {
+    return literal == null ? null : Integer.valueOf(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertIntObject(Integer instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createLanguage(String literal)
+  {
+    return collapseWhiteSpace(literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertLanguage(String instanceValue)
+  {
+    return (String)instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public long createLong(String literal)
+  {
+    return literal == null ? 0L : Long.parseLong(literal);
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertLong(long instanceValue)
+  {
+    return Long.toString(instanceValue);
+  }
+    
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Long createLongObject(String literal)
+  {
+    return literal == null ? null : Long.valueOf(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertLongObject(Long instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createName(String literal)
+  {
+    return literal;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertName(String instanceValue)
+  {
+    return (String)instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createNCName(String literal)
+  {
+    return literal;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertNCName(String instanceValue)
+  {
+    return (String)instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public BigInteger createNegativeInteger(String literal)
+  {
+    return (BigInteger)createNonPositiveIntegerFromString(XMLTypePackage.Literals.NON_POSITIVE_INTEGER, literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public BigInteger createNegativeIntegerFromString(EDataType eDataType, String initialValue)
+  {
+    return (BigInteger)createNonPositiveIntegerFromString(XMLTypePackage.Literals.NON_POSITIVE_INTEGER, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertNegativeInteger(BigInteger instanceValue)
+  {
+    return convertNonPositiveInteger(instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertNegativeIntegerToString(EDataType eDataType, Object instanceValue)
+  {
+    return convertNonPositiveIntegerToString(XMLTypePackage.Literals.NON_POSITIVE_INTEGER, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createNMTOKEN(String literal)
+  {
+    if (literal == null) return null;
+    if (!XMLChar.isValidNmtoken(literal))
+    {
+      throw new InvalidDatatypeValueException("Invalid NMTOKEN value: '" + literal + "'");
+    }
+    return literal;  
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertNMTOKEN(String instanceValue)
+  {
+    return (String)instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List createNMTOKENS(String literal)
+  {
+    return createNMTOKENSBase(literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List createNMTOKENSFromString(EDataType eDataType, String initialValue)
+  {
+    return (List)createNMTOKENSBaseFromString(XMLTypePackage.Literals.NMTOKENS_BASE, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertNMTOKENS(List instanceValue)
+  {
+    return convertNMTOKENSBase(instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertNMTOKENSToString(EDataType eDataType, Object instanceValue)
+  {
+    return convertNMTOKENSBaseToString(XMLTypePackage.Literals.NMTOKENS_BASE, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List createNMTOKENSBase(String literal)
+  {
+    if (literal == null) return null;
+    List result = new ArrayList();
+    for (StringTokenizer stringTokenizer = new StringTokenizer(literal); stringTokenizer.hasMoreTokens(); )
+    {
+      String item = stringTokenizer.nextToken();
+      result.add(createNMTOKEN(item));
+    }
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List createNMTOKENSBaseFromString(EDataType eDataType, String initialValue)
+  {
+    return createNMTOKENSBase(initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertNMTOKENSBase(List instanceValue)
+  {
+    if (instanceValue == null) return null;
+    if (instanceValue.isEmpty()) return "";
+    StringBuffer result = new StringBuffer();
+    for (Iterator i = instanceValue.iterator(); i.hasNext(); )
+    {
+      result.append(convertNMTOKEN((String)i.next()));
+      result.append(' ');
+    }
+    return result.substring(0, result.length() - 1);
+  }
+
+  public String convertNMTOKENSBaseToString(EDataType eDataType, Object instanceValue)
+  {
+    if (instanceValue == null) return null;
+    List list = (List)instanceValue;
+    if (list.isEmpty()) return "";
+    StringBuffer result = new StringBuffer();
+    for (Iterator i = list.iterator(); i.hasNext(); )
+    {
+      result.append(convertNMTOKENToString(XMLTypePackage.Literals.NMTOKEN, i.next()));
+      result.append(' ');
+    }
+    return result.substring(0, result.length() - 1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public BigInteger createNonNegativeInteger(String literal)
+  {
+    return literal == null ? null : new BigInteger(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertNonNegativeInteger(BigInteger instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public BigInteger createNonPositiveInteger(String literal)
+  {
+    return literal == null ? null : new BigInteger(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertNonPositiveInteger(BigInteger instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createNormalizedString(String literal)
+  {
+    return replaceWhiteSpace(literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertNormalizedString(String instanceValue)
+  {
+    return (String)instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createNOTATION(String literal)
+  {
+    return literal == null ? null : new QName(collapseWhiteSpace(literal)); 
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertNOTATION(Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public BigInteger createPositiveInteger(String literal)
+  {
+    return createNonNegativeInteger(literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public BigInteger createPositiveIntegerFromString(EDataType eDataType, String initialValue)
+  {
+    return (BigInteger)createNonNegativeIntegerFromString(XMLTypePackage.Literals.NON_NEGATIVE_INTEGER, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertPositiveInteger(BigInteger instanceValue)
+  {
+    return convertNonNegativeInteger(instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertPositiveIntegerToString(EDataType eDataType, Object instanceValue)
+  {
+    return convertNonNegativeIntegerToString(XMLTypePackage.Literals.NON_NEGATIVE_INTEGER, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createQName(String literal)
+  {
+    return literal == null ? null : new QName(collapseWhiteSpace(literal));    
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertQName(Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public short createShort(String literal)
+  {
+    return literal == null ? 0 : Short.parseShort(literal);
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertShort(short instanceValue)
+  {
+    return Short.toString(instanceValue);
+  }	
+    
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Short createShortObject(String literal)
+  {
+    return literal == null ? null : Short.valueOf(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertShortObject(Short instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createString(String initialValue)
+  {	
+    return initialValue;
+  }	
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertString(String instanceValue)
+  {
+    return (String)instanceValue;	
+  }	
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createTime(String literal)
+  {
+    return literal == null ?  null : new XMLCalendar(collapseWhiteSpace(literal), XMLCalendar.TIME);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertTime(Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String createToken(String literal)
+  {
+    return collapseWhiteSpace(literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertToken(String instanceValue)
+  {
+    return (String)instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public short createUnsignedByte(String literal)
+  {
+    return literal == null ? 0 : Short.parseShort(literal);
+  }	
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertUnsignedByte(short instanceValue)
+  {
+    return Short.toString(instanceValue);
+  }	
+    
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Short createUnsignedByteObject(String literal)
+  {
+    return literal == null ? null : new Short(literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertUnsignedByteObject(Short instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public long createUnsignedInt(String literal)
+  {
+    return literal == null ? 0 : Long.parseLong(literal);
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertUnsignedInt(long instanceValue)
+  {
+    return Long.toString(instanceValue);
+  }	
+    
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Long createUnsignedIntObject(String literal)
+  {
+    return literal == null ? null : Long.valueOf(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertUnsignedIntObject(Long instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public BigInteger createUnsignedLong(String literal)
+  {
+    return createNonNegativeInteger(literal);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public BigInteger createUnsignedLongFromString(EDataType eDataType, String initialValue)
+  {
+    return (BigInteger)createNonNegativeIntegerFromString(XMLTypePackage.Literals.NON_NEGATIVE_INTEGER, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertUnsignedLong(BigInteger instanceValue)
+  {
+    return convertNonNegativeInteger(instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertUnsignedLongToString(EDataType eDataType, Object instanceValue)
+  {
+    return convertNonNegativeIntegerToString(XMLTypePackage.Literals.NON_NEGATIVE_INTEGER, instanceValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public int createUnsignedShort(String literal)
+  {
+    return literal == null ? 0 : Integer.parseInt(literal);
+  }	
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertUnsignedShort(int instanceValue)
+  {
+    return Integer.toString(instanceValue);
+  }	
+    
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Integer createUnsignedShortObject(String literal)
+  {
+    return literal == null ? null : Integer.valueOf(collapseWhiteSpace(literal));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertUnsignedShortObject(Integer instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
 
   /**
    * Creates the default factory implementation.
@@ -410,7 +1882,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createAnySimpleTypeFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue;
+    return createAnySimpleType(initialValue);
   }
 
   /**
@@ -420,7 +1892,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertAnySimpleTypeToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : instanceValue.toString();
+    return convertAnySimpleType(instanceValue);
   }
 
   /**
@@ -430,29 +1902,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createAnyURIFromString(EDataType eDataType, String initialValue)
   {
-    // Per Schema 1.0 it is not clear if the result returned should be a valid URI. 
-    // For the future if we plant to surport IRIs then it is better not to massage
-    // the initialValue. 
-    // We should thought consider where would be the best way to validate anyURI values -- EL
-    
-    /*initialValue = collapseWhiteSpace(initialValue);
-    if (initialValue != null)
-    {
-      //encode special characters using XLink 5.4 algorithm
-      initialValue = URI.encode(initialValue);
-      // Support for relative URLs
-      // According to Java 1.1: URLs may also be specified with a
-      // String and the URL object that it is related to.
-      try 
-      {
-        new URI(URI.BASE_URI, initialValue);
-      }
-      catch (URI.MalformedURIException e)
-      {
-        throw new InvalidDatatypeValueException("Invalid anyURI value: '"+initialValue+"' :"+e.toString());
-      }
-    }*/
-    return initialValue;
+    return createAnyURI(initialValue);
   }
 
   /**
@@ -462,7 +1912,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertAnyURIToString(EDataType eDataType, Object instanceValue)
   {
-    return (String)instanceValue;
+    return convertAnyURI((String)instanceValue);
   }
 
   /**
@@ -472,13 +1922,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public byte[] createBase64BinaryFromString(EDataType eDataType, String initialValue)
   {
-    if (initialValue == null) return null;
-    byte[] value = Base64.decode(collapseWhiteSpace(initialValue));
-    if (value == null)
-    {
-      throw new InvalidDatatypeValueException("Invalid base64Binary value: '"+initialValue+"'");
-    }
-    return value;
+    return createBase64Binary(initialValue);
   }
 
   /**
@@ -488,7 +1932,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertBase64BinaryToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : Base64.encode((byte[])instanceValue);
+    return convertBase64Binary((byte[])instanceValue);
   }
 
   /**
@@ -498,7 +1942,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Boolean createBooleanFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : booleanValueOf(initialValue);
+    return createBooleanObject(initialValue);
   }
 
   /**
@@ -538,7 +1982,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigDecimal createDecimalFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new BigDecimal(collapseWhiteSpace(initialValue));
+    return createDecimal(initialValue);
   }
 
   /**
@@ -558,7 +2002,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new BigInteger(collapseWhiteSpace(initialValue));
+    return createInteger(initialValue);
   }
 
   /**
@@ -578,7 +2022,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Integer createIntObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Integer.valueOf(collapseWhiteSpace(initialValue));
+    return createIntObject(initialValue);
   }
 
   /**
@@ -598,7 +2042,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Long createLongFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Long.valueOf(collapseWhiteSpace(initialValue));
+    return createLongObject(initialValue);
   }
 
   /**
@@ -618,7 +2062,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Long createLongObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Long.valueOf(collapseWhiteSpace(initialValue));
+    return createLongObject(initialValue);
   }
 
   /**
@@ -638,7 +2082,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Integer createIntFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Integer.valueOf(collapseWhiteSpace(initialValue));
+    return createIntObject(initialValue);
   }
 
   /**
@@ -658,7 +2102,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Short createShortFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Short.valueOf(collapseWhiteSpace(initialValue));
+    return createShortObject(initialValue);
   }
 
   /**
@@ -678,7 +2122,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Short createShortObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Short.valueOf(collapseWhiteSpace(initialValue));
+    return createShortObject(initialValue);
   }
 
   /**
@@ -698,7 +2142,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Byte createByteFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Byte.valueOf(collapseWhiteSpace(initialValue));
+    return createByteObject(initialValue);
   }
 
   /**
@@ -718,7 +2162,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Byte createByteObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Byte.valueOf(collapseWhiteSpace(initialValue));
+    return createByteObject(initialValue);
   }
 
   /**
@@ -738,8 +2182,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createDateFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.DATE);
-
+    return createDate(initialValue);
   }
 
   /**
@@ -749,15 +2192,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertDateToString(EDataType eDataType, Object instanceValue)
   {
-    if (instanceValue == null)
-    {
-      return null;
-    }
-    if (instanceValue instanceof Date)
-    {
-      return EDATE_FORMATS[1].format((Date)instanceValue);
-    }
-    return instanceValue.toString();
+    return convertDate(instanceValue);
   }
 
   /**
@@ -767,7 +2202,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createDateTimeFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.DATETIME);
+    return createDateTime(initialValue);
   }
 
   /**
@@ -777,15 +2212,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertDateTimeToString(EDataType eDataType, Object instanceValue)
   {
-    if (instanceValue == null)
-    {
-      return null;
-    }
-    if (instanceValue instanceof Date)
-    {
-      return EDATE_FORMATS[0].format((Date)instanceValue);
-    }
-    return instanceValue.toString();
+    return convertDateTime(instanceValue);
   }
 
   /**
@@ -815,7 +2242,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Double createDoubleFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Double.valueOf(collapseWhiteSpace(initialValue));
+    return createDoubleObject(initialValue);
   }
 
   /**
@@ -835,7 +2262,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Double createDoubleObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Double.valueOf(collapseWhiteSpace(initialValue));
+    return createDoubleObject(initialValue);
   }
 
   /**
@@ -855,7 +2282,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createDurationFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new XMLDuration(collapseWhiteSpace(initialValue));
+    return createDuration(initialValue);
   }
 
   /**
@@ -871,47 +2298,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
-  public List createENTITIESBaseFromString(EDataType eDataType, String initialValue)
-  {
-    if (initialValue == null) return null;
-    List result = new ArrayList();
-    for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
-    {
-      String item = stringTokenizer.nextToken();
-      result.add(createENTITYFromString(XMLTypePackage.Literals.ENTITY, item));
-    }
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertENTITIESBaseToString(EDataType eDataType, Object instanceValue)
-  {
-    if (instanceValue == null) return null;
-    List list = (List)instanceValue;
-    if (list.isEmpty()) return "";
-    StringBuffer result = new StringBuffer();
-    for (Iterator i = list.iterator(); i.hasNext(); )
-    {
-      result.append(convertENTITYToString(XMLTypePackage.Literals.ENTITY, i.next()));
-      result.append(' ');
-    }
-    return result.substring(0, result.length() - 1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
    * @generated NOT
    */
   public String createNormalizedStringFromString(EDataType eDataType, String initialValue)
   {
-    return replaceWhiteSpace(initialValue);
+    return createNormalizedString(initialValue);
   }
 
   /**
@@ -931,7 +2322,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createTokenFromString(EDataType eDataType, String initialValue)
   {
-    return collapseWhiteSpace(initialValue);
+    return createToken(initialValue);
   }
 
   /**
@@ -952,7 +2343,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   public String createNameFromString(EDataType eDataType, String initialValue)
   {
     // do not validate on load. Check validity using Diagnostician.
-    return initialValue;
+    return createName(initialValue);
   }
 
   /**
@@ -973,7 +2364,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   public String createNCNameFromString(EDataType eDataType, String initialValue)
   {
     // do not validate on load. Check validity using Diagnostician.
-    return initialValue;
+    return createNCName(initialValue);
   }
 
   /**
@@ -993,7 +2384,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String createENTITYFromString(EDataType eDataType, String initialValue)
   {
-    return (String)XMLTypeFactory.eINSTANCE.createFromString(XMLTypePackage.eINSTANCE.getNCName(), initialValue);
+    return createENTITY(initialValue);
   }
 
   /**
@@ -1009,31 +2400,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
-  public List createENTITIESFromString(EDataType eDataType, String initialValue)
-  {
-    return (List)createENTITIESBaseFromString(XMLTypePackage.Literals.ENTITIES_BASE, initialValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertENTITIESToString(EDataType eDataType, Object instanceValue)
-  {
-    return convertENTITIESBaseToString(XMLTypePackage.Literals.ENTITIES_BASE, instanceValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
    * @generated NOT
    */
   public Float createFloatFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Float.valueOf(collapseWhiteSpace(initialValue));
+    return createFloatObject(initialValue);
   }
 
   /**
@@ -1053,7 +2424,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Float createFloatObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Float.valueOf(collapseWhiteSpace(initialValue));
+    return createFloatObject(initialValue);
   }
 
   /**
@@ -1073,8 +2444,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGDayFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.GDAY);
-
+    return createGDay(initialValue);
   }
 
   /**
@@ -1094,8 +2464,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGMonthFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.GMONTH);
-}
+    return createGMonth(initialValue);
+  }
 
   /**
    * <!-- begin-user-doc -->
@@ -1114,7 +2484,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGMonthDayFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.GMONTHDAY);
+    return createGMonthDay(initialValue);
   }
 
   /**
@@ -1134,8 +2504,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGYearFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.GYEAR);
-}
+    return createGYear(initialValue);
+  }
 
   /**
    * <!-- begin-user-doc -->
@@ -1154,7 +2524,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createGYearMonthFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.GYEARMONTH);
+    return createGYearMonth(initialValue);
 }
 
   /**
@@ -1174,13 +2544,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public byte[] createHexBinaryFromString(EDataType eDataType, String initialValue)
   {
-    if (initialValue == null) return null;
-    byte[] value = HexBin.decode(collapseWhiteSpace(initialValue));
-    if (value == null)
-    {
-      throw new InvalidDatatypeValueException("Invalid hexBinary value: '"+initialValue+"'");
-    }
-    return value;
+    return createHexBinary(initialValue);
   }
 
   /**
@@ -1190,17 +2554,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public String convertHexBinaryToString(EDataType eDataType, Object instanceValue)
   {
-    return instanceValue == null ? null : HexBin.encode((byte[])instanceValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String createIDFromString(EDataType eDataType, String initialValue)
-  {
-    return (String)createNCNameFromString(XMLTypePackage.Literals.NC_NAME, initialValue);
+    return convertHexBinary((byte[])instanceValue);
   }
 
   /**
@@ -1216,16 +2570,6 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
-  public String createIDREFFromString(EDataType eDataType, String initialValue)
-  {
-    return (String)createNCNameFromString(XMLTypePackage.Literals.NC_NAME, initialValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
    * @generated NOT
    */
   public String convertIDREFToString(EDataType eDataType, Object instanceValue)
@@ -1236,67 +2580,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
-  public List createIDREFSBaseFromString(EDataType eDataType, String initialValue)
-  {
-    if (initialValue == null) return null;
-    List result = new ArrayList();
-    for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
-    {
-      String item = stringTokenizer.nextToken();
-      result.add(createIDREFFromString(XMLTypePackage.Literals.IDREF, item));
-    }
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertIDREFSBaseToString(EDataType eDataType, Object instanceValue)
-  {
-    if (instanceValue == null) return null;
-    List list = (List)instanceValue;
-    if (list.isEmpty()) return "";
-    StringBuffer result = new StringBuffer();
-    for (Iterator i = list.iterator(); i.hasNext(); )
-    {
-      result.append(convertIDREFToString(XMLTypePackage.Literals.IDREF, i.next()));
-      result.append(' ');
-    }
-    return result.substring(0, result.length() - 1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List createIDREFSFromString(EDataType eDataType, String initialValue)
-  {
-    return (List)createIDREFSBaseFromString(XMLTypePackage.Literals.IDREFS_BASE, initialValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertIDREFSToString(EDataType eDataType, Object instanceValue)
-  {
-    return convertIDREFSBaseToString(XMLTypePackage.Literals.IDREFS_BASE, instanceValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
    * @generated NOT
    */
   public String createLanguageFromString(EDataType eDataType, String initialValue)
   {
-    return collapseWhiteSpace(initialValue);
+    return createLanguage(initialValue);
   }
 
   /**
@@ -1316,7 +2604,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public BigInteger createNonPositiveIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new BigInteger(collapseWhiteSpace(initialValue));
+    return createNonPositiveInteger(initialValue);
   }
 
   /**
@@ -1332,36 +2620,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
-  public BigInteger createNegativeIntegerFromString(EDataType eDataType, String initialValue)
-  {
-    return (BigInteger)createNonPositiveIntegerFromString(XMLTypePackage.Literals.NON_POSITIVE_INTEGER, initialValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertNegativeIntegerToString(EDataType eDataType, Object instanceValue)
-  {
-    return convertNonPositiveIntegerToString(XMLTypePackage.Literals.NON_POSITIVE_INTEGER, instanceValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
    * @generated NOT
    */
   public String createNMTOKENFromString(EDataType eDataType, String initialValue)
   {
-    if (initialValue == null) return null;
-    if (!XMLChar.isValidNmtoken(initialValue))
-    {
-      throw new InvalidDatatypeValueException("Invalid NMTOKEN value: '" + initialValue + "'");
-    }
-    return initialValue;  
+    return createNMTOKEN(initialValue);
   }
 
   /**
@@ -1377,67 +2640,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
-  public List createNMTOKENSBaseFromString(EDataType eDataType, String initialValue)
-  {
-    if (initialValue == null) return null;
-    List result = new ArrayList();
-    for (StringTokenizer stringTokenizer = new StringTokenizer(initialValue); stringTokenizer.hasMoreTokens(); )
-    {
-      String item = stringTokenizer.nextToken();
-      result.add(createNMTOKENFromString(XMLTypePackage.Literals.NMTOKEN, item));
-    }
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertNMTOKENSBaseToString(EDataType eDataType, Object instanceValue)
-  {
-    if (instanceValue == null) return null;
-    List list = (List)instanceValue;
-    if (list.isEmpty()) return "";
-    StringBuffer result = new StringBuffer();
-    for (Iterator i = list.iterator(); i.hasNext(); )
-    {
-      result.append(convertNMTOKENToString(XMLTypePackage.Literals.NMTOKEN, i.next()));
-      result.append(' ');
-    }
-    return result.substring(0, result.length() - 1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List createNMTOKENSFromString(EDataType eDataType, String initialValue)
-  {
-    return (List)createNMTOKENSBaseFromString(XMLTypePackage.Literals.NMTOKENS_BASE, initialValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertNMTOKENSToString(EDataType eDataType, Object instanceValue)
-  {
-    return convertNMTOKENSBaseToString(XMLTypePackage.Literals.NMTOKENS_BASE, instanceValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
    * @generated NOT
    */
   public BigInteger createNonNegativeIntegerFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new BigInteger(collapseWhiteSpace(initialValue));
+    return createNonNegativeInteger(initialValue);
   }
 
   /**
@@ -1457,7 +2664,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createNOTATIONFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new QName(collapseWhiteSpace(initialValue)); 
+    return createNOTATION(initialValue);
   }
 
   /**
@@ -1473,31 +2680,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
-  public BigInteger createPositiveIntegerFromString(EDataType eDataType, String initialValue)
-  {
-    return (BigInteger)createNonNegativeIntegerFromString(XMLTypePackage.Literals.NON_NEGATIVE_INTEGER, initialValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertPositiveIntegerToString(EDataType eDataType, Object instanceValue)
-  {
-    return convertNonNegativeIntegerToString(XMLTypePackage.Literals.NON_NEGATIVE_INTEGER, instanceValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
    * @generated NOT
    */
   public Object createQNameFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new QName(collapseWhiteSpace(initialValue));    
+    return createQName(initialValue);
   }
 
   /**
@@ -1517,8 +2704,8 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Object createTimeFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ?  null : new XMLCalendar(collapseWhiteSpace(initialValue), XMLCalendar.TIME);
-}
+    return createTime(initialValue);
+  }
 
   /**
    * <!-- begin-user-doc -->
@@ -1533,31 +2720,11 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
-  public BigInteger createUnsignedLongFromString(EDataType eDataType, String initialValue)
-  {
-    return (BigInteger)createNonNegativeIntegerFromString(XMLTypePackage.Literals.NON_NEGATIVE_INTEGER, initialValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertUnsignedLongToString(EDataType eDataType, Object instanceValue)
-  {
-    return convertNonNegativeIntegerToString(XMLTypePackage.Literals.NON_NEGATIVE_INTEGER, instanceValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
    * @generated NOT
    */
   public Long createUnsignedIntFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Long.valueOf(collapseWhiteSpace(initialValue));
+    return createUnsignedIntObject(initialValue);
   }
 
   /**
@@ -1577,7 +2744,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Long createUnsignedIntObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Long.valueOf(collapseWhiteSpace(initialValue));
+    return createUnsignedIntObject(initialValue);
   }
 
   /**
@@ -1597,7 +2764,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Integer createUnsignedShortFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : Integer.valueOf(collapseWhiteSpace(initialValue));
+    return createUnsignedShortObject(initialValue);
   }
 
   /**
@@ -1637,7 +2804,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Short createUnsignedByteFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new Short(initialValue);
+    return createUnsignedByteObject(initialValue);
   }
 
   /**
@@ -1657,7 +2824,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
    */
   public Short createUnsignedByteObjectFromString(EDataType eDataType, String initialValue)
   {
-    return initialValue == null ? null : new Short(initialValue);
+    return createUnsignedByteObject(initialValue);
   }
 
   /**
@@ -1701,6 +2868,20 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     else if ("false".equals(initialValue) || "0".equals(initialValue))
     {
       return Boolean.FALSE;
+    }
+    throw new InvalidDatatypeValueException("Invalid boolean value: '" + initialValue + "'");
+  }
+  
+  protected boolean primitiveBooleanValueOf(String initialValue)
+  {
+    initialValue = collapseWhiteSpace(initialValue);
+    if ("true".equals(initialValue) || "1".equals(initialValue))
+    {
+      return true;
+    }
+    else if ("false".equals(initialValue) || "0".equals(initialValue))
+    {
+      return false;
     }
     throw new InvalidDatatypeValueException("Invalid boolean value: '" + initialValue + "'");
   }

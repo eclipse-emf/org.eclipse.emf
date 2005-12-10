@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.45 2005/11/29 15:07:02 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.46 2005/12/10 13:28:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -108,6 +108,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getTestsPackageSuffix <em>Tests Package Suffix</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isGenerateExampleClass <em>Generate Example Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isLiteralsInterface <em>Literals Interface</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isDataTypeConverters <em>Data Type Converters</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenEnums <em>Gen Enums</em>}</li>
@@ -423,6 +424,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected boolean literalsInterface = LITERALS_INTERFACE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isDataTypeConverters() <em>Data Type Converters</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isDataTypeConverters()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean DATA_TYPE_CONVERTERS_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isDataTypeConverters() <em>Data Type Converters</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isDataTypeConverters()
+   * @generated
+   * @ordered
+   */
+  protected boolean dataTypeConverters = DATA_TYPE_CONVERTERS_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getEcorePackage() <em>Ecore Package</em>}' reference.
@@ -861,6 +882,29 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE, oldLiteralsInterface, literalsInterface));
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isDataTypeConverters()
+  {
+    return dataTypeConverters;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDataTypeConverters(boolean newDataTypeConverters)
+  {
+    boolean oldDataTypeConverters = dataTypeConverters;
+    dataTypeConverters = newDataTypeConverters;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS, oldDataTypeConverters, dataTypeConverters));
+  }
+
   public  EModelElement getEcoreModelElement()
   {
     return getEcorePackage();
@@ -1118,6 +1162,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return isGenerateExampleClass() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
         return isLiteralsInterface() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS:
+        return isDataTypeConverters() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         if (resolve) return getEcorePackage();
         return basicGetEcorePackage();
@@ -1190,6 +1236,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return;
       case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
         setLiteralsInterface(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS:
+        setDataTypeConverters(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)newValue);
@@ -1271,6 +1320,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
         setLiteralsInterface(LITERALS_INTERFACE_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS:
+        setDataTypeConverters(DATA_TYPE_CONVERTERS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)null);
         return;
@@ -1332,6 +1384,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return generateExampleClass != GENERATE_EXAMPLE_CLASS_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
         return literalsInterface != LITERALS_INTERFACE_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS:
+        return dataTypeConverters != DATA_TYPE_CONVERTERS_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         return ecorePackage != null;
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
@@ -1390,6 +1444,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(generateExampleClass);
     result.append(", literalsInterface: ");
     result.append(literalsInterface);
+    result.append(", dataTypeConverters: ");
+    result.append(dataTypeConverters);
     result.append(')');
     return result.toString();
   }
@@ -3328,6 +3384,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     setTestsPackageSuffix(oldGenPackageVersion.getTestsPackageSuffix());
     setGenerateExampleClass(oldGenPackageVersion.isGenerateExampleClass());
     setLiteralsInterface(oldGenPackageVersion.isLiteralsInterface());
+    setDataTypeConverters(oldGenPackageVersion.isDataTypeConverters());
   }
 
   public boolean reconcile()

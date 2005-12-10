@@ -12,9 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactory.java,v 1.3 2005/11/23 13:56:58 emerks Exp $
+ * $Id: XMLTypeFactory.java,v 1.4 2005/12/10 13:33:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+import java.util.List;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -26,7 +31,8 @@ import org.eclipse.emf.ecore.EFactory;
  * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage
  * @generated
  */
-public interface XMLTypeFactory extends EFactory{
+public interface XMLTypeFactory extends EFactory
+{
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->
@@ -61,6 +67,1166 @@ public interface XMLTypeFactory extends EFactory{
    * @generated
    */
   XMLTypeDocumentRoot createXMLTypeDocumentRoot();
+
+  /**
+   * Returns an instance of data type '<em>Any Simple Type</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createAnySimpleType(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Any Simple Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertAnySimpleType(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Any URI</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createAnyURI(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Any URI</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertAnyURI(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Base64 Binary</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  byte[] createBase64Binary(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Base64 Binary</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertBase64Binary(byte[] instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Boolean</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  boolean createBoolean(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Boolean</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertBoolean(boolean instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Boolean Object</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Boolean createBooleanObject(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Boolean Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertBooleanObject(Boolean instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Byte</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  byte createByte(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Byte</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertByte(byte instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Byte Object</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Byte createByteObject(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Byte Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertByteObject(Byte instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Date</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createDate(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Date</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertDate(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Date Time</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createDateTime(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Date Time</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertDateTime(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Decimal</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  BigDecimal createDecimal(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Decimal</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertDecimal(BigDecimal instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Double</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  double createDouble(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Double</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertDouble(double instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Double Object</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Double createDoubleObject(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Double Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertDoubleObject(Double instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Duration</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createDuration(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Duration</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertDuration(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>ENTITIES</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  List createENTITIES(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>ENTITIES</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertENTITIES(List instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>ENTITIES Base</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  List createENTITIESBase(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>ENTITIES Base</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertENTITIESBase(List instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>ENTITY</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createENTITY(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>ENTITY</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertENTITY(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Float</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  float createFloat(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Float</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertFloat(float instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Float Object</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Float createFloatObject(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Float Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertFloatObject(Float instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>GDay</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createGDay(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>GDay</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertGDay(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>GMonth</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createGMonth(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>GMonth</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertGMonth(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>GMonth Day</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createGMonthDay(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>GMonth Day</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertGMonthDay(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>GYear</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createGYear(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>GYear</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertGYear(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>GYear Month</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createGYearMonth(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>GYear Month</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertGYearMonth(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Hex Binary</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  byte[] createHexBinary(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Hex Binary</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertHexBinary(byte[] instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>ID</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createID(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>ID</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertID(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>IDREF</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createIDREF(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>IDREF</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertIDREF(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>IDREFS</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  List createIDREFS(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>IDREFS</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertIDREFS(List instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>IDREFS Base</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  List createIDREFSBase(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>IDREFS Base</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertIDREFSBase(List instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Int</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  int createInt(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Int</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertInt(int instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Integer</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  BigInteger createInteger(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Integer</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertInteger(BigInteger instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Int Object</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Integer createIntObject(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Int Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertIntObject(Integer instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Language</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createLanguage(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Language</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertLanguage(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Long</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  long createLong(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Long</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertLong(long instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Long Object</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Long createLongObject(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Long Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertLongObject(Long instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Name</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createName(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Name</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertName(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>NC Name</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createNCName(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>NC Name</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertNCName(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Negative Integer</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  BigInteger createNegativeInteger(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Negative Integer</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertNegativeInteger(BigInteger instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>NMTOKEN</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createNMTOKEN(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>NMTOKEN</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertNMTOKEN(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>NMTOKENS</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  List createNMTOKENS(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>NMTOKENS</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertNMTOKENS(List instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>NMTOKENS Base</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  List createNMTOKENSBase(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>NMTOKENS Base</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertNMTOKENSBase(List instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Non Negative Integer</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  BigInteger createNonNegativeInteger(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Non Negative Integer</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertNonNegativeInteger(BigInteger instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Non Positive Integer</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  BigInteger createNonPositiveInteger(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Non Positive Integer</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertNonPositiveInteger(BigInteger instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Normalized String</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createNormalizedString(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Normalized String</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertNormalizedString(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>NOTATION</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createNOTATION(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>NOTATION</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertNOTATION(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Positive Integer</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  BigInteger createPositiveInteger(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Positive Integer</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertPositiveInteger(BigInteger instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>QName</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createQName(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>QName</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertQName(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Short</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  short createShort(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Short</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertShort(short instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Short Object</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Short createShortObject(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Short Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertShortObject(Short instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>String</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createString(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>String</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertString(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Time</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Object createTime(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Time</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertTime(Object instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Token</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  String createToken(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Token</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertToken(String instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Unsigned Byte</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  short createUnsignedByte(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Unsigned Byte</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertUnsignedByte(short instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Unsigned Byte Object</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Short createUnsignedByteObject(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Unsigned Byte Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertUnsignedByteObject(Short instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Unsigned Int</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  long createUnsignedInt(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Unsigned Int</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertUnsignedInt(long instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Unsigned Int Object</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Long createUnsignedIntObject(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Unsigned Int Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertUnsignedIntObject(Long instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Unsigned Long</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  BigInteger createUnsignedLong(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Unsigned Long</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertUnsignedLong(BigInteger instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Unsigned Short</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  int createUnsignedShort(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Unsigned Short</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertUnsignedShort(int instanceValue);
+
+  /**
+   * Returns an instance of data type '<em>Unsigned Short Object</em>' corresponding the given literal.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param literal a literal of the data type.
+   * @return a new instance value of the data type.
+   * @generated
+   */
+  Integer createUnsignedShortObject(String literal);
+
+  /**
+   * Returns a literal representation of an instance of data type '<em>Unsigned Short Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param instanceValue an instance value of the data type.
+   * @return a literal representation of the instance value.
+   * @generated
+   */
+  String convertUnsignedShortObject(Integer instanceValue);
 
   /**
    * Returns the package supported by this factory.
