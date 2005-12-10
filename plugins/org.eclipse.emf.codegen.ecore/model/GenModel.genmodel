@@ -123,6 +123,14 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/containmentProxies"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether reflective methods should call super and be smaller or duplicate the code from super and be faster"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/minimalReflectiveMethods"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress the support for containment features updating the container"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressContainment"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to suppress generating support for notification"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressNotification"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to generate bean-like array accessors for many-valued features"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/arrayAccessors"/>
+      <genFeatures createChild="false" propertyCategory="ModelFeature" propertyDescription="Whether to suppress generated support for unsettable features "
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressUnsettable"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>
@@ -157,6 +165,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/generateExampleClass"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to generate an interface defining metadata literals"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/literalsInterface"/>
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to generate converters for data types in the factory and the resource"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/dataTypeConverters"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this package" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/ecorePackage"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genModel"/>
