@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenTypedElement.java,v 1.3 2005/09/16 22:01:51 davidms Exp $
+ * $Id: GenTypedElement.java,v 1.4 2005/12/10 13:21:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -83,6 +83,7 @@ public interface GenTypedElement extends GenBase
   GenEnum getTypeGenEnum();
   GenDataType getTypeGenDataType();
   GenClass getTypeGenClass();
+  GenClassifier getTypeGenClassifier();
 
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getTypeGenEnum}.
