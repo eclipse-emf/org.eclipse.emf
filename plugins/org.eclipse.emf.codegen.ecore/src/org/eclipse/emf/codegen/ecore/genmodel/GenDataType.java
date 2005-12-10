@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataType.java,v 1.6 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenDataType.java,v 1.7 2005/12/10 13:18:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -81,6 +81,7 @@ public interface GenDataType extends GenClassifier
   GenDataType getBaseType();
   GenDataType getItemType();
   List /*GenDataType*/ getMemberTypes();
+  GenDataType getObjectType();
 
   String getMinLiteral();
   boolean isMinInclusive();
