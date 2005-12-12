@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.11 2005/11/23 18:53:01 elena Exp $
+ * $Id: XSDResourceImpl.java,v 1.12 2005/12/12 16:31:09 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -685,27 +685,30 @@ public class XSDResourceImpl extends ResourceImpl
       handleSchemaElement(null, false);
     }
 
-    for (Iterator i = getContents().iterator(); i.hasNext();)
+    if (errors != null)
     {
-      XSDSchema xsdSchema = (XSDSchema)i.next();
-      assignDiagnostics(xsdSchema, errors);
-
-      for (Iterator diagnostics = errors.iterator(); diagnostics.hasNext();)
+      for (Iterator i = getContents().iterator(); i.hasNext();)
       {
-        XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)diagnostics.next();
-        switch (xsdDiagnostic.getSeverity().getValue())
+        XSDSchema xsdSchema = (XSDSchema)i.next();
+        assignDiagnostics(xsdSchema, errors);
+  
+        for (Iterator diagnostics = errors.iterator(); diagnostics.hasNext();)
         {
-          case XSDDiagnosticSeverity.FATAL:
-          case XSDDiagnosticSeverity.ERROR:
+          XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)diagnostics.next();
+          switch (xsdDiagnostic.getSeverity().getValue())
           {
-            getErrors().add(xsdDiagnostic);
-            break;
-          }
-          case XSDDiagnosticSeverity.WARNING:
-          case XSDDiagnosticSeverity.INFORMATION:
-          {
-            getWarnings().add(xsdDiagnostic);
-            break;
+            case XSDDiagnosticSeverity.FATAL:
+            case XSDDiagnosticSeverity.ERROR:
+            {
+              getErrors().add(xsdDiagnostic);
+              break;
+            }
+            case XSDDiagnosticSeverity.WARNING:
+            case XSDDiagnosticSeverity.INFORMATION:
+            {
+              getWarnings().add(xsdDiagnostic);
+              break;
+            }
           }
         }
       }
