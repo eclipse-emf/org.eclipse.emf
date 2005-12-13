@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.60 2005/12/10 13:27:47 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.61 2005/12/13 23:08:46 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -75,6 +75,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
@@ -84,6 +85,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 /**
@@ -1859,12 +1861,18 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     if (extendedMetaData == null)
     {
       extendedMetaData = 
-        eResource() == null || eResource().getResourceSet() == null ? 
-          ExtendedMetaData.INSTANCE : 
-          new BasicExtendedMetaData(eResource().getResourceSet().getPackageRegistry());
+        new BasicExtendedMetaData
+          (eResource() == null || eResource().getResourceSet() == null ? 
+             new EPackageRegistryImpl(EPackage.Registry.INSTANCE) :
+             eResource().getResourceSet().getPackageRegistry());
       populateExtendedMetaData(getGenPackages());
       populateExtendedMetaData(getStaticGenPackages());
       populateExtendedMetaData(getUsedGenPackages());
+
+      if (extendedMetaData.getPackage(ExtendedMetaData.XML_SCHEMA_URI) == null)
+      {
+        extendedMetaData.putPackage(ExtendedMetaData.XML_SCHEMA_URI, extendedMetaData.getPackage(XMLTypePackage.eNS_URI));
+      }
     }
     return extendedMetaData;
   }
