@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedMetaData.java,v 1.9 2005/06/08 06:20:10 nickb Exp $
+ * $Id: ExtendedMetaData.java,v 1.10 2005/12/13 23:15:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -94,7 +94,7 @@ public interface ExtendedMetaData
   String XML_URI = "http://www.w3.org/XML/1998/namespace";
 
   /**
-   * The xML Schema instance namespace URI: "http://www.w3.org/2001/XMLSchema-instance".
+   * The XML Schema instance namespace URI: "http://www.w3.org/2001/XMLSchema-instance".
    */
   String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
 
