@@ -739,6 +739,11 @@
 	    language   	"Java"
 	    abstract   	TRUE)
 	(object Class "EBigDecimal"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#decimal'"))
 	    quid       	"3FC6252D01C7"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -747,6 +752,11 @@
 		    stereotype 	"javaclass"
 		    exportControl 	"Public")))
 	(object Class "EBigInteger"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#integer'"))
 	    quid       	"3FC625080137"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -755,6 +765,11 @@
 		    stereotype 	"javaclass"
 		    exportControl 	"Public")))
 	(object Class "EBoolean"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#boolean'"))
 	    quid       	"3D0672EC0024"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -767,7 +782,15 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"singleInstance"
-		    value      	TRUE))
+		    value      	TRUE)
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='EBoolean'")
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"xmlName"
+		    value      	"EBoolean:Object"))
 	    quid       	"39EB7E1202AF"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -777,6 +800,11 @@
 		    exportControl 	"Public"))
 	    language   	"Java")
 	(object Class "EByte"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#byte'"))
 	    quid       	"3D06745301D9"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -785,6 +813,11 @@
 		    stereotype 	"javaclass"
 		    exportControl 	"Public")))
 	(object Class "EByteArray"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#hexBinary'"))
 	    quid       	"3FC62489001C"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -793,6 +826,15 @@
 		    stereotype 	"javaclass"
 		    exportControl 	"Public")))
 	(object Class "EByteObject"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='EByte'")
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"xmlName"
+		    value      	"EByte:Object"))
 	    quid       	"3D0672FE0070"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -813,7 +855,15 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"singleInstance"
-		    value      	TRUE))
+		    value      	TRUE)
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"xmlName"
+		    value      	"EChar:Object")
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='EChar'"))
 	    quid       	"39EB7E480148"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -841,6 +891,11 @@
 	    language   	"Java"
 	    abstract   	TRUE)
 	(object Class "EDouble"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#double'"))
 	    quid       	"3D06745D0364"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -853,7 +908,15 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"singleInstance"
-		    value      	TRUE))
+		    value      	TRUE)
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='EDouble'")
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"xmlName"
+		    value      	"EDouble:Object"))
 	    quid       	"3A68EBB8012A"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -898,6 +961,11 @@
 		    stereotype 	"javaclass"
 		    exportControl 	"Public")))
 	(object Class "EFloat"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#float'"))
 	    quid       	"3D067469025C"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -910,7 +978,15 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"singleInstance"
-		    value      	TRUE))
+		    value      	TRUE)
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='EFloat'")
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"xmlName"
+		    value      	"EFloat:Object"))
 	    quid       	"39EB7E2600BB"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -920,6 +996,11 @@
 		    exportControl 	"Public"))
 	    language   	"Java")
 	(object Class "EInt"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#int'"))
 	    quid       	"3D0674720115"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -932,7 +1013,15 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"singleInstance"
-		    value      	TRUE))
+		    value      	TRUE)
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='EInt'")
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"xmlName"
+		    value      	"EInt:Object"))
 	    quid       	"39EB7E0702AF"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -964,6 +1053,11 @@
 		    exportControl 	"Public"))
 	    abstract   	TRUE)
 	(object Class "ELong"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#long'"))
 	    quid       	"3D06747C0390"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -976,7 +1070,15 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"singleInstance"
-		    value      	TRUE))
+		    value      	TRUE)
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='ELong'")
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"xmlName"
+		    value      	"ELong:Object"))
 	    quid       	"3A68EBAB02DA"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -1014,6 +1116,11 @@
 		    exportControl 	"Public"))
 	    abstract   	TRUE)
 	(object Class "EShort"
+	    attributes 	(list Attribute_Set
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#short'"))
 	    quid       	"3D06748601FA"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -1026,7 +1133,15 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"singleInstance"
-		    value      	TRUE))
+		    value      	TRUE)
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='EShort'")
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"xmlName"
+		    value      	"EShort:Object"))
 	    quid       	"3A971C630333"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -1039,7 +1154,11 @@
 		(object Attribute
 		    tool       	"Ecore"
 		    name       	"singleInstance"
-		    value      	TRUE))
+		    value      	TRUE)
+		(object Attribute
+		    tool       	"Ecore"
+		    name       	"annotation"
+		    value      	"http:///org/eclipse/emf/ecore/util/ExtendedMetaData  baseType='http://www.w3.org/2001/XMLSchema#string'"))
 	    quid       	"39EB7E000186"
 	    stereotype 	"datatype"
 	    class_attributes 	(list class_attribute_list
@@ -2462,14 +2581,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"39A473E901D4"
-		    compartment 	(object Compartment
-			Parent_View 	@39
-			location   	(2107, 2278)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	1065)
 		    width      	1075
 		    height     	300
 		    annotation 	8)
@@ -2491,14 +2602,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3ACCDCE601C2"
-		    compartment 	(object Compartment
-			Parent_View 	@40
-			location   	(2550, 1752)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	487)
 		    width      	498
 		    height     	236
 		    annotation 	8)
@@ -2587,14 +2690,6 @@
 		    line_color 	8421504
 		    fill_color 	13424329
 		    quidu      	"3B65CCC600FE"
-		    compartment 	(object Compartment
-			Parent_View 	@47
-			location   	(790, 444)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	303)
 		    width      	360
 		    height     	186
 		    annotation 	8)
@@ -2626,14 +2721,6 @@
 		    line_color 	8421504
 		    fill_color 	13424329
 		    quidu      	"3903D4E40050"
-		    compartment 	(object Compartment
-			Parent_View 	@49
-			location   	(676, 103)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	887)
 		    width      	898
 		    height     	186
 		    annotation 	8)
@@ -2661,14 +2748,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3D98A1C701AB"
-		    compartment 	(object Compartment
-			Parent_View 	@51
-			location   	(38, 419)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	675)
 		    width      	686
 		    height     	236
 		    annotation 	8)
@@ -2787,14 +2866,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3A773E540057"
-		    compartment 	(object Compartment
-			Parent_View 	@61
-			location   	(1216, 425)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	1481)
 		    width      	1492
 		    height     	286
 		    annotation 	8)
@@ -2828,14 +2899,6 @@
 		    line_color 	8421504
 		    fill_color 	13424329
 		    quidu      	"3903D4F60398"
-		    compartment 	(object Compartment
-			Parent_View 	@63
-			location   	(67, 815)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	7
-			max_width  	490)
 		    width      	504
 		    height     	436
 		    annotation 	8)
@@ -2875,14 +2938,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3905C3F7000A"
-		    compartment 	(object Compartment
-			Parent_View 	@66
-			location   	(1954, 828)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	809)
 		    width      	822
 		    height     	286
 		    annotation 	8)
@@ -3070,14 +3125,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3903D525033E"
-		    compartment 	(object Compartment
-			Parent_View 	@81
-			location   	(2297, 1467)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	559)
 		    width      	570
 		    height     	186
 		    annotation 	8)
@@ -3132,14 +3179,6 @@
 		    line_color 	8421504
 		    fill_color 	13424329
 		    quidu      	"3ACE4FEE0371"
-		    compartment 	(object Compartment
-			Parent_View 	@84
-			location   	(859, 815)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	6
-			max_width  	818)
 		    width      	843
 		    height     	375
 		    annotation 	8)
@@ -3328,14 +3367,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"39238479039D"
-		    compartment 	(object Compartment
-			Parent_View 	@100
-			location   	(872, 2099)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	618)
 		    width      	630
 		    height     	286
 		    annotation 	8)
@@ -3431,14 +3462,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"39238472039D"
-		    compartment 	(object Compartment
-			Parent_View 	@107
-			location   	(882, 2508)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	275)
 		    width      	424
 		    height     	212
 		    annotation 	8)
@@ -3699,14 +3722,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3903D5BF000A"
-		    compartment 	(object Compartment
-			Parent_View 	@127
-			location   	(990, 1371)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	8
-			max_width  	1231)
 		    width      	1238
 		    height     	475
 		    annotation 	8)
@@ -4496,14 +4511,6 @@
 		    line_color 	8421504
 		    fill_color 	13424329
 		    quidu      	"3903D59D0230"
-		    compartment 	(object Compartment
-			Parent_View 	@193
-			location   	(33, 2003)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	10
-			max_width  	662)
 		    width      	688
 		    height     	587
 		    annotation 	8)

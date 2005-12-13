@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.13 2005/12/02 18:07:47 davidms Exp $
+ * $Id: EcorePackageImpl.java,v 1.14 2005/12/13 23:14:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -477,6 +477,10 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
   public static boolean internalBootstrap()
   {
+    // Create annotations
+    // http:///org/eclipse/emf/ecore/util/ExtendedMetaData
+    ((EcorePackageImpl)EcorePackage.eINSTANCE).createExtendedMetaDataAnnotations();
+
     ((EPackageImpl)EcorePackage.eINSTANCE).freeze();
     return true;
   }
@@ -2093,6 +2097,158 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     // Create resource
     createResource(eNS_URI);
+  }
+
+  /**
+   * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void createExtendedMetaDataAnnotations()
+  {
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    addAnnotation
+      (eBigDecimalEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#decimal"
+       });		
+    addAnnotation
+      (eBigIntegerEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#integer"
+       });		
+    addAnnotation
+      (eBooleanEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#boolean"
+       });		
+    addAnnotation
+      (eBooleanObjectEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "EBoolean",
+       "name", "EBoolean:Object"
+       });		
+    addAnnotation
+      (eByteEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#byte"
+       });		
+    addAnnotation
+      (eByteArrayEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#hexBinary"
+       });		
+    addAnnotation
+      (eByteObjectEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "EByte",
+       "name", "EByte:Object"
+       });		
+    addAnnotation
+      (eCharacterObjectEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "EChar",
+       "name", "EChar:Object"
+       });		
+    addAnnotation
+      (eDoubleEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#double"
+       });		
+    addAnnotation
+      (eDoubleObjectEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "EDouble",
+       "name", "EDouble:Object"
+       });		
+    addAnnotation
+      (eFloatEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#float"
+       });		
+    addAnnotation
+      (eFloatObjectEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "EFloat",
+       "name", "EFloat:Object"
+       });		
+    addAnnotation
+      (eIntEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#int"
+       });		
+    addAnnotation
+      (eIntegerObjectEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "EInt",
+       "name", "EInt:Object"
+       });		
+    addAnnotation
+      (eLongEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#long"
+       });		
+    addAnnotation
+      (eLongObjectEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "ELong",
+       "name", "ELong:Object"
+       });		
+    addAnnotation
+      (eShortEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#short"
+       });		
+    addAnnotation
+      (eShortObjectEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "EShort",
+       "name", "EShort:Object"
+       });		
+    addAnnotation
+      (eStringEDataType, 
+       source, 
+       new String[] 
+       {
+       "baseType", "http://www.w3.org/2001/XMLSchema#string"
+       });
   }
 
   /**
