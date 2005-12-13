@@ -5,11 +5,20 @@
     modelPluginID="org.eclipse.emf.ecore" runtimeJar="true" modelName="Ecore" updateClasspath="false"
     testsDirectory="" booleanFlagsField="eFlags" booleanFlagsReservedBits="8" importerID="org.eclipse.emf.importer.rose"
     containmentProxies="true" minimalReflectiveMethods="false">
+  <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+    <genAnnotations source="selectedEPackages">
+      <details key="http://www.eclipse.org/emf/2002/Ecore" value="Ecore.xsd"/>
+    </genAnnotations>
+    <details key="directoryURI" value="."/>
+  </genAnnotations>
   <foreignModel>Ecore.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
   <genPackages prefix="Ecore" basePackage="org.eclipse.emf" disposableProviderFactory="true"
       ecorePackage="Ecore.ecore#/">
+    <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+      <details key="uris" value="Ecore.xsd"/>
+    </genAnnotations>
     <genDataTypes ecoreDataType="Ecore.ecore#//EBigDecimal"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EBigInteger"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EBoolean"/>
