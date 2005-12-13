@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.19 2005/11/22 22:35:19 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.20 2005/12/13 11:57:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -966,7 +966,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     
     public Object previous()
     {
-      return ((Entry)super.next()).getValue();
+      return ((Entry)super.previous()).getValue();
     }
 
     public void add(Object value)

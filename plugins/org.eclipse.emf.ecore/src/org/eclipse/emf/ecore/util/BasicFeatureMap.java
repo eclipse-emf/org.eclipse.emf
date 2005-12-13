@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.19 2005/11/22 22:34:56 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.20 2005/12/13 11:57:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -935,7 +935,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     
     public Object previous()
     {
-      return ((Entry)super.next()).getValue();
+      return ((Entry)super.previous()).getValue();
     }
 
     public void add(Object value)
