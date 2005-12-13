@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.27 2005/12/02 17:40:34 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.28 2005/12/13 23:11:09 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -609,7 +609,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 		// Create resource
 		createResource(eNS_URI);
     <%}%>
-    <%if (!genPackage.getAnnotationSources().isEmpty()) {%>
+    <%if (!genPackage.isEcorePackage() && !genPackage.getAnnotationSources().isEmpty()) {%>
 
 		// Create annotations
       <%for (Iterator i = genPackage.getAnnotationSources().iterator(); i.hasNext();) { String annotationSource = (String)i.next();%>

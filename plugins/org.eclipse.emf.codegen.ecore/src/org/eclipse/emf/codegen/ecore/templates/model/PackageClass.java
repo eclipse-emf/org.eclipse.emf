@@ -1247,7 +1247,7 @@ public class PackageClass
     if (genPackage.getSuperGenPackage() == null) {
     stringBuffer.append(TEXT_343);
     }
-    if (!genPackage.getAnnotationSources().isEmpty()) {
+    if (!genPackage.isEcorePackage() && !genPackage.getAnnotationSources().isEmpty()) {
     stringBuffer.append(TEXT_344);
     for (Iterator i = genPackage.getAnnotationSources().iterator(); i.hasNext();) { String annotationSource = (String)i.next();
     stringBuffer.append(TEXT_345);
