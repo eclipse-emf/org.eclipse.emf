@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLParserPoolImpl.java,v 1.4 2005/12/07 18:52:31 elena Exp $
+ * $Id: XMLParserPoolImpl.java,v 1.5 2005/12/13 20:37:24 elena Exp $
  */
 
 package org.eclipse.emf.ecore.xmi.impl;
@@ -36,14 +36,18 @@ import org.xml.sax.SAXException;
 
 
 /**
- * This is the default implementation of XMLParserPool. Note: this
- * implementation is thread safe.
+ * This is the default implementation of XMLParserPool. This implementation is tuned for caching parsers and handlers 
+ * created using same loading options. To avoid possible memory leak (in case user is trying to parse
+ * documents using different options for every parse), there is restriction on the size of the pool. 
+ * Note: this implementation is thread safe. 
  */
 public class XMLParserPoolImpl implements XMLParserPool
 {
   private final Map parserCache = new HashMap();
 
   private final Map handlersCache = new HashMap();
+  
+  private final int SIZE = 200;
 
   /**
    * @see XMLParserPool#get(Map, Map, boolean)
@@ -54,6 +58,10 @@ public class XMLParserPoolImpl implements XMLParserPool
     map.putAll(features);
     map.putAll(properties);
     map.put(XMLResource.OPTION_USE_LEXICAL_HANDLER, useLexicalHandler ? Boolean.TRUE : Boolean.FALSE);
+    if (parserCache.size() > SIZE)
+    {
+      parserCache.clear();
+    }
     Object o = parserCache.get(map);
     if (o != null)
     {
@@ -85,7 +93,10 @@ public class XMLParserPoolImpl implements XMLParserPool
     map.putAll(properties);
     map.put(XMLResource.OPTION_USE_LEXICAL_HANDLER, useLexicalHandler ? Boolean.TRUE : Boolean.FALSE);
     ArrayList list = (ArrayList)parserCache.get(map);
-    list.add(parser);
+    if (list.size() < SIZE)
+    {
+        list.add(parser);
+    }
   }
 
   private SAXParser makeParser(Map features, Map properties) throws ParserConfigurationException, SAXException
@@ -117,6 +128,10 @@ public class XMLParserPoolImpl implements XMLParserPool
 
   public synchronized XMLDefaultHandler getDefaultHandler(XMLResource resource, XMLLoad xmlLoad, XMLHelper helper, Map options)
   {
+    if (handlersCache.size() > SIZE)
+    {
+      handlersCache.clear();
+    }
     Object o = handlersCache.get(options);
     if (o != null)
     {
@@ -149,6 +164,9 @@ public class XMLParserPoolImpl implements XMLParserPool
       list = new ArrayList();
       handlersCache.put(options, list);
     }
-    list.add(handler);
+    else if (list.size() < SIZE)
+    {
+        list.add(handler);
+    }
   }
 }

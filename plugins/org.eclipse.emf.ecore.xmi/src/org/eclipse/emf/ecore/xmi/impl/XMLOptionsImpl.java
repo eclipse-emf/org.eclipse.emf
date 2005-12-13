@@ -57,4 +57,10 @@ public class XMLOptionsImpl implements XMLOptions
     this.processSchemaLocations = processSchemaLocations;
   }
 
+  public int hashCode()
+  {
+    int hashCode = externalSchemaLocation != null ? externalSchemaLocation.hashCode() : 0;
+    hashCode ^= (ecoreBuilder != null) ? ecoreBuilder.hashCode() : 0;
+    return hashCode + (anyXML ? 1 : 0) + (processSchemaLocations ? 2 : 0);
+  }
 }
