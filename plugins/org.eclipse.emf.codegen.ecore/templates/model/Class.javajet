@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.38 2005/12/10 13:31:21 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.39 2005/12/13 12:02:29 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -299,16 +299,18 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 
 <%}%>
 <%for (Iterator i=(isImplementation ? genClass.getImplementedGenFeatures() : genClass.getDeclaredGenFeatures()).iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
-<%if (genModel.isArrayAccessors() && genFeature.isListType() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) {%>
+<%@ include file="Class/genFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+  <%if (genModel.isArrayAccessors() && genFeature.isListType() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-  <%if (!isImplementation) {%>
+    <%if (!isImplementation) {%>
 	<%=genFeature.getListItemType()%>[] <%=genFeature.getGetArrayAccessor()%>();
 
-  <%} else {%>
+    <%} else {%>
 	public <%=genFeature.getListItemType()%>[] <%=genFeature.getGetArrayAccessor()%>()
 	{
 		if (<%=genFeature.getSafeName()%> == null || <%=genFeature.getSafeName()%>.isEmpty()) return <%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
@@ -317,70 +319,68 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 		return (<%=genFeature.getListItemType()%>[])list.data();
 	}
 
-  <%}%>
+    <%}%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-  <%if (!isImplementation) {%>
+    <%if (!isImplementation) {%>
 	<%=genFeature.getListItemType()%> get<%=genFeature.getAccessorName()%>(int index);
 
-  <%} else {%>
+    <%} else {%>
 	public <%=genFeature.getListItemType()%> get<%=genFeature.getAccessorName()%>(int index)
 	{
 		return (<%=genFeature.getListItemType()%>)<%=genFeature.getGetAccessor()%>().get(index);
 	}
 
-  <%}%>
+    <%}%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-  <%if (!isImplementation) {%>
+    <%if (!isImplementation) {%>
 	int get<%=genFeature.getAccessorName()%>Length();
 
-  <%} else {%>
+    <%} else {%>
 	public int get<%=genFeature.getAccessorName()%>Length()
 	{
 		return <%=genFeature.getSafeName()%> == null ? 0 : <%=genFeature.getSafeName()%>.size();
 	}
 
-  <%}%>
+    <%}%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-  <%if (!isImplementation) {%>
+    <%if (!isImplementation) {%>
 	void set<%=genFeature.getAccessorName()%>(<%=genFeature.getListItemType()%>[] new<%=genFeature.getCapName()%>);
 
-  <%} else {%>
+    <%} else {%>
 	public void set<%=genFeature.getAccessorName()%>(<%=genFeature.getListItemType()%>[] new<%=genFeature.getCapName()%>)
 	{
 		((<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%>)<%=genFeature.getGetAccessor()%>()).setData(new<%=genFeature.getCapName()%>.length, new<%=genFeature.getCapName()%>);
 	}
 
-  <%}%>
+    <%}%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-  <%if (!isImplementation) {%>
+    <%if (!isImplementation) {%>
 	void set<%=genFeature.getAccessorName()%>(int index, <%=genFeature.getListItemType()%> element);
 
-  <%} else {%>
+    <%} else {%>
 	public void set<%=genFeature.getAccessorName()%>(int index, <%=genFeature.getListItemType()%> element)
 	{
 		<%=genFeature.getGetAccessor()%>().set(index, element);
 	}
 
+    <%}%>
   <%}%>
-<%}%>
-<%@ include file="Class/genFeature.override.javajetinc" fail="alternative" %>
-<%@ start %>
   <%if (genFeature.isGet() && (isImplementation || !genFeature.isSuppressedGetVisibility())) {%>
 <%@ include file="Class/getGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
@@ -637,15 +637,15 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
       <%if (!genModel.isSuppressNotification()) {%>
 		if (eNotificationRequired())
 		{
-      <%if (genFeature.isUnsettable()) {%>
+        <%if (genFeature.isUnsettable()) {%>
 			<%=genModel.getImportedName("org.eclipse.emf.ecore.impl.ENotificationImpl")%> notification = new <%=genModel.getImportedName("org.eclipse.emf.ecore.impl.ENotificationImpl")%>(this, <%=genModel.getImportedName("org.eclipse.emf.common.notify.Notification")%>.SET, <%=genClass.getQualifiedFeatureID(genFeature)%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, new<%=genFeature.getCapName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>ESet<%}%>);
-      <%} else {%>
+        <%} else {%>
 			<%=genModel.getImportedName("org.eclipse.emf.ecore.impl.ENotificationImpl")%> notification = new <%=genModel.getImportedName("org.eclipse.emf.ecore.impl.ENotificationImpl")%>(this, <%=genModel.getImportedName("org.eclipse.emf.common.notify.Notification")%>.SET, <%=genClass.getQualifiedFeatureID(genFeature)%>, <%if (genModel.isVirtualDelegation()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, new<%=genFeature.getCapName()%>);
-      <%}%>
+        <%}%>
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
-<%@ include file="Class/basicSetGenFeature.post.insert.javajetinc" fail="silent" %>
       <%}%>
+<%@ include file="Class/basicSetGenFeature.post.insert.javajetinc" fail="silent" %>
 		return msgs;
     <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
       <%if (delegateFeature.isWrappedFeatureMapType()) {%>
