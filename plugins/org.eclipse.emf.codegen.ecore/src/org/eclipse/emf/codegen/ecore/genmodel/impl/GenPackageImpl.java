@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.46 2005/12/10 13:28:06 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.47 2005/12/13 23:09:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1760,7 +1760,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public List getPackageSimpleDependencies()
   {
-    return dependencyHelper.getSimpleDependencies();
+    if (isEcorePackage())
+    {
+      return new ArrayList();
+    }
+    else
+    {
+      return dependencyHelper.getSimpleDependencies();
+    }
   }
 
   public List getPackageInterDependencies()
@@ -1780,7 +1787,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public List getPackageInitializationDependencies()
   {
-    return dependencyHelper.getInitializationDependencies();
+    if (isEcorePackage())
+    {
+      return new ArrayList();
+    }
+    else
+    {
+      return dependencyHelper.getInitializationDependencies();
+    }
   }
 
   public String getPackageInstanceVariable(GenPackage genPackage)
