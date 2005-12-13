@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.12 2005/12/02 16:32:30 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.13 2005/12/13 23:15:50 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -772,12 +772,22 @@ public class RoseEcoreBuilder implements RoseVisitor
   protected void setEDataTypeProperties(RoseNode roseNode, EDataType eDataType)
   {
     setEModelElementProperties(roseNode, eDataType);
+    String xmlName = roseNode.getXMLName();
+    if (xmlName != null && xmlName.length() != 0)
+    {
+      ExtendedMetaData.INSTANCE.setName(eDataType, xmlName);
+    }
     eDataType.setSerializable(!roseNode.isAbstract());
   }
 
   protected void setEEnumProperties(RoseNode roseNode, EEnum eEnum)
   {
     setEModelElementProperties(roseNode, eEnum);
+    String xmlName = roseNode.getXMLName();
+    if (xmlName != null && xmlName.length() != 0)
+    {
+      ExtendedMetaData.INSTANCE.setName(eEnum, xmlName);
+    }
     String value = roseNode.getDocumentation();
     if (value != null && !value.equals(""))
     {
