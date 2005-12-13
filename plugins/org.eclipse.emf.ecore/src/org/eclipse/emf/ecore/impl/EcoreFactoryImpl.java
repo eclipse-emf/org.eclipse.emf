@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.11 2005/11/14 20:45:44 emerks Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.12 2005/12/13 23:14:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -30,6 +30,9 @@ import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.util.FeatureMap;
+
+//import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+//import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc -->
