@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.2 2005/12/14 11:55:13 marcelop Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.3 2005/12/14 13:51:31 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1336,7 +1336,7 @@ public class EcoreSchemaBuilder extends MapBuilder
 
           // Try to parse the documentation and use the parsed version if it's successful.
           //
-          XSDParser xsdParser = new XSDParser();
+          XSDParser xsdParser = new XSDParser(null);
           xsdParser.parseString("<documentation>" + documentation + "</documentation>");
           Document document = xsdParser.getDocument();
           if (xsdParser.getDiagnostics().isEmpty() && document.getDocumentElement().getFirstChild() != null)
