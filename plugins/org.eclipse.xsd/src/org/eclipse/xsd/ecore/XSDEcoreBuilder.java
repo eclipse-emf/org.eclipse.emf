@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.42 2005/12/13 23:16:18 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.43 2005/12/14 22:23:10 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1206,6 +1206,28 @@ public class XSDEcoreBuilder extends MapBuilder
               eParameter.setName(paramaterName);
               eParameter.setEType(parameterEType);
               
+              String lowerBound = parameter.getAttributeNS(null, "lowerBound");
+              if (!"".equals(lowerBound))
+              {
+                eParameter.setLowerBound(Integer.parseInt(lowerBound));
+              }
+              
+              String upperBound = parameter.getAttributeNS(null, "upperBound");
+              if (!"".equals(upperBound))
+              {
+                eParameter.setUpperBound(Integer.parseInt(upperBound));
+              }
+              
+              if ("false".equals(parameter.getAttributeNS(null, "unique")))
+              {
+                eParameter.setUnique(false);
+              }
+            
+              if ("false".equals(parameter.getAttributeNS(null, "ordered")))
+              {
+                eParameter.setOrdered(false);
+              }
+
               eOperation.getEParameters().add(eParameter);
             }
             
@@ -2371,18 +2393,7 @@ public class XSDEcoreBuilder extends MapBuilder
       EReference eReference = (EReference)entry.getKey();
       String opposite = (String)entry.getValue();
       EClass oppositeEClass = eReference.getEReferenceType();
-      if (eReference.isContainment())
-      {
-        EReference eOpposite = EcoreFactory.eINSTANCE.createEReference();
-        eOpposite.setName(opposite);
-        eOpposite.setEType(eReference.getEContainingClass());
-        eOpposite.setLowerBound(0);
-        eOpposite.setEOpposite(eReference);
-        eReference.setEOpposite(eOpposite);
-        eOpposite.setTransient(true);
-        oppositeEClass.getEStructuralFeatures().add(eOpposite);
-      }
-      else if (eReference.getEOpposite() == null)
+      if (eReference.getEOpposite() == null)
       {
         EStructuralFeature eOppositeFeature =  oppositeEClass.getEStructuralFeature(opposite);
         
@@ -2406,6 +2417,18 @@ public class XSDEcoreBuilder extends MapBuilder
           eOpposite.setEOpposite(eReference);
           eReference.setEOpposite(eOpposite);
         }
+      }
+
+      if (eReference.getEOpposite() == null && eReference.isContainment())
+      {
+        EReference eOpposite = EcoreFactory.eINSTANCE.createEReference();
+        eOpposite.setName(opposite);
+        eOpposite.setEType(eReference.getEContainingClass());
+        eOpposite.setLowerBound(0);
+        eOpposite.setEOpposite(eReference);
+        eReference.setEOpposite(eOpposite);
+        eOpposite.setTransient(true);
+        oppositeEClass.getEStructuralFeatures().add(eOpposite);
       }
     }
 
