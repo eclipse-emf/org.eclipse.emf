@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.18 2005/11/23 19:07:01 emerks Exp $
+ * $Id: RoseImporterApplication.java,v 1.19 2005/12/14 07:55:27 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -79,7 +79,7 @@ public class RoseImporterApplication extends ModelImporterApplication
     appendLine(result, "<TESTS-PROJECT>   ::= -testsProject <tests-directory> <fragment-path>");
     appendLine(result, "<PATHMAP>         ::= -pathMap { <symbol> <directory> }+");
     appendLine(result, "<PACKAGE>         ::= -package <name> [ <nsPrefix> <nsURI> <base> <prefix> ]");
-    appendLine(result, "<REF-PACKAGE>     ::= -refPackage <name> [ <nsPrefix> <nsURI> <base> <prefix> ]");
+    appendLine(result, "<REF-PACKAGE>     ::= <deprecated - use -refGenModel instead> -refPackage <name> [ <nsPrefix> <nsURI> <base> <prefix> ]");
     appendLine(result, "<REF-GEN-MODEL>   ::= -refGenModel <model.genmodel> { <nsURI> }+");
     appendLine(result, "<TEMPLATE-PATH>   ::= -templatePath <template-directory>");
     appendLine(result, "<MODEL-PLUGIN-ID> ::= -modelPluginID <plugin-ID>");    
@@ -273,7 +273,7 @@ public class RoseImporterApplication extends ModelImporterApplication
           ePackage.setNsURI(packageInfo.nsURI);
         }
         
-        ModelImporter.EPackageInfo ePackageInfo = getRoseImporter().getEPackageInfo(ePackage);        
+        ModelImporter.EPackageImportInfo ePackageInfo = getRoseImporter().getEPackageImportInfo(ePackage);        
         if (ePackageInfo.getBasePackage() == null)
         {
           ePackageInfo.setBasePackage(packageInfo.base);
