@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFExportWizard.java,v 1.1 2005/12/14 08:06:32 marcelop Exp $
+ * $Id: EMFExportWizard.java,v 1.2 2005/12/14 21:59:06 marcelop Exp $
  */
 package org.eclipse.emf.exporter.ui;
 
@@ -149,6 +149,7 @@ public class EMFExportWizard extends Wizard implements IWorkbenchWizard
 
   public boolean performFinish()
   {
+    selectionPage.performFinish();
     return true;
   }
 }
