@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.exporter; singleton:=true
+Bundle-Version: 2.2.0
+Bundle-ClassPath: exporter.jar
+Bundle-Activator: org.eclipse.emf.exporter.ExporterPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.emf.exporter,
+ org.eclipse.emf.exporter.ui,
+ org.eclipse.emf.exporter.ui.contribution,
+ org.eclipse.emf.exporter.ui.contribution.base,
+ org.eclipse.emf.exporter.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.converter;visibility:=reexport,
+ org.eclipse.core.resources;resolution:=optional,
+ org.eclipse.emf.codegen.ecore.ui;resolution:=optional
+Eclipse-LazyStart: true
