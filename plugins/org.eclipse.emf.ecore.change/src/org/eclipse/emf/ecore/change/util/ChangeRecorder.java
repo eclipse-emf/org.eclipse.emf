@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.33 2005/10/29 14:56:34 emerks Exp $
+ * $Id: ChangeRecorder.java,v 1.34 2005/12/14 23:48:30 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -57,6 +57,8 @@ public class ChangeRecorder implements Adapter.Internal
   protected ChangeDescription changeDescription;
 
   protected List targetObjects = new BasicEList.FastCompare();
+
+  protected List originalTargetObjects = new BasicEList.FastCompare();
 
   protected boolean loadingTargets;
 
@@ -110,6 +112,7 @@ public class ChangeRecorder implements Adapter.Internal
       removeAdapter(notifiers[i]);
     }
     changeDescription = null;
+    originalTargetObjects.clear();
   }
 
   protected void removeAdapter(Notifier notifier)
@@ -141,6 +144,10 @@ public class ChangeRecorder implements Adapter.Internal
    */
   public void beginRecording(ChangeDescription changeDescription, Collection rootObjects)
   {
+    List insertedObjects = changeDescription == null ? 
+      null
+      : changeDescription.getObjectsToDetach();
+    
     this.changeDescription = changeDescription == null ? 
       createChangeDescription() 
       : changeDescription;  
@@ -156,6 +163,11 @@ public class ChangeRecorder implements Adapter.Internal
     if (changeDescription != null)
     {
       prepareChangeDescriptionForResume();
+    }
+
+    if (insertedObjects != null)
+    {
+      originalTargetObjects.removeAll(insertedObjects);
     }
     
     recording = true;
@@ -243,7 +255,14 @@ public class ChangeRecorder implements Adapter.Internal
         EObject eObject = (EObject)target;
         if (eObject.eContainer() == null && eObject.eResource() == null)
         {
-          orphanedObjects.add(eObject);
+          if (originalTargetObjects.contains(eObject))
+          {
+            orphanedObjects.add(eObject);
+          }
+          else
+          {
+            changeDescription.getObjectChanges().removeKey(eObject);
+          }
         }
       }
     }
@@ -600,6 +619,11 @@ public class ChangeRecorder implements Adapter.Internal
     if (!targetObjects.add(target))
     {
       throw new IllegalStateException("The target should not be set more than once");
+    }
+    
+    if (loadingTargets)
+    {
+      originalTargetObjects.add(target);
     }
 
     Collection contents = target instanceof EObject ? ((EObject)target).eContents() : target instanceof ResourceSet
