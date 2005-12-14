@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.7 2005/11/23 19:07:04 emerks Exp $
+ * $Id: XSDImporter.java,v 1.8 2005/12/14 08:00:01 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -32,9 +32,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
-import org.eclipse.emf.importer.util.ImporterUtil;
+import org.eclipse.emf.converter.ConverterPlugin;
+import org.eclipse.emf.converter.util.ConverterUtil;
 
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 
@@ -105,8 +105,8 @@ public class XSDImporter extends ModelImporter
     {
       basicDiagnostic = new BasicDiagnostic(
         Diagnostic.ERROR,
-        ImporterPlugin.ID,
-        ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
+        ConverterPlugin.ID,
+        ConverterUtil.ACTION_DIALOG_NONE | ConverterUtil.ACTION_MESSAGE_SET_ERROR,
         XSDImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidXMLSchema_message"),
         null);
     }
@@ -129,8 +129,8 @@ public class XSDImporter extends ModelImporter
         if (!diagnostics.isEmpty())
         {
           BasicDiagnostic diagnostic = new BasicDiagnostic(
-            ImporterPlugin.ID,
-            ImporterUtil.ACTION_MESSAGE_NONE,
+            ConverterPlugin.ID,
+            ConverterUtil.ACTION_MESSAGE_NONE,
             XSDImporterPlugin.INSTANCE.getString("_UI_ErrorsWereDetectedXMLSchema_message"),
             null);
 

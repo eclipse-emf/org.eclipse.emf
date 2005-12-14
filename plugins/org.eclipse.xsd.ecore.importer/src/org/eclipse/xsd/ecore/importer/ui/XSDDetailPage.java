@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDetailPage.java,v 1.6 2005/06/09 14:01:00 davidms Exp $
+ * $Id: XSDDetailPage.java,v 1.7 2005/12/14 08:00:01 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer.ui;
 
@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 
 import org.eclipse.emf.importer.ModelImporter;
-import org.eclipse.emf.importer.ui.contribution.base.ModelDetailPage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterDetailPage;
 
 import org.eclipse.xsd.ecore.importer.XSDImporter;
 import org.eclipse.xsd.ecore.importer.XSDImporterPlugin;
@@ -32,7 +32,7 @@ import org.eclipse.xsd.ecore.importer.XSDImporterPlugin;
 /**
  * @since 2.1.0
  */
-public class XSDDetailPage extends ModelDetailPage
+public class XSDDetailPage extends ModelImporterDetailPage
 {
   protected Button createMapButton;
 
@@ -61,7 +61,7 @@ public class XSDDetailPage extends ModelDetailPage
     return (XSDImporter)getModelImporter();
   }
 
-  protected void addControl(Composite parent)
+  protected void addDetailControl(Composite parent)
   {
     if (getXSDImporter().canCreateEcoreMap())
     {
@@ -81,15 +81,15 @@ public class XSDDetailPage extends ModelDetailPage
     if (event.type == SWT.Selection && event.widget == createMapButton)
     {
       getXSDImporter().setCreateEcoreMap(createMapButton.getSelection());
-      if (modelLocationText.getText().trim().length() > 0)
+      if (uriText.getText().trim().length() > 0)
       {
         refreshModel();
+        getContainer().updateButtons();
       }
     }
     else
     {
       super.doHandleEvent(event);
     }
-    getContainer().updateButtons();
   }
 }

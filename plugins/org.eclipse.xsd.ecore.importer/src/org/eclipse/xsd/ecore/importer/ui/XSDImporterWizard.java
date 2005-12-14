@@ -12,13 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterWizard.java,v 1.4 2005/06/09 20:11:31 davidms Exp $
+ * $Id: XSDImporterWizard.java,v 1.5 2005/12/14 08:00:01 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer.ui;
 
-import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ui.contribution.base.ModelImporterWizard;
-import org.eclipse.emf.importer.ui.contribution.base.ModelPackagePage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterPackagePage;
+import org.eclipse.emf.converter.ModelConverter;
 
 import org.eclipse.xsd.ecore.importer.XSDImporter;
 
@@ -28,7 +28,7 @@ import org.eclipse.xsd.ecore.importer.XSDImporter;
  */
 public class XSDImporterWizard extends ModelImporterWizard
 {
-  protected ModelImporter createModelImporter()
+  protected ModelConverter createModelConverter()
   {
     return new XSDImporter();
   }
@@ -38,7 +38,7 @@ public class XSDImporterWizard extends ModelImporterWizard
     XSDDetailPage detailPage = new XSDDetailPage(getModelImporter(), "XSDModel");
     addPage(detailPage);
 
-    ModelPackagePage packagePage = new ModelPackagePage(getModelImporter(), "XSDPackages");
+    ModelImporterPackagePage packagePage = new ModelImporterPackagePage(getModelImporter(), "XSDPackages");
     packagePage.setShowReferencedGenModels(true);
     addPage(packagePage);
   }
