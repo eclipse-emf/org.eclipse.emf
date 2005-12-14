@@ -12,13 +12,13 @@
  *
  * </copyright>
  *
- * ModelImporterDescriptor.java,v 1.4 2005/11/11 16:57:18 marcelop Exp
+ * ModelImporterDescriptor.java,v 1.5 2005/12/14 07:48:48 marcelop Exp
  */
 package org.eclipse.emf.importer.ui.contribution;
 
 import java.util.List;
 
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.emf.converter.ui.contribution.ModelConverterDescriptor;
 
 
 /**
@@ -28,23 +28,15 @@ import org.eclipse.swt.graphics.Image;
  * 
  * @since 2.1.0
  */
-public interface ModelImporterDescriptor
+public interface ModelImporterDescriptor extends ModelConverterDescriptor
 {
   int TYPE_PROJECT = 1;
   int TYPE_FILE = 2;
   int TYPE_DEFAULT = TYPE_PROJECT | TYPE_FILE;
 
-  String getId();
-
-  String getName();
-
   List getExtensions();
 
   int getTypes();
-
-  Image getIcon();
-  
-  String getDescription();
 
   IModelImporterWizard createWizard();
 }

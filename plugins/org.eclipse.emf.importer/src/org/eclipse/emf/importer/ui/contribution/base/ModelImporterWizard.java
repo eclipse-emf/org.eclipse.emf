@@ -12,108 +12,34 @@
  *
  * </copyright>
  *
- * ModelImporterWizard.java,v 1.7 2005/11/11 16:57:18 marcelop Exp
+ * ModelImporterWizard.java,v 1.9 2005/12/14 07:48:49 marcelop Exp
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
-import org.eclipse.jface.dialogs.IPageChangeProvider;
-import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.PageChangedEvent;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.wizard.IWizardContainer;
-import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.part.ISetSelectionTarget;
 
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
-import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ui.contribution.IModelImporterWizard;
-import org.eclipse.emf.importer.util.ImporterUtil;
+import org.eclipse.emf.converter.ui.contribution.base.ModelConverterWizard;
 
 
 /**
  * @since 2.1.0
  */
-public abstract class ModelImporterWizard extends Wizard implements IModelImporterWizard
+public abstract class ModelImporterWizard extends ModelConverterWizard implements IModelImporterWizard
 {
-  public static class PageHelper implements IPageChangedListener, IDisposable
-  {
-    protected Object oldPage;
-    protected IPageChangeProvider pageChangeProvider;
-
-    public void dispose()
-    {
-      oldPage = null;
-      pageChangeProvider = null;
-    }
-
-    public void pageChanged(PageChangedEvent event)
-    {
-      pageChangeProvider = event.getPageChangeProvider();
-      pageChanged(event.getSelectedPage());
-    }
-
-    protected void pageChanged(Object currentPage)
-    {
-      if (oldPage != currentPage)
-      {
-        int cause = ModelImporterPage.CAUSE_UNKNOWN;
-        if (oldPage instanceof ModelImporterPage)
-        {
-          ModelImporterPage page = (ModelImporterPage)oldPage;
-          cause = page.forwardDirection ? ModelImporterPage.CAUSE_NEXT : ModelImporterPage.CAUSE_BACK;
-          page.pageDeactivated(cause);
-        }
-
-        oldPage = currentPage;
-        if (currentPage instanceof ModelImporterPage)
-        {
-          ModelImporterPage page = (ModelImporterPage)currentPage;
-          page.pageActivated(page.neverVisible, cause);
-          page.neverVisible = false;
-        }
-      }
-    }
-
-    public void firePageDeactivated(int cause)
-    {
-      if (pageChangeProvider != null && pageChangeProvider.getSelectedPage() instanceof ModelImporterPage)
-      {
-        ((ModelImporterPage)pageChangeProvider.getSelectedPage()).pageDeactivated(cause);
-      }
-    }
-  }
-
-  protected IStructuredSelection selection;
-  protected IWorkbench workbench;
-  protected PageHelper pageHelper;
-
-  protected ModelImporter modelImporter;
-  
   protected IFile originalGenModelFile;
   protected IFile modelFile;
   protected String fileName;
@@ -121,76 +47,14 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
   protected IPath projectLocation;
   protected IPath projectPath;
 
-  public ModelImporterWizard()
-  {
-    super();
-    setNeedsProgressMonitor(true);
-  }
-
-  public void dispose()
-  {
-    selection = null;
-    workbench = null;
-
-    if (modelImporter != null)
-    {
-      modelImporter.dispose();
-      modelImporter = null;
-    }
-
-    if (pageHelper != null)
-    {
-      if (getContainer() instanceof WizardDialog)
-      {
-        ((WizardDialog)getContainer()).removePageChangedListener(pageHelper);
-      }
-      pageHelper.dispose();
-      pageHelper = null;
-    }
-
-    super.dispose();
-  }
-
-  protected abstract ModelImporter createModelImporter();
-
   public ModelImporter getModelImporter()
   {
-    if (modelImporter == null)
-    {
-      modelImporter = createModelImporter();
-    }
-    return modelImporter;
+    return (ModelImporter)getModelConverter();
   }
 
-  public void init(IWorkbench workbench, IStructuredSelection selection)
-  {
-    this.workbench = workbench;
-    this.selection = selection;
-  }
-
-  public IWorkbench getWorkbench()
-  {
-    return workbench;
-  }
-
-  public IStructuredSelection getSelection()
-  {
-    return selection;
-  }
-  
   public List getFileExtensions()
   {
     return getModelImporter().getFileExtensions();
-  }
-
-  public void setContainer(IWizardContainer wizardContainer)
-  {
-    super.setContainer(wizardContainer);
-    if (wizardContainer instanceof WizardDialog)
-    {
-      pageHelper = new PageHelper();
-      ((WizardDialog)wizardContainer).addPageChangedListener(pageHelper);
-    }
   }
 
   public void setOriginalGenModelFile(IFile originalGenModelFile)
@@ -275,50 +139,16 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
     return projectPath;
   }
   
-  public boolean performCancel()
+  protected void doPerformFinish(Monitor monitor) throws Exception
   {
-    pageHelper.firePageDeactivated(ModelImporterPage.CAUSE_CANCEL);
-    return true;
+    getModelImporter().prepareGenModelAndEPackages(monitor);
+    getModelImporter().saveGenModelAndEPackages(monitor);
   }
-
+  
   public boolean performFinish()
   {
-    pageHelper.firePageDeactivated(ModelImporterPage.CAUSE_FINISH);
-
-    try
+    if (super.performFinish())
     {
-      WorkspaceModifyOperation operation = new WorkspaceModifyOperation()
-        {
-          protected void execute(IProgressMonitor progressMonitor) throws CoreException
-          {
-            Monitor monitor = BasicMonitor.toMonitor(progressMonitor);
-            try
-            {
-              getModelImporter().prepareGenModelAndEPackages(monitor);
-              getModelImporter().saveGenModelAndEPackages(monitor);
-            }
-            catch (Exception exception)
-            {
-              throw DiagnosticException.toCoreException(new DiagnosticException(ImporterUtil.createErrorDiagnostic(exception, true)));
-            }
-            finally
-            {
-              progressMonitor.done();
-            }
-          }
-        };
-
-      try
-      {
-        getContainer().run(false, false, operation);
-      }
-      catch (Exception exception)
-      {
-        ImporterPlugin.INSTANCE.log(exception);
-        ErrorDialog.openError(getShell(), ImporterPlugin.INSTANCE.getString("_UI_SaveError_title"), null, BasicDiagnostic.toIStatus(ImporterUtil.createErrorDiagnostic(exception, true)));
-        return false;
-      }
-
       IFile genModelFile = getFile(getModelImporter().getGenModelPath());
       if (getModelImporter().getOriginalGenModelPath() == null)
       {
@@ -334,41 +164,12 @@ public abstract class ModelImporterWizard extends Wizard implements IModelImport
         MessageDialog.openError(getShell(), ImporterPlugin.INSTANCE.getString("_UI_OpenEditor_title"), partInitException.getMessage());
         return false;
       }
-
+      
       return true;
     }
-    catch (Exception exception)
+    else
     {
-      ImporterPlugin.INSTANCE.log(exception);
       return false;
     }
-  }
-
-  protected IFile getFile(IPath path)
-  {
-    return ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-  }
-
-  protected void selectFile(IFile file)
-  {
-    IWorkbenchPage page = getWorkbench().getActiveWorkbenchWindow().getActivePage();
-    final IWorkbenchPart activePart = page.getActivePart();
-    if (activePart instanceof ISetSelectionTarget)
-    {
-      final ISelection targetSelection = new StructuredSelection(file);
-      getShell().getDisplay().asyncExec(new Runnable()
-        {
-          public void run()
-          {
-            ((ISetSelectionTarget)activePart).selectReveal(targetSelection);
-          }
-        });
-    }
-  }
-
-  protected void openEditor(IFile file) throws PartInitException
-  {
-    IWorkbenchPage page = getWorkbench().getActiveWorkbenchWindow().getActivePage();
-    page.openEditor(new FileEditorInput(file), getWorkbench().getEditorRegistry().getDefaultEditor(file.getFullPath().toString()).getId());
   }
 }

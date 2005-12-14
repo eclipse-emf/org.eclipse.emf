@@ -12,55 +12,34 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.9 2005/06/09 21:40:34 marcelop Exp $
+ * $Id: EMFModelWizard.java,v 1.10 2005/12/14 07:48:49 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.ViewerSorter;
-import org.eclipse.jface.wizard.IWizardNode;
-import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.jface.wizard.WizardSelectionPage;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.converter.ui.ModelConverterDescriptorSelectionPage;
+import org.eclipse.emf.converter.util.ConverterUtil;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ui.contribution.IModelImporterWizard;
 import org.eclipse.emf.importer.ui.contribution.ModelImporterDescriptor;
-import org.eclipse.emf.importer.ui.contribution.ModelImporterUtil;
-import org.eclipse.emf.importer.util.ImporterUtil;
+import org.eclipse.emf.importer.ui.contribution.ModelImporterManager;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterWizard;
 
 
 /**
@@ -131,196 +110,42 @@ public class EMFModelWizard extends Wizard implements INewWizard
     }
   }
 
-  public class SelectionPage extends WizardSelectionPage implements ISelectionChangedListener
+  public class SelectionPage extends ModelConverterDescriptorSelectionPage
   {
-    protected ModelImporterDescriptor modelImporterDescriptor;
-    protected TableViewer modelImpoterDescriptorTableViewer;
-
-    protected boolean firstTime = true;
-    protected Set initializedWizards = new HashSet();
-
-    public SelectionPage(String pageId)
+    public SelectionPage(String pageId, IWorkbench workbench, IStructuredSelection selection)
     {
-      super(pageId);
+      super(pageId, ModelImporterManager.INSTANCE, workbench, selection);
     }
-
-    public void dispose()
+    
+    protected Object[] getTableInput()
     {
-      if (modelImpoterDescriptorTableViewer != null)
-      {
-        modelImpoterDescriptorTableViewer.removeSelectionChangedListener(this);
-        modelImpoterDescriptorTableViewer = null;
-      }
-      modelImporterDescriptor = null;
-
-      if (initializedWizards != null)
-      {
-        initializedWizards.clear();
-        initializedWizards = null;
-      }
-      
-      super.dispose();
+      return getModelImporterDescriptors().toArray();
     }
-
+    
+    protected String getSelectModelConverterLabel()
+    {
+      return ImporterPlugin.INSTANCE.getString("_UI_SelectModelImporters_label");
+    }
+    
     public void setModelImporterDescriptor(ModelImporterDescriptor modelImporterDescriptor)
     {
-      this.modelImporterDescriptor = modelImporterDescriptor;
-      if (modelImpoterDescriptorTableViewer != null)
-      {
-        if (modelImporterDescriptor != null)
-        {
-          modelImpoterDescriptorTableViewer.setSelection(new StructuredSelection(modelImporterDescriptor), true);
-        }
-        else
-        {
-          modelImpoterDescriptorTableViewer.setSelection(StructuredSelection.EMPTY);
-        }
-      }
+      setModelConverterDescriptor(modelImporterDescriptor);
     }
 
     public ModelImporterDescriptor getModelImporterDescriptor()
     {
-      return modelImporterDescriptor;
+      return (ModelImporterDescriptor)getModelConverterDescriptor();
     }
-
-    public void setVisible(boolean visible)
+    
+    protected String getNoModelConverterMessage()
     {
-      super.setVisible(visible);
-      if (visible && firstTime)
-      {
-        firstTime = false;
-        Table table = modelImpoterDescriptorTableViewer.getTable();
-
-        ModelImporterDescriptor descriptor = suggestedDescriptor;
-        if (descriptor != null)
-        {
-          setModelImporterDescriptor(descriptor);
-        }
-        else if (table.getItemCount() > 0)
-        {
-          setModelImporterDescriptor((ModelImporterDescriptor)table.getItem(0).getData());
-        }
-        table.setFocus();
-      }
-    }
-
-    public void createControl(Composite parent)
-    {
-      Composite composite = new Composite(parent, SWT.NONE);
-      {
-        GridLayout layout = new GridLayout();
-        layout.numColumns = 1;
-        layout.verticalSpacing = 12;
-        composite.setLayout(layout);
-
-        GridData data = new GridData();
-        data.verticalAlignment = GridData.FILL;
-        data.grabExcessVerticalSpace = true;
-        data.horizontalAlignment = GridData.FILL;
-        composite.setLayoutData(data);
-      }
-
-      Label label = new Label(composite, SWT.NONE);
-      label.setText(ImporterPlugin.INSTANCE.getString("_UI_SelectModelImporters_label"));
-      {
-        GridData data = new GridData();
-        data.verticalAlignment = SWT.FILL;
-        data.horizontalAlignment = SWT.FILL;
-        label.setLayoutData(data);
-      }
-
-      Table modelImpoterDescriptorTable = new Table(composite, SWT.SINGLE | SWT.FULL_SELECTION | SWT.BORDER);
-      {
-        GridData data = new GridData();
-        data.widthHint = Display.getCurrent().getBounds().width / 5;
-        data.heightHint = Display.getCurrent().getBounds().height / 3;
-        data.verticalAlignment = SWT.FILL;
-        data.horizontalAlignment = SWT.FILL;
-        data.grabExcessHorizontalSpace = true;
-        data.grabExcessVerticalSpace = true;
-        modelImpoterDescriptorTable.setLayoutData(data);
-      }
-
-      modelImpoterDescriptorTableViewer = new TableViewer(modelImpoterDescriptorTable);
-      modelImpoterDescriptorTableViewer.setContentProvider(new ArrayContentProvider());
-      modelImpoterDescriptorTableViewer.setLabelProvider(new ModelImporterUtil.ModelImporterDescriptorLabelProvider());
-      modelImpoterDescriptorTableViewer.setSorter(new ViewerSorter());
-
-      modelImpoterDescriptorTableViewer.addDoubleClickListener(new IDoubleClickListener()
-        {
-          public void doubleClick(DoubleClickEvent event)
-          {
-            if (canFlipToNextPage())
-            {
-              getContainer().showPage(getNextPage());
-            }
-          }
-        });
-
-      modelImpoterDescriptorTableViewer.setInput(getModelImporterDescriptors().toArray());
-      if (modelImporterDescriptor != null)
-      {
-        modelImpoterDescriptorTableViewer.setSelection(new StructuredSelection(modelImporterDescriptor), true);
-      }
-      modelImpoterDescriptorTableViewer.addSelectionChangedListener(this);
-      setControl(composite);
-    }
-
-    public void selectionChanged(SelectionChangedEvent event)
-    {
-      ISelection selection = event.getSelection();
-      if (!selection.isEmpty() && selection instanceof IStructuredSelection)
-      {
-        Object selectedObject = ((IStructuredSelection)selection).getFirstElement();
-        if (selectedObject instanceof ModelImporterDescriptor)
-        {
-          modelImporterDescriptor = (ModelImporterDescriptor)selectedObject;
-          if (modelImporterWizardNodeMap == null)
-          {
-            modelImporterWizardNodeMap = ModelImporterUtil.createModelImporterDescriptorWizardNodesMap();
-          }
-          setMessage(modelImporterDescriptor.getDescription(), IMessageProvider.NONE);
-          setSelectedNode((IWizardNode)modelImporterWizardNodeMap.get(modelImporterDescriptor));
-          return;
-        }
-      }
-
-      setPageComplete(false);
-    }
-
-    public boolean isPageComplete()
-    {
-      return modelImporterDescriptor != null;
-    }
-
-    public IWizardPage getNextPage()
-    {
-      IModelImporterWizard modelImporterWizard = (IModelImporterWizard)getSelectedNode().getWizard();
-      if (!initializedWizards.contains(modelImporterWizard))
-      {
-        initializedWizards.add(modelImporterWizard);
-        if (modelImporterWizard instanceof Wizard)
-        {
-          Wizard wizard = (Wizard)modelImporterWizard;
-          wizard.setDefaultPageImageDescriptor(getDefaultImageDescriptor());
-          if (wizard.getWindowTitle() == null)
-          {
-            wizard.setWindowTitle(getWindowTitle());
-          }
-        }        
-        modelImporterWizard.init(workbench, selection);
-      }
-
-      adjustModelImporterWizard(modelImporterWizard, getModelImporterDescriptor());
-      IWizardPage wizardPage = super.getNextPage();
-      
-      IWizardNode wizardNode = getSelectedNode();
-      if (wizardNode instanceof ModelImporterUtil.ModelImporterDescriptorWizardNode)
-      {
-        ((ModelImporterUtil.ModelImporterDescriptorWizardNode)wizardNode).setContentCreated(true);
-      }
-      return wizardPage;
+      return ImporterPlugin.INSTANCE.getString("_UI_NoModelImporters_error");
     }    
+    
+    protected void adjustModelConverterWizard(IWizard modelConverterWizard)
+    {
+      adjustModelImporterWizard((ModelImporterWizard)modelConverterWizard, getModelImporterDescriptor());
+    }
   }
 
   protected IStructuredSelection selection;
@@ -330,10 +155,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
   protected IFile reloadFile;
 
   protected IFile modelFile;
-  protected ModelImporterDescriptor suggestedDescriptor;
-  protected Map modelImporterWizardNodeMap;
-
-  protected boolean canFinish = false;
+  protected ModelConverterDescriptorSelectionPage selectionPage;
 
   public EMFModelWizard()
   {
@@ -343,7 +165,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
 
   public EMFModelWizard(IFile reloadFile)
   {
-    this();
+    super();
     setWindowTitle(ImporterPlugin.INSTANCE.getString("_UI_ReloadWizard_title"));
     this.reloadFile = reloadFile;
   }
@@ -354,18 +176,8 @@ public class EMFModelWizard extends Wizard implements INewWizard
     workbench = null;
     genModelContainerPath = null;
     reloadFile = null;
+    selectionPage = null;
     
-    if (modelImporterWizardNodeMap != null)
-    {
-      for (Iterator i = modelImporterWizardNodeMap.values().iterator(); i.hasNext();)
-      {
-        IWizardNode wizardNode = (IWizardNode)i.next();
-        wizardNode.dispose();
-      }
-      modelImporterWizardNodeMap.clear();
-      modelImporterWizardNodeMap = null;
-    }
-
     super.dispose();
   }
   
@@ -387,9 +199,16 @@ public class EMFModelWizard extends Wizard implements INewWizard
     {
       setForcePreviousAndNextButtons(true);
     }
-
-    SelectionPage selectionPage = new SelectionPage("ModelImporterDescriptorSelectionPage");
+    
+    addSelectionPage();
+  }
+  
+  protected void addSelectionPage()
+  {
+    selectionPage = new SelectionPage("ModelImporterDescriptorSelectionPage", workbench, selection);
     selectionPage.setTitle(ImporterPlugin.INSTANCE.getString("_UI_SelectModelImporters_title"));
+    selectionPage.setModeConverterWizardDefaultImageDescriptor(getDefaultImageDescriptor());
+    selectionPage.setModelConverterDescriptor(computeSuggestedDescriptor());     
     addPage(selectionPage);
   }
 
@@ -397,7 +216,6 @@ public class EMFModelWizard extends Wizard implements INewWizard
   {
     this.workbench = workbench;
     this.selection = selection;
-    computeSuggestedDescriptor();
     init();
   }
   
@@ -413,77 +231,84 @@ public class EMFModelWizard extends Wizard implements INewWizard
 
   protected List getModelImporterDescriptors()
   {
-    return ModelImporterUtil.filterModelImporterDescriptors(ModelImporterDescriptor.TYPE_FILE);
+    return ModelImporterManager.INSTANCE.filterModelImporterDescriptors(ModelImporterDescriptor.TYPE_FILE);
   }
   
-  protected void computeSuggestedDescriptor()
+  protected ModelImporterDescriptor computeSuggestedDescriptor()
   {
-    if (suggestedDescriptor == null)
+    ModelImporterDescriptor descriptor = null;
+    if (reloadFile != null)
     {
-      if (reloadFile != null)
+      URI reloadURI = URI.createPlatformResourceURI(reloadFile.getFullPath().toString());
+      Resource reloadResource = null;
+      try
       {
-        URI reloadURI = URI.createPlatformResourceURI(reloadFile.getFullPath().toString());
-        Resource reloadResource = null;
-        try
-        {
-          reloadResource = ImporterUtil.createResourceSet().getResource(reloadURI, true);
-        }
-        catch (Exception e)
-        {
-        }
+        reloadResource = ConverterUtil.createResourceSet().getResource(reloadURI, true);
+      }
+      catch (Exception e)
+      {
+      }
 
-        if (reloadResource != null && !reloadResource.getContents().isEmpty())
+      if (reloadResource != null && !reloadResource.getContents().isEmpty())
+      {
+        Object content = reloadResource.getContents().get(0);
+        if (content instanceof GenModel)
         {
-          Object content = reloadResource.getContents().get(0);
-          if (content instanceof GenModel)
+          GenModel genModel = (GenModel)content;
+          if (genModel.getImporterID() != null)
           {
-            GenModel genModel = (GenModel)content;
-            if (genModel.getImporterID() != null)
+            descriptor = ModelImporterManager.INSTANCE.getModelImporterDescriptor(genModel.getImporterID());
+          }
+          else if (!genModel.getForeignModel().isEmpty())
+          {
+            String foreignModel = (String)genModel.getForeignModel().get(0);
+            if (foreignModel.endsWith(".mdl"))
             {
-              suggestedDescriptor = ModelImporterUtil.getModelImporterDescriptor(genModel.getImporterID());
+              descriptor = ModelImporterManager.INSTANCE.getModelImporterDescriptor("org.eclipse.emf.importer.rose");
             }
-            else if (!genModel.getForeignModel().isEmpty())
+            else if (foreignModel.endsWith(".xsd") || foreignModel.endsWith(".wsdl"))
             {
-              String foreignModel = (String)genModel.getForeignModel().get(0);
-              if (foreignModel.endsWith(".mdl"))
-              {
-                suggestedDescriptor = ModelImporterUtil.getModelImporterDescriptor("org.eclipse.emf.importer.rose");
-              }
-              else if (foreignModel.endsWith(".xsd") || foreignModel.endsWith(".wsdl"))
-              {
-                suggestedDescriptor = ModelImporterUtil.getModelImporterDescriptor("org.eclipse.xsd.ecore.importer");
-              }
-              else if (foreignModel.endsWith("@model"))
-              {
-                suggestedDescriptor = ModelImporterUtil.getModelImporterDescriptor("org.eclipse.emf.importer.java");
-              }
-              else if (foreignModel.endsWith(".ecore") || foreignModel.endsWith(".emof"))
-              {
-                suggestedDescriptor = ModelImporterUtil.getModelImporterDescriptor("org.eclipse.emf.importer.ecore");
-              }              
+              descriptor = ModelImporterManager.INSTANCE.getModelImporterDescriptor("org.eclipse.xsd.ecore.importer");
             }
+            else if (foreignModel.endsWith("@model"))
+            {
+              descriptor = ModelImporterManager.INSTANCE.getModelImporterDescriptor("org.eclipse.emf.importer.java");
+            }
+            else if (foreignModel.endsWith(".ecore") || foreignModel.endsWith(".emof"))
+            {
+              descriptor = ModelImporterManager.INSTANCE.getModelImporterDescriptor("org.eclipse.emf.importer.ecore");
+            }              
           }
         }
       }
+    }
 
-      if (suggestedDescriptor == null)
+    if (descriptor == null)
+    { 
+      if (selection != null && !selection.isEmpty())
       {
-        if (selection != null && !selection.isEmpty())
+        Object element = selection.getFirstElement();
+        if (element instanceof IFile)
         {
-          Object element = selection.getFirstElement();
-          if (element instanceof IFile)
+          String fileExtension = ((IFile)element).getFileExtension();
+          descriptor = ModelImporterManager.INSTANCE.getModelImporterDescriptor(selectionPage.getLastModelConverterDescriptorId());
+          if (descriptor == null || !descriptor.getExtensions().contains(fileExtension))
           {
-            List descriptors = ModelImporterUtil.filterModelImporterDescriptors(((IFile)element).getFileExtension());
+            List descriptors = ModelImporterManager.INSTANCE.filterModelImporterDescriptors(fileExtension);
             if (!descriptors.isEmpty())
             {
-              modelFile = ((IFile)element);
-              suggestedDescriptor = (ModelImporterDescriptor)descriptors.get(0);
+              descriptor = (ModelImporterDescriptor)descriptors.get(0);
             }
+          }
+          if (descriptor != null)
+          {
+            modelFile = ((IFile)element);
           }
         }
       }
-
     }
+
+    return descriptor;
   }
   
   protected boolean isValidNewValue(Object newValue, Object oldValue)
@@ -523,6 +348,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
 
   public boolean performFinish()
   {
+    selectionPage.performFinish();
     return true;
   }
 }

@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ImporterPlugin.java,v 1.4 2005/08/19 16:48:21 davidms Exp $
+ * $Id: ImporterPlugin.java,v 1.5 2005/12/14 07:48:49 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.converter.ConverterPlugin;
 
 
 /**
@@ -47,7 +48,7 @@ public final class ImporterPlugin extends EMFPlugin
     super
       (new ResourceLocator []
        {
-         
+         ConverterPlugin.INSTANCE
        });
   }
 

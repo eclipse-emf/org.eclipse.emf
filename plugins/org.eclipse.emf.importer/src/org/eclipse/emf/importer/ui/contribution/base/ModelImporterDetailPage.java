@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * ModelDetailPage.java,v 1.12 2005/11/11 16:57:18 marcelop Exp
+ * $Id: ModelImporterDetailPage.java,v 1.1 2005/12/14 07:48:49 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
@@ -25,10 +25,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -44,21 +41,19 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.converter.ui.contribution.base.ModelConverterURIPage;
+import org.eclipse.emf.converter.util.ConverterUtil;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
-import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
- * @since 2.1.0
+ * @since 2.2.0
  */
-public class ModelDetailPage extends ModelImporterPage
+public class ModelImporterDetailPage extends ModelConverterURIPage implements IModelImporterPage
 {
-  protected Text modelLocationText;
   protected Button loadButton;
   protected Text genModelNameText;
-  protected Button modelLocationBrowseFileSystemButton;
-  protected Button modelLocationBrowseWorkspaceButton;
 
   protected String[] filterExtensions;
 
@@ -66,19 +61,19 @@ public class ModelDetailPage extends ModelImporterPage
   protected boolean usingInternalSetName = true;
   
 
-  public ModelDetailPage(ModelImporter modelImporter, String pageName)
+  public ModelImporterDetailPage(ModelImporter modelImporter, String pageName)
   {
     super(modelImporter, pageName);
     showGenModel = getModelImporter().getGenModelFileName() == null;
   }
+  
+  public ModelImporter getModelImporter()
+  {
+    return (ModelImporter)getModelConverter();
+  }
 
   public void dispose()
   {
-    if (modelLocationText != null)
-    {
-      modelLocationText.removeListener(SWT.Modify, this);
-      modelLocationText = null;
-    }
     if (loadButton != null)
     {
       loadButton.removeListener(SWT.Selection, this);
@@ -89,17 +84,6 @@ public class ModelDetailPage extends ModelImporterPage
       genModelNameText.removeListener(SWT.Modify, this);
       genModelNameText = null;
     }
-    if (modelLocationBrowseFileSystemButton != null)
-    {
-      modelLocationBrowseFileSystemButton.removeListener(SWT.Selection, this);
-      modelLocationBrowseFileSystemButton = null;
-    }
-    if (modelLocationBrowseWorkspaceButton != null)
-    {
-      modelLocationBrowseWorkspaceButton.removeListener(SWT.Selection, this);
-      modelLocationBrowseWorkspaceButton = null;
-    }
-
     super.dispose();
   }
 
@@ -130,82 +114,27 @@ public class ModelDetailPage extends ModelImporterPage
     refreshModel();
   }
 
-  public void createControl(Composite parent)
+  protected void addControl(Composite parent)
   {
-    Composite composite = new Composite(parent, SWT.NONE);
-    composite.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL));
-
-    GridLayout layout = new GridLayout();
-    layout.verticalSpacing = 8;
-    composite.setLayout(layout);
-
-    createModelLocationControl(composite);
-    addControl(composite);
+    addDetailControl(parent);
     if (showGenModel())
     {
-      createGenModelNameControl(composite);
+      createGenModelNameControl(parent);
     }
-
     adjustLoadButton();
-    setControl(composite);
-  }
-
-  protected void createModelLocationControl(Composite parent)
-  {
-    Composite composite = new Composite(parent, SWT.NONE);
-    composite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
-    {
-      GridLayout layout = new GridLayout(2, false);
-      layout.marginLeft = -5;
-      layout.marginRight = -5;
-      composite.setLayout(layout);
-    }
-    
-    Label modelLocationLabel = new Label(composite, SWT.LEFT);
-    modelLocationLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-    modelLocationLabel.setText(getModelLocationTextLabel());
-
-    Composite buttonComposite = new Composite(composite, SWT.NONE);
-    buttonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.HORIZONTAL_ALIGN_END));
-    {
-      RowLayout layout = new RowLayout();
-      layout.justify = true;
-      layout.pack = true;
-      layout.spacing = 5;
-      layout.marginRight = 0;
-      buttonComposite.setLayout(layout);
-    }
-
-    modelLocationBrowseFileSystemButton = new Button(buttonComposite, SWT.PUSH);
-    modelLocationBrowseFileSystemButton.setText(getBrowseFileSystemButtonLabel());
-    modelLocationBrowseFileSystemButton.addListener(SWT.Selection, this);
-
-    modelLocationBrowseWorkspaceButton = new Button(buttonComposite, SWT.PUSH);
-    modelLocationBrowseWorkspaceButton.setText(getBrowseWorkspaceButtonLabel());
-    modelLocationBrowseWorkspaceButton.addListener(SWT.Selection, this);
-
-    Composite modelLocationComposite = new Composite(parent, SWT.NONE);
-    modelLocationComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-    {
-      GridLayout layout = new GridLayout(2, false);
-      layout.marginTop = -5;
-      layout.marginLeft = -5;
-      layout.marginRight = -5;
-      modelLocationComposite.setLayout(layout);
-    }
-
-    modelLocationText = new Text(modelLocationComposite, SWT.SINGLE | SWT.BORDER);
-    modelLocationText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-    if (getModelImporter().getModelLocation() != null)
-    {
-      modelLocationText.setText(getModelImporter().getModelLocation());
-    }
-    modelLocationText.addListener(SWT.Modify, this);
-    
-    createLoadButton(modelLocationComposite);
   }
   
-  protected void createLoadButton(Composite parent)
+  protected void addDetailControl(Composite parent)
+  { 
+  }
+  
+  protected String getURITextInitialValue()
+  {
+    String uri = getModelImporter().getModelLocation();
+    return uri != null ? uri : super.getURITextInitialValue();
+  }
+
+  protected void addURIControl(Composite parent)
   {
     loadButton = new Button(parent, SWT.PUSH);
     loadButton.setText(ImporterPlugin.INSTANCE.getString("_UI_Load_label"));
@@ -224,23 +153,12 @@ public class ModelDetailPage extends ModelImporterPage
     genModelNameText.addListener(SWT.Modify, this);
   }
 
-  protected void addControl(Composite parent)
-  {
-  }
-  
   protected void doHandleEvent(Event event)
   {
-    if (event.type == SWT.Modify && event.widget == modelLocationText)
-    {
-      setErrorMessage(null);
-      setMessage(null);
-      getModelImporter().setModelLocation(null);
-      getModelImporter().clearEPackagesCollections();
-      adjustLoadButton();
-    }
-    else if (event.type == SWT.Selection && event.widget == loadButton)
+    if (event.type == SWT.Selection && event.widget == loadButton)
     {
       refreshModel();
+      getContainer().updateButtons();
     }    
     else if (event.type == SWT.Modify && event.widget == genModelNameText)
     {
@@ -248,46 +166,36 @@ public class ModelDetailPage extends ModelImporterPage
       getModelImporter().setGenModelFileName(genModelNameText.getText());
       Diagnostic diagnostic = getModelImporter().checkGenModelFileName();
       handleDiagnostic(diagnostic);
-    }
-    else if (event.type == SWT.Selection && event.widget == modelLocationBrowseFileSystemButton)
-    {
-      browseFileSystem();
-    }
-    else if (event.type == SWT.Selection && event.widget == modelLocationBrowseWorkspaceButton)
-    {
-      browseWorkspace();
+      getContainer().updateButtons();
     }
     else
     {
       super.doHandleEvent(event);
-    }   
-    getContainer().updateButtons();
+    }
+  }
+  
+  protected void uriTextModified(String text)
+  {
+    super.uriTextModified(text);
+    getModelImporter().setModelLocation(null);
+    getModelImporter().clearEPackagesCollections();
+    adjustLoadButton();
   }
   
   protected void adjustLoadButton()
   {
     if (loadButton != null)
     {
-      String text = modelLocationText.getText();
+      String text = uriText.getText();
       loadButton.setEnabled(text != null && text.trim().length() > 0);
     }    
   }
 
-  protected String getModelLocationTextLabel()
+  protected String getURITextLabel()
   {
-    return supportMultipleModelLocation() ?
-      ImporterPlugin.INSTANCE.getString("_UI_ModelLocations_label") :
-      ImporterPlugin.INSTANCE.getString("_UI_ModelLocation_label");
-  }
-
-  protected String getBrowseFileSystemButtonLabel()
-  {
-    return ImporterPlugin.INSTANCE.getString("_UI_BrowseFileSystemFile_label");
-  }
-
-  protected String getBrowseWorkspaceButtonLabel()
-  {
-    return ImporterPlugin.INSTANCE.getString("_UI_BrowseWorkspace_label");
+    return supportMultipleURIs() ?
+      ImporterPlugin.INSTANCE.getString("_UI_ModelURIs_label") :
+      ImporterPlugin.INSTANCE.getString("_UI_ModelURI_label");
   }
 
   protected String getSelectModelLabel()
@@ -295,7 +203,7 @@ public class ModelDetailPage extends ModelImporterPage
     return ImporterPlugin.INSTANCE.getString("_UI_SelectModel_label");
   }
 
-  protected boolean supportMultipleModelLocation()
+  protected boolean supportMultipleURIs()
   {
     return true;
   }
@@ -350,25 +258,9 @@ public class ModelDetailPage extends ModelImporterPage
     return false;
   }
 
-  protected void setModelLocationText(String location)
-  {
-    location = location.trim();
-    StringBuffer text = new StringBuffer(modelLocationText.getText());
-    if (!location.equals(text))
-    {
-      if (supportMultipleModelLocation())
-      {
-        Point textSelection = modelLocationText.getSelection();
-        text.delete(textSelection.x, textSelection.y);
-        location = text.append(" ").append(location).toString();
-      }
-      modelLocationText.setText(location.trim());
-    }
-  }
-
   protected boolean browseFileSystem()
   {
-    FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN | (supportMultipleModelLocation() ? SWT.MULTI : SWT.SINGLE));
+    FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN | (supportMultipleURIs() ? SWT.MULTI : SWT.SINGLE));
     fileDialog.setFilterExtensions(getFilterExtensions());
 
     URI modelURI = getModelImporter().getFirstModelLocationURI(true);
@@ -387,7 +279,7 @@ public class ModelDetailPage extends ModelImporterPage
         text.append(URI.createFileURI(filePath).toString());
         text.append(" ");
       }
-      setModelLocationText(text.toString());
+      setURIText(text.toString());
       refreshModel();
       return true;
     }
@@ -406,7 +298,7 @@ public class ModelDetailPage extends ModelImporterPage
     if (result != null)
     {
       StringBuffer text = new StringBuffer();
-      int length = supportMultipleModelLocation() ? result.length : 1;
+      int length = supportMultipleURIs() ? result.length : 1;
       for (int i = 0; i < length; ++i)
       {
         IResource resource = (IResource)result[i];
@@ -416,7 +308,7 @@ public class ModelDetailPage extends ModelImporterPage
           text.append("  ");
         }
       }
-      setModelLocationText(text.toString());
+      setURIText(text.toString());
       refreshModel();
       return true;
     }
@@ -433,18 +325,19 @@ public class ModelDetailPage extends ModelImporterPage
           setErrorMessage(null);
           setMessage(null);
           
+          Monitor monitor = BasicMonitor.toMonitor(progressMonitor);
           try
           {
-            refreshModel(BasicMonitor.toMonitor(progressMonitor));
+            refreshModel(monitor);
           }
           catch (Exception exception)
           {
             ImporterPlugin.INSTANCE.log(exception);
-            errorDiagnostic = ImporterUtil.createErrorDiagnostic(exception, true);
+            errorDiagnostic = ConverterUtil.createErrorDiagnostic(exception, true);
           }
           finally
           {
-            progressMonitor.done();
+            monitor.done();
           }
           
           if (errorDiagnostic != null)
@@ -454,7 +347,7 @@ public class ModelDetailPage extends ModelImporterPage
         }
       };
 
-    getModelImporter().setModelLocation(modelLocationText.getText());
+    getModelImporter().setModelLocation(uriText.getText());
 
     try
     {
@@ -472,8 +365,8 @@ public class ModelDetailPage extends ModelImporterPage
     else
     {
       setPageComplete(false);
-      modelLocationText.selectAll();
-      modelLocationText.setFocus();
+      uriText.selectAll();
+      uriText.setFocus();
     }
   }
   
@@ -516,7 +409,7 @@ public class ModelDetailPage extends ModelImporterPage
       }
       else
       {
-        diagnostic = ImporterUtil.mergeDiagnostic(diagnostic, nameDiagnostic);
+        diagnostic = ConverterUtil.mergeDiagnostic(diagnostic, nameDiagnostic);
       }
     }
     

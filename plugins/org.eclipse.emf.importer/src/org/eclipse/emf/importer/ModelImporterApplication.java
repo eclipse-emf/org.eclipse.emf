@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.15 2005/11/24 04:40:03 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.16 2005/12/14 07:48:49 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -410,14 +410,14 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     int index = packageName.lastIndexOf(".");
     if (index != -1)
     {
-      getModelImporter().getEPackageInfo(ePackage).setBasePackage(packageName.substring(0, index));
+      getModelImporter().getEPackageImportInfo(ePackage).setBasePackage(packageName.substring(0, index));
       ePackage.setName(packageName.substring(index + 1));
     }
   }  
 
   protected void handleEPackage(EPackage ePackage, boolean generate)
   {
-    getModelImporter().getEPackageInfo(ePackage).setGenerate(generate);
+    getModelImporter().getEPackageImportInfo(ePackage).setConvert(generate);
     if (!generate)
     {
       if (referencedEPackages == null)

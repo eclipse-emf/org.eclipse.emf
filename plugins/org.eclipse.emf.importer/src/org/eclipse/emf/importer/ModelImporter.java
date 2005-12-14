@@ -12,15 +12,13 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.21 2005/11/23 19:07:04 emerks Exp $
+ * $Id: ModelImporter.java,v 1.22 2005/12/14 07:48:49 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -30,13 +28,10 @@ import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -52,8 +47,10 @@ import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.converter.ConverterPlugin;
+import org.eclipse.emf.converter.ModelConverter;
+import org.eclipse.emf.converter.util.ConverterUtil;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.importer.util.ImporterUtil;
@@ -62,58 +59,10 @@ import org.eclipse.emf.importer.util.ImporterUtil;
 /**
  * @since 2.1.0
  */
-public abstract class ModelImporter
+public abstract class ModelImporter extends ModelConverter
 {
-  public static class EPackageList extends UniqueEList.FastCompare
+  public static class EPackageImportInfo extends ModelConverter.EPackageConvertInfo
   {
-    public EPackageList()
-    {
-      super();
-    }
-
-    public EPackageList(Collection collection)
-    {
-      super(collection);
-    }
-
-    public EPackageList(int initialCapacity)
-    {
-      super(initialCapacity);
-    }
-
-    protected Object[] newData(int capacity)
-    {
-      return new EPackage [capacity];
-    }
-  }
-
-  public static class GenPackageList extends UniqueEList.FastCompare
-  {
-    public GenPackageList()
-    {
-      super();
-    }
-
-    public GenPackageList(Collection collection)
-    {
-      super(collection);
-    }
-
-    public GenPackageList(int initialCapacity)
-    {
-      super(initialCapacity);
-    }
-
-    protected Object[] newData(int capacity)
-    {
-      return new GenPackage [capacity];
-    }
-  }
-
-  public static class EPackageInfo
-  {
-    protected boolean generate = false;
-    protected String ecoreFileName;
     protected String basePackage;
     protected String prefix;
 
@@ -129,22 +78,12 @@ public abstract class ModelImporter
 
     public String getEcoreFileName()
     {
-      return ecoreFileName;
+      return getConvertData();
     }
 
     public void setEcoreFileName(String ecoreFileName)
     {
-      this.ecoreFileName = ecoreFileName;
-    }
-
-    public boolean isGenerate()
-    {
-      return generate;
-    }
-
-    public void setGenerate(boolean generate)
-    {
-      this.generate = generate;
+      setConvertData(ecoreFileName);
     }
 
     public String getPrefix()
@@ -158,22 +97,6 @@ public abstract class ModelImporter
     }
   }
   
-  protected static class ShellFinder
-  {
-    public Object getActiveShell()
-    {
-      Object shell = null;
-      try
-      {
-        shell = org.eclipse.swt.widgets.Display.getCurrent().getActiveShell();
-      }
-      catch (Throwable t)
-      {
-      }
-      return shell;
-    }
-  }
-
   protected List fileExtensions;
 
   protected IPath originalGenModelPath;
@@ -183,12 +106,6 @@ public abstract class ModelImporter
   protected IPath genModelContainerPath;
   protected String genModelFileName;
   protected IPath genModelPath;
-  protected GenModel genModel;
-
-  protected List ePackages;
-  protected Map ePackageToInfoMap;
-
-  protected List referencedGenPackages;
 
   protected List modelLocationURIs;
   protected String modelLocation;
@@ -199,24 +116,13 @@ public abstract class ModelImporter
   protected boolean usePlatformURI = true;
   protected IWorkspaceRoot workspaceRoot;
   
-  protected ResourceSet externalGenModelResourceSet;
-  protected List externalGenModelList;
-
   public void dispose()
   {
-    genModel = null;
     originalGenModel = null;
     workspaceRoot = null;
 
-    if (referencedGenPackages != null)
-    {
-      referencedGenPackages.clear();
-      referencedGenPackages = null;
-    }
-    clearEPackagesCollections();
+    super.dispose();
   }
-
-  public abstract String getID();
 
   public List getFileExtensions()
   {
@@ -259,7 +165,7 @@ public abstract class ModelImporter
   {
     if (getOriginalGenModel() != null)
     {
-      List ePackages = new EPackageList();
+      List ePackages = new ConverterUtil.EPackageList();
       for (Iterator i = getOriginalGenModel().getGenPackages().iterator(); i.hasNext();)
       {
         GenPackage genPackage = (GenPackage)i.next();
@@ -329,7 +235,7 @@ public abstract class ModelImporter
     }
     else
     {
-      return new BasicDiagnostic(Diagnostic.ERROR, ImporterPlugin.ID, ImporterUtil.ACTION_DEFAULT, message, null);
+      return new BasicDiagnostic(Diagnostic.ERROR, ConverterPlugin.ID, ConverterUtil.ACTION_DEFAULT, message, null);
     }
   }
 
@@ -355,7 +261,7 @@ public abstract class ModelImporter
     }
     else
     {
-      return new BasicDiagnostic(Diagnostic.ERROR, ImporterPlugin.ID, ImporterUtil.ACTION_DEFAULT, message, null);
+      return new BasicDiagnostic(Diagnostic.ERROR, ConverterPlugin.ID, ConverterUtil.ACTION_DEFAULT, message, null);
     }
   }
 
@@ -449,42 +355,14 @@ public abstract class ModelImporter
     return originalGenModel;
   }
 
-  public List getEPackages()
+  public EPackageImportInfo getEPackageImportInfo(EPackage ePackage)
   {
-    if (ePackages == null)
-    {
-      ePackages = new EPackageList();
-    }
-    return ePackages;
+    return (EPackageImportInfo)getEPackageConvertInfo(ePackage);
   }
-
-  protected Map getEPackageToInfoMap()
+  
+  protected EPackageConvertInfo createEPackageInfo(EPackage ePackage)
   {
-    if (ePackageToInfoMap == null)
-    {
-      ePackageToInfoMap = new HashMap();
-    }
-    return ePackageToInfoMap;
-  }
-
-  public EPackageInfo getEPackageInfo(EPackage ePackage)
-  {
-    EPackageInfo ePackageInfo = (EPackageInfo)getEPackageToInfoMap().get(ePackage);
-    if (ePackageInfo == null)
-    {
-      ePackageInfo = new EPackageInfo();
-      getEPackageToInfoMap().put(ePackage, ePackageInfo);
-    }
-    return ePackageInfo;
-  }
-
-  public List getReferencedGenPackages()
-  {
-    if (referencedGenPackages == null)
-    {
-      referencedGenPackages = new GenPackageList();
-    }
-    return referencedGenPackages;
+    return new EPackageImportInfo();
   }
 
   protected GenPackage getGenPackage(EPackage ePackage)
@@ -555,90 +433,14 @@ public abstract class ModelImporter
       setModelLocation(null);
     }
   }
-
-  public EPackage getReferredEPackage(GenPackage genPackage)
+    
+  protected ResourceSet createExternalGenModelResourceSet()
   {
-    String nsURI = genPackage.getEcorePackage().getNsURI();
-    if (nsURI != null)
-    {
-      for (Iterator j = ePackages.iterator(); j.hasNext();)
-      {
-        EPackage ePackage = (EPackage)j.next();
-        if (nsURI.equals(ePackage.getNsURI()))
-        {
-          return ePackage;
-        }
-      }
-    }
-    return null;
-  }
-
-  public List filterReferencedEPackages(Collection ePackages)
-  {
-    if (ePackages.isEmpty())
-    {
-      return Collections.EMPTY_LIST;
-    }
-    else if (getReferencedGenPackages().isEmpty())
-    {
-      return new ArrayList(ePackages);
-    }
-    else
-    {
-      List filteredEPackages = new EPackageList(ePackages);
-      for (Iterator i = getReferencedGenPackages().iterator(); i.hasNext();)
-      {
-        GenPackage genPackage = (GenPackage)i.next();
-        EPackage ePackage = getReferredEPackage(genPackage);
-        if (ePackage != null)
-        {
-          filteredEPackages.remove(ePackage);
-        }
-      }
-      return filteredEPackages;
-    }
+    return getOriginalGenModel() != null ? 
+      getOriginalGenModel().eResource().getResourceSet() : 
+      super.createExternalGenModelResourceSet();
   }
   
-  public List getExternalGenModels()
-  {
-    if (externalGenModelList == null)
-    {
-      externalGenModelList = new UniqueEList.FastCompare();
-      if (externalGenModelResourceSet == null)
-      {
-        externalGenModelResourceSet = getOriginalGenModel() != null ? getOriginalGenModel().eResource().getResourceSet() : createResourceSet();
-      }
-      Map ePackageToGenModelMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
-      for (Iterator i = getEPackages().iterator(); i.hasNext(); )
-      {
-        EPackage ePackage = (EPackage)i.next();
-        URI genModelURI = (URI)ePackageToGenModelMap.get(ePackage.getNsURI());
-        if (genModelURI != null)
-        {
-          try
-          {
-            Resource genModelResource = externalGenModelResourceSet.getResource(genModelURI, false);
-            if (genModelResource == null)
-            {
-              genModelResource = externalGenModelResourceSet.getResource(genModelURI, true);
-              externalGenModelList.add(genModelResource.getContents().get(0));
-            }
-          }
-          catch (Exception exception)
-          {
-            ImporterPlugin.INSTANCE.log(exception);
-          }
-        }
-      }
-    }
-    return externalGenModelList;
-  }
-  
-  public ResourceSet createResourceSet()
-  {
-    return ImporterUtil.createResourceSet();
-  }
-
   protected void loadOriginalGenModel(URI genModelURI) throws DiagnosticException
   {
     Resource resource = createResourceSet().getResource(genModelURI, true);
@@ -679,14 +481,14 @@ public abstract class ModelImporter
     int size = getEPackages().size(); 
     if (size == 1)
     {
-      getEPackageInfo((EPackage)getEPackages().get(0)).setGenerate(true);
+      getEPackageImportInfo((EPackage)getEPackages().get(0)).setConvert(true);
     }
     else if (size > 1)
     {
       List ePackagesBeingReloaded = computeEPackagesBeingReloaded();
       for (Iterator i = ePackagesBeingReloaded.iterator(); i.hasNext();)
       {
-        getEPackageInfo((EPackage)i.next()).setGenerate(true);
+        getEPackageImportInfo((EPackage)i.next()).setConvert(true);
       }
     }    
   }
@@ -694,25 +496,6 @@ public abstract class ModelImporter
   protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
     return Diagnostic.OK_INSTANCE;
-  }
-
-  public void clearEPackagesCollections()
-  {
-    if (ePackages != null)
-    {
-      ePackages.clear();
-      ePackages = null;
-    }
-    if (ePackageToInfoMap != null)
-    {
-      ePackageToInfoMap.clear();
-      ePackageToInfoMap = null;
-    }
-    if (externalGenModelList != null)
-    {
-      externalGenModelList.clear();
-      externalGenModelList = null;
-    }
   }
 
   public void adjustEPackages(Monitor monitor)
@@ -733,12 +516,12 @@ public abstract class ModelImporter
       adjustEPackage(monitor, ePackage);
     }
     
-    makeEcoreFileNamesUnique();
+    makeEPackageConvertDataUnique();
   }
 
   protected void adjustEPackage(Monitor monitor, EPackage ePackage)
   {
-    EPackageInfo ePackageInfo = getEPackageInfo(ePackage);
+    EPackageImportInfo ePackageInfo = getEPackageImportInfo(ePackage);
 
     String name = ePackage.getName();
     int index = name.lastIndexOf(".");
@@ -807,17 +590,19 @@ public abstract class ModelImporter
 
     // Create resources for all the root EPackages.
     //
-    List ePackages = computeEPackagesToGenerate();
+    List ePackages = computeEPackagesToConvert();
     for (Iterator i = ePackages.iterator(); i.hasNext();)
     {
       EPackage ePackage = (EPackage)i.next();
       addToResource(ePackage, resourceSet);
     }
 
+    List referencedGenPackages = computeValidReferencedGenPackages(); 
+      
     // Create resources for all the referenced EPackages
     // The referencedEPackage is a "local" instance of the realEPackage.  We 
     // will add the former o a resource that has the same URI of the later.
-    for (Iterator i = getReferencedGenPackages().iterator(); i.hasNext();)
+    for (Iterator i = referencedGenPackages.iterator(); i.hasNext();)
     {
       GenPackage genPackage = (GenPackage)i.next();
       EPackage realEPackage = genPackage.getEcorePackage();
@@ -833,7 +618,7 @@ public abstract class ModelImporter
     // Initialize the GenModel with all the computed data.
     //
     getGenModel().initialize(ePackages);
-    getGenModel().getUsedGenPackages().addAll(getReferencedGenPackages());
+    getGenModel().getUsedGenPackages().addAll(referencedGenPackages);
     traverseGenPackages(getGenModel().getGenPackages());
     adjustGenModel(monitor);
 
@@ -846,7 +631,7 @@ public abstract class ModelImporter
   {
     if (ePackage.eResource() == null)
     {
-      EPackageInfo ePackageInfo = getEPackageInfo(ePackage);
+      EPackageImportInfo ePackageInfo = getEPackageImportInfo(ePackage);
       String fileName = ePackageInfo.getEcoreFileName();
       if (fileName != null)
       {
@@ -878,9 +663,8 @@ public abstract class ModelImporter
       createProject(monitor, project, referencedGenModels);
     }
 
-    
-    List resources = computeResourcesToBeSaved();
-    String readOnlyFiles = validateFiles(resources);
+    List resources = computeResourcesToBeSaved();    
+    String readOnlyFiles = ConverterUtil.WorkspaceResourceValidator.validate(resources);
     if (readOnlyFiles != null)
     {
       throw new Exception(ImporterPlugin.INSTANCE.getString("_UI_ReadOnlyFiles_error", new String[]{readOnlyFiles})); 
@@ -918,78 +702,6 @@ public abstract class ModelImporter
     return resources;
   }
   
-  /**
-   * Invokes the Platform validateEdit method for all the read-only files 
-   * referred by a given resource in the list.  Returns null if the resources
-   * can be saved or a comma separated list of the files that are read-only.  
-   * @param resources
-   * @return String
-   */
-  protected String validateFiles(List resources)
-  {
-    IWorkspace workspace = ResourcesPlugin.getWorkspace();
-    IWorkspaceRoot workspaceRoot= workspace.getRoot();
-    
-    List workspaceFiles = new ArrayList(resources.size());
-    List extenalFiles = new ArrayList(resources.size());
-    for (Iterator i = resources.iterator(); i.hasNext();)
-    {
-      Resource resource = (Resource)i.next();
-      URI uri = resource.getURI().trimFragment();
-      if (uri.isFile())
-      {
-        File file = new File(uri.toFileString());
-        if (file.isFile() && !file.canWrite())
-        {
-          extenalFiles.add(file);
-        }        
-      }
-      else if (uri.toString().startsWith("platform:/resource"))
-      {
-        String path = uri.toString().substring("platform:/resources".length());
-        IResource workspaceResource = workspaceRoot.findMember(new Path(path));
-        if (workspaceResource != null && workspaceResource.getType() == IResource.FILE && workspaceResource.getResourceAttributes().isReadOnly())
-        {
-          workspaceFiles.add(workspaceResource);
-        }
-      }
-    }
-    
-    StringBuffer readOnlyFiles = new StringBuffer();
-    if (!workspaceFiles.isEmpty())
-    {
-      Object context = null;
-      if (Platform.getBundle("org.eclipse.swt") != null)
-      {
-        context = new ShellFinder().getActiveShell();
-      }
-      
-      IFile[] files = (IFile[])workspaceFiles.toArray(new IFile [workspaceFiles.size()]);
-      if (!workspace.validateEdit(files, context).isOK())
-      {
-        for (int i = 0; i < files.length; i++)
-        {
-          if (files[i].isReadOnly())
-          {
-            readOnlyFiles.append(", ").append(files[i].getFullPath().toString());
-          }
-        }
-      }
-    }
-    if (!extenalFiles.isEmpty())
-    {
-      for (Iterator i = extenalFiles.iterator(); i.hasNext();)
-      {
-        File file = (File)i.next();
-        readOnlyFiles.append(", ").append(file.getAbsolutePath());
-      }
-    }
-    
-    return readOnlyFiles.length() == 0 ? 
-      null : 
-      readOnlyFiles.deleteCharAt(0).deleteCharAt(0).toString();
-  }
-
   protected void createProject(Monitor monitor, IProject project, Collection referencedGenModels)
   {
     IWorkspaceRoot workspaceRoot = getWorkspaceRoot();
@@ -1054,19 +766,9 @@ public abstract class ModelImporter
     genModel.getUsedGenPackages().addAll(genModel.computeMissingUsedGenPackages());
   }
 
-  protected List computeEPackagesToGenerate()
+  protected boolean canConvert(EPackage ePackage)
   {
-    List ePackages = new EPackageList();
-    for (Iterator i = getEPackages().iterator(); i.hasNext();)
-    {
-      EPackage ePackage = (EPackage)i.next();
-      EPackageInfo ePackageInfo = getEPackageInfo(ePackage);
-      if (ePackageInfo.isGenerate() && ePackageInfo.getEcoreFileName() != null)
-      {
-        ePackages.add(ePackage);
-      }
-    }
-    return filterReferencedEPackages(ePackages);
+    return super.canConvert(ePackage) && getEPackageImportInfo(ePackage).getEcoreFileName() != null;
   }
 
   public void traverseGenPackages(List genPackages)
@@ -1075,7 +777,7 @@ public abstract class ModelImporter
     {
       GenPackage genPackage = (GenPackage)i.next();
       EPackage ePackage = genPackage.getEcorePackage();
-      EPackageInfo ePackageInfo = getEPackageInfo(ePackage);
+      EPackageImportInfo ePackageInfo = getEPackageImportInfo(ePackage);
 
       genPackage.setBasePackage(ePackageInfo.getBasePackage());
       genPackage.setPrefix(ePackageInfo.getPrefix());
@@ -1176,75 +878,9 @@ public abstract class ModelImporter
     }
 
     return null;
-  }
-  
-  /**
-   * Changes the existing EPackage Infos so that no duplicated names 
-   * are used.
-   */
-  public void makeEcoreFileNamesUnique()
-  {
-    if (ePackageToInfoMap != null)
-    {
-      Map counterByEcoreName = new HashMap();
-      List ePackages = filterReferencedEPackages(ePackageToInfoMap.keySet());
-      if (!ePackages.isEmpty())
-      {
-        List ePackageInfos = new ArrayList(ePackages.size());
-        for (Iterator i = ePackages.iterator(); i.hasNext();)
-        {
-          EPackage ePackage = (EPackage)i.next();
-          if (ePackage.getESuperPackage() == null || !ePackages.contains(ePackage.getESuperPackage()))
-          {
-            EPackageInfo ePackageInfo = (EPackageInfo)ePackageToInfoMap.get(ePackage);
-            ePackageInfos.add(ePackageInfo);
-            String fileName = ePackageInfo.getEcoreFileName();
-            if (fileName != null)
-            {
-              counterByEcoreName.put(fileName, null);
-            }
-          }
-        }
-        
-        for (Iterator i = ePackageInfos.iterator(); i.hasNext();)
-        {        
-          EPackageInfo ePackageInfo = (EPackageInfo)i.next();
-          String fileName = ePackageInfo.getEcoreFileName();
-          if (fileName != null)
-          {
-            Integer counterObject = (Integer)counterByEcoreName.get(fileName);
-            if (counterObject != null)
-            {
-              int counter = counterObject.intValue();
-              int index = fileName.lastIndexOf(".");
-              StringBuffer newFileName = null;
-              do
-              {            
-                newFileName = new StringBuffer(fileName).insert(index, counter++);
-              }
-              while (counterByEcoreName.containsKey(newFileName.toString()));
-              
-              ePackageInfo.setEcoreFileName(newFileName.toString());
-              counterObject = new Integer(counter);
-              counterByEcoreName.put(newFileName.toString(), new Integer(1));
-            }
-            else
-            {
-              counterObject = new Integer(1);
-            }        
-            counterByEcoreName.put(fileName, counterObject);
-          }
-        }
-      }
-    }
-  }
-
+  }  
+      
   protected Map getEcoreSaveOptions()
-  {
-    return Collections.EMPTY_MAP;
-  }
-
-  protected Map getGenmodelSaveOptions()
   {
     return Collections.EMPTY_MAP;
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.6 2005/06/09 21:39:37 marcelop Exp $
+ * $Id: EMFProjectWizard.java,v 1.7 2005/12/14 07:48:49 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -27,7 +27,7 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ui.contribution.IModelImporterWizard;
 import org.eclipse.emf.importer.ui.contribution.ModelImporterDescriptor;
-import org.eclipse.emf.importer.ui.contribution.ModelImporterUtil;
+import org.eclipse.emf.importer.ui.contribution.ModelImporterManager;
 
 
 /**
@@ -72,14 +72,12 @@ public class EMFProjectWizard extends EMFModelWizard
     newProjectCreationPage.setDescription(ImporterPlugin.INSTANCE.getString("_UI_CreateEMFProject_label"));
     addPage(newProjectCreationPage);
 
-    SelectionPage selectionPage = new SelectionPage("ModelImporterDescriptorSelectionPage");
-    selectionPage.setTitle(ImporterPlugin.INSTANCE.getString("_UI_SelectModelImporters_title"));
-    addPage(selectionPage);
+    addSelectionPage();
   }
 
   protected List getModelImporterDescriptors()
   {
-    return ModelImporterUtil.filterModelImporterDescriptors(ModelImporterDescriptor.TYPE_PROJECT);
+    return ModelImporterManager.INSTANCE.filterModelImporterDescriptors(ModelImporterDescriptor.TYPE_PROJECT);
   }
   
   protected void adjustModelImporterWizard(IModelImporterWizard modelImporterWizard, ModelImporterDescriptor modelImporterDescriptor)
