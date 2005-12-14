@@ -12,16 +12,21 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterWizard.java,v 1.1 2005/12/14 08:06:32 marcelop Exp $
+ * $Id: ModelExporterWizard.java,v 1.2 2005/12/14 13:50:00 marcelop Exp $
  */
 package org.eclipse.emf.exporter.ui.contribution.base;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Preferences;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.converter.ui.contribution.base.ModelConverterWizard;
@@ -47,27 +52,40 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
     super.init(workbench, selection);
     
     Object object = selection.getFirstElement();
-    if (object instanceof IFile)
-    {
-      URI uri = URI.createPlatformResourceURI(((IFile)object).getFullPath().toString(), true);
-      getModelExporter().loadGenModel(uri);
-    }
-    else if (object instanceof GenModel)
-    {
-      getModelExporter().setGenModel((GenModel)object);
-    }
- 
-    readPreferencesSettings();
     
-    if (getModelExporter().getDirectoryURI() == null)
+    try
     {
-      GenModel genModel = getModelExporter().getGenModel();
-      if (genModel != null && genModel.eResource() != null)
+      if (object instanceof IFile)
       {
-        URI uri = genModel.eResource().getURI().trimSegments(1);
-        getModelExporter().setDirectoryURI(uri.toString() + "/");
+        URI uri = URI.createPlatformResourceURI(((IFile)object).getFullPath().toString(), true);
+        getModelExporter().loadGenModel(uri);
       }
+      else if (object instanceof GenModel)
+      {
+        getModelExporter().setGenModel((GenModel)object);
+      }
+   
+      readPreferencesSettings();
+      
+      if (getModelExporter().getDirectoryURI() == null)
+      {
+        GenModel genModel = getModelExporter().getGenModel();
+        if (genModel != null && genModel.eResource() != null)
+        {
+          URI uri = genModel.eResource().getURI().trimSegments(1);
+          getModelExporter().setDirectoryURI(uri.toString() + "/");
+        }
+      }      
     }
+    catch (DiagnosticException exception)
+    {
+      Diagnostic diagnostic = exception.getDiagnostic();
+      ErrorDialog.openError
+        (getShell(),
+         GenModelEditPlugin.INSTANCE.getString("_UI_ModelProblems_title"),
+         ExporterPlugin.INSTANCE.getString("_UI_InvalidModel_message"),
+         BasicDiagnostic.toIStatus(diagnostic));
+    }    
   }
   
   protected void readPreferencesSettings()
