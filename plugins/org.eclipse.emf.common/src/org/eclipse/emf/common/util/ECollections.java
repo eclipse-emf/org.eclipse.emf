@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECollections.java,v 1.3 2005/06/08 06:19:08 nickb Exp $
+ * $Id: ECollections.java,v 1.4 2005/12/14 07:33:25 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -24,7 +24,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 
 /**
@@ -205,9 +207,24 @@ public class ECollections
   }
 
   /**
+   * Returns an unmodifiable view of the map.
+   * @return an unmodifiable view of the map.
+   */
+  public static EMap unmodifiableEMap(EMap map)
+  {
+    return new UnmodifiableEMap(map);
+  }
+
+  /**
    * An unmodifiable empty list with an efficient reusable iterator.
    */
   public static final EList EMPTY_ELIST = new EmptyUnmodifiableEList();
+
+  /**
+   * An unmodifiable empty map with an efficient reusable iterator.
+   */
+  public static final EMap EMPTY_EMAP = new EmptyUnmodifiableEMap();
+  
 
   private static class UnmodifiableEList implements EList
   {
@@ -424,13 +441,80 @@ public class ECollections
       throw new UnsupportedOperationException();
     }
   }
+  
+  private static class UnmodifiableEMap extends UnmodifiableEList implements EMap
+  {
+    protected EMap eMap;
+    
+    public UnmodifiableEMap(EMap eMap)
+    {
+      super(eMap);
+      this.eMap = eMap;
+    }
+    
+    public boolean containsKey(Object key)
+    {
+      return eMap.containsKey(key);
+    }
+
+    public boolean containsValue(Object value)
+    {
+      return eMap.containsValue(value);
+    }
+
+    public Set entrySet()
+    {
+      return Collections.unmodifiableSet(eMap.entrySet());
+    }
+
+    public Object get(Object key)
+    {
+      return eMap.get(key);
+    }
+
+    public int indexOfKey(Object key)
+    {
+      return eMap.indexOf(key);
+    }
+
+    public Set keySet()
+    {
+      return Collections.unmodifiableSet(eMap.keySet());
+    }
+
+    public Map map()
+    {
+      return Collections.unmodifiableMap(eMap.map());
+    }
+    
+    public Collection values()
+    {
+      return Collections.unmodifiableCollection(eMap.values());
+    }
+    
+    public Object put(Object key, Object value)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    public void putAll(EMap map)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    public void putAll(Map map)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    public Object removeKey(Object key)
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
 
   private static class EmptyUnmodifiableEList implements EList
   {
-    public EmptyUnmodifiableEList()
-    {
-    }
-
     public int size()
     {
       return 0;
@@ -610,6 +694,69 @@ public class ECollections
     }
 
     public Object move(int newPosition, int oldPosition)
+    {
+      throw new UnsupportedOperationException();
+    }
+  }
+  
+  private static class EmptyUnmodifiableEMap extends EmptyUnmodifiableEList implements EMap
+  {
+    public boolean containsKey(Object key)
+    {
+      return false;
+    }
+
+    public boolean containsValue(Object value)
+    {
+      return false;
+    }
+
+    public Set entrySet()
+    {
+      return Collections.EMPTY_SET;
+    }
+
+    public Object get(Object key)
+    {
+      return null;
+    }
+
+    public int indexOfKey(Object key)
+    {
+      return -1;
+    }
+
+    public Set keySet()
+    {
+      return Collections.EMPTY_SET;
+    }
+
+    public Map map()
+    {
+      return Collections.EMPTY_MAP;
+    }
+    
+    public Collection values()
+    {
+      return Collections.EMPTY_LIST;
+    }
+    
+    public Object put(Object key, Object value)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    public void putAll(EMap map)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    public void putAll(Map map)
+    {
+      throw new UnsupportedOperationException();
+    }
+
+    public Object removeKey(Object key)
     {
       throw new UnsupportedOperationException();
     }
