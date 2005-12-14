@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.16 2005/12/09 16:22:57 marcelop Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.17 2005/12/14 14:55:43 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -497,8 +497,8 @@ public class GenModelActionBarContributor
     generateMenuManager.add(generateTestsAction);
     generateMenuManager.add(generateAllAction);
 
-    generateMenuManager.add(new Separator("schema-actions"));
-    generateMenuManager.add(generateSchemaAction);    
+    // generateMenuManager.add(new Separator("schema-actions"));
+    // generateMenuManager.add(generateSchemaAction);    
 
     generateMenuManager.add(new Separator("annotation-actions"));
     generateMenuManager.add(showGenAnnotationsAction);    
@@ -580,7 +580,7 @@ public class GenModelActionBarContributor
   public void menuAboutToShow(IMenuManager menuManager)
   {
     generateAllAction.setEnabled(generateAllAction.isEnabled());
-    generateSchemaAction.setEnabled(generateSchemaAction.isEnabled());
+    // generateSchemaAction.setEnabled(generateSchemaAction.isEnabled());
     generateTestsAction.setEnabled(generateTestsAction.isEnabled());
     generateEditorAction.setEnabled(generateEditorAction.isEnabled());
     generateEditAction.setEnabled(generateEditAction.isEnabled());
@@ -596,8 +596,8 @@ public class GenModelActionBarContributor
     menuManager.insertAfter("generate-actions", generateEditAction);
     menuManager.insertAfter("generate-actions", generateAction);
 
-    menuManager.insertBefore("additions", new Separator("schema-actions"));
-    menuManager.insertAfter("schema-actions", generateSchemaAction);
+    // menuManager.insertBefore("additions", new Separator("schema-actions"));
+    // menuManager.insertAfter("schema-actions", generateSchemaAction);
 
     menuManager.insertBefore("additions", new Separator("open-actions"));
     menuManager.insertAfter("open-actions", openGenModelAction);
