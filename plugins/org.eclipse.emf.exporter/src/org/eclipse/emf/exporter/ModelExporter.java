@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.2 2005/12/14 13:49:08 marcelop Exp $
+ * $Id: ModelExporter.java,v 1.3 2005/12/14 21:56:15 marcelop Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -280,7 +280,14 @@ public abstract class ModelExporter extends ModelConverter
         GenAnnotation referencedPackagesAnnotation = genModelAnnotation.getGenAnnotation(GENANNOTATION_SOURCE_SELECTED_REFERENCES);
         if (referencedPackagesAnnotation != null)
         {
-          exporterUsedGenPackages.addAll(referencedPackagesAnnotation.getReferences());
+          for (Iterator i = referencedPackagesAnnotation.getReferences().iterator(); i.hasNext();)
+          {
+            Object o = i.next();
+            if (o instanceof GenPackage)
+            {
+              exporterUsedGenPackages.add(o);              
+            }
+          }
         }
       }
       
