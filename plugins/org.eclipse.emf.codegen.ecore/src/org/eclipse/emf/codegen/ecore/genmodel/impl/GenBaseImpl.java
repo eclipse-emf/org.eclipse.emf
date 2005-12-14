@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.43 2005/12/10 13:21:57 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.44 2005/12/14 21:39:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -99,6 +99,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -2706,5 +2707,59 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   public EModelElement getEcoreModelElement()
   {
     return null;
+  }
+  
+  protected static class GenAnnotationCopier extends EcoreUtil.Copier
+  {
+    protected ResourceSet newContext;
+    protected EObject oldContext;
+    
+    public GenAnnotationCopier(ResourceSet newContext, EObject oldContext)
+    {
+      this.newContext = newContext;
+      this.oldContext = oldContext;
+    }
+    
+    public void dispose()
+    {
+      newContext = null;
+      oldContext = null;
+    }
+    
+    // If the value is null, the key is a referenced object
+    public Object get(Object key)
+    {
+      Object value = super.get(key);
+      if (value == null)
+      {
+        if (key instanceof EObject)
+        {
+          EObject referencedEObject = (EObject)key;
+          if (EcoreUtil.isAncestor(oldContext, referencedEObject))
+          {
+            URI uri = EcoreUtil.getURI(referencedEObject);
+            referencedEObject = newContext.getEObject(uri, false);
+            if (referencedEObject != null)
+            {
+              value = referencedEObject;
+            }
+          }
+        }
+      }
+      return value;
+    }
+  }
+  
+  public void reconcileGenAnnotations(GenBase oldGenBase)
+  {
+    if (!oldGenBase.getGenAnnotations().isEmpty() && eResource() != null && eResource().getResourceSet() != null)
+    {
+      GenAnnotationCopier copier = new GenAnnotationCopier(eResource().getResourceSet(), oldGenBase);
+      Collection genAnnotationsCopy = copier.copyAll(oldGenBase.getGenAnnotations());
+      copier.copyReferences();
+
+      getGenAnnotations().clear();
+      getGenAnnotations().addAll(genAnnotationsCopy);
+    }
   }
 } 
