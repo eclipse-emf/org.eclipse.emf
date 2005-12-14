@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.62 2005/12/14 13:51:42 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.63 2005/12/14 21:40:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -5675,6 +5675,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setSuppressContainment(oldGenModelVersion.isSuppressContainment());
     setSuppressUnsettable(oldGenModelVersion.isSuppressUnsettable());
     setArrayAccessors(oldGenModelVersion.isArrayAccessors());
+    
+    reconcileGenAnnotations(oldGenModelVersion);
   }
 
   public boolean reconcile()

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.17 2005/12/10 13:24:46 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.18 2005/12/14 21:40:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -661,6 +661,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   protected void reconcileSettings(GenDataType oldGenDataTypeVersion)
   {
+    reconcileGenAnnotations(oldGenDataTypeVersion);
   }
 
   public boolean reconcile()

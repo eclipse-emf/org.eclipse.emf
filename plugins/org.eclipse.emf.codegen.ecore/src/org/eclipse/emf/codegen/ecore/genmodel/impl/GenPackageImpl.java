@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.47 2005/12/13 23:09:58 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.48 2005/12/14 21:40:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3399,6 +3399,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     setGenerateExampleClass(oldGenPackageVersion.isGenerateExampleClass());
     setLiteralsInterface(oldGenPackageVersion.isLiteralsInterface());
     setDataTypeConverters(oldGenPackageVersion.isDataTypeConverters());
+    
+    reconcileGenAnnotations(oldGenPackageVersion);
   }
 
   public boolean reconcile()

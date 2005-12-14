@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.10 2005/11/25 13:11:55 emerks Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.11 2005/12/14 21:40:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -354,6 +354,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
 
   protected void reconcileSettings(GenEnumLiteral oldGenEnumLiteralVersion)
   {
+    reconcileGenAnnotations(oldGenEnumLiteralVersion);
   }
 
   public boolean reconcile()

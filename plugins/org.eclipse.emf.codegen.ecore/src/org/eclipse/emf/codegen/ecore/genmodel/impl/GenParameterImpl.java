@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.11 2005/11/25 13:11:55 emerks Exp $
+ * $Id: GenParameterImpl.java,v 1.12 2005/12/14 21:40:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -361,6 +361,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
 
   protected void reconcileSettings(GenParameter oldGenParameterVersion)
   {
+    reconcileGenAnnotations(oldGenParameterVersion);
   }
 
   public boolean reconcile()

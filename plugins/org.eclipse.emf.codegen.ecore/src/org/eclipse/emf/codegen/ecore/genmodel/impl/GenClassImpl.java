@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.52 2005/12/10 13:22:49 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.53 2005/12/14 21:40:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2114,6 +2114,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       } 
     }
     setDynamic(oldGenClassVersion.isDynamic());
+    reconcileGenAnnotations(oldGenClassVersion);
   }
 
   public boolean reconcile()

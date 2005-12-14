@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.22 2005/11/25 13:11:55 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.23 2005/12/14 21:40:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -679,6 +679,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   protected void reconcileSettings(GenOperation oldGenOperationVersion)
   {
+    reconcileGenAnnotations(oldGenOperationVersion);
   }
 
   public boolean reconcile()

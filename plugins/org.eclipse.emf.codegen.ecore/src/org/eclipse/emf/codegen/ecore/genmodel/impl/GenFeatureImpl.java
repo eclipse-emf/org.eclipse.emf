@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.30 2005/12/10 13:27:20 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.31 2005/12/14 21:40:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1581,6 +1581,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     setPropertyDescription(oldGenFeatureVersion.getPropertyDescription());
 
     getPropertyFilterFlags().addAll(oldGenFeatureVersion.getPropertyFilterFlags());
+    reconcileGenAnnotations(oldGenFeatureVersion);
   }
 
   public boolean reconcile()
