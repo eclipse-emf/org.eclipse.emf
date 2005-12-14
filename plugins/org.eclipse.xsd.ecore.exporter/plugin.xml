@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+  <extension point="org.eclipse.emf.exporter.modelExporterDescriptors">
+    <modelExporterDescriptor id="org.eclipse.xsd.ecore.exporter" name="%_UI_XSDExporter_label" icon="icons/XSDModelFile.gif" description="%_UI_XSDExporter_description" wizard="org.eclipse.xsd.ecore.exporter.ui.XSDExporterWizard" />
+  </extension>
+</plugin>
