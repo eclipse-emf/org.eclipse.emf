@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.3 2005/12/14 13:51:31 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.4 2005/12/14 22:22:35 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -602,6 +602,23 @@ public class EcoreSchemaBuilder extends MapBuilder
                   parameterEType.getEPackage().getNsPrefix(),
                   parameterType.getTargetNamespace());
             parameter.setAttributeNS(null, "type", prefix + ":" + parameterType.getName());
+          }
+
+          if (eParameter.getLowerBound() != 0)
+          {
+            parameter.setAttributeNS(null, "lowerBound", Integer.toString(eParameter.getLowerBound()));
+          }
+          if (eParameter.getUpperBound() != 1)
+          {
+            parameter.setAttributeNS(null, "upperBound", Integer.toString(eParameter.getUpperBound()));
+          }
+          if (!eParameter.isOrdered())
+          {
+            parameter.setAttributeNS(null, "ordered", "false");
+          }
+          if (!eParameter.isUnique())
+          {
+            parameter.setAttributeNS(null, "unique", "false");
           }
         }
         
