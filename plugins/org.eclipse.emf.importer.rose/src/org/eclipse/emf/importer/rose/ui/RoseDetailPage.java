@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.12 2005/11/23 19:07:01 emerks Exp $
+ * $Id: RoseDetailPage.java,v 1.13 2005/12/14 07:56:02 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -46,18 +46,18 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.edit.provider.ItemProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.rose.RoseImporter;
 import org.eclipse.emf.importer.rose.RoseImporterPlugin;
-import org.eclipse.emf.importer.ui.contribution.base.ModelDetailPage;
-import org.eclipse.emf.importer.util.ImporterUtil;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterDetailPage;
+import org.eclipse.emf.converter.ConverterPlugin;
+import org.eclipse.emf.converter.util.ConverterUtil;
 
 
 /**
  * @since 2.1.0
  */
-public class RoseDetailPage extends ModelDetailPage
+public class RoseDetailPage extends ModelImporterDetailPage
 {
   protected Button loadPathMapSymbolsButton;
   protected Button browsePathMapLocationButton;
@@ -100,7 +100,7 @@ public class RoseDetailPage extends ModelDetailPage
     super.dispose();
   }
   
-  protected boolean supportMultipleModelLocation()
+  protected boolean supportMultipleURIs()
   {
     return false;
   }  
@@ -110,7 +110,7 @@ public class RoseDetailPage extends ModelDetailPage
     return (RoseImporter)getModelImporter();
   }
 
-  protected void addControl(Composite parent)
+  protected void addDetailControl(Composite parent)
   {
     Group pathMapGroup = new Group(parent, SWT.SHADOW_ETCHED_IN);
     {
@@ -275,7 +275,7 @@ public class RoseDetailPage extends ModelDetailPage
   {
     if (event.type == SWT.Selection && event.widget == loadPathMapSymbolsButton)
     {
-      if (modelLocationText.getText().trim().length() > 0)
+      if (uriText.getText().trim().length() > 0)
       {
         getControl().getDisplay().syncExec(new Runnable()
           {
@@ -342,7 +342,7 @@ public class RoseDetailPage extends ModelDetailPage
     }
     catch (Exception exception)
     {
-      diagnostic = ImporterUtil.createErrorDiagnostic(exception, false);       
+      diagnostic = ConverterUtil.createErrorDiagnostic(exception, false);       
     }
     
     internalSetGenModelFileName(diagnostic.getSeverity() == Diagnostic.OK ? 
@@ -358,14 +358,14 @@ public class RoseDetailPage extends ModelDetailPage
       }
       else
       {
-        diagnostic = ImporterUtil.mergeDiagnostic(diagnostic, nameDiagnostic);
+        diagnostic = ConverterUtil.mergeDiagnostic(diagnostic, nameDiagnostic);
       }
     }
     
     if (diagnostic.getSeverity() == Diagnostic.OK && getRoseImporter().getPathMap().isEmpty())
     {
-      diagnostic = new BasicDiagnostic(Diagnostic.INFO, ImporterPlugin.ID, 
-        ImporterUtil.ACTION_DEFAULT, RoseImporterPlugin.INSTANCE.getString("_UI_NoPathMap_message"), null);
+      diagnostic = new BasicDiagnostic(Diagnostic.INFO, ConverterPlugin.ID, 
+        ConverterUtil.ACTION_DEFAULT, RoseImporterPlugin.INSTANCE.getString("_UI_NoPathMap_message"), null);
     }
     
     pathMapTableViewer.setInput(new ItemProvider(getRoseImporter().getPathMap().keySet()));

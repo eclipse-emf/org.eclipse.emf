@@ -12,13 +12,13 @@
  *
  * </copyright>
  *
- * $Id: JavaImporterWizard.java,v 1.3 2005/06/08 06:17:32 nickb Exp $
+ * $Id: JavaImporterWizard.java,v 1.4 2005/12/14 07:52:52 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
-import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.java.JavaImporter;
 import org.eclipse.emf.importer.ui.contribution.base.ModelImporterWizard;
+import org.eclipse.emf.converter.ModelConverter;
 
 
 /**
@@ -26,12 +26,7 @@ import org.eclipse.emf.importer.ui.contribution.base.ModelImporterWizard;
  */
 public class JavaImporterWizard extends ModelImporterWizard
 {
-  public JavaImporterWizard()
-  {
-    super();
-  }
-
-  protected ModelImporter createModelImporter()
+  protected ModelConverter createModelConverter()
   {
     return new JavaImporter();
   }

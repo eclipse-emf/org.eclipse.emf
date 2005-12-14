@@ -12,14 +12,14 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterWizard.java,v 1.4 2005/06/09 20:11:35 davidms Exp $
+ * $Id: RoseImporterWizard.java,v 1.5 2005/12/14 07:56:02 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
-import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.rose.RoseImporter;
 import org.eclipse.emf.importer.ui.contribution.base.ModelImporterWizard;
-import org.eclipse.emf.importer.ui.contribution.base.ModelPackagePage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterPackagePage;
+import org.eclipse.emf.converter.ModelConverter;
 
 
 /**
@@ -27,12 +27,7 @@ import org.eclipse.emf.importer.ui.contribution.base.ModelPackagePage;
  */
 public class RoseImporterWizard extends ModelImporterWizard
 {
-  public RoseImporterWizard()
-  {
-    super();
-  }
-
-  protected ModelImporter createModelImporter()
+  protected ModelConverter createModelConverter()
   {
     return new RoseImporter();
   }
@@ -42,7 +37,7 @@ public class RoseImporterWizard extends ModelImporterWizard
     RoseDetailPage detailPage = new RoseDetailPage(getModelImporter(), "RoseModel");
     addPage(detailPage);
 
-    ModelPackagePage packagePage = new ModelPackagePage(getModelImporter(), "RosePackages");
+    ModelImporterPackagePage packagePage = new ModelImporterPackagePage(getModelImporter(), "RosePackages");
     packagePage.setShowReferencedGenModels(true);
     addPage(packagePage);
   }

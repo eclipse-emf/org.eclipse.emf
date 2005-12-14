@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.13 2005/11/28 22:36:34 marcelop Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.14 2005/12/14 07:52:05 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -461,7 +461,7 @@ public class JavaEcoreBuilder
       EPackage ePackage = (EPackage)i.next();
       modelImporter.getEPackages().add(ePackage);
 
-      ModelImporter.EPackageInfo ePackageInfo = modelImporter.getEPackageInfo(ePackage);
+      ModelImporter.EPackageImportInfo ePackageInfo = modelImporter.getEPackageImportInfo(ePackage);
       ePackageInfo.setPrefix((String)ePackageToPrefixMap.get(ePackage));
       for (Iterator entries = packageNameToEPackageMap.entrySet().iterator(); entries.hasNext();)
       {

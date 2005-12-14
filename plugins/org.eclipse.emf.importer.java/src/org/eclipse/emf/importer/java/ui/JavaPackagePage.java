@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackagePage.java,v 1.8 2005/11/23 19:07:03 emerks Exp $
+ * $Id: JavaPackagePage.java,v 1.9 2005/12/14 07:52:52 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
@@ -26,13 +26,13 @@ import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.java.JavaImporter;
 import org.eclipse.emf.importer.java.JavaImporterPlugin;
-import org.eclipse.emf.importer.ui.contribution.base.ModelPackagePage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterPackagePage;
 
 
 /**
  * @since 2.1.0
  */
-public class JavaPackagePage extends ModelPackagePage
+public class JavaPackagePage extends ModelImporterPackagePage
 {
   public JavaPackagePage(ModelImporter modelImporter, String pageName)
   {
@@ -57,7 +57,7 @@ public class JavaPackagePage extends ModelPackagePage
           public void run()
           {
             computeEPackages();
-            filterPackagesTable(firstTime);
+            filterEPackagesTable(firstTime);
             getContainer().updateButtons();
           }
         });

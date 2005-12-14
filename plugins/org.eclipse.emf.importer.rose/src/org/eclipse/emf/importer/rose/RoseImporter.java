@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.11 2005/11/23 19:07:01 emerks Exp $
+ * $Id: RoseImporter.java,v 1.12 2005/12/14 07:56:02 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -33,11 +33,11 @@ import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.importer.ImporterPlugin;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.rose.builder.RoseUtil;
 import org.eclipse.emf.importer.rose.builder.UnitTreeNode;
-import org.eclipse.emf.importer.util.ImporterUtil;
+import org.eclipse.emf.converter.ConverterPlugin;
+import org.eclipse.emf.converter.util.ConverterUtil;
 
 
 /**
@@ -146,7 +146,7 @@ public class RoseImporter extends ModelImporter
     if (roseModelFile == null)
     {
       diagnostic = new BasicDiagnostic(Diagnostic.ERROR, 
-        ImporterPlugin.ID, ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
+        ConverterPlugin.ID, ConverterUtil.ACTION_DIALOG_NONE | ConverterUtil.ACTION_MESSAGE_SET_ERROR,
         RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidRoseModel_message"), null);
     }
     else
@@ -168,7 +168,7 @@ public class RoseImporter extends ModelImporter
         if (unitTreeNode == null)
         {
           diagnostic = new BasicDiagnostic(Diagnostic.ERROR, 
-            ImporterPlugin.ID, ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
+            ConverterPlugin.ID, ConverterUtil.ACTION_DIALOG_NONE | ConverterUtil.ACTION_MESSAGE_SET_ERROR,
             RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyAValidRoseModel_message"), null);
         }
         else
@@ -180,7 +180,7 @@ public class RoseImporter extends ModelImporter
           }
           if (!hasSymbolWithoutValue)
           {
-            diagnostic = ImporterUtil.mergeDiagnostic(diagnostic, roseUtil.getDiagnostic());
+            diagnostic = ConverterUtil.mergeDiagnostic(diagnostic, roseUtil.getDiagnostic());
           }
           
           if (getGenModelFileName() == null)
@@ -259,7 +259,7 @@ public class RoseImporter extends ModelImporter
       if (getPathMap().values().contains(null) && roseUtil.getDiagnostic().getSeverity() != Diagnostic.OK)
       {
         diagnostic = new BasicDiagnostic(Diagnostic.ERROR, 
-          ImporterPlugin.ID, ImporterUtil.ACTION_DIALOG_NONE | ImporterUtil.ACTION_MESSAGE_SET_ERROR,
+          ConverterPlugin.ID, ConverterUtil.ACTION_DIALOG_NONE | ConverterUtil.ACTION_MESSAGE_SET_ERROR,
           RoseImporterPlugin.INSTANCE.getString("_UI_SpecifyTheSymbolLocations_message"), null);        
       }
       else
@@ -267,7 +267,7 @@ public class RoseImporter extends ModelImporter
         roseUtil.createExtent4RoseUnitTree(unitTreeNode);
         roseUtil.processUnitTree(unitTreeNode);
         roseEPackageInformationMap = roseUtil.getEPackageToInformationMap();
-        diagnostic = ImporterUtil.createDiagnostic(roseUtil.getDiagnostic(), ImporterPlugin.ID, ImporterUtil.ACTION_MESSAGE_NONE);
+        diagnostic = ConverterUtil.createDiagnostic(roseUtil.getDiagnostic(), ConverterPlugin.ID, ConverterUtil.ACTION_MESSAGE_NONE);
         
         for (Iterator i = roseUtil.getEPackageToInformationMap().entrySet().iterator(); i.hasNext();)
         {
@@ -275,7 +275,7 @@ public class RoseImporter extends ModelImporter
           List information = (List)entry.getValue();
           if (information != null)
           {
-            EPackageInfo ePackageInfo = getEPackageInfo((EPackage)entry.getKey());
+            EPackageImportInfo ePackageInfo = getEPackageImportInfo((EPackage)entry.getKey());
             ePackageInfo.setBasePackage((String)information.get(0));
             ePackageInfo.setPrefix((String)information.get(1));
           }
@@ -295,7 +295,7 @@ public class RoseImporter extends ModelImporter
     for (Iterator i = subNode.getExtent().iterator(); i.hasNext();)
     {
       EPackage ePackage = (EPackage)i.next();
-      EPackageInfo ePackageInfo = getEPackageInfo(ePackage);
+      EPackageImportInfo ePackageInfo = getEPackageImportInfo(ePackage);
 
       String ecoreFileName = null;
       String roseFileName = subNode.getRoseFileName();

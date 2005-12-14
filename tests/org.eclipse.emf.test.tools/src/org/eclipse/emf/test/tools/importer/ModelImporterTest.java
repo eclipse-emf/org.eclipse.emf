@@ -55,46 +55,41 @@ public class ModelImporterTest extends TestCase
       {
         return null;
       }
-      
-      public void makeEcoreFileNamesUnique()
-      {
-        super.makeEcoreFileNamesUnique();
-      }      
     }
     
     MyModelImporter myModelImporter = new MyModelImporter();
     
     EPackage ePackage1 = EcoreFactory.eINSTANCE.createEPackage();
-    ModelImporter.EPackageInfo ePackageInfo1 = myModelImporter.getEPackageInfo(ePackage1);
+    ModelImporter.EPackageImportInfo ePackageInfo1 = myModelImporter.getEPackageImportInfo(ePackage1);
     ePackageInfo1.setEcoreFileName("package.ecore");
     ePackageInfo1.setBasePackage("basePackage");
     
     EPackage ePackage2 = EcoreFactory.eINSTANCE.createEPackage();
-    ModelImporter.EPackageInfo ePackageInfo2 = myModelImporter.getEPackageInfo(ePackage2);
+    ModelImporter.EPackageImportInfo ePackageInfo2 = myModelImporter.getEPackageImportInfo(ePackage2);
     ePackageInfo2.setEcoreFileName("package.ecore");
     ePackageInfo2.setBasePackage("basePackage");
 
     EPackage ePackage3 = EcoreFactory.eINSTANCE.createEPackage();
-    ModelImporter.EPackageInfo ePackageInfo3 = myModelImporter.getEPackageInfo(ePackage3);
+    ModelImporter.EPackageImportInfo ePackageInfo3 = myModelImporter.getEPackageImportInfo(ePackage3);
     ePackageInfo3.setEcoreFileName("package.ecore");
     ePackageInfo3.setBasePackage("basePackage3");
 
     EPackage ePackage4 = EcoreFactory.eINSTANCE.createEPackage();
-    ModelImporter.EPackageInfo ePackageInfo4 = myModelImporter.getEPackageInfo(ePackage4);
+    ModelImporter.EPackageImportInfo ePackageInfo4 = myModelImporter.getEPackageImportInfo(ePackage4);
     ePackageInfo4.setEcoreFileName("package1.ecore");
     ePackageInfo4.setBasePackage("basePackage");
         
     EPackage ePackage5 = EcoreFactory.eINSTANCE.createEPackage();
-    ModelImporter.EPackageInfo ePackageInfo5 = myModelImporter.getEPackageInfo(ePackage5);
+    ModelImporter.EPackageImportInfo ePackageInfo5 = myModelImporter.getEPackageImportInfo(ePackage5);
     ePackageInfo5.setEcoreFileName("package1.ecore");
     ePackageInfo5.setBasePackage("basePackage5");
 
     EPackage ePackage6 = EcoreFactory.eINSTANCE.createEPackage();
-    ModelImporter.EPackageInfo ePackageInfo6 = myModelImporter.getEPackageInfo(ePackage6);
+    ModelImporter.EPackageImportInfo ePackageInfo6 = myModelImporter.getEPackageImportInfo(ePackage6);
     ePackageInfo6.setEcoreFileName("package2.ecore");
     ePackageInfo6.setBasePackage("basePackage6");
     
-    myModelImporter.makeEcoreFileNamesUnique();
+    myModelImporter.makeEPackageConvertDataUnique();
     
     Set names = new HashSet();
     names.add("package.ecore");
@@ -104,27 +99,27 @@ public class ModelImporterTest extends TestCase
     names.add("package4.ecore");
     names.add("package11.ecore");
 
-    String name = myModelImporter.getEPackageInfo(ePackage1).getEcoreFileName();
+    String name = myModelImporter.getEPackageImportInfo(ePackage1).getEcoreFileName();
     assertTrue("Name: " + name, "package.ecore".equals(name) || "package3.ecore".equals(name)  || "package4.ecore".equals(name));
     names.remove(name);
     
-    name = myModelImporter.getEPackageInfo(ePackage2).getEcoreFileName();
+    name = myModelImporter.getEPackageImportInfo(ePackage2).getEcoreFileName();
     assertTrue("Name: " + name, "package.ecore".equals(name) || "package3.ecore".equals(name)  || "package4.ecore".equals(name));
     names.remove(name);    
 
-    name = myModelImporter.getEPackageInfo(ePackage3).getEcoreFileName();
+    name = myModelImporter.getEPackageImportInfo(ePackage3).getEcoreFileName();
     assertTrue("Name: " + name, "package.ecore".equals(name) || "package3.ecore".equals(name)  || "package4.ecore".equals(name));
     names.remove(name);
     
-    name = myModelImporter.getEPackageInfo(ePackage4).getEcoreFileName();
+    name = myModelImporter.getEPackageImportInfo(ePackage4).getEcoreFileName();
     assertTrue("Name: " + name, "package1.ecore".equals(name) || "package11.ecore".equals(name));
     names.remove(name);    
     
-    name = myModelImporter.getEPackageInfo(ePackage5).getEcoreFileName();
+    name = myModelImporter.getEPackageImportInfo(ePackage5).getEcoreFileName();
     assertTrue("Name: " + name, "package1.ecore".equals(name) || "package11.ecore".equals(name));
     names.remove(name);
 
-    name = myModelImporter.getEPackageInfo(ePackage6).getEcoreFileName();
+    name = myModelImporter.getEPackageImportInfo(ePackage6).getEcoreFileName();
     assertEquals("Name: " + name, "package2.ecore", name);
     names.remove(name);
     

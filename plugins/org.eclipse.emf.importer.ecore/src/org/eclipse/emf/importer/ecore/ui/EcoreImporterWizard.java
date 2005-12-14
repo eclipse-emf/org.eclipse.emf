@@ -12,16 +12,16 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporterWizard.java,v 1.6 2005/06/09 20:11:34 davidms Exp $
+ * $Id: EcoreImporterWizard.java,v 1.7 2005/12/14 07:51:09 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore.ui;
 
-import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ecore.EcoreImporter;
 import org.eclipse.emf.importer.ecore.EcoreImporterPlugin;
-import org.eclipse.emf.importer.ui.contribution.base.ModelDetailPage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterDetailPage;
 import org.eclipse.emf.importer.ui.contribution.base.ModelImporterWizard;
-import org.eclipse.emf.importer.ui.contribution.base.ModelPackagePage;
+import org.eclipse.emf.importer.ui.contribution.base.ModelImporterPackagePage;
+import org.eclipse.emf.converter.ModelConverter;
 
 
 /**
@@ -29,20 +29,20 @@ import org.eclipse.emf.importer.ui.contribution.base.ModelPackagePage;
  */
 public class EcoreImporterWizard extends ModelImporterWizard
 {
-  protected ModelImporter createModelImporter()
+  protected ModelConverter createModelConverter()
   {
     return new EcoreImporter();
   }
 
   public void addPages()
   {
-    ModelDetailPage detailPage = new ModelDetailPage(getModelImporter(), "EcoreModel");
+    ModelImporterDetailPage detailPage = new ModelImporterDetailPage(getModelImporter(), "EcoreModel");
     detailPage.setTitle(EcoreImporterPlugin.INSTANCE.getString("_UI_EcoreImport_title"));
     detailPage.setDescription(EcoreImporterPlugin.INSTANCE.getString(detailPage.showGenModel() ?
       "_UI_EcoreImportNewProject_description" : "_UI_EcoreImportFile_description"));    
     addPage(detailPage);
 
-    ModelPackagePage packagePage = new ModelPackagePage(getModelImporter(), "EcorePackages");
+    ModelImporterPackagePage packagePage = new ModelImporterPackagePage(getModelImporter(), "EcorePackages");
     packagePage.setShowReferencedGenModels(true);
     addPage(packagePage);
   }
