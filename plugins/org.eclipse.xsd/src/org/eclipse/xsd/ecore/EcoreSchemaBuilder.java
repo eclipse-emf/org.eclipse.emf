@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.1 2005/12/13 23:16:53 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.2 2005/12/14 11:55:13 marcelop Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -178,7 +178,7 @@ public class EcoreSchemaBuilder extends MapBuilder
     // Generate the global elements and attributes.
     //
     EClass documentRootEClass = extendedMetaData.getDocumentRoot(ePackage);
-    if (documentRootEClass != null)
+    if (documentRootEClass == null)
     {
       for (Iterator i = ePackage.getEClassifiers().iterator(); i.hasNext(); )
       {
