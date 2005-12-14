@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.61 2005/12/13 23:08:46 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.62 2005/12/14 13:51:42 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1751,7 +1751,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
          null);
 
     List all = new ArrayList(getGenPackages());
-
     all.addAll(getUsedGenPackages());
     for (Iterator i = new ArrayList(all).iterator(); i.hasNext(); )
     {
@@ -1763,6 +1762,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       }
     }
 
+    all.addAll(getGenAnnotations());
     Map map = EcoreUtil.UnresolvedProxyCrossReferencer.find(all);
     if (!map.isEmpty())
     {
