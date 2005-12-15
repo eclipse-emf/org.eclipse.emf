@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterDetailPage.java,v 1.1 2005/12/14 07:48:49 marcelop Exp $
+ * $Id: ModelImporterDetailPage.java,v 1.2 2005/12/15 11:54:24 emerks Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
@@ -35,7 +35,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 
-import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
@@ -240,7 +239,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
 
   protected boolean isValidWorkspaceResource(IResource resource)
   {
-    if (resource.getType() == IResource.FILE && !CodeGenUtil.isInJavaOutput(resource))
+    if (resource.getType() == IResource.FILE) 
     {
       String[] filterExtensions = getFilterExtensions();
       if (filterExtensions.length > 0)
