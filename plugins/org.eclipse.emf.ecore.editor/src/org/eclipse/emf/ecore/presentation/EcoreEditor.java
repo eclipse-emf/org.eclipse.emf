@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.23 2005/12/15 19:07:08 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.24 2005/12/15 20:18:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -818,22 +818,7 @@ public class EcoreEditor
    */
   public void createModel()
   {
-    if (getEditorInput() instanceof IStorageEditorInput)
-    {
-      IStorageEditorInput storageEditorInput = (IStorageEditorInput)getEditorInput();
-      try
-      {
-        IStorage storage = storageEditorInput.getStorage();
-        Resource resource = editingDomain.createResource("*.ecore");
-        resource.setURI(URI.createURI(storage.getFullPath().toString()));
-        resource.load(storage.getContents(), null);
-      }
-      catch (Exception exception)
-      {
-        EcoreEditorPlugin.INSTANCE.log(exception);
-      }
-    }
-    else
+    if (getEditorInput() instanceof IFileEditorInput)
     {
       // I assume that the input is a file object.
       //
@@ -846,6 +831,21 @@ public class EcoreEditor
         // Load the resource through the editing domain.
         //
         editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true).toString());
+      }
+      catch (Exception exception)
+      {
+        EcoreEditorPlugin.INSTANCE.log(exception);
+      }
+    }
+    else
+    {
+      IStorageEditorInput storageEditorInput = (IStorageEditorInput)getEditorInput();
+      try
+      {
+        IStorage storage = storageEditorInput.getStorage();
+        Resource resource = editingDomain.createResource("*.ecore");
+        resource.setURI(URI.createURI(storage.getFullPath().toString()));
+        resource.load(storage.getContents(), null);
       }
       catch (Exception exception)
       {
