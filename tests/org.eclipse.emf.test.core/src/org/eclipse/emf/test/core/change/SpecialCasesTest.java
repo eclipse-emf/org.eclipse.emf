@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.18 2005/06/08 06:17:44 nickb Exp $
+ * $Id: SpecialCasesTest.java,v 1.19 2005/12/15 00:08:06 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -743,10 +743,9 @@ public class SpecialCasesTest  extends TestCase
     ((List)john.eGet(friendsReference)).remove(mary);
     changeRecorder.endRecording();
     
-    assertEquals(1, changeDescription.getObjectsToAttach().size());
-    assertEquals(mary, changeDescription.getObjectsToAttach().get(0));
+    assertTrue(changeDescription.getObjectsToAttach().isEmpty());
     assertTrue(changeDescription.getObjectsToDetach().isEmpty());
-    assertTrue(changeDescription.getObjectChanges().keySet().contains(mary));      
+    assertFalse(changeDescription.getObjectChanges().keySet().contains(mary));      
     
     // State 1
     assertEquals("John", john.eGet(name));
@@ -760,26 +759,25 @@ public class SpecialCasesTest  extends TestCase
     mary.eSet(id, "2");
     changeRecorder.endRecording();
     
-    assertEquals(1, changeDescription.getObjectsToAttach().size());
-    assertEquals(mary, changeDescription.getObjectsToAttach().get(0));
+    //mary was removed from the objects and change description so nothing was recorded
+    assertTrue(changeDescription.getObjectsToAttach().isEmpty());
     assertTrue(changeDescription.getObjectsToDetach().isEmpty());
-    assertTrue(changeDescription.getObjectChanges().keySet().contains(mary));      
+    assertFalse(changeDescription.getObjectChanges().keySet().contains(mary));      
 
     // State 2
     assertEquals("John", john.eGet(name));
     assertEquals("456", john.eGet(id));
     assertTrue(((List)john.eGet(friendsReference)).isEmpty());
-    assertEquals("Mary P", mary.eGet(name));
-    assertEquals("2", mary.eGet(id));
     
     changeDescription.applyAndReverse();
 
     // State 0
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
-    assertEquals("Mary", mary.eGet(name));
-    assertEquals("0", mary.eGet(id));
     assertTrue(((List)john.eGet(friendsReference)).isEmpty());
+    // Mary was not changed
+    assertEquals("Mary P", mary.eGet(name));
+    assertEquals("2", mary.eGet(id));    
   }
   
   public void testLoadChangeDescritpions() throws Exception

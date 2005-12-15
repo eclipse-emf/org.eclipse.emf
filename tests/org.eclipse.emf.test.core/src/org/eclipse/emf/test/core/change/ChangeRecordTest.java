@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.9 2005/06/12 13:58:08 emerks Exp $
+ * $Id: ChangeRecordTest.java,v 1.10 2005/12/15 00:08:06 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -700,6 +700,7 @@ extends TestCase
     EObject jane = pack.getEFactoryInstance().create(person);
     jane.eSet(name, "Jane");
     ((List)john.eGet(friendsReference)).add(jane);
+    // Mary was added when recording, so now she will be removed from the ChangeDescription completely
     ((List)john.eGet(friendsReference)).remove(mary);
     ((List)john.eGet(friendsReference)).remove(joe);
     resource.getContents().remove(0);
@@ -724,9 +725,9 @@ extends TestCase
     assertEquals(john, resource.getContents().get(0));
     assertNull(john.eGet(name));
     assertEquals("123", john.eGet(id));
-    assertEquals("Mary", mary.eGet(name));
     assertEquals(1, ((List)john.eGet(friendsReference)).size());
     assertEquals(peter, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals("Mary Po", mary.eGet(name));
 
     changeDescription.apply();
 
@@ -734,11 +735,11 @@ extends TestCase
     assertTrue(resource.getContents().isEmpty());
     assertEquals("John", john.eGet(name));
     assertEquals("0", john.eGet(id));
-    assertEquals("Mary Po", mary.eGet(name));
     assertEquals("Joe", joe.eGet(name));
     assertEquals("Jane", jane.eGet(name));
     assertEquals(1, ((List)john.eGet(friendsReference)).size());
     assertEquals(jane, ((List)john.eGet(friendsReference)).get(0));
+    assertEquals("Mary Po", mary.eGet(name));
 
     changeRecorder.beginRecording(changeDescription, Arrays.asList(new Object[]{john, mary}));
     mary.eSet(name, "Mary Pop");
