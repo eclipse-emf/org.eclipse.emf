@@ -12,12 +12,9 @@
  *
  * </copyright>
  *
- * $Id: WrappedException.java,v 1.3 2005/06/08 06:19:08 nickb Exp $
+ * $Id: WrappedException.java,v 1.4 2005/12/15 12:55:50 emerks Exp $
  */
 package org.eclipse.emf.common.util;
-
-import java.io.PrintStream;
-import java.io.PrintWriter;
 
 
 /**
@@ -26,17 +23,11 @@ import java.io.PrintWriter;
 public class WrappedException extends RuntimeException
 {
   /**
-   * The exception being wrapped.
-   */
-  protected Exception wrappedException;
-
-  /**
    * Creates an instance that wraps the exception.
    */
   public WrappedException(Exception exception)
   {
-    super(exception.getLocalizedMessage());
-    wrappedException = exception;
+    super(exception);
   }
 
   /**
@@ -46,8 +37,7 @@ public class WrappedException extends RuntimeException
    */
   public WrappedException(String message, Exception exception)
   {
-    super(message);
-    wrappedException = exception;
+    super(message, exception);
   }
 
   /**
@@ -56,41 +46,6 @@ public class WrappedException extends RuntimeException
    */
   public Exception exception()
   {
-    return wrappedException;
-  }
-
-  /**
-   * Prints both wrapped exception's stack and this one's.
-   */
-  public void printStackTrace() 
-  {
-    System.err.println("Wrapped exception");
-    wrappedException.printStackTrace();
-    System.err.println("Wrapped by");
-    super.printStackTrace();
-  }
-
-  /**
-   * Prints both wrapped exception's stack and this one's.
-   * @param printStream the print target.
-   */
-  public void printStackTrace(PrintStream printStream) 
-  {
-    printStream.println("Wrapped exception");
-    wrappedException.printStackTrace(printStream);
-    printStream.println("Wrapped by");
-    super.printStackTrace(printStream);
-  }
-
-  /**
-   * Prints both wrapped exception's stack and this one's.
-   * @param printWriter the print target.
-   */
-  public void printStackTrace(PrintWriter printWriter) 
-  {
-    printWriter.println("Wrapped exception");
-    wrappedException.printStackTrace(printWriter);
-    printWriter.println("Wrapped by");
-    super.printStackTrace(printWriter);
+    return (Exception)getCause();
   }
 }
