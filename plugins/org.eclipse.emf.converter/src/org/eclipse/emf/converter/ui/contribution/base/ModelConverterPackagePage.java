@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.1 2005/12/14 07:45:42 marcelop Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.2 2005/12/15 22:50:49 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -683,6 +685,18 @@ public class ModelConverterPackagePage extends ModelConverterPage
   
   protected void referencedGenModelsBrowseSelected(CheckboxTreeViewer treeViewer)
   {
+    IPath path = null;
+    Resource resource = getModelConverter().getGenModel().eResource();
+    if (resource != null)
+    {
+      String stringURI = resource.getURI().toString();
+      if (stringURI.startsWith("platform:/resource/"));
+      {
+        path = new Path(stringURI.substring("platform:/resource/".length())).makeAbsolute();
+      }
+    }
+    final IPath genModelPath = path;
+    
     ViewerFilter genModelFilter = new ViewerFilter()
     {
       public boolean select(Viewer viewer, Object parentElement, Object element)
@@ -690,7 +704,8 @@ public class ModelConverterPackagePage extends ModelConverterPage
         if (element instanceof IFile)
         {
           IFile file = (IFile)element;
-          return "genmodel".equals(file.getFileExtension());
+          return "genmodel".equals(file.getFileExtension())
+            && !file.getFullPath().equals(genModelPath);
         }
         return true;
       }
