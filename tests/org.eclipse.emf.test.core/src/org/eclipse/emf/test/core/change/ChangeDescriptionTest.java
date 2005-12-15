@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionTest.java,v 1.10 2005/06/12 13:58:08 emerks Exp $
+ * $Id: ChangeDescriptionTest.java,v 1.11 2005/12/15 00:07:02 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -69,11 +69,171 @@ public class ChangeDescriptionTest extends TestCase
     ts.addTest(new ChangeDescriptionTest("testXMLResourceID"));
     ts.addTest(new ChangeDescriptionTest("testObjectsToDetach1"));
     ts.addTest(new ChangeDescriptionTest("testObjectsToDetach2"));
+    ts.addTest(new ChangeDescriptionTest("testAddRemoveObject"));
     return ts;
+  }
+  
+  /*
+   * Bugzilla 120869
+   */
+  public void testAddRemoveObject() throws Exception
+  {
+    // add and remove
+    {
+      EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+      new ResourceImpl(URI.createURI("foo")).getContents().add(pack);
+      EClass class1 = EcoreFactory.eINSTANCE.createEClass();
+      class1.setName("Class1");
+      pack.getEClassifiers().add(class1);
+      EClass class2 = EcoreFactory.eINSTANCE.createEClass();
+      class2.setName("Class2");
+      
+      ChangeRecorder changeRecorder = new ChangeRecorder(pack);
+      pack.getEClassifiers().add(class2);
+      class2.setName("Class2-1");
+      pack.getEClassifiers().remove(class2);
+      ChangeDescription changeDescription = changeRecorder.endRecording();
+      
+      assertEquals(1, changeDescription.getObjectChanges().size());
+      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertTrue(changeDescription.getObjectsToAttach().isEmpty());
+      assertTrue(changeDescription.getObjectsToDetach().isEmpty());
+    }
+
+    // remove and add
+    {
+      EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+      new ResourceImpl(URI.createURI("foo")).getContents().add(pack);
+      EClass class1 = EcoreFactory.eINSTANCE.createEClass();
+      class1.setName("Class1");
+      pack.getEClassifiers().add(class1);
+      EClass class2 = EcoreFactory.eINSTANCE.createEClass();
+      class2.setName("Class2");
+  
+      ChangeRecorder changeRecorder = new ChangeRecorder(pack);
+      pack.getEClassifiers().remove(class1);
+      class1.setName("Class1-2");
+      pack.getEClassifiers().add(class1);
+      ChangeDescription changeDescription = changeRecorder.endRecording();
+      
+      // Test 2
+      assertEquals(2, changeDescription.getObjectChanges().size());
+      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertTrue(changeDescription.getObjectChanges().containsKey(class1));
+      assertTrue(changeDescription.getObjectsToAttach().isEmpty());
+      assertTrue(changeDescription.getObjectsToDetach().isEmpty());
+    }
+    
+    // remove and add + remove and add
+    {
+      EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+      new ResourceImpl(URI.createURI("foo")).getContents().add(pack);
+      EClass class1 = EcoreFactory.eINSTANCE.createEClass();
+      class1.setName("Class1");
+      pack.getEClassifiers().add(class1);
+      EClass class2 = EcoreFactory.eINSTANCE.createEClass();
+      class2.setName("Class2");
+  
+      ChangeRecorder changeRecorder = new ChangeRecorder(pack);
+      pack.getEClassifiers().add(class2);
+      pack.getEClassifiers().remove(class1);
+      class1.setName("Class1-2");
+      pack.getEClassifiers().remove(class2);
+      class2.setName("Class2-1");
+      pack.getEClassifiers().add(class1);
+      ChangeDescription changeDescription = changeRecorder.endRecording();
+  
+      assertEquals(2, changeDescription.getObjectChanges().size());
+      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertTrue(changeDescription.getObjectChanges().containsKey(class1));
+      assertTrue(changeDescription.getObjectsToAttach().isEmpty());
+      assertTrue(changeDescription.getObjectsToDetach().isEmpty());
+    }
+  
+    // add pause remove
+    {
+      EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+      new ResourceImpl(URI.createURI("foo")).getContents().add(pack);
+      EClass class1 = EcoreFactory.eINSTANCE.createEClass();
+      class1.setName("Class1");
+      pack.getEClassifiers().add(class1);
+      EClass class2 = EcoreFactory.eINSTANCE.createEClass();
+      class2.setName("Class2");
+      
+      ChangeRecorder changeRecorder = new ChangeRecorder(pack);
+      pack.getEClassifiers().add(class2);
+      ChangeDescription changeDescription = changeRecorder.endRecording();
+      changeRecorder = new ChangeRecorder();
+      changeRecorder.beginRecording(changeDescription, Collections.singleton(pack));
+      class2.setName("Class2-1");
+      pack.getEClassifiers().remove(class2);
+      changeDescription = changeRecorder.endRecording();
+      
+      assertEquals(1, changeDescription.getObjectChanges().size());
+      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertTrue(changeDescription.getObjectsToAttach().isEmpty());
+      assertTrue(changeDescription.getObjectsToDetach().isEmpty());
+    }
+    
+    // remove pause add
+    {
+      EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+      new ResourceImpl(URI.createURI("foo")).getContents().add(pack);
+      EClass class1 = EcoreFactory.eINSTANCE.createEClass();
+      class1.setName("Class1");
+      pack.getEClassifiers().add(class1);
+      EClass class2 = EcoreFactory.eINSTANCE.createEClass();
+      class2.setName("Class2");
+      
+      ChangeRecorder changeRecorder = new ChangeRecorder(pack);
+      pack.getEClassifiers().remove(class1);
+      class1.setName("Class1-2");
+      ChangeDescription changeDescription = changeRecorder.endRecording();
+      changeRecorder = new ChangeRecorder();
+      changeRecorder.beginRecording(changeDescription, Collections.singleton(pack));
+      pack.getEClassifiers().add(class1);
+      changeDescription = changeRecorder.endRecording();
+      
+      assertEquals(2, changeDescription.getObjectChanges().size());
+      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertTrue(changeDescription.getObjectChanges().containsKey(class1));
+      assertTrue(changeDescription.getObjectsToAttach().isEmpty());
+      assertTrue(changeDescription.getObjectsToDetach().isEmpty());
+    }
+    
+    // remove pause add + remove pause add
+    {
+      EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+      new ResourceImpl(URI.createURI("foo")).getContents().add(pack);
+      EClass class1 = EcoreFactory.eINSTANCE.createEClass();
+      class1.setName("Class1");
+      pack.getEClassifiers().add(class1);
+      EClass class2 = EcoreFactory.eINSTANCE.createEClass();
+      class2.setName("Class2");
+  
+      ChangeRecorder changeRecorder = new ChangeRecorder(pack);
+      pack.getEClassifiers().add(class2);
+      pack.getEClassifiers().remove(class1);
+      class1.setName("Class1-2");
+      ChangeDescription changeDescription = changeRecorder.endRecording();
+      changeRecorder = new ChangeRecorder();
+      changeRecorder.beginRecording(changeDescription, Collections.singleton(pack));
+      pack.getEClassifiers().remove(class2);
+      class2.setName("Class2-1");
+      pack.getEClassifiers().add(class1);
+      changeDescription = changeRecorder.endRecording();
+  
+      assertEquals(2, changeDescription.getObjectChanges().size());
+      assertTrue(changeDescription.getObjectChanges().containsKey(pack));
+      assertTrue(changeDescription.getObjectChanges().containsKey(class1));
+      assertTrue(changeDescription.getObjectsToAttach().isEmpty());
+      assertTrue(changeDescription.getObjectsToDetach().isEmpty());
+    }    
   }
 
   /*
    * Bugzilla 83872
+   * Bugzilla 120869
    */
   public void testObjectsToDetach1() throws Exception
   {
@@ -90,12 +250,20 @@ public class ChangeDescriptionTest extends TestCase
     class3.setName("Class3");
     EClass class4 = EcoreFactory.eINSTANCE.createEClass();
     class4.setName("Class4");
+    EClass class6 = EcoreFactory.eINSTANCE.createEClass();
+    class6.setName("Class6");
     
     ChangeRecorder changeRecorder = new ChangeRecorder(resource);
     pack.getEClassifiers().add(class3);
     pack.getEClassifiers().set(1, class4);
     pack.getEClassifiers().remove(class1);
     pack.getEClassifiers().add(class1);
+    
+    //Add + change + remove the same object
+    pack.getEClassifiers().add(class6);
+    class6.setName("TheClass6");
+    pack.getEClassifiers().remove(class6);
+    
     ChangeDescription changeDescription = changeRecorder.endRecording();
     resource.getContents().add(changeDescription);
     
@@ -134,12 +302,10 @@ public class ChangeDescriptionTest extends TestCase
     assertEquals(2, loadedChangeDescription.getObjectsToDetach().size());
     assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedPack.getEClassifier(class4.getName())));
     assertTrue(loadedChangeDescription.getObjectsToDetach().contains(loadedPack.getEClassifier(class5.getName())));
-    assertEquals(2, loadedChangeDescription.getObjectsToAttach().size());
+    assertEquals(1, loadedChangeDescription.getObjectsToAttach().size());
     Set names = new HashSet();
     names.add(((EClass)loadedChangeDescription.getObjectsToAttach().get(0)).getName());
-    names.add(((EClass)loadedChangeDescription.getObjectsToAttach().get(1)).getName());
     assertTrue(names.contains(class2.getName()));
-    assertTrue(names.contains(class3.getName()));
   }
   
   /*
