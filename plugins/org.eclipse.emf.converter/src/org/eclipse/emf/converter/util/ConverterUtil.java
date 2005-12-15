@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConverterUtil.java,v 1.1 2005/12/14 07:45:42 marcelop Exp $
+ * $Id: ConverterUtil.java,v 1.2 2005/12/15 16:47:41 marcelop Exp $
  */
 package org.eclipse.emf.converter.util;
 
@@ -383,6 +383,7 @@ public class ConverterUtil
         }
       }
     }
+    referencedEPackages.remove(ePackage);
     return referencedEPackages;
   }
   
