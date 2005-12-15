@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.12 2005/12/07 18:52:31 elena Exp $
+ * $Id: XMLLoadImpl.java,v 1.13 2005/12/15 16:33:41 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -161,17 +161,16 @@ public class XMLLoadImpl implements XMLLoad
       
       parser.parse(inputSource, handler);
       
-      // avoid memory leak bug #85141
-      if (handler instanceof SAXWrapper)
-      {
-        ((SAXWrapper)handler).handler = null;
-      }
-      
       // release parser back to the pool
       if (pool != null)
       {
         pool.release(parser, parserFeatures, parserProperties, Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)));
         pool.releaseDefaultHandler((XMLDefaultHandler)handler, options);
+      }
+      
+      if (handler instanceof SAXWrapper) // avoid memory leak bug #85141
+      {
+        ((SAXWrapper)handler).handler = null;
       }
       
       helper = null;
@@ -265,18 +264,18 @@ public class XMLLoadImpl implements XMLLoad
       
       parser.parse(inputSource, handler);
 
-      // avoid memory leak bug #85141
-      if (handler instanceof SAXWrapper)
-      {
-        ((SAXWrapper)handler).handler = null;
-      }
-      
       // release parser back to the pool
       if (pool != null)
       {
         pool.release(parser, parserFeatures, parserProperties, Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)));
         pool.releaseDefaultHandler((XMLDefaultHandler)handler, options);
       }
+      
+      // avoid memory leak bug #85141
+      if (handler instanceof SAXWrapper)
+      {
+        ((SAXWrapper)handler).handler = null;
+      }     
       
       helper = null;
       if (!resource.getErrors().isEmpty())
