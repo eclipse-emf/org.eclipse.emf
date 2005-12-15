@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.22 2005/08/24 13:52:09 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.23 2005/12/15 19:07:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -33,6 +33,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -81,6 +82,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
@@ -816,21 +818,39 @@ public class EcoreEditor
    */
   public void createModel()
   {
-    // I assume that the input is a file object.
-    //
-    IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    
-    editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
-
-    try
+    if (getEditorInput() instanceof IStorageEditorInput)
     {
-      // Load the resource through the editing domain.
-      //
-      editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true).toString());
+      IStorageEditorInput storageEditorInput = (IStorageEditorInput)getEditorInput();
+      try
+      {
+        IStorage storage = storageEditorInput.getStorage();
+        Resource resource = editingDomain.createResource("*.ecore");
+        resource.setURI(URI.createURI(storage.getFullPath().toString()));
+        resource.load(storage.getContents(), null);
+      }
+      catch (Exception exception)
+      {
+        EcoreEditorPlugin.INSTANCE.log(exception);
+      }
     }
-    catch (Exception exception)
+    else
     {
-      EcoreEditorPlugin.INSTANCE.log(exception);
+      // I assume that the input is a file object.
+      //
+      IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
+      
+      editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
+  
+      try
+      {
+        // Load the resource through the editing domain.
+        //
+        editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true).toString());
+      }
+      catch (Exception exception)
+      {
+        EcoreEditorPlugin.INSTANCE.log(exception);
+      }
     }
   }
 
