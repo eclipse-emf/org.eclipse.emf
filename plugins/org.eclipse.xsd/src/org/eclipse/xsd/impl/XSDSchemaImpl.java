@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.25 2005/12/01 14:16:37 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.26 2005/12/15 12:24:45 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2353,7 +2353,18 @@ public class XSDSchemaImpl
              getTargetNamespace());
           if (eAttribute != null)
           {
-            traverseToRootForPatching();
+            if (!isReconciling && isIncrementalUpdate)
+            {
+              for (Iterator i = getContents().iterator(); i.hasNext(); )
+              {
+                Object content = i.next();
+                if (content instanceof XSDNamedComponentImpl)
+                {
+                  ((XSDNamedComponentImpl)content).patchTargetNamespaceAttribute();
+                }
+              }
+              reset();
+            }
           }
         }
         if (eAttribute == null || eAttribute == XSDPackage.Literals.XSD_SCHEMA__ATTRIBUTE_FORM_DEFAULT)
