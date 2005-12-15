@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.3 2005/12/14 21:56:15 marcelop Exp $
+ * $Id: ModelExporter.java,v 1.4 2005/12/15 16:42:29 marcelop Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -484,23 +484,23 @@ public abstract class ModelExporter extends ModelConverter
         GenPackage genPackage = (GenPackage)ePackageToGenPackageMap.get(ePackage);
         if (genPackage != null)
         {
-          List requiredPackages = ConverterUtil.computeRequiredPackages(ePackage);
-          List requiredGenPackages = new ConverterUtil.GenPackageList(requiredPackages.size());
-          for (Iterator j = requiredPackages.iterator(); j.hasNext();)
+          if (nsURIToReferencedGenPackage != null)
           {
-            EPackage referencedEPackages = (EPackage)j.next();
-            if (nsURIToReferencedGenPackage != null)
+            List requiredEPackages = ConverterUtil.computeRequiredPackages(ePackage);
+            List requiredGenPackages = new ConverterUtil.GenPackageList(requiredEPackages.size());
+            for (Iterator j = requiredEPackages.iterator(); j.hasNext();)
             {
-              GenPackage referencedGenPackage = (GenPackage)nsURIToReferencedGenPackage.get(referencedEPackages.getNsURI());
+              EPackage requiredEPackage = (EPackage)j.next();
+              GenPackage referencedGenPackage = (GenPackage)nsURIToReferencedGenPackage.get(requiredEPackage.getNsURI());
               if (referencedGenPackage != null)
               {
                 requiredGenPackages.add(referencedGenPackage); 
               }
+            } 
+            if (!requiredGenPackages.isEmpty())
+            {
+              genPackageToReferencedGenPackages.put(genPackage, requiredGenPackages);
             }
-          } 
-          if (requiredGenPackages.size() > 0)
-          {
-            genPackageToReferencedGenPackages.put(genPackage, requiredGenPackages);
           }
           
           EPackageExportInfo exportInfo = getEPackageExportInfo(ePackage);
@@ -521,10 +521,10 @@ public abstract class ModelExporter extends ModelConverter
     {
       ExportData exportData = new ExportData();
       exportData.genPackageToArtifactURI = genPackageToArtifactURI;
-      exportData.referencedGenPackagesToArtifactURI = referencedGenPackageToArtifactURI != null && referencedGenPackageToArtifactURI.size() > 0 ? 
+      exportData.referencedGenPackagesToArtifactURI = referencedGenPackageToArtifactURI != null && !referencedGenPackageToArtifactURI.isEmpty() ? 
         referencedGenPackageToArtifactURI : 
         Collections.EMPTY_MAP;
-      exportData.genPackageToReferencedGenPackages = genPackageToReferencedGenPackages != null && genPackageToReferencedGenPackages.size() > 0 ? 
+      exportData.genPackageToReferencedGenPackages = genPackageToReferencedGenPackages != null && !genPackageToReferencedGenPackages.isEmpty() ? 
         genPackageToReferencedGenPackages : 
         Collections.EMPTY_MAP;
       
@@ -846,5 +846,51 @@ public abstract class ModelExporter extends ModelConverter
       }
     }
     return changed;
-  }    
+  }
+  
+  /*
+   * For debugging purposes.  May be removed in the future.
+   */
+  protected void printExportData(ExportData exportData)
+  {
+    System.out.println("\nExport Data =======================================");
+    for (Iterator i = exportData.genPackageToArtifactURI.entrySet().iterator(); i.hasNext();)
+    {
+      Map.Entry entry = (Map.Entry)i.next();
+      GenPackage genPackage = (GenPackage)entry.getKey();
+      URI artifactURI = (URI)entry.getValue();
+      List referencedGenPackages = (List)exportData.genPackageToReferencedGenPackages.get(genPackage);
+      
+      System.out.println("\nGenPackage: " + genPackage.getNSURI());
+      System.out.println("Resource: " + genPackage.eResource().getURI());
+      System.out.println("Artifact: " + artifactURI.toString());
+      if (referencedGenPackages != null)
+      {
+        System.out.println("Referenced GenPackages:");
+        for (Iterator j = referencedGenPackages.iterator(); j.hasNext();)
+        {
+          GenPackage referencedGenPackage = (GenPackage)j.next();
+          System.out.println("\tGenPackage: " + referencedGenPackage.getNSURI());
+          System.out.println("\tResource: " + referencedGenPackage.eResource().getURI());
+        }
+      }
+    }
+    
+    if (!exportData.referencedGenPackagesToArtifactURI.isEmpty())
+    {
+      System.out.println("\n-Referenced GenPackages-----------------------------");
+      for (Iterator i = exportData.referencedGenPackagesToArtifactURI.entrySet().iterator(); i.hasNext();)
+      {
+        Map.Entry entry = (Map.Entry)i.next();
+        GenPackage genPackage = (GenPackage)entry.getKey();
+        URI artifactURI = (URI)entry.getValue();
+        
+        System.out.println("\nReferenced GenPackage: " + genPackage.getNSURI());
+        System.out.println("Resource: " + genPackage.eResource().getURI());
+        System.out.println("Artifact: " + artifactURI.toString());
+      }
+    }
+    
+    System.out.println("\n====================================================");
+  } 
 }
