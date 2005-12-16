@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WorkspaceResourceDialog.java,v 1.1 2005/12/13 17:23:19 marcelop Exp $
+ * $Id: WorkspaceResourceDialog.java,v 1.2 2005/12/16 06:00:09 marcelop Exp $
  */
 
 package org.eclipse.emf.common.ui.dialogs;
@@ -28,12 +28,12 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -53,6 +53,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
+import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.dialogs.NewFolderDialog;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
@@ -64,7 +65,7 @@ import org.eclipse.emf.common.ui.CommonUIPlugin;
 /**
  * @since 2.2.0
  */
-public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implements ISelectionChangedListener
+public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implements ISelectionStatusValidator
 {
   public static IContainer[] openFolderSelection(
     Shell parent,
@@ -177,15 +178,11 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
   }
 
   protected boolean showNewFolderControl = false;
-
   protected boolean showFileControl = false;
-
   protected boolean showFiles = true;
-
+  
   protected Button newFolderButton;
-
   protected Text fileText;
-
   protected String fileTextContent = "";
 
   protected IContainer selectedContainer;
@@ -194,6 +191,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
   {
     super(parent, labelProvider, contentProvider);
     setSorter(new ResourceSorter(ResourceSorter.NAME));
+    setValidator(this);
   }
 
   public void loadContents()
@@ -223,7 +221,6 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
   protected Control createDialogArea(Composite parent)
   {
     Composite composite = (Composite)super.createDialogArea(parent);
-    getTreeViewer().addSelectionChangedListener(this);
 
     if (isShowNewFolderControl())
     {
@@ -237,7 +234,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     applyDialogFont(composite);
     return composite;
   }
-
+  
   protected void createNewFolderControl(Composite parent)
   {
     newFolderButton = new Button(parent, SWT.PUSH);
@@ -316,8 +313,8 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
   {
     fileTextContent = text;
   }
-
-  public void selectionChanged(SelectionChangedEvent event)
+  
+  public IStatus validate(Object[] selectedElements)
   {
     if (isShowNewFolderControl())
     {
@@ -325,28 +322,28 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     }
 
     boolean enableOK = false;
-    Object[] result = getResult();
-    for (int i = 0; i < result.length; i++)
+    for (int i = 0; i < selectedElements.length; i++)
     {
-      if (result[i] instanceof IContainer)
+      if (selectedElements[i] instanceof IContainer)
       {
         enableOK = !showFiles || (isShowFileControl() && fileText.getText().trim().length() > 0);
       }
-      else if (result[i] instanceof IFile)
+      else if (selectedElements[i] instanceof IFile)
       {
         if (isShowFileControl())
         {
-          fileText.setText(((IFile)result[i]).getName());
+          fileText.setText(((IFile)selectedElements[i]).getName());
         }
         enableOK = true;
       }
-
-      if (enableOK)
-        break;
+      if (enableOK) break;
     }
-    getOkButton().setEnabled(enableOK);
+    
+    return enableOK ? 
+      new Status(IStatus.OK, "org.eclipse.emf.common.ui", 0, "", null) : 
+      new Status(IStatus.ERROR, "org.eclipse.emf.common.ui", 0, "", null);
   }
-
+  
   public IContainer[] getSelectedContainers()
   {
     List containers = new ArrayList();
