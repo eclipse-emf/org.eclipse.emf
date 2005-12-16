@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ConverterUtil.java,v 1.2 2005/12/15 16:47:41 marcelop Exp $
+ * $Id: ConverterUtil.java,v 1.3 2005/12/16 18:13:05 marcelop Exp $
  */
 package org.eclipse.emf.converter.util;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -383,8 +384,17 @@ public class ConverterUtil
         }
       }
     }
+    
     referencedEPackages.remove(ePackage);
-    return referencedEPackages;
+    for (Iterator i = referencedEPackages.iterator(); i.hasNext();)
+    {
+      EPackage referencedEPackage = (EPackage)i.next();
+      if (referencedEPackage.getNsURI().equals(ePackage.getNsURI()))
+      {
+        i.remove();
+      }
+    }
+    return referencedEPackages.isEmpty() ? Collections.EMPTY_LIST : referencedEPackages;
   }
   
   public static String getQualifiedName(EPackage ePackage)
