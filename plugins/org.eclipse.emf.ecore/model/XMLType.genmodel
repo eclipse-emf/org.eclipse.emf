@@ -9,6 +9,9 @@
   <genPackages prefix="XMLType" basePackage="org.eclipse.emf.ecore.xml" resource="Basic"
       disposableProviderFactory="true" adapterFactory="false" dataTypeConverters="true"
       ecorePackage="XMLType.ecore#/">
+    <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+      <genAnnotations source=" http://www.w3.org/2001/XMLSchema.xsd"/>
+    </genAnnotations>
     <genDataTypes ecoreDataType="XMLType.ecore#//AnySimpleType"/>
     <genDataTypes ecoreDataType="XMLType.ecore#//AnyURI"/>
     <genDataTypes ecoreDataType="XMLType.ecore#//Base64Binary"/>

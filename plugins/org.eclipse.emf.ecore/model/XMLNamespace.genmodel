@@ -8,6 +8,9 @@
   <foreignModel>XMLNamespace.xsd</foreignModel>
   <genPackages prefix="XMLNamespace" basePackage="org.eclipse.emf.ecore.xml" disposableProviderFactory="true"
       adapterFactory="false" ecorePackage="XMLNamespace.ecore#/">
+    <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
+      <genAnnotations source="http://www.w3.org/2001/xml.xsd"/>
+    </genAnnotations>
     <genEnums ecoreEnum="XMLNamespace.ecore#//SpaceType">
       <genEnumLiterals ecoreEnumLiteral="XMLNamespace.ecore#//SpaceType/default"/>
       <genEnumLiterals ecoreEnumLiteral="XMLNamespace.ecore#//SpaceType/preserve"/>
