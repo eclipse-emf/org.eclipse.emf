@@ -23,10 +23,10 @@
   <genPackages prefix="Ecore" basePackage="org.eclipse.emf" disposableProviderFactory="true"
       ecorePackage="Ecore.ecore#/">
     <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter">
-      <details key="uris" value="Ecore.xsd"/>
+      <genAnnotations source="Ecore.xsd"/>
     </genAnnotations>
     <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/exporter/org.eclipse.xsd.ecore.exporter.xmi">
-      <details key="uris" value="EcoreXMI.xsd"/>
+      <genAnnotations source="EcoreXMI.xsd"/>
     </genAnnotations>
     <genDataTypes ecoreDataType="Ecore.ecore#//EBigDecimal"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EBigInteger"/>
