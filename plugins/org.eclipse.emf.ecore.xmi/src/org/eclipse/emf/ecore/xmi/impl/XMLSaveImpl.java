@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.49 2005/12/08 18:50:20 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.50 2005/12/19 18:24:28 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2730,37 +2730,37 @@ public class XMLSaveImpl implements XMLSave
         {
           case '&':
           {
-            outputPos = append(outputPos, AMP, inputLength);
+            outputPos = replaceChars(outputPos, AMP, inputLength);
             changed = true;
             break;
           }
           case '<':
           {
-            outputPos = append(outputPos, LESS, inputLength);
+            outputPos = replaceChars(outputPos, LESS, inputLength);
             changed = true;
             break;
           }
           case '"':
           {
-            outputPos = append(outputPos, QUOTE, inputLength);
+            outputPos = replaceChars(outputPos, QUOTE, inputLength);
             changed = true;
             break;
           }
           case '\n':
           {
-            outputPos = append(outputPos, LF, inputLength);
+            outputPos = replaceChars(outputPos, LF, inputLength);
             changed = true;
             break;
           }
           case '\r':
           {
-            outputPos = append(outputPos, CR, inputLength);
+            outputPos = replaceChars(outputPos, CR, inputLength);
             changed = true;
             break;
           }
           case '\t':
           {
-            outputPos = append(outputPos, TAB, inputLength);
+            outputPos = replaceChars(outputPos, TAB, inputLength);
             changed = true;
             break;
           }
@@ -2772,9 +2772,8 @@ public class XMLSaveImpl implements XMLSave
             }
             else
             {
-              value[outputPos] = ch;
+              value[outputPos++] = ch;
             }
-            outputPos++;
             break;
           }
         }
@@ -2804,25 +2803,25 @@ public class XMLSaveImpl implements XMLSave
         {
           case '&':
           {
-            outputPos = append(outputPos, AMP, inputLength);
+            outputPos = replaceChars(outputPos, AMP, inputLength);
             changed = true;
             break;
           }
           case '<':
           {
-            outputPos = append(outputPos, LESS, inputLength);
+            outputPos = replaceChars(outputPos, LESS, inputLength);
             changed = true;
             break;
           }
           case '"':
           {
-            outputPos = append(outputPos, QUOTE, inputLength);
+            outputPos = replaceChars(outputPos, QUOTE, inputLength);
             changed = true;
             break;
           }
           case '\n':
           {
-            outputPos = append(outputPos, LINE_FEED, inputLength);
+            outputPos = replaceChars(outputPos, LINE_FEED, inputLength);
             changed = true;
             break;
           }
@@ -2834,9 +2833,8 @@ public class XMLSaveImpl implements XMLSave
             }
             else
             {
-              value[outputPos] = ch;
+              value[outputPos++] = ch;
             }
-            outputPos++;
             break;
           }
         }
@@ -2855,19 +2853,21 @@ public class XMLSaveImpl implements XMLSave
       grow(inputLength);
       int outputPos = 0;
       int inputPos = 0;
+      char ch;
       while (inputLength-- > 0)
       {
-        switch (input.charAt(inputPos++))
+        ch = input.charAt(inputPos++);
+        switch (ch)
         {
           case '\n':
           {
-            outputPos = append(outputPos, LINE_FEED, inputLength);
+            outputPos = replaceChars(outputPos, LINE_FEED, inputLength);
             changed = true;
             break;
           }
           default:
           {
-            outputPos++;
+            value[outputPos++] = ch;
             break;
           }
         }
@@ -2875,11 +2875,25 @@ public class XMLSaveImpl implements XMLSave
       return changed ? new String(value, 0, outputPos) : input;
     }
 
-    protected int append(int pos, char[] replacement, int inputLength)
+    protected int replaceChars(int pos, char[] replacement, int inputLength)
     {
       int rlen = replacement.length;
       int newPos = pos + rlen;
       grow(newPos + inputLength);
+      System.arraycopy(replacement, 0, value, pos, rlen);
+      return newPos;
+    }
+    
+    /**
+     * @deprecated since 2.2
+     * @see #replaceChars(int, char[], int)
+     */
+    protected int replace(int pos, char[] replacement, int inputLength)
+    {
+      int rlen = replacement.length;
+      int newPos = pos + rlen;
+      grow(newPos + inputLength);
+      System.arraycopy(value, pos+1, value, newPos, inputLength);
       System.arraycopy(replacement, 0, value, pos, rlen);
       return newPos;
     }
