@@ -112,7 +112,7 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.ecore.change"
          download-size="0"
          install-size="0"
-         version="2.1.0"
+         version="2.1.2"
          unpack="false"/>
 
    <plugin
