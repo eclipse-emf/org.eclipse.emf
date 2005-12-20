@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.15 2005/09/23 22:07:48 davidms Exp $
+ * $Id: ValidateAction.java,v 1.16 2005/12/20 15:59:43 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -302,7 +302,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
     if (Platform.getBundle("org.eclipse.core.resources") != null)
     {
-      final IFile file = getFile();
+      IFile file = getFile();
       if (file != null)
       {
         try
@@ -338,10 +338,13 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           }
         }
     
-        for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+        if (file != null)
         {
-          Diagnostic childDiagnostic = (Diagnostic)i.next();
-          createMarkers(file, childDiagnostic);
+          for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+          {
+            Diagnostic childDiagnostic = (Diagnostic)i.next();
+            createMarkers(file, childDiagnostic);
+          }
         }
       }
     }
