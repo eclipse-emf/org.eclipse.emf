@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2002-2004 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.1 2004/03/06 17:31:31 marcelop Exp $
+ * $Id: JETEmitter.java,v 1.12.2.1 2005/12/20 18:06:55 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -20,17 +20,24 @@ package org.eclipse.emf.codegen.jet;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.osgi.framework.Bundle;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -43,10 +50,9 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.ILibrary;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
@@ -55,10 +61,12 @@ import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.util.URI;
 
 
 /**
@@ -164,7 +172,6 @@ public class JETEmitter
    * This method must be called <b>before</b>
    * {@link #initialize initialize} or {@link #generate generate}
    * are called.
-   * @param entry the entry to add to the classpath.
    * @return a list of classpath entries.
    */
   public List getClasspathEntries()
@@ -276,26 +283,6 @@ public class JETEmitter
 
     try
     {
-      // This ensures that the JRE variables are initialized.
-      //
-      try
-      {
-        JavaRuntime.getDefaultVMInstall();
-      }
-      catch (Throwable throwable)
-      {
-        // This is kind of nasty to come here.
-        //
-        URL jreURL = 
-          new URL(Platform.getPlugin("org.eclipse.emf.codegen").getDescriptor().getInstallURL(), "plugin.xml");
-        IPath jrePath = new Path(Platform.asLocalURL(jreURL).getFile());
-        jrePath = jrePath.removeLastSegments(1).append(new Path("../../jre/lib/rt.jar"));
-        if (!jrePath.equals(JavaCore.getClasspathVariable(JavaRuntime.JRELIB_VARIABLE)))
-        {
-          JavaCore.setClasspathVariable(JavaRuntime.JRELIB_VARIABLE, jrePath, null);
-        }
-      }
-
       final JETCompiler jetCompiler = 
         templateURIPath == null ? 
           new MyJETCompiler(templateURI, encoding) :
@@ -337,49 +324,47 @@ public class JETEmitter
         description.setLocation(null);
         project.open(new SubProgressMonitor(progressMonitor, 1));
         project.setDescription(description, new SubProgressMonitor(progressMonitor, 1));
-
-        javaProject = JavaCore.create(project);
-
-        progressMonitor.subTask
-          (CodeGenPlugin.getPlugin().getString("_UI_JETInitializingProject_message", new Object [] { project.getName() }));
-        IClasspathEntry classpathEntry = 
-          JavaCore.newSourceEntry(new Path("/" + project.getName() + "/src"));
-
-        IClasspathEntry jreClasspathEntry = 
-          JavaCore.newVariableEntry
-            (new Path(JavaRuntime.JRELIB_VARIABLE), 
-             new Path(JavaRuntime.JRESRC_VARIABLE), 
-             new Path(JavaRuntime.JRESRCROOT_VARIABLE));
-
-        List classpath = new ArrayList();
-        classpath.add(classpathEntry);
-        classpath.add(jreClasspathEntry);
-        classpath.addAll(classpathEntries);
-
-        IFolder sourceFolder = project.getFolder(new Path("src"));
-        if (!sourceFolder.exists())
-        {
-          sourceFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
-        }
-        IFolder runtimeFolder = project.getFolder(new Path("runtime"));
-        if (!runtimeFolder.exists())
-        {
-          runtimeFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
-        }
-
-        IClasspathEntry [] classpathEntryArray = (IClasspathEntry[])classpath.toArray(new IClasspathEntry [classpath.size()]);
-
-        javaProject.setRawClasspath(classpathEntryArray, new SubProgressMonitor(progressMonitor, 1));
-
-        javaProject.setOutputLocation(new Path("/" + project.getName() + "/runtime"), new SubProgressMonitor(progressMonitor, 1));
-
-        javaProject.close();
       }
       else
       {
         project.open(new SubProgressMonitor(progressMonitor, 5));
-        javaProject = JavaCore.create(project);
+        IProjectDescription description = project.getDescription();
+        description.setNatureIds(new String [] { JavaCore.NATURE_ID });
+        project.setDescription(description, new SubProgressMonitor(progressMonitor, 1));
       }
+
+      javaProject = JavaCore.create(project);
+
+      progressMonitor.subTask
+        (CodeGenPlugin.getPlugin().getString("_UI_JETInitializingProject_message", new Object [] { project.getName() }));
+      IClasspathEntry classpathEntry = 
+        JavaCore.newSourceEntry(new Path("/" + project.getName() + "/src"));
+
+      IClasspathEntry jreClasspathEntry = JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER"));
+
+      List classpath = new ArrayList();
+      classpath.add(classpathEntry);
+      classpath.add(jreClasspathEntry);
+      classpath.addAll(classpathEntries);
+
+      IFolder sourceFolder = project.getFolder(new Path("src"));
+      if (!sourceFolder.exists())
+      {
+        sourceFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
+      }
+      IFolder runtimeFolder = project.getFolder(new Path("runtime"));
+      if (!runtimeFolder.exists())
+      {
+        runtimeFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
+      }
+
+      IClasspathEntry [] classpathEntryArray = (IClasspathEntry[])classpath.toArray(new IClasspathEntry [classpath.size()]);
+
+      javaProject.setRawClasspath(classpathEntryArray, new SubProgressMonitor(progressMonitor, 1));
+
+      javaProject.setOutputLocation(new Path("/" + project.getName() + "/runtime"), new SubProgressMonitor(progressMonitor, 1));
+
+      javaProject.close();
 
       progressMonitor.subTask
         (CodeGenPlugin.getPlugin().getString("_UI_JETOpeningJavaProject_message", new Object [] { project.getName() }));
@@ -412,7 +397,7 @@ public class JETEmitter
           ((IFolder)sourceContainer).create(false, true, new SubProgressMonitor(subProgressMonitor, 1));
         }
       }
-      IFile targetFile = ((IContainer)sourceContainer).getFile(new Path(jetCompiler.getSkeleton().getClassName() + ".java"));
+      IFile targetFile = sourceContainer.getFile(new Path(jetCompiler.getSkeleton().getClassName() + ".java"));
       if (!targetFile.exists())
       {
         subProgressMonitor.subTask
@@ -452,8 +437,6 @@ public class JETEmitter
 
       if (!errors)
       {
-        IContainer targetContainer = workspace.getRoot().getFolder(javaProject.getOutputLocation());
-
         subProgressMonitor.subTask
           (CodeGenPlugin.getPlugin().getString
              ("_UI_JETLoadingClass_message", new Object [] { jetCompiler.getSkeleton().getClassName() + ".class" }));
@@ -518,39 +501,61 @@ public class JETEmitter
    */
   public void addVariable(String variableName, String pluginID) throws JETException
   {
-    IPluginDescriptor descriptor = Platform.getPlugin(pluginID).getDescriptor();
-    ILibrary[] libraries = descriptor.getRuntimeLibraries();
-    for (int i = 0; i < libraries.length; ++i)
+    Bundle bundle = Platform.getBundle(pluginID);
+    URL classpathURL = Platform.inDevelopmentMode() ? bundle.getEntry(".classpath") : null;
+    if (classpathURL != null)
     {
-      if (libraries[i].getType().equals(ILibrary.CODE))
+      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+      documentBuilderFactory.setNamespaceAware(true);
+      documentBuilderFactory.setValidating(false);
+      try
       {
-        try
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        Document document = documentBuilder.parse(new InputSource(classpathURL.toString()));
+        for (Node child = document.getDocumentElement().getFirstChild(); child != null; child = child.getNextSibling())
         {
-          URL url = new URL(descriptor.getInstallURL(), libraries[i].getPath().toString());
-          IPath path = new Path(Platform.asLocalURL(url).getFile());
-          if (!path.equals(JavaCore.getClasspathVariable(variableName)))
+          if (child.getNodeType() == Node.ELEMENT_NODE)
           {
-            JavaCore.setClasspathVariable(variableName, path, null);
+            Element classpathEntryElement = (Element)child;
+            if ("classpathentry".equals(classpathEntryElement.getNodeName()) &&
+                "output".equals(classpathEntryElement.getAttribute("kind")))
+            {
+              URI uri = URI.createURI(classpathEntryElement.getAttribute("path")).resolve(URI.createURI(classpathURL.toString()));
+              IWorkspace workspace = ResourcesPlugin.getWorkspace();
+              IProject project = workspace.getRoot().getProject(getProjectName());
+              if (!project.exists())
+              {
+                project.create(new NullProgressMonitor());
+              }
+              if (!project.isOpen())
+              {
+                project.open(new NullProgressMonitor());
+              }
+              IFolder folder = project.getFolder("." + pluginID);
+              if (!folder.exists())
+              {
+                folder.createLink
+                  (new Path(CommonPlugin.asLocalURI(uri).toFileString()).removeTrailingSeparator(),
+                   IResource.ALLOW_MISSING_LOCAL, 
+                   new NullProgressMonitor());
+              }
+              folder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+              IPath path = folder.getFullPath();
+              getClasspathEntries().add(JavaCore.newLibraryEntry(path, null, null));
+              break;
+            }
           }
-        } 
-        catch (MalformedURLException exception)
-        {
-          throw new JETException(exception);
         }
-        catch (JavaModelException exception)
-        {
-          throw new JETException(exception);
-        } 
-        catch (IOException exception)
-        {
-          throw new JETException(exception);
-        }
-        break;
+      }
+      catch (Exception exception)
+      {
+        CodeGenPlugin.INSTANCE.log(exception);
       }
     }
-
-    IClasspathEntry entry = JavaCore.newVariableEntry(new Path(variableName), null, null);
-    getClasspathEntries().add(entry);
+    else
+    {
+      CodeGenUtil.addClasspathEntries(getClasspathEntries(), variableName, pluginID);
+    }
   }
 
   /**
