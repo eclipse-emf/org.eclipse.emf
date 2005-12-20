@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.13 2005/11/18 12:04:31 emerks Exp $
+ * $Id: JETEmitter.java,v 1.14 2005/12/20 18:44:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -405,25 +405,6 @@ public class JETEmitter
   
       try
       {
-        // This ensures that the JRE variables are initialized.
-        //
-        try
-        {
-          JavaRuntime.getDefaultVMInstall();
-        }
-        catch (Throwable throwable)
-        {
-          // This is kind of nasty to come here.
-          //
-          URL jreURL = Platform.getBundle("org.eclipse.emf.codegen").getEntry("plugin.xml");
-          IPath jrePath = new Path(Platform.asLocalURL(jreURL).getFile());
-          jrePath = jrePath.removeLastSegments(1).append(new Path("../../jre/lib/rt.jar"));
-          if (!jrePath.equals(JavaCore.getClasspathVariable(JavaRuntime.JRELIB_VARIABLE)))
-          {
-            JavaCore.setClasspathVariable(JavaRuntime.JRELIB_VARIABLE, jrePath, null);
-          }
-        }
-  
         final JETCompiler jetCompiler = 
           jetEmitter.templateURIPath == null ? 
             new MyBaseJETCompiler(jetEmitter.templateURI, jetEmitter.encoding, jetEmitter.classLoader) :
@@ -480,13 +461,9 @@ public class JETEmitter
           (CodeGenPlugin.getPlugin().getString("_UI_JETInitializingProject_message", new Object [] { project.getName() }));
         IClasspathEntry classpathEntry = 
           JavaCore.newSourceEntry(new Path("/" + project.getName() + "/src"));
-  
-        IClasspathEntry jreClasspathEntry = 
-          JavaCore.newVariableEntry
-            (new Path(JavaRuntime.JRELIB_VARIABLE), 
-             new Path(JavaRuntime.JRESRC_VARIABLE), 
-             new Path(JavaRuntime.JRESRCROOT_VARIABLE));
-  
+
+        IClasspathEntry jreClasspathEntry = JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER"));
+
         List classpath = new ArrayList();
         classpath.add(classpathEntry);
         classpath.add(jreClasspathEntry);
