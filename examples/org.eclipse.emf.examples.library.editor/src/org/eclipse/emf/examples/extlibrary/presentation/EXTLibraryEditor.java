@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.1 2005/11/10 18:57:56 marcelop Exp $
+ * $Id: EXTLibraryEditor.java,v 1.2 2005/12/20 06:01:08 marcelop Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -1295,7 +1295,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    * This is for implementing {@link IEditorPart} and simply saves the model file.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void doSave(IProgressMonitor progressMonitor)
   {
@@ -1310,11 +1310,14 @@ public class EXTLibraryEditor extends MultiPageEditorPart
         {
           try
           {
-            // Save the resource to the file system.
+            // Save the resources to the file system.
             //
-            Resource savedResource = (Resource)editingDomain.getResourceSet().getResources().get(0);
-            savedResources.add(savedResource);
-            savedResource.save(Collections.EMPTY_MAP);
+            Resource savedResource;
+            for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); ) {
+              savedResource = (Resource)i.next();
+              savedResources.add(savedResource);
+              savedResource.save(Collections.EMPTY_MAP);    
+            }
           }
           catch (Exception exception)
           {
