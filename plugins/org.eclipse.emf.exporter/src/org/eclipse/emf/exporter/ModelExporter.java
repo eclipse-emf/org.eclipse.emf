@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.5 2005/12/16 16:22:53 marcelop Exp $
+ * $Id: ModelExporter.java,v 1.6 2005/12/20 05:39:13 marcelop Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -39,6 +39,7 @@ import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.converter.ConverterPlugin;
 import org.eclipse.emf.converter.ModelConverter;
 import org.eclipse.emf.converter.util.ConverterUtil;
@@ -74,6 +75,7 @@ public abstract class ModelExporter extends ModelConverter
   {
     protected String modelExporterID;
     protected URI artifactURI;
+    protected Map nsURIToLocalArtifactURIs;
 
     public String getModelExporterID()
     {
@@ -93,6 +95,15 @@ public abstract class ModelExporter extends ModelConverter
     public void setArtifactURI(URI artifactURI)
     {
       this.artifactURI = artifactURI;
+    }
+    
+    public Map getNSURIToLocalArtifactURIs()
+    {
+      if (nsURIToLocalArtifactURIs == null)
+      {
+        nsURIToLocalArtifactURIs = new HashMap();
+      }
+      return nsURIToLocalArtifactURIs;
     }
   }
   
@@ -150,10 +161,10 @@ public abstract class ModelExporter extends ModelConverter
     super.dispose();
   }
   
-  protected String getExporterGenAnnotationSource()
+  protected String getConverterGenAnnotationSource()
   {
     return GENANNOTATION_SOURCE_PREFIX + getID();
-  }
+  }    
   
   protected Map getEPackageToGenPackageMap()
   {
@@ -182,7 +193,7 @@ public abstract class ModelExporter extends ModelConverter
     EMap eMap = (EMap)getGenBaseToGenAnnotationDetailsMap().get(genBase);
     if (eMap == null)
     {
-      GenAnnotation genAnnotation = genBase.getGenAnnotation(getExporterGenAnnotationSource());
+      GenAnnotation genAnnotation = genBase.getGenAnnotation(getConverterGenAnnotationSource());
       if (genAnnotation != null)
       {
         eMap = genAnnotation.getDetails();
@@ -196,11 +207,11 @@ public abstract class ModelExporter extends ModelConverter
     return eMap;
   }
   
-  protected List getExporterNestedGenAnnotation(GenBase genBase)
+  protected List getExporterNestedGenAnnotations(GenBase genBase)
   {
     if (genBase != null)
     {
-      GenAnnotation exportAnnotation = genBase.getGenAnnotation(getExporterGenAnnotationSource());
+      GenAnnotation exportAnnotation = genBase.getGenAnnotation(getConverterGenAnnotationSource());
       if (exportAnnotation != null && !exportAnnotation.getGenAnnotations().isEmpty())
       {
         List nestedAnnotations = exportAnnotation.getGenAnnotations();
@@ -215,7 +226,7 @@ public abstract class ModelExporter extends ModelConverter
     
   protected EMap getExporterNestedGenAnnotationDetails(GenBase genBase, String nestedGenAnnotationSource)
   {
-    GenAnnotation genAnnotation = genBase.getGenAnnotation(getExporterGenAnnotationSource());
+    GenAnnotation genAnnotation = genBase.getGenAnnotation(getConverterGenAnnotationSource());
     if (genAnnotation != null)
     {
       GenAnnotation nestedGenAnnotation = genAnnotation.getGenAnnotation(nestedGenAnnotationSource);
@@ -229,10 +240,10 @@ public abstract class ModelExporter extends ModelConverter
   
   public List getArtifactURIs(GenPackage genPackage)
   {
-    List nestedAnnotations = getExporterNestedGenAnnotation(genPackage);
+    List nestedAnnotations = getExporterNestedGenAnnotations(genPackage);
     if (!nestedAnnotations.isEmpty())
     {
-      List uris = new ArrayList(nestedAnnotations.size());
+      List uris = new UniqueEList(nestedAnnotations.size());
       URI genModelURI = genPackage.getGenModel().eResource() != null ?
         genPackage.getGenModel().eResource().getURI() :
         null;
@@ -247,6 +258,21 @@ public abstract class ModelExporter extends ModelConverter
         }
         uris.add(uri);          
       }
+      
+      for (Iterator i = getReferencedGenPackages().iterator(); i.hasNext();)
+      {
+        GenPackage referencedGenPackage = (GenPackage)i.next();
+        ReferencedGenPackageExportInfo genPackageInfo = getReferencedGenPackageExportInfo(referencedGenPackage);
+        if (genPackageInfo.getArtifactURI() != null)
+        {
+          List localURIs = (List)genPackageInfo.getNSURIToLocalArtifactURIs().get(genPackage.getNSURI());
+          if (localURIs != null)
+          {
+            uris.addAll(localURIs);
+          }
+        }
+      }
+      
       return uris; 
     }
     return Collections.EMPTY_LIST;
@@ -286,7 +312,7 @@ public abstract class ModelExporter extends ModelConverter
       }
       
       List exporterUsedGenPackages = new ConverterUtil.GenPackageList(genModel.getUsedGenPackages());
-      GenAnnotation genModelAnnotation = genModel.getGenAnnotation(getExporterGenAnnotationSource());
+      GenAnnotation genModelAnnotation = genModel.getGenAnnotation(getConverterGenAnnotationSource());
       if (genModelAnnotation != null)
       {
         GenAnnotation referencedPackagesAnnotation = genModelAnnotation.getGenAnnotation(GENANNOTATION_SOURCE_SELECTED_REFERENCES);
@@ -310,18 +336,11 @@ public abstract class ModelExporter extends ModelConverter
         {
           EPackage ePackage = genPackage.getEcorePackage();
           getEPackageToGenPackageMap().put(ePackage, genPackage);
-          if (!getReferencedGenPackageToInfoMap().containsKey(genPackage))
+          if (isValidReferencedGenPackage(genPackage))
           {
-            if (isValidReferencedGenPackage(genPackage))
-            {
-              getReferencedGenPackages().add(genPackage);
-            }
+            getReferencedGenPackages().add(genPackage);
           }
-          
-          if (getReferencedGenPackageExportInfo(genPackage).getArtifactURI() == null)
-          {
-            getEPackages().add(ePackage);
-          }
+          getEPackages().add(ePackage);
         }
       }      
     }
@@ -400,6 +419,10 @@ public abstract class ModelExporter extends ModelConverter
       protected void didAdd(int index, Object newObject)
       {
         GenPackage genPackage = (GenPackage)newObject;
+        URI genModelURI = genPackage.getGenModel().eResource() != null ?
+          genPackage.getGenModel().eResource().getURI() :
+          null;
+        
         String stringURI = (String)getExporterNestedGenAnnotationDetails(getGenModel(), GENANNOTATION_SOURCE_SELECTED_REFERENCES).get(genPackage.getNSURI());
         if (stringURI != null)
         {
@@ -408,14 +431,57 @@ public abstract class ModelExporter extends ModelConverter
           {
             genPackageInfo.setModelExporterID(getID());
             URI uri = URI.createURI(stringURI);
-            if (genPackage.getGenModel().eResource() != null)
+            if (genModelURI != null)
             {
-              uri = uri.resolve(genPackage.getGenModel().eResource().getURI());
+              uri = uri.resolve(genModelURI);
             }
             genPackageInfo.setArtifactURI(uri);
           }
         }
-      }
+        
+        List uriAnnotations = getExporterNestedGenAnnotations(genPackage);
+        if (!uriAnnotations.isEmpty())
+        {
+          ReferencedGenPackageExportInfo genPackageInfo = null;
+          for (Iterator i = uriAnnotations.iterator(); i.hasNext();)
+          {
+            GenAnnotation uriAnnotation = (GenAnnotation)i.next();
+            if (!uriAnnotation.getDetails().isEmpty())
+            {
+              if (genPackageInfo == null)
+              {
+                genPackageInfo = getReferencedGenPackageExportInfo(genPackage);
+              }
+              for (Iterator j = uriAnnotation.getDetails().entrySet().iterator(); j.hasNext();)
+              {
+                Map.Entry entry = (Map.Entry)j.next();
+                String packageNSURI = (String)entry.getKey();
+                String stringArtifactURIs = (String)entry.getValue();
+                if (stringArtifactURIs != null)
+                {
+                  String[] stringURIs = stringArtifactURIs.split(" ");
+
+                  List uris = (List)genPackageInfo.getNSURIToLocalArtifactURIs().get(packageNSURI);
+                  if (uris == null)
+                  {
+                    uris = new ArrayList(stringURIs.length);
+                    genPackageInfo.getNSURIToLocalArtifactURIs().put(packageNSURI, uris);
+                  }
+                  for (int k = 0; k < stringURIs.length; k++)
+                  {
+                    URI uri = URI.createURI(stringURIs[k]);
+                    if (genModelURI != null)
+                    {
+                      uri = uri.resolve(genModelURI);
+                    }
+                    uris.add(uri);
+                  }                    
+                }
+              }
+            }
+          }
+        }
+      }      
     };
   }
   
@@ -443,7 +509,7 @@ public abstract class ModelExporter extends ModelConverter
   protected ReferencedGenPackageConvertInfo createGenPackageConvertInfo(GenPackage genPackage)
   {
     ReferencedGenPackageExportInfo genPackageInfo = new ReferencedGenPackageExportInfo();
-    genPackageInfo.setValidReference(!getExporterNestedGenAnnotation(genPackage).isEmpty());
+    genPackageInfo.setValidReference(!getExporterNestedGenAnnotations(genPackage).isEmpty());
     return genPackageInfo;
   }
   
@@ -692,7 +758,7 @@ public abstract class ModelExporter extends ModelConverter
   protected boolean saveExporter()
   {
     boolean changed = false;
-    GenAnnotation genModelAnnotation = getGenModel().getGenAnnotation(getExporterGenAnnotationSource());
+    GenAnnotation genModelAnnotation = getGenModel().getGenAnnotation(getConverterGenAnnotationSource());
     URI directoryURI = getDirectoryURI();
     if (directoryURI == null)
     {
@@ -710,7 +776,7 @@ public abstract class ModelExporter extends ModelConverter
       
       if (genModelAnnotation == null)
       {
-        genModelAnnotation = ExporterUtil.findOrCreateGenAnnotation(getGenModel(), getExporterGenAnnotationSource());
+        genModelAnnotation = ExporterUtil.findOrCreateGenAnnotation(getGenModel(), getConverterGenAnnotationSource());
         changed = true;
       }
       
@@ -736,7 +802,7 @@ public abstract class ModelExporter extends ModelConverter
     {
       if (genModelAnnotation == null)
       {
-        genModelAnnotation = ExporterUtil.findOrCreateGenAnnotation(getGenModel(), getExporterGenAnnotationSource());
+        genModelAnnotation = ExporterUtil.findOrCreateGenAnnotation(getGenModel(), getConverterGenAnnotationSource());
         changed = true;
       }
       GenAnnotation nestedGenAnnotation = ExporterUtil.findOrCreateGenAnnotation(genModelAnnotation, GENANNOTATION_SOURCE_SELECTED_EPACKAGES);
@@ -771,7 +837,7 @@ public abstract class ModelExporter extends ModelConverter
     {
       if (genModelAnnotation == null)
       {
-        genModelAnnotation = ExporterUtil.findOrCreateGenAnnotation(getGenModel(), getExporterGenAnnotationSource());
+        genModelAnnotation = ExporterUtil.findOrCreateGenAnnotation(getGenModel(), getConverterGenAnnotationSource());
         changed = true;
       }      
       
@@ -811,10 +877,10 @@ public abstract class ModelExporter extends ModelConverter
    */
   protected boolean saveEPackageArtifactURI()
   {
-    boolean changed = false;
-    URI genModelURI = getGenModel().eResource() != null ?
-      getGenModel().eResource().getURI() :
-      null;
+    List localGenPackages = new ConverterUtil.GenPackageList();
+    List externalEPackages = new ConverterUtil.EPackageList();
+
+    boolean isLocalGePackage = false;
     List ePackages = computeEPackagesToConvert();
     for (Iterator i = ePackages.iterator(); i.hasNext();)
     {
@@ -824,27 +890,94 @@ public abstract class ModelExporter extends ModelConverter
         GenPackage genPackage = (GenPackage)j.next();
         if (genPackage.getEcorePackage() == ePackage)
         {
-          String location = getEPackageExportInfo(ePackage).getArtifactLocation();
-          if (location != null)
+          isLocalGePackage = localGenPackages.add(genPackage);
+          break;
+        }
+      }
+      if (!isLocalGePackage)
+      {
+        externalEPackages.add(ePackage);
+      }
+      else
+      {
+        isLocalGePackage = false;
+      }
+    }
+    
+    boolean changed = false;
+    if (!localGenPackages.isEmpty())
+    {
+      URI genModelURI = getGenModel().eResource() != null ?
+        getGenModel().eResource().getURI() :
+        null;
+      
+      Map externalPackageToLocalURIMap = new HashMap(externalEPackages.size());
+      for (Iterator i = externalEPackages.iterator(); i.hasNext();)
+      {
+        EPackage ePackage = (EPackage)i.next();
+        String location = getEPackageExportInfo(ePackage).getArtifactLocation();
+        if (location != null)
+        {
+          URI uri = computeArtifactURI(location);
+          if (genModelURI != null)
           {
-            GenAnnotation genPackageAnnotation = genPackage.getGenAnnotation(getExporterGenAnnotationSource());
-            if (genPackageAnnotation == null)
+            uri = uri.deresolve(genModelURI);
+          }
+          String stringURI = uri.toString();
+          externalPackageToLocalURIMap.put(ePackage.getNsURI(), stringURI);
+        }
+      }
+      
+      for (Iterator i = localGenPackages.iterator(); i.hasNext();)
+      {
+        GenPackage genPackage = (GenPackage)i.next();
+        EPackage ePackage = genPackage.getEcorePackage();
+        
+        String location = getEPackageExportInfo(ePackage).getArtifactLocation();
+        if (location != null)
+        {
+          GenAnnotation genPackageAnnotation = genPackage.getGenAnnotation(getConverterGenAnnotationSource());
+          if (genPackageAnnotation == null)
+          {
+            genPackageAnnotation = ExporterUtil.findOrCreateGenAnnotation(genPackage, getConverterGenAnnotationSource());
+            changed = true;
+          }
+          
+          URI uri = computeArtifactURI(location);
+          if (genModelURI != null)
+          {
+            uri = uri.deresolve(genModelURI);
+          }
+          String stringURI = uri.toString();
+          
+          GenAnnotation uriAnnotation = genPackageAnnotation.getGenAnnotation(stringURI);
+          if (uriAnnotation == null)
+          {
+            uriAnnotation = ExporterUtil.findOrCreateGenAnnotation(genPackageAnnotation, stringURI);
+            if (!externalPackageToLocalURIMap.isEmpty())
             {
-              genPackageAnnotation = ExporterUtil.findOrCreateGenAnnotation(genPackage, getExporterGenAnnotationSource());
-              changed = true;
+              uriAnnotation.getDetails().putAll(externalPackageToLocalURIMap);
             }
-            
-            URI uri = computeArtifactURI(location);
-            if (genModelURI != null)
+            changed = true;
+          }
+          else
+          {
+            if (externalPackageToLocalURIMap.isEmpty())
             {
-              uri = uri.deresolve(genModelURI);
+              if (!uriAnnotation.getDetails().isEmpty())
+              {
+                uriAnnotation.getDetails().clear();
+                changed = true;
+              }
             }
-            String stringURI = uri.toString();
-            
-            if (genPackageAnnotation.getGenAnnotation(stringURI) == null)
+            else
             {
-              ExporterUtil.findOrCreateGenAnnotation(genPackageAnnotation, stringURI);
-              changed = true;
+              if (!externalPackageToLocalURIMap.equals(uriAnnotation.getDetails().map()))
+              {
+                uriAnnotation.getDetails().clear();
+                uriAnnotation.getDetails().putAll(externalPackageToLocalURIMap);
+                changed = true;
+              }
             }
           }
         }
