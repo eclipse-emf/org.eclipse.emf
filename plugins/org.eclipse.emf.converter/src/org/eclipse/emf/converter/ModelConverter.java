@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverter.java,v 1.1 2005/12/14 07:45:42 marcelop Exp $
+ * $Id: ModelConverter.java,v 1.2 2005/12/20 05:38:02 marcelop Exp $
  */
 package org.eclipse.emf.converter;
 
@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -98,20 +99,25 @@ public abstract class ModelConverter
       
     }
     
-    public List filterReferencedEPackages(Collection ePackages)
+    public List filterReferencedEPackages(Collection ePackages, List referencedGenPackages)
     {
+      if (referencedGenPackages == null)
+      {
+        referencedGenPackages = getReferencedGenPackages();
+      }
+      
       if (ePackages.isEmpty())
       {
         return Collections.EMPTY_LIST;
       }
-      else if (getReferencedGenPackages().isEmpty())
+      else if (referencedGenPackages.isEmpty())
       {
         return new ArrayList(ePackages);
       }
       else
       {
         List filteredEPackages = new ConverterUtil.EPackageList(ePackages);
-        for (Iterator i = getReferencedGenPackages().iterator(); i.hasNext();)
+        for (Iterator i = referencedGenPackages.iterator(); i.hasNext();)
         {
           GenPackage genPackage = (GenPackage)i.next();
           EPackage ePackage = getReferredEPackage(genPackage);
@@ -170,6 +176,11 @@ public abstract class ModelConverter
   }
   
   public abstract String getID();
+  
+  protected String getConverterGenAnnotationSource()
+  {
+    return GenModelPackage.eNS_URI + getID();
+  }  
   
   public GenModel getGenModel()
   {
@@ -290,13 +301,13 @@ public abstract class ModelConverter
     return new ReferencedGenPackageConvertInfo();
   }
 
-  public List filterReferencedEPackages(Collection ePackages)
+  public List filterReferencedEPackages(Collection ePackages, List referencedGenPackages)
   {
     if (referencedEPackageFilter == null)
     {
       referencedEPackageFilter = createReferencedEPackageFilter();
     }
-    return referencedEPackageFilter.filterReferencedEPackages(ePackages);
+    return referencedEPackageFilter.filterReferencedEPackages(ePackages, referencedGenPackages);
   }
   
   protected ReferencedEPackageFilter createReferencedEPackageFilter()
@@ -315,16 +326,16 @@ public abstract class ModelConverter
         ePackages.add(ePackage);
       }
     }
-    return filterReferencedEPackagesToConvert(ePackages);
+    return filterReferencedEPackagesToConvert(ePackages, null);
   }
     
-  protected List filterReferencedEPackagesToConvert(Collection ePackages)
+  protected List filterReferencedEPackagesToConvert(Collection ePackages, List referencedGenPackages)
   {
     if (referencedEPackageFilterToConvert == null)
     {
       referencedEPackageFilterToConvert = createReferencedEPackageFilterToConvert();
     }
-    return referencedEPackageFilterToConvert.filterReferencedEPackages(ePackages);
+    return referencedEPackageFilterToConvert.filterReferencedEPackages(ePackages, referencedGenPackages);
   }
   
   protected List computeValidReferencedGenPackages()
@@ -423,7 +434,7 @@ public abstract class ModelConverter
     if (!getEPackageToInfoMap().isEmpty())
     {
       Map dataToCounter = new HashMap();
-      List ePackages = filterReferencedEPackages(getEPackageToInfoMap().keySet());
+      List ePackages = filterReferencedEPackages(getEPackageToInfoMap().keySet(), null);
       if (!ePackages.isEmpty())
       {
         List packageInfos = new ArrayList(ePackages.size());
