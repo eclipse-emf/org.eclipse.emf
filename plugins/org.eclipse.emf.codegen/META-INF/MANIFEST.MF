@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.codegen; singleton:=true
+Bundle-Version: 2.1.2
+Bundle-ClassPath: codegen.jar
+Bundle-Activator: org.eclipse.emf.codegen.CodeGenPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.emf.codegen,
+ org.eclipse.emf.codegen.jet,
+ org.eclipse.emf.codegen.jmerge,
+ org.eclipse.emf.codegen.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.common,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.launching,
+ org.eclipse.debug.core
+Eclipse-AutoStart: true
