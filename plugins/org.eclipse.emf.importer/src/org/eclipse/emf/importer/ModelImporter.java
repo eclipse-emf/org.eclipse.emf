@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.22 2005/12/14 07:48:49 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.23 2005/12/20 05:14:45 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -36,6 +36,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.CommonPlugin;
@@ -61,6 +62,8 @@ import org.eclipse.emf.importer.util.ImporterUtil;
  */
 public abstract class ModelImporter extends ModelConverter
 {
+  public static final String GENANNOTATION_SOURCE_PREFIX = GenModelPackage.eNS_URI + "/importer/";
+  
   public static class EPackageImportInfo extends ModelConverter.EPackageConvertInfo
   {
     protected String basePackage;
@@ -123,7 +126,12 @@ public abstract class ModelImporter extends ModelConverter
 
     super.dispose();
   }
-
+  
+  protected String getConverterGenAnnotationSource()
+  {
+    return GENANNOTATION_SOURCE_PREFIX + getID();
+  }
+  
   public List getFileExtensions()
   {
     if (fileExtensions == null)
