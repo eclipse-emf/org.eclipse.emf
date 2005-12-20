@@ -31,7 +31,7 @@
 
    <includes
          id="org.eclipse.emf.doc"
-         version="2.1.1"
+         version="2.1.2"
          match="compatible"/>
 
    <includes
