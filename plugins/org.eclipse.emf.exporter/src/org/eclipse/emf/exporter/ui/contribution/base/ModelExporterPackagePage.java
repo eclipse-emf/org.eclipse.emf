@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterPackagePage.java,v 1.1 2005/12/14 08:06:32 marcelop Exp $
+ * $Id: ModelExporterPackagePage.java,v 1.2 2005/12/20 05:40:10 marcelop Exp $
  */
 
 package org.eclipse.emf.exporter.ui.contribution.base;
@@ -97,7 +97,6 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
         genPackageInfo.setArtifactURI(artifactURI);
         if (treeItem.getChecked() != (artifactURI != null))
         {
-          treeItem.setChecked(artifactURI != null);
           referencedGenModelsCheckboxTreeViewerCheckStateChanged(null);
           validate = false;
         }
