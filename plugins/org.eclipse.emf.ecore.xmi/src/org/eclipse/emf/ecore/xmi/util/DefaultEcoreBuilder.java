@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DefaultEcoreBuilder.java,v 1.1 2005/07/21 19:47:33 elena Exp $
+ * $Id: DefaultEcoreBuilder.java,v 1.2 2005/12/20 17:16:35 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -66,15 +66,16 @@ public class DefaultEcoreBuilder implements EcoreBuilder
     XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD = theXSDEcoreBuilderGenerateResourcesMethod;
   }
 
-  protected Object ecoreBuilder;
-
-  protected Collection generatedResources;
-
   protected ExtendedMetaData extendedMetaData;
 
   public DefaultEcoreBuilder(ExtendedMetaData extendedMetaData)
   {
     this.extendedMetaData = extendedMetaData;
+  }
+  
+  public void setExtendedMetaData(ExtendedMetaData extendedMetaData)
+  {
+    this.extendedMetaData = extendedMetaData;    
   }
 
   public Collection generate(URI uri) throws Exception
@@ -86,7 +87,7 @@ public class DefaultEcoreBuilder implements EcoreBuilder
   {
     if (targetNamespaceToURI != null && XSD_ECORE_BUILDER_CONSTRUCTOR != null && XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD != null)
     {
-      ecoreBuilder = XSD_ECORE_BUILDER_CONSTRUCTOR.newInstance(new Object []{ extendedMetaData });
+      Object ecoreBuilder = XSD_ECORE_BUILDER_CONSTRUCTOR.newInstance(new Object []{ extendedMetaData });
       return (Collection)XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD.invoke(ecoreBuilder, new Object []{ targetNamespaceToURI.values() });
     }
     return Collections.EMPTY_LIST;
@@ -96,7 +97,7 @@ public class DefaultEcoreBuilder implements EcoreBuilder
   {
     if (uris != null && XSD_ECORE_BUILDER_CONSTRUCTOR != null && XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD != null)
     {
-      ecoreBuilder = XSD_ECORE_BUILDER_CONSTRUCTOR.newInstance(new Object []{ extendedMetaData });
+      Object ecoreBuilder = XSD_ECORE_BUILDER_CONSTRUCTOR.newInstance(new Object []{ extendedMetaData });
       return (Collection)XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD.invoke(ecoreBuilder, new Object []{ uris });
     }
     return Collections.EMPTY_LIST;

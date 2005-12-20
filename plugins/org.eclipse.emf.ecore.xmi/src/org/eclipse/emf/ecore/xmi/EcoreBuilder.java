@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreBuilder.java,v 1.1 2005/07/21 19:47:33 elena Exp $
+ * $Id: EcoreBuilder.java,v 1.2 2005/12/20 17:16:35 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 
 /**
@@ -56,5 +57,12 @@ public interface EcoreBuilder
    * @see org.eclipse.emf.common.util.URI
    */
   public Collection generate(Map targetNamespaceToURI) throws Exception;
+  
+  /**
+   * Sets extended meta data to register generated Ecore models.
+   * Note the same extended meta data should be used for loading/saving an instance document.
+   * @param extendedMetaData
+   */
+  public void setExtendedMetaData(ExtendedMetaData extendedMetaData);
 
 }

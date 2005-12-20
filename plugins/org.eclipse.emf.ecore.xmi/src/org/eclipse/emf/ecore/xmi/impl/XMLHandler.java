@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.44 2005/12/08 05:47:45 marcelop Exp $
+ * $Id: XMLHandler.java,v 1.45 2005/12/20 17:16:35 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -359,7 +359,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         ecoreBuilder = xmlOptions.getEcoreBuilder();
         if (ecoreBuilder == null)
         {
-          ecoreBuilder = new DefaultEcoreBuilder(extendedMetaData);
+          ecoreBuilder = createEcoreBuilder(options, extendedMetaData);
         }
       }
       processAnyXML = xmlOptions.isProcessAnyXML();
@@ -460,6 +460,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     helper.setOptions(options);
     if (extendedMetaData != null)
     {
+      if (ecoreBuilder != null)
+      {
+        ecoreBuilder.setExtendedMetaData(extendedMetaData);
+      }
       AnyType anyType = XMLTypeFactory.eINSTANCE.createAnyType();
       mixedTargets.push(anyType.getMixed());
       text = new StringBuffer();
@@ -474,10 +478,19 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     {
       featuresToKinds = ((XMLHelperImpl)helper).featuresToKinds;
     }
+    if (ecoreBuilder != null)
+    {
+        this.ecoreBuilder.setExtendedMetaData(null);
+    }
     this.helper = null;
     elements.clear();
     objects.clear();
     mixedTargets.clear();
+    contextFeature = null;
+    eObjectToExtensionMap = null;
+    // external schema locations should only be processed onces, i.e. in the subsequent parse
+    // there is no need to reprocess those
+    externalURIToLocations = null;
 
     types.clear();
     prefixesToFactories.clear();
@@ -500,6 +513,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     //deferredExtent.clear();
     attribs = null;
     locator = null;
+    urisToLocations = null;
   }
 
   //
@@ -1329,8 +1343,8 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     }
     urisToLocations.put(null, uri);
   }
-
-  protected void handleTopLocations(String prefix, String name)
+  
+  protected void processSchemaLocations(String prefix, String name)
   {
     if (urisToLocations != null)
     {
@@ -1376,7 +1390,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         XMIPlugin.INSTANCE.log(exception);
       }
     }
+  }
 
+  protected void handleTopLocations(String prefix, String name)
+  {
+    processSchemaLocations(prefix, name);
     if (processAnyXML)
     {
       // Ensure that anything can be handled, even if it's not recognized.
