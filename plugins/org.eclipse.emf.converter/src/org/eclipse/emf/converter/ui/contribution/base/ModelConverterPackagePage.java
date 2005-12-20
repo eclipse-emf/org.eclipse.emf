@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.2 2005/12/15 22:50:49 marcelop Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.3 2005/12/20 05:34:31 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -843,7 +843,6 @@ public class ModelConverterPackagePage extends ModelConverterPage
       else
       {
         getModelConverter().getReferencedGenPackages().clear();
-        getModelConverter().clearReferenceGenPackageConvertInfoCache();
         Object[] checkedElements = referencedGenModelsCheckboxTreeViewer.getCheckedElements();
         for (int i = 0; i < checkedElements.length; i++)
         {
@@ -871,7 +870,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
         referencedGenModelsCheckboxTreeViewer.setCheckedElements(genPackagesToCheck.toArray());
         referencedGenModelsCheckboxTreeViewer.setSelection(new StructuredSelection(genPackagesToCheck.toArray()), true);
       }
-      filteredEPackages = getModelConverter().filterReferencedEPackages(getModelConverter().getEPackages());
+      filteredEPackages = getModelConverter().filterReferencedEPackages(getModelConverter().getEPackages(), genPackagesToCheck);
     }
 
     List checkedEPackages = new ArrayList();
