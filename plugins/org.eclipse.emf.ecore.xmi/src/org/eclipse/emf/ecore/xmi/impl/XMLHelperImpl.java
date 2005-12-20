@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.30 2005/12/07 18:52:31 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.31 2005/12/20 15:38:56 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -793,12 +793,28 @@ public class XMLHelperImpl implements XMLHelper
   public EStructuralFeature getFeature(EClass eClass, String namespaceURI, String name)
   {
     EStructuralFeature feature = getFeatureWithoutMap(eClass, name);
-    if (feature == null && xmlMap != null)
+    if (feature == null)
     {
-      feature = xmlMap.getFeature(eClass, namespaceURI, name);
-      if (feature != null)
+      if (xmlMap != null)
       {
-        computeFeatureKind(feature);
+        feature = xmlMap.getFeature(eClass, namespaceURI, name);
+        if (feature != null)
+        {
+          computeFeatureKind(feature);
+        }
+      }
+      else if (laxFeatureProcessing && extendedMetaData != null)
+      {
+        List structuralFeatures = eClass.getEAllStructuralFeatures();
+        for (int i = 0, size = structuralFeatures.size(); i < size; ++i)
+        {
+          EStructuralFeature eStructuralFeature = (EStructuralFeature)structuralFeatures.get(i);
+          if (name.equals(extendedMetaData.getName(eStructuralFeature))
+            && (namespaceURI == null ? extendedMetaData.getNamespace(eStructuralFeature) == null : namespaceURI.equals(extendedMetaData.getNamespace(eStructuralFeature))))
+          {
+            return eStructuralFeature;
+          }
+        }
       }
     }
 
