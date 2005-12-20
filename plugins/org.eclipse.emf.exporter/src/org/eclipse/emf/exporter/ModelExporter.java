@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.6 2005/12/20 05:39:13 marcelop Exp $
+ * $Id: ModelExporter.java,v 1.7 2005/12/20 05:49:51 marcelop Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -55,8 +55,8 @@ public abstract class ModelExporter extends ModelConverter
   public static final String GENANNOTATION_SOURCE_PREFIX = GenModelPackage.eNS_URI + "/exporter/";
   public static final String GENANNOTATION_KEY_DIRECTORY_URI = "directoryURI";
   // Nested GenAnnotations
-  public static final String GENANNOTATION_SOURCE_SELECTED_EPACKAGES = "selectedEPackages";
-  public static final String GENANNOTATION_SOURCE_SELECTED_REFERENCES = "selectedReferencesPackages";
+  public static final String GENANNOTATION_SOURCE_SELECTED_EPACKAGES = "selectedPackages";
+  public static final String GENANNOTATION_SOURCE_SELECTED_REFERENCES = "selectedReferencedPackages";
   
   public static class EPackageExportInfo extends ModelConverter.EPackageConvertInfo
   {
