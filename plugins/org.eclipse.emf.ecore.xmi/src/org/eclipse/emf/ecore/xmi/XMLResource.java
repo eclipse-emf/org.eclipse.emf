@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.32 2005/12/08 11:30:38 emerks Exp $
+ * $Id: XMLResource.java,v 1.33 2005/12/20 16:58:10 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -84,6 +84,10 @@ public interface XMLResource extends Resource
    * <li>XMLHandler#createObjectFromFactory(EFactory factory, String typeName),</li> 
    * <li>XMLLoadImpl#getEncoding()</li>
    * </ul> 
+   * <p>
+   * Note: if you use this option the SAX parser used for parsing documents must be namespace-aware parser, 
+   * i.e. the namespaces should be turned on for the parser used. The default parser implementation is not 
+   * namespace-aware. To turn on namespaces, either use OPTION_USE_PARSER_POOL or overwrite XMLLoadImpl#makeParser()
    */
   String OPTION_USE_DEPRECATED_METHODS = "USE_DEPRECATED_METHODS";
   
