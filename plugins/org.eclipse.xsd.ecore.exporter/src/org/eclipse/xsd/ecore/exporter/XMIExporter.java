@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIExporter.java,v 1.2 2005/12/20 05:09:26 marcelop Exp $
+ * $Id: XMIExporter.java,v 1.3 2005/12/21 01:08:45 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
@@ -37,6 +37,11 @@ public class XMIExporter extends XSDExporter
   public String getID()
   {
     return "org.eclipse.xsd.ecore.exporter.xmi";
+  }
+  
+  protected String getDefaultArtifactLocation(EPackage ePackage)
+  {
+    return getDefaultArtifactFileName(ePackage) + "XMI.xsd";
   }
   
   protected XSDSchema getSchema(EPackage ePackage)
