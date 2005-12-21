@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.12 2005/12/12 16:31:09 marcelop Exp $
+ * $Id: XSDResourceImpl.java,v 1.13 2005/12/21 11:15:32 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -573,6 +573,7 @@ public class XSDResourceImpl extends ResourceImpl
     if (!isLoaded)
     {
       Notification notification = setLoaded(true);
+      isLoading = true;
 
       if (errors != null)
       {
@@ -604,6 +605,8 @@ public class XSDResourceImpl extends ResourceImpl
       }
       finally
       {
+        isLoading = false;
+
         if (notification != null)
         {
           eNotify(notification);
