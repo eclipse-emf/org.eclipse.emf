@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.3 2005/12/20 05:34:31 marcelop Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.4 2005/12/21 01:18:53 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -718,7 +718,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
     if (files.length > 0)
     {
       ResourceSet referencedGenModels = getModelConverter().createResourceSet();
-      List genModels = new UniqueEList.FastCompare(getModelConverter().getExternalGenModels());
+      List genModels = new UniqueEList.FastCompare();
       for (int i = 0; i < files.length; ++i)
       {
         URI genModelURI = URI.createPlatformResourceURI(files[i].getFullPath().toString(), true);
@@ -726,6 +726,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
         GenModel genModel = (GenModel)genModelResource.getContents().get(0);
         genModels.add(genModel);
       }
+      addExternalGenModels(genModels);
 
       treeViewer.getTree().deselectAll();
       treeViewer.setInput(new ItemProvider(genModels));
@@ -835,7 +836,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
             }
           }
 
-          genModels.addAll(getModelConverter().getExternalGenModels());
+          addExternalGenModels(genModels);
           referencedGenModelsCheckboxTreeViewer.setInput(new ItemProvider(genModels));
           referencedGenModelsCheckboxTreeViewer.expandAll();
         }
@@ -901,4 +902,55 @@ public class ModelConverterPackagePage extends ModelConverterPage
   {
     return genPackages;
   }  
+  
+  protected void addExternalGenModels(List genModels)
+  {    
+    List externalGenModels = new ArrayList(getModelConverter().getExternalGenModels());
+    if (!externalGenModels.isEmpty())
+    {
+      GenModel exporterGenModel = getModelConverter().getGenModel();
+      boolean hasExporterGenModel = exporterGenModel != null && genModels.contains(exporterGenModel);
+      if (!hasExporterGenModel)
+      {
+        genModels.add(exporterGenModel);
+      }
+      
+      for (Iterator i = genModels.iterator(); i.hasNext();)
+      {
+        GenModel genModel = (GenModel)i.next();
+        for (Iterator j = externalGenModels.iterator(); j.hasNext();)
+        {
+          GenModel externalGenModel = (GenModel)j.next();
+          if (genModel == externalGenModel)
+          {
+            j.remove();
+          }
+          else
+          {
+            URI uri = genModel.eResource() != null ?
+              genModel.eResource().getURI() :
+              null;
+              
+            if (uri != null)
+            {
+              URI externalURI = externalGenModel.eResource() != null ?
+                externalGenModel.eResource().getURI() :
+                null;
+                
+              if (uri.equals(externalURI))
+              {
+                j.remove();
+              }
+            }
+          }
+        }
+      }
+      genModels.addAll(externalGenModels);
+      
+      if (!hasExporterGenModel)
+      {
+        genModels.remove(exporterGenModel);
+      }
+    }
+  }
 }
