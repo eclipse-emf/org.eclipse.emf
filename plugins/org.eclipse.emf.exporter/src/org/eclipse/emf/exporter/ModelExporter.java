@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.7 2005/12/20 05:49:51 marcelop Exp $
+ * $Id: ModelExporter.java,v 1.8 2005/12/21 01:07:08 marcelop Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -986,6 +986,20 @@ public abstract class ModelExporter extends ModelConverter
     return changed;
   }
   
+  protected String getDefaultArtifactFileName(EPackage ePackage)
+  {
+    if (ePackage.eResource() != null && ePackage.getESuperPackage() == null)
+    {
+      String fileName = ePackage.eResource().getURI().lastSegment();
+      int lastIndex = fileName.lastIndexOf('.');
+      if (lastIndex > 0)
+      {
+        return fileName.substring(0, lastIndex);
+      }
+    }
+    return ConverterUtil.getQualifiedName(ePackage);
+  }
+    
   /*
    * For debugging purposes.  May be removed in the future.
    */
