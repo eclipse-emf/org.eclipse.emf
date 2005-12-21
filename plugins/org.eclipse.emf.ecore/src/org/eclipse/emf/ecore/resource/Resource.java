@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: Resource.java,v 1.4 2005/12/21 01:34:30 khussey Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -663,5 +663,15 @@ public interface Resource extends Notifier
      * @return the notifications produced.
      */
     NotificationChain basicSetResourceSet(ResourceSet resourceSet, NotificationChain notifications);
+
+    /**
+     * Indicates whether the resource is currently being loaded.
+     * <p>
+     * This will be <code>true</code> during a call to {@link #load(InputStream, Map) load(InputStream, Map)},
+     * before notifications are dispatched.
+     * </p>
+     * @return whether this resource is currently being loaded.
+     */
+    boolean isLoading();
   }
 }

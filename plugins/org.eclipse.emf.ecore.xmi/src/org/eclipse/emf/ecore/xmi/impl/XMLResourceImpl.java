@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.15 2005/12/07 18:52:31 elena Exp $
+ * $Id: XMLResourceImpl.java,v 1.16 2005/12/21 01:34:22 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -527,6 +527,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     if (!isLoaded)
     {
       Notification notification = setLoaded(true);
+      isLoading = true;
 
       if (errors != null)
       {
@@ -558,6 +559,8 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       }
       finally
       {
+        isLoading = false;
+
         if (notification != null)
         {
           eNotify(notification);
@@ -588,6 +591,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     if (!isLoaded)
     {
       Notification notification = setLoaded(true);
+      isLoading = true;
 
       if (errors != null)
       {
@@ -619,6 +623,8 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       }
       finally
       {
+        isLoading = false;
+
         if (notification != null)
         {
           eNotify(notification);

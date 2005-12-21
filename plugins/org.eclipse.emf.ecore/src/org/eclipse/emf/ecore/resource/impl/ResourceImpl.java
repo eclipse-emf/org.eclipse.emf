@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.11 2005/11/18 19:06:50 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.12 2005/12/21 01:34:30 khussey Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -166,6 +166,12 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   protected boolean isLoaded;
 
+  /**
+   * The loading flag.
+   * @see #isLoading
+   */
+  protected boolean isLoading;
+  
   /**
    * The modification tracking adapter.
    * @see #isTrackingModification
@@ -976,6 +982,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     if (!isLoaded)
     {
       Notification notification = setLoaded(true);
+      isLoading = true;
 
       if (errors != null)
       {
@@ -987,22 +994,22 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         warnings.clear();
       }
 
-      if (useZip())
-      {
-        ZipInputStream zipInputStream = new ZipInputStream(inputStream);
-        while (zipInputStream.available() != 0)
-        {
-          ZipEntry zipEntry = zipInputStream.getNextEntry();
-          if (isContentZipEntry(zipEntry))
-          {
-            inputStream = zipInputStream;
-            break;
-          }
-        }
-      }
-
       try
       {
+        if (useZip())
+        {
+          ZipInputStream zipInputStream = new ZipInputStream(inputStream);
+          while (zipInputStream.available() != 0)
+          {
+            ZipEntry zipEntry = zipInputStream.getNextEntry();
+            if (isContentZipEntry(zipEntry))
+            {
+              inputStream = zipInputStream;
+              break;
+            }
+          }
+        }
+
         if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
         {
           doLoad(inputStream, options);
@@ -1021,6 +1028,8 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       }
       finally
       {
+        isLoading = false;
+
         if (notification != null)
         {
           eNotify(notification);
@@ -1050,6 +1059,14 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   public boolean isLoaded()
   {
     return isLoaded;
+  }
+
+  /*
+   * Javadoc copied from interface.
+   */
+  public boolean isLoading()
+  {
+    return isLoading;
   }
 
   /**
