@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.14 2005/12/20 18:44:53 davidms Exp $
+ * $Id: JETEmitter.java,v 1.15 2005/12/21 21:37:37 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -61,7 +61,6 @@ import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.launching.JavaRuntime;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
