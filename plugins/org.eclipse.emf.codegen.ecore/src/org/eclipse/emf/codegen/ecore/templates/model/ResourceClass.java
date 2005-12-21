@@ -277,7 +277,7 @@ public class ResourceClass
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_24);
     }
-    for (Iterator i = genPackage.getGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();
+    for (Iterator i = genPackage.getAllGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();
     stringBuffer.append(TEXT_25);
     stringBuffer.append(_DataFrame);
     stringBuffer.append(TEXT_26);
@@ -508,7 +508,7 @@ public class ResourceClass
     stringBuffer.append(genClass.getInterfaceName());
     stringBuffer.append(TEXT_127);
     }
-    for (Iterator i = genPackage.getGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();
+    for (Iterator i = genPackage.getAllGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();
     stringBuffer.append(TEXT_128);
     stringBuffer.append(_DataFrame);
     stringBuffer.append(TEXT_129);

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.7 2005/12/10 13:30:44 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.8 2005/12/21 22:05:32 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -206,7 +206,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		protected <%=genClass.getInterfaceName()%>StackFrame <%=genClass.getSafeUncapName()%>;
 
 <%}%>
-<%for (Iterator i = genPackage.getGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();%>
+<%for (Iterator i = genPackage.getAllGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();%>
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -394,7 +394,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		}
 
 <%}%>
-<%for (Iterator i = genPackage.getGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();%>
+<%for (Iterator i = genPackage.getAllGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();%>
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
