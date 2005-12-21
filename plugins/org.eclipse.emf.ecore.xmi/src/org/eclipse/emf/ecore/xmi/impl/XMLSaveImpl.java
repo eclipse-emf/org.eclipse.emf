@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.50 2005/12/19 18:24:28 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.51 2005/12/21 17:09:14 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2707,7 +2707,7 @@ public class XMLSaveImpl implements XMLSave
     }
 
     /*
-     *  Convert:
+     *  Convert attribute values:
      *  & to &amp;
      *  < to &lt;
      *  " to &quot;
@@ -2782,11 +2782,12 @@ public class XMLSaveImpl implements XMLSave
     }
 
     /*
-     *  Convert:
+     *  Convert element values:
      *  & to &amp;
      *  < to &lt;
      *  " to &quot;
      *  \n to line separator
+     *  \r should be escaped to &xD;
      */
     public String convertText(String input)
     {
@@ -2822,6 +2823,12 @@ public class XMLSaveImpl implements XMLSave
           case '\n':
           {
             outputPos = replaceChars(outputPos, LINE_FEED, inputLength);
+            changed = true;
+            break;
+          }
+          case '\r':
+          {
+            outputPos = replaceChars(outputPos, CR, inputLength);
             changed = true;
             break;
           }
