@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.43 2005/12/14 22:23:10 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.44 2005/12/21 22:19:30 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1795,6 +1795,12 @@ public class XSDEcoreBuilder extends MapBuilder
 
   protected void initialize(EStructuralFeature eStructuralFeature, XSDFeature xsdFeature, XSDComponent xsdComponent)
   {
+    String unsettable = getEcoreAttribute(xsdComponent, xsdFeature, "unsettable");
+    if (unsettable != null)
+    {
+      eStructuralFeature.setUnsettable("true".equals(unsettable));
+    }
+
     String ordered = getEcoreAttribute(xsdComponent, xsdFeature, "ordered");
     if (ordered != null)
     {
