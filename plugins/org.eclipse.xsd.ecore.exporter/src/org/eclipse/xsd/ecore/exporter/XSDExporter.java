@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDExporter.java,v 1.2 2005/12/20 05:08:30 marcelop Exp $
+ * $Id: XSDExporter.java,v 1.3 2005/12/21 01:07:59 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
@@ -22,7 +22,6 @@ import java.util.Map;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.converter.util.ConverterUtil;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -56,7 +55,7 @@ public class XSDExporter extends ModelExporter
   
   protected String getDefaultArtifactLocation(EPackage ePackage)
   {
-    return ConverterUtil.getQualifiedName(ePackage) + ".xsd";
+    return getDefaultArtifactFileName(ePackage) + ".xsd";
   }
   
   protected String doCheckEPackageArtifactLocation(String location, String packageName)
