@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.22 2005/11/22 22:35:50 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.23 2005/12/22 21:16:30 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -137,9 +137,18 @@ public final class FeatureMapUtil
     {
       this.eStructuralFeature = eStructuralFeature;
       this.value = value;
+      validate();
+    }
+
+    protected void validate()
+    {
       if (value != null && !eStructuralFeature.getEType().isInstance(value))
       {
-        throw new ClassCastException();
+        String valueClass = value instanceof EObject ? ((EObject)value).eClass().getName() : value.getClass().getName();
+        throw 
+          new ClassCastException
+            ("The feature '" + eStructuralFeature.getName()  + "'s type '" + 
+                eStructuralFeature.getEType().getName() + "' does not permit a value of type '" + valueClass + "'");
       }
     }
 
