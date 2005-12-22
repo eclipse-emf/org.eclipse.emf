@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentsEList.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EContentsEList.java,v 1.6 2005/12/22 21:16:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -384,9 +384,14 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                     preparedResult = values.next();
                     if (isHandlingFeatureMap)
                     {
-                      preparedResult = ((FeatureMap.Entry)preparedResult).getValue();
+                      FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
+                      preparedFeature = entry.getEStructuralFeature();
+                      preparedResult = entry.getValue();
                     }
-                    preparedFeature = feature;
+                    else
+                    {
+                      preparedFeature = feature;
+                    }
                     prepared = 3;
                     return true;
                   }
@@ -411,7 +416,9 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
             preparedResult = values.next();
             if (isHandlingFeatureMap)
             {
-              preparedResult = ((FeatureMap.Entry)preparedResult).getValue();
+              FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
+              preparedFeature = entry.getEStructuralFeature();
+              preparedResult = entry.getValue();
             }
             prepared = 3;
             return true;
@@ -500,9 +507,14 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                     preparedResult = values.previous();
                     if (isHandlingFeatureMap)
                     {
-                      preparedResult = ((FeatureMap.Entry)preparedResult).getValue();
+                      FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
+                      preparedFeature = entry.getEStructuralFeature();
+                      preparedResult = entry.getValue();
                     }
-                    preparedFeature = feature;
+                    else
+                    {
+                      preparedFeature = feature;
+                    }
                     prepared = -3;
                     return true;
                   }
@@ -526,7 +538,9 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
             preparedResult = values.previous();
             if (isHandlingFeatureMap)
             {
-              preparedResult = ((FeatureMap.Entry)preparedResult).getValue();
+              FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
+              preparedFeature = entry.getEStructuralFeature();
+              preparedResult = entry.getValue();
             }
             prepared = -3;
             return true;
