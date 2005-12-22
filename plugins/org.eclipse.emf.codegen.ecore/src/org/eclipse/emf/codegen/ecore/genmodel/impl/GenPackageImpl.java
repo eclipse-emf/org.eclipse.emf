@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.48 2005/12/14 21:40:29 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.49 2005/12/22 21:09:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3475,6 +3475,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         {
           result.add(source);
         }
+        i.prune();
       }
     }
     return result;
@@ -3589,6 +3590,20 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           }
         }.doSwitch(eModelElement);
 
+    return result;
+  }
+
+  public List getAllNestedAnnotations(EAnnotation eAnnotation)
+  {
+    List result = new ArrayList();
+    for (Iterator i = eAnnotation.eAllContents(); i.hasNext(); )
+    {
+      Object content = i.next();
+      if (content instanceof EAnnotation)
+      {
+        result.add(content);
+      }
+    }
     return result;
   }
 
