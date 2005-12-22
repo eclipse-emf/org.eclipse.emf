@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.22 2005/12/10 13:20:42 emerks Exp $
+ * $Id: GenPackage.java,v 1.23 2005/12/22 21:09:13 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -796,6 +796,7 @@ public interface GenPackage extends GenBase
   String getAnnotationSourceIdentifier(String annotationSource);
   List getAllAnnotations();
   String getAnnotatedModelElementAccessor(EAnnotation eAnnotation);
+  List getAllNestedAnnotations(EAnnotation eAnnotation);
 
   String getResourceClassName();
   String getQualifiedResourceClassName();
