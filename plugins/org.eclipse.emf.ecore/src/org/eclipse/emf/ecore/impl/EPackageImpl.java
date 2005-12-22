@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.23 2005/12/02 17:40:00 davidms Exp $
+ * $Id: EPackageImpl.java,v 1.24 2005/12/22 21:10:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1253,6 +1253,23 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       theDetails.put(details[i - 1], details[i]);
     }
     eNamedElement.getEAnnotations().add(eAnnotation);
+  }
+
+  protected void addAnnotation(ENamedElement eNamedElement, int depth, String source, String [] details)
+  {
+    EAnnotation eAnnotation = ecoreFactory.createEAnnotation();
+    eAnnotation.setSource(source);
+    EMap theDetails = eAnnotation.getDetails();
+    for (int i = 1; i < details.length; i += 2)
+    {
+      theDetails.put(details[i - 1], details[i]);
+    }
+    List annotations = eNamedElement.getEAnnotations();
+    for (int i = 0; i < depth; ++i)
+    {
+      annotations = ((EAnnotation)annotations.get(annotations.size() - 1)).getContents();
+    }
+    annotations.add(eAnnotation);
   }
 
   protected void initializeFromLoadedEPackage(EPackage target, EPackage source)
