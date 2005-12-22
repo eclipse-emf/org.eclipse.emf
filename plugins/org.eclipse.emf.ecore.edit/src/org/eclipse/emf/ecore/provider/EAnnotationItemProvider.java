@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.11 2005/11/23 18:10:04 emerks Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.12 2005/12/22 21:11:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -174,7 +174,7 @@ public class EAnnotationItemProvider
     StringBuffer result = new StringBuffer();
     if (eAnnotation.getSource() != null)
     {
-      int index = eAnnotation.getSource().lastIndexOf("/");
+      int index = getParent(eAnnotation) instanceof EAnnotation ? -1 : eAnnotation.getSource().lastIndexOf("/");
       if (index == -1)
       {
         result.append(eAnnotation.getSource());
