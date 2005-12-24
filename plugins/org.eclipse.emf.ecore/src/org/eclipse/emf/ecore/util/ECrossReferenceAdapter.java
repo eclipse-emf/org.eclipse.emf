@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.2 2005/11/22 21:31:45 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.3 2005/12/24 10:50:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -25,9 +25,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -41,7 +41,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  * It can be installed for an {@link EObject}, a {@link Resource}, or a {@link ResourceSet}.
  * @since 2.2
  */
-public class ECrossReferenceAdapter extends AdapterImpl
+public class ECrossReferenceAdapter implements Adapter.Internal
 {
   protected Set unloadedResources = new HashSet();
   
@@ -205,8 +205,6 @@ public class ECrossReferenceAdapter extends AdapterImpl
   public void notifyChanged(Notification notification)
   {
     selfAdapt(notification);
-
-    super.notifyChanged(notification);
   }
 
   /**
@@ -380,8 +378,6 @@ public class ECrossReferenceAdapter extends AdapterImpl
    */
   public void setTarget(Notifier target)
   {
-    super.setTarget(target);
-    
     if (target instanceof EObject)
     {
       EObject eObject = (EObject)target;
@@ -423,19 +419,37 @@ public class ECrossReferenceAdapter extends AdapterImpl
    */
   public void unsetTarget(Notifier target)
   {
-    Collection contents = 
-      target instanceof EObject ?
-        ((EObject)target).eContents() :
-        target instanceof ResourceSet ?
-          ((ResourceSet)target).getResources() :
-          target instanceof Resource ?
-            ((Resource)target).getContents() :
-            null;
-    if (contents != null)
+    if (target instanceof EObject)
     {
-      for (Iterator i = contents.iterator(); i.hasNext(); )
+      EObject eObject = (EObject)target;
+      inverseCrossReferencer.remove(eObject);
+      for (EContentsEList.FeatureIterator i = inverseCrossReferencer.getCrossReferences(eObject); i.hasNext(); )
+      {
+        EObject crossReferencedEObject = (EObject)i.next();
+        inverseCrossReferencer.remove(eObject, (EReference)i.feature(), crossReferencedEObject);     
+      }
+
+      for (Iterator i = eObject.eContents().iterator(); i.hasNext(); )
       {
         Notifier notifier = (Notifier)i.next();
+        removeAdapter(notifier);
+      }
+    }
+    else if (target instanceof Resource)
+    {
+      List contents = ((Resource)target).getContents();
+      for (int i = 0, size = contents.size(); i < size; ++i)
+      {
+        Notifier notifier = (Notifier)contents.get(i);
+        removeAdapter(notifier);
+      }
+    }
+    else if (target instanceof ResourceSet)
+    {
+      List resources =  ((ResourceSet)target).getResources();
+      for (int i = 0; i < resources.size(); ++i)
+      {
+        Notifier notifier = (Notifier)resources.get(i);
         removeAdapter(notifier);
       }
     }
@@ -458,5 +472,15 @@ public class ECrossReferenceAdapter extends AdapterImpl
   public void dump()
   {
     EcoreUtil.CrossReferencer.print(System.out, inverseCrossReferencer);
+  }
+
+  public Notifier getTarget()
+  {
+    return null;
+  }
+
+  public boolean isAdapterForType(Object type)
+  {
+    return false;
   }
 }
