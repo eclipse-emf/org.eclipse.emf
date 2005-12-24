@@ -11,8 +11,6 @@
  *   IBM - Initial API and implementation
  *
  * </copyright>
- * 
- * $Id: MergerSource.java,v 1.1 2005/12/24 04:29:24 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
