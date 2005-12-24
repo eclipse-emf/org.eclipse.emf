@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.6 2005/06/08 06:24:42 nickb Exp $
+ * $Id: JMergerTest.java,v 1.7 2005/12/24 04:29:24 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -45,10 +45,16 @@ public class JMergerTest extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("JMergerTest");
+    ts.addTest(new JMergerTest("testMerge0"));
     ts.addTest(new JMergerTest("testMerge1"));
     return ts;
   }  
   
+  public void testMerge0() throws Exception
+  {
+    mergetTest(TestUtil.getPluginDirectory() + "/data/merge0");
+  }
+
   public void testMerge1() throws Exception
   {
     mergetTest(TestUtil.getPluginDirectory() + "/data/merge1");
@@ -63,7 +69,6 @@ public class JMergerTest extends TestCase
 
     assertTrue("Merge xml file is not available - " + mergeXML.getAbsolutePath(), mergeXML.isFile());
     assertTrue("Merge Source file is not available - " + source.getAbsolutePath(), source.isFile());
-    assertTrue("Merge Target file is not available - " + target.getAbsolutePath(), target.isFile());
     assertTrue("Merge Result file is not available - " + expected.getAbsolutePath(), expected.isFile());
     
     JMerger jMerger = new JMerger();
@@ -74,7 +79,10 @@ public class JMergerTest extends TestCase
     jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(source, false)));
     
     // set target
-    jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(new FileInputStream(target)));
+    if (target.isFile())
+    {
+      jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(new FileInputStream(target)));
+    }
     
     // merge source and target
     jMerger.merge();
