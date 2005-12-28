@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.13 2005/12/15 16:33:41 elena Exp $
+ * $Id: XMLLoadImpl.java,v 1.14 2005/12/28 16:54:06 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -88,6 +88,7 @@ public class XMLLoadImpl implements XMLLoad
         String resourceURI = resource.getURI().toString();
         inputSource.setPublicId(resourceURI);
         inputSource.setSystemId(resourceURI);
+        inputSource.setEncoding(resource.getEncoding());
       }
       load(resource, inputSource, options);
       return;
@@ -148,6 +149,7 @@ public class XMLLoadImpl implements XMLLoad
         String resourceURI = resource.getURI().toString();
         inputSource.setPublicId(resourceURI);
         inputSource.setSystemId(resourceURI);
+        inputSource.setEncoding(resource.getEncoding());
       }
     
       // set lexical handler
