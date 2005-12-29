@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.10 2005/06/08 06:24:42 nickb Exp $
+ * $Id: ASTTest.java,v 1.11 2005/12/29 21:11:10 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -31,6 +31,7 @@ import org.eclipse.jdt.core.dom.ArrayType;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
+import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
@@ -143,10 +144,56 @@ public class ASTTest extends TestCase
    assertEquals(Modifier.PUBLIC, exampleClass.getModifiers());
    
    //** Content of the Example class
-   assertEquals(12, exampleClass.bodyDeclarations().size());
+   assertEquals(15, exampleClass.bodyDeclarations().size());
    assertEquals(2, exampleClass.getTypes().length);
    assertEquals(5, exampleClass.getFields().length);
    assertEquals(5, exampleClass.getMethods().length);
+   
+   // Tests the order of the contents
+   List bodyDeclarations = exampleClass.bodyDeclarations();
+   assertTrue(bodyDeclarations.get(0).toString(), bodyDeclarations.get(0) instanceof TypeDeclaration);
+   assertTrue(bodyDeclarations.get(1).toString(), bodyDeclarations.get(1) instanceof Initializer);
+   assertTrue(bodyDeclarations.get(2).toString(), bodyDeclarations.get(2) instanceof TypeDeclaration);
+   assertTrue(bodyDeclarations.get(3).toString(), bodyDeclarations.get(3) instanceof FieldDeclaration);
+   assertTrue(bodyDeclarations.get(4).toString(), bodyDeclarations.get(4) instanceof FieldDeclaration);
+   assertTrue(bodyDeclarations.get(5).toString(), bodyDeclarations.get(5) instanceof FieldDeclaration);
+   assertTrue(bodyDeclarations.get(6).toString(), bodyDeclarations.get(6) instanceof FieldDeclaration);
+   assertTrue(bodyDeclarations.get(7).toString(), bodyDeclarations.get(7) instanceof FieldDeclaration);
+   assertTrue(bodyDeclarations.get(8).toString(), bodyDeclarations.get(8) instanceof Initializer);
+   assertTrue(bodyDeclarations.get(9).toString(), bodyDeclarations.get(9) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(10).toString(), bodyDeclarations.get(10) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(11).toString(), bodyDeclarations.get(11) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(12).toString(), bodyDeclarations.get(12) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(13).toString(), bodyDeclarations.get(13) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(14).toString(), bodyDeclarations.get(14) instanceof Initializer);
+
+   //** Initializers
+   {
+     Initializer initializer = (Initializer)bodyDeclarations.get(1);
+     assertFalse(Modifier.isStatic(initializer.getModifiers()));
+     assertNull(initializer.getJavadoc());
+   }
+   //
+   {
+     Initializer initializer = (Initializer)bodyDeclarations.get(8);
+     assertTrue(Modifier.isStatic(initializer.getModifiers()));
+     assertNotNull(initializer.getJavadoc());
+     Javadoc javadoc = initializer.getJavadoc();
+     assertEquals(1, javadoc.tags().size());
+     assertEquals(1, ((TagElement)javadoc.tags().get(0)).fragments().size());
+     assertEquals("An static initializer", ((TextElement)((TagElement)javadoc.tags().get(0)).fragments().get(0)).getText());     
+   }
+   //
+   {
+     Initializer initializer = (Initializer)bodyDeclarations.get(14);
+     assertFalse(Modifier.isStatic(initializer.getModifiers()));
+     assertNotNull(initializer.getJavadoc());
+     Javadoc javadoc = initializer.getJavadoc();
+     assertEquals(1, javadoc.tags().size());
+     assertEquals(2, ((TagElement)javadoc.tags().get(0)).fragments().size());
+     assertEquals("Another initializer with 2 lines", ((TextElement)((TagElement)javadoc.tags().get(0)).fragments().get(0)).getText());
+     assertEquals("of javadoc.", ((TextElement)((TagElement)javadoc.tags().get(0)).fragments().get(1)).getText());
+   }
    
    //** Inner Class
    TypeDeclaration innerClass = exampleClass.getTypes()[0];

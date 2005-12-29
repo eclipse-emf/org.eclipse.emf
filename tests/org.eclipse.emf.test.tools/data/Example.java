@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Example.java,v 1.4 2005/06/08 06:24:42 nickb Exp $
+ * $Id: Example.java,v 1.5 2005/12/29 21:11:10 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -45,6 +45,11 @@ public class Example extends EObjectImpl
     
   }
   
+  // An initializer
+  {
+    System.out.println("A initializer with Comments")
+  }
+  
   /*
    * A private static inner interface
    */
@@ -72,8 +77,15 @@ public class Example extends EObjectImpl
   private Map.Entry myEntry;
   
   private int[][] myMatrix = new int[4][5];
-  
-  
+    
+  /**
+   * An static initializer
+   */
+  static
+  {
+    System.out.println("A initializer with JavaDoc")
+  }
+
   /**
    * This is a contructor
    */
@@ -122,4 +134,12 @@ public class Example extends EObjectImpl
   {
      System.out.println("I don't do anything");
   }
+  
+  /**
+   * Another initializer with 2 lines
+   * of javadoc.
+   */
+  {
+    System.out.println("Another initializer with JavaDoc")
+  }  
 }
