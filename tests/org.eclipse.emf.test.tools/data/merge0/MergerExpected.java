@@ -131,6 +131,22 @@ public class MergerExample
     System.out.println("Source code 4");
   }
   
+  {
+    System.out.println("Initializer 1");
+  }
+
+  /**
+   * Source javadoc-initalizer 20
+   * <!-- begin-user-doc -->
+   * Source user javadoc-initalizer 21
+   * <!-- end-user-doc -->
+   * Source javadoc-initalizer 22
+   * @generated
+   */
+  {
+    System.out.println("Initializer 2");
+  }
+  
   /**
    * Source javadoc 20
    * <!-- begin-user-doc -->
