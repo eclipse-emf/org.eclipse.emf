@@ -11,8 +11,6 @@
  *   IBM - Initial API and implementation
  *
  * </copyright>
- *
- * $Id: Example.java,v 1.5 2005/12/29 21:11:10 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -20,11 +18,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.*;
 import org.eclipse.emf.common.notify.Notification;
 // This is importing the EObjectImpl
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-class AnotherClass extends EObjectImpl
+class AnotherClass
 {
   
 }
@@ -39,17 +38,22 @@ class AnotherClass extends EObjectImpl
  */
 public class Example extends EObjectImpl
 {
-  // A public inner class.
-  public abstract class InnerClass implements Notification, org.eclipse.emf.common.notify.Notifier 
-  {
+	// A public inner class.  It is indented with TABs
+	public abstract class InnerClass implements Notification, org.eclipse.emf.common.notify.Notifier 
+	{
+	
+	}
+  
+	// An initializer.  It is indented with TABs
+	{
+	System.out.println("A initializer with Comments");
+	}
+  
+  /**
+   * public String constant.
+   */
+  public static final String STR_CONST = "something";
     
-  }
-  
-  // An initializer
-  {
-    System.out.println("A initializer with Comments")
-  }
-  
   /*
    * A private static inner interface
    */
@@ -59,15 +63,10 @@ public class Example extends EObjectImpl
   }
   
   /**
-   * public String constant.
-   */
-  public static final String STR_CONST = "something";
-  
-  /**
    * protected static long field.
    * This is a multiline comment.
    */
-  protected static long longStatic = 1l;
+  protected static long longStatic=1l; //A field
   
   /*
    * package protected boolean field.
@@ -75,15 +74,14 @@ public class Example extends EObjectImpl
   Boolean booleanInstance;
   
   private Map.Entry myEntry;
-  
-  private int[][] myMatrix = new int[4][5];
-    
+      
   /**
    * An static initializer
    */
   static
   {
-    System.out.println("A initializer with JavaDoc")
+    System.out.println("A initializer with JavaDoc - line1");
+    System.out.println("A initializer with JavaDoc - line2");
   }
 
   /**
@@ -94,6 +92,11 @@ public class Example extends EObjectImpl
     super();
   }
   
+  private Example(String aString, boolean bol)
+  {
+    super();
+  }
+
   /**
    * Sets the boolean instance.
    * @param b
@@ -110,14 +113,21 @@ public class Example extends EObjectImpl
       booleanInstance = Boolean.FALSE;
     }
   }
+
+  void setBooleanInstance(int a)
+  {
+    setBooleanInstance(a > 0 ? Boolean.TRUE : Boolean.FALSE);
+  }
   
+  private int[][] myMatrix =new int[4][5];
+
   /**
    * Gets the boolean instance.  Now I will ask you to see 
    * something {@link EObjectImpl#eAdapters()}.  
    * @param b
    * @generated NOT
    */
-  public Boolean getBooleanInstance()
+  public Boolean getBooleanInstance() throws Exception
   {
     return booleanInstance == null ? Boolean.FALSE : booleanInstance;
   }
@@ -125,14 +135,15 @@ public class Example extends EObjectImpl
   /*
    * This method returns an empty list.
    */
-  protected List aMethodWithComments()
+  protected List aMethodWithComments() throws RuntimeException, IllegalAccessError
   {
     return Collections.EMPTY_LIST;
   }
 
-  private void aMethodWithNoComments(int[] a)
+  private static long[][] aMethodWithNoComments(int[] a)
   {
      System.out.println("I don't do anything");
+     return null;
   }
   
   /**
@@ -140,6 +151,6 @@ public class Example extends EObjectImpl
    * of javadoc.
    */
   {
-    System.out.println("Another initializer with JavaDoc")
+    System.out.println("Another initializer with JavaDoc");
   }  
 }

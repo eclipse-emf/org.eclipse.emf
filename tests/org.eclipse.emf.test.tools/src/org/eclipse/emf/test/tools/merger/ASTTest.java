@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.11 2005/12/29 21:11:10 marcelop Exp $
+ * $Id: ASTTest.java,v 1.12 2006/01/03 21:30:33 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -98,12 +98,19 @@ public class ASTTest extends TestCase
    
    //** Imports
    List importDeclarations = compilationUnit.imports();
-   assertEquals(5, importDeclarations.size());
+   assertEquals(6, importDeclarations.size());
    assertEquals("java.util.Collections", ((ImportDeclaration)importDeclarations.get(0)).getName().getFullyQualifiedName());
+   assertFalse(((ImportDeclaration)importDeclarations.get(0)).isOnDemand());
    assertEquals("java.util.List", ((ImportDeclaration)importDeclarations.get(1)).getName().getFullyQualifiedName());
+   assertFalse(((ImportDeclaration)importDeclarations.get(1)).isOnDemand());
    assertEquals("java.util.Map", ((ImportDeclaration)importDeclarations.get(2)).getName().getFullyQualifiedName());
-   assertEquals("org.eclipse.emf.common.notify.Notification", ((ImportDeclaration)importDeclarations.get(3)).getName().getFullyQualifiedName());
-   assertEquals("org.eclipse.emf.ecore.impl.EObjectImpl", ((ImportDeclaration)importDeclarations.get(4)).getName().getFullyQualifiedName());
+   assertFalse(((ImportDeclaration)importDeclarations.get(2)).isOnDemand());
+   assertEquals("org.eclipse.emf.common", ((ImportDeclaration)importDeclarations.get(3)).getName().getFullyQualifiedName());
+   assertTrue(((ImportDeclaration)importDeclarations.get(3)).isOnDemand());
+   assertEquals("org.eclipse.emf.common.notify.Notification", ((ImportDeclaration)importDeclarations.get(4)).getName().getFullyQualifiedName());
+   assertFalse(((ImportDeclaration)importDeclarations.get(4)).isOnDemand());
+   assertEquals("org.eclipse.emf.ecore.impl.EObjectImpl", ((ImportDeclaration)importDeclarations.get(5)).getName().getFullyQualifiedName());
+   assertFalse(((ImportDeclaration)importDeclarations.get(5)).isOnDemand());
    
    //** Types
    List typeDeclarations = compilationUnit.types();
@@ -144,28 +151,30 @@ public class ASTTest extends TestCase
    assertEquals(Modifier.PUBLIC, exampleClass.getModifiers());
    
    //** Content of the Example class
-   assertEquals(15, exampleClass.bodyDeclarations().size());
+   assertEquals(17, exampleClass.bodyDeclarations().size());
    assertEquals(2, exampleClass.getTypes().length);
    assertEquals(5, exampleClass.getFields().length);
-   assertEquals(5, exampleClass.getMethods().length);
+   assertEquals(7, exampleClass.getMethods().length);
    
    // Tests the order of the contents
    List bodyDeclarations = exampleClass.bodyDeclarations();
    assertTrue(bodyDeclarations.get(0).toString(), bodyDeclarations.get(0) instanceof TypeDeclaration);
    assertTrue(bodyDeclarations.get(1).toString(), bodyDeclarations.get(1) instanceof Initializer);
-   assertTrue(bodyDeclarations.get(2).toString(), bodyDeclarations.get(2) instanceof TypeDeclaration);
-   assertTrue(bodyDeclarations.get(3).toString(), bodyDeclarations.get(3) instanceof FieldDeclaration);
+   assertTrue(bodyDeclarations.get(2).toString(), bodyDeclarations.get(2) instanceof FieldDeclaration);
+   assertTrue(bodyDeclarations.get(3).toString(), bodyDeclarations.get(3) instanceof TypeDeclaration);
    assertTrue(bodyDeclarations.get(4).toString(), bodyDeclarations.get(4) instanceof FieldDeclaration);
    assertTrue(bodyDeclarations.get(5).toString(), bodyDeclarations.get(5) instanceof FieldDeclaration);
    assertTrue(bodyDeclarations.get(6).toString(), bodyDeclarations.get(6) instanceof FieldDeclaration);
-   assertTrue(bodyDeclarations.get(7).toString(), bodyDeclarations.get(7) instanceof FieldDeclaration);
-   assertTrue(bodyDeclarations.get(8).toString(), bodyDeclarations.get(8) instanceof Initializer);
-   assertTrue(bodyDeclarations.get(9).toString(), bodyDeclarations.get(9) instanceof MethodDeclaration);
-   assertTrue(bodyDeclarations.get(10).toString(), bodyDeclarations.get(10) instanceof MethodDeclaration);
-   assertTrue(bodyDeclarations.get(11).toString(), bodyDeclarations.get(11) instanceof MethodDeclaration);
-   assertTrue(bodyDeclarations.get(12).toString(), bodyDeclarations.get(12) instanceof MethodDeclaration);
-   assertTrue(bodyDeclarations.get(13).toString(), bodyDeclarations.get(13) instanceof MethodDeclaration);
-   assertTrue(bodyDeclarations.get(14).toString(), bodyDeclarations.get(14) instanceof Initializer);
+   assertTrue(bodyDeclarations.get(7).toString(), bodyDeclarations.get(7) instanceof Initializer);
+   assertTrue(bodyDeclarations.get(8).toString(), bodyDeclarations.get(8) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(8).toString(), bodyDeclarations.get(9) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(8).toString(), bodyDeclarations.get(10) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(9).toString(), bodyDeclarations.get(11) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(10).toString(), bodyDeclarations.get(12) instanceof FieldDeclaration);
+   assertTrue(bodyDeclarations.get(11).toString(), bodyDeclarations.get(13) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(12).toString(), bodyDeclarations.get(14) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(13).toString(), bodyDeclarations.get(15) instanceof MethodDeclaration);
+   assertTrue(bodyDeclarations.get(14).toString(), bodyDeclarations.get(16) instanceof Initializer);
 
    //** Initializers
    {
@@ -175,7 +184,7 @@ public class ASTTest extends TestCase
    }
    //
    {
-     Initializer initializer = (Initializer)bodyDeclarations.get(8);
+     Initializer initializer = (Initializer)bodyDeclarations.get(7);
      assertTrue(Modifier.isStatic(initializer.getModifiers()));
      assertNotNull(initializer.getJavadoc());
      Javadoc javadoc = initializer.getJavadoc();
@@ -185,7 +194,7 @@ public class ASTTest extends TestCase
    }
    //
    {
-     Initializer initializer = (Initializer)bodyDeclarations.get(14);
+     Initializer initializer = (Initializer)bodyDeclarations.get(16);
      assertFalse(Modifier.isStatic(initializer.getModifiers()));
      assertNotNull(initializer.getJavadoc());
      Javadoc javadoc = initializer.getJavadoc();
@@ -345,9 +354,9 @@ public class ASTTest extends TestCase
      assertEquals(ASTNode.SUPER_CONSTRUCTOR_INVOCATION, statement.getNodeType());
      assertTrue(((SuperConstructorInvocation)statement).arguments().isEmpty());
    }
-   //methodDeclarations[1]: public void setBooleanInstance(Boolean b)
+   //methodDeclarations[2]: public void setBooleanInstance(Boolean b)
    {
-     Javadoc javadoc = methodDeclarations[1].getJavadoc();
+     Javadoc javadoc = methodDeclarations[2].getJavadoc();
      assertEquals(3, javadoc.tags().size());
      assertNull(((TagElement)javadoc.tags().get(0)).getTagName());
      assertEquals(1, ((TagElement)javadoc.tags().get(0)).fragments().size());
@@ -358,23 +367,23 @@ public class ASTTest extends TestCase
      assertEquals("@generated", ((TagElement)javadoc.tags().get(2)).getTagName());
      assertTrue(((TagElement)javadoc.tags().get(2)).fragments().isEmpty());
      //
-     assertFalse(methodDeclarations[1].isConstructor());
+     assertFalse(methodDeclarations[2].isConstructor());
      //
-     assertEquals(Modifier.PUBLIC, methodDeclarations[1].getModifiers());
+     assertEquals(Modifier.PUBLIC, methodDeclarations[2].getModifiers());
      //
-     assertNotNull(methodDeclarations[1].getReturnType2());
-     assertTrue(methodDeclarations[1].getReturnType2().isPrimitiveType());
-     assertEquals(PrimitiveType.VOID, ((PrimitiveType)methodDeclarations[1].getReturnType2()).getPrimitiveTypeCode());
+     assertNotNull(methodDeclarations[2].getReturnType2());
+     assertTrue(methodDeclarations[2].getReturnType2().isPrimitiveType());
+     assertEquals(PrimitiveType.VOID, ((PrimitiveType)methodDeclarations[2].getReturnType2()).getPrimitiveTypeCode());
      //
-     assertEquals("setBooleanInstance", methodDeclarations[1].getName().getFullyQualifiedName());
+     assertEquals("setBooleanInstance", methodDeclarations[2].getName().getFullyQualifiedName());
      //
-     assertEquals(1, methodDeclarations[1].parameters().size());
-     assertTrue(((SingleVariableDeclaration)methodDeclarations[1].parameters().get(0)).getType().isSimpleType());
-     assertEquals("Boolean", ((SimpleType)((SingleVariableDeclaration)methodDeclarations[1].parameters().get(0)).getType()).getName().getFullyQualifiedName());
-     assertEquals("b", ((SingleVariableDeclaration)methodDeclarations[1].parameters().get(0)).getName().getFullyQualifiedName());  
+     assertEquals(1, methodDeclarations[2].parameters().size());
+     assertTrue(((SingleVariableDeclaration)methodDeclarations[2].parameters().get(0)).getType().isSimpleType());
+     assertEquals("Boolean", ((SimpleType)((SingleVariableDeclaration)methodDeclarations[2].parameters().get(0)).getType()).getName().getFullyQualifiedName());
+     assertEquals("b", ((SingleVariableDeclaration)methodDeclarations[2].parameters().get(0)).getName().getFullyQualifiedName());  
      //
-     assertNotNull(methodDeclarations[1].getBody());
-     assertEquals(1, methodDeclarations[1].getBody().statements().size());
+     assertNotNull(methodDeclarations[2].getBody());
+     assertEquals(1, methodDeclarations[2].getBody().statements().size());
    }
  }  
 }
