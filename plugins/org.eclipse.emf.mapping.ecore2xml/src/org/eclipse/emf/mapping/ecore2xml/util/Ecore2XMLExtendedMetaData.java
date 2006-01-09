@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLExtendedMetaData.java,v 1.2 2005/06/21 16:17:03 khussey Exp $
+ * $Id: Ecore2XMLExtendedMetaData.java,v 1.3 2006/01/09 21:55:43 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -113,12 +113,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
     
     if (xmlInfo != null)
     {
-      String name = xmlInfo.getName();
-      
-      if (name != null)
-      {
-        return name;
-      }
+      return xmlInfo.getName();
     }
     
     return super.getName(eClassifier);
@@ -135,12 +130,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
     
     if (xmlInfo != null)
     {
-      String name = xmlInfo.getName();
-      
-      if (name != null)
-      {
-        return name;
-      }
+      return xmlInfo.getName();
     }
     
     return super.getName(eStructuralFeature);
@@ -157,12 +147,7 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
     
     if (xmlInfo != null)
     {
-      String namespace = xmlInfo.getTargetNamespace();
-      
-      if (namespace != null)
-      {
-        return namespace;
-      }
+      return xmlInfo.getTargetNamespace();
     }
     
     return super.getNamespace(ePackage);

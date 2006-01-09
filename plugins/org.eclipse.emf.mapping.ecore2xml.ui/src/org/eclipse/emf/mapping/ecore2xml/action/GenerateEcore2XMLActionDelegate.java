@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: GenerateEcore2XMLActionDelegate.java,v 1.4 2005/07/21 12:50:03 khussey Exp $
+ * $Id: GenerateEcore2XMLActionDelegate.java,v 1.5 2006/01/09 21:55:44 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.action;
 
@@ -25,10 +25,10 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -88,78 +88,90 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
   
   protected static XMLResource.XMLInfo createXMLInfo(EObject eObject)
   {
-    return (XMLResource.XMLInfo)new EcoreSwitch()
+    final XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
+
+    if (eObject != null)
     {
-      public Object caseEPackage(EPackage ePackage)
-      {
-        XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
-        
-        xmlInfo.setName(ePackage.getName());
-        xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(ePackage));
-        
-        return xmlInfo;
-      }
-      
-      public Object caseEClassifier(EClassifier eClassifier)
-      {
-        XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
-        
-        xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eClassifier));
-        xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(eClassifier));
-        
-        return xmlInfo;
-      }
-      
-      public Object caseEStructuralFeature(EStructuralFeature eStructuralFeature)
-      {
-        XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
-        
-        xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eStructuralFeature));
-        xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(eStructuralFeature));
-        
-        switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
+      new EcoreSwitch()
         {
-          case ExtendedMetaData.ATTRIBUTE_FEATURE:
-            xmlInfo.setXMLRepresentation(XMLResource.XMLInfo.ATTRIBUTE);
-            break;
-          case ExtendedMetaData.ELEMENT_FEATURE:
-            xmlInfo.setXMLRepresentation(XMLResource.XMLInfo.ELEMENT);
-            break;
-        }
-        
-        return xmlInfo;
-      }
-    }.doSwitch(eObject);
+          public Object caseEPackage(EPackage ePackage)
+          {
+            xmlInfo.setName(ePackage.getName());
+            xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(ePackage));
+
+            return xmlInfo;
+          }
+
+          public Object caseEClassifier(EClassifier eClassifier)
+          {
+            xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eClassifier));
+            xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(eClassifier));
+
+            return xmlInfo;
+          }
+
+          public Object caseEStructuralFeature(EStructuralFeature eStructuralFeature)
+          {
+            xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eStructuralFeature));
+            xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(eStructuralFeature));
+
+            switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
+            {
+              case ExtendedMetaData.ATTRIBUTE_FEATURE:
+                xmlInfo.setXMLRepresentation(XMLResource.XMLInfo.ATTRIBUTE);
+                break;
+              case ExtendedMetaData.ELEMENT_FEATURE:
+                xmlInfo.setXMLRepresentation(XMLResource.XMLInfo.ELEMENT);
+                break;
+            }
+
+            return xmlInfo;
+          }
+        }.doSwitch(eObject);
+    }
+
+    return xmlInfo;
   }
   
   protected static XMLResource.XMLMap createXMLMap(Ecore2EcoreMappingRoot mappingRoot)
   {
-    XMLResource.XMLMap xmlMap = Ecore2XMLFactory.eINSTANCE.createXMLMap();
-    
+    final XMLResource.XMLMap xmlMap = Ecore2XMLFactory.eINSTANCE.createXMLMap();
+
     for (TreeIterator mappings = mappingRoot.treeIterator(); mappings.hasNext();)
     {
       Mapping mapping = (Mapping)mappings.next();
-      
-      if (!mapping.getInputs().isEmpty())
+      EList inputs = mapping.getInputs();
+      final EObject input = inputs.isEmpty() ? null : (EObject)inputs.get(0);
+
+      for (Iterator outputs = mapping.getOutputs().iterator(); outputs.hasNext();)
       {
-        EObject input = (EObject)mapping.getInputs().get(0);
-        
-        for (Iterator outputs = mapping.getOutputs().iterator(); outputs.hasNext();)
-        {
-          EObject output = (EObject)outputs.next();
 
-          if (output instanceof ENamedElement)
+        new EcoreSwitch()
           {
-            XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
-
-            if (xmlInfo != null) {
-              xmlMap.add((ENamedElement)output, xmlInfo);
+            public Object caseEPackage(EPackage ePackage)
+            {
+              XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
+              xmlMap.add(ePackage, xmlInfo);
+              return xmlInfo;
             }
-          }
-        }
+
+            public Object caseEClassifier(EClassifier eClassifier)
+            {
+              XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
+              xmlMap.add(eClassifier, xmlInfo);
+              return xmlInfo;
+            }
+
+            public Object caseEStructuralFeature(EStructuralFeature eStructuralFeature)
+            {
+              XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
+              xmlMap.add(eStructuralFeature, xmlInfo);
+              return xmlInfo;
+            }
+          }.doSwitch((EObject)outputs.next());
       }
     }
-    
+
     return xmlMap;
   }
   
