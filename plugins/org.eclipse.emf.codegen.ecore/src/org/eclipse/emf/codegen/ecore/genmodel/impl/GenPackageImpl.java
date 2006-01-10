@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.49 2005/12/22 21:09:34 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.50 2006/01/10 20:22:20 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3596,12 +3596,16 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public List getAllNestedAnnotations(EAnnotation eAnnotation)
   {
     List result = new ArrayList();
-    for (Iterator i = eAnnotation.eAllContents(); i.hasNext(); )
+    for (TreeIterator i = eAnnotation.eAllContents(); i.hasNext();)
     {
       Object content = i.next();
       if (content instanceof EAnnotation)
       {
         result.add(content);
+      }
+      else
+      {
+        i.prune();
       }
     }
     return result;
