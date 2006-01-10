@@ -85,8 +85,14 @@ public class DefaultJAXPConfiguration implements JAXPConfiguration
     DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
     documentBuilderFactory.setNamespaceAware(true);
     documentBuilderFactory.setValidating(false);
-    documentBuilderFactory.setAttribute("http://apache.org/xml/features/dom/defer-node-expansion", Boolean.FALSE);
-
+    try
+    {
+      documentBuilderFactory.setAttribute("http://apache.org/xml/features/dom/defer-node-expansion", Boolean.FALSE);
+    }
+    catch (IllegalArgumentException e)
+    {
+      // do nothing
+    }
     DocumentBuilder parser = documentBuilderFactory.newDocumentBuilder();
     parser.setEntityResolver(createEntityResolver());
     parser.setErrorHandler(errorHandler);
