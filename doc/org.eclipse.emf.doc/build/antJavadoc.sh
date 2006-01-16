@@ -68,6 +68,11 @@ for pluginDir in $pluginDirs; do
 		packagesets=$packagesets"<packageset dir=\"$srcDir\"><exclude name=\"$srcDir/**/doc-files/**\"/></packageset>"
 		copydocfiles=$copydocfiles"<copyDocFiles pluginDir=\"$pluginDir\"/>"
 	fi
+	srcDir=$pluginDir/tasks
+	if [ -d "$srcDir" ]; then
+		packagesets=$packagesets"<packageset dir=\"$srcDir\"><exclude name=\"$srcDir/**/doc-files/**\"/></packageset>"
+		copydocfiles=$copydocfiles"<copyDocFiles pluginDir=\"$pluginDir\"/>"
+	fi
 done
 
 # Replaces the token @packagesets@ in the template by the actual value
