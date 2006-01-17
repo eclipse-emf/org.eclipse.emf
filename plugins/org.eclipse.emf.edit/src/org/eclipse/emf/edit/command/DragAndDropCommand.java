@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DragAndDropCommand.java,v 1.6 2005/06/08 06:17:05 nickb Exp $
+ * $Id: DragAndDropCommand.java,v 1.7 2006/01/17 18:55:41 davidms Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -269,11 +269,11 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
           if (location <= 0.20)
           {
             lowerLocationBound = 0.0F;
-            upperLocationBound = 2.0F;
+            upperLocationBound = 0.2F;
           }
           else 
           {
-            lowerLocationBound = 8.0F;
+            lowerLocationBound = 0.8F;
             upperLocationBound = 1.0F;
           }
         }
