@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
+  <extension-point id="facadeHelpers" name="%_UI_FacadeHelpers_extensionpoint" schema="schema/facadeHelpers.exsd" />
+
+  <extension point="org.eclipse.emf.codegen.facadeHelpers">
+    <facadeHelper class="org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper"/>
+  </extension>
+
   <extension id="CodeGen" point="org.eclipse.core.runtime.applications">
     <application>
       <run class="org.eclipse.emf.codegen.CodeGen$PlatformRunnable" />
