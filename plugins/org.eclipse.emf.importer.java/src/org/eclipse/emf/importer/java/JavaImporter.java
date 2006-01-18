@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaImporter.java,v 1.3 2005/11/23 19:07:03 emerks Exp $
+ * $Id: JavaImporter.java,v 1.4 2006/01/18 20:16:34 emerks Exp $
  */
 package org.eclipse.emf.importer.java;
 
@@ -22,8 +22,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.JavaCore;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.java.builder.JavaEcoreBuilder;
 
@@ -65,6 +67,11 @@ public class JavaImporter extends ModelImporter
     }
     return null;
   }
+  
+  public EPackage getReferredEPackage(GenPackage genPackage)
+  {
+    return genPackage.getEcorePackage();
+  }
 
   protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
@@ -73,6 +80,8 @@ public class JavaImporter extends ModelImporter
 
     JavaEcoreBuilder javaEcoreBuilder = new JavaEcoreBuilder(getGenModelFile(), getOriginalGenModel());
     javaEcoreBuilder.computeEPackages(monitor, this);
+    getReferencedGenPackages().clear();
+    getReferencedGenPackages().addAll(javaEcoreBuilder.getUsedGenPackages());
     return javaEcoreBuilder.getDiagnostic();
   }
   
