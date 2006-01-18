@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.10 2005/12/14 07:58:45 marcelop Exp $
+ * $Id: AllSuites.java,v 1.11 2006/01/18 20:33:16 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -26,7 +26,9 @@ public class AllSuites extends TestSuite
   private static Test[] suites = new Test []{ 
     org.eclipse.emf.test.tools.JETTest.suite()
     ,org.eclipse.emf.test.tools.merger.ASTTest.suite()
+    ,org.eclipse.emf.test.tools.merger.DeprecatedJMergerTest.suite()
     ,org.eclipse.emf.test.tools.merger.JMergerTest.suite()
+    ,org.eclipse.emf.test.tools.merger.FacadeTest_Example1.suite()
     ,org.eclipse.emf.test.tools.ant.AntTest.suite()
     ,org.eclipse.emf.test.tools.converter.ConverterUtilTest.suite()
     ,org.eclipse.emf.test.tools.importer.ImporterUtilTest.suite()
