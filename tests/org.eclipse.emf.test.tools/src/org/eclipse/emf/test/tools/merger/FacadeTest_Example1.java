@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeTest_Example1.java,v 1.1 2006/01/18 20:39:28 marcelop Exp $
+ * $Id: FacadeTest_Example1.java,v 1.2 2006/01/18 21:32:53 marcelop Exp $
  */
 
 package org.eclipse.emf.test.tools.merger;
@@ -137,7 +137,7 @@ public class FacadeTest_Example1 extends TestCase
     expectedHeader.append("/**");
     expectedHeader.append("\n").append(" * <copyright>");
     expectedHeader.append("\n").append(" *");
-    expectedHeader.append("\n").append(" * Copyright (c) 2004 IBM Corporation and others.");
+    expectedHeader.append("\n").append(" * Copyright (c) 2004-2006 IBM Corporation and others.");
     expectedHeader.append("\n").append(" * All rights reserved.   This program and the accompanying materials");
     expectedHeader.append("\n").append(" * are made available under the terms of the Eclipse Public License v1.0");
     expectedHeader.append("\n").append(" * which accompanies this distribution, and is available at");
