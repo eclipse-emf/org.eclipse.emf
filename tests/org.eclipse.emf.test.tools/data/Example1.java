@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,7 +36,7 @@ class AnotherClass
  * @generated
  * @generated NOT
  */
-public class Example extends EObjectImpl
+public class Example1 extends EObjectImpl
 {
 	// A public inner class.  It is indented with TABs
 	public abstract class InnerClass implements Notification, org.eclipse.emf.common.notify.Notifier 
@@ -52,7 +52,7 @@ public class Example extends EObjectImpl
   /**
    * public String constant.
    */
-  public static final String STR_CONST = "something";
+  public static final String STR_CONST = "something is ; different \"//; /*;*/" /*inte;res;ting*/ + " !!;;" /*;;;*/;
     
   /*
    * A private static inner interface
@@ -87,12 +87,12 @@ public class Example extends EObjectImpl
   /**
    * This is a contructor
    */
-  public Example()
+  public Example1()
   {
     super();
   }
   
-  private Example(String aString, boolean bol)
+  private Example1(String aString, boolean bol)
   {
     super();
   }
