@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.35 2005/12/10 13:19:39 emerks Exp $
+ * $Id: GenModel.java,v 1.36 2006/01/18 20:28:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -25,7 +25,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.IStatus;
 
 import org.eclipse.emf.codegen.jet.JETEmitter;
-import org.eclipse.emf.codegen.jmerge.JControlModel;
+import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -92,6 +92,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressNotification <em>Suppress Notification</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isArrayAccessors <em>Array Accessors</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressUnsettable <em>Suppress Unsettable</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFacadeHelperClass <em>Facade Helper Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1536,6 +1537,36 @@ public interface GenModel extends GenBase
   void setSuppressUnsettable(boolean value);
 
   /**
+   * Returns the value of the '<em><b>Facade Helper Class</b></em>' attribute.
+   * The default value is <code>"org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Facade Helper Class</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * <!-- begin-model-doc -->
+   * The default value must be always equals to JMerger.DEFAULT_FACADE_HELPER_CLASS.
+   * <!-- end-model-doc -->
+   * @return the value of the '<em>Facade Helper Class</em>' attribute.
+   * @see #setFacadeHelperClass(String)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_FacadeHelperClass()
+   * @model default="org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper"
+   * @generated
+   */
+  String getFacadeHelperClass();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFacadeHelperClass <em>Facade Helper Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Facade Helper Class</em>' attribute.
+   * @see #getFacadeHelperClass()
+   * @generated
+   */
+  void setFacadeHelperClass(String value);
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -1590,6 +1621,7 @@ public interface GenModel extends GenBase
   void addImport(String qualifiedName);
   void addPseudoImport(String qualifiedName);
 
+  String getMergeRulesLocation();
   JControlModel getJControlModel();
 
   JETEmitter getClassEmitter();

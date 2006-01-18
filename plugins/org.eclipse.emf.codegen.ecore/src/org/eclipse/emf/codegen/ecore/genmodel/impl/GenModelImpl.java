@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.63 2005/12/14 21:40:29 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.64 2006/01/18 20:28:54 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -52,7 +52,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
-import org.eclipse.emf.codegen.jmerge.JControlModel;
+import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.EMFPlugin;
@@ -145,6 +145,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressNotification <em>Suppress Notification</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isArrayAccessors <em>Array Accessors</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressUnsettable <em>Suppress Unsettable</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFacadeHelperClass <em>Facade Helper Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1169,6 +1170,27 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected boolean suppressUnsettable = SUPPRESS_UNSETTABLE_EDEFAULT;
 
   /**
+   * The default value of the '{@link #getFacadeHelperClass() <em>Facade Helper Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * This value should be always equals to JMerger.DEFAULT_FACADE_HELPER_CLASS.
+   * <!-- end-user-doc -->
+   * @see #getFacadeHelperClass()
+   * @generated
+   * @ordered
+   */
+  protected static final String FACADE_HELPER_CLASS_EDEFAULT = "org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper";
+
+  /**
+   * The cached value of the '{@link #getFacadeHelperClass() <em>Facade Helper Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getFacadeHelperClass()
+   * @generated
+   * @ordered
+   */
+  protected String facadeHelperClass = FACADE_HELPER_CLASS_EDEFAULT;
+
+  /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1516,12 +1538,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     templatePath[1] =  CodeGenEcorePlugin.INSTANCE.getBaseURL().toString() + "templates";
     return templatePath;
   }
+  
+  public String getMergeRulesLocation()
+  {
+    return JETCompiler.find(getTemplatePath(), jControlModelName);
+  }
 
   public JControlModel getJControlModel()
   {
     if (jControlModel == null)
     {
-      jControlModel = new JControlModel(JETCompiler.find(getTemplatePath(), jControlModelName));
+      jControlModel = new JControlModel();
     }
     return jControlModel;
   }
@@ -4086,6 +4113,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getFacadeHelperClass()
+  {
+    return facadeHelperClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setFacadeHelperClass(String newFacadeHelperClass)
+  {
+    String oldFacadeHelperClass = facadeHelperClass;
+    facadeHelperClass = newFacadeHelperClass;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS, oldFacadeHelperClass, facadeHelperClass));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -4302,6 +4352,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isArrayAccessors() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
         return isSuppressUnsettable() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
+        return getFacadeHelperClass();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -4471,6 +4523,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
         setSuppressUnsettable(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
+        setFacadeHelperClass((String)newValue);
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -4643,6 +4698,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
         setSuppressUnsettable(SUPPRESS_UNSETTABLE_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
+        setFacadeHelperClass(FACADE_HELPER_CLASS_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -4762,6 +4820,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return arrayAccessors != ARRAY_ACCESSORS_EDEFAULT;
       case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
         return suppressUnsettable != SUPPRESS_UNSETTABLE_EDEFAULT;
+      case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
+        return FACADE_HELPER_CLASS_EDEFAULT == null ? facadeHelperClass != null : !FACADE_HELPER_CLASS_EDEFAULT.equals(facadeHelperClass);
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -4878,6 +4938,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(arrayAccessors);
     result.append(", suppressUnsettable: ");
     result.append(suppressUnsettable);
+    result.append(", facadeHelperClass: ");
+    result.append(facadeHelperClass);
     result.append(')');
     return result.toString();
   }
