@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.32 2005/12/10 13:20:18 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.33 2006/01/18 20:26:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -762,9 +762,19 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenModel_FacadeHelperClass()
+  {
+    return (EAttribute)genModelEClass.getEStructuralFeatures().get(50);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getGenModel_GenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(50);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(51);
   }
 
   /**
@@ -774,7 +784,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    */
   public EReference getGenModel_UsedGenPackages()
   {
-    return (EReference)genModelEClass.getEStructuralFeatures().get(51);
+    return (EReference)genModelEClass.getEStructuralFeatures().get(52);
   }
 
   /**
@@ -1578,6 +1588,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genModelEClass, GEN_MODEL__SUPPRESS_NOTIFICATION);
     createEAttribute(genModelEClass, GEN_MODEL__ARRAY_ACCESSORS);
     createEAttribute(genModelEClass, GEN_MODEL__SUPPRESS_UNSETTABLE);
+    createEAttribute(genModelEClass, GEN_MODEL__FACADE_HELPER_CLASS);
     createEReference(genModelEClass, GEN_MODEL__GEN_PACKAGES);
     createEReference(genModelEClass, GEN_MODEL__USED_GEN_PACKAGES);
 
@@ -1761,6 +1772,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenModel_SuppressNotification(), ecorePackage.getEBoolean(), "suppressNotification", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_ArrayAccessors(), ecorePackage.getEBoolean(), "arrayAccessors", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenModel_SuppressUnsettable(), ecorePackage.getEBoolean(), "suppressUnsettable", null, 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenModel_FacadeHelperClass(), ecorePackage.getEString(), "facadeHelperClass", "org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper", 0, 1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_GenPackages(), this.getGenPackage(), this.getGenPackage_GenModel(), "genPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenModel_UsedGenPackages(), this.getGenPackage(), null, "usedGenPackages", null, 0, -1, GenModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

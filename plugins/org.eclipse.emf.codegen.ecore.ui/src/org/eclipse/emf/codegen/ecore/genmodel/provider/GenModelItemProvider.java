@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.25 2005/12/10 13:31:33 emerks Exp $
+ * $Id: GenModelItemProvider.java,v 1.26 2006/01/18 20:29:59 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -118,6 +118,7 @@ public class GenModelItemProvider
       addSuppressNotificationPropertyDescriptor(object);
       addArrayAccessorsPropertyDescriptor(object);
       addSuppressUnsettablePropertyDescriptor(object);
+      addFacadeHelperClassPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1089,6 +1090,27 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Facade Helper Class feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addFacadeHelperClassPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_facadeHelperClass_feature"),
+         getString("_UI_GenModel_facadeHelperClass_description"),
+         GenModelPackage.Literals.GEN_MODEL__FACADE_HELPER_CLASS,
+         true,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_JETPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1199,6 +1221,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__SUPPRESS_NOTIFICATION:
       case GenModelPackage.GEN_MODEL__ARRAY_ACCESSORS:
       case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
+      case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

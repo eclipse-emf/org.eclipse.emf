@@ -131,6 +131,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/arrayAccessors"/>
       <genFeatures createChild="false" propertyCategory="ModelFeature" propertyDescription="Whether to suppress generated support for unsettable features "
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressUnsettable"/>
+      <genFeatures createChild="false" propertyCategory="JET" propertyDescription="The class to be used to provide an implementation of the source manipulation API for merging Java code"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/facadeHelperClass"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>

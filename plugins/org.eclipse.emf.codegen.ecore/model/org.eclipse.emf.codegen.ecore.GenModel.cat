@@ -290,6 +290,12 @@
 		(object ClassAttribute "suppressUnsettable"
 		    quid       	"4396F3840382"
 		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "facadeHelperClass"
+		    quid       	    "4396F3050916"
+		    documentation   "The default value must be always equals to JMerger.DEFAULT_FACADE_HELPER_CLASS."
+		    type       	    "String"
+		    initv           "org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
