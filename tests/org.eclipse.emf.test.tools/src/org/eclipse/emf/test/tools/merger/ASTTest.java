@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.12 2006/01/03 21:30:33 marcelop Exp $
+ * $Id: ASTTest.java,v 1.13 2006/01/18 20:38:05 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.Test;
@@ -31,6 +32,7 @@ import org.eclipse.jdt.core.dom.ArrayType;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
+import org.eclipse.jdt.core.dom.InfixExpression;
 import org.eclipse.jdt.core.dom.Initializer;
 import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
@@ -60,7 +62,7 @@ import org.eclipse.emf.test.tools.TestUtil;
 public class ASTTest extends TestCase
 {
   private static final File CLASS_FILE = 
-    new File(TestUtil.getPluginDirectory() + "/data/Example.java").getAbsoluteFile();
+    new File(TestUtil.getPluginDirectory() + "/data/Example1.java").getAbsoluteFile();
  
  /**
   * @param name
@@ -90,6 +92,19 @@ public class ASTTest extends TestCase
    astParser.setSource(content.toCharArray());
    CompilationUnit compilationUnit = (CompilationUnit)astParser.createAST(null);
    
+   {
+     Javadoc javadoc = (Javadoc)compilationUnit.getCommentList().get(0);
+     assertEquals(1, javadoc.tags().size());
+     TagElement tagElement = (TagElement)javadoc.tags().get(0);
+     assertEquals(9, tagElement.fragments().size());
+     for (Iterator i = tagElement.fragments().iterator(); i.hasNext();)
+    {
+      TextElement element = (TextElement)i.next();
+      System.out.println(element.getText());
+    }
+   }
+   
+   
    //** Package
    PackageDeclaration packageDeclaration = compilationUnit.getPackage();
    assertNotNull(packageDeclaration);
@@ -116,9 +131,9 @@ public class ASTTest extends TestCase
    List typeDeclarations = compilationUnit.types();
    assertEquals(2, typeDeclarations.size());
    
-   //** Class Example
+   //** Class Example1
    TypeDeclaration exampleClass = (TypeDeclaration)typeDeclarations.get(1);
-   assertEquals("Example", exampleClass.getName().getFullyQualifiedName());
+   assertEquals("Example1", exampleClass.getName().getFullyQualifiedName());
    assertFalse(exampleClass.isInterface());
    //Javadoc
    {
@@ -150,7 +165,7 @@ public class ASTTest extends TestCase
    //Modifiers
    assertEquals(Modifier.PUBLIC, exampleClass.getModifiers());
    
-   //** Content of the Example class
+   //** Content of the Example1 class
    assertEquals(17, exampleClass.bodyDeclarations().size());
    assertEquals(2, exampleClass.getTypes().length);
    assertEquals(5, exampleClass.getFields().length);
@@ -248,8 +263,13 @@ public class ASTTest extends TestCase
      assertEquals("STR_CONST", variableDeclarationFragments[0].getName().getFullyQualifiedName());
      //
      assertNotNull(variableDeclarationFragments[0].getInitializer());
-     assertTrue(variableDeclarationFragments[0].getInitializer() instanceof StringLiteral);
-     assertEquals("something", ((StringLiteral)variableDeclarationFragments[0].getInitializer()).getLiteralValue());
+     assertTrue(variableDeclarationFragments[0].getInitializer().getClass().getName(), variableDeclarationFragments[0].getInitializer() instanceof InfixExpression);
+     InfixExpression infixExpression = (InfixExpression)variableDeclarationFragments[0].getInitializer();
+     assertTrue(infixExpression.getLeftOperand() instanceof StringLiteral);
+     assertEquals("something is ; different \"//; /*;*/", ((StringLiteral)infixExpression.getLeftOperand()).getLiteralValue());
+     assertTrue(infixExpression.getRightOperand() instanceof StringLiteral);
+     assertEquals(" !!;;", ((StringLiteral)infixExpression.getRightOperand()).getLiteralValue());
+     assertEquals("+", infixExpression.getOperator().toString());
    }
    //fieldDeclarations[1]: protected static long longStatic = 1l
    {
@@ -331,7 +351,7 @@ public class ASTTest extends TestCase
    
    //** Methods
    MethodDeclaration[] methodDeclarations = exampleClass.getMethods();
-   //methodDeclarations[0]: public Example()
+   //methodDeclarations[0]: public Example1()
    {
      Javadoc javadoc = methodDeclarations[0].getJavadoc();
      assertEquals(1, javadoc.tags().size());
@@ -344,7 +364,7 @@ public class ASTTest extends TestCase
      //
      assertNull(methodDeclarations[0].getReturnType2());
      //
-     assertEquals("Example", methodDeclarations[0].getName().getFullyQualifiedName());
+     assertEquals("Example1", methodDeclarations[0].getName().getFullyQualifiedName());
      //
      assertTrue(methodDeclarations[0].parameters().isEmpty());
      //
