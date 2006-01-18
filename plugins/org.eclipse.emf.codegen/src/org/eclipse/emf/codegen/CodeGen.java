@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGen.java,v 1.8 2005/11/18 12:03:04 emerks Exp $
+ * $Id: CodeGen.java,v 1.9 2006/01/18 20:48:05 marcelop Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -40,8 +40,8 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETException;
-import org.eclipse.emf.codegen.jmerge.JControlModel;
-import org.eclipse.emf.codegen.jmerge.JMerger;
+import org.eclipse.emf.codegen.merge.java.JControlModel;
+import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.DiagnosticException;
 
@@ -149,7 +149,14 @@ public class CodeGen
                 progressMonitor.subTask
                   (CodeGenPlugin.getPlugin().getString("_UI_CompilingTemplate_message", new Object [] { templateFile }));
   
-                JControlModel jControlModel = arguments.length > 2 ? new JControlModel(arguments[2]) : null;
+                JControlModel jControlModel = null;
+                if (arguments.length > 2)
+                {
+                  jControlModel = new JControlModel();
+                  
+                  String facadeHelperClass = arguments.length > 3 ? arguments[3] : JMerger.DEFAULT_FACADE_HELPER_CLASS;
+                  jControlModel.initialize(CodeGenUtil.instantiateFacadeHelper(facadeHelperClass), arguments[2]);
+                }
                 progressMonitor.worked(1);
   
                 progressMonitor.subTask
@@ -177,8 +184,7 @@ public class CodeGen
                 {
                   if (jControlModel != null)
                   {
-                    JMerger jMerger = new JMerger();
-                    jMerger.setControlModel(jControlModel);
+                    JMerger jMerger = new JMerger(jControlModel);
                     jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(outputStream.toString()));
                     jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForURI(targetPath.toString()));
                     jMerger.merge();
