@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.44 2005/12/14 21:39:44 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.45 2006/01/18 20:29:37 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -71,9 +71,10 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
-import org.eclipse.emf.codegen.jmerge.JControlModel;
-import org.eclipse.emf.codegen.jmerge.JMerger;
-import org.eclipse.emf.codegen.jmerge.PropertyMerger;
+import org.eclipse.emf.codegen.merge.java.JControlModel;
+import org.eclipse.emf.codegen.merge.java.JMerger;
+import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
+import org.eclipse.emf.codegen.merge.properties.PropertyMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.EMFPlugin;
@@ -582,11 +583,16 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         
         String newContents = emitterResult;
         JControlModel jControlModel = getGenModel().getJControlModel();
-        if (EMFPlugin.IS_ECLIPSE_RUNNING)
+        if (jControlModel.getFacadeHelper() == null || !jControlModel.getFacadeHelper().getClass().getName().equals(getGenModel().getFacadeHelperClass()))
         {
-          JMerger jMerger = new JMerger();
+          FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(getGenModel().getFacadeHelperClass()); 
+          jControlModel.initialize(facadeHelper, getGenModel().getMergeRulesLocation());
+        }
+        
+        if (jControlModel.canMerge())
+        {
+          JMerger jMerger = new JMerger(jControlModel);
           jMerger.setFixInterfaceBrace(true);
-          jMerger.setControlModel(jControlModel);
           jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
           // Create a code formatter for this compilation unit, if needed
           CodeFormatter codeFormatter = getGenModel().isCodeFormatting() ? getGenModel().createCodeFormatter() : null;
@@ -623,6 +629,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             
             jMerger.merge();
             newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
+          }
+          
+          if (jControlModel.getFacadeHelper() != null)
+          {
+            jControlModel.getFacadeHelper().reset();
           }
         }
         else
