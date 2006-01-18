@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the CodeGen Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGenPlugin.java,v 1.4 2005/06/08 06:15:57 nickb Exp $
+ * $Id: CodeGenPlugin.java,v 1.5 2006/01/18 20:48:24 marcelop Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -40,6 +40,11 @@ public final class CodeGenPlugin extends EMFPlugin
    */
   public static final CodeGenPlugin INSTANCE = new CodeGenPlugin();
 
+  /**
+   * The plugin ID
+   */
+  public static final String ID = "org.eclipse.emf.codegen";
+  
   /**
    * The one instance of this class.
    */
