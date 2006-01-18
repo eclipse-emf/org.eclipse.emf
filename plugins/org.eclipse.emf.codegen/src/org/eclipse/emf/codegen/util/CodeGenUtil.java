@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -56,6 +56,7 @@ import org.eclipse.osgi.util.ManifestElement;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.jet.JETException;
+import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
@@ -839,6 +840,33 @@ public class CodeGenUtil
 
     public abstract boolean handleMatch(int offset, Matcher matcher);
   }
+  
+  public static FacadeHelper instantiateFacadeHelper(String facadeHelperClass)
+  {
+    try
+    {
+      Class cls = Class.forName(facadeHelperClass);
+      Object object = cls.newInstance();
+      if (object instanceof FacadeHelper)
+      {
+        return (FacadeHelper)object;
+      }
+    }
+    catch (Exception e)
+    {
+    }
+      
+    if (CodeGenPlugin.IS_ECLIPSE_RUNNING)
+    {
+      FacadeHelper facadeHelper = EclipseUtil.instantiateRegisteredFacadeHelper(facadeHelperClass);
+      if (facadeHelper != null)
+      {
+        return facadeHelper;
+      }
+    }
+    return null;
+  }
+  
 
   protected static class EclipseUtil
   {
@@ -1030,5 +1058,29 @@ public class CodeGenUtil
     {
       return JavaConventions.validateIdentifier(name).isOK();
     }
+    
+    public static FacadeHelper instantiateRegisteredFacadeHelper(String facadeHelperClass)
+    {
+      org.eclipse.core.runtime.IExtensionPoint extensionPoint = org.eclipse.core.runtime.Platform.getExtensionRegistry().getExtensionPoint(CodeGenPlugin.ID, "facadeHelpers");
+      org.eclipse.core.runtime.IConfigurationElement[] configurationElements = extensionPoint.getConfigurationElements();
+      for (int i = 0; i < configurationElements.length; i++)
+      {
+        if ("facadeHelper".equals(configurationElements[i].getName()) && facadeHelperClass.equals(configurationElements[i].getAttribute("class")))
+        {
+          try
+          {
+            Object object = configurationElements[i].createExecutableExtension("class");
+            if (object instanceof FacadeHelper)
+            {
+              return (FacadeHelper)object;
+            }
+          }
+          catch (CoreException e)
+          {
+          }
+        }
+      }
+      return null;
+    }    
   }
 }
