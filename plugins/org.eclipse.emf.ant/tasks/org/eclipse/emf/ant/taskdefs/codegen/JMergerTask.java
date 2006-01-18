@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTask.java,v 1.4 2005/06/17 13:40:04 marcelop Exp $
+ * $Id: JMergerTask.java,v 1.5 2006/01/18 20:25:16 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen;
 
@@ -23,14 +23,15 @@ import org.apache.tools.ant.BuildException;
 
 import org.eclipse.emf.ant.taskdefs.EMFTask;
 import org.eclipse.emf.ant.util.Util;
-import org.eclipse.emf.codegen.jmerge.JMerger;
+import org.eclipse.emf.codegen.merge.java.JMerger;
+import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
 
 
 /**
  * <p>
  * Exposes some functionalities available on the 
- * {@link org.eclipse.emf.codegen.jmerge.JMerger JMerger} class. 
+ * {@link org.eclipse.emf.codegen.merge.java.JMerger JMerger} class. 
  * </p>
  * <p>
  * This task is supposed to be executed by a Eclipse driver with the 
@@ -79,6 +80,7 @@ public class JMergerTask extends EMFTask
   private String targetURI;
   private File targetFile;
   private File newFile;
+  private String facadeHelperClass = JMerger.DEFAULT_FACADE_HELPER_CLASS;
 
   public void setMergeXMLURI(String mergeXMLURI)
   {
@@ -113,6 +115,11 @@ public class JMergerTask extends EMFTask
   public void setNewFile(File newFile)
   {
     this.newFile = newFile;
+  }
+
+  public void setFacadeHelperClass(String facadeHelperClass)
+  {
+    this.facadeHelperClass = facadeHelperClass;
   }
 
   protected void checkAttributes() throws BuildException
@@ -161,7 +168,7 @@ public class JMergerTask extends EMFTask
 
     assertTrue("Cannot write to target", newFile != null);
 
-    String contents = merger.execute(getProgressMonitor(), new String []{ mergeXML, source, target });
+    String contents = merger.execute(BasicMonitor.toMonitor(getProgressMonitor()), new String []{ mergeXML, source, target, facadeHelperClass });
     Util.writeFile(newFile, contents);
   }
 }
