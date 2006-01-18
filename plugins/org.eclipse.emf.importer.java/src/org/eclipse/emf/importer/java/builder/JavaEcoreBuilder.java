@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.14 2005/12/14 07:52:05 marcelop Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.15 2006/01/18 20:15:57 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -491,9 +491,9 @@ public class JavaEcoreBuilder
         GenPackage genPackage = genModel.findGenPackage(ePackage);
         if (genPackage != null)
         {
-          if (!usedGenPackages.contains(genPackage))
+          if (!getUsedGenPackages().contains(genPackage) && genPackage.eResource() != null)
           {
-            usedGenPackages.add(genPackage);
+            getUsedGenPackages().add(genPackage);
 
             // Compute the closure.
             //
@@ -1962,6 +1962,15 @@ public class JavaEcoreBuilder
   public GenModel getGenModel()
   {
     return genModel;
+  }
+  
+  /**
+   * Returns the list of used GenPackages.
+   * @return the list of used GenPackages.
+   */
+  public Collection getUsedGenPackages()
+  {
+    return usedGenPackages;
   }
 
   /**
