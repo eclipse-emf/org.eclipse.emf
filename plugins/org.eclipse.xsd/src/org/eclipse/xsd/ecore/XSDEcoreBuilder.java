@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.44 2005/12/21 22:19:30 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.45 2006/01/18 22:51:39 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2626,7 +2626,7 @@ public class XSDEcoreBuilder extends MapBuilder
   protected List getEcoreTypeQNamesAttribute(XSDConcreteComponent xsdConcreteComponent, String attribute)
   {
     Element element = xsdConcreteComponent.getElement();
-    return  element == null ? null : getEcoreTypeQNamesAttribute(xsdConcreteComponent, element, EcorePackage.eNS_URI, attribute);
+    return  element == null ? Collections.EMPTY_LIST : getEcoreTypeQNamesAttribute(xsdConcreteComponent, element, EcorePackage.eNS_URI, attribute);
   }
 
   protected List getEcoreTypeQNamesAttribute
