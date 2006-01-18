@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.5 2005/06/12 13:19:04 emerks Exp $
+ * $Id: JPatternDictionary.java,v 1.6 2006/01/18 20:41:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -38,6 +38,7 @@ import org.eclipse.jdt.core.jdom.IDOMType;
 
 /**
  * A dictionary of signatures and JDOM nodes.
+ * @deprecated in 2.2.0. Use {@link org.eclipse.emf.codegen.merge.java.JPatternDictionary} instead.
  */
 public class JPatternDictionary 
 {

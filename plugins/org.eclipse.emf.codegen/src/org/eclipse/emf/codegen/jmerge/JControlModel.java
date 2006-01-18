@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,551 +12,170 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.4 2005/11/18 12:05:05 emerks Exp $
+ * $Id: JControlModel.java,v 1.5 2006/01/18 20:41:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
-import org.eclipse.emf.common.EMFPlugin;
 
 
 /**
  *  A control model that  provides dictionaries and rules to drive a merge process.
+ *  @deprecated in 2.2.0. Use {@link org.eclipse.emf.codegen.merge.java.JControlModel} instead.
  */
-public class JControlModel
+public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlModel
 {
-  public static class Feature 
+  protected final static String CLASS_PREFIX = "org.eclipse.jdt.core.jdom.IDOM";
+  
+  /**
+   * @deprecated in 2.2.0. 
+   * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel.Feature} instead.
+   */
+  public static class Feature extends org.eclipse.emf.codegen.merge.java.JControlModel.Feature
   {
-    protected Class featureClass;
-    protected Method featureMethod;
-
     public Feature(String path, Class [] parameterTypes)
     {
-      int index = path.indexOf('/');
-      String className = "org.eclipse.jdt.core.jdom.IDOM" + path.substring(0, index);
-      String methodName = path.substring(index + 1);
-      try
-      {
-        featureClass = Class.forName(className);
-        featureMethod = featureClass.getMethod(methodName, parameterTypes);
-      }
-      catch (NoSuchMethodException exception)
-      {
-        // CodeGenPlugin.INSTANCE.log(exception);
-      }
-      catch (ClassNotFoundException exception)
-      {
-        // CodeGenPlugin.INSTANCE.log(exception);
-      }
-    }
-
-    public Class getFeatureClass()
-    {
-      return featureClass;
-    }
-
-    public Method getFeatureMethod()
-    {
-      return featureMethod;
+      super(CLASS_PREFIX, path, parameterTypes);
     }
   }
 
-  public static class DictionaryPattern
+  /**
+   * @deprecated in 2.2.0. 
+   * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel.DictionaryPattern} instead.
+   */
+  public static class DictionaryPattern extends org.eclipse.emf.codegen.merge.java.JControlModel.DictionaryPattern
   {
-    protected static Class [] noParameterTypes = new Class [0];
-    protected static Class [] stringParameterType = new Class [] { String.class };
-    protected String name;
-    protected Feature selectorFeature;
-    protected Pattern pattern;
-
     public DictionaryPattern()
     {
+      super(CLASS_PREFIX);
     }
 
     public DictionaryPattern(Element element)
     {
-      initialize(element);
+      super(CLASS_PREFIX, element);
     }
-
-    public void initialize(Element element)
+    
+    protected org.eclipse.emf.codegen.merge.java.JControlModel.Feature createFeature(String classPrefix, String path, Class [] parameterTypes)
     {
-      name = element.getAttribute("name");
-      selectorFeature = new Feature(element.getAttribute("select"), noParameterTypes);
-      pattern = Pattern.compile(element.getAttribute("match"), Pattern.MULTILINE | Pattern.DOTALL);
-    }
-
-    public String getName()
-    {
-      return name;
-    }
-
-    public void setName(String name)
-    {
-      this.name = name;
-    }
-
-    public Feature getSelectorFeature()
-    {
-      return selectorFeature;
-    }
-
-    public void setSelectorFeature(Feature selectorFeature)
-    {
-      this.selectorFeature = selectorFeature;
-    }
-
-    public Pattern getPattern()
-    {
-      return pattern;
-    }
-
-    public void setPattern(Pattern pattern)
-    {
-      this.pattern = pattern;
-    }
+      return new Feature(path, parameterTypes);
+    }    
   }
 
-  public static class PullRule
+  /**
+   * @deprecated in 2.2.0. 
+   * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel.PullRule} instead.
+   */
+  public static class PullRule extends org.eclipse.emf.codegen.merge.java.JControlModel.PullRule
   {
-    protected static Class [] noParameterTypes = new Class [0];
-    protected String name;
-
-    protected Pattern sourceMarkup;
-    protected Feature sourceGetFeature;
-    protected Pattern sourceTransfer;
-
-    protected Pattern targetMarkup;
-    protected Feature targetPutFeature;
-    protected Pattern targetTransfer;
-
     public PullRule()
     {
+      super(CLASS_PREFIX);
     }
 
     public PullRule(Element element)
     {
-      initialize(element);
+      super(CLASS_PREFIX, element);
     }
 
-    public void initialize(Element element)
+    protected org.eclipse.emf.codegen.merge.java.JControlModel.Feature createFeature(String classPrefix, String path, Class [] parameterTypes)
     {
-      sourceGetFeature = new Feature(element.getAttribute("sourceGet"), noParameterTypes);
-      if (sourceGetFeature != null)
-      {
-        Method featureMethod = sourceGetFeature.getFeatureMethod();
-        if (featureMethod != null)
-        {
-          Class sourceReturnType = featureMethod.getReturnType();
-          targetPutFeature = new Feature(element.getAttribute("targetPut"), new Class [] { sourceReturnType });
-          if (targetPutFeature.getFeatureMethod() == null && sourceReturnType.isArray())
-          {
-            targetPutFeature = new Feature(element.getAttribute("targetPut"), new Class [] { sourceReturnType.getComponentType() });
-          }
-        }
-      }
-      if (element.hasAttribute("sourceMarkup"))
-      {
-        sourceMarkup= Pattern.compile(element.getAttribute("sourceMarkup"), Pattern.MULTILINE | Pattern.DOTALL);
-      }
-      if (element.hasAttribute("targetMarkup"))
-      {
-        targetMarkup= Pattern.compile(element.getAttribute("targetMarkup"), Pattern.MULTILINE | Pattern.DOTALL);
-      }
-      if (element.hasAttribute("sourceTransfer"))
-      {
-        sourceTransfer= Pattern.compile(element.getAttribute("sourceTransfer"), Pattern.MULTILINE | Pattern.DOTALL);
-      }
-      if (element.hasAttribute("targetTransfer"))
-      {
-        targetTransfer= Pattern.compile(element.getAttribute("targetTransfer"), Pattern.MULTILINE | Pattern.DOTALL);
-      }
-    }
-
-    public String getName()
-    {
-      return name;
-    }
-
-    public void setName(String name)
-    {
-      this.name = name;
-    }
-
-    public Feature getSourceGetFeature()
-    {
-      return sourceGetFeature;
-    }
+      return new Feature(path, parameterTypes);
+    }    
 
     public void setSourceGetFeature(Feature sourceGetFeature)
     {
       this.sourceGetFeature = sourceGetFeature;
     }
 
-    public Feature getTargetPutFeature()
-    {
-      return targetPutFeature;
-    }
-
     public void setTargetPutFeature(Feature targetPutFeature)
     {
       this.targetPutFeature = targetPutFeature;
     }
-
-    public Pattern getSourceTransfer()
-    {
-      return sourceTransfer;
-    }
-
-    public void setSourceTransfer(Pattern sourceTransfer)
-    {
-      this.sourceTransfer = sourceTransfer;
-    }
-
-    public Pattern getTargetTransfer()
-    {
-      return targetTransfer;
-    }
-
-    public void setTargetTransfer(Pattern targetTransfer)
-    {
-      this.targetTransfer = targetTransfer;
-    }
-
-    public Pattern getSourceMarkup()
-    {
-      return sourceMarkup;
-    }
-
-    public void setSourceMarkup(Pattern sourceMarkup)
-    {
-      this.sourceMarkup = sourceMarkup;
-    }
-
-    public Pattern getTargetMarkup()
-    {
-      return targetMarkup;
-    }
-
-    public void setTargetMarkup(Pattern targetMarkup)
-    {
-      this.targetMarkup = targetMarkup;
-    }
   }
 
-  public static class SweepRule
+  /**
+   * @deprecated in 2.2.0. 
+   * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel.SweepRule} instead.
+   */
+  public static class SweepRule extends org.eclipse.emf.codegen.merge.java.JControlModel.SweepRule
   {
-    protected String name;
-    protected Class selector;
-    protected Pattern markup;
-
     public SweepRule()
     {
+      super(CLASS_PREFIX);
     }
 
     public SweepRule(Element element)
     {
-      initialize(element);
-    }
-
-    public void initialize(Element element)
-    {
-      if (element.hasAttribute("select"))
-      {
-        selector = classForClassName(element.getAttribute("select"));
-      }
-      if (element.hasAttribute("markup"))
-      {
-        markup= Pattern.compile(element.getAttribute("markup"), Pattern.MULTILINE | Pattern.DOTALL);
-      }
-    }
-
-    public String getName()
-    {
-      return name;
-    }
-
-    public void setName(String name)
-    {
-      this.name = name;
-    }
-
-    public Class getSelector()
-    {
-      return selector;
-    }
-
-    public void setSelector(Class selector)
-    {
-      this.selector = selector;
-    }
-
-    public Pattern getMarkup()
-    {
-      return markup;
-    }
-
-    public void setMarkup(Pattern markup)
-    {
-      this.markup = markup;
+      super(CLASS_PREFIX, element);
     }
   }
 
-  public static class SortRule
+  /**
+   * @deprecated in 2.2.0. 
+   * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel.SortRule} instead.
+   */
+  public static class SortRule extends org.eclipse.emf.codegen.merge.java.JControlModel.SortRule
   {
-    protected String name;
-    protected Class selector;
-    protected Pattern markup;
-
     public SortRule()
     {
+      super(CLASS_PREFIX);
     }
 
     public SortRule(Element element)
     {
-      initialize(element);
-    }
-
-    public void initialize(Element element)
-    {
-      if (element.hasAttribute("select"))
-      {
-        selector = classForClassName(element.getAttribute("select"));
-      }
-      if (element.hasAttribute("markup"))
-      {
-        markup= Pattern.compile(element.getAttribute("markup"), Pattern.MULTILINE | Pattern.DOTALL);
-      }
-    }
-
-    public String getName()
-    {
-      return name;
-    }
-
-    public void setName(String name)
-    {
-      this.name = name;
-    }
-
-    public Class getSelector()
-    {
-      return selector;
-    }
-
-    public void setSelector(Class selector)
-    {
-      this.selector = selector;
-    }
-
-    public Pattern getMarkup()
-    {
-      return markup;
-    }
-
-    public void setMarkup(Pattern markup)
-    {
-      this.markup = markup;
+      super(CLASS_PREFIX, element);
     }
   }
-
-
-  protected List dictionaryPatterns;
-  protected List pullRules;
-  protected List sweepRules;
-  protected List sortRules;
-  protected String indent;
-  protected String redirect;
-  protected boolean standardBraceStyle;
-  protected Pattern blockPattern;
-  protected Pattern noImportPattern;
+  
+  /**
+   * @deprecated in 2.2.0. 
+   * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel#classForClassName(String, String)} instead.
+   */  
+  public static Class classForClassName(String className)
+  {
+    return org.eclipse.emf.codegen.merge.java.JControlModel.classForClassName(CLASS_PREFIX, className);
+  }
 
   /**
    * This creates an instance.
    */
   public JControlModel(String uri) 
   {
+    setClassPrefix(CLASS_PREFIX);
     initialize(uri);
   }
 
   public JControlModel(Element element)
   {
+    setClassPrefix(CLASS_PREFIX);
     initialize(element);
   }
-
-  public boolean convertToStandardBraceStyle()
+  
+  public boolean canMerge()
   {
-    return standardBraceStyle;
+    return CodeGenPlugin.IS_ECLIPSE_RUNNING;
   }
 
-  public void setConvertToStandardBraceStyle(boolean standardBraceStyle)
+  protected org.eclipse.emf.codegen.merge.java.JControlModel.DictionaryPattern createDictionaryPattern(String classPrefix, Element elementChild)
   {
-    this.standardBraceStyle = standardBraceStyle;
+    return new DictionaryPattern(elementChild);
   }
-
-  public String getLeadingTabReplacement()
+  
+  protected org.eclipse.emf.codegen.merge.java.JControlModel.PullRule createPullRule(String classPrefix, Element elementChild)
   {
-    return indent;
+    return new PullRule(elementChild);
   }
-
-  public void setLeadingTabReplacement(String indent)
+  
+  protected org.eclipse.emf.codegen.merge.java.JControlModel.SweepRule createSweepRule(String classPrefix, Element elementChild)
   {
-    this.indent = indent;
+    return new SweepRule(elementChild);
   }
-
-  public String getRedirect()
+  
+  protected org.eclipse.emf.codegen.merge.java.JControlModel.SortRule createSortRule(String classPrefix, Element elementChild)
   {
-    return redirect;
-  }
-
-  public Pattern getBlockPattern()
-  {
-    return blockPattern;
-  }
-
-  public Pattern getNoImportPattern()
-  {
-    return noImportPattern;
-  }
-
-  public List getDictionaryPatterns()
-  {
-    if (dictionaryPatterns == null)
-    {
-      dictionaryPatterns = new ArrayList();
-    }
-    return dictionaryPatterns;
-  }
-
-  public List getPullRules()
-  {
-    if (pullRules == null)
-    {
-      pullRules = new ArrayList();
-    }
-    return pullRules;
-  }
-
-  public List getSweepRules()
-  {
-    if (sweepRules == null)
-    {
-      sweepRules = new ArrayList();
-    }
-    return sweepRules;
-  }
-
-  public List getSortRules()
-  {
-    if (sortRules == null)
-    {
-      sortRules = new ArrayList();
-    }
-    return sortRules;
-  }
-
-  protected void initialize(String uri)
-  {
-    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-    documentBuilderFactory.setNamespaceAware(true);
-    documentBuilderFactory.setValidating(false);
-    try
-    {
-      DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-      Document document = documentBuilder.parse(new InputSource(uri));
-      initialize(document.getDocumentElement());
-    }
-    catch (Exception exception)
-    {
-      CodeGenPlugin.INSTANCE.log(exception);
-    }
-  }
-
-  protected void initialize(Element element)
-  {
-    if (element.getLocalName().equals("options"))
-    {
-      if ("standard".equals(element.getAttributeNS(null, "braceStyle")))
-      {
-        standardBraceStyle = true;
-      }
-
-      if (element.hasAttributeNS(null, "indent"))
-      {
-        indent = element.getAttributeNS(null, "indent");
-      }
-
-      if (element.hasAttributeNS(null, "redirect"))
-      {
-        redirect = element.getAttributeNS(null, "redirect");
-      }
-
-      if (element.hasAttributeNS(null, "block"))
-      {
-        blockPattern = Pattern.compile(element.getAttributeNS(null, "block"), Pattern.MULTILINE | Pattern.DOTALL); 
-      }
-
-      if (element.hasAttributeNS(null, "noImport"))
-      {
-        noImportPattern = Pattern.compile(element.getAttributeNS(null, "noImport"), Pattern.MULTILINE | Pattern.DOTALL); 
-      }
-
-      for (Node child = element.getFirstChild(); child != null; child = child.getNextSibling())
-      {
-        if (child.getNodeType() == Node.ELEMENT_NODE)
-        {
-          Element elementChild = (Element)child;
-          if (elementChild.getLocalName().equals("dictionaryPattern"))
-          {
-            getDictionaryPatterns().add(new DictionaryPattern(elementChild));
-          }
-          else if (elementChild.getLocalName().equals("pull"))
-          {
-            getPullRules().add(new PullRule(elementChild));
-          }
-          else if (elementChild.getLocalName().equals("sweep"))
-          {
-            getSweepRules().add(new SweepRule(elementChild));
-          }
-          else if (elementChild.getLocalName().equals("sort"))
-          {
-            getSortRules().add(new SortRule(elementChild));
-          }
-        }
-      }
-    }
-  }
-
-  public static Class classForClassName(String className)
-  {
-    className = "org.eclipse.jdt.core.jdom.IDOM" + className;
-    try
-    {
-      Class result = Class.forName(className);
-      return result;
-    }
-    catch (ClassNotFoundException exception)
-    {
-      //  We expect this failure when running standalone
-      //
-      if (EMFPlugin.IS_ECLIPSE_RUNNING)
-      {
-        CodeGenPlugin.INSTANCE.log(exception);
-      }
-    }
-    return null;
-  }
+    return new SortRule(elementChild);
+  }  
 }

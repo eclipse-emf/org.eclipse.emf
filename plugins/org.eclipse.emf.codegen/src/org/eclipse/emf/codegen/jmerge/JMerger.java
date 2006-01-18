@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.17 2005/12/08 14:04:55 emerks Exp $
+ * $Id: JMerger.java,v 1.18 2006/01/18 20:41:29 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -38,7 +38,6 @@ import java.util.regex.Pattern;
 import org.eclipse.core.runtime.IPlatformRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
 import org.eclipse.jdt.core.jdom.IDOMField;
@@ -50,10 +49,13 @@ import org.eclipse.jdt.core.jdom.IDOMNode;
 import org.eclipse.jdt.core.jdom.IDOMPackage;
 import org.eclipse.jdt.core.jdom.IDOMType;
 
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+
 
 /**
  * This implements the method {@link #run}, 
  * which is called just like main during headless workbench invocation.
+ * @deprecated in 2.2.0. Use {@link org.eclipse.emf.codegen.merge.java.JMerger} instead.
  */
 public class JMerger
 {
@@ -155,7 +157,7 @@ public class JMerger
       int offset = 0;
       while (matcher.find())
       {
-        if (getControlModel().standardBraceStyle)
+        if (getControlModel().convertToStandardBraceStyle())
         {
           if (result.charAt(matcher.start(2) - 1) != ' ')
           {
