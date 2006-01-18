@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.7 2005/12/24 04:29:24 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.8 2006/01/18 20:38:31 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -23,8 +23,11 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.emf.codegen.jmerge.JControlModel;
-import org.eclipse.emf.codegen.jmerge.JMerger;
+import org.eclipse.emf.codegen.merge.java.JControlModel;
+import org.eclipse.emf.codegen.merge.java.JMerger;
+import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
+import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.test.tools.TestUtil;
 
 /**
@@ -71,9 +74,14 @@ public class JMergerTest extends TestCase
     assertTrue("Merge Source file is not available - " + source.getAbsolutePath(), source.isFile());
     assertTrue("Merge Result file is not available - " + expected.getAbsolutePath(), expected.isFile());
     
-    JMerger jMerger = new JMerger();
-    JControlModel controlModel = new JControlModel(mergeXML.getAbsolutePath());
-    jMerger.setControlModel(controlModel);
+    FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(JMerger.DEFAULT_FACADE_HELPER_CLASS);
+    assertTrue(facadeHelper instanceof JDOMFacadeHelper);
+    
+    JControlModel controlModel = new JControlModel();
+    assertFalse(controlModel.canMerge());
+    controlModel.initialize(facadeHelper, mergeXML.getAbsolutePath());
+    assertTrue(controlModel.canMerge());
+    JMerger jMerger = new JMerger(controlModel);
 
     // set source
     jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(source, false)));
