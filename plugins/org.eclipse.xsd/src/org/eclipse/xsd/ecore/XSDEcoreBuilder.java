@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.45 2006/01/18 22:51:39 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.46 2006/01/19 17:15:43 davidms Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2406,7 +2406,7 @@ public class XSDEcoreBuilder extends MapBuilder
         // Match by XML name if this fails.
         if (eOppositeFeature == null)
         {
-          for (Iterator j = oppositeEClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+          for (Iterator j = oppositeEClass.getEAllStructuralFeatures().iterator(); j.hasNext(); )
           {
             EStructuralFeature feature = (EStructuralFeature)j.next();
             if (opposite.equals(extendedMetaData.getName(feature)))
