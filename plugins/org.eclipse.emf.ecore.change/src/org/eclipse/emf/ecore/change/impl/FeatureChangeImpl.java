@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2005 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeImpl.java,v 1.24 2005/11/25 13:35:04 emerks Exp $
+ * $Id: FeatureChangeImpl.java,v 1.25 2006/01/20 16:08:50 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -409,7 +409,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
   public Object getValue()
   {
     EStructuralFeature feature = getFeature();
-    if (feature.getUpperBound() < 0)
+    if (feature.getUpperBound() != 1)
     {
       if (value == null && eContainer() instanceof EObjectToChangesMapEntryImpl)
       {
@@ -453,7 +453,7 @@ public class FeatureChangeImpl extends EObjectImpl implements FeatureChange
 
   protected EList getListValue(EList originalList)
   {
-    if (isSet() && getFeature().getUpperBound() < 0)
+    if (isSet() && getFeature().getUpperBound() != 1)
     {
       if (value instanceof EList) // cached already?
       {
