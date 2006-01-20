@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidationTest.java,v 1.3 2005/06/08 06:17:44 nickb Exp $
+ * $Id: ValidationTest.java,v 1.4 2006/01/20 16:18:28 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -24,10 +24,16 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EValidator;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EObjectValidator;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.example.ppo.Item;
 import com.example.ppo.PPOFactory;
@@ -53,6 +59,7 @@ public class ValidationTest extends TestCase
     ts.addTest(new ValidationTest("testValidation3"));
     ts.addTest(new ValidationTest("testValidation4"));
     ts.addTest(new ValidationTest("testValidation5"));
+    ts.addTest(new ValidationTest("testRequiredField"));
     return ts;
   }
   
@@ -247,5 +254,78 @@ public class ValidationTest extends TestCase
   {
     Diagnostician diagnostician = new Diagnostician();
     return diagnostician.validate(eObject);
+  }
+  
+  /*
+   * Bugzilla 124670
+   */
+  public void testRequiredField() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(person);
+    person.setName("Person");
+    
+    EAttribute age = EcoreFactory.eINSTANCE.createEAttribute();
+    person.getEStructuralFeatures().add(age);
+    age.setName("age");
+    age.setEType(EcorePackage.Literals.EINT);
+    age.setLowerBound(1);
+    
+    EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
+    person.getEStructuralFeatures().add(name);
+    name.setName("name");
+    name.setEType(EcorePackage.Literals.ESTRING);
+    name.setLowerBound(1);
+    name.setDefaultValue("Joe Doe");
+    
+    EAttribute numberOfChildren = EcoreFactory.eINSTANCE.createEAttribute();
+    person.getEStructuralFeatures().add(numberOfChildren);
+    numberOfChildren.setName("numberOfChildren");
+    numberOfChildren.setEType(EcorePackage.Literals.EINT);
+    numberOfChildren.setLowerBound(1);
+    numberOfChildren.setDefaultValue(new Integer(0));
+    numberOfChildren.setUnsettable(true);
+    
+    EAttribute leftHanded = EcoreFactory.eINSTANCE.createEAttribute();
+    person.getEStructuralFeatures().add(leftHanded);
+    leftHanded.setName("leftHanded");
+    leftHanded.setEType(EcorePackage.Literals.EBOOLEAN);
+    leftHanded.setLowerBound(1);
+
+    EAttribute smart = EcoreFactory.eINSTANCE.createEAttribute();
+    person.getEStructuralFeatures().add(smart);
+    smart.setName("smart");
+    smart.setEType(EcorePackage.Literals.EBOOLEAN);
+    smart.setLowerBound(1);
+    smart.setDefaultValue(Boolean.TRUE);
+    
+    EObject john = EcoreUtil.create(person);
+    assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());
+    john.eSet(numberOfChildren, new Integer(0)); //<== default value
+    assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
+    
+    john.eUnset(age); //<== uses the int intrinsic default
+    assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
+    john.eSet(age, new Integer(30));
+    assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
+    
+    john.eSet(name, null);
+    assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());
+    john.eSet(name, "john");
+    assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
+    john.eUnset(name);
+    assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
+    john.eSet(name, "Joe Doe"); //<== default value
+    assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
+    
+    john.eUnset(numberOfChildren);
+    assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());
+    john.eSet(numberOfChildren, new Integer(4));
+    assertEquals(Diagnostic.OK, Diagnostician.INSTANCE.validate(john).getSeverity());
+    john.eSet(numberOfChildren, null);
+    assertEquals(Diagnostic.ERROR, Diagnostician.INSTANCE.validate(john).getSeverity());
   }
 }
