@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2005 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.21 2005/12/10 13:33:52 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.22 2006/01/20 17:17:13 elena Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -243,7 +243,9 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     }
     if (instanceValue instanceof Date)
     {
-      return EDATE_FORMATS[1].format((Date)instanceValue);
+      // Bug 124306: we should rely on XMLCalendar to normalize Dave value, to ensure that all Date value
+      // fields are taken into account.
+      return new XMLCalendar((Date)instanceValue, XMLCalendar.DATE).toString();
     }
     return instanceValue.toString();
   }
