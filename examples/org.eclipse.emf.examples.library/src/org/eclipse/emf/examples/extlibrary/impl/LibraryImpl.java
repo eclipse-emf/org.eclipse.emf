@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.2 2005/12/05 12:36:02 emerks Exp $
+ * $Id: LibraryImpl.java,v 1.3 2006/01/20 12:59:59 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -301,7 +301,7 @@ public class LibraryImpl extends EObjectImpl implements Library
 
           protected void didAdd(int index, Object newObject)
           {
-            if (!getStock().contains(newObject))
+            if (getStock().indexOf(newObject) == -1)
             {
               // these lists are unordered, so index doesn't matter
               getStock().add(newObject);
@@ -310,7 +310,7 @@ public class LibraryImpl extends EObjectImpl implements Library
 
           protected void didRemove(int index, Object oldObject)
           {
-            if (getStock().contains(oldObject))
+            if (getStock().indexOf(oldObject) != -1)
             {
               // these lists are unordered, so index doesn't matter
               getStock().remove(oldObject);
