@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.10 2005/12/15 00:08:06 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.11 2006/01/20 16:09:17 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -780,6 +780,7 @@ extends TestCase
   
   /*
    * Bugzilla 81013
+   * Bugzilla 122989
    */
   public void testResumeSerializedRecording() throws Exception
   {
@@ -804,7 +805,7 @@ extends TestCase
     friendsReference.setName("Friends");
     friendsReference.setEType(person);
     friendsReference.setContainment(true);
-    friendsReference.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    friendsReference.setUpperBound(6);
     person.getEStructuralFeatures().add(friendsReference);    
     
     EObject john = pack.getEFactoryInstance().create(person);
