@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerNotification.java,v 1.4 2005/06/08 06:17:05 nickb Exp $
+ * $Id: ViewerNotification.java,v 1.5 2006/01/23 20:47:29 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -117,5 +117,17 @@ public class ViewerNotification extends NotificationWrapper implements IViewerNo
   public boolean isLabelUpdate()
   {
     return labelUpdate;
+  }
+
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (");
+    if (contentRefresh) result.append("refresh ");
+    if (labelUpdate) result.append("update ");
+    result.append("element: ");
+    result.append(element);
+    result.append(')');
+    return result.toString();
   }
 }
