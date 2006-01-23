@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomain.java,v 1.3 2005/06/08 06:17:06 nickb Exp $
+ * $Id: EditingDomain.java,v 1.4 2006/01/23 20:45:26 davidms Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -130,4 +130,10 @@ public interface EditingDomain
    * This returns whether the resource is read only in editing domain.
    */
   boolean isReadOnly(Resource resource);
+
+  /**
+   * This returns whether or not the domain allows the given object to be moved to
+   * a different resource from its container.
+   */
+  boolean isControllable(Object object);
 }
