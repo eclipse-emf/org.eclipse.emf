@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.46 2006/01/19 17:15:43 davidms Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.47 2006/01/23 15:34:00 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2824,9 +2824,7 @@ public class XSDEcoreBuilder extends MapBuilder
         for (Iterator j = xsdAnnotation.getUserInformation().iterator(); j.hasNext(); )
         {
           Element element = (Element)j.next();
-          if (element.getFirstChild() != null &&
-                !"true".equals(getEcoreAttribute(element, "ignore")) &&
-                !ignore(element))
+          if (!"true".equals(getEcoreAttribute(element, "ignore")) && !ignore(element))
           {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             XSDResourceImpl.serialize(byteArrayOutputStream, element, "UTF-8");
@@ -2836,7 +2834,7 @@ public class XSDEcoreBuilder extends MapBuilder
               int start = documentation.indexOf("?>");
               start = documentation.indexOf(">", start + 2);
               int end = documentation.lastIndexOf("</");
-              String documentationBody = documentation.substring(start + 1, end);
+              String documentationBody = end == -1 ? null : documentation.substring(start + 1, end);
               String existingDocumentation =  EcoreUtil.getDocumentation(eModelElement);
               if (existingDocumentation != null)
               {
@@ -2854,9 +2852,7 @@ public class XSDEcoreBuilder extends MapBuilder
         for (Iterator j = xsdAnnotation.getApplicationInformation().iterator(); j.hasNext(); )
         {
           Element element = (Element)j.next();
-          if (element.getFirstChild() != null && 
-                !"true".equals(getEcoreAttribute(element, "ignore")) &&
-                !ignore(element))
+          if (!"true".equals(getEcoreAttribute(element, "ignore")) && !ignore(element))
           {
             String sourceURI = element.hasAttributeNS(null, "source") ? element.getAttributeNS(null, "source") : null;
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -2867,7 +2863,7 @@ public class XSDEcoreBuilder extends MapBuilder
               int start = applicationInformation.indexOf("?>");
               start = applicationInformation.indexOf(">", start + 2);
               int end = applicationInformation.lastIndexOf("</");
-              String applicationInformationBody = applicationInformation.substring(start + 1, end);
+              String applicationInformationBody = end == -1 ? null : applicationInformation.substring(start + 1, end);
 
               String key = getEcoreAttribute(element, "key");
               if (key == null)
