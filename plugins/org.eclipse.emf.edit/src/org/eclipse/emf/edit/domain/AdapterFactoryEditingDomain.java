@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.14 2005/07/08 02:07:33 davidms Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.15 2006/01/23 20:46:05 davidms Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -762,6 +762,36 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     }
 
     return result;
+  }
+
+  /**
+   * This returns whether or not the domain allows the given object to be moved to
+   * a different resource from its container.
+   * In this implementation, an EObject is controllable if it has a container,
+   * it is contained via a feature that allows proxy resolution, and neither it
+   * nor its container is in a read-only resource.
+   */
+  public boolean isControllable(Object object)
+  {
+    if (!(object instanceof EObject)) return false;
+    EObject eObject = (EObject)object;
+    EObject container = eObject.eContainer();
+    return container != null && eObject.eContainmentFeature().isResolveProxies() &&
+      !isReadOnly(eObject.eResource()) && !isReadOnly(container.eResource());
+  }
+
+  /**
+   * This returns whether or not an object has been moved to a different resource from
+   * its container. It is a simple convenience method that compares the two resource
+   * of the two objects.
+   */
+  public static boolean isControlled(Object object)
+  {
+    if (!(object instanceof EObject)) return false;
+    EObject eObject = (EObject)object;
+    EObject container = eObject.eContainer();
+    Resource resource = eObject.eResource();
+    return resource != null && container != null && resource != container.eResource();
   }
 }
 
