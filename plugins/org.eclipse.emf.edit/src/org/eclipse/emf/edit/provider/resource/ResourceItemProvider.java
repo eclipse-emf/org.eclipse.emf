@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProvider.java,v 1.5 2005/06/12 13:32:37 emerks Exp $
+ * $Id: ResourceItemProvider.java,v 1.6 2006/01/23 20:49:18 davidms Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -27,6 +29,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.EMFEditPlugin;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -34,6 +37,7 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 
 /**
@@ -69,8 +73,19 @@ public class ResourceItemProvider
 
   public Collection getChildren(Object object)
   {
-    Resource resource= (Resource)object;
-    return resource.getContents();
+    // Don't include controlled children here, they'll show up under their container.
+    //
+    List contents = ((Resource)object).getContents();
+    Collection result = new ArrayList(contents.size());
+    for (Iterator i = contents.iterator(); i.hasNext(); )
+    {
+      Object o = i.next();
+      if (!AdapterFactoryEditingDomain.isControlled(o))
+      {
+        result.add(o);
+      }
+    }
+    return result;
   }
 
   /**
@@ -118,12 +133,24 @@ public class ResourceItemProvider
   public String getText(Object object)
   {
     Resource resource = (Resource)object;
-    return resource.getURI() == null ? "" : resource.getURI().toString();
+    String result = resource.getURI() == null ? "" : resource.getURI().toString();
+
+    // Annotate if the resource is the target for any controlled objects. This won't be needed once we have an icon overlay. 
+    //
+    for (Iterator i = resource.getContents().iterator(); i.hasNext(); )
+    {
+      if (AdapterFactoryEditingDomain.isControlled(i.next()))
+      {
+        result = getString("_UI_TargetResource_annotation", new Object[] { result });
+        break;
+      }
+    }
+    return result;
   }
 
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
-   * @generated
+   * @generated NOT
    */
   public void notifyChanged(Notification notification) 
   {
@@ -133,10 +160,17 @@ public class ResourceItemProvider
       // case Resource.RESOURCE__IS_MODIFIED:
       // case Resource.RESOURCE__IS_LOADED:
       // case Resource.RESOURCE__IS_TRACKING_MODIFICATION:
-      case Resource.RESOURCE__CONTENTS:
       // case Resource.RESOURCE__RESOURCE_SET:
       {
         fireNotifyChanged(notification);
+        return;
+      }
+      // When an object is controlled, the only change will be in the new resource's contents, so it must
+      // refresh the whole viewer to hit the object's label.
+      //
+      case Resource.RESOURCE__CONTENTS:
+      {
+        fireNotifyChanged(new ViewerNotification(notification));
         return;
       }
     }
