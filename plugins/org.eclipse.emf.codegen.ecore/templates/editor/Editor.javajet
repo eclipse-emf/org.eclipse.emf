@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.24 2005/08/24 13:49:22 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.25 2006/01/23 20:42:40 davidms Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1354,11 +1354,19 @@ public class <%=genPackage.getEditorClassName()%>
 				{
 					try
 					{
-						// Save the resource to the file system.
+						// Save the resources to the file system.
 						//
-						Resource savedResource = (Resource)editingDomain.getResourceSet().getResources().get(0);
-						savedResources.add(savedResource);
-						savedResource.save(Collections.EMPTY_MAP);
+						boolean first = true;
+						for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
+						{
+							Resource resource = (Resource)i.next();
+							if ((first || !resource.getContents().isEmpty()) && !editingDomain.isReadOnly(resource))
+							{
+								savedResources.add(resource);
+								resource.save(Collections.EMPTY_MAP);
+							}
+							first = false;
+						}
 					}
 					catch (Exception exception)
 					{
