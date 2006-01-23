@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.19 2005/06/12 13:32:37 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.20 2006/01/23 20:47:00 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -61,6 +61,7 @@ import org.eclipse.emf.edit.command.MoveCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.command.ReplaceCommand;
 import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 
@@ -575,6 +576,17 @@ public class ItemProviderAdapter
   public String getText(Object object)
   {
     return object.toString();
+  }
+
+  /**
+   * This adds an annotation to the given text if the object is controlled.  It is a temporary solution for marking
+   * controlled objects until a new icon overlay is created, and should be expected to disappear before 2.2's release.
+   */
+  protected String annotateText(Object object, String text)
+  {
+    return AdapterFactoryEditingDomain.isControlled(object) ?
+      EMFEditPlugin.INSTANCE.getString("_UI_ControlledObject_annotation", new Object[] { text }) :
+      text;
   }
 
   /**
