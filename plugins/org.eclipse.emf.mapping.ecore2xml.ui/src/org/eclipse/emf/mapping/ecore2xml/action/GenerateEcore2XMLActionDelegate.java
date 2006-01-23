@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: GenerateEcore2XMLActionDelegate.java,v 1.5 2006/01/09 21:55:44 khussey Exp $
+ * $Id: GenerateEcore2XMLActionDelegate.java,v 1.6 2006/01/23 18:08:01 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.action;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -165,6 +166,13 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
             public Object caseEStructuralFeature(EStructuralFeature eStructuralFeature)
             {
               XMLResource.XMLInfo xmlInfo = createXMLInfo(input);
+
+              if (input == null)
+              {
+                xmlInfo.setXMLRepresentation(eStructuralFeature instanceof EReference && ((EReference)eStructuralFeature).isContainment()
+                  ? XMLResource.XMLInfo.ELEMENT : XMLResource.XMLInfo.ATTRIBUTE);
+              }
+
               xmlMap.add(eStructuralFeature, xmlInfo);
               return xmlInfo;
             }
