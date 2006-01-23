@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceEList.java,v 1.5 2005/11/22 21:31:00 emerks Exp $
+ * $Id: ECrossReferenceEList.java,v 1.6 2006/01/23 16:33:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -116,12 +115,14 @@ public class ECrossReferenceEList extends EContentsEList
     }
   }
 
-  protected ListIterator newListIterator()
+  protected ListIterator newResolvingListIterator()
   {
-    return
-      this.resolve() ?
-        new ResolvingFeatureIteratorImpl(eObject, eStructuralFeatures) :
-        new FeatureIteratorImpl(eObject, eStructuralFeatures);
+    return new ResolvingFeatureIteratorImpl(eObject, eStructuralFeatures);
+  }
+  
+  protected ListIterator newNonResolvingListIterator()
+  {
+    return new FeatureIteratorImpl(eObject, eStructuralFeatures);
   }
 
   public List basicList()
@@ -134,45 +135,5 @@ public class ECrossReferenceEList extends EContentsEList
           return false;
         }
       };
-  }
-
-  public Iterator basicIterator()
-  {
-    if (eStructuralFeatures == null)
-    {
-      return EContentsEList.FeatureIteratorImpl.EMPTY_ITERATOR;
-    }
-
-    return new FeatureIteratorImpl(eObject, eStructuralFeatures);
-  }
-
-  public ListIterator basicListIterator()
-  {
-    if (eStructuralFeatures == null)
-    {
-      return EContentsEList.FeatureIteratorImpl.EMPTY_ITERATOR;
-    }
-
-    return new FeatureIteratorImpl(eObject, eStructuralFeatures);
-  }
-
-  public ListIterator basicListIterator(int index)
-  {
-    if (eStructuralFeatures == null)
-    {
-      if (index < 0 || index > 1)
-      {
-        throw new IndexOutOfBoundsException("index=" + index + ", size=0");
-      }
-
-      return EContentsEList.FeatureIteratorImpl.EMPTY_ITERATOR;
-    }
-
-    ListIterator result = new FeatureIteratorImpl(eObject, eStructuralFeatures);
-    for (int i = 0; i < index; ++i)
-    {
-      result.next();
-    }
-    return result;
   }
 }

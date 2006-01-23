@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentsEList.java,v 1.6 2005/12/22 21:16:06 emerks Exp $
+ * $Id: EContentsEList.java,v 1.7 2006/01/23 16:33:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -59,10 +59,17 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
 
   protected ListIterator newListIterator()
   {
-    return
-      resolve() ?
-        new ResolvingFeatureIteratorImpl(eObject, eStructuralFeatures) :
-        new FeatureIteratorImpl(eObject, eStructuralFeatures);
+    return resolve() ? newResolvingListIterator() : newNonResolvingListIterator();
+  }
+  
+  protected ListIterator newResolvingListIterator()
+  {
+    return new ResolvingFeatureIteratorImpl(eObject, eStructuralFeatures);
+  }
+  
+  protected ListIterator newNonResolvingListIterator()
+  {
+    return new FeatureIteratorImpl(eObject, eStructuralFeatures);
   }
 
   protected Iterator newIterator()
@@ -229,7 +236,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       return FeatureIteratorImpl.EMPTY_ITERATOR;
     }
 
-    return new FeatureIteratorImpl(eObject, eStructuralFeatures);
+    return newNonResolvingListIterator();
   }
 
   public ListIterator basicListIterator()
@@ -239,7 +246,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       return FeatureIteratorImpl.EMPTY_ITERATOR;
     }
 
-    return new FeatureIteratorImpl(eObject, eStructuralFeatures);
+    return newNonResolvingListIterator();
   }
 
   public ListIterator basicListIterator(int index)
@@ -254,7 +261,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       return FeatureIteratorImpl.EMPTY_ITERATOR;
     }
 
-    ListIterator result = new FeatureIteratorImpl(eObject, eStructuralFeatures);
+    ListIterator result = newNonResolvingListIterator();
     for (int i = 0; i < index; ++i)
     {
       result.next();
