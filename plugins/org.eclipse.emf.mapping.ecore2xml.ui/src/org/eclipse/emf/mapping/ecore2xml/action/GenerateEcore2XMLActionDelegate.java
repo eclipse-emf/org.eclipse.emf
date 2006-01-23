@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: GenerateEcore2XMLActionDelegate.java,v 1.6 2006/01/23 18:08:01 khussey Exp $
+ * $Id: GenerateEcore2XMLActionDelegate.java,v 1.7 2006/01/23 22:15:52 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.action;
 
@@ -86,7 +86,20 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
     
     return null;
   }
-  
+
+  protected static int getXMLRepresentation(EStructuralFeature eStructuralFeature)
+  {
+    switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
+    {
+      case ExtendedMetaData.ATTRIBUTE_FEATURE:
+        return XMLResource.XMLInfo.ATTRIBUTE;
+      case ExtendedMetaData.ELEMENT_FEATURE:
+        return XMLResource.XMLInfo.ELEMENT;
+      default:
+        return XMLResource.XMLInfo.UNSPECIFIED;
+    }
+  }
+
   protected static XMLResource.XMLInfo createXMLInfo(EObject eObject)
   {
     final XMLResource.XMLInfo xmlInfo = Ecore2XMLFactory.eINSTANCE.createXMLInfo();
@@ -115,16 +128,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
           {
             xmlInfo.setName(ExtendedMetaData.INSTANCE.getName(eStructuralFeature));
             xmlInfo.setTargetNamespace(ExtendedMetaData.INSTANCE.getNamespace(eStructuralFeature));
-
-            switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
-            {
-              case ExtendedMetaData.ATTRIBUTE_FEATURE:
-                xmlInfo.setXMLRepresentation(XMLResource.XMLInfo.ATTRIBUTE);
-                break;
-              case ExtendedMetaData.ELEMENT_FEATURE:
-                xmlInfo.setXMLRepresentation(XMLResource.XMLInfo.ELEMENT);
-                break;
-            }
+            xmlInfo.setXMLRepresentation(getXMLRepresentation(eStructuralFeature));
 
             return xmlInfo;
           }
@@ -169,8 +173,15 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
 
               if (input == null)
               {
-                xmlInfo.setXMLRepresentation(eStructuralFeature instanceof EReference && ((EReference)eStructuralFeature).isContainment()
-                  ? XMLResource.XMLInfo.ELEMENT : XMLResource.XMLInfo.ATTRIBUTE);
+                int xmlRepresentation = getXMLRepresentation(eStructuralFeature);
+
+                if (xmlRepresentation == XMLResource.XMLInfo.UNSPECIFIED)
+                {
+                  xmlRepresentation = eStructuralFeature instanceof EReference && ((EReference)eStructuralFeature).isContainment()
+                    ? XMLResource.XMLInfo.ELEMENT : XMLResource.XMLInfo.ATTRIBUTE;
+                }
+
+                xmlInfo.setXMLRepresentation(xmlRepresentation);
               }
 
               xmlMap.add(eStructuralFeature, xmlInfo);
