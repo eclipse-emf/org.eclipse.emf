@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementItemProvider.java,v 1.6 2005/11/23 18:10:04 emerks Exp $
+ * $Id: EModelElementItemProvider.java,v 1.7 2006/01/23 21:16:48 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -98,7 +98,7 @@ public class EModelElementItemProvider
    */
   public String getText(Object object)
   {
-    return getString("_UI_EModelElement_type");
+    return annotateText(object, getString("_UI_EModelElement_type"));
   }
 
   /**

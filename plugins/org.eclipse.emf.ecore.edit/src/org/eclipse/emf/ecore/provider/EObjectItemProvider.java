@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectItemProvider.java,v 1.5 2005/06/08 06:15:46 nickb Exp $
+ * $Id: EObjectItemProvider.java,v 1.6 2006/01/23 21:16:48 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -88,7 +88,7 @@ public class EObjectItemProvider
    */
   public String getText(Object object)
   {
-    return getString("_UI_EObject_type");
+    return annotateText(object, getString("_UI_EObject_type"));
   }
 
   /**

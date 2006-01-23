@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.11 2005/11/23 18:10:04 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.12 2006/01/23 21:16:48 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -279,9 +279,10 @@ public class ETypedElementItemProvider
   public String getText(Object object)
   {
     String label = ((ETypedElement)object).getName();
-    return label == null || label.length() == 0 ?
+    label = label == null || label.length() == 0 ?
       getString("_UI_ETypedElement_type") :
       getString("_UI_ETypedElement_type") + " " + label;
+    return annotateText(object, label);
   }
 
   /**

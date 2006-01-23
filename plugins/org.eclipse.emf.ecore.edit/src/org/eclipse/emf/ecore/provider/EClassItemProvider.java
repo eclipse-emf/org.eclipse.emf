@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.9 2005/11/23 18:10:04 emerks Exp $
+ * $Id: EClassItemProvider.java,v 1.10 2006/01/23 21:16:48 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -236,7 +236,7 @@ public class EClassItemProvider
       result.append(">");
     }
 
-    return result.toString();
+    return annotateText(object, result.toString());
   }
 
   /**

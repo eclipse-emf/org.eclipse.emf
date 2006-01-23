@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ENamedElementItemProvider.java,v 1.8 2005/11/23 18:10:04 emerks Exp $
+ * $Id: ENamedElementItemProvider.java,v 1.9 2006/01/23 21:16:48 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -104,9 +104,10 @@ public class ENamedElementItemProvider
   public String getText(Object object)
   {
     String label = ((ENamedElement)object).getName();
-    return label == null || label.length() == 0 ?
+    label = label == null || label.length() == 0 ?
       getString("_UI_ENamedElement_type") :
       getString("_UI_ENamedElement_type") + " " + label;
+    return annotateText(object, label);
   }
 
   /**
