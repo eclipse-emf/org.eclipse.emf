@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.7 2005/07/21 17:15:37 marcelop Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.8 2006/01/23 21:18:31 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -44,6 +44,7 @@ import org.eclipse.ui.PartInitException;
 
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
 import org.eclipse.jface.action.Action;
@@ -186,6 +187,7 @@ public class EcoreActionBarContributor
   {
     loadResourceAction = new LoadResourceAction();
     validateAction = new ValidateAction();
+    controlAction = new ControlAction();
   }
 
   /**
