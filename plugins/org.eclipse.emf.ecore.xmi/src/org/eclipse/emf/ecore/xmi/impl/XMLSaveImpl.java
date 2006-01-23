@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.51 2005/12/21 17:09:14 elena Exp $
+ * $Id: XMLSaveImpl.java,v 1.52 2006/01/23 21:13:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -847,7 +847,7 @@ public class XMLSaveImpl implements XMLSave
   protected void saveElement(InternalEObject o, EStructuralFeature f)
   {
     Resource directResource = o.eDirectResource();
-    if (directResource != null && directResource != helper.getResource())
+    if (directResource != null && directResource != helper.getResource() || o.eIsProxy())
     {
       saveHref(o, f);
       return;
