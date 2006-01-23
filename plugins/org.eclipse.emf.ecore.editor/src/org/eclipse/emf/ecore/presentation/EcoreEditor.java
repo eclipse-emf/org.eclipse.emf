@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.24 2005/12/15 20:18:20 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.25 2006/01/23 21:19:20 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1158,11 +1158,19 @@ public class EcoreEditor
         {
           try
           {
-            // Save the resource to the file system.
+            // Save the resources to the file system.
             //
-            Resource savedResource = (Resource)editingDomain.getResourceSet().getResources().get(0);
-            savedResources.add(savedResource);
-            savedResource.save(Collections.EMPTY_MAP);
+            boolean first = true;
+            for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
+            {
+              Resource resource = (Resource)i.next();
+              if ((first || !resource.getContents().isEmpty()) && !editingDomain.isReadOnly(resource))
+              {
+                savedResources.add(resource);
+                resource.save(Collections.EMPTY_MAP);
+              }
+              first = false;
+            }
           }
           catch (Exception exception)
           {
