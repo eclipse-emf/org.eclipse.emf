@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.35 2005/11/23 12:00:21 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.36 2006/01/23 20:07:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -447,7 +447,22 @@ public class EcoreUtil
         }
       }
 
+      copyProxyURI(eObject, copyEObject);
+
       return copyEObject;
+    }
+
+    /**
+     * Copies the proxy URI from the original to the copy, if present.
+     * @param eObject the object being copied.
+     * @param copyEObject the copy being initialized.
+     */
+    protected void copyProxyURI(EObject eObject, EObject copyEObject)
+    {
+      if (eObject.eIsProxy())
+      {
+        ((InternalEObject)copyEObject).eSetProxyURI(((InternalEObject)eObject).eProxyURI());
+      }
     }
 
     /**
