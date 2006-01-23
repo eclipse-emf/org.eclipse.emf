@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.14 2005/07/08 02:10:16 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.15 2006/01/23 20:43:17 davidms Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -177,6 +177,7 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	{
 		loadResourceAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.LoadResourceAction")%>();
 		validateAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.ValidateAction")%>();
+		controlAction = new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.ControlAction")%>();
 	}
 
 	/**
