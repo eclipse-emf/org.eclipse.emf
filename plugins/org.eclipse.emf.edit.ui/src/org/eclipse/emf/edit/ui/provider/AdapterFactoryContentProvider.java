@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,15 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryContentProvider.java,v 1.6 2005/06/08 06:20:52 nickb Exp $
+ * $Id: AdapterFactoryContentProvider.java,v 1.7 2006/01/23 20:53:40 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
@@ -35,6 +38,7 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.IViewerNotification;
+import org.eclipse.emf.edit.provider.ViewerNotification;
 
 
 /**
@@ -64,6 +68,12 @@ public class AdapterFactoryContentProvider
    * This keeps track of the one viewer using this content provider.
    */
   protected Viewer viewer;
+
+  /**
+   * This is used to queue viewer notifications and refresh viewers based on them. 
+   * @since 2.2.0
+   */
+  protected ViewerRefresh viewerRefresh;
 
   private static final Class IStructuredItemContentProviderClass = IStructuredItemContentProvider.class;
   private static final Class ITreeItemContentProviderClass = ITreeItemContentProvider.class;
@@ -245,16 +255,14 @@ public class AdapterFactoryContentProvider
       //
       if (notification instanceof IViewerNotification)
       {
-        ViewerRefresh viewerRefresh = new ViewerRefresh(viewer, (IViewerNotification)notification);
-
-        Display d = viewer.getControl().getDisplay();
-        if (d != Display.getCurrent())
+        if (viewerRefresh == null)
         {
-          d.asyncExec(viewerRefresh);
+          viewerRefresh = new ViewerRefresh(viewer);
         }
-        else
+
+        if (viewerRefresh.addNotification((IViewerNotification)notification))
         {
-          viewerRefresh.run();
+          viewer.getControl().getDisplay().asyncExec(viewerRefresh);
         }
       }
       else
@@ -273,24 +281,183 @@ public class AdapterFactoryContentProvider
 
   /**
    * A runnable class that efficiently updates a {@link org.eclipse.jface.viewers.Viewer} via standard APIs, based on
-   * an {@link org.eclipse.emf.edit.provider.IViewerNotification} from the model's item providers.
+   * queued {@link org.eclipse.emf.edit.provider.IViewerNotification}s from the model's item providers.
    */
   public static class ViewerRefresh implements Runnable
   {
     Viewer viewer;
-    IViewerNotification notification;
+    List notifications;
+    boolean compatibility;
 
+    /**
+     * @since 2.2.0
+     */
+    public ViewerRefresh(Viewer viewer)
+    {
+      this.viewer = viewer;
+    }
+
+    /**
+     * @deprecated in 2.2.0
+     */
     public ViewerRefresh(Viewer viewer, IViewerNotification notification)
     {
       this.viewer = viewer;
-      this.notification = notification;
+      addNotification(notification);
+      compatibility = true;
+    }
+
+    /**
+     * Adds a viewer notification to the queue that will be processed by this <code>ViewerRefresh</code>.
+     * Duplicative notifications will not be queued.
+     * @param notification the notification to add to the queue 
+     * @return whether the queue has been made non-empty, which would indicate that the <code>ViewerRefresh</code>
+     *   needs to be {@link Display#asyncExec scheduled} on the event queue 
+     * @since 2.2.0
+     */
+    public synchronized boolean addNotification(IViewerNotification notification)
+    {
+      if (notifications == null)
+      {
+        notifications = new ArrayList();
+      }
+
+      if (notifications.isEmpty())
+      {
+        notifications.add(notification);
+        return true;
+      }
+
+      if (viewer instanceof StructuredViewer)
+      {
+        for (Iterator i = notifications.iterator(); i.hasNext() && notification != null; )
+        {
+          IViewerNotification old = (IViewerNotification)i.next();
+          IViewerNotification merged = merge(old, notification);
+          if (merged == old)
+          {
+            notification = null;
+          }
+          else if (merged != null)
+          {
+            notification = merged;
+            i.remove();
+          }
+        }
+        if (notification != null)
+        {
+          notifications.add(notification);
+        }
+      }
+      return false;
+    }
+
+    /**
+     * Compares two notifications and, if duplicative, returns a single notification that does the work of
+     * both.  Note: this gives priority to a content refresh on the whole viewer over a content refresh or
+     * label update on a specific element; however, it doesn't use parent-child relationships to determine
+     * if refreshes on non-equal elements are duplicative.
+     * @return a single notification that is equivalent to the two parameters, or null if they are non-duplicative
+     * @since 2.2.0
+     */
+    protected IViewerNotification merge(IViewerNotification n1, IViewerNotification n2)
+    {
+      // This implements the following order of preference:
+      //   1. full refresh and update
+      //   2. full refresh (add update if necessary)
+      //   3. refresh element with update
+      //   4. refresh element (if necessary)
+      //   5. update element
+      // 
+      if (n1.getElement() == null && n1.isLabelUpdate())
+      {
+        return n1;
+      }
+      else if (n2.getElement() == null && n2.isLabelUpdate())
+      {
+        return n2;
+      }
+      else if (n1.getElement() == null)
+      {
+        if (n2.isLabelUpdate())
+        {
+          n1 = new ViewerNotification(n1);
+        }
+        return n1;
+      }
+      else if (n2.getElement() == null)
+      {
+        if (n1.isLabelUpdate())
+        {
+          n2 = new ViewerNotification(n2);
+        }
+        return n2;
+      }
+      else if (n1.getElement() == n2.getElement())
+      {
+        if (n1.isContentRefresh() && n1.isLabelUpdate())
+        {
+          return n1;
+        }
+        else if (n2.isContentRefresh() && n2.isContentRefresh())
+        {
+          return n2;
+        }
+        else if (n1.isContentRefresh())
+        {
+          if (n2.isLabelUpdate())
+          {
+            n1 = new ViewerNotification(n1, n1.getElement());
+          }
+          return n1;
+        }
+        else if (n2.isContentRefresh())
+        {
+          if (n1.isLabelUpdate())
+          {
+            n2 = new ViewerNotification(n2, n2.getElement());
+          }
+          return n2;
+        }
+        else if (n1.isLabelUpdate())
+        {
+          return n1;
+        }
+        else // n2.isLabelUpdate()
+        {
+          return n2;
+        }
+      }
+      return null;
     }
 
     public void run()
     {
-      // Never update the viewer on a resolve.
+      List current;
+
+      synchronized (this)
+      {
+        current = notifications;
+        notifications = null;
+      }
+
+      if (current != null)
+      {
+        for (Iterator i = current.iterator(); i.hasNext(); )
+        {
+          refresh((IViewerNotification)i.next());
+        }
+      }
+    }
+
+    /**
+     * @since 2.2.0
+     */
+    protected void refresh(IViewerNotification notification)
+    {
+      // Previously, we never updated the viewer on a resolve.  Now we post and merge it as appropriate.
       //
-      if (notification.getEventType() == Notification.RESOLVE) return;
+      if (compatibility && notification.getEventType() == Notification.RESOLVE) return;
 
       Object element = notification.getElement();
 
