@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.10 2005/09/14 14:52:15 davidms Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.11 2006/01/23 20:51:38 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -101,6 +101,11 @@ public class EditingDomainActionBarContributor
    * This is the action used to load a resource.
    */
   protected LoadResourceAction loadResourceAction;
+
+  /**
+   * This is the action used to control or uncontrol a contained object.
+   */
+  protected ControlAction controlAction;
 
   /**
    * This is the action used to perform validation.
@@ -248,6 +253,11 @@ public class EditingDomainActionBarContributor
       loadResourceAction.setActiveWorkbenchPart(null);
     }
 
+    if (controlAction != null)
+    {
+      controlAction.setActiveWorkbenchPart(null);
+    }
+
     if (validateAction != null)
     {
       validateAction.setActiveWorkbenchPart(null);
@@ -269,6 +279,11 @@ public class EditingDomainActionBarContributor
       {
         selectionProvider.removeSelectionChangedListener(validateAction);
       }
+
+      if (controlAction != null)
+      {
+        selectionProvider.removeSelectionChangedListener(controlAction);
+      }
     }
   }
 
@@ -286,6 +301,11 @@ public class EditingDomainActionBarContributor
     if (loadResourceAction != null)
     {
       loadResourceAction.setActiveWorkbenchPart(activeEditor);
+    }
+
+    if (controlAction != null)
+    {
+      controlAction.setActiveWorkbenchPart(activeEditor);
     }
 
     if (validateAction != null)
@@ -309,6 +329,11 @@ public class EditingDomainActionBarContributor
       {
         selectionProvider.addSelectionChangedListener(validateAction);
       }
+
+      if (controlAction != null)
+      {
+        selectionProvider.addSelectionChangedListener(controlAction);
+      }      
     }
 
     update();
@@ -335,6 +360,11 @@ public class EditingDomainActionBarContributor
       if (validateAction != null)
       {
         validateAction.updateSelection(structuredSelection);
+      }
+
+      if (controlAction != null)
+      {
+        controlAction.updateSelection(structuredSelection);
       }
     }
 
@@ -384,6 +414,15 @@ public class EditingDomainActionBarContributor
     if (validateAction != null)
     {
       menuManager.insertBefore("additions-end", new ActionContributionItem(validateAction));
+    }
+
+    if (controlAction != null)
+    {
+      menuManager.insertBefore("additions-end", new ActionContributionItem(controlAction));
+    }
+
+    if (validateAction != null || controlAction != null)
+    {
       menuManager.insertBefore("additions-end", new Separator());
     }
 
