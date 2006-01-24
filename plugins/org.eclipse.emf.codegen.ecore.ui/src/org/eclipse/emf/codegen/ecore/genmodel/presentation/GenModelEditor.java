@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.19 2005/12/09 19:08:50 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.20 2006/01/24 14:04:39 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -380,9 +380,9 @@ public class GenModelEditor
         }
       }
 
-      currentViewer.setInput(mainResource);
       GenModel genModel = (GenModel)mainResource.getContents().get(0);
       initialize(genModel);
+      currentViewer.setInput(mainResource);
     }
   }
 
