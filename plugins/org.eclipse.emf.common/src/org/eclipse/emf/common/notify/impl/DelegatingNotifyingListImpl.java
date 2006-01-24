@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.6 2006/01/24 16:00:19 emerks Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.7 2006/01/24 17:33:37 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -1006,7 +1006,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
         doClear(collectionSize, collection.data());
         Notification notification =
           (collectionSize == 1 ?
-            createNotification(Notification.REMOVE, collection.get(0), null, Notification.NO_INDEX, oldIsSet) :
+            createNotification(Notification.REMOVE, collection.get(0), null, 0, oldIsSet) :
             createNotification(Notification.REMOVE_MANY, collection, null, Notification.NO_INDEX, oldIsSet));
 
         if (hasInverse())
