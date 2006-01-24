@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.18 2005/12/14 21:40:29 marcelop Exp $
+ * $Id: GenDataTypeImpl.java,v 1.19 2006/01/24 14:04:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -666,14 +666,21 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public boolean reconcile()
   {
-    EDataType eDataType = getEcoreDataType();
-    if (eDataType == null || eDataType.eIsProxy() || eDataType.eResource() == null)
+    try
+    {
+      EDataType eDataType = getEcoreDataType();
+      if (eDataType == null || eDataType.eIsProxy() || eDataType.eResource() == null)
+      {
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+    }
+    catch (RuntimeException exception)
     {
       return false;
-    }
-    else
-    {
-      return true;
     }
   }
 

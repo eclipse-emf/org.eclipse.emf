@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.13 2005/12/14 21:40:29 marcelop Exp $
+ * $Id: GenEnumImpl.java,v 1.14 2006/01/24 14:04:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -444,23 +444,30 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
 
   public boolean reconcile()
   {
-    EEnum eEnum = getEcoreEnum();
-    if (eEnum == null || eEnum.eIsProxy() || eEnum.eResource() == null)
+    try
+    {
+      EEnum eEnum = getEcoreEnum();
+      if (eEnum == null || eEnum.eIsProxy() || eEnum.eResource() == null)
+      {
+        return false;
+      }
+      else
+      {
+        for (Iterator i = getGenEnumLiterals().iterator(); i.hasNext(); )
+        {
+          GenEnumLiteral genEnumLiteral = (GenEnumLiteral)i.next();
+          if (!genEnumLiteral.reconcile())
+          {
+            i.remove();
+          }
+        }
+  
+        return true;
+      }
+    }
+    catch (RuntimeException exception)
     {
       return false;
-    }
-    else
-    {
-      for (Iterator i = getGenEnumLiterals().iterator(); i.hasNext(); )
-      {
-        GenEnumLiteral genEnumLiteral = (GenEnumLiteral)i.next();
-        if (!genEnumLiteral.reconcile())
-        {
-          i.remove();
-        }
-      }
-
-      return true;
     }
   }
 

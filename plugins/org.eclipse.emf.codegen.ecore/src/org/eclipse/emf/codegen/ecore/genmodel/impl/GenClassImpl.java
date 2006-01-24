@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.53 2005/12/14 21:40:29 marcelop Exp $
+ * $Id: GenClassImpl.java,v 1.54 2006/01/24 14:04:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2119,32 +2119,39 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public boolean reconcile()
   {
-    EClass eClass = getEcoreClass();
-    if (eClass == null || eClass.eIsProxy() || eClass.eResource() == null)
+    try
+    {
+      EClass eClass = getEcoreClass();
+      if (eClass == null || eClass.eIsProxy() || eClass.eResource() == null)
+      {
+        return false;
+      }
+      else
+      {
+        for (Iterator i = getGenFeatures().iterator(); i.hasNext(); )
+        {
+          GenFeature genFeature = (GenFeature)i.next();
+          if (!genFeature.reconcile())
+          {
+            i.remove();
+          }
+        }
+  
+        for (Iterator i = getGenOperations().iterator(); i.hasNext(); )
+        {
+          GenOperation genOperation = (GenOperation)i.next();
+          if (!genOperation.reconcile())
+          {
+            i.remove();
+          }
+        }
+  
+        return true;
+      }
+    }
+    catch (RuntimeException exception)
     {
       return false;
-    }
-    else
-    {
-      for (Iterator i = getGenFeatures().iterator(); i.hasNext(); )
-      {
-        GenFeature genFeature = (GenFeature)i.next();
-        if (!genFeature.reconcile())
-        {
-          i.remove();
-        }
-      }
-
-      for (Iterator i = getGenOperations().iterator(); i.hasNext(); )
-      {
-        GenOperation genOperation = (GenOperation)i.next();
-        if (!genOperation.reconcile())
-        {
-          i.remove();
-        }
-      }
-
-      return true;
     }
   }
 
