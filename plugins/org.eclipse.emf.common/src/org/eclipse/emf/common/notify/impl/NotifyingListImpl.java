@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.6 2005/10/24 15:51:46 emerks Exp $
+ * $Id: NotifyingListImpl.java,v 1.7 2006/01/24 16:00:19 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -268,7 +268,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     {
       int index = size;
       boolean oldIsSet = isSet();
-      super.addUnique(index, object);
+      doAddUnique(object);
       NotificationImpl notification = createNotification(Notification.ADD, null, object, index, oldIsSet);
       if (hasInverse())
       {
@@ -295,13 +295,23 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     }
     else
     {
-      super.addUnique(object);
+      doAddUnique(object);
       if (hasInverse())
       {
         NotificationChain notifications = inverseAdd(object, null);
         if (notifications != null) notifications.dispatch();
       }
     }
+  }
+
+  /**
+   * Adds the object at the end of the list;
+   * it does no uniqueness checking, inverse updating, or notification.
+   * @param object the object to be added.
+   */
+  protected void doAddUnique(Object object)
+  {
+    super.addUnique(object);
   }
 
   /**
@@ -320,7 +330,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     if (isNotificationRequired())
     {
       boolean oldIsSet = isSet();
-      super.addUnique(index, object);
+      doAddUnique(index, object);
       NotificationImpl notification = createNotification(Notification.ADD, null, object, index, oldIsSet);
       if (hasInverse())
       {
@@ -346,13 +356,23 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     }
     else
     {
-      super.addUnique(index, object);
+      doAddUnique(index, object);
       if (hasInverse())
       {
         NotificationChain notifications = inverseAdd(object, null);
         if (notifications != null) notifications.dispatch();
       }
     }
+  }
+
+  /**
+   * Adds the object at the given index in the list;
+   * it does no range checking, uniqueness checking, inverse updating, or notification.
+   * @param object the object to be added.
+   */
+  protected void doAddUnique(int index, Object object)
+  {
+    super.addUnique(index, object);
   }
 
   /**
@@ -365,6 +385,16 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
   public boolean addAllUnique(Collection collection)
   {
     return addAllUnique(size, collection);
+  }
+
+  /**
+   * Adds each object of the collection to the end of the list;
+   * it does no uniqueness checking, inverse updating, or notification.
+   * @param collection the collection of objects to be added.
+   */
+  protected boolean doAddAllUnique(Collection collection)
+  {
+    return super.addAllUnique(collection);
   }
 
   /**
@@ -393,7 +423,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       if (isNotificationRequired())
       {
         boolean oldIsSet = isSet();
-        super.addAllUnique(index, collection);
+        doAddAllUnique(index, collection);
         NotificationImpl notification =
           collectionSize == 1 ?
             createNotification(Notification.ADD, null, collection.iterator().next(), index, oldIsSet) :
@@ -425,7 +455,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       }
       else
       {
-        super.addAllUnique(index, collection);
+        doAddAllUnique(index, collection);
         if (hasInverse())
         {
           NotificationChain notifications = null;
@@ -443,6 +473,160 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
   }
 
   /**
+   * Adds each object of the collection at each successive index in the list
+   * and returns whether any objects were added;
+   * it does no range checking, uniqueness checking, inverse updating, or notification.
+   * @param index the index at which to add.
+   * @param collection the collection of objects to be added.
+   * @return whether any objects were added.
+   */
+  protected boolean doAddAllUnique(int index, Collection collection)
+  {
+    return super.addAllUnique(index, collection);
+  }
+
+  /**
+   * Adds each object from start to end of the array to the end of the list
+   * and returns whether any objects were added;
+   * it does no uniqueness checking.
+   * This implementation delegates to {@link #addAllUnique(int, Object[], int, int) addAllUnique(int, Object[], int, int)}.
+   * @param objects the objects to be added.
+   * @param start the index of first object to be added.
+   * @param end the index past the last object to be added.
+   * @return whether any objects were added.
+   * @see #inverseAdd
+   */
+  public boolean addAllUnique(Object [] objects, int start, int end)
+  {
+    return addAllUnique(size, objects, start, end);
+  }
+
+  /**
+   * Adds each object from start to end of the array to the end of the list
+   * and returns whether any objects were added;
+   * it does no ranging checking, uniqueness checking, inverse updating, or notification.
+   * @param objects the objects to be added.
+   * @param start the index of first object to be added.
+   * @param end the index past the last object to be added.
+   * @return whether any objects were added.
+   */
+  protected boolean doAddAllUnique(Object [] objects, int start, int end)
+  {
+    return super.addAllUnique(objects, start, end);
+  }
+
+  /**
+   * Adds each object from start to end of the array at each successive index in the list 
+   * and returns whether any objects were added;
+   * it does no ranging checking or uniqueness checking.
+   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
+   * In addition to the normal effects, 
+   * this override implementation generates notifications as {@link #isNotificationRequired required} 
+   * and delegates to {@link #inverseAdd inverseAdd} as {@link #hasInverse required}.
+   * @param index the index at which to add.
+   * @param objects the objects to be added.
+   * @param start the index of first object to be added.
+   * @param end the index past the last object to be added.
+   * @return whether any objects were added.
+   * @see #addAllUnique(int, Collection)
+   * @see #isNotificationRequired
+   * @see #hasInverse
+   * @see #inverseAdd
+   */
+  public boolean addAllUnique(int index, Object [] objects, int start, int end)
+  {
+    int collectionSize = end - start;
+    if (collectionSize == 0)
+    {
+      return false;
+    }
+    else
+    {
+      if (isNotificationRequired())
+      {
+        boolean oldIsSet = isSet();
+        doAddAllUnique(index, objects, start, end);
+        NotificationImpl notification;
+        if (collectionSize == 0)
+        {
+          notification = createNotification(Notification.ADD, null, objects[0], index, oldIsSet);
+        }
+        else
+        {
+          if (start != 0 || end != objects.length)
+          {
+            Object [] actualObjects = new Object [collectionSize];
+            for (int i = 0, j = start; j < end; ++i, ++j)
+            {
+              actualObjects[i] = objects[j];
+            }
+            notification = createNotification(Notification.ADD_MANY, null, actualObjects, index, oldIsSet);
+          }
+          else
+          {
+            notification =  createNotification(Notification.ADD_MANY, null, objects, index, oldIsSet);
+          }
+        }
+        if (hasInverse())
+        {
+          NotificationChain notifications = null;
+          int lastIndex = index + collectionSize;
+          for (int i = index; i < lastIndex; ++i)
+          {            
+            Object value = data[i];
+            notifications = inverseAdd(value, notifications);
+            notifications = shadowAdd(value, notifications);
+          }
+          if (notifications == null)
+          {
+            dispatchNotification(notification);
+          }
+          else
+          {
+            notifications.add(notification);
+            notifications.dispatch();
+          }
+        }
+        else
+        {
+          dispatchNotification(notification);
+        }
+      }
+      else
+      {
+        doAddAllUnique(index, objects, start, end);
+        if (hasInverse())
+        {
+          NotificationChain notifications = null;
+          int lastIndex = index + collectionSize;
+          for (int i = index; i < lastIndex; ++i)
+          {            
+            notifications = inverseAdd(data[i], notifications);
+          }
+          if (notifications != null) notifications.dispatch();
+        }
+      }
+
+      return true;
+    }
+  }
+
+  /**
+   * Adds each object from start to end of the array at each successive index in the list 
+   * and returns whether any objects were added;
+   * it does no ranging checking, uniqueness checking, inverse updating, or notification.
+   * @param index the index at which to add.
+   * @param objects the objects to be added.
+   * @param start the index of first object to be added.
+   * @param end the index past the last object to be added.
+   * @return whether any objects were added.
+   */
+  protected boolean doAddAllUnique(int index, Object [] objects, int start, int end)
+  {
+    return super.addAllUnique(index, objects, start, end);
+  }
+  
+  /**
    * Adds the object at the end of the list and returns the potentially updated notification chain;
    * it does no {@link #inverseAdd inverse} updating.
    * This implementation generates notifications as {@link #isNotificationRequired required}.
@@ -458,7 +642,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     {
       int index = size;
       boolean oldIsSet = isSet();
-      super.addUnique(index, object);
+      doAddUnique(index, object);
       NotificationImpl notification = createNotification(Notification.ADD, null, object, index, oldIsSet);
       if (notifications == null)
       {
@@ -471,7 +655,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     }
     else
     {
-      super.addUnique(size, object);
+      doAddUnique(size, object);
     }
     return notifications;
   }
@@ -498,7 +682,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       {
         notifications = shadowRemove(basicGet(index), null);
       }
-      NotificationImpl notification = createNotification(Notification.REMOVE, super.remove(index), null, index, oldIsSet);
+      NotificationImpl notification = createNotification(Notification.REMOVE, doRemove(index), null, index, oldIsSet);
       Object oldObject = notification.getOldValue();
       if (hasInverse() && oldObject != null)
       {
@@ -529,7 +713,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     }
     else
     {
-      Object oldObject = super.remove(index);
+      Object oldObject = doRemove(index);
       if (hasInverse() && oldObject != null)
       {
         NotificationChain notifications = inverseRemove(oldObject, null);
@@ -537,6 +721,18 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       }
       return oldObject;
     }
+  }
+
+  /**
+   * Removes the object at the index from the list and returns it;
+   * it does no inverse updating, or notification.
+   * @param index the position of the object to remove.
+   * @return the removed object.
+   * @exception IndexOutOfBoundsException if the index isn't within the size range.
+   */
+  protected Object doRemove(int index)
+  {
+    return super.remove(index);
   }
 
   /**
@@ -652,7 +848,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
           //
           for (int i = count; --i >= 0;)
           {
-            super.remove(positions[i]);
+            doRemove(positions[i]);
           }
 
           // Compact the results to remove unmatched objects
@@ -680,7 +876,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       {
         if (collection.contains(data[i]))
         {
-          super.remove(i);
+          doRemove(i);
           result = true;
         }
       }
@@ -742,6 +938,17 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
   }
 
   /**
+   * Removes each object of the collection from the list and returns whether any object was actually contained by the list;
+   * it does no inverse updating, or notification.
+   * @param collection the collection of objects to be removed.
+   * @return whether any object was actually contained by the list.
+   */
+  protected boolean doRemoveAll(Collection collection)
+  {
+    return super.removeAll(collection);
+  }
+
+  /**
    * Removes the object from the list and returns the potentially updated notification chain;
    * it does no {@link #inverseRemove inverse} updating.
    * This implementation generates notifications as {@link #isNotificationRequired required}.
@@ -759,7 +966,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       if (isNotificationRequired())
       {
         boolean oldIsSet = isSet();
-        Object oldObject = super.remove(index);
+        Object oldObject = doRemove(index);
         NotificationImpl notification = createNotification(Notification.REMOVE, oldObject, null, index, oldIsSet);
         if (notifications == null) 
         {
@@ -772,7 +979,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       }
       else
       {
-        super.remove(index);
+        doRemove(index);
       }
     }
     return notifications;
@@ -806,7 +1013,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
           }
         }
 
-        super.clear();
+        doClear();
         Notification notification =
           (collectionSize == 1 ?
             createNotification(Notification.REMOVE, collection.get(0), null, Notification.NO_INDEX, oldIsSet) :
@@ -843,7 +1050,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       }
       else
       {
-        super.clear();
+        doClear();
         dispatchNotification(createNotification(Notification.REMOVE_MANY, Collections.EMPTY_LIST, null, Notification.NO_INDEX, oldIsSet));
       }
     }
@@ -853,7 +1060,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       {
         Object [] oldData = data;
         int oldSize = size;
-        super.clear();
+        doClear();
         NotificationChain notifications = null;
         for (int i = 0; i < oldSize; ++i)
         {
@@ -863,13 +1070,22 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       }
       else 
       {
-        super.clear();
+        doClear();
       }
     }
     else
     {
-      super.clear();
+      doClear();
     }
+  }
+
+  /**
+   * Clears the list of all objects;
+   * it does no {@link #inverseRemove inverse} updating.
+   */
+  protected void doClear()
+  {
+    super.clear();
   }
 
   /**
@@ -893,7 +1109,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     {
       NotificationChain notifications = null;
       boolean oldIsSet = isSet();
-      Notification notification = createNotification(Notification.SET, super.setUnique(index, object), object, index, oldIsSet);
+      Notification notification = createNotification(Notification.SET, doSetUnique(index, object), object, index, oldIsSet);
       Object oldObject = notification.getOldValue();
       if (hasInverse() && !equalObjects(oldObject, object))
       {
@@ -941,7 +1157,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     }
     else
     {
-      Object oldObject = super.setUnique(index, object);
+      Object oldObject = doSetUnique(index, object);
       if (hasInverse() && !equalObjects(oldObject, object))
       {
         NotificationChain notifications = null;
@@ -954,6 +1170,19 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       }
       return oldObject;
     }
+  }
+
+  /**
+   * Sets the object at the index
+   * and returns the old object at the index;
+   * it does no ranging checking, uniqueness checking, inverse updating or notification.
+   * @param index the position in question.
+   * @param object the object to set.
+   * @return the old object at the index.
+   */
+  protected Object doSetUnique(int index, Object object)
+  {
+    return super.setUnique(index, object);
   }
 
   /**
@@ -974,7 +1203,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     if (isNotificationRequired())
     {
       boolean oldIsSet = isSet();
-      NotificationImpl notification = createNotification(Notification.SET, super.setUnique(index, object), object, index, oldIsSet);
+      NotificationImpl notification = createNotification(Notification.SET, doSetUnique(index, object), object, index, oldIsSet);
       if (notifications == null) 
       {
         notifications = notification;
@@ -986,7 +1215,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     }
     else
     {
-      super.setUnique(index, object);
+      doSetUnique(index, object);
     }
     return notifications;
   }
@@ -1007,7 +1236,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     if (isNotificationRequired())
     {
       boolean oldIsSet = isSet();
-      Object object = super.move(targetIndex, sourceIndex);
+      Object object = doMove(targetIndex, sourceIndex);
       dispatchNotification
         (createNotification
            (Notification.MOVE, 
@@ -1019,7 +1248,21 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     }
     else
     {
-      return super.move(targetIndex, sourceIndex);
+      return doMove(targetIndex, sourceIndex);
     }
+  }
+
+  /**
+   * Moves the object at the source index of the list to the target index of the list
+   * and returns the moved object;
+   * it does no notification.
+   * @param targetIndex the new position for the object in the list.
+   * @param sourceIndex the old position of the object in the list.
+   * @return the moved object.
+   * @exception IndexOutOfBoundsException if either index isn't within the size range.
+   */
+  protected Object doMove(int targetIndex, int sourceIndex)
+  {
+    return super.move(targetIndex, sourceIndex);
   }
 }
