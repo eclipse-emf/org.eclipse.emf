@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryItemProvider.java,v 1.10 2006/01/23 21:16:48 davidms Exp $
+ * $Id: EStringToStringMapEntryItemProvider.java,v 1.11 2006/01/24 22:24:42 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -131,7 +131,7 @@ public class EStringToStringMapEntryItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/EStringToStringMapEntry");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/EStringToStringMapEntry"));
   }
 
   /**
@@ -143,7 +143,7 @@ public class EStringToStringMapEntryItemProvider
   public String getText(Object object)
   {
     Map.Entry eStringToStringMapEntry = (Map.Entry)object;
-    return annotateText(object, "" + eStringToStringMapEntry.getKey() + " -> " + eStringToStringMapEntry.getValue());
+    return "" + eStringToStringMapEntry.getKey() + " -> " + eStringToStringMapEntry.getValue();
   }
 
   /**

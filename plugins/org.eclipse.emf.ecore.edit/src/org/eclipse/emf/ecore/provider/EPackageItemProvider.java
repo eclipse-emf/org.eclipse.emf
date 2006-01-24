@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageItemProvider.java,v 1.9 2006/01/23 21:16:48 davidms Exp $
+ * $Id: EPackageItemProvider.java,v 1.10 2006/01/24 22:24:42 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -182,7 +182,7 @@ public class EPackageItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/EPackage");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/EPackage"));
   }
 
   /**
@@ -196,7 +196,7 @@ public class EPackageItemProvider
     EPackage ePackage = (EPackage)object;
     StringBuffer stringBuffer = new StringBuffer();
     stringBuffer.append(ePackage.getName());
-    return annotateText(object, stringBuffer.toString());
+    return stringBuffer.toString();
   }
 
   /**

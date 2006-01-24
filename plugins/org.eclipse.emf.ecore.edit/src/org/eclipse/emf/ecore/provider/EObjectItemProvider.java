@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectItemProvider.java,v 1.6 2006/01/23 21:16:48 davidms Exp $
+ * $Id: EObjectItemProvider.java,v 1.7 2006/01/24 22:24:42 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -77,7 +77,7 @@ public class EObjectItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/EObject");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/EObject"));
   }
 
   /**
@@ -88,7 +88,7 @@ public class EObjectItemProvider
    */
   public String getText(Object object)
   {
-    return annotateText(object, getString("_UI_EObject_type"));
+    return getString("_UI_EObject_type");
   }
 
   /**

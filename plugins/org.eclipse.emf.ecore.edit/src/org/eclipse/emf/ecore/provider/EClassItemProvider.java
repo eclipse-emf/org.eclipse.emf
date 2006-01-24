@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.10 2006/01/23 21:16:48 davidms Exp $
+ * $Id: EClassItemProvider.java,v 1.11 2006/01/24 22:24:42 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -199,7 +199,7 @@ public class EClassItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/EClass");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/EClass"));
   }
 
   /**
@@ -236,7 +236,7 @@ public class EClassItemProvider
       result.append(">");
     }
 
-    return annotateText(object, result.toString());
+    return result.toString();
   }
 
   /**

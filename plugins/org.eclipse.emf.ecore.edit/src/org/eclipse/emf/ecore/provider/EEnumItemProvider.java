@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumItemProvider.java,v 1.6 2005/11/23 18:10:04 emerks Exp $
+ * $Id: EEnumItemProvider.java,v 1.7 2006/01/24 22:24:42 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -99,7 +99,7 @@ public class EEnumItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/EEnum");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/EEnum"));
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.9 2006/01/23 21:16:48 davidms Exp $
+ * $Id: EClassifierItemProvider.java,v 1.10 2006/01/24 22:24:42 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -127,10 +127,9 @@ public class EClassifierItemProvider
   public String getText(Object object)
   {
     String label = ((EClassifier)object).getName();
-    label = label == null || label.length() == 0 ?
+    return label == null || label.length() == 0 ?
       getString("_UI_EClassifier_type") :
       getString("_UI_EClassifier_type") + " " + label;
-    return annotateText(object, label);
   }
 
   /**

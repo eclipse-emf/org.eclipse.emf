@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterItemProvider.java,v 1.6 2005/09/06 23:01:28 davidms Exp $
+ * $Id: EParameterItemProvider.java,v 1.7 2006/01/24 22:24:42 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -80,7 +80,7 @@ public class EParameterItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/EParameter");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/EParameter"));
   }
 
   /**

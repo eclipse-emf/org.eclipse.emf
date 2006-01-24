@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.12 2005/12/22 21:11:47 emerks Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.13 2006/01/24 22:24:42 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -159,7 +159,7 @@ public class EAnnotationItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/EAnnotation");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/EAnnotation"));
   }
 
   /**

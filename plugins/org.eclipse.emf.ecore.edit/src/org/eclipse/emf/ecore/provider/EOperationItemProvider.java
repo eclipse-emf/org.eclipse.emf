@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationItemProvider.java,v 1.9 2005/11/23 18:10:04 emerks Exp $
+ * $Id: EOperationItemProvider.java,v 1.10 2006/01/24 22:24:42 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -124,7 +124,7 @@ public class EOperationItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/EOperation");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/EOperation"));
   }
 
   /**
