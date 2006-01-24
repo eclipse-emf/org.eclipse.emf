@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.20 2006/01/23 20:47:00 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.21 2006/01/24 22:17:33 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -570,23 +570,27 @@ public class ItemProviderAdapter
   }
 
   /**
+   * This adds an overlay to the given image if the object is controlled.
+   */
+  protected Object overlayImage(Object object, Object image)
+  {
+    if (AdapterFactoryEditingDomain.isControlled(object))
+    {
+      List images = new ArrayList(2);
+      images.add(image);
+      images.add(EMFEditPlugin.INSTANCE.getImage("full/obj16/ControlledObject"));
+      image = new ComposedImage(images);
+    }
+    return image;
+  }
+
+  /**
    * This implements {@link IItemLabelProvider#getText IItemLabelProvider.getText} by simply calling toString on the argument.
    * This will often be correct as is.
    */
   public String getText(Object object)
   {
     return object.toString();
-  }
-
-  /**
-   * This adds an annotation to the given text if the object is controlled.  It is a temporary solution for marking
-   * controlled objects until a new icon overlay is created, and should be expected to disappear before 2.2's release.
-   */
-  protected String annotateText(Object object, String text)
-  {
-    return AdapterFactoryEditingDomain.isControlled(object) ?
-      EMFEditPlugin.INSTANCE.getString("_UI_ControlledObject_annotation", new Object[] { text }) :
-      text;
   }
 
   /**
