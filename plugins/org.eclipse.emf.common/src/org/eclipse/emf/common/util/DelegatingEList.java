@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEList.java,v 1.4 2005/06/08 06:19:08 nickb Exp $
+ * $Id: DelegatingEList.java,v 1.5 2006/01/24 15:58:49 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -658,6 +658,79 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
   }
 
   /**
+   * Adds each object from start to end of the array at the index of list 
+   * and returns whether any objects were added;
+   * it does no ranging checking or uniqueness checking.
+   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
+   * @param index the index at which to add.
+   * @param objects the objects to be added.
+   * @param start the index of first object to be added.
+   * @param end the index past teh last object to be added.
+   * @return whether any objects were added.
+   * @see #addAllUnique(int, Object[], int, int)
+   */
+  public boolean addAllUnique(Object [] objects, int start, int end) 
+  {
+    int growth = end - start;
+
+    ++modCount;
+    
+    if (growth == 0)
+    {
+      return false;
+    }
+    else
+    {
+      int index = size();
+      for (int i = start; i < end; ++i, ++index)
+      {
+        Object object = objects[i];
+        delegateAdd(validate(index, object));
+        didAdd(index, object);
+        didChange();
+      }
+  
+      return true;
+    }
+  }
+
+  /**
+   * Adds each object from start to end of the array at each successive index in the list 
+   * and returns whether any objects were added;
+   * it does no ranging checking or uniqueness checking.
+   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
+   * @param index the index at which to add.
+   * @param objects the objects to be added.
+   * @param start the index of first object to be added.
+   * @param end the index past the last object to be added.
+   * @return whether any objects were added.
+   * @see #addAllUnique(Object[], int, int)
+   */
+  public boolean addAllUnique(int index, Object [] objects, int start, int end) 
+  {
+    int growth = end - start;
+
+    ++modCount;
+    
+    if (growth == 0)
+    {
+      return false;
+    }
+    else
+    {
+      for (int i = start; i < end; ++i, ++index)
+      {
+        Object object = objects[i];
+        delegateAdd(validate(index, object));
+        didAdd(index, object);
+        didChange();
+      }
+  
+      return true;
+    }
+  }
+
+  /**
    * Removes the object from the list and returns whether the object was actually contained by the list.
    * This implementation uses {@link #indexOf indexOf} to find the object
    * and delegates to {@link #remove(int) remove(int)} 
@@ -758,7 +831,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
   }
 
   /**
-   * Does the actual object of clearing the all the objects.
+   * Does the actual job of clearing all the objects.
    * @param oldSize the size of the list before it is cleared.
    * @param oldData old values of the list before it is cleared.
    */

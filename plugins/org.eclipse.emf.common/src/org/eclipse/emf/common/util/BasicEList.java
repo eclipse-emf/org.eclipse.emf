@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.11 2005/08/11 05:08:41 marcelop Exp $
+ * $Id: BasicEList.java,v 1.12 2006/01/24 15:58:49 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -770,6 +770,79 @@ public class BasicEList extends AbstractList implements EList, Cloneable, Serial
     for (int i = 0; i < growth; ++i)
     {
       Object object = objects.next();
+      assign(index, validate(index, object));
+      didAdd(index, object);
+      didChange();
+      ++index;
+    }
+
+    return growth != 0;
+  }
+
+  /**
+   * Adds each object from start to end of the array at the index of list 
+   * and returns whether any objects were added;
+   * it does no ranging checking or uniqueness checking.
+   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
+   * @param index the index at which to add.
+   * @param objects the objects to be added.
+   * @param start the index of first object to be added.
+   * @param end the index past teh last object to be added.
+   * @return whether any objects were added.
+   * @see #addAllUnique(int Object[], int, int)
+   */
+  public boolean addAllUnique(Object [] objects, int start, int end) 
+  {
+    int growth = end - start;
+
+    // ++modCount
+    //
+    grow(size + growth);  
+
+    size += growth;
+    int index = size;
+    for (int i = start; i < end; ++i)
+    {
+      Object object = objects[i];
+      assign(index, validate(index, object));
+      didAdd(index, object);
+      didChange();
+      ++index;
+    }
+
+    return growth != 0;
+  }
+
+  /**
+   * Adds each object from start to end of the array at each successive index in the list 
+   * and returns whether any objects were added;
+   * it does no ranging checking or uniqueness checking.
+   * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
+   * @param index the index at which to add.
+   * @param objects the objects to be added.
+   * @param start the index of first object to be added.
+   * @param end the index past the last object to be added.
+   * @return whether any objects were added.
+   * @see #addAllUnique(Object[], int, int)
+   */
+  public boolean addAllUnique(int index, Object [] objects, int start, int end) 
+  {
+    int growth = end - start;
+
+    // ++modCount
+    //
+    grow(size + growth);  
+
+    int shifted = size - index;
+    if (shifted > 0)
+    {
+      System.arraycopy(data, index, data, index + growth, shifted);
+    }
+
+    size += growth;
+    for (int i = start; i < end; ++i)
+    {
+      Object object = objects[i];
       assign(index, validate(index, object));
       didAdd(index, object);
       didChange();
