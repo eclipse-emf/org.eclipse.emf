@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.5 2005/11/22 21:16:09 emerks Exp $
+ * $Id: EcoreEMap.java,v 1.6 2006/01/24 16:04:08 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -65,7 +65,7 @@ public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, ES
 
     protected void didAdd(int index, Object newObject)
     {
-      doPut((Entry)newObject);
+      EcoreEMap.this.doPut((Entry)newObject);
     }
 
     protected void didSet(int index, Object newObject, Object oldObject)
@@ -76,17 +76,17 @@ public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, ES
 
     protected void didRemove(int index, Object oldObject)
     {
-      doRemove((Entry)oldObject);
+      EcoreEMap.this.doRemove((Entry)oldObject);
     }
 
     protected void didClear(int size, Object [] oldObjects)
     {
-      doClear();
+      EcoreEMap.this.doClear();
     }
 
     protected void didMove(int index, Object movedObject, int oldIndex)
     {
-      doMove((Entry)movedObject);
+      EcoreEMap.this.doMove((Entry)movedObject);
     }
   }
 
