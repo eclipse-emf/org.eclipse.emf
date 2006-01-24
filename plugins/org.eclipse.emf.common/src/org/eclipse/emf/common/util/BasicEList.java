@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.12 2006/01/24 15:58:49 emerks Exp $
+ * $Id: BasicEList.java,v 1.13 2006/01/24 20:28:49 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -29,12 +29,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.RandomAccess;
 
 
 /**
  * A highly extensible list implementation.
  */
-public class BasicEList extends AbstractList implements EList, Cloneable, Serializable 
+public class BasicEList extends AbstractList implements EList, RandomAccess, Cloneable, Serializable 
 {
   /**
    * The size of the list.
