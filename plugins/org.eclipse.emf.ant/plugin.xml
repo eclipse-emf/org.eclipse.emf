@@ -8,6 +8,6 @@
   <extension point="org.eclipse.ant.core.antTasks">
     <antTask library="ant_tasks/emf.ant.tasks.jar" name="emf.JETEmitter" headless="true" class="org.eclipse.emf.ant.taskdefs.codegen.JETEmitterTask" />
     <antTask library="ant_tasks/emf.ant.tasks.jar" name="emf.JMerger" headless="true" class="org.eclipse.emf.ant.taskdefs.codegen.JMergerTask" />
-    <antTask library="ant_tasks/emf.ant.tasks.jar" name="emf.util.RemoveVersion" headless="true" class="org.eclipse.emf.ant.taskdefs.RemoveVersionTaskTask" />
+    <antTask library="ant_tasks/emf.ant.tasks.jar" name="emf.util.RemoveVersion" headless="true" class="org.eclipse.emf.ant.taskdefs.RemoveVersionTask" />
   </extension>
 </plugin>
