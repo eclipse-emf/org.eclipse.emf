@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProvider.java,v 1.6 2006/01/23 20:49:18 davidms Exp $
+ * $Id: ResourceItemProvider.java,v 1.7 2006/01/24 22:18:50 davidms Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -123,7 +124,22 @@ public class ResourceItemProvider
   public Object getImage(Object object)
   {
     Resource resource = (Resource)object;
-    return URI.createURI(getResourceLocator().getImage("full/obj16/Resource").toString() + "#" + resource.getURI().fileExtension());
+    Object image = URI.createURI(getResourceLocator().getImage("full/obj16/Resource").toString() + "#" + resource.getURI().fileExtension());
+
+    // Overlay if the resource is the target for any controlled objects. 
+    //
+    for (Iterator i = resource.getContents().iterator(); i.hasNext(); )
+    {
+      if (AdapterFactoryEditingDomain.isControlled(i.next()))
+      {
+        List images = new ArrayList(2);
+        images.add(image);
+        images.add(getImage("full/obj16/ControlledObjectTarget"));
+        image = new ComposedImage(images);
+        break;
+      }
+    }
+    return image;
   }
 
   /**
@@ -133,19 +149,7 @@ public class ResourceItemProvider
   public String getText(Object object)
   {
     Resource resource = (Resource)object;
-    String result = resource.getURI() == null ? "" : resource.getURI().toString();
-
-    // Annotate if the resource is the target for any controlled objects. This won't be needed once we have an icon overlay. 
-    //
-    for (Iterator i = resource.getContents().iterator(); i.hasNext(); )
-    {
-      if (AdapterFactoryEditingDomain.isControlled(i.next()))
-      {
-        result = getString("_UI_TargetResource_annotation", new Object[] { result });
-        break;
-      }
-    }
-    return result;
+    return resource.getURI() == null ? "" : resource.getURI().toString();
   }
 
   /**
