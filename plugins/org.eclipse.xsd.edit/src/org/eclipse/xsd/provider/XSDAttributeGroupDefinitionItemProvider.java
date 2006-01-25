@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -70,8 +70,8 @@ public class XSDAttributeGroupDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_AttributeWildcard_label"),
-           XSDEditPlugin.getString("_UI_AttributeWildcardOfAttributeGroup_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AttributeWildcard_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AttributeWildcardOfAttributeGroup_description"),
            xsdPackage.getXSDAttributeGroupDefinition_AttributeWildcardContent(), 
            false));
 
@@ -80,8 +80,8 @@ public class XSDAttributeGroupDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Annotation_label"),
-           XSDEditPlugin.getString("_UI_AnnotationOfAttributeGroup_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Annotation_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AnnotationOfAttributeGroup_description"),
            xsdPackage.getXSDAttributeGroupDefinition_Annotation(), 
            false));
 
@@ -90,8 +90,8 @@ public class XSDAttributeGroupDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_ResolvedAttributeGroupDefinition_label"),
-           XSDEditPlugin.getString("_UI_ResolvedAttributeGroupDefinition_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ResolvedAttributeGroupDefinition_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ResolvedAttributeGroupDefinition_description"),
            xsdPackage.getXSDAttributeGroupDefinition_ResolvedAttributeGroupDefinition(), 
            false));
     }
@@ -134,7 +134,7 @@ public class XSDAttributeGroupDefinitionItemProvider
     XSDAttributeGroupDefinition xsdAttributeGroupDefinition = ((XSDAttributeGroupDefinition)object);
     XSDAttributeGroupDefinition resolvedAttributeGroupDefinition = xsdAttributeGroupDefinition.getResolvedAttributeGroupDefinition();
     return 
-      XSDEditPlugin.getImage
+      XSDEditPlugin.INSTANCE.getImage
         (resolvedAttributeGroupDefinition.getContainer() == null ?
           "full/obj16/XSDAttributeGroupUnresolved" :
           xsdAttributeGroupDefinition.getResolvedAttributeGroupDefinition() == xsdAttributeGroupDefinition ?
@@ -149,7 +149,7 @@ public class XSDAttributeGroupDefinitionItemProvider
       xsdAttributeGroupDefinition.isAttributeGroupDefinitionReference() ?
         xsdAttributeGroupDefinition.getQName() :
         xsdAttributeGroupDefinition.getName();
-    return result == null ? XSDEditPlugin.getString("_UI_Absent_label") : result;
+    return result == null ? XSDEditPlugin.INSTANCE.getString("_UI_Absent_label") : result;
   }
 
   /**

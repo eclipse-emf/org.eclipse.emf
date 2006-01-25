@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDAttributeDeclarationItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -109,8 +109,8 @@ public class XSDAttributeDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Name_label"),
-         XSDEditPlugin.getString("_UI_Name_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Name_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Name_description"),
          xsdPackage.getXSDNamedComponent_Name(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -153,8 +153,8 @@ public class XSDAttributeDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_TargetNamespace_label"),
-         XSDEditPlugin.getString("_UI_TargetNamespace_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_TargetNamespace_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_TargetNamespace_description"),
          xsdPackage.getXSDNamedComponent_TargetNamespace(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -201,8 +201,8 @@ public class XSDAttributeDeclarationItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptorWithDefault
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Form_label"),
-         XSDEditPlugin.getString("_UI_FormOfAttribute_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Form_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_FormOfAttribute_description"),
          xsdPackage.getXSDFeature_Form(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -210,7 +210,7 @@ public class XSDAttributeDeclarationItemProvider
          public Object getPropertyDefaultValue(Object o)
          {
            return 
-             XSDEditPlugin.getString
+             XSDEditPlugin.INSTANCE.getString
                ("_UI_DefaultValue_label", new Object [] { ((XSDAttributeDeclaration)o).getSchema().getAttributeFormDefault().getName() });
          }
        });
@@ -223,8 +223,8 @@ public class XSDAttributeDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_LexicalValue_label"),
-         XSDEditPlugin.getString("_UI_LexicalValueOfAttribute_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_LexicalValue_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_LexicalValueOfAttribute_description"),
          xsdPackage.getXSDFeature_LexicalValue(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -237,8 +237,8 @@ public class XSDAttributeDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Constraint_label"),
-         XSDEditPlugin.getString("_UI_ConstraintOfAttribute_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Constraint_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_ConstraintOfAttribute_description"),
          xsdPackage.getXSDFeature_Constraint(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -251,8 +251,8 @@ public class XSDAttributeDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Scope_label"),
-         XSDEditPlugin.getString("_UI_ScopeOfAttribute_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Scope_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_ScopeOfAttribute_description"),
          xsdPackage.getXSDFeature_Scope(),
          false,
         null));
@@ -265,8 +265,8 @@ public class XSDAttributeDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_TypeDefinition_label"),
-         XSDEditPlugin.getString("_UI_TypeDefinition_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_TypeDefinition_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_TypeDefinition_description"),
          xsdPackage.getXSDAttributeDeclaration_TypeDefinition(), 
          false,
          null));
@@ -279,8 +279,8 @@ public class XSDAttributeDeclarationItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Annotation_label"),
-         XSDEditPlugin.getString("_UI_AnnotationOfAttribute_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Annotation_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_AnnotationOfAttribute_description"),
          xsdPackage.getXSDAttributeDeclaration_Annotation(), 
          false));
   }
@@ -292,8 +292,8 @@ public class XSDAttributeDeclarationItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_ResolveAttributeDeclaration_label"),
-         XSDEditPlugin.getString("_UI_ResolveAttributeDeclaration_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_ResolveAttributeDeclaration_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_ResolveAttributeDeclaration_description"),
          xsdPackage.getXSDAttributeDeclaration_ResolvedAttributeDeclaration(), 
          false));
   }
@@ -322,7 +322,7 @@ public class XSDAttributeDeclarationItemProvider
     XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
     XSDAttributeDeclaration resolvedAttributeDeclaration = xsdAttributeDeclaration.getResolvedAttributeDeclaration();
     return 
-      XSDEditPlugin.getImage
+      XSDEditPlugin.INSTANCE.getImage
        (resolvedAttributeDeclaration.getContainer() == null ?
           "full/obj16/XSDAttributeUnresolved" :
           xsdAttributeDeclaration.getResolvedAttributeDeclaration() == xsdAttributeDeclaration ?
@@ -342,7 +342,7 @@ public class XSDAttributeDeclarationItemProvider
     StringBuffer result = new StringBuffer();
     if (name == null)
     {
-      result.append(XSDEditPlugin.getString("_UI_Absent_label"));
+      result.append(XSDEditPlugin.INSTANCE.getString("_UI_Absent_label"));
     }
     else
     {

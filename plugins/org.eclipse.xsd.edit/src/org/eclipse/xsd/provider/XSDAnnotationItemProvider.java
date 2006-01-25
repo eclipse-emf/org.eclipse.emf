@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotationItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDAnnotationItemProvider.java,v 1.4 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -70,7 +70,7 @@ public class XSDAnnotationItemProvider
    */
   public Object getImage(Object object)
   {
-    return XSDEditPlugin.getImage("full/obj16/XSDAnnotation");
+    return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDAnnotation");
   }
 
   public String getText(Object object)
@@ -98,7 +98,7 @@ public class XSDAnnotationItemProvider
           result = result.trim();
           if (result.length() > 50)
           {
-            result = result.substring(0, 50) + XSDEditPlugin.getString("_UI_DotDotDot_label");
+            result = result.substring(0, 50) + XSDEditPlugin.INSTANCE.getString("_UI_DotDotDot_label");
           }
         }
       }

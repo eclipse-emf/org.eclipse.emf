@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionItemProvider.java,v 1.5 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionItemProvider.java,v 1.6 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -75,8 +75,8 @@ public class XSDComplexTypeDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_DerivationMethod_label"),
-           XSDEditPlugin.getString("_UI_DerivationMethod_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_DerivationMethod_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_DerivationMethod_description"),
            xsdPackage.getXSDComplexTypeDefinition_DerivationMethod(),
            true,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -87,8 +87,8 @@ public class XSDComplexTypeDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Final_label"),
-           XSDEditPlugin.getString("_UI_FinalOfType_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Final_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_FinalOfType_description"),
            xsdPackage.getXSDComplexTypeDefinition_Final(),
            true,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -99,8 +99,8 @@ public class XSDComplexTypeDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Abstract_label"),
-           XSDEditPlugin.getString("_UI_AbstractOfType_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Abstract_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AbstractOfType_description"),
            xsdPackage.getXSDComplexTypeDefinition_Abstract(),
            true,
            ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
@@ -110,8 +110,8 @@ public class XSDComplexTypeDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Mixed_label"),
-           XSDEditPlugin.getString("_UI_Mixed_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Mixed_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Mixed_description"),
            xsdPackage.getXSDComplexTypeDefinition_Mixed(),
            true,
            ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
@@ -121,8 +121,8 @@ public class XSDComplexTypeDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_ContentTypeCategory_label"),
-           XSDEditPlugin.getString("_UI_ContentTypeCategory_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ContentTypeCategory_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ContentTypeCategory_description"),
            xsdPackage.getXSDComplexTypeDefinition_ContentTypeCategory(),
            true,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -132,8 +132,8 @@ public class XSDComplexTypeDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_ContentType_label"),
-           XSDEditPlugin.getString("_UI_ContentType_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ContentType_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ContentType_description"),
            xsdPackage.getXSDComplexTypeDefinition_ContentType(),
            false));
 
@@ -142,8 +142,8 @@ public class XSDComplexTypeDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_ProhibitedSubstitutions_label"),
-           XSDEditPlugin.getString("_UI_ProhibitedSubstitutions_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ProhibitedSubstitutions_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ProhibitedSubstitutions_description"),
            xsdPackage.getXSDComplexTypeDefinition_ProhibitedSubstitutions(),
            false,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -159,8 +159,8 @@ public class XSDComplexTypeDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_AttributeWildcard_label"),
-           XSDEditPlugin.getString("_UI_AttributeWildcardOfType_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AttributeWildcard_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AttributeWildcardOfType_description"),
            xsdPackage.getXSDComplexTypeDefinition_AttributeWildcardContent(), 
            false));
 
@@ -169,8 +169,8 @@ public class XSDComplexTypeDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Annotation_label"),
-           XSDEditPlugin.getString("_UI_AnnotationOfType_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Annotation_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AnnotationOfType_description"),
            xsdPackage.getXSDTypeDefinition_Annotation(), 
            false));
 
@@ -179,8 +179,8 @@ public class XSDComplexTypeDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_BaseTypeDefinition_label"),
-           XSDEditPlugin.getString("_UI_BaseTypeDefinition_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_BaseTypeDefinition_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_BaseTypeDefinition_description"),
            xsdPackage.getXSDComplexTypeDefinition_BaseTypeDefinition(),
            false));
 
@@ -199,8 +199,8 @@ public class XSDComplexTypeDefinitionItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptorWithDefault
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_LexicalFinal_label"),
-         XSDEditPlugin.getString("_UI_LexicalFinal_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_LexicalFinal_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_LexicalFinal_description"),
          xsdPackage.getXSDComplexTypeDefinition_LexicalFinal(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -234,8 +234,8 @@ public class XSDComplexTypeDefinitionItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptorWithDefault
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Final_label"),
-         XSDEditPlugin.getString("_UI_Final_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Final_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Final_description"),
          xsdPackage.getXSDComplexTypeDefinition_Final(),
          false,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -255,8 +255,8 @@ public class XSDComplexTypeDefinitionItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptorWithDefault
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Block_label"),
-         XSDEditPlugin.getString("_UI_BlockOfType_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Block_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_BlockOfType_description"),
          xsdPackage.getXSDComplexTypeDefinition_Block(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -324,7 +324,7 @@ public class XSDComplexTypeDefinitionItemProvider
   {
     XSDComplexTypeDefinition xsdComplexTypeDefinition = ((XSDComplexTypeDefinition)object);
     return 
-      XSDEditPlugin.getImage
+      XSDEditPlugin.INSTANCE.getImage
         (xsdComplexTypeDefinition.getContainer() == null ?
           "full/obj16/XSDComplexTypeDefinitionUnresolved" :
           "full/obj16/XSDComplexTypeDefinition");

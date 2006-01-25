@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxLengthFacetItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDMaxLengthFacetItemProvider.java,v 1.4 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -66,8 +66,8 @@ public class XSDMaxLengthFacetItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Value_label"),
-           XSDEditPlugin.getString("_UI_ValueMaxLengthFacet_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Value_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ValueMaxLengthFacet_description"),
            xsdPackage.getXSDMaxLengthFacet_Value(),
            true,
            ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE));
@@ -81,7 +81,7 @@ public class XSDMaxLengthFacetItemProvider
    */
   public Object getImage(Object object)
   {
-    return XSDEditPlugin.getImage("full/obj16/XSDMaxLengthFacet");
+    return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDMaxLengthFacet");
   }
 
   public String getText(Object object)

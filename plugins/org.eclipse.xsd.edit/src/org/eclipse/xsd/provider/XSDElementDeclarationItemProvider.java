@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationItemProvider.java,v 1.5 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDElementDeclarationItemProvider.java,v 1.6 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -125,8 +125,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Name_label"),
-         XSDEditPlugin.getString("_UI_Name_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Name_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Name_description"),
          xsdPackage.getXSDNamedComponent_Name(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -169,8 +169,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new XSDItemProviderAdapter.ItemPropertyDescriptorWithDefault
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Final_label"),
-         XSDEditPlugin.getString("_UI_FinalOfElement_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Final_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_FinalOfElement_description"),
          xsdPackage.getXSDElementDeclaration_LexicalFinal(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -178,7 +178,7 @@ public class XSDElementDeclarationItemProvider
          public Object getPropertyDefaultValue(Object o)
          {
            return 
-             XSDEditPlugin.getString
+             XSDEditPlugin.INSTANCE.getString
                ("_UI_DefaultValue_label", new Object [] { ((XSDElementDeclaration)o).getStringLexicalFinal() });
          }
          public Object getPropertyValue(Object o)
@@ -209,8 +209,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new XSDItemProviderAdapter.ItemPropertyDescriptorWithDefault
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Block_label"),
-         XSDEditPlugin.getString("_UI_BlockOfElement_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Block_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_BlockOfElement_description"),
          xsdPackage.getXSDElementDeclaration_Block(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -218,7 +218,7 @@ public class XSDElementDeclarationItemProvider
          public Object getPropertyDefaultValue(Object o)
          {
            return 
-             XSDEditPlugin.getString
+             XSDEditPlugin.INSTANCE.getString
                ("_UI_DefaultValue_label", new Object [] { ((XSDElementDeclaration)o).getStringBlock() });
          }
          public Object getPropertyValue(Object o)
@@ -254,8 +254,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_TargetNamespace_label"),
-         XSDEditPlugin.getString("_UI_TargetNamespace_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_TargetNamespace_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_TargetNamespace_description"),
          xsdPackage.getXSDNamedComponent_TargetNamespace(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -302,8 +302,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new XSDItemProviderAdapter.ItemPropertyDescriptorWithDefault
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Form_label"),
-         XSDEditPlugin.getString("_UI_FormOfElement_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Form_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_FormOfElement_description"),
          xsdPackage.getXSDFeature_Form(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -311,7 +311,7 @@ public class XSDElementDeclarationItemProvider
          public Object getPropertyDefaultValue(Object o)
          {
            return 
-             XSDEditPlugin.getString
+             XSDEditPlugin.INSTANCE.getString
                ("_UI_DefaultValue_label", new Object [] { ((XSDElementDeclaration)o).getSchema().getElementFormDefault().getName() });
          }
        });
@@ -324,8 +324,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_LexicalValue_label"),
-         XSDEditPlugin.getString("_UI_LexicalValueOfElement_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_LexicalValue_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_LexicalValueOfElement_description"),
          xsdPackage.getXSDFeature_LexicalValue(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -338,8 +338,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Constraint_label"),
-         XSDEditPlugin.getString("_UI_ConstraintOfElement_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Constraint_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_ConstraintOfElement_description"),
          xsdPackage.getXSDFeature_Constraint(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -352,8 +352,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Scope_label"),
-         XSDEditPlugin.getString("_UI_ScopeOfElement_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Scope_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_ScopeOfElement_description"),
          xsdPackage.getXSDFeature_Scope(),
          false,
          null));
@@ -366,15 +366,15 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Nillable_label"),
-         XSDEditPlugin.getString("_UI_Nillable_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Nillable_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Nillable_description"),
          xsdPackage.getXSDElementDeclaration_Nillable(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE)
        {
          public Object getPropertyDefaultValue(Object o)
          {
-           return XSDEditPlugin.getString("_UI_DefaultValue_label", new Object [] { "false" });
+           return XSDEditPlugin.INSTANCE.getString("_UI_DefaultValue_label", new Object [] { "false" });
          }
 
          public Collection getChoiceOfValues(Object o)
@@ -384,7 +384,7 @@ public class XSDElementDeclarationItemProvider
                (new Object [] 
                 { Boolean.FALSE, 
                   Boolean.TRUE, 
-                  XSDEditPlugin.getString("_UI_DefaultValue_label", new Object [] { "false" }) 
+                  XSDEditPlugin.INSTANCE.getString("_UI_DefaultValue_label", new Object [] { "false" }) 
                 });
          }
        });
@@ -397,8 +397,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_DisallowedSubstitutions_label"),
-         XSDEditPlugin.getString("_UI_DisallowedSubstitutions_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_DisallowedSubstitutions_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_DisallowedSubstitutions_description"),
          xsdPackage.getXSDElementDeclaration_DisallowedSubstitutions(),
          false,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -417,8 +417,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_SubstitutionGroupExclusions_label"),
-         XSDEditPlugin.getString("_UI_SubstitutionGroupExclusions_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_SubstitutionGroupExclusions_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_SubstitutionGroupExclusions_description"),
          xsdPackage.getXSDElementDeclaration_SubstitutionGroupExclusions(),
          false,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -437,15 +437,15 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Abstract_label"),
-         XSDEditPlugin.getString("_UI_AbstractOfElement_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Abstract_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_AbstractOfElement_description"),
          xsdPackage.getXSDElementDeclaration_Abstract(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE)
        {
          public Object getPropertyDefaultValue(Object o)
          {
-           return XSDEditPlugin.getString("_UI_DefaultValue_label", new Object [] { "false" });
+           return XSDEditPlugin.INSTANCE.getString("_UI_DefaultValue_label", new Object [] { "false" });
          }
 
          public Collection getChoiceOfValues(Object o)
@@ -455,7 +455,7 @@ public class XSDElementDeclarationItemProvider
                (new Object [] 
                 { Boolean.FALSE, 
                   Boolean.TRUE, 
-                  XSDEditPlugin.getString("_UI_DefaultValue_label", new Object [] { "false" }) 
+                  XSDEditPlugin.INSTANCE.getString("_UI_DefaultValue_label", new Object [] { "false" }) 
                 });
          }
        });
@@ -468,8 +468,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_TypeDefinition_label"),
-         XSDEditPlugin.getString("_UI_TypeDefinitionOfElement_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_TypeDefinition_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_TypeDefinitionOfElement_description"),
          xsdPackage.getXSDElementDeclaration_TypeDefinition(), 
          false,
          null));
@@ -482,8 +482,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new DelegatingItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_SubstitutionGroupAffiliation_label"),
-         XSDEditPlugin.getString("_UI_SubstitutionGroupAffiliation_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_SubstitutionGroupAffiliation_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_SubstitutionGroupAffiliation_description"),
          xsdPackage.getXSDElementDeclaration_SubstitutionGroupAffiliation(), 
          false,
          null));
@@ -496,8 +496,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Annotation_label"),
-         XSDEditPlugin.getString("_UI_AnnotationOfElement_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Annotation_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_AnnotationOfElement_description"),
          xsdPackage.getXSDElementDeclaration_Annotation(), 
          false));
   }
@@ -509,8 +509,8 @@ public class XSDElementDeclarationItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_ResolveElementDeclaration_label"),
-         XSDEditPlugin.getString("_UI_ResolveElementDeclaration_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_ResolveElementDeclaration_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_ResolveElementDeclaration_description"),
          xsdPackage.getXSDElementDeclaration_ResolvedElementDeclaration(), 
          false));
   }
@@ -540,7 +540,7 @@ public class XSDElementDeclarationItemProvider
     XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
     XSDElementDeclaration resolvedElementDeclaration = xsdElementDeclaration.getResolvedElementDeclaration();
     return 
-      XSDEditPlugin.getImage
+      XSDEditPlugin.INSTANCE.getImage
         (resolvedElementDeclaration.getContainer() == null ?
            "full/obj16/XSDElementUnresolved" :
            xsdElementDeclaration.getResolvedElementDeclaration() == xsdElementDeclaration ?
@@ -560,7 +560,7 @@ public class XSDElementDeclarationItemProvider
     StringBuffer result = new StringBuffer();
     if (name == null)
     {
-      result.append(XSDEditPlugin.getString("_UI_Absent_label"));
+      result.append(XSDEditPlugin.INSTANCE.getString("_UI_Absent_label"));
     }
     else
     {

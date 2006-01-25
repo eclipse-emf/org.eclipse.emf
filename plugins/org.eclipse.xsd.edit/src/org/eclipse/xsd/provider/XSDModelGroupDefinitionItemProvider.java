@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDModelGroupDefinitionItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -67,8 +67,8 @@ public class XSDModelGroupDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Annotation_label"),
-           XSDEditPlugin.getString("_UI_AnnotationOfModelGroupDefinition_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Annotation_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AnnotationOfModelGroupDefinition_description"),
            xsdPackage.getXSDModelGroupDefinition_Annotation(), 
            false));
 
@@ -77,8 +77,8 @@ public class XSDModelGroupDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_ResolvedModelGroupDefinition_label"),
-           XSDEditPlugin.getString("_UI_ResolvedModelGroupDefinition_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ResolvedModelGroupDefinition_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ResolvedModelGroupDefinition_description"),
            xsdPackage.getXSDModelGroupDefinition_ResolvedModelGroupDefinition(), 
            false));
 
@@ -110,7 +110,7 @@ public class XSDModelGroupDefinitionItemProvider
     XSDModelGroupDefinition xsdModelGroupDefinition = ((XSDModelGroupDefinition)object);
     XSDModelGroupDefinition resolvedModelGroupDefinition = xsdModelGroupDefinition.getResolvedModelGroupDefinition();
     return 
-      XSDEditPlugin.getImage
+      XSDEditPlugin.INSTANCE.getImage
         (resolvedModelGroupDefinition.getContainer() == null ?
            "full/obj16/XSDModelGroupDefinition" :
            xsdModelGroupDefinition.getResolvedModelGroupDefinition() == xsdModelGroupDefinition ?
@@ -125,7 +125,7 @@ public class XSDModelGroupDefinitionItemProvider
       xsdModelGroupDefinition.isModelGroupDefinitionReference() ?
         xsdModelGroupDefinition.getQName() :
         xsdModelGroupDefinition.getName();
-    return result == null ? XSDEditPlugin.getString("_UI_Absent_label") : result;
+    return result == null ? XSDEditPlugin.INSTANCE.getString("_UI_Absent_label") : result;
   }
 
   /**

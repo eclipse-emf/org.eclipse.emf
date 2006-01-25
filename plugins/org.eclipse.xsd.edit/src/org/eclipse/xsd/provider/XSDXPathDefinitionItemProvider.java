@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDXPathDefinitionItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDXPathDefinitionItemProvider.java,v 1.4 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -68,8 +68,8 @@ public class XSDXPathDefinitionItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Variety_label"),
-           XSDEditPlugin.getString("_UI_VarietyOfXPath_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Variety_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_VarietyOfXPath_description"),
            xsdPackage.getXSDXPathDefinition_Variety(),
            true,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -85,7 +85,7 @@ public class XSDXPathDefinitionItemProvider
   {
     XSDXPathDefinition xsdXPathDefinition = ((XSDXPathDefinition)object);
     return
-      XSDEditPlugin.getImage
+      XSDEditPlugin.INSTANCE.getImage
         (XSDXPathVariety.SELECTOR_LITERAL == xsdXPathDefinition.getVariety() ?
           "full/obj16/XSDXPathDefinitionSelector" :
           "full/obj16/XSDXPathDefinitionField");
@@ -95,7 +95,7 @@ public class XSDXPathDefinitionItemProvider
   {
     XSDXPathDefinition xsdXPathDefinition = ((XSDXPathDefinition)object);
     String result = xsdXPathDefinition.getValue();
-    return result == null ? XSDEditPlugin.getString("_UI_Absent_label") : result;
+    return result == null ? XSDEditPlugin.INSTANCE.getString("_UI_Absent_label") : result;
   }
 
   /**

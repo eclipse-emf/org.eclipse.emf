@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDDiagnosticItemProvider.java,v 1.4 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -66,8 +66,8 @@ public class XSDDiagnosticItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Severity_label"),
-           XSDEditPlugin.getString("_UI_Severity_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Severity_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Severity_description"),
            xsdPackage.getXSDDiagnostic_Severity(),
        true,
        ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
@@ -77,8 +77,8 @@ public class XSDDiagnosticItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Message_label"),
-           XSDEditPlugin.getString("_UI_Message_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Message_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Message_description"),
            xsdPackage.getXSDDiagnostic_Message(),
        true,
        ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -88,8 +88,8 @@ public class XSDDiagnosticItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_LocationURI_label"),
-           XSDEditPlugin.getString("_UI_LocationURI_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_LocationURI_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_LocationURI_description"),
            xsdPackage.getXSDDiagnostic_LocationURI(),
        true,
        ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -99,8 +99,8 @@ public class XSDDiagnosticItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Line_label"),
-           XSDEditPlugin.getString("_UI_Line_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Line_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Line_description"),
            xsdPackage.getXSDDiagnostic_Line(),
        true,
        ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE));
@@ -110,8 +110,8 @@ public class XSDDiagnosticItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Column_label"),
-           XSDEditPlugin.getString("_UI_Column_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Column_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Column_description"),
            xsdPackage.getXSDDiagnostic_Column(),
        true,
        ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE));
@@ -121,8 +121,8 @@ public class XSDDiagnosticItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Node_label"),
-           XSDEditPlugin.getString("_UI_Node_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Node_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Node_description"),
            xsdPackage.getXSDDiagnostic_Node(),
        true,
        ItemPropertyDescriptor.GENERIC_VALUE_IMAGE));
@@ -132,8 +132,8 @@ public class XSDDiagnosticItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_AnnotationURI_label"),
-           XSDEditPlugin.getString("_UI_AnnotationURI_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AnnotationURI_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AnnotationURI_description"),
            xsdPackage.getXSDDiagnostic_AnnotationURI(),
        true,
        ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -147,7 +147,7 @@ public class XSDDiagnosticItemProvider
    */
   public Object getImage(Object object)
   {
-    return XSDEditPlugin.getImage("full/obj16/XSDDiagnostic");
+    return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDDiagnostic");
   }
 
   public String getText(Object object)

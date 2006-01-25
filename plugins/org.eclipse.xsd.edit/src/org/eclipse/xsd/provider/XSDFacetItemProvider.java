@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFacetItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDFacetItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -65,8 +65,8 @@ public class XSDFacetItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_LexicalValue_label"),
-           XSDEditPlugin.getString("_UI_LexicalValueOfFacet_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_LexicalValue_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_LexicalValueOfFacet_description"),
            xsdPackage.getXSDFacet_LexicalValue(),
            true,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -76,8 +76,8 @@ public class XSDFacetItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Annotation_label"),
-           XSDEditPlugin.getString("_UI_AnnotationOfFacet_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Annotation_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AnnotationOfFacet_description"),
            xsdPackage.getXSDFacet_Annotation(), 
            false));
 
@@ -86,8 +86,8 @@ public class XSDFacetItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_SimpleTypeDefinition_label"),
-           XSDEditPlugin.getString("_UI_SimpleTypeDefinition_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_SimpleTypeDefinition_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_SimpleTypeDefinition_description"),
            xsdPackage.getXSDFacet_SimpleTypeDefinition(),
            false));
     }

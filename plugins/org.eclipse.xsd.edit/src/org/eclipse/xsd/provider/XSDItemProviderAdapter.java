@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapter.java,v 1.4 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDItemProviderAdapter.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -222,11 +222,11 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
           }
           if (result == null)
           {
-            return XSDEditPlugin.getString("_UI_DefaultValue_label", new Object [] { "" });
+            return XSDEditPlugin.INSTANCE.getString("_UI_DefaultValue_label", new Object [] { "" });
           }
           else
           {
-            return XSDEditPlugin.getString("_UI_DefaultValue_label", new Object [] { this.itemDelegator.getText(result) });
+            return XSDEditPlugin.INSTANCE.getString("_UI_DefaultValue_label", new Object [] { this.itemDelegator.getText(result) });
           }
         }
       }
@@ -824,7 +824,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
    */
   protected String getNewObjectName(String typeName)
   {
-    return XSDEditPlugin.getString("_UI_" + typeName + "_new_object");
+    return XSDEditPlugin.INSTANCE.getString("_UI_" + typeName + "_new_object");
   }
 
   /**
@@ -869,13 +869,13 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
     if (parent != selectedObject)
     {
       return 
-        XSDEditPlugin.getString
+        XSDEditPlugin.INSTANCE.getString
           ("_UI_CreateSibling_description", new Object [] { getTypeText(child, qualifier), getTypeText(selectedObject, null) });
     }
     else
     {
       return 
-        XSDEditPlugin.getString
+        XSDEditPlugin.INSTANCE.getString
           ("_UI_CreateChild_description", new Object [] { getTypeText(child, qualifier), getTypeText(parent, null) });
     }
   }
@@ -897,13 +897,13 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
     if (parent != selectedObject)
     {
       return 
-        XSDEditPlugin.getString
+        XSDEditPlugin.INSTANCE.getString
           ("_UI_CreateSibling_tooltip", new Object [] { getTypeText(child, qualifier), getTypeText(selectedObject, null) });
     }
     else
     {
       return 
-        XSDEditPlugin.getString
+        XSDEditPlugin.INSTANCE.getString
           ("_UI_CreateChild_tooltip", new Object [] { getTypeText(child, qualifier), getTypeText(parent, null) });
     }
   }
@@ -924,7 +924,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
       typeKey.append('_');
       typeKey.append(qualifier);
     }
-    return XSDEditPlugin.getString(typeKey.toString());
+    return XSDEditPlugin.INSTANCE.getString(typeKey.toString());
   }  
 
   /**
@@ -957,7 +957,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
       {
         imageName.append(qualifier);
       }
-      image = XSDEditPlugin.getImage(imageName.toString());    
+      image = XSDEditPlugin.INSTANCE.getImage(imageName.toString());    
     }
     return image;
   }

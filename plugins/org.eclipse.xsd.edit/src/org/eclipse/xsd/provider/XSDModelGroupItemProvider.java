@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDModelGroupItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -75,8 +75,8 @@ public class XSDModelGroupItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Compositor_label"),
-           XSDEditPlugin.getString("_UI_Compositor_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Compositor_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Compositor_description"),
            xsdPackage.getXSDModelGroup_Compositor(),
            true,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -86,8 +86,8 @@ public class XSDModelGroupItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Annotation_label"),
-           XSDEditPlugin.getString("_UI_AnnotationOfModelGroup_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Annotation_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AnnotationOfModelGroup_description"),
            xsdPackage.getXSDModelGroup_Annotation(), 
            false));
 
@@ -119,15 +119,15 @@ public class XSDModelGroupItemProvider
     XSDModelGroup xsdModelGroup = ((XSDModelGroup)object);
     if (XSDCompositor.CHOICE_LITERAL == xsdModelGroup.getCompositor())
     {
-      return XSDEditPlugin.getImage("full/obj16/XSDModelGroupChoice");
+      return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDModelGroupChoice");
     }
     else if (XSDCompositor.ALL_LITERAL == xsdModelGroup.getCompositor())
     {
-      return XSDEditPlugin.getImage("full/obj16/XSDModelGroupAll");
+      return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDModelGroupAll");
     }
     else 
     {
-      return XSDEditPlugin.getImage("full/obj16/XSDModelGroupSequence");
+      return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDModelGroupSequence");
     }
   }
 

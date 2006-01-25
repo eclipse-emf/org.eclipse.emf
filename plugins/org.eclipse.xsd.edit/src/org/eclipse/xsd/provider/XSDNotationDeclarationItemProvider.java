@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationDeclarationItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDNotationDeclarationItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -56,8 +56,8 @@ public class XSDNotationDeclarationItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_SystemIdentifier_label"),
-           XSDEditPlugin.getString("_UI_SystemIdentifier_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_SystemIdentifier_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_SystemIdentifier_description"),
            xsdPackage.getXSDNotationDeclaration_SystemIdentifier(),
            true,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -67,8 +67,8 @@ public class XSDNotationDeclarationItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_PublicIdentifier_label"),
-           XSDEditPlugin.getString("_UI_PublicIdentifier_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_PublicIdentifier_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_PublicIdentifier_description"),
            xsdPackage.getXSDNotationDeclaration_PublicIdentifier(),
            true,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -78,8 +78,8 @@ public class XSDNotationDeclarationItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Annotation_label"),
-           XSDEditPlugin.getString("_UI_AnnotationOfNotation_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Annotation_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AnnotationOfNotation_description"),
            xsdPackage.getXSDNotationDeclaration_Annotation(), 
            false));
 
@@ -107,7 +107,7 @@ public class XSDNotationDeclarationItemProvider
    */
   public Object getImage(Object object)
   {
-    return XSDEditPlugin.getImage("full/obj16/XSDNotationDeclaration");
+    return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDNotationDeclaration");
   }
 
   public String getText(Object object)

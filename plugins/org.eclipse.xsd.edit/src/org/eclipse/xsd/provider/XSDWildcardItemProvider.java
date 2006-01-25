@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardItemProvider.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDWildcardItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -73,8 +73,8 @@ public class XSDWildcardItemProvider
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_LexicalNamespaceConstraint_label"),
-           XSDEditPlugin.getString("_UI_LexicalNamespaceConstraint_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_LexicalNamespaceConstraint_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_LexicalNamespaceConstraint_description"),
            xsdPackage.getXSDWildcard_LexicalNamespaceConstraint(),
            true,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -121,8 +121,8 @@ It looks like you can't set a multi-value anymore with the latest generated code
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_NamespaceConstraint_label"),
-           XSDEditPlugin.getString("_UI_NamespaceConstraint_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_NamespaceConstraint_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_NamespaceConstraint_description"),
            xsdPackage.getXSDWildcard_NamespaceConstraint(),
            false,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
@@ -138,8 +138,8 @@ It looks like you can't set a multi-value anymore with the latest generated code
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_NamespaceConstraintCategory_label"),
-           XSDEditPlugin.getString("_UI_NamespaceConstraintCategory_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_NamespaceConstraintCategory_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_NamespaceConstraintCategory_description"),
            xsdPackage.getXSDWildcard_NamespaceConstraintCategory(),
            false,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -149,8 +149,8 @@ It looks like you can't set a multi-value anymore with the latest generated code
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_ProcessContents_label"),
-           XSDEditPlugin.getString("_UI_ProcessContents_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ProcessContents_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_ProcessContents_description"),
            xsdPackage.getXSDWildcard_ProcessContents(),
            true,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -160,8 +160,8 @@ It looks like you can't set a multi-value anymore with the latest generated code
       itemPropertyDescriptors.add
         (new ItemPropertyDescriptor
           (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-           XSDEditPlugin.getString("_UI_Annotation_label"),
-           XSDEditPlugin.getString("_UI_AnnotationOfWildcard_description"),
+           XSDEditPlugin.INSTANCE.getString("_UI_Annotation_label"),
+           XSDEditPlugin.INSTANCE.getString("_UI_AnnotationOfWildcard_description"),
            xsdPackage.getXSDWildcard_Annotation(), 
            false));
 
@@ -191,7 +191,7 @@ It looks like you can't set a multi-value anymore with the latest generated code
   {
     XSDWildcard xsdWildcard = ((XSDWildcard)object);
     return 
-      XSDEditPlugin.getImage
+      XSDEditPlugin.INSTANCE.getImage
         (xsdWildcard.eContainer() instanceof XSDParticle ?
           "full/obj16/XSDWildcardElement" :
           "full/obj16/XSDWildcardAttribute");

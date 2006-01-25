@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseItemProvider.java,v 1.3 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDAttributeUseItemProvider.java,v 1.4 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -104,8 +104,8 @@ public class XSDAttributeUseItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Required_label"),
-         XSDEditPlugin.getString("_UI_Required_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Required_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Required_description"),
          xsdPackage.getXSDAttributeUse_Required(),
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE));
@@ -115,8 +115,8 @@ public class XSDAttributeUseItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Use_label"),
-         XSDEditPlugin.getString("_UI_Use_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Use_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Use_description"),
          xsdPackage.getXSDAttributeUse_Use(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -126,8 +126,8 @@ public class XSDAttributeUseItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_LexicalValue_label"),
-         XSDEditPlugin.getString("_UI_LexicalValueOfAttributeUse_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_LexicalValue_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_LexicalValueOfAttributeUse_description"),
          xsdPackage.getXSDAttributeUse_LexicalValue(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -137,8 +137,8 @@ public class XSDAttributeUseItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_Constraint_label"),
-         XSDEditPlugin.getString("_UI_ConstraintOfAttributeUse_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_Constraint_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_ConstraintOfAttributeUse_description"),
          xsdPackage.getXSDAttributeUse_Constraint(),
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
@@ -148,8 +148,8 @@ public class XSDAttributeUseItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         XSDEditPlugin.getString("_UI_AttributeDeclaration_label"),
-         XSDEditPlugin.getString("_UI_AttributeDeclaration_description"),
+         XSDEditPlugin.INSTANCE.getString("_UI_AttributeDeclaration_label"),
+         XSDEditPlugin.INSTANCE.getString("_UI_AttributeDeclaration_description"),
          xsdPackage.getXSDAttributeUse_AttributeDeclaration(), 
          false));
 
@@ -215,14 +215,14 @@ public class XSDAttributeUseItemProvider
                XSDAttributeUseCategory.REQUIRED_LITERAL == xsdAttributeUse.getUse() ?
                  "One" : 
                  "ZeroToOne");
-        images.add(XSDEditPlugin.getImage(imageName));
+        images.add(XSDEditPlugin.INSTANCE.getImage(imageName));
       }
 
       return new ComposedImage(images);
     }
     else
     {
-      return XSDEditPlugin.getImage("full/obj16/XSDAttributeUse");
+      return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDAttributeUse");
     }
   }
 

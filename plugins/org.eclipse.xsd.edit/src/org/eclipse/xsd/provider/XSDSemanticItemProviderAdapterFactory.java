@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSemanticItemProviderAdapterFactory.java,v 1.4 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDSemanticItemProviderAdapterFactory.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -85,43 +85,43 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
               children = new ArrayList();
               children.add
                 (new ChildItemProvider
-                  (XSDEditPlugin.getString("_UI_Elements_label"), 
-                    XSDEditPlugin.getImage("full/obj16/XSDElementDeclaration"),
+                  (XSDEditPlugin.INSTANCE.getString("_UI_Elements_label"), 
+                    XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDElementDeclaration"),
                     xsdSchema.getElementDeclarations()));
               children.add
                 (new ChildItemProvider
-                  (XSDEditPlugin.getString("_UI_Attributes_label"),
-                    XSDEditPlugin.getImage("full/obj16/XSDAttributeDeclaration"),
+                  (XSDEditPlugin.INSTANCE.getString("_UI_Attributes_label"),
+                    XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDAttributeDeclaration"),
                     xsdSchema.getAttributeDeclarations()));
               children.add
                 (new ChildItemProvider
-                  (XSDEditPlugin.getString("_UI_AttributeGroups_label"), 
-                    XSDEditPlugin.getImage("full/obj16/XSDAttributeGroupDefinition"),
+                  (XSDEditPlugin.INSTANCE.getString("_UI_AttributeGroups_label"), 
+                    XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDAttributeGroupDefinition"),
                     xsdSchema.getAttributeGroupDefinitions()));
               children.add
                 (new ChildItemProvider
-                  (XSDEditPlugin.getString("_UI_Types_label"), 
-                    XSDEditPlugin.getImage("full/obj16/XSDTypeDefinition"),
+                  (XSDEditPlugin.INSTANCE.getString("_UI_Types_label"), 
+                    XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDTypeDefinition"),
                     xsdSchema.getTypeDefinitions()));
               children.add
                 (new ChildItemProvider
-                  (XSDEditPlugin.getString("_UI_ModelGroups_label"), 
-                    XSDEditPlugin.getImage("full/obj16/XSDModelGroupDefinition"),
+                  (XSDEditPlugin.INSTANCE.getString("_UI_ModelGroups_label"), 
+                    XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDModelGroupDefinition"),
                     xsdSchema.getModelGroupDefinitions()));
               children.add
                 (new ChildItemProvider
-                  (XSDEditPlugin.getString("_UI_Notations_label"), 
-                    XSDEditPlugin.getImage("full/obj16/XSDNotationDeclaration"),
+                  (XSDEditPlugin.INSTANCE.getString("_UI_Notations_label"), 
+                    XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDNotationDeclaration"),
                     xsdSchema.getNotationDeclarations()));
               children.add
                 (new ChildItemProvider
-                  (XSDEditPlugin.getString("_UI_IdentityConstraints_label"), 
-                    XSDEditPlugin.getImage("full/obj16/XSDIdentityConstraintDefinitionKey"),
+                  (XSDEditPlugin.INSTANCE.getString("_UI_IdentityConstraints_label"), 
+                    XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDIdentityConstraintDefinitionKey"),
                     xsdSchema.getIdentityConstraintDefinitions()));
               children.add
                 (new ChildItemProvider
-                  (XSDEditPlugin.getString("_UI_Annotations_label"), 
-                    XSDEditPlugin.getImage("full/obj16/XSDAnnotation"),
+                  (XSDEditPlugin.INSTANCE.getString("_UI_Annotations_label"), 
+                    XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDAnnotation"),
                     xsdSchema.getAnnotations()));
             }
             return children;
@@ -278,7 +278,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
             XSDAttributeDeclaration resolvedXSDAttributeDeclaration = xsdAttributeDeclaration.getResolvedAttributeDeclaration();
             String result = resolvedXSDAttributeDeclaration.getName();
-            return result == null ? XSDEditPlugin.getString("_UI_Absent_label") : result;
+            return result == null ? XSDEditPlugin.INSTANCE.getString("_UI_Absent_label") : result;
           }
         };
     }
