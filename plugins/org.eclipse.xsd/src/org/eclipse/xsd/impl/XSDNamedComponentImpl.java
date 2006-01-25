@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.10 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.11 2006/01/25 19:54:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
-import java.text.Collator;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,6 +35,7 @@ import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDPlugin;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDVariety;
@@ -238,7 +238,7 @@ public abstract class XSDNamedComponentImpl
       return instance;
     }
 
-    protected Collator collator = Collator.getInstance();
+    protected XSDPlugin.StringComparator collator = XSDPlugin.INSTANCE.getComparator();
   
     public Comparator()
     {
@@ -317,7 +317,7 @@ public abstract class XSDNamedComponentImpl
       return instance;
     }
 
-    protected Collator collator = Collator.getInstance();
+    protected XSDPlugin.StringComparator collator = XSDPlugin.INSTANCE.getComparator();
   
     public StringPairComparator()
     {

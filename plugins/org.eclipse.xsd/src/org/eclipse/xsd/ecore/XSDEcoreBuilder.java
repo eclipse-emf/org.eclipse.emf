@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.47 2006/01/23 15:34:00 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.48 2006/01/25 19:54:55 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -2673,7 +2672,7 @@ public class XSDEcoreBuilder extends MapBuilder
   {
     public static Comparator INSTANCE = new Comparator();
 
-    protected Collator collator = Collator.getInstance();
+    protected XSDPlugin.StringComparator collator = XSDPlugin.INSTANCE.getComparator();
   
     public Comparator()
     {
@@ -2705,33 +2704,7 @@ public class XSDEcoreBuilder extends MapBuilder
       else
       {
         int result = collator.compare(name1, name2);
-/*
-        if (result == 0)
-        {
-          String namespace1 = eNamedElement1.getTargetNamespace();
-          String namespace2 = eNamedElement2.getTargetNamespace();
-          if (namespace1 == null && namespace2 == null)
-          {
-            return 0;
-          }
-          else if (namespace1 == null)
-          {
-            return 1;
-          }
-          else if (namespace2 == null)
-          {
-            return -1;
-          }
-          else
-          {
-            return collator.compare(namespace1, namespace2);
-          }
-        }
-        else
-*/
-        {
-          return result;
-        }
+        return result;
       }
     }
   }

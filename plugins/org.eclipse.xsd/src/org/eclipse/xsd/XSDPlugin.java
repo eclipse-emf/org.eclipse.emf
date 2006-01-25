@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XSDPlugin.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDPlugin.java,v 1.5 2006/01/25 19:54:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
+
+import java.util.Comparator;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -51,6 +53,61 @@ public final class XSDPlugin extends EMFPlugin
   private XSDPlugin()
   {
     super(new ResourceLocator[] {});
+  }
+  
+  /**
+   * A comparator for strings which does collation specific to the current locale by default.
+   */
+  public static class StringComparator implements Comparator
+  {
+    private static java.text.Collator COLLATOR = java.text.Collator.getInstance();
+  
+    public int compare(String s1, String s2)
+    {
+      return COLLATOR.compare(s1, s2);
+    }
+
+    public int compare(Object o1, Object o2)
+    {
+      return compare((String)o1, (String)o2);
+    }
+  }
+
+  /**
+   * A comparator for strings which does collation based simply on unicode values.
+   */
+  public static class UnicodeStringComparator extends StringComparator
+  {
+    public int compare(String s1, String s2)
+    {
+      return s1.compareTo(s2);
+    }
+  }
+
+  /**
+   * The current comparator.
+   */
+  private StringComparator comparator = new StringComparator();
+
+  /**
+   * Returns the comparator that will be used to sort namespaces and names.
+   * The default comparator is specific to the current locale at startup.
+   * Changes to the comparator after it's already in use will be ignored.
+   * @return the comparator that will be used to sort namespaces and names.
+   */
+  public StringComparator getComparator()
+  {
+    return comparator;
+  }
+
+  /**
+   * Sets the comparator that will be used to sort namespaces and names.
+   * Changes to the comparator after it's already in use will be ignored.
+   * @param comparator the comparator that will be used to sort namespaces and names.
+   */
+  public void setComparator(StringComparator comparator)
+  {
+    this.comparator = comparator;
   }
 
   /*

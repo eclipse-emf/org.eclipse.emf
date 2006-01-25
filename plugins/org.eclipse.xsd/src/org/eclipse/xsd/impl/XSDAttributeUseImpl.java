@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseImpl.java,v 1.7 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDAttributeUseImpl.java,v 1.8 2006/01/25 19:54:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
-import java.text.Collator;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,6 +41,7 @@ import org.eclipse.xsd.XSDConstraint;
 import org.eclipse.xsd.XSDDiagnosticSeverity;
 import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDPackage;
+import org.eclipse.xsd.XSDPlugin;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.util.XSDConstants;
 
@@ -229,10 +229,13 @@ public class XSDAttributeUseImpl
       (objects,
        new Comparator()
        {
+         Comparator collator = XSDPlugin.INSTANCE.getComparator();
+         
          public boolean equals(Object that)
          {
            return this == that;
          }
+
          public int compare(Object o1, Object o2)
          {
            String name1 = ((XSDAttributeUse)o1).getContent().getResolvedAttributeDeclaration().getName();
@@ -249,8 +252,10 @@ public class XSDAttributeUseImpl
            {
              return -1;
            }
-           return
-             Collator.getInstance().compare(name1, name2);
+           else
+           {
+             return collator.compare(name1, name2);
+           }
          }
        });
 
