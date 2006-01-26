@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.14 2005/12/28 16:54:06 elena Exp $
+ * $Id: XMLLoadImpl.java,v 1.15 2006/01/26 20:51:31 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -170,11 +170,6 @@ public class XMLLoadImpl implements XMLLoad
         pool.releaseDefaultHandler((XMLDefaultHandler)handler, options);
       }
       
-      if (handler instanceof SAXWrapper) // avoid memory leak bug #85141
-      {
-        ((SAXWrapper)handler).handler = null;
-      }
-      
       helper = null;
       if (!resource.getErrors().isEmpty())
       {
@@ -272,13 +267,7 @@ public class XMLLoadImpl implements XMLLoad
         pool.release(parser, parserFeatures, parserProperties, Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER)));
         pool.releaseDefaultHandler((XMLDefaultHandler)handler, options);
       }
-      
-      // avoid memory leak bug #85141
-      if (handler instanceof SAXWrapper)
-      {
-        ((SAXWrapper)handler).handler = null;
-      }     
-      
+
       helper = null;
       if (!resource.getErrors().isEmpty())
       {
@@ -442,11 +431,6 @@ public class XMLLoadImpl implements XMLLoad
     if (pool != null)
     {
       pool.releaseDefaultHandler((XMLDefaultHandler)handler, options);
-    }
-
-    if (handler instanceof SAXWrapper)
-    {
-      ((SAXWrapper)handler).handler = null;
     }
     
     attributesProxy = null;
