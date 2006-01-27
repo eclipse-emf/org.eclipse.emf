@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.24 2005/12/22 21:10:51 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.25 2006/01/27 20:41:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
@@ -1401,5 +1402,11 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   public void setExtendedMetaData(BasicExtendedMetaData.EPackageExtendedMetaData ePackageExtendedMetaData)
   {
     this.ePackageExtendedMetaData = ePackageExtendedMetaData;
+  }
+
+  public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
+  {
+    EObject result = getEClassifier(uriFragmentSegment);
+    return result != null ? result : super.eObjectForURIFragmentSegment(uriFragmentSegment);
   }
 }

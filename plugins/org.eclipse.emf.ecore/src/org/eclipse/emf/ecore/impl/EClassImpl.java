@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.24 2005/12/02 12:16:44 emerks Exp $
+ * $Id: EClassImpl.java,v 1.25 2006/01/27 20:44:59 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -1155,5 +1155,11 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
         eSuperAdapter.getSubclasses().add(this);
       }
     }
+  }
+
+  public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
+  {
+    EObject result = eAllStructuralFeaturesData == null ? null : getEStructuralFeature(uriFragmentSegment);
+    return result != null ? result : super.eObjectForURIFragmentSegment(uriFragmentSegment);
   }
 }
