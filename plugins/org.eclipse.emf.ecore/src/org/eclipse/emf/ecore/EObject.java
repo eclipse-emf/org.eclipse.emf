@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.6 2005/06/08 12:35:27 marcelop Exp $
+ * $Id: EObject.java,v 1.7 2006/01/27 20:48:55 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -342,7 +342,7 @@ public interface EObject extends Notifier
    * {@link EClass#getEAllStructuralFeatures features},
    * or it isn't {@link EStructuralFeature#isChangeable changeable}.
    * @exception ClassCastException if there is a type conflict.
-   * @exception ArrayStoreException  if there is a type conflect.
+   * @exception ArrayStoreException  if there is a type conflict.
    * @see #eUnset(EStructuralFeature)
    * @see #eIsSet(EStructuralFeature)
    * @see #eGet(EStructuralFeature, boolean)
