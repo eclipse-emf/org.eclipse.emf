@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ESuperAdapter.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: ESuperAdapter.java,v 1.5 2006/01/27 20:01:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -57,7 +57,7 @@ public class ESuperAdapter extends AdapterImpl
   protected static final int SUPERS_MODIFIED = 0x0020;
   protected static final int LAST_ESUPER_ADAPTER_MODIFIED = SUPERS_MODIFIED;
 
-  protected int modifiedState;
+  protected int modifiedState = 0x003F;
 
   protected final static int SUPERS = 0;
   protected final static int ATTRIBUTES = 1;
@@ -319,6 +319,8 @@ public class ESuperAdapter extends AdapterImpl
 
   void setFlags(int featureId)
   {
+    int oldModifiedState = modifiedState;
+
     switch (featureId)
     {
       case ATTRIBUTES:
@@ -361,7 +363,7 @@ public class ESuperAdapter extends AdapterImpl
       }
     }
 
-    if (subclasses != null)
+    if (modifiedState != oldModifiedState && subclasses != null)
     {
       for (Iterator i = subclasses.iterator(); i.hasNext(); )
       {
