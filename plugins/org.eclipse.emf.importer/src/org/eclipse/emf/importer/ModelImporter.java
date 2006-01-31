@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.23 2005/12/20 05:14:45 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.24 2006/01/31 13:45:40 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -726,7 +726,7 @@ public abstract class ModelImporter extends ModelConverter
       {
         referencedModelProjects.add(workspaceRoot.getProject(new Path(modelDirectory).segment(0)));
         String editDirectory = referencedGenModel.getEditDirectory();
-        if (editDirectory != null && !modelDirectory.equals(editDirectory))
+        if (editDirectory != null && !modelDirectory.equals(editDirectory) && !"".equals(editDirectory))
         {
           referencedEditProjects.add(workspaceRoot.getProject(new Path(editDirectory).segment(0)));
         }
