@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.3 2005/12/24 10:50:36 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.4 2006/01/31 14:28:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -43,6 +43,26 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public class ECrossReferenceAdapter implements Adapter.Internal
 {
+  /**
+   * Returns the first {@link ECrossReferenceAdapter} in the notifier's {@link Notifier#eAdapters() adapter list}, 
+   * or <code>null</code>, if there isn't one.
+   * @param notifier the object to search.
+   * @return the first ECrossReferenceAdapter in the notifier's adapter list.
+   */
+  public static ECrossReferenceAdapter getCrossReferenceAdapter(Notifier notifier) 
+  {
+    List adapters = notifier.eAdapters();
+    for (int i = 0, size = adapters.size(); i < size; ++i)
+    {
+      Object adapter = adapters.get(i);
+      if (adapter instanceof ECrossReferenceAdapter)
+      {
+        return (ECrossReferenceAdapter)adapter;
+      }
+    }
+    return null;
+  }
+  
   protected Set unloadedResources = new HashSet();
   
   protected class InverseCrossReferencer extends EcoreUtil.CrossReferencer
