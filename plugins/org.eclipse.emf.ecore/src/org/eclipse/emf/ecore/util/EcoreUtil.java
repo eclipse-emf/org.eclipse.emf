@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.36 2006/01/23 20:07:36 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.37 2006/01/31 14:28:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.RandomAccess;
 import java.util.StringTokenizer;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -1775,6 +1777,135 @@ public class EcoreUtil
     public static Map find(Collection emfObjectsToSearch)
     {
       return new ExternalCrossReferencer(emfObjectsToSearch).findExternalCrossReferences();
+    }
+  }
+
+  /**
+   * An iterator over {@link EStructuralFeature.Setting settings} that filters out the ones that aren't of interest.
+   * If an {@link EReference} is specified, 
+   * the iterator will only yield settings with that as their {@link EStructuralFeature.Setting#getEStructuralFeature() feature}.
+   * If an {@link EClass} is specified, 
+   * the iterator will only yield settings with an {@link EStructuralFeature.Setting#getEObject() object} of that type.
+   */
+  public static class FilteredSettingsIterator implements Iterator
+  {
+    protected List list;
+    protected int size;
+    protected int index;
+    protected Iterator iterator;
+    protected EStructuralFeature.Setting preparedResult;
+    protected EReference eReference;
+    protected EClass eClass;
+
+    public FilteredSettingsIterator(List list, EReference eReference, EClass eClass)
+    {
+      if (list instanceof RandomAccess)
+      {
+        this.list = list;
+        size = list.size();
+      }
+      else
+      {
+        iterator = list.iterator();
+      }
+      this.eReference = eReference;
+      this.eClass = eClass;
+    }
+
+    public FilteredSettingsIterator(Collection collection, EReference eReference, EClass eClass)
+    {
+      if (collection instanceof RandomAccess)
+      {
+        list = (List)collection;
+        size = list.size();
+      }
+      else
+      {
+        iterator = collection.iterator();
+      }
+      this.eReference = eReference;
+      this.eClass = eClass;
+    }
+
+    public FilteredSettingsIterator(Iterator iterator, EReference eReference, EClass eClass)
+    {
+      this.iterator = iterator;
+      this.eReference = eReference;
+      this.eClass = eClass;
+    }
+
+    protected boolean isIncluded(EStructuralFeature.Setting setting)
+    {
+      return 
+        (eReference == null || setting.getEStructuralFeature() == eReference) &&
+          (eClass == null || eClass.isInstance(setting.getEObject()));
+    }
+
+    public boolean hasNext()
+    {
+      if (preparedResult == null)
+      {
+        if (iterator == null)
+        {
+          while (index < size)
+          {
+            EStructuralFeature.Setting setting = (EStructuralFeature.Setting)list.get(index++);
+            if (isIncluded(setting))
+            {
+              preparedResult = setting;
+              return true;
+            }
+          }
+        }
+        else
+        {
+          while (iterator.hasNext())
+          { 
+            EStructuralFeature.Setting setting = (EStructuralFeature.Setting)iterator.next();
+            if (isIncluded(setting))
+            {
+              preparedResult = setting;
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+    }
+
+    public Object next()
+    {
+      if (hasNext())
+      {
+        Object result = yield(preparedResult);
+        preparedResult = null;
+        return result;
+      }
+      else
+      {
+        throw new NoSuchElementException();
+      }
+    }
+    
+    protected Object yield(EStructuralFeature.Setting setting)
+    {
+      return setting;
+    }
+
+    public void remove()
+    {
+      if (iterator == null)
+      {
+        list.remove(index - 1);
+      }
+      else
+      {
+        iterator.remove();
+      }
     }
   }
 
