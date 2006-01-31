@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.15 2006/01/23 20:46:05 davidms Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.16 2006/01/31 20:43:31 davidms Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -693,17 +693,43 @@ public class AdapterFactoryEditingDomain implements EditingDomain
       Object result = resourceToReadOnlyMap.get(resource);
       if (result == null && resource != null)
       {
-        URI uri = 
-          CommonPlugin.asLocalURI
-            ((resource.getResourceSet() == null ? resourceSet : resource.getResourceSet()).getURIConverter().normalize(resource.getURI()));
-        if (uri.isFile() && !uri.isRelative())
+        URI uri = (resource.getResourceSet() == null ? resourceSet : resource.getResourceSet()).getURIConverter().normalize(resource.getURI());
+        if (isReadOnlyURI(uri))
         {
-          File file = new File(uri.toFileString());
-          resourceToReadOnlyMap.put(resource, result = !file.exists() || file.canWrite() ? Boolean.FALSE : Boolean.TRUE);
+          result = Boolean.TRUE;
         }
+        else
+        {
+          result = Boolean.FALSE;
+          URI localURI = CommonPlugin.asLocalURI(uri);
+          if (uri.isFile() && !uri.isRelative())
+          {
+            File file = new File(localURI.toFileString());
+            if (file.exists() && !file.canWrite())
+            {
+              result = Boolean.TRUE;
+            }
+          }
+        }
+        resourceToReadOnlyMap.put(resource, result);
       }
       return Boolean.TRUE.equals(result);
     }
+  }
+
+  /**
+   * Returns whether to expect that the resource corresponding to the given URI form will be read only.
+   */
+  protected boolean isReadOnlyURI(URI uri)
+  {
+    if (uri.isArchive())
+    {
+      return isReadOnlyURI(URI.createURI(uri.authority()));
+    }
+
+    return !uri.isHierarchical() ||
+      !("file".equals(uri.scheme()) || 
+        ("platform".equals(uri.scheme()) && !uri.hasAuthority() && uri.segmentCount() > 0 && "resource".equals(uri.segment(0))));
   }
 
   /**
