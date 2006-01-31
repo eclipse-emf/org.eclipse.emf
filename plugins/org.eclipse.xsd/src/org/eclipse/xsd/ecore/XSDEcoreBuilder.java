@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.48 2006/01/25 19:54:55 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.49 2006/01/31 15:05:38 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -157,107 +157,85 @@ public class XSDEcoreBuilder extends MapBuilder
     EPackage ePackage = (EPackage)targetNamespaceToEPackageMap.get(targetNamespace);
     if (ePackage == null)
     {
-      if (XMLNamespacePackage.eNS_URI.equals(targetNamespace) && xsdSchemas.indexOf(containingXSDSchema) != 0)
+      ePackage = EcoreFactory.eINSTANCE.createEPackage();
+      setAnnotations(ePackage, containingXSDSchema);
+      addOutput(ePackage);
+      if (targetNamespace == null)
       {
-        ePackage = XMLNamespacePackage.eINSTANCE;
-        for (Iterator i = containingXSDSchema.getAttributeDeclarations().iterator(); i.hasNext(); )
+        if (containingXSDSchema == null)
         {
-          XSDAttributeDeclaration xsdAttributeDeclaration = (XSDAttributeDeclaration)i.next();
-          if (!XSDConstants.isSchemaInstanceNamespace(xsdAttributeDeclaration.getTargetNamespace()))
-          {
-            EStructuralFeature eStructuralFeature = 
-              ExtendedMetaData.INSTANCE.getAttribute(XMLNamespacePackage.eNS_URI, xsdAttributeDeclaration.getName());
-            map(xsdAttributeDeclaration, eStructuralFeature);
-            XSDTypeDefinition xsdTypeDefinition = xsdAttributeDeclaration.getAnonymousTypeDefinition();
-            if (xsdTypeDefinition != null)
-            {
-              map(xsdTypeDefinition, eStructuralFeature.getEType());
-            }
-          }
+          containingXSDSchema = rootSchema;
         }
+        ePackage.setName(validName(containingXSDSchema.eResource().getURI().trimFileExtension().lastSegment(), true));
+        ePackage.setNsURI(containingXSDSchema.eResource().getURI().toString());
+
+        // Also register against the nsURI for the case that the target namespace is null.
+        //
+        // extendedMetaData.putPackage(ePackage.getNsURI(), ePackage);
       }
       else
       {
-        ePackage = EcoreFactory.eINSTANCE.createEPackage();
-        setAnnotations(ePackage, containingXSDSchema);
-        addOutput(ePackage);
-        if (targetNamespace == null)
+        URI uri = URI.createURI(targetNamespace);
+        List parsedName;
+        if (uri.isHierarchical())
         {
-          if (containingXSDSchema == null)
+          String host = uri.host();
+          if (host != null && host.startsWith("www."))
           {
-            containingXSDSchema = rootSchema;
+            host = host.substring(4);
           }
-          ePackage.setName(validName(containingXSDSchema.eResource().getURI().trimFileExtension().lastSegment(), true));
-          ePackage.setNsURI(containingXSDSchema.eResource().getURI().toString());
-
-          // Also register against the nsURI for the case that the target namespace is null.
-          //
-          // extendedMetaData.putPackage(ePackage.getNsURI(), ePackage);
+          parsedName = parseName(host, '.');
+          Collections.reverse(parsedName);
+          if (!parsedName.isEmpty())
+          {
+            parsedName.set(0, ((String)parsedName.get(0)).toLowerCase());
+          }
+    
+          parsedName.addAll(parseName(uri.trimFileExtension().path(), '/'));
         }
         else
         {
-          URI uri = URI.createURI(targetNamespace);
-          List parsedName;
-          if (uri.isHierarchical())
+          String opaquePart = uri.opaquePart();
+          int index = opaquePart.indexOf(":");
+          if (index != -1 && "urn".equalsIgnoreCase(uri.scheme()))
           {
-            String host = uri.host();
-            if (host != null && host.startsWith("www."))
+            parsedName = parseName(opaquePart.substring(0, index), '-');
+            if (parsedName.size() > 0 && DOMAINS.contains(parsedName.get(parsedName.size() - 1))) 
             {
-              host = host.substring(4);
-            }
-            parsedName = parseName(host, '.');
-            Collections.reverse(parsedName);
-            if (!parsedName.isEmpty())
-            {
+              Collections.reverse(parsedName);
               parsedName.set(0, ((String)parsedName.get(0)).toLowerCase());
             }
-    
-            parsedName.addAll(parseName(uri.trimFileExtension().path(), '/'));
+            parsedName.addAll(parseName(opaquePart.substring(index + 1), '/'));
           }
           else
           {
-            String opaquePart = uri.opaquePart();
-            int index = opaquePart.indexOf(":");
-            if (index != -1 && "urn".equalsIgnoreCase(uri.scheme()))
-            {
-              parsedName = parseName(opaquePart.substring(0, index), '-');
-              if (parsedName.size() > 0 && DOMAINS.contains(parsedName.get(parsedName.size() - 1))) 
-              {
-                Collections.reverse(parsedName);
-                parsedName.set(0, ((String)parsedName.get(0)).toLowerCase());
-              }
-              parsedName.addAll(parseName(opaquePart.substring(index + 1), '/'));
-            }
-            else
-            {
-              parsedName = parseName(opaquePart, '/');
-            }
+            parsedName = parseName(opaquePart, '/');
           }
-
-          StringBuffer qualifiedPackageName = new StringBuffer();
-          for (Iterator i = parsedName.iterator(); i.hasNext(); )
-          {
-            String packageName = (String)i.next();
-            if (packageName.length() > 0)
-            {
-              if (qualifiedPackageName.length() > 0)
-              {
-                qualifiedPackageName.append('.');
-              }
-              qualifiedPackageName.append(validName(packageName, false));
-            }
-          }
-          ePackage.setName(qualifiedPackageName.toString());
-          ePackage.setNsURI(targetNamespace);
         }
 
-        String nsPrefix = ePackage.getName();
-        int index = nsPrefix.lastIndexOf('.');
-        ePackage.setNsPrefix(index == -1 ? nsPrefix : nsPrefix.substring(index + 1));
-
-        extendedMetaData.setQualified(ePackage, targetNamespace != null);
-        extendedMetaData.putPackage(targetNamespace, ePackage);
+        StringBuffer qualifiedPackageName = new StringBuffer();
+        for (Iterator i = parsedName.iterator(); i.hasNext(); )
+        {
+          String packageName = (String)i.next();
+          if (packageName.length() > 0)
+          {
+            if (qualifiedPackageName.length() > 0)
+            {
+              qualifiedPackageName.append('.');
+            }
+            qualifiedPackageName.append(validName(packageName, false));
+          }
+        }
+        ePackage.setName(qualifiedPackageName.toString());
+        ePackage.setNsURI(targetNamespace);
       }
+
+      String nsPrefix = ePackage.getName();
+      int index = nsPrefix.lastIndexOf('.');
+      ePackage.setNsPrefix(index == -1 ? nsPrefix : nsPrefix.substring(index + 1));
+
+      extendedMetaData.setQualified(ePackage, targetNamespace != null);
+      extendedMetaData.putPackage(targetNamespace, ePackage);
 
       targetNamespaceToEPackageMap.put(targetNamespace, ePackage);
     }
@@ -2316,17 +2294,6 @@ public class XSDEcoreBuilder extends MapBuilder
     {
       addInput(xsdSchema);
       validate(xsdSchema);
-    }
-
-    // Make sure to populate the mapping for the special XML namespace schema if it isn't the one we are trying to map.
-    //
-    if (xsdSchemas.size() == 1 && !XMLNamespacePackage.eNS_URI.equals(xsdSchema.getTargetNamespace()))
-    {
-      XSDAttributeDeclaration xmlLangAttribute = xsdSchema.resolveAttributeDeclaration(XMLNamespacePackage.eNS_URI, "lang");
-      if (xmlLangAttribute.getContainer() != null)
-      {
-        getEPackage(xmlLangAttribute);
-      }
     }
 
     Collection visitedElementDeclarations = new ArrayList();
