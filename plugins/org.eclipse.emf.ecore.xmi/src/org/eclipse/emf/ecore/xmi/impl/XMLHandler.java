@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.46 2006/02/01 15:25:22 elena Exp $
+ * $Id: XMLHandler.java,v 1.47 2006/02/01 20:17:11 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -392,6 +392,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     {
       eClassFeatureNamePairToEStructuralFeatureMap = new HashMap();
     }
+    else
+    {
+      isOptionUseXMLNameToFeatureSet = true;
+    }
     
     recordAnyTypeNSDecls = Boolean.TRUE.equals(options.get(XMLResource.OPTION_RECORD_ANY_TYPE_NAMESPACE_DECLARATIONS));
     
@@ -445,10 +449,6 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
     this.xmlResource = resource;
     this.helper = helper;
-    if (helper instanceof XMLHelperImpl)
-    {
-      ((XMLHelperImpl)helper).featuresToKinds = featuresToKinds;
-    }
     resourceSet = xmlResource.getResourceSet();
     packageRegistry = resourceSet == null ? EPackage.Registry.INSTANCE : resourceSet.getPackageRegistry();
     resourceURI = xmlResource.getURI();
@@ -468,16 +468,39 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       mixedTargets.push(anyType.getMixed());
       text = new StringBuffer();
     }
+    
+    // bug #126072 
+    eClassFeatureNamePairToEStructuralFeatureMap = (Map)options.get(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP);
+    if (eClassFeatureNamePairToEStructuralFeatureMap == null)
+    {
+      eClassFeatureNamePairToEStructuralFeatureMap = new HashMap();
+      isOptionUseXMLNameToFeatureSet = false;
+    }
+    else
+    {
+      isOptionUseXMLNameToFeatureSet = true;
+      if (helper instanceof XMLHelperImpl && featuresToKinds != null)
+      {
+        ((XMLHelperImpl)helper).featuresToKinds = featuresToKinds;
+      }
+    }
   }
 
   public void reset()
   {
     this.xmlResource = null;
     this.extendedMetaData = null;
-    if (helper instanceof XMLHelperImpl)
+    // bug #126072 
+    eClassFeatureNamePairToEStructuralFeatureMap = null;
+    if (isOptionUseXMLNameToFeatureSet && helper instanceof XMLHelperImpl)
     {
       featuresToKinds = ((XMLHelperImpl)helper).featuresToKinds;
     }
+    else
+    {
+      featuresToKinds = null;
+    }
+    
     if (ecoreBuilder != null)
     {
         this.ecoreBuilder.setExtendedMetaData(null);
@@ -2543,6 +2566,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   }
 
   Map eClassFeatureNamePairToEStructuralFeatureMap = null;
+  boolean isOptionUseXMLNameToFeatureSet = false;
   EClassFeatureNamePair eClassFeatureNamePair = new  EClassFeatureNamePair();
 
   /**
