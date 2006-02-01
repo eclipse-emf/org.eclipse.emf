@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.47 2006/02/01 20:17:11 elena Exp $
+ * $Id: XMLHandler.java,v 1.48 2006/02/01 21:38:03 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -491,6 +491,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     this.xmlResource = null;
     this.extendedMetaData = null;
     // bug #126072 
+    eClassFeatureNamePair.eClass = null;
     eClassFeatureNamePairToEStructuralFeatureMap = null;
     if (isOptionUseXMLNameToFeatureSet && helper instanceof XMLHelperImpl)
     {
