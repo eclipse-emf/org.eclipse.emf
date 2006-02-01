@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.45 2005/12/20 17:16:35 elena Exp $
+ * $Id: XMLHandler.java,v 1.46 2006/02/01 15:25:22 elena Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1611,12 +1611,13 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       objects.push(anyType);
       mixedTargets.push(anyType.getAny());
       types.push(UNKNOWN_FEATURE_TYPE);
+      int unknownFeatureIndex = types.size() - 1;;
 
       handleFeature(prefix, name);
 
-      objects.remove(objects.size() - 2);
-      mixedTargets.remove(mixedTargets.size() - 2);
-      types.remove(types.size() - 2);
+      objects.remove(unknownFeatureIndex);
+      mixedTargets.remove(unknownFeatureIndex);
+      types.remove(unknownFeatureIndex);
     }
     else
     {
