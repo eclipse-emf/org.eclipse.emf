@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JControlModel.java,v 1.2 2006/02/01 20:29:10 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -465,7 +465,9 @@ public class JControlModel extends PrefixHandler
   protected Pattern noImportPattern;
   protected String redirect;
 
+  protected boolean indentIsSet = false;
   protected String indent;
+  protected boolean standardBraceStyleIsSet = false;
   protected boolean standardBraceStyle;
 
   public JControlModel()
@@ -507,6 +509,7 @@ public class JControlModel extends PrefixHandler
 
   public void setConvertToStandardBraceStyle(boolean standardBraceStyle)
   {
+    standardBraceStyleIsSet = true;
     this.standardBraceStyle = standardBraceStyle;
   }
 
@@ -517,6 +520,7 @@ public class JControlModel extends PrefixHandler
 
   public void setLeadingTabReplacement(String indent)
   {
+    indentIsSet = true;
     this.indent = indent;
   }
 
@@ -603,12 +607,12 @@ public class JControlModel extends PrefixHandler
   {
     if (element.getLocalName().equals("options"))
     {
-      if ("standard".equals(element.getAttributeNS(null, "braceStyle")))
+      if (!standardBraceStyleIsSet && "standard".equals(element.getAttributeNS(null, "braceStyle")))
       {
         standardBraceStyle = true;
       }
 
-      if (element.hasAttributeNS(null, "indent"))
+      if (!indentIsSet && element.hasAttributeNS(null, "indent"))
       {
         indent = element.getAttributeNS(null, "indent");
       }
