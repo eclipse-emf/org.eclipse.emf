@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.25 2006/01/27 20:41:35 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.26 2006/02/01 20:21:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -364,10 +364,15 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     return eClassifiers;
   }
 
+  public EClassifier getEClassifier(String name)
+  {
+    return getEClassifierGen(name);
+  }
+
   /**
    * @generated modifiable
    */
-  public EClassifier getEClassifier(String name)
+  public EClassifier getEClassifierGen(String name)
   {
     if (eNameToEClassifierMap == null)
     {
@@ -1406,7 +1411,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
 
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
-    EObject result = getEClassifier(uriFragmentSegment);
+    EObject result = getEClassifierGen(uriFragmentSegment);
     return result != null ? result : super.eObjectForURIFragmentSegment(uriFragmentSegment);
   }
 }
