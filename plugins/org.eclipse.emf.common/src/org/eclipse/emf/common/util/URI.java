@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.20 2006/01/31 20:42:11 davidms Exp $
+ * $Id: URI.java,v 1.21 2006/02/01 20:36:31 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -1395,7 +1395,7 @@ public final class URI
   }
 
   /*
-   * Returns <code>true</codE> if this is an archive URI.  If so, it is also
+   * Returns <code>true</code> if this is an archive URI.  If so, it is also
    * hierarchical, with an authority (consisting of an absolute URI followed
    * by "!"), no device, and an absolute path.
    */
