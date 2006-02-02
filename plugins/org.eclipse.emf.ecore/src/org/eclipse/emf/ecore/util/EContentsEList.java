@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentsEList.java,v 1.7 2006/01/23 16:33:15 emerks Exp $
+ * $Id: EContentsEList.java,v 1.8 2006/02/02 21:29:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.RandomAccess;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -315,6 +316,10 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
     protected EStructuralFeature feature;
     protected boolean isHandlingFeatureMap;
     protected ListIterator values;
+    protected InternalEList valueInternalEList;
+    protected List valueList;
+    protected int valueListSize;
+    protected int valueListIndex;
 
     public FeatureIteratorImpl(EObject eObject, List eStructuralFeatures)
     {
@@ -370,11 +375,18 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
         case -3:
         {
           // Undo the preparation for previous and continue.
-          values.next();
+          if (values == null)
+          {
+            ++valueListIndex;
+          }
+          else
+          {
+            values.next();
+          }
         }
         default:
         {
-          if (values == null || !scanNext(values))
+          if (valueList == null || (values == null ? !scanNext() : !scanNext(values)))
           {
             while (featureCursor < eStructuralFeatures.length)
             {
@@ -385,10 +397,28 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 isHandlingFeatureMap = FeatureMapUtil.isFeatureMap(feature);
                 if (isHandlingFeatureMap || feature.isMany())
                 {
-                  values = resolve() ? ((List)value).listIterator() : ((InternalEList)value).basicListIterator();
-                  if (scanNext(values))
+                  valueList = resolve() ? (List)value : (valueInternalEList = (InternalEList)value);
+                  if (valueList instanceof RandomAccess)
                   {
-                    preparedResult = values.next();
+                    values = null;
+                    valueListSize = valueList.size();
+                    valueListIndex = 0;
+                  }
+                  else
+                  {
+                    values = 
+                      valueInternalEList == null ? 
+                        valueList.listIterator() : 
+                        valueInternalEList.basicListIterator();
+                  }
+                  if (values == null ? scanNext() : scanNext(values))
+                  {
+                    preparedResult = 
+                       values == null ? 
+                         valueInternalEList == null ? 
+                           valueList.get(valueListIndex++) : 
+                           valueInternalEList.basicGet(valueListIndex++) : 
+                         values.next();
                     if (isHandlingFeatureMap)
                     {
                       FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
@@ -405,6 +435,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 }
                 else if (value != null)
                 {
+                  valueList = null;
                   values = null;
                   preparedResult = value;
                   preparedFeature = feature;
@@ -413,6 +444,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 }
               }
             }
+            valueList = null;
             values = null;
             isHandlingFeatureMap = false;
             prepared = 1;
@@ -420,7 +452,12 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
           }
           else
           {
-            preparedResult = values.next();
+            preparedResult = 
+              values == null ? 
+                valueInternalEList == null ? 
+                  valueList.get(valueListIndex++) : 
+                  valueInternalEList.basicGet(valueListIndex++) : 
+                values.next();
             if (isHandlingFeatureMap)
             {
               FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
@@ -456,14 +493,41 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       }
     }
 
+    protected boolean scanNext()
+    {
+      if (isHandlingFeatureMap)
+      {
+        while (valueListIndex < valueListSize)
+        {
+          FeatureMap.Entry entry = (FeatureMap.Entry)valueList.get(valueListIndex);
+          EStructuralFeature entryFeature = entry.getEStructuralFeature();
+          if (isIncludedEntry(entryFeature) && entry.getValue() != null)
+          {
+            return true;
+          }
+          else
+          {
+            ++valueListIndex;
+          }
+        }
+        return false;
+      }
+      else
+      {
+        return valueListIndex < valueListSize;
+      }
+    }
+
     public Object next()
     {
-      if (hasNext())
+      if (prepared > 1 || hasNext())
       {
         ++cursor;
         prepared = 0;
         feature = preparedFeature;
-        return preparedResult;
+        Object result = preparedResult;
+        hasNext();
+        return result;
       }
       else
       {
@@ -492,11 +556,18 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
         case 3:
         {
           // Undo the preparation for next and continue.
-          values.previous();
+          if (values == null)
+          {
+            --valueListIndex;
+          }
+          else
+          {
+            values.previous();
+          }
         }
         default:
         {
-          if (values == null || !scanPrevious(values))
+          if (valueList == null || (values == null ? !scanPrevious() : !scanPrevious(values)))
           {
             while (featureCursor > 0)
             {
@@ -507,11 +578,27 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 isHandlingFeatureMap = FeatureMapUtil.isFeatureMap(feature);
                 if (isHandlingFeatureMap || feature.isMany())
                 {
-                  List list = (List)value;
-                  values = resolve() ? list.listIterator(list.size()) : ((InternalEList)list).basicListIterator(list.size());
-                  if (scanPrevious(values))
+                  valueList = resolve() ? (List)value : (valueInternalEList = (InternalEList)value);
+                  if (valueList instanceof RandomAccess)
                   {
-                    preparedResult = values.previous();
+                    valueListSize = valueList.size();
+                    valueListIndex = valueListSize;
+                  }
+                  else
+                  {
+                    values = 
+                      valueInternalEList == null ? 
+                        valueList.listIterator(valueList.size()) : 
+                        valueInternalEList.basicListIterator(valueList.size());
+                  }
+                  if (values == null ? scanPrevious() : scanPrevious(values))
+                  {
+                    preparedResult = 
+                      values == null ? 
+                        valueInternalEList == null ? 
+                          valueList.get(--valueListIndex) : 
+                          valueInternalEList.basicGet(--valueListIndex) : 
+                        values.previous();
                     if (isHandlingFeatureMap)
                     {
                       FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
@@ -528,6 +615,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 }
                 else if (value != null)
                 {
+                  valueList = null;
                   values = null;
                   preparedResult = value;
                   preparedFeature = feature;
@@ -536,13 +624,19 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 }
               }
             }
+            valueList = null;
             values = null;
             prepared = -1;
             return false;
           }
           else
           {
-            preparedResult = values.previous();
+            preparedResult = 
+              values == null ? 
+                valueInternalEList == null ? 
+                  valueList.get(--valueListIndex) : 
+                  valueInternalEList.basicGet(--valueListIndex) : 
+                values.previous();
             if (isHandlingFeatureMap)
             {
               FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
@@ -578,14 +672,41 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       }
     }
 
+    protected boolean scanPrevious()
+    {
+      if (isHandlingFeatureMap)
+      {
+        while (valueListIndex > 0)
+        {
+          FeatureMap.Entry entry = (FeatureMap.Entry)valueList.get(valueListIndex - 1);
+          EStructuralFeature entryFeature = entry.getEStructuralFeature();
+          if (isIncludedEntry(entryFeature) && entry.getValue() != null)
+          {
+            return true;
+          }
+          else
+          {
+            --valueListIndex;
+          }
+        }
+        return false;
+      }
+      else
+      {
+        return valueListIndex > 0;
+      }
+    }
+
     public Object previous()
     {
-      if (hasPrevious())
+      if (prepared < -1 || hasPrevious())
       {
         --cursor;
         prepared = 0;
         feature = preparedFeature;
-        return preparedResult;
+        Object result = preparedResult;
+        hasPrevious();
+        return result;
       }
       else
       {
