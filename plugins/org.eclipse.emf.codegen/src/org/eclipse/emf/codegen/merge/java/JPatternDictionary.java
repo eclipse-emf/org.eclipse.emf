@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.2 2006/02/02 18:20:01 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
@@ -38,7 +38,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 import org.eclipse.emf.codegen.merge.java.facade.JType;
 
 /**
- * A dictionary of signatures and {@link JNode}}.
+ * A dictionary of signatures and {@link JNode}s.
  */
 public class JPatternDictionary extends FacadeVisitor
 {
