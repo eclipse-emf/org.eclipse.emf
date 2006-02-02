@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.2 2006/02/01 20:29:10 marcelop Exp $
+ * $Id: JControlModel.java,v 1.3 2006/02/02 18:20:31 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -311,6 +311,18 @@ public class JControlModel extends PrefixHandler
     }
   }
 
+  /**
+   * <p>A sweep rule removes elements from the target if they are <b>NOT</b> available
+   * in the source.  It can work on available Dictionary Patterns or be used to
+   * filter out import statements as follows:</p>
+   * <pre>
+   *   &lt;merge:sweep markup=&quot;^gen$&quot; select=&quot;Member&quot;/&gt;
+   *   &lt;merge:sweep markup=&quot;^org.eclipse.emf.ecore.EMetaObject$&quot; select=&quot;Import&quot;/&gt;
+   * </pre>
+   * <p>The first line removes all &quot;members&quot; (attribute, method, ...) that matches
+   * the expression defined by the &quot;^gen$&quot; Dictionary Pattern.  The second
+   * removes the &quot;org.eclipse.emf.ecore.EMetaObject&quot; import.</p>
+   */
   public static class SweepRule extends PrefixHandler
   {
     protected String name;
@@ -371,6 +383,16 @@ public class JControlModel extends PrefixHandler
     }
   }
 
+  /**
+   * <p>The sort rule is used to ensure that the order of the attributes as declared
+   * on the source is respected  (in theory this rule could be used to sort any
+   * member, but JMerger only applies it to attributes).  As usual you need to
+   * specify a Dictionary Pattern to identify the attributes that should be
+   * treated.  Here's an example:</p>
+   * <pre>
+   *   &lt;merge:sort markup=&quot;^ordered$&quot; select=&quot;Member&quot;/&gt;
+   * </pre>
+   */
   public static class SortRule extends PrefixHandler
   {
     protected String name;
