@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.1 2006/01/18 20:38:58 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.2 2006/02/02 18:18:32 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -28,12 +28,15 @@ import org.eclipse.emf.codegen.jmerge.JMerger;
 import org.eclipse.emf.test.tools.TestUtil;
 
 /**
- * This test case was based on the excellent article written by Adrian Powell 
- * Model with the Eclipse Modeling Framework, Part 3 
- * @see http://www-106.ibm.com/developerworks/library/os-ecemf3/.
+ * Each test method in this class works with a data/mergeN directory.
  */
 public class DeprecatedJMergerTest extends TestCase
 {
+  protected File mergeXML;
+  protected File source;
+  protected File target; 
+  protected File expected;
+  
   /**
    * @param name
    */
@@ -45,32 +48,72 @@ public class DeprecatedJMergerTest extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("JMergerTest");
-    ts.addTest(new DeprecatedJMergerTest("testMerge0"));
-    ts.addTest(new DeprecatedJMergerTest("testMerge1"));
+    ts.addTest(new DeprecatedJMergerTest("merge0"));
+    ts.addTest(new DeprecatedJMergerTest("merge1"));
+    ts.addTest(new DeprecatedJMergerTest("merge2"));
     return ts;
-  }  
-  
-  public void testMerge0() throws Exception
-  {
-    mergetTest(TestUtil.getPluginDirectory() + "/data/merge0");
-  }
-
-  public void testMerge1() throws Exception
-  {
-    mergetTest(TestUtil.getPluginDirectory() + "/data/merge1");
   }
   
-  protected void mergetTest(String dir) throws Exception
+  protected void setUp() throws Exception
   {
-    File mergeXML = new File(dir + "/merge.xml").getAbsoluteFile();
-    File source = new File(dir + "/MergerSource.java").getAbsoluteFile();
-    File target = new File(dir + "/MergerTarget.java").getAbsoluteFile();
-    File expected = new File(dir + "/MergerExpected.java").getAbsoluteFile();
+    String dir = TestUtil.getPluginDirectory() + "/data/" + getName();
 
+    mergeXML = new File(dir + "/merge.xml").getAbsoluteFile();
     assertTrue("Merge xml file is not available - " + mergeXML.getAbsolutePath(), mergeXML.isFile());
+
+    source = new File(dir + "/MergerSource.java").getAbsoluteFile();
     assertTrue("Merge Source file is not available - " + source.getAbsolutePath(), source.isFile());
+
+    target = new File(dir + "/MergerTarget.java").getAbsoluteFile();
+
+    expected = new File(dir + "/MergerExpected.java").getAbsoluteFile();
     assertTrue("Merge Result file is not available - " + expected.getAbsolutePath(), expected.isFile());
-        
+  }
+  
+  public void merge0() throws Exception
+  {
+    verifyMerge(mergeFiles());
+  }
+
+  /**
+   * This test case was based on the excellent article written by Adrian Powell 
+   * Model with the Eclipse Modeling Framework, Part 3 
+   * @see http://www-106.ibm.com/developerworks/library/os-ecemf3/.
+   */  
+  public void merge1() throws Exception
+  {
+    verifyMerge(mergeFiles());
+  }
+  
+  /*
+   * Bugzilla 126175
+   */
+  public void merge2() throws Exception
+  {
+    verifyMerge(mergeFiles());
+  }
+  
+  protected void verifyMerge(String targetContents)
+  {
+    // extract merged contents
+    StringBuffer mergeResult = new StringBuffer(targetContents);
+    
+    // The merge expected file was saved without any '\r' so
+    // we need to remove it from the mergedResult
+    for (int i=mergeResult.length()-1; i >= 0; i--)
+    {
+      if ('\r' == mergeResult.charAt(i))
+      {
+        mergeResult.deleteCharAt(i);
+      }
+    }
+    
+    String expectedMerge = TestUtil.readFile(expected, false);
+    assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\r'", expectedMerge, mergeResult.toString());    
+  }
+  
+  protected String mergeFiles() throws Exception
+  {        
     JMerger jMerger = new JMerger();
     JControlModel controlModel = new JControlModel(mergeXML.getAbsolutePath());
     jMerger.setControlModel(controlModel);
@@ -87,20 +130,6 @@ public class DeprecatedJMergerTest extends TestCase
     // merge source and target
     jMerger.merge();
     
-    // extract merged contents
-    StringBuffer mergeResult = new StringBuffer(jMerger.getTargetCompilationUnitContents());
-    
-    // The merge expected file was saved without any '\r' so
-    // we need to remove it from the mergedResult
-    for (int i=mergeResult.length()-1; i >= 0; i--)
-    {
-      if ('\r' == mergeResult.charAt(i))
-      {
-        mergeResult.deleteCharAt(i);
-      }
-    }
-    
-    String expectedMerge = TestUtil.readFile(expected, false);
-    assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\r'", expectedMerge, mergeResult.toString());
+    return jMerger.getTargetCompilationUnitContents();
   }  
 }
