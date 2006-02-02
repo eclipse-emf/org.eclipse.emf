@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.6 2005/06/08 06:20:10 nickb Exp $
+ * $Id: URIConverterImpl.java,v 1.7 2006/02/02 22:10:16 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -135,7 +135,7 @@ public class URIConverterImpl implements URIConverter
         }
         else 
         {
-          if (!file.isLocal(IResource.DEPTH_ONE) || !file.isSynchronized(IResource.DEPTH_ONE))
+          if (!file.isSynchronized(IResource.DEPTH_ONE))
           {
             file.refreshLocal(IResource.DEPTH_ONE, progressMonitor);
           }
@@ -188,7 +188,7 @@ public class URIConverterImpl implements URIConverter
       IFile file = workspaceRoot.getFile(new Path(platformResourcePath));
       try
       {
-        if (!file.isLocal(IResource.DEPTH_ONE) || !file.isSynchronized(IResource.DEPTH_ONE))
+        if (!file.isSynchronized(IResource.DEPTH_ONE))
         {
           file.refreshLocal(IResource.DEPTH_ONE, null);
         }
