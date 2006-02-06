@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.19 2005/12/15 00:08:06 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.20 2006/02/06 22:24:23 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -83,6 +83,7 @@ public class SpecialCasesTest  extends TestCase
     ts.addTest(new SpecialCasesTest("testChangeDescriptionWhenResumming2"));
     ts.addTest(new SpecialCasesTest("testLoadChangeDescritpions"));
     ts.addTest(new SpecialCasesTest("testEnumeration"));
+    ts.addTest(new SpecialCasesTest("testNoChange"));
     return ts;
   }
 
@@ -1055,5 +1056,69 @@ public class SpecialCasesTest  extends TestCase
     assertEquals(intermediate, loadedJohn.eGet(emfKnowledge));
     assertEquals(single, loadedMary.eGet(maritalStatus));
     assertEquals(beginner, loadedMary.eGet(emfKnowledge));
+  }
+  
+  /*
+   * Bugzilla 126639
+   */
+  public void testNoChange() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack/person");
+    
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    person.setName("Person");
+    pack.getEClassifiers().add(person);
+
+    EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
+    name.setName("name");
+    name.setEType(EcorePackage.eINSTANCE.getEString());
+    person.getEStructuralFeatures().add(name);
+    
+    EReference father = EcoreFactory.eINSTANCE.createEReference();
+    father.setName("father");
+    father.setEType(person);
+    person.getEStructuralFeatures().add(father);
+    
+    URI maryURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/data/mary.xmi");
+    URI johnURI = URI.createFileURI(TestUtil.getPluginDirectory() + "/data/john.xmi");
+
+    if (false) //save
+    {
+      EObject john = EcoreUtil.create(person);
+      john.eSet(name, "John");
+      Resource johnResource = new XMIResourceImpl(johnURI);
+      johnResource.getContents().add(john);
+
+      EObject mary = EcoreUtil.create(person);
+      mary.eSet(name, "Mary");
+      mary.eSet(father, john);
+      Resource maryResource = new XMIResourceImpl(maryURI);
+      maryResource.getContents().add(mary);
+      
+      maryResource.save(null);
+      johnResource.save(null);
+    }
+        
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getPackageRegistry().put(pack.getNsURI(), pack);
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
+        
+    Resource maryResource = resourceSet.getResource(maryURI, true);
+    
+    EObject mary = (EObject)maryResource.getContents().get(0);
+    assertEquals("Mary", mary.eGet(name));
+    
+    EObject proxyToJohn = (EObject)mary.eGet(father, false);
+    assertNotNull(proxyToJohn);
+    assertTrue(proxyToJohn.eIsProxy());
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    EObject john = (EObject)mary.eGet(father);
+    assertEquals("John", john.eGet(name));
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    assertFalse(changeDescription.getObjectChanges().containsKey(mary));
   }
 }
