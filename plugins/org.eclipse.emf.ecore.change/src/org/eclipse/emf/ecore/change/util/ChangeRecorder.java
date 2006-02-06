@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.34 2005/12/14 23:48:30 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.35 2006/02/06 22:22:58 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -336,11 +336,10 @@ public class ChangeRecorder implements Adapter.Internal
 
   protected void handleFeature(EStructuralFeature feature, EReference containment, Notification notification, EObject eObject)
   {
-    boolean shouldRecord = isRecording();
-    if (feature.isDerived())
-    {
-      shouldRecord = false;
-    }
+    int event = notification.getEventType();
+    boolean shouldRecord = isRecording() 
+      && event != Notification.RESOLVE 
+      && !feature.isDerived();
     
     List changes = null;
     FeatureChange change = null;
@@ -350,7 +349,6 @@ public class ChangeRecorder implements Adapter.Internal
       change = getFeatureChange(changes, feature);      
     }
     
-    int event = notification.getEventType();
     switch (event)
     {
       case Notification.SET:
