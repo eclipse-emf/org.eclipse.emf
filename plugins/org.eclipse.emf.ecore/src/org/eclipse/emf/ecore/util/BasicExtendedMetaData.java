@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.23 2005/11/04 19:00:47 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.24 2006/02/06 21:12:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2066,6 +2066,15 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         }
       }
       
+      if (nameToClassifierMap.size() != eClassifiers.size())
+      {
+        for (int i = 0, size = eClassifiers.size(); i < size; ++i)
+        {
+          EClassifier eClassifier = (EClassifier)eClassifiers.get(i);
+          nameToClassifierMap.put(getName(eClassifier), eClassifier);
+        }
+      }
+
       return (EClassifier)nameToClassifierMap.get(name);
     }
 
