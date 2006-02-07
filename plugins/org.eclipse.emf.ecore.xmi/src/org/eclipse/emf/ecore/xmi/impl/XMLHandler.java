@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.48 2006/02/01 21:38:03 elena Exp $
+ * $Id: XMLHandler.java,v 1.49 2006/02/07 15:25:04 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -764,9 +764,16 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   public void startElement(String uri, String localName, String name)
   {
     helper.pushContext();
-    if (text != null && text.length() > 0 && mixedTargets.peek() != null)
+    if (text != null && text.length() > 0)
     {
-      handleMixedText();
+      if (mixedTargets.peek() != null)
+      {
+        handleMixedText();
+      }
+      else
+      {
+        text = null;
+      }
     }
 
     elements.push(name);
