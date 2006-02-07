@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProvider.java,v 1.7 2006/01/24 22:18:50 davidms Exp $
+ * $Id: ResourceItemProvider.java,v 1.8 2006/02/07 21:21:20 davidms Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -134,7 +134,7 @@ public class ResourceItemProvider
       {
         List images = new ArrayList(2);
         images.add(image);
-        images.add(getImage("full/obj16/ControlledObjectTarget"));
+        images.add(getImage("full/ovr16/ControlledObjectTarget"));
         image = new ComposedImage(images);
         break;
       }

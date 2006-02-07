@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.21 2006/01/24 22:17:33 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.22 2006/02/07 21:21:20 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -578,7 +578,7 @@ public class ItemProviderAdapter
     {
       List images = new ArrayList(2);
       images.add(image);
-      images.add(EMFEditPlugin.INSTANCE.getImage("full/obj16/ControlledObject"));
+      images.add(EMFEditPlugin.INSTANCE.getImage("full/ovr16/ControlledObject"));
       image = new ComposedImage(images);
     }
     return image;
