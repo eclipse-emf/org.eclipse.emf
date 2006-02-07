@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.4 2005/06/08 06:17:44 nickb Exp $
+ * $Id: PersistenceTest.java,v 1.5 2006/02/07 08:30:51 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -39,9 +39,12 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.test.core.TestUtil;
 
 public class PersistenceTest extends TestCase
@@ -70,6 +73,7 @@ public class PersistenceTest extends TestCase
     ts.addTest(new PersistenceTest("testTwoZipFiles"));
     ts.addTest(new PersistenceTest("testTwoTextFiles"));
     ts.addTest(new PersistenceTest("testEDataType"));
+    ts.addTest(new PersistenceTest("testCrossResourceContainment_XMLResourceUUID"));
     return ts;
   }
   
@@ -328,5 +332,89 @@ public class PersistenceTest extends TestCase
     EObject loadedJohn = (EObject)loadedXMIResource.getContents().get(0);
     assertTrue(loadedJohn.eGet(birthday) instanceof Date);
     assertEquals(dateValue, ((Date)loadedJohn.eGet(birthday)).getTime());
+  }
+  
+  /*
+   * Bugzilla 126647
+   */
+  public void testCrossResourceContainment_XMLResourceUUID() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack/person");
+    
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    person.setName("Person");
+    pack.getEClassifiers().add(person);
+
+    EAttribute name = EcoreFactory.eINSTANCE.createEAttribute();
+    name.setName("name");
+    name.setEType(EcorePackage.eINSTANCE.getEString());
+    person.getEStructuralFeatures().add(name);
+    
+    EReference children = EcoreFactory.eINSTANCE.createEReference();
+    children.setName("children");
+    children.setEType(person);
+    children.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    children.setContainment(true);
+    children.setResolveProxies(true);
+    person.getEStructuralFeatures().add(children);
+    
+    EObject john = EcoreUtil.create(person);
+    john.eSet(name, "john");
+    EObject mary = EcoreUtil.create(person);
+    mary.eSet(name, "mary");
+    ((List)john.eGet(children)).add(mary);
+    
+    assertNull(john.eResource());
+    assertNull(mary.eResource());
+    assertEquals(john, mary.eContainer());
+    
+    XMLResource johnResource = new XMLResourceImpl(URI.createFileURI("john"))
+    {
+      protected boolean useUUIDs()
+      {
+        return true;
+      }
+    };
+    johnResource.setID(john, (String)john.eGet(name));
+    johnResource.setID(mary, (String)mary.eGet(name));
+    johnResource.getContents().add(john);
+    
+    assertEquals(john, johnResource.getEObject((String)john.eGet(name)));
+    assertEquals(mary, johnResource.getEObject((String)mary.eGet(name)));
+    //
+    assertEquals(johnResource, john.eResource());
+    assertEquals(johnResource, mary.eResource());
+    assertEquals(john, mary.eContainer());
+    
+    XMLResource maryResource = new XMLResourceImpl(URI.createFileURI("mary"))
+    {
+      protected boolean useUUIDs()
+      {
+        return true;
+      }
+    };
+    maryResource.getContents().add(mary);
+    
+    assertEquals(john, johnResource.getEObject((String)john.eGet(name)));
+    assertNull(johnResource.getEObject((String)mary.eGet(name)));
+    assertNull(maryResource.getEObject((String)john.eGet(name)));
+    assertEquals(mary, maryResource.getEObject((String)mary.eGet(name)));
+    //
+    assertEquals(johnResource, john.eResource());
+    assertEquals(maryResource, mary.eResource());
+    assertEquals(john, mary.eContainer());
+    
+    maryResource.getContents().remove(mary);
+    
+    assertEquals(john, johnResource.getEObject((String)john.eGet(name)));
+    assertEquals(mary, johnResource.getEObject((String)mary.eGet(name)));
+    assertNull(maryResource.getEObject((String)john.eGet(name)));
+    assertNull(maryResource.getEObject((String)mary.eGet(name)));
+    //
+    assertEquals(johnResource, john.eResource());
+    assertEquals(johnResource, mary.eResource());
+    assertEquals(john, mary.eContainer());
   }
 }
