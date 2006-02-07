@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,9 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EMOFExtendedMetaData.java,v 1.3 2005/06/08 06:16:07 nickb Exp $
+ * $Id: EMOFExtendedMetaData.java,v 1.4 2006/02/07 15:23:48 khussey Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
+
+import java.util.HashMap;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -56,6 +58,7 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
   public EMOFExtendedMetaData(XMLResource.XMLMap xmlMap)
   {
     super();
+    extendedMetaDataHolderCache = new HashMap();
     this.xmlMap = xmlMap;
   }
 

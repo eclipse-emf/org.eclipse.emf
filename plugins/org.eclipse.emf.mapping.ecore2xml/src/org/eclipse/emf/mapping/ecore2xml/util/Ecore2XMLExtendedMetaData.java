@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLExtendedMetaData.java,v 1.3 2006/01/09 21:55:43 khussey Exp $
+ * $Id: Ecore2XMLExtendedMetaData.java,v 1.4 2006/02/07 15:23:46 khussey Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.util;
 
@@ -57,7 +57,9 @@ public class Ecore2XMLExtendedMetaData extends BasicExtendedMetaData
   public Ecore2XMLExtendedMetaData(String annotationURI, EPackage.Registry ePackageRegistry, Ecore2XMLRegistry ecore2xmlRegistry)
   {
     super(annotationURI, ePackageRegistry);
-    
+
+    extendedMetaDataHolderCache = new HashMap();
+
     this.ecore2xmlRegistry = ecore2xmlRegistry;
   }
   
