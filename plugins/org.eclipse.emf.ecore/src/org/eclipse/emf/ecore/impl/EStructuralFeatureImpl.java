@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.18 2005/11/25 17:49:48 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.19 2006/02/08 21:43:11 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2258,7 +2258,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
               NotificationChain notificationChain = dynamicInverseRemove(owner, settings, index, oldEObject, null);
               if (newEObject.eInternalContainer() == null)
               {
-                notificationChain = dynamicInverseAdd(owner, settings, index, newEObject, notificationChain);
+                notificationChain = 
+                  newEObject.eInverseAdd
+                    (owner, 
+                     inverseFeature == null  ?
+                       InternalEObject.EOPPOSITE_FEATURE_BASE - owner.eClass().getFeatureID(feature) :
+                       newEObject.eClass().getFeatureID(inverseFeature), 
+                     null, 
+                     notificationChain);                
               }
               if (notificationChain != null)
               {
