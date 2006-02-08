@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.39 2005/12/13 12:02:29 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.40 2006/02/08 21:42:24 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -501,7 +501,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
           <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
 				<%=genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain")%> msgs =  old<%=genFeature.getCapName()%>.eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, null);
           <%}%>
-				if (new<%=genFeature.getCapName()%>.eInternalContainer() != null)
+				if (new<%=genFeature.getCapName()%>.eInternalContainer() == null)
 				{
           <%if (!genFeature.isBidirectional()) {%>
 					msgs = new<%=genFeature.getCapName()%>.eInverseAdd(this, EOPPOSITE_FEATURE_BASE - <%=genClass.getQualifiedFeatureID(genFeature)%>, null, msgs);

@@ -303,7 +303,7 @@ public class Class
   protected final String TEXT_286 = ", ";
   protected final String TEXT_287 = ".class, null);";
   protected final String TEXT_288 = NL + "\t\t\t\tif (new";
-  protected final String TEXT_289 = ".eInternalContainer() != null)" + NL + "\t\t\t\t{";
+  protected final String TEXT_289 = ".eInternalContainer() == null)" + NL + "\t\t\t\t{";
   protected final String TEXT_290 = NL + "\t\t\t\t\tmsgs = new";
   protected final String TEXT_291 = ".eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ";
   protected final String TEXT_292 = ", null, msgs);";
