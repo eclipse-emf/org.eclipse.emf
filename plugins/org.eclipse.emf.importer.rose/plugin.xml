@@ -18,4 +18,9 @@
   <extension point="org.eclipse.ant.core.antTasks">
     <antTask library="ant_tasks/importer.rose.tasks.jar" name="emf.Rose2Java" headless="true" class="org.eclipse.emf.importer.rose.taskdefs.RoseGeneratorTask" />
   </extension>
+  
+  <extension point="org.eclipse.team.core.fileTypes">
+    <fileTypes extension="mdl" type="text" />
+    <fileTypes extension="cat" type="text" />
+  </extension>
 </plugin>
