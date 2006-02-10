@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,10 +12,9 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.21 2006/02/10 17:53:29 marcelop Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.22 2006/02/10 21:00:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
-
 
 
 import java.util.Collection;
@@ -35,7 +34,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 
 
 public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
@@ -83,6 +81,8 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   
   protected Object validate(int index, Object object)
   {
+    if (modCount == 0) return object;
+
     Object result = super.validate(index, object);
     EStructuralFeature eStructuralFeature = ((Entry)object).getEStructuralFeature();
     if (!eStructuralFeature.isChangeable() || !featureMapValidator.isValid(eStructuralFeature))
@@ -122,6 +122,11 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   protected FeatureMap.Entry createEntry(EStructuralFeature eStructuralFeature, Object value)
   {
     return FeatureMapUtil.createEntry(eStructuralFeature, value);
+  }
+
+  protected FeatureMap.Entry.Internal createRawEntry(EStructuralFeature eStructuralFeature, Object value)
+  {
+    return FeatureMapUtil.createRawEntry(eStructuralFeature, value);
   }
 
   protected NotificationImpl createNotification
@@ -275,42 +280,8 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
   public NotificationChain inverseAdd(Object object, NotificationChain notifications)
   {
-    Entry entry = (Entry)object;
-    EStructuralFeature feature = entry.getEStructuralFeature();
-    if (feature instanceof EReference)
-    {
-      EReference eReference = (EReference)feature;
-      EReference eOpposite = eReference.getEOpposite();
-      if (eOpposite != null)
-      {
-        InternalEObject internalEObject = (InternalEObject)entry.getValue();
-        if (internalEObject != null)
-        {
-          notifications = 
-            internalEObject.eInverseAdd
-              (owner,
-               internalEObject.eClass().getFeatureID(eOpposite),
-               null,
-               notifications);
-        }
-      }
-      else if (eReference.isContainment())
-      {
-        InternalEObject internalEObject = (InternalEObject)entry.getValue();
-        if (internalEObject != null)
-        {
-          int containmentFeatureID = owner.eClass().getFeatureID(eReference);
-          notifications =
-            internalEObject.eInverseAdd
-              (owner,
-               InternalEObject.EOPPOSITE_FEATURE_BASE - (containmentFeatureID == -1 ? getFeatureID() : containmentFeatureID),
-               null,
-               notifications);
-        }
-      }
-    }
-
-    return notifications;
+    FeatureMap.Entry.Internal entry = (FeatureMap.Entry.Internal)object;
+    return entry.inverseAdd(owner, getFeatureID(), notifications);
   }
 
   public NotificationChain shadowRemove(Object object, NotificationChain notifications)
@@ -351,41 +322,8 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
   public NotificationChain inverseRemove(Object object, NotificationChain notifications)
   {
-    Entry entry = (Entry)object;
-    EStructuralFeature feature = entry.getEStructuralFeature();
-    if (feature instanceof EReference)
-    {
-      EReference eReference = (EReference)feature;
-      EReference eOpposite = eReference.getEOpposite();
-      if (eOpposite != null)
-      {
-        InternalEObject internalEObject = (InternalEObject)entry.getValue();
-        if (internalEObject != null)
-        {
-          notifications = 
-            internalEObject.eInverseRemove
-              (owner,
-               internalEObject.eClass().getFeatureID(eOpposite),
-               null,
-               notifications);
-        }
-      }
-      else if (eReference.isContainment())
-      {
-        InternalEObject internalEObject = (InternalEObject)entry.getValue();
-        if (internalEObject != null)
-        {
-          int containmentFeatureID = owner.eClass().getFeatureID(eReference);
-          notifications =
-            internalEObject.eInverseRemove
-              (owner,
-               InternalEObject.EOPPOSITE_FEATURE_BASE - (containmentFeatureID == -1 ? getFeatureID() : containmentFeatureID),
-               null,
-               notifications);
-        }
-      }
-    }
-    return notifications;
+    FeatureMap.Entry.Internal entry = (FeatureMap.Entry.Internal)object;
+    return entry.inverseRemove(owner, getFeatureID(), notifications);
   }
 
   public NotificationChain shadowSet(Object oldObject, Object newObject, NotificationChain notifications)
@@ -1427,12 +1365,38 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
   public void addUnique(EStructuralFeature feature, Object object)
   {
-    addUnique(createEntry(feature, object));
+    modCount = -1;
+    addUnique(createRawEntry(feature, object));
   }
 
   public void addUnique(EStructuralFeature feature, int index, Object object)
   {
-    addUnique(entryIndex(feature, index), createEntry(feature, object));
+    modCount = -1;
+    addUnique(entryIndex(feature, index), createRawEntry(feature, object));
+  }
+
+  public void addUnique(Object object)
+  {
+    modCount = -1;
+    super.addUnique(object);
+  }
+
+  public void addUnique(Entry.Internal entry)
+  {
+    modCount = -1;
+    super.addUnique(entry);
+  }
+
+  public boolean addAllUnique(Collection collection)
+  {
+    modCount = -1;
+    return super.addAllUnique(collection);
+  }
+
+  public boolean addAllUnique(Entry.Internal [] entries, int start, int end)
+  {
+    modCount = -1;
+    return super.addAllUnique(size(), entries, start, end);
   }
 
   public NotificationChain basicAdd(EStructuralFeature feature, Object object, NotificationChain notifications)
@@ -1764,10 +1728,10 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       }
       if (entrySourceIndex == -1)
       {
-        throw new IndexOutOfBoundsException("sourceIndex=" + targetIndex + ", size=" + count);
+        throw new IndexOutOfBoundsException("sourceIndex=" + sourceIndex + ", size=" + count);
       }
 
-      doMove(entryTargetIndex, entrySourceIndex);
+      super.move(entryTargetIndex, entrySourceIndex);
 
       if (isNotificationRequired())
       {

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.21 2006/02/10 17:53:29 marcelop Exp $
+ * $Id: BasicFeatureMap.java,v 1.22 2006/02/10 21:00:53 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -42,9 +42,16 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
   public BasicFeatureMap(InternalEObject owner, int featureID)
   {
-    super(Entry.class, owner, featureID);
+    super(Entry.Internal.class, owner, featureID);
 
     featureMapValidator = FeatureMapUtil.getValidator(owner.eClass(), getEStructuralFeature());
+  }
+
+  public BasicFeatureMap(InternalEObject owner, int featureID, EStructuralFeature eStructuralFeature)
+  {
+    super(Entry.Internal.class, owner, featureID);
+
+    featureMapValidator = FeatureMapUtil.getValidator(owner.eClass(), eStructuralFeature);
   }
 
   public Wrapper getWrapper()
@@ -62,8 +69,15 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return this;
   }
   
+  protected Object [] newData(int capacity)
+  {
+    return new FeatureMap.Entry.Internal [capacity];
+  }
+
   protected Object validate(int index, Object object)
   {
+    if (modCount == 0) return object;
+
     Object result = super.validate(index, object);
     EStructuralFeature eStructuralFeature = ((Entry)object).getEStructuralFeature();
     if (!eStructuralFeature.isChangeable() || !featureMapValidator.isValid(eStructuralFeature))
@@ -78,6 +92,11 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   protected FeatureMap.Entry createEntry(EStructuralFeature eStructuralFeature, Object value)
   {
     return FeatureMapUtil.createEntry(eStructuralFeature, value);
+  }
+
+  protected FeatureMap.Entry.Internal createRawEntry(EStructuralFeature eStructuralFeature, Object value)
+  {
+    return FeatureMapUtil.createRawEntry(eStructuralFeature, value);
   }
 
   protected NotificationImpl createNotification
@@ -194,155 +213,98 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
   public NotificationChain shadowAdd(Object object, NotificationChain notifications)
   {
-    if (isNotificationRequired())
-    {
-      Entry entry = (Entry)object;
-      EStructuralFeature feature = entry.getEStructuralFeature();
-      Object value = entry.getValue();
-      // EATM must fix isSet bits.
-      NotificationImpl notification = 
-        feature.isMany() ?
-          createNotification
-            (Notification.ADD,
-             feature,
-             null, 
-             value,
-             indexOf(feature, value),
-             true) :
-          createNotification
-            (Notification.SET, 
-             feature,
-             feature.getDefaultValue(), 
-             value,
-             Notification.NO_INDEX,
-             true);
+    return shadowAdd((FeatureMap.Entry.Internal)object, notifications);
+  }
+
+  public NotificationChain shadowAdd(FeatureMap.Entry.Internal entry, NotificationChain notifications)
+  {
+    EStructuralFeature feature = entry.getEStructuralFeature();
+    Object value = entry.getValue();
+    // EATM must fix isSet bits.
+    NotificationImpl notification = 
+      feature.isMany() ?
+        createNotification
+          (Notification.ADD,
+           feature,
+           null, 
+           value,
+           indexOf(feature, value),
+           true) :
+        createNotification
+          (Notification.SET, 
+           feature,
+           feature.getDefaultValue(), 
+           value,
+           Notification.NO_INDEX,
+           true);
   
-      if (notifications != null)
-      {
-        notifications.add(notification);
-      }
-      else
-      {
-        notifications = notification;
-      }
+    if (notifications != null)
+    {
+      notifications.add(notification);
+    }
+    else
+    {
+      notifications = notification;
     }
     return notifications;
   }
 
   public NotificationChain inverseAdd(Object object, NotificationChain notifications)
   {
-    Entry entry = (Entry)object;
-    EStructuralFeature feature = entry.getEStructuralFeature();
-    if (feature instanceof EReference)
-    {
-      EReference eReference = (EReference)feature;
-      EReference eOpposite = eReference.getEOpposite();
-      if (eOpposite != null)
-      {
-        InternalEObject internalEObject = (InternalEObject)entry.getValue();
+    return inverseAdd((FeatureMap.Entry.Internal)object, notifications);
+  }
 
-        if (internalEObject != null)
-        {
-          notifications = 
-            internalEObject.eInverseAdd
-              (owner,
-               internalEObject.eClass().getFeatureID(eOpposite),
-               null,
-               notifications);
-        }
-      }
-      else if (eReference.isContainment())
-      {
-        InternalEObject internalEObject = (InternalEObject)entry.getValue();
-        if (internalEObject != null)
-        {
-          int containmentFeatureID = owner.eClass().getFeatureID(eReference);
-          notifications =
-            internalEObject.eInverseAdd
-              (owner,
-               InternalEObject.EOPPOSITE_FEATURE_BASE - (containmentFeatureID == -1 ? featureID : containmentFeatureID),
-               null,
-               notifications);
-        }
-      }
-    }
-
-    return notifications;
+  public NotificationChain inverseAdd(FeatureMap.Entry.Internal entry, NotificationChain notifications)
+  {
+    return entry.inverseAdd(owner, featureID, notifications);
   }
 
   public NotificationChain shadowRemove(Object object, NotificationChain notifications)
   {
-    if (isNotificationRequired())
-    {
-      Entry entry = (Entry)object;
-      EStructuralFeature feature = entry.getEStructuralFeature();
-      Object value = entry.getValue();
-      NotificationImpl notification = 
-        feature.isMany() ?
-          createNotification
-            (Notification.REMOVE,
-             feature,
-             value,
-             null, 
-             indexOf(feature, value),
-             true) :
-          createNotification
-            (feature.isUnsettable() ? Notification.UNSET : Notification.SET, 
-             feature,
-             value,
-             feature.getDefaultValue(), 
-             Notification.NO_INDEX,
-             true);
+    return shadowRemove((FeatureMap.Entry.Internal)object, notifications);
+  }
 
-      if (notifications != null)
-      {
-        notifications.add(notification);
-      }
-      else
-      {
-        notifications = notification;
-      }
+  public NotificationChain shadowRemove(FeatureMap.Entry.Internal entry, NotificationChain notifications)
+  {
+    EStructuralFeature feature = entry.getEStructuralFeature();
+    Object value = entry.getValue();
+    NotificationImpl notification = 
+      feature.isMany() ?
+        createNotification
+          (Notification.REMOVE,
+           feature,
+           value,
+           null, 
+           indexOf(feature, value),
+           true) :
+        createNotification
+          (feature.isUnsettable() ? Notification.UNSET : Notification.SET, 
+           feature,
+           value,
+           feature.getDefaultValue(), 
+           Notification.NO_INDEX,
+           true);
+
+    if (notifications != null)
+    {
+      notifications.add(notification);
     }
+    else
+    {
+      notifications = notification;
+    }
+    
     return notifications;
   }
 
   public NotificationChain inverseRemove(Object object, NotificationChain notifications)
   {
-    Entry entry = (Entry)object;
-    EStructuralFeature feature = entry.getEStructuralFeature();
-    if (feature instanceof EReference)
-    {
-      EReference eReference = (EReference)feature;
-      EReference eOpposite = eReference.getEOpposite();
-      if (eOpposite != null)
-      {
-        InternalEObject internalEObject = (InternalEObject)entry.getValue();
-        if (internalEObject != null)
-        {
-          notifications = 
-            internalEObject.eInverseRemove
-              (owner,
-               internalEObject.eClass().getFeatureID(eOpposite),
-               null,
-               notifications);
-        }
-      }
-      else if (eReference.isContainment())
-      {
-        InternalEObject internalEObject = (InternalEObject)entry.getValue();
-        if (internalEObject != null)
-        {
-          int containmentFeatureID = owner.eClass().getFeatureID(eReference);
-          notifications =
-            internalEObject.eInverseRemove
-              (owner,
-               InternalEObject.EOPPOSITE_FEATURE_BASE - (containmentFeatureID == -1 ? featureID : containmentFeatureID),
-               null,
-               notifications);
-        }
-      }
-    }
-    return notifications;
+    return inverseRemove((FeatureMap.Entry.Internal)object, notifications);
+  }
+
+  public NotificationChain inverseRemove(FeatureMap.Entry.Internal entry, NotificationChain notifications)
+  {
+    return entry.inverseRemove(owner, featureID, notifications);
   }
 
   public NotificationChain shadowSet(Object oldObject, Object newObject, NotificationChain notifications)
@@ -1404,12 +1366,135 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
   public void addUnique(EStructuralFeature feature, Object object)
   {
-    addUnique(createEntry(feature, object));
+    modCount = -1;
+    addUnique(createRawEntry(feature, object));
   }
 
   public void addUnique(EStructuralFeature feature, int index, Object object)
   {
-    addUnique(entryIndex(feature, index), createEntry(feature, object));
+    modCount = -1;
+    addUnique(entryIndex(feature, index), createRawEntry(feature, object));
+  }
+
+  public void addUnique(Object object)
+  {
+    addUnique((FeatureMap.Entry.Internal)object);
+  }
+
+  public void addUnique(Entry.Internal entry)
+  {
+    modCount = -1;
+    if (isNotificationRequired())
+    {
+      int index = size;
+      boolean oldIsSet = isSet();
+      doAddUnique(entry);
+      NotificationImpl notification = createNotification(Notification.ADD, null, entry, index, oldIsSet);
+      if (hasInverse())
+      {
+        NotificationChain notifications = inverseAdd(entry, null);
+        notifications = shadowAdd(entry, notifications);
+
+        if (notifications == null)
+        {
+          dispatchNotification(notification);
+        }
+        else
+        {
+          notifications.add(notification);
+          notifications.dispatch();
+        }
+      }
+      else
+      {
+        dispatchNotification(notification);
+      }
+    }
+    else
+    {
+      doAddUnique(entry);
+      NotificationChain notifications = inverseAdd(entry, null);
+      if (notifications != null) notifications.dispatch();
+    }
+  }
+
+  public boolean addAllUnique(Collection collection)
+  {
+    modCount = -1;
+    return super.addAllUnique(collection);
+  }
+
+  public boolean addAllUnique(FeatureMap.Entry.Internal [] entries, int start, int end)
+  {
+    return addAllUnique(size, entries, start, end);
+  }
+
+  public boolean addAllUnique(int index, FeatureMap.Entry.Internal [] entries, int start, int end)
+  {
+    modCount = -1;
+
+    int collectionSize = end - start;
+    if (collectionSize == 0)
+    {
+      return false;
+    }
+    else
+    {
+      if (isNotificationRequired())
+      {
+        boolean oldIsSet = isSet();
+        doAddAllUnique(index, entries, start, end);
+        NotificationImpl notification;
+        if (collectionSize == 0)
+        {
+          notification = createNotification(Notification.ADD, null, entries[0], index, oldIsSet);
+        }
+        else
+        {
+          if (start != 0 || end != entries.length)
+          {
+            Object [] actualObjects = new Object [collectionSize];
+            for (int i = 0, j = start; j < end; ++i, ++j)
+            {
+              actualObjects[i] = entries[j];
+            }
+            notification = createNotification(Notification.ADD_MANY, null, actualObjects, index, oldIsSet);
+          }
+          else
+          {
+            notification =  createNotification(Notification.ADD_MANY, null, entries, index, oldIsSet);
+          }
+        }
+        NotificationChain notifications = null;
+        for (int i = start; i < end; ++i)
+        {            
+          FeatureMap.Entry.Internal value = entries[i];
+          notifications = inverseAdd(value, notifications);
+          notifications = shadowAdd(value, notifications);
+        }
+        if (notifications == null)
+        {
+          dispatchNotification(notification);
+        }
+        else
+        {
+          notifications.add(notification);
+          notifications.dispatch();
+        }
+      }
+      else
+      {
+        doAddAllUnique(index, entries, start, end);
+        NotificationChain notifications = null;
+        for (int i = start; i < end; ++i)
+        {            
+          notifications = inverseAdd(entries[i], notifications);
+        }
+        if (notifications != null) notifications.dispatch();
+      }
+
+      return true;
+    }
   }
 
   public NotificationChain basicAdd(EStructuralFeature feature, Object object, NotificationChain notifications)
@@ -1753,10 +1838,10 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
       if (entrySourceIndex == -1)
       {
-        throw new IndexOutOfBoundsException("sourceIndex=" + targetIndex + ", size=" + count);
+        throw new IndexOutOfBoundsException("sourceIndex=" + sourceIndex + ", size=" + count);
       }
 
-      doMove(entryTargetIndex, entrySourceIndex);
+      super.move(entryTargetIndex, entrySourceIndex);
 
       if (isNotificationRequired())
       {
