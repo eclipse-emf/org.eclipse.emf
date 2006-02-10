@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.24 2006/02/10 19:44:23 marcelop Exp $
+ * $Id: FeatureMapUtil.java,v 1.25 2006/02/10 21:07:26 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.WeakHashMap;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -42,6 +43,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl;
+import org.eclipse.emf.ecore.util.FeatureMap.Entry;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
@@ -123,9 +125,47 @@ public final class FeatureMapUtil
     return eClassifier.getInstanceClassName() == "org.eclipse.emf.ecore.util.FeatureMap$Entry";
   }
 
+  public static FeatureMap.Entry createTextEntry(String value)
+  {
+    return XMLTypeFeatures.TEXT_PROTOTYPE.createEntry(value);
+  }
+
+  public static FeatureMap.Entry createCDATAEntry(String value)
+  {
+    return XMLTypeFeatures.CDATA_PROTOTYPE.createEntry(value);
+  }
+
+  public static FeatureMap.Entry createCommentEntry(String value)
+  {
+    return XMLTypeFeatures.COMMENT_PROTOTYPE.createEntry(value);
+  }
+
   public static FeatureMap.Entry createEntry(EStructuralFeature eStructuralFeature, Object value)
   {
-    return new EntryImpl(eStructuralFeature, value);
+    FeatureMap.Entry.Internal prototype = ((EStructuralFeature.Internal)eStructuralFeature).getFeatureMapEntryPrototype();
+    prototype.validate(value);
+    return prototype.createEntry(value);
+  }
+
+  public static FeatureMap.Entry.Internal createRawEntry(EStructuralFeature eStructuralFeature, Object value)
+  {
+    FeatureMap.Entry.Internal prototype = ((EStructuralFeature.Internal)eStructuralFeature).getFeatureMapEntryPrototype();
+    return prototype.createEntry(value);
+  }
+
+  public static FeatureMap.Entry.Internal createRawTextEntry(String value)
+  {
+    return XMLTypeFeatures.TEXT_PROTOTYPE.createEntry(value);
+  }
+
+  public static FeatureMap.Entry.Internal createRawCDATAEntry(String value)
+  {
+    return XMLTypeFeatures.CDATA_PROTOTYPE.createEntry(value);
+  }
+
+  public static FeatureMap.Entry.Internal createRawCommentEntry(String value)
+  {
+    return XMLTypeFeatures.COMMENT_PROTOTYPE.createEntry(value);
   }
 
   public static class EntryImpl implements FeatureMap.Entry
@@ -629,6 +669,37 @@ public final class FeatureMapUtil
     public void addUnique(int index, Object object)
     {
       featureMap.addUnique(getEStructuralFeature(), index, object);
+    }
+    
+    public boolean addAllUnique(Collection collection)
+    {
+      modCount = -1;
+      return featureMap.addAllUnique(collection);
+    }
+    
+    public void addUnique(Entry.Internal entry)
+    {
+      modCount = -1;
+      featureMap.addUnique(entry);
+    }
+
+    public boolean addAllUnique(Entry.Internal [] entries, int start, int end)
+    {
+      modCount = -1;
+      BasicEList collection = new BasicEList();
+      if (start == 0)
+      {
+        collection.setData(end, entries);
+      }
+      else
+      {
+        collection.grow(end - start);
+        for (int i = start; i < end; ++i)
+        {
+          collection.add(entries[i]);
+        }
+      }
+      return featureMap.addAllUnique(collection);
     }
 
     public NotificationChain basicAdd(Object object, NotificationChain notifications)
@@ -1270,12 +1341,32 @@ public final class FeatureMapUtil
 
   public static class BasicValidator implements Validator
   {
+    protected static final List ANY_WILDCARD = Collections.singletonList("##any");
+
     protected EClass containingClass;
     protected EStructuralFeature eStructuralFeature;
     protected List groupMembers;
     protected List wildcards;
     protected String name;
     protected boolean isElement;
+    
+    protected class Cache extends WeakHashMap
+    {
+      public Boolean get(EStructuralFeature eStructuralFeature)
+      {
+        return (Boolean)get((Object)eStructuralFeature);
+      }
+
+      public void put(EStructuralFeature eStructuralFeature, Boolean isValid)
+      {
+        Cache newCache = new Cache();
+        newCache.putAll(cache);
+        newCache.put((Object)eStructuralFeature, (Object)isValid);
+        cache = newCache;
+      }
+   }
+
+    protected Cache cache = new Cache();
 
     public BasicValidator(EClass containingClass, EStructuralFeature eStructuralFeature)
     {
@@ -1286,6 +1377,10 @@ public final class FeatureMapUtil
       if (!wildcards.isEmpty())
       {
         isElement = ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature) == ExtendedMetaData.ELEMENT_WILDCARD_FEATURE;
+        if (wildcards.equals(ANY_WILDCARD))
+        {
+          wildcards = ANY_WILDCARD;
+        }
       }
       else if (ExtendedMetaData.INSTANCE.getMixedFeature(containingClass) == eStructuralFeature)
       {
@@ -1344,6 +1439,35 @@ public final class FeatureMapUtil
 
     public boolean isValid(EStructuralFeature feature)
     {
+      if (eStructuralFeature == feature || wildcards == ANY_WILDCARD) return true;
+
+      Boolean result = cache.get(feature);
+      if (result == null)
+      {
+        if (isIncluded(feature))
+        {
+          cache.put(feature, Boolean.TRUE);
+          return true;
+        }
+        else
+        {
+          cache.put(feature, Boolean.FALSE);
+          return false;
+        }
+      }
+      else
+      {
+        return result == Boolean.TRUE;
+      }
+    }
+
+    public boolean isIncluded(EStructuralFeature feature)
+    {
+      if (wildcards == ANY_WILDCARD)
+      {
+        return true;
+      }
+
       if (groupMembers != null &&
             (groupMembers.contains(feature) ||
                groupMembers.contains(ExtendedMetaData.INSTANCE.getGroup(feature)) ||
@@ -1435,5 +1559,8 @@ final class XMLTypeFeatures
   public static final EStructuralFeature TEXT = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text();
   public static final EStructuralFeature CDATA = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA();
   public static final EStructuralFeature COMMENT = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment();
+  public static final FeatureMap.Entry.Internal TEXT_PROTOTYPE = ((EStructuralFeature.Internal)TEXT).getFeatureMapEntryPrototype();
+  public static final FeatureMap.Entry.Internal CDATA_PROTOTYPE = ((EStructuralFeature.Internal)CDATA).getFeatureMapEntryPrototype();
+  public static final FeatureMap.Entry.Internal COMMENT_PROTOTYPE = ((EStructuralFeature.Internal)COMMENT).getFeatureMapEntryPrototype();
 }
 
