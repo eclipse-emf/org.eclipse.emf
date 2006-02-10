@@ -12,12 +12,23 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapTest.java,v 1.3 2005/06/08 06:17:44 nickb Exp $
+ * $Id: FeatureMapTest.java,v 1.4 2006/02/10 17:54:04 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -26,13 +37,10 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 public class FeatureMapTest extends TestCase
 {
@@ -46,6 +54,8 @@ public class FeatureMapTest extends TestCase
     TestSuite testSuite = new TestSuite("ListTest");
     testSuite.addTest(new FeatureMapTest("testAttributesAsFeatures"));
     testSuite.addTest(new FeatureMapTest("testReferencesAsFeatures"));
+    testSuite.addTest(new FeatureMapTest("testMoveElements"));
+    testSuite.addTest(new FeatureMapTest("testMoveElements_WithNotification"));
     return testSuite;
   }
 
@@ -209,4 +219,259 @@ public class FeatureMapTest extends TestCase
     assertEquals(2, standardList.size());
     assertFalse(standardList.contains(order3));
   } 
+  
+  /*
+   * Bugzilla 127109
+   */
+  public void testMoveElements() throws Exception
+  {
+    moveElementsTest(false);
+  }
+  
+  /*
+   * Bugzilla 127109
+   */
+  public void testMoveElements_WithNotification() throws Exception
+  {
+    moveElementsTest(true);
+  }
+
+  public void moveElementsTest(boolean withNotification) throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("featureMap.test.pack");
+    
+    EClass house = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(house);
+    house.setName("Order");
+    
+    EClass car = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(car);
+    car.setName("Car");
+    
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(person);
+    person.setName("Person");
+
+    EAttribute things = EcoreFactory.eINSTANCE.createEAttribute();
+    person.getEStructuralFeatures().add(things);
+    things.setName("things");
+    things.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    things.setEType(EcorePackage.Literals.EFEATURE_MAP_ENTRY);
+    ExtendedMetaData.INSTANCE.setFeatureKind(things, ExtendedMetaData.GROUP_FEATURE);
+    
+    EReference houses = EcoreFactory.eINSTANCE.createEReference();
+    person.getEStructuralFeatures().add(houses);
+    houses.setName("houses");
+    houses.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    houses.setContainment(true);
+    houses.setEType(house);
+    houses.setVolatile(true);
+    houses.setTransient(true);
+    houses.setDerived(true);
+    ExtendedMetaData.INSTANCE.setGroup(houses, things);    
+
+    EReference cars = EcoreFactory.eINSTANCE.createEReference();
+    person.getEStructuralFeatures().add(cars);
+    cars.setName("cars");
+    cars.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    cars.setContainment(true);
+    cars.setEType(car);
+    cars.setVolatile(true);
+    cars.setTransient(true);
+    cars.setDerived(true);
+    ExtendedMetaData.INSTANCE.setGroup(cars, things);
+    
+    EObject john = EcoreUtil.create(person);
+    EObject house1 = EcoreUtil.create(house);
+    EObject car1 = EcoreUtil.create(car);
+
+    FeatureMap thingsFeatureMap = (FeatureMap)john.eGet(things);
+    
+    final List referenceNotificationCount = new ArrayList();
+    final List attributeNotificationCount = new ArrayList();
+    final Map referenceByValueMap = new LinkedHashMap();    
+    if (withNotification)
+    {
+      final FeatureMap theFeatureMap = thingsFeatureMap;
+      Adapter adapter = new AdapterImpl()
+        {
+          public void notifyChanged(Notification msg)
+          {
+            assertEquals(referenceByValueMap.size(), theFeatureMap.size());              
+
+            int valueCount = 0;
+            int index=0;
+            for (Iterator i = referenceByValueMap.entrySet().iterator(); i.hasNext();)
+            {
+              Map.Entry entry = (Map.Entry)i.next();
+              assertEquals(entry.getValue(), theFeatureMap.getEStructuralFeature(index));
+              assertEquals(entry.getKey(), theFeatureMap.getValue(index));
+
+              ++index;
+              if (entry.getValue() == msg.getFeature())
+              {
+                valueCount++;
+              }
+            }
+                        
+            if (msg.getFeature() instanceof EReference)
+            {
+              referenceNotificationCount.add(this);
+              if (msg.getEventType() == Notification.MOVE)
+              {
+                assertTrue("pos: " + msg.getPosition(), msg.getPosition() >= 0);
+                assertTrue("pos: " + msg.getPosition() + " vc:" + valueCount, msg.getPosition() < valueCount);
+              }
+            }
+            else if (msg.getFeature() instanceof EAttribute)
+            {
+              attributeNotificationCount.add(this);
+            }
+          }    
+        };
+      john.eAdapters().add(adapter);      
+    }
+    
+    if (withNotification) referenceByValueMap.put(house1, houses);  
+    ((List)john.eGet(houses)).add(house1);
+    if (withNotification) assertEquals(1, referenceNotificationCount.size());
+    if (withNotification) assertEquals(1, attributeNotificationCount.size());
+    if (withNotification) referenceByValueMap.put(car1, cars);
+    ((List)john.eGet(cars)).add(car1);
+    if (withNotification) assertEquals(2, referenceNotificationCount.size());
+    if (withNotification) assertEquals(2, attributeNotificationCount.size());
+        
+    assertEquals(2, thingsFeatureMap.size());
+    assertEquals(houses, thingsFeatureMap.getEStructuralFeature(0));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(1));
+    assertEquals(house1, thingsFeatureMap.getValue(0));
+    assertEquals(car1, thingsFeatureMap.getValue(1));
+    
+    // Target > Source && Different References
+    if (withNotification) referenceByValueMap.clear();
+    if (withNotification) referenceByValueMap.put(car1, cars);
+    if (withNotification) referenceByValueMap.put(house1, houses);
+    thingsFeatureMap.move(1, 0);
+    if (withNotification) assertEquals(2, referenceNotificationCount.size());
+    if (withNotification) assertEquals(3, attributeNotificationCount.size());
+    
+    assertEquals(2, thingsFeatureMap.size());
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(0));
+    assertEquals(houses, thingsFeatureMap.getEStructuralFeature(1));
+    assertEquals(car1, thingsFeatureMap.getValue(0));
+    assertEquals(house1, thingsFeatureMap.getValue(1));
+    
+    EObject car2 = EcoreUtil.create(car);
+    if (withNotification) referenceByValueMap.clear();
+    if (withNotification) referenceByValueMap.put(car1, cars);
+    if (withNotification) referenceByValueMap.put(car2, cars);
+    if (withNotification) referenceByValueMap.put(house1, houses);
+    thingsFeatureMap.add(1, cars, car2);
+    if (withNotification) assertEquals(3, referenceNotificationCount.size());
+    if (withNotification) assertEquals(4, attributeNotificationCount.size());
+    
+    assertEquals(3, thingsFeatureMap.size());
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(0));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(1));
+    assertEquals(houses, thingsFeatureMap.getEStructuralFeature(2));
+    assertEquals(car1, thingsFeatureMap.getValue(0));
+    assertEquals(car2, thingsFeatureMap.getValue(1));
+    assertEquals(house1, thingsFeatureMap.getValue(2));
+    
+    //  Target < Source && Different References
+    if (withNotification) referenceByValueMap.clear();
+    if (withNotification) referenceByValueMap.put(house1, houses);
+    if (withNotification) referenceByValueMap.put(car1, cars);
+    if (withNotification) referenceByValueMap.put(car2, cars);
+    thingsFeatureMap.move(0, 2);
+    if (withNotification) assertEquals(3, referenceNotificationCount.size());
+    if (withNotification) assertEquals(5, attributeNotificationCount.size());
+    
+    assertEquals(3, thingsFeatureMap.size());
+    assertEquals(houses, thingsFeatureMap.getEStructuralFeature(0));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(1));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(2));
+    assertEquals(house1, thingsFeatureMap.getValue(0));
+    assertEquals(car1, thingsFeatureMap.getValue(1));
+    assertEquals(car2, thingsFeatureMap.getValue(2));  
+
+    //  Target < Source && Same Reference
+    if (withNotification) referenceByValueMap.clear();
+    if (withNotification) referenceByValueMap.put(house1, houses);
+    if (withNotification) referenceByValueMap.put(car2, cars);
+    if (withNotification) referenceByValueMap.put(car1, cars);
+    thingsFeatureMap.move(1, 2);
+    if (withNotification) assertEquals(4, referenceNotificationCount.size());
+    if (withNotification) assertEquals(6, attributeNotificationCount.size());
+    
+    assertEquals(3, thingsFeatureMap.size());
+    assertEquals(houses, thingsFeatureMap.getEStructuralFeature(0));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(1));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(2));
+    assertEquals(house1, thingsFeatureMap.getValue(0));
+    assertEquals(car2, thingsFeatureMap.getValue(1));  
+    assertEquals(car1, thingsFeatureMap.getValue(2));
+
+    //  Target > Source && Same Reference
+    if (withNotification) referenceByValueMap.clear();
+    if (withNotification) referenceByValueMap.put(house1, houses);
+    if (withNotification) referenceByValueMap.put(car1, cars);
+    if (withNotification) referenceByValueMap.put(car2, cars);
+    thingsFeatureMap.move(2, 1);
+    if (withNotification) assertEquals(5, referenceNotificationCount.size());
+    if (withNotification) assertEquals(7, attributeNotificationCount.size());
+    
+    assertEquals(3, thingsFeatureMap.size());
+    assertEquals(houses, thingsFeatureMap.getEStructuralFeature(0));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(1));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(2));
+    assertEquals(house1, thingsFeatureMap.getValue(0));
+    assertEquals(car1, thingsFeatureMap.getValue(1));
+    assertEquals(car2, thingsFeatureMap.getValue(2));  
+
+    //  Target == Source
+    thingsFeatureMap.move(2, 2);
+    if (withNotification) assertEquals(5, referenceNotificationCount.size());
+    if (withNotification) assertEquals(8, attributeNotificationCount.size());
+    
+    assertEquals(3, thingsFeatureMap.size());
+    assertEquals(houses, thingsFeatureMap.getEStructuralFeature(0));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(1));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(2));
+    assertEquals(house1, thingsFeatureMap.getValue(0));
+    assertEquals(car1, thingsFeatureMap.getValue(1));
+    assertEquals(car2, thingsFeatureMap.getValue(2));  
+
+    //  Target < Source && Different References && Source Reference changes
+    if (withNotification) referenceByValueMap.clear();
+    if (withNotification) referenceByValueMap.put(car2, cars);
+    if (withNotification) referenceByValueMap.put(house1, houses);
+    if (withNotification) referenceByValueMap.put(car1, cars);
+    thingsFeatureMap.move(0, 2);
+    if (withNotification) assertEquals(6, referenceNotificationCount.size());
+    if (withNotification) assertEquals(9, attributeNotificationCount.size());
+    
+    assertEquals(3, thingsFeatureMap.size());
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(0));
+    assertEquals(houses, thingsFeatureMap.getEStructuralFeature(1));
+    assertEquals(cars, thingsFeatureMap.getEStructuralFeature(2));
+    assertEquals(car2, thingsFeatureMap.getValue(0));  
+    assertEquals(house1, thingsFeatureMap.getValue(1));
+    assertEquals(car1, thingsFeatureMap.getValue(2));
+    
+    if (withNotification)
+    {
+      assertFalse(referenceByValueMap.isEmpty());
+      assertFalse(referenceNotificationCount.isEmpty());
+      assertFalse(attributeNotificationCount.isEmpty());
+    }
+    else
+    {
+      assertTrue(referenceByValueMap.isEmpty());
+      assertTrue(referenceNotificationCount.isEmpty());
+      assertTrue(attributeNotificationCount.isEmpty());
+    }
+  }
 }
