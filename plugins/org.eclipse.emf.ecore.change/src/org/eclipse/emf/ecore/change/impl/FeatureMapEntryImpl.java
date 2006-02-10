@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryImpl.java,v 1.6 2005/11/25 13:35:04 emerks Exp $
+ * $Id: FeatureMapEntryImpl.java,v 1.7 2006/02/10 21:08:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.change.impl;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -27,6 +28,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.change.ChangeFactory;
 import org.eclipse.emf.ecore.change.ChangeKind;
 import org.eclipse.emf.ecore.change.ChangePackage;
@@ -57,7 +59,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *
  * @generated
  */
-public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry, FeatureMap.Entry
+public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry, FeatureMap.Entry.Internal
 {
   /**
    * The bit of {@link #eFlags} that is used to represent if feature is a proxy.
@@ -493,5 +495,40 @@ public class FeatureMapEntryImpl extends EObjectImpl implements FeatureMapEntry,
     listChange.setIndex(index);
     changesList.add(listChange);
     return listChange;
+  }
+
+  public NotificationChain inverseAdd(InternalEObject owner, int featureID, NotificationChain notifications)
+  {
+    return ((EStructuralFeature.Internal)getFeature()).getFeatureMapEntryPrototype().inverseAdd(owner, getValue(), featureID, notifications);
+  }
+
+  public NotificationChain inverseRemove(InternalEObject owner, int featureID, NotificationChain notifications)
+  {
+    return ((EStructuralFeature.Internal)getFeature()).getFeatureMapEntryPrototype().inverseRemove(owner, getValue(), featureID, notifications);
+  }
+
+  public NotificationChain inverseAdd(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
+  {
+    return ((EStructuralFeature.Internal)getFeature()).getFeatureMapEntryPrototype().inverseAdd(owner, otherEnd, featureID, notifications);
+  }
+
+  public NotificationChain inverseRemove(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
+  {
+    return ((EStructuralFeature.Internal)getFeature()).getFeatureMapEntryPrototype().inverseRemove(owner, otherEnd, featureID, notifications);
+  }
+
+  public void validate(Object value)
+  {
+    ((EStructuralFeature.Internal)getFeature()).getFeatureMapEntryPrototype().validate(value);
+  }
+
+  public Internal createEntry(Object value)
+  {
+    return ((EStructuralFeature.Internal)getFeature()).getFeatureMapEntryPrototype().createEntry(value);
+  }
+
+  public Internal createEntry(InternalEObject value)
+  {
+    return ((EStructuralFeature.Internal)getFeature()).getFeatureMapEntryPrototype().createEntry(value);
   }
 } //FeatureChangeImpl
