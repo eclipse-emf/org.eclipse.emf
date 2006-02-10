@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.7 2005/06/27 13:34:27 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.8 2006/02/10 20:51:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -50,6 +50,39 @@ public final class XMLTypeUtil
     return DataValue.XMLChar.isSpace(value);
   }
 
+  // TODO
+  // This is faster than many charAt() calls.
+  //
+  private static class CharArrayThreadLocal extends ThreadLocal
+  {
+    private Thread cachedThread;
+    private char [] cachedResult;
+
+    public final char [] get(int capacity)
+    {
+      Thread currentThread = Thread.currentThread();
+      char [] result = cachedResult;
+      if (cachedThread != currentThread)
+      {
+        cachedThread = currentThread;
+        result = (char [])get();
+      }
+      if (result.length < capacity)
+      {
+        result = new char [capacity];
+        set(result);
+      }
+      return cachedResult = result;
+    }
+
+    protected Object initialValue()
+    {
+      return new char [20];
+    }
+  }
+
+  private static final CharArrayThreadLocal VALUE = new CharArrayThreadLocal();
+
   public static String normalize(String value, boolean collapse) 
   {
     if (value == null)
@@ -57,11 +90,19 @@ public final class XMLTypeUtil
       return null;
     }
 
+    int length = value.length();
+    if (length == 0)
+    {
+      return "";
+    }
+
+    char [] valueArray = VALUE.get(length);
+    value.getChars(0, length, valueArray, 0);
     StringBuffer buffer = null;
     boolean skipSpace = collapse;
-    for (int i = 0, size = value.length(), offset = 0; i < size; i++) 
+    for (int i = 0, offset = 0; i < length; i++) 
     {
-      char c = value.charAt(i);
+      char c = valueArray[i];
       if (isSpace(c)) 
       {
         if (skipSpace)
@@ -95,26 +136,18 @@ public final class XMLTypeUtil
     {
       if (buffer == null)
       {
-        int length = value.length();
-        if (length > 0)
-        {
-          return value.substring(0, length - 1);
-        }
-        else
-        {
-          return value;
-        }
+        return value.substring(0, length - 1);
       }
       else 
       {
-        int length = buffer.length();
+        length = buffer.length();
         if (length > 0)
         {
           return buffer.substring(0, length - 1);
         }
         else
         {
-          return buffer.toString();
+          return "";
         }
       }
     }
