@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.19 2006/02/08 21:43:11 marcelop Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.20 2006/02/10 20:57:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -736,24 +736,29 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     this.containerClass = containerClass;
   }
 
-  protected boolean isResolveProxies()
+  public boolean isResolveProxies()
   {
     return false;
   }
 
-  protected boolean isContainer()
+  public boolean isContainer()
   {
     return false;
   }
 
-  protected boolean isContainment()
+  public boolean isContainment()
   {
     return false;
   }
 
-  protected EReference getEOpposite()
+  public EReference getEOpposite()
   {
     return null;
+  }
+  
+  public boolean isID()
+  {
+    return false;
   }
 
   protected EStructuralFeature.Internal.SettingDelegate settingDelegate;
@@ -2813,6 +2818,299 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       cachedIsFeatureMap = eType != null && eType.getInstanceClassName() == "org.eclipse.emf.ecore.util.FeatureMap$Entry";
     }
     return cachedIsFeatureMap;
+  }
+  
+  public static abstract class BasicFeatureMapEntry implements FeatureMap.Entry.Internal
+  {
+    protected final EStructuralFeature.Internal eStructuralFeature;
+
+    BasicFeatureMapEntry(EStructuralFeature.Internal eStructuralFeature)
+    {
+      this.eStructuralFeature = eStructuralFeature;
+    }
+
+    final public EStructuralFeature getEStructuralFeature()
+    {
+      return eStructuralFeature;
+    }
+
+    public void validate(Object value)
+    {
+      if (value != null && !eStructuralFeature.getEType().isInstance(value))
+      {
+        String valueClass = value instanceof EObject ? ((EObject)value).eClass().getName() : value.getClass().getName();
+        throw 
+          new ClassCastException
+            ("The feature '" + eStructuralFeature.getName()  + "'s type '" + 
+                eStructuralFeature.getEType().getName() + "' does not permit a value of type '" + valueClass + "'");
+      }
+    }
+
+    public Internal createEntry(Object value)
+    {
+      return createEntry((InternalEObject)value);
+    }
+
+    public Internal createEntry(InternalEObject value)
+    {
+      return createEntry((Object)value);
+    }
+
+    public boolean equals(Object that)
+    {
+      if (this == that)
+      {
+        return true;
+      }
+      else if (!(that instanceof FeatureMap.Entry))
+      {
+        return false;
+      }
+      else
+      {
+        FeatureMap.Entry entry = (FeatureMap.Entry)that;
+        if (entry.getEStructuralFeature() == getEStructuralFeature())
+        {
+          Object value = getValue();
+          return  value == null ? entry.getValue() == null : value.equals(entry.getValue());
+        }
+        else
+        {
+          return false;
+        }
+      }
+    }
+
+    public int hashCode()
+    {
+     Object value = getValue();
+     return getEStructuralFeature().hashCode() ^ (value == null ? 0 : value.hashCode());
+    }
+
+    public String toString()
+    {
+      EStructuralFeature eStructuralFeature = getEStructuralFeature();
+      String prefix = eStructuralFeature.getEContainingClass().getEPackage().getNsPrefix();
+      eStructuralFeature.getName();
+      return 
+         (prefix != null && prefix.length() != 0 ? 
+            prefix + ":" + eStructuralFeature.getName() : 
+            eStructuralFeature.getName()) + 
+           "=" + getValue();
+    }
+  }
+
+  public final static class SimpleFeatureMapEntry extends BasicFeatureMapEntry
+  {
+    protected final Object value;
+    
+    public SimpleFeatureMapEntry(EStructuralFeature.Internal eStructuralFeature, Object value)
+    {
+      super(eStructuralFeature);
+      this.value = value;
+    }
+
+    public final Object getValue()
+    {
+      return value;
+    }
+
+    public Internal createEntry(Object value)
+    {
+      return new SimpleFeatureMapEntry(eStructuralFeature, value);
+    }
+
+    public final NotificationChain inverseAdd(InternalEObject owner, int featureID, NotificationChain notifications)
+    {
+      return notifications;
+    }
+
+    public final NotificationChain inverseRemove(InternalEObject owner, int featureID, NotificationChain notifications)
+    {
+      return notifications;
+    }
+
+    public final NotificationChain inverseAdd(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
+    {
+      return notifications;
+    }
+
+    public final NotificationChain inverseRemove(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
+    {
+      return notifications;
+    }
+  }
+
+  public final class InverseUpdatingFeatureMapEntry extends BasicFeatureMapEntry
+  {
+    protected final InternalEObject value;
+    
+    public InverseUpdatingFeatureMapEntry(EStructuralFeature.Internal eStructuralFeature, InternalEObject value)
+    {
+      super(eStructuralFeature);
+      this.value = value;
+    }
+
+    final public Object getValue()
+    {
+      return value;
+    }
+
+    public Internal createEntry(InternalEObject value)
+    {
+      return new InverseUpdatingFeatureMapEntry(eStructuralFeature, value);
+    }
+
+    public final NotificationChain inverseAdd(InternalEObject owner, int featureID, NotificationChain notifications)
+    {
+      return inverseAdd(owner, value, featureID, notifications);
+    }
+
+    public final NotificationChain inverseRemove(InternalEObject owner, int featureID, NotificationChain notifications)
+    {
+      return inverseRemove(owner, value, featureID, notifications);
+    }
+
+    public final NotificationChain inverseAdd(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
+    {
+      return inverseAdd(owner, (InternalEObject)value, featureID, notifications);
+    }
+
+    public final NotificationChain inverseRemove(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
+    {
+      return inverseRemove(owner, (InternalEObject)value, featureID, notifications);
+    }
+
+    protected final NotificationChain inverseAdd(InternalEObject owner, InternalEObject otherEnd, int featureID, NotificationChain notifications)
+    {
+      if (otherEnd != null)
+      {
+        notifications = 
+          otherEnd.eInverseAdd
+            (owner,
+             otherEnd.eClass().getFeatureID(eStructuralFeature.getEOpposite()),
+             null,
+             notifications);
+      }
+
+      return notifications;
+    }
+
+    protected final NotificationChain inverseRemove(InternalEObject owner, InternalEObject otherEnd, int featureID, NotificationChain notifications)
+    {
+      if (otherEnd != null)
+      {
+        notifications = 
+          otherEnd.eInverseRemove
+            (owner,
+             otherEnd.eClass().getFeatureID(eStructuralFeature.getEOpposite()),
+             null,
+             notifications);
+      }
+      return notifications;
+    }
+  }
+
+  public final static class ContainmentUpdatingFeatureMapEntry extends BasicFeatureMapEntry
+  {
+    protected final InternalEObject value;
+
+    public ContainmentUpdatingFeatureMapEntry(EStructuralFeature.Internal eStructuralFeature, InternalEObject value)
+    {
+      super(eStructuralFeature);
+      this.value = value;
+    }
+
+    public final Object getValue()
+    {
+      return value;
+    }
+
+    public final Internal createEntry(InternalEObject value)
+    {
+      return new ContainmentUpdatingFeatureMapEntry(eStructuralFeature, value);
+    }
+
+    public final NotificationChain inverseAdd(InternalEObject owner, int featureID, NotificationChain notifications)
+    {
+      return inverseAdd(owner, value, featureID, notifications);
+    }
+
+    public final NotificationChain inverseRemove(InternalEObject owner, int featureID, NotificationChain notifications)
+    {
+      return inverseRemove(owner, value, featureID, notifications);
+    }
+
+    public final NotificationChain inverseAdd(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
+    {
+      return inverseAdd(owner, (InternalEObject)value, featureID, notifications);
+    }
+
+    public final NotificationChain inverseRemove(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
+    {
+      return inverseRemove(owner, (InternalEObject)value, featureID, notifications);
+    }
+
+    protected final NotificationChain inverseAdd(InternalEObject owner, InternalEObject otherEnd, int featureID, NotificationChain notifications)
+    {
+      if (otherEnd != null)
+      {
+        int containmentFeatureID = owner.eClass().getFeatureID(eStructuralFeature);
+        notifications =
+          otherEnd.eInverseAdd
+            (owner,
+             InternalEObject.EOPPOSITE_FEATURE_BASE - (containmentFeatureID == -1 ? featureID : containmentFeatureID),
+             null,
+             notifications);
+      }
+
+      return notifications;
+    }
+
+    protected final NotificationChain inverseRemove(InternalEObject owner, InternalEObject otherEnd, int featureID, NotificationChain notifications)
+    {
+      if (otherEnd != null)
+      {
+        int containmentFeatureID = owner.eClass().getFeatureID(eStructuralFeature);
+        notifications =
+          otherEnd.eInverseRemove
+            (owner,
+             InternalEObject.EOPPOSITE_FEATURE_BASE - (containmentFeatureID == -1 ? featureID : containmentFeatureID),
+             null,
+             notifications);
+      }
+
+      return notifications;
+    }
+  }
+
+  protected FeatureMap.Entry.Internal prototypeFeatureMapEntry;
+
+  public FeatureMap.Entry.Internal getFeatureMapEntryPrototype()
+  {
+    if (prototypeFeatureMapEntry == null)
+    {
+      EReference eOpposite = getEOpposite();
+      if (eOpposite != null)
+      {
+        prototypeFeatureMapEntry = new InverseUpdatingFeatureMapEntry(this, null);
+      }
+      else if (isContainment())
+      {
+        // create containment one.
+        prototypeFeatureMapEntry = new ContainmentUpdatingFeatureMapEntry(this, null);
+      }
+      else
+      {
+        prototypeFeatureMapEntry = new SimpleFeatureMapEntry(this, null);
+      }
+    }
+    return prototypeFeatureMapEntry;
+  }
+
+  public void setFeatureMapEntryPrototype(FeatureMap.Entry.Internal prototype)
+  {
+    prototypeFeatureMapEntry = prototype;
   }
 
   protected BasicExtendedMetaData.EStructuralFeatureExtendedMetaData eStructuralFeatureExtendedMetaData;
