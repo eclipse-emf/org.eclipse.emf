@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.23 2005/12/22 21:16:30 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.24 2006/02/10 19:44:23 marcelop Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -1122,6 +1122,18 @@ public final class FeatureMapUtil
       (InternalEObject owner, int eventType, EStructuralFeature feature, Object oldObject, Object newObject, int index, boolean wasSet)
     {
       super(owner, eventType, feature, oldObject, newObject, index, wasSet);
+    }
+    
+    public int getFeatureID(Class expectedClass)
+    {
+      if (featureID == NO_FEATURE_ID && feature != null)
+      {
+        Class containerClass = feature.getContainerClass();
+        featureID = containerClass == null ? 
+          notifier.eClass().getFeatureID(feature) : 
+          notifier.eDerivedStructuralFeatureID(feature.getFeatureID(), containerClass);
+      }
+      return notifier.eBaseStructuralFeatureID(featureID, expectedClass);
     }
 
     public boolean merge(Notification notification)
