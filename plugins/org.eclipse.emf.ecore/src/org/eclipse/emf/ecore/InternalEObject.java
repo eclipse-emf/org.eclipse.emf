@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: InternalEObject.java,v 1.4 2005/11/18 19:05:31 emerks Exp $
+ * $Id: InternalEObject.java,v 1.5 2006/02/10 20:48:18 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
 
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -384,5 +385,54 @@ public interface InternalEObject extends EObject
      * @return a new instance of the class.
      */
     EObject create(EClass eClass);
+
   }
+
+  /**
+   * Returns the value of the given feature of the object; 
+   * the value is optionally {@link org.eclipse.emf.ecore.util.EcoreUtil#resolve resolved} before it is returned.
+   * <p>
+   * If the feature is {@link EStructuralFeature#isMany many-valued},
+   * the result will be an {@link EList}
+   * and each object in the list will be {@link EClassifier#isInstance an instance of} 
+   * the feature's {@link EStructuralFeature#getEType type};
+   * the list's contents are <b>not</b> affected by <code>resolve</code> argument.
+   * Otherwise the result directly will be an instance of the feature's type;
+   * if it is a {@link #eIsProxy proxy},
+   * it is resolved.
+   * The core type specifies whether to return the core reflective value,  
+   * e.g., {@link org.eclipse.emf.common.util.EMap},
+   * or the public API value,
+   * e.g., {@link java.util.Map}.
+   * @param feature the feature of the value to fetch.
+   * @param resolve whether to resolve.
+   * @param coreType whether to return the core type value or the API type value.
+   * @return the value of the given feature of the object.
+   * @see #eGet(EStructuralFeature, boolean);
+   */
+  public Object eGet(EStructuralFeature eFeature, boolean resolve, boolean coreType);
+
+  /**
+   * Does the equivalent of <code>eObject.eGet(eObjecte.eClass().getEStructuralFeature(featureID), resolve, coreType)</code>.
+   * @see #eGet(EStructuralFeature, boolean, boolean)
+   */
+  Object eGet(int featureID, boolean resolve, boolean coreType);
+
+  /**
+   * Does the equivalent of <code>eObject.eSet(eObjecte.eClass().getEStructuralFeature(featureID), newValue)</code>.
+   * @see #eSet(EStructuralFeature, Object)
+   */
+  void eSet(int featureID, Object newValue);
+
+  /**
+   * Does the equivalent of <code>eObject.eUnset(eObjecte.eClass().getEStructuralFeature(featureID))</code>.
+   * @see #eUnset(EStructuralFeature)
+   */
+  void eUnset(int featureID);
+
+  /**
+   * Does the equivalent of <code>eObject.eIsSet(eObjecte.eClass().getEStructuralFeature(featureID))</code>.
+   * @see #eIsSet(EStructuralFeature)
+   */
+  boolean eIsSet(int featureID);
 }
