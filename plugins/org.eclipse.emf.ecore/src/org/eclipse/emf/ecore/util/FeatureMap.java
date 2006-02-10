@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMap.java,v 1.4 2005/11/22 22:35:37 emerks Exp $
+ * $Id: FeatureMap.java,v 1.5 2006/02/10 21:01:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -26,6 +26,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 
 
 /**
@@ -36,7 +37,7 @@ public interface FeatureMap extends EList
   /**
    * A pair consisting of a feature and a single value of that feature's type.
    */
-  public interface Entry
+  interface Entry
   {
     /**
      * Returns the feature.
@@ -49,9 +50,20 @@ public interface FeatureMap extends EList
      * @return the value.
      */
     Object getValue();
+    
+    interface Internal extends Entry
+    {
+      NotificationChain inverseAdd(InternalEObject owner, int featureID, NotificationChain notifications);      
+      NotificationChain inverseRemove(InternalEObject owner, int featureID, NotificationChain notifications);
+      NotificationChain inverseAdd(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications);      
+      NotificationChain inverseRemove(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications);
+      void validate(Object value);
+      Internal createEntry(Object value);
+      Internal createEntry(InternalEObject value);
+    }
   }
   
-  public interface ValueListIterator extends EContentsEList.FeatureListIterator
+  interface ValueListIterator extends EContentsEList.FeatureListIterator
   {
     void add(EStructuralFeature eStructuralFeature, Object value);
   }
@@ -105,6 +117,10 @@ public interface FeatureMap extends EList
     boolean addAll(EStructuralFeature feature, int index, Collection collection);
     void addUnique(EStructuralFeature feature, Object object);
     void addUnique(EStructuralFeature feature, int index, Object object);
+    void addUnique(Object object);
+    boolean addAllUnique(Collection collection);
+    void addUnique(Entry.Internal entry);
+    boolean addAllUnique(Entry.Internal [] entries, int start, int end);
     NotificationChain basicAdd(EStructuralFeature feature, Object object, NotificationChain notifications);
     boolean remove(EStructuralFeature feature, Object object);
     Object remove(EStructuralFeature feature, int index);
