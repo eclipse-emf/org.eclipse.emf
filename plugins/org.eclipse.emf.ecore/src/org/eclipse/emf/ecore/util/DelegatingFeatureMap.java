@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.20 2005/12/13 11:57:32 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.21 2006/02/10 17:53:29 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -448,9 +448,14 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
   public Object move(int targetIndex, int sourceIndex)
   {
-    if (isNotificationRequired())
+    if (!isNotificationRequired())
     {
-      Entry sourceEntry = (Entry)delegateGet(sourceIndex);
+      return doMove(targetIndex, sourceIndex);
+    }
+    else if (targetIndex != sourceIndex)
+    {
+      Entry [] entries = (Entry[])delegateGet(sourceIndex);
+      Entry sourceEntry = entries[sourceIndex];
       EStructuralFeature feature = sourceEntry.getEStructuralFeature();
       if (isMany(feature))
       {
@@ -458,24 +463,30 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         int featureTargetIndex = -1;
         int featureSourceIndex = -1;
         int count = 0;
-        for (int i = 0, size = delegateSize(); i < size; ++i)
+        for (int i = 0, maxIndex= targetIndex > sourceIndex ? targetIndex : sourceIndex; i <= maxIndex; ++i)
         {
-          Entry entry = (Entry)delegateGet(i);
-          if (i == targetIndex)
-          {
-            featureTargetIndex = count;
-          }
           if (i == sourceIndex)
           {
-            featureSourceIndex = count;
+            featureSourceIndex = count++;
           }
-          if (validator.isValid(entry.getEStructuralFeature()))
+          else
           {
-            ++count;
+            Entry entry = entries[i];
+            boolean isValid = validator.isValid(entry.getEStructuralFeature());
+            if (i == targetIndex)
+            {
+              featureTargetIndex = i == maxIndex && !isValid ? count-1 : count;
+            }
+            
+            if (isValid)
+            {
+                ++count;
+            }
           }
         }
 
-        Object result = doMove(targetIndex, sourceIndex);
+        Object result = super.move(targetIndex, sourceIndex);
+        
         if (featureSourceIndex != featureTargetIndex)
         {
           dispatchNotification
@@ -489,19 +500,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         }
         return result;
       }
-      else
-      {
-        return doMove(targetIndex, sourceIndex);
-      }
     }
-    else
-    {
-      return doMove(targetIndex, sourceIndex);
-    }
-  }
-
-  protected Object doMove(int targetIndex, int sourceIndex)
-  {
     return super.move(targetIndex, sourceIndex);
   }
 
