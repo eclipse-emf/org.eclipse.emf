@@ -12,12 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.9 2005/12/02 12:16:44 emerks Exp $
+ * $Id: EStructuralFeature.java,v 1.10 2006/02/10 20:56:03 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
 
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.util.FeatureMap;
 
 
 /**
@@ -458,5 +459,47 @@ public interface EStructuralFeature extends ETypedElement
      * @return whether the type is a feature map.
      */
     boolean isFeatureMap();
+
+    /**
+     * Returns the appropriately behaving feature map entry for this feature.
+     * @return the feature map entry prototype.
+     */
+    FeatureMap.Entry.Internal getFeatureMapEntryPrototype();
+
+    /**
+     * Sets the appropriately behaving feature map entry for this feature.
+     * @param prototype the feature map entry prototype.
+     */
+    void setFeatureMapEntryPrototype(FeatureMap.Entry.Internal prototype);
+    
+    /**
+     * Returns whether this is an {@link EAttribute attribute} that is an {@link EAttribute#isID() ID}.
+     * @return whether this is an attribute that is an ID.
+     */
+    public boolean isID();
+
+    /**
+     * Returns whether this is a {@link EReference reference} that {@link EReference#isResolveProxies() resolves proxies}.
+     * @return whether this is a reference that resolves proxies.
+     */
+    public boolean isResolveProxies();
+
+    /**
+     * Returns whether this is a {@link EReference reference} that is a {@link EReference#isContainer() container}.
+     * @return whether this is a reference that is a container. 
+     */
+    public boolean isContainer();
+
+    /**
+     * Returns whether this is a {@link EReference reference} that is a {@link EReference#isContainment() containment}.
+     * @return whether this is a reference that is a containment.
+     */
+    public boolean isContainment();
+
+    /**
+     * Returns the {@link EReference#getEOpposite() opposite} if this is {@link EReference reference} that has one.
+     * @return the opposite if this is reference that has one.
+     */
+    public EReference getEOpposite();
   }
 }
