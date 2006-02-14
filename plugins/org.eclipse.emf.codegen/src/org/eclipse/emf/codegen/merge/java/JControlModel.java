@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.3 2006/02/02 18:20:31 marcelop Exp $
+ * $Id: JControlModel.java,v 1.4 2006/02/14 12:58:01 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -188,6 +188,8 @@ public class JControlModel extends PrefixHandler
     protected Pattern targetMarkup;
     protected Feature targetPutFeature;
     protected Pattern targetTransfer;
+    
+    protected Feature equalityFeature;
 
     public PullRule(String classPrefix)
     {
@@ -233,6 +235,10 @@ public class JControlModel extends PrefixHandler
       {
         targetTransfer= Pattern.compile(element.getAttribute("targetTransfer"), Pattern.MULTILINE | Pattern.DOTALL);
       }
+      if (element.hasAttribute("equals"))
+      {
+        equalityFeature = createFeature(classPrefix, element.getAttribute("equals"), noParameterTypes);
+      }
     }
     
     protected Feature createFeature(String classPrefix, String path, Class[] parameterTypes)
@@ -258,6 +264,16 @@ public class JControlModel extends PrefixHandler
     public void setSourceGetFeature(Feature sourceGetFeature)
     {
       this.sourceGetFeature = sourceGetFeature;
+    }
+
+    public Feature getEqualityFeature()
+    {
+      return equalityFeature;
+    }
+
+    public void setEqualityFeature(Feature equalityFeature)
+    {
+      this.equalityFeature = equalityFeature;
     }
 
     public Feature getTargetPutFeature()
