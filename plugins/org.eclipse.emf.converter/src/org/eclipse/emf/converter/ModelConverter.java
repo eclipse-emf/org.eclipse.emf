@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverter.java,v 1.2 2005/12/20 05:38:02 marcelop Exp $
+ * $Id: ModelConverter.java,v 1.3 2006/02/14 19:40:26 emerks Exp $
  */
 package org.eclipse.emf.converter;
 
@@ -27,13 +27,16 @@ import java.util.Map;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.converter.util.ConverterUtil;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * @since 2.2.0
@@ -390,7 +393,15 @@ public abstract class ModelConverter
         externalGenModelResourceSet = createExternalGenModelResourceSet();
       }
       Map ePackageToGenModelMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
-      for (Iterator i = getEPackages().iterator(); i.hasNext(); )
+      for (TreeIterator i = 
+             new EcoreUtil.ContentTreeIterator(getEPackages())
+             {
+               protected Iterator getEObjectChildren(EObject eObject)
+               {
+                 return ((EPackage)eObject).getESubpackages().iterator();
+               }
+             };
+           i.hasNext(); )
       {
         EPackage ePackage = (EPackage)i.next();
         URI genModelURI = (URI)ePackageToGenModelMap.get(ePackage.getNsURI());
@@ -409,6 +420,7 @@ public abstract class ModelConverter
           {
             ConverterPlugin.INSTANCE.log(exception);
           }
+          i.prune();
         }
       }
     }
