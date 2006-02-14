@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.4 2005/12/21 01:18:53 marcelop Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.5 2006/02/14 19:41:05 emerks Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -801,6 +801,10 @@ public class ModelConverterPackagePage extends ModelConverterPage
       for (Iterator i = referencedEPackages.iterator(); i.hasNext();)
       {
         EPackage ePackage = (EPackage)i.next();
+        while (ePackage.getESuperPackage() != null)
+        {
+          ePackage = ePackage.getESuperPackage();
+        }
         if (!tableCheckedEPackages.contains(ePackage) && filteredEPackages.contains(ePackage))
         {
           message = ConverterPlugin.INSTANCE.getString("_UI_PackageIsUsedBySelectedPackage_message", new Object []{getLabel(ePackage)});
