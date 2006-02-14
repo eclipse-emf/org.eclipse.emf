@@ -45,6 +45,7 @@
     <merge:pull 
       sourceGet="Member/getFlags"
       targetMarkup="^gen$"
+      equals="Member/getName"
       targetPut="Member/setFlags"/>
 
 <!-- 
