@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JMerger.java,v 1.2 2006/02/14 12:58:43 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -585,6 +585,18 @@ public class JMerger
               pullRule.getSourceGetFeature().getFeatureClass().isInstance(sourceNode) &&
               pullRule.getTargetPutFeature().getFeatureClass().isInstance(targetNode))
         {
+          // Skip if there's an equality filter and the values aren't equal.
+          //
+          if (pullRule.getEqualityFeature() != null)
+          {
+            Method equalityFeatureMethod = pullRule.getEqualityFeature().getFeatureMethod();
+            Object value1 = equalityFeatureMethod.invoke(sourceNode, noArguments);
+            Object value2 = equalityFeatureMethod.invoke(targetNode, noArguments);
+            if (value1 == null ? value2 != null : !value1.equals(value2))
+            {
+              continue;
+            }
+          }
           Method sourceGetMethod = pullRule.getSourceGetFeature().getFeatureMethod();
           Object value = sourceGetMethod.invoke(sourceNode, noArguments);
           Method targetPutMethod = pullRule.getTargetPutFeature().getFeatureMethod();
