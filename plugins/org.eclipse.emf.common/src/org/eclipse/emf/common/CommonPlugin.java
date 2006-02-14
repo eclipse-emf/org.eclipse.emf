@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.10 2005/06/12 13:24:00 emerks Exp $
+ * $Id: CommonPlugin.java,v 1.11 2006/02/14 18:14:43 marcelop Exp $
  */
 package org.eclipse.emf.common;
 
@@ -83,7 +83,7 @@ public final class CommonPlugin extends EMFPlugin
   }
 
   /**
-   * Use the platform, if available, to resolve the URL.
+   * Use the platform, if available, to resolve the URI.
    */
   public static URI resolve(URI uri)
   {
