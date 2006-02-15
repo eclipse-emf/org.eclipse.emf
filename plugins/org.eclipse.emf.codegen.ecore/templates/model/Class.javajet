@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.40 2006/02/08 21:42:24 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.41 2006/02/15 19:58:39 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -313,8 +313,13 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
     <%} else {%>
 	public <%=genFeature.getListItemType()%>[] <%=genFeature.getGetArrayAccessor()%>()
 	{
+      <%if (genFeature.isVolatile()) {%>
+		<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%> list = (<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%>)<%=genFeature.getGetAccessor()%>();
+		if (list.isEmpty()) return <%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
+      <%} else {%>
 		if (<%=genFeature.getSafeName()%> == null || <%=genFeature.getSafeName()%>.isEmpty()) return <%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
 		<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%> list = (<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%>)<%=genFeature.getSafeName()%>;
+      <%}%>
 		list.shrink();
 		return (<%=genFeature.getListItemType()%>[])list.data();
 	}
@@ -346,7 +351,11 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
     <%} else {%>
 	public int get<%=genFeature.getAccessorName()%>Length()
 	{
+      <%if (genFeature.isVolatile()) {%>
+		return <%=genFeature.getGetAccessor()%>().size();
+      <%} else {%>
 		return <%=genFeature.getSafeName()%> == null ? 0 : <%=genFeature.getSafeName()%>.size();
+      <%}%>
 	}
 
     <%}%>
