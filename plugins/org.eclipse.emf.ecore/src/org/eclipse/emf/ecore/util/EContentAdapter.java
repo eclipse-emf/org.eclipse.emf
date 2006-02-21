@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentAdapter.java,v 1.4 2005/11/22 21:32:42 emerks Exp $
+ * $Id: EContentAdapter.java,v 1.5 2006/02/21 11:15:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -89,6 +89,22 @@ public class EContentAdapter extends AdapterImpl
   {
     switch (notification.getEventType())
     {
+      case Notification.RESOLVE:
+      {
+        // We need to be careful that the proxy may be resolved while we are attaching this adapter.
+        // We need to avoid attaching the adapter during the resolve 
+        // and also attaching it again as we walk the eContents() later.
+        // Checking here avoids having to check during addAdapter.
+        //
+        Notifier oldValue = (Notifier)notification.getOldValue();
+        if (oldValue.eAdapters().contains(this))
+        {
+          removeAdapter(oldValue);
+          Notifier newValue = (Notifier)notification.getNewValue();
+          addAdapter(newValue);
+        }
+        break;
+      }
       case Notification.SET:
       case Notification.UNSET:
       {
@@ -155,7 +171,8 @@ public class EContentAdapter extends AdapterImpl
     
     if (target instanceof EObject)
     {
-      for (Iterator i = ((EObject)target).eContents().iterator(); i.hasNext(); )
+      EObject eObject = (EObject)target;
+      for (Iterator i = resolve() ? eObject.eContents().iterator() : ((InternalEList)eObject.eContents()).basicIterator(); i.hasNext(); )
       {
         Notifier notifier = (Notifier)i.next();
         addAdapter(notifier);
@@ -188,20 +205,31 @@ public class EContentAdapter extends AdapterImpl
   protected void unsetTarget(Object target)
   {
     super.setTarget(null);
-
-    Collection contents = 
-      target instanceof EObject ?
-        ((EObject)target).eContents() :
-        target instanceof ResourceSet ?
-          ((ResourceSet)target).getResources() :
-          target instanceof Resource ?
-            ((Resource)target).getContents() :
-            null;
-    if (contents != null)
+    
+    if (target instanceof EObject)
     {
-      for (Iterator i = contents.iterator(); i.hasNext(); )
+      EObject eObject = (EObject)target;
+      for (Iterator i = resolve() ? eObject.eContents().iterator() : ((InternalEList)eObject.eContents()).basicIterator(); i.hasNext(); )
       {
         Notifier notifier = (Notifier)i.next();
+        removeAdapter(notifier);
+      }
+    }
+    else if (target instanceof Resource)
+    {
+      List contents = ((Resource)target).getContents();
+      for (int i = 0, size = contents.size(); i < size; ++i)
+      {
+        Notifier notifier = (Notifier)contents.get(i);
+        removeAdapter(notifier);
+      }
+    }
+    else if (target instanceof ResourceSet)
+    {
+      List resources =  ((ResourceSet)target).getResources();
+      for (int i = 0; i < resources.size(); ++i)
+      {
+        Notifier notifier = (Notifier)resources.get(i);
         removeAdapter(notifier);
       }
     }
@@ -215,5 +243,10 @@ public class EContentAdapter extends AdapterImpl
   protected void removeAdapter(Notifier notifier)
   {
     notifier.eAdapters().remove(this); 
+  }
+  
+  protected boolean resolve()
+  {
+    return true;
   }
 }

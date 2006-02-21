@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.4 2006/01/31 14:28:40 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.5 2006/02/21 11:15:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -149,6 +149,10 @@ public class ECrossReferenceAdapter implements Adapter.Internal
           }
         }
       }
+    }
+    protected boolean resolve()
+    {
+      return ECrossReferenceAdapter.this.resolve();
     }
   }
   
@@ -297,6 +301,14 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   {
     switch (notification.getEventType())
     {
+      case Notification.RESOLVE:
+      {
+        Notifier oldValue = (Notifier)notification.getOldValue();
+        removeAdapter(oldValue);
+        Notifier newValue = (Notifier)notification.getNewValue();
+        addAdapter(newValue);
+        break;
+      }
       case Notification.SET:
       case Notification.UNSET:
       {
@@ -330,7 +342,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   }
   
   /**
-   * Handles a containment change by adding and removing the adapter as appropriate.
+   * Handles a cross reference change by adding and removing the adapter as appropriate.
    */
   protected void handleCrossReference(EReference reference, Notification notification)
   {
@@ -402,7 +414,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
     {
       EObject eObject = (EObject)target;
       inverseCrossReferencer.add(eObject);
-      for (Iterator i = eObject.eContents().iterator(); i.hasNext(); )
+      for (Iterator i = resolve() ? eObject.eContents().iterator() : ((InternalEList)eObject.eContents()).basicIterator(); i.hasNext(); )
       {
         Notifier notifier = (Notifier)i.next();
         addAdapter(notifier);
@@ -449,7 +461,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
         inverseCrossReferencer.remove(eObject, (EReference)i.feature(), crossReferencedEObject);     
       }
 
-      for (Iterator i = eObject.eContents().iterator(); i.hasNext(); )
+      for (Iterator i = resolve() ? eObject.eContents().iterator() : ((InternalEList)eObject.eContents()).basicIterator(); i.hasNext(); )
       {
         Notifier notifier = (Notifier)i.next();
         removeAdapter(notifier);
@@ -502,5 +514,10 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   public boolean isAdapterForType(Object type)
   {
     return false;
+  }
+  
+  protected boolean resolve()
+  {
+    return true;
   }
 }
