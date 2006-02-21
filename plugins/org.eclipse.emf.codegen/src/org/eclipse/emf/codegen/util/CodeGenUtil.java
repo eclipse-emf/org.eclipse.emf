@@ -42,6 +42,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -917,7 +918,7 @@ public class CodeGenUtil
               URL url = bundle.getEntry(value);
               if (url != null)
               {
-                URL resolvedURL = Platform.resolve(url);
+                URL resolvedURL = FileLocator.resolve(url);
                 String resolvedURLString = resolvedURL.toString();
                 if (resolvedURLString.endsWith("!/"))
                 {
@@ -930,7 +931,7 @@ public class CodeGenUtil
                 }
                 else
                 {
-                  result.add(Platform.asLocalURL(url).getFile());
+                  result.add(FileLocator.toFileURL(url).getFile());
                 }
               }
             }

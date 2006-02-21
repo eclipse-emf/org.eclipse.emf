@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.3 2005/06/08 06:20:41 nickb Exp $
+ * $Id: TestUtil.java,v 1.4 2006/02/21 06:26:31 marcelop Exp $
  */
 package org.eclipse.emf.test.xml;
 
@@ -22,7 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 
-import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.FileLocator;
 
 public class TestUtil
 {
@@ -33,7 +33,7 @@ public class TestUtil
   {
     try
     {
-       return new File(Platform.asLocalURL(EMFTestXMLPlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
+       return new File(FileLocator.toFileURL(EMFTestXMLPlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
     }
     catch (Throwable t)
     {

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.10 2005/11/23 12:30:49 emerks Exp $
+ * $Id: TestUtil.java,v 1.11 2006/02/21 06:26:27 marcelop Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -28,6 +28,7 @@ import org.apache.tools.ant.types.FileSet;
 
 import org.eclipse.ant.core.AntRunner;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 
@@ -40,7 +41,7 @@ public class TestUtil
   {
     try
     {
-       return new File(Platform.asLocalURL(EMFTestToolsPlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
+       return new File(FileLocator.toFileURL(EMFTestToolsPlugin.getPlugin().getBundle().getEntry("/")).getFile()).toString();
     }
     catch (Throwable t)
     {
@@ -78,7 +79,7 @@ public class TestUtil
     {
       if (Platform.isRunning())
       {
-        File file = new File(Platform.asLocalURL(Platform.getBundle(pluginID).getEntry("/")).getFile());
+        File file = new File(FileLocator.toFileURL(Platform.getBundle(pluginID).getEntry("/")).getFile());
         if (file.isDirectory())
         {
           return file.getAbsolutePath();
