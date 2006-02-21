@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.18 2006/01/18 20:41:29 marcelop Exp $
+ * $Id: JMerger.java,v 1.19 2006/02/21 06:19:48 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -1152,6 +1152,9 @@ public class JMerger
   
 /////////////////////////////////  HEADLESS INVOCATION  /////////////////////////////////////
 
+  /**
+   * @deprecated
+   */
   public static class PlatformRunnable extends PropertyMerger implements IPlatformRunnable 
   {
   }
