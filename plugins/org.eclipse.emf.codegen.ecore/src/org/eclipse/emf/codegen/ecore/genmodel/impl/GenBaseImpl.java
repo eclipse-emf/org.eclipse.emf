@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.45 2006/01/18 20:29:37 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.46 2006/02/21 16:53:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -583,7 +583,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         
         String newContents = emitterResult;
         JControlModel jControlModel = getGenModel().getJControlModel();
-        if (jControlModel.getFacadeHelper() == null || !jControlModel.getFacadeHelper().getClass().getName().equals(getGenModel().getFacadeHelperClass()))
+        
+        if (getGenModel().getFacadeHelperClass() != null && (jControlModel.getFacadeHelper() == null || !jControlModel.getFacadeHelper().getClass().getName().equals(getGenModel().getFacadeHelperClass())))
         {
           FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(getGenModel().getFacadeHelperClass()); 
           jControlModel.initialize(facadeHelper, getGenModel().getMergeRulesLocation());
