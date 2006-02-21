@@ -12,18 +12,21 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterDetailPage.java,v 1.2 2005/12/15 11:54:24 emerks Exp $
+ * $Id: ModelImporterDetailPage.java,v 1.3 2006/02/21 20:28:45 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -33,8 +36,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.ui.dialogs.ResourceSelectionDialog;
 
+import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
@@ -287,23 +290,27 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
 
   protected boolean browseWorkspace()
   {
-    ResourceSelectionDialog resourceSelectionDialog = new ResourceSelectionDialog(
-      getShell(),
-      ResourcesPlugin.getWorkspace().getRoot(),
-      getSelectModelLabel());
-
-    resourceSelectionDialog.open();
-    Object[] result = resourceSelectionDialog.getResult();
-    if (result != null)
+    ViewerFilter extensionFilter = null;
+    if (!getModelImporter().getFileExtensions().isEmpty())
+    {
+      extensionFilter = new ViewerFilter()
+      {
+        public boolean select(Viewer viewer, Object parentElement, Object element)
+        {
+          return !(element instanceof IFile) || getModelImporter().getFileExtensions().contains(((IFile)element).getFileExtension());
+        }
+      };
+    }
+    
+    IFile[] files = WorkspaceResourceDialog.openFileSelection(getShell(), null, null, supportMultipleURIs(), null, extensionFilter == null ? null : Collections.singletonList(extensionFilter));
+    if (files.length > 0)
     {
       StringBuffer text = new StringBuffer();
-      int length = supportMultipleURIs() ? result.length : 1;
-      for (int i = 0; i < length; ++i)
+      for (int i = 0; i < files.length; ++i)
       {
-        IResource resource = (IResource)result[i];
-        if (isValidWorkspaceResource(resource))
+        if (isValidWorkspaceResource(files[i]))
         {
-          text.append(URI.createURI(URI.createPlatformResourceURI(resource.getFullPath().toString()).toString(), true));
+          text.append(URI.createURI(URI.createPlatformResourceURI(files[i].getFullPath().toString()).toString(), true));
           text.append("  ");
         }
       }
