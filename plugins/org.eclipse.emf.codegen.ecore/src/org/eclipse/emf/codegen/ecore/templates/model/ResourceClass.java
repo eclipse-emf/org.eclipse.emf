@@ -347,9 +347,9 @@ public class ResourceClass
     if ((elements.contains(genFeature.getEcoreFeature()) || attributes.contains(genFeature.getEcoreFeature())) && name.indexOf(":") == -1) {
     if (genFeature.isReferenceType()) {
     stringBuffer.append(TEXT_56);
-    stringBuffer.append(genFeature.getGenClassType().getGenPackage().getImportedResourceClassName());
+    stringBuffer.append(genFeature.getTypeGenClass().getGenPackage().getImportedResourceClassName());
     stringBuffer.append(TEXT_57);
-    stringBuffer.append(genFeature.getGenClassType().getInterfaceName());
+    stringBuffer.append(genFeature.getTypeGenClass().getInterfaceName());
     stringBuffer.append(TEXT_58);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_59);

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.8 2005/12/21 22:05:32 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.9 2006/02/21 16:24:14 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -267,7 +267,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 			 * <!-- end-user-doc -->
 			 * @generated
 			 */
-			protected <%=genFeature.getGenClassType().getGenPackage().getImportedResourceClassName()%>.FrameFactory.<%=genFeature.getGenClassType().getInterfaceName()%>StackFrame <%=genFeature.getSafeName()%>;
+			protected <%=genFeature.getTypeGenClass().getGenPackage().getImportedResourceClassName()%>.FrameFactory.<%=genFeature.getTypeGenClass().getInterfaceName()%>StackFrame <%=genFeature.getSafeName()%>;
 
 <%} else {%>
 			/**
