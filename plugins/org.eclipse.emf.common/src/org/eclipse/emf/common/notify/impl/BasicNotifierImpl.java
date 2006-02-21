@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicNotifierImpl.java,v 1.3 2005/06/08 06:19:08 nickb Exp $
+ * $Id: BasicNotifierImpl.java,v 1.4 2006/02/21 14:34:14 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -218,12 +218,13 @@ public class BasicNotifierImpl implements Notifier
    */
   public void eNotify(Notification notification)
   {
-    if (eDeliver() && eBasicAdapters() != null)
+    BasicEList eAdapters = eBasicAdapters();
+    if (eAdapters != null && eDeliver())
     {
-      int size = eBasicAdapters().size();
+      int size = eAdapters.size();
       if (size > 0)
       {
-        Adapter [] adapters = (Adapter [])eBasicAdapters().data();
+        Adapter [] adapters = (Adapter [])eAdapters.data();
         for (int i = 0; i < size; ++i)
         {
           adapters[i].notifyChanged(notification);
