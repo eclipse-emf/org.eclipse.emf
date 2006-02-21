@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: JDOMJPackage.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JDOMJPackage.java,v 1.2 2006/02/21 06:17:17 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
 import org.eclipse.jdt.core.jdom.IDOMPackage;
 
-import org.eclipse.emf.codegen.merge.java.facade.FacadeFlags;
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 
 

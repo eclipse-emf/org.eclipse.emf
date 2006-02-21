@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJNode.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JDOMJNode.java,v 1.2 2006/02/21 06:17:17 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
@@ -22,12 +22,10 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.eclipse.jdt.core.jdom.IDOMInitializer;
 import org.eclipse.jdt.core.jdom.IDOMNode;
 
 import org.eclipse.emf.codegen.merge.java.facade.AbstractJNode;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeFlags;
-import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 
 /**

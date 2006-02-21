@@ -12,18 +12,15 @@
  *
  * </copyright>
  *
- * $Id: JDOMJInitializer.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JDOMJInitializer.java,v 1.2 2006/02/21 06:17:17 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
-
-import java.util.List;
 
 import org.eclipse.jdt.core.jdom.IDOMInitializer;
 import org.eclipse.jdt.core.jdom.IDOMMember;
 import org.eclipse.jdt.core.jdom.IDOMNode;
 
 import org.eclipse.emf.codegen.merge.java.facade.JInitializer;
-import org.eclipse.emf.codegen.merge.java.facade.JNode;
 
 
 /**
