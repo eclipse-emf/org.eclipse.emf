@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIMappingRegistryReader.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: URIMappingRegistryReader.java,v 1.4 2006/02/22 22:28:57 marcelop Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -68,7 +68,7 @@ class URIMappingRegistryReader extends RegistryReader
             targetURI = 
               targetURI.resolve
                 (URI.createURI
-                  (Platform.getBundle(element.getDeclaringExtension().getNamespace()).getEntry("/").toString()));
+                  (Platform.getBundle(element.getDeclaringExtension().getContributor().getName()).getEntry("/").toString()));
           }
           URIConverter.URI_MAP.put(sourceURI, targetURI);
           return true;

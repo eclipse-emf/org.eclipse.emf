@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratedPackageRegistryReader.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: GeneratedPackageRegistryReader.java,v 1.5 2006/02/22 22:28:56 marcelop Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -78,7 +78,7 @@ class GeneratedPackageRegistryReader extends RegistryReader
             URI genModelURI = URI.createURI(genModel);
             if (genModelURI.isRelative())
             {
-              genModelURI = URI.createURI("platform:/plugin/" + element.getDeclaringExtension().getNamespace() + "/" + genModel);
+              genModelURI = URI.createURI("platform:/plugin/" + element.getDeclaringExtension().getContributor().getName() + "/" + genModel);
             }
             ePackageNsURIToGenModelLocationMap.put(packageURI, genModelURI);
           }

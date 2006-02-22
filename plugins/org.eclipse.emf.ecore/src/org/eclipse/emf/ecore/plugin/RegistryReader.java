@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegistryReader.java,v 1.5 2005/11/14 20:45:44 emerks Exp $
+ * $Id: RegistryReader.java,v 1.6 2006/02/22 22:28:56 marcelop Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -95,7 +95,7 @@ public abstract class RegistryReader
   protected void logError(IConfigurationElement element, String text)
   {
     IExtension extension = element.getDeclaringExtension();
-    System.err.println("Plugin " + extension.getNamespace() + ", extension " + extension.getExtensionPointUniqueIdentifier());
+    System.err.println("Plugin " + extension.getContributor().getName() + ", extension " + extension.getExtensionPointUniqueIdentifier());
     System.err.println(text);
   }
 
@@ -163,7 +163,7 @@ public abstract class RegistryReader
       //
       try
       {
-        Class javaClass = Platform.getBundle(element.getDeclaringExtension().getNamespace()).loadClass(element.getAttribute(attributeName));
+        Class javaClass = Platform.getBundle(element.getDeclaringExtension().getContributor().getName()).loadClass(element.getAttribute(attributeName));
         Field field = javaClass.getField("eINSTANCE");
         Object result = field.get(null);
         return (EPackage)result;
@@ -209,7 +209,7 @@ public abstract class RegistryReader
       //
       try
       {
-        Class javaClass = Platform.getBundle(element.getDeclaringExtension().getNamespace()).loadClass(element.getAttribute(attributeName));
+        Class javaClass = Platform.getBundle(element.getDeclaringExtension().getContributor().getName()).loadClass(element.getAttribute(attributeName));
         return (EFactory)javaClass.newInstance();
       }
       catch (ClassNotFoundException e)

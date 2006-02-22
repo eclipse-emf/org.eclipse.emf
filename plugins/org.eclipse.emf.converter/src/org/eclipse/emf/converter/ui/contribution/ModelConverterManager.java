@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterManager.java,v 1.1 2005/12/14 07:45:42 marcelop Exp $
+ * $Id: ModelConverterManager.java,v 1.2 2006/02/22 22:28:57 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution;
 
@@ -290,7 +290,7 @@ public abstract class ModelConverterManager
         String imageKey = configurationElement.getAttribute("icon");
         if (imageKey != null)
         {
-          Bundle pluginBundle = Platform.getBundle(configurationElement.getDeclaringExtension().getNamespace());
+          Bundle pluginBundle = Platform.getBundle(configurationElement.getDeclaringExtension().getContributor().getName());
           URL path = pluginBundle.getEntry("/");
           URL fullPathString = null;
           try
