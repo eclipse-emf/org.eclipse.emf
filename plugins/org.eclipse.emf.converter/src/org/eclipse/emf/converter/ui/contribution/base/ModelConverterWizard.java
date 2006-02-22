@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterWizard.java,v 1.1 2005/12/14 07:45:42 marcelop Exp $
+ * $Id: ModelConverterWizard.java,v 1.2 2006/02/22 16:43:39 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -44,10 +44,10 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
-import org.eclipse.emf.edit.provider.IDisposable;
 import org.eclipse.emf.converter.ConverterPlugin;
 import org.eclipse.emf.converter.ModelConverter;
 import org.eclipse.emf.converter.util.ConverterUtil;
+import org.eclipse.emf.edit.provider.IDisposable;
 
 
 /**
@@ -57,6 +57,7 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
 {
   public static class PageHelper implements IPageChangedListener, IDisposable
   {
+    protected boolean attached = false;
     protected Object oldPage;
     protected IPageChangeProvider pageChangeProvider;
 
@@ -65,7 +66,17 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
       oldPage = null;
       pageChangeProvider = null;
     }
-
+    
+    public void setAttached(boolean attached)
+    {
+      this.attached = attached;
+    }
+    
+    public boolean isAttached()
+    {
+      return attached;
+    }
+    
     public void pageChanged(PageChangedEvent event)
     {
       pageChangeProvider = event.getPageChangeProvider();
@@ -103,16 +114,22 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
     }
   }
 
+  // WizardContainer variables
+  protected static PageHelper pageHelper;
+  
   protected IStructuredSelection selection;
   protected IWorkbench workbench;
-  protected PageHelper pageHelper;
-  
+    
   protected ModelConverter modelConverter;
 
   public ModelConverterWizard()
   {
     super();
     setNeedsProgressMonitor(true);
+    if (pageHelper == null)
+    {
+      pageHelper = new PageHelper();
+    }
   }
 
   public void dispose()
@@ -169,9 +186,9 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
   public void setContainer(IWizardContainer wizardContainer)
   {
     super.setContainer(wizardContainer);
-    if (wizardContainer instanceof WizardDialog)
-    {
-      pageHelper = new PageHelper();
+    if (wizardContainer instanceof WizardDialog && pageHelper != null && !pageHelper.isAttached())
+    {      
+      pageHelper.setAttached(true);
       ((WizardDialog)wizardContainer).addPageChangedListener(pageHelper);
     }
   }
