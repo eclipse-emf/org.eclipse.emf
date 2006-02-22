@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.9 2005/06/08 06:17:17 nickb Exp $
+ * $Id: GeneratorTask.java,v 1.10 2006/02/22 15:00:53 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -62,6 +62,24 @@ import org.eclipse.emf.codegen.ecore.Generator;
  *    <td valign="top">generateJavaCode</td>
  *    <td>Boolean value indicating whether the java code should be generated.  Should be set to 
  *    <tt>false</tt> when you want to generate only the .ecore and .genmodel files</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">generateModelProject</td>
+ *    <td>The model project will be only generated if this attribute is set to <tt>true</tt> and if the project's
+ *    information is specified in the task.
+ *    <br />The default value is <tt>true</tt>.</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">generateEditProject</td>
+ *    <td>The edit project will be only generated if this attribute is set to <tt>true</tt> and if the project's
+ *    information is specified in the task.
+ *    <br />The default value is <tt>true</tt>.</td>
+ * </tr>
+ * <tr>
+ *    <td valign="top">generateEditorProject</td>
+ *    <td>The editor project will be only generated if this attribute is set to <tt>true</tt> and if the project's
+ *    information is specified in the task.
+ *    <br />The default value is <tt>true</tt>.</td>
  * </tr>
  * <tr>
  *    <td valign="top">templatePath</td>
@@ -147,6 +165,21 @@ public abstract class GeneratorTask extends EMFTask
   {
     this.modelPluginID = modelPluginID;
   }
+  
+  public void setGenerateModelProject(boolean generate)
+  {
+    generateModelProject = generate;
+  }
+
+  public void setGenerateEditProject(boolean generate)
+  {
+    generateEditProject = generate;
+  }
+
+  public void setGenerateEditorProject(boolean generate)
+  {
+    generateEditorProject = generate;
+  }
 
   public Commandline.Argument createArg()
   {
@@ -222,7 +255,7 @@ public abstract class GeneratorTask extends EMFTask
       assertTrue("The 'model' attribute must be specified.", model != null);
     }
     
-    if (reconcileGenModel != GENMODEL_RELOAD)
+    if (generateJavaCode && generateModelProject)
     {
       assertTrue("The 'modelProject' attribute must be specified.", modelProject != null);
     }
@@ -312,9 +345,9 @@ public abstract class GeneratorTask extends EMFTask
   protected void adjustEditAndEditorProjects()
   {
     String arguments = getCommandline().toString();
-    generateModelProject = arguments.indexOf("-modelProject") >= 0;
-    generateEditProject = arguments.indexOf("-editProject") >= 0;
-    generateEditorProject = arguments.indexOf("-editorProject") >= 0;
+    generateModelProject &= arguments.indexOf("-modelProject") >= 0;
+    generateEditProject &= arguments.indexOf("-editProject") >= 0;
+    generateEditorProject &= arguments.indexOf("-editorProject") >= 0;
   }
 
   protected List getGeneratorArguments()
