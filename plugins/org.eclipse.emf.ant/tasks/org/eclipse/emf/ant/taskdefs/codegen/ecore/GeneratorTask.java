@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.10 2006/02/22 15:00:53 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.11 2006/02/22 15:44:19 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -255,11 +255,6 @@ public abstract class GeneratorTask extends EMFTask
       assertTrue("The 'model' attribute must be specified.", model != null);
     }
     
-    if (generateJavaCode && generateModelProject)
-    {
-      assertTrue("The 'modelProject' attribute must be specified.", modelProject != null);
-    }
-
     assertTrue("The 'genModel' attribute must be specified.", genModel != null);
     assertTrue("The specifed 'templatePath' attribute is not a valid directory.", templatePath == null || templatePath.isDirectory());
   }
