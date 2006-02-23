@@ -55,7 +55,8 @@ public class BuildTest extends TestCase
   
   protected void setUp() throws Exception
   {
-    String directory = TestUtil.getPluginDirectory();
+    //String directory = TestUtil.getPluginDirectory();
+    String directory = "D:/tmp/emf-sdo-xsd-SDK-N200602231500/eclipse/plugins/foo";
     if (directory.indexOf(".metadata") < 0)
     {
       File dir = new File(directory).getAbsoluteFile().getParentFile();
@@ -145,7 +146,7 @@ public class BuildTest extends TestCase
       if (isPluginToTest(plugin))
       {
         JarFile jarFile = plugin.isFile() ? new JarFile(plugin) : null;
-        String name = plugin.getName().replaceAll("(_\\d\\.\\d\\.\\d)?(\\..*)?(\\.jar)?$", "");
+        String name = plugin.getName().replaceAll("(_\\d\\.\\d\\.\\d(\\..*)?)?(\\.jar)?$", "");
         
         if (isDocPlugin(name))
         {
