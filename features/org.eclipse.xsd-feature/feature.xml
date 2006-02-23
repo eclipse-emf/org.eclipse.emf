@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.xsd"
       label="%featureName"
-      version="2.2.0"
+      version="2.2.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -23,7 +23,6 @@ http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <url>
-<!--      <update label="%updateSiteName" url="http://update.eclipse.org/updates/3.0"/> -->
       <update label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
       <discovery label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
    </url>
@@ -37,49 +36,49 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.xsd"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.xsd.ecore.importer"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
-         
+         version="0.0.0"
+         unpack="false"/>
+
    <plugin
          id="org.eclipse.xsd.ecore.exporter"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>         
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.xsd.edit"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.xsd.editor"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.mapping.xsd2ecore"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.mapping.xsd2ecore.editor"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
