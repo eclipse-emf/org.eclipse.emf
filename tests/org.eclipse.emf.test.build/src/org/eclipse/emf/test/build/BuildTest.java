@@ -145,7 +145,7 @@ public class BuildTest extends TestCase
       if (isPluginToTest(plugin))
       {
         JarFile jarFile = plugin.isFile() ? new JarFile(plugin) : null;
-        String name = plugin.getName().replaceAll("(_\\d\\.\\d\\.\\d)?(\\.jar)?$", "");
+        String name = plugin.getName().replaceAll("(_\\d\\.\\d\\.\\d)?(\\..*)?(\\.jar)?$", "");
         
         if (isDocPlugin(name))
         {
