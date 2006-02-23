@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.emf.examples"
       label="%featureName"
-      version="2.2.0"
+      version="2.2.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -24,7 +24,6 @@ http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <url>
-<!--      <update label="%updateSiteName" url="http://update.eclipse.org/updates/3.0"/> -->
       <update label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
       <discovery label="%secondaryUpdateSiteName" url="http://download.eclipse.org/tools/emf/updates/"/>
    </url>
@@ -37,36 +36,36 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.examples"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.java"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.java.edit"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.java.editor"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.activities"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.xsd.example"
@@ -78,20 +77,21 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.examples.library"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.examples.library.edit"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.emf.examples.library.editor"
          download-size="0"
          install-size="0"
-         unpack="false"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
