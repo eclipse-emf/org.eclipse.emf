@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Util.java,v 1.4 2005/06/08 06:17:17 nickb Exp $
+ * $Id: Util.java,v 1.5 2006/02/23 22:40:00 marcelop Exp $
  */
 package org.eclipse.emf.ant.util;
 
@@ -31,7 +31,9 @@ public class Util
   /**
    * Removes the version number of all the subdirectories of a given directory.
    * The expected format of the directories name is <dirName>_<version> where version 
-   * has at least 2 groups (2.1 for example).
+   * has at least from 1 to 4 fields, the first 3 being digits.  Examples: 
+   * foo_2, foo_2.1, foo_2.1.0, foo_2.1.0.a,  
+   * 
    *  
    * @param parentDir the parent of the directories that will have the version removed
    * @return the number of changed directories
@@ -49,7 +51,7 @@ public class Util
     {
       if (dirs[i].isDirectory())
       {
-        String name = dirs[i].getName().replaceAll("_(\\d+\\.)+\\d$", "");
+        String name = dirs[i].getName().replaceAll("_(\\d(\\.\\d){0,2}(\\.([\\w-])*)?)$", "");        
         if (!name.equals(dirs[i].getName()) && dirs[i].renameTo(new File(parentDir, name)))
         {
           counter++;
