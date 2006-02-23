@@ -15,7 +15,7 @@
  *
  * </copyright>
  *
- * $Id: feature.xml,v 1.28 2005/08/11 15:02:19 nickb Exp $
+ * $Id: feature.xml,v 1.29 2006/02/23 18:27:53 marcelop Exp $
  */
 -->
 
@@ -59,27 +59,27 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.test"
          download-size="0"
          install-size="0"
-         version="3.1.0"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.test.performance"
          download-size="0"
          install-size="0"
-         version="3.1.0"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.test.performance.win32"
          download-size="0"
          install-size="0"
-         version="3.1.0"
-         fragment="true"/>
+         fragment="true"
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.ant.optional.junit"
          download-size="0"
          install-size="0"
-         version="2.1.0"
-         fragment="true"/>
+         fragment="true"
+         version="0.0.0"/>
 
    <!-- End of required Eclipse plugins -->
 
@@ -87,47 +87,47 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.emf.tests"
          download-size="0"
          install-size="0"
-         version="2.2.0"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.emf.test.performance"
          download-size="0"
          install-size="0"
-         version="2.2.0"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.emf.test.build"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.emf.test.core"
          download-size="0"
          install-size="0"
-         version="2.2.0"/>
+         version="0.0.0"/>
    
    <plugin
          id="org.eclipse.emf.test.edit"
          download-size="0"
          install-size="0"
-         version="2.2.0"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.emf.test.sdo"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.emf.test.tools"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.emf.test.xml"
          download-size="0"
          install-size="0"
-         version="2.1.0"/>
+         version="0.0.0"/>
 </feature>
