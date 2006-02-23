@@ -55,8 +55,7 @@ public class BuildTest extends TestCase
   
   protected void setUp() throws Exception
   {
-    //String directory = TestUtil.getPluginDirectory();
-    String directory = "D:/tmp/emf-sdo-xsd-SDK-N200602231500/eclipse/plugins/foo";
+    String directory = TestUtil.getPluginDirectory();
     if (directory.indexOf(".metadata") < 0)
     {
       File dir = new File(directory).getAbsoluteFile().getParentFile();
