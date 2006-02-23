@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.49 2006/02/07 15:25:04 khussey Exp $
+ * $Id: XMLHandler.java,v 1.50 2006/02/23 17:15:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -248,7 +248,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected Map externalURIToLocations;
   protected boolean processSchemaLocations;
   protected InternalEList extent;
-  //protected List deferredExtent;
+  protected List deferredExtent;
   protected ResourceSet resourceSet;
   protected EPackage.Registry packageRegistry;
   protected URI resourceURI;
@@ -310,7 +310,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     packageRegistry = resourceSet == null ? EPackage.Registry.INSTANCE : resourceSet.getPackageRegistry();
     resourceURI  = xmlResource.getURI();
     extent       = (InternalEList) xmlResource.getContents();
-    //deferredExtent = new ArrayList();
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_DEFER_ATTACHMENT)))
+    {
+      deferredExtent = new ArrayList();
+    }
     resolve      = resourceURI != null && resourceURI.isHierarchical() && !resourceURI.isRelative();
 
     eObjectToExtensionMap = xmlResource.getEObjectToExtensionMap();
@@ -453,6 +456,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     packageRegistry = resourceSet == null ? EPackage.Registry.INSTANCE : resourceSet.getPackageRegistry();
     resourceURI = xmlResource.getURI();
     extent = (InternalEList)xmlResource.getContents();
+    if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_DEFER_ATTACHMENT)))
+    {
+      deferredExtent = new ArrayList();
+    }
     resolve = resourceURI != null && resourceURI.isHierarchical() && !resourceURI.isRelative();
     eObjectToExtensionMap = xmlResource.getEObjectToExtensionMap();
     eObjectToExtensionMap.clear();
@@ -534,7 +541,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     packageRegistry = null;
     resourceURI = null;
     extent = null;
-    //deferredExtent.clear();
+    deferredExtent = null;
     attribs = null;
     locator = null;
     urisToLocations = null;
@@ -1000,10 +1007,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    */
   public void endDocument()
   {    
-    /*if (deferredExtent != null)
+    if (deferredExtent != null)
     {
-       extent.addAll(deferredExtent);
-    }*/
+      extent.addAll(deferredExtent);
+    }
     helper.recordPrefixToURIMapping();
     helper.popContext();
     handleForwardReferences(true);
@@ -1189,12 +1196,14 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
     if (object != null)
     {
-      /*if (deferredExtent != null)
+      if (deferredExtent != null)
       {
         deferredExtent.add(object);
-      }*/
-      
-      extent.addUnique(object);
+      }
+      else
+      {
+        extent.addUnique(object);
+      }
           
       if (extendedMetaData != null)
       {

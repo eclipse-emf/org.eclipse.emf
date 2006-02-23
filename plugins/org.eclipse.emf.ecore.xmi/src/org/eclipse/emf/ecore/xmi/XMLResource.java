@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.33 2005/12/20 16:58:10 elena Exp $
+ * $Id: XMLResource.java,v 1.34 2006/02/23 17:15:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -311,6 +311,13 @@ public interface XMLResource extends Resource
    * @see org.eclipse.emf.ecore.xmi.impl.BasicResourceHandler
    */
   String OPTION_RESOURCE_HANDLER = "RESOURCE_HANDLER";
+  
+  /**
+   * Defer adding the root object to the resource until the end of the load when the tree is complete.
+   * The default value is Boolean.FALSE.
+   * It's often a good idea to set OPTION_DEFER_IDREF_RESOLUTION true Boolean.TRUE if this option is set to Boolean.TRUE.
+   */
+  String OPTION_DEFER_ATTACHMENT = "DEFER_ATTACHMENT";
 
   String HREF = "href";
   String NIL = "nil";
