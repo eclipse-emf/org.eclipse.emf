@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: RemoveVersionTask.java,v 1.3 2005/06/08 06:17:17 nickb Exp $
+ * $Id: RemoveVersionTask.java,v 1.4 2006/02/24 00:26:45 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs;
 
 import java.io.File;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
 
 import org.eclipse.emf.ant.util.Util;
 
@@ -39,13 +40,21 @@ import org.eclipse.emf.ant.util.Util;
  * Usage example:
  * </p>
  * <pre>
- * &lt;emf.RemoveVersion parentDir=&quot;c:\eclipse\plugins&quot;/&gt;
+ * &lt;emf.util.RemoveVersion parentDir=&quot;c:\eclipse\plugins&quot;/&gt;
  * </pre>
  * 
  * @since 2.1.0
  */
-public class RemoveVersionTask extends EMFTask
+public class RemoveVersionTask extends Task
 {
+  public static void assertTrue(String message, boolean expression) throws BuildException
+  {
+    if (!expression)
+    {
+      throw new BuildException(message);
+    }
+  }
+  
   private File parentDir;
 
   public void setParentDir(File dir)
@@ -59,8 +68,9 @@ public class RemoveVersionTask extends EMFTask
     assertTrue("You must have read and write access to " + parentDir.getAbsolutePath() + ".", parentDir.canRead() && parentDir.canWrite());
   }
 
-  protected void doExecute() throws Exception
+  public void execute() throws BuildException
   {
+    checkAttributes();
     Util.removeVersion(parentDir);
   }
 }
