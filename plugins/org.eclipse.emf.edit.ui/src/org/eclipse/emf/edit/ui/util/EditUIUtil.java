@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditUIUtil.java,v 1.1 2005/12/08 17:38:04 marcelop Exp $
+ * $Id: EditUIUtil.java,v 1.2 2006/02/24 15:52:19 marcelop Exp $
  */
 
 package org.eclipse.emf.edit.ui.util;
@@ -28,6 +28,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -48,7 +49,7 @@ public class EditUIUtil
       Resource resource = eObject.eResource();
       if (resource != null)
       {
-        String path = resource.getURI().toString().substring("platform:/resource/".length());
+        String path = URI.decode(resource.getURI().toString().substring("platform:/resource/".length()));
         IResource workspaceResource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(path));
         if (workspaceResource instanceof IFile)
         {
