@@ -55,11 +55,13 @@
 
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
 		<mkdir dir="${destination.temp.folder}/org.eclipse.emf.doc_${pluginVersion}.${forceContextQualifier}"/>
-		<copy todir="${destination.temp.folder}/org.eclipse.emf.doc_${pluginVersion}.${forceContextQualifier}" failonerror="true">
+		<echo message="Copy from ${build.result.folder} into doc plugin folder"/>
+		<copy todir="${destination.temp.folder}/org.eclipse.emf.doc_${pluginVersion}.${forceContextQualifier}" failonerror="true" verbose="true">
 			<fileset dir="${build.result.folder}" 
 			includes="about.*,eclipse*.gif,eclipse*.png,eclipse*.jpg,plugin.*,toc.xml,doc.zip,index/**,META-INF/**"/>
 		</copy>
-		<copy todir="${destination.temp.folder}/org.eclipse.emf.doc_${pluginVersion}.${forceContextQualifier}">
+		<echo message="Copy from ${basedir} into doc plugin folder"/>
+		<copy todir="${destination.temp.folder}/org.eclipse.emf.doc_${pluginVersion}.${forceContextQualifier}" verbose="true">
 			<fileset dir="${basedir}" 
 			includes="about.*,eclipse*.gif,eclipse*.png,eclipse*.jpg,plugin.*,toc.xml,doc.zip,index/**,META-INF/**"/>
 		</copy>
