@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETSkeleton.java,v 1.6 2005/11/14 12:54:11 emerks Exp $
+ * $Id: JETSkeleton.java,v 1.7 2006/03/02 20:40:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -46,7 +46,7 @@ public class JETSkeleton
   
   protected final String NL_DECLARATION = "  protected final String NL = nl == null ? (";
   protected final String NL_DECLARATION_TAIL = ") : nl;" + NL;
-  protected final String STRING_BUFFER_DECLARATION = "    StringBuffer stringBuffer = new StringBuffer();" + NL;
+  protected final String STRING_BUFFER_DECLARATION = "    final StringBuffer stringBuffer = new StringBuffer();" + NL;
   protected final String STRING_BUFFER_RETURN = "    return stringBuffer.toString();" + NL;
 
   protected DOMFactory jdomFactory = new DOMFactory();
