@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.8 2005/11/25 17:49:48 emerks Exp $
+ * $Id: EAnnotationImpl.java,v 1.9 2006/03/02 20:45:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -177,6 +177,16 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetEModelElement(EModelElement newEModelElement, NotificationChain msgs)
+  {
+    return eBasicSetContainer((InternalEObject)newEModelElement, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setEModelElement(EModelElement newEModelElement)
   {
     if (newEModelElement != eInternalContainer() || (eContainerFeatureID != EcorePackage.EANNOTATION__EMODEL_ELEMENT && newEModelElement != null))
@@ -188,7 +198,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
         msgs = eBasicRemoveFromContainer(msgs);
       if (newEModelElement != null)
         msgs = ((InternalEObject)newEModelElement).eInverseAdd(this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EModelElement.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newEModelElement, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
+      msgs = basicSetEModelElement(newEModelElement, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -237,7 +247,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
       case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
+        return basicSetEModelElement((EModelElement)otherEnd, msgs);
     }
     return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
@@ -256,7 +266,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
       case EcorePackage.EANNOTATION__DETAILS:
         return ((InternalEList)getDetails()).basicRemove(otherEnd, msgs);
       case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
-        return eBasicSetContainer(null, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
+        return basicSetEModelElement(null, msgs);
       case EcorePackage.EANNOTATION__CONTENTS:
         return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
     }
