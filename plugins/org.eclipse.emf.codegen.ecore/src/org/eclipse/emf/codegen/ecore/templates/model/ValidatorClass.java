@@ -477,7 +477,7 @@ public class ValidatorClass
 
   public String generate(Object argument)
   {
-    StringBuffer stringBuffer = new StringBuffer();
+    final StringBuffer stringBuffer = new StringBuffer();
     
 /**
  * <copyright>
