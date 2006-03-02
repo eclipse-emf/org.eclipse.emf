@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.50 2006/02/23 17:15:08 emerks Exp $
+ * $Id: XMLHandler.java,v 1.51 2006/03/02 19:01:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -300,9 +299,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
     types    = new MyStack();
     prefixesToFactories = new HashMap();
-    forwardSingleReferences = new LinkedList();
-    forwardManyReferences   = new LinkedList();
-    sameDocumentProxies = new LinkedList();
+    forwardSingleReferences = new ArrayList();
+    forwardManyReferences   = new ArrayList();
+    sameDocumentProxies = new ArrayList();
     identifiers = new Object[ARRAY_SIZE];
     positions   = new int[ARRAY_SIZE];
     capacity    = ARRAY_SIZE;
