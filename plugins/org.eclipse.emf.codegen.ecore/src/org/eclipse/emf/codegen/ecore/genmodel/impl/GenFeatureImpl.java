@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.31 2005/12/14 21:40:29 marcelop Exp $
+ * $Id: GenFeatureImpl.java,v 1.32 2006/03/02 20:42:10 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1619,8 +1619,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
   public boolean isBasicSet()
   {
-    return !getGenModel().isReflectiveDelegation() && !isListType()
-      && (isBidirectional() && !isContainer() && !isVolatile() || isEffectiveContains());
+    return !getGenModel().isReflectiveDelegation() && !isListType() && isChangeable() 
+      && (isBidirectional() && !isVolatile() || isEffectiveContains());
   }
 
   public boolean isSet()
