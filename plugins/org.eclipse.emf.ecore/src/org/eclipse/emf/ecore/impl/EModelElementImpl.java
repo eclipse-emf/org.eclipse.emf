@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.10 2005/11/25 17:49:48 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.11 2006/03/02 18:36:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -130,25 +131,61 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
    */
   public EAnnotation getEAnnotation(String source)
   {
-    if (source == null)
+    if (eAnnotations != null)
     {
-      for (Iterator i = getEAnnotations().iterator(); i.hasNext(); )
+      if (eAnnotations instanceof BasicEList)
       {
-        EAnnotation eAnnotation = (EAnnotation)i.next();
-        if (eAnnotation.getSource() == null)
+        int size = eAnnotations.size();
+        if (size > 0)
         {
-          return eAnnotation;
+          EAnnotation [] eAnnotationArray = (EAnnotation[])((BasicEList)eAnnotations).data();
+          if (source == null)
+          {
+            for (int i = 0; i < size; ++i)
+            {
+              EAnnotation eAnnotation = eAnnotationArray[i];
+              if (eAnnotation.getSource() == null)
+              {
+                return eAnnotation;
+              }
+            }
+          }
+          else
+          {
+            for (int i = 0; i < size; ++i)
+            {
+              EAnnotation eAnnotation = eAnnotationArray[i];
+              if (source.equals(eAnnotation.getSource()))
+              {
+                return eAnnotation;
+              }
+            }
+          }
         }
       }
-    }
-    else
-    {
-      for (Iterator i = getEAnnotations().iterator(); i.hasNext(); )
+      else
       {
-        EAnnotation eAnnotation = (EAnnotation)i.next();
-        if (source.equals(eAnnotation.getSource()))
+        if (source == null)
         {
-          return eAnnotation;
+          for (Iterator i = eAnnotations.iterator(); i.hasNext(); )
+          {
+            EAnnotation eAnnotation = (EAnnotation)i.next();
+            if (eAnnotation.getSource() == null)
+            {
+              return eAnnotation;
+            }
+          }
+        }
+        else
+        {
+          for (Iterator i = eAnnotations.iterator(); i.hasNext(); )
+          {
+            EAnnotation eAnnotation = (EAnnotation)i.next();
+            if (source.equals(eAnnotation.getSource()))
+            {
+              return eAnnotation;
+            }
+          }
         }
       }
     }
