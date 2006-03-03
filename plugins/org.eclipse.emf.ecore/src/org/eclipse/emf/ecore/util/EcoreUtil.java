@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.37 2006/01/31 14:28:35 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.38 2006/03/03 22:03:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2765,7 +2765,7 @@ public class EcoreUtil
    */
   public static void remove(EStructuralFeature.Setting setting, Object value)
   {
-    if (setting.getEStructuralFeature().isMany())
+    if (FeatureMapUtil.isMany(setting.getEObject(), setting.getEStructuralFeature()))
     {
       ((List)setting.get(false)).remove(value);
     }
@@ -2783,7 +2783,7 @@ public class EcoreUtil
    */
   public static void replace(EStructuralFeature.Setting setting, Object oldValue, Object newValue)
   {
-    if (setting.getEStructuralFeature().isMany())
+    if (FeatureMapUtil.isMany(setting.getEObject(), setting.getEStructuralFeature()))
     {
       List list = (List)setting.get(false);
       list.set(list.indexOf(oldValue), newValue);
@@ -2802,7 +2802,7 @@ public class EcoreUtil
    */
   public static void remove(EObject eObject, EStructuralFeature eStructuralFeature, Object value)
   {
-    if (eStructuralFeature.isMany())
+    if (FeatureMapUtil.isMany(eObject, eStructuralFeature))
     {
       ((List)eObject.eGet(eStructuralFeature)).remove(value);
     }
@@ -2821,7 +2821,7 @@ public class EcoreUtil
    */
   public static void replace(EObject eObject, EStructuralFeature eStructuralFeature, Object oldValue, Object newValue)
   {
-    if (eStructuralFeature.isMany())
+    if (FeatureMapUtil.isMany(eObject, eStructuralFeature))
     {
       List list = (List)eObject.eGet(eStructuralFeature);
       list.set(list.indexOf(oldValue), newValue);
@@ -2843,7 +2843,7 @@ public class EcoreUtil
     if (container != null)
     {
       EReference feature = eObject.eContainmentFeature();
-      if (feature.isMany())
+      if (FeatureMapUtil.isMany(container, feature))
       {
         ((EList)container.eGet(feature)).remove(eObject);
       }
@@ -2875,7 +2875,7 @@ public class EcoreUtil
     if (container != null)
     {
       EReference feature = eObject.eContainmentFeature();
-      if (feature.isMany())
+      if (FeatureMapUtil.isMany(container, feature))
       {
         List list = (List)container.eGet(feature);
         list.set(list.indexOf(eObject), replacementEObject);
