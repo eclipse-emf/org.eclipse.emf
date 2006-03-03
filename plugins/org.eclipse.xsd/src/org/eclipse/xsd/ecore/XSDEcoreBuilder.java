@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.49 2006/01/31 15:05:38 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.50 2006/03/03 19:28:49 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1899,7 +1899,7 @@ public class XSDEcoreBuilder extends MapBuilder
       else
       {
         boolean isIgnored = 
-          particleMaxOccurs == 1 || 
+          effectiveMaxOccurs == 1 || 
           particles.size() == 1 && ((XSDParticle)particles.get(0)).getTerm() instanceof XSDModelGroup;
 
         String featureMapName = getEcoreAttribute(xsdParticle, "name");
