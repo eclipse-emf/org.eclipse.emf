@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.16 2005/12/21 01:34:22 khussey Exp $
+ * $Id: XMLResourceImpl.java,v 1.17 2006/03/03 17:14:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -70,6 +70,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   protected Map eObjectToExtensionMap;
 
   protected String encoding;
+  protected String xmlVersion;
   protected boolean useZip;
   protected String publicId;
   protected String systemId;
@@ -103,6 +104,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   protected void init()
   {
     encoding = "ASCII";
+    xmlVersion = "1.0";
   }
 
   protected boolean useIDs()
@@ -317,6 +319,16 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   public void setEncoding(String encoding)
   {
     this.encoding = encoding;
+  }
+  
+  public String getXMLVersion()
+  {
+    return xmlVersion;
+  }
+
+  public void setXMLVersion(String version)
+  {
+    this.xmlVersion = version;
   }
 
   public Map getIDToEObjectMap()

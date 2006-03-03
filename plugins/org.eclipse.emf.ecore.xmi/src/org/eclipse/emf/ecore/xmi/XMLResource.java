@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.34 2006/02/23 17:15:08 emerks Exp $
+ * $Id: XMLResource.java,v 1.35 2006/03/03 17:14:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -277,7 +277,12 @@ public interface XMLResource extends Resource
    * Specify the XML encoding to be used during save.
    */
   String OPTION_ENCODING  = "ENCODING";
-  
+
+  /**
+   * Specify the XML version to be used during save.
+   */
+  String OPTION_XML_VERSION  = "XML_VERSION";
+
   /**
    * Enable preserving namespace declarations on elements of type <code>AnyType</code>
    */
@@ -380,6 +385,18 @@ public interface XMLResource extends Resource
    * Set the XML encoding for this resource.
    */
   void setEncoding(String encoding);
+  
+  /**
+   * Get the XML version for this resource.
+   * The default is 1.0.
+   * @return
+   */
+  String getXMLVersion();
+  
+  /**
+   * Set the XML version for this resource
+   */
+  void setXMLVersion(String version);
 
   /**
    * Returns the Map with IDs as keys and EObjects as values.

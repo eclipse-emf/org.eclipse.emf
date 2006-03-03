@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.52 2006/01/23 21:13:03 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.53 2006/03/03 17:14:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -87,6 +87,7 @@ public class XMLSaveImpl implements XMLSave
   protected Escape escapeURI;
   protected Lookup featureTable;
   protected String encoding;
+  protected String xmlVersion;
   protected String idAttributeName = "id";
   protected String idAttributeNS = null;
   protected String processDanglingHREF;
@@ -142,6 +143,7 @@ public class XMLSaveImpl implements XMLSave
 
   protected static final String XML_VERSION = "1.0";
 
+  
   protected static final String XSI_NIL             = XMLResource.XSI_NS+":"+XMLResource.NIL;             // xsi:nil
   protected static final String XSI_TYPE_NS         = XMLResource.XSI_NS+":"+XMLResource.TYPE;            // xsi:type
   protected static final String XSI_XMLNS           = XMLResource.XML_NS+":"+XMLResource.XSI_NS;          // xmlns:xsi
@@ -164,9 +166,15 @@ public class XMLSaveImpl implements XMLSave
    */
   public XMLSaveImpl(Map options, XMLHelper helper, String encoding)
   {
+    this(options, helper, encoding, "1.0");
+  }
+
+  public XMLSaveImpl(Map options, XMLHelper helper, String encoding, String xmlVersion)
+  {
     this.helper = helper;
     init(helper.getResource(), options);
     this.encoding = encoding;
+    this.xmlVersion = xmlVersion;
   }
   
   public Document save(XMLResource resource, Document doc, Map options, DOMHandler handler)
@@ -342,8 +350,8 @@ public class XMLSaveImpl implements XMLSave
     // set serialization options
     if (!toDOM)
     {
-      declareXML = !Boolean.FALSE.equals(options.get(XMLResource.OPTION_DECLARE_XML));     
-
+      declareXML = !Boolean.FALSE.equals(options.get(XMLResource.OPTION_DECLARE_XML)); 
+    
       if (options.get(XMLResource.OPTION_FLUSH_THRESHOLD) instanceof Integer)
       {
         flushThreshold = ((Integer)options.get(XMLResource.OPTION_FLUSH_THRESHOLD)).intValue();
@@ -397,6 +405,15 @@ public class XMLSaveImpl implements XMLSave
       else if (resource != null)
       {
         encoding = resource.getEncoding();
+      }
+
+      if (options.containsKey(XMLResource.OPTION_XML_VERSION))
+      {
+        xmlVersion = (String)options.get(XMLResource.OPTION_XML_VERSION);
+      }
+      else if (resource != null)
+      {
+        xmlVersion = resource.getXMLVersion();
       }
     }
     else
@@ -479,7 +496,7 @@ public class XMLSaveImpl implements XMLSave
   {
     if (!toDOM && declareXML)
     {
-      doc.add("<?xml version=\"" + XML_VERSION + "\" encoding=\"" + encoding + "\"?>");
+      doc.add("<?xml version=\"" + xmlVersion + "\" encoding=\"" + encoding + "\"?>");
       doc.addLine();
     }
 
