@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.6 2006/03/01 18:59:25 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.7 2006/03/03 21:01:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -197,7 +197,8 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       {
         if (eReference.isMany())
         {
-          for (Iterator j = ((Collection)eObject.eGet(eReference, resolve())).iterator(); j.hasNext(); )
+          Object collection = eObject.eGet(eReference);
+          for (Iterator j = resolve() ? ((Collection)collection).iterator() : ((InternalEList)collection).basicIterator(); j.hasNext(); )
           {
             InternalEObject referencingEObject = (InternalEObject)j.next();
             result.add(referencingEObject.eSetting(eOpposite));
