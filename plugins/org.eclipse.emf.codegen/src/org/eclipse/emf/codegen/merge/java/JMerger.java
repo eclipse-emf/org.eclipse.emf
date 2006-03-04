@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.2 2006/02/14 12:58:43 emerks Exp $
+ * $Id: JMerger.java,v 1.3 2006/03/04 13:05:57 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -999,7 +999,7 @@ public class JMerger
       JNode targetSibling = getControlModel().getFacadeHelper().getFirstChild(targetParent);
       if (targetSibling == null)
       {
-        getControlModel().getFacadeHelper().addChild(targetParent.getParent(), targetNode);
+        getControlModel().getFacadeHelper().addChild(targetParent, targetNode);
       }
       else
       {
