@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEList.java,v 1.5 2006/01/24 15:58:49 emerks Exp $
+ * $Id: DelegatingEList.java,v 1.6 2006/03/06 13:17:06 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -760,11 +760,11 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
   public boolean removeAll(Collection collection) 
   {
     boolean modified = false;
-    for (ListIterator i = delegateListIterator(); i.hasNext(); )
+    for (ListIterator i = listIterator(); i.hasNext(); )
     {
       if (collection.contains(i.next()))
       {
-        remove(i.previousIndex());
+        i.remove();
         modified = true;
       }
     }
@@ -811,11 +811,11 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
   public boolean retainAll(Collection collection) 
   {
     boolean modified = false;
-    for (ListIterator i = delegateListIterator(); i.hasNext(); )
+    for (ListIterator i = listIterator(); i.hasNext(); )
     {
       if (!collection.contains(i.next()))
       {
-        remove(i.previousIndex());
+        i.remove();
         modified = true;
       }
     }
