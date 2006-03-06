@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.12 2005/12/21 01:34:30 khussey Exp $
+ * $Id: ResourceImpl.java,v 1.13 2006/03/06 13:38:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -364,7 +364,10 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     protected void didAdd(int index, Object object)
     {
       super.didAdd(index, object);
-      loaded();
+      if (index == size - 1)
+      {
+        loaded();
+      }
       modified();
     }
 
