@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.8 2006/03/03 21:19:12 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.9 2006/03/06 13:39:35 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -275,16 +275,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
             for (Iterator i = ((Resource)notifier).getContents().iterator(); i.hasNext(); )
             {
               Notifier child = (Notifier)i.next();
-              // We get this notification during the first addition of an addAll on an unloaded resource 
-              // that isn't actually in the process of loading.
-              // At that point, not all the children have been added.
-              // The notification for the change to the contents will come later.
-              // So we can ignore the child here and count on the fact that we'll process all the children shortly.
-              //
-              if (child != null)
-              {
-                addAdapter(child);
-              }
+              addAdapter(child);
             }
           }
           else
