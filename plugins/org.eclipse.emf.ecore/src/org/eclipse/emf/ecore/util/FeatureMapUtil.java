@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.25 2006/02/10 21:07:26 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.26 2006/03/06 15:17:14 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -1439,7 +1439,7 @@ public final class FeatureMapUtil
 
     public boolean isValid(EStructuralFeature feature)
     {
-      if (eStructuralFeature == feature || wildcards == ANY_WILDCARD) return true;
+      if (eStructuralFeature == feature) return true;
 
       Boolean result = cache.get(feature);
       if (result == null)
@@ -1465,7 +1465,12 @@ public final class FeatureMapUtil
     {
       if (wildcards == ANY_WILDCARD)
       {
-        return true;
+        int featureKind = ExtendedMetaData.INSTANCE.getFeatureKind(feature);
+        return 
+          isElement ? 
+            featureKind == ExtendedMetaData.ELEMENT_FEATURE && 
+              feature != XMLTypeFeatures.TEXT && feature != XMLTypeFeatures.CDATA && feature != XMLTypeFeatures.COMMENT :
+            featureKind == ExtendedMetaData.ATTRIBUTE_FEATURE;
       }
 
       if (groupMembers != null &&
@@ -1480,7 +1485,8 @@ public final class FeatureMapUtil
       {
         if (ExtendedMetaData.INSTANCE.matches(wildcards, ExtendedMetaData.INSTANCE.getNamespace(feature)))
         {
-          return isElement == (ExtendedMetaData.INSTANCE.getFeatureKind(feature) == ExtendedMetaData.ELEMENT_FEATURE);
+          int featureKind = ExtendedMetaData.INSTANCE.getFeatureKind(feature);
+          return isElement ? featureKind == ExtendedMetaData.ELEMENT_FEATURE : featureKind == ExtendedMetaData.ATTRIBUTE_FEATURE;
         }
       }
 
