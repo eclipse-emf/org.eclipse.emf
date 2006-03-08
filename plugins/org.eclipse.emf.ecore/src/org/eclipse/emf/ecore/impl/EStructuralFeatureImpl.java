@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.20 2006/02/10 20:57:24 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.21 2006/03/08 22:13:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -3043,12 +3043,12 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
     public final NotificationChain inverseAdd(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
     {
-      return inverseAdd(owner, (InternalEObject)value, featureID, notifications);
+      return inverseAdd(owner, (InternalEObject)otherEnd, featureID, notifications);
     }
 
     public final NotificationChain inverseRemove(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
     {
-      return inverseRemove(owner, (InternalEObject)value, featureID, notifications);
+      return inverseRemove(owner, (InternalEObject)otherEnd, featureID, notifications);
     }
 
     protected final NotificationChain inverseAdd(InternalEObject owner, InternalEObject otherEnd, int featureID, NotificationChain notifications)
