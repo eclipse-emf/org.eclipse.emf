@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationImpl.java,v 1.5 2005/10/11 12:16:48 emerks Exp $
+ * $Id: NotificationImpl.java,v 1.6 2006/03/09 17:11:03 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -902,12 +902,12 @@ public class NotificationImpl implements Notification, NotificationChain
 
       if (next == null)
       {
-        try
+        if (newNotification instanceof NotificationImpl)
         {
-          next = (NotificationChain)newNotification;
+          next = (NotificationImpl)newNotification;
           return true;
         }
-        catch (ClassCastException exception)
+        else
         {
           next = new NotificationChainImpl();
           return next.add(newNotification);
