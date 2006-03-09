@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.21 2006/02/07 08:29:21 marcelop Exp $
+ * $Id: BasicEObjectImpl.java,v 1.22 2006/03/09 17:16:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -22,7 +22,6 @@ import java.util.Iterator;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.BasicNotifierImpl;
-import org.eclipse.emf.common.notify.impl.NotificationChainImpl;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -843,26 +842,41 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
     if (eNotificationRequired())
     {
-      if (msgs == null) msgs = new NotificationChainImpl(4);
       if (oldContainer != null && oldContainerFeatureID >=0 && oldContainerFeatureID != newContainerFeatureID)
       {
-        msgs.add
-          (new ENotificationImpl
-            (this,
-             Notification.SET,
-             oldContainerFeatureID, 
-             oldContainer,
-             null));
+        ENotificationImpl notification =
+          new ENotificationImpl
+           (this,
+            Notification.SET,
+            oldContainerFeatureID, 
+            oldContainer,
+            null);
+        if (msgs == null)
+        {
+          msgs = notification;
+        }
+        else
+        {
+          msgs.add(notification);
+        }
       }
       if (newContainerFeatureID >= 0)
       {
-        msgs.add
-          (new ENotificationImpl
-            (this,
-             Notification.SET,
-             newContainerFeatureID, 
-             oldContainerFeatureID == newContainerFeatureID ? oldContainer : null,
-             newContainer));
+        ENotificationImpl notification =
+          new ENotificationImpl
+           (this,
+            Notification.SET,
+            newContainerFeatureID, 
+            oldContainerFeatureID == newContainerFeatureID ? oldContainer : null,
+            newContainer);
+        if (msgs == null)
+        {
+          msgs = notification;
+        }
+        else
+        {
+          msgs.add(notification);
+        }
       }
     }
     return msgs;
