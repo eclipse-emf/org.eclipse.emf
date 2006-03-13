@@ -12,14 +12,16 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.9 2006/03/02 20:45:49 emerks Exp $
+ * $Id: EAnnotationImpl.java,v 1.10 2006/03/13 14:01:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -156,7 +158,32 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
   {
     if (details == null)
     {
-      details = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, EcorePackage.EANNOTATION__DETAILS);
+      details = 
+        new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, EcorePackage.EANNOTATION__DETAILS)
+        {
+          protected void ensureEntryDataExists()
+          {
+            if (entryData == null)
+            {
+              // Ensure that this race condition is thread safe; it doesn't matter who wins the race.
+              //
+              BasicEList [] result = newEntryData(2 * size + 1);
+              for (Iterator i = delegateEList.iterator(); i.hasNext(); )
+              {
+                Entry entry = (Entry)i.next();
+                int hash = entry.getHash();
+                int index =  (hash & 0x7FFFFFFF) % result.length;
+                BasicEList eList = result[index];
+                if (eList == null)
+                {
+                  eList = result[index] = newList();
+                }
+                eList.add(entry);
+              }
+              entryData = result;
+            }
+          }
+        };
     }
     return details;
   }
