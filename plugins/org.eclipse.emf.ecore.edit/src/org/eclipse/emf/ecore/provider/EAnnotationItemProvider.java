@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.13 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.14 2006/03/13 14:17:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -81,12 +81,12 @@ public class EAnnotationItemProvider
    * This adds a property descriptor for the Source feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void addSourcePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (createItemPropertyDescriptor
+      (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EAnnotation_source_feature"),
@@ -95,7 +95,13 @@ public class EAnnotationItemProvider
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
-         null));
+         null)
+       {
+         public void setPropertyValue(Object object, Object value)
+         {
+           super.setPropertyValue(object, stripToNull((String)value));
+         }
+       });
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementItemProvider.java,v 1.8 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EModelElementItemProvider.java,v 1.9 2006/03/13 14:17:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -147,6 +147,25 @@ public class EModelElementItemProvider
   public ResourceLocator getResourceLocator()
   {
     return EcoreEditPlugin.INSTANCE;
+  }
+
+  /** 
+   * Strips whitespace and converts the empty string to null.
+   * 
+   * @param value Any string or null.
+   * @return the trimmed value or null if it's an empty string.
+   */
+  public String stripToNull(String value)
+  {
+    if (value != null)
+    {
+      value = value.trim();
+      if (value.length() == 0)
+      {
+        value = null;
+      }
+    }
+    return value;
   }
 
 }

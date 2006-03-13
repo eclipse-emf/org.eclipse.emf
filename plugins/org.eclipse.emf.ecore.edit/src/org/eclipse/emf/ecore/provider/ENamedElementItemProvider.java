@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ENamedElementItemProvider.java,v 1.10 2006/01/24 22:24:42 davidms Exp $
+ * $Id: ENamedElementItemProvider.java,v 1.11 2006/03/13 14:17:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -78,12 +78,12 @@ public class ENamedElementItemProvider
    * This adds a property descriptor for the Name feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void addNamePropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (createItemPropertyDescriptor
+    (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_ENamedElement_name_feature"),
@@ -92,7 +92,13 @@ public class ENamedElementItemProvider
          true,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
-         null));
+         null)
+       {
+         public void setPropertyValue(Object object, Object value)
+         {
+           super.setPropertyValue(object, stripToNull((String)value));
+         }
+       });
   }
 
   /**
