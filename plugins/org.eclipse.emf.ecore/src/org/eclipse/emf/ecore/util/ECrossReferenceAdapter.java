@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.9 2006/03/06 13:39:35 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.10 2006/03/14 12:04:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -28,6 +28,7 @@ import java.util.Set;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -97,22 +98,29 @@ public class ECrossReferenceAdapter implements Adapter.Internal
     protected Collection newCollection()
     {
       return 
-        new ArrayList()
+        new BasicEList()
         {
+          protected Object[] newData(int capacity)
+          {
+            return new EStructuralFeature.Setting [capacity];
+          }
+
           public boolean add(Object object)
           {
             EStructuralFeature.Setting setting = (EStructuralFeature.Setting)object;
             EObject eObject = setting.getEObject();
             EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
-            for (Iterator i = iterator(); i.hasNext(); )
+            EStructuralFeature.Setting [] settingData =  (EStructuralFeature.Setting[])data;
+            for (int i = 0; i < size; ++i)
             {
-              EStructuralFeature.Setting containedSetting = (EStructuralFeature.Setting)i.next();
+              EStructuralFeature.Setting containedSetting = settingData[i];
               if (containedSetting.getEObject() == eObject && containedSetting.getEStructuralFeature() == eStructuralFeature)
               {
                 return false;
               }
             }
-            return super.add(object);
+            addUnique(object);
+            return true;
           }
         };
     }
@@ -129,12 +137,13 @@ public class ECrossReferenceAdapter implements Adapter.Internal
     
     public void remove(EObject eObject, EReference eReference, EObject crossReferencedEObject)
     {
-      Collection collection = (Collection)get(crossReferencedEObject);
+      BasicEList collection = (BasicEList)get(crossReferencedEObject);
       if (collection != null)
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        EStructuralFeature.Setting [] settingData =  (EStructuralFeature.Setting[])collection.data();
+        for (int i = 0, size = collection.size(); i < size; ++i)
         {
-          EStructuralFeature.Setting setting = (EStructuralFeature.Setting)i.next();
+          EStructuralFeature.Setting setting = settingData[i];
           if (setting.getEObject() == eObject && setting.getEStructuralFeature() == eReference)
           {
             if (collection.size() == 1)
@@ -143,13 +152,14 @@ public class ECrossReferenceAdapter implements Adapter.Internal
             }
             else
             {
-              i.remove();
+              collection.remove(i);
             }
             break;
           }
         }
       }
     }
+
     protected boolean resolve()
     {
       return ECrossReferenceAdapter.this.resolve();
@@ -247,10 +257,10 @@ public class ECrossReferenceAdapter implements Adapter.Internal
         EReference reference = (EReference)feature;
         if (reference.isContainment())
         {
-          handleContainment(notification);
-        }
+        handleContainment(notification);
+      }
         else if (isIncluded(reference))
-        {
+      {
           handleCrossReference(reference, notification);
         }
       }
