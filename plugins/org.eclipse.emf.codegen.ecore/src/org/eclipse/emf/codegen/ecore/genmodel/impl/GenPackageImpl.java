@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.50 2006/01/10 20:22:20 khussey Exp $
+ * $Id: GenPackageImpl.java,v 1.51 2006/03/15 12:30:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3785,7 +3785,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       for (Iterator i = getGenClasses().iterator(); i.hasNext();)
       {
         GenClass genClass = (GenClass)i.next();
-        if (!genClass.isAbstract())
+        if (!genClass.isAbstract() && !genClass.isMapEntry())
         {
           return genClass;
         }
