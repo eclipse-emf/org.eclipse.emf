@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.64 2006/01/18 20:28:54 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.65 2006/03/15 15:18:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -6062,7 +6062,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public String getRelativeGenModelLocation()
   {
     URI genModelURI = eResource().getURI();
-    String result = genModelURI.deresolve(genModelURI.trimSegments(genModelURI.segmentCount() - 3)).toString();
+    String result = genModelURI.deresolve(genModelURI.trimSegments(genModelURI.segmentCount() - 2).appendSegment("")).toString();
     return result;
   }
   
