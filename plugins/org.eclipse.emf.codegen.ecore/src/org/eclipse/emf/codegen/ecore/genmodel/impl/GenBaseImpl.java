@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.46 2006/02/21 16:53:32 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.47 2006/03/15 20:07:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -602,7 +602,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
           {
             progressMonitor.subTask
               (CodeGenEcorePlugin.INSTANCE.getString("_UI_ExaminingOld_message", new Object [] { targetFile }));
-            jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile)));
+            jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
             String oldContents = jMerger.getTargetCompilationUnitContents();
       
             progressMonitor.subTask
@@ -616,7 +616,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             {
               if (isReadOnly(targetFile) &&  EclipseUtil.validateEdit(targetFile.toString(), createMonitor(progressMonitor, 1)))
               {
-                jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile)));
+                jMerger.setTargetCompilationUnit(jMerger.createCompilationUnitForInputStream(createInputStream(targetFile), getEncoding(targetFile)));
                 jMerger.remerge();
                 newContents = formatCode(jMerger.getTargetCompilationUnitContents(), codeFormatter);
               }
@@ -2691,12 +2691,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
-      return EclipseUtil.getEncoding(uri.toString());
+      URI workspacePath = uri.replacePrefix(PLATFORM_RESOURCE_URI, EMPTY_URI);
+      if (workspacePath != null)
+      {
+        return EclipseUtil.getEncoding(workspacePath.toString());
+      }
     }
-    else
-    {
-      return null;
-    }
+    return null;
   }
   
   public void setOverwriteable(URI uri) throws Exception
