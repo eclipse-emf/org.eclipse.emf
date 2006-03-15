@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.3 2006/03/04 13:05:57 emerks Exp $
+ * $Id: JMerger.java,v 1.4 2006/03/15 20:06:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -219,6 +219,14 @@ public class JMerger
    */
   public JCompilationUnit createCompilationUnitForURI(String uri)
   {
+    return createCompilationUnitForURI(uri, null);
+  }
+
+  /**
+   * Create a JDOM from a URI.
+   */
+  public JCompilationUnit createCompilationUnitForURI(String uri, String encoding)
+  {
     try
     {
       URL url = null;
@@ -236,7 +244,7 @@ public class JMerger
         byte [] input = new byte [bufferedInputStream.available()];
         bufferedInputStream.read(input);
         bufferedInputStream.close();
-        return getControlModel().getFacadeHelper().createCompilationUnit(url.toString(), new String(input));
+        return getControlModel().getFacadeHelper().createCompilationUnit(url.toString(), encoding == null ? new String(input) : new String(input, encoding));
       }
     }
     catch (IOException exception)
@@ -249,13 +257,18 @@ public class JMerger
 
   public JCompilationUnit createCompilationUnitForInputStream(InputStream inputStream)
   {
+    return createCompilationUnitForInputStream(inputStream, null);
+  }
+
+  public JCompilationUnit createCompilationUnitForInputStream(InputStream inputStream, String encoding)
+  {
     try
     {
       BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
       byte [] input = new byte [bufferedInputStream.available()];
       bufferedInputStream.read(input);
       bufferedInputStream.close();
-      return getControlModel().getFacadeHelper().createCompilationUnit("NAME", new String(input));
+      return getControlModel().getFacadeHelper().createCompilationUnit("NAME", encoding == null ? new String(input) : new String(input, encoding));
     }
     catch (IOException exception)
     {
