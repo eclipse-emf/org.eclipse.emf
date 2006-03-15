@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+  <extension point="org.eclipse.emf.exporter.modelExporterDescriptors">
+    <modelExporterDescriptor 
+    	id="org.eclipse.emf.exporter.html" name="%_UI_HTMLExporter_label" 
+      icon="icons/HTMLFile.gif" 
+      description="%_UI_HTMLExporter_description" 
+      wizard="org.eclipse.emf.exporter.html.ui.HTMLExporterWizard" />
+  </extension>
+</plugin>

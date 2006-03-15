@@ -1,0 +1,120 @@
+<%@ jet package="org.eclipse.emf.exporter.html" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.GenPackage" class="PackageHTML" version="$Id: package.htmljet,v 1.1 2006/03/15 21:21:30 marcelop Exp $" %>
+<%
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ */
+%>
+<%HTMLExporter htmlExporter = (HTMLExporter)argument;%>
+<%GenPackage genPackage = htmlExporter.getCurrentGenPackage();%>
+<%EPackage ePackage = genPackage.getEcorePackage();%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title><%=genPackage.getQualifiedPackageName()%></title>
+		
+		<style>
+			body {font-family: arial, helvetica, geneva; font-size: 10pt; clip:   rect(   ); margin-top: 5mm; margin-left: 3mm}
+			h1 {font-family: arial, helvetica, geneva; font-size: 22px; font-weight: bold; color:white; background-color:#595791}
+			h2 {font-family: arial, helvetica, geneva; font-size: 16pt; font-weight: bold ; line-height: 20px; text-decoration: underline}
+			h3 {font-family: arial; font-size: 12pt}
+			p, table, td, th {font-family: arial, helvetica, geneva; font-size: 10pt}
+			code {font-family: "Courier New", Courier, mono; font-size: 10pt}
+			li {font-family: arial, helvetica, geneva; font-size: 10pt}
+		</style>		
+	</head>
+
+	<body lang="EN-US">
+		<h1><i><%=genPackage.getQualifiedPackageName()%></i></h1>
+			<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
+				<tr>
+					<td>Ecore URI</td>
+					<td><%=ePackage.eResource().getURI().toString()%></td>
+				</tr>
+				<tr>
+					<td>GenModel URI</td>
+					<td><%=genPackage.getGenModel().eResource().getURI().toString()%></td>
+				</tr>
+			</table>
+
+<%Collection eClasses = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.ECLASS);%>
+<%if (!eClasses.isEmpty()) {%>
+		<h1>Classes</h1><%for (Iterator eClassIterator = eClasses.iterator(); eClassIterator.hasNext();) { EClass eClass = (EClass)eClassIterator.next();%>
+			<h2><a name="<%=eClass.getName()%>"><%=eClass.getName()%></a></h2>
+				<h3>Details</h3>
+					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
+						<tr>
+							<td>Is Abstract</td>
+							<td><%=eClass.isAbstract()%></td>
+						</tr>
+						<tr>
+							<td>Is Interface</td>
+							<td><%=eClass.isInterface()%></td>
+						</tr>
+					</table>
+		<%if (!eClass.getESuperTypes().isEmpty()) {%>
+				<h3>Super Classes</h3>
+					<ul><%for (Iterator eSuperClassIterator = eClass.getESuperTypes().iterator(); eSuperClassIterator.hasNext();) { EClass eSuperClass = (EClass)eSuperClassIterator.next();%>
+						<li><tt><%=htmlExporter.computeClassifierLabel(eSuperClass)%></tt></li><%}%>
+					</ul>
+		<%}%>
+		<%if (!eClass.getEAttributes().isEmpty()) {%>
+				<h3>Attributes</h3>
+					<ul><%for (Iterator eAttributeIterator = eClass.getEAttributes().iterator(); eAttributeIterator.hasNext();) { EAttribute eAttribute = (EAttribute)eAttributeIterator.next();%>
+						<li><tt><%=htmlExporter.computeClassifierLabel(eAttribute.getEType())%><%if (eAttribute.isMany()){%>*<%}%></tt> <%=eAttribute.getName()%></li><%}%>
+					</ul>
+		<%}%>
+		<%if (!eClass.getEOperations().isEmpty()) {%>
+				<h3>Operations</h3>
+					<ul><%for (Iterator eOperationIterator = eClass.getEOperations().iterator(); eOperationIterator.hasNext();) { EOperation eOperation = (EOperation)eOperationIterator.next();%>
+						<li><tt><%=htmlExporter.computeClassifierLabel(eOperation.getEType(), "void")%><%if (eOperation.isMany()){%>*<%}%></tt> <%=eOperation.getName()%> (<%for (Iterator eParameterIterator = eOperation.getEParameters().iterator(); eParameterIterator.hasNext();) { EParameter eParameter = (EParameter)eParameterIterator.next();%><tt><%=htmlExporter.computeClassifierLabel(eParameter.getEType())%><%if (eParameter.isMany()){%>*<%}%></tt><%if (eParameterIterator.hasNext()) {%>, <%}}%>)</li><%}%>
+					</ul>
+		<%}%>
+		<%if (!eClass.getEReferences().isEmpty()) {%>
+				<h3>References</h3>
+					<ul><%for (Iterator eReferenceIterator = eClass.getEReferences().iterator(); eReferenceIterator.hasNext();) { EReference eReference = (EReference)eReferenceIterator.next();%>
+						<li><tt><%=htmlExporter.computeClassifierLabel(eReference.getEType())%><%if (eReference.isMany()){%>*<%}%></tt> <%=eReference.getName()%></li><%}%>
+					</ul>
+		<%}%>
+	<%}%>
+<%}%>
+
+<%Collection eEnums = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.EENUM);%>
+<%if (!eEnums.isEmpty()) {%>		
+		<h1>Enumerations</h1><%for (Iterator eEnumIterator = eEnums.iterator(); eEnumIterator.hasNext();) { EEnum eEnum = (EEnum)eEnumIterator.next();%>
+			<h2><a name="<%=eEnum.getName()%>"><%=eEnum.getName()%></a></h2><%if (!eEnum.getELiterals().isEmpty()) {%>
+				<h3>Literals</h3>
+					<ul><%for (Iterator eEnumLiteralIterator = eEnum.getELiterals().iterator(); eEnumLiteralIterator.hasNext();) { EEnumLiteral eEnumLiteral = (EEnumLiteral)eEnumLiteralIterator.next();%>
+						<li><%=eEnumLiteral.getName()%></li><%}%>
+					</ul><%}%><%}%>
+<%}%>
+
+<%Collection eDataTypes = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.EDATA_TYPE); eDataTypes.removeAll(eEnums);%>
+<%if (!eDataTypes.isEmpty()) {%>		
+		<h1>Data Types</h1><%for (Iterator eDataTypeIterator = eDataTypes.iterator(); eDataTypeIterator.hasNext();) { EDataType eDataType = (EDataType)eDataTypeIterator.next();%>
+			<h2><a name="<%=eDataType.getName()%>"><%=eDataType.getName()%></a></h2>
+				<h3>Details</h3>
+					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
+						<tr>
+							<td>Instance Class</td>
+							<td><%=eDataType.getInstanceClass().getName()%></td>
+						</tr>
+						<tr>
+							<td>Is Serializable</td>
+							<td><%=eDataType.isSerializable()%></td>
+						</tr>
+					</table><%}%>
+<%}%>
+	</body>
+</html>

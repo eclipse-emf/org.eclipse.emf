@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.exporter.html;singleton:=true
+Bundle-Version: 2.2.0.qualifier
+Bundle-ClassPath: exporter.html.jar
+Bundle-Activator: org.eclipse.emf.exporter.html.HTMLExporterPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.emf.exporter.html,
+ org.eclipse.emf.exporter.html.ui
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.exporter,
+ org.eclipse.emf.codegen.ecore.ui;resolution:=optional,
+ org.eclipse.core.resources;resolution:=optional
+Eclipse-LazyStart: true
+
