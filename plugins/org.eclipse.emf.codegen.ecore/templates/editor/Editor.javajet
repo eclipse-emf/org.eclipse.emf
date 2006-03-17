@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.25 2006/01/23 20:42:40 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.26 2006/03/17 19:48:11 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -70,6 +70,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 <%}%>
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1360,7 +1361,7 @@ public class <%=genPackage.getEditorClassName()%>
 						for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
 						{
 							Resource resource = (Resource)i.next();
-							if ((first || !resource.getContents().isEmpty()) && !editingDomain.isReadOnly(resource))
+							if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
 							{
 								savedResources.add(resource);
 								resource.save(Collections.EMPTY_MAP);
@@ -1392,6 +1393,30 @@ public class <%=genPackage.getEditorClassName()%>
 			//
 			<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
 		}
+	}
+
+	/**
+	 * This returns wether something has been persisted to the URI of the specified resource.
+	 * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected boolean isPersisted(Resource resource)
+	{
+		boolean result = false;
+		try
+		{
+			InputStream stream = editingDomain.getResourceSet().getURIConverter().createInputStream(resource.getURI());
+			if (stream != null)
+			{
+				result = true;
+				stream.close();
+			}
+		}
+		catch (IOException e) { }
+
+		return result;
 	}
 
 	/**
