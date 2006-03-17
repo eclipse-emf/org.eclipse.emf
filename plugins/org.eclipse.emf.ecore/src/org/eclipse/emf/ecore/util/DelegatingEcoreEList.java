@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.9 2005/11/18 19:07:21 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.10 2006/03/17 19:47:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -278,6 +278,11 @@ public abstract class DelegatingEcoreEList
       }
     }
     return object;
+  }
+
+  protected Object resolve(Object object)
+  {
+    return isEObject() ? resolveProxy((EObject)object) : object;
   }
 
   protected EObject resolveProxy(EObject eObject)
