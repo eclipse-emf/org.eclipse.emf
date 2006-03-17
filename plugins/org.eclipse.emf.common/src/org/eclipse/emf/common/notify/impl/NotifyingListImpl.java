@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.8 2006/01/24 17:33:37 emerks Exp $
+ * $Id: NotifyingListImpl.java,v 1.9 2006/03/17 19:46:40 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -772,18 +772,28 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
           //
           for (int i = 0; i < size; ++i)
           {
-            Object object = data[i];
-            for (int j = listSize; --j >= 0; )
+            Object initialObject = data[i];
+            Object object = initialObject;
+            LOOP:
+            for (int repeat = 0; repeat < 2; ++repeat)
             {
-              if (equalObjects(object, objects[j]))
+              for (int j = listSize; --j >= 0; )
               {
-                if (count != j)
+                if (equalObjects(object, objects[j]))
                 {
-                  Object x = objects[count];
-                  objects[count] = objects[j];
-                  objects[j] = x;
+                  if (count != j)
+                  {
+                    Object x = objects[count];
+                    objects[count] = objects[j];
+                    objects[j] = x;
+                  }
+                  positions[count++] = i;
+                  break LOOP;
                 }
-                positions[count++] = i;
+              }
+              object = resolve(object);
+              if (object == initialObject)
+              {
                 break;
               }
             }
@@ -798,19 +808,29 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
           //
           for (int i = 0; i < size; ++i)
           {
-            Object object = data[i];
-            for (int j = listSize; --j >= 0; )
+            Object initialObject = data[i];
+            Object object = initialObject;
+            LOOP:
+            for (int repeat = 0; repeat < 2; ++repeat)
             {
-              if (equalObjects(object, objects[j]))
+              for (int j = listSize; --j >= 0; )
               {
-                if (positions.length <= count)
+                if (equalObjects(object, objects[j]))
                 {
-                  int [] oldPositions = positions;
-                  positions = new int [2 * positions.length];
-                  System.arraycopy(oldPositions, 0, positions, 0, count);
+                  if (positions.length <= count)
+                  {
+                    int [] oldPositions = positions;
+                    positions = new int [2 * positions.length];
+                    System.arraycopy(oldPositions, 0, positions, 0, count);
+                  }
+                  positions[count++] = i;
+                  resultList.add(objects[j]);
+                  break LOOP;
                 }
-                positions[count++] = i;
-                resultList.add(objects[j]);
+              }
+              object = resolve(object);
+              if (object == initialObject)
+              {
                 break;
               }
             }
@@ -935,6 +955,16 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
     {
       return false;
     }
+  }
+  
+  /**
+   * Returns the resolved object from this list for the purpose of testing whether {@link #removeAll(Collection)} applies to it.
+   * @param object the object to be resolved.
+   * @return the resolved object from this list for the purpose of testing whether removeAll applies to it.
+   */
+  protected Object resolve(Object object)
+  {
+    return object;
   }
 
   /**

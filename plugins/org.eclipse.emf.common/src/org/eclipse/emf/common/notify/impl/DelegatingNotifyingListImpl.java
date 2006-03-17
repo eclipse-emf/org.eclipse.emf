@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.7 2006/01/24 17:33:37 emerks Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.8 2006/03/17 19:46:40 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -761,18 +761,28 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
           //
           for (ListIterator i = delegateListIterator(); i.hasNext(); )
           {
-            Object object = i.next();
-            for (int j = listSize; --j >= 0; )
+            Object initialObject = i.next();
+            Object object = initialObject;
+            LOOP:
+            for (int repeat = 0; repeat < 2; ++repeat)
             {
-              if (equalObjects(object, objects[j]))
+              for (int j = listSize; --j >= 0; )
               {
-                if (count != j)
+                if (equalObjects(object, objects[j]))
                 {
-                  Object x = objects[count];
-                  objects[count] = objects[j];
-                  objects[j] = x;
+                  if (count != j)
+                  {
+                    Object x = objects[count];
+                    objects[count] = objects[j];
+                    objects[j] = x;
+                  }
+                  positions[count++] = i.previousIndex();
+                  break LOOP;
                 }
-                positions[count++] = i.previousIndex();
+              }
+              object = resolve(object);
+              if (object == initialObject)
+              {
                 break;
               }
             }
@@ -787,19 +797,29 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
           //
           for (ListIterator i = delegateListIterator(); i.hasNext(); )
           {
-            Object object = i.next();
-            for (int j = listSize; --j >= 0; )
+            Object initialObject = i.next();
+            Object object = initialObject;
+            LOOP:
+            for (int repeat = 0; repeat < 2; ++repeat)
             {
-              if (equalObjects(object, objects[j]))
+              for (int j = listSize; --j >= 0; )
               {
-                if (positions.length <= count)
+                if (equalObjects(object, objects[j]))
                 {
-                  int [] oldPositions = positions;
-                  positions = new int [2 * positions.length];
-                  System.arraycopy(oldPositions, 0, positions, 0, count);
+                  if (positions.length <= count)
+                  {
+                    int [] oldPositions = positions;
+                    positions = new int [2 * positions.length];
+                    System.arraycopy(oldPositions, 0, positions, 0, count);
+                  }
+                  positions[count++] = i.previousIndex();
+                  resultList.add(objects[j]);
+                  break LOOP;
                 }
-                positions[count++] = i.previousIndex();
-                resultList.add(objects[j]);
+              }
+              object = resolve(object);
+              if (object == initialObject)
+              {
                 break;
               }
             }
@@ -924,6 +944,16 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
     {
       return false;
     }
+  }
+  
+  /**
+   * Returns the resolved object from this list for the purpose of testing whether {@link #removeAll(Collection)} applies to it.
+   * @param object the object to be resolved.
+   * @return the resolved object from this list for the purpose of testing whether removeAll applies to it.
+   */
+  protected Object resolve(Object object)
+  {
+    return object;
   }
 
   /**
