@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: NotUniqueListTest.java,v 1.3 2005/06/08 06:17:44 nickb Exp $
+ * $Id: ListTest.java,v 1.1 2006/03/17 21:57:29 emerks Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,18 +29,29 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.notify.impl.DelegatingNotifyingListImpl;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.EClassImpl;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.DelegatingEcoreEList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 
-public class NotUniqueListTest extends TestCase
+public class ListTest extends TestCase
 {
   private int notificationCount;
   
-  public NotUniqueListTest(String name)
+  public ListTest(String name)
   {
     super(name);
   }
@@ -47,15 +59,16 @@ public class NotUniqueListTest extends TestCase
   public static Test suite()
   {
     TestSuite testSuite = new TestSuite("ListTest");
-    testSuite.addTest(new NotUniqueListTest("testRemoveAll"));
-    testSuite.addTest(new NotUniqueListTest("testDynamicModel"));
+    testSuite.addTest(new ListTest("testRemoveAllNotUnique"));
+    testSuite.addTest(new ListTest("testRemoveAllProxy"));
+    testSuite.addTest(new ListTest("testDynamicModel"));
     return testSuite;
   }
   
   /*
    * bugzilla 76290
    */
-  public void testRemoveAll()
+  public void testRemoveAllNotUnique()
   {
     List list = new DelegatingNotifyingListImpl()
     {
@@ -94,6 +107,67 @@ public class NotUniqueListTest extends TestCase
     
     list.removeAll(Collections.EMPTY_LIST);
     assertEquals(2, list.size());
+  }
+  
+  public void testRemoveAllProxy()
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl());
+    
+    Resource resourceA= resourceSet.createResource(URI.createURI("http:///A.ecore"));
+    EPackage ePackageA = EcoreFactory.eINSTANCE.createEPackage();
+    EClass eClassA = EcoreFactory.eINSTANCE.createEClass();
+    eClassA.setName("A");
+    ePackageA.getEClassifiers().add(eClassA);
+    resourceA.getContents().add(ePackageA);
+    
+    Resource resourceB = resourceSet.createResource(URI.createURI("http:///B.ecore"));
+    EPackage ePackageB = EcoreFactory.eINSTANCE.createEPackage();
+    EClass eClassB = EcoreFactory.eINSTANCE.createEClass();
+    eClassB.setName("B");
+    ePackageB.getEClassifiers().add(eClassB);
+    resourceB.getContents().add(ePackageB);
+    
+    EClass eClassProxyA = EcoreFactory.eINSTANCE.createEClass();
+    ((InternalEObject)eClassProxyA).eSetProxyURI(EcoreUtil.getURI(eClassA));
+    
+    eClassB.getESuperTypes().add(eClassProxyA);
+    eClassB.getESuperTypes().remove(eClassA);
+    assertEquals(true, eClassB.getESuperTypes().isEmpty());
+
+    eClassB.getESuperTypes().add(eClassProxyA);
+    eClassB.getESuperTypes().removeAll(Collections.singleton(eClassA));
+    assertEquals(true, eClassB.getESuperTypes().isEmpty());
+    
+    EClass eClassC = 
+      new EClassImpl()
+      {
+        public EList getESuperTypesGen()
+        {
+          if (eSuperTypes == null)
+          {
+            eSuperTypes = 
+              new DelegatingEcoreEList.Dynamic(this, EcorePackage.Literals.ECLASS__ESUPER_TYPES)
+              {
+                List list;
+                protected List delegateList()
+                {
+                  if (list == null)
+                  {
+                    list = new ArrayList();
+                  }
+                  return list;
+                }
+              
+              };
+          }
+          return eSuperTypes;
+        }
+      };
+    ePackageB.getEClassifiers().add(eClassC);
+    eClassC.getESuperTypes().add(eClassProxyA);
+    eClassC.getESuperTypes().removeAll(Collections.singleton(eClassA));
+    assertEquals(true, eClassC.getESuperTypes().isEmpty());
   }
   
   /*
