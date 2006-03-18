@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporterPlugin.java,v 1.1 2006/03/15 21:21:30 marcelop Exp $
+ * $Id: HTMLExporterPlugin.java,v 1.2 2006/03/18 15:29:58 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html;
 
@@ -23,7 +23,7 @@ import org.eclipse.emf.exporter.ExporterPlugin;
 
 
 /**
- * The <b>Plugin</b> for the XSD.CodeGen library.
+ * The <b>Plugin</b> for the HTML exporter.
  * @since 2.2.0
  */
 public final class HTMLExporterPlugin extends EMFPlugin
