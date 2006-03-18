@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporterWizard.java,v 1.1 2006/03/15 21:21:30 marcelop Exp $
+ * $Id: HTMLExporterWizard.java,v 1.2 2006/03/18 16:58:56 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html.ui;
 
@@ -29,11 +29,6 @@ import org.eclipse.emf.exporter.ui.contribution.base.ModelExporterWizard;
  */
 public class HTMLExporterWizard extends ModelExporterWizard
 {
-  public HTMLExporterWizard()
-  {
-    super();
-  }
-  
   protected ModelConverter createModelConverter()
   {
     return new HTMLExporter();
