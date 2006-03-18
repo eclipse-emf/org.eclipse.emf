@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporterWizard.java,v 1.2 2006/03/18 16:58:56 marcelop Exp $
+ * $Id: HTMLExporterWizard.java,v 1.3 2006/03/18 17:04:58 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html.ui;
 
@@ -36,16 +36,16 @@ public class HTMLExporterWizard extends ModelExporterWizard
   
   public void addPages()
   {
-    ModelExporterDirectoryURIPage directoryURIPage = new ModelExporterDirectoryURIPage(getModelExporter(), "XSDExporterBaseLocationPage");
+    ModelExporterDirectoryURIPage directoryURIPage = new ModelExporterDirectoryURIPage(getModelExporter(), "HTMLExporterBaseLocationPage");
     directoryURIPage.setTitle(HTMLExporterPlugin.INSTANCE.getString("_UI_HTMLImport_title"));
     addPage(directoryURIPage);
     
-    ModelExporterPackagePage packagePage = new ModelExporterPackagePage(getModelExporter(), "XSDExporterGenModelDetailPage");
+    ModelExporterPackagePage packagePage = new ModelExporterPackagePage(getModelExporter(), "HTMLExporterGenModelDetailPage");
     packagePage.setTitle(HTMLExporterPlugin.INSTANCE.getString("_UI_HTMLImport_title"));
     packagePage.setShowReferencedGenModels(true);
     addPage(packagePage);
     
-    ModelExporterOptionsPage optionsPage = new ModelExporterOptionsPage(getModelExporter(), "XSDExporterOptionsPage");
+    ModelExporterOptionsPage optionsPage = new ModelExporterOptionsPage(getModelExporter(), "HTMLExporterOptionsPage");
     optionsPage.setTitle(HTMLExporterPlugin.INSTANCE.getString("_UI_HTMLImport_title"));
     addPage(optionsPage);
   }
