@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.22 2006/01/20 17:17:13 elena Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.23 2006/03/20 20:11:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -42,7 +42,6 @@ import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.emf.ecore.xml.type.internal.XMLDuration;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.HexBin;
-import org.eclipse.emf.ecore.xml.type.internal.DataValue.XMLChar;
 
 /**
  * <!-- begin-user-doc -->
@@ -1011,10 +1010,6 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   public String createNMTOKEN(String literal)
   {
     if (literal == null) return null;
-    if (!XMLChar.isValidNmtoken(literal))
-    {
-      throw new InvalidDatatypeValueException("Invalid NMTOKEN value: '" + literal + "'");
-    }
     return literal;  
   }
 
