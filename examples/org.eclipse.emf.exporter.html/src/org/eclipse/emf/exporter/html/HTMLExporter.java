@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporter.java,v 1.1 2006/03/15 21:21:30 marcelop Exp $
+ * $Id: HTMLExporter.java,v 1.2 2006/03/20 16:07:29 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html;
 
@@ -117,7 +117,8 @@ public class HTMLExporter extends ModelExporter
       String name = eClassifier.getName();
       EPackage eClassifierEPackage = eClassifier.getEPackage();
   
-      if (getCurrentGenPackage().getEcorePackage() == eClassifierEPackage)
+      if (getCurrentGenPackage().getEcorePackage() == eClassifierEPackage
+          || getCurrentGenPackage().getEcorePackage().getNsURI().equals(eClassifierEPackage.getNsURI()))
       {
         return new StringBuffer()
           .append("<a href=\"#").append(name).append("\">")
