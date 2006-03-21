@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.9 2005/06/08 06:20:52 nickb Exp $
+ * $Id: PropertyDescriptor.java,v 1.10 2006/03/21 16:42:30 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -36,11 +36,13 @@ import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
 import org.eclipse.emf.common.ui.celleditor.ExtendedComboBoxCellEditor;
 import org.eclipse.emf.common.ui.celleditor.ExtendedDialogCellEditor;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
@@ -145,24 +147,32 @@ public class PropertyDescriptor implements IPropertyDescriptor
          {
            public String isValid(Object object)
            {
+             Object value;
              if (EDataTypeCellEditor.this.eDataType.isInstance(object) &&
                    !(EDataTypeCellEditor.this.eDataType.getInstanceClass() == Object.class && object instanceof String))
              {
-               return null;
+               value = object;
              }
              else
              {
                String string = (String)object;
                try
                {
-                 EDataTypeCellEditor.this.eDataType.getEPackage().getEFactoryInstance().createFromString
-                   (EDataTypeCellEditor.this.eDataType, string);
-                 return null;
+                 value = EDataTypeCellEditor.this.eDataType.getEPackage().getEFactoryInstance().createFromString(EDataTypeCellEditor.this.eDataType, string);
                }
                catch (Exception exception)
                {
                  return exception.getMessage();
                }
+             }
+             Diagnostic diagnostic = Diagnostician.INSTANCE.validate(EDataTypeCellEditor.this.eDataType, value);
+             if (diagnostic.getSeverity() == Diagnostic.OK)
+             {
+               return null;
+             }
+             else
+             {
+               return ((Diagnostic)diagnostic.getChildren().get(0)).getMessage().replaceAll("'","''").replaceAll("\\{", "'{'"); // }}
              }
            }
          });
