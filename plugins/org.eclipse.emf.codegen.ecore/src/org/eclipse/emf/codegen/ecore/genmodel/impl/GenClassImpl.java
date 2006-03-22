@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.54 2006/01/24 14:04:06 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.55 2006/03/22 22:57:38 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1284,6 +1284,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
     else
     {
+      if (getGenModel().isSuppressInterfaces())
+      {
+        appendModelSetting(result, "kind", "class");
+      }
+
       if (isInterface())
       {
         appendModelSetting(result, "interface", "true");
