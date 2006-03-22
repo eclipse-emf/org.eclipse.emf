@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.15 2006/01/18 20:15:57 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.16 2006/03/22 22:57:57 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -726,7 +726,7 @@ public class JavaEcoreBuilder
 
       // If it's an interface, then it will be treated as an EClass
       // 
-      if ((type.getFlags() & Flags.AccInterface) != 0)
+      if ((type.getFlags() & Flags.AccInterface) != 0 || "class".equals(kind))
       {
         EClass eClass = EcoreFactory.eINSTANCE.createEClass();
         eModelElementToIDOMNodeMap.put(eClass, type);
