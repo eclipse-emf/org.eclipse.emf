@@ -25,9 +25,9 @@ public class PackageHTML
   protected final String TEXT_6 = NL + "\t\t<h1>Classes</h1>";
   protected final String TEXT_7 = NL + "\t\t\t<h2><a name=\"";
   protected final String TEXT_8 = "\">";
-  protected final String TEXT_9 = "</a></h2>" + NL + "\t\t\t\t<h3>Details</h3>" + NL + "\t\t\t\t\t<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" summary=\"Package details.\">" + NL + "\t\t\t\t\t\t<tr>" + NL + "\t\t\t\t\t\t\t<td>Is Abstract</td>" + NL + "\t\t\t\t\t\t\t<td>";
-  protected final String TEXT_10 = "</td>" + NL + "\t\t\t\t\t\t</tr>" + NL + "\t\t\t\t\t\t<tr>" + NL + "\t\t\t\t\t\t\t<td>Is Interface</td>" + NL + "\t\t\t\t\t\t\t<td>";
-  protected final String TEXT_11 = "</td>" + NL + "\t\t\t\t\t\t</tr>" + NL + "\t\t\t\t\t</table>" + NL + "\t\t";
+  protected final String TEXT_9 = "</a></h2>" + NL + "\t\t\t\t<h3>Details</h3>" + NL + "\t\t\t\t\t<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" summary=\"Package details.\">" + NL + "\t\t\t\t\t\t<tr>" + NL + "\t\t\t\t\t\t\t<td>Is Abstract</td>" + NL + "\t\t\t\t\t\t\t<td><tt>";
+  protected final String TEXT_10 = "</tt></td>" + NL + "\t\t\t\t\t\t</tr>" + NL + "\t\t\t\t\t\t<tr>" + NL + "\t\t\t\t\t\t\t<td>Is Interface</td>" + NL + "\t\t\t\t\t\t\t<td><tt>";
+  protected final String TEXT_11 = "</tt></td>" + NL + "\t\t\t\t\t\t</tr>" + NL + "\t\t\t\t\t</table>" + NL + "\t\t";
   protected final String TEXT_12 = NL + "\t\t\t\t<h3>Super Classes</h3>" + NL + "\t\t\t\t\t<ul>";
   protected final String TEXT_13 = NL + "\t\t\t\t\t\t<li><tt>";
   protected final String TEXT_14 = "</tt></li>";
@@ -73,8 +73,8 @@ public class PackageHTML
   protected final String TEXT_54 = NL + "\t\t\t<h2><a name=\"";
   protected final String TEXT_55 = "\">";
   protected final String TEXT_56 = "</a></h2>" + NL + "\t\t\t\t<h3>Details</h3>" + NL + "\t\t\t\t\t<table border=\"1\" cellpadding=\"2\" cellspacing=\"0\" summary=\"Package details.\">" + NL + "\t\t\t\t\t\t<tr>" + NL + "\t\t\t\t\t\t\t<td>Instance Class</td>" + NL + "\t\t\t\t\t\t\t<td>";
-  protected final String TEXT_57 = "</td>" + NL + "\t\t\t\t\t\t</tr>" + NL + "\t\t\t\t\t\t<tr>" + NL + "\t\t\t\t\t\t\t<td>Is Serializable</td>" + NL + "\t\t\t\t\t\t\t<td>";
-  protected final String TEXT_58 = "</td>" + NL + "\t\t\t\t\t\t</tr>" + NL + "\t\t\t\t\t</table>";
+  protected final String TEXT_57 = "</td>" + NL + "\t\t\t\t\t\t</tr>" + NL + "\t\t\t\t\t\t<tr>" + NL + "\t\t\t\t\t\t\t<td>Is Serializable</td>" + NL + "\t\t\t\t\t\t\t<td><tt>";
+  protected final String TEXT_58 = "</tt></td>" + NL + "\t\t\t\t\t\t</tr>" + NL + "\t\t\t\t\t</table>";
   protected final String TEXT_59 = NL + "\t</body>" + NL + "</html>";
   protected final String TEXT_60 = NL;
 

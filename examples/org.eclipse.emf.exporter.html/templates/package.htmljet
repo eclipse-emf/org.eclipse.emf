@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.exporter.html" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.GenPackage" class="PackageHTML" version="$Id: package.htmljet,v 1.1 2006/03/15 21:21:30 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.exporter.html" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.GenPackage" class="PackageHTML" version="$Id: package.htmljet,v 1.2 2006/03/23 06:43:22 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -56,11 +56,11 @@
 					<table border="1" cellpadding="2" cellspacing="0" summary="Package details.">
 						<tr>
 							<td>Is Abstract</td>
-							<td><%=eClass.isAbstract()%></td>
+							<td><tt><%=eClass.isAbstract()%></tt></td>
 						</tr>
 						<tr>
 							<td>Is Interface</td>
-							<td><%=eClass.isInterface()%></td>
+							<td><tt><%=eClass.isInterface()%></tt></td>
 						</tr>
 					</table>
 		<%if (!eClass.getESuperTypes().isEmpty()) {%>
@@ -112,7 +112,7 @@
 						</tr>
 						<tr>
 							<td>Is Serializable</td>
-							<td><%=eDataType.isSerializable()%></td>
+							<td><tt><%=eDataType.isSerializable()%></tt></td>
 						</tr>
 					</table><%}%>
 <%}%>

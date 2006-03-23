@@ -12,14 +12,16 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporter.java,v 1.2 2006/03/20 16:07:29 marcelop Exp $
+ * $Id: HTMLExporter.java,v 1.3 2006/03/23 06:43:22 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -27,6 +29,7 @@ import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
 import org.eclipse.emf.exporter.ModelExporter;
@@ -73,13 +76,10 @@ public class HTMLExporter extends ModelExporter
   protected void doExport(Monitor monitor, ModelExporter.ExportData exportData) throws Exception
   {
     this.exportData = exportData;
+    List entries = new ArrayList(exportData.genPackageToArtifactURI.keySet());
+    entries.addAll(exportData.referencedGenPackagesToArtifactURI.keySet());
     ePackageToGenPackage = new HashMap();
-    for (Iterator i = exportData.genPackageToArtifactURI.keySet().iterator(); i.hasNext();)
-    {
-      GenPackage genPackage = (GenPackage)i.next();
-      ePackageToGenPackage.put(genPackage.getEcorePackage(), genPackage);
-    }
-    for (Iterator i = exportData.referencedGenPackagesToArtifactURI.keySet().iterator(); i.hasNext();)
+    for (Iterator i = entries.iterator(); i.hasNext();)
     {
       GenPackage genPackage = (GenPackage)i.next();
       ePackageToGenPackage.put(genPackage.getEcorePackage(), genPackage);
@@ -145,6 +145,15 @@ public class HTMLExporter extends ModelExporter
           .append("</a>")
           .toString();
         }      
+      }
+      
+      if (EcorePackage.eNS_URI.equals(eClassifierEPackage.getNsURI()))
+      {
+        return new StringBuffer()
+        .append("<i><b>")
+        .append(name)
+        .append("</i></b>")
+        .toString();        
       }
       
       return name;
