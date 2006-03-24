@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.10 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EReferenceItemProvider.java,v 1.11 2006/03/24 18:06:15 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -23,14 +23,18 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.InitializeCopyCommand;
 import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.command.CopyCommand.Helper;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
@@ -297,6 +301,43 @@ public class EReferenceItemProvider
       result.append(eReference.getEType().getName());
     }
     return result.toString();
+  }
+
+  /**
+   * This creates a custom initialize copy command that specially handles the eOpposite like it is
+   * bidirectional, itself.
+   */
+  protected Command createInitializeCopyCommand(EditingDomain domain, EObject owner, Helper helper)
+  {
+    return new InitializeCopyCommand(domain, owner, helper)
+    {
+      // Don't use the normal reference copying for eOpposite.
+      //
+      protected Collection getReferencesToCopy()
+      {
+        List result = new ArrayList(super.getReferencesToCopy());
+        result.remove(EcorePackage.Literals.EREFERENCE__EOPPOSITE);
+        return result;
+      }
+
+      // Handle eOpposite specially.
+      //
+      protected void copyReferences()
+      {
+        super.copyReferences();
+
+        EReference reference = EcorePackage.Literals.EREFERENCE__EOPPOSITE;
+        EObject value = (EObject)owner.eGet(reference);
+        if (value != null)
+        {
+          EObject target = copyHelper.getCopyTarget(value, true);
+          if (target != null)
+          {
+            copy.eSet(reference, target);
+          }
+        }
+      }
+    };
   }
 
   /**
