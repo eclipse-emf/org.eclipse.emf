@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.22 2006/03/09 17:16:56 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.23 2006/03/27 17:49:18 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -804,7 +804,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     Resource.Internal newResource = null;
     if (oldResource != null)
     {
-      if (!eContainmentFeature(this, newContainer, newContainerFeatureID).isResolveProxies())
+      if (newContainer != null && !eContainmentFeature(this, newContainer, newContainerFeatureID).isResolveProxies())
       {
         msgs = ((InternalEList)oldResource.getContents()).basicRemove(this, msgs);
         eSetDirectResource(null);
