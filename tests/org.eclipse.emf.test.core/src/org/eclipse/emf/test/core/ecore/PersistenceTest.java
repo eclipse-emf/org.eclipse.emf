@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.6 2006/02/08 21:30:38 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.7 2006/03/27 17:49:35 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -44,6 +44,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMIResource;
@@ -82,6 +83,7 @@ public class PersistenceTest extends TestCase
     ts.addTest(new PersistenceTest("testCrossResourceContainment_XMLResourceUUID"));
     ts.addTest(new PersistenceTest("testCrossResourceContainment_Dynamic_ResourceSet"));
     ts.addTest(new PersistenceTest("testCrossResourceContainment_Static_ResourceSet"));
+    ts.addTest(new PersistenceTest("testCrossResourceContainment_RemoveChild"));
     return ts;
   }
   
@@ -712,5 +714,44 @@ public class PersistenceTest extends TestCase
     assertEquals(library, john.getLibrary());
     assertEquals(library, cafeteria.eContainer());
     assertEquals(library, cafeteria.getLibrary());
+  }
+  
+  /*
+   * Bugzilla 132904
+   */
+  public void testCrossResourceContainment_RemoveChild() throws Exception
+  {
+    Library library = LibFactory.eINSTANCE.createLibrary();
+    library.setName("Public Library");
+    //
+    Book book = LibFactory.eINSTANCE.createBook();
+    book.setTitle("EMF");
+    library.getBooks().add(book);
+    
+    Resource libResource = new ResourceImpl(URI.createURI("lib"));
+    libResource.getContents().add(library);
+    
+    assertEquals(library, book.eContainer());
+    assertEquals(libResource, library.eResource());
+    assertEquals(libResource, book.eResource());
+
+    Resource bookResource = new ResourceImpl(URI.createURI("book"));
+    bookResource.getContents().add(book);
+
+    assertEquals(library, book.eContainer());
+    assertEquals(libResource, library.eResource());
+    assertEquals(bookResource, book.eResource());
+    
+    library.getBooks().remove(book);
+
+    assertNull(book.eContainer());
+    assertEquals(libResource, library.eResource());
+    assertEquals(bookResource, book.eResource());
+    
+    library.getBooks().add(book);
+
+    assertEquals(library, book.eContainer());
+    assertEquals(libResource, library.eResource());
+    assertEquals(bookResource, book.eResource());
   }
 }
