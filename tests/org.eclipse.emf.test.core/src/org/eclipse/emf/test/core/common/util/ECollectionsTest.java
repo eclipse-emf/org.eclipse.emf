@@ -45,7 +45,9 @@ public class ECollectionsTest extends TestCase
     ts.addTest(new ECollectionsTest("testSortEList"));
     ts.addTest(new ECollectionsTest("testIndexOf1"));
     ts.addTest(new ECollectionsTest("testIndexOf2"));
-    ts.addTest(new ECollectionsTest("testSetEList"));    
+    ts.addTest(new ECollectionsTest("testSetEList"));
+    ts.addTest(new ECollectionsTest("testMoveIntInt"));
+    ts.addTest(new ECollectionsTest("testMoveIntObject"));
     return ts;
   }
 
@@ -237,5 +239,91 @@ public class ECollectionsTest extends TestCase
     eList.add(this);
     ECollections.setEList(eList, prototypeList);
     assertTrue("Bigger list test", TestUtil.areEqual(prototypeList, eList));
-  }  
+  }
+  
+  /*
+   * Bugzilla: 133907
+   */
+  public void testMoveIntInt() throws Exception
+  {
+    EList originalList = new BasicEList();
+    originalList.add("pos0");
+    originalList.add("pos1");
+    originalList.add(new Integer(2));
+    originalList.add("pos3");
+    
+    EList eList = new BasicEList(originalList);
+    List list = new ArrayList(originalList);
+    
+    int target = 2, source = 3;
+    originalList.move(target, source);
+    ECollections.move(eList, target, source);
+    assertTrue(TestUtil.areEqual(originalList, eList));
+    ECollections.move(list, target, source);
+    assertTrue(TestUtil.areEqual(originalList, list));
+    
+    target = 2; source = 0;
+    originalList.move(target, source);
+    ECollections.move(eList, target, source);
+    assertTrue(TestUtil.areEqual(originalList, eList));
+    ECollections.move(list, target, source);
+    assertTrue(TestUtil.areEqual(originalList, list));    
+
+    target = 1; source = 1;
+    originalList.move(target, source);
+    ECollections.move(eList, target, source);
+    assertTrue(TestUtil.areEqual(originalList, eList));
+    ECollections.move(list, target, source);
+    assertTrue(TestUtil.areEqual(originalList, list));    
+
+    target = 0; source = 3;
+    originalList.move(target, source);
+    ECollections.move(eList, target, source);
+    assertTrue(TestUtil.areEqual(originalList, eList));
+    ECollections.move(list, target, source);
+    assertTrue(TestUtil.areEqual(originalList, list));    
+  }
+
+  /*
+   * Bugzilla: 133907
+   */
+  public void testMoveIntObject() throws Exception
+  {
+    EList originalList = new BasicEList();
+    originalList.add("pos0");
+    originalList.add("pos1");
+    originalList.add(new Integer(2));
+    originalList.add("pos3");
+    
+    EList eList = new BasicEList(originalList);
+    List list = new ArrayList(originalList);
+    
+    int target = 2; Object object = originalList.get(3);
+    originalList.move(target, object);
+    ECollections.move(eList, target, object);
+    assertTrue(TestUtil.areEqual(originalList, eList));
+    ECollections.move(list, target, object);
+    assertTrue(TestUtil.areEqual(originalList, list));
+    
+    target = 2; object = originalList.get(0);
+    originalList.move(target, object);
+    ECollections.move(eList, target, object);
+    assertTrue(TestUtil.areEqual(originalList, eList));
+    ECollections.move(list, target, object);
+    assertTrue(TestUtil.areEqual(originalList, list));    
+
+    target = 1; object = originalList.get(1);
+    originalList.move(target, object);
+    ECollections.move(eList, target, object);
+    assertTrue(TestUtil.areEqual(originalList, eList));
+    ECollections.move(list, target, object);
+    assertTrue(TestUtil.areEqual(originalList, list));    
+
+    target = 0; object = originalList.get(3);
+    originalList.move(target, object);
+    ECollections.move(eList, target, object);
+    assertTrue(TestUtil.areEqual(originalList, eList));
+    ECollections.move(list, target, object);
+    assertTrue(TestUtil.areEqual(originalList, list));    
+  }
 }
