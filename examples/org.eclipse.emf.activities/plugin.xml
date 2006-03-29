@@ -39,7 +39,7 @@
   <!-- org.eclipse.emf.ecore.editor -->
   <!-- Defines a categoty and an activity for the reflective editors (available -->
   <!-- through the "Open As" editor) and associates the ecore editor and wizard -->
-  <!-- to the EMF category.  The "Open As" menu is disabled by default. -->
+  <!-- to the EMF category. -->
   <extension point="org.eclipse.ui.activities">
     <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.ecore\.editor/.*Ecore.*" />
     <activityPatternBinding activityId="org.eclipse.EMF" pattern="org\.eclipse\.emf\.ecore\.editor/.*CreateDynamic.*" />
@@ -48,6 +48,8 @@
     <categoryActivityBinding activityId="org.eclipse.emf.reflectiveEditing" categoryId="org.eclipse.emf.categories.modelingCategory" />
     <activityPatternBinding activityId="org.eclipse.emf.reflectiveEditing" pattern="org\.eclipse\.emf\.ecore\.editor/.Open*" />
     <activityPatternBinding activityId="org.eclipse.emf.reflectiveEditing" pattern="org\.eclipse\.emf\.ecore\.editor/.*Reflective.*" />
+    
+    <defaultEnablement id="org.eclipse.emf.reflectiveEditing" />
   </extension>
 
   <!-- org.eclipse.emf.mapping.xsd2ecore.editor -->
