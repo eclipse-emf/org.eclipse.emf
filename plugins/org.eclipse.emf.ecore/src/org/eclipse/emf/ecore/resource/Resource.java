@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.4 2005/12/21 01:34:30 khussey Exp $
+ * $Id: Resource.java,v 1.5 2006/03/29 19:01:12 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -117,6 +117,11 @@ public interface Resource extends Notifier
    * The {@link #getWarnings} feature {@link org.eclipse.emf.common.notify.Notification#getFeatureID ID}.
    */
   int RESOURCE__WARNINGS = 7;
+  
+  /**
+   * Specify a {@link URIConverter.Cipher} to encrypt and decrypt the resource content.
+   */  
+  String OPTION_CIPHER = "CIPHER"; 
 
   /**
    * Returns the containing resource set.
