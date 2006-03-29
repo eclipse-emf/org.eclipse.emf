@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECollections.java,v 1.4 2005/12/14 07:33:25 marcelop Exp $
+ * $Id: ECollections.java,v 1.5 2006/03/29 19:05:12 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -37,6 +37,45 @@ public class ECollections
   // Suppress default constructor for noninstantiability.
   private ECollections()
   {
+  }
+  
+  /**
+   * Moves the object to the new position, if is in the list.
+   * @param list
+   * @param newPosition the position of the object after the move.
+   * @param object the object to move.
+   */
+  public static void move(List list, int newPosition, Object object)
+  {
+    if (list instanceof EList)
+    {
+      ((EList)list).move(newPosition, object);
+    }
+    else
+    {
+      list.remove(object);
+      list.add(newPosition, object);
+    }
+  }
+
+  /**
+   * Moves the object from the old position to the new position.
+   * @param list
+   * @param targetIndex the position of the object after the move.
+   * @param sourceIndex the position of the object before the move.
+   */
+  public static Object move(List list, int targetIndex, int sourceIndex)
+  {
+    if (list instanceof EList)
+    {
+      return ((EList)list).move(targetIndex, sourceIndex);
+    }
+    else
+    {
+      Object object = list.remove(sourceIndex);
+      list.add(targetIndex, object);
+      return object;
+    }    
   }
 
   /**
