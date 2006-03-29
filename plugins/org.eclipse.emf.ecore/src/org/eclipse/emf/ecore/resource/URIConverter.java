@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.4 2005/11/22 19:34:56 emerks Exp $
+ * $Id: URIConverter.java,v 1.5 2006/03/29 19:01:52 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -389,5 +389,42 @@ public interface URIConverter
         pos = 0;
       }
     }
+  }
+
+  /**
+   * An interface to be implemented by encryption service providers.
+   * @since 2.2.0
+   */
+  interface Cipher
+  {
+    /**
+     * Encrypts the specified output stream.
+     * @param outputStream
+     * @return an encrypted output stream
+     */
+    OutputStream encrypt(OutputStream outputStream) throws Exception;
+  
+    /**
+     * This method is invoked after the encrypted output stream is used
+     * allowing the Cipher implementation to do any maintenance work required,
+     * such as flushing an internal cache.
+     * @param The encrypted outputStream returned by {@link #encrypt(OutputStream)}.
+     */
+    void finish(OutputStream outputStream) throws Exception;
+  
+    /**
+     * Decrypts the specified input stream.
+     * @param inputStream
+     * @return a decrypted input stream
+     */
+    InputStream decrypt(InputStream inputStream) throws Exception;
+    
+    /**
+     * This method is invoked after the decrypted input stream is used
+     * allowing the Cipher implementation to do any maintenance work required,
+     * such as flushing internal cache.
+     * @param The inputStream returned by {@link #decrypt(InputStream)}.
+     */
+    void finish(InputStream inputStream) throws Exception;
   }
 }
