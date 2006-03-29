@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.5 2006/03/29 19:01:12 marcelop Exp $
+ * $Id: Resource.java,v 1.6 2006/03/29 19:16:57 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -122,6 +122,12 @@ public interface Resource extends Notifier
    * Specify a {@link URIConverter.Cipher} to encrypt and decrypt the resource content.
    */  
   String OPTION_CIPHER = "CIPHER"; 
+
+  /**
+   * Specify whether the content of the resource should be zipped during save and unzip
+   * during load.  The default value is <tt>Boolean.FALSE</tt>
+   */  
+  String OPTION_ZIP = "ZIP"; 
 
   /**
    * Returns the containing resource set.
