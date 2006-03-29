@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.13 2006/03/06 13:38:29 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.14 2006/03/29 19:02:46 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -112,6 +112,29 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       defaultURIConverter = new URIConverterImpl();
     }
     return defaultURIConverter;
+  }
+  
+  /**
+   * Merges 2 maps, without changing any of them.  If map2 and map1
+   * have the same key for an entry, map1's value will be the one in 
+   * the merged map.
+   */
+  protected static Map mergeMaps(Map map1, Map map2)
+  {
+    if (map1 == null || map1.isEmpty())
+    {
+      return map2;
+    }
+    else if (map2 == null || map2.isEmpty())
+    {
+      return map1;
+    }
+    else
+    {
+      Map mergedMap = new HashMap(map2);
+      mergedMap.putAll(map1);
+      return mergedMap;
+    }
   }
 
   /**
@@ -903,6 +926,23 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   public final void save(OutputStream outputStream, Map options) throws IOException
   {
+    options = mergeMaps(options, defaultSaveOptions);
+    URIConverter.Cipher cipher = options != null ? 
+      (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER) : 
+      null;
+      
+    if (cipher != null)
+    {
+      try
+      {
+        outputStream = cipher.encrypt(outputStream);
+      }
+      catch (Exception e)
+      {
+        throw new IOWrappedException(e);
+      }
+    }
+
     ZipOutputStream zipOutputStream = null;
     if (useZip())
     {
@@ -927,24 +967,23 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       zipOutputStream.putNextEntry(newContentZipEntry());
       outputStream = zipOutputStream;
     }
+        
+    doSave(outputStream, options);
 
-    if (defaultSaveOptions == null || defaultSaveOptions.isEmpty())
+    if (cipher != null)
     {
-      doSave(outputStream, options);
+      try
+      {
+        cipher.finish(outputStream);
+      }
+      catch (Exception e)
+      {
+        throw new IOWrappedException(e);
+      }
     }
-    else if (options == null)
-    {
-      doSave(outputStream, defaultSaveOptions);
-    }
-    else
-    {
-      Map mergedOptions = new HashMap(defaultSaveOptions);
-      mergedOptions.putAll(options);
-
-      doSave(outputStream, mergedOptions);
-    }
-
+    
     setModified(false);
+
     if (zipOutputStream != null)
     {
       zipOutputStream.finish();
@@ -1013,21 +1052,36 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
           }
         }
 
-        if (defaultLoadOptions == null || defaultLoadOptions.isEmpty())
+        options = mergeMaps(options, defaultLoadOptions);
+        URIConverter.Cipher cipher = options != null ?
+          (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER) :
+          null;
+          
+        if (cipher != null)
         {
-          doLoad(inputStream, options);
+          try
+          {
+            inputStream = cipher.decrypt(inputStream);
+          }
+          catch (Exception e)
+          {
+            throw new IOWrappedException(e);
+          }
         }
-        else if (options == null)
+        
+        doLoad(inputStream, options);
+        
+        if (cipher != null)
         {
-          doLoad(inputStream, defaultLoadOptions);
-        }
-        else
-        {
-          Map mergedOptions = new HashMap(defaultLoadOptions);
-          mergedOptions.putAll(options);
-  
-          doLoad(inputStream, mergedOptions);
-        }
+          try
+          {
+            cipher.finish(inputStream);
+          }
+          catch (Exception e)
+          {
+            throw new IOWrappedException(e);
+          }
+        }        
       }
       finally
       {
