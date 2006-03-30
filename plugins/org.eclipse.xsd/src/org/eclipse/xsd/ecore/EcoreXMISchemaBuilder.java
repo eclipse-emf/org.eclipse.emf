@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreXMISchemaBuilder.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: EcoreXMISchemaBuilder.java,v 1.3 2006/03/30 16:17:17 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -88,19 +88,6 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     List result = (List)super.generate(ePackage, qNameMap);
     result.add(1, createXMISchema());
     return result;
-  }
-
-  protected void createSchema()
-  {
-    super.createSchema();
-
-    Map namespaces = this.xsdSchema.getQNamePrefixToNamespaceMap();
-    namespaces.put(XMI_PREFIX, XMI_URI);
-
-    XSDImport xmiImport = XSDFactory.eINSTANCE.createXSDImport();
-    xmiImport.setNamespace(XMI_URI);
-    xmiImport.setSchemaLocation(XMI_SCHEMA_LOCATION);
-    this.xsdSchema.getContents().add(xmiImport);
   }
 
   protected XSDSchema createXMISchema()
@@ -597,6 +584,7 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
   {
     if (!minimizedXMI)
     {
+      importXMI();
       XSDParticle particle = XSDFactory.eINSTANCE.createXSDParticle();
       XSDElementDeclaration xsdElementDeclaration = XSDFactory.eINSTANCE.createXSDElementDeclaration();
       xsdElementDeclaration.setResolvedElementDeclaration(xsdElementDeclaration.resolveElementDeclaration(XMI_URI, "Extension"));
@@ -610,6 +598,7 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
 
     if (!minimizedXMI)
     {
+      importXMI();
       XSDAttributeGroupDefinition objAttribs = XSDFactory.eINSTANCE.createXSDAttributeGroupDefinition();
       objAttribs.setResolvedAttributeGroupDefinition(objAttribs.resolveAttributeGroupDefinition(XMI_URI, "ObjectAttribs"));
       xsdComplexTypeDefinition.getAttributeContents().add(0, objAttribs);
@@ -618,6 +607,7 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     {
       if (!useEncodedAttributeStyle)
       {
+        importXMI();
         XSDAttributeGroupDefinition linkAttribs = XSDFactory.eINSTANCE.createXSDAttributeGroupDefinition();
         linkAttribs.setResolvedAttributeGroupDefinition(linkAttribs.resolveAttributeGroupDefinition(XMI_URI, "LinkAttribs"));
         xsdComplexTypeDefinition.getAttributeContents().add(0, linkAttribs);
@@ -626,6 +616,7 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
 
     if (!minimizedXMI)
     {
+      importXMI();
       XSDAttributeDeclaration attrDecl = XSDFactory.eINSTANCE.createXSDAttributeDeclaration();
       attrDecl.setResolvedAttributeDeclaration(attrDecl.resolveAttributeDeclaration(XMI_URI, "id"));
       XSDAttributeUse attrUse = XSDFactory.eINSTANCE.createXSDAttributeUse();
@@ -651,11 +642,24 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     }
     else
     {
+      importXMI();
       xsdElementDeclaration.setTypeDefinition(xsdElementDeclaration.resolveSimpleTypeDefinition(XMI_URI, "Any"));
     }
   }
 
   protected void setReferenceElementMultiplicity(EReference reference, XSDParticle particle)
   {
+  }
+  
+  protected void importXMI()
+  {
+    Map namespaces = this.xsdSchema.getQNamePrefixToNamespaceMap();
+    if (namespaces.put(XMI_PREFIX, XMI_URI) == null)
+    {
+      XSDImport xmiImport = XSDFactory.eINSTANCE.createXSDImport();
+      xmiImport.setNamespace(XMI_URI);
+      xmiImport.setSchemaLocation(XMI_SCHEMA_LOCATION);
+      this.xsdSchema.getContents().add(0, xmiImport);
+    }
   }
 }
