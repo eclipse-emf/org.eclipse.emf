@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.13 2005/12/21 11:15:32 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.14 2006/03/30 13:53:43 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -20,6 +20,7 @@ package org.eclipse.xsd.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -148,7 +149,8 @@ public class XSDResourceImpl extends ResourceImpl
     try
     {
       Transformer transformer = new DefaultJAXPConfiguration().createTransformer(encoding);
-      transformer.transform(new DOMSource(element), new StreamResult(outputStream));
+      Writer writer = encoding == null ? new OutputStreamWriter(outputStream) : new OutputStreamWriter(outputStream, encoding);
+      transformer.transform(new DOMSource(element), new StreamResult(writer));
     }
     catch (TransformerException exception)
     {
@@ -208,7 +210,8 @@ public class XSDResourceImpl extends ResourceImpl
       {
         try
         {
-          config.createTransformer(encoding).transform(new DOMSource(document), new StreamResult(outputStream));
+          Writer writer = encoding == null ? new OutputStreamWriter(outputStream) : new OutputStreamWriter(outputStream, encoding);
+          config.createTransformer(encoding).transform(new DOMSource(document), new StreamResult(writer));
         }
         catch (TransformerException exception)
         {
@@ -222,7 +225,8 @@ public class XSDResourceImpl extends ResourceImpl
       try
       {
         transformer = jaxpPool.getTransformer(encoding);
-        transformer.transform(new DOMSource(document), new StreamResult(outputStream));
+        Writer writer = encoding == null ? new OutputStreamWriter(outputStream) : new OutputStreamWriter(outputStream, encoding);
+        transformer.transform(new DOMSource(document), new StreamResult(writer));
       }
       catch (TransformerException exception)
       {
@@ -248,7 +252,8 @@ public class XSDResourceImpl extends ResourceImpl
     try
     {
       Transformer transformer = new DefaultJAXPConfiguration().createTransformer(encoding);
-      transformer.transform(new DOMSource(document), new StreamResult(outputStream));
+      Writer writer = encoding == null ? new OutputStreamWriter(outputStream) : new OutputStreamWriter(outputStream, encoding);
+      transformer.transform(new DOMSource(document), new StreamResult(writer));
     }
     catch (TransformerException exception)
     {
