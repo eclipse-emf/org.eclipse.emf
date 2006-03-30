@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDExporter.java,v 1.3 2005/12/21 01:07:59 marcelop Exp $
+ * $Id: XSDExporter.java,v 1.4 2006/03/30 16:20:25 emerks Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.exporter.ModelExporter;
 
 import org.eclipse.xsd.XSDAnnotation;
+import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSchemaDirective;
 import org.eclipse.xsd.ecore.EcoreSchemaBuilder;
@@ -95,13 +96,13 @@ public class XSDExporter extends ModelExporter
       for (Iterator j = xsdSchema.getContents().iterator(); j.hasNext(); )
       {
         Object content = j.next();
-        if (content instanceof XSDSchemaDirective)
+        if (content instanceof XSDImport)
         {
-          XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)content;
-          EPackage referencedEPackage = genModel.getExtendedMetaData().getPackage(xsdSchemaDirective.getSchemaLocation());
+          XSDImport xsdImport = (XSDImport)content;
+          EPackage referencedEPackage = genModel.getExtendedMetaData().getPackage(xsdImport.getNamespace());
           GenPackage referencedGenPackage = genModel.findGenPackage(referencedEPackage);
           URI artifactURI = getReferencedGenPackageArtifactURI(exportData, referencedGenPackage);
-          xsdSchemaDirective.setSchemaLocation(computeSchemaLocation(xsdSchemaDirective, artifactURI));
+          xsdImport.setSchemaLocation(computeSchemaLocation(xsdImport, artifactURI));
         }
         else if (!(content instanceof XSDAnnotation))
         {
