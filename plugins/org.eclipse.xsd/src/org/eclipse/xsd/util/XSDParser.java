@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.8 2005/11/23 18:53:01 elena Exp $
+ * $Id: XSDParser.java,v 1.9 2006/03/31 15:53:56 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -556,13 +556,16 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
   protected void saveLocation()
   {
-    line = locator.getLineNumber();
-    column = locator.getColumnNumber();
-    // The crimson parser seems to give poor coodinates and is 0-based for line count.
-    //
-    if (column == -1)
+    if (locator != null)
     {
-      column = 1;
+      line = locator.getLineNumber();
+      column = locator.getColumnNumber();
+      // The crimson parser seems to give poor coodinates and is 0-based for line count.
+      //
+      if (column == -1)
+      {
+        column = 1;
+      }
     }
   }
 
