@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.52 2006/03/03 17:14:44 emerks Exp $
+ * $Id: XMLHandler.java,v 1.53 2006/04/01 16:05:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -96,27 +97,56 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected final static boolean DEBUG_DEMANDED_PACKAGES = false;
   
-  protected static class MyStack extends ArrayList
+  protected static class MyStack extends BasicEList
   {
     public MyStack()
     {
     }
 
-    public Object peek()
+    public final Object peek()
     {
-      int size = size();
-      return size == 0 ? null : get(size - 1);
+      return size == 0 ? null : data[size - 1];
     }
 
-    public void push(Object o)
+    public final void push(Object o)
     {
-      add(o);
+      grow(size + 1);  
+      data[size++] = o;
     }
 
-    public Object pop()
+    public final Object pop()
     {
-      int size = size();
-      return size == 0 ?  null : remove(size - 1);
+      return size == 0 ?  null : data[--size];
+    }
+  }
+
+  protected static class MyEObjectStack extends MyStack
+  {
+    protected EObject [] eObjectData;
+
+    public MyEObjectStack()
+    {
+    }
+
+    protected final Object[] newData(int capacity)
+    {
+      return eObjectData = new EObject[capacity];
+    }
+
+    public final EObject peekEObject()
+    {
+      return size == 0 ? null : eObjectData[size - 1];
+    }
+
+    public final void push(EObject o)
+    {
+      grow(size + 1);  
+      eObjectData[size++] = o;
+    }
+
+    public final EObject popEObject()
+    {
+      return size == 0 ?  null : eObjectData[--size];
     }
   }
 
@@ -239,7 +269,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected XMLResource xmlResource;
   protected XMLHelper helper;
   protected MyStack elements;
-  protected MyStack objects;
+  protected MyEObjectStack objects;
   protected MyStack types;
   protected MyStack mixedTargets;
   protected Map prefixesToFactories;
@@ -294,7 +324,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     this.xmlResource = xmlResource;
     this.helper = helper;
     elements = new MyStack();
-    objects  = new MyStack();
+    objects  = new MyEObjectStack();
     mixedTargets = new MyStack();
 
     types    = new MyStack();
@@ -1256,9 +1286,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       }
       else 
       {
-        Object object = objects.pop();
+        EObject object = objects.popEObject();
         if (mixedTargets.peek() != null && 
-              (((EObject)object).eContainer() != null || recordUnknownFeature && eObjectToExtensionMap.containsValue(object))) 
+              (object.eContainer() != null || recordUnknownFeature && eObjectToExtensionMap.containsValue(object))) 
         {
           handleMixedText();
           mixedTargets.pop();
@@ -1280,18 +1310,18 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       mixedTargets.pop();
       if (text != null)
       {
-        setValueFromId((EObject)objects.peek(), (EReference)type, text.toString());
+        setValueFromId(objects.peekEObject(), (EReference)type, text.toString());
         text = null;
       }
       isIDREF= false;
     }
     else if (isTextFeatureValue(type))
     {
-      EObject eObject = (EObject)objects.pop();
+      EObject eObject = objects.popEObject();
       mixedTargets.pop();
       if (eObject == null)
       {
-        eObject = (EObject)objects.peek();
+        eObject = objects.peekEObject();
       }
       setFeatureValue(eObject, (EStructuralFeature) type, text == null ? null : text.toString());
       text = null;
@@ -1462,7 +1492,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    */
   protected void handleFeature(String prefix, String name)
   {
-    EObject peekObject = (EObject) objects.peek();
+    EObject peekObject = objects.peekEObject();
 
     // This happens when processing an element with simple content that has elements content even though it shouldn't.
     //
@@ -1508,7 +1538,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         else
         {
           createObject(peekObject, feature);
-          EObject childObject = (EObject) objects.peek();
+          EObject childObject = objects.peekEObject();
           if (childObject != null)
           {
             if (isContainment)
@@ -1951,10 +1981,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         {
           if (recordUnknownFeature)
           {
-            EObject peekObject = (EObject)objects.peek();
+            EObject peekObject = objects.peekEObject();
             if (!(peekObject instanceof AnyType))
             {
-              AnyType anyType = getExtension((EObject)objects.peek());
+              AnyType anyType = getExtension(objects.peekEObject());
               EStructuralFeature entryFeature = 
                 extendedMetaData.demandFeature(extendedMetaData.getNamespace(feature), extendedMetaData.getName(feature), true);
               anyType.getAny().add(entryFeature, newObject);
@@ -1967,7 +1997,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
             String namespace = extendedMetaData.getNamespace(feature);
             String name = extendedMetaData.getName(feature);
             EStructuralFeature wildcardFeature = 
-              extendedMetaData.getElementWildcardAffiliation(((EObject)objects.peek()).eClass(), namespace, name);
+              extendedMetaData.getElementWildcardAffiliation((objects.peekEObject()).eClass(), namespace, name);
             if (wildcardFeature != null)
             {
               switch (extendedMetaData.getProcessingKind(wildcardFeature))
@@ -2002,10 +2032,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           factory = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
           result = createObjectFromFactory(factory, typeName);
         }
-        EObject peekObject = (EObject)objects.peek();
+        EObject peekObject = objects.peekEObject();
         if (!(peekObject instanceof AnyType))
         {
-          AnyType anyType = getExtension((EObject)objects.peek());
+          AnyType anyType = getExtension(peekObject);
           EStructuralFeature entryFeature = 
             extendedMetaData.demandFeature(extendedMetaData.getNamespace(feature), extendedMetaData.getName(feature), true);
           anyType.getAny().add(entryFeature, result);
@@ -2018,7 +2048,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         String namespace = extendedMetaData.getNamespace(feature);
         String name = extendedMetaData.getName(feature);
         EStructuralFeature wildcardFeature = 
-          extendedMetaData.getElementWildcardAffiliation(((EObject)objects.peek()).eClass(), namespace, name);
+          extendedMetaData.getElementWildcardAffiliation((objects.peekEObject()).eClass(), namespace, name);
         if (wildcardFeature != null)
         {
           switch (extendedMetaData.getProcessingKind(wildcardFeature))
@@ -2291,7 +2321,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         String namespace = extendedMetaData.getNamespace(contextFeature);
         String name = extendedMetaData.getName(contextFeature);
         EStructuralFeature wildcardFeature = 
-          extendedMetaData.getElementWildcardAffiliation(((EObject)objects.peek()).eClass(), namespace, name);
+          extendedMetaData.getElementWildcardAffiliation((objects.peekEObject()).eClass(), namespace, name);
         if (wildcardFeature != null)
         {
           switch (extendedMetaData.getProcessingKind(wildcardFeature))
