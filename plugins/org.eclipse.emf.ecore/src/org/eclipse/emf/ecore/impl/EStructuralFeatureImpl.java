@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.21 2006/03/08 22:13:26 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.22 2006/04/01 16:02:49 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2339,7 +2339,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
             notifications = 
               ((InternalEObject)oldValue).eInverseRemove
                 (owner,
-                 InternalEObject.EOPPOSITE_FEATURE_BASE - feature.getFeatureID(),
+                 InternalEObject.EOPPOSITE_FEATURE_BASE - owner.eClass().getFeatureID(feature),
                  null,
                  notifications);
           }
@@ -2348,7 +2348,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
             notifications = 
               ((InternalEObject)newValue).eInverseAdd
                 (owner,
-                 InternalEObject.EOPPOSITE_FEATURE_BASE - feature.getFeatureID(),
+                 InternalEObject.EOPPOSITE_FEATURE_BASE - owner.eClass().getFeatureID(feature),
                  null,
                  notifications);
           }
@@ -2416,7 +2416,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           notifications = 
             ((InternalEObject)oldValue).eInverseRemove
               (owner,
-               InternalEObject.EOPPOSITE_FEATURE_BASE - feature.getFeatureID(),
+               InternalEObject.EOPPOSITE_FEATURE_BASE - owner.eClass().getFeatureID(feature),
                null,
                notifications);
         }
@@ -2499,7 +2499,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
           notifications = 
             ((InternalEObject)oldValue).eInverseRemove
               (owner,
-               InternalEObject.EOPPOSITE_FEATURE_BASE - feature.getFeatureID(),
+               InternalEObject.EOPPOSITE_FEATURE_BASE - owner.eClass().getFeatureID(feature),
                null,
                notifications);
         }
