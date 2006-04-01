@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.17 2006/03/03 17:14:44 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.18 2006/04/01 16:00:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -268,7 +268,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
     if (defaultSaveOptions == null || defaultSaveOptions.isEmpty())
     {
-      return xmlSave.save(this, document, options, domHandler);
+      return xmlSave.save(this, document, options == null ? Collections.EMPTY_MAP : options, domHandler);
     }
     else if (options == null)
     {
