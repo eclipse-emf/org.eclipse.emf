@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.11 2005/11/11 21:56:29 davidms Exp $
+ * $Id: URITest.java,v 1.12 2006/04/03 19:24:12 nickb Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -259,9 +259,9 @@ public class URITest extends TestCase
     "jar:file:/dave/myapp.jar!/schema.xsd",
     "jar:file:/dave/myapp.jar!/support/schema.xsd",
     "jar:file:/dave/myapp.jar!/support/xml/schema.xsd",
-    "JAR:http://eclipse.org/myapp.jar!/schema.xsd",
-    "jar:http://eclipse.org/jar-server?some-jar!/support/xml/schema.xsd",
-    "jar:http://eclipse.org/jar-server?some-jar!/support/xml/schema?myquery#top",
+    "JAR:http://www.eclipse.org/myapp.jar!/schema.xsd",
+    "jar:http://www.eclipse.org/jar-server?some-jar!/support/xml/schema.xsd",
+    "jar:http://www.eclipse.org/jar-server?some-jar!/support/xml/schema?myquery#top",
     "jar:dave/myapp.jar!/schema.xsd",
     "jar:/home/dave/myapp.jar!/schema.xsd",
     "zip://capilano/home/dave/myapp.jar!/schema.xsd",
@@ -271,11 +271,11 @@ public class URITest extends TestCase
     "jar:",
     "jar:file:/dave/myapp.jar",
     "jar:file:/dave/myapp.jar!",
-    "jar:http://eclipse.org/jar-server?some-jar#foo!/schema?myquery"
+    "jar:http://www.eclipse.org/jar-server?some-jar#foo!/schema?myquery"
   };
 
   protected static final String[] UNENCODED_URIS = {
-    "http://eclipse.org/foo",
+    "http://www.eclipse.org/foo",
     "http://server#1.eclipse.org/foo bar/baz#toc",
     "myscheme:my name",
     "file:/C:/My Documents/me/50%+1.txt",
@@ -283,7 +283,7 @@ public class URITest extends TestCase
   };
 
   protected static final String[] ENCODED_URIS = {
-    "http://eclipse.org/foo",
+    "http://www.eclipse.org/foo",
     "http://server%231.eclipse.org/foo%20bar/baz#toc",
     "myscheme:my%20name",
     "file:/C:/My%20Documents/me/50%25+1.txt",
@@ -291,7 +291,7 @@ public class URITest extends TestCase
   };
 
   protected static final String[] ENCODED_URIS_IGNORE_ESCAPED = {
-    "http://eclipse.org/foo",
+    "http://www.eclipse.org/foo",
     "http://server%231.eclipse.org/foo%20bar/baz#toc",
     "myscheme:my%20name",
     "file:/C:/My%20Documents/me/50%25+1.txt",
