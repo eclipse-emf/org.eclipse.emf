@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.2 2006/02/02 18:18:32 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.3 2006/04/03 21:06:45 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -51,6 +51,7 @@ public class DeprecatedJMergerTest extends TestCase
     ts.addTest(new DeprecatedJMergerTest("merge0"));
     ts.addTest(new DeprecatedJMergerTest("merge1"));
     ts.addTest(new DeprecatedJMergerTest("merge2"));
+    ts.addTest(new DeprecatedJMergerTest("merge3"));
     return ts;
   }
   
@@ -93,6 +94,11 @@ public class DeprecatedJMergerTest extends TestCase
     verifyMerge(mergeFiles());
   }
   
+  public void merge3() throws Exception
+  {
+    verifyMerge(mergeFiles());
+  }
+
   protected void verifyMerge(String targetContents)
   {
     // extract merged contents

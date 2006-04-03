@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.9 2006/02/02 18:18:32 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.10 2006/04/03 21:06:45 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
 import java.io.FileInputStream;
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.emf.codegen.merge.java.JControlModel;
@@ -43,10 +44,14 @@ public class JMergerTest extends DeprecatedJMergerTest
 
   public static Test suite()
   {
+    TestSuite superTS = (TestSuite)DeprecatedJMergerTest.suite();
     TestSuite ts = new TestSuite("JMergerTest");
-    ts.addTest(new JMergerTest("merge0"));
-    ts.addTest(new JMergerTest("merge1"));
-    ts.addTest(new JMergerTest("merge2"));
+    
+    for (int i=0; i<superTS.testCount(); i++)
+    {
+      String name = ((TestCase)superTS.testAt(i)).getName();
+      ts.addTest(new JMergerTest(name));
+    }
     return ts;
   }  
   
