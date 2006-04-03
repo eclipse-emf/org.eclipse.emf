@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.26 2006/03/17 19:48:11 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.27 2006/04/03 17:59:54 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -434,7 +434,7 @@ public class <%=genPackage.getEditorClassName()%>
 											{
 												removedResources.add(resource);
 											}
-											else
+											else if (!savedResources.remove(resource))
 											{
 												changedResources.add(resource);
 											}
@@ -479,6 +479,17 @@ public class <%=genPackage.getEditorClassName()%>
 						if (!visitor.getChangedResources().isEmpty())
 						{
 							changedResources.addAll(visitor.getChangedResources());
+							if (getSite().getPage().getActiveEditor() == <%=genPackage.getEditorClassName()%>.this)
+							{
+								getSite().getShell().getDisplay().asyncExec
+									(new Runnable()
+									 {
+										 public void run()
+										 {
+											 handleActivate();
+										 }
+									 });
+							}
 						}
 					}
 					catch (CoreException exception)
