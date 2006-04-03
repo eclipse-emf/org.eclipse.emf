@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryModelWizard.java,v 1.1 2005/11/10 18:57:56 marcelop Exp $
+ * $Id: EXTLibraryModelWizard.java,v 1.2 2006/04/03 18:02:29 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -583,7 +583,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
     {
       try
       {
-        return EXTLibraryEditPlugin.INSTANCE.getString("_UI_" + typeName + "_type"); //$NON-NLS-1$
+        return EXTLibraryEditPlugin.INSTANCE.getString("_UI_" + typeName + "_type"); //$NON-NLS-1$ //$NON-NLS-2$
       }
       catch(MissingResourceException mre)
       {

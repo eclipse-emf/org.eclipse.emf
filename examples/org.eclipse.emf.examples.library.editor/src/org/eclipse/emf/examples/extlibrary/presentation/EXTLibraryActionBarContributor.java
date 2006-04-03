@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryActionBarContributor.java,v 1.1 2005/11/10 18:57:56 marcelop Exp $
+ * $Id: EXTLibraryActionBarContributor.java,v 1.2 2006/04/03 18:02:29 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -26,6 +26,7 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 
+import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
@@ -174,6 +175,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
   {
     loadResourceAction = new LoadResourceAction();
     validateAction = new ValidateAction();
+    controlAction = new ControlAction();
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersonItemProvider.java,v 1.2 2005/12/05 12:36:45 emerks Exp $
+ * $Id: PersonItemProvider.java,v 1.3 2006/04/03 18:01:03 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -154,7 +154,7 @@ public class PersonItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/Person"); //$NON-NLS-1$
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/Person")); //$NON-NLS-1$
   }
 
   /**

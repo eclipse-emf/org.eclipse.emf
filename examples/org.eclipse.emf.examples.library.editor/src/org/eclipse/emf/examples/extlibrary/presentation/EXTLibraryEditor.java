@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.2 2005/12/20 06:01:08 marcelop Exp $
+ * $Id: EXTLibraryEditor.java,v 1.3 2006/04/03 18:02:29 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -60,6 +60,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import java.io.IOException;
+
+import java.io.InputStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -413,7 +415,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
                       {
                         removedResources.add(resource);
                       }
-                      else
+                      else if (!savedResources.remove(resource))
                       {
                         changedResources.add(resource);
                       }
@@ -458,6 +460,17 @@ public class EXTLibraryEditor extends MultiPageEditorPart
             if (!visitor.getChangedResources().isEmpty())
             {
               changedResources.addAll(visitor.getChangedResources());
+              if (getSite().getPage().getActiveEditor() == EXTLibraryEditor.this)
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
+                   {
+                     public void run()
+                     {
+                       handleActivate();
+                     }
+                   });
+              }
             }
           }
           catch (CoreException exception)
@@ -1343,6 +1356,30 @@ public class EXTLibraryEditor extends MultiPageEditorPart
       //
       EXTLibraryEditorPlugin.INSTANCE.log(exception);
     }
+  }
+
+  /**
+   * This returns wether something has been persisted to the URI of the specified resource.
+   * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected boolean isPersisted(Resource resource)
+  {
+    boolean result = false;
+    try
+    {
+      InputStream stream = editingDomain.getResourceSet().getURIConverter().createInputStream(resource.getURI());
+      if (stream != null)
+      {
+        result = true;
+        stream.close();
+      }
+    }
+    catch (IOException e) { }
+
+    return result;
   }
 
   /**

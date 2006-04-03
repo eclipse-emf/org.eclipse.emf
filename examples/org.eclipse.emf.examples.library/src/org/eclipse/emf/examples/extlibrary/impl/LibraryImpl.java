@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.3 2006/01/20 12:59:59 emerks Exp $
+ * $Id: LibraryImpl.java,v 1.4 2006/04/03 18:00:31 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.impl;
 
@@ -358,6 +358,17 @@ public class LibraryImpl extends EObjectImpl implements Library
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetParentBranch(Library newParentBranch, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newParentBranch, EXTLibraryPackage.LIBRARY__PARENT_BRANCH, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setParentBranch(Library newParentBranch)
   {
     if (newParentBranch != eInternalContainer() || (eContainerFeatureID != EXTLibraryPackage.LIBRARY__PARENT_BRANCH && newParentBranch != null))
@@ -369,7 +380,7 @@ public class LibraryImpl extends EObjectImpl implements Library
         msgs = eBasicRemoveFromContainer(msgs);
       if (newParentBranch != null)
         msgs = ((InternalEObject)newParentBranch).eInverseAdd(this, EXTLibraryPackage.LIBRARY__BRANCHES, Library.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newParentBranch, EXTLibraryPackage.LIBRARY__PARENT_BRANCH, msgs);
+      msgs = basicSetParentBranch(newParentBranch, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -404,7 +415,7 @@ public class LibraryImpl extends EObjectImpl implements Library
       case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, EXTLibraryPackage.LIBRARY__PARENT_BRANCH, msgs);
+        return basicSetParentBranch((Library)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -429,7 +440,7 @@ public class LibraryImpl extends EObjectImpl implements Library
       case EXTLibraryPackage.LIBRARY__BRANCHES:
         return ((InternalEList)getBranches()).basicRemove(otherEnd, msgs);
       case EXTLibraryPackage.LIBRARY__PARENT_BRANCH:
-        return eBasicSetContainer(null, EXTLibraryPackage.LIBRARY__PARENT_BRANCH, msgs);
+        return basicSetParentBranch(null, msgs);
       case EXTLibraryPackage.LIBRARY__PEOPLE:
         return ((InternalEList)getPeople()).basicRemove(otherEnd, msgs);
     }
