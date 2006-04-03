@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.25 2006/01/23 21:19:20 davidms Exp $
+ * $Id: EcoreEditor.java,v 1.26 2006/04/03 18:06:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
 
 import java.io.IOException;
+import java.io.InputStream;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -415,7 +417,7 @@ public class EcoreEditor
                       {
                         removedResources.add(resource);
                       }
-                      else
+                      else if (!savedResources.remove(resource))
                       {
                         changedResources.add(resource);
                       }
@@ -460,6 +462,17 @@ public class EcoreEditor
             if (!visitor.getChangedResources().isEmpty())
             {
               changedResources.addAll(visitor.getChangedResources());
+              if (getSite().getPage().getActiveEditor() == EcoreEditor.this)
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
+                   {
+                     public void run()
+                     {
+                       handleActivate();
+                     }
+                   });
+              }
             }
           }
           catch (CoreException exception)
@@ -1164,7 +1177,7 @@ public class EcoreEditor
             for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
             {
               Resource resource = (Resource)i.next();
-              if ((first || !resource.getContents().isEmpty()) && !editingDomain.isReadOnly(resource))
+              if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
               {
                 savedResources.add(resource);
                 resource.save(Collections.EMPTY_MAP);
@@ -1196,6 +1209,30 @@ public class EcoreEditor
       //
       EcoreEditorPlugin.INSTANCE.log(exception);
     }
+  }
+
+  /**
+   * This returns wether something has been persisted to the URI of the specified resource.
+   * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected boolean isPersisted(Resource resource)
+  {
+    boolean result = false;
+    try
+    {
+      InputStream stream = editingDomain.getResourceSet().getURIConverter().createInputStream(resource.getURI());
+      if (stream != null)
+      {
+        result = true;
+        stream.close();
+      }
+    }
+    catch (IOException e) { }
+
+    return result;
   }
 
   /**
