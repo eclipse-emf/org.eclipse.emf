@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.20 2006/01/24 14:04:39 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.21 2006/04/03 18:07:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -267,7 +267,7 @@ public class GenModelEditor
                       {
                         removedResources.add(resource);
                       }
-                      else
+                      else if (!savedResources.remove(resource))
                       {
                         changedResources.add(resource);
                       }
@@ -312,6 +312,17 @@ public class GenModelEditor
             if (!visitor.getChangedResources().isEmpty())
             {
               changedResources.addAll(visitor.getChangedResources());
+              if (getSite().getPage().getActiveEditor() == GenModelEditor.this)
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
+                   {
+                     public void run()
+                     {
+                       handleActivate();
+                     }
+                   });
+              }
             }
           }
           catch (CoreException exception)
