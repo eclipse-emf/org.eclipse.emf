@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedDeleteAction.java,v 1.1 2005/11/10 18:57:56 marcelop Exp $
+ * $Id: ExtendedDeleteAction.java,v 1.2 2006/04/03 18:02:13 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.actions;
 
@@ -69,12 +69,14 @@ public class ExtendedDeleteAction
 				}
 
 				if (!list.isEmpty()) {
-					Command removeLibraries = new RemoveLibraryCommand(domain,
-						((Library) list.get(0)).eResource().getContents(), list);
-					if (cmd instanceof UnexecutableCommand) {
-						return removeLibraries;
-					} else {
-						cmd.chain(removeLibraries);
+					Library library = (Library)list.get(0);
+                    if (library.eResource() != null) {
+					    Command removeLibraries = new RemoveLibraryCommand(domain, library.eResource().getContents(), list);
+					    if (cmd instanceof UnexecutableCommand) {
+						    return removeLibraries;
+					    } else {
+						    cmd.chain(removeLibraries);
+                        }
 					}
 				}
 			}
