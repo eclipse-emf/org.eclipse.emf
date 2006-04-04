@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.22 2006/02/07 21:21:20 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.23 2006/04/04 15:35:38 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1561,7 +1561,7 @@ public class ItemProviderAdapter
       child = entry.getValue();        
     }
 
-    if (feature instanceof EReference) //EStructuralFeature)
+    if (feature instanceof EReference)
     {
       EStructuralFeature eFeature = (EStructuralFeature)feature;
       String name = "full/ctool16/Create" + eFeature.getEContainingClass().getName() + "_" + eFeature.getName();
@@ -1577,7 +1577,21 @@ public class ItemProviderAdapter
       }
       catch (Exception e)
       {
-        System.out.println(name);
+        List images = new ArrayList();
+        IItemLabelProvider itemLabelProvider = 
+          (IItemLabelProvider)((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory().adapt(child, IItemLabelProvider.class);
+        images.add(itemLabelProvider.getImage(child));
+        images.add(EMFEditPlugin.INSTANCE.getImage("full/ovr16/CreateChild"));
+        return 
+          new ComposedImage(images)
+          {
+            public List getDrawPoints(Size size)
+            {
+              List result = super.getDrawPoints(size);
+              ((Point)result.get(1)).x = size.width - 7;
+              return result;
+            }
+          };
       }
     }
 
