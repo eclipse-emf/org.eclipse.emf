@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PersistenceTest.java,v 1.7 2006/03/27 17:49:35 marcelop Exp $
+ * $Id: PersistenceTest.java,v 1.8 2006/04/04 14:33:33 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -203,7 +203,7 @@ public class PersistenceTest extends TestCase
   
   public void oneFileTest(Resource.Factory resourceFactory) throws Exception
   {
-    URI uri = uri = URI.createFileURI(TestUtil.getPluginDirectory() + "/people.pep");
+    URI uri = URI.createFileURI(TestUtil.getPluginDirectory() + "/people.pep");
     new File(uri.toFileString()).delete();
 
     Resource resource = resourceFactory.createResource(uri);

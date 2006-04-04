@@ -86,7 +86,7 @@ public class <%=genPackage.getExampleClassName()%>
 			try
 			{
 				<%=_Resource%> resource = resourceSet.createResource(<%=_URI%>.createURI("http:///My.<%=genPackage.getPrefix().toLowerCase()%>"));
-  <%if (genPackage.getRootFeature() != null) { GenFeature rootFeature = rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();%>
+  <%if (genPackage.getRootFeature() != null) { GenFeature rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();%>
 				<%=documentRoot.getImportedInterfaceName()%> documentRoot = <%=genPackage.getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=documentRoot.getName()%>();
 				<%=rootClass.getImportedInterfaceName()%> root = <%=genPackage.getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=rootClass.getName()%>();
     <%if (documentRoot.isDynamic()) {%>

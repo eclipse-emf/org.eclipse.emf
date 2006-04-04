@@ -146,7 +146,7 @@ String _ResourceSetImpl = genModel.getImportedName("org.eclipse.emf.ecore.resour
     stringBuffer.append(TEXT_21);
     stringBuffer.append(genPackage.getPrefix().toLowerCase());
     stringBuffer.append(TEXT_22);
-    if (genPackage.getRootFeature() != null) { GenFeature rootFeature = rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();
+    if (genPackage.getRootFeature() != null) { GenFeature rootFeature = genPackage.getRootFeature(); GenClass documentRoot = rootFeature.getGenClass();
     stringBuffer.append(TEXT_23);
     stringBuffer.append(documentRoot.getImportedInterfaceName());
     stringBuffer.append(TEXT_24);
