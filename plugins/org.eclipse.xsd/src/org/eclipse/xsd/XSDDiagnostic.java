@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnostic.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDDiagnostic.java,v 1.4 2006/04/04 10:10:22 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -39,6 +39,8 @@ import org.eclipse.emf.ecore.resource.Resource;
  *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getColumn <em>Column</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getNode <em>Node</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getAnnotationURI <em>Annotation URI</em>}</li>
+ *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getKey <em>Key</em>}</li>
+ *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getSubstitutions <em>Substitutions</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getComponents <em>Components</em>}</li>
  *   <li>{@link org.eclipse.xsd.XSDDiagnostic#getPrimaryComponent <em>Primary Component</em>}</li>
  * </ul>
@@ -238,6 +240,48 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * @generated
    */
   void setAnnotationURI(String value);
+
+  /**
+   * Returns the value of the '<em><b>Key</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Key</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Key</em>' attribute.
+   * @see #setKey(String)
+   * @see org.eclipse.xsd.XSDPackage#getXSDDiagnostic_Key()
+   * @model
+   * @generated
+   */
+  String getKey();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.xsd.XSDDiagnostic#getKey <em>Key</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Key</em>' attribute.
+   * @see #getKey()
+   * @generated
+   */
+  void setKey(String value);
+
+  /**
+   * Returns the value of the '<em><b>Substitutions</b></em>' attribute list.
+   * The list contents are of type {@link java.lang.String}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Substitutions</em>' attribute list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Substitutions</em>' attribute list.
+   * @see org.eclipse.xsd.XSDPackage#getXSDDiagnostic_Substitutions()
+   * @model type="java.lang.String"
+   * @generated
+   */
+  EList getSubstitutions();
 
   /**
    * Returns the value of the '<em><b>Components</b></em>' reference list.

@@ -331,6 +331,15 @@
 		(object ClassAttribute "annotationURI"
 		    quid       	"3C06374F0186"
 		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "key"
+		    quid       	"442C42AC01AC"
+		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "substitutions"
+		    quid       	"442C42D401E4"
+		    stereotype 	"0..*"
+		    type       	"String"
 		    exportControl 	"Public")))
 	(object Class "XSDElementDeclaration"
 	    quid       	"3B66ED580214"
@@ -7281,7 +7290,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	2
-			max_width  	521
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ name : String"
 			    "+ targetNamespace : String"))
@@ -7307,14 +7316,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B682BBD01F7"
-		    compartment 	(object Compartment
-			Parent_View 	@216
-			location   	(41, 1627)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	421)
 		    width      	512
 		    height     	186
 		    annotation 	8
@@ -7343,7 +7344,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	5
-			max_width  	1181
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ derivationMethod : XSDDerivationMethod = restriction"
 			    "<<0..*>> + final : XSDComplexFinal"
@@ -7386,7 +7387,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	2
-			max_width  	634
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ variety : XSDVariety"
 			    "<<0..*>> + final : XSDSimpleFinal"))
@@ -7418,7 +7419,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	3
-			max_width  	537
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ required : boolean"
 			    "+ value : Value"
@@ -7478,14 +7479,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6834E00291"
-		    compartment 	(object Compartment
-			Parent_View 	@222
-			location   	(47, 1444)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	581)
 		    width      	596
 		    height     	136
 		    annotation 	8
@@ -7518,7 +7511,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	2
-			max_width  	543
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ value : Value"
 			    "+ constraint : XSDConstraint"))
@@ -7552,14 +7545,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6D83BB0355"
-		    compartment 	(object Compartment
-			Parent_View 	@225
-			location   	(1995, 107)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	525)
 		    width      	540
 		    height     	186
 		    annotation 	8
@@ -7622,14 +7607,6 @@
 		    line_color 	3342489
 		    fill_color 	8432127
 		    quidu      	"3B869B620037"
-		    compartment 	(object Compartment
-			Parent_View 	@228
-			location   	(45, 1176)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	234)
 		    width      	344
 		    height     	292
 		    annotation 	8
@@ -7661,14 +7638,6 @@
 		    line_color 	3342489
 		    fill_color 	8432127
 		    quidu      	"3B869E2601AE"
-		    compartment 	(object Compartment
-			Parent_View 	@229
-			location   	(638, 529)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	178)
 		    width      	342
 		    height     	242
 		    annotation 	8
@@ -7731,14 +7700,6 @@
 		    line_color 	3342489
 		    fill_color 	8432127
 		    quidu      	"3B86A1E00272"
-		    compartment 	(object Compartment
-			Parent_View 	@231
-			location   	(1281, 148)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	178)
 		    width      	625
 		    height     	300
 		    annotation 	8
@@ -7801,14 +7762,6 @@
 		    line_color 	3342489
 		    fill_color 	8432127
 		    quidu      	"3B8FF7730249"
-		    compartment 	(object Compartment
-			Parent_View 	@233
-			location   	(708, 1576)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	181)
 		    width      	362
 		    height     	292
 		    annotation 	8
@@ -7985,14 +7938,6 @@
 		    line_color 	3342489
 		    fill_color 	8432127
 		    quidu      	"3B97C59100AE"
-		    compartment 	(object Compartment
-			Parent_View 	@238
-			location   	(485, 1185)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	237)
 		    width      	648
 		    height     	242
 		    annotation 	8
@@ -8030,7 +7975,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	3
-			max_width  	268
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ substitution"
 			    "+ extension"
@@ -8135,7 +8080,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	4
-			max_width  	1393
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ nillable : boolean"
 			    "<<0..*>> + disallowedSubstitutions : XSDDisallowedSubstitutions"
@@ -8317,14 +8262,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B682B2603A2"
-		    compartment 	(object Compartment
-			Parent_View 	@254
-			location   	(1034, 528)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	1131)
 		    width      	1150
 		    height     	144
 		    annotation 	8
@@ -8357,14 +8294,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B66EDAA021C"
-		    compartment 	(object Compartment
-			Parent_View 	@256
-			location   	(2078, 763)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	487)
 		    width      	502
 		    height     	186
 		    annotation 	8
@@ -8459,14 +8388,6 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3B6C699E00C1"
-		    compartment 	(object Compartment
-			Parent_View 	@262
-			location   	(32, 900)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	321)
 		    width      	338
 		    height     	136
 		    annotation 	8
@@ -8513,14 +8434,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6C6ACE0141"
-		    compartment 	(object Compartment
-			Parent_View 	@264
-			location   	(266, 1172)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	465)
 		    width      	478
 		    height     	136
 		    annotation 	8
@@ -8543,14 +8456,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6C6ADB026C"
-		    compartment 	(object Compartment
-			Parent_View 	@265
-			location   	(777, 1172)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	468)
 		    width      	480
 		    height     	136
 		    annotation 	8
@@ -8581,14 +8486,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6C74DD0248"
-		    compartment 	(object Compartment
-			Parent_View 	@267
-			location   	(1799, 932)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	409)
 		    width      	420
 		    height     	136
 		    annotation 	8
@@ -8611,14 +8508,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6C751D0344"
-		    compartment 	(object Compartment
-			Parent_View 	@268
-			location   	(1383, 932)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	328)
 		    width      	388
 		    height     	136
 		    annotation 	8
@@ -8641,14 +8530,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6C755D03D2"
-		    compartment 	(object Compartment
-			Parent_View 	@269
-			location   	(1807, 1108)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	456)
 		    width      	468
 		    height     	136
 		    annotation 	8
@@ -8671,14 +8552,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6C75950206"
-		    compartment 	(object Compartment
-			Parent_View 	@270
-			location   	(1319, 1109)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	328)
 		    width      	388
 		    height     	134
 		    annotation 	8
@@ -8701,14 +8574,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6C776200E7"
-		    compartment 	(object Compartment
-			Parent_View 	@271
-			location   	(491, 1380)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	231)
 		    width      	348
 		    height     	136
 		    annotation 	8
@@ -8731,14 +8596,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6C778C0065"
-		    compartment 	(object Compartment
-			Parent_View 	@272
-			location   	(405, 1557)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	231)
 		    width      	424
 		    height     	134
 		    annotation 	8
@@ -8769,14 +8626,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6C77C70146"
-		    compartment 	(object Compartment
-			Parent_View 	@274
-			location   	(1007, 1557)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	231)
 		    width      	436
 		    height     	134
 		    annotation 	8
@@ -8799,14 +8648,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B6C784601B7"
-		    compartment 	(object Compartment
-			Parent_View 	@275
-			location   	(880, 1380)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	487)
 		    width      	498
 		    height     	136
 		    annotation 	8
@@ -9035,14 +8876,6 @@
 		    line_color 	3342489
 		    fill_color 	8432127
 		    quidu      	"3BC7715202E4"
-		    compartment 	(object Compartment
-			Parent_View 	@287
-			location   	(1835, 1384)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	168)
 		    width      	444
 		    height     	292
 		    annotation 	8
@@ -9074,14 +8907,6 @@
 		    line_color 	3342489
 		    fill_color 	8432127
 		    quidu      	"3BC7715D009B"
-		    compartment 	(object Compartment
-			Parent_View 	@288
-			location   	(1835, 1729)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	350)
 		    width      	444
 		    height     	242
 		    annotation 	8
@@ -9184,7 +9009,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	1
-			max_width  	290
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ value : Value"))
 		    width      	304
@@ -9217,7 +9042,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	1
-			max_width  	290
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ value : Value"))
 		    width      	306
@@ -9470,7 +9295,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	2
-			max_width  	634
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ variety : XSDVariety"
 			    "<<0..*>> + final : XSDSimpleFinal"))
@@ -10025,7 +9850,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	3
-			max_width  	237
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ list"
 			    "+ restriction"
@@ -10061,14 +9886,6 @@
 		    line_color 	3342489
 		    fill_color 	8432127
 		    quidu      	"3B8FF7730249"
-		    compartment 	(object Compartment
-			Parent_View 	@358
-			location   	(1918, 152)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	181)
 		    width      	342
 		    height     	292
 		    annotation 	8
@@ -12662,7 +12479,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	2
-			max_width  	418
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ form : XSDForm"
 			    "+ lexicalValue : String"))
@@ -12727,7 +12544,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	1
-			max_width  	484
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ element : DOMElement"))
 		    width      	675
@@ -12862,14 +12679,6 @@
 		    line_color 	3342489
 		    fill_color 	14671839
 		    quidu      	"3B8189790200"
-		    compartment 	(object Compartment
-			Parent_View 	@561
-			location   	(873, 150)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	731)
 		    width      	769
 		    height     	200
 		    annotation 	8
@@ -12894,14 +12703,6 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3B6AD8A202A2"
-		    compartment 	(object Compartment
-			Parent_View 	@562
-			location   	(41, 644)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	500)
 		    width      	512
 		    height     	136
 		    annotation 	8)
@@ -12970,7 +12771,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	4
-			max_width  	268
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ substitution"
 			    "+ extension"
@@ -13013,7 +12814,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	3
-			max_width  	237
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ extension"
 			    "+ restriction"
@@ -13139,7 +12940,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	2
-			max_width  	628
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ use : XSDAttributeUseCategory"
 			    "+ lexicalValue : String"))
@@ -13174,14 +12975,6 @@
 		    line_color 	3342489
 		    fill_color 	8432127
 		    quidu      	"3BA7B0E801A8"
-		    compartment 	(object Compartment
-			Parent_View 	@571
-			location   	(41, 1608)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	234)
 		    width      	512
 		    height     	292
 		    annotation 	8
@@ -13233,7 +13026,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	2
-			max_width  	971
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "<<0..*>> + lexicalFinal : XSDProhibitedSubstitutions"
 			    "<<0..*>> + block : XSDDisallowedSubstitutions"))
@@ -13265,7 +13058,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	1
-			max_width  	893
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "<<0..*>> + lexicalNamespaceConstraint : String"))
 		    width      	906
@@ -13290,14 +13083,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"374B182500BB"
-		    compartment 	(object Compartment
-			Parent_View 	@575
-			location   	(622, 837)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	8
-			max_width  	1003)
 		    width      	1014
 		    height     	486
 		    annotation 	8
@@ -13320,14 +13105,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B688C93017F"
-		    compartment 	(object Compartment
-			Parent_View 	@576
-			location   	(37, 964)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	412)
 		    width      	424
 		    height     	136
 		    annotation 	8)
@@ -13359,7 +13136,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	1
-			max_width  	418
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ lexicalValue : String"))
 		    width      	430
@@ -13450,14 +13227,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B66EDC80233"
-		    compartment 	(object Compartment
-			Parent_View 	@581
-			location   	(1758, 658)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	906)
 		    width      	918
 		    height     	236
 		    annotation 	8
@@ -13516,14 +13285,6 @@
 		    line_color 	3342489
 		    fill_color 	14671839
 		    quidu      	"3BBF8C8901B6"
-		    compartment 	(object Compartment
-			Parent_View 	@585
-			location   	(2080, 410)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	646)
 		    width      	658
 		    height     	192
 		    annotation 	8
@@ -13622,14 +13383,6 @@
 		    line_color 	3342489
 		    fill_color 	14671839
 		    quidu      	"3C27850E0381"
-		    compartment 	(object Compartment
-			Parent_View 	@593
-			location   	(1957, 154)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	765)
 		    width      	776
 		    height     	192
 		    annotation 	8
@@ -13671,14 +13424,6 @@
 		    line_color 	3342489
 		    fill_color 	14671839
 		    quidu      	"3BFE64A50117"
-		    compartment 	(object Compartment
-			Parent_View 	@595
-			location   	(1234, 410)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	675)
 		    width      	686
 		    height     	192
 		    annotation 	8
@@ -17285,7 +17030,7 @@
 		    location   	(384, 608)
 		    label      	(object ItemLabel
 			Parent_View 	@868
-			location   	(64, 402)
+			location   	(64, 352)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	640
@@ -17297,39 +17042,39 @@
 		    quidu      	"3BFE5F910046"
 		    compartment 	(object Compartment
 			Parent_View 	@868
-			location   	(64, 462)
+			location   	(64, 412)
 			icon_style 	"Icon"
 			fill_color 	16777215
 			anchor     	2
-			nlines     	7
-			max_width  	646)
+			nlines     	9
+			max_width  	637)
 		    width      	658
-		    height     	436
+		    height     	536
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$150" @869
-		    location   	(144, 283)
+		    location   	(144, 258)
 		    stereotype 	TRUE
 		    line_color 	3342489
 		    quidu      	"3BFE6431035F"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$151" @870
 			    Parent_View 	@869
-			    location   	(-1088, -661)
+			    location   	(-1088, -686)
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"3BFE643201C6"
 			    client     	@869
 			    supplier   	@866
 			    line_style 	3
-			    origin_attachment 	(144, 283)
+			    origin_attachment 	(144, 258)
 			    terminal_attachment 	(144, 176))
 			(object RoleView "allDiagnostics" @871
 			    Parent_View 	@869
-			    location   	(-1088, -661)
+			    location   	(-1088, -686)
 			    label      	(object SegLabel @872
 				Parent_View 	@871
-				location   	(309, 330)
+				location   	(309, 294)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
@@ -17345,11 +17090,11 @@
 			    client     	@869
 			    supplier   	@868
 			    line_style 	3
-			    origin_attachment 	(144, 283)
-			    terminal_attachment 	(144, 390)
+			    origin_attachment 	(144, 258)
+			    terminal_attachment 	(144, 340)
 			    label      	(object SegLabel @873
 				Parent_View 	@871
-				location   	(96, 327)
+				location   	(96, 291)
 				anchor     	2
 				anchor_loc 	1
 				nlines     	1
@@ -17416,28 +17161,28 @@
 				height     	55
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$148" @879
-		    location   	(688, 282)
+		    location   	(688, 257)
 		    stereotype 	TRUE
 		    line_color 	3342489
 		    quidu      	"3BFE62690165"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$149" @880
 			    Parent_View 	@879
-			    location   	(160, -278)
+			    location   	(160, -303)
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"3BFE626A0026"
 			    client     	@879
 			    supplier   	@867
 			    line_style 	3
-			    origin_attachment 	(688, 282)
+			    origin_attachment 	(688, 257)
 			    terminal_attachment 	(688, 174))
 			(object RoleView "diagnostics" @881
 			    Parent_View 	@879
-			    location   	(160, -278)
+			    location   	(160, -303)
 			    label      	(object SegLabel @882
 				Parent_View 	@881
-				location   	(822, 330)
+				location   	(822, 294)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
@@ -17453,11 +17198,11 @@
 			    client     	@879
 			    supplier   	@868
 			    line_style 	3
-			    origin_attachment 	(688, 282)
-			    terminal_attachment 	(688, 390)
+			    origin_attachment 	(688, 257)
+			    terminal_attachment 	(688, 340)
 			    label      	(object SegLabel @883
 				Parent_View 	@881
-				location   	(645, 335)
+				location   	(645, 298)
 				anchor     	2
 				anchor_loc 	1
 				nlines     	1
@@ -17474,7 +17219,7 @@
 		    client     	@868
 		    supplier   	@867
 		    line_style 	3
-		    origin_attachment 	(575, 390)
+		    origin_attachment 	(575, 340)
 		    terminal_attachment 	(575, 174))))
 	(object ClassDiagram "11. Supplemental"
 	    quid       	"3C287E49019B"
@@ -17503,14 +17248,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B66ED840290"
-		    compartment 	(object Compartment
-			Parent_View 	@885
-			location   	(47, 820)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	840)
 		    width      	852
 		    height     	136
 		    annotation 	8
@@ -17533,14 +17270,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3B66ED2E0192"
-		    compartment 	(object Compartment
-			Parent_View 	@886
-			location   	(1731, 884)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	768)
 		    width      	780
 		    height     	136
 		    annotation 	8
@@ -17678,7 +17407,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	2
-			max_width  	765
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ elementDeclarationReference : boolean"
 			    "+ circular : boolean"))
@@ -17744,7 +17473,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	1
-			max_width  	803
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ modelGroupDefinitionReference : boolean"))
 		    width      	820
@@ -17777,7 +17506,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	4
-			max_width  	393
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ aliasName : String"
 			    "+ uRI : String"
@@ -17807,14 +17536,6 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3B7FCA8B020B"
-		    compartment 	(object Compartment
-			Parent_View 	@899
-			location   	(48, 356)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	1
-			max_width  	368)
 		    width      	562
 		    height     	136
 		    annotation 	8
@@ -18180,7 +17901,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	2
-			max_width  	403
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ inclusive : boolean"
 			    "+ exclusive : boolean"))
@@ -18317,7 +18038,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	1
-			max_width  	581
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "<<0..*>> + validFacets : String"))
 		    width      	594
@@ -20294,7 +20015,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	2
-			max_width  	540
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ global : boolean"
 			    "+ featureReference : boolean"))

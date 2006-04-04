@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.16 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.17 2006/04/04 10:10:22 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -3511,7 +3511,7 @@ public class XSDSimpleTypeDefinitionImpl
         substitutions[3] = xsdConstrainingFacet.getLexicalValue();
         substitutions[4] = xsdConstrainingFacet.getSimpleTypeDefinition().getURI();
 
-        String message = XSDPlugin.INSTANCE.getString("cvc-" + xsdConstrainingFacet.getFacetName() + "-valid", substitutions);
+        String message = populateDiagnostic(result, "cvc-" + xsdConstrainingFacet.getFacetName() + "-valid", substitutions);
         if (node == null || node.getNodeType() == Node.TEXT_NODE)
         {
           message = requote(message);
@@ -3604,8 +3604,9 @@ public class XSDSimpleTypeDefinitionImpl
       substitutions[3] = xsdSimpleTypeDefinition.getURI();
       XSDSimpleTypeDefinition primitiveTypeDefinition = xsdSimpleTypeDefinition.getPrimitiveTypeDefinition();
       String message = 
-        XSDPlugin.INSTANCE.getString
-          (primitiveTypeDefinition == null ? 
+        populateDiagnostic
+          (result,
+           primitiveTypeDefinition == null ? 
              "cvc-datatype-valid.1.2.3" : 
              "cvc-datatype-valid.1.2.1", 
            substitutions);

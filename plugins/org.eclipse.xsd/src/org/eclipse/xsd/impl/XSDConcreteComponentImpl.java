@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.12 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.13 2006/04/04 10:10:22 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -579,7 +579,7 @@ public abstract class XSDConcreteComponentImpl
     XSDDiagnostic xsdDiagnostic = getXSDFactory().createXSDDiagnostic();
     xsdDiagnostic.setSeverity(XSDDiagnosticSeverity.ERROR_LITERAL);
     xsdDiagnostic.setMessage
-      (XSDPlugin.INSTANCE.getString("_UI_XSDError_message", new Object [] { XSDPlugin.INSTANCE.getString(anchor, substitutions) }));
+      (XSDPlugin.INSTANCE.getString("_UI_XSDError_message", new Object [] { populateDiagnostic(xsdDiagnostic, anchor, substitutions) }));
     xsdDiagnostic.setPrimaryComponent(this);
     Node node = element;
     if (attributeName != null)
@@ -648,8 +648,9 @@ public abstract class XSDConcreteComponentImpl
                ("_UI_XSDError_message", 
                 new Object [] 
                 {
-                  XSDPlugin.INSTANCE.getString
-                    ("content-valid.1", 
+                  populateDiagnostic
+                    (xsdDiagnostic,
+                     "content-valid.1", 
                      new Object [] { XSDConstants.uri(child), xsdComplexTypeDefinition.getURI(), getExpected(state) })
                 }));
           xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
@@ -675,8 +676,9 @@ public abstract class XSDConcreteComponentImpl
            ("_UI_XSDError_message", 
             new Object [] 
             { 
-              XSDPlugin.INSTANCE.getString
-                ("content-valid.2", 
+              populateDiagnostic
+                (xsdDiagnostic,
+                 "content-valid.2", 
                  new Object [] { xsdComplexTypeDefinition.getURI(), getExpected(state) }) 
             }));
       xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
@@ -847,7 +849,7 @@ public abstract class XSDConcreteComponentImpl
               ("_UI_XSDError_message", 
                new Object [] 
                { 
-                 XSDPlugin.INSTANCE.getString("cvc-complex-type.3", new Object [] { localName }) 
+                 populateDiagnostic(xsdDiagnostic, "cvc-complex-type.3", new Object [] { localName }) 
                }));
           xsdDiagnostic.setAnnotationURI(part + "#" + anchor);
           xsdDiagnostic.setPrimaryComponent(this);
@@ -874,7 +876,7 @@ public abstract class XSDConcreteComponentImpl
          ("_UI_XSDError_message", 
           new Object [] 
           { 
-            XSDPlugin.INSTANCE.getString("cvc-complex-type.4", new Object [] { attributeName }) 
+            populateDiagnostic(result, "cvc-complex-type.4", new Object [] { attributeName }) 
           }));
     result.setAnnotationURI(part + "#" + anchor);
     result.setPrimaryComponent(this);
@@ -898,7 +900,7 @@ public abstract class XSDConcreteComponentImpl
     xsdDiagnostic.setSeverity(severity);
     xsdDiagnostic.setMessage
       (XSDPlugin.INSTANCE.getString
-         ("_UI_XSDError_message", new Object [] { XSDPlugin.INSTANCE.getString(key)}));
+         ("_UI_XSDError_message", new Object [] { populateDiagnostic(xsdDiagnostic, key, null) }));
     xsdDiagnostic.setPrimaryComponent(this);
     xsdDiagnostic.setNode(getElement());
 
@@ -915,7 +917,7 @@ public abstract class XSDConcreteComponentImpl
     xsdDiagnostic.setSeverity(severity);
     xsdDiagnostic.setMessage
       (XSDPlugin.INSTANCE.getString
-         ("_UI_XSDError_message", new Object [] { XSDPlugin.INSTANCE.getString(key, new Object [] { s1 }) }));
+         ("_UI_XSDError_message", new Object [] { populateDiagnostic(xsdDiagnostic, key, new Object [] { s1 }) }));
     xsdDiagnostic.setPrimaryComponent(this);
     xsdDiagnostic.setNode(getElement());
 
@@ -932,7 +934,7 @@ public abstract class XSDConcreteComponentImpl
     xsdDiagnostic.setSeverity(severity);
     xsdDiagnostic.setMessage
       (XSDPlugin.INSTANCE.getString
-         ("_UI_XSDError_message", new Object [] { XSDPlugin.INSTANCE.getString(key, new Object [] { s1, s2 }) }));
+         ("_UI_XSDError_message", new Object [] { populateDiagnostic(xsdDiagnostic, key, new Object [] { s1, s2 }) }));
     xsdDiagnostic.setPrimaryComponent(this);
     xsdDiagnostic.setNode(getElement());
 
@@ -949,7 +951,7 @@ public abstract class XSDConcreteComponentImpl
     xsdDiagnostic.setSeverity(severity);
     xsdDiagnostic.setMessage
       (XSDPlugin.INSTANCE.getString
-         ("_UI_XSDError_message", new Object [] { XSDPlugin.INSTANCE.getString(key, new Object [] { s1, s2, s3 }) }));
+         ("_UI_XSDError_message", new Object [] { populateDiagnostic(xsdDiagnostic, key, new Object [] { s1, s2, s3 }) }));
     xsdDiagnostic.setPrimaryComponent(this);
     xsdDiagnostic.setNode(getElement());
 
@@ -958,6 +960,21 @@ public abstract class XSDConcreteComponentImpl
 
     getDiagnostics().add(xsdDiagnostic);
     return xsdDiagnostic;
+  }
+  
+  protected static String populateDiagnostic(XSDDiagnostic xsdDiagnostic, String key, Object [] substitutions)
+  {
+    xsdDiagnostic.setKey(key);
+    if (substitutions != null)
+    {
+      List values = xsdDiagnostic.getSubstitutions();
+      for (int i = 0; i < substitutions.length; ++i)
+      {
+        Object value = substitutions[i];
+        values.add(value == null ? null : value.toString());
+      }
+    }
+    return XSDPlugin.INSTANCE.getString(key, substitutions);
   }
 
   protected void reconcile(Element changedElement)

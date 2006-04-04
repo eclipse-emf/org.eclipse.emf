@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackage.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDPackage.java,v 1.6 2006/04/04 10:10:22 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -40,7 +40,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface XSDPackage extends EPackage{
+public interface XSDPackage extends EPackage
+{
   /**
    * The package name.
    * @generated
@@ -3009,13 +3010,31 @@ public interface XSDPackage extends EPackage{
   int XSD_DIAGNOSTIC__ANNOTATION_URI = XSD_CONCRETE_COMPONENT_FEATURE_COUNT + 6;
 
   /**
+   * The feature id for the '<em><b>Key</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSD_DIAGNOSTIC__KEY = XSD_CONCRETE_COMPONENT_FEATURE_COUNT + 7;
+
+  /**
+   * The feature id for the '<em><b>Substitutions</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XSD_DIAGNOSTIC__SUBSTITUTIONS = XSD_CONCRETE_COMPONENT_FEATURE_COUNT + 8;
+
+  /**
    * The feature id for the '<em><b>Components</b></em>' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XSD_DIAGNOSTIC__COMPONENTS = XSD_CONCRETE_COMPONENT_FEATURE_COUNT + 7;
+  int XSD_DIAGNOSTIC__COMPONENTS = XSD_CONCRETE_COMPONENT_FEATURE_COUNT + 9;
 
   /**
    * The feature id for the '<em><b>Primary Component</b></em>' reference.
@@ -3024,7 +3043,7 @@ public interface XSDPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int XSD_DIAGNOSTIC__PRIMARY_COMPONENT = XSD_CONCRETE_COMPONENT_FEATURE_COUNT + 8;
+  int XSD_DIAGNOSTIC__PRIMARY_COMPONENT = XSD_CONCRETE_COMPONENT_FEATURE_COUNT + 10;
 
   /**
    * The number of structural features of the '<em>Diagnostic</em>' class.
@@ -3033,7 +3052,7 @@ public interface XSDPackage extends EPackage{
    * @generated
    * @ordered
    */
-  int XSD_DIAGNOSTIC_FEATURE_COUNT = XSD_CONCRETE_COMPONENT_FEATURE_COUNT + 9;
+  int XSD_DIAGNOSTIC_FEATURE_COUNT = XSD_CONCRETE_COMPONENT_FEATURE_COUNT + 11;
 
   /**
    * The feature id for the '<em><b>Element</b></em>' attribute.
@@ -8896,6 +8915,28 @@ public interface XSDPackage extends EPackage{
   EAttribute getXSDDiagnostic_AnnotationURI();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.xsd.XSDDiagnostic#getKey <em>Key</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Key</em>'.
+   * @see org.eclipse.xsd.XSDDiagnostic#getKey()
+   * @see #getXSDDiagnostic()
+   * @generated
+   */
+  EAttribute getXSDDiagnostic_Key();
+
+  /**
+   * Returns the meta object for the attribute list '{@link org.eclipse.xsd.XSDDiagnostic#getSubstitutions <em>Substitutions</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute list '<em>Substitutions</em>'.
+   * @see org.eclipse.xsd.XSDDiagnostic#getSubstitutions()
+   * @see #getXSDDiagnostic()
+   * @generated
+   */
+  EAttribute getXSDDiagnostic_Substitutions();
+
+  /**
    * Returns the meta object for the reference list '{@link org.eclipse.xsd.XSDDiagnostic#getComponents <em>Components</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -11426,7 +11467,7 @@ public interface XSDPackage extends EPackage{
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals
+  interface Literals 
   {
     /**
      * The meta object literal for the '{@link org.eclipse.xsd.impl.XSDAnnotationImpl <em>Annotation</em>}' class.
@@ -12005,6 +12046,22 @@ public interface XSDPackage extends EPackage{
      * @generated
      */
     EAttribute XSD_DIAGNOSTIC__ANNOTATION_URI = eINSTANCE.getXSDDiagnostic_AnnotationURI();
+
+    /**
+     * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_DIAGNOSTIC__KEY = eINSTANCE.getXSDDiagnostic_Key();
+
+    /**
+     * The meta object literal for the '<em><b>Substitutions</b></em>' attribute list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute XSD_DIAGNOSTIC__SUBSTITUTIONS = eINSTANCE.getXSDDiagnostic_Substitutions();
 
     /**
      * The meta object literal for the '<em><b>Components</b></em>' reference list feature.

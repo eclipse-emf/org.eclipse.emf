@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackageImpl.java,v 1.7 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDPackageImpl.java,v 1.8 2006/04/04 10:10:22 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1417,9 +1417,29 @@ public class XSDPackageImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getXSDDiagnostic_Key()
+  {
+    return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(7);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getXSDDiagnostic_Substitutions()
+  {
+    return (EAttribute)xsdDiagnosticEClass.getEStructuralFeatures().get(8);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getXSDDiagnostic_Components()
   {
-    return (EReference)xsdDiagnosticEClass.getEStructuralFeatures().get(7);
+    return (EReference)xsdDiagnosticEClass.getEStructuralFeatures().get(9);
   }
 
   /**
@@ -1429,7 +1449,7 @@ public class XSDPackageImpl
    */
   public EReference getXSDDiagnostic_PrimaryComponent()
   {
-    return (EReference)xsdDiagnosticEClass.getEStructuralFeatures().get(8);
+    return (EReference)xsdDiagnosticEClass.getEStructuralFeatures().get(10);
   }
 
   /**
@@ -3863,6 +3883,8 @@ public class XSDPackageImpl
     createEAttribute(xsdDiagnosticEClass, XSD_DIAGNOSTIC__COLUMN);
     createEAttribute(xsdDiagnosticEClass, XSD_DIAGNOSTIC__NODE);
     createEAttribute(xsdDiagnosticEClass, XSD_DIAGNOSTIC__ANNOTATION_URI);
+    createEAttribute(xsdDiagnosticEClass, XSD_DIAGNOSTIC__KEY);
+    createEAttribute(xsdDiagnosticEClass, XSD_DIAGNOSTIC__SUBSTITUTIONS);
     createEReference(xsdDiagnosticEClass, XSD_DIAGNOSTIC__COMPONENTS);
     createEReference(xsdDiagnosticEClass, XSD_DIAGNOSTIC__PRIMARY_COMPONENT);
 
@@ -4326,6 +4348,8 @@ public class XSDPackageImpl
     initEAttribute(getXSDDiagnostic_Column(), ecorePackage.getEInt(), "column", "1", 0, 1, XSDDiagnostic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDDiagnostic_Node(), this.getDOMNode(), "node", null, 0, 1, XSDDiagnostic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXSDDiagnostic_AnnotationURI(), ecorePackage.getEString(), "annotationURI", null, 0, 1, XSDDiagnostic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDDiagnostic_Key(), ecorePackage.getEString(), "key", null, 0, 1, XSDDiagnostic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getXSDDiagnostic_Substitutions(), ecorePackage.getEString(), "substitutions", null, 0, -1, XSDDiagnostic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDDiagnostic_Components(), this.getXSDConcreteComponent(), null, "components", null, 1, -1, XSDDiagnostic.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getXSDDiagnostic_PrimaryComponent(), this.getXSDConcreteComponent(), null, "primaryComponent", null, 1, 1, XSDDiagnostic.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

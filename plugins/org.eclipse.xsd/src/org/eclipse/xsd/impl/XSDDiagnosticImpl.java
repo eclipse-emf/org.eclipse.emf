@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticImpl.java,v 1.8 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDDiagnosticImpl.java,v 1.9 2006/04/04 10:10:22 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectEList;
 
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -51,6 +52,8 @@ import org.eclipse.xsd.util.XSDParser;
  *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getColumn <em>Column</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getNode <em>Node</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getAnnotationURI <em>Annotation URI</em>}</li>
+ *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getKey <em>Key</em>}</li>
+ *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getSubstitutions <em>Substitutions</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getComponents <em>Components</em>}</li>
  *   <li>{@link org.eclipse.xsd.impl.XSDDiagnosticImpl#getPrimaryComponent <em>Primary Component</em>}</li>
  * </ul>
@@ -201,6 +204,36 @@ public class XSDDiagnosticImpl
    * @ordered
    */
   protected String annotationURI = ANNOTATION_URI_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #getKey() <em>Key</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getKey()
+   * @generated
+   * @ordered
+   */
+  protected static final String KEY_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getKey() <em>Key</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getKey()
+   * @generated
+   * @ordered
+   */
+  protected String key = KEY_EDEFAULT;
+
+  /**
+   * The cached value of the '{@link #getSubstitutions() <em>Substitutions</em>}' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getSubstitutions()
+   * @generated
+   * @ordered
+   */
+  protected EList substitutions = null;
 
   /**
    * The cached value of the '{@link #getComponents() <em>Components</em>}' reference list.
@@ -450,6 +483,43 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  public String getKey()
+  {
+    return key;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setKey(String newKey)
+  {
+    String oldKey = key;
+    key = newKey;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_DIAGNOSTIC__KEY, oldKey, key));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList getSubstitutions()
+  {
+    if (substitutions == null)
+    {
+      substitutions = new EDataTypeUniqueEList(String.class, this, XSDPackage.XSD_DIAGNOSTIC__SUBSTITUTIONS);
+    }
+    return substitutions;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getComponents()
   {
     if (components == null)
@@ -518,6 +588,10 @@ public class XSDDiagnosticImpl
         return getNode();
       case XSDPackage.XSD_DIAGNOSTIC__ANNOTATION_URI:
         return getAnnotationURI();
+      case XSDPackage.XSD_DIAGNOSTIC__KEY:
+        return getKey();
+      case XSDPackage.XSD_DIAGNOSTIC__SUBSTITUTIONS:
+        return getSubstitutions();
       case XSDPackage.XSD_DIAGNOSTIC__COMPONENTS:
         return getComponents();
       case XSDPackage.XSD_DIAGNOSTIC__PRIMARY_COMPONENT:
@@ -555,6 +629,13 @@ public class XSDDiagnosticImpl
         return;
       case XSDPackage.XSD_DIAGNOSTIC__ANNOTATION_URI:
         setAnnotationURI((String)newValue);
+        return;
+      case XSDPackage.XSD_DIAGNOSTIC__KEY:
+        setKey((String)newValue);
+        return;
+      case XSDPackage.XSD_DIAGNOSTIC__SUBSTITUTIONS:
+        getSubstitutions().clear();
+        getSubstitutions().addAll((Collection)newValue);
         return;
       case XSDPackage.XSD_DIAGNOSTIC__COMPONENTS:
         getComponents().clear();
@@ -597,6 +678,12 @@ public class XSDDiagnosticImpl
       case XSDPackage.XSD_DIAGNOSTIC__ANNOTATION_URI:
         setAnnotationURI(ANNOTATION_URI_EDEFAULT);
         return;
+      case XSDPackage.XSD_DIAGNOSTIC__KEY:
+        setKey(KEY_EDEFAULT);
+        return;
+      case XSDPackage.XSD_DIAGNOSTIC__SUBSTITUTIONS:
+        getSubstitutions().clear();
+        return;
       case XSDPackage.XSD_DIAGNOSTIC__COMPONENTS:
         getComponents().clear();
         return;
@@ -630,6 +717,10 @@ public class XSDDiagnosticImpl
         return NODE_EDEFAULT == null ? node != null : !NODE_EDEFAULT.equals(node);
       case XSDPackage.XSD_DIAGNOSTIC__ANNOTATION_URI:
         return ANNOTATION_URI_EDEFAULT == null ? annotationURI != null : !ANNOTATION_URI_EDEFAULT.equals(annotationURI);
+      case XSDPackage.XSD_DIAGNOSTIC__KEY:
+        return KEY_EDEFAULT == null ? key != null : !KEY_EDEFAULT.equals(key);
+      case XSDPackage.XSD_DIAGNOSTIC__SUBSTITUTIONS:
+        return substitutions != null && !substitutions.isEmpty();
       case XSDPackage.XSD_DIAGNOSTIC__COMPONENTS:
         return components != null && !components.isEmpty();
       case XSDPackage.XSD_DIAGNOSTIC__PRIMARY_COMPONENT:
@@ -684,6 +775,10 @@ public class XSDDiagnosticImpl
     result.append(node);
     result.append(", annotationURI: ");
     result.append(annotationURI);
+    result.append(", key: ");
+    result.append(key);
+    result.append(", substitutions: ");
+    result.append(substitutions);
     result.append(')');
     return result.toString();
   }

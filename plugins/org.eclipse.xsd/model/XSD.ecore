@@ -131,6 +131,9 @@
         defaultValueLiteral="1"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="node" eType="#//DOMNode"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="annotationURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="substitutions" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="components" lowerBound="1"
         upperBound="-1" eType="#//XSDConcreteComponent" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="primaryComponent" lowerBound="1"

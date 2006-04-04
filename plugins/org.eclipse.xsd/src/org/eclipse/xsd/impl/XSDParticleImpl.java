@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.13 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.14 2006/04/04 10:10:22 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1039,7 +1039,7 @@ public class XSDParticleImpl
                    ("_UI_XSDError_message", 
                        new Object [] 
                        {
-                         XSDPlugin.INSTANCE.getString("cos-all-limited.1")
+                         populateDiagnostic(xsdDiagnostic, "cos-all-limited.1", null)
                        }));
 
               diagnostics.add(xsdDiagnostic);
@@ -1665,8 +1665,8 @@ public class XSDParticleImpl
                  ("_UI_XSDError_message", 
                   new Object [] 
                   {
-                    XSDPlugin.INSTANCE.getString
-                      ("key-overlap.1", new Object [] { xsdElementDeclaration1.getURI() })
+                    populateDiagnostic
+                      (xsdDiagnostic, "key-overlap.1", new Object [] { xsdElementDeclaration1.getURI() })
                   }));
             return xsdDiagnostic;
           }
@@ -1683,7 +1683,7 @@ public class XSDParticleImpl
                  ("_UI_XSDError_message", 
                   new Object [] 
                   { 
-                    XSDPlugin.INSTANCE.getString("key-overlap.2", new Object [] { xsdElementDeclaration1.getURI() }) 
+                    populateDiagnostic(xsdDiagnostic, "key-overlap.2", new Object [] { xsdElementDeclaration1.getURI() }) 
                   }));
             return xsdDiagnostic;
           }
@@ -1704,7 +1704,7 @@ public class XSDParticleImpl
                  ("_UI_XSDError_message", 
                   new Object [] 
                   { 
-                    XSDPlugin.INSTANCE.getString("key-overlap.2", new Object [] { xsdElementDeclaration2.getURI() })
+                    populateDiagnostic(xsdDiagnostic, "key-overlap.2", new Object [] { xsdElementDeclaration2.getURI() })
                   }));
             return xsdDiagnostic;
           }
@@ -1722,7 +1722,7 @@ public class XSDParticleImpl
                  ("_UI_XSDError_message", 
                   new Object [] 
                   {
-                    XSDPlugin.INSTANCE.getString("key-overlap.3", new Object [] { intersection.getNamespaceConstraint().get(0) })
+                    populateDiagnostic(xsdDiagnostic, "key-overlap.3", new Object [] { intersection.getNamespaceConstraint().get(0) })
                   }));
             return xsdDiagnostic;
           }
@@ -1760,7 +1760,7 @@ public class XSDParticleImpl
                ("_UI_XSDError_message", 
                 new Object [] 
                 { 
-                  XSDPlugin.INSTANCE.getString("coss-particle.0.1", new Object [] { new Integer(getStates().size()) })
+                  populateDiagnostic(xsdDiagnostic, "coss-particle.0.1", new Object [] { new Integer(getStates().size()) })
                 }));
           diagnostics.add(xsdDiagnostic);
         }
@@ -1788,8 +1788,9 @@ public class XSDParticleImpl
                        ("_UI_XSDError_message", 
                         new Object [] 
                         {
-                          XSDPlugin.INSTANCE.getString
-                            ("cos-element-consistent", 
+                          populateDiagnostic
+                            (xsdDiagnostic,
+                             "cos-element-consistent", 
                              new Object [] 
                              { 
                                xsdElementDeclaration.getURI(), 

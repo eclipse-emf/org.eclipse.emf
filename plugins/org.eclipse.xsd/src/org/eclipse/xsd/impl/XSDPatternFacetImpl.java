@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPatternFacetImpl.java,v 1.10 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDPatternFacetImpl.java,v 1.11 2006/04/04 10:10:22 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -253,7 +253,7 @@ public class XSDPatternFacetImpl
          ("_UI_XSDError_message", 
           new Object [] 
           { 
-            XSDPlugin.INSTANCE.getString("dt-regex", new Object [] { getLexicalValue(), new Integer(location), parseError })
+            populateDiagnostic(result, "dt-regex", new Object [] { getLexicalValue(), new Integer(location), parseError })
           }));
     result.setAnnotationURI(XSDConstants.PART1 + "#dt-regex");
     result.setPrimaryComponent(this);
