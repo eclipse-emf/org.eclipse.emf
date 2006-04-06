@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.13 2006/04/04 10:10:22 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.14 2006/04/06 13:30:10 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -973,8 +973,12 @@ public abstract class XSDConcreteComponentImpl
         Object value = substitutions[i];
         values.add(value == null ? null : value.toString());
       }
+      return XSDPlugin.INSTANCE.getString(key, substitutions);
     }
-    return XSDPlugin.INSTANCE.getString(key, substitutions);
+    else
+    {
+      return XSDPlugin.INSTANCE.getString(key);
+    }
   }
 
   protected void reconcile(Element changedElement)
