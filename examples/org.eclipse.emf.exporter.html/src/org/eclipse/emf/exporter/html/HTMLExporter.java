@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporter.java,v 1.3 2006/03/23 06:43:22 marcelop Exp $
+ * $Id: HTMLExporter.java,v 1.4 2006/04/10 19:35:33 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html;
 
@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
@@ -73,7 +74,7 @@ public class HTMLExporter extends ModelExporter
     return super.doCheckEPackageArtifactLocation(location, packageName);
   }
   
-  protected void doExport(Monitor monitor, ModelExporter.ExportData exportData) throws Exception
+  protected Diagnostic doExport(Monitor monitor, ModelExporter.ExportData exportData) throws Exception
   {
     this.exportData = exportData;
     List entries = new ArrayList(exportData.genPackageToArtifactURI.keySet());
@@ -94,6 +95,7 @@ public class HTMLExporter extends ModelExporter
       String content = new PackageHTML().generate(this);
       save(content);
     }
+    return Diagnostic.OK_INSTANCE;
   }
   
   public GenPackage getCurrentGenPackage()

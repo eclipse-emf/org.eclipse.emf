@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.8 2005/12/21 01:07:08 marcelop Exp $
+ * $Id: ModelExporter.java,v 1.9 2006/04/10 19:35:11 marcelop Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -530,7 +530,17 @@ public abstract class ModelExporter extends ModelConverter
     return super.canConvert(ePackage) && getEPackageExportInfo(ePackage).getArtifactLocation() != null;
   }
   
-  public void export(Monitor monitor) throws Exception
+  /**
+   * <p>Creates the {@link ExportData} instance and delegates the export work to
+   * the {@link #doExport(Monitor, ModelExporter.ExportData)} method.</p>
+   * <p>The {@link Diagnostic} returned by this method should be used to provide
+   * the user some information regarding a <b>successfull</b> export.  If the
+   * export fails, an exception should be thrown.<p>
+   * @param monitor
+   * @return {@link Diagnostic}
+   * @throws Exception
+   */  
+  public Diagnostic export(Monitor monitor) throws Exception
   {
     Map nsURIToReferencedGenPackage = null;
     Map referencedGenPackageToArtifactURI = null; 
@@ -606,12 +616,23 @@ public abstract class ModelExporter extends ModelConverter
         genPackageToReferencedGenPackages : 
         Collections.EMPTY_MAP;
       
-      doExport(monitor, exportData);
+      return doExport(monitor, exportData);
     }
   }
   
-  protected void doExport(Monitor monitor, ExportData exportData) throws Exception
+  /**
+   * <p>Subclasses should overwrite this method, adding the code that performs the
+   * actions required to export the model.</p>
+   * <p>The {@link Diagnostic} returned by this method should be used to provide
+   * the user some information regarding a <b>successfull</b> export.  If the
+   * export fails, an exception should be thrown.<p>
+   * @param monitor
+   * @return {@link Diagnostic}
+   * @throws Exception
+   */  
+  protected Diagnostic doExport(Monitor monitor, ExportData exportData) throws Exception
   {  
+    return Diagnostic.OK_INSTANCE;
   }
   
   public Diagnostic checkEPackageArtifactLocation(String location, String packageName)
