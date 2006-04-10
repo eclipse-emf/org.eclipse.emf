@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,16 +12,26 @@
  *
  * </copyright>
  *
- * $Id: ConverterUIUtil.java,v 1.1 2005/12/14 07:45:42 marcelop Exp $
+ * $Id: ConverterUIUtil.java,v 1.2 2006/04/10 19:31:16 marcelop Exp $
  */
 
 package org.eclipse.emf.converter.util;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.converter.ConverterPlugin;
+import org.eclipse.emf.converter.util.ConverterUtil.ShellFinder;
 
 /**
  * @since 2.2.0
@@ -163,5 +173,157 @@ public class ConverterUIUtil
     {
       if (item.getGrayed() != gray) item.setGrayed(gray);
     }
-  }  
+  }
+  
+  public static class DiagnosticHandler
+  {
+    public void handleDiagnostic(Diagnostic diagnostic)
+    {
+      handleDiagnostic(diagnostic, null, null, null);
+    }
+    
+    public void handleDiagnostic(Diagnostic diagnostic, String message, String dialogTitle, String dialogMessage)
+    {
+      if (diagnostic.getSeverity() == Diagnostic.OK)
+      {
+        handleOKDiagnostic(diagnostic, message, dialogTitle, dialogMessage);
+      }
+      else
+      {
+        handleNotOKDiagnostic(diagnostic, decodeAction(diagnostic), message, dialogTitle, dialogMessage);
+      }
+    }
+    
+    protected boolean doMessages()
+    {
+      return false;
+    }
+    
+    protected void setMessage(String message)
+    {
+      
+    }
+    
+    protected void setMessage(String message, int messageType)
+    {
+      
+    }
+
+    protected void setErrorMessage(String message)
+    {
+      
+    }
+    
+    protected boolean doDialog()
+    {
+      return true;
+    }
+    
+    protected Shell getShell()
+    {
+      return (Shell)ShellFinder.getActiveShell();
+    }
+    
+    protected ConverterUtil.DecodedAction decodeAction(Diagnostic diagnostic)
+    {
+      int actionCode = ConverterUtil.computeActionCode(diagnostic);
+      return ConverterUtil.decodeAction(actionCode);
+    }
+    
+    protected void handleOKDiagnostic(Diagnostic diagnostic, String message, String dialogTitle, String dialogMessage)
+    {
+      setMessage(null);
+      setErrorMessage(null);    
+    }
+    
+    protected void handleNotOKDiagnostic(Diagnostic diagnostic, ConverterUtil.DecodedAction decodedAction, String message, String dialogTitle, String dialogMessage)
+    {
+      int messageType = 0;
+      switch(diagnostic.getSeverity())
+      {
+        case Diagnostic.INFO:
+        {
+          messageType = IMessageProvider.INFORMATION;
+          if (dialogTitle == null) dialogTitle = ConverterPlugin.INSTANCE.getString("_UI_DialogInformation_title");
+          break;
+        }
+        case Diagnostic.WARNING:
+          messageType = IMessageProvider.WARNING;
+          if (dialogTitle == null) dialogTitle = ConverterPlugin.INSTANCE.getString("_UI_DialogWarning_title");
+          break;
+        case Diagnostic.ERROR:
+          messageType = IMessageProvider.ERROR;
+          if (dialogTitle == null) dialogTitle = ConverterPlugin.INSTANCE.getString("_UI_DialogError_title");
+          break;
+      }
+
+      if (doMessages())
+      {
+        if (message == null) message = diagnostic.getMessage();
+        setErrorMessage(null);
+        setMessage(null);
+        switch(decodedAction.message)
+        {
+          case ConverterUtil.ACTION_MESSAGE_SET:
+          {
+            setMessage(message);
+            break;
+          }
+          case ConverterUtil.ACTION_DEFAULT:
+          case ConverterUtil.ACTION_MESSAGE_SET_TYPED:
+          {
+            if (messageType == IMessageProvider.ERROR)
+            {
+              setErrorMessage(message);
+            }
+            else
+            {
+              setMessage(message, messageType);
+            }
+            break;
+          }
+          case ConverterUtil.ACTION_MESSAGE_SET_ERROR:
+          {
+            setErrorMessage(message);
+            break;
+          }
+        }
+      }
+
+      if (doDialog())
+      {
+        switch(decodedAction.dialog)
+        {
+          case ConverterUtil.ACTION_DEFAULT:
+          case ConverterUtil.ACTION_DIALOG_SHOW_IF_HAS_CHILD:
+          {
+            if (!diagnostic.getChildren().isEmpty())
+            {
+              ErrorDialog.openError(getShell(), dialogTitle, dialogMessage, BasicDiagnostic.toIStatus(diagnostic));
+            }
+            break;
+          }
+          case ConverterUtil.ACTION_DIALOG_SHOW:
+          {
+            ErrorDialog.openError(getShell(), dialogTitle, dialogMessage, BasicDiagnostic.toIStatus(diagnostic));
+            break;
+          }
+          case ConverterUtil.ACTION_DIALOG_SHOW_ERROR:
+          {
+            new ErrorDialog(getShell(),
+              dialogTitle,
+              dialogMessage,
+              BasicDiagnostic.toIStatus(diagnostic), IStatus.INFO | IStatus.WARNING | IStatus.ERROR)
+              {
+                protected Image getImage()
+                {
+                  return  getErrorImage();
+                }
+              }.open();
+            break;
+          }
+        }
+      }
+    }
+  }
 }
