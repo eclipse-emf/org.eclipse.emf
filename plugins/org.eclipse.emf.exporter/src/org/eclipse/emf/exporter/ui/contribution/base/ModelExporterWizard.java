@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterWizard.java,v 1.2 2005/12/14 13:50:00 marcelop Exp $
+ * $Id: ModelExporterWizard.java,v 1.3 2006/04/10 19:34:47 marcelop Exp $
  */
 package org.eclipse.emf.exporter.ui.contribution.base;
 
@@ -107,10 +107,11 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
     ExporterPlugin.getPlugin().savePluginPreferences();
   }
 
-  protected void doPerformFinish(Monitor monitor) throws Exception
+  protected Diagnostic doPerformFinish(Monitor monitor) throws Exception
   {
-    getModelExporter().export(monitor);
+    Diagnostic diagnostic = getModelExporter().export(monitor);
     getModelExporter().save();
     writePreferencesSettings();
+    return diagnostic;
   }  
 }
