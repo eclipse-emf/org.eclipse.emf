@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.15 2005/06/12 13:32:37 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.16 2006/04/10 19:08:42 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -622,6 +622,23 @@ public class ReflectiveItemProvider
         }        
       }
     }
+  }
+
+  public String getCreateChildText(Object owner, Object feature, Object child, Collection selection)
+  {
+    if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
+    {
+      FeatureMap.Entry entry = (FeatureMap.Entry)child;
+      feature = entry.getEStructuralFeature();
+      child = entry.getValue();
+    }
+
+    String childType = feature instanceof EAttribute ? getTypeText((EAttribute)feature) : getTypeText(child);
+
+    return 
+      getResourceLocator().getString
+        ("_UI_CreateChild_text2",
+         new Object[] { childType, getFeatureText(feature), getTypeText(owner) });
   }
 
   /**
