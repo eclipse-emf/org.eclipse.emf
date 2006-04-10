@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.18 2005/12/10 13:29:44 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.19 2006/04/10 19:38:55 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -24,6 +24,7 @@ package <%=genPackage.getUtilitiesPackageName()%>;
 <%genModel.addImport("org.eclipse.emf.ecore.EPackage");%>
 <%if (!genPackage.hasJavaLangConflict() && !genPackage.getUtilitiesPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");%>
 <%genModel.markImportLocation(stringBuffer);%>
+<%genModel.addPseudoImport("org.eclipse.emf.ecore.EValidator.Descriptor");%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.EValidator.Registry");%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.EValidator.SubstitutionLabelProvider");%>
 <%genModel.addPseudoImport("org.eclipse.emf.ecore.EValidator.PatternMatcher");%>
