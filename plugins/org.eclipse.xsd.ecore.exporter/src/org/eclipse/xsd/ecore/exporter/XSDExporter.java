@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDExporter.java,v 1.4 2006/03/30 16:20:25 emerks Exp $
+ * $Id: XSDExporter.java,v 1.5 2006/04/10 19:36:20 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -83,7 +84,7 @@ public class XSDExporter extends ModelExporter
     return ((EcoreSchemaBuilder)mapBuilder).getSchema(ePackage);
   }
 
-  protected void doExport(Monitor monitor, ModelExporter.ExportData exportData) throws Exception
+  protected Diagnostic doExport(Monitor monitor, ModelExporter.ExportData exportData) throws Exception
   {
     ResourceSet resourceSet = new ResourceSetImpl();    
     for (Iterator i = exportData.genPackageToArtifactURI.entrySet().iterator(); i.hasNext();)
@@ -114,6 +115,8 @@ public class XSDExporter extends ModelExporter
       resource.getContents().add(xsdSchema);
       resource.save(null);
     }
+    
+    return Diagnostic.OK_INSTANCE;
   }
   
   protected URI getReferencedGenPackageArtifactURI(ModelExporter.ExportData exportData, GenPackage genPackage)
