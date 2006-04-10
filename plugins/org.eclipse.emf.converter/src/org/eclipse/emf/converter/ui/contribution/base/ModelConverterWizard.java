@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterWizard.java,v 1.2 2006/02/22 16:43:39 marcelop Exp $
+ * $Id: ModelConverterWizard.java,v 1.3 2006/04/10 19:34:05 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -42,10 +42,12 @@ import org.eclipse.ui.part.ISetSelectionTarget;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.converter.ConverterPlugin;
 import org.eclipse.emf.converter.ModelConverter;
+import org.eclipse.emf.converter.util.ConverterUIUtil;
 import org.eclipse.emf.converter.util.ConverterUtil;
 import org.eclipse.emf.edit.provider.IDisposable;
 
@@ -121,6 +123,9 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
   protected IWorkbench workbench;
     
   protected ModelConverter modelConverter;
+  
+  protected Diagnostic doPerformFinishDiagnostic;
+  protected ConverterUIUtil.DiagnosticHandler diagnosticHandler;
 
   public ModelConverterWizard()
   {
@@ -136,6 +141,8 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
   {
     selection = null;
     workbench = null;
+    doPerformFinishDiagnostic = null;
+    diagnosticHandler = null;
 
     if (modelConverter != null)
     {
@@ -212,11 +219,15 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
             Monitor monitor = BasicMonitor.toMonitor(progressMonitor);
             try
             {
-              doPerformFinish(monitor);
+              doPerformFinishDiagnostic = null;
+              doPerformFinishDiagnostic = doPerformFinish(monitor);
             }
             catch (Exception exception)
             {
-              throw DiagnosticException.toCoreException(new DiagnosticException(ConverterUtil.createErrorDiagnostic(exception, true)));
+              DiagnosticException diagnosticException = exception instanceof DiagnosticException ?
+                (DiagnosticException)exception 
+                : new DiagnosticException(ConverterUtil.createErrorDiagnostic(exception, true));
+              throw DiagnosticException.toCoreException(diagnosticException);
             }
             finally
             {
@@ -235,7 +246,8 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
         ErrorDialog.openError(getShell(), ConverterPlugin.INSTANCE.getString("_UI_DialogError_title"), null, BasicDiagnostic.toIStatus(ConverterUtil.createErrorDiagnostic(exception, true)));
         return false;
       }
-
+      
+      handleConvertDiagnostic(doPerformFinishDiagnostic);
       return true;
     }
     catch (Exception exception)
@@ -245,9 +257,31 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
     }
   }
   
-  protected void doPerformFinish(Monitor monitor) throws Exception
+  protected void handleConvertDiagnostic(Diagnostic diagnostic)
   {
+    if (diagnostic != null)
+    {
+      if (diagnosticHandler == null)
+      {
+        diagnosticHandler = new ConverterUIUtil.DiagnosticHandler();
+      }
+      diagnosticHandler.handleDiagnostic(diagnostic);
+    }
+  }
     
+  /**
+   * <p>Subclasses should overwrite this method, adding the code that performs the
+   * actions required when this wizard is &quot;finished&quot;.</p>
+   * <p>The {@link Diagnostic} returned by this method should be used to provide
+   * the user some information regarding a <b>successfull</b> convertion.  If the
+   * coversion fails, an exception should be thrown.<p>
+   * @param monitor
+   * @return {@link Diagnostic}
+   * @throws Exception
+   */
+  protected Diagnostic doPerformFinish(Monitor monitor) throws Exception
+  {
+    return Diagnostic.OK_INSTANCE;
   }
 
   protected IFile getFile(IPath path)
