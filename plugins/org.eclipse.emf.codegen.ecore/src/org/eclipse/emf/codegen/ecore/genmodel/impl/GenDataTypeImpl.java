@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.19 2006/01/24 14:04:06 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.20 2006/04/11 12:00:29 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -812,8 +812,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       if (!replaced)
       {
         String result = 
-          getGenPackage().getImportedFactoryInterfaceName() + 
-            ".eINSTANCE.createFromString(" + 
+          getGenPackage().getQualifiedEFactoryInstanceAccessor() + 
+            ".createFromString(" + 
             getGenPackage().getImportedPackageInterfaceName() + 
             ".eINSTANCE.get" + 
             getName() + 
