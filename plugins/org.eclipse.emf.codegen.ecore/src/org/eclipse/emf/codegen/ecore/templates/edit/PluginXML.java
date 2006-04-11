@@ -108,6 +108,7 @@ public class PluginXML
     stringBuffer.append(TEXT_19);
     }
      for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); 
+    if (!genPackage.getGenClasses().isEmpty()) {
     stringBuffer.append(TEXT_20);
     stringBuffer.append(genPackage.getNSURI());
     stringBuffer.append(TEXT_21);
@@ -118,6 +119,7 @@ public class PluginXML
     stringBuffer.append((j.hasPrevious()? " " : "\"") + j.next() + (j.hasNext() ? "" : "\""));
     }
     stringBuffer.append(TEXT_24);
+    }
     }
     if (genModel.sameModelEditProject()) {
      for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); 

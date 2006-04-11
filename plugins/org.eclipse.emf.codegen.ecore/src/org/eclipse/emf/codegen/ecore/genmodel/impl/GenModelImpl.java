@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.65 2006/03/15 15:18:56 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.66 2006/04/11 12:01:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -5418,7 +5418,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   protected void addQualifiedEditPackageNames(List packageNames, GenPackage genPackage)
   {
-    if (genPackage.hasClassifiers())
+    if (!genPackage.getGenClasses().isEmpty())
     {
       packageNames.add(genPackage.getProviderPackageName());
     }
@@ -5490,7 +5490,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   protected void addQualifiedEditorPackageNames(List packageNames, GenPackage genPackage)
   {
-    if (genPackage.hasClassifiers() && genPackage.hasConcreteClasses())
+    if (genPackage.hasConcreteClasses())
     {
       packageNames.add(genPackage.getPresentationPackageName());
     }

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.27 2006/04/03 17:59:54 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.28 2006/04/11 12:04:00 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -599,12 +599,12 @@ public class <%=genPackage.getEditorClassName()%>
 		List factories = new ArrayList();
 		factories.add(new ResourceItemProviderAdapterFactory());
 <%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage aGenPackage = (GenPackage)i.next();%>
-  <%if (aGenPackage.getGenModel().hasEditSupport()) {%>
+  <%if (!aGenPackage.getGenClasses().isEmpty() && aGenPackage.getGenModel().hasEditSupport()) {%>
 		factories.add(new <%=aGenPackage.getImportedItemProviderAdapterFactoryClassName()%>());
   <%}%>
 <%}%>
 <%for (Iterator i = genModel.getAllUsedGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage aGenPackage = (GenPackage)i.next();%>
-  <%if (aGenPackage.getGenModel().hasEditSupport()) {%>
+  <%if (!aGenPackage.getGenClasses().isEmpty() && aGenPackage.getGenModel().hasEditSupport()) {%>
 		factories.add(new <%=aGenPackage.getImportedItemProviderAdapterFactoryClassName()%>());
   <%}%>
 <%}%>

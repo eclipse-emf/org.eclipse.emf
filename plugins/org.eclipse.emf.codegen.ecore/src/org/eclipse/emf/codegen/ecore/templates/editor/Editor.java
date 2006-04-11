@@ -232,14 +232,14 @@ String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute"
     stringBuffer.append(genPackage.getEditorClassName());
     stringBuffer.append(TEXT_42);
     for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage aGenPackage = (GenPackage)i.next();
-    if (aGenPackage.getGenModel().hasEditSupport()) {
+    if (!aGenPackage.getGenClasses().isEmpty() && aGenPackage.getGenModel().hasEditSupport()) {
     stringBuffer.append(TEXT_43);
     stringBuffer.append(aGenPackage.getImportedItemProviderAdapterFactoryClassName());
     stringBuffer.append(TEXT_44);
     }
     }
     for (Iterator i = genModel.getAllUsedGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage aGenPackage = (GenPackage)i.next();
-    if (aGenPackage.getGenModel().hasEditSupport()) {
+    if (!aGenPackage.getGenClasses().isEmpty() && aGenPackage.getGenModel().hasEditSupport()) {
     stringBuffer.append(TEXT_45);
     stringBuffer.append(aGenPackage.getImportedItemProviderAdapterFactoryClassName());
     stringBuffer.append(TEXT_46);

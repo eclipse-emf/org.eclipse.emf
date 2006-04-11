@@ -151,6 +151,7 @@ public class PluginXML
     stringBuffer.append(TEXT_20);
     if (genModel.sameEditEditorProject()) {
      for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); 
+    if (!genPackage.getGenClasses().isEmpty()) {
     stringBuffer.append(TEXT_21);
     stringBuffer.append(genPackage.getNSURI());
     stringBuffer.append(TEXT_22);
@@ -161,6 +162,7 @@ public class PluginXML
     stringBuffer.append((j.hasPrevious()? " " : "\"") + j.next() + (j.hasNext() ? "" : "\""));
     }
     stringBuffer.append(TEXT_25);
+    }
     }
     }
     if (genModel.sameModelEditorProject()) {
