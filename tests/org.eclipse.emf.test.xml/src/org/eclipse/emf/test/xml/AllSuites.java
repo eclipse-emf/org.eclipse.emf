@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.8 2005/11/01 22:07:45 nickb Exp $
+ * $Id: AllSuites.java,v 1.9 2006/04/11 14:48:34 emerks Exp $
  */
 package org.eclipse.emf.test.xml;
 
@@ -33,6 +33,7 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.xml.xmi.OrderTest.suite()
     ,org.eclipse.emf.test.xml.xmi.QNameTest.suite()
     ,CrossResourceReferencesTest.suite()
+    ,org.eclipse.emf.test.xml.encoding.UnicodeEncodingTest.suite() 
     ,org.eclipse.emf.test.xml.xsdecore.Ecore2XSDTest.suite() 
     ,XSDEcoreBuilderTests.suite()
     ,org.eclipse.emf.test.xml.xsdecore.XSD2EcoreTest.suite()
