@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.51 2006/03/15 12:30:58 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.52 2006/04/11 12:02:58 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1897,6 +1897,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           }
         }
       }
+
+      /*
       for (Iterator i = getGenDataTypes().iterator(); i.hasNext(); )
       {
         GenDataType genDataType = (GenDataType)i.next();
@@ -1916,6 +1918,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           initializationDependencies.add(memberType.getGenPackage());
         }
       }
+      */
 
       if (initializationDependencies.contains(xmlTypeGenPackage) && !xmlTypeGenPackage.getNSURI().equals(getNSURI()))
       {
@@ -2208,7 +2211,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   private ValidatorHelper validatorHelper = null;
 
-  private class ValidatorHelper 
+  private class ValidatorHelper extends UniqueNameHelper
   {
     protected List allBaseGenPackages = new UniqueEList();
 
@@ -2245,21 +2248,35 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         GenDataType genDataType = (GenDataType)i.next();
         for (GenDataType baseType = genDataType.getBaseType(); baseType != null; baseType = baseType.getBaseType())
         {
-          allBaseGenPackages.add(baseType.getGenPackage());
+          if (baseType.getGenPackage().hasConstraints())
+          {
+            allBaseGenPackages.add(baseType.getGenPackage());
+          }
         }
         GenDataType itemType = genDataType.getItemType();
         if (itemType != null)
         {
-          allBaseGenPackages.add(itemType.getGenPackage());
+          if (itemType.getGenPackage().hasConstraints())
+          {
+            allBaseGenPackages.add(itemType.getGenPackage());
+          }
         }
         for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); )
         {
           GenDataType memberType = (GenDataType)j.next();
-          allBaseGenPackages.add(memberType.getGenPackage());
+          if (memberType.getGenPackage().hasConstraints())
+          {
+            allBaseGenPackages.add(memberType.getGenPackage());
+          }
         }
       }
 
       allBaseGenPackages.remove(GenPackageImpl.this);      
+      
+      for (Iterator i = allBaseGenPackages.iterator(); i.hasNext(); )
+      {
+        getUniqueName(i.next());
+      }
     }
 
     public List getAllBaseGenPackages()
@@ -2269,7 +2286,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
     public String getPackageUniqueSafeName(GenPackage genPackage)
     {
-      return safeName(uncapPrefixedName(genPackage.getPrefix())); 
+      return getUniqueName(genPackage);
+    }
+
+    protected String getName(Object o)
+    {
+      return safeName(uncapPrefixedName(((GenPackage)o).getPrefix(), true)); 
     }
   }
 
@@ -2507,7 +2529,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
              getGenModel().getValidatorClassEmitter());
         }
 
-        if (isAdapterFactory())
+        if (isAdapterFactory() && !getGenClasses().isEmpty())
         {
           progressMonitor.subTask
             (CodeGenEcorePlugin.INSTANCE.getString
@@ -3078,7 +3100,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         (CodeGenEcorePlugin.INSTANCE.getString
            ("_UI_GeneratingItemProvidersForPackage_message", new Object [] { getPackageInterfaceName() }));
 
-      if (hasClassifiers())
+      if (!getGenClasses().isEmpty())
       {
         for (Iterator iter = getGenClasses().iterator(); iter.hasNext(); )
         {
@@ -3127,7 +3149,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         (CodeGenEcorePlugin.INSTANCE.getString
            ("_UI_GeneratingEditorForPackage_message", new Object [] { getPackageInterfaceName() }));
 
-      if (hasClassifiers() && hasConcreteClasses())
+      if (hasConcreteClasses())
       {
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
@@ -3301,7 +3323,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       for (Iterator i = getNestedGenPackages().iterator(); i.hasNext();)
       {
         GenPackage genPackage = (GenPackage)i.next();
-        if(genPackage.hasClassifiers(true))
+        if (genPackage.hasClassifiers(true))
         {
           return true;
         }
