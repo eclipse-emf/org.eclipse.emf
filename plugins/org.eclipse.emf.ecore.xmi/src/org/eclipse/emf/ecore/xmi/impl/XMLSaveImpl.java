@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.53 2006/03/03 17:14:44 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.54 2006/04/11 12:18:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -71,6 +71,10 @@ import org.w3c.dom.Node;
  */
 public class XMLSaveImpl implements XMLSave
 {
+  private static final int MAX_UTF_MAPPABLE_CODEPOINT = 0x10FFFF;
+  private static final int MAX_LATIN1_MAPPABLE_CODEPOINT = 0xFF;
+  private static final int MAX_ASCII_MAPPABLE_CODEPOINT = 0x7F;
+
   protected static final int INDEX_LOOKUP = 0;
  
   final StringBuffer buffer = new StringBuffer();
@@ -414,6 +418,24 @@ public class XMLSaveImpl implements XMLSave
       else if (resource != null)
       {
         xmlVersion = resource.getXMLVersion();
+      }
+
+      if (escape != null)
+      {
+        int maxSafeChar = MAX_UTF_MAPPABLE_CODEPOINT;
+        if (encoding != null)
+        {
+          if (encoding.equalsIgnoreCase("ASCII") || encoding.equalsIgnoreCase("US-ASCII"))
+          {
+            maxSafeChar = MAX_ASCII_MAPPABLE_CODEPOINT;
+          }
+          else if (encoding.equalsIgnoreCase("ISO-8859-1"))
+          {
+            maxSafeChar = MAX_LATIN1_MAPPABLE_CODEPOINT;
+          }
+        }
+
+        escape.setMappingLimit(maxSafeChar);
       }
     }
     else
@@ -2709,6 +2731,7 @@ public class XMLSaveImpl implements XMLSave
   protected static class Escape
   {
     protected char[] value;
+    protected int mappableLimit;
 
     protected final char[] AMP = { '&', 'a', 'm', 'p', ';' };
     protected final char[] LESS = { '&', 'l', 't', ';' };
@@ -2721,6 +2744,11 @@ public class XMLSaveImpl implements XMLSave
     public Escape()
     {
       value = new char[100];
+    }
+
+    public void setMappingLimit(int mappingLimit) 
+    {
+       mappableLimit = mappingLimit;
     }
 
     /*
@@ -2785,11 +2813,53 @@ public class XMLSaveImpl implements XMLSave
           {
             if (!XMLChar.isValid(ch))
             {
-              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
+              if (XMLChar.isHighSurrogate(ch))
+              {
+                char high = ch;
+                if (inputLength-- > 0)
+                {
+                  ch = input.charAt(inputPos++); 
+                  if (XMLChar.isLowSurrogate(ch))
+                  {
+                    if (mappableLimit == MAX_UTF_MAPPABLE_CODEPOINT)
+                    {
+                      // Every codepoint is supported! 
+                      value[outputPos++] = high;
+                      value[outputPos++] = ch;
+                    }
+                    else
+                    {
+                      // Produce the supplemental character as an entity
+                      outputPos = replaceChars(outputPos, ("&#x" + Integer.toHexString(XMLChar.supplemental(high, ch)) + ";").toCharArray(), inputLength);
+                      changed = true;
+                    }
+                    break;
+                  }
+                  throw new RuntimeException("An invalid low surrogate character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
+                }
+                else
+                {
+                  throw new RuntimeException("An unpaired high surrogate character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
+                }
+              }
+              else
+              {
+                throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
+              }
             }
             else
             {
-              value[outputPos++] = ch;
+              // Normal (BMP) unicode codepoint. See if we know for a fact that the encoding supports it:
+              if (ch <= mappableLimit)
+              {
+                value[outputPos++] = ch;
+              }
+              else
+              {
+                // We not sure the encoding supports this codepoint, so we write it as a character entity reference.
+                outputPos = replaceChars(outputPos, ("&#x" + Integer.toHexString(ch) + ";").toCharArray(), inputLength);
+                changed = true;
+              }
             }
             break;
           }
@@ -2853,11 +2923,53 @@ public class XMLSaveImpl implements XMLSave
           {
             if (!XMLChar.isValid(ch))
             {
-              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
+              if (XMLChar.isHighSurrogate(ch))
+              {
+                char high = ch;
+                if (inputLength-- > 0)
+                {
+                  ch = input.charAt(inputPos++); 
+                  if (XMLChar.isLowSurrogate(ch))
+                  {
+                    if (mappableLimit == MAX_UTF_MAPPABLE_CODEPOINT)
+                    {
+                      // Every codepoint is supported! 
+                      value[outputPos++] = high;
+                      value[outputPos++] = ch;
+                    }
+                    else
+                    {
+                      // Produce the supplemental character as an entity
+                      outputPos = replaceChars(outputPos, ("&#x" + Integer.toHexString(XMLChar.supplemental(high, ch)) + ";").toCharArray(), inputLength);
+                      changed = true;
+                    }
+                    break;
+                  }
+                  throw new RuntimeException("An invalid low surrogate character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
+                }
+                else
+                {
+                  throw new RuntimeException("An unpaired high surrogate character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
+                }
+              }
+              else
+              {
+                throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
+              }
             }
             else
             {
-              value[outputPos++] = ch;
+              // Normal (BMP) unicode codepoint. See if we know for a fact that the encoding supports it:
+              if (ch <= mappableLimit)
+              {
+                value[outputPos++] = ch;
+              }
+              else
+              {
+                // We not sure the encoding supports this codepoint, so we write it as a character entity reference.
+                outputPos = replaceChars(outputPos, ("&#x" + Integer.toHexString(ch) + ";").toCharArray(), inputLength);
+                changed = true;
+              }
             }
             break;
           }
