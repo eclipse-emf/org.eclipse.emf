@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.35 2006/02/06 22:22:58 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.36 2006/04/12 15:38:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -324,11 +324,34 @@ public class ChangeRecorder implements Adapter.Internal
     {
       if (notification.getFeatureID(ResourceSet.class) == ResourceSet.RESOURCE_SET__RESOURCES)
       {
-        if (notification.getEventType() == Notification.ADD)
+        switch (notification.getEventType())
         {
-          Notifier newValue = (Notifier)notification.getNewValue();
-          loadingTargets = true;
-          addAdapter(newValue);
+          case Notification.ADD:
+          case Notification.SET:
+          //case Notification.REMOVE:
+          {
+            Resource resource = (Resource)notification.getNewValue();
+            loadingTargets = true;
+            addAdapter(resource);
+            if (resource.isLoaded())
+            {
+              loadingTargets = false;
+            }
+            break;
+          }
+          
+          case Notification.ADD_MANY:
+          //case Notification.REMOVE_MANY:
+          {
+            Collection resources = (Collection)notification.getNewValue();
+            loadingTargets = true;
+            for (Iterator i = resources.iterator(); i.hasNext();)
+            {
+              Resource resource = (Resource)i.next();
+              addAdapter(resource);
+            }
+            loadingTargets = false;
+          }
         }
       }
     }
