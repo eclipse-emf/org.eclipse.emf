@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.51 2006/03/07 12:38:43 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.52 2006/04/12 19:49:57 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -312,7 +312,7 @@ public class XSDEcoreBuilder extends MapBuilder
       String name = xsdSimpleTypeDefinition.getName();
       if (name != null)
       {
-        EDataType result = (EDataType)getBuiltInEClassifier(xsdSimpleTypeDefinition.getTargetNamespace(), name);
+        EDataType result = (EDataType)getBuiltInEClassifier(xsdSimpleTypeDefinition.getTargetNamespace(), "anyType".equals(name) ? "anySimpleType" : name);
         if (result != null)
         {
           return result;
