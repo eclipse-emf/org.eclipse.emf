@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.11 2006/01/20 16:09:17 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.12 2006/04/12 15:29:04 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -96,6 +96,9 @@ extends TestCase
     ts.addTest(new ChangeRecordTest("testApplyAndReverse", callSummarize));
     ts.addTest(new ChangeRecordTest("testResumeRecording", callSummarize));
     ts.addTest(new ChangeRecordTest("testResumeSerializedRecording", callSummarize));
+    ts.addTest(new ChangeRecordTest("testResourceSetChanges1"));
+    ts.addTest(new ChangeRecordTest("testResourceSetChanges2"));
+    ts.addTest(new ChangeRecordTest("testResourceSetChanges3"));
     return ts;
   }
   
@@ -935,4 +938,114 @@ extends TestCase
     file.delete();
     assertFalse(file.exists());    
   }
+  
+  /*
+   * Bugzilla 136358
+   */
+  public void testResourceSetChanges1() throws Exception
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack");
+
+    Resource resource1 = new ResourceImpl(URI.createURI("resource1"));
+    EClass aClass = EcoreFactory.eINSTANCE.createEClass();
+    resource1.getContents().add(aClass);
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    resourceSet.getResources().add(resource1);
+    resource1.getContents().add(pack);
+    pack.setNsPrefix("prefix");
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(person);
+    changeRecorder.endRecording();
+    
+    assertEquals(1, resourceSet.eAdapters().size());
+    assertEquals(0, resourceSet.eAdapters().indexOf(changeRecorder));
+    assertEquals(1, resource1.eAdapters().size());
+    assertEquals(0, resource1.eAdapters().indexOf(changeRecorder));
+    assertEquals(1, pack.eAdapters().size());
+    assertEquals(0, pack.eAdapters().indexOf(changeRecorder));
+    assertEquals(1, person.eAdapters().size());
+    assertEquals(0, person.eAdapters().indexOf(changeRecorder));
+  }
+  
+  /*
+   * Bugzilla 136358
+   */
+  public void testResourceSetChanges2() throws Exception
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResources().add(new ResourceImpl(URI.createURI("aResource")));
+
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack");
+
+    Resource resource1 = new ResourceImpl(URI.createURI("resource1"));
+    EClass aClass = EcoreFactory.eINSTANCE.createEClass();
+    resource1.getContents().add(aClass);
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    resourceSet.getResources().set(0, resource1);
+    resource1.getContents().add(pack);
+    pack.setNsPrefix("prefix");
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(person);
+    changeRecorder.endRecording();
+    
+    assertEquals(1, resourceSet.eAdapters().size());
+    assertEquals(0, resourceSet.eAdapters().indexOf(changeRecorder));
+    assertEquals(1, resource1.eAdapters().size());
+    assertEquals(0, resource1.eAdapters().indexOf(changeRecorder));
+    assertEquals(1, pack.eAdapters().size());
+    assertEquals(0, pack.eAdapters().indexOf(changeRecorder));
+    assertEquals(1, person.eAdapters().size());
+    assertEquals(0, person.eAdapters().indexOf(changeRecorder));
+  }
+  
+  /*
+   * Bugzilla 136358
+   */
+  public void testResourceSetChanges3() throws Exception
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack");
+
+    Resource resource1 = new ResourceImpl(URI.createURI("resource1"));
+    EClass aClass = EcoreFactory.eINSTANCE.createEClass();
+    resource1.getContents().add(aClass);
+    
+    Resource resource2 = new ResourceImpl(URI.createURI("resource1"));
+    EClass bClass = EcoreFactory.eINSTANCE.createEClass();
+    resource2.getContents().add(bClass);
+    
+    List list = new ArrayList();
+    list.add(resource1);
+    list.add(resource2);
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(resourceSet);
+    resourceSet.getResources().addAll(list);
+    resource1.getContents().add(pack);
+    pack.setNsPrefix("prefix");
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(person);
+    changeRecorder.endRecording();
+    
+    assertEquals(1, resourceSet.eAdapters().size());
+    assertEquals(0, resourceSet.eAdapters().indexOf(changeRecorder));
+    assertEquals(1, resource1.eAdapters().size());
+    assertEquals(0, resource1.eAdapters().indexOf(changeRecorder));
+    assertEquals(1, resource2.eAdapters().size());
+    assertEquals(0, resource2.eAdapters().indexOf(changeRecorder));
+    assertEquals(1, pack.eAdapters().size());
+    assertEquals(0, pack.eAdapters().indexOf(changeRecorder));
+    assertEquals(1, person.eAdapters().size());
+    assertEquals(0, person.eAdapters().indexOf(changeRecorder));
+  }    
 }
