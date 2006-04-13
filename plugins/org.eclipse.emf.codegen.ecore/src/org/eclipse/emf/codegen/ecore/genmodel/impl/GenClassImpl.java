@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.55 2006/03/22 22:57:38 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.56 2006/04/13 11:41:31 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2294,6 +2294,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     {
       GenClass mapGenClass = genFeature.getMapEntryTypeGenClass();
       sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EcoreEMap"));
+      sb.append(unsettable);
       sb.append("(");
       sb.append(mapGenClass.getQualifiedClassifierAccessor());
       sb.append(", ");

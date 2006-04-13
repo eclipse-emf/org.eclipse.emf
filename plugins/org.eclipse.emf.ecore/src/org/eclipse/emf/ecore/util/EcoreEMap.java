@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.6 2006/01/24 16:04:08 emerks Exp $
+ * $Id: EcoreEMap.java,v 1.7 2006/04/13 11:43:13 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.BasicEMap;
@@ -35,6 +36,50 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, EStructuralFeature.Setting
 {
+  public static class Unsettable extends EcoreEMap
+  {
+    public Unsettable(EClass entryEClass, Class entryClass, InternalEObject owner, int featureID)
+    {
+      super(entryEClass, entryClass, null);
+      delegateEList = new UnsettableDelegateEObjectContainmentEList(entryClass, owner, featureID);
+    }
+    
+    protected class UnsettableDelegateEObjectContainmentEList extends DelegateEObjectContainmentEList
+    {
+      protected boolean isSet;
+
+      public UnsettableDelegateEObjectContainmentEList(Class dataClass, InternalEObject owner, int featureID)
+      {
+        super(dataClass, owner, featureID);
+      }
+
+      protected void didChange()
+      {
+        isSet = true;
+      }
+
+      public boolean isSet()
+      {
+        return isSet;
+      }
+
+      public void unset()
+      {
+        super.unset();
+        if (isNotificationRequired())
+        {
+          boolean oldIsSet = isSet;
+          isSet = false;
+          owner.eNotify(createNotification(Notification.UNSET, oldIsSet, false));
+        }
+        else
+        {
+          isSet = false;
+        }
+      }
+    }
+  }
+
   protected EClass entryEClass;
   protected Class entryClass;
 
