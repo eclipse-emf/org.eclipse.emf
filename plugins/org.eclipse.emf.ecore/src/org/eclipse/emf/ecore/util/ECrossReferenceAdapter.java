@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.11 2006/04/12 15:28:53 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.12 2006/04/13 17:33:03 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -320,8 +320,16 @@ public class ECrossReferenceAdapter implements Adapter.Internal
         addAdapter(newValue);
         break;
       }
-      case Notification.SET:
       case Notification.UNSET:
+      {
+        Object newValue = (Object)notification.getNewValue();
+        if (newValue != null && newValue != Boolean.TRUE && newValue != Boolean.FALSE)
+        {
+          addAdapter((Notifier)newValue);
+        }
+        break;
+      }
+      case Notification.SET:
       {
         Notifier newValue = (Notifier)notification.getNewValue();
         if (newValue != null)

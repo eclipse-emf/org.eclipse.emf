@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentAdapter.java,v 1.5 2006/02/21 11:15:43 emerks Exp $
+ * $Id: EContentAdapter.java,v 1.6 2006/04/13 17:33:03 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -75,9 +75,13 @@ public class EContentAdapter extends AdapterImpl
     else if (notifier instanceof EObject)
     {
       Object feature = notification.getFeature();
-      if (feature instanceof EReference && ((EReference)feature).isContainment())
+      if (feature instanceof EReference)
       {
-        handleContainment(notification);
+        EReference eReference = (EReference)feature;
+        if (eReference.isContainment())
+        {
+          handleContainment(notification);
+        }
       }
     }
   }
@@ -105,8 +109,24 @@ public class EContentAdapter extends AdapterImpl
         }
         break;
       }
-      case Notification.SET:
       case Notification.UNSET:
+      {
+        Object oldValue = notification.getOldValue();
+        if (oldValue != Boolean.TRUE && oldValue != Boolean.FALSE)
+        {
+          if (oldValue != null)
+          {
+            removeAdapter((Notifier)oldValue);
+          }
+          Notifier newValue = (Notifier)notification.getNewValue();
+          if (newValue != null)
+          {
+            addAdapter(newValue);
+          }
+        }
+        break;
+      }
+      case Notification.SET:
       {
         Notifier oldValue = (Notifier)notification.getOldValue();
         if (oldValue != null)

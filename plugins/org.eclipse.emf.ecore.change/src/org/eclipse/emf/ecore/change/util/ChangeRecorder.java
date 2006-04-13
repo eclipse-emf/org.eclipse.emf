@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.36 2006/04/12 15:38:20 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.37 2006/04/13 17:33:04 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -398,10 +398,10 @@ public class ChangeRecorder implements Adapter.Internal
         }
         if (containment != null)
         {
-          Notifier newValue = (Notifier)notification.getNewValue();
-          if (newValue != null)
+          Object newValue = notification.getNewValue();
+          if (newValue != null && newValue != Boolean.TRUE && newValue != Boolean.FALSE)
           {
-            addAdapter(newValue);
+            addAdapter((Notifier)newValue);
           }
         }
         break;
