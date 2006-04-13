@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.12 2006/04/12 15:29:04 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.13 2006/04/13 17:33:53 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -50,6 +50,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
@@ -99,6 +100,7 @@ extends TestCase
     ts.addTest(new ChangeRecordTest("testResourceSetChanges1"));
     ts.addTest(new ChangeRecordTest("testResourceSetChanges2"));
     ts.addTest(new ChangeRecordTest("testResourceSetChanges3"));
+    ts.addTest(new ChangeRecordTest("testUnsettableList"));
     return ts;
   }
   
@@ -1047,5 +1049,58 @@ extends TestCase
     assertEquals(0, pack.eAdapters().indexOf(changeRecorder));
     assertEquals(1, person.eAdapters().size());
     assertEquals(0, person.eAdapters().indexOf(changeRecorder));
-  }    
+  }
+  
+  /*
+   * Bugzilla 136653
+   */
+  public void testUnsettableList() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack");
+    
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    pack.getEClassifiers().add(person);
+    person.setName("Person");
+
+    EReference friends = EcoreFactory.eINSTANCE.createEReference();
+    person.getEStructuralFeatures().add(friends);
+    friends.setName("friends");
+    friends.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    friends.setUnsettable(true);
+    friends.setContainment(true);
+    friends.setEType(person);
+    
+    EObject john = EcoreUtil.create(person);
+    List johnsFriends = (List)john.eGet(friends);
+    assertTrue(johnsFriends.isEmpty());
+    assertFalse(john.eIsSet(friends));
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(john);
+    john.eUnset(friends);
+    changeRecorder.endRecording();
+    
+    assertTrue(johnsFriends.isEmpty());
+    assertFalse(john.eIsSet(friends));
+
+    EObject mary = EcoreUtil.create(person);
+    johnsFriends.add(mary);
+    assertEquals(1, johnsFriends.size());
+    assertEquals(mary, johnsFriends.get(0));
+    assertTrue(john.eIsSet(friends));
+    
+    changeRecorder = new ChangeRecorder(john);
+    john.eUnset(friends);
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+
+    assertTrue(johnsFriends.isEmpty());
+    assertFalse(john.eIsSet(friends));
+
+    changeDescription.apply();
+    
+    assertEquals(1, johnsFriends.size());
+    assertEquals(mary, johnsFriends.get(0));
+    assertTrue(john.eIsSet(friends));    
+  }
 }
