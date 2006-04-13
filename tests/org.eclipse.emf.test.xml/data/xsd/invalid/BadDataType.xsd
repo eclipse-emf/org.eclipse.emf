@@ -4,10 +4,10 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BadDataType.xsd,v 1.1 2004/11/04 05:52:46 marcelop Exp $
+ * $Id: BadDataType.xsd,v 1.2 2006/04/13 18:49:50 emerks Exp $
  */
 -->
-<xsd:schema xmlns:this="http://www.example.com/Bad" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.com/Bad">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:this="http://www.example.com/Bad" targetNamespace="http://www.example.com/Bad">
 
     <xsd:simpleType name="badBoolean">
         <xsd:annotation>
@@ -52,6 +52,9 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:double">
             <xsd:enumeration value="1.0"/>
+            <xsd:enumeration value="INF"/>
+            <xsd:enumeration value="-INF"/>
+            <xsd:enumeration value="NaN"/>
             <xsd:enumeration value="bad"/>
         </xsd:restriction>
     </xsd:simpleType>
@@ -63,6 +66,9 @@
         </xsd:annotation>
         <xsd:restriction base="xsd:float">
             <xsd:enumeration value="1.0"/>
+            <xsd:enumeration value="INF"/>
+            <xsd:enumeration value="-INF"/>
+            <xsd:enumeration value="NaN"/>
             <xsd:enumeration value="bad"/>
         </xsd:restriction>
     </xsd:simpleType>
