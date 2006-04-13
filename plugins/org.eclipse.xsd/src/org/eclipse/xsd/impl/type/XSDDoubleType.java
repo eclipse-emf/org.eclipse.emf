@@ -12,18 +12,36 @@
  *
  * </copyright>
  *
- * $Id: XSDDoubleType.java,v 1.5 2005/06/22 17:56:35 nickb Exp $
+ * $Id: XSDDoubleType.java,v 1.6 2006/04/13 18:49:30 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
 public class XSDDoubleType extends XSDAnySimpleType
 {
+  protected static final Double NaN = new Double(Double.NaN);
+  protected static final Double NEGATIVE_INFINITY = new Double(Double.NEGATIVE_INFINITY);
+  protected static final Double POSITIVE_INFINITY = new Double(Double.POSITIVE_INFINITY);
 
   public Object getValue(String literal)
   {
     try 
     {
-      return new Double(literal);
+      if ("Nan".equals(literal))
+      {
+        return NaN;
+      }
+      else if ("-INF".equals(literal))
+      {
+        return NEGATIVE_INFINITY;
+      }
+      else if ("INF".equals(literal))
+      {
+        return POSITIVE_INFINITY;
+      }
+      else
+      {
+        return new Double(literal);
+      }
     }
     catch (NumberFormatException e)
     {

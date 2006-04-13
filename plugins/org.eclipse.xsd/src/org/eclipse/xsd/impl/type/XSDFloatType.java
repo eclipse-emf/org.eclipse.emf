@@ -12,18 +12,36 @@
  *
  * </copyright>
  *
- * $Id: XSDFloatType.java,v 1.5 2005/06/22 17:56:35 nickb Exp $
+ * $Id: XSDFloatType.java,v 1.6 2006/04/13 18:49:30 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
 public class XSDFloatType extends XSDAnySimpleType
 {
-
+  protected static final Float NaN = new Float(Float.NaN);
+  protected static final Float NEGATIVE_INFINITY = new Float(Float.NEGATIVE_INFINITY);
+  protected static final Float POSITIVE_INFINITY = new Float(Float.POSITIVE_INFINITY);
+  
   public Object getValue(String literal)
   {
     try 
     {
-      return new Float(literal);
+      if ("Nan".equals(literal))
+      {
+        return NaN;
+      }
+      else if ("-INF".equals(literal))
+      {
+        return NEGATIVE_INFINITY;
+      }
+      else if ("INF".equals(literal))
+      {
+        return POSITIVE_INFINITY;
+      }
+      else
+      {
+        return new Float(literal);
+      }
     }
     catch (NumberFormatException e)
     {
