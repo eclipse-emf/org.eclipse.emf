@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: EcoreModelWizard.java,v 1.11 2005/06/08 12:34:41 marcelop Exp $
+ * $Id: EcoreModelWizard.java,v 1.12 2006/04/17 15:12:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -396,7 +396,7 @@ public class EcoreModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
-    public void createControl(Composite parent)
+    public void createControlGen(Composite parent)
     {
       Composite composite = new Composite(parent, SWT.NONE);
       {
@@ -466,6 +466,12 @@ public class EcoreModelWizard extends Wizard implements INewWizard
 
       setPageComplete(validatePage());
       setControl(composite);
+    }
+
+    public void createControl(Composite parent)
+    {
+      createControlGen(parent);
+      initialObjectField.setText("EPackage");
     }
 
     /**
