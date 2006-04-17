@@ -3,4 +3,8 @@
 	<merge:pull 
 		sourceGet="Method/getReturnType" 
 		targetPut="Method/setReturnType"/>
+
+    <merge:pull
+      sourceGet="CompilationUnit/getHeader"
+      targetPut="CompilationUnit/setHeader"/>
 </merge:options>

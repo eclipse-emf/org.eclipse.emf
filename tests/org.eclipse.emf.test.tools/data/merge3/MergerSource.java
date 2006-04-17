@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: MergerSource.java,v 1.1 2006/04/03 21:06:45 marcelop Exp $
+ * This is the Source Header
  */
 package org.eclipse.emf.test.tools.merger;
 

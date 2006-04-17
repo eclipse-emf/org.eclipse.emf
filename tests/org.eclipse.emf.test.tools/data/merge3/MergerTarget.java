@@ -11,6 +11,8 @@
  *   IBM - Initial API and implementation
  *
  * </copyright>
+ * 
+ * Target Header
  */
 package org.eclipse.emf.test.tools.merger;
 
