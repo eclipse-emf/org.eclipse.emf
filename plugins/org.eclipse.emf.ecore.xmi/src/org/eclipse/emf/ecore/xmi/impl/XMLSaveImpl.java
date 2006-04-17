@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.55 2006/04/12 20:07:15 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.56 2006/04/17 14:39:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -448,6 +448,10 @@ public class XMLSaveImpl implements XMLSave
         }
 
         escape.setMappingLimit(maxSafeChar);
+        if (!"1.0".equals(xmlVersion))
+        {
+          escape.setAllowControlCharacters(true);
+        }
       }
     }
     else
@@ -2744,13 +2748,81 @@ public class XMLSaveImpl implements XMLSave
   {
     protected char[] value;
     protected int mappableLimit;
+    boolean allowControlCharacters;
 
+    protected final char[] NUL = { '&', '#', 'x', '0', ';' };
+    protected final char[] SOH = { '&', '#', 'x', '1', ';' };
+    protected final char[] STX = { '&', '#', 'x', '2', ';' };
+    protected final char[] ETX = { '&', '#', 'x', '3', ';' };
+    protected final char[] EOT = { '&', '#', 'x', '4', ';' };
+    protected final char[] ENQ = { '&', '#', 'x', '5', ';' };
+    protected final char[] ACK = { '&', '#', 'x', '6', ';' };
+    protected final char[] BEL = { '&', '#', 'x', '7', ';' };
+    protected final char[] BS  = { '&', '#', 'x', '8', ';' };
+    protected final char[] TAB = { '&', '#', 'x', '9', ';' };
+    protected final char[] LF  = { '&', '#', 'x', 'A', ';' };
+    protected final char[] VT  = { '&', '#', 'x', 'B', ';' };
+    protected final char[] FF  = { '&', '#', 'x', 'C', ';' };
+    protected final char[] CR  = { '&', '#', 'x', 'D', ';' };
+    protected final char[] SO  = { '&', '#', 'x', 'E', ';' };
+    protected final char[] SI  = { '&', '#', 'x', 'F', ';' };
+    protected final char[] DLE = { '&', '#', 'x', '1', '0', ';' };
+    protected final char[] DC1 = { '&', '#', 'x', '1', '1', ';' };
+    protected final char[] DC2 = { '&', '#', 'x', '1', '2', ';' };
+    protected final char[] DC3 = { '&', '#', 'x', '1', '3', ';' };
+    protected final char[] DC4 = { '&', '#', 'x', '1', '4', ';' };
+    protected final char[] NAK = { '&', '#', 'x', '1', '5', ';' };
+    protected final char[] SYN = { '&', '#', 'x', '1', '6', ';' };
+    protected final char[] ETB = { '&', '#', 'x', '1', '7', ';' };
+    protected final char[] CAN = { '&', '#', 'x', '1', '8', ';' };
+    protected final char[] EM  = { '&', '#', 'x', '1', '9', ';' };
+    protected final char[] SUB = { '&', '#', 'x', '1', 'A', ';' };
+    protected final char[] ESC = { '&', '#', 'x', '1', 'B', ';' };
+    protected final char[] FS  = { '&', '#', 'x', '1', 'C', ';' };
+    protected final char[] GS  = { '&', '#', 'x', '1', 'D', ';' };
+    protected final char[] RS  = { '&', '#', 'x', '1', 'E', ';' };
+    protected final char[] US  = { '&', '#', 'x', '1', 'F', ';' };
+    
+    protected final char[][] CONTROL_CHARACTERS = 
+      new char [][]
+      {
+        NUL,
+        SOH,
+        STX,
+        ETX,
+        EOT,
+        ENQ,
+        ACK,
+        BEL,
+        BS,
+        TAB,
+        LF,
+        VT,
+        FF,
+        CR,
+        SO,
+        SI,
+        DLE,
+        DC1,
+        DC2,
+        DC3,
+        DC4,
+        NAK,
+        SYN,
+        ETB,
+        CAN,
+        EM,
+        SUB,
+        ESC,
+        FS,
+        GS,
+        RS,
+        US,
+      };
+    
     protected final char[] AMP = { '&', 'a', 'm', 'p', ';' };
     protected final char[] LESS = { '&', 'l', 't', ';' };
     protected final char[] QUOTE = { '&', 'q', 'u', 'o', 't', ';' };
-    protected final char[] LF = { '&', '#', 'x', 'A', ';' };
-    protected final char[] CR = { '&', '#', 'x', 'D', ';' };
-    protected final char[] TAB = { '&', '#', 'x', '9', ';' };
     protected final char[] LINE_FEED = System.getProperty("line.separator").toCharArray();
 
     public Escape()
@@ -2760,7 +2832,12 @@ public class XMLSaveImpl implements XMLSave
 
     public void setMappingLimit(int mappingLimit) 
     {
-       mappableLimit = mappingLimit;
+      mappableLimit = mappingLimit;
+    }
+    
+    public void setAllowControlCharacters(boolean allowControlCharacters)
+    {
+      this.allowControlCharacters = allowControlCharacters;
     }
 
     /*
@@ -2785,6 +2862,46 @@ public class XMLSaveImpl implements XMLSave
         ch = input.charAt(inputPos++); // value[outputPos];
         switch (ch)
         {
+          case 0x1:
+          case 0x2:
+          case 0x3:
+          case 0x4:
+          case 0x5:
+          case 0x6:
+          case 0x7:
+          case 0x8:
+          case 0xB:
+          case 0xC:
+          case 0xE:
+          case 0xF:
+          case 0x10:
+          case 0x11:
+          case 0x12:
+          case 0x13:
+          case 0x14:
+          case 0x15:
+          case 0x16:
+          case 0x17:
+          case 0x18:
+          case 0x19:
+          case 0x1A:
+          case 0x1B:
+          case 0x1C:
+          case 0x1D:
+          case 0x1E:
+          case 0x1F:
+          {
+            if (allowControlCharacters)
+            {
+            outputPos = replaceChars(outputPos, CONTROL_CHARACTERS[ch], inputLength);
+            changed = true;
+            }
+            else
+            {
+              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
+            }
+            break;
+          }
           case '&':
           {
             outputPos = replaceChars(outputPos, AMP, inputLength);
@@ -2901,6 +3018,46 @@ public class XMLSaveImpl implements XMLSave
         ch = input.charAt(inputPos++); // value[outputPos];
         switch (ch)
         {
+          case 0x1:
+          case 0x2:
+          case 0x3:
+          case 0x4:
+          case 0x5:
+          case 0x6:
+          case 0x7:
+          case 0x8:
+          case 0xB:
+          case 0xC:
+          case 0xE:
+          case 0xF:
+          case 0x10:
+          case 0x11:
+          case 0x12:
+          case 0x13:
+          case 0x14:
+          case 0x15:
+          case 0x16:
+          case 0x17:
+          case 0x18:
+          case 0x19:
+          case 0x1A:
+          case 0x1B:
+          case 0x1C:
+          case 0x1D:
+          case 0x1E:
+          case 0x1F:
+          {
+            if (allowControlCharacters)
+            {
+              outputPos = replaceChars(outputPos, CONTROL_CHARACTERS[ch], inputLength);
+              changed = true;
+            }
+            else
+            {
+              throw new RuntimeException("An invalid XML character (Unicode: 0x" + Integer.toHexString(ch) + ") was found in the element content:" + input);
+            }
+            break;
+          }
           case '&':
           {
             outputPos = replaceChars(outputPos, AMP, inputLength);
