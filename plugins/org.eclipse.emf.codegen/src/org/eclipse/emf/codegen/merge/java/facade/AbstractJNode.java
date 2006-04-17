@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractJNode.java,v 1.1 2006/01/18 20:42:16 marcelop Exp $
+ * $Id: AbstractJNode.java,v 1.2 2006/04/17 21:41:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -104,4 +104,33 @@ public abstract class AbstractJNode implements JNode
     JPackage jPackage = getFacadeHelper().getPackage(this);
     return jPackage != null ? jPackage.getName() + "." + type.getName() : type.getName();
   }
+  
+  protected String computeQualifiedName(JMethod method)
+  {
+    StringBuffer result = new StringBuffer(getParent().getQualifiedName());
+    result.append(".");
+    if (method.isConstructor())
+    {
+      result.append(getParent().getName());
+    }
+    else
+    {
+      result.append(getName());
+    }
+    result.append("(");
+    String[] parameters = method.getParameterTypes();
+    if (parameters != null)
+    {
+      for (int i = 0; i < parameters.length; ++i)
+      {
+        if (i != 0)
+        {
+          result.append(", ");
+        }
+        result.append(parameters[i]);
+      }
+    }
+    result.append(")");
+    return result.toString();
+  }  
 }

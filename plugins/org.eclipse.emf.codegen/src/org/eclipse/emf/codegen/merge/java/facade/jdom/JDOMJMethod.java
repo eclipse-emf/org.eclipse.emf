@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJMethod.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JDOMJMethod.java,v 1.2 2006/04/17 21:41:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -109,30 +109,6 @@ public class JDOMJMethod extends JDOMJMember implements JMethod
   
   protected String computeQualifiedName()
   {
-    StringBuffer result = new StringBuffer(getParent().getQualifiedName());
-    result.append(".");
-    if (isConstructor())
-    {
-      result.append(getParent().getName());
-    }
-    else
-    {
-      result.append(getName());
-    }
-    result.append("(");
-    String[] parameters = getParameterTypes();
-    if (parameters != null)
-    {
-      for (int i = 0; i < parameters.length; ++i)
-      {
-        if (i != 0)
-        {
-          result.append(", ");
-        }
-        result.append(parameters[i]);
-      }
-    }
-    result.append(")");
-    return result.toString();
+    return computeQualifiedName(this);
   }
 }
