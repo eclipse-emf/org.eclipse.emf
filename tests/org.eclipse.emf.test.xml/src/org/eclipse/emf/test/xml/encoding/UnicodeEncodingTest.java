@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: UnicodeEncodingTest.java,v 1.1 2006/04/11 14:48:35 emerks Exp $
+ * $Id: UnicodeEncodingTest.java,v 1.2 2006/04/17 14:40:37 emerks Exp $
  */
 
 package org.eclipse.emf.test.xml.encoding;
@@ -40,11 +40,18 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 public class UnicodeEncodingTest extends TestCase
 {
   public String encodingName = "ASCII";
+  public String xmlVersion = "1.0";
 
-  public UnicodeEncodingTest(String name, String encoding)
+  public UnicodeEncodingTest(String name, String encoding, String xmlVersion)
   {
     super(name);
     encodingName = encoding;
+    this.xmlVersion = xmlVersion;
+  }
+  
+  public UnicodeEncodingTest(String name, String encoding)
+  {
+    this(name, encoding, "1.0");
   }
 
   public String getName()
@@ -61,6 +68,7 @@ public class UnicodeEncodingTest extends TestCase
     ts.addTestSuite(UTF16BEEncodingTest.class);
     ts.addTestSuite(UTF16LEEncodingTest.class);
     ts.addTestSuite(UTF8EncodingTest.class);
+    ts.addTestSuite(ASCIIControlCharacterEncodingTest.class);
     return ts;
   }
 
@@ -94,6 +102,7 @@ public class UnicodeEncodingTest extends TestCase
     XMIResource resource = new XMIResourceImpl();
     resource.getContents().add(eObject);
     resource.setEncoding(encodingName);
+    resource.setXMLVersion(xmlVersion);
     resource.setURI(fileURI);
     resource.save(new HashMap());
 
@@ -168,9 +177,22 @@ public class UnicodeEncodingTest extends TestCase
      * See <http://www.unicode.org/charts/PDF/U10330.pdf>
      */
     char kusma[] = toSurrogatePair(0x1033A); // GOTHIC LETTER KUSMA
-    doEMFSaveAndLoad("This is a gothic letter : " + new String(kusma) + ". ");
+    doEMFSaveAndLoad("This is a gothic letter: " + new String(kusma) + ". ");
 
     // XML saving and loading has errors, too!
+  }
+  
+  public void testControlCharacters() throws Exception
+  {
+    if ("1.1".equals(xmlVersion))
+    {
+      StringBuffer text = new StringBuffer();
+      for (char i = 1; i <= 0x1F; ++i)
+      {
+        text.append(i);
+      }
+      doEMFSaveAndLoad("These are control characters: " + text + ". ");
+    }
   }
 
   static public class UTF8EncodingTest extends UnicodeEncodingTest
@@ -204,7 +226,6 @@ public class UnicodeEncodingTest extends TestCase
       super(n, "ASCII");
     }
   }
-
   static public class ISO_8859_1EncodingTest extends UnicodeEncodingTest
   {
     public ISO_8859_1EncodingTest(String n)
@@ -220,4 +241,13 @@ public class UnicodeEncodingTest extends TestCase
       super(n, "ISO-8859-5");
     }
   }
+
+  static public class ASCIIControlCharacterEncodingTest extends UnicodeEncodingTest
+  {
+    public ASCIIControlCharacterEncodingTest(String n)
+    {
+      super(n, "ASCII", "1.1");
+    }
+  }
+
 }
