@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.11 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EClassItemProvider.java,v 1.12 2006/04/17 15:02:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -146,6 +146,7 @@ public class EClassItemProvider
            // Filter out classes that aren't permitted.
            //
            Collection result = super.getChoiceOfValues(object);
+           result.removeAll(EcorePackage.eINSTANCE.getEClassifiers());
            for (Iterator i = result.iterator(); i.hasNext(); )
            {
              EClass otherEClass = (EClass)i.next();
