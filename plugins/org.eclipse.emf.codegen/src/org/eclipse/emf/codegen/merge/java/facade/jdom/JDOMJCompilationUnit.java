@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJCompilationUnit.java,v 1.2 2006/02/21 06:17:17 marcelop Exp $
+ * $Id: JDOMJCompilationUnit.java,v 1.3 2006/04/17 21:33:50 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -43,5 +43,10 @@ public class JDOMJCompilationUnit extends JDOMJNode implements JCompilationUnit
   public String getHeader()
   {
     return getIDOMCompilationUnit().getHeader();
+  }
+  
+  public void setHeader(String header)
+  {
+    getIDOMCompilationUnit().setHeader(header);
   }
 }

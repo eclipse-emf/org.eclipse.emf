@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnit.java,v 1.1 2006/01/18 20:42:16 marcelop Exp $
+ * $Id: JCompilationUnit.java,v 1.2 2006/04/17 21:33:50 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -38,4 +38,15 @@ public interface JCompilationUnit extends JNode
    *   no header comment is present
    */
   String getHeader();
+  
+  /**
+   * Sets the header comment for this compilation unit. The header comment
+   * appears before the first declaration in a compilation unit.
+   * The syntax for a comment corresponds to Comments (JLS2 3.7), <b>including</b>
+   * comment delimiters.
+   *
+   * @param comment the header comment for this compilation unit, or <code>null</code> if
+   *   indicating no header comment
+   */
+  void setHeader(String header);
 }
