@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.5 2006/02/14 19:41:05 emerks Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.6 2006/04/18 17:01:33 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -436,6 +436,12 @@ public class ModelConverterPackagePage extends ModelConverterPage
   
   protected String getLabel(EPackage ePackage)
   {
+    GenPackage genPackage = getModelConverter().getGenModel().findGenPackage(ePackage);
+    if (genPackage != null)
+    {
+      return getLabel(genPackage);
+    }
+
     return supportsNestedPackages() ?
       ConverterUtil.getQualifiedName(ePackage) :
       ePackage.getName();
@@ -680,7 +686,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
   
   protected String getLabel(GenPackage genPackage)
   {
-    return genPackage.getEcorePackage().getName();
+    return genPackage.getInterfacePackageName();
   }
   
   protected void referencedGenModelsBrowseSelected(CheckboxTreeViewer treeViewer)

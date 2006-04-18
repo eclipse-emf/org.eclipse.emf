@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterPackagePage.java,v 1.1 2005/12/14 07:48:49 marcelop Exp $
+ * $Id: ModelImporterPackagePage.java,v 1.2 2006/04/18 17:01:34 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
@@ -69,6 +69,17 @@ public class ModelImporterPackagePage extends ModelConverterPackagePage implemen
   protected String getEPackageData(EPackage ePackage)
   {
     return getModelImporter().getEPackageImportInfo(ePackage).getEcoreFileName();
+  }
+
+  protected String getLabel(EPackage ePackage)
+  {
+    String result = super.getLabel(ePackage);
+    String basePackage = getModelImporter().getEPackageImportInfo(ePackage).getBasePackage();
+    if (basePackage != null)
+    {
+      result = basePackage + "." + result;
+    }
+    return result;
   }
 
   protected String getEPackageDataColumnLabel()
