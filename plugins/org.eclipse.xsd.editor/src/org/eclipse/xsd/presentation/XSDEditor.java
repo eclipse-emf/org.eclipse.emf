@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.18 2005/10/24 17:28:53 emerks Exp $
+ * $Id: XSDEditor.java,v 1.19 2006/04/18 15:59:26 davidms Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -1235,7 +1235,7 @@ public class XSDEditor
 
       handleDiagnostics(null);
 
-      setPageText(pageIndex, "Source");
+      setPageText(pageIndex, XSDEditorPlugin.INSTANCE.getString("_UI_Source_title"));
 
       IDocument document = textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
 
