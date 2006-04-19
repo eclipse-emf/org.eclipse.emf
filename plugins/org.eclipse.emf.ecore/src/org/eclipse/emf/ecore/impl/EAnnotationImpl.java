@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.10 2006/03/13 14:01:41 emerks Exp $
+ * $Id: EAnnotationImpl.java,v 1.11 2006/04/19 20:04:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -152,7 +152,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EMap getDetails()
   {
