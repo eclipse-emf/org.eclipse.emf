@@ -21,47 +21,38 @@
 
    <includes
          id="org.eclipse.emf"
-         version="0.0.0"
-         match="compatible"/>
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.emf.source"
-         version="0.0.0"
-         match="compatible"/>
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.emf.doc"
-         version="0.0.0"
-         match="compatible"/>
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.xsd"
-         version="0.0.0"
-         match="compatible"/>
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.xsd.source"
-         version="0.0.0"
-         match="compatible"/>
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.xsd.doc"
-         version="0.0.0"
-         match="compatible"/>
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.emf.ecore.sdo"
-         version="0.0.0"
-         match="compatible"/>
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.emf.ecore.sdo.source"
-         version="0.0.0"
-         match="compatible"/>
+         version="0.0.0"/>
 
    <includes
          id="org.eclipse.emf.ecore.sdo.doc"
-         version="0.0.0"
-         match="compatible"/>
+         version="0.0.0"/>
 
 </feature>
