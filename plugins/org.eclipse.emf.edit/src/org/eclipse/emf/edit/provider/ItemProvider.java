@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProvider.java,v 1.3 2005/06/08 06:17:05 nickb Exp $
+ * $Id: ItemProvider.java,v 1.4 2006/04/20 20:54:08 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.notify.impl.NotificationChainImpl;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.notify.impl.NotifyingListImpl;
 import org.eclipse.emf.common.util.EList;
@@ -383,6 +384,18 @@ public class ItemProvider
     protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index, boolean wasSet)
     {
       return new ItemProviderNotification(eventType, oldObject, newObject, index, wasSet);
+    }
+    
+    protected NotificationChain createNotificationChain(int capacity)
+    {
+      return 
+        new NotificationChainImpl(capacity)
+        {
+          protected void dispatch(Notification notification)
+          {
+            ItemProviderNotifyingArrayList.this.dispatchNotification(notification);
+          }
+        };
     }
 
     /**
