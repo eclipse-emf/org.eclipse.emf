@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.19 2005/11/25 17:49:48 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.20 2006/04/20 18:57:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -240,9 +240,10 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
 
   protected EObject basicCreate(EClass eClass) 
   {
-    EObjectImpl result = new EObjectImpl();
-    result.eSetClass(eClass);
-    return result;
+    return
+       eClass.getInstanceClassName() == "java.util.Map$Entry" ?
+         new DynamicEObjectImpl.BasicEMapEntry(eClass) :
+         new DynamicEObjectImpl(eClass);
   }
 
   /**
