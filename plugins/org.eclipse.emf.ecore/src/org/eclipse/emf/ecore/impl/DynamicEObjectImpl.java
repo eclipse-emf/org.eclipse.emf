@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: DynamicEObjectImpl.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: DynamicEObjectImpl.java,v 1.6 2006/04/20 18:56:16 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -29,6 +30,73 @@ import org.eclipse.emf.ecore.resource.Resource;
  */
 public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeature.Internal.DynamicValueHolder
 {
+  public static final class BasicEMapEntry extends DynamicEObjectImpl implements BasicEMap.Entry
+  {
+    protected int hash;
+    protected EStructuralFeature keyFeature;
+    protected EStructuralFeature valueFeature;
+
+    /**
+     * Creates a dynamic EObject.
+     */
+    public BasicEMapEntry()
+    {
+      super();
+    }
+
+    /**
+     * Creates a dynamic EObject.
+     */
+    public BasicEMapEntry(EClass eClass) 
+    {
+      super(eClass);
+    }
+
+    public Object getKey()
+    {
+      return eGet(keyFeature);
+    }
+
+    public void setKey(Object key)
+    {
+      eSet(keyFeature, key);
+    }
+
+    public int getHash()
+    {
+      if (hash == -1)
+      {
+        Object theKey = getKey();
+        hash = (theKey == null ? 0 : theKey.hashCode());
+      }
+      return hash;
+    }
+
+    public void setHash(int hash)
+    {
+      this.hash = hash;
+    }
+
+    public Object getValue()
+    {
+      return eGet(valueFeature);
+    }
+
+    public Object setValue(Object value)
+    {
+      Object result = eGet(valueFeature);
+      eSet(valueFeature, value);
+      return result;
+    }
+
+    public void eSetClass(EClass eClass)
+    {
+      super.eSetClass(eClass);
+      keyFeature = eClass.getEStructuralFeature("key");
+      valueFeature = eClass.getEStructuralFeature("value");
+    }
+  }
+
   /**
    * An internal class for holding less frequently members variables.
    */
