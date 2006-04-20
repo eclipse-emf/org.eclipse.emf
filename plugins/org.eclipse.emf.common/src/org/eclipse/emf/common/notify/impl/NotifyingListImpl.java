@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.9 2006/03/17 19:46:40 emerks Exp $
+ * $Id: NotifyingListImpl.java,v 1.10 2006/04/20 20:53:23 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -243,6 +243,15 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
   }
 
   /**
+   * Creates a notification chain, if the expected capacity exceeds the threshold 
+   * at which a list is better than chaining individual notification instances.
+   */
+  protected NotificationChain createNotificationChain(int capacity)
+  {
+    return capacity > 100 ? null: new NotificationChainImpl(capacity);
+  }
+
+  /**
    * Dispatches a notification to the notifier of the list.
    * @param notification the notification to dispatch.
    */
@@ -430,7 +439,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
             createNotification(Notification.ADD_MANY, null, collection, index, oldIsSet);
         if (hasInverse())
         {
-          NotificationChain notifications = null;
+          NotificationChain notifications = createNotificationChain(collectionSize);
           int lastIndex = index + collectionSize;
           for (int i = index; i < lastIndex; ++i)
           {            
@@ -458,7 +467,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
         doAddAllUnique(index, collection);
         if (hasInverse())
         {
-          NotificationChain notifications = null;
+          NotificationChain notifications = createNotificationChain(collectionSize);
           int lastIndex = index + collectionSize;
           for (int i = index; i < lastIndex; ++i)
           {            
@@ -569,7 +578,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
         }
         if (hasInverse())
         {
-          NotificationChain notifications = null;
+          NotificationChain notifications = createNotificationChain(collectionSize);
           int lastIndex = index + collectionSize;
           for (int i = index; i < lastIndex; ++i)
           {            
@@ -597,7 +606,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
         doAddAllUnique(index, objects, start, end);
         if (hasInverse())
         {
-          NotificationChain notifications = null;
+          NotificationChain notifications = createNotificationChain(collectionSize);
           int lastIndex = index + collectionSize;
           for (int i = index; i < lastIndex; ++i)
           {            
@@ -749,7 +758,6 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
   public boolean removeAll(Collection collection)
   {
     boolean oldIsSet = isSet();
-    NotificationChain notifications = null;
 
     boolean result = false;
     int [] positions = null;
@@ -758,6 +766,8 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       int listSize = collection.size();
       if (listSize > 0)
       {
+        NotificationChain notifications = createNotificationChain(listSize);
+
         // Copy to a list and allocate positions.
         //
         BasicEList list = new BasicEList(collection);
@@ -912,6 +922,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
             createNotification(Notification.REMOVE, collection.iterator().next(), null, positions[0], oldIsSet) :
             createNotification(Notification.REMOVE_MANY, collection, positions, positions[0], oldIsSet));
 
+        NotificationChain notifications = createNotificationChain(collectionSize);
         if (hasInverse())
         {
           for (Iterator i = collection.iterator(); i.hasNext(); )
@@ -943,6 +954,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
       }
       else if (hasInverse())
       {
+        NotificationChain notifications = createNotificationChain(collection.size());
         for (Iterator i = collection.iterator(); i.hasNext(); )
         {
           notifications = inverseRemove(i.next(), notifications);
@@ -1034,7 +1046,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
         List collection = new UnmodifiableEList(size, data);
         int collectionSize = size;
 
-        NotificationChain notifications = null;
+        NotificationChain notifications = createNotificationChain(collectionSize);
         if (hasShadow())
         {
           for (int i = 0; i < size; ++i)
@@ -1091,7 +1103,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
         Object [] oldData = data;
         int oldSize = size;
         doClear();
-        NotificationChain notifications = null;
+        NotificationChain notifications = createNotificationChain(size);
         for (int i = 0; i < oldSize; ++i)
         {
           notifications = inverseRemove(oldData[i], notifications);
