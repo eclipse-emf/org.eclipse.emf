@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.12 2005/11/18 11:59:32 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.13 2006/04/21 20:51:54 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.jar.Manifest;
 
 import org.osgi.framework.Bundle;
 
@@ -157,7 +158,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
             URL classURL = theClass.getResource((index == -1 ? className : className.substring(index + 1)) + ".class");
             URI uri = URI.createURI(classURL.toString());
             
-            // Trim off the segements corresponding to the package nesting.
+            // Trim off the segments corresponding to the package nesting.
             //
             int count = 1;
             for (int i = 0; (i = className.indexOf('.', i)) != -1; ++i)
@@ -192,7 +193,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
             //
             if (baseURL == null)
             {
-              // Trim off the "bin" or "runtime" segement.
+              // Trim off the "bin" or "runtime" segment.
               //
               String lastSegment = uri.lastSegment();
               if ("bin".equals(lastSegment) || "runtime".equals(lastSegment))
@@ -608,7 +609,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
       helper.log(logEntry);
     }
   }
-
+  
   /**
    * This just provides a common delegate for non-UI and UI plug-in classes.
    * It is not considered API and should not be used by clients.
@@ -732,5 +733,89 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
         }
       }
     } 
+  }
+
+  public static void main(String[] args)
+  {
+    try
+    {
+      String [] relativePath = { "META-INF", "MANIFEST.MF" };
+      Class theClass =  args.length > 0 ? Class.forName(args[0]) : EMFPlugin.class;
+
+      String className = theClass.getName();
+      int index = className.lastIndexOf(".");
+      URL classURL = theClass.getResource((index == -1 ? className : className.substring(index + 1)) + ".class");
+      URI uri = URI.createURI(classURL.toString());
+
+      // Trim off the segments corresponding to the package nesting.
+      //
+      int count = 1;
+      for (int i = 0; (i = className.indexOf('.', i)) != -1; ++i)
+      {
+        ++count;
+      }
+      uri = uri.trimSegments(count);
+
+      URL manifestURL = null;
+  
+      // For an archive URI, check for the path in the archive.
+      //
+      if (URI.isArchiveScheme(uri.scheme()))
+      {
+        try
+        {
+          // If we can open  an input stream, then the path is there, and we have a good URL.
+          //
+          String manifestURI = uri.appendSegments(relativePath).toString();
+          InputStream inputStream =  new URL(manifestURI).openStream();
+          inputStream.close();
+          manifestURL = new URL(manifestURI);
+        }
+        catch (IOException exception)
+        {
+          // If the path isn't within the root of the archive, 
+          // create a new URI for the folder location of the archive, 
+          // so we can look in the folder that contains it.
+          //
+          uri = URI.createURI(uri.authority()).trimSegments(1);
+        }
+      }
+              
+      // If we didn't find the path in the usual place nor in the archive...
+      //
+      if (manifestURL == null)
+      {
+        // Trim off the "bin" or "runtime" segment.
+        //
+        String lastSegment = uri.lastSegment();
+        if ("bin".equals(lastSegment) || "runtime".equals(lastSegment))
+        {
+          uri = uri.trimSegments(1);
+        }
+        uri = uri.appendSegments(relativePath);
+        manifestURL = new URL(uri.toString());
+      }
+              
+      if (manifestURL != null)
+      {
+        Manifest manifest = new Manifest(manifestURL.openStream());
+        String symbolicName =  manifest.getMainAttributes().getValue("Bundle-SymbolicName");
+        if (symbolicName != null)
+        {
+          int end = symbolicName.indexOf(";");
+          if (end != -1)
+          {
+            symbolicName = symbolicName.substring(0, end);
+          }
+          System.out.println("Bundle-SymbolicName=" + symbolicName + " Bundle-Version=" + manifest.getMainAttributes().getValue("Bundle-Version"));
+          return;
+        }
+      }
+    }
+    catch (Exception exception)
+    {
+    }
+    
+    System.err.println("No Bundle information found");
   }
 }
