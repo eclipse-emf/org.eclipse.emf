@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.26 2006/04/03 18:06:55 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.27 2006/04/21 20:47:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -68,6 +68,8 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Point;
 //import org.eclipse.swt.layout.FillLayout;
 
@@ -807,7 +809,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void createContextMenuFor(StructuredViewer viewer)
+  protected void createContextMenuForGen(StructuredViewer viewer)
   {
     MenuManager contextMenu = new MenuManager("#PopUp");
     contextMenu.add(new Separator("additions"));
@@ -822,6 +824,30 @@ public class EcoreEditor
     viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
     viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
   }
+  
+  protected void createContextMenuFor(StructuredViewer viewer)
+  {
+    createContextMenuForGen(viewer);
+
+    viewer.getControl().addMouseListener
+     (new MouseAdapter()
+      {
+        public void mouseDoubleClick(MouseEvent event) 
+        {
+          if (event.button == 1)
+          {
+            try
+            {
+              getEditorSite().getPage().showView("org.eclipse.ui.views.PropertySheet");
+            }
+            catch (PartInitException exception)
+            {
+              EcoreEditorPlugin.INSTANCE.log(exception);
+            }
+          }
+        }
+      });
+   }
 
   /**
    * This is the method called to load a resource into the editing domain's resource set based on the editor's input.

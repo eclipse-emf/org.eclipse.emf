@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.21 2006/04/03 18:07:56 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.22 2006/04/21 20:47:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -63,6 +63,8 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
@@ -660,7 +662,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void createContextMenuFor(StructuredViewer viewer)
+  protected void createContextMenuForGen(StructuredViewer viewer)
   {
     MenuManager contextMenu = new MenuManager("#PopUp");
     contextMenu.add(new Separator("additions"));
@@ -675,6 +677,30 @@ public class GenModelEditor
     viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
     viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
   }
+      
+  protected void createContextMenuFor(StructuredViewer viewer)
+  {
+    createContextMenuForGen(viewer);
+
+    viewer.getControl().addMouseListener
+     (new MouseAdapter()
+      {
+        public void mouseDoubleClick(MouseEvent event) 
+        {
+          if (event.button == 1)
+          {
+            try
+            {
+              getEditorSite().getPage().showView("org.eclipse.ui.views.PropertySheet");
+            }
+            catch (PartInitException exception)
+            {
+              GenModelEditPlugin.INSTANCE.log(exception);
+            }
+          }
+        }
+      });
+   }
 
   /**
    * This is the method used by the framework to install your own controls.
