@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.10 2006/04/20 20:53:23 emerks Exp $
+ * $Id: NotifyingListImpl.java,v 1.11 2006/04/21 09:50:14 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -248,7 +248,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
    */
   protected NotificationChain createNotificationChain(int capacity)
   {
-    return capacity > 100 ? null: new NotificationChainImpl(capacity);
+    return capacity < 100 ? null: new NotificationChainImpl(capacity);
   }
 
   /**

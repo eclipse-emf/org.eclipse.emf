@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.9 2006/04/20 20:53:23 emerks Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.10 2006/04/21 09:50:14 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -241,7 +241,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    */
   protected NotificationChain createNotificationChain(int capacity)
   {
-    return capacity > 100 ? null: new NotificationChainImpl(capacity);
+    return capacity < 100 ? null: new NotificationChainImpl(capacity);
   }
 
   /**
