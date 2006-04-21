@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.37 2006/04/13 17:33:04 marcelop Exp $
+ * $Id: ChangeRecorder.java,v 1.38 2006/04/21 18:09:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -61,6 +61,8 @@ public class ChangeRecorder implements Adapter.Internal
   protected List originalTargetObjects = new BasicEList.FastCompare();
 
   protected boolean loadingTargets;
+  
+  protected boolean resolveProxies;
 
   public ChangeRecorder()
   {
@@ -94,6 +96,16 @@ public class ChangeRecorder implements Adapter.Internal
     return recording;
   }
   
+  public boolean isResolveProxies()
+  {
+    return resolveProxies;
+  }
+  
+  public void setResolveProxies(boolean resolveProxies)
+  {
+    this.resolveProxies = resolveProxies;
+  }
+  
   /**
    * Disposes this change recorder by detaching it from its targets, 
    * clearing the collections attributes and setting the internal reference to the
@@ -122,7 +134,7 @@ public class ChangeRecorder implements Adapter.Internal
 
   /**
    * Begins recording any changes made to the elements of the specifed collection.
-   * @param rootObjects A collecion of instances of (@link Notifier}
+   * @param rootObjects A collecion of instances of {@link Notifier}
    */
   public void beginRecording(Collection rootObjects)
   {
@@ -139,7 +151,7 @@ public class ChangeRecorder implements Adapter.Internal
    * </p>
    * @param changeDescription A change description with changes made during a previous
    * recording or <tt>null</tt> if a new change description should be instantiated.
-   * @param rootObjects A collecion of instances of (@link Notifier}
+   * @param rootObjects A collecion of instances of {@link Notifier}
    * @since 2.1.0
    */
   public void beginRecording(ChangeDescription changeDescription, Collection rootObjects)
@@ -374,6 +386,7 @@ public class ChangeRecorder implements Adapter.Internal
     
     switch (event)
     {
+      case Notification.RESOLVE:
       case Notification.SET:
       case Notification.UNSET:
       {
@@ -647,14 +660,22 @@ public class ChangeRecorder implements Adapter.Internal
       originalTargetObjects.add(target);
     }
 
-    Collection contents = target instanceof EObject ? ((EObject)target).eContents() : target instanceof ResourceSet
-      ? ((ResourceSet)target).getResources() : target instanceof Resource ? ((Resource)target).getContents() : null;
+    Iterator contents = 
+      target instanceof EObject ? 
+        resolveProxies ?  
+          ((EObject)target).eContents().iterator() : 
+          ((InternalEList)((EObject)target).eContents()).basicIterator() :
+        target instanceof ResourceSet ? 
+          ((ResourceSet)target).getResources().iterator() : 
+            target instanceof Resource ? 
+              ((Resource)target).getContents().iterator() : 
+                null;
 
     if (contents != null)
     {
-      for (Iterator i = contents.iterator(); i.hasNext();)
+      while (contents.hasNext())
       {
-        Notifier notifier = (Notifier)i.next();
+        Notifier notifier = (Notifier)contents.next();
         addAdapter(notifier);
       }
     }
