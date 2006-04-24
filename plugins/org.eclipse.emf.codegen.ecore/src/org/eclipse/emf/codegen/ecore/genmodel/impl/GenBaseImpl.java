@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.47 2006/03/15 20:07:12 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.48 2006/04/24 14:04:13 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1362,11 +1362,20 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       for (Iterator iter = genClasses.iterator(); iter.hasNext(); )
       {
         GenClass genClass = (GenClass)iter.next();
+        LOOP:
         for (Iterator sIter = genClass.getGenOperations().iterator(); sIter.hasNext(); )
         {
           GenOperation genOperation = (GenOperation)sIter.next();
           if (filter == null || filter.accept(genOperation))
           {
+            for (Iterator i = result.iterator(); i.hasNext(); )
+            {
+              GenOperation otherGenOperation = (GenOperation)i.next();
+              if (otherGenOperation.isOverrideOf(genOperation))
+              {
+                continue LOOP;
+              }
+            }
             result.add(genOperation);
           }
         }
@@ -1375,11 +1384,20 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
     if (genOperations != null)
     {
+      LOOP:
       for (Iterator iter = genOperations.iterator(); iter.hasNext(); )
       {
         GenOperation genOperation = (GenOperation)iter.next();
         if (filter == null || filter.accept(genOperation))
         {
+          for (Iterator i = result.iterator(); i.hasNext(); )
+          {
+            GenOperation otherGenOperation = (GenOperation)i.next();
+            if (otherGenOperation.isOverrideOf(genOperation))
+            {
+              continue LOOP;
+            }
+          }
           result.add(genOperation);
         }
       }
