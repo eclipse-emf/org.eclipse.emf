@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.56 2006/04/13 11:41:31 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.57 2006/04/24 14:03:40 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -40,6 +40,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -921,7 +922,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public List getImplementedGenOperations()
   {
-    List implementedGenClasses = new UniqueEList(getImplementedGenClasses());
+    EList implementedGenClasses = new UniqueEList(getImplementedGenClasses());
+    ECollections.reverse(implementedGenClasses);
     if (needsRootImplementsInterfaceOperations())
     {
       GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
@@ -2527,12 +2529,15 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         }
       }
 
-      for (Iterator i = extendsGenClassOperations.iterator(); i.hasNext();)
+      if (!genOperation.hasBody())
       {
-        GenOperation baseOperation = (GenOperation)i.next();
-        if (baseOperation.isOverrideOf(genOperation))
+        for (Iterator i = extendsGenClassOperations.iterator(); i.hasNext();)
         {
-          return false;
+          GenOperation baseOperation = (GenOperation)i.next();
+          if (baseOperation.isOverrideOf(genOperation))
+          {
+            return false;
+          }
         }
       }
 
