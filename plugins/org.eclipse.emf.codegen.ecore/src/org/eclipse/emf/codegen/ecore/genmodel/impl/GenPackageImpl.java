@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.52 2006/04/11 12:02:58 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.53 2006/04/24 14:01:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2405,6 +2405,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       switchHelper = new SwitchHelper();
       validatorHelper = new ValidatorHelper();
       dependencyHelper = new DependencyHelper();
+      annotationSourceHelper = new AnnotationSourceHelper();
 
       for (Iterator iter = getGenClasses().iterator(); iter.hasNext(); )
       {
@@ -2596,6 +2597,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       switchHelper = null;
       validatorHelper = null;
       dependencyHelper = null;
+      annotationSourceHelper = null;
 
       progressMonitor.done();
     }
@@ -3503,32 +3505,52 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return result;
   }
 
+  private AnnotationSourceHelper annotationSourceHelper = null;
+
+  private class AnnotationSourceHelper extends GenBaseImpl.UniqueNameHelper
+  {
+    public AnnotationSourceHelper()
+    {
+      super(0);
+      
+      for (Iterator i = getAllAnnotations().iterator(); i.hasNext(); )
+      {
+        getUniqueName(((EAnnotation)i.next()).getSource());
+      }
+    }
+
+    protected String getName(Object o)
+    {
+      String result = (String)o;
+      if (result == null)
+      {
+        return "Null";
+      }
+      else
+      {
+        int index = result.lastIndexOf("/");
+        if (index == result.length() - 1)
+        {
+          result = result.substring(0, index);
+          index = result.lastIndexOf("/");
+        }
+        if (index != -1)
+        {
+          result = result.substring(index + 1);
+        }
+        index = result.indexOf(".");
+        if (index != -1)
+        {
+          result = result.substring(0, index);
+        }
+        return capName(result);
+      }
+    }
+  }
+
   public String getAnnotationSourceIdentifier(String annotationSource)
   {
-    String result = annotationSource;
-    if (annotationSource == null)
-    {
-      return "Null";
-    }
-    else
-    {
-      int index = result.lastIndexOf("/");
-      if (index == result.length() - 1)
-      {
-        result = result.substring(0, index);
-        index = result.lastIndexOf("/");
-      }
-      if (index != -1)
-      {
-        result = result.substring(index + 1);
-      }
-      index = result.indexOf(".");
-      if (index != -1)
-      {
-        result = result.substring(0, index);
-      }
-      return capName(result);
-    }
+    return annotationSourceHelper.getUniqueName(annotationSource);
   }
 
   public List getAllAnnotations()
