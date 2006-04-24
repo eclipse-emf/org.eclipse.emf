@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: UnicodeEncodingTest.java,v 1.3 2006/04/24 20:53:25 nickb Exp $
+ * $Id: UnicodeEncodingTest.java,v 1.4 2006/04/24 21:31:47 nickb Exp $
  */
 
 package org.eclipse.emf.test.xml.encoding;
@@ -79,7 +79,7 @@ public class UnicodeEncodingTest extends TestCase
     tempFile = File.createTempFile("EMF-encoding-test-" + encodingName, ".tmp.xml");
   }
 
-  protected void tearDownp() throws Exception
+  protected void tearDown() throws Exception
   {
       tempFile.delete();
   }
