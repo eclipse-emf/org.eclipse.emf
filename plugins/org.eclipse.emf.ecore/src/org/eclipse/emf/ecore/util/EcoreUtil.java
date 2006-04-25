@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.38 2006/03/03 22:03:18 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.39 2006/04/25 16:42:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3236,6 +3236,17 @@ public class EcoreUtil
     return UUID.generate();
   }
 
+  /**
+   * Generates a universally unique identifier, 
+   * i.e., a <a href="ftp://ietf.org/internet-drafts/draft-mealling-uuid-urn-02.txt">UUID</a>.
+   * The argument is filled in with the 128 bit UUID and hence must be at least 16 bytes in length.
+   * @param uuid the value to receive the result.
+   */
+  public static void generateUUID(byte [] uuid)
+  {
+    UUID.generate(uuid);
+  }
+
   private static final class UUID
   {
     public synchronized static String generate()
@@ -3258,6 +3269,16 @@ public class EcoreUtil
       buffer[22] = BASE64_DIGITS[(uuid[15] << 4) & 0x30];
 
       return new String(buffer);
+    }
+    
+    public synchronized static void generate(byte [] uuid)
+    {
+      updateCurrentTime();
+
+      for (int i = 0; i < 16; i++)
+      {
+        uuid[i] = UUID.uuid[i];
+      }
     }
 
     private UUID()
