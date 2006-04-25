@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.57 2006/04/24 14:03:40 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.58 2006/04/25 21:42:12 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -515,7 +515,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     else
     {
       String result = "";
-      if (!getGenModel().isSuppressInterfaces())
+      if (isExternalInterface() || !getGenModel().isSuppressInterfaces())
       {
         result = " implements " + getImportedInterfaceName();
       }
