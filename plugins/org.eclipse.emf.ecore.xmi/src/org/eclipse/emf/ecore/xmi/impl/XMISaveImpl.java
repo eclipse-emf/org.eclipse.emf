@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.12 2006/03/03 17:14:44 emerks Exp $
+ * $Id: XMISaveImpl.java,v 1.13 2006/04/26 12:32:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -33,6 +33,7 @@ import org.w3c.dom.Element;
 public class XMISaveImpl extends XMLSaveImpl
 {
   protected boolean xmiType;
+  protected String xmiURI = XMIResource.XMI_URI;
 
   protected static final String XMI_ID_NS = XMIResource.XMI_NS + ":" + XMIResource.XMI_ID; // xmi:id
   protected static final String XMI_TAG_NS = XMIResource.XMI_NS + ":" + XMIResource.XMI_TAG_NAME; // xmi:XMI
@@ -64,7 +65,8 @@ public class XMISaveImpl extends XMLSaveImpl
   {
     super.init(resource, options);
     this.xmiType = Boolean.TRUE.equals(options.get(XMIResource.OPTION_USE_XMI_TYPE));
-    helper.getPrefixToNamespaceMap().put(XMIResource.XMI_NS, XMIResource.XMI_URI);
+    xmiURI = xmlResource == null ? XMIResource.XMI_URI : ((XMIResource)xmlResource).getXMINamespace();
+    helper.getPrefixToNamespaceMap().put(XMIResource.XMI_NS, xmiURI);
   }
 
   public Object writeTopObjects(List contents)
@@ -128,28 +130,26 @@ public class XMISaveImpl extends XMLSaveImpl
   public void addNamespaceDeclarations()
   {
     String version = XMIResource.VERSION_VALUE;
-    String namespace =XMIResource.XMI_URI;
     if (xmlResource != null)
     {
       version = ((XMIResource)xmlResource).getXMIVersion();
-      namespace = ((XMIResource)xmlResource).getXMINamespace();
     }
     if (!toDOM)
     {
         doc.addAttribute(XMI_VER_NS, version);
-        doc.addAttribute(XMI_XMLNS, namespace);         
+        doc.addAttribute(XMI_XMLNS, xmiURI);         
     }
     else
     {
       ((Element)currentNode).setAttributeNS(XMIResource.XMI_URI, XMI_VER_NS, version);
-      ((Element)currentNode).setAttributeNS(ExtendedMetaData.XMLNS_URI, XMI_XMLNS, namespace);
+      ((Element)currentNode).setAttributeNS(ExtendedMetaData.XMLNS_URI, XMI_XMLNS, xmiURI);
     }
     super.addNamespaceDeclarations();
   }
 
   public boolean isDuplicateURI(String nsURI)
   {
-    return XMIResource.XMI_URI.equals(nsURI);
+    return xmiURI.equals(nsURI);
   }
 
   protected void saveFeatureMapElementReference(EObject o, EReference f)
