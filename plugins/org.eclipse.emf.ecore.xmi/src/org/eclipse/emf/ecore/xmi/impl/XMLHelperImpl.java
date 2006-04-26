@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.32 2006/04/26 11:24:58 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.33 2006/04/26 12:19:54 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -81,6 +81,7 @@ public class XMLHelperImpl implements XMLHelper
   protected String processDanglingHREF;
   protected DanglingHREFException danglingHREFException;
   protected EMap prefixesToURIs;
+  protected Map urisToPrefixes;
   protected Map anyPrefixesToURIs;
   protected NamespaceSupport namespaceSupport;
   protected EClass anySimpleType;
@@ -131,7 +132,44 @@ public class XMLHelperImpl implements XMLHelper
     super();
     packages = new HashMap();
     featuresToKinds = new HashMap();
-    prefixesToURIs = new BasicEMap();
+    prefixesToURIs = 
+      new BasicEMap()
+      {
+        protected List getPrefixes(Object uri)
+        {
+          List result = (List)urisToPrefixes.get(uri);
+          if (result == null)
+          {
+            urisToPrefixes.put(uri, result = new ArrayList());
+          }
+          return result;
+        }
+
+        protected void didAdd(Entry entry)
+        {
+          getPrefixes(entry.getValue()).add(entry.getKey());
+        }
+
+        protected void didClear(BasicEList[] oldEntryData)
+        {
+          urisToPrefixes.clear();
+        }
+
+        protected void didModify(Entry entry, Object oldValue)
+        {
+          Object key = entry.getKey();
+          getPrefixes(oldValue).remove(key);
+          getPrefixes(entry.getValue()).add(key);
+        }
+
+        protected void didRemove(Entry entry)
+        {
+          getPrefixes(entry.getValue()).add(entry.getKey());
+        }
+      };
+
+    urisToPrefixes = new HashMap();
+      
     anyPrefixesToURIs = new HashMap();
     allPrefixToURI = new ArrayList();
     namespaceSupport = new NamespaceSupport();
@@ -473,12 +511,12 @@ public class XMLHelperImpl implements XMLHelper
             extendedMetaData.getNamespace(ePackage);
 
       boolean found = false;
-      for (Iterator i = prefixesToURIs.entrySet().iterator(); i.hasNext(); )
+      List prefixes = (List)urisToPrefixes.get(nsURI);
+      if (prefixes != null)
       {
-        Map.Entry entry = (Map.Entry)i.next();
-        if (nsURI == null ? entry.getValue() == null : nsURI.equals(entry.getValue()))
+        for (Iterator i = prefixes.iterator(); i.hasNext(); )
         {
-          nsPrefix = (String)entry.getKey();
+          nsPrefix = (String)i.next();
           if (!mustHavePrefix || nsPrefix.length() > 0)
           {
             found = true;
@@ -536,13 +574,10 @@ public class XMLHelperImpl implements XMLHelper
     List result = new UniqueEList();
     result.add(getPrefix(ePackage));
     String namespace = extendedMetaData == null ? ePackage.getNsURI() : extendedMetaData.getNamespace(ePackage);
-    for (Iterator i = prefixesToURIs.entrySet().iterator(); i.hasNext(); )
+    List prefixes = (List)urisToPrefixes.get(namespace);
+    if (prefixes != null)
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      if (namespace == null ? entry.getValue() == null : namespace.equals(entry.getValue()))
-      {
-        result.add(entry.getKey());
-      }
+      result.addAll(prefixes);
     }
     return result;
   }
@@ -667,10 +702,17 @@ public class XMLHelperImpl implements XMLHelper
       Resource otherResource = obj.eResource();
       if (otherResource == null)
       {
-        objectURI = handleDanglingHREF(obj);
-        if (objectURI == null)
+        if (resource != null && resource.getID(obj) != null)
         {
-          return null;
+          objectURI = getHREF(resource, obj);
+        }
+        else
+        {
+          objectURI = handleDanglingHREF(obj);
+          if (objectURI == null)
+          {
+            return null;
+          }
         }
       }
       else
@@ -1511,7 +1553,7 @@ public class XMLHelperImpl implements XMLHelper
 
     return (!list) ? factory.convertToString(dataType, value) : null;
   }
-  
+
   protected void addNSDeclaration(String prefix, String uri)
   {
     if (uri != null)
