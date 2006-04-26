@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.8 2005/12/05 21:13:12 elena Exp $
+ * $Id: XMIHandler.java,v 1.9 2006/04/26 12:32:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.xmi.XMIResource;
@@ -84,6 +86,34 @@ public abstract class XMIHandler extends XMLHandler
   protected boolean isTextFeatureValue(Object type)
   {
     return super.isTextFeatureValue(type) && type != XMI_ELEMENT_TYPE;
+  }
+
+  protected EObject createDocumentRoot(String prefix, String uri, String name, EFactory eFactory, boolean top)
+  {
+    if (extendedMetaData != null && eFactory != null && extendedMetaData.demandedPackages().contains(eFactory.getEPackage()))
+    {
+      EClass eClass = (EClass)extendedMetaData.demandType(uri, name);
+      EObject newObject = null;
+      if (useNewMethods)
+      {
+        newObject = createObject(eFactory, eClass, true);
+      }
+      else
+      {         
+        newObject = helper.createObject(eFactory, name);          
+      }
+      validateCreateObjectFromFactory(eFactory, name, newObject);
+      handleObjectAttribs(newObject);
+      if (top)
+      {
+        processTopObject(newObject);
+      }
+      return newObject;
+    }
+    else
+    {
+      return super.createDocumentRoot(prefix, uri, name, eFactory, top);
+    }
   }
 
   protected void handleUnknownFeature(String prefix, String name, boolean isElement, EObject peekObject, String value)
