@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.39 2006/04/25 16:42:57 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.40 2006/04/26 20:58:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1060,7 +1060,7 @@ public class EcoreUtil
       {
         public Iterator getEObjectChildren(EObject eObject)
         {
-          return new ProperContentIterator(((EObject)object), isResolveProxies());
+          return new ProperContentIterator(eObject, isResolveProxies());
         }
       };
   }
