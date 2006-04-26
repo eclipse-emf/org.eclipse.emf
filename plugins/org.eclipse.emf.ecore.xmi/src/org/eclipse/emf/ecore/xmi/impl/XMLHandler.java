@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.54 2006/04/26 11:25:46 emerks Exp $
+ * $Id: XMLHandler.java,v 1.55 2006/04/26 12:33:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1242,7 +1242,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         extent.addUnique(object);
       }
           
-      if (extendedMetaData != null)
+      if (extendedMetaData != null && !mixedTargets.isEmpty())
       {
         FeatureMap featureMap = (FeatureMap)mixedTargets.pop();
         EStructuralFeature target = extendedMetaData.getMixedFeature(object.eClass());
@@ -1685,16 +1685,18 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     if (isElement)
     {
       AnyType anyType = getExtension(peekObject);
+      int objectsIndex = objects.size();
       objects.push(anyType);
+      int mixedTargetsIndex = mixedTargets.size();
       mixedTargets.push(anyType.getAny());
+      int typesIndex = types.size();
       types.push(UNKNOWN_FEATURE_TYPE);
-      int unknownFeatureIndex = types.size() - 1;;
 
       handleFeature(prefix, name);
 
-      objects.remove(unknownFeatureIndex);
-      mixedTargets.remove(unknownFeatureIndex);
-      types.remove(unknownFeatureIndex);
+      objects.remove(objectsIndex);
+      mixedTargets.remove(mixedTargetsIndex);
+      types.remove(typesIndex);
     }
     else
     {
