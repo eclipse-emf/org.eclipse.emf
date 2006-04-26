@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.53 2006/04/01 16:05:19 emerks Exp $
+ * $Id: XMLHandler.java,v 1.54 2006/04/26 11:25:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1334,7 +1334,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       mixedTargets.pop();
       isSimpleFeature = false;
     }
-    helper.popContext();
+    helper.popContext(prefixesToFactories);
   }
 
   protected boolean isTextFeatureValue(Object type)
