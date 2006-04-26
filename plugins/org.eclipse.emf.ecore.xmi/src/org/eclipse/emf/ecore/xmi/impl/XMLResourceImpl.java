@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.18 2006/04/01 16:00:14 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.19 2006/04/26 12:36:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -120,6 +120,11 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   protected boolean useUUIDs()
   {
     return false;
+  }
+
+  protected boolean assignIDsWhileLoading()
+  {
+    return true;
   }
 
   public Map getDefaultSaveOptions()
@@ -447,12 +452,15 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       String id = getID(eObject);
       if (useUUIDs() && id == null)
       {
-        id = (String)DETACHED_EOBJECT_TO_ID_MAP.remove(eObject);
-        if (id == null)
+        if (assignIDsWhileLoading() || !isLoading())
         {
-          id = EcoreUtil.generateUUID();
+          id = (String)DETACHED_EOBJECT_TO_ID_MAP.remove(eObject);
+          if (id == null)
+          {
+            id = EcoreUtil.generateUUID();
+          }
+          setID(eObject, id);
         }
-        setID(eObject, id);
       }
       else if (id != null)
       {
