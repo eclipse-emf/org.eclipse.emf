@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.11 2005/12/07 18:52:31 elena Exp $
+ * $Id: XMLHelper.java,v 1.12 2006/04/26 11:24:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -326,6 +326,15 @@ public interface XMLHelper
    * </p>
    */
   public void popContext();
+
+  /**
+   * Reverts to the previous namespace context while loading XML document and removes from the map, prefixes that have gone out of scope.
+   * <p>
+   * The context should be popped at the end of each XML element.  
+   * After popping the context, all namespace prefix mappings that were previously in scope are restored.
+   * </p>
+   */
+  public void popContext(Map prefixesToFactories);
   
   /** 
    * Converts the given valuevalue to string while saving an XML document. 

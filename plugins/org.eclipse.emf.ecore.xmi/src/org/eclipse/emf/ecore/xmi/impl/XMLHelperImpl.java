@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.31 2005/12/20 15:38:56 elena Exp $
+ * $Id: XMLHelperImpl.java,v 1.32 2006/04/26 11:24:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1152,6 +1152,11 @@ public class XMLHelperImpl implements XMLHelper
     namespaceSupport.popContext();
   }
 
+  public void popContext(Map prefixesToFactories)
+  {
+    namespaceSupport.popContext(prefixesToFactories);
+  }
+
   public void addPrefix(String prefix, String uri) 
   {
     if (!"xml".equals(prefix) && !"xmlns".equals(prefix))
@@ -1310,6 +1315,15 @@ public class XMLHelperImpl implements XMLHelper
     public void popContext()
     {
       namespaceSize = context[currentContext--];
+    } 
+
+    public void popContext(Map prefixesToFactories)
+    {
+      int oldNamespaceSize = namespaceSize;
+      for (int i = namespaceSize = context[currentContext--]; i < oldNamespaceSize; i += 2)
+      {
+        prefixesToFactories.remove(namespace[i]);
+      }
     } 
 
     /**
