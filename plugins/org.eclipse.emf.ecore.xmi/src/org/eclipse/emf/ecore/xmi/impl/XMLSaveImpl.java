@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.56 2006/04/17 14:39:37 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.57 2006/04/26 12:40:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -318,12 +318,12 @@ public class XMLSaveImpl implements XMLSave
         xmlTypeInfo = 
           new XMLTypeInfo()
           {
-            public boolean shouldSaveType(EClass objectType, EClass featureType, EStructuralFeature feature)
+            public boolean shouldSaveType(EClass objectType, EClassifier featureType, EStructuralFeature feature)
             {
               return objectType != anyType;
             }
-
-            public boolean shouldSaveType(EClass objectType, EClassifier featureType, EStructuralFeature feature)
+            
+            public boolean shouldSaveType(EClass objectType, EClass featureType, EStructuralFeature feature)
             {
               return true;
             }
@@ -768,6 +768,10 @@ public class XMLSaveImpl implements XMLSave
                 if (location.endsWith("#/"))
                 {
                   location = location.substring(0, location.length() - 2);
+                  if (uri.hasFragment())
+                  {
+                    location += "#" + uri.fragment();
+                  }
                 }
                 xsiSchemaLocation.append(location);
               }
@@ -2094,11 +2098,31 @@ public class XMLSaveImpl implements XMLSave
       if (!toDOM)
       {
         doc.addAttribute(XMLResource.HREF, href);
-        doc.endEmptyElement();
+        if (eObjectToExtensionMap != null)
+        {
+          processAttributeExtensions(remote);
+          if (processElementExtensions(remote))
+          {
+            doc.endElement();
+          }
+          else
+          {
+            doc.endEmptyElement();
+          }
+        }
+        else
+        {
+          doc.endEmptyElement();
+        }
       }
       else
       {
         ((Element)currentNode).setAttributeNS(null, XMLResource.HREF, href);
+        if (eObjectToExtensionMap != null)
+        {
+          processAttributeExtensions(remote);
+          processElementExtensions(remote);
+        }
         currentNode = currentNode.getParentNode();
       }
     }
@@ -2327,7 +2351,7 @@ public class XMLSaveImpl implements XMLSave
     else
     {
       Resource res = value.eResource();
-      return res == helper.getResource() ? SAME_DOC : CROSS_DOC;
+      return res == helper.getResource() || res == null ? SAME_DOC : CROSS_DOC;
     }
   }
 
@@ -2342,8 +2366,17 @@ public class XMLSaveImpl implements XMLSave
     for (Iterator i = values.basicIterator(); i.hasNext(); )
     {
       InternalEObject value = (InternalEObject)i.next();
-      if (value.eIsProxy() || value.eResource() != helper.getResource()) {
+      if (value.eIsProxy())
+      {
         return CROSS_DOC;
+      }
+      else
+      {
+        Resource resource = value.eResource();
+        if (resource != helper.getResource() && resource != null) 
+        {
+          return CROSS_DOC;
+        }
       }
     }
 
@@ -3221,7 +3254,6 @@ public class XMLSaveImpl implements XMLSave
    */
   protected class XMLTypeInfoImpl implements XMLTypeInfo
   {
-
     public boolean shouldSaveType(EClass objectType, EClassifier featureType, EStructuralFeature feature)
     {
       return objectType != featureType && objectType != anyType;
@@ -3229,7 +3261,7 @@ public class XMLSaveImpl implements XMLSave
 
     public boolean shouldSaveType(EClass objectType, EClass featureType, EStructuralFeature feature)
     {
-      return objectType != featureType;
+      return objectType != featureType && featureType.isAbstract();
     }
   }
 }
