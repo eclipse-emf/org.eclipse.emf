@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.emf.exporter">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.exporter" id="modelExporterDescriptors" name="%_UI_ModelExporterDescriptors_extensionpoint"/>
+         <meta.schema plugin="org.eclipse.emf.exporter" id="modelExporterDescriptors" name="Model Exporter Descriptors"/>
       </appInfo>
       <documentation>
          &lt;p&gt;This extension point is used to describe a Model Exporter by defining its name, id and the wizard which is presented to the user when the exporter is used.&lt;/p&gt;

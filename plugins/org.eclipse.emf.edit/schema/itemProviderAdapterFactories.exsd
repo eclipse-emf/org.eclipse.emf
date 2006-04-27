@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.emf.edit">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.edit" id="itemProviderAdapterFactories" name="%_UI_ItemProviderAdapterFactory_extensionpoint"/>
+         <meta.schema plugin="org.eclipse.emf.edit" id="itemProviderAdapterFactories" name="Registered Item Provider Adapter Factories"/>
       </appInfo>
       <documentation>
          This extension point is used to register the item provider adatper factory that is able to produce adapters for the given supported types for the given package. The global item provider adapter factory registry, &lt;samp&gt;ComposedAdapterFactory.Descriptor.Registry.INSTANCE&lt;/samp&gt;, is used to record the registration.

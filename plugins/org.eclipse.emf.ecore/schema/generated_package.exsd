@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.emf.ecore">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.ecore" id="generated_package" name="%_UI_PackageRegistry_extensionpoint"/>
+         <meta.schema plugin="org.eclipse.emf.ecore" id="generated_package" name="Ecore Package Registry"/>
       </appInfo>
       <documentation>
          This extension point is used to register an Ecore package against a namespace URI (Uniform Resource Identifier) in EMF&apos;s global package registry, &lt;samp&gt;EPackage.Registry.INSTANCE&lt;/samp&gt;. When a model instance is loaded from its serialized form, this registry may be consulted in order to obtain the correct metamodel that is to be instantiated.
@@ -53,7 +53,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="genModel" type="anyURI" use="optional">
+         <attribute name="genModel" type="anyURI">
             <annotation>
                <documentation>
                   An absolute or plugin relative URI the generator model resource for the package.

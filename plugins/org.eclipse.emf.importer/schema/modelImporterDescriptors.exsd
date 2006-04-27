@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.emf.importer">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.importer" id="modelImporterDescriptors" name="%_UI_ModelImporterDescriptors_extensionpoint"/>
+         <meta.schema plugin="org.eclipse.emf.importer" id="modelImporterDescriptors" name="Model Importer Descriptors"/>
       </appInfo>
       <documentation>
          &lt;p&gt;This extension point is used to describe a Model Importer by defining its name, id and the wizard which is presented to the user when the importer is used.&lt;/p&gt;

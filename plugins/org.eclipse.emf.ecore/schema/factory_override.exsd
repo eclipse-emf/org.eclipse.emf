@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.emf.ecore">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.ecore" id="factory_override" name="%_UI_FactoryRegistry_extensionpoint"/>
+         <meta.schema plugin="org.eclipse.emf.ecore" id="factory_override" name="Ecore Factory Override Registry"/>
       </appInfo>
       <documentation>
          This extension point is used to register an overriding Ecore factory implementation against a namespace URI (Uniform Resource Identifier) in EMF&apos;s global package registry, &lt;samp&gt;EPackage.Registry.INSTANCE&lt;/samp&gt;. When the corresponding Ecore package is initialized, the package registry is consulted for the registered factory implementation to override the default that would otherwise be used.

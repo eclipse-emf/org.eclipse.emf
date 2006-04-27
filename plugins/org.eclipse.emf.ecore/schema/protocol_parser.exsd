@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.emf.ecore">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.ecore" id="generated_package" name="%_UI_PackageRegistry_extensionpoint"/>
+         <meta.schema plugin="org.eclipse.emf.ecore" id="generated_package" name="URI Protocol Parser Registry"/>
       </appInfo>
       <documentation>
          This extension point is used to define the resource factory that handles a specific URI scheme (protocol). The global EMF resource factory registry, &lt;samp&gt;Resource.Factory.Registry.INSTANCE&lt;/samp&gt;, is used to record the registration.

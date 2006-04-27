@@ -3,7 +3,7 @@
 <schema targetNamespace="org.eclipse.emf.codegen">
 <annotation>
       <appInfo>
-         <meta.schema plugin="org.eclipse.emf.codegen" id="facadeHelpers" name="%_UI_FacadeHelpers_extensionpoint"/>
+         <meta.schema plugin="org.eclipse.emf.codegen" id="facadeHelpers" name="Merger Facade Helpers"/>
       </appInfo>
       <documentation>
          This extension point is used to register &quot;facade helpers&quot; that can be used by the JMerger tool.  The main task of a facade helper is to provide an implementation for the interfaces located in the &lt;code&gt;org.eclipse.emf.codegen.merge.java.facade&lt;/code&gt; package.  The types and methods defined by this set of interfaces are the basic constructs used by the merge rules XML document.
