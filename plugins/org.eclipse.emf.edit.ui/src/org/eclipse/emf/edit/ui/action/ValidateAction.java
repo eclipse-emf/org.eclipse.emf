@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,10 +12,9 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.16 2005/12/20 15:59:43 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.17 2006/04/27 16:21:45 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
-
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -51,6 +49,7 @@ import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.ui.MarkerHelper;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -69,12 +68,12 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 
-/**
- */
 public class ValidateAction extends Action implements ISelectionChangedListener 
 {  
-  public static class EclipseResourcesUtil
+  public static class EclipseResourcesUtil extends MarkerHelper
   {
+    protected EObject eObject;
+    
     public IRunnableWithProgress getWorkspaceModifyOperation(IRunnableWithProgress runnableWithProgress)
     {
       return new WorkspaceModifyDelegatingOperation(runnableWithProgress);
@@ -82,7 +81,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     
     public void createMarkers(IFile file, Diagnostic diagnostic)
     {
-      EObject eObject = null;
+      eObject = null;
       List data = diagnostic.getData();
       if (!data.isEmpty())
       {
@@ -92,69 +91,27 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           eObject = (EObject)target;
         }
       }
-
-      if (diagnostic.getChildren().isEmpty())
+      
+      try
       {
-        try
-        {
-          IMarker marker = file.createMarker(EValidator.MARKER);
-          int severity = diagnostic.getSeverity();
-          if (severity < Diagnostic.WARNING)
-          {
-            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-          }
-          else if (severity < Diagnostic.ERROR)
-          {
-            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-          }
-          else
-          {
-            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-          }
-          marker.setAttribute(IMarker.MESSAGE, diagnostic.getMessage());
-          if (eObject != null)
-          {
-            marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
-          }
-        }
-        catch (CoreException exception)
-        {
-          EMFEditUIPlugin.INSTANCE.log(exception);
-        }
+        super.createMarkers(file, diagnostic);
       }
-      else
+      catch (CoreException exception)
       {
-        String parentMessage = diagnostic.getMessage() + ". ";
-        for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
-        {
-          Diagnostic childDiagnostic = (Diagnostic)i.next();
-          try
-          {
-            IMarker marker = file.createMarker(EValidator.MARKER);
-            int severity = childDiagnostic.getSeverity();
-            if (severity < Diagnostic.WARNING)
-            {
-              marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-            }
-            else if (severity < Diagnostic.ERROR)
-            {
-              marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-            }
-            else
-            {
-              marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-            }
-            marker.setAttribute(IMarker.MESSAGE, parentMessage + childDiagnostic.getMessage());
-            if (eObject != null)
-            {
-              marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
-            }
-          }
-          catch (CoreException exception)
-          {
-            EMFEditUIPlugin.INSTANCE.log(exception);
-          }
-        }
+        EMFEditUIPlugin.INSTANCE.log(exception);
+      }
+    }    
+    
+    protected String getMarkerID()
+    {
+      return EValidator.MARKER;
+    }
+    
+    protected void adjustMarker(IMarker marker, Diagnostic diagnostic) throws CoreException
+    {
+      if (eObject != null)
+      {
+        marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
       }
     }    
   }
@@ -300,19 +257,12 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       result = Window.CANCEL;
     }
 
-    if (Platform.getBundle("org.eclipse.core.resources") != null)
+    if (eclipseResourcesUtil != null)
     {
       IFile file = getFile();
       if (file != null)
       {
-        try
-        {
-          file.deleteMarkers(EValidator.MARKER, true, IResource.DEPTH_ZERO);
-        }
-        catch (CoreException exception)
-        {
-          EMFEditUIPlugin.INSTANCE.log(exception);
-        }
+        eclipseResourcesUtil.deleteMarkers(file);
       }
     
       if (result == Window.OK)
