@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.41 2006/04/27 16:35:45 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.42 2006/04/27 20:12:03 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2836,12 +2836,13 @@ public class EcoreUtil
 
   /**
    * Removes the object from its {@link EObject#eResource containing} resource 
-   * or its {@link EObject#eContainer containing} object.
+   * and/or its {@link EObject#eContainer containing} object.
    * @param eObject the object to remove.
    */
   public static void remove(EObject eObject)
   {
-    EObject container = ((InternalEObject)eObject).eInternalContainer();
+    InternalEObject internalEObject = (InternalEObject)eObject;
+    EObject container = internalEObject.eInternalContainer();
     if (container != null)
     {
       EReference feature = eObject.eContainmentFeature();
@@ -2854,26 +2855,25 @@ public class EcoreUtil
         container.eUnset(feature);
       }
     }
-    else
+
+    Resource resource = internalEObject.eDirectResource();
+    if (resource != null)
     {
-      Resource resource = eObject.eResource();
-      if (resource != null)
-      {
-        resource.getContents().remove(eObject);
-      }
+      resource.getContents().remove(eObject);
     }
   }
 
   /**
    * Replace the object in its {@link EObject#eResource containing} resource 
-   * or its {@link EObject#eContainer containing} object,
+   * and/or its {@link EObject#eContainer containing} object,
    * with the replacement object.
    * @param eObject the object to replace.
    * @param replacementEObject the replacement object.
    */
   public static void replace(EObject eObject, EObject replacementEObject)
   {
-    EObject container = ((InternalEObject)eObject).eInternalContainer();
+    InternalEObject internalEObject = (InternalEObject)eObject;
+    EObject container = internalEObject.eInternalContainer();
     if (container != null)
     {
       EReference feature = eObject.eContainmentFeature();
@@ -2887,14 +2887,12 @@ public class EcoreUtil
         container.eSet(feature, replacementEObject);
       }
     }
-    else
+
+    Resource resource = internalEObject.eDirectResource();
+    if (resource != null)
     {
-      Resource resource = eObject.eResource();
-      if (resource != null)
-      {
-        List list = resource.getContents();
-        list.set(list.indexOf(eObject), replacementEObject);
-      }
+      List list = resource.getContents();
+      list.set(list.indexOf(eObject), replacementEObject);
     }
   }
 
