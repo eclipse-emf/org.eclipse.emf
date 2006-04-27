@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditUIMarkerHelper.java,v 1.1 2006/04/27 16:20:27 marcelop Exp $
+ * $Id: EditUIMarkerHelper.java,v 1.2 2006/04/27 18:33:30 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.util;
 
@@ -45,9 +45,9 @@ public class EditUIMarkerHelper extends MarkerHelper
         String location = resourceDiagnostic.getLocation();
         if (location != null)
         {
-          if (location.startsWith("platform:/resource"))
+          if (location.startsWith("platform:/resource/"))
           {
-            location = location.substring("platform:/resource".length());
+            location = location.substring("platform:/resource/".length());
           }
           location = EMFEditUIPlugin.getPlugin().getString
             ("_UI_MarkerLocation", 
