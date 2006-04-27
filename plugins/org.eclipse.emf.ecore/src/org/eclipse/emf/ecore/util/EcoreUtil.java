@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.40 2006/04/26 20:58:03 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.41 2006/04/27 16:35:45 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -35,6 +35,8 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -3533,6 +3535,68 @@ public class EcoreUtil
     }
   }
 
+  /**
+   * Computes a {@link Diagnostic} from the errors and warnings stored in the specified resource.
+   * @param resource
+   * @param includeWarnings
+   * @return {@link Diagnostic}
+   */
+  public static Diagnostic computeDiagnostic(Resource resource, boolean includeWarnings)
+  {
+    if (resource.getErrors().isEmpty() && (!includeWarnings || resource.getWarnings().isEmpty()))
+    {
+      return BasicDiagnostic.OK_INSTANCE;
+    }
+    else
+    {
+      BasicDiagnostic basicDiagnostic = new BasicDiagnostic();
+      for (Iterator i = resource.getErrors().iterator(); i.hasNext();)
+      {
+        Resource.Diagnostic resourceDiagnostic = (Resource.Diagnostic)i.next();
+        Diagnostic diagnostic = null;
+        if (resourceDiagnostic instanceof Throwable)
+        {
+          diagnostic = BasicDiagnostic.toDiagnostic((Throwable)resourceDiagnostic);
+        }
+        else
+        {
+          diagnostic = new BasicDiagnostic(
+            Diagnostic.ERROR,
+            "org.eclipse.emf.ecore.resource", 
+            0, 
+            resourceDiagnostic.getMessage(),
+            new Object[]{resourceDiagnostic});
+        }
+        basicDiagnostic.add(diagnostic);
+      }
+      
+      if (includeWarnings)
+      {
+        for (Iterator i = resource.getWarnings().iterator(); i.hasNext();)
+        {
+          Resource.Diagnostic resourceDiagnostic = (Resource.Diagnostic)i.next();
+          Diagnostic diagnostic = null;
+          if (resourceDiagnostic instanceof Throwable)
+          {
+            diagnostic = BasicDiagnostic.toDiagnostic((Throwable)resourceDiagnostic);
+          }
+          else
+          {
+            diagnostic = new BasicDiagnostic(
+              Diagnostic.WARNING,
+              "org.eclipse.emf.ecore.resource", 
+              0, 
+              resourceDiagnostic.getMessage(),
+              new Object[]{resourceDiagnostic});
+          }
+          basicDiagnostic.add(diagnostic);
+        }
+      }
+  
+      return basicDiagnostic;
+    }
+  }
+
   /*
    static 
    {
@@ -3653,4 +3717,3 @@ public class EcoreUtil
    }
    */
 }
-
