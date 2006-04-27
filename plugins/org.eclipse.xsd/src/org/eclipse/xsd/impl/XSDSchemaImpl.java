@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.26 2005/12/15 12:24:45 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.27 2006/04/27 10:21:54 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -3066,6 +3066,11 @@ public class XSDSchemaImpl
           XSDSchemaImpl incorporatedVersion = (XSDSchemaImpl)incorporatedVersions.next();
           if (includingSchema.getTargetNamespace().equals(incorporatedVersion.getTargetNamespace()))
           {
+            if (incorporatedVersion.getReferencingDirectives().isEmpty())
+            {
+              incorporatedVersion.incorporate(xsdInclude);
+              return incorporatedVersion;
+            }
             for (Iterator i = incorporatedVersion.getReferencingDirectives().iterator(); i.hasNext(); )
             {
               XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
