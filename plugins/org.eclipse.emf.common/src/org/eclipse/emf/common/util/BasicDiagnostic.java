@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,18 +12,15 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.8 2005/11/29 12:51:25 emerks Exp $
+ * $Id: BasicDiagnostic.java,v 1.9 2006/04/27 15:57:54 marcelop Exp $
  */
 package org.eclipse.emf.common.util;
-
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
-
-import org.eclipse.emf.common.util.BasicEList;
 
 
 /**
@@ -334,7 +331,7 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
   }
 
   /**
-   * Return the diagnostic viewed as an {@link IStatus}.
+   * Returns the diagnostic viewed as an {@link IStatus}.
    */
   public static IStatus toIStatus(Diagnostic diagnostic)
   {
@@ -342,12 +339,58 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
   }
   
   /**
-   * Return the diagnostic exception viewed as an {@link IStatus}.
+   * Returns the diagnostic exception viewed as an {@link IStatus}.
    */
   public static IStatus toIStatus(DiagnosticException diagnosticException)
   {
     return Wrapper.create(diagnosticException);
   }
+  
+  /**
+   * Returns the throwable viewed as a {@link Diagnostic}.
+   * 
+   * @param throwable
+   * @return {@link Diagnostic}
+   */
+  public static Diagnostic toDiagnostic(Throwable throwable)
+  {
+    return toDiagnostic(throwable, "org.eclipse.emf.common", 0, throwable.getLocalizedMessage());
+  }
+  
+  /**
+   * Returns the throwable viewed as a {@link Diagnostic}.  If the throwable
+   * is an instanceof {@link DiagnosticException}, the <tt>source</tt>, 
+   * <tt>code</tt> and <tt>message</tt> parameters are not used.
+   * 
+   * @param throwable
+   * @param source
+   * @param code
+   * @param message
+   * @return {@link Diagnostic}
+   */
+  public static Diagnostic toDiagnostic(Throwable throwable, String source, int code, String message)
+  {
+    if (throwable instanceof DiagnosticException)
+    {
+      return ((DiagnosticException)throwable).getDiagnostic();
+    }
+    
+    BasicDiagnostic basicDiagnostic = 
+      new BasicDiagnostic
+        (Diagnostic.ERROR,
+         source, 
+         code, 
+         message,
+         new Object[] { throwable });
+    
+    while (throwable.getCause() != null && throwable.getCause() != throwable)
+    {
+      throwable = throwable.getCause();
+      basicDiagnostic.add(toDiagnostic(throwable, source, code, throwable.getLocalizedMessage()));
+    }
+    
+    return basicDiagnostic;
+  }  
 
   public String toString()
   {
