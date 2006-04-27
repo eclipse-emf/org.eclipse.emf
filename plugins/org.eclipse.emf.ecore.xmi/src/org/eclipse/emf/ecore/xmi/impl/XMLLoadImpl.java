@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.15 2006/01/26 20:51:31 elena Exp $
+ * $Id: XMLLoadImpl.java,v 1.16 2006/04/27 15:31:12 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -177,9 +177,9 @@ public class XMLLoadImpl implements XMLLoad
         if (error instanceof XMIException)
         {
           XMIException exception = (XMIException)error;
-          if (exception.getWrappedException() != null)
+          if (exception.getCause() != null)
           {
-            throw new Resource.IOWrappedException(exception.getWrappedException());
+            throw new Resource.IOWrappedException((Exception)exception.getCause());
           }
         }
         throw new Resource.IOWrappedException(error);
@@ -275,9 +275,9 @@ public class XMLLoadImpl implements XMLLoad
         if (error instanceof XMIException)
         {
           XMIException exception = (XMIException)error;
-          if (exception.getWrappedException() != null)
+          if (exception.getCause() != null)
           {
-            throw new Resource.IOWrappedException(exception.getWrappedException());
+            throw new Resource.IOWrappedException((Exception)exception.getCause());
           }
         }
         throw new Resource.IOWrappedException(error);
@@ -421,9 +421,9 @@ public class XMLLoadImpl implements XMLLoad
       if (error instanceof XMIException)
       {
         XMIException exception = (XMIException)error;
-        if (exception.getWrappedException() != null)
+        if (exception.getCause() != null)
         {
-          throw new Resource.IOWrappedException(exception.getWrappedException());
+          throw new Resource.IOWrappedException((Exception)exception.getCause());
         }
       }
       throw new Resource.IOWrappedException(error);
