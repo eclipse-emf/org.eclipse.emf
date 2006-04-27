@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XMIException.java,v 1.2 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMIException.java,v 1.3 2006/04/27 15:30:26 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
-
-import java.io.PrintStream;
-import java.io.PrintWriter;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -28,7 +25,6 @@ public class XMIException extends Exception implements Resource.Diagnostic
   protected String location;
   protected int line;
   protected int column;
-  protected Exception exception;
 
   public XMIException(String message)
   {
@@ -37,14 +33,12 @@ public class XMIException extends Exception implements Resource.Diagnostic
 
   public XMIException(Exception exception)
   {
-    super(exception.getMessage());
-    this.exception = exception;
+    super(exception);
   }
 
   public XMIException(String message, Exception exception)
   {
-    super(message);
-    this.exception = exception;
+    super(message, exception);
   }
 
   public XMIException(String message, String location, int line, int column)
@@ -57,8 +51,7 @@ public class XMIException extends Exception implements Resource.Diagnostic
 
   public XMIException(String message, Exception exception, String location, int line, int column)
   {
-    super(message);
-    this.exception = exception;
+    super(message, exception);
     this.location = location;
     this.line = line;
     this.column = column;
@@ -66,8 +59,7 @@ public class XMIException extends Exception implements Resource.Diagnostic
 
   public XMIException(Exception exception, String location, int line, int column)
   {
-    super(exception.getMessage());
-    this.exception = exception;
+    super(exception);
     this.location = location;
     this.line = line;
     this.column = column;
@@ -98,44 +90,13 @@ public class XMIException extends Exception implements Resource.Diagnostic
     return column;
   }
 
+  /**
+   * @deprecated in 2.2.  Use {@link #getCause()} instead.  Given that 
+   * the constructors of this class take {@link Exception}s as arguments, it is 
+   * save to do this cast <pre>(Exception)getCause()</pre>. 
+   */
   public Exception getWrappedException()
   {
-    return exception;
-  }
-
-  public void printStackTrace()
-  {
-    if (exception != null)
-    {
-      exception.printStackTrace();
-    }
-    else
-    {
-      super.printStackTrace();
-    }
-  }
-
-  public void printStackTrace(PrintStream printStream)
-  {
-    if (exception != null)
-    {
-      exception.printStackTrace(printStream);
-    }
-    else
-    {
-      super.printStackTrace(printStream);
-    }
-  }
-
-  public void printStackTrace(PrintWriter printWriter)
-  {
-    if (exception != null)
-    {
-      exception.printStackTrace(printWriter);
-    }
-    else
-    {
-      super.printStackTrace(printWriter);
-    }
+    return (Exception)getCause();
   }
 }
