@@ -156,7 +156,7 @@ String _ResourceSetImpl = genModel.getImportedName("org.eclipse.emf.ecore.resour
     stringBuffer.append(TEXT_26);
     stringBuffer.append(rootClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_27);
-    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
+    stringBuffer.append(rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_28);
     stringBuffer.append(rootClass.getName());
     stringBuffer.append(TEXT_29);
@@ -174,7 +174,7 @@ String _ResourceSetImpl = genModel.getImportedName("org.eclipse.emf.ecore.resour
     stringBuffer.append(TEXT_35);
     stringBuffer.append(rootClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_36);
-    stringBuffer.append(genPackage.getQualifiedEFactoryInternalInstanceAccessor());
+    stringBuffer.append(rootClass.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor());
     stringBuffer.append(TEXT_37);
     stringBuffer.append(rootClass.getName());
     stringBuffer.append(TEXT_38);
