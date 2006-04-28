@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditUIMarkerHelper.java,v 1.3 2006/04/27 21:28:14 marcelop Exp $
+ * $Id: EditUIMarkerHelper.java,v 1.4 2006/04/28 04:29:22 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.util;
 
@@ -36,20 +36,23 @@ public class EditUIMarkerHelper extends MarkerHelper
 {
   protected void adjustMarker(IMarker marker, Diagnostic diagnostic) throws CoreException
   {
-    for (Iterator i = diagnostic.getData().iterator(); i.hasNext();)
+    if (diagnostic.getData() != null)
     {
-      Object element = (Object)i.next();
-      if (element instanceof Resource.Diagnostic)
+      for (Iterator i = diagnostic.getData().iterator(); i.hasNext();)
       {
-        Resource.Diagnostic resourceDiagnostic = (Resource.Diagnostic)element;
-        if (resourceDiagnostic.getLocation() != null)
+        Object element = (Object)i.next();
+        if (element instanceof Resource.Diagnostic)
         {
-          marker.setAttribute(IMarker.LOCATION, 
-            EMFEditUIPlugin.getPlugin().getString("_UI_MarkerLocation", 
-              new String[]{Integer.toString(resourceDiagnostic.getLine()), Integer.toString(resourceDiagnostic.getColumn())}));
-          
-          marker.setAttribute(IMarker.LINE_NUMBER, resourceDiagnostic.getLine());
-          break;
+          Resource.Diagnostic resourceDiagnostic = (Resource.Diagnostic)element;
+          if (resourceDiagnostic.getLocation() != null)
+          {
+            marker.setAttribute(IMarker.LOCATION, 
+              EMFEditUIPlugin.getPlugin().getString("_UI_MarkerLocation", 
+                new String[]{Integer.toString(resourceDiagnostic.getLine()), Integer.toString(resourceDiagnostic.getColumn())}));
+            
+            marker.setAttribute(IMarker.LINE_NUMBER, resourceDiagnostic.getLine());
+            break;
+          }
         }
       }
     }
