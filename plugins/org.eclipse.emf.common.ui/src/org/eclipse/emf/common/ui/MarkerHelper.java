@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MarkerHelper.java,v 1.1 2006/04/27 16:17:09 marcelop Exp $
+ * $Id: MarkerHelper.java,v 1.2 2006/04/28 03:30:34 marcelop Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -78,7 +78,7 @@ public class MarkerHelper
     }
     else
     {
-      String parentMessage = diagnostic.getMessage() + ". ";
+      String parentMessage = diagnostic.getMessage();
       for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
       {
         Diagnostic childDiagnostic = (Diagnostic)i.next();
@@ -96,12 +96,50 @@ public class MarkerHelper
         {
           marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
         }
-        marker.setAttribute(IMarker.MESSAGE, parentMessage + childDiagnostic.getMessage());
+        
+        String message = childDiagnostic.getMessage();
+        if (parentMessage != null)
+        {
+            message = message != null ?
+              parentMessage + ". " + message : parentMessage;
+        }
+        if (message != null)
+        {
+          marker.setAttribute(IMarker.MESSAGE, message);
+        }
+        
         adjustMarker(marker, childDiagnostic);
       }
     }
   }
   
+  public boolean hasMarkers(IEditorInput editorInput)
+  {
+    if (editorInput instanceof IFileEditorInput)
+    {
+      return hasMarkers(((IFileEditorInput)editorInput).getFile(), true, IResource.DEPTH_ZERO);
+    }
+    return false; 
+  }
+
+  public boolean hasMarkers(IFile file)
+  {
+    return hasMarkers(file, true, IResource.DEPTH_ZERO);
+  }
+
+  public boolean hasMarkers(IFile file, boolean includeSubtypes, int depth)
+  {
+    try
+    {
+      IMarker[] markers = file.findMarkers(getMarkerID(), includeSubtypes, depth);
+      return markers.length > 0;
+    }
+    catch (CoreException e)
+    {
+      return false;
+    }
+  }
+
   public void deleteMarkers(IEditorInput editorInput)
   {
     if (editorInput instanceof IFileEditorInput)
