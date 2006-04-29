@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.24 2006/02/06 21:12:48 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.25 2006/04/29 11:37:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2059,8 +2059,13 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       for (int i = nameToClassifierMap.size(), size = eClassifiers.size(); i < size; ++i)
       {
         EClassifier eClassifier = (EClassifier)eClassifiers.get(i);
-        nameToClassifierMap.put(getName(eClassifier), eClassifier);
-        if (name.equals(getName(eClassifier)))
+        String eClassifierName = getName(eClassifier);
+        Object conflictingEClassifier = nameToClassifierMap.put(eClassifierName, eClassifier);
+        if (conflictingEClassifier != null && conflictingEClassifier != eClassifier)
+        {
+          nameToClassifierMap.put(eClassifierName, conflictingEClassifier);
+        }
+        else if (name.equals(eClassifierName))
         {
           return eClassifier;
         }
@@ -2071,7 +2076,12 @@ public class BasicExtendedMetaData implements ExtendedMetaData
         for (int i = 0, size = eClassifiers.size(); i < size; ++i)
         {
           EClassifier eClassifier = (EClassifier)eClassifiers.get(i);
-          nameToClassifierMap.put(getName(eClassifier), eClassifier);
+          String eClassifierName = getName(eClassifier);
+          Object conflictingEClassifier = nameToClassifierMap.put(eClassifierName, eClassifier);
+          if (conflictingEClassifier != null && conflictingEClassifier != eClassifier)
+          {
+            nameToClassifierMap.put(eClassifierName, conflictingEClassifier);
+          }
         }
       }
 
