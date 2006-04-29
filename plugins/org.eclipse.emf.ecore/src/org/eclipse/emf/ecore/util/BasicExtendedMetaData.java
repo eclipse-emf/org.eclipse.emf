@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicExtendedMetaData.java,v 1.25 2006/04/29 11:37:37 emerks Exp $
+ * $Id: BasicExtendedMetaData.java,v 1.26 2006/04/29 11:45:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1581,7 +1581,7 @@ public class BasicExtendedMetaData implements ExtendedMetaData
       EAnnotation eAnnotation = getAnnotation(eDataType, false);
       if (eAnnotation != null)
       {
-        eAnnotation.getDetails().remove("factionDigits");
+        eAnnotation.getDetails().remove("fractionDigits");
       }
     }
     else
