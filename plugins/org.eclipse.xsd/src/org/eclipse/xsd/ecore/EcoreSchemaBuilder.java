@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.4 2005/12/14 22:22:35 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.5 2006/04/29 18:06:57 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -699,6 +699,10 @@ public class EcoreSchemaBuilder extends MapBuilder
           {
             return buildElementParticle(xsdComplexTypeDefinition, eReference);
           }
+          else if (eReference.isContainer())
+          {
+            return null;
+          }
           else
           {
             return buildAttributeUse(xsdComplexTypeDefinition, eReference);
@@ -947,6 +951,23 @@ public class EcoreSchemaBuilder extends MapBuilder
       createEcoreAnnotation(xsdAttributeUse, "reference", prefix + ":" + xsdTypeDefinition.getName());
     }
     
+    if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.GET))
+    {
+      createEcoreAnnotation(xsdAttributeUse, "suppressedGetVisibility", "true");
+    }
+    if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.SET))
+    {
+      createEcoreAnnotation(xsdAttributeUse, "suppressedSetVisibility", "true");
+    }
+    if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET))
+    {
+      createEcoreAnnotation(xsdAttributeUse, "suppressedIsSetVisibility", "true");
+    }
+    if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET))
+    {
+      createEcoreAnnotation(xsdAttributeUse, "suppressedUnsetVisibility", "true");
+    }
+    
     return xsdAttributeUse;
   }
   
@@ -1148,6 +1169,23 @@ public class EcoreSchemaBuilder extends MapBuilder
             referenceType.getEPackage().getNsPrefix(),
             xsdTypeDefinition.getTargetNamespace());
       createEcoreAnnotation(xsdElementDeclaration, "reference", prefix + ":" + xsdTypeDefinition.getName());
+    }
+    
+    if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.GET))
+    {
+      createEcoreAnnotation(xsdElementDeclaration, "suppressedGetVisibility", "true");
+    }
+    if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.SET))
+    {
+      createEcoreAnnotation(xsdElementDeclaration, "suppressedSetVisibility", "true");
+    }
+    if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET))
+    {
+      createEcoreAnnotation(xsdElementDeclaration, "suppressedIsSetVisibility", "true");
+    }
+    if (EcoreUtil.isSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET))
+    {
+      createEcoreAnnotation(xsdElementDeclaration, "suppressedUnsetVisibility", "true");
     }
     
     return xsdParticle;
