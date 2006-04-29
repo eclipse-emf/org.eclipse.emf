@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.52 2006/04/12 19:49:57 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.53 2006/04/29 18:07:31 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1851,6 +1851,30 @@ public class XSDEcoreBuilder extends MapBuilder
     if (resolveProxies != null && eStructuralFeature instanceof EReference)
     {
       ((EReference)eStructuralFeature).setResolveProxies("true".equals(resolveProxies));
+    }
+
+    String isSuppressedGetVisibility = getEcoreAttribute(xsdComponent, xsdFeature, "suppressedGetVisibility");
+    if (isSuppressedGetVisibility != null)
+    {
+      EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.GET, "true".equals(isSuppressedGetVisibility));
+    }
+
+    String isSuppressedSetVisibility = getEcoreAttribute(xsdComponent, xsdFeature, "suppressedSetVisibility");
+    if (isSuppressedSetVisibility != null)
+    {
+      EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.SET, "true".equals(isSuppressedSetVisibility));
+    }
+
+    String isSuppressedIsSetVisibility = getEcoreAttribute(xsdComponent, xsdFeature, "suppressedIsSetVisibility");
+    if (isSuppressedIsSetVisibility != null)
+    {
+      EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.IS_SET, "true".equals(isSuppressedIsSetVisibility));
+    }
+
+    String isSuppressedUnsetVisibility = getEcoreAttribute(xsdComponent, xsdFeature, "suppressedUnsetVisibility");
+    if (isSuppressedUnsetVisibility != null)
+    {
+      EcoreUtil.setSuppressedVisibility(eStructuralFeature, EcoreUtil.UNSET, "true".equals(isSuppressedUnsetVisibility));
     }
   }
 
