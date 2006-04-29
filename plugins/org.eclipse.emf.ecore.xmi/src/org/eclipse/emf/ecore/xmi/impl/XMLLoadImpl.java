@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.17 2006/04/29 12:11:41 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.18 2006/04/29 18:41:39 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -45,7 +45,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.emf.ecore.xmi.XMIException;
 import org.eclipse.emf.ecore.xmi.XMLDefaultHandler;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
@@ -76,15 +75,7 @@ public class XMLLoadImpl implements XMLLoad
     if (!resource.getErrors().isEmpty())
     {
       Resource.Diagnostic error = (Resource.Diagnostic)resource.getErrors().get(0);
-      if (error instanceof XMIException)
-      {
-        XMIException exception = (XMIException)error;
-        if (exception.getCause() != null)
-        {
-          throw new Resource.IOWrappedException((Exception)exception.getCause());
-        }
-      }
-      else if (error instanceof Exception)
+      if (error instanceof Exception)
       {
         throw new Resource.IOWrappedException((Exception)error);
       }
