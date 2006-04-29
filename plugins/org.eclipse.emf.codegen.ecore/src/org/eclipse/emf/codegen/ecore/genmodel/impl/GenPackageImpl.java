@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.53 2006/04/24 14:01:35 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.54 2006/04/29 18:30:42 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2302,6 +2302,15 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       setEcorePackage(ePackage);
   
+      // Do this here because getExtendedMetaData() is used during initialization 
+      // and the mappings are are populated the first time it's fetched
+      // which will miss the packages we add as we initialize the tree.
+      //
+      if (!EcorePackage.eNS_URI.equals(ePackage.getNsURI()) && !GenModelPackage.eNS_URI.equals(ePackage.getNsURI()))
+      {
+        getGenModel().getExtendedMetaData().putPackage(ePackage.getNsURI(), ePackage);
+      }
+
       if (hasExtendedMetaData(ePackage))
       {
         setResource(GenResourceKind.XML_LITERAL);
