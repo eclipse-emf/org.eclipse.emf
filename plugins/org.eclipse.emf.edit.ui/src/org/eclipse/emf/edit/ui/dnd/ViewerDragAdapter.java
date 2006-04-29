@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerDragAdapter.java,v 1.2 2005/06/08 06:20:52 nickb Exp $
+ * $Id: ViewerDragAdapter.java,v 1.3 2006/04/29 11:50:22 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -76,6 +76,7 @@ public class ViewerDragAdapter implements DragSourceListener
   public void dragFinished(DragSourceEvent event)
   {
     selection = null;
+    LocalTransfer.getInstance().javaToNative(null, null);
   }
   
   /**
