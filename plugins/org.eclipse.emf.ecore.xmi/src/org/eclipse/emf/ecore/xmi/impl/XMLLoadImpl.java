@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.16 2006/04/27 15:31:12 marcelop Exp $
+ * $Id: XMLLoadImpl.java,v 1.17 2006/04/29 12:11:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -69,6 +69,30 @@ public class XMLLoadImpl implements XMLLoad
   public XMLLoadImpl(XMLHelper helper)
   {
     this.helper = helper;
+  }
+
+  protected void handleErrors() throws IOException
+  {
+    if (!resource.getErrors().isEmpty())
+    {
+      Resource.Diagnostic error = (Resource.Diagnostic)resource.getErrors().get(0);
+      if (error instanceof XMIException)
+      {
+        XMIException exception = (XMIException)error;
+        if (exception.getCause() != null)
+        {
+          throw new Resource.IOWrappedException((Exception)exception.getCause());
+        }
+      }
+      else if (error instanceof Exception)
+      {
+        throw new Resource.IOWrappedException((Exception)error);
+      }
+      else
+      {
+        throw new IOException(error.getMessage());
+      }
+    }
   }
 
   /**
@@ -171,19 +195,7 @@ public class XMLLoadImpl implements XMLLoad
       }
       
       helper = null;
-      if (!resource.getErrors().isEmpty())
-      {
-        Exception error = (Exception)resource.getErrors().get(0);
-        if (error instanceof XMIException)
-        {
-          XMIException exception = (XMIException)error;
-          if (exception.getCause() != null)
-          {
-            throw new Resource.IOWrappedException((Exception)exception.getCause());
-          }
-        }
-        throw new Resource.IOWrappedException(error);
-      }
+      handleErrors();
     }
     catch (SAXException exception)
     {
@@ -201,7 +213,6 @@ public class XMLLoadImpl implements XMLLoad
       throw new Resource.IOWrappedException(exception);
     }
   }
-  
   
   public void load(XMLResource resource, InputSource inputSource, Map options) throws IOException
   {
@@ -269,19 +280,7 @@ public class XMLLoadImpl implements XMLLoad
       }
 
       helper = null;
-      if (!resource.getErrors().isEmpty())
-      {
-        Exception error = (Exception)resource.getErrors().get(0);
-        if (error instanceof XMIException)
-        {
-          XMIException exception = (XMIException)error;
-          if (exception.getCause() != null)
-          {
-            throw new Resource.IOWrappedException((Exception)exception.getCause());
-          }
-        }
-        throw new Resource.IOWrappedException(error);
-      }
+      handleErrors();
     }
     catch (SAXException exception)
     {
@@ -414,20 +413,7 @@ public class XMLLoadImpl implements XMLLoad
     {
       // ignore
     }
-
-    if (!resource.getErrors().isEmpty())
-    {
-      Exception error = (Exception)resource.getErrors().get(0);
-      if (error instanceof XMIException)
-      {
-        XMIException exception = (XMIException)error;
-        if (exception.getCause() != null)
-        {
-          throw new Resource.IOWrappedException((Exception)exception.getCause());
-        }
-      }
-      throw new Resource.IOWrappedException(error);
-    }
+    
     if (pool != null)
     {
       pool.releaseDefaultHandler((XMLDefaultHandler)handler, options);
@@ -437,6 +423,8 @@ public class XMLLoadImpl implements XMLLoad
     handler = null;
     lexicalHandler = null;
     helper = null;
+
+    handleErrors();
   }
   
   /**
