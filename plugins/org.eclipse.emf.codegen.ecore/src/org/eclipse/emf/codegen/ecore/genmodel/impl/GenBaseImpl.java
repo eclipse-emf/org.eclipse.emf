@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.48 2006/04/24 14:04:13 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.49 2006/04/30 18:00:10 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1588,7 +1588,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         result.append(num);
       }
     }
-    
+
+    // Escape a string that will terminate the comment in which this will all be nested.
+    //
+    for (int index = result.indexOf("*/"); index != -1; index = result.indexOf("*/", index))
+    {
+      result.replace(index, index + 1, "\\052");
+    }
+
     return result.toString();
   }
 
