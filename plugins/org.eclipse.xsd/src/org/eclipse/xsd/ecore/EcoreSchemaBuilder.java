@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.7 2006/04/30 13:07:16 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.8 2006/04/30 17:21:29 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -170,6 +171,8 @@ public class EcoreSchemaBuilder extends MapBuilder
     //
     xsdSchema.updateElement();
     
+    buildAnnotations(xsdSchema, ePackage);
+
     // Remember the package name and prefix.
     //
     createEcoreAnnotation(xsdSchema, "package", getQualifiedPackageName(ePackage));
@@ -218,6 +221,8 @@ public class EcoreSchemaBuilder extends MapBuilder
       }
     }
     
+    buildAnnotations(xsdSchema, ePackage);
+
     return xsdSchema;
   }
 
@@ -287,6 +292,8 @@ public class EcoreSchemaBuilder extends MapBuilder
     xsdSchema.getContents().add(xsdElementDeclaration);
     map(xsdElementDeclaration, eStructuralFeature);
         
+    buildAnnotations(xsdElementDeclaration, eStructuralFeature);
+
     return xsdElementDeclaration;
   }
   
@@ -308,6 +315,9 @@ public class EcoreSchemaBuilder extends MapBuilder
          
     xsdSchema.getContents().add(xsdAttributeDeclaration);
     map(xsdAttributeDeclaration, eStructuralFeature);
+
+    buildAnnotations(xsdAttributeDeclaration, eStructuralFeature);
+
     return xsdAttributeDeclaration;
   }
   
@@ -447,6 +457,8 @@ public class EcoreSchemaBuilder extends MapBuilder
         }
       }
       
+      buildAnnotations(xsdSimpleTypeDefinition, eDataType);
+
       return xsdSimpleTypeDefinition;
     }
     else
@@ -651,7 +663,7 @@ public class EcoreSchemaBuilder extends MapBuilder
           operation.setAttributeNS(null, "unique", "false");
         }
 
-        String body = EcoreUtil.getAnnotation(eOperation, "http://www.eclipse.org/emf/2002/GenModel", "body");
+        String body = EcoreUtil.getAnnotation(eOperation, GEN_MODEL_PACKAGE_NS_URI, "body");
         if (body != null)
         {
           Element bodyElement = document.createElementNS(null, "body");
@@ -661,6 +673,8 @@ public class EcoreSchemaBuilder extends MapBuilder
       }
     }
     
+    buildAnnotations(xsdComplexTypeDefinition, eClass);
+
     return xsdComplexTypeDefinition;
   }
   
@@ -749,6 +763,8 @@ public class EcoreSchemaBuilder extends MapBuilder
     xsdModelGroup.getContents().add(xsdParticle);
     map(xsdParticle, eStructuralFeature);
         
+    buildAnnotations(xsdModelGroup, eStructuralFeature);
+
     return xsdParticle;
   }
   
@@ -775,6 +791,8 @@ public class EcoreSchemaBuilder extends MapBuilder
           
       createEcoreAnnotation(xsdWildcard, "name", eStructuralFeature.getName());
           
+      buildAnnotations(xsdWildcard, eStructuralFeature);
+
       return xsdWildcard;
     }
   }
@@ -792,6 +810,8 @@ public class EcoreSchemaBuilder extends MapBuilder
           
     createEcoreAnnotation(xsdWildcard, "name", eStructuralFeature.getName());
         
+    buildAnnotations(xsdWildcard, eStructuralFeature);
+
     return xsdWildcard;
   }
   
@@ -804,6 +824,8 @@ public class EcoreSchemaBuilder extends MapBuilder
     xsdComplexTypeDefinition.setDerivationMethod(XSDDerivationMethod.EXTENSION_LITERAL);
     xsdComplexTypeDefinition.setContent(xsdSimpleTypeDefinition);
         
+    buildAnnotations(xsdSimpleTypeDefinition, eStructuralFeature);
+
     return xsdSimpleTypeDefinition;
   }
   
@@ -988,6 +1010,8 @@ public class EcoreSchemaBuilder extends MapBuilder
       createEcoreAnnotation(xsdAttributeUse, "suppressedUnsetVisibility", "true");
     }
     
+    buildAnnotations(xsdAttributeUse, eStructuralFeature);
+
     return xsdAttributeUse;
   }
   
@@ -1208,6 +1232,8 @@ public class EcoreSchemaBuilder extends MapBuilder
       createEcoreAnnotation(xsdElementDeclaration, "suppressedUnsetVisibility", "true");
     }
     
+    buildAnnotations(xsdParticle, eStructuralFeature);
+
     return xsdParticle;
   }
 
@@ -1289,7 +1315,22 @@ public class EcoreSchemaBuilder extends MapBuilder
     String ecorePrefix = handlePrefix(qNamePrefixToNamespaceMap, "ecore", EcorePackage.eNS_URI);
     element.setAttributeNS(EcorePackage.eNS_URI, ecorePrefix + ':' + key, value);
   }
-  
+
+  protected void createAnnotation(XSDComponent xsdComponent, String namespace, String key, String value)
+  {
+    Element element = xsdComponent.getElement();
+    if (element != null)
+    {
+      createAnnotation(xsdComponent.getSchema().getQNamePrefixToNamespaceMap(), element, namespace, key, value);
+    }
+  }
+
+  protected void createAnnotation(Map qNamePrefixToNamespaceMap, Element element, String namespace, String key, String value)
+  {
+    String prefix = handlePrefix(qNamePrefixToNamespaceMap, qualifiedPackageName(namespace), namespace);
+    element.setAttributeNS(namespace, prefix + ':' + key, value);
+  }
+
   protected void handleImport(XSDSchema xsdSchema, XSDNamedComponent xsdNamedComponent)
   {
     String namespace = xsdNamedComponent.getTargetNamespace();
@@ -1367,69 +1408,127 @@ public class EcoreSchemaBuilder extends MapBuilder
     return uniquePrefix;
   }
 
-  protected void addDocumentation(XSDSchema xsdSchema, EPackage ePackage, XSDConcreteComponent xsdComponent, EModelElement eModelElement)
+  protected static final String GEN_MODEL_PACKAGE_NS_URI = "http://www.eclipse.org/emf/2002/GenModel";
+
+  protected boolean isIgnoredAnnotationSource(String sourceURI)
   {
-    if (EcoreUtil.isAncestor(ePackage, eModelElement))
+    return 
+      EcorePackage.eNS_URI.equals(sourceURI) ||
+        ExtendedMetaData.ANNOTATION_URI.equals(sourceURI) ||
+        GEN_MODEL_PACKAGE_NS_URI.equals(sourceURI);
+  }
+
+  protected void buildAnnotations(XSDComponent xsdComponent, EModelElement eModelElement)
+  {
+    for (Iterator i = eModelElement.getEAnnotations().iterator(); i.hasNext(); )
     {
-      String documentation = EcoreUtil.getDocumentation(eModelElement);
-      if (documentation != null)
+      EAnnotation eAnnotation = (EAnnotation)i.next();
+      String source = eAnnotation.getSource();
+      if (!isIgnoredAnnotationSource(source))
       {
         XSDAnnotation xsdAnnotation = null;
-        if (xsdComponent instanceof XSDAttributeUse)
+        for (Iterator j = eAnnotation.getDetails().entrySet().iterator(); j.hasNext(); )
         {
-          xsdComponent = ((XSDAttributeUse)xsdComponent).getContent();
-        }
-        else if (xsdComponent instanceof XSDParticle)
-        {
-          xsdComponent = ((XSDParticle)xsdComponent).getContent();
-        }
-
-        if (xsdComponent instanceof XSDSchema)
-        {
-          ((XSDSchema)xsdComponent).getContents().add(0, xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
-        }
-        else if (xsdComponent instanceof XSDTypeDefinition)
-        {
-          ((XSDTypeDefinition)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
-        }
-        else if (xsdComponent instanceof XSDFacet)
-        {
-          ((XSDFacet)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
-        }
-        else if (xsdComponent instanceof XSDElementDeclaration)
-        {
-          ((XSDElementDeclaration)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
-        }
-        else if (xsdComponent instanceof XSDAttributeDeclaration)
-        {
-          ((XSDAttributeDeclaration)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
-        }
-
-        if (xsdAnnotation != null)
-        {
-          Element userInformation = xsdAnnotation.createUserInformation(null);
-
-          // Try to parse the documentation and use the parsed version if it's successful.
-          //
-          XSDParser xsdParser = new XSDParser(null);
-          xsdParser.parseString("<documentation>" + documentation + "</documentation>");
-          Document document = xsdParser.getDocument();
-          if (xsdParser.getDiagnostics().isEmpty() && document.getDocumentElement().getFirstChild() != null)
+          Map.Entry entry = (Map.Entry)j.next();
+          String key = (String)entry.getKey();
+          String value = (String)entry.getValue();
+          if (key != null && value.indexOf('\n') == -1 && value.indexOf('\r') == -1)
           {
-            Document xsdDocument = xsdSchema.getDocument();
-            for (Node node = document.getDocumentElement().getFirstChild(); node != null; node = node.getNextSibling())
+            createAnnotation(xsdComponent, source, key, value);
+          }
+          else 
+          {
+            if (xsdAnnotation == null)
             {
-              userInformation.appendChild(xsdDocument.importNode(node, true));
+              xsdAnnotation = buildAnnotation(xsdComponent, eModelElement);
+            }
+            if (xsdAnnotation != null)
+            {
+              Element applicationInformation = xsdAnnotation.createApplicationInformation(source);
+              if (key != null)
+              {
+                createEcoreAnnotation(xsdComponent.getSchema().getQNamePrefixToNamespaceMap(), applicationInformation, "key", key);
+              }
+              if (value != null)
+              {
+                applicationInformation.appendChild(xsdAnnotation.getSchema().getDocument().createTextNode(value));
+              }
+              xsdAnnotation.getElement().appendChild(applicationInformation);
             }
           }
-          else
-          {
-            userInformation.appendChild(xsdSchema.getDocument().createTextNode(documentation));
-          }
-
-          xsdAnnotation.getElement().appendChild(userInformation);
         }
       }
     }
+
+    String documentation = EcoreUtil.getDocumentation(eModelElement);
+    if (documentation != null)
+    {
+      XSDAnnotation xsdAnnotation = buildAnnotation(xsdComponent, eModelElement);
+      if (xsdAnnotation != null)
+      {
+        createUserInfo(xsdAnnotation, documentation);
+      }
+    }
+  }
+
+  protected XSDAnnotation buildAnnotation(XSDConcreteComponent xsdComponent, EModelElement eModelElement)
+  {
+    XSDAnnotation xsdAnnotation = null;
+    if (xsdComponent instanceof XSDAttributeUse)
+    {
+      xsdComponent = ((XSDAttributeUse)xsdComponent).getContent();
+    }
+    else if (xsdComponent instanceof XSDParticle)
+    {
+      xsdComponent = ((XSDParticle)xsdComponent).getContent();
+    }
+
+    if (xsdComponent instanceof XSDSchema)
+    {
+      ((XSDSchema)xsdComponent).getContents().add(0, xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+    }
+    else if (xsdComponent instanceof XSDTypeDefinition)
+    {
+      ((XSDTypeDefinition)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+    }
+    else if (xsdComponent instanceof XSDFacet)
+    {
+      ((XSDFacet)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+    }
+    else if (xsdComponent instanceof XSDElementDeclaration)
+    {
+      ((XSDElementDeclaration)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+    }
+    else if (xsdComponent instanceof XSDAttributeDeclaration)
+    {
+      ((XSDAttributeDeclaration)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+    }
+
+    return xsdAnnotation;
+  }
+
+  protected void createUserInfo(XSDAnnotation xsdAnnotation, String documentation)
+  {
+    Element userInformation = xsdAnnotation.createUserInformation(null);
+
+    // Try to parse the documentation and use the parsed version if it's successful.
+    //
+    XSDParser xsdParser = new XSDParser(null);
+    xsdParser.parseString("<documentation>" + documentation + "</documentation>");
+    Document document = xsdParser.getDocument();
+    if (xsdParser.getDiagnostics().isEmpty() && document.getDocumentElement().getFirstChild() != null)
+    {
+      Document xsdDocument = xsdAnnotation.getSchema().getDocument();
+      for (Node node = document.getDocumentElement().getFirstChild(); node != null; node = node.getNextSibling())
+      {
+        userInformation.appendChild(xsdDocument.importNode(node, true));
+      }
+    }
+    else
+    {
+      userInformation.appendChild(xsdAnnotation.getSchema().getDocument().createTextNode(documentation));
+    }
+
+    xsdAnnotation.getElement().appendChild(userInformation);
   }
 }
