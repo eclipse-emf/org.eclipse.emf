@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MapBuilder.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: MapBuilder.java,v 1.3 2006/04/30 17:22:07 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xsd.XSDComponent;
 
 
-public class MapBuilder
+public class MapBuilder extends NameMangler
 {
   public interface Mapper
   {
