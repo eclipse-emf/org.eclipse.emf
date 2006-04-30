@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.55 2006/04/30 13:07:40 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.56 2006/04/30 17:22:38 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -31,7 +31,9 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
 import org.eclipse.emf.common.CommonPlugin;
@@ -138,8 +140,6 @@ public class XSDEcoreBuilder extends MapBuilder
     return xsdComponentToEModelElementMap;
   }
 
-  protected static final List DOMAINS = Arrays.asList(new String [] {"COM", "com", "ORG", "org" });
-
   public EPackage getEPackage(XSDNamedComponent xsdNamedComponent)
   {
     XSDSchema containingXSDSchema = xsdNamedComponent.getSchema();
@@ -175,58 +175,8 @@ public class XSDEcoreBuilder extends MapBuilder
       }
       else
       {
-        URI uri = URI.createURI(targetNamespace);
-        List parsedName;
-        if (uri.isHierarchical())
-        {
-          String host = uri.host();
-          if (host != null && host.startsWith("www."))
-          {
-            host = host.substring(4);
-          }
-          parsedName = parseName(host, '.');
-          Collections.reverse(parsedName);
-          if (!parsedName.isEmpty())
-          {
-            parsedName.set(0, ((String)parsedName.get(0)).toLowerCase());
-          }
-    
-          parsedName.addAll(parseName(uri.trimFileExtension().path(), '/'));
-        }
-        else
-        {
-          String opaquePart = uri.opaquePart();
-          int index = opaquePart.indexOf(":");
-          if (index != -1 && "urn".equalsIgnoreCase(uri.scheme()))
-          {
-            parsedName = parseName(opaquePart.substring(0, index), '-');
-            if (parsedName.size() > 0 && DOMAINS.contains(parsedName.get(parsedName.size() - 1))) 
-            {
-              Collections.reverse(parsedName);
-              parsedName.set(0, ((String)parsedName.get(0)).toLowerCase());
-            }
-            parsedName.addAll(parseName(opaquePart.substring(index + 1), '/'));
-          }
-          else
-          {
-            parsedName = parseName(opaquePart, '/');
-          }
-        }
-
-        StringBuffer qualifiedPackageName = new StringBuffer();
-        for (Iterator i = parsedName.iterator(); i.hasNext(); )
-        {
-          String packageName = (String)i.next();
-          if (packageName.length() > 0)
-          {
-            if (qualifiedPackageName.length() > 0)
-            {
-              qualifiedPackageName.append('.');
-            }
-            qualifiedPackageName.append(validName(packageName, false));
-          }
-        }
-        ePackage.setName(qualifiedPackageName.toString());
+        String qualifiedPackageName = qualifiedPackageName(targetNamespace);
+        ePackage.setName(qualifiedPackageName);
         ePackage.setNsURI(targetNamespace);
       }
 
@@ -2485,135 +2435,6 @@ public class XSDEcoreBuilder extends MapBuilder
     eReferenceToOppositeNameMap.clear();
   }
 
-  protected String validName(String name, boolean isUpperCase)
-  {
-    return validName(name, isUpperCase, "_"); 
-  }
-  
-  protected String validName(String name, boolean isUpperCase, String prefix)
-  {
-    return validName(name, isUpperCase ? UPPER_CASE : LOWER_CASE, prefix);
-  }
-
-  protected static final int UNCHANGED_CASE = 0;
-  protected static final int UPPER_CASE = 1;
-  protected static final int LOWER_CASE = 2;
-
-  protected String validName(String name, int casing, String prefix)
-  {
-    List parsedName = parseName(name, '_');
-    StringBuffer result = new StringBuffer();
-    for (Iterator i = parsedName.iterator(); i.hasNext(); )
-    {
-      String nameComponent = (String)i.next();
-      if (nameComponent.length() > 0)
-      {
-        if (result.length() > 0 || casing == UPPER_CASE)
-        {
-          result.append(Character.toUpperCase(nameComponent.charAt(0)));
-          result.append(nameComponent.substring(1));
-        }
-        else
-        {
-          result.append(nameComponent);
-        }
-      }
-    }
-
-    return
-      result.length() == 0 ?
-        prefix :
-        Character.isJavaIdentifierStart(result.charAt(0)) ?
-          casing == LOWER_CASE ?
-            uncapName(result.toString()) :
-            result.toString() :
-          prefix + result;
-  }
-
-  // This behaves like CodeGenUtil.parseName(), which isn't available here,
-  // except it also removes invalid indentifier characters.
-  // The two methods should be kept in synch. 
-  //
-  protected List parseName(String sourceName, char separator)
-  {
-    List result = new ArrayList();
-    if (sourceName != null)
-    {
-      StringBuffer currentWord = new StringBuffer();
-      boolean lastIsLower = false;
-      for (int index = 0, length = sourceName.length(); index < length; ++index)
-      {
-        char curChar = sourceName.charAt(index);
-        if (!Character.isJavaIdentifierPart(curChar))
-        {
-          curChar = separator;
-        }
-        if (Character.isUpperCase(curChar) || (!lastIsLower && Character.isDigit(curChar)) || curChar == separator)
-        {
-          if (lastIsLower && currentWord.length() > 1 || curChar == separator && currentWord.length() > 0)
-          {
-            result.add(currentWord.toString());
-            currentWord = new StringBuffer();
-          }
-          lastIsLower = false;
-        }
-        else
-        {
-          if (!lastIsLower)
-          {
-            int currentWordLength = currentWord.length();
-            if (currentWordLength > 1)
-            {
-              char lastChar = currentWord.charAt(--currentWordLength);
-              currentWord.setLength(currentWordLength);
-              result.add(currentWord.toString());
-              currentWord = new StringBuffer();
-              currentWord.append(lastChar);
-            }
-          }
-          lastIsLower = true;
-        }
-
-        if (curChar != separator)
-        {
-          currentWord.append(curChar);
-        }
-      }
-
-      result.add(currentWord.toString());
-    }
-    return result;
-  }
-
-  // This behaves like CodeGenUtil.uncapPrefixedName(), which isn't available here,
-  // except without the forceDifferent option.
-  // The two methods should be kept in synch. 
-  //
-  public String uncapName(String name)
-  {
-    if (name.length() == 0)
-    {
-      return name;
-    }
-    else
-    {
-      String lowerName = name.toLowerCase();
-      int i;
-      for (i = 0; i < name.length(); i++)
-      {
-        if (name.charAt(i) == lowerName.charAt(i))
-        {
-          break;
-        }
-      }
-      if (i > 1 && i < name.length() && !Character.isDigit(name.charAt(i)))
-      {
-        --i;
-      }
-      return name.substring(0, i).toLowerCase() + name.substring(i);
-    }
-  }
-
   protected String getEcoreAttribute(XSDConcreteComponent xsdConcreteComponent1, XSDConcreteComponent xsdConcreteComponent2, String attribute)
   {
     String result = getEcoreAttribute(xsdConcreteComponent1, attribute);
@@ -2917,6 +2738,31 @@ public class XSDEcoreBuilder extends MapBuilder
         }
       }
     }
+    
+    if (xsdComponent != null)
+    {
+      Element element = xsdComponent.getElement();
+      if (element != null)
+      {
+        NamedNodeMap attributes = element.getAttributes();
+        for (int i = 0, length = attributes.getLength(); i < length; ++i)
+        {
+          Attr attribute = (Attr)attributes.item(i);
+          if (!ignore(attribute))
+          {
+            String sourceURI = attribute.getNamespaceURI();
+            EAnnotation eAnnotation = eModelElement.getEAnnotation(sourceURI);
+            if (eAnnotation == null)
+            {
+              eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+              eAnnotation.setSource(sourceURI);
+              eModelElement.getEAnnotations().add(eAnnotation);
+            }
+            eAnnotation.getDetails().put(attribute.getLocalName(), attribute.getValue());
+          }
+        }
+      }
+    }
   }
 
   protected boolean ignore(Element element)
@@ -2924,6 +2770,16 @@ public class XSDEcoreBuilder extends MapBuilder
     return
       EcorePackage.eNS_URI.equals(element.getAttributeNS(null, "source")) &&
         "operations".equals(element.getAttributeNS(EcorePackage.eNS_URI, "key"));
+  }
+
+  protected boolean ignore(Attr attribute)
+  {
+    String namespaceURI = attribute.getNamespaceURI();
+    return 
+      namespaceURI == null || 
+        ExtendedMetaData.XMLNS_URI.equals(namespaceURI) || 
+        ExtendedMetaData.XSI_URI.equals(namespaceURI) || 
+        EcorePackage.eNS_URI.equals(namespaceURI);
   }
 
   protected void validate(XSDSchema xsdSchema)
