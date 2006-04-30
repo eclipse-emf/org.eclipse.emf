@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.56 2006/04/30 17:22:38 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.57 2006/04/30 17:58:25 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -34,6 +34,7 @@ import java.util.StringTokenizer;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import org.eclipse.emf.common.CommonPlugin;
@@ -1220,7 +1221,19 @@ public class XSDEcoreBuilder extends MapBuilder
             NodeList body = operation.getElementsByTagNameNS(null, "body");
             if (body.getLength() > 0)
             {
-              EcoreUtil.setAnnotation(eOperation, "http://www.eclipse.org/emf/2002/GenModel", "body", body.item(0).getTextContent());
+              StringBuffer text = new StringBuffer();
+              for (Node node = body.item(0).getFirstChild(); node != null; node = node.getNextSibling())
+              {
+                switch (node.getNodeType())
+                {
+                  case Node.TEXT_NODE:
+                  case Node.CDATA_SECTION_NODE:
+                  {
+                    text.append(node.getNodeValue());
+                  }
+                }
+              }
+              EcoreUtil.setAnnotation(eOperation, "http://www.eclipse.org/emf/2002/GenModel", "body", text.toString());
             }
 
             eClass.getEOperations().add(eOperation);
