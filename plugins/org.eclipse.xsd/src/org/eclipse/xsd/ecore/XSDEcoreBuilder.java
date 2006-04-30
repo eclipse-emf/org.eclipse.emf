@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.53 2006/04/29 18:07:31 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.54 2006/04/30 12:40:44 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1170,10 +1170,13 @@ public class XSDEcoreBuilder extends MapBuilder
             EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
             Element operation = (Element)operations.item(j);
             String operationName = operation.getAttributeNS(null, "name");
-            XSDTypeDefinition returnType = getEcoreTypeQNameAttribute(xsdComplexTypeDefinition, operation, null, "type");
-            EClassifier returnEType = getEClassifier(returnType);
             eOperation.setName(operationName);
-            eOperation.setEType(returnEType);
+            XSDTypeDefinition returnType = getEcoreTypeQNameAttribute(xsdComplexTypeDefinition, operation, null, "type");
+            if (returnType != null)
+            {
+              EClassifier returnEType = getEClassifier(returnType);
+              eOperation.setEType(returnEType);
+            }
             
             List exceptions = getEcoreTypeQNamesAttribute(xsdComplexTypeDefinition, operation, null, "exceptions");
             for (Iterator k = exceptions.iterator(); k.hasNext(); )
@@ -1183,7 +1186,7 @@ public class XSDEcoreBuilder extends MapBuilder
             }
           
             NodeList parameters = operation.getElementsByTagNameNS(null, "parameter");
-            for (int k= 0, parameterSize = parameters.getLength(); k < parameterSize; ++k)
+            for (int k = 0, parameterSize = parameters.getLength(); k < parameterSize; ++k)
             {
               EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
               Element parameter = (Element)parameters.item(k);
@@ -1240,6 +1243,12 @@ public class XSDEcoreBuilder extends MapBuilder
               eOperation.setOrdered(false);
             }
             
+            NodeList body = operation.getElementsByTagNameNS(null, "body");
+            if (body.getLength() > 0)
+            {
+              EcoreUtil.setAnnotation(eOperation, "http://www.eclipse.org/emf/2002/GenModel", "body", body.item(0).getTextContent());
+            }
+
             eClass.getEOperations().add(eOperation);
           }
         }
