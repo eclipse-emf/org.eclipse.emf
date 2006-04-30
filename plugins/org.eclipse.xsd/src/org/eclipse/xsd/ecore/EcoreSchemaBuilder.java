@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.5 2006/04/29 18:06:57 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.6 2006/04/30 12:39:53 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -637,6 +637,14 @@ public class EcoreSchemaBuilder extends MapBuilder
         if (!eOperation.isUnique())
         {
           operation.setAttributeNS(null, "unique", "false");
+        }
+
+        String body = EcoreUtil.getAnnotation(eOperation, "http://www.eclipse.org/emf/2002/GenModel", "body");
+        if (body != null)
+        {
+          Element bodyElement = document.createElementNS(null, "body");
+          bodyElement.appendChild(document.createTextNode(body));
+          operation.appendChild(bodyElement);
         }
       }
     }
