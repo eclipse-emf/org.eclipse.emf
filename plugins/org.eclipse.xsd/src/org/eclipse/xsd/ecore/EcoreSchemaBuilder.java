@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.6 2006/04/30 12:39:53 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.7 2006/04/30 13:07:16 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -412,6 +412,12 @@ public class EcoreSchemaBuilder extends MapBuilder
         createEcoreAnnotation(xsdSimpleTypeDefinition, "name", ecoreName);
       }
       
+      String constraints = EcoreUtil.getAnnotation(eDataType, EcorePackage.eNS_URI, "constraints");
+      if (constraints != null)
+      {
+        createEcoreAnnotation(xsdSimpleTypeDefinition, "constraints", constraints);
+      }
+
       if (!eDataType.isSerializable())
       {
         createEcoreAnnotation(xsdSimpleTypeDefinition, "serializable", "false");
@@ -525,6 +531,12 @@ public class EcoreSchemaBuilder extends MapBuilder
       createEcoreAnnotation(xsdComplexTypeDefinition, "interface", "true");
     }
         
+    String constraints = EcoreUtil.getAnnotation(eClass, EcorePackage.eNS_URI, "constraints");
+    if (constraints != null)
+    {
+      createEcoreAnnotation(xsdComplexTypeDefinition, "constraints", constraints);
+    }
+
     for (Iterator i = eClass.getEStructuralFeatures().iterator(); i.hasNext(); )
     {
       EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
