@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.54 2006/04/30 12:40:44 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.55 2006/04/30 13:07:40 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -347,6 +347,12 @@ public class XSDEcoreBuilder extends MapBuilder
 
       handleFacets(xsdSimpleTypeDefinition, eDataType);
 
+      String constraints = getEcoreAttribute(xsdSimpleTypeDefinition, "constraints");
+      if (constraints != null)
+      {
+        EcoreUtil.setAnnotation(eDataType, EcorePackage.eNS_URI, "constraints", constraints);
+      }
+
       if ("false".equals(getEcoreAttribute(xsdSimpleTypeDefinition, "serializable")))
       {
         eDataType.setSerializable(false);
@@ -428,6 +434,12 @@ public class XSDEcoreBuilder extends MapBuilder
 
           checkForPrimitive(xsdSimpleTypeDefinition, eDataType);
           handleFacets(xsdSimpleTypeDefinition, eDataType);
+
+          String constraints = getEcoreAttribute(xsdSimpleTypeDefinition, "constraints");
+          if (constraints != null)
+          {
+            EcoreUtil.setAnnotation(eDataType, EcorePackage.eNS_URI, "constraints", constraints);
+          }
 
           if ("false".equals(getEcoreAttribute(xsdSimpleTypeDefinition, "serializable")))
           {
@@ -650,6 +662,12 @@ public class XSDEcoreBuilder extends MapBuilder
       EPackage ePackage = getEPackage(xsdSimpleTypeDefinition);
       addToSortedList(ePackage.getEClassifiers(), eEnum);
 
+      String constraints = getEcoreAttribute(xsdSimpleTypeDefinition, "constraints");
+      if (constraints != null)
+      {
+        EcoreUtil.setAnnotation(eEnum, EcorePackage.eNS_URI, "constraints", constraints);
+      }
+
       for (ListIterator i = xsdSimpleTypeDefinition.getEnumerationFacets().listIterator();  i.hasNext(); )
       {
         XSDEnumerationFacet xsdEnumerationFacet = (XSDEnumerationFacet)i.next();
@@ -734,6 +752,12 @@ public class XSDEcoreBuilder extends MapBuilder
     }
     eClass.setName(aliasName);
     extendedMetaData.setName(eClass, xsdComplexTypeDefinition.getAliasName());
+
+    String constraints = getEcoreAttribute(xsdComplexTypeDefinition, "constraints");
+    if (constraints != null)
+    {
+      EcoreUtil.setAnnotation(eClass, EcorePackage.eNS_URI, "constraints", constraints);
+    }
 
     EPackage ePackage = getEPackage(xsdComplexTypeDefinition);
     addToSortedList(ePackage.getEClassifiers(), eClass);
