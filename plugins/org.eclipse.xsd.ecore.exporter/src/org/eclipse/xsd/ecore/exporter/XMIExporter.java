@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIExporter.java,v 1.3 2005/12/21 01:08:45 marcelop Exp $
+ * $Id: XMIExporter.java,v 1.4 2006/04/30 17:22:58 emerks Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSchemaDirective;
-import org.eclipse.xsd.ecore.EcoreSchemaBuilder;
 import org.eclipse.xsd.ecore.EcoreXMISchemaBuilder;
 
 /**
@@ -32,8 +31,6 @@ import org.eclipse.xsd.ecore.EcoreXMISchemaBuilder;
  */
 public class XMIExporter extends XSDExporter
 {
-  protected EcoreSchemaBuilder ecoreSchemaBuilder;
-  
   public String getID()
   {
     return "org.eclipse.xsd.ecore.exporter.xmi";
