@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProblemEditorPart.java,v 1.1 2006/05/01 16:05:30 marcelop Exp $
+ * $Id: ProblemEditorPart.java,v 1.2 2006/05/01 22:10:38 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.editor;
 
@@ -218,7 +218,7 @@ public class ProblemEditorPart extends EditorPart
 
   protected void refresh()
   {
-    if (diagnostic != null)
+    if (diagnostic != null && messageText != null)
     {
       Image image = getImage();
       if (image != null)
