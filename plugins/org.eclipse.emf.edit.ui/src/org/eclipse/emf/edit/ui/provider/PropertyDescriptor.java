@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.11 2006/04/20 18:58:12 emerks Exp $
+ * $Id: PropertyDescriptor.java,v 1.12 2006/05/01 21:57:22 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -162,8 +162,17 @@ public class PropertyDescriptor implements IPropertyDescriptor
                }
                catch (Exception exception)
                {
-                 String message = exception.getMessage();
-                 return message == null ? exception.toString() : message;
+                 String message = exception.getClass().getName();
+                 int index = message.lastIndexOf('.');
+                 if (index >= 0)
+                 {
+                   message = message.substring(index + 1);
+                 }
+                 if (exception.getLocalizedMessage() != null)
+                 {
+                   message = message + ": " + exception.getLocalizedMessage();
+                 }
+                 return message;
                }
              }
              Diagnostic diagnostic = Diagnostician.INSTANCE.validate(EDataTypeCellEditor.this.eDataType, value);
