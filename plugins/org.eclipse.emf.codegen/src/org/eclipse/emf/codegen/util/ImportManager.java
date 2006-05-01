@@ -157,7 +157,7 @@ public class ImportManager
   {   
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
-      EclipseUtil.addCompilationUnitImports(importedPackages, shortNameToImportMap, compilationUnitContents);
+      EclipseHelper.addCompilationUnitImports(importedPackages, shortNameToImportMap, compilationUnitContents);
     }
     else
     {
@@ -181,7 +181,7 @@ public class ImportManager
     }
   }
   
-  protected static class EclipseUtil
+  private static class EclipseHelper
   {
     public static void addCompilationUnitImports(Set importedPackages, Map shortNameToImportMap, String compilationUnitContents)
     {   
