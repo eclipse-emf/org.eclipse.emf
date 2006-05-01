@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETException.java,v 1.4 2005/11/18 12:03:32 emerks Exp $
+ * $Id: JETException.java,v 1.5 2006/05/01 21:08:48 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -50,8 +50,7 @@ public class JETException extends DiagnosticException
   public JETException(Throwable exception) 
   {
     super
-      (new BasicDiagnostic
-        (Diagnostic.ERROR, CodeGenPlugin.INSTANCE.getSymbolicName(), 0, getMessage(exception), new Object [] { exception }));
+      (BasicDiagnostic.toDiagnostic(exception));
   }
 
   public IStatus getStatus()
