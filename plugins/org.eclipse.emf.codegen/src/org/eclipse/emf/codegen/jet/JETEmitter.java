@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.15 2005/12/21 21:37:37 marcelop Exp $
+ * $Id: JETEmitter.java,v 1.16 2006/05/01 10:17:26 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -323,7 +323,7 @@ public class JETEmitter
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
-      EclipseUtil.initialize(progressMonitor, this);
+      EclipseHelper.initialize(progressMonitor, this);
     }
   }
 
@@ -352,7 +352,10 @@ public class JETEmitter
    */
   public void addVariable(String variableName, String pluginID) throws JETException
   {
-    EclipseUtil.addVariable(this, variableName, pluginID);
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    {
+      EclipseHelper.addVariable(this, variableName, pluginID);
+    }
   }
 
   /**
@@ -394,7 +397,7 @@ public class JETEmitter
     return result;
   }
 
-  private static class EclipseUtil
+  private static class EclipseHelper
   {
     public static void initialize(Monitor monitor, JETEmitter jetEmitter) throws JETException
     {
@@ -652,7 +655,7 @@ public class JETEmitter
       }
       else
       {
-        CodeGenUtil.addClasspathEntries(jetEmitter.getClasspathEntries(), variableName, pluginID);
+        CodeGenUtil.EclipseUtil.addClasspathEntries(jetEmitter.getClasspathEntries(), variableName, pluginID);
       }
     }
   }
