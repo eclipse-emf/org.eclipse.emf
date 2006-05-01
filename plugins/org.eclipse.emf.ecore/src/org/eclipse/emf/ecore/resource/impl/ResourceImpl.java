@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.15 2006/03/29 19:17:15 marcelop Exp $
+ * $Id: ResourceImpl.java,v 1.16 2006/05/01 16:11:03 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -926,6 +926,16 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   public final void save(OutputStream outputStream, Map options) throws IOException
   {
+    if (errors != null)
+    {
+      errors.clear();
+    }
+
+    if (warnings != null)
+    {
+      warnings.clear();
+    }
+
     options = mergeMaps(options, defaultSaveOptions);
     URIConverter.Cipher cipher = options != null ? 
       (URIConverter.Cipher)options.get(Resource.OPTION_CIPHER) : 
