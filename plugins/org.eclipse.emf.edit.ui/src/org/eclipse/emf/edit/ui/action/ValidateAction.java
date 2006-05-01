@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.17 2006/04/27 16:21:45 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.18 2006/05/01 15:57:37 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -22,12 +22,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.ErrorDialog;
@@ -42,19 +39,16 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
 import org.eclipse.ui.part.ISetSelectionTarget;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.ui.MarkerHelper;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
@@ -66,53 +60,62 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
+import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 
 
 public class ValidateAction extends Action implements ISelectionChangedListener 
 {  
-  public static class EclipseResourcesUtil extends MarkerHelper
+  public static class EclipseResourcesUtil extends EditUIMarkerHelper
   {
-    protected EObject eObject;
-    
     public IRunnableWithProgress getWorkspaceModifyOperation(IRunnableWithProgress runnableWithProgress)
     {
       return new WorkspaceModifyDelegatingOperation(runnableWithProgress);
     }
-    
-    public void createMarkers(IFile file, Diagnostic diagnostic)
-    {
-      eObject = null;
-      List data = diagnostic.getData();
-      if (!data.isEmpty())
-      {
-        Object target = data.get(0);
-        if (target instanceof EObject)
-        {
-          eObject = (EObject)target;
-        }
-      }
-      
-      try
-      {
-        super.createMarkers(file, diagnostic);
-      }
-      catch (CoreException exception)
-      {
-        EMFEditUIPlugin.INSTANCE.log(exception);
-      }
-    }    
     
     protected String getMarkerID()
     {
       return EValidator.MARKER;
     }
     
-    protected void adjustMarker(IMarker marker, Diagnostic diagnostic) throws CoreException
+    public void createMarkers(Resource resource, Diagnostic diagnostic)
     {
-      if (eObject != null)
+      try
       {
-        marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
+        createMarkers(getFile(resource), diagnostic, null);
       }
+      catch (CoreException e)
+      {
+        EMFEditUIPlugin.INSTANCE.log(e);
+      }
+    }
+
+    protected String composeMessage(Diagnostic diagnostic, Diagnostic parentDiagnostic)
+    {
+      String message = diagnostic.getMessage();
+      if (parentDiagnostic != null)
+      {
+        String parentMessage = parentDiagnostic.getMessage();
+        if (parentMessage != null)
+        {
+          message = message != null ? parentMessage + ". " + message : parentMessage;
+        }
+      }
+      return message;
+    }
+
+    protected void adjustMarker(IMarker marker, Diagnostic diagnostic, Diagnostic parentDiagnostic) throws CoreException
+    {
+      List data = diagnostic.getData();
+      if (!data.isEmpty())
+      {
+        Object target = data.get(0);
+        if (target instanceof EObject)
+        {
+          marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI((EObject)target).toString());
+        }
+      }
+
+      super.adjustMarker(marker, diagnostic, parentDiagnostic);      
     }    
   }
   
@@ -165,7 +168,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       }
     };
     
-    if(eclipseResourcesUtil != null)
+    if (eclipseResourcesUtil != null)
     {
       runnableWithProgress = eclipseResourcesUtil.getWorkspaceModifyOperation(runnableWithProgress);
     }
@@ -259,10 +262,10 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
     if (eclipseResourcesUtil != null)
     {
-      IFile file = getFile();
-      if (file != null)
+      Resource resource = (Resource)domain.getResourceSet().getResources().get(0);
+      if (resource != null)
       {
-        eclipseResourcesUtil.deleteMarkers(file);
+        eclipseResourcesUtil.deleteMarkers(resource);
       }
     
       if (result == Window.OK)
@@ -288,45 +291,18 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           }
         }
     
-        if (file != null)
+        if (resource != null)
         {
           for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
           {
             Diagnostic childDiagnostic = (Diagnostic)i.next();
-            createMarkers(file, childDiagnostic);
+            eclipseResourcesUtil.createMarkers(resource, childDiagnostic);
           }
         }
       }
     }
   }
   
-  protected void createMarkers(IFile file, Diagnostic diagnostic)
-  {
-    eclipseResourcesUtil.createMarkers(file, diagnostic);
-  }
-
-  protected IFile getFile()
-  {
-    Resource resource = (Resource)domain.getResourceSet().getResources().get(0);
-    if (resource != null)
-    {
-      URI uri = resource.getURI();
-      uri = resource.getResourceSet().getURIConverter().normalize(uri);
-      String scheme = uri.scheme();
-      if ("platform".equals(scheme) && uri.segmentCount() > 1 && "resource".equals(uri.segment(0)))
-      {
-        StringBuffer platformResourcePath = new StringBuffer();
-        for (int j = 1, size = uri.segmentCount(); j < size; ++j)
-        {
-          platformResourcePath.append('/');
-          platformResourcePath.append(uri.segment(j));
-        }
-        return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourcePath.toString()));
-      }
-    }
-    return null;
-  }
-
   public void selectionChanged(SelectionChangedEvent event) 
   {
     selectionProvider = event.getSelectionProvider();
@@ -351,14 +327,6 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     return 
       selectedObjects.size() == 1 && 
         selectedObjects.get(0) instanceof EObject;
-  }
-
-  /**
-   * @deprecated As of EMF 2.1.0, replaced by {@link #setActiveWorkbenchPart}.
-   */
-  public void setActiveEditor(IEditorPart editorPart)
-  {
-    setActiveWorkbenchPart(editorPart);
   }
 
   /**
