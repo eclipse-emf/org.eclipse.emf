@@ -64,6 +64,9 @@ import org.eclipse.emf.common.util.Monitor;
 
 /**
  * This class contains convenient static methods for EMF code generation.
+ * Methods in the {@link CodeGenUtil.EclipseHelper EclipseHelper} inner class may only be used running under Eclipse.
+ * The same applies to those that are deprecated and replaced by methods in the inner class, too.
+ * All other methods can be used in a standalone scenario, too.
  * <p>
  * This class, like much of the code in this plug-in, is currently undergoing change and should not be considered API.
  */
@@ -270,7 +273,7 @@ public class CodeGenUtil
   {
     return getJavaDefaultTypes().contains(s) && Character.isLowerCase(s.charAt(0));
   }
-  
+
   // Interprets escaped characters within the string according to Java
   // literal rules, with two exceptions: an unescaped " does not terminate
   // the string, and a \ not followed by b, t, n, f, r, ", ', u, or an octal
@@ -312,7 +315,7 @@ public class CodeGenUtil
     }
     return result.toString();
   }
-  
+
   // Interprets escaped characters according to Java literal rules, with one
   // exception: a single \ is taken literally, not as an error.
   public static char parseChar(String c)
@@ -348,14 +351,14 @@ public class CodeGenUtil
     if (c.length() != 1) throw new IllegalArgumentException(c);
     return c.charAt(0);
   }
-  
+
   public static String validJavaIdentifier(String name)
   {
     if (name == null || name.length() == 0)
     {
       return name;
     }
-    else if (EMFPlugin.IS_ECLIPSE_RUNNING && EclipseUtil.isValidIdentifier(name))
+    else if (EMFPlugin.IS_ECLIPSE_RUNNING && EclipseHelper.isValidJavaIdentifier(name))
     {
       return name;
     }
@@ -444,7 +447,7 @@ public class CodeGenUtil
   }
 
   /**
-   * @deprecated In 2.2. Please use {@link #format(String, char, String, boolean, boolean) instead.
+   * @deprecated In 2.2. Please use {@link #format(String, char, String, boolean, boolean)} instead.
    */
   public static String format(String name, char separator, String prefix, boolean includePrefix)
   {
@@ -556,91 +559,69 @@ public class CodeGenUtil
     }
     return result;
   }  
-  
+
+  /**
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#isInJavaOutput} instead. 
+   */
   public static boolean isInJavaOutput(IResource resource)
   {
     return EclipseUtil.isInJavaOutput(resource);
   }  
-  
+
   /**
    * This is a progress monitor that prints the progress information to a stream.
+   * @deprecated As of EMF 2.2, moved to {@link CodeGenUtil.EclipseUtil.StreamProgressMonitor EcoreUtil}.
    */
-  public static class StreamProgressMonitor extends NullProgressMonitor
+  public static class StreamProgressMonitor extends EclipseUtil.StreamProgressMonitor
   {
-    protected PrintStream printStream;
-
     public StreamProgressMonitor(PrintStream printStream)
     {
-      this.printStream = printStream;
-    }
-
-    public void beginTask(String name, int totalWork)
-    {
-      if (name != null && name.length() != 0)
-      {
-        printStream.println(">>> " + name);
-      }
-      super.beginTask(name, totalWork);
-    }
-
-    public void setTaskName(String name)
-    {
-      if (name != null && name.length() != 0)
-      {
-        printStream.println("<>> " + name);
-      }
-      super.setTaskName(name);
-    }
-
-    public void subTask(String name)
-    {
-      if (name != null && name.length() != 0)
-      {
-        printStream.println(">>  " + name);
-      }
-      super.subTask(name);
+      super(printStream);
     }
   }
-  
+
+  /**
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#findOrCreateContainer(IPath, boolean, IPath, IProgressMonitor)} instead. 
+   */
   public static IContainer findOrCreateContainer
     (IPath path, boolean forceRefresh, IPath localLocation, IProgressMonitor progressMonitor) throws CoreException
   {
     return EclipseUtil.findOrCreateContainer(path, forceRefresh, localLocation, progressMonitor);
   }
-  
-  public static IContainer findOrCreateContainer
-    (IPath path, boolean forceRefresh, IPath localLocation, Monitor progressMonitor) throws CoreException
-  {
-    return EclipseUtil.findOrCreateContainer(path, forceRefresh, localLocation, BasicMonitor.toIProgressMonitor(progressMonitor));
-  }
 
+  /**
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#findOrCreateContainer(IPath, boolean, IProjectDescription, IProgressMonitor)} instead. 
+   */
   public static IContainer findOrCreateContainer
     (IPath path, boolean forceRefresh, IProjectDescription projectDescription, IProgressMonitor progressMonitor) throws CoreException
   {
     return EclipseUtil.findOrCreateContainer(path, forceRefresh, projectDescription, progressMonitor);
   }
-  
-  public static IContainer findOrCreateContainer
-    (IPath path, boolean forceRefresh, IProjectDescription projectDescription, Monitor progressMonitor) throws CoreException
-  {
-    return EclipseUtil.findOrCreateContainer(path, forceRefresh, projectDescription, BasicMonitor.toIProgressMonitor(progressMonitor));
-  }
 
+  /**
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#getClasspathPaths} instead. 
+   */
   public static List getClasspathPaths(String pluginID) throws JETException
   {
     return EclipseUtil.getClasspathPaths(pluginID);
   }
-  
+
+  /**
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#addClasspathEntries(Collection, String, String)} instead. 
+   */
   public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws JETException
   {
     EclipseUtil.addClasspathEntries(classpathEntries, variableName, pluginID);
   }
 
+  /**
+   * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#addClasspathEntries(Collection, String)} instead. 
+   */
   public static void addClasspathEntries(Collection classpathEntries, String pluginID) throws Exception
   {
-    addClasspathEntries(classpathEntries, null, pluginID);
-  }  
-  
+    EclipseUtil.addClasspathEntries(classpathEntries, pluginID);
+  }
+
   /**
    * Returns the package name for a qualified class name, ie, a substring
    * from the first char until the last &quot;.&quot;.  If the argument is 
@@ -658,7 +639,7 @@ public class CodeGenUtil
       qualifiedClassName.substring(0, index) :
       null;
   }
-  
+
   /**
    * Returns the simple class name for a qualified class name, ie, a substring
    * from starting after the last &quot;.&quot;.  If the argument is 
@@ -676,20 +657,15 @@ public class CodeGenUtil
       qualifiedClassName.substring(index+1) :
       qualifiedClassName;
   }
-  
+
   public static Monitor createMonitor(Monitor monitor, int ticks)
   {
     return
       EMFPlugin.IS_ECLIPSE_RUNNING ?
-        EclipseUtil.createSubProgressMonitor(monitor, ticks) :
+        EclipseHelper.createMonitor(monitor, ticks) :
         monitor;
   }
-  
-  public static Monitor createMonitor(IProgressMonitor monitor, int ticks)
-  {
-    return EclipseUtil.createSubProgressMonitor(monitor, ticks);
-  }
-  
+
   protected static String lineSeparator;
   static
   {
@@ -706,7 +682,7 @@ public class CodeGenUtil
   }
   protected static Pattern braceLine = Pattern.compile("(\\s*" + lineSeparator + "\\s*\\{\\s*)" + lineSeparator); // }
   protected static Pattern leadingTabs = Pattern.compile("^((\\t)+).*$", Pattern.MULTILINE);
-  
+
   public static String convertFormat(final String tabReplacement, boolean convertToStandardBraceStyle, String value)
   {
     if (tabReplacement != null)
@@ -792,7 +768,7 @@ public class CodeGenUtil
 
     return value;
   }
-  
+
   private static abstract class FindAndReplace
   {
     protected Pattern pattern;
@@ -841,7 +817,37 @@ public class CodeGenUtil
 
     public abstract boolean handleMatch(int offset, Matcher matcher);
   }
-  
+
+  /**
+   * Performs escape encoding on the given string so that it can be represented using 1-byte characters.
+   * Any characters higher than 0xFF are replaced with an escape of the form \\uXXXX, where XXXX is the
+   * four-digit hex representation of the Unicode code point.
+   */
+  public static String unicodeEscapeEncode(String unicode)
+  {
+    StringBuffer result = new StringBuffer(unicode.length());
+    for (int i = 0, size = unicode.length(); i < size; ++i)
+    {
+      char character = unicode.charAt(i);
+      if (character > '\u00ff')
+      {
+        result.append("\\u");
+        String hex = Integer.toString(character, 16);
+        for (int j = hex.length(); j < 4; ++j)
+        {
+          result.append("0");
+        }
+        result.append(hex);
+      }
+      else
+      {
+        result.append(character);
+      }
+    }
+
+    return result.toString();
+  }
+
   public static FacadeHelper instantiateFacadeHelper(String facadeHelperClass)
   {
     if (!"org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper".equals(facadeHelperClass))
@@ -862,7 +868,7 @@ public class CodeGenUtil
       
     if (CodeGenPlugin.IS_ECLIPSE_RUNNING)
     {
-      FacadeHelper facadeHelper = EclipseUtil.instantiateRegisteredFacadeHelper(facadeHelperClass);
+      FacadeHelper facadeHelper = EclipseHelper.instantiateRegisteredFacadeHelper(facadeHelperClass);
       if (facadeHelper != null)
       {
         return facadeHelper;
@@ -870,10 +876,46 @@ public class CodeGenUtil
     }
     return null;
   }
-  
 
-  protected static class EclipseUtil
+  public static class EclipseUtil
   {
+    public static class StreamProgressMonitor extends NullProgressMonitor
+    {
+      protected PrintStream printStream;
+
+      public StreamProgressMonitor(PrintStream printStream)
+      {
+        this.printStream = printStream;
+      }
+
+      public void beginTask(String name, int totalWork)
+      {
+        if (name != null && name.length() != 0)
+        {
+          printStream.println(">>> " + name);
+        }
+        super.beginTask(name, totalWork);
+      }
+
+      public void setTaskName(String name)
+      {
+        if (name != null && name.length() != 0)
+        {
+          printStream.println("<>> " + name);
+        }
+        super.setTaskName(name);
+      }
+
+      public void subTask(String name)
+      {
+        if (name != null && name.length() != 0)
+        {
+          printStream.println(">>  " + name);
+        }
+        super.subTask(name);
+      }
+    }
+
     public static boolean isInJavaOutput(IResource resource)
     {
       IProject project = resource.getProject();
@@ -893,7 +935,7 @@ public class CodeGenUtil
   
       return false;
     }  
-    
+
     public static List getClasspathPaths(String pluginID) throws JETException
     {
       List result = new ArrayList();
@@ -952,7 +994,7 @@ public class CodeGenUtil
       }
       return result;
     }
-    
+
     public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws JETException
     {
       for (ListIterator i = getClasspathPaths(pluginID).listIterator(); i.hasNext(); )
@@ -977,24 +1019,17 @@ public class CodeGenUtil
         }
       }
     }
-    
-    public static Monitor createSubProgressMonitor(Monitor monitor, int ticks)
+
+    public static void addClasspathEntries(Collection classpathEntries, String pluginID) throws JETException
     {
-      if (monitor instanceof IProgressMonitor)
-      {
-        return new BasicMonitor.EclipseSubProgress((IProgressMonitor)monitor, ticks);
-      }
-      else
-      {
-        return new BasicMonitor.EclipseSubProgress(BasicMonitor.toIProgressMonitor(monitor), ticks);
-      }
+      addClasspathEntries(classpathEntries, null, pluginID);
     }
-    
-    public static Monitor createSubProgressMonitor(IProgressMonitor monitor, int ticks)
+
+    public static Monitor createMonitor(IProgressMonitor monitor, int ticks)
     {
       return new BasicMonitor.EclipseSubProgress(monitor, ticks);
     }
-    
+
     public static IContainer findOrCreateContainer
       (IPath path, boolean forceRefresh, IPath localLocation, IProgressMonitor progressMonitor) throws CoreException
     {
@@ -1057,12 +1092,27 @@ public class CodeGenUtil
         progressMonitor.done();
       }
     }
-    
-    public static boolean isValidIdentifier (String name)
+  }
+
+  private static class EclipseHelper
+  {
+    public static Monitor createMonitor(Monitor monitor, int ticks)
+    {
+      if (monitor instanceof IProgressMonitor)
+      {
+        return new BasicMonitor.EclipseSubProgress((IProgressMonitor)monitor, ticks);
+      }
+      else
+      {
+        return new BasicMonitor.EclipseSubProgress(BasicMonitor.toIProgressMonitor(monitor), ticks);
+      }
+    }
+
+    public static boolean isValidJavaIdentifier(String name)
     {
       return JavaConventions.validateIdentifier(name).isOK();
     }
-    
+
     public static FacadeHelper instantiateRegisteredFacadeHelper(String facadeHelperClass)
     {
       org.eclipse.core.runtime.IExtensionPoint extensionPoint = org.eclipse.core.runtime.Platform.getExtensionRegistry().getExtensionPoint(CodeGenPlugin.ID, "facadeHelpers");
