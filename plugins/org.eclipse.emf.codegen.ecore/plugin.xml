@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
+  <extension-point id="generatorAdapters" name="%_UI_GeneratorAdapters_extensionpoint" schema="schema/generatorAdapters.exsd" />
+
+  <extension point="org.eclipse.emf.codegen.ecore.generatorAdapters">
+     <adapterFactory class="org.eclipse.emf.codegen.ecore.genmodel.generator.GenModelGeneratorAdapterFactory"/>
+  </extension>
+
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package uri="http://www.eclipse.org/emf/2002/GenModel" class="org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage" genModel="model/GenModel.genmodel" />
   </extension>
