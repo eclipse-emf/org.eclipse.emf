@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumGeneratorAdapter.java,v 1.2 2006/05/01 17:55:53 davidms Exp $
+ * $Id: GenEnumGeneratorAdapter.java,v 1.3 2006/05/01 18:12:17 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -35,14 +35,14 @@ public class GenEnumGeneratorAdapter extends GenBaseGeneratorAdapter
     new JETEmitterDescriptor("model/EnumClass.javajet", "org.eclipse.emf.codegen.ecore.templates.model.EnumClass")
   };
 
-  public GenEnumGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
-  {
-    super(generatorAdapterFactory);
-  }
-
   protected JETEmitterDescriptor[] getJETEmitterDescriptors()
   {
     return JET_EMITTER_DESCRIPTORS;
+  }
+
+  public GenEnumGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
+  {
+    super(generatorAdapterFactory);
   }
 
   protected Diagnostic generateModel(Object object, Monitor monitor)

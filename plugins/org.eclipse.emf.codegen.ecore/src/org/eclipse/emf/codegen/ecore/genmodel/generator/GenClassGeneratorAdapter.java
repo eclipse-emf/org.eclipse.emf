@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassGeneratorAdapter.java,v 1.2 2006/05/01 17:55:53 davidms Exp $
+ * $Id: GenClassGeneratorAdapter.java,v 1.3 2006/05/01 18:12:17 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -43,24 +43,24 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
     new JETEmitterDescriptor("model.tests/TestCase.javajet", "org.eclipse.emf.codegen.ecore.templates.model.tests.TestCase")
   };
 
-  protected static final int ITEM_ICON_ID = 0;
-  protected static final int CREATE_CHILD_ICON_ID = 1;
-
-  private static final String[] INPUT_PATH_NAMES = { "edit/Item.gif", "edit/CreateChild.gif" };
-
-  public GenClassGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
-  {
-    super(generatorAdapterFactory);
-  }
-
   protected JETEmitterDescriptor[] getJETEmitterDescriptors()
   {
     return JET_EMITTER_DESCRIPTORS;
   }
 
+  protected static final int ITEM_ICON_ID = 0;
+  protected static final int CREATE_CHILD_ICON_ID = 1;
+
+  private static final String[] INPUT_PATH_NAMES = { "edit/Item.gif", "edit/CreateChild.gif" };
+
   protected String[] getInputPathNames()
   {
     return INPUT_PATH_NAMES;
+  }
+
+  public GenClassGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
+  {
+    super(generatorAdapterFactory);
   }
 
   protected Diagnostic generateModel(Object object, Monitor monitor)
@@ -97,7 +97,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
          genPackage.getInterfacePackageName(),
          genClass.getInterfaceName(),
          getJETEmitter(getJETEmitterDescriptors(), CLASS_ID),
-         new Object[] { new Object[] { genClass, Boolean.TRUE, Boolean.FALSE }},
+         new Object[] { new Object[] { null, genClass, Boolean.TRUE, Boolean.FALSE }},
          createMonitor(monitor, 1));           
     }
     else

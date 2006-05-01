@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.2 2006/05/01 17:55:53 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.3 2006/05/01 18:12:17 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -74,10 +74,20 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     new JETEmitterDescriptor("model.tests/PackageExample.javajet", "org.eclipse.emf.codegen.ecore.templates.model.tests.PackageExample")
   };
 
+  protected JETEmitterDescriptor[] getJETEmitterDescriptors()
+  {
+    return JET_EMITTER_DESCRIPTORS;
+  }
+
   protected static final int MODEL_ICON_ID = 0;
   protected static final int MODEL_WIZARD_ICON_ID = 1;
 
   private static final String[] INPUT_PATH_NAMES = { "editor/ModelFile.gif", "editor/NewModel.gif" };
+
+  protected String[] getInputPathNames()
+  {
+    return INPUT_PATH_NAMES;
+  }
 
   public GenPackageGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
   {
@@ -127,16 +137,6 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       return Diagnostic.OK_INSTANCE;
     }
     return super.doPreGenerate(object, projectType);
-  }
-
-  protected JETEmitterDescriptor[] getJETEmitterDescriptors()
-  {
-    return JET_EMITTER_DESCRIPTORS;
-  }
-
-  protected String[] getInputPathNames()
-  {
-    return INPUT_PATH_NAMES;
   }
 
   protected Diagnostic generateModel(Object object, Monitor monitor)

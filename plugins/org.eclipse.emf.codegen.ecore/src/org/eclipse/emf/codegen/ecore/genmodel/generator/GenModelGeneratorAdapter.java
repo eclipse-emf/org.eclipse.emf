@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapter.java,v 1.2 2006/05/01 17:55:53 davidms Exp $
+ * $Id: GenModelGeneratorAdapter.java,v 1.3 2006/05/01 18:12:17 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -79,6 +79,11 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     new JETEmitterDescriptor("model.tests/build.propertiesjet", "org.eclipse.emf.codegen.ecore.templates.model.tests.BuildProperties")
   };
 
+  protected JETEmitterDescriptor[] getJETEmitterDescriptors()
+  {
+    return JET_EMITTER_DESCRIPTORS;
+  }
+
   public GenModelGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
   {
     super(generatorAdapterFactory);
@@ -93,11 +98,6 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   {
     ((GenModel)object).getStaticGenPackages();
     return Diagnostic.OK_INSTANCE;
-  }
-
-  protected JETEmitterDescriptor[] getJETEmitterDescriptors()
-  {
-    return JET_EMITTER_DESCRIPTORS;
   }
 
   protected Diagnostic generateModel(Object object, Monitor monitor)
