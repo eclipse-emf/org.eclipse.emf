@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGen.java,v 1.9 2006/01/18 20:48:05 marcelop Exp $
+ * $Id: CodeGen.java,v 1.10 2006/05/01 10:16:32 davidms Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -57,7 +57,7 @@ public class CodeGen
    * This is a progress monitor that prints the progress information to a stream.
    * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil.StreamProgressMonitor CodeGenUtil}.
    */
-  public static class StreamProgressMonitor extends CodeGenUtil.StreamProgressMonitor
+  public static class StreamProgressMonitor extends CodeGenUtil.EclipseUtil.StreamProgressMonitor
   {
     public StreamProgressMonitor(PrintStream printStream)
     {
@@ -175,7 +175,7 @@ public class CodeGen
                 IPath projectTargetPath = new Path("/Result/" + jetCompiler.getSkeleton().getPackageName().replace('.','/'));
   
                 IContainer container = 
-                CodeGenUtil.findOrCreateContainer(projectTargetPath, true, targetPath, new SubProgressMonitor(progressMonitor, 1));
+                CodeGenUtil.EclipseUtil.findOrCreateContainer(projectTargetPath, true, targetPath, new SubProgressMonitor(progressMonitor, 1));
                 IFile targetFile = container.getFile(new Path(jetCompiler.getSkeleton().getClassName() + ".java"));
   
                 progressMonitor.subTask
@@ -217,7 +217,7 @@ public class CodeGen
               }
             }
           };
-        workspace.run(runnable, new CodeGenUtil.StreamProgressMonitor(System.out));
+        workspace.run(runnable, new CodeGenUtil.EclipseUtil.StreamProgressMonitor(System.out));
         return new Integer(0);
       }
       catch (Exception exception)
