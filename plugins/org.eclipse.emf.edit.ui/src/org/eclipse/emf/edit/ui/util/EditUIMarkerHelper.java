@@ -12,18 +12,22 @@
  *
  * </copyright>
  *
- * $Id: EditUIMarkerHelper.java,v 1.4 2006/04/28 04:29:22 marcelop Exp $
+ * $Id: EditUIMarkerHelper.java,v 1.5 2006/05/01 15:56:19 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.util;
 
 import java.util.Iterator;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 
 import org.eclipse.emf.common.ui.MarkerHelper;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 /**
@@ -34,7 +38,38 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
  */
 public class EditUIMarkerHelper extends MarkerHelper
 {
-  protected void adjustMarker(IMarker marker, Diagnostic diagnostic) throws CoreException
+  protected IFile getFile(Object datum)
+  {
+    if (datum instanceof Resource)
+    {
+      Resource resource = (Resource)datum;
+      URI uri = resource.getURI();
+      uri = resource.getResourceSet().getURIConverter().normalize(uri);
+      return getFile(uri);
+    }
+    else if (datum instanceof EObject)
+    {
+      return getFile(((EObject)datum).eResource());
+    }
+    else if (datum instanceof Resource.Diagnostic)
+    {
+      return getFile(URI.createURI(((Resource.Diagnostic)datum).getLocation()));
+    }
+    else
+    {
+      return super.getFile(datum);
+    }
+  }
+  
+  protected void adjustMarker(IMarker marker, Diagnostic diagnostic, Diagnostic parentDiagnostic) throws CoreException
+  {
+    if (!adjustMarker(marker, diagnostic) && parentDiagnostic != null)
+    {
+      adjustMarker(marker, parentDiagnostic);
+    }
+  }
+
+  protected boolean adjustMarker(IMarker marker, Diagnostic diagnostic) throws CoreException
   {
     if (diagnostic.getData() != null)
     {
@@ -46,16 +81,58 @@ public class EditUIMarkerHelper extends MarkerHelper
           Resource.Diagnostic resourceDiagnostic = (Resource.Diagnostic)element;
           if (resourceDiagnostic.getLocation() != null)
           {
-            marker.setAttribute(IMarker.LOCATION, 
-              EMFEditUIPlugin.getPlugin().getString("_UI_MarkerLocation", 
-                new String[]{Integer.toString(resourceDiagnostic.getLine()), Integer.toString(resourceDiagnostic.getColumn())}));
+            marker.setAttribute
+             (IMarker.LOCATION, 
+               EMFEditUIPlugin.getPlugin().getString
+                 ("_UI_MarkerLocation", 
+                  new String[] 
+                  { 
+                    Integer.toString(resourceDiagnostic.getLine()), 
+                    Integer.toString(resourceDiagnostic.getColumn())
+                  }));
             
             marker.setAttribute(IMarker.LINE_NUMBER, resourceDiagnostic.getLine());
-            break;
+            return true;
           }
         }
       }
     }
-  }
+    return false;
+  }  
   
+  public boolean hasMarkers(Object object, boolean includeSubtypes, int depth)
+  {
+    if (object instanceof ResourceSet)
+    {
+      ResourceSet resourceSet = (ResourceSet)object;
+      for (Iterator i = resourceSet.getResources().iterator(); i.hasNext(); )
+      {
+        if (hasMarkers(i.next(), includeSubtypes, depth))
+        {
+          return true;
+        }
+      }
+      return false;
+    }
+    else
+    {
+      return super.hasMarkers(object, includeSubtypes, depth);
+    }
+  }
+
+  public void deleteMarkers(Object object, boolean includeSubtypes, int depth)
+  {
+    if (object instanceof ResourceSet)
+    {
+      ResourceSet resourceSet = (ResourceSet)object;
+      for (Iterator i = resourceSet.getResources().iterator(); i.hasNext(); )
+      {
+        deleteMarkers(i.next(), includeSubtypes, depth);
+      }
+    }
+    else
+    {
+      super.deleteMarkers(object, includeSubtypes, depth);
+    }
+  }  
 }
