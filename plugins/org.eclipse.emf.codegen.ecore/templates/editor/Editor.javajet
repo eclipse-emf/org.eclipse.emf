@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.28 2006/04/11 12:04:00 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.29 2006/05/01 16:07:15 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -28,10 +28,14 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.ui.ViewerPane;
-
+import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
 import org.eclipse.emf.common.util.URI;
@@ -60,6 +64,9 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 <%if (!genModel.isRichClientPlatform()) {%>
+import org.eclipse.emf.common.ui.MarkerHelper;
+import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 
@@ -68,6 +75,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 <%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.emf.ecore.resource.ResourceSet;
 <%}%>
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,6 +87,8 @@ import java.util.Collections;
 import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 <%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.core.resources.IFile;
@@ -149,6 +160,7 @@ import org.eclipse.ui.IFileEditorInput;
 <%}%>
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
 
 <%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.ui.dialogs.SaveAsDialog;
@@ -331,6 +343,17 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	protected ISelection editorSelection = StructuredSelection.EMPTY;
 
+<%if (!genModel.isRichClientPlatform()) {%>
+	/**
+	 * The MarkerHelper is responsible for creating workspace resource markers presented
+	 * in Eclipse's Problems View.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected MarkerHelper markerHelper = new EditUIMarkerHelper();
+
+<%}%>
 	/**
 	 * This listens for when the outline becomes active
 	 * <!-- begin-user-doc -->
@@ -380,23 +403,85 @@ public class <%=genPackage.getEditorClassName()%>
 
 	/**
 	 * Resources that have been removed since last activation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	Collection removedResources = new ArrayList();
+	protected Collection removedResources = new ArrayList();
 
 	/**
 	 * Resources that have been changed since last activation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	Collection changedResources = new ArrayList();
+	protected Collection changedResources = new ArrayList();
 
 	/**
 	 * Resources that have been saved.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	Collection savedResources = new ArrayList();
+	protected Collection savedResources = new ArrayList();
+	
+	/**
+	 * Map to store the diagnostic associated with a resource.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected Map resourceToDiagnosticMap = new LinkedHashMap();
+	
+	/**
+	 * Controls whether the problem indication should be updated.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */	
+	protected boolean updateProblemIndication = true;
 
+	/**
+	 * Adapter used to update the problem indication when resources are demanded loaded.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */	
+	protected EContentAdapter problemIndicationAdapter = 
+		new EContentAdapter()
+		{
+			public void notifyChanged(Notification notification)
+			{
+				if (notification.getNotifier() instanceof Resource)
+				{
+					switch (notification.getFeatureID(Resource.class))
+					{
+						case Resource.RESOURCE__IS_LOADED:
+						case Resource.RESOURCE__ERRORS:
+						case Resource.RESOURCE__WARNINGS:
+						{
+							Resource resource = (Resource)notification.getNotifier();
+							Diagnostic diagnostic = analyzeResourceProblems((Resource)notification.getNotifier(), null);
+							if (diagnostic.getSeverity() != Diagnostic.OK)
+							{
+								resourceToDiagnosticMap.put(resource, diagnostic);
+							}
+							else
+							{
+								resourceToDiagnosticMap.remove(resource);
+							}
+							updateProblemIndication();
+						}
+					}
+				}
+				else
+				{
+					super.notifyChanged(notification);
+				}
+			}
+		};
 <%if (!genModel.isRichClientPlatform()) {%>
+
 	/**
 	 * This listens for workspace changes.
 	 * <!-- begin-user-doc -->
@@ -423,7 +508,7 @@ public class <%=genPackage.getEditorClassName()%>
 							public boolean visit(IResourceDelta delta)
 							{
 								if (delta.getFlags() != IResourceDelta.MARKERS &&
-								      delta.getResource().getType() == IResource.FILE)
+								    delta.getResource().getType() == IResource.FILE)
 								{
 									if ((delta.getKind() & (IResourceDelta.CHANGED | IResourceDelta.REMOVED)) != 0)
 									{
@@ -499,10 +584,12 @@ public class <%=genPackage.getEditorClassName()%>
 				}
 			}
 		};
-
 <%}%>
+
 	/**
 	 * Handles activation of the editor or it's associated views.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void handleActivate()
@@ -541,17 +628,19 @@ public class <%=genPackage.getEditorClassName()%>
 		}
 	}
 
-
 	/**
 	 * Handles what to do with changed resources on activation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void handleChangedResources()
 	{
 		if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict()))
 		{
-		  editingDomain.getCommandStack().flush();
+			editingDomain.getCommandStack().flush();
 
+			updateProblemIndication = false;
 			for (Iterator i = changedResources.iterator(); i.hasNext(); )
 			{
 				Resource resource = (Resource)i.next();
@@ -564,15 +653,67 @@ public class <%=genPackage.getEditorClassName()%>
 					}
 					catch (IOException exception)
 					{
+						if (!resourceToDiagnosticMap.containsKey(resource))
+						{
+							resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+						}
+					}
+				}
+			}
+			updateProblemIndication = true;
+			updateProblemIndication();
+		}
+	}
+  
+	/**
+	 * Updates the problems indication with the information described in the specified diagnostic.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void updateProblemIndication()
+	{
+		if (updateProblemIndication)
+		{
+			BasicDiagnostic diagnostic = new BasicDiagnostic();
+			for (Iterator i = resourceToDiagnosticMap.values().iterator(); i.hasNext(); )
+			{
+				Diagnostic childDiagnostic = (Diagnostic)i.next();
+				if (childDiagnostic.getSeverity() != Diagnostic.OK)
+				{
+					diagnostic.add(childDiagnostic);
+				}
+			}
+
+			if (getEditor(0) instanceof ProblemEditorPart)
+			{
+				((ProblemEditorPart)getEditor(0)).setDiagnostic(diagnostic);
+			}
+<%if (!genModel.isRichClientPlatform()) {%>
+
+			if (markerHelper.hasMarkers(editingDomain.getResourceSet()))
+			{
+				markerHelper.deleteMarkers(editingDomain.getResourceSet());
+				if (diagnostic.getSeverity() != Diagnostic.OK)
+				{
+					try
+					{
+						markerHelper.createMarkers(diagnostic);
+					}
+					catch (CoreException exception)
+					{
 						<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
 					}
 				}
 			}
+<%}%>
 		}
 	}
 
 	/**
 	 * Shows a dialog that asks if conflicting changes should be discarded.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected boolean handleDirtyConflict()
@@ -858,34 +999,73 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public void createModel()
 	{
-<%if (genModel.isRichClientPlatform()) {%>
-		try
-		{
-			// Load the resource through the editing domain.
-			editingDomain.loadResource(URI.createURI(getEditorInput().getName()).toString());
-		}
-		catch (Exception exception)
-		{
-			<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
-		}
+<%if (genModel.isRichClientPlatform()) {%>	
+		URI resourceURI = URI.createURI(getEditorInput().getName());
 <%} else {%>
-		// I assume that the input is a file object.
+		// Assumes that the input is a file object.
 		//
 		IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-
+		URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString());
+<%}%>;
+		Exception exception = null;
+		Resource resource = null;
 		try
 		{
 			// Load the resource through the editing domain.
 			//
-			editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
+			resource = editingDomain.getResourceSet().getResource(resourceURI, true);
 		}
-		catch (Exception exception)
+		catch (Exception e)
 		{
-			<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
+			exception = e;
+			resource = editingDomain.getResourceSet().getResource(resourceURI, false);			
 		}
-<%}%>
-	}
 
+		Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
+		if (diagnostic.getSeverity() != Diagnostic.OK)
+		{
+			resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
+		}
+		editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);		
+	}
+	
+	/**
+	 * Returns a dignostic describing the errors and warnings listed in the resource
+	 * and the specified exception (if any).
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) 
+	{
+		if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty())
+		{
+			BasicDiagnostic basicDiagnostic =
+				new BasicDiagnostic
+				(Diagnostic.ERROR,
+				 "<%=genPackage.getGenModel().getEditorPluginID()%>", 
+				 0,
+				 getString("_UI_CreateModelError_message", resource.getURI()), 
+				 exception != null ? new Object[] { exception } : null);
+				 basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
+			return basicDiagnostic;
+		}
+		else if (exception != null)
+		{
+			return
+				new BasicDiagnostic
+					(Diagnostic.ERROR,
+					 "<%=genPackage.getGenModel().getEditorPluginID()%>", 
+					 0,
+					 getString("_UI_CreateModelError_message", resource.getURI()), 
+					 new Object[] { exception });
+		}
+		else
+		{
+			return Diagnostic.OK_INSTANCE;
+		}
+	}
+	
 	/**
 	 * This is the method used by the framework to install your own controls.
 	 * <!-- begin-user-doc -->
@@ -894,9 +1074,66 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public void createPages()
 	{
+		// Ensures that this editor will only display the page's tab
+		// area if there are more than one page
+		//		
+		getContainer().addControlListener
+			(new ControlAdapter()
+			 {
+				boolean guard = false;
+				public void controlResized(ControlEvent event)
+				{
+					if (!guard)
+					{
+						guard = true;
+						hideTabs();
+						guard = false;
+					}
+				}
+			 });
+
 		// Creates the model from the editor input
 		//
 		createModel();
+<%if (!genModel.isRichClientPlatform()) {%>
+		if (resourceToDiagnosticMap.isEmpty())
+		{
+			markerHelper.deleteMarkers(editingDomain.getResourceSet());
+		}
+		else
+<%} else {%>
+		if (!resourceToDiagnosticMap.isEmpty())
+<%}%>
+		{
+			// Adds the EMF default Error Editor as a page and decides whether 
+			// the other pages of this editor should be added or not 
+			//
+			try
+			{
+				IEditorInput editorInput = getEditorInput();
+			
+				ProblemEditorPart problemEditorPart = new ProblemEditorPart();
+<%if (!genModel.isRichClientPlatform()) {%>								
+				problemEditorPart.setMarkerHelper(markerHelper);
+<%}%>
+				addPage(0, problemEditorPart, editorInput);
+				setPageText(0, problemEditorPart.getPartName());
+
+				updateProblemIndication();
+
+				// If there is nothing that can be edited, don't create the other pages.
+				//
+				if (getEditingDomain().getResourceSet().getResources().isEmpty() ||
+				   ((Resource)getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
+				{
+					return;
+				}
+			}
+			catch (PartInitException exception)
+			{
+				throw new RuntimeException(exception);
+			}
+		}
 
 		// Create a page for the selection tree view.
 		//
@@ -1105,21 +1342,6 @@ public class <%=genPackage.getEditorClassName()%>
 		}
 
 		setActivePage(0);
-
-		getContainer().addControlListener
-			(new ControlAdapter()
-			 {
-				boolean guard = false;
-				public void controlResized(ControlEvent event)
-				{
-					if (!guard)
-					{
-						guard = true;
-						hideTabs();
-						guard = false;
-					}
-				}
-			 });
 	}
 
 	/**
@@ -1364,29 +1586,30 @@ public class <%=genPackage.getEditorClassName()%>
 				//
 				public void <%=operationMethodName%>(IProgressMonitor monitor)
 				{
-					try
+					// Save the resources to the file system.
+					//
+					boolean first = true;
+					for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
 					{
-						// Save the resources to the file system.
-						//
-						boolean first = true;
-						for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
+						Resource resource = (Resource)i.next();
+						if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
 						{
-							Resource resource = (Resource)i.next();
-							if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
+							try
 							{
 								savedResources.add(resource);
 								resource.save(Collections.EMPTY_MAP);
 							}
+							catch (Exception exception)
+							{
+								resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+							}
 							first = false;
 						}
-					}
-					catch (Exception exception)
-					{
-						<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
 					}
 				}
 			};
 
+		updateProblemIndication = false;
 		try
 		{
 			// This runs the options, and shows progress.
@@ -1404,6 +1627,9 @@ public class <%=genPackage.getEditorClassName()%>
 			//
 			<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
 		}
+		updateProblemIndication = true;
+		
+		updateProblemIndication();
 	}
 
 	/**
@@ -1425,8 +1651,9 @@ public class <%=genPackage.getEditorClassName()%>
 				stream.close();
 			}
 		}
-		catch (IOException e) { }
-
+		catch (IOException e)
+		{
+		}
 		return result;
 	}
 
@@ -1492,8 +1719,8 @@ public class <%=genPackage.getEditorClassName()%>
 				new <%=genModel.getImportedName("org.eclipse.core.runtime.NullProgressMonitor")%>();
 		doSave(progressMonitor);
 	}
-
 <%if (!genModel.isRichClientPlatform()) {%>
+
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1522,8 +1749,8 @@ public class <%=genPackage.getEditorClassName()%>
 			<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.log(exception);
 		}
 	}
-
 <%}%>
+
 	/**
 	 * This is called during startup.
 	 * <!-- begin-user-doc -->
