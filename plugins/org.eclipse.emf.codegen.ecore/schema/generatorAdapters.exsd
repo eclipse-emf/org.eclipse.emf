@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.emf.codegen.ecore">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.emf.codegen.ecore" id="generatorAdapters" name="Generator Adapters"/>
+      </appInfo>
+      <documentation>
+         This extension point provides support for EMF&apos;s extensible code generator. It is used to define a set of generator adapters to be used in generating code for particular model elements. Typically, an adapter factory will be registered to provide these adapters for Ecore or Java objects from a given package. For convenience, an adapter can be registered directly for a given class from a given package, as well.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <choice>
+               <element ref="adapterFactory" minOccurs="1" maxOccurs="unbounded"/>
+               <element ref="adapter" minOccurs="1" maxOccurs="unbounded"/>
+            </choice>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The fully qualified identifier of the target extension point.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  An optional identifier of the extension instance.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  An optional name of the extension instance.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="adapterFactory">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="modelPackage"/>
+         </appInfo>
+         <documentation>
+            An adapter factory represents a mapping from a package to a generator adapter factory. The adapter factory will be instantiated and used to provide adapters that can generate code (and other artifacts) relating to model elements from the package.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="modelPackage" type="string" use="default" value="http://www.eclipse.org/emf/2002/GenModel">
+            <annotation>
+               <documentation>
+                  A namespace URI identifying an Ecore package or a fully qualified Java package name. By default, this refers to the GenModel package.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The generator adapter factory to contribute. This class must implement &lt;code&gt;org.eclipse.emf.codegen.generator.GeneratorAdapterFactory&lt;/code&gt; and have a no-argument constructor.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.emf.codegen.generator.GeneratorAdapterFactory"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="adapter">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="modelClass"/>
+         </appInfo>
+         <documentation>
+            An adapter represents a mapping from an Ecore or Java package and class to a generator adapter. An instance of the adapter will be created and used to generate code (and other artifacts) relating to model elements of that class.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="modelPackage" type="string" use="default" value="http://www.eclipse.org/emf/2002/GenModel">
+            <annotation>
+               <documentation>
+                  A namespace URI identifying an Ecore package or a fully qualified Java package name. By default, this refers to the GenModel package.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="modelClass" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The unqalified name of an Ecore or Java class within the package.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The generator adapter to contribute. This class must implement &lt;code&gt;org.eclipse.emf.codegen.generator.GeneratorAdapter&lt;/code&gt; and have a no-argument constructor.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.emf.codegen.generator.GeneratorAdapter"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         2.2.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;pre&gt;
+  &lt;extension point=&quot;org.eclipse.emf.codegen.ecore.generatorAdapters&quot;&gt;
+     &lt;adapterFactory class=&quot;com.example.emf.codegen.ecore.generator.ExampleGeneratorAdapterFactory&quot;/&gt;
+     &lt;adapter
+           modelPackage=&quot;http://www.eclipse.org/emf/2002/Ecore&quot; modelClass=&quot;EAnnotation&quot;
+           class=&quot;com.example.emf.codegen.ecore.generator.adapter.EAnnotationGeneratorAdapter&quot;/&gt;
+  &lt;/extension&gt;
+&lt;/pre&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         This plug-in provides its own implementation of this extension point, specifying the default generator adapter factory for EMF code generation.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright (c) 2006 IBM Corporation and others.&lt;br&gt;
+All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at &lt;a 
+href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;
+      </documentation>
+   </annotation>
+
+</schema>
