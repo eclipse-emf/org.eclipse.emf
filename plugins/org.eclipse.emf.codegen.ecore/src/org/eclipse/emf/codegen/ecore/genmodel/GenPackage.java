@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.23 2005/12/22 21:09:13 emerks Exp $
+ * $Id: GenPackage.java,v 1.24 2006/05/01 10:29:15 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -631,6 +631,7 @@ public interface GenPackage extends GenBase
 
   String getInterfacePackageName();
   String getReflectionPackageName();
+  String getReflectionClassPackageName();
   String getClassPackageName();
   String getUtilitiesPackageName();
   String getTestsPackageName();
@@ -667,13 +668,17 @@ public interface GenPackage extends GenBase
   String getUncapAdapterFactoryClassName();
 
   String getSwitchClassName();
+  String getQualifiedSwitchClassName();
   String getValidatorClassName();
+  String getQualifiedValidatorClassName();
   String getImportedValidatorClassName();
+
   String getTestSuiteClassName();
-  String getExampleClassName();
   String getQualifiedTestSuiteClassName();
   String getImportedTestSuiteClassName();
-    
+  String getExampleClassName();
+  String getQualifiedExampleClassName();
+
   String getQualifiedXMLProcessorClassName();
   String getXMLProcessorClassName();
   String getImportedXMLProcessorBaseClassName();
@@ -743,12 +748,15 @@ public interface GenPackage extends GenBase
 
   void initialize(EPackage ePackage);
 
+  //DMS Should this be on GenBase()? Should it be called pre/postGenerate(), to match GeneratorAdapter, or...?
+  void prepareCache();
+  void clearCache();
+
   /**
-   * @deprecated Use {@link GenBase#generateSchema(IProgressMonitor)} instead.  This
-   * method will be removed soon.
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
   void generateSchema();
-  
+
   //
   // EMFEdit generation
   //
@@ -779,6 +787,9 @@ public interface GenPackage extends GenBase
   String getEditorPluginClassName();
   String getQualifiedEditorPluginClassName();
   String getImportedEditorPluginClassName();
+
+  String getModelIconFileName();
+  String getModelWizardIconFileName();
 
   // String getCapPackageID();
   List/*GenFeature*/ getAllGenFeatures(); // Includes features in other packages that delegate to those in this one.
