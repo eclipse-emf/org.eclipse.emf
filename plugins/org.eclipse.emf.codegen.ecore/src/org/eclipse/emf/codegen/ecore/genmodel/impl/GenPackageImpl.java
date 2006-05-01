@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.54 2006/04/29 18:30:42 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.55 2006/05/01 10:35:06 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1470,6 +1470,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getQualifiedPackageName(getMetaDataPackageSuffix());
   }
 
+  public String getReflectionClassPackageName()
+  {
+    return getGenModel().isSuppressInterfaces() ? getReflectionPackageName() : getClassPackageName();
+  }
+
   public String getClassPackageName()
   {
     return getQualifiedPackageName(getGenModel().isSuppressInterfaces() ? getInterfacePackageSuffix() : getClassPackageSuffix());
@@ -1537,7 +1542,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   
   public String getQualifiedPackageClassName()
   {
-    return (getGenModel().isSuppressInterfaces() ? getReflectionPackageName() : getClassPackageName()) + "." + getPackageClassName();
+    return getReflectionClassPackageName() + "." + getPackageClassName();
   }
 
   public String getImportedPackageClassName()
@@ -1577,7 +1582,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getQualifiedFactoryClassName()
   {
-    return (getGenModel().isSuppressInterfaces() ? getReflectionPackageName() : getClassPackageName()) + "." + getFactoryClassName();
+    return getReflectionClassPackageName() + "." + getFactoryClassName();
   }
 
   public String getImportedFactoryClassName()
@@ -1637,24 +1642,34 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getPrefixedName("Switch");
   }
 
+  public String getQualifiedSwitchClassName()
+  {
+    return getUtilitiesPackageName() + getSwitchClassName();
+  }
+
   public String getTestSuiteClassName()
   {
     return getPrefixedName("Tests");
   }
   
-  public String getExampleClassName()
-  {
-    return getPrefixedName("Example");
-  }
-
   public String getQualifiedTestSuiteClassName()
   {
-    return getTestsPackageName() + "." + getPrefixedName("Tests");
+    return getTestsPackageName() + "." + getTestSuiteClassName();
   }
 
   public String getImportedTestSuiteClassName()
   {
     return getGenModel().getImportedName(getQualifiedTestSuiteClassName());
+  }
+
+  public String getExampleClassName()
+  {
+    return getPrefixedName("Example");
+  }
+
+  public String getQualifiedExampleClassName()
+  {
+    return getTestsPackageName() + "." + getExampleClassName();
   }
 
   protected static final boolean NO_CONSTRAINTS = "true".equals(System.getProperty("EMF_NO_CONSTRAINTS")); 
@@ -1678,9 +1693,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getPrefixedName("Validator");
   }
 
+  public String getQualifiedValidatorClassName()
+  {
+    return getUtilitiesPackageName() + "." + getValidatorClassName();
+  }
+
   public String getImportedValidatorClassName()
   {
-    return getGenModel().getImportedName(getUtilitiesPackageName() + "." + getPrefixedName("Validator"));
+    return getGenModel().getImportedName(getQualifiedValidatorClassName());
   }
   
   public String getImportedXMLProcessorBaseClassName()
@@ -1690,7 +1710,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getQualifiedXMLProcessorClassName()
   {
-    return getUtilitiesPackageName() + "." + getPrefixedName("XMLProcessor");
+    return getUtilitiesPackageName() + "." + getXMLProcessorClassName();
   }
 
   public String getXMLProcessorClassName()
@@ -2400,6 +2420,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return hasClassifiers() || !getNestedGenPackages().isEmpty();
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generate(Monitor progressMonitor)
   {
     try
@@ -2410,11 +2434,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       progressMonitor.subTask
         (CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingPackage_message", new Object [] { getPackageInterfaceName() }));
 
-      // Create helpers to cache and supply information for unique naming
-      switchHelper = new SwitchHelper();
-      validatorHelper = new ValidatorHelper();
-      dependencyHelper = new DependencyHelper();
-      annotationSourceHelper = new AnnotationSourceHelper();
+      prepareCache();
 
       for (Iterator iter = getGenClasses().iterator(); iter.hasNext(); )
       {
@@ -2468,7 +2488,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
            Generator.EMF_MODEL_PROJECT_STYLE,
            getGenModel().getEffectiveModelPluginVariables(),
            getGenModel().getModelDirectory(),
-           getQualifiedPackageClassName().substring(0, getQualifiedPackageClassName().lastIndexOf(".")),
+           getReflectionClassPackageName(),
            getPackageClassName(), 
            getGenModel().getPackageClassEmitter(),
            new Object [] 
@@ -2504,7 +2524,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
            Generator.EMF_MODEL_PROJECT_STYLE,
            getGenModel().getEffectiveModelPluginVariables(),
            getGenModel().getModelDirectory(),
-           getQualifiedFactoryClassName().substring(0, getQualifiedFactoryClassName().lastIndexOf(".")),
+           getReflectionClassPackageName(),
            getFactoryClassName(), 
            getGenModel().getFactoryClassEmitter(),
            new Object [] { new Object [] { this , getGenModel().isSuppressInterfaces() ? Boolean.TRUE : Boolean.FALSE, Boolean.TRUE }});
@@ -2513,7 +2533,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         {
           progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
-             ("_UI_GeneratingJavaClass_message", new Object [] { getClassPackageName() + "." + getXMLProcessorClassName() }));
+             ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedXMLProcessorClassName() }));
           generate(
             createMonitor(progressMonitor, 1),
             Generator.EMF_MODEL_PROJECT_STYLE,
@@ -2528,7 +2548,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         {
           progressMonitor.subTask
             (CodeGenEcorePlugin.INSTANCE.getString
-               ("_UI_GeneratingJavaClass_message", new Object [] { getUtilitiesPackageName() + "." + getValidatorClassName() }));
+               ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedValidatorClassName() }));
           generate
             (createMonitor(progressMonitor, 1), 
              Generator.EMF_MODEL_PROJECT_STYLE,
@@ -2543,7 +2563,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         {
           progressMonitor.subTask
             (CodeGenEcorePlugin.INSTANCE.getString
-               ("_UI_GeneratingJavaClass_message", new Object [] { getUtilitiesPackageName() + "." + getSwitchClassName() }));
+               ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedSwitchClassName() }));
           generate
             (createMonitor(progressMonitor, 1), 
              Generator.EMF_MODEL_PROJECT_STYLE,
@@ -2555,7 +2575,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   
           progressMonitor.subTask
             (CodeGenEcorePlugin.INSTANCE.getString
-               ("_UI_GeneratingJavaClass_message", new Object [] { getUtilitiesPackageName() + "." + getAdapterFactoryClassName() }));
+               ("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedAdapterFactoryClassName() }));
           generate
             (createMonitor(progressMonitor, 1), 
              Generator.EMF_MODEL_PROJECT_STYLE,
@@ -2602,30 +2622,53 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     finally
     {
-      // Clear the transient helpers
-      switchHelper = null;
-      validatorHelper = null;
-      dependencyHelper = null;
-      annotationSourceHelper = null;
-
+      clearCache();
       progressMonitor.done();
     }
   }
   
   /**
-   * @deprecated Use {@link GenBase#generateSchema(Monitor)} instead.  This
-   * method will be removed soon.
-   */  
+   * Create helpers to cache and supply information for unique naming.
+   */
+  public void prepareCache()
+  {
+    // Create helpers to cache and supply information for unique naming
+    switchHelper = new SwitchHelper();
+    validatorHelper = new ValidatorHelper();
+    dependencyHelper = new DependencyHelper();
+    annotationSourceHelper = new AnnotationSourceHelper();
+  }
+
+  /**
+   * Clear the cache for unique naming information.
+   */
+  public void clearCache()
+  {
+    switchHelper = null;
+    validatorHelper = null;
+    dependencyHelper = null;
+    annotationSourceHelper = null;
+  }
+
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   public void generateSchema()
   {
     generateSchema(new BasicMonitor());
   }
   
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   public boolean canGenerateSchema()
   {
     return canGenerate();
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   public void generateSchema(Monitor progressMonitor)
   {
     if (!canGenerateSchema()) return;
@@ -2654,6 +2697,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
   }
 
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   protected void generateXSD(String type)
   {
     Bundle xsdPlugin = Platform.getBundle("org.eclipse.xsd");
@@ -2792,6 +2838,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generatePackageSerialization(Monitor progressMonitor)
   {
     try
@@ -3100,6 +3150,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return false;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generateEdit(Monitor progressMonitor)
   {
     try
@@ -3126,7 +3180,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         progressMonitor.subTask
           (CodeGenEcorePlugin.INSTANCE.getString
              ("_UI_GeneratingJavaClass_message", 
-              new Object [] { getProviderPackageName() + "." + getItemProviderAdapterFactoryClassName() }));
+              new Object [] { getQualifiedItemProviderAdapterFactoryClassName() }));
         generate
           (createMonitor(progressMonitor, 1), 
            Generator.EMF_EDIT_PROJECT_STYLE,
@@ -3149,6 +3203,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generateEditor(Monitor progressMonitor)
   {
     try
@@ -3251,6 +3309,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getGenModel().canGenerateTests() && hasClassifiers(true);
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generateTests(Monitor progressMonitor)
   {
     try

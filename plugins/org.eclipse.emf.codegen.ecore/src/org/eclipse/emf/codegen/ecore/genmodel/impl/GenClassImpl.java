@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.58 2006/04/25 21:42:12 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.59 2006/05/01 10:35:06 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1204,6 +1204,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return true;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generate(Monitor progressMonitor)
   {
     try
@@ -1236,8 +1240,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (!isInterface())
       {
         progressMonitor.subTask
-          (CodeGenEcorePlugin.INSTANCE.getString
-             ("_UI_GeneratingJavaClass_message", new Object [] { getGenPackage().getClassPackageName() + "." + getClassName() }));
+          (CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedClassName() }));
         generate
           (createMonitor(progressMonitor, 1), 
            Generator.EMF_MODEL_PROJECT_STYLE, 
@@ -1538,7 +1541,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       });
   }
 
-  protected List getAllCreateChildFeaturesIncludingDelegation()
+  public List getAllCreateChildFeaturesIncludingDelegation()
   {
     return collectGenFeatures(getAllBaseGenClasses(), getGenFeatures(),
       new GenFeatureFilter()
@@ -1950,6 +1953,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return false;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generateEdit(Monitor progressMonitor)
   {
     try
@@ -1962,9 +1969,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
            ("_UI_GeneratingProvider_message", new Object [] { getFormattedName() }));
 
       progressMonitor.subTask
-        (CodeGenEcorePlugin.INSTANCE.getString
-           ("_UI_GeneratingJavaClass_message", 
-            new Object [] { getGenPackage().getProviderPackageName() + "." + getProviderClassName() }));
+        (CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingJavaClass_message", new Object [] { getQualifiedProviderClassName() }));
       generate
         (createMonitor(progressMonitor, 1), 
          Generator.EMF_EDIT_PROJECT_STYLE, 
@@ -1977,8 +1982,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (isImage())
       {
         progressMonitor.subTask
-          (CodeGenEcorePlugin.INSTANCE.getString
-             ("_UI_GeneratingItemIcon_message", new Object [] { getItemIconFileName() }));
+          (CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingItemIcon_message", new Object [] { getItemIconFileName() }));
         generate
           (createMonitor(progressMonitor, 1), 
            Generator.EMF_EDIT_PROJECT_STYLE, 
@@ -2040,6 +2044,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getGenModel().canGenerateTests() && !isExternalInterface();
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generateTests(Monitor progressMonitor)
   {
     try
@@ -2048,19 +2056,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         return;
 
       progressMonitor.beginTask("", 1);
-      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_Generating_message", new Object []{ getFormattedName()
-        + " Test Case" }));
+      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingTestCase_message", new Object [] { getFormattedName() }));
 
       progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString(
-        "_UI_GeneratingJavaClass_message",
-        new Object []{ getGenPackage().getTestsPackageName() + "." + getInterfaceName() + "Test" }));
+        "_UI_GeneratingJavaClass_message", new Object []{ getQualifiedTestCaseClassName() }));
       generate(
         createMonitor(progressMonitor, 1),
         Generator.EMF_TESTS_PROJECT_STYLE,
         Collections.EMPTY_LIST,
         getGenModel().getTestsDirectory(),
         getGenPackage().getTestsPackageName(),
-        getInterfaceName() + "Test",
+        getTestCaseClassName(),
         getGenModel().getTestCaseEmitter());
     }
     finally

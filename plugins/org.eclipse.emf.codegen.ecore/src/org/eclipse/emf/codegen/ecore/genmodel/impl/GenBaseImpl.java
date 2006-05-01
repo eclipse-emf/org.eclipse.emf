@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.49 2006/04/30 18:00:10 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.50 2006/05/01 10:35:06 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -346,20 +346,37 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return false;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public final void generate(IProgressMonitor progressMonitor)
   {
     generate(BasicMonitor.toMonitor(progressMonitor));
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public final void gen(Monitor progressMonitor)
   {
     generate(progressMonitor);
   }
   
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generate(Monitor progressMonitor)
   {
   }
   
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   protected void generate(Monitor progressMonitor, int style, List pluginVariables, String outputFilePath, JETEmitter jetEmitter)
   {
     try
@@ -469,12 +486,22 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       progressMonitor.done();
     }
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   protected Monitor createMonitor(Monitor monitor, int ticks)
   {
     return CodeGenUtil.createMonitor(monitor, ticks);
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   protected void generate
     (Monitor progressMonitor, 
      int style, 
@@ -486,6 +513,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     generate(progressMonitor, style, pluginVariables, outputFilePath, gifEmitter, key, null);
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   protected void generate
     (Monitor progressMonitor,
      int style, 
@@ -524,6 +556,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     progressMonitor.done();
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public void gen
     (Monitor progressMonitor, 
      int style, 
@@ -536,6 +573,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     generate(progressMonitor, style, pluginVariables, targetDirectory, packageName, className, jetEmitter, new Object [] { this });
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   protected void generate
     (Monitor progressMonitor, 
      int style, 
@@ -548,6 +590,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     generate(progressMonitor, style, pluginVariables, targetDirectory, packageName, className, jetEmitter, new Object [] { this });
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   protected void generate
     (Monitor progressMonitor, 
      int style, 
@@ -717,37 +764,18 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   
   protected ImportManager getImportManager()
   {
-    return ((GenBaseImpl)getGenModel()).getImportManager();
+    return getGenModel().getImportManager();
   }
 
   protected void setImportManager(ImportManager importManager)
   {
-    GenModelImpl genModel = (GenModelImpl)getGenModel();
-    if (genModel != null)
-    {
-      genModel.setImportManager(importManager);
-
-      // EATM Kind of ugly...
-      //
-      if (ecoreGenPackage != null && ((GenPackageImpl)ecoreGenPackage).getImportManager() != importManager)
-      {
-        ((GenPackageImpl)ecoreGenPackage).setImportManager(getImportManager());
-      }
-      if (xmlTypeGenPackage != null && ((GenPackageImpl)xmlTypeGenPackage).getImportManager() != importManager)
-      {
-        ((GenPackageImpl)xmlTypeGenPackage).setImportManager(getImportManager());
-      }
-      if (xmlNamespaceGenPackage != null && ((GenPackageImpl)xmlNamespaceGenPackage).getImportManager() != importManager)
-      {
-        ((GenPackageImpl)xmlNamespaceGenPackage).setImportManager(getImportManager());
-      }
-    }
+    getGenModel().setImportManager(importManager);
   }
 
   /**
-   * If {@link org.eclipse.emf.codegen.ecore.GenModel#isCodeFormatting code formatting} is enabled for this model, use
-   * the specified JDT code formatter to format the given compilation unit contents. If no code formatter is specified,
-   * one will be {@link org.eclipse.emf.codegen.ecore.GenModel#createCodeFormatter created}.
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
    */
   protected String formatCode(String contents, CodeFormatter codeFormatter)
   {
@@ -829,10 +857,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       {
         GenModel ecoreGenModel = getGenModel().createGenModel();
         ecoreGenModel.initialize(Collections.singleton(EcorePackage.eINSTANCE));
+        ecoreGenModel.setImportManager(getImportManager());
         ecoreGenPackage = (GenPackage)ecoreGenModel.getGenPackages().get(0);
         ecoreGenPackage.setPrefix("Ecore");
         ecoreGenPackage.setBasePackage("org.eclipse.emf");
-        ((GenPackageImpl)ecoreGenPackage).setImportManager(getImportManager());
       }
       return ecoreGenPackage;
     }
@@ -843,11 +871,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       {
         GenModel xmlTypeGenModel = getGenModel().createGenModel();
         xmlTypeGenModel.initialize(Collections.singleton(XMLTypePackage.eINSTANCE));
+        xmlTypeGenModel.setImportManager(getImportManager());
         xmlTypeGenPackage = (GenPackage)xmlTypeGenModel.getGenPackages().get(0);
         xmlTypeGenPackage.setPrefix("XMLType");
         xmlTypeGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
         xmlTypeGenPackage.setDataTypeConverters(true);
-        ((GenPackageImpl)xmlTypeGenPackage).setImportManager(getImportManager());
       }
       return xmlTypeGenPackage;
     }
@@ -858,10 +886,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       {
         GenModel xmlNamespaceGenModel = getGenModel().createGenModel();
         xmlNamespaceGenModel.initialize(Collections.singleton(XMLNamespacePackage.eINSTANCE));
+        xmlNamespaceGenModel.setImportManager(getImportManager());
         xmlNamespaceGenPackage = (GenPackage)xmlNamespaceGenModel.getGenPackages().get(0);
         xmlNamespaceGenPackage.setPrefix("XMLNamespace");
         xmlNamespaceGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
-        ((GenPackageImpl)xmlNamespaceGenPackage).setImportManager(getImportManager());
       }
       return xmlNamespaceGenPackage;
     }
@@ -1744,16 +1772,28 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return getGenModel().canGenerateEdit() && hasModelContribution();
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public final void generateEdit(IProgressMonitor progressMonitor)
   {
     generateEdit(BasicMonitor.toMonitor(progressMonitor));
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public final void genEdit(Monitor progressMonitor)
   {
     generateEdit(progressMonitor);
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generateEdit(Monitor progressMonitor)
   {
   }
@@ -1763,35 +1803,59 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return getGenModel().canGenerateEditor() && hasModelContribution();
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public final void generateEditor(IProgressMonitor progressMonitor)
   {
     generateEditor(BasicMonitor.toMonitor(progressMonitor));
   }
   
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public final void genEditor(Monitor progressMonitor)
   {
     generateEditor(progressMonitor);
   }
   
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generateEditor(Monitor progressMonitor)
   {
   }
 
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   public boolean canGenerateSchema()
   {
     return false;
   }
 
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   public final void generateSchema(IProgressMonitor progressMonitor)
   {
     generateSchema(BasicMonitor.toMonitor(progressMonitor));
   }
   
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   public final void genSchema(Monitor progressMonitor)
   {
     generateSchema(progressMonitor);
   }
   
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   public void generateSchema(Monitor progressMonitor)
   {
   }
@@ -1801,20 +1865,36 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return false;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public final void generateTests(IProgressMonitor progressMonitor)
   {
     generateTests(BasicMonitor.toMonitor(progressMonitor));
   }
   
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public final void genTests(Monitor progressMonitor)
   {
     generateTests(progressMonitor);
   }
   
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generateTests(Monitor progressMonitor)
   {
   }
 
+  /**
+   * @deprecated In EMF 2.2, this moved to {@link org.eclipse.emf.codegen.util.GIFEmitter GIFEmitter}.
+   * This copy will be removed after 2.2.
+   */
   protected static class GIFEmitter
   {
     protected String inputFile;
@@ -1927,6 +2007,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
   }
 
+  /**
+   * @deprecated In EMF 2.2, this moved to {@link org.eclipse.emf.codegen.util.GIFEmitter GIFEmitter}.
+   * This copy will be removed after 2.2.
+   */
   public static class ColorInformation
   {
     public static ColorInformation getColor(int index)
@@ -2121,6 +2205,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
   }
 
+  /**
+   * @deprecated In EMF 2.2, this moved to {@link org.eclipse.emf.codegen.util.CodeGenUtil#unicodeEscapeEncode CodeGenUtil}.
+   * This copy will be removed after 2.2.
+   */
   protected static String unicodeEscapeEncode(String unicode)
   {
     StringBuffer result = new StringBuffer(unicode.length());
@@ -2216,7 +2304,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalents to the methods in this class. This class will be removed after 2.2.
+   */
   protected static class EclipseUtil
   {
     protected static String formatCode(String contents, CodeFormatter codeFormatter)
@@ -2236,13 +2329,15 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       
       return contents;
     }
-    
+
+    // Unused?
     protected static IContainer findOrCreateContainer
       (GenBaseImpl genBase, Monitor progressMonitor, int style, List pluginVariables, String outputPath, boolean forceStyle)
     {
       return findOrCreateContainer(genBase, progressMonitor, style, pluginVariables, new Path(outputPath), forceStyle);
     }
     
+    // Unused?
     protected static IContainer findOrCreateContainer
       (GenBaseImpl genBase, Monitor progressMonitor, int style, List pluginVariables, IPath outputPath, boolean forceStyle)
     {
@@ -2604,10 +2699,22 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
   }
-  
+
+  /**
+   * @deprecated in EMF 2.2
+   */
   protected static final URI PLATFORM_RESOURCE_URI = URI.createURI("platform:/resource/");
+
+  /**
+   * @deprecated in EMF 2.2
+   */
   protected static final URI EMPTY_URI = URI.createURI("/");
-    
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public boolean findOrCreateContainer
     (Monitor progressMonitor, int style, List pluginVariables, URI outputURI, boolean forceStyle)
   {
@@ -2621,11 +2728,16 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             (getGenModel(), progressMonitor, style, pluginVariables, workspacePath.toString(), forceStyle);
       }
     }
-      
+
     progressMonitor.done();
     return true;
   }
-    
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public boolean exists(URI uri)
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -2636,7 +2748,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         return  EclipseUtil.exists(workspacePath.toString());
       }
     }
-      
+
     URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
     uri = uriConverter.normalize(uri);
     if ("file".equalsIgnoreCase(uri.scheme()))
@@ -2657,7 +2769,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public boolean isReadOnly(URI uri)
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -2668,7 +2785,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         return  EclipseUtil.isReadOnly(workspacePath.toString());
       }
     }
-      
+
     URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
     uri = uriConverter.normalize(uri);
     if ("file".equalsIgnoreCase(uri.scheme()))
@@ -2681,7 +2798,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return false;
     }
   }
-    
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public InputStream createInputStream(URI uri) throws Exception
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -2692,17 +2814,27 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         return EclipseUtil.createInputStream(workspacePath.toString());
       }
     }
-      
+
     URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
     return uriConverter.createInputStream(uri);
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public OutputStream createOutputStream(URI uri) throws Exception
   {
     URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
     return uriConverter.createOutputStream(uri);
   } 
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public String getContents(URI uri) throws Exception
   {
     BufferedInputStream bufferedInputStream = new BufferedInputStream(createInputStream(uri));
@@ -2711,7 +2843,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     bufferedInputStream.close();
     return new String(input);
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public String getEncoding(URI uri)
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -2724,7 +2861,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
     return null;
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public void setOverwriteable(URI uri) throws Exception
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -2741,7 +2883,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
     }
   }
-  
+
   public EModelElement getEcoreModelElement()
   {
     return null;
@@ -2800,4 +2942,4 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       getGenAnnotations().addAll(genAnnotationsCopy);
     }
   }
-} 
+}

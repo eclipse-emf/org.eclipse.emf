@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.14 2006/01/24 14:04:06 emerks Exp $
+ * $Id: GenEnumImpl.java,v 1.15 2006/05/01 10:35:06 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -374,6 +374,10 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     return true;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generate(Monitor progressMonitor)
   {
     try
