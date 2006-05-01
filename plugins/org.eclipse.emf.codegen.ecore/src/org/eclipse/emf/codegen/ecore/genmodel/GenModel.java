@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.36 2006/01/18 20:28:29 marcelop Exp $
+ * $Id: GenModel.java,v 1.37 2006/05/01 10:28:29 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.IStatus;
 
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.merge.java.JControlModel;
+import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -1617,26 +1618,123 @@ public interface GenModel extends GenBase
   void emitSortedImports();
   String getIndentation(StringBuffer stringBuffer);
 
+  ImportManager getImportManager();
+  void setImportManager(ImportManager importManager);
+
   String getImportedName(String qualifiedName);
   void addImport(String qualifiedName);
   void addPseudoImport(String qualifiedName);
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} provides an
+   * equivalent way to obtain this information. This method will be removed after 2.2.
+   */
   String getMergeRulesLocation();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} provides an equivalent to this method.
+   * This method will be removed after 2.2.
+   */
   JControlModel getJControlModel();
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEnumClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getFactoryClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getPackageClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getAdapterFactoryClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getSwitchClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getValidatorClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getPluginXMLEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getManifestMFEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getModelPluginClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getResourceClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getResourceFactoryClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getBuildPropertiesEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getXMLProcessorClassEmitter();
 
   //
@@ -1644,12 +1742,53 @@ public interface GenModel extends GenBase
   //
   boolean hasEditSupport();
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getItemProviderEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getItemProviderAdapterFactoryEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditPluginClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditPluginXMLEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditManifestMFEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditPluginPropertiesEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditBuildPropertiesEmitter();
 
   //
@@ -1657,14 +1796,67 @@ public interface GenModel extends GenBase
   //
   boolean hasEditorSupport();
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditorEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getActionBarContributorEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getModelWizardEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditorAdvisorEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditorPluginClassEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditorPluginXMLEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditorManifestMFEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditorPluginPropertiesEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getEditorBuildPropertiesEmitter();
 
   //
@@ -1672,15 +1864,62 @@ public interface GenModel extends GenBase
   //
   boolean hasTestSupport();
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getTestCaseEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getModelTestSuiteEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getPackageTestSuiteEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getPackageExampleEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getTestsPluginXMLEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getTestsManifestMFEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getTestsPluginPropertiesEmitter();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   JETEmitter getTestsBuildPropertiesEmitter();
-  
+
   // boolean isGenerateEditPlugin();
   // boolean isGenerateEditorPlugin();
 
@@ -1713,16 +1952,19 @@ public interface GenModel extends GenBase
   String getModelPluginPackageName();
   String getQualifiedModelPluginClassName();
 
+  String getEditPluginDirectory();
   String getEditPluginClassName();
   String getEditPluginPackageName();
   String getQualifiedEditPluginClassName();
 
+  String getEditorPluginDirectory();
   String getEditorPluginClassName();
   String getEditorPluginPackageName();
   String getEditorAdvisorClassName();
   String getQualifiedEditorPluginClassName();
   String getQualifiedEditorAdvisorClassName();
 
+  boolean hasTestSuiteClass();
   String getTestSuiteClassName();
   String getTestSuitePackageName();
   String getQualifiedTestSuiteClassName();
@@ -1764,12 +2006,19 @@ public interface GenModel extends GenBase
   List/*of GenFeature*/ getFilteredAllGenFeatures(); // Filtered for property keys to remove duplicates.
 
   /**
-   * Set the code formatter options to be used to {@link #createCodeFormatter create} a new code formatter. 
+   * Set the code formatter options to be used to {@link #createCodeFormatter create} a new code formatter.
+   *  
+   * @deprecated In EMF 2.2, the {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} should be used to
+   * record code formatter options in order to be used via the new Generator-based design. This method will be removed after 2.2.
    */
   void setCodeFormatterOptions(Map options);
 
   /**
    * Creates and returns a new JDT code formatter.
+   * 
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
    */
   CodeFormatter createCodeFormatter();
 
