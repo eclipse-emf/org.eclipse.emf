@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.6 2006/03/29 19:16:57 marcelop Exp $
+ * $Id: Resource.java,v 1.7 2006/05/01 16:13:09 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -20,8 +20,6 @@ package org.eclipse.emf.ecore.resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -549,71 +547,23 @@ public interface Resource extends Notifier
   class IOWrappedException extends IOException
   {
     /**
-     * The wrapped exception.
-     */
-    protected Exception exception;
-
-    /**
      * Creates an instance which wraps the given exception.
      * @param exception the exception to wrap.
      */
     public IOWrappedException(Exception exception)
     {
       super(exception.getLocalizedMessage());
-      this.exception = exception;
+      initCause(exception);
     }
 
     /**
      * Returns the wrapped exception.
      * @return the wrapped exception.
+     * @deprecated in 2.2.  Use {@link #getCause()} instead.  
      */
     public Exception getWrappedException()
     {
-      return exception;
-    }
-
-    /**
-     * Returns the localized message of the wrapped exception.
-     * @return the localized message of the wrapped exception.
-     */
-    public String getLocalizedMessage()
-    {
-      return exception.getLocalizedMessage();
-    }
-
-    /**
-     * Returns the message of the wrapped exception.
-     * @return the message of the wrapped exception.
-     */
-    public String getMessage()
-    {
-      return exception.getMessage();
-    }
-
-    /**
-     * Prints the stack trace of the wrapped exception.
-     */
-    public void printStackTrace()
-    {
-      exception.printStackTrace();
-    }
-
-    /**
-     * Prints the stack trace of the wrapped exception.
-     * @param printStream the stream to print to.
-     */
-    public void printStackTrace(PrintStream printStream)
-    {
-      exception.printStackTrace(printStream);
-    }
-
-    /**
-     * Prints the stack trace of the wrapped exception.
-     * @param printWriter the writer to print to.
-     */
-    public void printStackTrace(PrintWriter printWriter)
-    {
-      exception.printStackTrace(printWriter);
+      return (Exception)getCause();
     }
   }
 
