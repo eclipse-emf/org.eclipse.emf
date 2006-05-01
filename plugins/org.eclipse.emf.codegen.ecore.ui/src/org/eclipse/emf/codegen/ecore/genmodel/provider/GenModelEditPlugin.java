@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditPlugin.java,v 1.8 2005/08/19 16:56:43 davidms Exp $
+ * $Id: GenModelEditPlugin.java,v 1.9 2006/05/01 10:41:33 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -44,6 +44,8 @@ public final class GenModelEditPlugin extends EMFPlugin
    * @generated
    */
   private static Implementation plugin;
+
+  public static final String ID = "org.eclipse.emf.codegen.ecore.ui";
 
   /**
    * Create the instance.
