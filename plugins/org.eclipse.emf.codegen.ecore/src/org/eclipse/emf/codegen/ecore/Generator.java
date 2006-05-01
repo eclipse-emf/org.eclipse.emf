@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.23 2005/11/29 15:00:10 emerks Exp $
+ * $Id: Generator.java,v 1.24 2006/05/01 10:23:35 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -55,6 +55,7 @@ import org.eclipse.emf.codegen.CodeGen;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
@@ -288,6 +289,9 @@ public class Generator extends CodeGen
                   }
                   else
                   {
+                    org.eclipse.emf.codegen.ecore.generator.Generator gen = new org.eclipse.emf.codegen.ecore.generator.Generator();
+                    gen.setInput(genModel);
+
                     if (dynamicTemplates)
                     {
                       genModel.setDynamicTemplates(dynamicTemplates);
@@ -302,8 +306,13 @@ public class Generator extends CodeGen
                       //
                       IPath targetRootDirectory = new Path(arguments[index]);
                       targetRootDirectory = new Path(targetRootDirectory.toFile().getAbsoluteFile().getCanonicalPath());
-                      CodeGenUtil.findOrCreateContainer
-                        (new Path(path.segment(0)), true, targetRootDirectory, CodeGenUtil.createMonitor(progressMonitor, 1));
+                      CodeGenUtil.EclipseUtil.findOrCreateContainer
+                        (new Path(path.segment(0)),
+                         true,
+                         targetRootDirectory,
+                         //DMS Why not this?
+                         //new SubProgressMonitor(progressMonitor, 1));
+                         BasicMonitor.toIProgressMonitor(CodeGenUtil.EclipseUtil.createMonitor(progressMonitor, 1)));
                     }
                     // This is to handle a genmodel produced by rose2genmodel.
                     //
@@ -351,24 +360,25 @@ public class Generator extends CodeGen
                              "Unable to read profile file: '" + profileFile + "'",
                              null));
                       }
-                      genModel.setCodeFormatterOptions(options);
+                      gen.getOptions().codeFormatterOptions = options;
+                      
                     }
   
                     if (model)
                     {
-                      genModel.generate(CodeGenUtil.createMonitor(progressMonitor, 1));
+                      gen.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, CodeGenUtil.EclipseUtil.createMonitor(progressMonitor, 1));
                     }
                     if (edit)
                     {
-                      genModel.generateEdit(CodeGenUtil.createMonitor(progressMonitor, 1));
+                      gen.generate(genModel, GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE, CodeGenUtil.EclipseUtil.createMonitor(progressMonitor, 1));
                     }
                     if (editor)
                     {
-                      genModel.generateEditor(CodeGenUtil.createMonitor(progressMonitor, 1));
+                      gen.generate(genModel, GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE, CodeGenUtil.EclipseUtil.createMonitor(progressMonitor, 1));
                     }
                     if (tests)
                     {
-                      genModel.generateTests(CodeGenUtil.createMonitor(progressMonitor, 1));
+                      gen.generate(genModel, GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE, CodeGenUtil.EclipseUtil.createMonitor(progressMonitor, 1));
                     }
                   }
                 }
@@ -390,7 +400,7 @@ public class Generator extends CodeGen
               }
             }
           };
-        workspace.run(runnable, new CodeGenUtil.StreamProgressMonitor(System.out));
+        workspace.run(runnable, new CodeGenUtil.EclipseUtil.StreamProgressMonitor(System.out));
   
         return new Integer(0);
       }
@@ -407,7 +417,7 @@ public class Generator extends CodeGen
   protected String findOrCreateContainerHelper
     (String rootLocation, String encodedPath, Monitor progressMonitor) throws CoreException
   {
-    return EclipseUtil.findOrCreateContainerHelper(rootLocation, encodedPath, progressMonitor);
+    return EclipseHelper.findOrCreateContainerHelper(rootLocation, encodedPath, progressMonitor);
   }
 
   public static int EMF_MODEL_PROJECT_STYLE  = 0x0001;
@@ -437,7 +447,7 @@ public class Generator extends CodeGen
      List pluginVariables)
   {
     return 
-      EclipseUtil.createEMFProject
+      EclipseHelper.createEMFProject
         (javaSource, projectLocationPath, referencedProjects, BasicMonitor.toMonitor(progressMonitor), style, pluginVariables);
   }
   
@@ -459,7 +469,7 @@ public class Generator extends CodeGen
      int style,
      List pluginVariables)
   {
-    return EclipseUtil.createEMFProject(javaSource, projectLocationPath, referencedProjects, progressMonitor, style, pluginVariables);
+    return EclipseHelper.createEMFProject(javaSource, projectLocationPath, referencedProjects, progressMonitor, style, pluginVariables);
   }
   
   public void printStatus(String prefix, IStatus status)
@@ -544,7 +554,7 @@ public class Generator extends CodeGen
     }
   }
   
-  private static class EclipseUtil
+  private static class EclipseHelper
   {
     public static IProject createEMFProject
       (IPath javaSource,
@@ -748,40 +758,40 @@ public class Generator extends CodeGen
             }
             else
             {
-              CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_CORE_RUNTIME", "org.eclipse.core.runtime");
-              CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_CORE_RESOURCES", "org.eclipse.core.resources");
-              CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_COMMON", "org.eclipse.emf.common");
-              CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_ECORE", "org.eclipse.emf.ecore");
+              CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "ECLIPSE_CORE_RUNTIME", "org.eclipse.core.runtime");
+              CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "ECLIPSE_CORE_RESOURCES", "org.eclipse.core.resources");
+              CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_COMMON", "org.eclipse.emf.common");
+              CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_ECORE", "org.eclipse.emf.ecore");
   
               if ((style & EMF_XML_PROJECT_STYLE) != 0)
               {
-                CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_ECORE_XMI", "org.eclipse.emf.ecore.xmi");
+                CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_ECORE_XMI", "org.eclipse.emf.ecore.xmi");
               }
   
               if ((style & EMF_MODEL_PROJECT_STYLE) == 0)
               {
-                CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_EDIT", "org.eclipse.emf.edit");
+                CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_EDIT", "org.eclipse.emf.edit");
   
                 if ((style & EMF_EDIT_PROJECT_STYLE) == 0)
                 {
-                  CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_SWT", "org.eclipse.swt");
-                  CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_JFACE", "org.eclipse.jface");
-                  CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_VIEWS", "org.eclipse.ui.views");
-                  CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_EDITORS", "org.eclipse.ui.editors");
-                  CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_IDE", "org.eclipse.ui.ide");
-                  CodeGenUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_WORKBENCH", "org.eclipse.ui.workbench");
-                  CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_COMMON_UI", "org.eclipse.emf.common.ui");
-                  CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_EDIT_UI", "org.eclipse.emf.edit.ui");
+                  CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "ECLIPSE_SWT", "org.eclipse.swt");
+                  CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "ECLIPSE_JFACE", "org.eclipse.jface");
+                  CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_VIEWS", "org.eclipse.ui.views");
+                  CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_EDITORS", "org.eclipse.ui.editors");
+                  CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_IDE", "org.eclipse.ui.ide");
+                  CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "ECLIPSE_UI_WORKBENCH", "org.eclipse.ui.workbench");
+                  CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_COMMON_UI", "org.eclipse.emf.common.ui");
+                  CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_EDIT_UI", "org.eclipse.emf.edit.ui");
                   if ((style & EMF_XML_PROJECT_STYLE) == 0)
                   {
-                    CodeGenUtil.addClasspathEntries(classpathEntries, "EMF_ECORE_XMI", "org.eclipse.emf.ecore.xmi");
+                    CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "EMF_ECORE_XMI", "org.eclipse.emf.ecore.xmi");
                   }
                 }
               }
   
               if ((style & EMF_TESTS_PROJECT_STYLE) != 0)
               {
-                CodeGenUtil.addClasspathEntries(classpathEntries, "JUNIT", "org.junit");
+                CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, "JUNIT", "org.junit");
               }
   
               if (pluginVariables != null)
@@ -809,7 +819,7 @@ public class Generator extends CodeGen
                       name = pluginVariable.substring(0, index);
                       id = pluginVariable.substring(index + 1);
                     }
-                    CodeGenUtil.addClasspathEntries(classpathEntries, name, id);
+                    CodeGenUtil.EclipseUtil.addClasspathEntries(classpathEntries, name, id);
                   }
                 }
               }
@@ -850,11 +860,13 @@ public class Generator extends CodeGen
   
         IPath projectRelativePath =  new Path(modelProjectLocation.lastSegment()).append(fragmentPath);
   
-        CodeGenUtil.findOrCreateContainer
+        CodeGenUtil.EclipseUtil.findOrCreateContainer
           (projectRelativePath,
-           true, 
-           modelProjectLocation, 
-           CodeGenUtil.createMonitor(progressMonitor, 1));
+           true,
+           modelProjectLocation,
+           //DMS Why not this?
+           //new SubProgressMonitor(progressMonitor, 1));
+           BasicMonitor.toIProgressMonitor(CodeGenUtil.createMonitor(progressMonitor, 1)));
   
         return projectRelativePath.makeAbsolute().toString();
       }
@@ -879,11 +891,13 @@ public class Generator extends CodeGen
           {
             IPath modelProjectLocation = new Path(rootLocation + "/" + encodedPath.substring(0, index));
     
-            CodeGenUtil.findOrCreateContainer
+            CodeGenUtil.EclipseUtil.findOrCreateContainer
               (projectRelativePath,
                true, 
                modelProjectLocation, 
-               CodeGenUtil.createMonitor(progressMonitor, 1));
+               //DMS Why not this?
+               //new SubProgressMonitor(progressMonitor, 1));
+               BasicMonitor.toIProgressMonitor(CodeGenUtil.createMonitor(progressMonitor, 1)));
     
             return projectRelativePath.makeAbsolute().toString();
           }
