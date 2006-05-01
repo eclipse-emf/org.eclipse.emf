@@ -8,7 +8,9 @@ Bundle-Activator: org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin$Implementatio
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: org.eclipse.emf.codegen.ecore,
+ org.eclipse.emf.codegen.ecore.generator,
  org.eclipse.emf.codegen.ecore.genmodel,
+ org.eclipse.emf.codegen.ecore.genmodel.generator,
  org.eclipse.emf.codegen.ecore.genmodel.impl,
  org.eclipse.emf.codegen.ecore.genmodel.util,
  org.eclipse.emf.codegen.ecore.templates.edit,
