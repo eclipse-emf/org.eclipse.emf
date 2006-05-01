@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.17 2005/12/14 14:55:43 emerks Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.18 2006/05/01 10:40:32 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -22,6 +22,7 @@ import java.util.Iterator;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -30,6 +31,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -42,15 +44,21 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 
+import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
+import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.ui.action.ViewerFilterAction;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -155,6 +163,37 @@ public class GenModelActionBarContributor
    */
   protected IMenuManager generateMenuManager;
 
+  protected IAction generateModelAction = new GenerateAction
+    (GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE,
+     CodeGenEcorePlugin.INSTANCE.getString("_UI_ModelProject_name"),
+     GenModelEditPlugin.INSTANCE.getString("_UI_GenerateModel_menu_item"));
+
+  protected IAction generateEditAction = new GenerateAction
+    (GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE,
+     CodeGenEcorePlugin.INSTANCE.getString("_UI_EditProject_name"),    
+     GenModelEditPlugin.INSTANCE.getString("_UI_GenerateEdit_menu_item"));
+
+  protected IAction generateEditorAction = new GenerateAction
+    (GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE,
+     CodeGenEcorePlugin.INSTANCE.getString("_UI_EditorProject_name"),
+     GenModelEditPlugin.INSTANCE.getString("_UI_GenerateEditor_menu_item"));
+
+  protected IAction generateTestsAction = new GenerateAction
+    (GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE ,
+     CodeGenEcorePlugin.INSTANCE.getString("_UI_TestsProject_name"),
+     GenModelEditPlugin.INSTANCE.getString("_UI_GenerateTests_menu_item"));
+
+  protected IAction generateAllAction = new GenerateAction
+  (new ProjectType[]
+   {
+     new ProjectType(GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, CodeGenEcorePlugin.INSTANCE.getString("_UI_ModelProject_name")),
+     new ProjectType(GenBaseGeneratorAdapter.EDIT_PROJECT_TYPE, CodeGenEcorePlugin.INSTANCE.getString("_UI_EditProject_name")),
+     new ProjectType(GenBaseGeneratorAdapter.EDITOR_PROJECT_TYPE, CodeGenEcorePlugin.INSTANCE.getString("_UI_EditorProject_name")),
+     new ProjectType(GenBaseGeneratorAdapter.TESTS_PROJECT_TYPE, CodeGenEcorePlugin.INSTANCE.getString("_UI_TestsProject_name"))
+   },
+   GenModelEditPlugin.INSTANCE.getString("_UI_GenerateAll_menu_item"));
+
+/*
   protected IAction generateAction = new GenerateAction(GenModelEditPlugin.INSTANCE.getString("_UI_GenerateModel_menu_item"))
   {
     protected boolean canGenerate(GenBase genObject)
@@ -238,10 +277,182 @@ public class GenModelActionBarContributor
       genObject.generateTests(new SubProgressMonitor(progressMonitor, 1));
     }  
   };
+*/
 
   /**
-   * This is a base class for the "Generate..." actions.
+   * This implements the "Generate..." actions.
    */
+  protected class GenerateAction extends Action
+  {
+    ProjectType[] projectTypes;
+    Generator generator;
+
+    public GenerateAction(Object projectType, String projectTypeName, String text)
+    {
+      super(text);
+      this.projectTypes = new ProjectType[] { new ProjectType(projectType, projectTypeName) };
+    }
+
+    public GenerateAction(ProjectType[] projectTypes, String text)
+    {
+      super(text);
+      this.projectTypes = projectTypes;
+    }
+
+    public boolean isEnabled()
+    {
+      if (activeEditorPart instanceof GenModelEditor)
+      {
+        generator = ((GenModelEditor)activeEditorPart).getGenerator();
+      }
+
+      if (generator == null)
+      {
+        return false;
+      }
+
+      ISelection s = getActiveEditorSelection();
+      if (!(s instanceof IStructuredSelection))
+      {
+        return false;
+      }
+
+      IStructuredSelection ss = (IStructuredSelection)s;
+      if (ss.size() == 0)
+      {
+        return false;
+      }
+
+      for (Iterator iter = ss.iterator(); iter.hasNext(); )
+      {
+        Object object = iter.next();
+        boolean canGenerateObject = false;
+
+        for (int i = 0; i < projectTypes.length; i++)
+        {
+          if (generator.canGenerate(object, projectTypes[i].getType()))
+          {
+            canGenerateObject = true;
+          }
+        }
+
+        if (!canGenerateObject)
+        {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    public void run()
+    {
+      // Do the work within an operation because this is a long running activity that modifies the workbench.
+      //
+      WorkspaceModifyOperation operation = new WorkspaceModifyOperation()
+      {
+        // This is the method that gets invoked when the operation runs.
+        //
+        protected void execute(IProgressMonitor progressMonitor) throws CoreException
+        {
+          Collection selection = ((IStructuredSelection)getActiveEditorSelection()).toList();
+          progressMonitor.beginTask("", selection.size() * projectTypes.length);
+          try
+          {
+            BasicDiagnostic diagnostic = new BasicDiagnostic(GenModelEditPlugin.ID, 0, getText(), null);
+
+            LOOP:
+            for (Iterator iter = selection.iterator(); iter.hasNext(); )
+            {
+              Object object = iter.next();
+              for (int i = 0; i < projectTypes.length; i++)
+              {
+                diagnostic.add
+                  (generator.generate
+                     (object,
+                      projectTypes[i].getType(),
+                      projectTypes[i].getName(),
+                      BasicMonitor.toMonitor(new SubProgressMonitor(progressMonitor, 1))));
+
+                if (!canContinue(diagnostic))
+                {
+                  break LOOP;
+                }
+              }
+            }
+
+            if (diagnostic.getSeverity() != Diagnostic.OK)
+            {
+              final IStatus status = BasicDiagnostic.toIStatus(diagnostic);
+
+              activeEditorPart.getSite().getShell().getDisplay().asyncExec
+                (new Runnable()
+                 {
+                   public void run()
+                   {
+                     ErrorDialog.openError
+                       (activeEditorPart.getSite().getShell(), 
+                        GenModelEditPlugin.INSTANCE.getString("_UI_GenerationProblems_title"),
+                        GenModelEditPlugin.INSTANCE.getString("_UI_GenerationProblems_message"),
+                        status);              
+                   }
+                 });
+              
+            }
+          }
+          catch (Exception exception)
+          {
+            GenModelEditPlugin.INSTANCE.log(exception);
+          }
+          progressMonitor.done();
+        }
+
+        // Stop only on cancel.
+        //
+        protected boolean canContinue(Diagnostic diagnostic)
+        {
+          return diagnostic.getSeverity() != Diagnostic.CANCEL;
+        }
+      };
+    
+      // This runs the options, and shows progress.
+      // (It appears to be a bad thing to fork this onto another thread.)
+      //
+      try
+      {
+        new ProgressMonitorDialog(activeEditorPart.getSite().getShell()).run(true, true, operation);
+      }
+      catch (Exception exception)
+      {
+        // Something went wrong that shouldn't.
+        //
+        GenModelEditPlugin.INSTANCE.log(exception);
+      }
+    } 
+  }
+
+  protected static class ProjectType
+  {
+    protected Object type;
+    protected String name;
+
+    public ProjectType(Object type, String name)
+    {
+      this.type = type;
+      this.name = name;
+    }
+
+    public Object getType()
+    {
+      return type;
+    }
+
+    public String getName()
+    {
+      return name;
+    }
+  }
+
+/*
   protected abstract class GenerateAction extends Action
   {
     public GenerateAction(String text)
@@ -318,7 +529,8 @@ public class GenModelActionBarContributor
       }
     } 
   }
-  
+*/
+
   protected ViewerFilterAction showGenAnnotationsAction = new ViewerFilterAction(GenModelEditPlugin.INSTANCE.getString("_UI_ShowGenAnnotation_menu_item"), IAction.AS_CHECK_BOX)
   {
     public boolean select(Viewer viewer, Object parentElement, Object element)
@@ -491,7 +703,7 @@ public class GenModelActionBarContributor
     generateMenuManager = 
       new MenuManager(GenModelEditPlugin.INSTANCE.getString("_UI_Generate_menu"), "org.eclipse.emf.codegen.ecore.genmodelMenuID");
     menuManager.insertAfter("additions", generateMenuManager);
-    generateMenuManager.add(generateAction);
+    generateMenuManager.add(generateModelAction);
     generateMenuManager.add(generateEditAction);
     generateMenuManager.add(generateEditorAction);
     generateMenuManager.add(generateTestsAction);
@@ -584,7 +796,7 @@ public class GenModelActionBarContributor
     generateTestsAction.setEnabled(generateTestsAction.isEnabled());
     generateEditorAction.setEnabled(generateEditorAction.isEnabled());
     generateEditAction.setEnabled(generateEditAction.isEnabled());
-    generateAction.setEnabled(generateAction.isEnabled());
+    generateModelAction.setEnabled(generateModelAction.isEnabled());
     refreshViewerAction.setEnabled(refreshViewerAction.isEnabled());
     
     super.menuAboutToShow(menuManager);
@@ -594,7 +806,7 @@ public class GenModelActionBarContributor
     menuManager.insertAfter("generate-actions", generateTestsAction);
     menuManager.insertAfter("generate-actions", generateEditorAction);
     menuManager.insertAfter("generate-actions", generateEditAction);
-    menuManager.insertAfter("generate-actions", generateAction);
+    menuManager.insertAfter("generate-actions", generateModelAction);
 
     // menuManager.insertBefore("additions", new Separator("schema-actions"));
     // menuManager.insertAfter("schema-actions", generateSchemaAction);
