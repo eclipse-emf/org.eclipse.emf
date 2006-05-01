@@ -11,6 +11,7 @@ Export-Package: org.eclipse.emf.common.ui,
  org.eclipse.emf.common.ui.action,
  org.eclipse.emf.common.ui.celleditor,
  org.eclipse.emf.common.ui.dialogs,
+ org.eclipse.emf.common.ui.editor,
  org.eclipse.emf.common.ui.viewer
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui;visibility:=reexport,
