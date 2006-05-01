@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBase.java,v 1.9 2005/12/08 05:18:24 marcelop Exp $
+ * $Id: GenBase.java,v 1.10 2006/05/01 10:26:45 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -42,7 +42,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface GenBase extends EObject{
+public interface GenBase extends EObject { //, Generator {
   /**
    * Returns the value of the '<em><b>Gen Annotations</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation}.
@@ -82,31 +82,106 @@ public interface GenBase extends EObject{
   String format(String name, char separator, String prefix, boolean includePrefix);
 
   boolean canGenerate();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void generate(Monitor progressMonitor);
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void gen(Monitor progressMonitor);
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void generate(IProgressMonitor progressMonitor);
 
   //
   // EMFEdit generation
   //
   boolean canGenerateEdit();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void generateEdit(Monitor progressMonitor);
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void genEdit(Monitor progressMonitor);
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void generateEdit(IProgressMonitor progressMonitor);
 
   boolean canGenerateEditor();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void generateEditor(Monitor progressMonitor);
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void genEditor(Monitor progressMonitor);
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void generateEditor(IProgressMonitor progressMonitor);
 
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   boolean canGenerateSchema();
+
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   void generateSchema(Monitor progressMonitor);
+
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   void genSchema(Monitor progressMonitor);
+
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   void generateSchema(IProgressMonitor progressMonitor);
 
   boolean canGenerateTests();
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void generateTests(Monitor progressMonitor);
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void genTests(Monitor progressMonitor);
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   void generateTests(IProgressMonitor progressMonitor);
 
   boolean reconcile();
