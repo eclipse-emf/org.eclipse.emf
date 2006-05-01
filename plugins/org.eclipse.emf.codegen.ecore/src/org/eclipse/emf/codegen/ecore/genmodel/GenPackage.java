@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.24 2006/05/01 10:29:15 davidms Exp $
+ * $Id: GenPackage.java,v 1.25 2006/05/01 17:54:38 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -748,7 +748,6 @@ public interface GenPackage extends GenBase
 
   void initialize(EPackage ePackage);
 
-  //DMS Should this be on GenBase()? Should it be called pre/postGenerate(), to match GeneratorAdapter, or...?
   void prepareCache();
   void clearCache();
 
