@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.66 2006/04/11 12:01:12 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.67 2006/05/01 10:35:52 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1380,25 +1380,42 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     importManager.addPseudoImport(qualifiedName);
   }
 
-  protected ImportManager getImportManager()
+  public ImportManager getImportManager()
   {
     return importManager;
   }
 
-  protected void setImportManager(ImportManager importManager)
+  public void setImportManager(ImportManager importManager)
   {
     this.importManager = importManager;
 
+    // We also need to set it on any GenModels holding any used or static packages that may be refered to.
+    //
     for (Iterator iter = getUsedGenPackages().iterator(); iter.hasNext(); )
     {
-      GenBaseImpl genPackage = (GenBaseImpl)iter.next();
-      genPackage.setImportManager(importManager); //FB TBD need to rethink the GenModel role
+      GenPackage genPackage = (GenPackage)iter.next();
+      genPackage.getGenModel().setImportManager(importManager);
     }
 
     for (Iterator iter = getStaticGenPackages().iterator(); iter.hasNext(); )
     {
-      GenBaseImpl genPackage = (GenBaseImpl)iter.next();
-      genPackage.setImportManager(importManager); //FB TBD need to rethink the GenModel role
+      GenPackage genPackage = (GenPackage)iter.next();
+      genPackage.getGenModel().setImportManager(importManager);
+    }
+
+    // And we need to set it on any cached GenModels holding the special Ecore and XML packages.
+    //
+    if (ecoreGenPackage != null && ecoreGenPackage.getGenModel().getImportManager() != importManager)
+    {
+      ecoreGenPackage.getGenModel().setImportManager(importManager);
+    }
+    if (xmlTypeGenPackage != null && xmlTypeGenPackage.getGenModel().getImportManager() != importManager)
+    {
+      xmlTypeGenPackage.getGenModel().setImportManager(importManager);
+    }
+    if (xmlNamespaceGenPackage != null && xmlNamespaceGenPackage.getGenModel().getImportManager() != importManager)
+    {
+      xmlNamespaceGenPackage.getGenModel().setImportManager(importManager);
     }
   }
 
@@ -1479,49 +1496,202 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
 
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String jControlModelName = "emf-merge.xml";
 
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String interfaceTemplateName = "model/Interface.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String classTemplateName = "model/Class.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String enumClassTemplateName = "model/EnumClass.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String packageClassTemplateName = "model/PackageClass.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String factoryInterfaceTemplateName = "model/FactoryInterface.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String factoryClassTemplateName = "model/FactoryClass.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String adapterFactoryClassTemplateName = "model/AdapterFactoryClass.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String switchClassTemplateName = "model/SwitchClass.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String validatorSwitchClassTemplateName = "model/ValidatorClass.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String xmlProcessorClassTemplateName = "model/XMLProcessorClass.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String pluginXMLTemplateName = "model/plugin.xmljet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String manifestMFTemplateName = "model/manifest.mfjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String pluginPropertiesTemplateName = "model/plugin.propertiesjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String buildPropertiesTemplateName = "model/build.propertiesjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String modelPluginTemplateName = "model/Plugin.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String resourceTemplateName = "model/ResourceClass.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String resourceFactoryTemplateName = "model/ResourceFactoryClass.javajet";
 
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String [] templatePath = null;
 
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JControlModel jControlModel = null;
 
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter interfaceEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter classEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter enumClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter packageInterfaceEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter packageClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter factoryInterfaceEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter factoryClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter adapterFactoryClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter switchClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter validatorSwitchClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter xmlProcessorClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter pluginXMLEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter manifestMFEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter pluginPropertiesEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter buildPropertiesEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter modelPluginClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter resourceClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter resourceFactoryClassEmitter = null;
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} provides an
+   * equivalent way to obtain this information. This method will be removed after 2.2.
+   */
   protected String [] getTemplatePath()
   {
     if (templatePath == null)
@@ -1538,12 +1708,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     templatePath[1] =  CodeGenEcorePlugin.INSTANCE.getBaseURL().toString() + "templates";
     return templatePath;
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} provides an
+   * equivalent way to obtain this information. This method will be removed after 2.2.
+   */
   public String getMergeRulesLocation()
   {
     return JETCompiler.find(getTemplatePath(), jControlModelName);
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} provides an equivalent to this method.
+   * This method will be removed after 2.2.
+   */
   public JControlModel getJControlModel()
   {
     if (jControlModel == null)
@@ -1553,7 +1733,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return jControlModel;
   }
 
+  /**
+   * @deprecated in EMF 2.2. This field will be removed after 2.2.
+   */
   public static final Class [] OBJECT_ARGUMENT = new Class [ ] { Object.class };
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public void setMethod(JETEmitter jetEmitter, String className)
   {
     if (!isDynamicTemplates())
@@ -1572,6 +1761,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   protected JETEmitter createJETEmitter(String relativeTemplateURI)
   {
     JETEmitter jetEmitter = 
@@ -1589,6 +1783,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return jetEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   protected void addClasspathEntries(JETEmitter jetEmitter) throws JETException
   {
     jetEmitter.addVariable("EMF_CODEGEN", "org.eclipse.emf.codegen");
@@ -1597,6 +1796,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     jetEmitter.addVariable("EMF_ECORE", "org.eclipse.emf.ecore");
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getClassEmitter()
   {
     if (classEmitter == null)
@@ -1605,8 +1809,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(classEmitter, "org.eclipse.emf.codegen.ecore.templates.model.Class");
     }
     return classEmitter;
-  } 
+  }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEnumClassEmitter()
   {
     if (enumClassEmitter == null)
@@ -1615,8 +1824,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(enumClassEmitter, "org.eclipse.emf.codegen.ecore.templates.model.EnumClass");
     }
     return enumClassEmitter;
-  } 
+  }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getFactoryClassEmitter()
   {
     if (factoryClassEmitter == null)
@@ -1625,8 +1839,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(factoryClassEmitter, "org.eclipse.emf.codegen.ecore.templates.model.FactoryClass");
     }
     return factoryClassEmitter;
-  } 
+  }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getPackageClassEmitter()
   {
     if (packageClassEmitter == null)
@@ -1635,8 +1854,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(packageClassEmitter, "org.eclipse.emf.codegen.ecore.templates.model.PackageClass");
     }
     return packageClassEmitter;
-  } 
+  }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getAdapterFactoryClassEmitter()
   {
     if (adapterFactoryClassEmitter == null)
@@ -1645,8 +1869,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(adapterFactoryClassEmitter, "org.eclipse.emf.codegen.ecore.templates.model.AdapterFactoryClass");
     }
     return adapterFactoryClassEmitter;
-  } 
+  }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getSwitchClassEmitter()
   {
     if (switchClassEmitter == null)
@@ -1655,8 +1884,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       setMethod(switchClassEmitter, "org.eclipse.emf.codegen.ecore.templates.model.SwitchClass");
     }
     return switchClassEmitter;
-  } 
+  }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getValidatorClassEmitter()
   {
     if (validatorSwitchClassEmitter == null)
@@ -1667,6 +1901,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return validatorSwitchClassEmitter;
   }
   
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getXMLProcessorClassEmitter()
   {
     if (xmlProcessorClassEmitter == null)
@@ -1677,6 +1916,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return xmlProcessorClassEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getPluginXMLEmitter()
   {
     if (pluginXMLEmitter == null)
@@ -1687,6 +1931,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return pluginXMLEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getManifestMFEmitter()
   {
     if (manifestMFEmitter == null)
@@ -1697,6 +1946,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return manifestMFEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getPluginPropertiesEmitter()
   {
     if (pluginPropertiesEmitter == null)
@@ -1707,6 +1961,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return pluginPropertiesEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getBuildPropertiesEmitter()
   {
     if (buildPropertiesEmitter == null)
@@ -1717,6 +1976,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return buildPropertiesEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getModelPluginClassEmitter()
   {
     if (modelPluginClassEmitter == null)
@@ -1727,6 +1991,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return modelPluginClassEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getResourceClassEmitter()
   {
     if (resourceClassEmitter == null)
@@ -1737,6 +2006,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return resourceClassEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getResourceFactoryClassEmitter()
   {
     if (resourceFactoryClassEmitter == null)
@@ -1926,6 +2200,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return !isBlank(getModelPluginID());
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generate(Monitor progressMonitor)
   {
     try
@@ -2034,6 +2312,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return canGenerate && hasEditSupport();
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generateEdit(Monitor progressMonitor)
   {
     try
@@ -2136,6 +2418,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return canGenerate && hasEditorSupport();
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
+   * This method will be removed after 2.2.
+   */
   public void generateEditor(Monitor progressMonitor)
   {
     try
@@ -2159,7 +2445,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
            true);
       }
 
-      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPackages"));
+      progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_GeneratingEditorPackages_message"));
       for (Iterator iter = getGenPackages().iterator(); iter.hasNext(); )
       {
         GenPackage genPackage = (GenPackage)iter.next();
@@ -2237,11 +2523,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
   
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   public boolean canGenerateSchema()
   {
     return canGenerate();
   }
   
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   public void generateSchema(Monitor progressMonitor)
   {
     for (Iterator i = getGenPackages().iterator(); i.hasNext();)
@@ -2260,6 +2552,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return canGenerate && hasTestSupport();
   }
 
+  /**
+   * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
+   */
   public void generateTests(Monitor progressMonitor)
   {
     try
@@ -2353,51 +2648,214 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   // EMFEdit generation
   //
 
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String itemProviderTemplateName = "edit/ItemProvider.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String itemProviderAdapterFactoryTemplateName = "edit/ItemProviderAdapterFactory.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editPluginTemplateName = "edit/Plugin.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editPluginXMLTemplateName = "edit/plugin.xmljet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editManifestMFTemplateName = "edit/manifest.mfjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editPluginPropertiesTemplateName = "edit/plugin.propertiesjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editBuildPropertiesTemplateName = "edit/build.propertiesjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String itemGIFName = "edit/Item.gif";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String createChildGIFName = "edit/CreateChild.gif";
 
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editorTemplateName = "editor/Editor.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String actionBarContributorTemplateName = "editor/ActionBarContributor.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String modelWizardTemplateName = "editor/ModelWizard.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String advisorTemplateName = "editor/Advisor.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editorPluginTemplateName = "editor/Plugin.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editorPluginXMLTemplateName = "editor/plugin.xmljet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editorManifestMFTemplateName = "editor/manifest.mfjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editorPluginPropertiesTemplateName = "editor/plugin.propertiesjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String editorBuildPropertiesTemplateName = "editor/build.propertiesjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String modelGIFName = "editor/ModelFile.gif";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String modelWizardGIFName = "editor/NewModel.gif";
 
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter itemProviderEmitter = null;
  //   protected JETEmitter extendedItemProviderEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter itemProviderAdapterFactoryEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editPluginClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editPluginXMLEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editManifestMFEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editPluginPropertiesEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editBuildPropertiesEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected GIFEmitter itemGIFEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected GIFEmitter createChildGIFEmitter = null;
 
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editorEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter actionBarContributorEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter modelWizardEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter advisorEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editorPluginClassEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editorManifestMFEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editorPluginXMLEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editorPluginPropertiesEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter editorBuildPropertiesEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected GIFEmitter modelGIFEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected GIFEmitter modelWizardGIFEmitter = null;
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getItemProviderEmitter()
   {
     if (itemProviderEmitter == null)
@@ -2418,6 +2876,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
  //     return extendedItemProviderEmitter;
  //   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getItemProviderAdapterFactoryEmitter()
   {
     if (itemProviderAdapterFactoryEmitter == null)
@@ -2428,6 +2891,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return itemProviderAdapterFactoryEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditPluginClassEmitter()
   {
     if (editPluginClassEmitter == null)
@@ -2438,6 +2906,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editPluginClassEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditPluginXMLEmitter()
   {
     if (editPluginXMLEmitter == null)
@@ -2448,6 +2921,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editPluginXMLEmitter;
   }
   
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditManifestMFEmitter()
   {
     if (editManifestMFEmitter == null)
@@ -2459,6 +2937,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editManifestMFEmitter;
   }  
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditPluginPropertiesEmitter()
   {
     if (editPluginPropertiesEmitter == null)
@@ -2469,6 +2952,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editPluginPropertiesEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditBuildPropertiesEmitter()
   {
     if (editBuildPropertiesEmitter == null)
@@ -2479,6 +2967,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editBuildPropertiesEmitter;
   }
   
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public GIFEmitter getItemGIFEmitter()
   {
     if (itemGIFEmitter == null)
@@ -2488,6 +2981,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return itemGIFEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public GIFEmitter getCreateChildGIFEmitter()
   {
     if (createChildGIFEmitter == null)
@@ -2497,6 +2995,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return createChildGIFEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public GIFEmitter getModelGIFEmitter()
   {
     if (modelGIFEmitter == null)
@@ -2506,6 +3009,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return modelGIFEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public GIFEmitter getModelWizardGIFEmitter()
   {
     if (modelWizardGIFEmitter == null)
@@ -2515,6 +3023,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return modelWizardGIFEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditorEmitter()
   {
     if (editorEmitter == null)
@@ -2525,6 +3038,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editorEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getActionBarContributorEmitter()
   {
     if (actionBarContributorEmitter == null)
@@ -2535,6 +3053,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return actionBarContributorEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getModelWizardEmitter()
   {
     if (modelWizardEmitter == null)
@@ -2545,6 +3068,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return modelWizardEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditorAdvisorEmitter()
   {
     if (advisorEmitter == null)
@@ -2555,6 +3083,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return advisorEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditorPluginClassEmitter()
   {
     if (editorPluginClassEmitter == null)
@@ -2565,6 +3098,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editorPluginClassEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditorPluginXMLEmitter()
   {
     if (editorPluginXMLEmitter == null)
@@ -2575,6 +3113,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editorPluginXMLEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditorManifestMFEmitter()
   {
     if (editorManifestMFEmitter == null)
@@ -2582,10 +3125,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       editorManifestMFEmitter = createJETEmitter(editorManifestMFTemplateName);
       setMethod(editorManifestMFEmitter, "org.eclipse.emf.codegen.ecore.templates.editor.ManifestMF");
     }
-
     return editorManifestMFEmitter;
   }  
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditorPluginPropertiesEmitter()
   {
     if (editorPluginPropertiesEmitter == null)
@@ -2596,6 +3143,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return editorPluginPropertiesEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getEditorBuildPropertiesEmitter()
   {
     if (editorBuildPropertiesEmitter == null)
@@ -2609,25 +3161,92 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   //
   // Tests generation
   //
-  
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String testCaseTemplateName = "model.tests/TestCase.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String modelTestSuiteTemplateName = "model.tests/ModelTestSuite.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String packageTestSuiteTemplateName = "model.tests/PackageTestSuite.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String packageExampleTemplateName = "model.tests/PackageExample.javajet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String testsPluginXMLTemplateName = "model.tests/plugin.xmljet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String testsManifestMFTemplateName = "model.tests/manifest.mfjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String testsPluginPropertiesTemplateName = "model.tests/plugin.propertiesjet";
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected String testsBuildPropertiesTemplateName = "model.tests/build.propertiesjet";
 
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter testCaseEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter modelTestSuiteEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter packageTestSuiteEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter packageExampleEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter testsPluginXMLEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter testsManifestMFEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter testsPluginPropertiesEmitter = null;
+
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected JETEmitter testsBuildPropertiesEmitter = null;
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getTestCaseEmitter()
   {
     if (testCaseEmitter == null)
@@ -2639,6 +3258,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return testCaseEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getModelTestSuiteEmitter()
   {
     if (modelTestSuiteEmitter == null)
@@ -2650,6 +3274,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return modelTestSuiteEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getPackageTestSuiteEmitter()
   {
     if (packageTestSuiteEmitter == null)
@@ -2660,7 +3289,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
     return packageTestSuiteEmitter;
   }
-  
+
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getPackageExampleEmitter()
   {
     if (packageExampleEmitter == null)
@@ -2668,10 +3302,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       packageExampleEmitter = createJETEmitter(packageExampleTemplateName);
       setMethod(packageExampleEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.PackageExample");
     }
-
     return packageExampleEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getTestsPluginXMLEmitter()
   {
     if (testsPluginXMLEmitter == null)
@@ -2679,10 +3317,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       testsPluginXMLEmitter = createJETEmitter(testsPluginXMLTemplateName);
       setMethod(testsPluginXMLEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.PluginXML");
     }
-
     return testsPluginXMLEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getTestsManifestMFEmitter()
   {
     if (testsManifestMFEmitter == null)
@@ -2690,10 +3332,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       testsManifestMFEmitter = createJETEmitter(testsManifestMFTemplateName);
       setMethod(testsManifestMFEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.ManifestMF");
     }
-
     return testsManifestMFEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getTestsPluginPropertiesEmitter()
   {
     if (testsPluginPropertiesEmitter == null)
@@ -2701,10 +3347,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       testsPluginPropertiesEmitter = createJETEmitter(testsPluginPropertiesTemplateName);
       setMethod(testsPluginPropertiesEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.PluginProperties");
     }
-
     return testsPluginPropertiesEmitter;
   }
 
+  /**
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public JETEmitter getTestsBuildPropertiesEmitter()
   {
     if (testsBuildPropertiesEmitter == null)
@@ -2712,7 +3362,6 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       testsBuildPropertiesEmitter = createJETEmitter(testsBuildPropertiesTemplateName);
       setMethod(testsBuildPropertiesEmitter, "org.eclipse.emf.codegen.ecore.templates.model.tests.BuildProperties");
     }
-
     return testsBuildPropertiesEmitter;
   }
 
@@ -5084,7 +5733,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
 
-  protected String getEditPluginDirectory()
+  public String getEditPluginDirectory()
   {
     String result =  getEditDirectory(); 
     String plugin = null;
@@ -5124,7 +5773,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
 
-  protected String getEditorPluginDirectory()
+  public String getEditorPluginDirectory()
   {
     String result =  getEditorDirectory(); 
     String plugin = null;
@@ -5240,6 +5889,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     String modelName = getModelName();
     return (modelName != null ? getModelName() : "") + "EditorAdvisor";
+  }
+
+  public boolean hasTestSuiteClass()
+  {
+    return !isBlank(getTestSuiteClass());
   }
 
   public String getTestSuitePackageName()
@@ -5939,13 +6593,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
 
+  /**
+   * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
+   */
   protected Map codeFormatterOptions = null;
 
+  /**
+   * Set the code formatter options to be used to {@link #createCodeFormatter create} a new code formatter.
+   *  
+   * @deprecated In EMF 2.2, the {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} should be used to
+   * record code formatter options in order to be used via the new Generator-based design. This method will be removed after 2.2.
+   */
   public void setCodeFormatterOptions(Map options)
   {
     codeFormatterOptions = options;
   }
 
+  /**
+   * Creates and returns a new JDT code formatter.
+   * 
+   * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
+   * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
+   * an equivalent to this method. This method will be removed after 2.2.
+   */
   public CodeFormatter createCodeFormatter()
   {
     return ToolFactory.createCodeFormatter(codeFormatterOptions);
