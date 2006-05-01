@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.9 2006/04/27 15:57:54 marcelop Exp $
+ * $Id: BasicDiagnostic.java,v 1.10 2006/05/01 21:09:48 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -354,39 +354,38 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
    */
   public static Diagnostic toDiagnostic(Throwable throwable)
   {
-    return toDiagnostic(throwable, "org.eclipse.emf.common", 0, throwable.getLocalizedMessage());
-  }
-  
-  /**
-   * Returns the throwable viewed as a {@link Diagnostic}.  If the throwable
-   * is an instanceof {@link DiagnosticException}, the <tt>source</tt>, 
-   * <tt>code</tt> and <tt>message</tt> parameters are not used.
-   * 
-   * @param throwable
-   * @param source
-   * @param code
-   * @param message
-   * @return {@link Diagnostic}
-   */
-  public static Diagnostic toDiagnostic(Throwable throwable, String source, int code, String message)
-  {
     if (throwable instanceof DiagnosticException)
     {
       return ((DiagnosticException)throwable).getDiagnostic();
+    }
+    else if (throwable instanceof WrappedException)
+    {
+      return toDiagnostic(throwable.getCause());
+    }
+    
+    String message = throwable.getClass().getName();
+    int index = message.lastIndexOf('.');
+    if (index >= 0)
+    {
+      message = message.substring(index + 1);
+    }
+    if (throwable.getLocalizedMessage() != null)
+    {
+      message = message + ": " + throwable.getLocalizedMessage();
     }
     
     BasicDiagnostic basicDiagnostic = 
       new BasicDiagnostic
         (Diagnostic.ERROR,
-         source, 
-         code, 
+         "org.eclipse.emf.common", 
+         0, 
          message,
          new Object[] { throwable });
     
     while (throwable.getCause() != null && throwable.getCause() != throwable)
     {
       throwable = throwable.getCause();
-      basicDiagnostic.add(toDiagnostic(throwable, source, code, throwable.getLocalizedMessage()));
+      basicDiagnostic.add(toDiagnostic(throwable));
     }
     
     return basicDiagnostic;
