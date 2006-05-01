@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.7 2005/06/08 06:20:10 nickb Exp $
+ * $Id: ResourceSetImpl.java,v 1.8 2006/05/01 16:22:30 marcelop Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -263,14 +263,55 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     {
       demandLoad(resource);
     }
-    catch (Resource.IOWrappedException exception)
-    {
-      throw new WrappedException(exception.getWrappedException());
-    }
     catch (IOException exception)
     {
-      throw new WrappedException(exception);
+      handleDemandLoadException(resource, exception);
     }    
+  }
+  
+  /**
+   * Handles the exception thrown during demand load 
+   * by recording it as an error diagnostic 
+   * and throwing a wrapping runtime exception.
+   * @param resource the resource that threw an exception while loading.
+   * @param resource the exception thrown from the resource while loading.
+   * @see #demandLoadHelper(Resource)
+   */
+  protected void handleDemandLoadException(Resource resource, IOException exception) throws RuntimeException
+  {
+    final String location = resource.getURI() == null ? null : resource.getURI().toString();
+    class DiagnosticWrappedException extends WrappedException implements Resource.Diagnostic
+    {
+      public DiagnosticWrappedException(Exception exception)
+      {
+        super(exception);
+      }
+
+      public String getLocation()
+      {
+        return location;
+      }
+
+      public int getColumn()
+      {
+        return 0;
+      }
+
+      public int getLine()
+      {
+        return 0;
+      }
+    };
+    
+    Exception cause = exception instanceof Resource.IOWrappedException ? (Exception)exception.getCause() : exception;
+    WrappedException wrappedException = new DiagnosticWrappedException(cause);
+    
+    if (resource.getErrors().isEmpty())
+    {
+      resource.getErrors().add(exception instanceof Resource.Diagnostic ? (Exception)exception : (Exception)wrappedException);
+    }
+    
+    throw wrappedException;
   }
 
   /**
