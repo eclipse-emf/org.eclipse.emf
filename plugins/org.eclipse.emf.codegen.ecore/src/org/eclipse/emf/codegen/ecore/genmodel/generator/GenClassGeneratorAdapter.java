@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassGeneratorAdapter.java,v 1.3 2006/05/01 18:12:17 davidms Exp $
+ * $Id: GenClassGeneratorAdapter.java,v 1.4 2006/05/01 18:14:10 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -97,7 +97,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
          genPackage.getInterfacePackageName(),
          genClass.getInterfaceName(),
          getJETEmitter(getJETEmitterDescriptors(), CLASS_ID),
-         new Object[] { new Object[] { null, genClass, Boolean.TRUE, Boolean.FALSE }},
+         new Object[] { new Object[] { genClass, Boolean.TRUE, Boolean.FALSE }},
          createMonitor(monitor, 1));           
     }
     else
