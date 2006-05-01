@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.22 2006/04/21 20:47:18 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.23 2006/05/01 10:41:09 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -85,8 +85,10 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
 
+import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
+import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
@@ -176,6 +178,8 @@ public class GenModelEditor
    * @generated
    */
   protected ISelection editorSelection = StructuredSelection.EMPTY;
+
+  protected Generator generator;
 
   /**
    * This listens for when the outline becomes active
@@ -405,13 +409,17 @@ public class GenModelEditor
     genModel.setCanGenerate(true);
     validate();
 
+    generator = new Generator();
+    generator.setInput(genModel);
+    JControlModel jControlModel = generator.getJControlModel();
+
     Map options = JavaCore.getOptions();
     String tabSize = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
     String braceStyle = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
     String tabCharacter = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
     if (JavaCore.TAB.equals(tabCharacter))
     {
-       genModel.getJControlModel().setLeadingTabReplacement("\t");
+       jControlModel.setLeadingTabReplacement("\t");
     }
     else
     {
@@ -420,9 +428,9 @@ public class GenModelEditor
       {
         spaces += " ";
       }
-      genModel.getJControlModel().setLeadingTabReplacement(spaces);
+      jControlModel.setLeadingTabReplacement(spaces);
     }
-    genModel.getJControlModel().setConvertToStandardBraceStyle(DefaultCodeFormatterConstants.END_OF_LINE.equals(braceStyle));
+    jControlModel.setConvertToStandardBraceStyle(DefaultCodeFormatterConstants.END_OF_LINE.equals(braceStyle));
   }
 
   /**
@@ -1161,6 +1169,10 @@ public class GenModelEditor
       propertySheetPage.dispose();
     }
 
+    if (generator != null)
+    {
+      generator.dispose();
+    }
     super.dispose();
   }
 
@@ -1177,5 +1189,10 @@ public class GenModelEditor
          "",
          status);
     }
+  }
+
+  public Generator getGenerator()
+  {
+    return generator;
   }
 }
