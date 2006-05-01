@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditUIMarkerHelper.java,v 1.5 2006/05/01 15:56:19 marcelop Exp $
+ * $Id: EditUIMarkerHelper.java,v 1.6 2006/05/01 22:23:52 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.util;
 
@@ -53,12 +53,14 @@ public class EditUIMarkerHelper extends MarkerHelper
     }
     else if (datum instanceof Resource.Diagnostic)
     {
-      return getFile(URI.createURI(((Resource.Diagnostic)datum).getLocation()));
+      String location = ((Resource.Diagnostic)datum).getLocation();
+      if (location != null)
+      {
+        return getFile(URI.createURI(location));
+      }
     }
-    else
-    {
-      return super.getFile(datum);
-    }
+    
+    return super.getFile(datum);
   }
   
   protected void adjustMarker(IMarker marker, Diagnostic diagnostic, Diagnostic parentDiagnostic) throws CoreException
