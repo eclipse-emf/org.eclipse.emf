@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassGeneratorAdapter.java,v 1.1 2006/05/01 10:39:47 davidms Exp $
+ * $Id: GenClassGeneratorAdapter.java,v 1.2 2006/05/01 17:55:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -36,7 +36,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
   protected static final int ITEM_PROVIDER_ID = 1;
   protected static final int TEST_CASE_ID = 2;
 
-  protected static final JETEmitterDescriptor[] JET_EMITTER_DESCRIPTORS =
+  private static final JETEmitterDescriptor[] JET_EMITTER_DESCRIPTORS =
   {
     new JETEmitterDescriptor("model/Class.javajet", "org.eclipse.emf.codegen.ecore.templates.model.Class"),
     new JETEmitterDescriptor("edit/ItemProvider.javajet", "org.eclipse.emf.codegen.ecore.templates.edit.ItemProvider"),
@@ -46,11 +46,21 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
   protected static final int ITEM_ICON_ID = 0;
   protected static final int CREATE_CHILD_ICON_ID = 1;
 
-  protected static final String[] INPUT_PATH_NAMES = { "edit/Item.gif", "edit/CreateChild.gif" };
+  private static final String[] INPUT_PATH_NAMES = { "edit/Item.gif", "edit/CreateChild.gif" };
 
   public GenClassGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
   {
     super(generatorAdapterFactory);
+  }
+
+  protected JETEmitterDescriptor[] getJETEmitterDescriptors()
+  {
+    return JET_EMITTER_DESCRIPTORS;
+  }
+
+  protected String[] getInputPathNames()
+  {
+    return INPUT_PATH_NAMES;
   }
 
   protected Diagnostic generateModel(Object object, Monitor monitor)
@@ -86,7 +96,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getModelDirectory(),
          genPackage.getInterfacePackageName(),
          genClass.getInterfaceName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), CLASS_ID),
          new Object[] { new Object[] { genClass, Boolean.TRUE, Boolean.FALSE }},
          createMonitor(monitor, 1));           
     }
@@ -110,7 +120,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getModelDirectory(),
          genPackage.getClassPackageName(),
          genClass.getClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), CLASS_ID),
          new Object[] { new Object[] { genClass, genModel.isSuppressInterfaces() ? Boolean.TRUE : Boolean.FALSE, Boolean.TRUE }},
          createMonitor(monitor, 1)); 
     }
@@ -148,7 +158,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
       (genClass.getGenModel().getEditDirectory(),
        genClass.getGenPackage().getProviderPackageName(),
        genClass.getProviderClassName(),
-       getJETEmitter(JET_EMITTER_DESCRIPTORS, ITEM_PROVIDER_ID),
+       getJETEmitter(getJETEmitterDescriptors(), ITEM_PROVIDER_ID),
        null,
        createMonitor(monitor, 1)); 
   }
@@ -161,7 +171,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateGIF
         (genClass.getItemIconFileName(),
-         getGIFEmitter(INPUT_PATH_NAMES, ITEM_ICON_ID),
+         getGIFEmitter(getInputPathNames(), ITEM_ICON_ID),
          genClass.getName(),
          null,
          false,
@@ -201,7 +211,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
           monitor.subTask(message);
           generateGIF
             (genClass.getCreateChildIconFileName(feature, childClass),
-             getGIFEmitter(INPUT_PATH_NAMES, CREATE_CHILD_ICON_ID),
+             getGIFEmitter(getInputPathNames(), CREATE_CHILD_ICON_ID),
              genClass.getName(),
              childClass.getName(),
              false,
@@ -241,7 +251,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
       (genClass.getGenModel().getTestsDirectory(),
        genClass.getGenPackage().getTestsPackageName(),
        genClass.getTestCaseClassName(),
-       getJETEmitter(JET_EMITTER_DESCRIPTORS, TEST_CASE_ID),
+       getJETEmitter(getJETEmitterDescriptors(), TEST_CASE_ID),
        null,
        createMonitor(monitor, 1));
   }

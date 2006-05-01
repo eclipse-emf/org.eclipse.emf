@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumGeneratorAdapter.java,v 1.1 2006/05/01 10:39:47 davidms Exp $
+ * $Id: GenEnumGeneratorAdapter.java,v 1.2 2006/05/01 17:55:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -30,7 +30,7 @@ public class GenEnumGeneratorAdapter extends GenBaseGeneratorAdapter
 {
   protected static final int ENUM_CLASS_ID = 0;
 
-  protected static final JETEmitterDescriptor[] JET_EMITTER_DESCRIPTORS =
+  private static final JETEmitterDescriptor[] JET_EMITTER_DESCRIPTORS =
   {
     new JETEmitterDescriptor("model/EnumClass.javajet", "org.eclipse.emf.codegen.ecore.templates.model.EnumClass")
   };
@@ -38,6 +38,11 @@ public class GenEnumGeneratorAdapter extends GenBaseGeneratorAdapter
   public GenEnumGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
   {
     super(generatorAdapterFactory);
+  }
+
+  protected JETEmitterDescriptor[] getJETEmitterDescriptors()
+  {
+    return JET_EMITTER_DESCRIPTORS;
   }
 
   protected Diagnostic generateModel(Object object, Monitor monitor)
@@ -66,7 +71,7 @@ public class GenEnumGeneratorAdapter extends GenBaseGeneratorAdapter
       (genEnum.getGenModel().getModelDirectory(),
        genEnum.getGenPackage().getInterfacePackageName(),
        genEnum.getName(),
-       getJETEmitter(JET_EMITTER_DESCRIPTORS, ENUM_CLASS_ID),
+       getJETEmitter(getJETEmitterDescriptors(), ENUM_CLASS_ID),
        null,
        createMonitor(monitor, 1)); 
   }

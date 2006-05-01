@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapter.java,v 1.1 2006/05/01 10:39:47 davidms Exp $
+ * $Id: GenModelGeneratorAdapter.java,v 1.2 2006/05/01 17:55:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -54,7 +54,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   protected static final int TESTS_PLUGIN_PROPERTIES_ID = 19;
   protected static final int TESTS_BUILD_PROPERTIES_ID = 20;
 
-  protected static final JETEmitterDescriptor[] JET_EMITTER_DESCRIPTORS =
+  private static final JETEmitterDescriptor[] JET_EMITTER_DESCRIPTORS =
   {
     new JETEmitterDescriptor("model/Plugin.javajet", "org.eclipse.emf.codegen.ecore.templates.model.Plugin"),
     new JETEmitterDescriptor("model/manifest.mfjet", "org.eclipse.emf.codegen.ecore.templates.model.ManifestMF"),
@@ -95,6 +95,11 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     return Diagnostic.OK_INSTANCE;
   }
 
+  protected JETEmitterDescriptor[] getJETEmitterDescriptors()
+  {
+    return JET_EMITTER_DESCRIPTORS;
+  }
+
   protected Diagnostic generateModel(Object object, Monitor monitor)
   {
     monitor.beginTask("", 6);
@@ -125,7 +130,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getModelDirectory(),
          genModel.getModelPluginPackageName(),
          genModel.getModelPluginClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, MODEL_PLUGIN_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), MODEL_PLUGIN_CLASS_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -145,7 +150,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         monitor.subTask(message);
         generateText
           (genModel.getModelProjectDirectory() + "/META-INF/MANIFEST.MF",
-           getJETEmitter(JET_EMITTER_DESCRIPTORS, MODEL_MANIFEST_MF_ID),
+           getJETEmitter(getJETEmitterDescriptors(), MODEL_MANIFEST_MF_ID),
            null,
            false,
            MANIFEST_ENCODING,
@@ -160,7 +165,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateText
         (genModel.getModelProjectDirectory() + "/plugin.xml",
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, MODEL_PLUGIN_XML_ID),
+         getJETEmitter(getJETEmitterDescriptors(), MODEL_PLUGIN_XML_ID),
          null,
          false,
          MANIFEST_ENCODING,
@@ -180,7 +185,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateProperties
         (genModel.getModelProjectDirectory() + "/plugin.properties",
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, MODEL_PLUGIN_PROPERTIES_ID),
+         getJETEmitter(getJETEmitterDescriptors(), MODEL_PLUGIN_PROPERTIES_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -198,7 +203,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateText
         (genModel.getModelProjectDirectory() + "/build.properties",
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, MODEL_BUILD_PROPERTIES_ID),
+         getJETEmitter(getJETEmitterDescriptors(), MODEL_BUILD_PROPERTIES_ID),
          null,
          false,
          PROPERTIES_ENCODING,
@@ -240,7 +245,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getEditPluginDirectory(),
          genModel.getEditPluginPackageName(),
          genModel.getEditPluginClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, EDIT_PLUGIN_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), EDIT_PLUGIN_CLASS_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -260,7 +265,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         monitor.subTask(message);
         generateText
           (genModel.getEditProjectDirectory() + "/META-INF/MANIFEST.MF",
-           getJETEmitter(JET_EMITTER_DESCRIPTORS, EDIT_MANIFEST_MF_ID),
+           getJETEmitter(getJETEmitterDescriptors(), EDIT_MANIFEST_MF_ID),
            null,
            false,
            MANIFEST_ENCODING,
@@ -275,7 +280,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateText
         (genModel.getEditProjectDirectory() + "/plugin.xml",
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, EDIT_PLUGIN_XML_ID),
+         getJETEmitter(getJETEmitterDescriptors(), EDIT_PLUGIN_XML_ID),
          null,
          false,
          MANIFEST_ENCODING,
@@ -293,7 +298,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     monitor.subTask(message);
     generateProperties
       (genModel.getEditProjectDirectory() + "/plugin.properties",
-       getJETEmitter(JET_EMITTER_DESCRIPTORS, EDIT_PLUGIN_PROPERTIES_ID),
+       getJETEmitter(getJETEmitterDescriptors(), EDIT_PLUGIN_PROPERTIES_ID),
        null,
        createMonitor(monitor, 1));
   }
@@ -304,7 +309,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     monitor.subTask(message);
     generateText
       (genModel.getEditProjectDirectory() + "/build.properties",
-       getJETEmitter(JET_EMITTER_DESCRIPTORS, EDIT_BUILD_PROPERTIES_ID),
+       getJETEmitter(getJETEmitterDescriptors(), EDIT_BUILD_PROPERTIES_ID),
        null,
        false,
        PROPERTIES_ENCODING,
@@ -340,7 +345,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getEditorPluginDirectory(),
        genModel.getEditorPluginPackageName(),
        genModel.getEditorPluginClassName(),
-       getJETEmitter(JET_EMITTER_DESCRIPTORS, EDITOR_PLUGIN_CLASS_ID),
+       getJETEmitter(getJETEmitterDescriptors(), EDITOR_PLUGIN_CLASS_ID),
        null,
        createMonitor(monitor, 1));
   }
@@ -353,7 +358,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateText
         (genModel.getEditorProjectDirectory() + "/META-INF/MANIFEST.MF",
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, EDITOR_MANIFEST_MF_ID),
+         getJETEmitter(getJETEmitterDescriptors(), EDITOR_MANIFEST_MF_ID),
          null,
          false,
          MANIFEST_ENCODING,
@@ -368,7 +373,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     monitor.subTask(message);
     generateText
       (genModel.getEditorProjectDirectory() + "/plugin.xml",
-       getJETEmitter(JET_EMITTER_DESCRIPTORS, EDITOR_PLUGIN_XML_ID),
+       getJETEmitter(getJETEmitterDescriptors(), EDITOR_PLUGIN_XML_ID),
        null,
        false,
        MANIFEST_ENCODING,
@@ -381,7 +386,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     monitor.subTask(message);
     generateProperties
       (genModel.getEditorProjectDirectory() + "/plugin.properties",
-       getJETEmitter(JET_EMITTER_DESCRIPTORS, EDITOR_PLUGIN_PROPERTIES_ID),
+       getJETEmitter(getJETEmitterDescriptors(), EDITOR_PLUGIN_PROPERTIES_ID),
        null,
        createMonitor(monitor, 1));
   }
@@ -392,7 +397,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     monitor.subTask(message);
     generateText
       (genModel.getEditorProjectDirectory() + "/build.properties",
-       getJETEmitter(JET_EMITTER_DESCRIPTORS, EDITOR_BUILD_PROPERTIES_ID),
+       getJETEmitter(getJETEmitterDescriptors(), EDITOR_BUILD_PROPERTIES_ID),
        null,
        false,
        PROPERTIES_ENCODING,
@@ -410,7 +415,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getEditorPluginDirectory(),
          genModel.getEditorPluginPackageName(),
          genModel.getEditorAdvisorClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, ADVISOR_ID),
+         getJETEmitter(getJETEmitterDescriptors(), ADVISOR_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -450,7 +455,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getTestsDirectory(),
          genModel.getTestSuitePackageName(),
          genModel.getTestSuiteClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, MODEL_TEST_SUITE_ID),
+         getJETEmitter(getJETEmitterDescriptors(), MODEL_TEST_SUITE_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -470,7 +475,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         monitor.subTask(message);
         generateText
           (genModel.getTestsProjectDirectory() + "/META-INF/MANIFEST.MF",
-           getJETEmitter(JET_EMITTER_DESCRIPTORS, TESTS_MANIFEST_MF_ID),
+           getJETEmitter(getJETEmitterDescriptors(), TESTS_MANIFEST_MF_ID),
            null,
            false,
            MANIFEST_ENCODING,
@@ -485,7 +490,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateText
         (genModel.getTestsProjectDirectory() + "/plugin.xml",
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, TESTS_PLUGIN_XML_ID),
+         getJETEmitter(getJETEmitterDescriptors(), TESTS_PLUGIN_XML_ID),
          null,
          false,
          MANIFEST_ENCODING,
@@ -505,7 +510,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateProperties
         (genModel.getTestsProjectDirectory() + "/plugin.properties",
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, TESTS_PLUGIN_PROPERTIES_ID),
+         getJETEmitter(getJETEmitterDescriptors(), TESTS_PLUGIN_PROPERTIES_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -523,7 +528,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateText
         (genModel.getTestsProjectDirectory() + "/build.properties",
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, TESTS_BUILD_PROPERTIES_ID),
+         getJETEmitter(getJETEmitterDescriptors(), TESTS_BUILD_PROPERTIES_ID),
          null,
          false,
          PROPERTIES_ENCODING,

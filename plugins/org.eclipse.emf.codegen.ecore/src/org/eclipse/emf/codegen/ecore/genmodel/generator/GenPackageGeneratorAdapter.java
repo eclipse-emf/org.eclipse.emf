@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.1 2006/05/01 10:39:47 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.2 2006/05/01 17:55:53 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -56,7 +56,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
   protected static final int PACKAGE_TEST_SUITE_ID = 12;
   protected static final int PACKAGE_EXAMPLE_ID = 13;
 
-  protected static final JETEmitterDescriptor[] JET_EMITTER_DESCRIPTORS =
+  private static final JETEmitterDescriptor[] JET_EMITTER_DESCRIPTORS =
   {
     new JETEmitterDescriptor("model/PackageClass.javajet", "org.eclipse.emf.codegen.ecore.templates.model.PackageClass"),
     new JETEmitterDescriptor("model/FactoryClass.javajet", "org.eclipse.emf.codegen.ecore.templates.model.FactoryClass"),
@@ -77,7 +77,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
   protected static final int MODEL_ICON_ID = 0;
   protected static final int MODEL_WIZARD_ICON_ID = 1;
 
-  protected static final String[] INPUT_PATH_NAMES = { "editor/ModelFile.gif", "editor/NewModel.gif" };
+  private static final String[] INPUT_PATH_NAMES = { "editor/ModelFile.gif", "editor/NewModel.gif" };
 
   public GenPackageGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
   {
@@ -127,6 +127,16 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       return Diagnostic.OK_INSTANCE;
     }
     return super.doPreGenerate(object, projectType);
+  }
+
+  protected JETEmitterDescriptor[] getJETEmitterDescriptors()
+  {
+    return JET_EMITTER_DESCRIPTORS;
+  }
+
+  protected String[] getInputPathNames()
+  {
+    return INPUT_PATH_NAMES;
   }
 
   protected Diagnostic generateModel(Object object, Monitor monitor)
@@ -258,7 +268,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getModelDirectory(),
          genPackage.getReflectionPackageName(),
          genPackage.getPackageInterfaceName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, PACKAGE_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), PACKAGE_CLASS_ID),
          new Object[] { new Object[] { genPackage, Boolean.TRUE, Boolean.FALSE }},
          createMonitor(monitor, 1)); 
     }
@@ -281,7 +291,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getModelDirectory(),
          genPackage.getReflectionClassPackageName(),
          genPackage.getPackageClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, PACKAGE_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), PACKAGE_CLASS_ID),
          new Object[]
          {
            new Object[] 
@@ -312,7 +322,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getModelDirectory(),
          genPackage.getReflectionPackageName(), 
          genPackage.getFactoryInterfaceName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, FaCTORY_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), FaCTORY_CLASS_ID),
          new Object[] { new Object[] { genPackage, Boolean.TRUE, Boolean.FALSE }},
          createMonitor(monitor, 1));
     }
@@ -335,7 +345,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getModelDirectory(),
        genPackage.getReflectionClassPackageName(),
        genPackage.getFactoryClassName(),
-       getJETEmitter(JET_EMITTER_DESCRIPTORS, FaCTORY_CLASS_ID),
+       getJETEmitter(getJETEmitterDescriptors(), FaCTORY_CLASS_ID),
        new Object[] { new Object[] { genPackage, genModel.isSuppressInterfaces() ? Boolean.TRUE : Boolean.FALSE, Boolean.TRUE }},
        createMonitor(monitor, 1));
     }
@@ -356,7 +366,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getModelDirectory(),
          genPackage.getUtilitiesPackageName(),
          genPackage.getXMLProcessorClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, XML_PROCESSOR_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), XML_PROCESSOR_CLASS_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -377,7 +387,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getModelDirectory(),
          genPackage.getUtilitiesPackageName(),
          genPackage.getValidatorClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, VALIDATOR_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), VALIDATOR_CLASS_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -398,7 +408,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getModelDirectory(),
          genPackage.getUtilitiesPackageName(),
          genPackage.getSwitchClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, SWITCH_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), SWITCH_CLASS_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -419,7 +429,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getModelDirectory(),
          genPackage.getUtilitiesPackageName(),
          genPackage.getAdapterFactoryClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, ADAPTER_FACTORY_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), ADAPTER_FACTORY_CLASS_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -440,7 +450,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getModelDirectory(),
          genPackage.getUtilitiesPackageName(),
          genPackage.getResourceFactoryClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, RESOURCE_FACTORY_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), RESOURCE_FACTORY_CLASS_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -461,7 +471,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getModelDirectory(),
          genPackage.getUtilitiesPackageName(),
          genPackage.getResourceClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, RESOURCE_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), RESOURCE_CLASS_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -500,7 +510,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getEditDirectory(),
          genPackage.getProviderPackageName(),
          genPackage.getItemProviderAdapterFactoryClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, ITEM_PROVIDER_ADAPTER_FACTORY_ID),
+         getJETEmitter(getJETEmitterDescriptors(), ITEM_PROVIDER_ADAPTER_FACTORY_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -543,7 +553,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getEditorDirectory(),
          genPackage.getPresentationPackageName(),
          genPackage.getEditorClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, EDITOR_ID),
+         getJETEmitter(getJETEmitterDescriptors(), EDITOR_ID),
          null,
          createMonitor(monitor, 1)); 
     }
@@ -564,7 +574,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getEditorDirectory(),
          genPackage.getPresentationPackageName(),
          genPackage.getModelWizardClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, MODEL_WIZARD_ID),
+         getJETEmitter(getJETEmitterDescriptors(), MODEL_WIZARD_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -585,7 +595,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getEditorDirectory(),
          genPackage.getPresentationPackageName(),
          genPackage.getActionBarContributorClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, ACTION_BAR_CONTRIBUTOR_ID),
+         getJETEmitter(getJETEmitterDescriptors(), ACTION_BAR_CONTRIBUTOR_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -604,7 +614,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateGIF
         (genPackage.getModelIconFileName(),
-         getGIFEmitter(INPUT_PATH_NAMES, MODEL_ICON_ID),
+         getGIFEmitter(getInputPathNames(), MODEL_ICON_ID),
          genPackage.getPrefix(),
          null,
          false,
@@ -625,7 +635,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       monitor.subTask(message);
       generateGIF
         (genPackage.getModelWizardIconFileName(),
-         getGIFEmitter(INPUT_PATH_NAMES, MODEL_WIZARD_ICON_ID),
+         getGIFEmitter(getInputPathNames(), MODEL_WIZARD_ICON_ID),
          genPackage.getPrefix(),
          null,
          false,
@@ -667,7 +677,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getTestsDirectory(),
          genPackage.getTestsPackageName(),
          genPackage.getTestSuiteClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, PACKAGE_TEST_SUITE_ID),
+         getJETEmitter(getJETEmitterDescriptors(), PACKAGE_TEST_SUITE_ID),
          null,
          createMonitor(monitor, 1));
     }
@@ -688,7 +698,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genPackage.getGenModel().getTestsDirectory(),
          genPackage.getTestsPackageName(),
          genPackage.getExampleClassName(),
-         getJETEmitter(JET_EMITTER_DESCRIPTORS, PACKAGE_EXAMPLE_ID),
+         getJETEmitter(getJETEmitterDescriptors(), PACKAGE_EXAMPLE_ID),
          null,
          createMonitor(monitor, 1));
     }
