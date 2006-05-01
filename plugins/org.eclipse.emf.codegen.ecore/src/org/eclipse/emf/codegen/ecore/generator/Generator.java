@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.1 2006/05/01 10:25:19 davidms Exp $
+ * $Id: Generator.java,v 1.2 2006/05/01 17:53:48 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -34,8 +34,6 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
-import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -154,71 +152,26 @@ public class Generator
       packageIDToAdapterFactories = new HashMap();
     }
 
-    Collection result = new ArrayList();
-
-    for (Iterator i = getPackageIDs(object).iterator(); i.hasNext(); )
+    String packageID = getPackageID(object);
+    Collection result = (Collection)packageIDToAdapterFactories.get(packageID);
+    if (result == null)
     {
-      String packageID = (String)i.next();
-      Collection adapterFactories = (Collection)packageIDToAdapterFactories.get(packageID);
-      if (adapterFactories == null)
+      Collection descriptors = getAdapterFactoryDescriptorRegistry().getDescriptors(packageID);
+      result = new ArrayList(descriptors.size());
+      for (Iterator i = descriptors.iterator(); i.hasNext(); )
       {
-        Collection descriptors = getAdapterFactoryDescriptorRegistry().getDescriptors(packageID);
-        adapterFactories = new ArrayList(descriptors.size());
-        for (Iterator j = descriptors.iterator(); j.hasNext(); )
-        {
-          GeneratorAdapterFactory adapterFactory = ((GeneratorAdapterFactory.Descriptor)j.next()).createAdapterFactory();
-          adapterFactory.setGenerator(this);
-          adapterFactories.add(adapterFactory);
-        }
-        packageIDToAdapterFactories.put(packageID, adapterFactories);
+        GeneratorAdapterFactory adapterFactory = ((GeneratorAdapterFactory.Descriptor)i.next()).createAdapterFactory();
+        adapterFactory.setGenerator(this);
+        result.add(adapterFactory);
       }
-      result.addAll(adapterFactories);
+      packageIDToAdapterFactories.put(packageID, result);
     }
     return result;
   }
 
-  protected Collection getPackageIDs(Object object)
+  protected String getPackageID(Object object)
   {
-    List result = new UniqueEList();
-
-    if (object instanceof EObject)
-    {
-      EClass eClass = ((EObject)object).eClass();
-      for (Iterator i = eClass.getEAllSuperTypes().iterator(); i.hasNext(); )
-      {
-        result.add(((EClass)i.next()).getEPackage().getNsURI());
-      }
-      result.add(eClass.getEPackage().getNsURI());
-    }
-    else
-    {
-      Class javaClass = object.getClass();
-
-      for (Iterator i = getAllSuperTypes(javaClass).iterator(); i.hasNext(); )
-      {
-        result.add(((Class)i.next()).getPackage().getName());
-      }
-      result.add(javaClass.getPackage().getName());
-    }
-    return result;
-  }
-
-  protected Collection getAllSuperTypes(Class javaClass)
-  {
-    List result = new ArrayList();
-    if (!javaClass.isInterface())
-    {
-      Class superclass = javaClass.getSuperclass();
-      result.add(getAllSuperTypes(superclass));
-      result.add(superclass);
-    }
-    Class[] interfaces = javaClass.getInterfaces();
-    for (int i = 0; i < interfaces.length; i++)
-    {
-      result.add(getAllSuperTypes(interfaces[i]));
-      result.add(interfaces[i]);
-    }
-    return result;
+    return object instanceof EObject ? ((EObject)object).eClass().getEPackage().getNsURI() : object.getClass().getPackage().getName();
   }
 
   protected Collection getAdapters(Object object)
