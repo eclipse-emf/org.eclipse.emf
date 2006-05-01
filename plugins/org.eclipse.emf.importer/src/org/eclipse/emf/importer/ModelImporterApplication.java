@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.16 2005/12/14 07:48:49 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.17 2006/05/01 10:43:07 davidms Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -40,7 +40,7 @@ import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
-import org.eclipse.emf.codegen.util.CodeGenUtil.StreamProgressMonitor;
+import org.eclipse.emf.codegen.util.CodeGenUtil.EclipseUtil.StreamProgressMonitor;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
