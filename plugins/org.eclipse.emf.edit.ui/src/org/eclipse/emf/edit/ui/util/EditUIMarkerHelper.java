@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditUIMarkerHelper.java,v 1.7 2006/05/02 12:43:47 emerks Exp $
+ * $Id: EditUIMarkerHelper.java,v 1.8 2006/05/02 15:01:34 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.util;
 
@@ -117,10 +117,23 @@ public class EditUIMarkerHelper extends MarkerHelper
       }
       return false;
     }
-    else
+    else if (object instanceof Diagnostic)
     {
-      return super.hasMarkers(object, includeSubtypes, depth);
+      List data = ((Diagnostic)object).getData();
+      if (data != null)
+      {
+        for (Iterator i = data.iterator(); i.hasNext(); )
+        {
+          Object datum = i.next();
+          if (datum instanceof ResourceSet)
+          {
+            return hasMarkers(datum, includeSubtypes, depth); 
+          }
+        }
+      }
     }
+    
+    return super.hasMarkers(object, includeSubtypes, depth);
   }
 
   public void deleteMarkers(Object object, boolean includeSubtypes, int depth)
