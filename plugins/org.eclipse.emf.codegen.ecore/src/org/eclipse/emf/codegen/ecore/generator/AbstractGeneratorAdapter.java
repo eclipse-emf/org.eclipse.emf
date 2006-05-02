@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.1 2006/05/01 10:23:59 davidms Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.2 2006/05/02 17:28:27 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -88,6 +88,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   protected String message;
 
   protected JETEmitter[] jetEmitters;
+  protected GIFEmitter[] gifEmitters;
   protected ImportManager importManager;
   protected URIConverter uriConverter;
 
@@ -138,6 +139,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     try
     {
       generatingObject = object;
+      if (getGenerator().getOptions().dynamicTemplates)
+      {
+        jetEmitters = null;
+        gifEmitters = null;
+      }
       return doPreGenerate(object, projectType);
     }
     finally
@@ -190,6 +196,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     try
     {
       generatingObject = object;
+      if (getGenerator().getOptions().dynamicTemplates)
+      {
+        jetEmitters = null;
+        gifEmitters = null;
+      }
       return doPostGenerate(object, projectType);
     }
     finally
@@ -237,14 +248,6 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
   protected JETEmitter getJETEmitter(JETEmitterDescriptor[] jetEmitterDescriptors, int id)
   {
-    // For dynamic templates, we shouldn't cache JETEmitters.
-    //
-    if (getGenerator().getOptions().dynamicTemplates)
-    {
-      jetEmitters = null;
-      return createJETEmitter(jetEmitterDescriptors[id]);
-    }
-
     if (jetEmitters == null)
     {
       jetEmitters = new JETEmitter[jetEmitterDescriptors.length];
@@ -300,18 +303,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   {
   }
 
-  protected GIFEmitter[] gifEmitters;
-
   protected GIFEmitter getGIFEmitter(String[] inputPathNames, int id)
   {
-    // For dynamic templates, we shouldn't cache GIFEmitters.
-    //
-    if (getGenerator().getOptions().dynamicTemplates)
-    {
-      gifEmitters = null;
-      return createGIFEmitter(inputPathNames[id]);
-    }
-
     if (gifEmitters == null)
     {
       gifEmitters = new GIFEmitter[inputPathNames.length];
