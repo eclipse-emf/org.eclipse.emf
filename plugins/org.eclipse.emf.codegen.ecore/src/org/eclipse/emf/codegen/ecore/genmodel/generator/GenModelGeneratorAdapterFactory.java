@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapterFactory.java,v 1.1 2006/05/01 10:39:09 davidms Exp $
+ * $Id: GenModelGeneratorAdapterFactory.java,v 1.2 2006/05/02 17:33:51 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -44,10 +44,10 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
   protected static final String MERGE_RULES_PATH_NAME = "emf-merge.xml";
 
   protected Generator generator;
-  protected GenModelGeneratorAdapter genModelGeneratorAdapter;
-  protected GenPackageGeneratorAdapter genPackageGeneratorAdapter;
-  protected GenClassGeneratorAdapter genClassGeneratorAdapter;
-  protected GenEnumGeneratorAdapter genEnumGeneratorAdapter;
+  protected GenBaseGeneratorAdapter genModelGeneratorAdapter;
+  protected GenBaseGeneratorAdapter genPackageGeneratorAdapter;
+  protected GenBaseGeneratorAdapter genClassGeneratorAdapter;
+  protected GenBaseGeneratorAdapter genEnumGeneratorAdapter;
 
   public GenModelGeneratorAdapterFactory()
   {
