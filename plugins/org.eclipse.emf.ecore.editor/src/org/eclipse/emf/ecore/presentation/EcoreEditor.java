@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.29 2006/05/02 20:27:00 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.30 2006/05/02 20:27:42 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
