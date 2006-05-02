@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.28 2006/05/02 20:03:14 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.29 2006/05/02 20:27:00 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -54,12 +54,12 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ListViewer;
+//import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
 //import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableViewer;
+//import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -246,48 +246,6 @@ public class EcoreEditor
    * @generated
    */
   protected TreeViewer selectionViewer;
-
-  /**
-   * This inverts the roll of parent and child in the content provider and show parents as a tree.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected TreeViewer parentViewer;
-
-  /**
-   * This shows how a tree view works.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected TreeViewer treeViewer;
-
-  /**
-   * This shows how a list view works.
-   * A list viewer doesn't support icons.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected ListViewer listViewer;
-
-  /**
-   * This shows how a table view works.
-   * A table can be used as a list with icons.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected TableViewer tableViewer;
-
-  /**
-   * This shows how a tree view with columns works.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected TreeViewer treeViewerWithColumns;
 
   /**
    * This keeps track of the active viewer pane, in the book.
