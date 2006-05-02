@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.30 2006/05/01 22:22:32 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.31 2006/05/02 12:40:32 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -675,7 +675,13 @@ public class <%=genPackage.getEditorClassName()%>
 	{
 		if (updateProblemIndication)
 		{
-			BasicDiagnostic diagnostic = new BasicDiagnostic();
+			BasicDiagnostic diagnostic =
+				new BasicDiagnostic
+					(Diagnostic.OK,
+					 "<%=genPackage.getGenModel().getEditorPluginID()%>", 
+					 0,
+					 null,
+					 new Object [] { editingDomain.getResourceSet() });
 			for (Iterator i = resourceToDiagnosticMap.values().iterator(); i.hasNext(); )
 			{
 				Diagnostic childDiagnostic = (Diagnostic)i.next();
@@ -1066,12 +1072,12 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			BasicDiagnostic basicDiagnostic =
 				new BasicDiagnostic
-				(Diagnostic.ERROR,
-				 "<%=genPackage.getGenModel().getEditorPluginID()%>", 
-				 0,
-				 getString("_UI_CreateModelError_message", resource.getURI()), 
-				 exception != null ? new Object[] { exception } : null);
-				 basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
+					(Diagnostic.ERROR,
+					 "<%=genPackage.getGenModel().getEditorPluginID()%>", 
+					 0,
+					 getString("_UI_CreateModelError_message", resource.getURI()), 
+					 new Object [] { exception == null ? (Object)resource : exception });
+			basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
 			return basicDiagnostic;
 		}
 		else if (exception != null)
