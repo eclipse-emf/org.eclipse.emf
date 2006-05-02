@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.55 2006/04/26 12:33:59 emerks Exp $
+ * $Id: XMLHandler.java,v 1.56 2006/05/02 09:53:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -588,22 +588,30 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
   }
 
+  protected XMIException toXMIException(SAXParseException e)
+  {
+    XMIException xmiException = 
+      new XMIException
+        (e.getException() == null ? e : e.getException(), 
+         e.getSystemId() == null ? getLocation() : e.getSystemId(), 
+         e.getLineNumber(), 
+         e.getColumnNumber());
+    return xmiException;
+  }
+
   public void warning(SAXParseException e) throws SAXException
   {
-    XMIException xmi = new XMIException(e.getException() == null ? e : e.getException(), e.getSystemId(), e.getLineNumber(), e.getColumnNumber());
-    warning(xmi);
+    warning(toXMIException(e));
   }
 
   public void error(SAXParseException e) throws SAXException
   {
-    XMIException xmi = new XMIException(e.getException() == null ? e : e.getException(), e.getSystemId(), e.getLineNumber(), e.getColumnNumber());
-    error(xmi);
+    error(toXMIException(e));
   }
 
   public void fatalError(SAXParseException e) throws SAXException
   {
-    XMIException xmi = new XMIException(e.getException() == null ? e : e.getException(), e.getSystemId(), e.getLineNumber(), e.getColumnNumber());
-    fatalError(xmi);
+    fatalError(toXMIException(e));
     throw e;
   }
 
@@ -1654,7 +1662,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected String getLocation()
   {
-    return resourceURI == null ? "" : resourceURI.toString();
+    return 
+      locator != null && locator.getSystemId() != null ?
+        locator.getSystemId() :
+        resourceURI == null ? "" : resourceURI.toString();
   }
   
   protected AnyType getExtension(EObject peekObject)
