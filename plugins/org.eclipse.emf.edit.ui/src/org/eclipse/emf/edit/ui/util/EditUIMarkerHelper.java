@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EditUIMarkerHelper.java,v 1.6 2006/05/01 22:23:52 marcelop Exp $
+ * $Id: EditUIMarkerHelper.java,v 1.7 2006/05/02 12:43:47 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.util;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -132,9 +133,23 @@ public class EditUIMarkerHelper extends MarkerHelper
         deleteMarkers(i.next(), includeSubtypes, depth);
       }
     }
-    else
+    else if (object instanceof Diagnostic)
     {
-      super.deleteMarkers(object, includeSubtypes, depth);
+      List data = ((Diagnostic)object).getData();
+      if (data != null)
+      {
+        for (Iterator i = data.iterator(); i.hasNext(); )
+        {
+          Object datum = i.next();
+          if (datum instanceof ResourceSet)
+          {
+            deleteMarkers(datum, includeSubtypes, depth); 
+            return;
+          }
+        }
+      }
     }
+
+    super.deleteMarkers(object, includeSubtypes, depth);
   }  
 }
