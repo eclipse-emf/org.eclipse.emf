@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MarkerHelper.java,v 1.3 2006/05/01 15:55:31 marcelop Exp $
+ * $Id: MarkerHelper.java,v 1.4 2006/05/02 12:41:51 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -25,7 +25,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.part.FileEditorInput;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
@@ -239,4 +241,17 @@ public class MarkerHelper
       }
     }
   }  
+  
+  public IEditorInput getEditorInput(Object object)
+  {
+    IFile file = getFile(object);
+    if (file != null)
+    {
+      return new FileEditorInput(file);
+    }
+    else
+    {
+      return null;
+    }
+  }
 }
