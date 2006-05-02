@@ -12,21 +12,21 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.27 2006/04/21 20:47:15 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.28 2006/05/02 20:03:14 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
-
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -72,14 +72,12 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Point;
 //import org.eclipse.swt.layout.FillLayout;
-
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 //import org.eclipse.swt.widgets.Table;
 //import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
 //import org.eclipse.swt.widgets.TreeColumn;
-
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -107,8 +105,13 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.ui.MarkerHelper;
 import org.eclipse.emf.common.ui.ViewerPane;
+import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
@@ -116,6 +119,8 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -131,7 +136,7 @@ import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-
+import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 /**
@@ -161,6 +166,7 @@ public class EcoreEditor
         EcoreEditorPlugin.INSTANCE.log(exception);
       }
     }
+    
     public void createModel()
     {
       super.createModel();
@@ -168,12 +174,18 @@ public class EcoreEditor
       // Load the schema and packages that were used to load the instance into this resource set.
       //
       ResourceSet resourceSet = editingDomain.getResourceSet();
-      Resource resource = (Resource)resourceSet.getResources().get(0);
-      EObject rootObject = (EObject)resource.getContents().get(0);
-      Resource metaDataResource =  rootObject.eClass().eResource();
-      if (metaDataResource != null && metaDataResource.getResourceSet() != null)
+      if (!resourceSet.getResources().isEmpty())
       {
-        resourceSet.getResources().addAll(metaDataResource.getResourceSet().getResources());
+        Resource resource = (Resource)resourceSet.getResources().get(0);
+        if (!resource.getContents().isEmpty())
+        {
+          EObject rootObject = (EObject)resource.getContents().get(0);
+          Resource metaDataResource =  rootObject.eClass().eResource();
+          if (metaDataResource != null && metaDataResource.getResourceSet() != null)
+          {
+            resourceSet.getResources().addAll(metaDataResource.getResourceSet().getResources());
+          }
+        }
       }
     }
   }
@@ -315,7 +327,16 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ISelection editorSelection= StructuredSelection.EMPTY;
+  protected ISelection editorSelection = StructuredSelection.EMPTY;
+
+  /**
+   * The MarkerHelper is responsible for creating workspace resource markers presented
+   * in Eclipse's Problems View.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected MarkerHelper markerHelper = new EditUIMarkerHelper();
 
   /**
    * This listens for when the outline becomes active
@@ -366,21 +387,83 @@ public class EcoreEditor
 
   /**
    * Resources that have been removed since last activation.
-   * @generated 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
    */
-  Collection removedResources = new ArrayList();
+  protected Collection removedResources = new ArrayList();
 
   /**
    * Resources that have been changed since last activation.
-   * @generated 
-   */
-  Collection changedResources = new ArrayList();
- 
-  /**
-   * Resources that have been saved.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
-  Collection savedResources = new ArrayList();
+  protected Collection changedResources = new ArrayList();
+
+  /**
+   * Resources that have been saved.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected Collection savedResources = new ArrayList();
+  
+  /**
+   * Map to store the diagnostic associated with a resource.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected Map resourceToDiagnosticMap = new LinkedHashMap();
+  
+  /**
+   * Controls whether the problem indication should be updated.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */	
+  protected boolean updateProblemIndication = true;
+
+  /**
+   * Adapter used to update the problem indication when resources are demanded loaded.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */	
+  protected EContentAdapter problemIndicationAdapter = 
+    new EContentAdapter()
+    {
+      public void notifyChanged(Notification notification)
+      {
+        if (notification.getNotifier() instanceof Resource)
+        {
+          switch (notification.getFeatureID(Resource.class))
+          {
+            case Resource.RESOURCE__IS_LOADED:
+            case Resource.RESOURCE__ERRORS:
+            case Resource.RESOURCE__WARNINGS:
+            {
+              Resource resource = (Resource)notification.getNotifier();
+              Diagnostic diagnostic = analyzeResourceProblems((Resource)notification.getNotifier(), null);
+              if (diagnostic.getSeverity() != Diagnostic.OK)
+              {
+                resourceToDiagnosticMap.put(resource, diagnostic);
+              }
+              else
+              {
+                resourceToDiagnosticMap.remove(resource);
+              }
+              updateProblemIndication();
+            }
+          }
+        }
+        else
+        {
+          super.notifyChanged(notification);
+        }
+      }
+    };
 
   /**
    * This listens for workspace changes.
@@ -408,7 +491,7 @@ public class EcoreEditor
               public boolean visit(IResourceDelta delta)
               {
                 if (delta.getFlags() != IResourceDelta.MARKERS &&
-                      delta.getResource().getType() == IResource.FILE)
+                    delta.getResource().getType() == IResource.FILE)
                 {
                   if ((delta.getKind() & (IResourceDelta.CHANGED | IResourceDelta.REMOVED)) != 0)
                   {
@@ -487,6 +570,8 @@ public class EcoreEditor
 
   /**
    * Handles activation of the editor or it's associated views.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    */
   protected void handleActivate()
@@ -525,10 +610,11 @@ public class EcoreEditor
     }
   }
 
-
   /**
    * Handles what to do with changed resources on activation.
-   * @generated 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
    */
   protected void handleChangedResources()
   {
@@ -536,6 +622,7 @@ public class EcoreEditor
     {
       editingDomain.getCommandStack().flush();
 
+      updateProblemIndication = false;
       for (Iterator i = changedResources.iterator(); i.hasNext(); )
       {
         Resource resource = (Resource)i.next();
@@ -548,6 +635,82 @@ public class EcoreEditor
           }
           catch (IOException exception)
           {
+            if (!resourceToDiagnosticMap.containsKey(resource))
+            {
+              resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+            }
+          }
+        }
+      }
+      updateProblemIndication = true;
+      updateProblemIndication();
+    }
+  }
+  
+  /**
+   * Updates the problems indication with the information described in the specified diagnostic.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void updateProblemIndication()
+  {
+    if (updateProblemIndication)
+    {
+      BasicDiagnostic diagnostic =
+        new BasicDiagnostic
+          (Diagnostic.OK,
+           "org.eclipse.emf.ecore.editor", 
+           0,
+           null,
+           new Object [] { editingDomain.getResourceSet() });
+      for (Iterator i = resourceToDiagnosticMap.values().iterator(); i.hasNext(); )
+      {
+        Diagnostic childDiagnostic = (Diagnostic)i.next();
+        if (childDiagnostic.getSeverity() != Diagnostic.OK)
+        {
+          diagnostic.add(childDiagnostic);
+        }
+      }
+      
+      int lastEditorPage = getPageCount() - 1;
+      if (lastEditorPage >= 0 && getEditor(lastEditorPage) instanceof ProblemEditorPart)
+      {
+        ((ProblemEditorPart)getEditor(lastEditorPage)).setDiagnostic(diagnostic);
+        if (diagnostic.getSeverity() != Diagnostic.OK)
+        {
+          setActivePage(lastEditorPage);
+        }
+      }
+      else if (diagnostic.getSeverity() != Diagnostic.OK)
+      {
+        ProblemEditorPart problemEditorPart = new ProblemEditorPart();
+        problemEditorPart.setDiagnostic(diagnostic);
+        problemEditorPart.setMarkerHelper(markerHelper);
+        try
+        {
+          addPage(getPageCount(), problemEditorPart, getEditorInput());
+          lastEditorPage++;
+          setPageText(lastEditorPage, problemEditorPart.getPartName());
+          setActivePage(lastEditorPage);
+        }
+        catch (PartInitException exception)
+        {
+          EcoreEditorPlugin.INSTANCE.log(exception);
+        }
+      }
+
+      if (markerHelper.hasMarkers(editingDomain.getResourceSet()))
+      {
+        markerHelper.deleteMarkers(editingDomain.getResourceSet());
+        if (diagnostic.getSeverity() != Diagnostic.OK)
+        {
+          try
+          {
+            markerHelper.createMarkers(diagnostic);
+          }
+          catch (CoreException exception)
+          {
             EcoreEditorPlugin.INSTANCE.log(exception);
           }
         }
@@ -557,7 +720,9 @@ public class EcoreEditor
 
   /**
    * Shows a dialog that asks if conflicting changes should be discarded.
-   * @generated 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
    */
   protected boolean handleDirtyConflict()
   {
@@ -824,7 +989,7 @@ public class EcoreEditor
     viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
     viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
   }
-  
+
   protected void createContextMenuFor(StructuredViewer viewer)
   {
     createContextMenuForGen(viewer);
@@ -857,23 +1022,21 @@ public class EcoreEditor
    */
   public void createModel()
   {
+    Exception exception = null;
+    Resource resource = null;
     if (getEditorInput() instanceof IFileEditorInput)
     {
-      // I assume that the input is a file object.
-      //
-      IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-      
       editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
-  
+      IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();      
+      URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);
       try
       {
-        // Load the resource through the editing domain.
-        //
-        editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true).toString());
+        resource = editingDomain.getResourceSet().getResource(resourceURI, true);
       }
-      catch (Exception exception)
+      catch (Exception e)
       {
-        EcoreEditorPlugin.INSTANCE.log(exception);
+        exception = e;
+        resource = editingDomain.getResourceSet().getResource(resourceURI, false);
       }
     }
     else
@@ -882,17 +1045,61 @@ public class EcoreEditor
       try
       {
         IStorage storage = storageEditorInput.getStorage();
-        Resource resource = editingDomain.createResource("*.ecore");
+        resource = editingDomain.createResource("*.ecore");
         resource.setURI(URI.createURI(storage.getFullPath().toString()));
         resource.load(storage.getContents(), null);
       }
-      catch (Exception exception)
+      catch (Exception e)
       {
-        EcoreEditorPlugin.INSTANCE.log(exception);
+        exception = e;
       }
     }
+    
+    Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
+    if (diagnostic.getSeverity() != Diagnostic.OK)
+    {
+      resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
+    }
+    editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
   }
-
+  
+  /**
+   * Returns a dignostic describing the errors and warnings listed in the resource
+   * and the specified exception (if any).
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) 
+  {
+    if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty())
+    {
+      BasicDiagnostic basicDiagnostic =
+        new BasicDiagnostic
+          (Diagnostic.ERROR,
+           "org.eclipse.emf.ecore.editor", 
+           0,
+           getString("_UI_CreateModelError_message", resource.getURI()), 
+           new Object [] { exception == null ? (Object)resource : exception });
+      basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
+      return basicDiagnostic;
+    }
+    else if (exception != null)
+    {
+      return
+        new BasicDiagnostic
+          (Diagnostic.ERROR,
+           "org.eclipse.emf.ecore.editor", 
+           0,
+           getString("_UI_CreateModelError_message", resource.getURI()), 
+           new Object[] { exception });
+    }
+    else
+    {
+      return Diagnostic.OK_INSTANCE;
+    }
+  }
+  
   /**
    * This is the method used by the framework to install your own controls.
    * <!-- begin-user-doc -->
@@ -901,11 +1108,17 @@ public class EcoreEditor
    */
   public void createPages()
   {
-    createModel();
-    
-    // Create a page for the selection tree view.
+    // Creates the model from the editor input
     //
+    createModel();
+
+    // Only creates the other pages if there is something that can be edited
+    //
+    if (!getEditingDomain().getResourceSet().getResources().isEmpty() &&
+        !((Resource)getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
     {
+      // Create a page for the selection tree view.
+      //
       ViewerPane viewerPane =
         new ViewerPane(getSite().getPage(), EcoreEditor.this)
         {
@@ -935,24 +1148,29 @@ public class EcoreEditor
       createContextMenuFor(selectionViewer);
       int pageIndex = addPage(viewerPane.getControl());
       setPageText(pageIndex, getString("_UI_SelectionPage_label"));
+
+      setActivePage(0);
     }
     
-    setActivePage(0);
-
+    // Ensures that this editor will only display the page's tab
+    // area if there are more than one page
+    //		
     getContainer().addControlListener
       (new ControlAdapter()
        {
-         boolean guard = false;
-         public void controlResized(ControlEvent event)
-         {
-           if (!guard)
-           {
-             guard = true;
-             hideTabs();
-             guard = false;
-           }
-         }
-       });
+        boolean guard = false;
+        public void controlResized(ControlEvent event)
+        {
+          if (!guard)
+          {
+            guard = true;
+            hideTabs();
+            guard = false;
+          }
+        }
+       });		
+
+    updateProblemIndication();
   }
 
   /**
@@ -1195,29 +1413,30 @@ public class EcoreEditor
         //
         public void execute(IProgressMonitor monitor)
         {
-          try
+          // Save the resources to the file system.
+          //
+          boolean first = true;
+          for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
           {
-            // Save the resources to the file system.
-            //
-            boolean first = true;
-            for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
+            Resource resource = (Resource)i.next();
+            if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
             {
-              Resource resource = (Resource)i.next();
-              if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
+              try
               {
                 savedResources.add(resource);
                 resource.save(Collections.EMPTY_MAP);
               }
+              catch (Exception exception)
+              {
+                resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+              }
               first = false;
             }
-          }
-          catch (Exception exception)
-          {
-            EcoreEditorPlugin.INSTANCE.log(exception);
           }
         }
       };
 
+    updateProblemIndication = false;
     try
     {
       // This runs the options, and shows progress.
@@ -1235,6 +1454,9 @@ public class EcoreEditor
       //
       EcoreEditorPlugin.INSTANCE.log(exception);
     }
+    updateProblemIndication = true;
+    
+    updateProblemIndication();
   }
 
   /**
@@ -1256,8 +1478,9 @@ public class EcoreEditor
         stream.close();
       }
     }
-    catch (IOException e) { }
-
+    catch (IOException e)
+    {
+    }
     return result;
   }
 
@@ -1318,7 +1541,7 @@ public class EcoreEditor
       }
     }
   }
-
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1371,7 +1594,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException, PartInitException
+  public void init(IEditorSite site, IEditorInput editorInput)
   {
     setSite(site);
     setInputWithNotify(editorInput);
