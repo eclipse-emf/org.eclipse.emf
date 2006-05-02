@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProblemEditorPart.java,v 1.2 2006/05/01 22:10:38 marcelop Exp $
+ * $Id: ProblemEditorPart.java,v 1.3 2006/05/02 12:43:04 emerks Exp $
  */
 package org.eclipse.emf.common.ui.editor;
 
@@ -413,7 +413,17 @@ public class ProblemEditorPart extends EditorPart
       try
       {
         IWorkbenchPage workbenchPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-        workbenchPage.openEditor(getEditorInput(), editorToOpen, true, IWorkbenchPage.MATCH_ID);
+        IEditorInput editorInput = getEditorInput();
+        if (markerUtil != null && detailsTreeViewer != null && detailsControl.isVisible())
+        {
+          Diagnostic diagnostic = (Diagnostic)((IStructuredSelection)detailsTreeViewer.getSelection()).getFirstElement();
+          IEditorInput diagnosticEditorInput = markerUtil.getEditorInput(diagnostic);
+          if (diagnosticEditorInput != null)
+          {
+            editorInput = diagnosticEditorInput;
+          }
+        }
+        workbenchPage.openEditor(editorInput, editorToOpen, true, IWorkbenchPage.MATCH_INPUT | IWorkbenchPage.MATCH_ID);
       }
       catch (Exception exception)
       {
@@ -426,7 +436,7 @@ public class ProblemEditorPart extends EditorPart
   {
     if (markerUtil != null)
     {
-      markerUtil.deleteMarkers(getEditorInput());
+      markerUtil.deleteMarkers(diagnostic);
       if (diagnostic.getSeverity() != Diagnostic.OK)
       {
         try
