@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.4 2006/05/03 13:06:27 emerks Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.5 2006/05/03 18:39:12 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -42,7 +42,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 {
   protected static final int PACKAGE_CLASS_ID = 0;
-  protected static final int FaCTORY_CLASS_ID = 1;
+  protected static final int FACTORY_CLASS_ID = 1;
   protected static final int XML_PROCESSOR_CLASS_ID = 2;
   protected static final int VALIDATOR_CLASS_ID = 3;
   protected static final int SWITCH_CLASS_ID = 4;
@@ -322,7 +322,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getModelDirectory(),
          genPackage.getReflectionPackageName(), 
          genPackage.getFactoryInterfaceName(),
-         getJETEmitter(getJETEmitterDescriptors(), FaCTORY_CLASS_ID),
+         getJETEmitter(getJETEmitterDescriptors(), FACTORY_CLASS_ID),
          new Object[] { new Object[] { genPackage, Boolean.TRUE, Boolean.FALSE }},
          createMonitor(monitor, 1));
     }
@@ -345,7 +345,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getModelDirectory(),
        genPackage.getReflectionClassPackageName(),
        genPackage.getFactoryClassName(),
-       getJETEmitter(getJETEmitterDescriptors(), FaCTORY_CLASS_ID),
+       getJETEmitter(getJETEmitterDescriptors(), FACTORY_CLASS_ID),
        new Object[] { new Object[] { genPackage, genModel.isSuppressInterfaces() ? Boolean.TRUE : Boolean.FALSE, Boolean.TRUE }},
        createMonitor(monitor, 1));
     }
