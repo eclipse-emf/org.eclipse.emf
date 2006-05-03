@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLModelWizard.java,v 1.4 2005/06/21 16:16:58 khussey Exp $
+ * $Id: Ecore2XMLModelWizard.java,v 1.5 2006/05/03 20:33:53 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -572,7 +572,7 @@ public class Ecore2XMLModelWizard extends Wizard implements INewWizard
     {
       try
       {
-        return Ecore2XMLUIPlugin.INSTANCE.getString("_UI_" + typeName + "_type"); //$NON-NLS-1$
+        return Ecore2XMLUIPlugin.INSTANCE.getString("_UI_" + typeName + "_type"); //$NON-NLS-1$ //$NON-NLS-2$
       }
       catch(MissingResourceException mre)
       {

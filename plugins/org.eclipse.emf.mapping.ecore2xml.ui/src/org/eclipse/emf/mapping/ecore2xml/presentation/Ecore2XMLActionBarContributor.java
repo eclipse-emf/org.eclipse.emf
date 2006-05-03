@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLActionBarContributor.java,v 1.3 2005/07/21 17:15:39 marcelop Exp $
+ * $Id: Ecore2XMLActionBarContributor.java,v 1.4 2006/05/03 20:33:53 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 
+import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
@@ -175,6 +176,7 @@ public class Ecore2XMLActionBarContributor
   {
     loadResourceAction = new LoadResourceAction();
     validateAction = new ValidateAction();
+    controlAction = new ControlAction();
   }
 
   /**
