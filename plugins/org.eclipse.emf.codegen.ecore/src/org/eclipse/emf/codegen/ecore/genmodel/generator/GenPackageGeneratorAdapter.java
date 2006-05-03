@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.3 2006/05/01 18:12:17 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.4 2006/05/03 13:06:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -531,7 +531,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
     GenModel genModel = genPackage.getGenModel();
     ensureProjectExists
-      (genModel.getEditDirectory(), genPackage, EDITOR_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
+      (genModel.getEditorDirectory(), genPackage, EDITOR_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
     generateEditor(genPackage, monitor);
     generateModelWizard(genPackage, monitor);
@@ -658,7 +658,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
     GenModel genModel = genPackage.getGenModel();
     ensureProjectExists
-      (genModel.getEditDirectory(), genPackage, TESTS_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
+      (genModel.getTestsDirectory(), genPackage, TESTS_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
     generatePackageTestSuite(genPackage, monitor);
     generatePackageExample(genPackage, monitor);
