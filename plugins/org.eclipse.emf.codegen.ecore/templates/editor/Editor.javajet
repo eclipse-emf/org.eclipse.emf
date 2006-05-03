@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.31 2006/05/02 12:40:32 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.32 2006/05/03 20:07:17 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -62,15 +62,17 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
-
 <%if (!genModel.isRichClientPlatform()) {%>
+
 import org.eclipse.emf.common.ui.MarkerHelper;
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
+<%}%>
 
 import org.eclipse.emf.ecore.EObject;
+<%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.emf.ecore.EValidator;
-
 <%}%>
+
 import org.eclipse.emf.ecore.resource.Resource;
 <%if (!genModel.isRichClientPlatform()) {%>
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -478,6 +480,14 @@ public class <%=genPackage.getEditorClassName()%>
 				{
 					super.notifyChanged(notification);
 				}
+			}
+
+			protected void addAdapter(Notifier notifier)
+			{
+				if (!(notifier instanceof EObject))
+				{
+					notifier.eAdapters().add(this);
+				} 
 			}
 		};
 <%if (!genModel.isRichClientPlatform()) {%>
