@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassGeneratorAdapter.java,v 1.4 2006/05/01 18:14:10 davidms Exp $
+ * $Id: GenClassGeneratorAdapter.java,v 1.5 2006/05/03 13:05:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -235,7 +235,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
 
     GenModel genModel = genClass.getGenModel();
     ensureProjectExists
-      (genModel.getEditDirectory(), genClass, TESTS_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
+      (genModel.getTestsDirectory(), genClass, TESTS_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
     generateTestCase(genClass, monitor);
 
