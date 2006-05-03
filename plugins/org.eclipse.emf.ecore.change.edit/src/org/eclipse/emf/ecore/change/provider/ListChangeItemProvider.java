@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeItemProvider.java,v 1.9 2005/11/23 18:09:57 emerks Exp $
+ * $Id: ListChangeItemProvider.java,v 1.10 2006/05/03 19:56:09 davidms Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -193,7 +193,7 @@ public class ListChangeItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/ListChange");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/ListChange"));
   }
 
   /**

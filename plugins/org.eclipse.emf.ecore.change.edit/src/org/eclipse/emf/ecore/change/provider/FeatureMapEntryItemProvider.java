@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryItemProvider.java,v 1.3 2005/11/23 18:09:57 emerks Exp $
+ * $Id: FeatureMapEntryItemProvider.java,v 1.4 2006/05/03 19:56:09 davidms Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -197,7 +197,7 @@ public class FeatureMapEntryItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/FeatureMapEntry");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/FeatureMapEntry"));
   }
 
   /**

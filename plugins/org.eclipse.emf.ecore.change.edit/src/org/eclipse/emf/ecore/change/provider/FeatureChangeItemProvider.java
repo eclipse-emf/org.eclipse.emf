@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeItemProvider.java,v 1.8 2005/11/23 18:09:57 emerks Exp $
+ * $Id: FeatureChangeItemProvider.java,v 1.9 2006/05/03 19:56:09 davidms Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -170,7 +170,7 @@ public class FeatureChangeItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/FeatureChange");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/FeatureChange"));
   }
 
   /**
