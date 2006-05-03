@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryImpl.java,v 1.7 2006/02/10 21:08:04 emerks Exp $
+ * $Id: FeatureMapEntryImpl.java,v 1.8 2006/05/03 20:13:26 davidms Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -44,7 +44,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Feature Map Entry</b></em>'.
- * @extends FeatureMap.Entry
+ * @extends FeatureMap.Entry.Internal
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
