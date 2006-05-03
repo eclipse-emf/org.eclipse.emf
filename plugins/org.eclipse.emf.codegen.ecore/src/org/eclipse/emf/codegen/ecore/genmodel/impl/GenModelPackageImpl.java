@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.33 2006/01/18 20:26:44 marcelop Exp $
+ * $Id: GenModelPackageImpl.java,v 1.34 2006/05/03 21:38:25 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -962,9 +962,9 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_EcorePackage()
+  public EAttribute getGenPackage_MultipleEditorPages()
   {
-    return (EReference)genPackageEClass.getEStructuralFeatures().get(16);
+    return (EAttribute)genPackageEClass.getEStructuralFeatures().get(16);
   }
 
   /**
@@ -972,7 +972,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenModel()
+  public EReference getGenPackage_EcorePackage()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(17);
   }
@@ -982,7 +982,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenEnums()
+  public EReference getGenPackage_GenModel()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(18);
   }
@@ -992,7 +992,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenDataTypes()
+  public EReference getGenPackage_GenEnums()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(19);
   }
@@ -1002,7 +1002,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenClasses()
+  public EReference getGenPackage_GenDataTypes()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(20);
   }
@@ -1012,7 +1012,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_NestedGenPackages()
+  public EReference getGenPackage_GenClasses()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(21);
   }
@@ -1022,9 +1022,19 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getGenPackage_GenClassifiers()
+  public EReference getGenPackage_NestedGenPackages()
   {
     return (EReference)genPackageEClass.getEStructuralFeatures().get(22);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getGenPackage_GenClassifiers()
+  {
+    return (EReference)genPackageEClass.getEStructuralFeatures().get(23);
   }
 
   /**
@@ -1609,6 +1619,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genPackageEClass, GEN_PACKAGE__GENERATE_EXAMPLE_CLASS);
     createEAttribute(genPackageEClass, GEN_PACKAGE__LITERALS_INTERFACE);
     createEAttribute(genPackageEClass, GEN_PACKAGE__DATA_TYPE_CONVERTERS);
+    createEAttribute(genPackageEClass, GEN_PACKAGE__MULTIPLE_EDITOR_PAGES);
     createEReference(genPackageEClass, GEN_PACKAGE__ECORE_PACKAGE);
     createEReference(genPackageEClass, GEN_PACKAGE__GEN_MODEL);
     createEReference(genPackageEClass, GEN_PACKAGE__GEN_ENUMS);
@@ -1793,6 +1804,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenPackage_GenerateExampleClass(), ecorePackage.getEBoolean(), "generateExampleClass", "true", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_LiteralsInterface(), ecorePackage.getEBoolean(), "literalsInterface", "true", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenPackage_DataTypeConverters(), ecorePackage.getEBoolean(), "dataTypeConverters", null, 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenPackage_MultipleEditorPages(), ecorePackage.getEBoolean(), "multipleEditorPages", "true", 0, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenPackage_EcorePackage(), theEcorePackage.getEPackage(), null, "ecorePackage", null, 1, 1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenPackage_GenModel(), this.getGenModel(), this.getGenModel_GenPackages(), "genModel", null, 1, 1, GenPackage.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenPackage_GenEnums(), this.getGenEnum(), null, "genEnums", null, 0, -1, GenPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

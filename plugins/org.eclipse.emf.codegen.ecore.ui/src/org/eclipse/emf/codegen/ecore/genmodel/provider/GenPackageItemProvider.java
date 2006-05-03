@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.19 2005/12/10 13:31:32 emerks Exp $
+ * $Id: GenPackageItemProvider.java,v 1.20 2006/05/03 21:38:26 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -88,6 +88,7 @@ public class GenPackageItemProvider
       addGenerateExampleClassPropertyDescriptor(object);
       addLiteralsInterfacePropertyDescriptor(object);
       addDataTypeConvertersPropertyDescriptor(object);
+      addMultipleEditorPagesPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -430,6 +431,27 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Multiple Editor Pages feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addMultipleEditorPagesPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_multipleEditorPages_feature"),
+         getString("_UI_GenPackage_multipleEditorPages_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES,
+         true,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
+         null));
+  }
+
+  /**
    * This adds a property descriptor for the Ecore Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -534,6 +556,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__GENERATE_EXAMPLE_CLASS:
       case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
       case GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS:
+      case GenModelPackage.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;

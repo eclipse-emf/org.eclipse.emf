@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.32 2006/01/18 20:26:44 marcelop Exp $
+ * $Id: GenModelPackage.java,v 1.33 2006/05/03 21:38:25 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -773,13 +773,22 @@ public interface GenModelPackage extends EPackage
   int GEN_PACKAGE__DATA_TYPE_CONVERTERS = GEN_BASE_FEATURE_COUNT + 15;
 
   /**
+   * The feature id for the '<em><b>Multiple Editor Pages</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_PACKAGE__MULTIPLE_EDITOR_PAGES = GEN_BASE_FEATURE_COUNT + 16;
+
+  /**
    * The feature id for the '<em><b>Ecore Package</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__ECORE_PACKAGE = GEN_BASE_FEATURE_COUNT + 16;
+  int GEN_PACKAGE__ECORE_PACKAGE = GEN_BASE_FEATURE_COUNT + 17;
 
   /**
    * The feature id for the '<em><b>Gen Model</b></em>' container reference.
@@ -788,7 +797,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_MODEL = GEN_BASE_FEATURE_COUNT + 17;
+  int GEN_PACKAGE__GEN_MODEL = GEN_BASE_FEATURE_COUNT + 18;
 
   /**
    * The feature id for the '<em><b>Gen Enums</b></em>' containment reference list.
@@ -797,7 +806,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_ENUMS = GEN_BASE_FEATURE_COUNT + 18;
+  int GEN_PACKAGE__GEN_ENUMS = GEN_BASE_FEATURE_COUNT + 19;
 
   /**
    * The feature id for the '<em><b>Gen Data Types</b></em>' containment reference list.
@@ -806,7 +815,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_DATA_TYPES = GEN_BASE_FEATURE_COUNT + 19;
+  int GEN_PACKAGE__GEN_DATA_TYPES = GEN_BASE_FEATURE_COUNT + 20;
 
   /**
    * The feature id for the '<em><b>Gen Classes</b></em>' containment reference list.
@@ -815,7 +824,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_CLASSES = GEN_BASE_FEATURE_COUNT + 20;
+  int GEN_PACKAGE__GEN_CLASSES = GEN_BASE_FEATURE_COUNT + 21;
 
   /**
    * The feature id for the '<em><b>Nested Gen Packages</b></em>' containment reference list.
@@ -824,7 +833,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__NESTED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 21;
+  int GEN_PACKAGE__NESTED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 22;
 
   /**
    * The feature id for the '<em><b>Gen Classifiers</b></em>' reference list.
@@ -833,7 +842,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 22;
+  int GEN_PACKAGE__GEN_CLASSIFIERS = GEN_BASE_FEATURE_COUNT + 23;
 
   /**
    * The number of structural features of the '<em>Gen Package</em>' class.
@@ -842,7 +851,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 23;
+  int GEN_PACKAGE_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 24;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl <em>Gen Classifier</em>}' class.
@@ -2272,6 +2281,17 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenPackage_DataTypeConverters();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isMultipleEditorPages <em>Multiple Editor Pages</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Multiple Editor Pages</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isMultipleEditorPages()
+   * @see #getGenPackage()
+   * @generated
+   */
+  EAttribute getGenPackage_MultipleEditorPages();
+
+  /**
    * Returns the meta object for the reference '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3455,6 +3475,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_PACKAGE__DATA_TYPE_CONVERTERS = eINSTANCE.getGenPackage_DataTypeConverters();
+
+    /**
+     * The meta object literal for the '<em><b>Multiple Editor Pages</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_PACKAGE__MULTIPLE_EDITOR_PAGES = eINSTANCE.getGenPackage_MultipleEditorPages();
 
     /**
      * The meta object literal for the '<em><b>Ecore Package</b></em>' reference feature.

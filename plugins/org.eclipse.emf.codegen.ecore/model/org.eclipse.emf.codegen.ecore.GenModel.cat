@@ -292,10 +292,10 @@
 		    type       	"boolean"
 		    exportControl 	"Public")
 		(object ClassAttribute "facadeHelperClass"
-		    quid       	    "4396F3050916"
-		    documentation   "The default value must be always equals to JMerger.DEFAULT_FACADE_HELPER_CLASS."
-		    type       	    "String"
-		    initv           "org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper"
+		    quid       	"4396F3050916"
+		    documentation 	"The default value must be always equals to JMerger.DEFAULT_FACADE_HELPER_CLASS."
+		    type       	"String"
+		    initv      	"org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -392,6 +392,11 @@
 		(object ClassAttribute "dataTypeConverters"
 		    quid       	"4391EEE90087"
 		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "multipleEditorPages"
+		    quid       	"44590DC10290"
+		    type       	"boolean"
+		    initv      	"true"
 		    exportControl 	"Public")))
 	(object Class "GenClass"
 	    quid       	"3C1759410016"
@@ -1699,31 +1704,31 @@
 				height     	48
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$12" @56
-		    location   	(690, 280)
+		    location   	(690, 279)
 		    stereotype 	TRUE
 		    quidu      	"3C45AEB6027F"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$13" @57
 			    Parent_View 	@56
-			    location   	(-78, -264)
+			    location   	(-78, -265)
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"3C45AEB80047"
 			    client     	@56
 			    supplier   	@12
 			    vertices   	(list Points
-				(690, 280)
+				(690, 279)
 				(690, 137)
 				(779, 137))
 			    line_style 	3
-			    origin_attachment 	(690, 280)
+			    origin_attachment 	(690, 279)
 			    terminal_attachment 	(779, 137))
 			(object RoleView "usedGenPackages" @58
 			    Parent_View 	@56
-			    location   	(-78, -264)
+			    location   	(-78, -265)
 			    label      	(object SegLabel @59
 				Parent_View 	@58
-				location   	(494, 354)
+				location   	(494, 353)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
@@ -1739,11 +1744,11 @@
 			    client     	@56
 			    supplier   	@43
 			    vertices   	(list Points
-				(690, 280)
+				(690, 279)
 				(690, 447)
 				(754, 447))
 			    line_style 	3
-			    origin_attachment 	(690, 280)
+			    origin_attachment 	(690, 279)
 			    terminal_attachment 	(754, 447)
 			    label      	(object SegLabel @60
 				Parent_View 	@58
@@ -2849,14 +2854,6 @@
 		    line_color 	8421504
 		    fill_color 	13227724
 		    quidu      	"3C176A0701D7"
-		    compartment 	(object Compartment
-			Parent_View 	@153
-			location   	(1175, 91)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	409)
 		    width      	420
 		    height     	186
 		    annotation 	8
@@ -2948,7 +2945,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	2
-			max_width  	390
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ dynamic : boolean"))
 		    width      	402
@@ -3079,8 +3076,8 @@
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	51
-			max_width  	1284
+			nlines     	25
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"
 			    "+ modelDirectory : String"
@@ -3133,7 +3130,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	16
-			max_width  	978
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ prefix : String"
 			    "+ basePackage : String"
@@ -3226,14 +3223,6 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"4373999700A7"
-		    compartment 	(object Compartment
-			Parent_View 	@168
-			location   	(1425, 2584)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	181)
 		    width      	400
 		    height     	292
 		    autoResize 	TRUE)
@@ -3264,14 +3253,6 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D9D6E110209"
-		    compartment 	(object Compartment
-			Parent_View 	@169
-			location   	(2459, 1695)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	112)
 		    width      	380
 		    height     	342
 		    autoResize 	TRUE)
@@ -3341,14 +3322,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"438CC8DB0087"
-		    compartment 	(object Compartment
-			Parent_View 	@175
-			location   	(2058, 2514)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	850)
 		    width      	862
 		    height     	236
 		    annotation 	8
@@ -3458,14 +3431,6 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D8C92B10303"
-		    compartment 	(object Compartment
-			Parent_View 	@183
-			location   	(1706, 248)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	228)
 		    width      	350
 		    height     	292
 		    annotation 	8
@@ -3497,14 +3462,6 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D8C9D820115"
-		    compartment 	(object Compartment
-			Parent_View 	@184
-			location   	(1700, 728)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	228)
 		    width      	362
 		    height     	292
 		    annotation 	8
@@ -3532,7 +3489,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	8
-			max_width  	706
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ creationCommands : boolean = true"
 			    "+ editDirectory : String"
@@ -3562,14 +3519,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759CD00A1"
-		    compartment 	(object Compartment
-			Parent_View 	@186
-			location   	(894, 581)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	8
-			max_width  	715)
 		    width      	726
 		    height     	486
 		    annotation 	8
@@ -3591,14 +3540,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759410016"
-		    compartment 	(object Compartment
-			Parent_View 	@187
-			location   	(984, 178)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	534)
 		    width      	546
 		    height     	236
 		    annotation 	8
@@ -3673,7 +3614,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	2
-			max_width  	712
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ disposableProviderFactory : boolean"))
 		    width      	724

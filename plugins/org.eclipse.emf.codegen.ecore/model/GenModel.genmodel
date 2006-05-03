@@ -169,6 +169,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/literalsInterface"/>
       <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to generate converters for data types in the factory and the resource"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/dataTypeConverters"/>
+      <genFeatures createChild="false" propertyCategory="Editor" propertyDescription="Whether the generated editor should have multiple pages"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenPackage/multipleEditorPages"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this package" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/ecorePackage"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenPackage/genModel"/>
