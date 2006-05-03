@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoItemProvider.java,v 1.5 2005/11/23 18:09:56 emerks Exp $
+ * $Id: XMLInfoItemProvider.java,v 1.6 2006/05/03 20:34:37 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -160,7 +160,7 @@ public class XMLInfoItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/XMLInfo"); //$NON-NLS-1$
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/XMLInfo")); //$NON-NLS-1$
   }
 
   /**

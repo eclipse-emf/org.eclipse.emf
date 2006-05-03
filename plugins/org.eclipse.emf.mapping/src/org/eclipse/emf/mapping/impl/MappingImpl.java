@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingImpl.java,v 1.6 2005/11/25 13:13:14 emerks Exp $
+ * $Id: MappingImpl.java,v 1.7 2006/05/03 20:40:09 davidms Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -209,6 +209,17 @@ public class MappingImpl extends EObjectImpl implements Mapping
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetNestedIn(Mapping newNestedIn, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newNestedIn, MappingPackage.MAPPING__NESTED_IN, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setNestedIn(Mapping newNestedIn)
   {
     if (newNestedIn != eInternalContainer() || (eContainerFeatureID != MappingPackage.MAPPING__NESTED_IN && newNestedIn != null))
@@ -220,7 +231,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
         msgs = eBasicRemoveFromContainer(msgs);
       if (newNestedIn != null)
         msgs = ((InternalEObject)newNestedIn).eInverseAdd(this, MappingPackage.MAPPING__NESTED, Mapping.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newNestedIn, MappingPackage.MAPPING__NESTED_IN, msgs);
+      msgs = basicSetNestedIn(newNestedIn, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -316,7 +327,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
       case MappingPackage.MAPPING__NESTED_IN:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, MappingPackage.MAPPING__NESTED_IN, msgs);
+        return basicSetNestedIn((Mapping)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -335,7 +346,7 @@ public class MappingImpl extends EObjectImpl implements Mapping
       case MappingPackage.MAPPING__NESTED:
         return ((InternalEList)getNested()).basicRemove(otherEnd, msgs);
       case MappingPackage.MAPPING__NESTED_IN:
-        return eBasicSetContainer(null, MappingPackage.MAPPING__NESTED_IN, msgs);
+        return basicSetNestedIn(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingHelperImpl.java,v 1.9 2005/11/25 13:13:14 emerks Exp $
+ * $Id: MappingHelperImpl.java,v 1.10 2006/05/03 20:39:39 davidms Exp $
  */
 package org.eclipse.emf.mapping.impl;
 
@@ -109,6 +109,17 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetMapper(Mapping newMapper, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newMapper, MappingPackage.MAPPING_HELPER__MAPPER, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setMapper(Mapping newMapper)
   {
     if (newMapper != eInternalContainer() || (eContainerFeatureID != MappingPackage.MAPPING_HELPER__MAPPER && newMapper != null))
@@ -120,7 +131,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
         msgs = eBasicRemoveFromContainer(msgs);
       if (newMapper != null)
         msgs = ((InternalEObject)newMapper).eInverseAdd(this, MappingPackage.MAPPING__HELPER, Mapping.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newMapper, MappingPackage.MAPPING_HELPER__MAPPER, msgs);
+      msgs = basicSetMapper(newMapper, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -186,6 +197,17 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetNestedIn(MappingHelper newNestedIn, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newNestedIn, MappingPackage.MAPPING_HELPER__NESTED_IN, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setNestedIn(MappingHelper newNestedIn)
   {
     if (newNestedIn != eInternalContainer() || (eContainerFeatureID != MappingPackage.MAPPING_HELPER__NESTED_IN && newNestedIn != null))
@@ -197,7 +219,7 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
         msgs = eBasicRemoveFromContainer(msgs);
       if (newNestedIn != null)
         msgs = ((InternalEObject)newNestedIn).eInverseAdd(this, MappingPackage.MAPPING_HELPER__NESTED, MappingHelper.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newNestedIn, MappingPackage.MAPPING_HELPER__NESTED_IN, msgs);
+      msgs = basicSetNestedIn(newNestedIn, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -230,11 +252,11 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
       case MappingPackage.MAPPING_HELPER__MAPPER:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, MappingPackage.MAPPING_HELPER__MAPPER, msgs);
+        return basicSetMapper((Mapping)otherEnd, msgs);
       case MappingPackage.MAPPING_HELPER__NESTED_IN:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, MappingPackage.MAPPING_HELPER__NESTED_IN, msgs);
+        return basicSetNestedIn((MappingHelper)otherEnd, msgs);
       case MappingPackage.MAPPING_HELPER__NESTED:
         return ((InternalEList)getNested()).basicAdd(otherEnd, msgs);
     }
@@ -251,9 +273,9 @@ public class MappingHelperImpl extends EObjectImpl implements MappingHelper
     switch (featureID)
     {
       case MappingPackage.MAPPING_HELPER__MAPPER:
-        return eBasicSetContainer(null, MappingPackage.MAPPING_HELPER__MAPPER, msgs);
+        return basicSetMapper(null, msgs);
       case MappingPackage.MAPPING_HELPER__NESTED_IN:
-        return eBasicSetContainer(null, MappingPackage.MAPPING_HELPER__NESTED_IN, msgs);
+        return basicSetNestedIn(null, msgs);
       case MappingPackage.MAPPING_HELPER__NESTED:
         return ((InternalEList)getNested()).basicRemove(otherEnd, msgs);
     }
