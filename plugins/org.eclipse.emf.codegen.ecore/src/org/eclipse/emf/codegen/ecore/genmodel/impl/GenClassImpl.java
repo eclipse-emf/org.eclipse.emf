@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.59 2006/05/01 10:35:06 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.60 2006/05/03 18:40:20 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1945,7 +1945,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public boolean canGenerateEdit()
   {
-    return super.canGenerateEdit() && !isInterface();
+    return super.canGenerateEdit() && !isInterface() && getProvider() != GenProviderKind.NONE_LITERAL;
   }
 
   public boolean canGenerateEditor()
