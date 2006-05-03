@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceValidator.java,v 1.2 2005/11/23 18:10:02 emerks Exp $
+ * $Id: XMLNamespaceValidator.java,v 1.3 2006/05/03 19:30:32 davidms Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.util;
 
@@ -120,7 +120,7 @@ public class XMLNamespaceValidator extends EObjectValidator
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT:
         return validateXMLNamespaceDocumentRoot((XMLNamespaceDocumentRoot)value, diagnostics, context);
       case XMLNamespacePackage.SPACE_TYPE:
-        return validateSpaceType((Object)value, diagnostics, context);
+        return validateSpaceType((SpaceType)value, diagnostics, context);
       case XMLNamespacePackage.LANG_TYPE:
         return validateLangType((String)value, diagnostics, context);
       case XMLNamespacePackage.LANG_TYPE_NULL:
@@ -147,7 +147,7 @@ public class XMLNamespaceValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateSpaceType(Object spaceType, DiagnosticChain diagnostics, Map context)
+  public boolean validateSpaceType(SpaceType spaceType, DiagnosticChain diagnostics, Map context)
   {
     return true;
   }

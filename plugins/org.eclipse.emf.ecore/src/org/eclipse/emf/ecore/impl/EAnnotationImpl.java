@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.11 2006/04/19 20:04:51 emerks Exp $
+ * $Id: EAnnotationImpl.java,v 1.12 2006/05/03 19:30:32 davidms Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -206,7 +206,8 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    */
   public NotificationChain basicSetEModelElement(EModelElement newEModelElement, NotificationChain msgs)
   {
-    return eBasicSetContainer((InternalEObject)newEModelElement, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
+    msgs = eBasicSetContainer((InternalEObject)newEModelElement, EcorePackage.EANNOTATION__EMODEL_ELEMENT, msgs);
+    return msgs;
   }
 
   /**

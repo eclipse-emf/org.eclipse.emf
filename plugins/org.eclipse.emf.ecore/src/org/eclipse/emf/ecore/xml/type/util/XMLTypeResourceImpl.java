@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeResourceImpl.java,v 1.1 2005/12/10 13:31:56 emerks Exp $
+ * $Id: XMLTypeResourceImpl.java,v 1.2 2006/05/03 19:30:32 davidms Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -529,6 +529,74 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
+    public static class AnyTypeStackFrame extends XMLTypeResourceImpl.StackFrame
+    {
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected AnyType theAnyType;
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public void handleAttributes(Attributes attributes)
+      {
+      }
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
+      {
+        return super.startElement(namespace, localName, qName, attributes);
+      }
+
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
+      {
+        super.endElement(child);
+      }
+
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public void create()
+      {
+        theAnyType = XMLTypeFactory.eINSTANCE.createAnyType();
+      }
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected AnyType popAnyType()
+      {
+        pop();
+        AnyType resultAnyTypeValue = theAnyType;
+        theAnyType = null;
+        return resultAnyTypeValue;
+      }
+    
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public SimpleAnyTypeStackFrame pushSimpleAnyType(XMLTypeResourceImpl.StackFrame previous, Attributes attributes)
     {
        SimpleAnyTypeStackFrame resultSimpleAnyType = simpleAnyType == null ? new SimpleAnyTypeStackFrame() : simpleAnyType;
@@ -555,6 +623,74 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
+    public static class SimpleAnyTypeStackFrame extends XMLTypeResourceImpl.StackFrame
+    {
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected SimpleAnyType theSimpleAnyType;
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public void handleAttributes(Attributes attributes)
+      {
+      }
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
+      {
+        return super.startElement(namespace, localName, qName, attributes);
+      }
+
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
+      {
+        super.endElement(child);
+      }
+
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public void create()
+      {
+        theSimpleAnyType = XMLTypeFactory.eINSTANCE.createSimpleAnyType();
+      }
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected SimpleAnyType popSimpleAnyType()
+      {
+        pop();
+        SimpleAnyType resultSimpleAnyTypeValue = theSimpleAnyType;
+        theSimpleAnyType = null;
+        return resultSimpleAnyTypeValue;
+      }
+    
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public XMLTypeDocumentRootStackFrame pushXMLTypeDocumentRoot(XMLTypeResourceImpl.StackFrame previous, Attributes attributes)
     {
        XMLTypeDocumentRootStackFrame resultXMLTypeDocumentRoot = xmlTypeDocumentRoot == null ? new XMLTypeDocumentRootStackFrame() : xmlTypeDocumentRoot;
@@ -574,6 +710,128 @@ public class XMLTypeResourceImpl extends ResourceImpl
       XMLTypeDocumentRoot resultXMLTypeDocumentRootValue = xmlTypeDocumentRoot.popXMLTypeDocumentRoot();
       this.xmlTypeDocumentRoot = xmlTypeDocumentRoot;
       return resultXMLTypeDocumentRootValue;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public static class XMLTypeDocumentRootStackFrame extends XMLTypeResourceImpl.StackFrame
+    {
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected XMLTypeDocumentRoot theXMLTypeDocumentRoot;
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected XMLTypeResourceImpl.DataFrame cDATA;
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected XMLTypeResourceImpl.DataFrame comment;
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected XMLTypeResourceImpl.DataFrame text;
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public void handleAttributes(Attributes attributes)
+      {
+      }
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
+      {
+        if ("cDATA".equals(localName) && "http://www.eclipse.org/emf/2003/XMLType".equals(namespace))
+        {
+          return cDATA = XMLTypeResourceImpl.FrameFactory.INSTANCE.pushString(this, attributes);
+        }
+        else if ("comment".equals(localName) && "http://www.eclipse.org/emf/2003/XMLType".equals(namespace))
+        {
+          return comment = XMLTypeResourceImpl.FrameFactory.INSTANCE.pushString(this, attributes);
+        }
+        else if ("text".equals(localName) && "http://www.eclipse.org/emf/2003/XMLType".equals(namespace))
+        {
+          return text = XMLTypeResourceImpl.FrameFactory.INSTANCE.pushString(this, attributes);
+        }
+        else
+        {
+          return super.startElement(namespace, localName, qName, attributes);
+        }
+      }
+
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
+      {
+        if (child == cDATA)
+        {
+          theXMLTypeDocumentRoot.setCDATA(XMLTypeResourceImpl.FrameFactory.INSTANCE.popString(cDATA));
+          cDATA = null;
+        }
+        else if (child == comment)
+        {
+          theXMLTypeDocumentRoot.setComment(XMLTypeResourceImpl.FrameFactory.INSTANCE.popString(comment));
+          comment = null;
+        }
+        else if (child == text)
+        {
+          theXMLTypeDocumentRoot.setText(XMLTypeResourceImpl.FrameFactory.INSTANCE.popString(text));
+          text = null;
+        }
+        else
+        {
+          super.endElement(child);
+        }
+      }
+
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      public void create()
+      {
+        theXMLTypeDocumentRoot = XMLTypeFactory.eINSTANCE.createXMLTypeDocumentRoot();
+      }
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected XMLTypeDocumentRoot popXMLTypeDocumentRoot()
+      {
+        pop();
+        XMLTypeDocumentRoot resultXMLTypeDocumentRootValue = theXMLTypeDocumentRoot;
+        theXMLTypeDocumentRoot = null;
+        return resultXMLTypeDocumentRootValue;
+      }
+    
     }
 
     /**
@@ -2085,264 +2343,6 @@ public class XMLTypeResourceImpl extends ResourceImpl
     }
 
   }
-
-    /**
-     * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-     * @generated
-     */
-  public static class AnyTypeStackFrame extends XMLTypeResourceImpl.StackFrame
-  {
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    protected AnyType theAnyType;
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public void handleAttributes(Attributes attributes)
-      {
-      }
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
-      {
-        return super.startElement(namespace, localName, qName, attributes);
-      }
-
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
-      {
-        super.endElement(child);
-      }
-
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public void create()
-      {
-        theAnyType = XMLTypeFactory.eINSTANCE.createAnyType();
-      }
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    protected AnyType popAnyType()
-      {
-        pop();
-        AnyType resultAnyTypeValue = theAnyType;
-        theAnyType = null;
-        return resultAnyTypeValue;
-      }
-    
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-     * @generated
-     */
-  public static class SimpleAnyTypeStackFrame extends XMLTypeResourceImpl.StackFrame
-  {
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    protected SimpleAnyType theSimpleAnyType;
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public void handleAttributes(Attributes attributes)
-      {
-      }
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
-      {
-        return super.startElement(namespace, localName, qName, attributes);
-      }
-
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
-      {
-        super.endElement(child);
-      }
-
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public void create()
-      {
-        theSimpleAnyType = XMLTypeFactory.eINSTANCE.createSimpleAnyType();
-      }
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    protected SimpleAnyType popSimpleAnyType()
-      {
-        pop();
-        SimpleAnyType resultSimpleAnyTypeValue = theSimpleAnyType;
-        theSimpleAnyType = null;
-        return resultSimpleAnyTypeValue;
-      }
-    
-    }
-
-    /**
-     * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-     * @generated
-     */
-  public static class XMLTypeDocumentRootStackFrame extends XMLTypeResourceImpl.StackFrame
-  {
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    protected XMLTypeDocumentRoot theXMLTypeDocumentRoot;
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    protected XMLTypeResourceImpl.DataFrame cDATA;
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    protected XMLTypeResourceImpl.DataFrame comment;
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    protected XMLTypeResourceImpl.DataFrame text;
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public void handleAttributes(Attributes attributes)
-      {
-      }
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
-      {
-        if ("cDATA".equals(localName) && "http://www.eclipse.org/emf/2003/XMLType".equals(namespace))
-        {
-          return cDATA = XMLTypeResourceImpl.FrameFactory.INSTANCE.pushString(this, attributes);
-        }
-        else if ("comment".equals(localName) && "http://www.eclipse.org/emf/2003/XMLType".equals(namespace))
-        {
-          return comment = XMLTypeResourceImpl.FrameFactory.INSTANCE.pushString(this, attributes);
-        }
-        else if ("text".equals(localName) && "http://www.eclipse.org/emf/2003/XMLType".equals(namespace))
-        {
-          return text = XMLTypeResourceImpl.FrameFactory.INSTANCE.pushString(this, attributes);
-        }
-        else
-        {
-          return super.startElement(namespace, localName, qName, attributes);
-        }
-      }
-
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
-      {
-        if (child == cDATA)
-        {
-          theXMLTypeDocumentRoot.setCDATA(XMLTypeResourceImpl.FrameFactory.INSTANCE.popString(cDATA));
-          cDATA = null;
-        }
-        else if (child == comment)
-        {
-          theXMLTypeDocumentRoot.setComment(XMLTypeResourceImpl.FrameFactory.INSTANCE.popString(comment));
-          comment = null;
-        }
-        else if (child == text)
-        {
-          theXMLTypeDocumentRoot.setText(XMLTypeResourceImpl.FrameFactory.INSTANCE.popString(text));
-          text = null;
-        }
-        else
-        {
-          super.endElement(child);
-        }
-      }
-
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    public void create()
-      {
-        theXMLTypeDocumentRoot = XMLTypeFactory.eINSTANCE.createXMLTypeDocumentRoot();
-      }
-    
-      /**
-       * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-       * @generated
-       */
-    protected XMLTypeDocumentRoot popXMLTypeDocumentRoot()
-      {
-        pop();
-        XMLTypeDocumentRoot resultXMLTypeDocumentRootValue = theXMLTypeDocumentRoot;
-        theXMLTypeDocumentRoot = null;
-        return resultXMLTypeDocumentRootValue;
-      }
-    
-    }
 
   public static abstract class StackFrame
   {
