@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.28 2006/05/03 20:39:01 davidms Exp $
+ * $Id: XSDSchemaImpl.java,v 1.29 2006/05/03 21:45:32 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2849,7 +2849,11 @@ public class XSDSchemaImpl
                     {
                       deletionNode = (Node)event.getTarget();
                     }
-                    listener.elementContentsChanged((Element)node.getParentNode());
+                    Node parent = node.getParentNode();
+                    if (parent.getNodeType() == Node.ELEMENT_NODE)
+                    {
+                      listener.elementContentsChanged((Element)parent);
+                    }
                     deletionNode = null;
                   }
                 }
