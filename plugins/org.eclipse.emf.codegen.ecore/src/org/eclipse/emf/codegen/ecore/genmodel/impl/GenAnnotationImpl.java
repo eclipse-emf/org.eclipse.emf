@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenAnnotationImpl.java,v 1.2 2005/12/08 05:18:24 marcelop Exp $
+ * $Id: GenAnnotationImpl.java,v 1.3 2006/05/03 18:42:11 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -170,6 +170,17 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetGenBase(GenBase newGenBase, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newGenBase, GenModelPackage.GEN_ANNOTATION__GEN_BASE, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setGenBase(GenBase newGenBase)
   {
     if (newGenBase != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_ANNOTATION__GEN_BASE && newGenBase != null))
@@ -181,7 +192,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenBase != null)
         msgs = ((InternalEObject)newGenBase).eInverseAdd(this, GenModelPackage.GEN_BASE__GEN_ANNOTATIONS, GenBase.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newGenBase, GenModelPackage.GEN_ANNOTATION__GEN_BASE, msgs);
+      msgs = basicSetGenBase(newGenBase, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -228,7 +239,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
       case GenModelPackage.GEN_ANNOTATION__GEN_BASE:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, GenModelPackage.GEN_ANNOTATION__GEN_BASE, msgs);
+        return basicSetGenBase((GenBase)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -245,7 +256,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
       case GenModelPackage.GEN_ANNOTATION__DETAILS:
         return ((InternalEList)getDetails()).basicRemove(otherEnd, msgs);
       case GenModelPackage.GEN_ANNOTATION__GEN_BASE:
-        return eBasicSetContainer(null, GenModelPackage.GEN_ANNOTATION__GEN_BASE, msgs);
+        return basicSetGenBase(null, msgs);
       case GenModelPackage.GEN_ANNOTATION__CONTENTS:
         return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.33 2006/04/19 20:41:34 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.34 2006/05/03 18:42:11 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -472,6 +472,17 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetGenClass(GenClass newGenClass, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newGenClass, GenModelPackage.GEN_FEATURE__GEN_CLASS, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setGenClass(GenClass newGenClass)
   {
     if (newGenClass != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_FEATURE__GEN_CLASS && newGenClass != null))
@@ -483,7 +494,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenClass != null)
         msgs = ((InternalEObject)newGenClass).eInverseAdd(this, GenModelPackage.GEN_CLASS__GEN_FEATURES, GenClass.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newGenClass, GenModelPackage.GEN_FEATURE__GEN_CLASS, msgs);
+      msgs = basicSetGenClass(newGenClass, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -545,7 +556,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, GenModelPackage.GEN_FEATURE__GEN_CLASS, msgs);
+        return basicSetGenClass((GenClass)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -560,7 +571,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     switch (featureID)
     {
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
-        return eBasicSetContainer(null, GenModelPackage.GEN_FEATURE__GEN_CLASS, msgs);
+        return basicSetGenClass(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }

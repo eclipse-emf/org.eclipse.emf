@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.23 2005/12/14 21:40:29 marcelop Exp $
+ * $Id: GenOperationImpl.java,v 1.24 2006/05/03 18:42:11 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -119,6 +119,17 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetGenClass(GenClass newGenClass, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newGenClass, GenModelPackage.GEN_OPERATION__GEN_CLASS, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setGenClass(GenClass newGenClass)
   {
     if (newGenClass != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_OPERATION__GEN_CLASS && newGenClass != null))
@@ -130,7 +141,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenClass != null)
         msgs = ((InternalEObject)newGenClass).eInverseAdd(this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenClass.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newGenClass, GenModelPackage.GEN_OPERATION__GEN_CLASS, msgs);
+      msgs = basicSetGenClass(newGenClass, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -206,7 +217,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       case GenModelPackage.GEN_OPERATION__GEN_CLASS:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, GenModelPackage.GEN_OPERATION__GEN_CLASS, msgs);
+        return basicSetGenClass((GenClass)otherEnd, msgs);
       case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
         return ((InternalEList)getGenParameters()).basicAdd(otherEnd, msgs);
     }
@@ -223,7 +234,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     switch (featureID)
     {
       case GenModelPackage.GEN_OPERATION__GEN_CLASS:
-        return eBasicSetContainer(null, GenModelPackage.GEN_OPERATION__GEN_CLASS, msgs);
+        return basicSetGenClass(null, msgs);
       case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
         return ((InternalEList)getGenParameters()).basicRemove(otherEnd, msgs);
     }

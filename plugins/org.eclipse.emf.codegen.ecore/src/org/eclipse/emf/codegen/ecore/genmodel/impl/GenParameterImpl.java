@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.12 2005/12/14 21:40:29 marcelop Exp $
+ * $Id: GenParameterImpl.java,v 1.13 2006/05/03 18:42:11 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -96,6 +96,17 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetGenOperation(GenOperation newGenOperation, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newGenOperation, GenModelPackage.GEN_PARAMETER__GEN_OPERATION, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setGenOperation(GenOperation newGenOperation)
   {
     if (newGenOperation != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_PARAMETER__GEN_OPERATION && newGenOperation != null))
@@ -107,7 +118,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenOperation != null)
         msgs = ((InternalEObject)newGenOperation).eInverseAdd(this, GenModelPackage.GEN_OPERATION__GEN_PARAMETERS, GenOperation.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newGenOperation, GenModelPackage.GEN_PARAMETER__GEN_OPERATION, msgs);
+      msgs = basicSetGenOperation(newGenOperation, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -169,7 +180,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
       case GenModelPackage.GEN_PARAMETER__GEN_OPERATION:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, GenModelPackage.GEN_PARAMETER__GEN_OPERATION, msgs);
+        return basicSetGenOperation((GenOperation)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -184,7 +195,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
     switch (featureID)
     {
       case GenModelPackage.GEN_PARAMETER__GEN_OPERATION:
-        return eBasicSetContainer(null, GenModelPackage.GEN_PARAMETER__GEN_OPERATION, msgs);
+        return basicSetGenOperation(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenAnnotationItemProvider.java,v 1.1 2005/12/05 20:12:37 marcelop Exp $
+ * $Id: GenAnnotationItemProvider.java,v 1.2 2006/05/03 18:42:07 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -151,7 +151,7 @@ public class GenAnnotationItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/GenAnnotation");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/GenAnnotation"));
   }
 
   /**

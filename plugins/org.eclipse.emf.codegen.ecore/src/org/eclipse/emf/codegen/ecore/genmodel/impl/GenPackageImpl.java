@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.55 2006/05/01 10:35:06 davidms Exp $
+ * $Id: GenPackageImpl.java,v 1.56 2006/05/03 18:42:11 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -980,6 +980,17 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetGenModel(GenModel newGenModel, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newGenModel, GenModelPackage.GEN_PACKAGE__GEN_MODEL, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setGenModel(GenModel newGenModel)
   {
     if (newGenModel != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_PACKAGE__GEN_MODEL && newGenModel != null))
@@ -991,7 +1002,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenModel != null)
         msgs = ((InternalEObject)newGenModel).eInverseAdd(this, GenModelPackage.GEN_MODEL__GEN_PACKAGES, GenModel.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newGenModel, GenModelPackage.GEN_PACKAGE__GEN_MODEL, msgs);
+      msgs = basicSetGenModel(newGenModel, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -1080,7 +1091,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, GenModelPackage.GEN_PACKAGE__GEN_MODEL, msgs);
+        return basicSetGenModel((GenModel)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -1095,7 +1106,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     switch (featureID)
     {
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
-        return eBasicSetContainer(null, GenModelPackage.GEN_PACKAGE__GEN_MODEL, msgs);
+        return basicSetGenModel(null, msgs);
       case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:
         return ((InternalEList)getGenEnums()).basicRemove(otherEnd, msgs);
       case GenModelPackage.GEN_PACKAGE__GEN_DATA_TYPES:

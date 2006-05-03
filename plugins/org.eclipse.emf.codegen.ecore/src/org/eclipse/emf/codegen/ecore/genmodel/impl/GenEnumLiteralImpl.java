@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.11 2005/12/14 21:40:29 marcelop Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.12 2006/05/03 18:42:11 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -93,6 +93,17 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetGenEnum(GenEnum newGenEnum, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newGenEnum, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setGenEnum(GenEnum newGenEnum)
   {
     if (newGenEnum != eInternalContainer() || (eContainerFeatureID != GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM && newGenEnum != null))
@@ -104,7 +115,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
         msgs = eBasicRemoveFromContainer(msgs);
       if (newGenEnum != null)
         msgs = ((InternalEObject)newGenEnum).eInverseAdd(this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenEnum.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newGenEnum, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM, msgs);
+      msgs = basicSetGenEnum(newGenEnum, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -171,7 +182,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
       case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM, msgs);
+        return basicSetGenEnum((GenEnum)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -186,7 +197,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
     switch (featureID)
     {
       case GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM:
-        return eBasicSetContainer(null, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM, msgs);
+        return basicSetGenEnum(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
