@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializerItemProvider.java,v 1.5 2005/11/23 18:10:05 emerks Exp $
+ * $Id: JInitializerItemProvider.java,v 1.6 2006/05/03 20:22:06 davidms Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -102,7 +102,7 @@ public class JInitializerItemProvider
    */
   public Object getImage(Object object)
   {
-    return getResourceLocator().getImage("full/obj16/JInitializer");
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/JInitializer"));
   }
 
   /**

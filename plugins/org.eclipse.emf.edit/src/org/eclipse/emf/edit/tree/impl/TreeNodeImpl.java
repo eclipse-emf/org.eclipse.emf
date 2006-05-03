@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeImpl.java,v 1.7 2005/11/25 13:13:02 emerks Exp $
+ * $Id: TreeNodeImpl.java,v 1.8 2006/05/03 20:18:59 davidms Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -107,6 +107,17 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetParent(TreeNode newParent, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newParent, TreePackage.TREE_NODE__PARENT, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setParent(TreeNode newParent)
   {
     if (newParent != eInternalContainer() || (eContainerFeatureID != TreePackage.TREE_NODE__PARENT && newParent != null))
@@ -118,7 +129,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
         msgs = eBasicRemoveFromContainer(msgs);
       if (newParent != null)
         msgs = ((InternalEObject)newParent).eInverseAdd(this, TreePackage.TREE_NODE__CHILDREN, TreeNode.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newParent, TreePackage.TREE_NODE__PARENT, msgs);
+      msgs = basicSetParent(newParent, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -194,7 +205,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
       case TreePackage.TREE_NODE__PARENT:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, TreePackage.TREE_NODE__PARENT, msgs);
+        return basicSetParent((TreeNode)otherEnd, msgs);
       case TreePackage.TREE_NODE__CHILDREN:
         return ((InternalEList)getChildren()).basicAdd(otherEnd, msgs);
     }
@@ -211,7 +222,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
     switch (featureID)
     {
       case TreePackage.TREE_NODE__PARENT:
-        return eBasicSetContainer(null, TreePackage.TREE_NODE__PARENT, msgs);
+        return basicSetParent(null, msgs);
       case TreePackage.TREE_NODE__CHILDREN:
         return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
     }

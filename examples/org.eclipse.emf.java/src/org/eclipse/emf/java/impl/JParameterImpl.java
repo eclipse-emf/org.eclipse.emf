@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JParameterImpl.java,v 1.6 2005/11/25 13:13:06 emerks Exp $
+ * $Id: JParameterImpl.java,v 1.7 2006/05/03 20:21:04 davidms Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -135,6 +135,17 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetMethod(JMethod newMethod, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newMethod, JavaPackage.JPARAMETER__METHOD, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setMethod(JMethod newMethod)
   {
     if (newMethod != eInternalContainer() || (eContainerFeatureID != JavaPackage.JPARAMETER__METHOD && newMethod != null))
@@ -146,7 +157,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
         msgs = eBasicRemoveFromContainer(msgs);
       if (newMethod != null)
         msgs = ((InternalEObject)newMethod).eInverseAdd(this, JavaPackage.JMETHOD__PARAMETERS, JMethod.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newMethod, JavaPackage.JPARAMETER__METHOD, msgs);
+      msgs = basicSetMethod(newMethod, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -208,7 +219,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
       case JavaPackage.JPARAMETER__METHOD:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, JavaPackage.JPARAMETER__METHOD, msgs);
+        return basicSetMethod((JMethod)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -223,7 +234,7 @@ public class JParameterImpl extends JModelElementImpl implements JParameter
     switch (featureID)
     {
       case JavaPackage.JPARAMETER__METHOD:
-        return eBasicSetContainer(null, JavaPackage.JPARAMETER__METHOD, msgs);
+        return basicSetMethod(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }

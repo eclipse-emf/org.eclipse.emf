@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMemberImpl.java,v 1.6 2005/11/25 13:13:06 emerks Exp $
+ * $Id: JMemberImpl.java,v 1.7 2006/05/03 20:21:01 davidms Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -212,6 +212,17 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetContainingType(JClass newContainingType, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newContainingType, JavaPackage.JMEMBER__CONTAINING_TYPE, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setContainingType(JClass newContainingType)
   {
     if (newContainingType != eInternalContainer() || (eContainerFeatureID != JavaPackage.JMEMBER__CONTAINING_TYPE && newContainingType != null))
@@ -223,7 +234,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
         msgs = eBasicRemoveFromContainer(msgs);
       if (newContainingType != null)
         msgs = ((InternalEObject)newContainingType).eInverseAdd(this, JavaPackage.JCLASS__MEMBERS, JClass.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newContainingType, JavaPackage.JMEMBER__CONTAINING_TYPE, msgs);
+      msgs = basicSetContainingType(newContainingType, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -242,7 +253,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
       case JavaPackage.JMEMBER__CONTAINING_TYPE:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, JavaPackage.JMEMBER__CONTAINING_TYPE, msgs);
+        return basicSetContainingType((JClass)otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -257,7 +268,7 @@ public abstract class JMemberImpl extends JModelElementImpl implements JMember
     switch (featureID)
     {
       case JavaPackage.JMEMBER__CONTAINING_TYPE:
-        return eBasicSetContainer(null, JavaPackage.JMEMBER__CONTAINING_TYPE, msgs);
+        return basicSetContainingType(null, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }

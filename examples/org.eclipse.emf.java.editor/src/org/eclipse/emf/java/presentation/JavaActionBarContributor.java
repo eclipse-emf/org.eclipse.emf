@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaActionBarContributor.java,v 1.6 2005/07/21 17:15:35 marcelop Exp $
+ * $Id: JavaActionBarContributor.java,v 1.7 2006/05/03 20:22:55 davidms Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -31,6 +31,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.edit.ui.action.ControlAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
 
 import org.eclipse.emf.edit.ui.action.LoadResourceAction;
@@ -130,6 +131,7 @@ public class JavaActionBarContributor
   {
     loadResourceAction = new LoadResourceAction();
     validateAction = new ValidateAction();
+    controlAction = new ControlAction();
   }
 
   /**

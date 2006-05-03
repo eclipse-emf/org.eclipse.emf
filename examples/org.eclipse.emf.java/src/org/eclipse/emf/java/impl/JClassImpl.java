@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassImpl.java,v 1.9 2005/11/25 13:13:06 emerks Exp $
+ * $Id: JClassImpl.java,v 1.10 2006/05/03 20:21:01 davidms Exp $
  */
 package org.eclipse.emf.java.impl;
 
@@ -468,6 +468,17 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetComponentType(JClass newComponentType, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newComponentType, JavaPackage.JCLASS__COMPONENT_TYPE, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setComponentType(JClass newComponentType)
   {
     if (newComponentType != eInternalContainer() || (eContainerFeatureID != JavaPackage.JCLASS__COMPONENT_TYPE && newComponentType != null))
@@ -479,7 +490,7 @@ public class JClassImpl extends JMemberImpl implements JClass
         msgs = eBasicRemoveFromContainer(msgs);
       if (newComponentType != null)
         msgs = ((InternalEObject)newComponentType).eInverseAdd(this, JavaPackage.JCLASS__ARRAY_TYPE, JClass.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newComponentType, JavaPackage.JCLASS__COMPONENT_TYPE, msgs);
+      msgs = basicSetComponentType(newComponentType, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -550,6 +561,17 @@ public class JClassImpl extends JMemberImpl implements JClass
    * <!-- end-user-doc -->
    * @generated
    */
+  public NotificationChain basicSetUnit(JCompilationUnit newUnit, NotificationChain msgs)
+  {
+    msgs = eBasicSetContainer((InternalEObject)newUnit, JavaPackage.JCLASS__UNIT, msgs);
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public void setUnit(JCompilationUnit newUnit)
   {
     if (newUnit != eInternalContainer() || (eContainerFeatureID != JavaPackage.JCLASS__UNIT && newUnit != null))
@@ -561,7 +583,7 @@ public class JClassImpl extends JMemberImpl implements JClass
         msgs = eBasicRemoveFromContainer(msgs);
       if (newUnit != null)
         msgs = ((InternalEObject)newUnit).eInverseAdd(this, JavaPackage.JCOMPILATION_UNIT__TYPES, JCompilationUnit.class, msgs);
-      msgs = eBasicSetContainer((InternalEObject)newUnit, JavaPackage.JCLASS__UNIT, msgs);
+      msgs = basicSetUnit(newUnit, msgs);
       if (msgs != null) msgs.dispatch();
     }
     else if (eNotificationRequired())
@@ -723,7 +745,7 @@ public class JClassImpl extends JMemberImpl implements JClass
       case JavaPackage.JCLASS__COMPONENT_TYPE:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, JavaPackage.JCLASS__COMPONENT_TYPE, msgs);
+        return basicSetComponentType((JClass)otherEnd, msgs);
       case JavaPackage.JCLASS__ARRAY_TYPE:
         if (arrayType != null)
           msgs = ((InternalEObject)arrayType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - JavaPackage.JCLASS__ARRAY_TYPE, null, msgs);
@@ -731,7 +753,7 @@ public class JClassImpl extends JMemberImpl implements JClass
       case JavaPackage.JCLASS__UNIT:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
-        return eBasicSetContainer(otherEnd, JavaPackage.JCLASS__UNIT, msgs);
+        return basicSetUnit((JCompilationUnit)otherEnd, msgs);
       case JavaPackage.JCLASS__PACKAGE:
         if (package_ != null)
           msgs = ((InternalEObject)package_).eInverseRemove(this, JavaPackage.JPACKAGE__TYPES, JPackage.class, msgs);
@@ -752,11 +774,11 @@ public class JClassImpl extends JMemberImpl implements JClass
       case JavaPackage.JCLASS__MEMBERS:
         return ((InternalEList)getMembers()).basicRemove(otherEnd, msgs);
       case JavaPackage.JCLASS__COMPONENT_TYPE:
-        return eBasicSetContainer(null, JavaPackage.JCLASS__COMPONENT_TYPE, msgs);
+        return basicSetComponentType(null, msgs);
       case JavaPackage.JCLASS__ARRAY_TYPE:
         return basicSetArrayType(null, msgs);
       case JavaPackage.JCLASS__UNIT:
-        return eBasicSetContainer(null, JavaPackage.JCLASS__UNIT, msgs);
+        return basicSetUnit(null, msgs);
       case JavaPackage.JCLASS__PACKAGE:
         return basicSetPackage(null, msgs);
     }
