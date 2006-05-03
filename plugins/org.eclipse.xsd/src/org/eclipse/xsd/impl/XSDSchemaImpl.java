@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.27 2006/04/27 10:21:54 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.28 2006/05/03 20:39:01 davidms Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -972,7 +972,7 @@ public class XSDSchemaImpl
    */
   public void unsetFinalDefault()
   {
-    ((InternalEList.Unsettable)getFinalDefault()).unset();
+    if (finalDefault != null) ((InternalEList.Unsettable)finalDefault).unset();
   }
 
   /**
@@ -1006,7 +1006,7 @@ public class XSDSchemaImpl
    */
   public void unsetBlockDefault()
   {
-    ((InternalEList.Unsettable)getBlockDefault()).unset();
+    if (blockDefault != null) ((InternalEList.Unsettable)blockDefault).unset();
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.17 2006/04/04 10:10:22 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.18 2006/05/03 20:39:01 davidms Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -420,7 +420,7 @@ public class XSDSimpleTypeDefinitionImpl
    */
   public void unsetLexicalFinal()
   {
-    ((InternalEList.Unsettable)getLexicalFinal()).unset();
+    if (lexicalFinal != null) ((InternalEList.Unsettable)lexicalFinal).unset();
   }
 
   /**

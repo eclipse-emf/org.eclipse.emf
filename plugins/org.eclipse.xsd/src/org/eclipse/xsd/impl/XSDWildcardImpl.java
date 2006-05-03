@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.10 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDWildcardImpl.java,v 1.11 2006/05/03 20:39:01 davidms Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -305,7 +305,7 @@ public class XSDWildcardImpl
    */
   public void unsetLexicalNamespaceConstraint()
   {
-    ((InternalEList.Unsettable)getLexicalNamespaceConstraint()).unset();
+    if (lexicalNamespaceConstraint != null) ((InternalEList.Unsettable)lexicalNamespaceConstraint).unset();
   }
 
   /**

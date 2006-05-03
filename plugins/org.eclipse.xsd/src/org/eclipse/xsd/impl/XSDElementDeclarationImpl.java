@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.14 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.15 2006/05/03 20:39:01 davidms Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -468,7 +468,7 @@ public class XSDElementDeclarationImpl
    */
   public void unsetLexicalFinal()
   {
-    ((InternalEList.Unsettable)getLexicalFinal()).unset();
+    if (lexicalFinal != null) ((InternalEList.Unsettable)lexicalFinal).unset();
   }
 
   /**
@@ -502,7 +502,7 @@ public class XSDElementDeclarationImpl
    */
   public void unsetBlock()
   {
-    ((InternalEList.Unsettable)getBlock()).unset();
+    if (block != null) ((InternalEList.Unsettable)block).unset();
   }
 
   /**
