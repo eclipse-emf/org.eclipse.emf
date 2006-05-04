@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.31 2006/05/04 05:14:56 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.32 2006/05/04 05:19:00 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1017,7 +1017,7 @@ public class EcoreEditor
     }
     editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
   }
-  
+
   public void createModel()
   {
     if (getEditorInput() instanceof IFileEditorInput)
