@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.18 2006/05/01 10:40:32 davidms Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.19 2006/05/04 12:23:34 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -83,7 +83,7 @@ import org.eclipse.emf.edit.ui.util.EditUIUtil;
  * This is the action bar contributor for the GenModel model editor.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
- * @generated
+ * @generated NOT
  */
 public class GenModelActionBarContributor
   extends EditingDomainActionBarContributor
