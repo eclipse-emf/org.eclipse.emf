@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.33 2006/05/04 11:44:52 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.34 2006/05/04 14:54:02 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -678,6 +678,7 @@ public class EcoreEditor
         problemEditorPart.setMarkerHelper(markerHelper);
         try
         {
+          showTabs();
           addPage(getPageCount(), problemEditorPart, getEditorInput());
           lastEditorPage++;
           setPageText(lastEditorPage, problemEditorPart.getPartName());
@@ -766,7 +767,7 @@ public class EcoreEditor
                   {
                     setSelectionToViewer(mostRecentCommand.getAffectedObjects());
                   }
-                  if (propertySheetPage != null)
+                  if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed())
                   {
                     propertySheetPage.refresh();
                   }
@@ -1163,6 +1164,27 @@ public class EcoreEditor
         ((CTabFolder)getContainer()).setTabHeight(1);
         Point point = getContainer().getSize();
         getContainer().setSize(point.x, point.y + 6);
+      }
+    }
+  }
+
+  /**
+   * If there is just one page in the multi-page editor part, this shows
+   * the single tab at the bottom.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void showTabs()
+  {
+    if (getPageCount() == 1)
+    {
+      setPageText(0, getString("_UI_SelectionPage_label"));
+      if (getContainer() instanceof CTabFolder)
+      {
+        ((CTabFolder)getContainer()).setTabHeight(SWT.DEFAULT);
+        Point point = getContainer().getSize();
+        getContainer().setSize(point.x, point.y - 6);
       }
     }
   }
