@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.18 2006/04/29 18:41:39 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.19 2006/05/04 11:49:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -343,11 +343,15 @@ public class XMLLoadImpl implements XMLLoad
         totalBytesRead += bytesRead;
     }
 
-    if (totalBytesRead < BUFFER_SIZE)
+    if (totalBytesRead < 0)
+    {
+      buffer = new byte[0];
+    }
+    else if (totalBytesRead < BUFFER_SIZE)
     {
       byte[] smallerBuffer = new byte[totalBytesRead];
       System.arraycopy(buffer, 0, smallerBuffer, 0, totalBytesRead);
-      smallerBuffer = buffer;
+      buffer = smallerBuffer;
     }
       
     is.reset();
