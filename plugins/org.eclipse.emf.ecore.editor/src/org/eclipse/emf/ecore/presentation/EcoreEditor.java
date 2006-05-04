@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.30 2006/05/02 20:27:42 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.31 2006/05/04 05:14:56 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
+
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,47 +39,49 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.resources.ResourcesPlugin;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-//import org.eclipse.jface.viewers.ColumnWeightData;
+
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-//import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
-//import org.eclipse.jface.viewers.TableLayout;
-//import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+
 import org.eclipse.swt.SWT;
+
 import org.eclipse.swt.custom.CTabFolder;
+
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
+
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Point;
-//import org.eclipse.swt.layout.FillLayout;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
-//import org.eclipse.swt.widgets.Table;
-//import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Tree;
-//import org.eclipse.swt.widgets.TreeColumn;
+
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -87,14 +91,18 @@ import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IStorageEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
+
 import org.eclipse.ui.dialogs.SaveAsDialog;
+
 import org.eclipse.ui.ide.IGotoMarker;
+
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
+
 import org.eclipse.ui.views.contentoutline.ContentOutline;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
+
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.ui.views.properties.PropertySheetPage;
@@ -104,40 +112,62 @@ import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.ui.MarkerHelper;
-import org.eclipse.emf.common.ui.ViewerPane;
+
 import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
+
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import org.eclipse.emf.ecore.xmi.impl.GenericXMLResourceFactoryImpl;
+
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
+
 import org.eclipse.emf.edit.ui.celleditor.AdapterFactoryTreeEditor;
+
 import org.eclipse.emf.edit.ui.dnd.EditingDomainViewerDropAdapter;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
+
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+
 import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
+
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
+
+import org.eclipse.emf.ecore.provider.EcoreItemProviderAdapterFactory;
+
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
+
 
 /**
  * This is an example of a Ecore model editor.
@@ -246,14 +276,6 @@ public class EcoreEditor
    * @generated
    */
   protected TreeViewer selectionViewer;
-
-  /**
-   * This keeps track of the active viewer pane, in the book.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected ViewerPane currentViewerPane;
 
   /**
    * This keeps track of the active content viewer, which may be either one of the viewers in the pages or the content outline viewer.
@@ -366,7 +388,7 @@ public class EcoreEditor
    * @generated
    */
   protected Collection savedResources = new ArrayList();
-  
+
   /**
    * Map to store the diagnostic associated with a resource.
    * <!-- begin-user-doc -->
@@ -374,13 +396,13 @@ public class EcoreEditor
    * @generated
    */
   protected Map resourceToDiagnosticMap = new LinkedHashMap();
-  
+
   /**
    * Controls whether the problem indication should be updated.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
-   */	
+   */
   protected boolean updateProblemIndication = true;
 
   /**
@@ -388,7 +410,7 @@ public class EcoreEditor
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
-   */	
+   */
   protected EContentAdapter problemIndicationAdapter = 
     new EContentAdapter()
     {
@@ -420,6 +442,14 @@ public class EcoreEditor
         {
           super.notifyChanged(notification);
         }
+      }
+
+      protected void addAdapter(Notifier notifier)
+      {
+        if (!(notifier instanceof EObject))
+        {
+          notifier.eAdapters().add(this);
+        } 
       }
     };
 
@@ -630,7 +660,7 @@ public class EcoreEditor
           diagnostic.add(childDiagnostic);
         }
       }
-      
+
       int lastEditorPage = getPageCount() - 1;
       if (lastEditorPage >= 0 && getEditor(lastEditorPage) instanceof ProblemEditorPart)
       {
@@ -845,24 +875,6 @@ public class EcoreEditor
   }
 
   /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setCurrentViewerPane(ViewerPane viewerPane)
-  {
-    if (currentViewerPane != viewerPane)
-    {
-      if (currentViewerPane != null)
-      {
-        currentViewerPane.showFocus(false);
-      }
-      currentViewerPane = viewerPane;
-    }
-    setCurrentViewer(currentViewerPane.getViewer());
-  }
-
-  /**
    * This makes sure that one content viewer, either for the current page or the outline view, if it has focus,
    * is the current one.
    * <!-- begin-user-doc -->
@@ -976,29 +988,47 @@ public class EcoreEditor
    * This is the method called to load a resource into the editing domain's resource set based on the editor's input.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
-  public void createModel()
+  public void createModelGen()
   {
+    // Assumes that the input is a file object.
+    //
+    IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
+    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString());;
     Exception exception = null;
     Resource resource = null;
+    try
+    {
+      // Load the resource through the editing domain.
+      //
+      resource = editingDomain.getResourceSet().getResource(resourceURI, true);
+    }
+    catch (Exception e)
+    {
+      exception = e;
+      resource = editingDomain.getResourceSet().getResource(resourceURI, false);
+    }
+
+    Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
+    if (diagnostic.getSeverity() != Diagnostic.OK)
+    {
+      resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
+    }
+    editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
+  }
+  
+  public void createModel()
+  {
     if (getEditorInput() instanceof IFileEditorInput)
     {
       editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
-      IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();      
-      URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);
-      try
-      {
-        resource = editingDomain.getResourceSet().getResource(resourceURI, true);
-      }
-      catch (Exception e)
-      {
-        exception = e;
-        resource = editingDomain.getResourceSet().getResource(resourceURI, false);
-      }
+      createModelGen();
     }
     else
     {
+      Exception exception = null;
+      Resource resource = null;
       IStorageEditorInput storageEditorInput = (IStorageEditorInput)getEditorInput();
       try
       {
@@ -1011,16 +1041,16 @@ public class EcoreEditor
       {
         exception = e;
       }
+      
+      Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
+      if (diagnostic.getSeverity() != Diagnostic.OK)
+      {
+        resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
+      }
+      editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);      
     }
-    
-    Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
-    if (diagnostic.getSeverity() != Diagnostic.OK)
-    {
-      resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
-    }
-    editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
   }
-  
+
   /**
    * Returns a dignostic describing the errors and warnings listed in the resource
    * and the specified exception (if any).
@@ -1057,12 +1087,12 @@ public class EcoreEditor
       return Diagnostic.OK_INSTANCE;
     }
   }
-  
+
   /**
    * This is the method used by the framework to install your own controls.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
   public void createPages()
   {
@@ -1077,42 +1107,26 @@ public class EcoreEditor
     {
       // Create a page for the selection tree view.
       //
-      ViewerPane viewerPane =
-        new ViewerPane(getSite().getPage(), EcoreEditor.this)
-        {
-          public Viewer createViewer(Composite composite)
-          {
-            Tree tree = new Tree(composite, SWT.MULTI);
-            TreeViewer newTreeViewer = new TreeViewer(tree);
-            return newTreeViewer;
-          }
-          public void requestActivation()
-          {
-            super.requestActivation();
-            setCurrentViewerPane(this);
-          }
-        };
-      viewerPane.createControl(getContainer());
+      Tree tree = new Tree(getContainer(), SWT.MULTI);
+      selectionViewer = new TreeViewer(tree);
+      setCurrentViewer(selectionViewer);
 
-      selectionViewer = (TreeViewer)viewerPane.getViewer();
       selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
-
       selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
       selectionViewer.setInput(editingDomain.getResourceSet());
-      viewerPane.setTitle(editingDomain.getResourceSet());
 
       new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
 
       createContextMenuFor(selectionViewer);
-      int pageIndex = addPage(viewerPane.getControl());
+      int pageIndex = addPage(tree);
       setPageText(pageIndex, getString("_UI_SelectionPage_label"));
 
       setActivePage(0);
     }
-    
+
     // Ensures that this editor will only display the page's tab
     // area if there are more than one page
-    //		
+    //
     getContainer().addControlListener
       (new ControlAdapter()
        {
@@ -1126,7 +1140,7 @@ public class EcoreEditor
             guard = false;
           }
         }
-       });		
+       });
 
     updateProblemIndication();
   }
@@ -1178,7 +1192,7 @@ public class EcoreEditor
   {
     if (key.equals(IContentOutlinePage.class))
     {
-      return getContentOutlinePage();
+      return showOutlineView() ? getContentOutlinePage() : null;
     }
     else if (key.equals(IPropertySheetPage.class))
     {
@@ -1305,7 +1319,7 @@ public class EcoreEditor
    */
   public void handleContentOutlineSelection(ISelection selection)
   {
-    if (currentViewerPane != null && !selection.isEmpty() && selection instanceof IStructuredSelection)
+    if (selectionViewer != null && !selection.isEmpty() && selection instanceof IStructuredSelection)
     {
       Iterator selectedElements = ((IStructuredSelection)selection).iterator();
       if (selectedElements.hasNext())
@@ -1314,31 +1328,16 @@ public class EcoreEditor
         //
         Object selectedElement = selectedElements.next();
 
-        // If it's the selection viewer, then we want it to select the same selection as this selection.
-        //
-        if (currentViewerPane.getViewer() == selectionViewer)
+        ArrayList selectionList = new ArrayList();
+        selectionList.add(selectedElement);
+        while (selectedElements.hasNext())
         {
-          ArrayList selectionList = new ArrayList();
-          selectionList.add(selectedElement);
-          while (selectedElements.hasNext())
-          {
-            selectionList.add(selectedElements.next());
-          }
+          selectionList.add(selectedElements.next());
+        }
 
-          // Set the selection to the widget.
-          //
-          selectionViewer.setSelection(new StructuredSelection(selectionList));
-        }
-        else
-        {
-          // Set the input to the widget.
-          //
-          if (currentViewerPane.getViewer().getInput() != selectedElement)
-          {
-            currentViewerPane.getViewer().setInput(selectedElement);
-            currentViewerPane.setTitle(selectedElement);
-          }
-        }
+        // Set the selection to the widget.
+        //
+        selectionViewer.setSelection(new StructuredSelection(selectionList));
       }
     }
   }
@@ -1413,7 +1412,6 @@ public class EcoreEditor
       EcoreEditorPlugin.INSTANCE.log(exception);
     }
     updateProblemIndication = true;
-    
     updateProblemIndication();
   }
 
@@ -1499,7 +1497,7 @@ public class EcoreEditor
       }
     }
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1569,14 +1567,7 @@ public class EcoreEditor
    */
   public void setFocus()
   {
-    if (currentViewerPane != null)
-    {
-      currentViewerPane.setFocus();
-    }
-    else
-    {
-      getControl(getActivePage()).setFocus();
-    }
+    getControl(getActivePage()).setFocus();
   }
 
   /**
@@ -1640,7 +1631,7 @@ public class EcoreEditor
   {
     IStatusLineManager statusLineManager = currentViewer != null && currentViewer == contentOutlineViewer ?
       contentOutlineStatusLineManager : getActionBars().getStatusLineManager();
-  
+
     if (statusLineManager != null)
     {
       if (selection instanceof IStructuredSelection)
@@ -1767,4 +1758,14 @@ public class EcoreEditor
     super.dispose();
   }
 
+  /**
+   * Returns whether the outline view should be presented to the user.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected boolean showOutlineView()
+  {
+    return false;
+  }
 }
