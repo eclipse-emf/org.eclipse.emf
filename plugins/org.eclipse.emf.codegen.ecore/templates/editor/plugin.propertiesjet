@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.13 2006/05/01 21:06:09 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.14 2006/05/04 12:51:45 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -33,7 +33,8 @@
 pluginName = <%=genModel.getModelName()%> Editor
 providerName = www.example.org
 
-<%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();%>
+<%boolean hasMultiPageEditor = false;%>
+<%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); if (genPackage.isMultipleEditorPages()) { hasMultiPageEditor = true; }%>
 _UI_<%=genPackage.getEditorClassName()%>_menu = &<%=genPackage.getPrefix()%> Editor
 <%}%>
 
@@ -46,6 +47,7 @@ _UI_ShowPropertiesView_menu_item = Show &Properties View
 _UI_RefreshViewer_menu_item = &Refresh
 
 _UI_SelectionPage_label = Selection
+<%if (hasMultiPageEditor) {%>
 _UI_ParentPage_label = Parent
 _UI_ListPage_label = List
 _UI_TreePage_label = Tree
@@ -53,6 +55,7 @@ _UI_TablePage_label = Table
 _UI_TreeWithColumnsPage_label = Tree with Columns
 _UI_ObjectColumn_label = Object
 _UI_SelfColumn_label = Self
+<%}%>
 
 _UI_NoObjectSelected = Selected Nothing
 _UI_SingleObjectSelected = Selected Object: {0}
