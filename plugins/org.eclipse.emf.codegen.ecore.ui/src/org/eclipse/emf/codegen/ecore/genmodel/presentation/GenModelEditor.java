@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.24 2006/05/04 12:23:55 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.25 2006/05/04 12:45:00 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -115,7 +115,6 @@ import org.eclipse.emf.common.command.CommandStackListener;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 
 import org.eclipse.emf.common.ui.MarkerHelper;
 
@@ -407,12 +406,14 @@ public class GenModelEditor
         }
       }
 
-      protected void addAdapter(Notifier notifier)
+      protected void setTarget(Resource target)
       {
-        if (!(notifier instanceof EObject))
-        {
-          notifier.eAdapters().add(this);
-        } 
+        basicSetTarget(target);
+      }
+
+      protected void unsetTarget(Resource target)
+      {
+        basicUnsetTarget(target);
       }
     };
 
@@ -965,7 +966,7 @@ public class GenModelEditor
     viewer.addDragSupport(dndOperations, transfers, new ViewerDragAdapter(viewer));
     viewer.addDropSupport(dndOperations, transfers, new EditingDomainViewerDropAdapter(editingDomain, viewer));
   }
-      
+
   protected void createContextMenuFor(StructuredViewer viewer)
   {
     createContextMenuForGen(viewer);
@@ -1728,7 +1729,6 @@ public class GenModelEditor
   {
     return false;
   }
-  
   public void validate()
   {
     Resource mainResource = (Resource)editingDomain.getResourceSet().getResources().get(0);
