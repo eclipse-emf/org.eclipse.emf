@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.32 2006/05/04 05:19:00 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.33 2006/05/04 11:44:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -115,7 +115,6 @@ import org.eclipse.emf.common.command.CommandStackListener;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 
 import org.eclipse.emf.common.ui.MarkerHelper;
 
@@ -444,12 +443,14 @@ public class EcoreEditor
         }
       }
 
-      protected void addAdapter(Notifier notifier)
+      protected void setTarget(Resource target)
       {
-        if (!(notifier instanceof EObject))
-        {
-          notifier.eAdapters().add(this);
-        } 
+        basicSetTarget(target);
+      }
+
+      protected void unsetTarget(Resource target)
+      {
+        basicUnsetTarget(target);
       }
     };
 
