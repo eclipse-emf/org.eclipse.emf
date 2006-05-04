@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.25 2006/05/04 12:45:00 emerks Exp $
+ * $Id: GenModelEditor.java,v 1.26 2006/05/04 14:53:33 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -683,6 +683,7 @@ public class GenModelEditor
         problemEditorPart.setMarkerHelper(markerHelper);
         try
         {
+          showTabs();
           addPage(getPageCount(), problemEditorPart, getEditorInput());
           lastEditorPage++;
           setPageText(lastEditorPage, problemEditorPart.getPartName());
@@ -1098,7 +1099,7 @@ public class GenModelEditor
   
         createContextMenuFor(selectionViewer);
         int pageIndex = addPage(tree);
-        setPageText(pageIndex, getString("_UI_GenModel_Editor"));
+        setPageText(pageIndex, getString("_UI_SelectionPage_label"));
   
         setActivePage(0);
       }
@@ -1142,6 +1143,27 @@ public class GenModelEditor
         ((CTabFolder)getContainer()).setTabHeight(1);
         Point point = getContainer().getSize();
         getContainer().setSize(point.x, point.y + 6);
+      }
+    }
+  }
+
+  /**
+   * If there is just one page in the multi-page editor part, this shows
+   * the single tab at the bottom.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void showTabs()
+  {
+    if (getPageCount() == 1)
+    {
+      setPageText(0, getString("_UI_SelectionPage_label"));
+      if (getContainer() instanceof CTabFolder)
+      {
+        ((CTabFolder)getContainer()).setTabHeight(SWT.DEFAULT);
+        Point point = getContainer().getSize();
+        getContainer().setSize(point.x, point.y - 6);
       }
     }
   }
