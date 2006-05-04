@@ -3,15 +3,15 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.emf.codegen.ecore/src"
     creationCommands="false" editDirectory="/org.eclipse.emf.codegen.ecore.ui/src"
-    editorDirectory="" modelPluginID="org.eclipse.emf.codegen.ecore" runtimeJar="true"
-    modelName="GenModel" editPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
+    editorDirectory="/org.eclipse.emf.codegen.ecore.ui/src" modelPluginID="org.eclipse.emf.codegen.ecore"
+    runtimeJar="true" modelName="GenModel" editPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
     editorPluginClass="" updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
     usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>GenModel.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
   <genPackages prefix="GenModel" basePackage="org.eclipse.emf.codegen.ecore" disposableProviderFactory="true"
-      ecorePackage="GenModel.ecore#/">
+      multipleEditorPages="false" ecorePackage="GenModel.ecore#/">
     <genEnums ecoreEnum="GenModel.ecore#//GenProviderKind">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenProviderKind/Singleton"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenProviderKind/Stateful"/>
