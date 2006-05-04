@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.57 2006/05/03 21:38:25 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.58 2006/05/04 14:30:45 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -3849,6 +3849,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
 
     return getExtendedMetaData().getDocumentRoot(getEcorePackage()) != null;
+  }
+  
+  public GenClass getDocumentRoot()
+  {
+    EClass documentRoot = getExtendedMetaData().getDocumentRoot(getEcorePackage());
+    return documentRoot == null ? null : findGenClass(documentRoot);
   }
 
   public boolean hasExtendedMetaData()

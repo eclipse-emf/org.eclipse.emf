@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.26 2006/05/03 21:38:25 marcelop Exp $
+ * $Id: GenPackage.java,v 1.27 2006/05/04 14:30:45 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -848,6 +848,7 @@ public interface GenPackage extends GenBase
 
   boolean hasXMLMap();
   boolean hasDocumentRoot();
+  GenClass getDocumentRoot();
   boolean hasExtendedMetaData();
   boolean hasTargetNamespace();
 
