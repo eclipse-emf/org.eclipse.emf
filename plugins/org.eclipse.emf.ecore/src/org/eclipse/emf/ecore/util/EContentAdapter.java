@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentAdapter.java,v 1.6 2006/04/13 17:33:03 marcelop Exp $
+ * $Id: EContentAdapter.java,v 1.7 2006/05/04 11:40:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -54,11 +54,7 @@ public class EContentAdapter extends AdapterImpl
   protected void selfAdapt(Notification notification)
   {
     Object notifier = notification.getNotifier();
-    if (notification.getEventType() == Notification.REMOVING_ADAPTER)
-    {
-      unsetTarget(notifier);
-    }
-    else if (notifier instanceof ResourceSet)
+    if (notifier instanceof ResourceSet)
     {
       if (notification.getFeatureID(ResourceSet.class) == ResourceSet.RESOURCE_SET__RESOURCES)
       {
@@ -187,71 +183,159 @@ public class EContentAdapter extends AdapterImpl
    */
   public void setTarget(Notifier target)
   {
-    super.setTarget(target);
-    
     if (target instanceof EObject)
     {
-      EObject eObject = (EObject)target;
-      for (Iterator i = resolve() ? eObject.eContents().iterator() : ((InternalEList)eObject.eContents()).basicIterator(); i.hasNext(); )
-      {
-        Notifier notifier = (Notifier)i.next();
-        addAdapter(notifier);
-      }
+      setTarget((EObject)target);
     }
     else if (target instanceof Resource)
     {
-      List contents = ((Resource)target).getContents();
-      for (int i = 0, size = contents.size(); i < size; ++i)
-      {
-        Notifier notifier = (Notifier)contents.get(i);
-        addAdapter(notifier);
-      }
+      setTarget((Resource)target);
     }
     else if (target instanceof ResourceSet)
     {
-      List resources =  ((ResourceSet)target).getResources();
-      for (int i = 0; i < resources.size(); ++i)
-      {
-        Notifier notifier = (Notifier)resources.get(i);
-        addAdapter(notifier);
-      }
+      setTarget((ResourceSet)target);
+    }
+    else
+    {
+      basicSetTarget(target);
+    }
+  }
+  
+  /**
+   * Actually sets the target by calling super.
+   */
+  protected void basicSetTarget(Notifier target)
+  {
+    super.setTarget(target);
+  }
+
+  /**
+   * Handles installation of the adapter on an EObject
+   * by adding the adapter to each of the directly contained objects.
+   */
+  protected void setTarget(EObject target)
+  {
+    basicSetTarget(target);
+    for (Iterator i = resolve() ? target.eContents().iterator() : ((InternalEList)target.eContents()).basicIterator(); i.hasNext(); )
+    {
+      Notifier notifier = (Notifier)i.next();
+      addAdapter(notifier);
     }
   }
 
   /**
-   * Handles installation of the adapter
+   * Handles installation of the adapter on a Resource
    * by adding the adapter to each of the directly contained objects.
+   */
+  protected void setTarget(Resource target)
+  {
+    basicSetTarget(target);
+    List contents = target.getContents();
+    for (int i = 0, size = contents.size(); i < size; ++i)
+    {
+      Notifier notifier = (Notifier)contents.get(i);
+      addAdapter(notifier);
+    }
+  }
+
+  /**
+   * Handles installation of the adapter on a ResourceSet
+   * by adding the adapter to each of the directly contained objects.
+   */
+  protected void setTarget(ResourceSet target)
+  {
+    basicSetTarget(target);
+    List resources =  target.getResources();
+    for (int i = 0; i < resources.size(); ++i)
+    {
+      Notifier notifier = (Notifier)resources.get(i);
+      addAdapter(notifier);
+    }
+  }
+
+  /**
+   * Handles deinstallation of the adapter
+   * by removing the adapter from each of the directly contained objects.
+   */
+  public void unsetTarget(Notifier target)
+  {
+    unsetTarget((Object)target);
+  }
+
+  /**
+   * Actually unsets the target by calling super.
+   */
+  protected void basicUnsetTarget(Notifier target)
+  {
+    super.unsetTarget(target);
+  }
+  
+  /**
+   * Handles deinstallation of the adapter
+   * by removing the adapter from each of the directly contained objects.
+   * @deprecated Use or override {@link #unsetTarget(Notifier) instead.
    */
   protected void unsetTarget(Object target)
   {
-    super.setTarget(null);
-    
     if (target instanceof EObject)
     {
-      EObject eObject = (EObject)target;
-      for (Iterator i = resolve() ? eObject.eContents().iterator() : ((InternalEList)eObject.eContents()).basicIterator(); i.hasNext(); )
-      {
-        Notifier notifier = (Notifier)i.next();
-        removeAdapter(notifier);
-      }
+      unsetTarget((EObject)target);
     }
     else if (target instanceof Resource)
     {
-      List contents = ((Resource)target).getContents();
-      for (int i = 0, size = contents.size(); i < size; ++i)
-      {
-        Notifier notifier = (Notifier)contents.get(i);
-        removeAdapter(notifier);
-      }
+      unsetTarget((Resource)target);
     }
     else if (target instanceof ResourceSet)
     {
-      List resources =  ((ResourceSet)target).getResources();
-      for (int i = 0; i < resources.size(); ++i)
-      {
-        Notifier notifier = (Notifier)resources.get(i);
-        removeAdapter(notifier);
-      }
+      unsetTarget((ResourceSet)target);
+    }
+    else
+    {
+      basicUnsetTarget((Notifier)target);
+    }
+  }
+
+  /**
+   * Handles deinstallation of the adapter from an EObject
+   * by removing the adapter from each of the directly contained objects.
+   */
+  protected void unsetTarget(EObject target)
+  {
+    basicUnsetTarget(target);
+    for (Iterator i = resolve() ? target.eContents().iterator() : ((InternalEList)target.eContents()).basicIterator(); i.hasNext(); )
+    {
+      Notifier notifier = (Notifier)i.next();
+      removeAdapter(notifier);
+    }
+  }
+
+  /**
+   * Handles deinstallation of the adapter from a Resource
+   * by removing the adapter from each of the directly contained objects.
+   */
+  protected void unsetTarget(Resource target)
+  {
+    basicUnsetTarget(target);
+    List contents = target.getContents();
+    for (int i = 0, size = contents.size(); i < size; ++i)
+    {
+      Notifier notifier = (Notifier)contents.get(i);
+      removeAdapter(notifier);
+    }
+  }
+
+  /**
+   * Handles deinstallation of the adapter from a ResourceSet
+   * by removing the adapter from each of the directly contained objects.
+   */
+  protected void unsetTarget(ResourceSet target)
+  {
+    basicUnsetTarget(target);
+    List resources =  target.getResources();
+    for (int i = 0; i < resources.size(); ++i)
+    {
+      Notifier notifier = (Notifier)resources.get(i);
+      removeAdapter(notifier);
     }
   }
   
