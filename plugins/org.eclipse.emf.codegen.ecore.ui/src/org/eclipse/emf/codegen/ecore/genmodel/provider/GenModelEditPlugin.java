@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditPlugin.java,v 1.9 2006/05/01 10:41:33 davidms Exp $
+ * $Id: GenModelEditPlugin.java,v 1.10 2006/05/04 12:24:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -22,7 +22,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 
 /**
- * This is the central singleton for the GenModel edit plugin.
+ * This is the central singleton for the GenModel editor plugin.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
