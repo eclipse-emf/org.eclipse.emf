@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecordTest.java,v 1.13 2006/04/13 17:33:53 marcelop Exp $
+ * $Id: ChangeRecordTest.java,v 1.14 2006/05/05 01:52:42 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +56,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.test.core.TestUtil;
 
@@ -101,6 +104,7 @@ extends TestCase
     ts.addTest(new ChangeRecordTest("testResourceSetChanges2"));
     ts.addTest(new ChangeRecordTest("testResourceSetChanges3"));
     ts.addTest(new ChangeRecordTest("testUnsettableList"));
+    ts.addTest(new ChangeRecordTest("testMultipleLoads"));
     return ts;
   }
   
@@ -1102,5 +1106,78 @@ extends TestCase
     assertEquals(1, johnsFriends.size());
     assertEquals(mary, johnsFriends.get(0));
     assertTrue(john.eIsSet(friends));    
+  }
+  
+  public void testMultipleLoads() throws Exception
+  {
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    pack.setName("pack");
+    pack.setNsURI("http://www.eclipse.org/emf/pack");
+
+    Resource resource1 = new XMLResourceImpl(URI.createFileURI("resource1.xml"));
+    EClass aClass = EcoreFactory.eINSTANCE.createEClass();
+    resource1.getContents().add(aClass);
+    
+    ByteArrayOutputStream baosResource1 = new ByteArrayOutputStream();
+    resource1.save(baosResource1, null);
+    
+    Resource resource2 = new XMLResourceImpl(URI.createFileURI("resource2.xml"));
+    EClass bClass = EcoreFactory.eINSTANCE.createEClass();
+    resource2.getContents().add(bClass);
+
+    ByteArrayOutputStream baosResource2 = new ByteArrayOutputStream();
+    resource2.save(baosResource2, null);
+    
+    Resource resource3 = new XMLResourceImpl(URI.createFileURI("resource3.xml"));
+    EClass cClass = EcoreFactory.eINSTANCE.createEClass();
+    resource3.getContents().add(cClass);
+
+    ByteArrayOutputStream baosResource3 = new ByteArrayOutputStream();
+    resource3.save(baosResource3, null);
+
+    ResourceSet resourceSet = new ResourceSetImpl();
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new XMLResourceFactoryImpl());
+    
+    resource1 = resourceSet.createResource(resource1.getURI());        
+    resource1.load(new ByteArrayInputStream(baosResource1.toByteArray()), null);
+    aClass = (EClass)resource1.getContents().get(0);
+    
+    class MyChangeRecorder extends ChangeRecorder
+    {
+      public MyChangeRecorder(ResourceSet resourceSet)
+      {
+        super(resourceSet);
+      }
+      
+      public List getOriginalTargetObjects()
+      {
+        return originalTargetObjects;
+      }
+    };
+    
+    MyChangeRecorder changeRecorder = new MyChangeRecorder(resourceSet);
+    resource2 = resourceSet.createResource(resource2.getURI());
+    resource2.load(new ByteArrayInputStream(baosResource2.toByteArray()), null);
+    bClass = (EClass)resource2.getContents().get(0);
+    changeRecorder.endRecording();
+    
+    assertTrue(resource1.eAdapters().contains(changeRecorder));
+    assertTrue(aClass.eAdapters().contains(changeRecorder));
+    assertTrue(changeRecorder.getOriginalTargetObjects().contains(resource1));
+    assertTrue(changeRecorder.getOriginalTargetObjects().contains(aClass));
+    
+    assertTrue(resource2.eAdapters().contains(changeRecorder));
+    assertTrue(bClass.eAdapters().contains(changeRecorder));
+    assertTrue(changeRecorder.getOriginalTargetObjects().contains(resource2));
+    assertTrue(changeRecorder.getOriginalTargetObjects().contains(bClass));
+
+    resource3 = resourceSet.createResource(resource3.getURI());
+    resource3.load(new ByteArrayInputStream(baosResource3.toByteArray()), null);
+    cClass = (EClass)resource2.getContents().get(0);
+
+    assertTrue(resource3.eAdapters().contains(changeRecorder));
+    assertTrue(cClass.eAdapters().contains(changeRecorder));
+    assertTrue(changeRecorder.getOriginalTargetObjects().contains(resource3));
+    assertTrue(changeRecorder.getOriginalTargetObjects().contains(cClass));
   }
 }
