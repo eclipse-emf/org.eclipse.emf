@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.34 2006/05/04 14:54:02 marcelop Exp $
+ * $Id: EcoreEditor.java,v 1.35 2006/05/05 17:39:44 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -433,7 +433,18 @@ public class EcoreEditor
               {
                 resourceToDiagnosticMap.remove(resource);
               }
-              updateProblemIndication();
+
+              if (updateProblemIndication)
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
+                   {
+                     public void run()
+                     {
+                       updateProblemIndication();
+                     }
+                   });
+              }
             }
           }
         }
@@ -649,7 +660,7 @@ public class EcoreEditor
       BasicDiagnostic diagnostic =
         new BasicDiagnostic
           (Diagnostic.OK,
-           "org.eclipse.emf.ecore.editor", 
+           "org.eclipse.emf.ecore.editor",
            0,
            null,
            new Object [] { editingDomain.getResourceSet() });
@@ -1067,9 +1078,9 @@ public class EcoreEditor
       BasicDiagnostic basicDiagnostic =
         new BasicDiagnostic
           (Diagnostic.ERROR,
-           "org.eclipse.emf.ecore.editor", 
+           "org.eclipse.emf.ecore.editor",
            0,
-           getString("_UI_CreateModelError_message", resource.getURI()), 
+           getString("_UI_CreateModelError_message", resource.getURI()),
            new Object [] { exception == null ? (Object)resource : exception });
       basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
       return basicDiagnostic;
@@ -1079,9 +1090,9 @@ public class EcoreEditor
       return
         new BasicDiagnostic
           (Diagnostic.ERROR,
-           "org.eclipse.emf.ecore.editor", 
+           "org.eclipse.emf.ecore.editor",
            0,
-           getString("_UI_CreateModelError_message", resource.getURI()), 
+           getString("_UI_CreateModelError_message", resource.getURI()),
            new Object[] { exception });
     }
     else

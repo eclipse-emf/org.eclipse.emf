@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.26 2006/05/04 14:53:33 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.27 2006/05/05 17:39:52 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -396,7 +396,18 @@ public class GenModelEditor
               {
                 resourceToDiagnosticMap.remove(resource);
               }
-              updateProblemIndication();
+
+              if (updateProblemIndication)
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
+                   {
+                     public void run()
+                     {
+                       updateProblemIndication();
+                     }
+                   });
+              }
             }
           }
         }
@@ -654,7 +665,7 @@ public class GenModelEditor
       BasicDiagnostic diagnostic =
         new BasicDiagnostic
           (Diagnostic.OK,
-           "org.eclipse.emf.codegen.ecore.edit", 
+           "org.eclipse.emf.codegen.ecore.edit",
            0,
            null,
            new Object [] { editingDomain.getResourceSet() });
@@ -1040,9 +1051,9 @@ public class GenModelEditor
       BasicDiagnostic basicDiagnostic =
         new BasicDiagnostic
           (Diagnostic.ERROR,
-           "org.eclipse.emf.codegen.ecore.edit", 
+           "org.eclipse.emf.codegen.ecore.edit",
            0,
-           getString("_UI_CreateModelError_message", resource.getURI()), 
+           getString("_UI_CreateModelError_message", resource.getURI()),
            new Object [] { exception == null ? (Object)resource : exception });
       basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
       return basicDiagnostic;
@@ -1052,9 +1063,9 @@ public class GenModelEditor
       return
         new BasicDiagnostic
           (Diagnostic.ERROR,
-           "org.eclipse.emf.codegen.ecore.edit", 
+           "org.eclipse.emf.codegen.ecore.edit",
            0,
-           getString("_UI_CreateModelError_message", resource.getURI()), 
+           getString("_UI_CreateModelError_message", resource.getURI()),
            new Object[] { exception });
     }
     else

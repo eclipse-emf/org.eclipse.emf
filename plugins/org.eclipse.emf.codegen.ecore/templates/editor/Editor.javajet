@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.36 2006/05/04 19:31:01 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.37 2006/05/05 17:39:49 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -496,7 +496,18 @@ public class <%=genPackage.getEditorClassName()%>
 							{
 								resourceToDiagnosticMap.remove(resource);
 							}
-							updateProblemIndication();
+
+							if (updateProblemIndication)
+							{
+								getSite().getShell().getDisplay().asyncExec
+									(new Runnable()
+									 {
+										 public void run()
+										 {
+											 updateProblemIndication();
+										 }
+									 });
+							}
 						}
 					}
 				}
