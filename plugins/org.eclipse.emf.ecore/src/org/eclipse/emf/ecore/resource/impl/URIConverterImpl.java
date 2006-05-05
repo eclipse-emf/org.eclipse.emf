@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.7 2006/02/02 22:10:16 marcelop Exp $
+ * $Id: URIConverterImpl.java,v 1.8 2006/05/05 16:58:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -384,10 +384,17 @@ public class URIConverterImpl implements URIConverter
    */
   protected OutputStream createURLOutputStream(URI uri) throws IOException
   {
-    URL url = new URL(uri.toString());
-    URLConnection urlConnection = url.openConnection();
-    urlConnection.setDoOutput(true);
-    return urlConnection.getOutputStream();
+    try
+    {
+      URL url = new URL(uri.toString());
+      URLConnection urlConnection = url.openConnection();
+      urlConnection.setDoOutput(true);
+      return urlConnection.getOutputStream();
+    }
+    catch (RuntimeException exception)
+    {
+      throw new Resource.IOWrappedException(exception);
+    }
   }
 
   /**
@@ -552,9 +559,16 @@ public class URIConverterImpl implements URIConverter
    */
   protected InputStream createURLInputStream(URI uri) throws IOException
   {
-    URL url = new URL(uri.toString());
-    URLConnection urlConnection = url.openConnection();
-    return urlConnection.getInputStream();
+    try
+    {
+      URL url = new URL(uri.toString());
+      URLConnection urlConnection = url.openConnection();
+      return urlConnection.getInputStream();
+    }
+    catch (RuntimeException exception)
+    {
+      throw new Resource.IOWrappedException(exception);
+    }
   }
 
   /**
