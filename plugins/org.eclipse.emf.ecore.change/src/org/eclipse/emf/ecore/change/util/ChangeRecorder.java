@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeRecorder.java,v 1.38 2006/04/21 18:09:36 emerks Exp $
+ * $Id: ChangeRecorder.java,v 1.39 2006/05/05 01:52:26 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.util;
 
@@ -315,23 +315,28 @@ public class ChangeRecorder implements Adapter.Internal
     else if (notifier instanceof Resource)
     {
       int featureID = notification.getFeatureID(Resource.class);
-      if (loadingTargets)
+      switch (featureID) 
       {
-        if (featureID == Resource.RESOURCE__IS_LOADED)
+        case Resource.RESOURCE__CONTENTS:
         {
-          Resource resource = (Resource)notification.getNotifier();
-          for (Iterator i = resource.getContents().iterator(); i.hasNext();)
+          if (!((Resource.Internal)notification.getNotifier()).isLoading())
+          {
+            handleResource(notification);
+          }
+          break;
+        }
+        case Resource.RESOURCE__IS_LOADED:
+        {
+          loadingTargets = true;
+          for (Iterator i = ((Resource)notification.getNotifier()).getContents().iterator(); i.hasNext();)
           {
             addAdapter((Notifier)i.next());
           }
           loadingTargets = false;
+          break;
         }
       }
-      else if (featureID == Resource.RESOURCE__CONTENTS)
-      {
-        handleResource(notification);
-      }
-    }
+    }      
     else if (notifier instanceof ResourceSet)
     {
       if (notification.getFeatureID(ResourceSet.class) == ResourceSet.RESOURCE_SET__RESOURCES)
@@ -345,10 +350,7 @@ public class ChangeRecorder implements Adapter.Internal
             Resource resource = (Resource)notification.getNewValue();
             loadingTargets = true;
             addAdapter(resource);
-            if (resource.isLoaded())
-            {
-              loadingTargets = false;
-            }
+            loadingTargets = false;
             break;
           }
           
