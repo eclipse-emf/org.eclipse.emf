@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.60 2006/05/03 18:40:20 davidms Exp $
+ * $Id: GenClassImpl.java,v 1.61 2006/05/06 17:15:11 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -506,18 +506,18 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return false;
   }
 
-  public String getClassImplements()
+  protected List getClassImplementsList()
   {
+    List result = new UniqueEList();
     if (isMapEntry())
     {
-      return " implements " + getGenModel().getImportedName("org.eclipse.emf.common.util.BasicEMap$Entry");
+      result.add(getGenModel().getImportedName("org.eclipse.emf.common.util.BasicEMap$Entry"));
     }
     else
     {
-      String result = "";
       if (isExternalInterface() || !getGenModel().isSuppressInterfaces())
       {
-        result = " implements " + getImportedInterfaceName();
+        result.add(getImportedInterfaceName());
       }
       String rootImplementsInterface = getGenModel().getRootImplementsInterface();
       if (!isBlank(rootImplementsInterface))
@@ -528,19 +528,32 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         //
         if (extendsClass != null && !rootImplementsInterface.equals(extendsClass.getGenModel().getRootImplementsInterface()))
         {
-          if (result.length() == 0)
-          {
-            result += "implements " + getGenModel().getImportedName(rootImplementsInterface);
-          }
-          else
-          {
-            result += ", " + getGenModel().getImportedName(rootImplementsInterface);
-          }
+          result.add(getGenModel().getImportedName(rootImplementsInterface));
         }
       }
-
-      return result;
     }
+    return result;
+  }
+
+  public String getClassImplements()
+  {
+    List classImplements = getClassImplementsList();
+    if (getGenModel().isSuppressInterfaces())
+    {
+      classImplements.addAll(getInterfaceExtendsList());
+    }
+    if (classImplements.isEmpty())
+    {
+      return "";
+    }
+
+    StringBuffer result = new StringBuffer(" implements ");
+    for (Iterator iter = classImplements.iterator(); iter.hasNext(); )
+    {
+      result.append(iter.next());
+      if (iter.hasNext()) result.append(", ");
+    } 
+    return result.toString();
   }
 
   public boolean needsRootExtendsInterfaceExtendsTag()
@@ -568,8 +581,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return !rootExtendsInterface.equals("org.eclipse.emf.ecore.EObject");
   }
 
-  public String getInterfaceExtends()
+  public List getInterfaceExtendsList()
   {
+    List result = new UniqueEList();
     String rootExtendsInterface = getGenModel().getRootExtendsInterface();
     if (rootExtendsInterface == null)
     {
@@ -577,21 +591,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
     if (getBaseGenClasses().isEmpty())
     {
-      if (getGenPackage().isEcorePackage()) 
+      if (!getGenPackage().isEcorePackage() && !isBlank(rootExtendsInterface))
       {
-        return "";
+        result.add(getGenModel().getImportedName(rootExtendsInterface));
       }
-      else 
-      {
-        if (!isBlank(rootExtendsInterface))
-        {
-          return " extends " + getGenModel().getImportedName(rootExtendsInterface);
-        }
-        else
-        {
-          return "";
-        }
-      }
+      return result;
     }
 
     boolean needsRootExtendsInterface = true;
@@ -606,19 +610,35 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
     }
 
-    StringBuffer result = new StringBuffer(" extends ");
-    if (needsRootExtendsInterface)
+    if (needsRootExtendsInterface && !isBlank(rootExtendsInterface))
     {
-      if (!isBlank(rootExtendsInterface))
-      {
-        result.append(getGenModel().getImportedName(rootExtendsInterface));
-        result.append(", ");
-      }
+      result.add(getGenModel().getImportedName(rootExtendsInterface));
     }
 
     for (Iterator iter = getBaseGenClasses().iterator(); iter.hasNext(); )
     {
-      result.append(((GenClass)iter.next()).getImportedInterfaceName());
+      GenClass genClass = (GenClass)iter.next();
+      if (genClass.isExternalInterface() || genClass.isInterface() || !genClass.getGenModel().isSuppressInterfaces())
+      {
+        result.add(genClass.getImportedInterfaceName());
+      }
+    } 
+
+    return result;
+  }
+
+  public String getInterfaceExtends()
+  {
+    List interfaceExtends = getInterfaceExtendsList();
+    if (interfaceExtends.isEmpty())
+    {
+      return "";
+    }
+
+    StringBuffer result = new StringBuffer(" extends ");
+    for (Iterator iter = interfaceExtends.iterator(); iter.hasNext(); )
+    {
+      result.append(iter.next());
       if (iter.hasNext()) result.append(", ");
     } 
     return result.toString();
