@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.67 2006/05/01 10:35:52 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.68 2006/05/06 17:12:32 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -6387,6 +6387,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     
     setSuppressEMFMetaData(oldGenModelVersion.isSuppressEMFMetaData());
     setSuppressEMFModelTags(oldGenModelVersion.isSuppressEMFModelTags());
+    setSuppressInterfaces(oldGenModelVersion.isSuppressInterfaces());
     setSuppressNotification(oldGenModelVersion.isSuppressNotification());
     setSuppressContainment(oldGenModelVersion.isSuppressContainment());
     setSuppressUnsettable(oldGenModelVersion.isSuppressUnsettable());
