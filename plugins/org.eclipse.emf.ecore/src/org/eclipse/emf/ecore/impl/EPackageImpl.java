@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.27 2006/05/07 12:01:41 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.28 2006/05/07 12:04:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -185,7 +185,6 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     super.freeze();
   }
   
-  /*
   public void eSetProxyURI(URI uri)
   {
     // If we turn the package into a proxy, ensure that the child classifiers clear their cached container.
@@ -203,7 +202,6 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     }
     super.eSetProxyURI(uri);
   }
-  */
 
   /**
    * <!-- begin-user-doc -->
