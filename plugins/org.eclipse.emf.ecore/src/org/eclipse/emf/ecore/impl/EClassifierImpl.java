@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.19 2006/05/07 12:01:41 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.20 2006/05/07 12:03:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -467,8 +467,6 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    */
   public EPackage getEPackage()
   {
-    return getEPackageGen();
-    /*
     // If there is a cached result, return it.
     // We expect that if the package is set to be a proxy, 
     // the code in EPackageImpl.eSetProxyURI override will have cleared this value.
@@ -488,17 +486,14 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       }
       return result;
     }
-    */
   }
   
-  /*
   protected void eBasicSetContainer(InternalEObject newContainer, int newContainerFeatureID)
   {
     // Ensure that cached ePackage is forgotten.
     ePackage = null;
     super.eBasicSetContainer(newContainer, newContainerFeatureID);
   }
-  */
 
   /**
    * <!-- begin-user-doc -->
