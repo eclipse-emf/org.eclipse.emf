@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerPane.java,v 1.5 2005/06/12 13:24:22 emerks Exp $
+ * $Id: ViewerPane.java,v 1.6 2006/05/07 15:38:18 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -359,7 +359,7 @@ public abstract class ViewerPane implements IPropertyListener, Listener
              {
                Rectangle clientRectangle = titleLabel.getClientArea();
                event.gc.drawImage
-                 (WorkbenchColors.getGradient(), 
+                 (WorkbenchColors.getGradient((event.gc.getStyle() & SWT.LEFT_TO_RIGHT) != 0), 
                   10, 0, 10, 10, 
                   0, 0, 24, clientRectangle.height);
   
@@ -768,44 +768,67 @@ static public void startup() {
 }
 
   protected static Image gradient;
+  protected static Image mirrorGradient;
+
   public static Image getGradient()
   {
-    if (gradient == null)
+    return getGradient(true);
+  }
+
+  public static Image getGradient(boolean leftToRight)
+  {
+    if (leftToRight)
     {
-      int width = 20;
-      int height = 10;
-
-      Display display = Display.getDefault();
-
-      gradient = new Image(display, width, height);
-      GC gc = new GC(gradient);
-
-      Color startColor = display.getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
-      RGB rgb1 = startColor.getRGB();
-
-      Color endColor = display.getSystemColor(SWT.COLOR_TITLE_BACKGROUND);
-      RGB rgb2 = endColor.getRGB();
-
-      for (int k = 0; k < width; k++)
+      if (gradient == null)
       {
-        int r = rgb1.red + k * (rgb2.red - rgb1.red) / width;
-        r = (rgb2.red > rgb1.red) ? Math.min(r, rgb2.red) : Math.max(r, rgb2.red);
-        int g = rgb1.green + k * (rgb2.green - rgb1.green) / width;
-        g = (rgb2.green > rgb1.green) ? Math.min(g, rgb2.green) : Math.max(g, rgb2.green);
-        int b = rgb1.blue + k * (rgb2.blue - rgb1.blue) / width;
-        b = (rgb2.blue > rgb1.blue) ? Math.min(b, rgb2.blue) : Math.max(b, rgb2.blue);
-
-        Color color = new Color(display, r, g, b);
-
-        gc.setBackground(color);
-        gc.fillRectangle(width - k - 1, 0, 1, height);
-
-        color.dispose();
+        gradient = createGradient(true);
       }
+      return gradient;
+    }
+    else
+    {
+      if (mirrorGradient == null)
+      {
+        mirrorGradient = createGradient(false);
+      }
+      return mirrorGradient;
+    }
+  }
+  
+  protected static Image createGradient(boolean leftToRight)
+  {
+    int width = 20;
+    int height = 10;
 
-      gc.dispose();
+    Display display = Display.getDefault();
+
+    Image gradient = new Image(display, width, height);
+    GC gc = new GC(gradient);
+
+    Color startColor = display.getSystemColor(leftToRight ? SWT.COLOR_WIDGET_BACKGROUND : SWT.COLOR_TITLE_BACKGROUND);
+    RGB rgb1 = startColor.getRGB();
+
+    Color endColor = display.getSystemColor(leftToRight ? SWT.COLOR_TITLE_BACKGROUND : SWT.COLOR_WIDGET_BACKGROUND);
+    RGB rgb2 = endColor.getRGB();
+
+    for (int k = 0; k < width; k++)
+    {
+      int r = rgb1.red + k * (rgb2.red - rgb1.red) / width;
+      r = (rgb2.red > rgb1.red) ? Math.min(r, rgb2.red) : Math.max(r, rgb2.red);
+      int g = rgb1.green + k * (rgb2.green - rgb1.green) / width;
+      g = (rgb2.green > rgb1.green) ? Math.min(g, rgb2.green) : Math.max(g, rgb2.green);
+      int b = rgb1.blue + k * (rgb2.blue - rgb1.blue) / width;
+      b = (rgb2.blue > rgb1.blue) ? Math.min(b, rgb2.blue) : Math.max(b, rgb2.blue);
+
+      Color color = new Color(display, r, g, b);
+
+      gc.setBackground(color);
+      gc.fillRectangle(width - k - 1, 0, 1, height);
+
+      color.dispose();
     }
 
+    gc.dispose();
     return gradient;
   }
 }
