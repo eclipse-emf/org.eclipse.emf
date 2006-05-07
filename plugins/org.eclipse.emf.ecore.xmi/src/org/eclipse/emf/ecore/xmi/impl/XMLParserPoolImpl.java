@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLParserPoolImpl.java,v 1.6 2006/05/07 12:09:51 emerks Exp $
+ * $Id: XMLParserPoolImpl.java,v 1.7 2006/05/07 23:36:52 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.xmi.impl;
@@ -160,45 +160,47 @@ public class XMLParserPoolImpl implements XMLParserPool
 
   public synchronized XMLDefaultHandler getDefaultHandler(XMLResource resource, XMLLoad xmlLoad, XMLHelper helper, Map options)
   {
-    if (handlersCache.size() > size)
+    if (handlersCache != null)
     {
-      handlersCache.clear();
-    }
-    Object o = handlersCache.get(options);
-    if (o != null)
-    {
-      ArrayList list = (ArrayList)o;
-      int size = list.size();
-      if (size > 0)
+      if (handlersCache.size() > size)
       {
-        XMLDefaultHandler handler = (XMLDefaultHandler)list.remove(size - 1);
-        handler.prepare(resource, helper, options);
-        return handler;
+        handlersCache.clear();
+      }
+      Object o = handlersCache.get(options);
+      if (o != null)
+      {
+        ArrayList list = (ArrayList)o;
+        int size = list.size();
+        if (size > 0)
+        {
+          XMLDefaultHandler handler = (XMLDefaultHandler)list.remove(size - 1);
+          handler.prepare(resource, helper, options);
+          return handler;
+        }
       }
       else
       {
-        return xmlLoad.createDefaultHandler();
+        handlersCache.put(options, new ArrayList());
       }
     }
-    else
-    {
-      handlersCache.put(options, new ArrayList());
-      return xmlLoad.createDefaultHandler();
-    }
+    return xmlLoad.createDefaultHandler();
   }
 
   public synchronized void releaseDefaultHandler(XMLDefaultHandler handler, Map options)
   {
-    handler.reset();
-    ArrayList list = (ArrayList)handlersCache.get(options);
-    if (list == null)
+    if (handlersCache != null)
     {
-      list = new ArrayList();
-      handlersCache.put(options, list);
-    }
-    else if (list.size() < size)
-    {
-      list.add(handler);
+      handler.reset();
+      ArrayList list = (ArrayList)handlersCache.get(options);
+      if (list == null)
+      {
+        list = new ArrayList();
+        handlersCache.put(options, list);
+      }
+      else if (list.size() < size)
+      {
+        list.add(handler);
+      }
     }
   }
 }
