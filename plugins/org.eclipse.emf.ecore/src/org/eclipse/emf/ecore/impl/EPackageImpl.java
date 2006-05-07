@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.26 2006/02/01 20:21:13 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.27 2006/05/07 12:01:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -168,8 +168,42 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
 
   public void freeze()
   {
+    if (eClassifiers != null)
+    {
+      for (int i = 0, size = eClassifiers.size(); i < size; ++i)
+      {
+        freeze(eClassifiers.get(0));
+      }
+    }
+    if (eSubpackages != null)
+    {
+      for (int i = 0, size = eSubpackages.size(); i < size; ++i)
+      {
+        freeze(eSubpackages.get(0));
+      }
+    }
     super.freeze();
   }
+  
+  /*
+  public void eSetProxyURI(URI uri)
+  {
+    // If we turn the package into a proxy, ensure that the child classifiers clear their cached container.
+    //
+    if (uri != null && eClassifiers != null)
+    {
+      for (Iterator i = eClassifiers.iterator(); i.hasNext(); )
+      {
+        Object eClassifier = i.next();
+        if (eClassifier instanceof EClassifierImpl)
+        {
+          ((EClassifierImpl)eClassifier).ePackage = null;
+        }
+      }
+    }
+    super.eSetProxyURI(uri);
+  }
+  */
 
   /**
    * <!-- begin-user-doc -->

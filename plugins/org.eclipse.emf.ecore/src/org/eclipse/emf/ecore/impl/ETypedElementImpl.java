@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementImpl.java,v 1.8 2005/11/23 18:10:01 emerks Exp $
+ * $Id: ETypedElementImpl.java,v 1.9 2006/05/07 12:01:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -170,7 +170,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
     eFlags |= UNIQUE_EFLAG;
   }
 
-  public void freeze()
+  protected void freeze()
   {
     getEType();
     super.freeze();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.14 2005/12/02 12:16:44 emerks Exp $
+ * $Id: EEnumImpl.java,v 1.15 2006/05/07 12:01:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -64,6 +64,18 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
   protected EEnumImpl()
   {
     super();
+  }
+
+  protected void freeze()
+  {
+    if (eLiterals != null)
+    {
+      for (int i = 0, size = eLiterals.size(); i < size; ++i)
+      {
+        freeze(eLiterals.get(0));
+      }
+    }
+    super.freeze();
   }
 
   protected void setDataTypeGeneratedInstanceClass(boolean isGenerated)

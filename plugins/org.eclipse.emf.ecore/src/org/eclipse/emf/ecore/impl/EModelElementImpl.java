@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.11 2006/03/02 18:36:49 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.12 2006/05/07 12:01:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -84,15 +84,20 @@ public abstract class EModelElementImpl extends EObjectImpl implements EModelEle
 
   protected void freeze()
   {
-    eFlags |= EFROZEN;
-    for (Iterator i = eContents().iterator(); i.hasNext(); )
-    {
-      Object child = i.next();
-      if (child instanceof EModelElementImpl)
-      {
-        ((EModelElementImpl)child).freeze();
-      }
+    setFrozen();
+  }
+
+  protected void freeze(Object eModelElement)
+  {
+    if (eModelElement instanceof EModelElementImpl)
+    { 
+      ((EModelElementImpl)eModelElement).freeze();
     }
+  }
+
+  protected void setFrozen()
+  {
+    eFlags |= EFROZEN;
   }
 
   protected boolean isFrozen()

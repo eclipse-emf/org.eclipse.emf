@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.10 2005/11/25 17:49:48 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.11 2006/05/07 12:01:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -77,6 +77,18 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
   protected EOperationImpl()
   {
     super();
+  }
+
+  protected void freeze()
+  {
+    if (eParameters != null)
+    {
+      for (int i = 0, size = eParameters.size(); i < size; ++i)
+      {
+        freeze(eParameters.get(0));
+      }
+    }
+    super.freeze();
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.18 2006/01/27 20:12:11 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.19 2006/05/07 12:01:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -459,28 +459,46 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   }
 
   /**
-   * A private typed cache for the containing package.
+   * A package protected typed cache for the containing package.
    */
-  private EPackage ePackage;
+  EPackage ePackage;
 
   /**
    */
   public EPackage getEPackage()
   {
+    return getEPackageGen();
+    /*
+    // If there is a cached result, return it.
+    // We expect that if the package is set to be a proxy, 
+    // the code in EPackageImpl.eSetProxyURI override will have cleared this value.
+    //
     if (ePackage != null)
     {
       return ePackage;
     }
-    else if (isFrozen())
-    {
-      if (eContainerFeatureID != EcorePackage.ECLASSIFIER__EPACKAGE) return null;
-      return ePackage = (EPackage)eContainer;
-    }
     else
     {
-      return getEPackageGen();
+      // If the result is not a proxy, cache it.
+      //
+      EPackage result = getEPackageGen();
+      if (result != null && !result.eIsProxy())
+      {
+        ePackage = result;
+      }
+      return result;
     }
+    */
   }
+  
+  /*
+  protected void eBasicSetContainer(InternalEObject newContainer, int newContainerFeatureID)
+  {
+    // Ensure that cached ePackage is forgotten.
+    ePackage = null;
+    super.eBasicSetContainer(newContainer, newContainerFeatureID);
+  }
+  */
 
   /**
    * <!-- begin-user-doc -->
