@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLProcessor.java,v 1.6 2005/12/07 18:52:31 elena Exp $
+ * $Id: XMLProcessor.java,v 1.7 2006/05/07 12:10:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -85,7 +85,7 @@ public class XMLProcessor
     this.extendedMetaData = createExtendedMetaData();
     ecoreBuilder = createEcoreBuilder();
     loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-    loadOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+    loadOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl(true));
     loadOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
     loadOptions.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
     loadOptions.put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
@@ -105,7 +105,7 @@ public class XMLProcessor
     ecoreBuilder = createEcoreBuilder();
     // register default options
     loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-    loadOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+    loadOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl(true));
     loadOptions.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
     loadOptions.put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
     saveOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);

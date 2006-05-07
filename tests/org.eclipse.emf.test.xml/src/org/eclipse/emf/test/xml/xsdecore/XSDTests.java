@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTests.java,v 1.5 2005/06/08 06:20:41 nickb Exp $
+ * $Id: XSDTests.java,v 1.6 2006/05/07 12:10:42 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -110,7 +110,7 @@ public class XSDTests extends TestCase
     Collection packageList = xsdEcoreBuilder.generate(URI.createURI(schema));
 
     HashMap options = new HashMap();
-    options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+    options.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl(true));
 
     ResourceSet rs = new ResourceSetImpl();
     Registry packageRegistry = rs.getPackageRegistry();

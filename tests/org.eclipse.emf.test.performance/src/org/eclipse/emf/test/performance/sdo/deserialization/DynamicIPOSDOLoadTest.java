@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicIPOSDOLoadTest.java,v 1.11 2005/06/22 19:59:55 bportier Exp $
+ * $Id: DynamicIPOSDOLoadTest.java,v 1.12 2006/05/07 12:10:42 emerks Exp $
  */
 package org.eclipse.emf.test.performance.sdo.deserialization;
 
@@ -89,7 +89,7 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
 
     HashMap warmupOptions = new HashMap();
     options = new HashMap();
-    parserPool = new XMLParserPoolImpl();
+    parserPool = new XMLParserPoolImpl(true);
 
     resourceSet = SDOUtil.createResourceSet();
     ExtendedMetaData metaData = registerModel();
@@ -101,7 +101,7 @@ public class DynamicIPOSDOLoadTest extends EMFPerformanceTestCase
     dgByteInputStream = new ByteArrayInputStream(dataGraphBytes);
 
     warmupOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, metaData);
-    warmupOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl());
+    warmupOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl(true));
     warmupOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
 
     load(warmupOptions, WARMUP);
