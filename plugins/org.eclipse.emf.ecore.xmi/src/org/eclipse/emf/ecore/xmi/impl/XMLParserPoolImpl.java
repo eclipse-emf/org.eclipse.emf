@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLParserPoolImpl.java,v 1.5 2005/12/13 20:37:24 elena Exp $
+ * $Id: XMLParserPoolImpl.java,v 1.6 2006/05/07 12:09:51 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.xmi.impl;
@@ -36,19 +36,51 @@ import org.xml.sax.SAXException;
 
 
 /**
- * This is the default implementation of XMLParserPool. This implementation is tuned for caching parsers and handlers 
- * created using same loading options. To avoid possible memory leak (in case user is trying to parse
- * documents using different options for every parse), there is restriction on the size of the pool. 
- * Note: this implementation is thread safe. 
+ * This is the default thread safe implementation of XMLParserPool. 
+ * This implementation is tuned for caching parsers and handlers created using same loading options. 
+ * To avoid possible memory leak (in case user is trying to parse documents using different options for every parse), 
+ * there is a restriction on the size of the pool. 
+ * The key used for handler caching is based on the option map passed to load.
  */
 public class XMLParserPoolImpl implements XMLParserPool
 {
   private final Map parserCache = new HashMap();
 
-  private final Map handlersCache = new HashMap();
+  private final Map handlersCache;
   
-  private final int SIZE = 200;
+  private final int size;
+  
+  /**
+   * Creates an instance that caches only parsers but not handlers.
+   * @see #XMLParserPoolImpl(boolean)
+   */
+  public XMLParserPoolImpl()
+  {
+    this(200, false);
+  }
 
+  /**
+   * Creates an instance that caches parsers and caches handlers as specified.
+   * @param useHandlerCache indicates whether handler caching should be use.
+   * @see #XMLParserPoolImpl(boolean)
+   */
+  public XMLParserPoolImpl(boolean useHandlerCache)
+  {
+    this(200, useHandlerCache);
+  }
+
+  /**
+   * Creates an instance that caches parsers and caches handlers as specified.
+   * @param size indicates the maximum number of instances parser or handler instances that will be cached.
+   * @param useHandlerCache indicates whether handler caching should be use.
+   * @see #XMLParserPoolImpl(boolean)
+   */
+  public XMLParserPoolImpl(int size, boolean useHandlerCache)
+  {
+    this.size = size;
+    handlersCache = useHandlerCache ? new HashMap() : null;
+  }
+  
   /**
    * @see XMLParserPool#get(Map, Map, boolean)
    */
@@ -58,7 +90,7 @@ public class XMLParserPoolImpl implements XMLParserPool
     map.putAll(features);
     map.putAll(properties);
     map.put(XMLResource.OPTION_USE_LEXICAL_HANDLER, useLexicalHandler ? Boolean.TRUE : Boolean.FALSE);
-    if (parserCache.size() > SIZE)
+    if (parserCache.size() > size)
     {
       parserCache.clear();
     }
@@ -93,7 +125,7 @@ public class XMLParserPoolImpl implements XMLParserPool
     map.putAll(properties);
     map.put(XMLResource.OPTION_USE_LEXICAL_HANDLER, useLexicalHandler ? Boolean.TRUE : Boolean.FALSE);
     ArrayList list = (ArrayList)parserCache.get(map);
-    if (list.size() < SIZE)
+    if (list.size() < size)
     {
         list.add(parser);
     }
@@ -128,7 +160,7 @@ public class XMLParserPoolImpl implements XMLParserPool
 
   public synchronized XMLDefaultHandler getDefaultHandler(XMLResource resource, XMLLoad xmlLoad, XMLHelper helper, Map options)
   {
-    if (handlersCache.size() > SIZE)
+    if (handlersCache.size() > size)
     {
       handlersCache.clear();
     }
@@ -164,9 +196,9 @@ public class XMLParserPoolImpl implements XMLParserPool
       list = new ArrayList();
       handlersCache.put(options, list);
     }
-    else if (list.size() < SIZE)
+    else if (list.size() < size)
     {
-        list.add(handler);
+      list.add(handler);
     }
   }
 }
