@@ -6,6 +6,7 @@
   <extension-point id="extension_parser" name="%_UI_URIExtensionParserRegistry_extensionpoint" schema="schema/extension_parser.exsd" />
   <extension-point id="protocol_parser" name="%_UI_URIProtocolParserRegistry_extensionpoint" schema="schema/protocol_parser.exsd" />
   <extension-point id="uri_mapping" name="%_UI_URIMappingRegistry_extensionpoint" schema="schema/uri_mapping.exsd" />
+  <extension-point id="package_registry_implementation" name="%_UI_PackageRegistryImplementation_extensionpoint" schema="schema/package_registry_implementation.exsd"/>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package uri="http://www.eclipse.org/emf/2002/Ecore" class="org.eclipse.emf.ecore.EcorePackage" genModel="model/Ecore.genmodel" />

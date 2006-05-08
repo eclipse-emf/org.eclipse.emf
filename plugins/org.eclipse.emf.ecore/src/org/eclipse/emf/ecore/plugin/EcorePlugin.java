@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.11 2005/11/14 20:45:44 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.12 2006/05/08 21:21:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -40,12 +40,16 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
 import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 
 
 /**
@@ -504,12 +508,66 @@ public class EcorePlugin  extends EMFPlugin
         workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
       }
 
+      new RegistryReader
+        (Platform.getExtensionRegistry(),
+         EcorePlugin.getPlugin().getBundle().getSymbolicName(), 
+         PACKAGE_REGISTRY_IMPLEMENTATION)
+      {
+        protected boolean readElement(IConfigurationElement element)
+        {
+          if (element.getName().equals("registry"))
+          {
+            String implementationClass = element.getAttribute("class");
+            if (implementationClass == null)
+            {
+              logMissingAttribute(element, "class");
+            }
+            else
+            {
+              if (defaultRegistryImplementation != null)
+              {
+                log(new Exception("Multiple attempts to define the registry implementation"));
+                if (defaultRegistryImplementation instanceof EPackageRegistryImpl.Delegator)
+                {
+                  return false;
+                }
+              }
+              try
+              {
+                defaultRegistryImplementation = (EPackage.Registry)element.createExecutableExtension("class");
+              }
+              catch (CoreException exception)
+              {
+                log(exception);
+              }
+              return true;
+            }
+          }
+          return false;
+        }
+        
+      }.readRegistry();
+
       new GeneratedPackageRegistryReader(getEPackageNsURIToGenModelLocationMap()).readRegistry();
       new FactoryOverrideRegistryReader().readRegistry();
       new ExtensionParserRegistryReader().readRegistry();
       new ProtocolParserRegistryReader().readRegistry();
       new URIMappingRegistryReader().readRegistry();
     }
+  }
+
+  /**
+   * The default registry implementation singleton.
+   */
+  private static EPackage.Registry defaultRegistryImplementation; 
+
+  /**
+   * Returns the default registry implementation singleton.
+   * @return the default registry implementation singleton.
+   */
+  public static EPackage.Registry getDefaultRegistryImplementation()
+  {
+    return defaultRegistryImplementation;
   }
 
   /**
@@ -547,4 +605,5 @@ public class EcorePlugin  extends EMFPlugin
   static final String PROTOCOL_PARSER_PPID = "protocol_parser";
   static final String SCHEME_PARSER_PPID = "scheme_parser";
   static final String URI_MAPPING_PPID = "uri_mapping";
+  static final String PACKAGE_REGISTRY_IMPLEMENTATION = "package_registry_implementation";
 }
