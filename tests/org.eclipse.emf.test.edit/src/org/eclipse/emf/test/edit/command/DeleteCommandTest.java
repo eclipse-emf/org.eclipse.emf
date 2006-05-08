@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteCommandTest.java,v 1.1 2005/07/08 02:16:58 davidms Exp $
+ * $Id: DeleteCommandTest.java,v 1.2 2006/05/08 21:56:11 davidms Exp $
  */
 package org.eclipse.emf.test.edit.command;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.edit.command.DeleteCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.test.models.ref.A;
 import org.eclipse.emf.test.models.ref.B;
 import org.eclipse.emf.test.models.ref.C;
@@ -40,6 +41,11 @@ import org.eclipse.emf.test.models.ref.E;
 import org.eclipse.emf.test.models.ref.RefFactory;
 import org.eclipse.emf.test.models.ref.RefPackage;
 import org.eclipse.emf.test.models.ref.provider.RefItemProviderAdapterFactory;
+import org.eclipse.emf.test.models.tree.Data;
+import org.eclipse.emf.test.models.tree.Node;
+import org.eclipse.emf.test.models.tree.TreeFactory;
+import org.eclipse.emf.test.models.tree.TreePackage;
+import org.eclipse.emf.test.models.tree.provider.TreeItemProviderAdapterFactory;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -63,6 +69,7 @@ public class DeleteCommandTest extends TestCase
     suite.addTest(new DeleteCommandTest("testDeleteObjectFromList"));
     suite.addTest(new DeleteCommandTest("testDeleteObjectFromBidirectionalLists"));
     suite.addTest(new DeleteCommandTest("testDeleteObjectsWithManyReferences"));
+    suite.addTest(new DeleteCommandTest("testDeleteObjectWithContents"));    
     return suite;
   }
 
@@ -75,6 +82,17 @@ public class DeleteCommandTest extends TestCase
    * The Ref factory.
    */
   protected RefFactory refFactory;
+
+  /**
+   * The Tree test package.
+   */
+  protected TreePackage treePackage;
+
+  
+  /**
+   * The Tree factory.
+   */
+  protected TreeFactory treeFactory;
 
   /**
    * An editing domain for for these tests.
@@ -90,8 +108,11 @@ public class DeleteCommandTest extends TestCase
   {
     refPackage = RefPackage.eINSTANCE;
     refFactory = refPackage.getRefFactory();
+
+    treePackage = TreePackage.eINSTANCE;
+    treeFactory = treePackage.getTreeFactory();
     
-    AdapterFactory adapterFactory = new RefItemProviderAdapterFactory();
+    AdapterFactory adapterFactory = new ComposedAdapterFactory(new AdapterFactory[] { new RefItemProviderAdapterFactory(), new TreeItemProviderAdapterFactory() });
     CommandStack commandStack = new BasicCommandStack();
     editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack);
 
@@ -148,6 +169,7 @@ public class DeleteCommandTest extends TestCase
     assertNull(a.getB());
     assertTrue(stack.canUndo());
   }
+
   public void testDeleteObjectFromList()
   {
     C1 c1 = refFactory.createC1();
@@ -311,7 +333,7 @@ public class DeleteCommandTest extends TestCase
   {
     // This test is pretty complicated. Here are all the references:
     //   c4.c: [c]
-    //   c4.d: d0, [d1]
+    //   c4.d: [d0], d1
     //   c.d: d0, [d1]
     //   d0.c: c
     //   d0.e: [e0], [e2], e3
@@ -520,6 +542,190 @@ public class DeleteCommandTest extends TestCase
     assertEquals(2, e3.getD().size());
     assertSame(d0, e3.getD().get(0));
     assertSame(d1, e3.getD().get(1));
+
+    assertTrue(stack.canUndo());
+  }
+
+  public void testDeleteObjectWithContents()
+  {
+    // n.children: [c0], c1
+    // c0.children: gc0, gc1
+    // c0.data: [c0d]
+    // c1.children: gc2, gc3
+    // c1.data: c1d
+    // gc0.relatedNodes: gc1, gc2
+    // gc0.data: [gc0d]
+    // gc2.relatedNodes: [gc1], gc3
+    // gc3.data: gc3d
+    // c0d.node: [c0]
+    // c1d.node: c1
+    // gc0d.node: [gc0]
+    // gc3d.node: gc3
+
+    Node n = treeFactory.createNode();    // node
+    Node c0 = treeFactory.createNode();   // children
+    Node c1 = treeFactory.createNode();
+    Node gc0 = treeFactory.createNode();  // grandchildren
+    Node gc1 = treeFactory.createNode();
+    Node gc2 = treeFactory.createNode();
+    Node gc3 = treeFactory.createNode();
+
+    Data c0d = treeFactory.createData();  // children data
+    Data c1d = treeFactory.createData();
+    Data gc0d = treeFactory.createData(); // grandchildren data
+    Data gc3d = treeFactory.createData();
+
+    resource.getContents().add(n);
+    resource.getContents().add(c0d);
+    resource.getContents().add(c1d);
+    resource.getContents().add(gc0d);
+    resource.getContents().add(gc3d);
+
+    n.getChildren().add(c0);
+    n.getChildren().add(c1);
+
+    c0.getChildren().add(gc0);
+    c0.getChildren().add(gc1);
+    c1.getChildren().add(gc2);
+    c1.getChildren().add(gc3);
+
+    gc0.getRelatedNodes().add(gc1);
+    gc0.getRelatedNodes().add(gc2);
+    gc2.getRelatedNodes().add(gc1);
+    gc2.getRelatedNodes().add(gc3);
+
+    c0.setData(c0d);
+    c1.setData(c1d);
+    gc0.setData(gc0d);
+    gc3.setData(gc3d);
+
+    Command delete = DeleteCommand.create(editingDomain, c0);
+
+    assertEquals(2, n.getChildren().size());
+    assertSame(c0, n.getChildren().get(0));
+    assertSame(c1, n.getChildren().get(1));
+
+    assertEquals(2, c0.getChildren().size());
+    assertSame(gc0, c0.getChildren().get(0));
+    assertSame(gc1, c0.getChildren().get(1));
+    assertSame(c0d, c0.getData());
+
+    assertEquals(2, c1.getChildren().size());
+    assertSame(gc2, c1.getChildren().get(0));
+    assertSame(gc3, c1.getChildren().get(1));
+    assertSame(c1d, c1.getData());
+
+    assertEquals(2, gc0.getRelatedNodes().size());
+    assertSame(gc1, gc0.getRelatedNodes().get(0));
+    assertSame(gc2, gc0.getRelatedNodes().get(1));
+    assertSame(gc0d, gc0.getData());
+
+    assertEquals(2, gc2.getRelatedNodes().size());
+    assertSame(gc1, gc2.getRelatedNodes().get(0));
+    assertSame(gc3, gc2.getRelatedNodes().get(1));
+
+    assertSame(gc3d, gc3.getData());
+
+    assertSame(c0, c0d.getNode());
+    assertSame(c1, c1d.getNode());
+    assertSame(gc0, gc0d.getNode());
+    assertSame(gc3, gc3d.getNode());
+
+    assertTrue(delete.canExecute());
+    CommandStack stack = editingDomain.getCommandStack();
+    stack.execute(delete);
+    
+    assertEquals(1, n.getChildren().size());
+    assertSame(c1, n.getChildren().get(0));
+
+    assertEquals(2, c0.getChildren().size());
+    assertSame(gc0, c0.getChildren().get(0));
+    assertSame(gc1, c0.getChildren().get(1));
+    assertNull(c0.getData());
+
+    assertEquals(2, c1.getChildren().size());
+    assertSame(gc2, c1.getChildren().get(0));
+    assertSame(gc3, c1.getChildren().get(1));
+    assertSame(c1d, c1.getData());
+
+    assertEquals(2, gc0.getRelatedNodes().size());
+    assertSame(gc1, gc0.getRelatedNodes().get(0));
+    assertSame(gc2, gc0.getRelatedNodes().get(1));
+    assertNull(gc0.getData());
+
+    assertEquals(1, gc2.getRelatedNodes().size());
+    assertSame(gc3, gc2.getRelatedNodes().get(0));
+
+    assertSame(gc3d, gc3.getData());
+
+    assertNull(c0d.getNode());
+    assertSame(c1, c1d.getNode());
+    assertNull(gc0d.getNode());
+    assertSame(gc3, gc3d.getNode());
+
+    assertTrue(stack.canUndo());
+    stack.undo();
+
+    assertEquals(2, n.getChildren().size());
+    assertSame(c0, n.getChildren().get(0));
+    assertSame(c1, n.getChildren().get(1));
+
+    assertEquals(2, c0.getChildren().size());
+    assertSame(gc0, c0.getChildren().get(0));
+    assertSame(gc1, c0.getChildren().get(1));
+    assertSame(c0d, c0.getData());
+
+    assertEquals(2, c1.getChildren().size());
+    assertSame(gc2, c1.getChildren().get(0));
+    assertSame(gc3, c1.getChildren().get(1));
+    assertSame(c1d, c1.getData());
+
+    assertEquals(2, gc0.getRelatedNodes().size());
+    assertSame(gc1, gc0.getRelatedNodes().get(0));
+    assertSame(gc2, gc0.getRelatedNodes().get(1));
+    assertSame(gc0d, gc0.getData());
+
+    assertEquals(2, gc2.getRelatedNodes().size());
+    assertSame(gc1, gc2.getRelatedNodes().get(0));
+    assertSame(gc3, gc2.getRelatedNodes().get(1));
+
+    assertSame(gc3d, gc3.getData());
+
+    assertSame(c0, c0d.getNode());
+    assertSame(c1, c1d.getNode());
+    assertSame(gc0, gc0d.getNode());
+    assertSame(gc3, gc3d.getNode());
+
+    assertTrue(stack.canRedo());
+    stack.redo();
+
+    assertEquals(1, n.getChildren().size());
+    assertSame(c1, n.getChildren().get(0));
+
+    assertEquals(2, c0.getChildren().size());
+    assertSame(gc0, c0.getChildren().get(0));
+    assertSame(gc1, c0.getChildren().get(1));
+    assertNull(c0.getData());
+
+    assertEquals(2, c1.getChildren().size());
+    assertSame(gc2, c1.getChildren().get(0));
+    assertSame(gc3, c1.getChildren().get(1));
+    assertSame(c1d, c1.getData());
+
+    assertEquals(2, gc0.getRelatedNodes().size());
+    assertSame(gc1, gc0.getRelatedNodes().get(0));
+    assertSame(gc2, gc0.getRelatedNodes().get(1));
+    assertNull(gc0.getData());
+
+    assertEquals(1, gc2.getRelatedNodes().size());
+    assertSame(gc3, gc2.getRelatedNodes().get(0));
+
+    assertSame(gc3d, gc3.getData());
+
+    assertNull(c0d.getNode());
+    assertSame(c1, c1d.getNode());
+    assertNull(gc0d.getNode());
+    assertSame(gc3, gc3d.getNode());
 
     assertTrue(stack.canUndo());
   }
