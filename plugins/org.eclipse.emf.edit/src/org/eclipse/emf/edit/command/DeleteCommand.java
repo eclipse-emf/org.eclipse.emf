@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteCommand.java,v 1.1 2005/07/08 02:06:57 davidms Exp $
+ * $Id: DeleteCommand.java,v 1.2 2006/05/08 14:00:28 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -24,10 +24,13 @@ import java.util.Map;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.EMFEditPlugin;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 
@@ -100,9 +103,31 @@ public class DeleteCommand extends CompoundCommand
 
   public void execute()
   {
+    Collection eObjects = new UniqueEList();
+    for (Iterator i = collection.iterator(); i.hasNext(); )
+    {
+      Object object = AdapterFactoryEditingDomain.unwrap(i.next());
+      if (object instanceof EObject)
+      {
+        eObjects.add(object);
+        for (Iterator j = ((EObject)object).eAllContents(); j.hasNext(); )
+        {
+          eObjects.add(j.next());
+        }
+      }
+      else if (object instanceof Resource)
+      {
+        for (Iterator j = ((Resource)object).getAllContents(); j.hasNext(); )
+        {
+          eObjects.add(j.next());
+        }
+      }
+    }
+    
+    Map usages = EcoreUtil.UsageCrossReferencer.findAll(eObjects, domain.getResourceSet());
+    
     super.execute();
 
-    Map usages = EcoreUtil.UsageCrossReferencer.findAll(collection, domain.getResourceSet());
     for (Iterator i = usages.entrySet().iterator(); i.hasNext(); )
     {
       Map.Entry entry = (Map.Entry)i.next();
