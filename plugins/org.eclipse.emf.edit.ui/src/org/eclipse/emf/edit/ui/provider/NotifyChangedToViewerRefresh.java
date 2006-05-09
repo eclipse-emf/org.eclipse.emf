@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyChangedToViewerRefresh.java,v 1.2 2005/06/08 06:20:52 nickb Exp $
+ * $Id: NotifyChangedToViewerRefresh.java,v 1.3 2006/05/09 12:31:44 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -57,7 +57,10 @@ public class NotifyChangedToViewerRefresh
          {
            public void run()
            {
-             new NotifyChangedToViewerRefresh().refresh(viewer, object, eventType, feature, oldValue, newValue, index);
+             if (viewer.getControl() != null && !viewer.getControl().isDisposed())
+             {
+               new NotifyChangedToViewerRefresh().refresh(viewer, object, eventType, feature, oldValue, newValue, index);
+             }
            }
          });
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryContentProvider.java,v 1.7 2006/01/23 20:53:40 davidms Exp $
+ * $Id: AdapterFactoryContentProvider.java,v 1.8 2006/05/09 12:31:44 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -433,19 +433,22 @@ public class AdapterFactoryContentProvider
 
     public void run()
     {
-      List current;
-
-      synchronized (this)
+      if (viewer != null && viewer.getControl() != null && !viewer.getControl().isDisposed())
       {
-        current = notifications;
-        notifications = null;
-      }
-
-      if (current != null)
-      {
-        for (Iterator i = current.iterator(); i.hasNext(); )
+        List current;
+  
+        synchronized (this)
         {
-          refresh((IViewerNotification)i.next());
+          current = notifications;
+          notifications = null;
+        }
+  
+        if (current != null)
+        {
+          for (Iterator i = current.iterator(); i.hasNext(); )
+          {
+            refresh((IViewerNotification)i.next());
+          }
         }
       }
     }
