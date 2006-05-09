@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.12 2006/04/13 17:33:03 marcelop Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.13 2006/05/09 16:58:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -20,15 +20,18 @@ package org.eclipse.emf.ecore.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -68,6 +71,8 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   
   protected class InverseCrossReferencer extends EcoreUtil.CrossReferencer
   {
+    protected Map proxyMap;
+    
     protected InverseCrossReferencer()
     {
       super((Collection)null);
@@ -128,15 +133,59 @@ public class ECrossReferenceAdapter implements Adapter.Internal
     public void add(EObject eObject)
     {
       handleCrossReference(eObject);
+      if (!resolve())
+      {
+        addProxy(eObject, eObject);
+      }
+    }
+    
+    protected void add(InternalEObject eObject, EReference eReference, EObject crossReferencedEObject)
+    {
+      super.add(eObject, eReference, crossReferencedEObject);
+      if (!resolve())
+      {
+        addProxy(crossReferencedEObject, eObject);
+      }
     }
     
     public void add(EObject eObject, EReference eReference, EObject crossReferencedEObject)
     {
-      getCollection(crossReferencedEObject).add(((InternalEObject)eObject).eSetting(eReference));
+      add((InternalEObject)eObject, eReference, crossReferencedEObject);
     }
     
+    protected void addProxy(EObject proxy, EObject context)
+    {
+      if (proxy.eIsProxy())
+      {
+        if (proxyMap == null)
+        {
+          proxyMap = new HashMap();
+        }
+        URI uri = normalizeURI(((InternalEObject)proxy).eProxyURI(), context);
+        List proxies = (List)proxyMap.get(uri);
+        if (proxies == null)
+        {
+          proxyMap.put(uri, proxies = new BasicEList.FastCompare());
+        }
+        proxies.add(proxy);
+      }
+    }
+
+    public Object remove(EObject eObject)
+    {
+      if (!resolve())
+      {
+        removeProxy(eObject, eObject);
+      }
+      return super.remove(eObject);
+    }
+
     public void remove(EObject eObject, EReference eReference, EObject crossReferencedEObject)
     {
+      if (!resolve())
+      {
+        removeProxy(crossReferencedEObject, eObject);
+      }
       BasicEList collection = (BasicEList)get(crossReferencedEObject);
       if (collection != null)
       {
@@ -157,9 +206,60 @@ public class ECrossReferenceAdapter implements Adapter.Internal
             break;
           }
         }
-      }
+      }      
     }
 
+    protected void removeProxy(EObject proxy, EObject context)
+    {
+      if (proxyMap != null && proxy.eIsProxy())
+      {
+        URI uri = normalizeURI(((InternalEObject)proxy).eProxyURI(), context);
+        List proxies = (List)proxyMap.get(uri);
+        if (proxies != null)
+        {
+          proxies.remove(proxy);
+          if (proxies.isEmpty())
+          {
+            proxyMap.remove(uri);
+          }
+        }
+      }
+    }
+    
+    protected List removeProxies(URI uri)
+    {
+      return proxyMap != null ? (List)proxyMap.remove(uri) : null;
+    }
+    
+    protected URI normalizeURI(URI uri, EObject objectContext)
+    {
+      // This should be the same as the logic in ResourceImpl.getEObject(String).
+      //
+      String fragment = uri.fragment();
+      if (fragment != null)
+      {
+        int length = fragment.length();
+        if (length > 0 && fragment.charAt(0) != '/' && fragment.charAt(length - 1) == '?')
+        {
+          int index = fragment.lastIndexOf('?', length - 2);
+          if (index > 0)
+          {
+            uri = uri.trimFragment().appendFragment(fragment.substring(0, index));
+          }
+        }
+      }
+      Resource resourceContext = objectContext.eResource();
+      if (resourceContext != null)
+      {
+        ResourceSet resourceSetContext = resourceContext.getResourceSet();
+        if (resourceSetContext != null)
+        {
+          return resourceSetContext.getURIConverter().normalize(uri);
+        }
+      }
+      return uri;
+    }
+    
     protected boolean resolve()
     {
       return ECrossReferenceAdapter.this.resolve();
@@ -175,6 +275,16 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   
   public Collection getNonNavigableInverseReferences(EObject eObject)
   {
+    return getNonNavigableInverseReferences(eObject, !resolve());
+  }
+
+  public Collection getNonNavigableInverseReferences(EObject eObject, boolean resolve)
+  {
+    if (resolve)
+    {
+      resolveAll(eObject);
+    }
+
     Collection result = (Collection)inverseCrossReferencer.get(eObject);
     if (result == null)
     {
@@ -185,7 +295,17 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   
   public Collection getInverseReferences(EObject eObject)
   {
+    return getInverseReferences(eObject, !resolve());
+  }
+
+  public Collection getInverseReferences(EObject eObject, boolean resolve)
+  {
     Collection result = new ArrayList();
+    
+    if (resolve)
+    {
+      resolveAll(eObject);
+    }
     
     EObject eContainer = eObject.eContainer();
     if (eContainer != null)
@@ -222,6 +342,42 @@ public class ECrossReferenceAdapter implements Adapter.Internal
     }
     
     return result;
+  }
+  
+  protected void resolveAll(EObject eObject)
+  {
+    if (!eObject.eIsProxy())
+    {
+      Resource resource = eObject.eResource();
+      if (resource != null)
+      {
+        URI uri = resource.getURI();
+        ResourceSet resourceSet = resource.getResourceSet();
+        if (resourceSet != null)
+        {
+          uri = resourceSet.getURIConverter().normalize(uri);
+        }
+        uri = uri.appendFragment(resource.getURIFragment(eObject));
+        List proxies = inverseCrossReferencer.removeProxies(uri);
+        if (proxies != null)
+        {
+          for (int i = 0, size = proxies.size(); i < size; ++i)
+          {
+            EObject proxy = (EObject)proxies.get(i);
+            for (Iterator inverseReferences = getInverseReferences(proxy, false).iterator(); inverseReferences.hasNext();)
+            {
+              EStructuralFeature.Setting setting = (EStructuralFeature.Setting)inverseReferences.next();
+              Object value = setting.get(true);
+              if (setting.getEStructuralFeature().isMany())
+              {
+                List list = (List) value;
+                list.get(list.indexOf(proxy));
+              }
+            }
+          }
+        }
+      }
+    }
   }
   
   protected boolean isIncluded(EReference eReference)
@@ -371,15 +527,17 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       case Notification.SET:
       case Notification.UNSET:
       {
+        EObject notifier = (EObject)notification.getNotifier();
+        EReference feature = (EReference)notification.getFeature();
         EObject oldValue = (EObject)notification.getOldValue();
         if (oldValue != null)
         {
-          inverseCrossReferencer.remove((EObject)notification.getNotifier(), (EReference)notification.getFeature(), oldValue);
+          inverseCrossReferencer.remove(notifier, feature, oldValue);
         }
         EObject newValue = (EObject)notification.getNewValue();
         if (newValue != null)
         {
-          inverseCrossReferencer.add((EObject)notification.getNotifier(), (EReference)notification.getFeature(), newValue);
+          inverseCrossReferencer.add(notifier, feature, newValue);
         }
         break;
       }
@@ -394,11 +552,13 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       }
       case Notification.ADD_MANY:
       {
+        EObject notifier = (EObject)notification.getNotifier();
+        EReference feature = (EReference)notification.getFeature();
         Collection newValues = (Collection)notification.getNewValue();
         for (Iterator i = newValues.iterator(); i.hasNext(); )
         {
           EObject newValue = (EObject)i.next();
-          inverseCrossReferencer.add((EObject)notification.getNotifier(), (EReference)notification.getFeature(), newValue);
+          inverseCrossReferencer.add(notifier, feature, newValue);
         }
         break;
       }
@@ -413,16 +573,19 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       }
       case Notification.REMOVE_MANY:
       {
+        EObject notifier = (EObject)notification.getNotifier();
+        EReference feature = (EReference)notification.getFeature();
         Collection oldValues = (Collection)notification.getOldValue();
         for (Iterator i = oldValues.iterator(); i.hasNext(); )
         {
           EObject oldValue = (EObject)i.next();
-          inverseCrossReferencer.remove((EObject)notification.getNotifier(), (EReference)notification.getFeature(), oldValue);
+          inverseCrossReferencer.remove(notifier, feature, oldValue);
         }
         break;
       }
     }
   }
+
   /**
    * Handles installation of the adapter
    * by adding the adapter to each of the directly contained objects.
@@ -431,81 +594,132 @@ public class ECrossReferenceAdapter implements Adapter.Internal
   {
     if (target instanceof EObject)
     {
-      EObject eObject = (EObject)target;
-      inverseCrossReferencer.add(eObject);
-      for (Iterator i = resolve() ? eObject.eContents().iterator() : ((InternalEList)eObject.eContents()).basicIterator(); i.hasNext(); )
-      {
-        Notifier notifier = (Notifier)i.next();
-        addAdapter(notifier);
-      }
+      setTarget((EObject)target);
     }
     else if (target instanceof Resource)
     {
-      Resource resource = (Resource)target;
-      if (!resource.isLoaded())
-      {
-        unloadedResources.add(resource);
-      }
-      List contents = resource.getContents();
-      for (int i = 0, size = contents.size(); i < size; ++i)
-      {
-        Notifier notifier = (Notifier)contents.get(i);
-        addAdapter(notifier);
-      }
+      setTarget((Resource)target);
     }
     else if (target instanceof ResourceSet)
     {
-      List resources =  ((ResourceSet)target).getResources();
-      for (int i = 0; i < resources.size(); ++i)
-      {
-        Notifier notifier = (Notifier)resources.get(i);
-        addAdapter(notifier);
-      }
+      setTarget((ResourceSet)target);
     }
   }
 
   /**
-   * Handles installation of the adapter
+   * Handles installation of the adapter on an EObject
    * by adding the adapter to each of the directly contained objects.
+   */
+  protected void setTarget(EObject target)
+  {
+    inverseCrossReferencer.add(target);
+    for (Iterator i = resolve() ? target.eContents().iterator() : ((InternalEList)target.eContents()).basicIterator(); i.hasNext(); )
+    {
+      Notifier notifier = (Notifier)i.next();
+      addAdapter(notifier);
+    }
+  }
+
+  /**
+   * Handles installation of the adapter on a Resource
+   * by adding the adapter to each of the directly contained objects.
+   */
+  protected void setTarget(Resource target)
+  {
+    if (!target.isLoaded())
+    {
+      unloadedResources.add(target);
+    }
+    List contents = target.getContents();
+    for (int i = 0, size = contents.size(); i < size; ++i)
+    {
+      Notifier notifier = (Notifier)contents.get(i);
+      addAdapter(notifier);
+    }
+  }
+
+  /**
+   * Handles installation of the adapter on a ResourceSet
+   * by adding the adapter to each of the directly contained objects.
+   */
+  protected void setTarget(ResourceSet target)
+  {
+    List resources =  target.getResources();
+    for (int i = 0; i < resources.size(); ++i)
+    {
+      Notifier notifier = (Notifier)resources.get(i);
+      addAdapter(notifier);
+    }
+  }
+
+  /**
+   * Handles deinstallation of the adapter
+   * by removing the adapter to each of the directly contained objects.
    */
   public void unsetTarget(Notifier target)
   {
     if (target instanceof EObject)
     {
-      EObject eObject = (EObject)target;
-      inverseCrossReferencer.remove(eObject);
-      for (EContentsEList.FeatureIterator i = inverseCrossReferencer.getCrossReferences(eObject); i.hasNext(); )
-      {
-        EObject crossReferencedEObject = (EObject)i.next();
-        inverseCrossReferencer.remove(eObject, (EReference)i.feature(), crossReferencedEObject);     
-      }
-
-      for (Iterator i = resolve() ? eObject.eContents().iterator() : ((InternalEList)eObject.eContents()).basicIterator(); i.hasNext(); )
-      {
-        Notifier notifier = (Notifier)i.next();
-        removeAdapter(notifier);
-      }
+      unsetTarget((EObject)target);
     }
     else if (target instanceof Resource)
     {
-      List contents = ((Resource)target).getContents();
-      for (int i = 0, size = contents.size(); i < size; ++i)
-      {
-        Notifier notifier = (Notifier)contents.get(i);
-        removeAdapter(notifier);
-      }
+      unsetTarget((Resource)target);
     }
     else if (target instanceof ResourceSet)
     {
-      List resources =  ((ResourceSet)target).getResources();
-      for (int i = 0; i < resources.size(); ++i)
-      {
-        Notifier notifier = (Notifier)resources.get(i);
-        removeAdapter(notifier);
-      }
+      unsetTarget((ResourceSet)target);
     }
   }
-  
+
+  /**
+   * Handles deinstallation of the adapter from an EObject
+   * by removing the adapter to each of the directly contained objects.
+   */
+  protected void unsetTarget(EObject target)
+  {
+    inverseCrossReferencer.remove(target);
+    for (EContentsEList.FeatureIterator i = inverseCrossReferencer.getCrossReferences(target); i.hasNext(); )
+    {
+      EObject crossReferencedEObject = (EObject)i.next();
+      inverseCrossReferencer.remove(target, (EReference)i.feature(), crossReferencedEObject);     
+    }
+
+    for (Iterator i = resolve() ? target.eContents().iterator() : ((InternalEList)target.eContents()).basicIterator(); i.hasNext(); )
+    {
+      Notifier notifier = (Notifier)i.next();
+      removeAdapter(notifier);
+    }
+  }
+
+  /**
+   * Handles deinstallation of the adapter from a Resource
+   * by removing the adapter to each of the directly contained objects.
+   */
+  protected void unsetTarget(Resource target)
+  {
+    List contents = target.getContents();
+    for (int i = 0, size = contents.size(); i < size; ++i)
+    {
+      Notifier notifier = (Notifier)contents.get(i);
+      removeAdapter(notifier);
+    }
+  }
+
+  /**
+   * Handles deinstallation of the adapter from a ResourceSet
+   * by removing the adapter to each of the directly contained objects.
+   */
+  protected void unsetTarget(ResourceSet target)
+  {
+    List resources =  target.getResources();
+    for (int i = 0; i < resources.size(); ++i)
+    {
+      Notifier notifier = (Notifier)resources.get(i);
+      removeAdapter(notifier);
+    }
+  }
+
   protected void addAdapter(Notifier notifier)
   {
     List eAdapters = notifier.eAdapters();
