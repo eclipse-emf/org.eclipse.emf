@@ -12,22 +12,17 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterApplication.java,v 1.19 2005/12/14 07:55:27 marcelop Exp $
+ * $Id: RoseImporterApplication.java,v 1.20 2006/05/10 20:17:46 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.Monitor;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.ModelImporterApplication;
@@ -43,9 +38,6 @@ public class RoseImporterApplication extends ModelImporterApplication
     public String base;
     public String prefix;
   }
-
-  protected IPath roseModelFullPath;
-  protected IPath genModelFullPath;
 
   protected boolean noQualify;
   protected boolean unsettablePrimitive;
@@ -100,18 +92,6 @@ public class RoseImporterApplication extends ModelImporterApplication
     appendLine(result, "    -package extended Extended Extended.ecore org.example Extended");
     appendLine(result, "    -refPackage company Company Company.ecore org.sample Company");
     return result;
-  }
-
-  protected void processArguments(String[] arguments, int index)
-  {
-    roseModelFullPath = new Path(new File(arguments[index++]).getAbsolutePath());
-
-    String nextArgument = index < arguments.length ? arguments[index++] : null;
-    genModelFullPath = nextArgument != null && !nextArgument.startsWith("-") ?
-      new Path(new File(nextArgument).getAbsolutePath()) :
-      roseModelFullPath.removeFileExtension().addFileExtension("genmodel");
-
-    super.processArguments(arguments, index);
   }
 
   protected int processArgument(String[] arguments, int index)
@@ -210,10 +190,8 @@ public class RoseImporterApplication extends ModelImporterApplication
       monitor.beginTask("", 2);
 
       super.adjustModelImporter(CodeGenUtil.createMonitor(monitor, 1));
+      
       RoseImporter roseImporter = getRoseImporter();
-      handleGenModelPath(genModelFullPath);
-      roseImporter.setModelLocation(URI.createFileURI(roseModelFullPath.toOSString()).toString());
-  
       if (pathMap != null)
       {
         roseImporter.getPathMap().putAll(pathMap);

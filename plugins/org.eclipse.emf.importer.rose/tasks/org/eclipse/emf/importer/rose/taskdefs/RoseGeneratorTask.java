@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseGeneratorTask.java,v 1.2 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseGeneratorTask.java,v 1.3 2006/05/10 20:17:46 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.taskdefs;
 
@@ -60,6 +60,11 @@ import org.eclipse.emf.importer.rose.RoseImporterApplication;
  */
 public class RoseGeneratorTask extends GeneratorTask
 {
+  protected boolean supportMultipleURIs()
+  {
+    return false;
+  }
+  
   protected void addGenModelArguments()
   {
     super.addGenModelArguments();
