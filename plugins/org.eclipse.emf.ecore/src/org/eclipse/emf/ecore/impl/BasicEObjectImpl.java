@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.23 2006/03/27 17:49:18 marcelop Exp $
+ * $Id: BasicEObjectImpl.java,v 1.24 2006/05/10 21:56:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -74,15 +74,12 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   }
 
   /**
-   * An internal class for holding less frequently members variables.
+   * An internal class for holding the least frequently members variables.
    */
-  protected static class EPropertiesHolderImpl implements EPropertiesHolder
+  protected static class EPropertiesHolderBaseImpl implements EPropertiesHolder
   {
     protected EClass eClass;
-    protected URI eProxyURI;
     protected Resource.Internal eResource;
-    protected EList eContents;
-    protected EList eCrossReferences;
     protected Object [] eSettings;
 
     protected static final Object [] NO_SETTINGS = new Object [0];
@@ -99,12 +96,12 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
     public URI getEProxyURI()
     {
-      return eProxyURI;
+      throw new UnsupportedOperationException();
     }
 
     public void setEProxyURI(URI eProxyURI)
     {
-      this.eProxyURI = eProxyURI;
+      throw new UnsupportedOperationException();
     }
 
     public Resource.Internal getEResource()
@@ -119,22 +116,22 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
     public EList getEContents()
     {
-      return eContents;
+      throw new UnsupportedOperationException();
     }
 
     public void setEContents(EList eContents)
     {
-      this.eContents = eContents;
+      throw new UnsupportedOperationException();
     }
 
     public EList getECrossReferences()
     {
-      return eCrossReferences;
+      throw new UnsupportedOperationException();
     }
 
     public void setECrossReferences(EList eCrossReferences)
     {
-      this.eCrossReferences = eCrossReferences;
+      throw new UnsupportedOperationException();
     }
 
     public boolean hasSettings()
@@ -160,6 +157,56 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     public void dynamicUnset(int dynamicFeatureID)
     {
       eSettings[dynamicFeatureID] = null;
+    }
+  }
+
+  /**
+   * An internal class for holding less frequently members variables.
+   */
+  protected static class EPropertiesHolderImpl extends EPropertiesHolderBaseImpl
+  {
+    protected URI eProxyURI;
+    protected EList eContents;
+    protected EList eCrossReferences;
+
+    public EClass getEClass()
+    {
+      return eClass;
+    }
+
+    public void setEClass(EClass eClass)
+    {
+      this.eClass = eClass;
+    }
+
+    public URI getEProxyURI()
+    {
+      return eProxyURI;
+    }
+
+    public void setEProxyURI(URI eProxyURI)
+    {
+      this.eProxyURI = eProxyURI;
+    }
+
+    public EList getEContents()
+    {
+      return eContents;
+    }
+
+    public void setEContents(EList eContents)
+    {
+      this.eContents = eContents;
+    }
+
+    public EList getECrossReferences()
+    {
+      return eCrossReferences;
+    }
+
+    public void setECrossReferences(EList eCrossReferences)
+    {
+      this.eCrossReferences = eCrossReferences;
     }
   }
 
@@ -463,7 +510,8 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public Resource.Internal eDirectResource()
   {
-    return eBasicProperties() == null ? null : eBasicProperties().getEResource();
+    EPropertiesHolder eProperties = eBasicProperties();
+    return eProperties == null ? null : eProperties.getEResource();
   }
 
   public Resource eResource()
