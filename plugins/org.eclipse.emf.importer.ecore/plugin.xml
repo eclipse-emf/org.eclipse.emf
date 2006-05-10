@@ -4,4 +4,18 @@
   <extension point="org.eclipse.emf.importer.modelImporterDescriptors">
     <modelImporterDescriptor id="org.eclipse.emf.importer.ecore" name="%_UI_EcoreImporter_label" icon="icons/full/obj16/EcoreModelFile.gif" extensions="ecore,emof" description="%_UI_EcoreImporter_description" wizard="org.eclipse.emf.importer.ecore.ui.EcoreImporterWizard" />
   </extension>
+  
+  <extension id="Ecore2GenModel" point="org.eclipse.core.runtime.applications">
+    <application>
+      <run class="org.eclipse.emf.importer.ecore.EcoreImporterApplication" />
+    </application>
+  </extension>
+
+  <extension point="org.eclipse.ant.core.extraClasspathEntries">
+    <extraClasspathEntry library="ant_tasks/importer.ecore.tasks.jar" />
+  </extension>
+
+  <extension point="org.eclipse.ant.core.antTasks">
+    <antTask library="ant_tasks/importer.ecore.tasks.jar" name="emf.Ecore2Java" headless="true" class="org.eclipse.emf.importer.ecore.taskdefs.EcoreGeneratorTask" />
+  </extension>  
 </plugin>
