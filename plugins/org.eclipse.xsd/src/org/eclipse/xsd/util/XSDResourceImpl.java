@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.14 2006/03/30 13:53:43 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.15 2006/05/10 22:03:19 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -44,6 +44,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDDiagnostic;
@@ -497,26 +498,32 @@ public class XSDResourceImpl extends ResourceImpl
 
   protected void doSave(OutputStream os, Map options) throws IOException
   {
-    XSDSchema xsdSchema = getSchema();
-    if (xsdSchema != null)
+    if (os instanceof URIConverter.WriteableOutputStream)
     {
-      Document document = xsdSchema.getDocument();
-      if (document == null)
+      doSave(((URIConverter.WriteableOutputStream)os).asWriter(), options);
+    }
+    else
+    {
+      XSDSchema xsdSchema = getSchema();
+      if (xsdSchema != null)
       {
-        xsdSchema.updateDocument();
-        document = xsdSchema.getDocument();
+        Document document = xsdSchema.getDocument();
+        if (document == null)
+        {
+          xsdSchema.updateDocument();
+          document = xsdSchema.getDocument();
+        }
+  
+        if (xsdSchema.getElement() == null)
+        {
+          xsdSchema.updateElement();
+        }
+  
+        doSerialize(os, document, options);
       }
-
-      if (xsdSchema.getElement() == null)
-      {
-        xsdSchema.updateElement();
-      }
-
-      doSerialize(os, document, options);
     }
   }
-  
-  
+
   /**
    * Saves the resource to the writer using the specified options.
    * @param writer the writer
@@ -750,7 +757,11 @@ public class XSDResourceImpl extends ResourceImpl
    */
   protected void doLoad(InputStream inputStream, Map options) throws IOException
   {
-    InputSource inputSource = new InputSource(inputStream);
+    InputSource inputSource = 
+      inputStream instanceof URIConverter.ReadableInputStream ? 
+      new InputSource(((URIConverter.ReadableInputStream)inputStream).asReader()) :
+      new InputSource(inputStream);
+
     if (getURI() != null)
     {
       String id = getURI().toString();
