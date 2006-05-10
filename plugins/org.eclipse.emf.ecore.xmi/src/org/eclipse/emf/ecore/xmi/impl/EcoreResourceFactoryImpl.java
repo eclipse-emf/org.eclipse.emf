@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreResourceFactoryImpl.java,v 1.4 2005/06/08 06:16:07 nickb Exp $
+ * $Id: EcoreResourceFactoryImpl.java,v 1.5 2006/05/10 17:31:52 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -35,7 +35,14 @@ public class EcoreResourceFactoryImpl extends ResourceFactoryImpl
 
   public Resource createResource(URI uri)
   {
-    XMLResourceImpl result = new XMIResourceImpl(uri);
+    XMLResource result = 
+      new XMIResourceImpl(uri)
+      {
+        protected boolean useIDs()
+        {
+          return eObjectToIDMap != null || idToEObjectMap != null;
+        }
+      };
     result.setEncoding("UTF-8");
 
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
