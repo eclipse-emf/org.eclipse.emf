@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.7 2005/06/08 06:17:05 nickb Exp $
+ * $Id: WrapperItemProvider.java,v 1.8 2006/05/10 19:17:18 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -590,6 +590,14 @@ public class WrapperItemProvider implements IWrapperItemProvider
     public Object getPropertyValue(Object object)
     {
       return super.getPropertyValue(owner);
+    }
+
+    /**
+     * Substitutes the wrapper owner for the selected object and invokes the base implementation.
+     */
+    public boolean canSetProperty(Object object)
+    {
+      return super.canSetProperty(owner);
     }
 
     /**
