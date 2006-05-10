@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.19 2005/11/23 12:32:27 emerks Exp $
+ * $Id: AntTest.java,v 1.20 2006/05/10 20:21:29 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -49,16 +49,29 @@ public class AntTest extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("EMFAntTest");
+    
+    // Don't comment out this test
     ts.addTest(new AntTest("suiteSetUp"));
+    
     ts.addTest(new AntTest("testJET"));
     ts.addTest(new AntTest("testJMerger"));
+    
     ts.addTest(new AntTest("testRose"));
     ts.addTest(new AntTest("testRoseReload"));
+    
     ts.addTest(new AntTest("testXSD"));
     ts.addTest(new AntTest("testXSDReload"));
+    
     ts.addTest(new AntTest("testXSDs"));
     ts.addTest(new AntTest("testXSDsReload"));
+    
+    ts.addTest(new AntTest("testEcore"));
+    ts.addTest(new AntTest("testEcoreReload"));
+    
+    // Deletes the temp directory created during the tests to store the
+    // generated artifacts
     ts.addTest(new AntTest("suiteTearDown"));
+    
     return ts;
   }
   
@@ -73,6 +86,7 @@ public class AntTest extends TestCase
     String emfAntPluginDir = TestUtil.getPluginDirectory("org.eclipse.emf.ant"); 
     String roseImporterPluginDir = TestUtil.getPluginDirectory("org.eclipse.emf.importer.rose");
     String xsdImporterPluginDir = TestUtil.getPluginDirectory("org.eclipse.xsd.ecore.importer");
+    String ecoreImporterPluginDir = TestUtil.getPluginDirectory("org.eclipse.emf.importer.ecore");
 
     String emfSourcePlugin = TestUtil.getPluginDirectory("org.eclipse.emf.source");
     String xsdSourcePlugin = TestUtil.getPluginDirectory("org.eclipse.xsd.source");
@@ -134,6 +148,25 @@ public class AntTest extends TestCase
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsd"), true);
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsds"), true);
+    
+    // Ecore
+    libraryDir = null;
+    if (ecoreImporterPluginDir != null)
+    {
+      libraryDir = new File(ecoreImporterPluginDir + "/examples/library");
+    }
+    
+    if (!libraryDir.isDirectory() && emfSourcePlugin != null)
+    {
+      File ecoreImporterPluginSrcDir = getPluginSourceSubDirectory(emfSourcePlugin, "org.eclipse.emf.importer.ecore");
+      if (ecoreImporterPluginSrcDir != null)
+      {
+        libraryDir = new File(ecoreImporterPluginSrcDir + "/examples/library");
+      }
+    }
+    assertNotNull(libraryDir);
+    assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.ecore"), true);
   }
   
   protected File getPluginSourceSubDirectory(String sourcePluginDir, String pluginID)
@@ -265,6 +298,35 @@ public class AntTest extends TestCase
     testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "xsds", testTokenReplacements);
+  }  
+  
+  public void testEcore() throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "library.ecore");
+    File rootExpectedDir = new File(EXPECTED_DIR, "library.ecore");
+    File antScript = new File(rootDir, "build/build.xml");
+    
+    String[] testTokenReplacements = new String[2];
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
+    testTokenReplacements[1] = File.separator;
+           
+    runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
+  }
+
+  public void testEcoreReload() throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "library.ecore");
+    File rootExpectedDir = new File(RELOAD_EXPECTED_DIR, "library.ecore");
+    File antScript = new File(rootDir, "build/reload.xml");
+    
+    TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
+    TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
+   
+    String[] testTokenReplacements = new String[2];
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
+    testTokenReplacements[1] = File.separator;
+           
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "ecore", testTokenReplacements);
   }  
 
   private void runAntAndTest(File rootDir, File rootExpectedDir, File antScript, String antScriptArguments, String[] testTokenReplacements) throws CoreException
