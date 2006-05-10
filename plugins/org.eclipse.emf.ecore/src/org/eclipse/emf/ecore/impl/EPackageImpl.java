@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.28 2006/05/07 12:04:28 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.29 2006/05/10 17:31:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -49,7 +50,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -670,13 +671,26 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     return result.toString();
   }
 
+  private static Resource.Factory resourceFactory;
+
   protected Resource createResource(String uri)
   {
     Resource resource = eResource();
     if (resource == null) 
     {
+      if (resourceFactory == null)
+      {
+        try
+        {
+          resourceFactory = (Resource.Factory)CommonPlugin.loadClass("org.eclipse.emf.ecore.xmi", "org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl").newInstance();
+        }
+        catch (Throwable exception)
+        {
+          resourceFactory = new ResourceFactoryImpl();
+        }
+      }
       URI actualURI = URI.createURI(uri);
-      resource =  new ResourceImpl(actualURI);
+      resource =  resourceFactory.createResource(actualURI);
       resource.getContents().add(this);
     }
     return resource;
