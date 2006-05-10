@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.2 2006/05/02 17:28:27 davidms Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.3 2006/05/10 18:46:31 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -618,7 +618,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
 
         // Create a code formatter for this compilation unit, if needed.
         //
-        CodeFormatter codeFormatter = getGenerator().getOptions().codeFormatting ?
+        Object codeFormatter = getGenerator().getOptions().codeFormatting ?
           createCodeFormatter(getGenerator().getOptions().codeFormatterOptions, targetFile) : null;
 
         if (exists(targetFile))
@@ -931,7 +931,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     return null;
   }
 
-  protected CodeFormatter createCodeFormatter(Map options, URI workspacePath)
+  protected Object createCodeFormatter(Map options, URI workspacePath)
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
@@ -941,9 +941,9 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   }
 
   /**
-   * If non-null, use the specified JDT code formatter to format the given compilation unit contents.
+   * If non-null, use the specified code formatter to format the given compilation unit contents.
    */
-  protected String formatCode(String contents, CodeFormatter codeFormatter)
+  protected String formatCode(String contents, Object codeFormatter)
   {
     return EMFPlugin.IS_ECLIPSE_RUNNING ? EclipseHelper.formatCode(contents, codeFormatter) : contents;
   }
@@ -1076,7 +1076,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       }
     }
 
-    public static CodeFormatter createCodeFormatter(Map options, String workspacePath)
+    public static Object createCodeFormatter(Map options, String workspacePath)
     {
       if (options == null)
       {
@@ -1093,12 +1093,12 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       return ToolFactory.createCodeFormatter(options);
     }
 
-    public static String formatCode(String contents, CodeFormatter codeFormatter)
+    public static String formatCode(String contents, Object codeFormatter)
     {
-      if (codeFormatter != null)
+      if (codeFormatter instanceof CodeFormatter)
       {
         IDocument doc = new Document(contents);
-        TextEdit edit = codeFormatter.format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, null);
+        TextEdit edit = ((CodeFormatter)codeFormatter).format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, null);
   
         try
         {
