@@ -12,6 +12,7 @@ Export-Package: org.eclipse.emf.codegen,
  org.eclipse.emf.codegen.jmerge,
  org.eclipse.emf.codegen.merge.java,
  org.eclipse.emf.codegen.merge.java.facade,
+ org.eclipse.emf.codegen.merge.java.facade.ast,
  org.eclipse.emf.codegen.merge.java.facade.jdom,
  org.eclipse.emf.codegen.merge.properties,
  org.eclipse.emf.codegen.util
