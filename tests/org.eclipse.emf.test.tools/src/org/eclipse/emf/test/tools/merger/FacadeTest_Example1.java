@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeTest_Example1.java,v 1.2 2006/01/18 21:32:53 marcelop Exp $
+ * $Id: FacadeTest_Example1.java,v 1.3 2006/05/10 20:33:58 marcelop Exp $
  */
 
 package org.eclipse.emf.test.tools.merger;
@@ -34,6 +34,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JInitializer;
 import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 import org.eclipse.emf.codegen.merge.java.facade.JType;
+import org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper;
 import org.eclipse.emf.test.tools.TestUtil;
 
@@ -59,6 +60,7 @@ public class FacadeTest_Example1 extends TestCase
   {
     TestSuite ts = new TestSuite("FacadeTest_14");
     ts.addTest(new FacadeTest_Example1("testJDOM"));
+    ts.addTest(new FacadeTest_Example1("testAST"));
     return ts;
   }
   
@@ -86,6 +88,12 @@ public class FacadeTest_Example1 extends TestCase
     readTest(new JDOMFacadeHelper(), getJavaFile());
   }
   
+  public void testAST() throws Exception
+  {
+    setTestActualText(false);
+    readTest(new ASTFacadeHelper(), getJavaFile());
+  }
+
   protected void tearDown() throws Exception
   {
     compilationUnit = null;
@@ -388,7 +396,7 @@ public class FacadeTest_Example1 extends TestCase
       
       StringBuffer expectedContents = new StringBuffer();
       expectedContents.append(expectedComment);
-      expectedContents.append("\n").append("  public static final String STR_CONST = \"something is ; different \\\"//; /*;*/\" /*inte;res;ting*/ + \" !!;;\" /*;;;*/;");
+      expectedContents.append("\n").append("  public static final String STR_CONST = \"something is ; different \\\"//; /*;*/\" /*inte;res;ting*/ + \" !!;;\" ;  // = \"original text\";");
       expectedContents.append("\n").append("    \n");
       if (testContent) assertEquals(expectedContents.toString(), field.getContents());
     }
@@ -662,7 +670,7 @@ public class FacadeTest_Example1 extends TestCase
       expectedBody.append("\n").append("  {");
       expectedBody.append("\n").append("    return Collections.EMPTY_LIST;");
       expectedBody.append("\n").append("  }");
-      expectedBody.append("\n").append("\n");
+      expectedBody.append("\n");
       if (testBody) assertEquals(expectedBody.toString(), method.getBody());
       
       StringBuffer expectedContents = new StringBuffer();
@@ -698,7 +706,9 @@ public class FacadeTest_Example1 extends TestCase
       if (testBody) assertEquals(expectedBody.toString(), method.getBody());
       
       StringBuffer expectedContents = new StringBuffer();
-      expectedContents.append("  private static long[][] aMethodWithNoComments(int[] a)");
+      expectedContents.append("  // This is a simple comment");
+      expectedContents.append("\n\n").append("  //This is another simple comment");
+      expectedContents.append("\n").append("  private static long[][] aMethodWithNoComments(int[] a)");
       expectedContents.append(expectedBody);      
       if (testContent) assertEquals(expectedContents.toString(), method.getContents());            
     }    

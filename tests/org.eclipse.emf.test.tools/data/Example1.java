@@ -52,7 +52,7 @@ public class Example1 extends EObjectImpl
   /**
    * public String constant.
    */
-  public static final String STR_CONST = "something is ; different \"//; /*;*/" /*inte;res;ting*/ + " !!;;" /*;;;*/;
+  public static final String STR_CONST = "something is ; different \"//; /*;*/" /*inte;res;ting*/ + " !!;;" ;  // = "original text";
     
   /*
    * A private static inner interface
@@ -139,7 +139,9 @@ public class Example1 extends EObjectImpl
   {
     return Collections.EMPTY_LIST;
   }
+  // This is a simple comment
 
+  //This is another simple comment
   private static long[][] aMethodWithNoComments(int[] a)
   {
      System.out.println("I don't do anything");
