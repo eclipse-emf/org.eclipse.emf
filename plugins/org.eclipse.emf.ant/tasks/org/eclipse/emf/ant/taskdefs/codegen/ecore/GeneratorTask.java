@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.11 2006/02/22 15:44:19 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.12 2006/05/10 20:15:27 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
@@ -26,6 +28,7 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
 
 import org.eclipse.emf.ant.taskdefs.EMFTask;
 import org.eclipse.emf.codegen.ecore.Generator;
+import org.eclipse.emf.common.util.URI;
 
 
 /**
@@ -107,10 +110,45 @@ import org.eclipse.emf.codegen.ecore.Generator;
  * </tr>
  * </table>
  * 
+ * <p>If the Ant task knows how to handle multiple model specifications,  
+ * &lt;model&gt; elements can be used (instead of the <tt>model</tt> attribute).  Here's
+ * an example:</p>
+ * 
+ * <pre>
+ *   &lt;model uri=&quot;http://www.example.eclipse.org/library.xsd&quot;/&gt;
+ *   &lt;model file=&quot;c:/common.xsd&quot;/&gt;
+ * </pre>
+ * 
  * @since 2.1.0
  */
 public abstract class GeneratorTask extends EMFTask
 {
+  public static class ModelLocation
+  {
+    private File file;
+    private String uri;
+
+    public File getFile()
+    {
+      return file;
+    }
+
+    public void setFile(File file)
+    {
+      this.file = file;
+    }
+
+    public String getUri()
+    {
+      return uri;
+    }
+
+    public void setUri(String uri)
+    {
+      this.uri = uri;
+    }
+  }
+  
   public static class ReconcileGenModelType extends EnumeratedAttribute
   {
     public String[] getValues()
@@ -119,32 +157,61 @@ public abstract class GeneratorTask extends EMFTask
     }
   }
 
-  private static final int GENMODEL_OVERWRITE = 0;
-  private static final int GENMODEL_KEEP = 1;
-  private static final int GENMODEL_RELOAD = 2;
+  protected static final int GENMODEL_OVERWRITE = 0;
+  protected static final int GENMODEL_KEEP = 1;
+  protected static final int GENMODEL_RELOAD = 2;
 
-  private File model;
-  private File genModel;
-  private File modelProject;
-  private String modelPluginID;
-  private String modelProjectFragmentPath;
-  private File templatePath;
-  private String copyright;
-  private boolean sdo = false;
+  protected File model;
+  private List modelLocations;
+  
+  protected File genModel;
+  protected File modelProject;
+  protected String modelPluginID;
+  protected String modelProjectFragmentPath;
+  protected File templatePath;
+  protected String copyright;
+  protected boolean sdo = false;
 
-  private int reconcileGenModel = GENMODEL_OVERWRITE;
-  private boolean generateJavaCode = true;
+  protected int reconcileGenModel = GENMODEL_OVERWRITE;
+  protected boolean generateJavaCode = true;
 
   protected Commandline commandline;
-  protected boolean useModelAttribute = true;
   protected boolean generateModelProject = true;
   protected boolean generateEditProject = true;
   protected boolean generateEditorProject = true;
 
+  protected boolean supportMultipleURIs()
+  {
+    return true;
+  }  
+  
   public void setModel(File model)
   {
     this.model = model;
   }
+  
+  public ModelLocation createModel()
+  {
+    if (supportMultipleURIs())
+    {
+      ModelLocation modelLocation = new ModelLocation();
+      if (modelLocations == null)
+      {
+        modelLocations = new ArrayList();
+        modelLocations.add(modelLocation);
+      }
+      else
+      {
+        modelLocations.add(0, modelLocation);
+      }
+      
+      return modelLocation;
+    }
+    else
+    {
+      throw new BuildException("This importer doesn't support multiple models");
+    }
+  }  
 
   public void setGenModel(File genModel)
   {
@@ -250,9 +317,18 @@ public abstract class GeneratorTask extends EMFTask
 
   protected void checkAttributes() throws BuildException
   {
-    if (useModelAttribute)
+    if (modelLocations == null)
     {
-      assertTrue("The 'model' attribute must be specified.", model != null);
+      assertTrue("The 'model' attribute must be specified.", model != null && modelLocations == null);
+    }
+    else
+    {
+      for (Iterator i = modelLocations.iterator(); i.hasNext();)
+      {
+        ModelLocation modelLocation = (ModelLocation)i.next();
+        assertTrue("Either the 'file' or the 'uri' attributes of a 'model' element must be specified.", 
+          modelLocation.getFile() != null || modelLocation.getUri() != null);
+      }      
     }
     
     assertTrue("The 'genModel' attribute must be specified.", genModel != null);
@@ -286,7 +362,7 @@ public abstract class GeneratorTask extends EMFTask
 
   abstract protected void createGenModel(String[] arguments) throws Exception;
 
-  protected void addGenModelArguments()
+  protected void addGenModelPathArgument()
   {
     if (genModel != null)
     {
@@ -296,12 +372,42 @@ public abstract class GeneratorTask extends EMFTask
         getCommandline().createArgument().setValue("-reload");
       }
     }
-    
+  }
+  
+  protected void addModelPathArgument()
+  {
     if (model != null)
     {
       getCommandline().createArgument(true).setValue(model.getAbsolutePath());
     }
-
+    
+    if (modelLocations != null)
+    {
+      for (Iterator i = modelLocations.iterator(); i.hasNext();)
+      {
+        ModelLocation modelLocation = (ModelLocation)i.next();
+        String argument = modelLocation.getUri();
+        if (argument == null)
+        {
+          try
+          {
+            argument = URI.createFileURI(modelLocation.getFile().getCanonicalPath()).toString();
+          }
+          catch (IOException e)
+          {
+            argument = URI.createFileURI(modelLocation.getFile().getAbsolutePath()).toString();
+          }
+        }
+        getCommandline().createArgument(true).setValue(argument);
+      }
+    }    
+  }
+  
+  protected void addGenModelArguments()
+  {    
+    addGenModelPathArgument();
+    addModelPathArgument();
+    
     if (modelProject != null)
     {
       getCommandline().createArgument().setValue("-modelProject");
