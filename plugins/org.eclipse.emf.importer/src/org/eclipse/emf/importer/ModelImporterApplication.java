@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.17 2006/05/01 10:43:07 davidms Exp $
+ * $Id: ModelImporterApplication.java,v 1.18 2006/05/10 20:16:58 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -59,6 +60,9 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
 {
   protected ModelImporter modelImporter;
 
+  protected String modelLocations;
+  protected IPath genModelFullPath;
+  
   protected boolean reload = false;
   protected IPath modelProjectLocationPath;
   protected IPath modelFragmentPath;
@@ -205,12 +209,63 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
 
   protected void processArguments(String[] arguments, int index)
   {
+    index = processModelAndGenModelLocationArguments(arguments, index);
     while (index < arguments.length)
     {
       index = processArgument(arguments, index); 
     }
   }
-
+  
+  protected int processModelAndGenModelLocationArguments(String[] arguments, int index)
+  {
+    StringBuffer locations = new StringBuffer();
+    URI firstModelURI = null;
+    
+    while (arguments.length > index && arguments[index] != null && !arguments[index].startsWith("-"))
+    {
+      String location = arguments[index++];
+      if (location.endsWith(".genmodel"))
+      {
+        genModelFullPath = new Path(new File(location).getAbsolutePath());
+        break;
+      }
+      else
+      {
+        File file = new File(location);
+        if (file.isFile())
+        {
+          try
+          {
+            location = URI.createFileURI(file.getCanonicalPath()).toString();
+          }
+          catch (IOException e)
+          {
+            location = URI.createFileURI(file.getAbsolutePath()).toString();
+          }
+        }
+        
+        if (firstModelURI == null)
+        {
+          firstModelURI = URI.createURI(location);
+        }
+        locations.append(" ").append(location);
+      }
+    }
+    
+    if (firstModelURI != null)      
+    {
+      modelLocations = locations.deleteCharAt(0).toString(); // removing the first space
+      
+      if (genModelFullPath == null)
+      {
+        genModelFullPath = 
+          new Path(new File(firstModelURI.trimFileExtension().appendFileExtension("genmodel").lastSegment()).getAbsolutePath());
+      }
+    }
+    
+    return index;
+  }
+  
   protected int processArgument(String[] arguments, int index)
   {
     if (arguments[index].equalsIgnoreCase("-reload"))
@@ -329,6 +384,9 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       {
         modelImporter.setModelPluginDirectory(modelProjectLocationPath + "/./" + modelFragmentPath + "/.");
       }
+      
+      handleGenModelPath(genModelFullPath);
+      modelImporter.setModelLocation(modelLocations);
     }
     finally
     {
