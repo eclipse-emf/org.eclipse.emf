@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.37 2006/05/05 17:39:49 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.38 2006/05/10 17:24:55 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -756,11 +756,10 @@ public class <%=genPackage.getEditorClassName()%>
 <%}%>
 				try
 				{
-					showTabs();
-					addPage(getPageCount(), problemEditorPart, getEditorInput());
-					lastEditorPage++;
+					addPage(++lastEditorPage, problemEditorPart, getEditorInput());
 					setPageText(lastEditorPage, problemEditorPart.getPartName());
 					setActivePage(lastEditorPage);
+					showTabs();
 				}
 				catch (PartInitException exception)
 				{
@@ -1410,8 +1409,8 @@ public class <%=genPackage.getEditorClassName()%>
 	}
 
 	/**
-	 * If there is just one page in the multi-page editor part, this hides
-	 * the single tab at the bottom.
+	 * If there is just one page in the multi-page editor part,
+	 * this hides the single tab at the bottom.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1431,15 +1430,15 @@ public class <%=genPackage.getEditorClassName()%>
 	}
 
 	/**
-	 * If there is just one page in the multi-page editor part, this shows
-	 * the single tab at the bottom.
+	 * If there is more than one page in the multi-page editor part,
+	 * this shows the tabs at the bottom.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected void showTabs()
 	{
-		if (getPageCount() == 1)
+		if (getPageCount() > 1)
 		{
 			setPageText(0, getString("_UI_SelectionPage_label"));<%=genModel.getNonNLS()%>
 			if (getContainer() instanceof CTabFolder)
@@ -2056,6 +2055,8 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	public void dispose()
 	{
+		updateProblemIndication = false;
+
 <%if (!genModel.isRichClientPlatform()) {%>
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 
