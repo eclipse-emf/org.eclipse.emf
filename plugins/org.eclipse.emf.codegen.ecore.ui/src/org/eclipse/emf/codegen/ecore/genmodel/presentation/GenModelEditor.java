@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.27 2006/05/05 17:39:52 davidms Exp $
+ * $Id: GenModelEditor.java,v 1.28 2006/05/10 17:25:43 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -694,11 +694,10 @@ public class GenModelEditor
         problemEditorPart.setMarkerHelper(markerHelper);
         try
         {
-          showTabs();
-          addPage(getPageCount(), problemEditorPart, getEditorInput());
-          lastEditorPage++;
+          addPage(++lastEditorPage, problemEditorPart, getEditorInput());
           setPageText(lastEditorPage, problemEditorPart.getPartName());
           setActivePage(lastEditorPage);
+          showTabs();
         }
         catch (PartInitException exception)
         {
@@ -1138,8 +1137,8 @@ public class GenModelEditor
   }
 
   /**
-   * If there is just one page in the multi-page editor part, this hides
-   * the single tab at the bottom.
+   * If there is just one page in the multi-page editor part,
+   * this hides the single tab at the bottom.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1159,15 +1158,15 @@ public class GenModelEditor
   }
 
   /**
-   * If there is just one page in the multi-page editor part, this shows
-   * the single tab at the bottom.
+   * If there is more than one page in the multi-page editor part,
+   * this shows the tabs at the bottom.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   protected void showTabs()
   {
-    if (getPageCount() == 1)
+    if (getPageCount() > 1)
     {
       setPageText(0, getString("_UI_SelectionPage_label"));
       if (getContainer() instanceof CTabFolder)
@@ -1728,6 +1727,8 @@ public class GenModelEditor
    */
   public void dispose()
   {
+    updateProblemIndication = false;
+
     ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 
     getSite().getPage().removePartListener(partListener);

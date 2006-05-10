@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.35 2006/05/05 17:39:44 davidms Exp $
+ * $Id: EcoreEditor.java,v 1.36 2006/05/10 17:25:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -689,11 +689,10 @@ public class EcoreEditor
         problemEditorPart.setMarkerHelper(markerHelper);
         try
         {
-          showTabs();
-          addPage(getPageCount(), problemEditorPart, getEditorInput());
-          lastEditorPage++;
+          addPage(++lastEditorPage, problemEditorPart, getEditorInput());
           setPageText(lastEditorPage, problemEditorPart.getPartName());
           setActivePage(lastEditorPage);
+          showTabs();
         }
         catch (PartInitException exception)
         {
@@ -1159,8 +1158,8 @@ public class EcoreEditor
   }
 
   /**
-   * If there is just one page in the multi-page editor part, this hides
-   * the single tab at the bottom.
+   * If there is just one page in the multi-page editor part,
+   * this hides the single tab at the bottom.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1180,15 +1179,15 @@ public class EcoreEditor
   }
 
   /**
-   * If there is just one page in the multi-page editor part, this shows
-   * the single tab at the bottom.
+   * If there is more than one page in the multi-page editor part,
+   * this shows the tabs at the bottom.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   protected void showTabs()
   {
-    if (getPageCount() == 1)
+    if (getPageCount() > 1)
     {
       setPageText(0, getString("_UI_SelectionPage_label"));
       if (getContainer() instanceof CTabFolder)
@@ -1768,6 +1767,8 @@ public class EcoreEditor
    */
   public void dispose()
   {
+    updateProblemIndication = false;
+
     ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 
     getSite().getPage().removePartListener(partListener);
