@@ -12,24 +12,18 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterApplication.java,v 1.8 2005/11/23 19:07:04 emerks Exp $
+ * $Id: XSDImporterApplication.java,v 1.9 2006/05/10 20:18:33 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.Monitor;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.importer.ModelImporter;
@@ -38,9 +32,6 @@ import org.eclipse.emf.importer.ModelImporterApplication;
 
 public class XSDImporterApplication extends ModelImporterApplication
 {
-  protected String xsdModelURIs;
-  protected IPath genModelFullPath;
-
   protected Map nsURIToPackageName;
   protected Set packages;
 
@@ -87,60 +78,6 @@ public class XSDImporterApplication extends ModelImporterApplication
     return result;
   }
 
-  protected void processArguments(String[] arguments, int index)
-  {
-    StringBuffer uris = new StringBuffer();
-    URI firstModelURI = null;
-    
-    for (String modelURI = arguments[index]; modelURI.endsWith(".wsdl") || modelURI.endsWith(".xsd"); modelURI = arguments[index])
-    {
-      // This let's us test whether the string exists as a file.
-      // It not, we try as a URI.
-      //
-      URI uri = null;
-      File file = new File(modelURI);
-      if (file.isFile())
-      {
-        try
-        {
-          uri = URI.createFileURI(file.getCanonicalFile().toString());
-        }
-        catch (IOException e) {}
-      }
-      if (uri == null)
-      {
-        uri = URI.createURI(modelURI);
-      }
-
-      if (uris.length() > 0)
-      {
-        uris.append(' ');
-      }
-      else
-      {
-        firstModelURI = uri;
-      }
-      uris.append(uri);
-
-      if (++index >= arguments.length)
-      {
-        break;
-      }
-    }
-
-    xsdModelURIs = uris.toString();
-    if (firstModelURI == null)
-    {
-      throw new IllegalArgumentException("Error: No schema file (.xsd or .wsdl) specified");
-    }
-
-    genModelFullPath = arguments.length > index && !arguments[index].startsWith("-") ?
-        new Path(new File(arguments[index++]).getAbsolutePath()) :
-        new Path(new File(firstModelURI.trimFileExtension().appendFileExtension("genmodel").lastSegment()).getAbsolutePath());
-
-    super.processArguments(arguments, index);
-  }
-
   protected int processArgument(String[] arguments, int index)
   {
     if (arguments[index].equalsIgnoreCase("-packagemap"))
@@ -180,22 +117,6 @@ public class XSDImporterApplication extends ModelImporterApplication
   protected String interpretNsURI(String nsURI)
   {
     return "##local".equals(nsURI) ? null : nsURI;
-  }
-
-  protected void adjustModelImporter(Monitor monitor)
-  {
-    try
-    {
-      monitor.beginTask("", 2);
-
-      super.adjustModelImporter(CodeGenUtil.createMonitor(monitor, 1));
-      handleGenModelPath(genModelFullPath);
-      getModelImporter().setModelLocation(xsdModelURIs);
-    }
-    finally
-    {
-      monitor.done();
-    }
   }
 
   protected void adjustEPackages(Monitor monitor)
