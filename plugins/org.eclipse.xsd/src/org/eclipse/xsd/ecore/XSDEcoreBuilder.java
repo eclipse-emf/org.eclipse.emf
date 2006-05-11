@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.57 2006/04/30 17:58:25 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.58 2006/05/11 11:42:43 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -742,6 +741,9 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
 
+    // 51210
+    // EAnnotation contentParticle = null;
+
     boolean isRestriction = 
       !eClass.getESuperTypes().isEmpty() && 
         xsdComplexTypeDefinition.getDerivationMethod() == XSDDerivationMethod.RESTRICTION_LITERAL;
@@ -818,6 +820,8 @@ public class XSDEcoreBuilder extends MapBuilder
 
       if (xsdComplexTypeDefinition.getContent() != null)
       {
+        // 51210
+        // Map particleMap = new HashMap();
         Map groups = new HashMap();
         List particleInformation = collectParticles((XSDParticle)xsdComplexTypeDefinition.getContent());
         for (Iterator i = particleInformation.iterator(); i.hasNext(); )
@@ -894,6 +898,8 @@ public class XSDEcoreBuilder extends MapBuilder
                    xsdParticle,
                    effectiveOccurrence.minOccurs,
                    effectiveOccurrence.maxOccurs);
+              // 51210
+              // particleMap.put(xsdParticle, eStructuralFeature);
             }
           }
           else
@@ -981,6 +987,8 @@ public class XSDEcoreBuilder extends MapBuilder
 
               eStructuralFeature = 
                  createFeature(eClass, xsdElementDeclaration, name, xsdParticle, effectiveOccurrence.minOccurs, effectiveOccurrence.maxOccurs);
+              // 51210
+              // particleMap.put(xsdParticle, eStructuralFeature);
 
               // If the group is turned off, we better make the feature changeable.
               //
@@ -1015,15 +1023,32 @@ public class XSDEcoreBuilder extends MapBuilder
             }
           }
         }
+
+        // 51210
+        // contentParticle = computeParticleConstraints(eClass, particleMap, (XSDParticle)xsdComplexTypeDefinition.getContent());
       }
     }
 
-    Collection baseAttributeUses = new HashSet();
+    // 51210
+    // EAnnotation attributeParticle = null;
+    // if (isRestriction)
+    // {
+    //   attributeParticle = EcoreFactory.eINSTANCE.createEAnnotation();
+    //   attributeParticle.setSource("attributes");
+    // }
+
+    XSDWildcard baseXSDWildcard = null;
+    Collection baseAttributeUses = Collections.EMPTY_LIST;
+    Map baseAttributeURIs = new HashMap();
     if (baseTypeDefinition instanceof XSDComplexTypeDefinition)
     {
-      for (Iterator i = ((XSDComplexTypeDefinition)baseTypeDefinition).getAttributeUses().iterator(); i.hasNext(); )
+      XSDComplexTypeDefinition complexBaseTypeDefinition = (XSDComplexTypeDefinition)baseTypeDefinition;
+      baseXSDWildcard = complexBaseTypeDefinition.getAttributeWildcard();
+      baseAttributeUses = complexBaseTypeDefinition.getAttributeUses();
+      for (Iterator i = baseAttributeUses.iterator(); i.hasNext(); )
       {
-        baseAttributeUses.add(((XSDAttributeUse)i.next()).getAttributeDeclaration().getURI());
+        XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)i.next();
+        baseAttributeURIs.put(xsdAttributeUse.getAttributeDeclaration().getURI(), xsdAttributeUse);
       }
     }
 
@@ -1031,7 +1056,7 @@ public class XSDEcoreBuilder extends MapBuilder
     {
       XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)i.next();
       XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
-      if (!baseAttributeUses.contains(xsdAttributeDeclaration.getURI()))
+      if (baseAttributeURIs.remove(xsdAttributeDeclaration.getURI()) == null)
       {
         String name = getEcoreAttribute(xsdAttributeUse, "name");
         if (name == null)
@@ -1060,27 +1085,96 @@ public class XSDEcoreBuilder extends MapBuilder
           }
         } 
       }
+      /* 51210
+      else if (isRestriction && !baseAttributeUses.contains(xsdAttributeUse))
+      {
+        EStructuralFeature eStructuralFeature = 
+          extendedMetaData.getAttribute(eClass, xsdAttributeDeclaration.getTargetNamespace(), xsdAttributeDeclaration.getName());
+        if (eStructuralFeature != null)
+        {
+          EAnnotation attributeEAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+          if (xsdAttributeUse.isRequired())
+          {
+            attributeEAnnotation.getDetails().put("minOccurs", "1");
+          }
+          attributeEAnnotation.getReferences().add(eStructuralFeature);
+
+          if (xsdAttributeDeclaration.getTypeDefinition() != null)
+          {
+            EClassifier type = getEClassifier(xsdAttributeDeclaration.getTypeDefinition());
+            if (type != eStructuralFeature.getEType() && type != null)
+            {
+              attributeEAnnotation.getReferences().add(type);
+            }
+          }
+
+          attributeParticle.getContents().add(attributeEAnnotation);
+        }
+      }
+      */
     }
 
-    XSDWildcard xsdWildcard = xsdComplexTypeDefinition.getAttributeWildcardContent();
-    if (xsdWildcard != null)
+    /* 51210
+    if (isRestriction && !baseAttributeURIs.isEmpty())
     {
-      String name = getEcoreAttribute(xsdWildcard, "name");
-      if (name == null)
+      for (Iterator i = baseAttributeURIs.values().iterator(); i.hasNext(); )
       {
-        name = "anyAttribute";
+        XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)i.next();
+        XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
+        EStructuralFeature eStructuralFeature = 
+          extendedMetaData.getAttribute(eClass, xsdAttributeDeclaration.getTargetNamespace(), xsdAttributeDeclaration.getName());
+        if (eStructuralFeature != null)
+        {
+          EAnnotation attributeEAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+          attributeEAnnotation.getReferences().add(eStructuralFeature);
+          attributeEAnnotation.getDetails().put("maxOccurs", "0");
+          attributeParticle.getContents().add(attributeEAnnotation);
+        }
       }
-      createFeature
-        (eClass,
-         name,
-         EcorePackage.eINSTANCE.getEFeatureMapEntry(),
-         xsdWildcard,
-         0,
-         -1);
+    }
+    */
+
+    XSDWildcard xsdWildcard = xsdComplexTypeDefinition.getAttributeWildcard();
+    if (xsdWildcard != null && baseXSDWildcard != xsdWildcard || XSDConstants.isURType(xsdComplexTypeDefinition))
+    {
+      if (isRestriction && !XSDConstants.isURType(xsdComplexTypeDefinition))
+      {
+        // 51210
+        // attributeParticle.getDetails().put
+        //   ("wildcard", BasicExtendedMetaData.getEncodedWildcards(xsdComplexTypeDefinition.getTargetNamespace(), getWildcards(xsdWildcard)));
+      }
+      else
+      {
+        String name = getEcoreAttribute(xsdWildcard, "name");
+        if (name == null)
+        {
+          name = "anyAttribute";
+        }
+        createFeature
+          (eClass,
+           name,
+           EcorePackage.eINSTANCE.getEFeatureMapEntry(),
+           xsdWildcard,
+           0,
+           -1);
+      }
     }
 
     if (isRestriction)
     {
+      // 51210
+      // EAnnotation restrictionParticle = EcoreFactory.eINSTANCE.createEAnnotation();
+      // restrictionParticle.setSource("restriction");
+      // if (contentParticle != null)
+      // {
+      //  restrictionParticle.getContents().add(contentParticle);
+      // }
+      // if (!attributeParticle.getContents().isEmpty() || !attributeParticle.getDetails().isEmpty())
+      // {
+      //   restrictionParticle.getContents().add(attributeParticle);
+      // }
+      // contentParticle = restrictionParticle;
+
       int baseContentKind = extendedMetaData.getContentKind((EClass)eClass.getESuperTypes().get(0));
       if (baseContentKind == ExtendedMetaData.MIXED_CONTENT && 
             xsdComplexTypeDefinition.getContentTypeCategory() == XSDContentTypeCategory.SIMPLE_LITERAL)
@@ -1129,6 +1223,9 @@ public class XSDEcoreBuilder extends MapBuilder
         extendedMetaData.setContentKind(eClass, baseContentKind);
       }
     }
+
+    // 51210
+    // extendedMetaData.setContent(eClass, contentParticle);
 
     XSDAnnotation xsdAnnotation = xsdComplexTypeDefinition.getAnnotation();
     if (xsdAnnotation != null)
@@ -1898,6 +1995,78 @@ public class XSDEcoreBuilder extends MapBuilder
            get(0)).getLexicalValue());
     }
   }
+
+  // 51210
+  /*
+  public EAnnotation computeParticleConstraints(EClass eClass, Map particleMap, XSDParticle xsdParticle)
+  {
+    EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+    
+    if (xsdParticle.getMinOccurs() != 1)
+    {
+      eAnnotation.getDetails().put("minOccurs", Integer.toString(xsdParticle.getMinOccurs()));
+    }
+    
+    if (xsdParticle.getMaxOccurs() != 1)
+    {
+      eAnnotation.getDetails().put("maxOccurs", Integer.toString(xsdParticle.getMaxOccurs()));
+    }
+    
+    XSDTerm xsdTerm = xsdParticle.getTerm();
+    if (xsdTerm instanceof XSDModelGroup)
+    {
+      XSDModelGroup xsdModelGroup =(XSDModelGroup)xsdTerm;
+      eAnnotation.setSource(xsdModelGroup.getCompositor().toString());
+      for (Iterator i = xsdModelGroup.getParticles().iterator(); i.hasNext(); )
+      {
+        XSDParticle childXSDParticle = (XSDParticle)i.next();
+        EAnnotation childEAnnotation = computeParticleConstraints(eClass, particleMap, childXSDParticle);
+        eAnnotation.getContents().add(childEAnnotation);
+      }
+    }
+    else
+    {
+      EStructuralFeature eStructuralFeature = (EStructuralFeature)particleMap.get(xsdParticle);
+      if (eStructuralFeature == null)
+      {
+        if (xsdTerm instanceof XSDElementDeclaration)
+        {
+          XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)xsdTerm;
+          eStructuralFeature = extendedMetaData.getElement(eClass, xsdElementDeclaration.getTargetNamespace(), xsdElementDeclaration.getName());
+          if (eStructuralFeature != null && xsdElementDeclaration.getTypeDefinition() != null)
+          {
+            EClassifier type = getEClassifier(xsdElementDeclaration.getTypeDefinition());
+            if (type != eStructuralFeature.getEType() && type != null)
+            {
+              eAnnotation.getReferences().add(type);
+            }
+          }
+        }
+        else
+        {
+          XSDWildcard xsdWildcard = (XSDWildcard)xsdTerm;
+          List wildcards = getWildcards(xsdWildcard);
+          for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+          {
+            EStructuralFeature feature = (EStructuralFeature)i.next();
+            List featureWildcards = extendedMetaData.getWildcards(feature);
+            if (!featureWildcards.isEmpty() && BasicExtendedMetaData.isSubset(wildcards, featureWildcards) && !particleMap.containsKey(xsdParticle))
+            {
+              particleMap.put(xsdParticle, feature);
+              eStructuralFeature = feature;
+              break;
+            }
+          }
+        }
+      }
+      if (eStructuralFeature != null)
+      {
+        eAnnotation.getReferences().add(0, eStructuralFeature);
+      }
+    }
+    return eAnnotation;
+  }
+  */
 
   public static class EffectiveOccurrence
   {
