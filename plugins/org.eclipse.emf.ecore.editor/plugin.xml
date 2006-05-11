@@ -27,6 +27,10 @@
 
   <extension point="org.eclipse.ui.popupMenus">
     <objectContribution id="org.eclipse.emf.ecore.editor.Open" objectClass="org.eclipse.core.resources.IFile">
+      <visibility>
+        <systemProperty name="org.eclipse.emf.ecore.editor.Open" value="true"/>
+      </visibility>
+
       <menu id="org.eclipse.emf.ecore.editor.Open" label="%_UI_OpenAs_menu_item" path="org.eclipse.ui.OpenWithSubMenu">
         <separator name="additions" />
       </menu>
