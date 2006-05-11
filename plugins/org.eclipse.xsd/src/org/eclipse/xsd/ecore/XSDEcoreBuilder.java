@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.58 2006/05/11 11:42:43 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.59 2006/05/11 12:31:39 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -719,7 +719,7 @@ public class XSDEcoreBuilder extends MapBuilder
 
     EClass baseClass = null;
     XSDTypeDefinition baseTypeDefinition = xsdComplexTypeDefinition.getBaseTypeDefinition();
-    if (!XSDConstants.isURType(baseTypeDefinition))
+    if (!baseTypeDefinition.isCircular())
     {
       EClassifier baseType = getEClassifier(baseTypeDefinition);
       if (baseType instanceof EClass && baseType != EcorePackage.eINSTANCE.getEObject())
