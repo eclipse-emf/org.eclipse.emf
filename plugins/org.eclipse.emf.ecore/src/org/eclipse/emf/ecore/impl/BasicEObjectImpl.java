@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.24 2006/05/10 21:56:07 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.25 2006/05/12 21:08:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -168,16 +168,6 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     protected URI eProxyURI;
     protected EList eContents;
     protected EList eCrossReferences;
-
-    public EClass getEClass()
-    {
-      return eClass;
-    }
-
-    public void setEClass(EClass eClass)
-    {
-      this.eClass = eClass;
-    }
 
     public URI getEProxyURI()
     {
@@ -414,7 +404,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     EList result = eProperties().getEContents();
     if (result == null)
     {
-      eBasicProperties().setEContents(result = new EContentsEList(this));
+      eBasicProperties().setEContents(result = EContentsEList.createEContentsEList(this));
     }
 
     return result;
@@ -425,7 +415,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     EList result = eProperties().getECrossReferences();
     if (result == null)
     {
-      eBasicProperties().setECrossReferences(result = new ECrossReferenceEList(this));
+      eBasicProperties().setECrossReferences(result = ECrossReferenceEList.createECrossReferenceEList(this));
     }
 
     return result;

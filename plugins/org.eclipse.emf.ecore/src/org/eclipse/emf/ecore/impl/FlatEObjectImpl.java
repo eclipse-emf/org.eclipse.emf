@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FlatEObjectImpl.java,v 1.1 2006/05/10 21:56:07 emerks Exp $
+ * $Id: FlatEObjectImpl.java,v 1.2 2006/05/12 21:08:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -37,7 +37,9 @@ public class FlatEObjectImpl extends EObjectImpl
   protected EList eCrossReferences;
 
   /**
-   * Creates a fast EObject.
+   * Creates an EObject that is faster and more space efficient 
+   * for the case where {@link #eSetProxyURI(URI)}, {@link #eContents()}, {@link #eCrossReferences()}
+   * are expected to be frequently used.
    */
   protected FlatEObjectImpl() 
   {
@@ -72,7 +74,7 @@ public class FlatEObjectImpl extends EObjectImpl
   {
     if (eContents == null)
     {
-      eContents = new EContentsEList(this);
+      eContents = EContentsEList.createEContentsEList(this);
     }
     return eContents;
   }
@@ -81,7 +83,7 @@ public class FlatEObjectImpl extends EObjectImpl
   {
     if (eCrossReferences == null)
     {
-      eCrossReferences = new ECrossReferenceEList(this);
+      eCrossReferences = ECrossReferenceEList.createECrossReferenceEList(this);
     }
     return eCrossReferences;
   }
