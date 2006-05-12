@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EclipseUIPlugin.java,v 1.1 2005/08/19 16:38:48 davidms Exp $
+ * $Id: EclipseUIPlugin.java,v 1.2 2006/05/12 16:38:33 marcelop Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -24,7 +24,7 @@ import java.util.MissingResourceException;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import org.eclipse.emf.common.CommonPlugin;
-import org.eclipse.emf.common.EMFPlugin.InternalHelper;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.Logger;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.WrappedException;
@@ -33,13 +33,13 @@ import org.eclipse.emf.common.util.WrappedException;
  * An Eclipse <b>AbstractUIPlugin</b> implementation base to be used within UI plug-ins.
  * @since 2.2.0
  */
-public abstract class EclipseUIPlugin extends AbstractUIPlugin implements ResourceLocator, Logger
+public abstract class EclipseUIPlugin extends AbstractUIPlugin implements ResourceLocator, Logger, EMFPlugin.InternalEclipsePlugin
 {
   /**
    * The EMF plug-in APIs are all delegated to this helper, so that code can be shared by plug-in
    * implementations with a different platform base class (e.g. Plugin).
    */
-  protected InternalHelper helper;
+  protected EMFPlugin.InternalHelper helper;
 
   /**
    * Creates an instance.
@@ -47,7 +47,7 @@ public abstract class EclipseUIPlugin extends AbstractUIPlugin implements Resour
   public EclipseUIPlugin()
   {
     super();
-    helper = new InternalHelper(this);
+    helper = new EMFPlugin.InternalHelper(this);
   }
 
   /**

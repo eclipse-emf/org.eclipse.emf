@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.13 2006/04/21 20:51:54 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.14 2006/05/12 16:38:23 marcelop Exp $
  */
 package org.eclipse.emf.common;
 
@@ -106,9 +106,10 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
 
   public String getSymbolicName()
   {
-    if (getPluginResourceLocator() != null && getPluginResourceLocator() instanceof EclipsePlugin)
+    ResourceLocator resourceLocator = getPluginResourceLocator();
+    if (resourceLocator instanceof InternalEclipsePlugin)
     {
-      return ((EclipsePlugin)getPluginResourceLocator()).getSymbolicName();
+      return ((InternalEclipsePlugin)resourceLocator).getSymbolicName();
     }
     else
     {
@@ -505,7 +506,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
   /**
    * The actual implementation of an Eclipse <b>Plugin</b>.
    */
-  public static abstract class EclipsePlugin extends Plugin implements ResourceLocator, Logger
+  public static abstract class EclipsePlugin extends Plugin implements ResourceLocator, Logger, InternalEclipsePlugin
   {
     /**
      * The EMF plug-in APIs are all delegated to this helper, so that code can be shared by plug-in
@@ -608,6 +609,15 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
     {
       helper.log(logEntry);
     }
+  }
+
+  /**
+   * This just provides a common interface for the Eclipse plugins supported by EMF.
+   * It is not considered API and should not be used by clients.
+   */
+  public static interface InternalEclipsePlugin
+  {
+    String getSymbolicName();
   }
   
   /**
