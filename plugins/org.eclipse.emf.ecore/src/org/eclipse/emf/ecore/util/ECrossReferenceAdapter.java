@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.13 2006/05/09 16:58:45 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.14 2006/05/12 21:27:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -352,12 +352,19 @@ public class ECrossReferenceAdapter implements Adapter.Internal
       if (resource != null)
       {
         URI uri = resource.getURI();
-        ResourceSet resourceSet = resource.getResourceSet();
-        if (resourceSet != null)
+        if (uri != null)
         {
-          uri = resourceSet.getURIConverter().normalize(uri);
+          ResourceSet resourceSet = resource.getResourceSet();
+          if (resourceSet != null)
+          {
+            uri = resourceSet.getURIConverter().normalize(uri);
+          }
+          uri = uri.appendFragment(resource.getURIFragment(eObject));
         }
-        uri = uri.appendFragment(resource.getURIFragment(eObject));
+        else
+        {
+          URI.createHierarchicalURI(null, null, resource.getURIFragment(eObject));
+        }
         List proxies = inverseCrossReferencer.removeProxies(uri);
         if (proxies != null)
         {
