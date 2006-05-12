@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.33 2006/04/26 12:19:54 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.34 2006/05/12 15:50:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1132,11 +1132,20 @@ public class XMLHelperImpl implements XMLHelper
     {
       for (int i = 0, l = values.length; i < l; i++)
       {
-        if (values[i] != null)
+        Object value = values[i];
+        if (value != null)
         {
           try
           {
-            list.move(positions[i], values[i]);
+            int sourcePosition = list.indexOf(value);
+            if (sourcePosition != -1)
+            {
+              list.move(positions[i], sourcePosition);
+            }
+            else
+            {
+              list.addUnique(positions[i], value);
+            }
           }
           catch (RuntimeException e)
           {
