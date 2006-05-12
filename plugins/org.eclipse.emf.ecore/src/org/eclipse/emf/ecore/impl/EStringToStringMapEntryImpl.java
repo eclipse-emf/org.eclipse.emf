@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,17 +12,21 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryImpl.java,v 1.5 2005/11/23 18:10:01 emerks Exp $
+ * $Id: EStringToStringMapEntryImpl.java,v 1.6 2006/05/12 21:10:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.BasicEMap;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EContentsEList;
+import org.eclipse.emf.ecore.util.ECrossReferenceEList;
 
 
 /**
@@ -99,6 +103,74 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY;
+  }
+
+  protected static class EStringToStringMapEntryPropertiesHolderImpl extends EPropertiesHolderBaseImpl
+  {
+    protected EList eContents;
+    protected EList eCrossReferences;
+
+    public EList getEContents()
+    {
+      return eContents;
+    }
+
+    public void setEContents(EList eContents)
+    {
+      this.eContents = eContents;
+    }
+
+    public EList getECrossReferences()
+    {
+      return eCrossReferences;
+    }
+
+    public void setECrossReferences(EList eCrossReferences)
+    {
+      this.eCrossReferences = eCrossReferences;
+    }
+  }
+
+  protected EPropertiesHolder eProperties()
+  {
+    if (eProperties == null)
+    {
+      eProperties = new EPropertiesHolderImpl();
+    }
+    return eProperties;
+  }
+
+  protected URI eProxyURI;
+
+  public boolean eIsProxy()
+  {
+    return eProxyURI != null;
+  }
+
+  public URI eProxyURI()
+  {
+    return eProxyURI;
+  }
+  
+  public void eSetProxyURI(URI uri)
+  {
+    eProxyURI = uri;
+  }
+
+  public EList eContents()
+  {
+    return
+      eClass() == EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY ?
+        EContentsEList.EMPTY_CONTENTS_ELIST :
+        super.eContents();
+  }
+
+  public EList eCrossReferences()
+  {
+    return
+      eClass() == EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY ?
+        ECrossReferenceEList.EMPTY_CROSS_REFERENCE_ELIST :
+        super.eContents();
   }
 
   /**
