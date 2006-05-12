@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.12 2006/05/07 12:01:41 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.13 2006/05/12 21:09:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -48,9 +48,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </ul>
  * </p>
  *
- * @generated
+ * @generated not
  */
-public abstract class EModelElementImpl extends EObjectImpl implements EModelElement
+public abstract class EModelElementImpl extends FlatEObjectImpl implements EModelElement
 {
   /**
    * The cached value of the '{@link #getEAnnotations() <em>EAnnotations</em>}' containment reference list.
