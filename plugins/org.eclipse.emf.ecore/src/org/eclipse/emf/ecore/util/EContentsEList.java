@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentsEList.java,v 1.8 2006/02/02 21:29:14 emerks Exp $
+ * $Id: EContentsEList.java,v 1.9 2006/05/12 21:07:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -35,6 +35,26 @@ import org.eclipse.emf.ecore.impl.EClassImpl;
 
 public class EContentsEList extends AbstractSequentialList implements EList, InternalEList
 {
+  public static final EContentsEList EMPTY_CONTENTS_ELIST = 
+    new EContentsEList(null, (EStructuralFeature [])null)
+    {
+      public List basicList()
+      {
+        return this;
+      }
+    }; 
+
+  public static EContentsEList createEContentsEList(EObject eObject)
+  {
+    EStructuralFeature [] eStructuralFeatures = 
+      ((EClassImpl.FeatureSubsetSupplier)eObject.eClass().getEAllStructuralFeatures()).containments();
+    
+    return 
+      eStructuralFeatures == null ?
+        EMPTY_CONTENTS_ELIST:
+        new EContentsEList(eObject, eStructuralFeatures);
+  }
+
   protected final EObject eObject; 
   protected final EStructuralFeature [] eStructuralFeatures;
 

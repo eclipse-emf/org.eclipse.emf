@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceEList.java,v 1.6 2006/01/23 16:33:15 emerks Exp $
+ * $Id: ECrossReferenceEList.java,v 1.7 2006/05/12 21:07:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -31,6 +31,26 @@ import org.eclipse.emf.ecore.impl.EClassImpl;
  */
 public class ECrossReferenceEList extends EContentsEList
 {
+  public static final ECrossReferenceEList EMPTY_CROSS_REFERENCE_ELIST = 
+    new ECrossReferenceEList(null, (EStructuralFeature [])null)
+    {
+      public List basicList()
+      {
+        return this;
+      }
+    };
+
+  public static ECrossReferenceEList createECrossReferenceEList(EObject eObject)
+  {
+    EStructuralFeature [] eStructuralFeatures = 
+      ((EClassImpl.FeatureSubsetSupplier)eObject.eClass().getEAllStructuralFeatures()).crossReferences();
+    
+    return 
+      eStructuralFeatures == null ?
+        EMPTY_CROSS_REFERENCE_ELIST:
+        new ECrossReferenceEList(eObject, eStructuralFeatures);
+  }
+
   public ECrossReferenceEList(EObject eObject)
   {
     super
