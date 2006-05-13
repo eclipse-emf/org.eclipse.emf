@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.56 2006/05/02 09:53:36 emerks Exp $
+ * $Id: XMLHandler.java,v 1.57 2006/05/13 16:17:42 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1718,7 +1718,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected void reportUnknownFeature(String prefix, String name, boolean isElement, EObject peekObject, String value)
   {
-    types.push(ERROR_TYPE);
+    if (isElement)
+    {
+      types.push(ERROR_TYPE);
+    }
     error
       (new FeatureNotFoundException
         (name,
