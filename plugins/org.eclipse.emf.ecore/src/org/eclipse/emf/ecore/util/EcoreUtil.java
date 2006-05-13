@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.43 2006/05/09 16:57:52 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.44 2006/05/13 16:25:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -192,7 +192,14 @@ public class EcoreUtil
 
         if (resourceSet != null)
         {
-          resolvedObject = resourceSet.getEObject(proxyURI, true);
+          try
+          {
+            resolvedObject = resourceSet.getEObject(proxyURI, true);
+          }
+          catch (RuntimeException exception)
+          {
+            resolvedObject = resourceSet.getEObject(proxyURI, false);
+          }
         }
         else
         {
