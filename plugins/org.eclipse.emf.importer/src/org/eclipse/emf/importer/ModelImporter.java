@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.24 2006/01/31 13:45:40 emerks Exp $
+ * $Id: ModelImporter.java,v 1.25 2006/05/13 16:42:41 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -451,8 +451,21 @@ public abstract class ModelImporter extends ModelConverter
   
   protected void loadOriginalGenModel(URI genModelURI) throws DiagnosticException
   {
-    Resource resource = createResourceSet().getResource(genModelURI, true);
-    originalGenModel = (GenModel)resource.getContents().get(0);
+    ResourceSet resourceSet = createResourceSet();
+    Resource resource = null;
+    try
+    {
+      resource = resourceSet.getResource(genModelURI, true);
+    }
+    catch (RuntimeException exception)
+    {
+      resource = resourceSet.getResource(genModelURI, false);
+    }
+
+    if (resource != null && !resource.getContents().isEmpty() && resource.getContents().get(0) instanceof GenModel)
+    {
+      originalGenModel = (GenModel)resource.getContents().get(0);
+    }
 
     if (getOriginalGenModel() != null)
     {
@@ -467,12 +480,12 @@ public abstract class ModelImporter extends ModelConverter
       setGenModelFileName(getOriginalGenModelPath().lastSegment());
       setGenModelContainerPath(getOriginalGenModelPath().removeLastSegments(1));
       genModelPath = getOriginalGenModelPath();
-    }
 
-    for (Iterator i = getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext();)
-    {
-      GenPackage referencedGenPackage = (GenPackage)i.next();
-      getReferencedGenPackages().add(referencedGenPackage);
+      for (Iterator i = getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext();)
+      {
+        GenPackage referencedGenPackage = (GenPackage)i.next();
+        getReferencedGenPackages().add(referencedGenPackage);
+      }
     }
   }
 
