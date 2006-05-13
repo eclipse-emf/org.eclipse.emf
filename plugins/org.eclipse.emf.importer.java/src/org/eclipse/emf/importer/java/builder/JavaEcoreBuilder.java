@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.16 2006/03/22 22:57:57 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.17 2006/05/13 17:55:00 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1235,7 +1235,14 @@ public class JavaEcoreBuilder
     }
     if (lowerBound != null)
     {
-      eTypedElement.setLowerBound(Integer.parseInt(lowerBound));
+      try
+      {
+        eTypedElement.setLowerBound(Integer.parseInt(lowerBound));
+      }
+      catch (NumberFormatException exception)
+      {
+        warning(JavaImporterPlugin.INSTANCE.getString("_UI_ValueOfPropertyIsBad_message", new Object [] { lowerBound, "lower", identifierName }));
+      }
     }
     String upperBound = getModelAnnotationAttribute(modelAnnotation, "upperBound");
     if (upperBound == null)
@@ -1244,7 +1251,14 @@ public class JavaEcoreBuilder
     }
     if (upperBound != null)
     {
-      eTypedElement.setUpperBound(Integer.parseInt(upperBound));
+      try
+      {
+        eTypedElement.setUpperBound(Integer.parseInt(upperBound));
+      }
+      catch (NumberFormatException exception)
+      {
+        warning(JavaImporterPlugin.INSTANCE.getString("_UI_ValueOfPropertyIsBad_message", new Object [] { upperBound, "upper", identifierName }));
+      }
     }
 
     // The type can be augmented by specifying the it explicitly in the annotation.
@@ -1323,7 +1337,9 @@ public class JavaEcoreBuilder
       {
           if (name != null)
           {
-            warning(JavaImporterPlugin.INSTANCE.getString("_UI_InvalidLiteralNameForField", new Object[] { name, fieldName }));
+            warning
+              (JavaImporterPlugin.INSTANCE.getString
+                ("_UI_InvalidLiteralNameForField", new Object[] { name, eEnum.getName() + "." + fieldName }));
           }
           name = fieldName;
       }
@@ -1352,7 +1368,10 @@ public class JavaEcoreBuilder
         }
         catch (NumberFormatException exception)
         {
-          JavaImporterPlugin.INSTANCE.log(exception);
+          warning
+            (JavaImporterPlugin.INSTANCE.getString
+                ("_UI_InvalidLiteralValueForField", 
+                 new Object [] { field.getInitializer().trim(), eEnum.getName() + "." + fieldName }));
           eEnumLiteral.setValue(eEnum.getELiterals().size());
         }
       }
