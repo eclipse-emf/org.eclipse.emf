@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.emf.common.ui">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.emf.common.ui" id="examples" name="Examples"/>
+      </appInfo>
+      <documentation>
+         &lt;p&gt;This extension point is used to describe examples to be added to the workspace.  Each example is defined by the wizard that creates it and the list of projects to be created in the workspace.&lt;/p&gt;
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="example" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A fully qualified identifier of the target extension point.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  An optional identifier of the example.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  An optional name of the extension instance.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="example">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="id"/>
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="projectDescriptor" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  An optional identifier of the example.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="wizardID" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The identifier of the &lt;tt&gt;org.eclipse.ui.INewWizard&lt;/tt&gt; that installs this example.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="pageImage" type="string">
+            <annotation>
+               <documentation>
+                  A relative path of an image that will be displayed in the Wizard&apos;s pages.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="resource"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="projectDescriptor">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the project that will be created in the workspace.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="contentURI" type="string">
+            <annotation>
+               <documentation>
+                  The URI of the content of the project.  This attribute is supposed to be the location of a compressed file or a directory (in the later case, the URI must end with a /).  If the specified URI is relative, it is assumed that the file or directory is in the plugin declaring the extension point.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  An optional attribute to hold a short text describing the project.
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         2.2.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;pre&gt;
+  &lt;extension point=&quot;org.eclipse.emf.common.ui.examples&quot; &gt;
+    &lt;example
+      id=&quot;com.mycompany.example.XYZ&quot; 
+      wizardID=&quot;com.mycompany.example.XYZNewWizard&quot;&gt;
+      &lt;projectDescription
+        name=&quot;p1&quot;
+        contentURI=&quot;platform:/plugin/com.mycompany.example/XYZ1.zip&quot;
+        description=&quot;%_UI_XYZ1_desc&quot;/&gt;
+      &lt;projectDescription
+        name=&quot;p2&quot;
+        contentURI=&quot;platform:/plugin/com.mycompany.example/XYZ2/&quot;
+        description=&quot;%_UI_XYZ2_desc&quot;/&gt;
+    &lt;/example&gt;
+  &lt;/extension&gt;
+&lt;/pre&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         The value of the &lt;tt&gt;wizardID&lt;/tt&gt; attribute must be the ID of a registered  &lt;tt&gt;org.eclipse.ui.INewWizard&lt;/tt&gt;.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="implementation"/>
+      </appInfo>
+      <documentation>
+         EMF provides one implementation of this extension point that install the EMF EXTLibrary example.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright (c) 2006 IBM Corporation and others.&lt;br&gt;
+All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at &lt;a 
+href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;
+      </documentation>
+   </annotation>
+
+</schema>
