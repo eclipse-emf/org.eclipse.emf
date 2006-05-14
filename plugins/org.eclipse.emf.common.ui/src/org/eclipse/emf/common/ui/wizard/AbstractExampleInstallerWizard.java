@@ -1,0 +1,596 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: AbstractExampleInstallerWizard.java,v 1.1 2006/05/14 11:50:39 emerks Exp $
+ */
+package org.eclipse.emf.common.ui.wizard;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.jar.JarFile;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.actions.DeleteResourceAction;
+import org.eclipse.ui.actions.RenameResourceAction;
+import org.eclipse.ui.actions.WorkspaceModifyOperation;
+import org.eclipse.ui.dialogs.IOverwriteQuery;
+import org.eclipse.ui.wizards.datatransfer.FileSystemStructureProvider;
+import org.eclipse.ui.wizards.datatransfer.ImportOperation;
+import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
+
+import org.eclipse.emf.common.CommonPlugin;
+import org.eclipse.emf.common.ui.CommonUIPlugin;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.URI;
+
+
+/**
+ * <p>This abstract example installer wizard simply copies or unzips a number of files and
+ * directories into the workspace, creating the projects to hold them. This wizard can be 
+ * added as a new wizard to the new wizards dialog through the 
+ * <tt>org.eclipse.ui.newWizards</tt> extension point.</p>
+ * 
+ * <p>Clients should subclass this class and override the {@link #getProjectDescriptors()}
+ * method to provide the location and name of the project content that should be added to the 
+ * workspace. Note that any projects that are already in the workspace will <i>not</i> be 
+ * overwritten because the user could have made changes to them that would be lost.</p>
+ * 
+ * <p>It is highly recommended when registering subclasses to the new wizards extension point 
+ * that the wizard declaration should have canFinishEarly = true. Any label and icon can be 
+ * freely given to the wizard to suit the needs of the client.</p>
+ * 
+ * @since 2.2.0
+ */
+public abstract class AbstractExampleInstallerWizard extends Wizard implements INewWizard
+{
+  public static class ProjectDescriptor
+  {
+    protected String name;
+    protected URI contentURI;
+    protected String description;
+
+    protected IProject project;
+
+    public URI getContentURI()
+    {
+      return contentURI;
+    }
+
+    public void setContentURI(URI contentURI)
+    {
+      this.contentURI = contentURI;
+    }
+
+    public String getName()
+    {
+      return name;
+    }
+
+    public void setName(String name)
+    {
+      this.name = name;
+    }
+
+    public String getDescription()
+    {
+      return description;
+    }
+
+    public void setDescription(String description)
+    {
+      this.description = description;
+    }
+
+    public IProject getProject()
+    {
+      if (project == null)
+      {
+        project = ResourcesPlugin.getWorkspace().getRoot().getProject(getName());
+      }
+      return project;
+    }
+  }
+
+  public class ProjectPage extends WizardPage
+  {
+    protected org.eclipse.swt.widgets.List projectList;
+    protected Text descriptionText;
+    protected Button deleteButton;
+    protected Button deleteAllButton;
+    protected Button renameButton;
+
+    public ProjectPage(String pageName, String title, ImageDescriptor titleImage)
+    {
+      super(pageName, title, titleImage);
+    }
+
+    public void createControl(Composite parent)
+    {
+      SashForm sashForm = new SashForm(parent, SWT.VERTICAL);
+      sashForm.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_VERTICAL));
+
+      Composite composite = new Composite(sashForm, SWT.NONE);
+      {
+        GridLayout layout = new GridLayout(2, false);
+        int margin = -5;
+        int spacing = 3;
+        layout.marginTop = margin;
+        layout.marginLeft = margin;
+        layout.marginRight = margin;
+        layout.marginBottom = margin;
+        layout.horizontalSpacing = spacing;
+        layout.verticalSpacing = spacing;
+        composite.setLayout(layout);
+      }
+
+      projectList = new org.eclipse.swt.widgets.List(composite, SWT.SINGLE | SWT.BORDER);
+      projectList.setLayoutData(new GridData(GridData.FILL_BOTH));
+      projectList.addSelectionListener(new SelectionAdapter()
+        {
+          public void widgetSelected(SelectionEvent e)
+          {
+            itemSelected();
+          }
+        });
+      projectList.setFocus();
+
+      Composite buttonComposite = new Composite(composite, SWT.NONE);
+      buttonComposite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END));
+      buttonComposite.setLayout(new GridLayout());
+      {
+        GridLayout layout = new GridLayout();
+        int margin = -5;
+        int spacing = 3;
+        layout.marginTop = margin;
+        layout.marginLeft = margin;
+        layout.marginRight = margin;
+        layout.marginBottom = margin;
+        layout.horizontalSpacing = spacing;
+        layout.verticalSpacing = spacing;
+        buttonComposite.setLayout(layout);
+      }
+
+      renameButton = new Button(buttonComposite, SWT.PUSH);
+      renameButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL));
+      renameButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_Rename_label"));
+      renameButton.addSelectionListener(new SelectionAdapter()
+        {
+          public void widgetSelected(SelectionEvent e)
+          {
+            renameExistingProject();
+          }
+        });
+      renameButton.setEnabled(false);
+
+      deleteButton = new Button(buttonComposite, SWT.PUSH);
+      deleteButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL));
+      deleteButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_Delete_label"));
+      deleteButton.addSelectionListener(new SelectionAdapter()
+        {
+          public void widgetSelected(SelectionEvent e)
+          {
+            deleteExistingProject();
+          }
+        });
+      deleteButton.setEnabled(false);
+
+      Label label = new Label(buttonComposite, SWT.NONE);
+      {
+        GridData gridData = new GridData(GridData.FILL_BOTH);
+        gridData.heightHint = 3;
+        label.setLayoutData(gridData);
+      }
+
+      deleteAllButton = new Button(buttonComposite, SWT.PUSH);
+      deleteAllButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL));
+      deleteAllButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_DeleteAll_label"));
+      deleteAllButton.addSelectionListener(new SelectionAdapter()
+        {
+          public void widgetSelected(SelectionEvent e)
+          {
+            deleteAllExistingProjects();
+          }
+        });
+      deleteAllButton.setEnabled(false);
+
+      descriptionText = new Text(sashForm, SWT.READ_ONLY | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL | SWT.BORDER);
+      {
+        GridData gridData = new GridData(GridData.FILL_BOTH);
+        gridData.heightHint = convertHeightInCharsToPixels(2);
+        gridData.grabExcessVerticalSpace = true;
+        descriptionText.setLayoutData(gridData);
+      }
+
+      refresh();
+      sashForm.setWeights(new int []{ 70, 30 });
+      setControl(sashForm);
+    }
+
+    public void refresh()
+    {
+      if (getProjectDescriptors().isEmpty())
+      {
+        setErrorMessage(CommonUIPlugin.INSTANCE.getString("_UI_NoProjectError_message"));
+        setPageComplete(false);
+      }
+      else
+      {
+        int selectionIndex = projectList.getSelectionIndex();
+        if (selectionIndex < 0)
+        {
+          selectionIndex = 0;
+        }
+
+        boolean atLeastOneExists = false;
+        projectList.removeAll();
+        for (Iterator i = getProjectDescriptors().iterator(); i.hasNext();)
+        {
+          ProjectDescriptor projectDescriptor = (ProjectDescriptor)i.next();
+          String name = projectDescriptor.getName();
+
+          boolean exists = projectDescriptor.getProject().exists();
+          atLeastOneExists |= exists;
+          String item = exists
+            ? CommonUIPlugin.INSTANCE.getString("_UI_ExistingProjectName_message", new String []{ name })
+            : CommonUIPlugin.INSTANCE.getString("_UI_ProjectName_message", new String []{ name });
+          projectList.add(item);
+
+          projectList.setData(item, projectDescriptor);
+        }
+
+        setErrorMessage(null);
+        projectList.setSelection(selectionIndex);
+        itemSelected();
+
+        deleteAllButton.setEnabled(atLeastOneExists);
+        setPageComplete(!atLeastOneExists);
+      }
+    }
+
+    protected ProjectDescriptor getSelectedProjectDescriptor()
+    {
+      return (ProjectDescriptor)projectList.getData(projectList.getSelection()[0]);
+    }
+
+    protected void itemSelected()
+    {
+      ProjectDescriptor projectDescriptor = getSelectedProjectDescriptor();
+
+      boolean exists = projectDescriptor.getProject().exists();
+      deleteButton.setEnabled(exists);
+      renameButton.setEnabled(exists);
+
+      descriptionText.setText(projectDescriptor.getDescription() != null ? projectDescriptor.getDescription() : "");
+    }
+
+    protected void deleteAllExistingProjects()
+    {
+      List projects = new ArrayList();
+      for (Iterator i = getProjectDescriptors().iterator(); i.hasNext();)
+      {
+        ProjectDescriptor projectDescriptor = (ProjectDescriptor)i.next();
+        if (projectDescriptor.getProject().exists())
+        {
+          projects.add(projectDescriptor.getProject());
+        }
+      }
+
+      if (!projects.isEmpty())
+      {
+        DeleteResourceAction deleteResourceAction = new DeleteResourceAction(getShell());
+        deleteResourceAction.selectionChanged(new StructuredSelection(projects));
+        deleteResourceAction.run();
+
+        IProject project = (IProject)projects.get(projects.size() - 1);
+        waitForDeleteJob(project);
+        refresh();
+      }
+    }
+
+    protected void deleteExistingProject()
+    {
+      ProjectDescriptor projectDescriptor = getSelectedProjectDescriptor();
+      if (projectDescriptor.getProject().exists())
+      {
+        DeleteResourceAction deleteResourceAction = new DeleteResourceAction(getShell());
+        deleteResourceAction.selectionChanged(new StructuredSelection(projectDescriptor.getProject()));
+        deleteResourceAction.run();
+
+        waitForDeleteJob(projectDescriptor.getProject());
+        refresh();
+      }
+    }
+
+    protected void renameExistingProject()
+    {
+      ProjectDescriptor projectDescriptor = getSelectedProjectDescriptor();
+      if (projectDescriptor.getProject().exists())
+      {
+        RenameResourceAction renameResourceAction = new RenameResourceAction(getShell());
+        renameResourceAction.selectionChanged(new StructuredSelection(projectDescriptor.getProject()));
+        renameResourceAction.run();
+        projectDescriptor.project = null;
+        refresh();
+      }
+    }
+
+    protected void waitForDeleteJob(final IProject project)
+    {
+      BusyIndicator.showWhile(getShell().getDisplay(), new Runnable()
+        {
+          public void run()
+          {
+            while (project.exists())
+            {
+              try
+              {
+                Thread.sleep(100);
+              }
+              catch (InterruptedException e)
+              {
+              }
+            }
+          }
+        });
+    }
+  }
+
+  protected static final IOverwriteQuery OVERWRITE_ALL_QUERY = new IOverwriteQuery()
+    {
+      public String queryOverwrite(String pathString)
+      {
+        return IOverwriteQuery.ALL;
+      }
+    };
+
+  protected IWorkbench workbench;
+  protected IStructuredSelection structuredSelection;
+
+  public AbstractExampleInstallerWizard()
+  {
+    setNeedsProgressMonitor(true);
+    setWindowTitle(CommonUIPlugin.INSTANCE.getString("_UI_ExampleInstallerWizard_title"));
+  }
+
+  public void init(IWorkbench workbench, IStructuredSelection selection)
+  {
+    this.workbench = workbench;
+    this.structuredSelection = selection;
+  }
+
+  protected abstract List getProjectDescriptors();
+
+  protected ProjectPage projectPage;
+
+  public void dispose()
+  {
+    projectPage = null;
+    super.dispose();
+  }
+
+  public void addPages()
+  {
+    projectPage = new ProjectPage("projectPage", CommonUIPlugin.INSTANCE.getString("_UI_ProjectPage_title"), null);
+    projectPage.setDescription(CommonUIPlugin.INSTANCE.getString("_UI_ProjectPage_description"));
+    addPage(projectPage);
+  }
+
+  public boolean performFinish()
+  {
+    final List projectDescriptors = getProjectDescriptors();
+    final Exception exceptionWrapper = new Exception();
+
+    try
+    {
+      getContainer().run(true, false, new IRunnableWithProgress()
+        {
+          public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
+          {
+            WorkspaceModifyOperation op = new WorkspaceModifyOperation()
+              {
+                protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException
+                {
+                  monitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_CreatingProjects_message"), 2 * projectDescriptors.size());
+                  for (Iterator i = projectDescriptors.iterator(); i.hasNext();)
+                  {
+                    try
+                    {
+                      ProjectDescriptor projectDescriptor = (ProjectDescriptor)i.next();
+
+                      ImportOperation importOperation = createImportOperation(projectDescriptor);
+                      createProject(projectDescriptor, new SubProgressMonitor(monitor, 1));
+                      importOperation.setContext(getShell());
+                      importOperation.run(new SubProgressMonitor(monitor, 1));
+                    }
+                    catch (Exception exception)
+                    {
+                      exceptionWrapper.initCause(exception);
+                      throw new InterruptedException();
+                    }
+                  }
+                }
+              };
+            op.run(monitor);
+          }
+        });
+
+      return true;
+    }
+    catch (InterruptedException e)
+    {
+      if (exceptionWrapper.getCause() != null)
+      {
+        openErrorDialog(CommonUIPlugin.INSTANCE.getString("_UI_InstallExampleError_message"), exceptionWrapper.getCause());
+      }
+    }
+    catch (InvocationTargetException e)
+    {
+      CommonUIPlugin.INSTANCE.log(e);
+    }
+
+    if (projectPage != null && !projectPage.getControl().isDisposed())
+    {
+      projectPage.refresh();
+    }
+    return false;
+  }
+
+  protected void openErrorDialog(String message, Throwable throwable)
+  {
+    CoreException coreException = throwable instanceof CoreException
+      ? (CoreException)throwable : DiagnosticException.toCoreException(new DiagnosticException(BasicDiagnostic.toDiagnostic(throwable)));
+
+    ErrorDialog.openError(getShell(), CommonUIPlugin.INSTANCE.getString("_UI_Error_label"), message, coreException.getStatus());
+  }
+
+  protected void createProject(ProjectDescriptor projectDescriptor, IProgressMonitor monitor) throws CoreException
+  {
+    monitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_CreateProject_message", new String []{ projectDescriptor.getName() }), 3);
+
+    IProject project = projectDescriptor.getProject();
+    project.create(new SubProgressMonitor(monitor, 1));
+    project.open(new SubProgressMonitor(monitor, 1));
+
+    monitor.done();
+  }
+
+  protected ImportOperation createImportOperation(ProjectDescriptor projectDescriptor) throws Exception
+  {
+    URI contentURI = projectDescriptor.getContentURI();
+    if (contentURI.hasTrailingPathSeparator())
+    {
+      return createDirectoryImportOperation(projectDescriptor);
+    }
+    else
+    {
+      return createFileImportOperation(projectDescriptor);
+    }
+  }
+
+  protected ImportOperation createDirectoryImportOperation(ProjectDescriptor projectDescriptor) throws Exception
+  {
+    URI contentURI = projectDescriptor.getContentURI();
+    if ("platform".equals(contentURI.scheme()))
+    {
+      contentURI = CommonPlugin.asLocalURI(contentURI);
+    }
+
+    String location = contentURI.toFileString();
+    if (location != null)
+    {
+      File directory = new File(location);
+      if (directory.isDirectory() && directory.canRead())
+      {
+        List filesToImport = new ArrayList();
+        filesToImport.addAll(Arrays.asList(directory.listFiles()));
+
+        ImportOperation importOperation = new ImportOperation(
+          projectDescriptor.getProject().getFullPath(),
+          directory,
+          FileSystemStructureProvider.INSTANCE,
+          OVERWRITE_ALL_QUERY,
+          filesToImport);
+        importOperation.setCreateContainerStructure(false);
+        return importOperation;
+      }
+    }
+
+    throw new Exception(CommonUIPlugin.INSTANCE.getString("_UI_DirectoryError_message", new String []{ contentURI.toString() }));
+  }
+
+  protected ImportOperation createFileImportOperation(ProjectDescriptor projectDescriptor) throws Exception
+  {
+    URI contentURI = projectDescriptor.getContentURI();
+    if ("platform".equals(contentURI.scheme()))
+    {
+      contentURI = CommonPlugin.asLocalURI(contentURI);
+    }
+
+    String location = contentURI.toFileString();
+    if (location != null)
+    {
+      File file = new File(location);
+      if (file.isFile() && file.canRead())
+      {
+        if (isZipFile(file))
+        {
+          return createZipImportOperation(projectDescriptor, file);
+        }
+      }
+    }
+
+    throw new Exception(CommonUIPlugin.INSTANCE.getString("_UI_FileError_message", new String []{ contentURI.toString() }));
+  }
+
+  protected boolean isZipFile(File file)
+  {
+    try
+    {
+      ZipFile zipFile = new ZipFile(file);
+      zipFile.close();
+      return true;
+    }
+    catch (ZipException e)
+    {
+    }
+    catch (IOException e)
+    {
+    }
+    return false;
+  }
+
+  protected ImportOperation createZipImportOperation(ProjectDescriptor projectDescriptor, File file) throws Exception
+  {
+    ZipFile zipFile = file.getName().endsWith(".jar") ? new JarFile(file) : new ZipFile(file);
+    ZipFileStructureProvider zipFileStructureProvider = new ZipFileStructureProvider(zipFile);
+
+    return new ImportOperation(
+      projectDescriptor.getProject().getFullPath(),
+      zipFileStructureProvider.getRoot(),
+      zipFileStructureProvider,
+      OVERWRITE_ALL_QUERY);
+  }
+}
