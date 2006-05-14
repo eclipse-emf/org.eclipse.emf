@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.emf.common.ui
+Bundle-SymbolicName: org.eclipse.emf.common.ui;singleton:=true
 Bundle-Version: 2.2.0.qualifier
 Bundle-ClassPath: common.ui.jar
 Bundle-Activator: org.eclipse.emf.common.ui.CommonUIPlugin$Implementation
@@ -12,7 +12,8 @@ Export-Package: org.eclipse.emf.common.ui,
  org.eclipse.emf.common.ui.celleditor,
  org.eclipse.emf.common.ui.dialogs,
  org.eclipse.emf.common.ui.editor,
- org.eclipse.emf.common.ui.viewer
+ org.eclipse.emf.common.ui.viewer,
+ org.eclipse.emf.common.ui.wizard
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui;visibility:=reexport,
  org.eclipse.emf.common,
