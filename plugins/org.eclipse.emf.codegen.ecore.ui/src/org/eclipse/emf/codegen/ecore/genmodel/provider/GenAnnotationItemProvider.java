@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenAnnotationItemProvider.java,v 1.2 2006/05/03 18:42:07 davidms Exp $
+ * $Id: GenAnnotationItemProvider.java,v 1.3 2006/05/15 19:34:39 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -85,6 +85,8 @@ public class GenAnnotationItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_GenAnnotation_source_feature", "_UI_GenAnnotation_type"),
          GenModelPackage.Literals.GEN_ANNOTATION__SOURCE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -106,6 +108,8 @@ public class GenAnnotationItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_GenAnnotation_references_feature", "_UI_GenAnnotation_type"),
          GenModelPackage.Literals.GEN_ANNOTATION__REFERENCES,
          true,
+         false,
+         false,
          null,
          null,
          null));

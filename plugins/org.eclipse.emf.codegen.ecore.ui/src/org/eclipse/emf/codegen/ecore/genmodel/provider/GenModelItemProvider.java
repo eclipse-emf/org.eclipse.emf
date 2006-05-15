@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.26 2006/01/18 20:29:59 marcelop Exp $
+ * $Id: GenModelItemProvider.java,v 1.27 2006/05/15 19:34:39 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -139,6 +139,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_copyrightText_description"),
          GenModelPackage.Literals.GEN_MODEL__COPYRIGHT_TEXT,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_AllPropertyCategory"),
          null));
@@ -160,6 +162,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_modelDirectory_description"),
          GenModelPackage.Literals.GEN_MODEL__MODEL_DIRECTORY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -181,6 +185,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_creationCommands_description"),
          GenModelPackage.Literals.GEN_MODEL__CREATION_COMMANDS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -202,6 +208,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_creationIcons_description"),
          GenModelPackage.Literals.GEN_MODEL__CREATION_ICONS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -223,6 +231,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_editDirectory_description"),
          GenModelPackage.Literals.GEN_MODEL__EDIT_DIRECTORY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -244,6 +254,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_editorDirectory_description"),
          GenModelPackage.Literals.GEN_MODEL__EDITOR_DIRECTORY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditorPropertyCategory"),
          null));
@@ -265,6 +277,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_modelPluginID_description"),
          GenModelPackage.Literals.GEN_MODEL__MODEL_PLUGIN_ID,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_AllPropertyCategory"),
          null));
@@ -286,6 +300,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_templateDirectory_description"),
          GenModelPackage.Literals.GEN_MODEL__TEMPLATE_DIRECTORY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_JETPropertyCategory"),
          null));
@@ -307,6 +323,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_runtimeJar_description"),
          GenModelPackage.Literals.GEN_MODEL__RUNTIME_JAR,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_AllPropertyCategory"),
          null));
@@ -328,6 +346,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_dynamicTemplates_description"),
          GenModelPackage.Literals.GEN_MODEL__DYNAMIC_TEMPLATES,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_JETPropertyCategory"),
          null));
@@ -349,6 +369,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_redirection_description"),
          GenModelPackage.Literals.GEN_MODEL__REDIRECTION,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_JETPropertyCategory"),
          null));
@@ -370,6 +392,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_forceOverwrite_description"),
          GenModelPackage.Literals.GEN_MODEL__FORCE_OVERWRITE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_JETPropertyCategory"),
          null));
@@ -391,6 +415,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_modelName_description"),
          GenModelPackage.Literals.GEN_MODEL__MODEL_NAME,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_AllPropertyCategory"),
          null));
@@ -412,6 +438,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_modelPluginClass_description"),
          GenModelPackage.Literals.GEN_MODEL__MODEL_PLUGIN_CLASS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -433,6 +461,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_editPluginClass_description"),
          GenModelPackage.Literals.GEN_MODEL__EDIT_PLUGIN_CLASS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -454,6 +484,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_editorPluginClass_description"),
          GenModelPackage.Literals.GEN_MODEL__EDITOR_PLUGIN_CLASS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditorPropertyCategory"),
          null));
@@ -475,6 +507,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_updateClasspath_description"),
          GenModelPackage.Literals.GEN_MODEL__UPDATE_CLASSPATH,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_JETPropertyCategory"),
          null));
@@ -496,6 +530,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_generateSchema_description"),
          GenModelPackage.Literals.GEN_MODEL__GENERATE_SCHEMA,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -517,6 +553,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_nonNLSMarkers_description"),
          GenModelPackage.Literals.GEN_MODEL__NON_NLS_MARKERS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_AllPropertyCategory"),
          null));
@@ -538,6 +576,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_staticPackages_description"),
          GenModelPackage.Literals.GEN_MODEL__STATIC_PACKAGES,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelClassPropertyCategory"),
          null));
@@ -559,6 +599,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_modelPluginVariables_description"),
          GenModelPackage.Literals.GEN_MODEL__MODEL_PLUGIN_VARIABLES,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -580,6 +622,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_rootExtendsInterface_description"),
          GenModelPackage.Literals.GEN_MODEL__ROOT_EXTENDS_INTERFACE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelClassPropertyCategory"),
          null));
@@ -601,6 +645,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_rootExtendsClass_description"),
          GenModelPackage.Literals.GEN_MODEL__ROOT_EXTENDS_CLASS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelClassPropertyCategory"),
          null));
@@ -622,6 +668,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_rootImplementsInterface_description"),
          GenModelPackage.Literals.GEN_MODEL__ROOT_IMPLEMENTS_INTERFACE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelClassPropertyCategory"),
          null));
@@ -643,6 +691,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_suppressEMFTypes_description"),
          GenModelPackage.Literals.GEN_MODEL__SUPPRESS_EMF_TYPES,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelFeaturePropertyCategory"),
          null));
@@ -664,6 +714,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_suppressEMFMetaData_description"),
          GenModelPackage.Literals.GEN_MODEL__SUPPRESS_EMF_META_DATA,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -685,6 +737,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_suppressEMFModelTags_description"),
          GenModelPackage.Literals.GEN_MODEL__SUPPRESS_EMF_MODEL_TAGS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -706,6 +760,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_suppressInterfaces_description"),
          GenModelPackage.Literals.GEN_MODEL__SUPPRESS_INTERFACES,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -727,6 +783,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_featureMapWrapperInterface_description"),
          GenModelPackage.Literals.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERFACE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelFeaturePropertyCategory"),
          null));
@@ -748,6 +806,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_featureMapWrapperInternalInterface_description"),
          GenModelPackage.Literals.GEN_MODEL__FEATURE_MAP_WRAPPER_INTERNAL_INTERFACE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelFeaturePropertyCategory"),
          null));
@@ -769,6 +829,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_featureMapWrapperClass_description"),
          GenModelPackage.Literals.GEN_MODEL__FEATURE_MAP_WRAPPER_CLASS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelFeaturePropertyCategory"),
          null));
@@ -790,6 +852,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_runtimeCompatibility_description"),
          GenModelPackage.Literals.GEN_MODEL__RUNTIME_COMPATIBILITY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_AllPropertyCategory"),
          null));
@@ -811,6 +875,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_richClientPlatform_description"),
          GenModelPackage.Literals.GEN_MODEL__RICH_CLIENT_PLATFORM,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditorPropertyCategory"),
          null));
@@ -832,6 +898,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_codeFormatting_description"),
          GenModelPackage.Literals.GEN_MODEL__CODE_FORMATTING,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_JETPropertyCategory"),
          null));
@@ -853,6 +921,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_testsDirectory_description"),
          GenModelPackage.Literals.GEN_MODEL__TESTS_DIRECTORY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_TestsPropertyCategory"),
          null));
@@ -874,6 +944,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_testSuiteClass_description"),
          GenModelPackage.Literals.GEN_MODEL__TEST_SUITE_CLASS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_TestsPropertyCategory"),
          null));
@@ -895,6 +967,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_booleanFlagsField_description"),
          GenModelPackage.Literals.GEN_MODEL__BOOLEAN_FLAGS_FIELD,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelFeaturePropertyCategory"),
          null));
@@ -916,6 +990,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_booleanFlagsReservedBits_description"),
          GenModelPackage.Literals.GEN_MODEL__BOOLEAN_FLAGS_RESERVED_BITS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          getString("_UI_ModelFeaturePropertyCategory"),
          null));
@@ -937,6 +1013,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_bundleManifest_description"),
          GenModelPackage.Literals.GEN_MODEL__BUNDLE_MANIFEST,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_AllPropertyCategory"),
          null));
@@ -958,6 +1036,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_featureDelegation_description"),
          GenModelPackage.Literals.GEN_MODEL__FEATURE_DELEGATION,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -979,6 +1059,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_containmentProxies_description"),
          GenModelPackage.Literals.GEN_MODEL__CONTAINMENT_PROXIES,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -1000,6 +1082,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_minimalReflectiveMethods_description"),
          GenModelPackage.Literals.GEN_MODEL__MINIMAL_REFLECTIVE_METHODS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -1021,6 +1105,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_suppressContainment_description"),
          GenModelPackage.Literals.GEN_MODEL__SUPPRESS_CONTAINMENT,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -1042,6 +1128,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_suppressNotification_description"),
          GenModelPackage.Literals.GEN_MODEL__SUPPRESS_NOTIFICATION,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -1063,6 +1151,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_arrayAccessors_description"),
          GenModelPackage.Literals.GEN_MODEL__ARRAY_ACCESSORS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -1084,6 +1174,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_suppressUnsettable_description"),
          GenModelPackage.Literals.GEN_MODEL__SUPPRESS_UNSETTABLE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelFeaturePropertyCategory"),
          null));
@@ -1105,6 +1197,8 @@ public class GenModelItemProvider
          getString("_UI_GenModel_facadeHelperClass_description"),
          GenModelPackage.Literals.GEN_MODEL__FACADE_HELPER_CLASS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_JETPropertyCategory"),
          null));

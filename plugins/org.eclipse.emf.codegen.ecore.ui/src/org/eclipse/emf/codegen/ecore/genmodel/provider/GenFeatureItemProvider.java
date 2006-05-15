@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureItemProvider.java,v 1.12 2005/11/23 17:31:02 khussey Exp $
+ * $Id: GenFeatureItemProvider.java,v 1.13 2006/05/15 19:34:39 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -80,6 +80,8 @@ public class GenFeatureItemProvider
       addPropertyCategoryPropertyDescriptor(object);
       addPropertyFilterFlagsPropertyDescriptor(object);
       addPropertyDescriptionPropertyDescriptor(object);
+      addPropertyMultiLinePropertyDescriptor(object);
+      addPropertySortChoicesPropertyDescriptor(object);
       addEcoreFeaturePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -101,6 +103,8 @@ public class GenFeatureItemProvider
          getString("_UI_GenFeature_property_description"),
          GenModelPackage.Literals.GEN_FEATURE__PROPERTY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -122,6 +126,8 @@ public class GenFeatureItemProvider
          getString("_UI_GenFeature_notify_description"),
          GenModelPackage.Literals.GEN_FEATURE__NOTIFY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -143,6 +149,8 @@ public class GenFeatureItemProvider
          getString("_UI_GenFeature_children_description"),
          GenModelPackage.Literals.GEN_FEATURE__CHILDREN,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -164,6 +172,8 @@ public class GenFeatureItemProvider
          getString("_UI_GenFeature_createChild_description"),
          GenModelPackage.Literals.GEN_FEATURE__CREATE_CHILD,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -185,6 +195,8 @@ public class GenFeatureItemProvider
          getString("_UI_GenFeature_propertyCategory_description"),
          GenModelPackage.Literals.GEN_FEATURE__PROPERTY_CATEGORY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -206,6 +218,8 @@ public class GenFeatureItemProvider
          getString("_UI_GenFeature_propertyFilterFlags_description"),
          GenModelPackage.Literals.GEN_FEATURE__PROPERTY_FILTER_FLAGS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -227,7 +241,55 @@ public class GenFeatureItemProvider
          getString("_UI_GenFeature_propertyDescription_description"),
          GenModelPackage.Literals.GEN_FEATURE__PROPERTY_DESCRIPTION,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Property Multi Line feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addPropertyMultiLinePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenFeature_propertyMultiLine_feature"),
+         getString("_UI_GenFeature_propertyMultiLine_description"),
+         GenModelPackage.Literals.GEN_FEATURE__PROPERTY_MULTI_LINE,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditPropertyCategory"),
+         null));
+  }
+
+  /**
+   * This adds a property descriptor for the Property Sort Choices feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addPropertySortChoicesPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenFeature_propertySortChoices_feature"),
+         getString("_UI_GenFeature_propertySortChoices_description"),
+         GenModelPackage.Literals.GEN_FEATURE__PROPERTY_SORT_CHOICES,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
   }
@@ -247,6 +309,8 @@ public class GenFeatureItemProvider
          getString("_UI_GenFeature_ecoreFeature_feature"),
          getString("_UI_GenFeature_ecoreFeature_description"),
          GenModelPackage.Literals.GEN_FEATURE__ECORE_FEATURE,
+         false,
+         false,
          false,
          null,
          getString("_UI_EcorePropertyCategory"),
@@ -364,6 +428,8 @@ public class GenFeatureItemProvider
       case GenModelPackage.GEN_FEATURE__PROPERTY_CATEGORY:
       case GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS:
       case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
+      case GenModelPackage.GEN_FEATURE__PROPERTY_MULTI_LINE:
+      case GenModelPackage.GEN_FEATURE__PROPERTY_SORT_CHOICES:
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;

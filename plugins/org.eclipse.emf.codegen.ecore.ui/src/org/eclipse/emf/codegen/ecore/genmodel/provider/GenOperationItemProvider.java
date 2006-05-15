@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationItemProvider.java,v 1.9 2005/11/23 17:31:02 khussey Exp $
+ * $Id: GenOperationItemProvider.java,v 1.10 2006/05/15 19:34:39 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -94,6 +94,8 @@ public class GenOperationItemProvider
          getString("_UI_GenOperation_ecoreOperation_feature"),
          getString("_UI_GenOperation_ecoreOperation_description"),
          GenModelPackage.Literals.GEN_OPERATION__ECORE_OPERATION,
+         false,
+         false,
          false,
          null,
          getString("_UI_EcorePropertyCategory"),

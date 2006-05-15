@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.12 2005/11/25 22:14:19 emerks Exp $
+ * $Id: GenClassItemProvider.java,v 1.13 2006/05/15 19:34:39 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -101,6 +101,8 @@ public class GenClassItemProvider
          getString("_UI_GenClass_provider_description"),
          GenModelPackage.Literals.GEN_CLASS__PROVIDER,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -122,6 +124,8 @@ public class GenClassItemProvider
          getString("_UI_GenClass_image_description"),
          GenModelPackage.Literals.GEN_CLASS__IMAGE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_EditPropertyCategory"),
          null));
@@ -143,6 +147,8 @@ public class GenClassItemProvider
          getString("_UI_GenClass_dynamic_description"),
          GenModelPackage.Literals.GEN_CLASS__DYNAMIC,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          getString("_UI_ModelPropertyCategory"),
          null));
@@ -163,6 +169,8 @@ public class GenClassItemProvider
          getString("_UI_GenClass_ecoreClass_feature"),
          getString("_UI_GenClass_ecoreClass_description"),
          GenModelPackage.Literals.GEN_CLASS__ECORE_CLASS,
+         false,
+         false,
          false,
          null,
          getString("_UI_EcorePropertyCategory"),
