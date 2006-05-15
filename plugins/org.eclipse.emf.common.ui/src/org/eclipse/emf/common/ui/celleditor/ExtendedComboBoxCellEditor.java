@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ExtendedComboBoxCellEditor.java,v 1.2 2005/06/08 06:24:33 nickb Exp $
+ * $Id: ExtendedComboBoxCellEditor.java,v 1.3 2006/05/15 19:35:35 davidms Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
 
-import java.util.Iterator;
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -28,6 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * This uses a list of objects and a label provider to build a combo box based on model objects rather than on strings.
+ * If sort is true, the list will be modified to match the order of the sorted labels.
  */
 public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 {
@@ -39,22 +42,71 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     //
     if (list != null && list.size() > 0)
     {
-      // Create an new array..
+      // Create a new array.
       //
-      result = new String [list.size()];
-
-      // Fill in the array with label/value pair items.
-      //
-      int i = 0;
-      for (Iterator objects = list.iterator(); objects.hasNext(); ++i)
+      result = new String[list.size()];
+      
+      if (sorted)
       {
-        Object object = objects.next();
-        result[i] = labelProvider.getText(object);
-      }
+        List unsortedList = new ArrayList(list);
+        list.clear();
 
-      // We could collate the array, but we'd have to keep the list in synch.
-      //
-      // Arrays.sort(result, java.text.Collator.getInstance());
+        // Create an array of label/original position pairs and sort it by label.
+        //
+        class StringPositionPair implements Comparable
+        {
+          Collator collator = Collator.getInstance();
+          public String key;
+          public int position;
+          
+          StringPositionPair(String key, int position)
+          {
+            this.key = key;
+            this.position = position;
+          }
+  
+          public int compareTo(Object object)
+          {
+            if (object == this)
+            {
+              return 0;
+            }
+            else
+            {
+              StringPositionPair that = (StringPositionPair)object;
+              return collator.compare(key, that.key);
+            }
+          }
+        }
+
+        StringPositionPair[] pairs = new StringPositionPair[unsortedList.size()];
+  
+        for (int i = 0, size = unsortedList.size(); i < size; ++i)
+        {
+          Object object = unsortedList.get(i);
+          pairs[i] = new StringPositionPair(labelProvider.getText(object), i);
+        }
+  
+        Arrays.sort(pairs); 
+
+        // Fill in the result array with labels and repopulate the origina list in order.
+        //
+        for (int i = 0, size = unsortedList.size(); i < size; ++i)
+        {
+          result[i] = pairs[i].key;
+          list.add(unsortedList.get(pairs[i].position));
+        }
+      }
+      else
+      {
+        // Fill in the array with labels.
+        //
+        for (int i = 0, size = list.size(); i < size; ++i)
+        {
+          Object object = list.get(i);
+          result[i] = labelProvider.getText(object);
+        }
+      }
     }
     else
     {
@@ -86,7 +138,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 
   public ExtendedComboBoxCellEditor(Composite composite, List list, ILabelProvider labelProvider, boolean sorted, int style)
   {
-    super(composite, createItems(list, labelProvider, sorted), style); 
+    super(composite, createItems(sorted ? list = new ArrayList(list) : list, labelProvider, sorted), style); 
 
     this.list = list;
   }
