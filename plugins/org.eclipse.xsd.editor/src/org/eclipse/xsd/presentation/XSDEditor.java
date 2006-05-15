@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.19 2006/04/18 15:59:26 davidms Exp $
+ * $Id: XSDEditor.java,v 1.20 2006/05/15 21:55:39 emerks Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -685,6 +685,7 @@ public class XSDEditor
      */
     public ActionBarContributor()
     {
+      super(ADDITIONS_LAST_STYLE);
     }
 
     /**
@@ -907,15 +908,13 @@ public class XSDEditor
     {
       super.menuAboutToShow(menuManager);
 
-      menuManager.insertAfter("additions", new Separator());
-
-      MenuManager submenuManager = new MenuManager(XSDEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
-      populateManager(submenuManager, createSiblingActions, null);
-      menuManager.insertAfter("additions", submenuManager);
-
-      submenuManager = new MenuManager(XSDEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
+      MenuManager submenuManager = new MenuManager(XSDEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
       populateManager(submenuManager, createChildActions, null);
-      menuManager.insertAfter("additions", submenuManager);
+      menuManager.insertBefore("edit", submenuManager);
+ 
+      submenuManager = new MenuManager(XSDEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
+      populateManager(submenuManager, createSiblingActions, null);
+      menuManager.insertBefore("edit", submenuManager);
     }
 
     /**
