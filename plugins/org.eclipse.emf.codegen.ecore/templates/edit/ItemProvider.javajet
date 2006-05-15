@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.26 2006/05/15 19:33:11 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.27 2006/05/15 20:51:35 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -190,7 +190,21 @@ public class <%=genClass.getProviderClassName()%>
 	{
 <%if (genClass.isMapEntry()) {%>
 		<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%>)object;
+  <%if (!genClass.getMapEntryKeyFeature().isPropertyMultiLine() && !genClass.getMapEntryValueFeature().isPropertyMultiLine()) {%>
 		return "" + <%=genClass.getSafeUncapName()%>.getKey() + " -> " + <%=genClass.getSafeUncapName()%>.getValue();<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+  <%} else {%>
+    <%if (genClass.getMapEntryKeyFeature().isPropertyMultiLine()) {%>
+		String key = crop("" + <%=genClass.getSafeUncapName()%>.getKey());<%=genModel.getNonNLS()%>
+    <%} else {%>
+		String key = "" + <%=genClass.getSafeUncapName()%>.getKey();<%=genModel.getNonNLS()%>
+    <%}%>
+    <%if (genClass.getMapEntryValueFeature().isPropertyMultiLine()) {%>
+		String value = crop("" + <%=genClass.getSafeUncapName()%>.getValue());<%=genModel.getNonNLS()%>
+    <%} else {%>
+		String value = "" + <%=genClass.getSafeUncapName()%>.getValue();<%=genModel.getNonNLS()%>
+    <%}%>
+		return key + " -> " + value;<%=genModel.getNonNLS()%>
+  <%}%>
 <%} else if (genClass.getLabelFeature() != null) { GenFeature labelFeature = genClass.getLabelFeature();%>
   <%if (labelFeature.isPrimitiveType() && !labelFeature.getGenClass().isDynamic()) {%>
 		<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%>)object;
