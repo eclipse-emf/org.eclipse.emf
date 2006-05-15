@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.23 2006/04/04 15:35:38 emerks Exp $
+ * $Id: ItemProviderAdapter.java,v 1.24 2006/05/15 19:39:27 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -601,6 +601,26 @@ public class ItemProviderAdapter
   public String getUpdateableText(Object object)
   {
     return getText(object);
+  }
+
+  /**
+   * This crops the given text to exclude any control characters. The first such character and all following it are replaced by "..."
+   * @since 2.2.0
+   */
+  public String crop(String text)
+  {
+    if (text != null)
+    {
+      char[] chars = text.toCharArray();
+      for (int i = 0; i < chars.length; i++)
+      {
+        if (Character.isISOControl(chars[i]))
+        {
+          return text.substring(0, i) + "...";
+        }
+      }
+    }
+    return text;
   }
 
   /**
@@ -2609,6 +2629,10 @@ public class ItemProviderAdapter
   /**
    * This creates an item provider descriptor that uses a resource locator; specifies a static image, a category, and filter flags;
    * and determines the cell editor from the type of the structural feature. 
+   * <p>
+   * Newly regenerated code will no longer use this method. You'll need to override {@link
+   * #createItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, boolean, Object, String, String[])
+   * this form} instead.
    */
   protected ItemPropertyDescriptor createItemPropertyDescriptor(
     AdapterFactory adapterFactory,
@@ -2621,6 +2645,38 @@ public class ItemProviderAdapter
     String category,
     String[] filterFlags)
   {
+    return createItemPropertyDescriptor(
+      adapterFactory,
+      resourceLocator,
+      displayName,
+      description,
+      feature,
+      isSettable,
+      false,
+      false,
+      staticImage,
+      category,
+      filterFlags);
+  }
+
+  /**
+   * Creates an instance that uses a resource locator; indicates whether to be mutli-line and to sort choices; specifies
+   * a  static image, a category, and filter flags; and determines the cell editor from the type of the structural feature. 
+   * @since 2.2.0
+   */
+  protected ItemPropertyDescriptor createItemPropertyDescriptor(
+    AdapterFactory adapterFactory,
+    ResourceLocator resourceLocator,
+    String displayName,
+    String description,
+    EStructuralFeature feature,
+    boolean isSettable,
+    boolean multiLine,
+    boolean sortChoices,
+    Object staticImage,
+    String category,
+    String[] filterFlags)
+  {
     return new ItemPropertyDescriptor(
       adapterFactory,
       resourceLocator,
@@ -2628,6 +2684,8 @@ public class ItemProviderAdapter
       description,
       feature,
       isSettable,
+      multiLine,
+      sortChoices,
       staticImage,
       category,
       filterFlags);
