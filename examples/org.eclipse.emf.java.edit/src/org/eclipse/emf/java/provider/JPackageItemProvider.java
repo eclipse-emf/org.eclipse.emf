@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackageItemProvider.java,v 1.7 2006/05/03 20:22:06 davidms Exp $
+ * $Id: JPackageItemProvider.java,v 1.8 2006/05/15 22:07:12 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -91,6 +91,8 @@ public class JPackageItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JPackage_javaPackage_feature", "_UI_JPackage_type"),
          JavaPackage.Literals.JPACKAGE__JAVA_PACKAGE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -112,6 +114,8 @@ public class JPackageItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JPackage_types_feature", "_UI_JPackage_type"),
          JavaPackage.Literals.JPACKAGE__TYPES,
          true,
+         false,
+         false,
          null,
          null,
          null));

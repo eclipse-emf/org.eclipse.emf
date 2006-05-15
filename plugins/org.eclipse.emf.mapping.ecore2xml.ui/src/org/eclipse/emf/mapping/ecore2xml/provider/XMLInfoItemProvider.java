@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLInfoItemProvider.java,v 1.6 2006/05/03 20:34:37 davidms Exp $
+ * $Id: XMLInfoItemProvider.java,v 1.7 2006/05/15 22:09:12 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -105,6 +105,8 @@ public class XMLInfoItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_XMLInfo_name_feature", "_UI_XMLInfo_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          Ecore2XMLPackage.Literals.XML_INFO__NAME,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -126,6 +128,8 @@ public class XMLInfoItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_XMLInfo_targetNamespace_feature", "_UI_XMLInfo_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          Ecore2XMLPackage.Literals.XML_INFO__TARGET_NAMESPACE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -147,6 +151,8 @@ public class XMLInfoItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_XMLInfo_xMLRepresentation_feature", "_UI_XMLInfo_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          Ecore2XMLPackage.Literals.XML_INFO__XML_REPRESENTATION,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));

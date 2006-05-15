@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ListChangeItemProvider.java,v 1.10 2006/05/03 19:56:09 davidms Exp $
+ * $Id: ListChangeItemProvider.java,v 1.11 2006/05/15 22:05:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -99,6 +99,8 @@ public class ListChangeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_kind_feature", "_UI_ListChange_type"),
          ChangePackage.Literals.LIST_CHANGE__KIND,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -120,6 +122,8 @@ public class ListChangeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_index_feature", "_UI_ListChange_type"),
          ChangePackage.Literals.LIST_CHANGE__INDEX,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));
@@ -141,6 +145,8 @@ public class ListChangeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_moveToIndex_feature", "_UI_ListChange_type"),
          ChangePackage.Literals.LIST_CHANGE__MOVE_TO_INDEX,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));
@@ -162,6 +168,8 @@ public class ListChangeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ListChange_values_feature", "_UI_ListChange_type"),
          ChangePackage.Literals.LIST_CHANGE__VALUES,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));

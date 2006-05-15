@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WriterItemProvider.java,v 1.3 2006/04/03 18:01:03 emerks Exp $
+ * $Id: WriterItemProvider.java,v 1.4 2006/05/15 22:06:35 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -97,6 +97,8 @@ public class WriterItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Writer_name_feature", "_UI_Writer_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.WRITER__NAME,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -118,6 +120,8 @@ public class WriterItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Writer_books_feature", "_UI_Writer_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.WRITER__BOOKS,
          true,
+         false,
+         false,
          null,
          null,
          null));

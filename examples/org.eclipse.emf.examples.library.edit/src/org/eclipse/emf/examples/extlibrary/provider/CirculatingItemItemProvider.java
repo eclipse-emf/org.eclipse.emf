@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CirculatingItemItemProvider.java,v 1.3 2006/04/03 18:01:03 emerks Exp $
+ * $Id: CirculatingItemItemProvider.java,v 1.4 2006/05/15 22:06:35 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -98,6 +98,8 @@ public class CirculatingItemItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Lendable_copies_feature", "_UI_Lendable_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.LENDABLE__COPIES,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));
@@ -119,6 +121,8 @@ public class CirculatingItemItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Lendable_borrowers_feature", "_UI_Lendable_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.LENDABLE__BORROWERS,
          true,
+         false,
+         false,
          null,
          null,
          null));

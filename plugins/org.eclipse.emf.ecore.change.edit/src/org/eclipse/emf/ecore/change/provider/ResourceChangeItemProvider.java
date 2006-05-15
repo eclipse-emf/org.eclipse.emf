@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceChangeItemProvider.java,v 1.8 2006/05/03 19:56:09 davidms Exp $
+ * $Id: ResourceChangeItemProvider.java,v 1.9 2006/05/15 22:05:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -87,6 +87,8 @@ public class ResourceChangeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_resourceURI_feature", "_UI_ResourceChange_type"),
          ChangePackage.Literals.RESOURCE_CHANGE__RESOURCE_URI,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -108,6 +110,8 @@ public class ResourceChangeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_resource_feature", "_UI_ResourceChange_type"),
          ChangePackage.Literals.RESOURCE_CHANGE__RESOURCE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -129,6 +133,8 @@ public class ResourceChangeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ResourceChange_value_feature", "_UI_ResourceChange_type"),
          ChangePackage.Literals.RESOURCE_CHANGE__VALUE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));

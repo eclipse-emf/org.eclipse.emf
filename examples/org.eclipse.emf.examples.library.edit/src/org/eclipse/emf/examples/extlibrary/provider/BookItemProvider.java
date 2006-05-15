@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookItemProvider.java,v 1.3 2006/04/03 18:01:03 emerks Exp $
+ * $Id: BookItemProvider.java,v 1.4 2006/05/15 22:06:35 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -99,6 +99,8 @@ public class BookItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Book_title_feature", "_UI_Book_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.BOOK__TITLE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -120,6 +122,8 @@ public class BookItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Book_pages_feature", "_UI_Book_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.BOOK__PAGES,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));
@@ -141,6 +145,8 @@ public class BookItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Book_category_feature", "_UI_Book_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.BOOK__CATEGORY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -162,6 +168,8 @@ public class BookItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Book_author_feature", "_UI_Book_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.BOOK__AUTHOR,
          true,
+         false,
+         false,
          null,
          null,
          null));

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JFieldItemProvider.java,v 1.6 2005/11/23 18:10:05 emerks Exp $
+ * $Id: JFieldItemProvider.java,v 1.7 2006/05/15 22:07:12 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -94,6 +94,8 @@ public class JFieldItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JField_final_feature", "_UI_JField_type"),
          JavaPackage.Literals.JFIELD__FINAL,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -115,6 +117,8 @@ public class JFieldItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JField_transient_feature", "_UI_JField_type"),
          JavaPackage.Literals.JFIELD__TRANSIENT,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -136,6 +140,8 @@ public class JFieldItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JField_volatile_feature", "_UI_JField_type"),
          JavaPackage.Literals.JFIELD__VOLATILE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -157,6 +163,8 @@ public class JFieldItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JField_javaField_feature", "_UI_JField_type"),
          JavaPackage.Literals.JFIELD__JAVA_FIELD,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -178,6 +186,8 @@ public class JFieldItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JField_initializer_feature", "_UI_JField_type"),
          JavaPackage.Literals.JFIELD__INITIALIZER,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -199,6 +209,8 @@ public class JFieldItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JField_type_feature", "_UI_JField_type"),
          JavaPackage.Literals.JFIELD__TYPE,
          true,
+         false,
+         false,
          null,
          null,
          null));

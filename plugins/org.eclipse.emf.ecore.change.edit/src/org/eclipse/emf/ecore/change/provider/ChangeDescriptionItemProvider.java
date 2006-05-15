@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionItemProvider.java,v 1.9 2006/05/03 19:56:09 davidms Exp $
+ * $Id: ChangeDescriptionItemProvider.java,v 1.10 2006/05/15 22:05:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -96,6 +96,8 @@ public class ChangeDescriptionItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ChangeDescription_objectsToDetach_feature", "_UI_ChangeDescription_type"),
          ChangePackage.Literals.CHANGE_DESCRIPTION__OBJECTS_TO_DETACH,
          true,
+         false,
+         false,
          null,
          null,
          null));

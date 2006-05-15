@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JCompilationUnitItemProvider.java,v 1.7 2006/05/03 20:22:06 davidms Exp $
+ * $Id: JCompilationUnitItemProvider.java,v 1.8 2006/05/15 22:07:12 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -95,6 +95,8 @@ public class JCompilationUnitItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_imports_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.Literals.JCOMPILATION_UNIT__IMPORTS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -116,6 +118,8 @@ public class JCompilationUnitItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_package_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.Literals.JCOMPILATION_UNIT__PACKAGE,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -155,6 +159,8 @@ public class JCompilationUnitItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_comment_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.Literals.JCOMPILATION_UNIT__COMMENT,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -176,6 +182,8 @@ public class JCompilationUnitItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_types_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.Literals.JCOMPILATION_UNIT__TYPES,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -197,6 +205,8 @@ public class JCompilationUnitItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_importedPackages_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.Literals.JCOMPILATION_UNIT__IMPORTED_PACKAGES,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -218,6 +228,8 @@ public class JCompilationUnitItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JCompilationUnit_importedTypes_feature", "_UI_JCompilationUnit_type"),
          JavaPackage.Literals.JCOMPILATION_UNIT__IMPORTED_TYPES,
          true,
+         false,
+         false,
          null,
          null,
          null));

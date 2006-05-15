@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BookOnTapeItemProvider.java,v 1.3 2006/04/03 18:01:03 emerks Exp $
+ * $Id: BookOnTapeItemProvider.java,v 1.4 2006/05/15 22:06:35 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -95,6 +95,8 @@ public class BookOnTapeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_BookOnTape_reader_feature", "_UI_BookOnTape_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.BOOK_ON_TAPE__READER,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -116,6 +118,8 @@ public class BookOnTapeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_BookOnTape_author_feature", "_UI_BookOnTape_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.BOOK_ON_TAPE__AUTHOR,
          true,
+         false,
+         false,
          null,
          null,
          null));

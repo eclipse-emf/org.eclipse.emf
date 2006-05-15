@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureChangeItemProvider.java,v 1.9 2006/05/03 19:56:09 davidms Exp $
+ * $Id: FeatureChangeItemProvider.java,v 1.10 2006/05/15 22:05:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -97,6 +97,8 @@ public class FeatureChangeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_set_feature", "_UI_FeatureChange_type"),
          ChangePackage.Literals.FEATURE_CHANGE__SET,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -118,6 +120,8 @@ public class FeatureChangeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_value_feature", "_UI_FeatureChange_type"),
          ChangePackage.Literals.FEATURE_CHANGE__VALUE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -139,6 +143,8 @@ public class FeatureChangeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureChange_feature_feature", "_UI_FeatureChange_type"),
          ChangePackage.Literals.FEATURE_CHANGE__FEATURE,
          true,
+         false,
+         false,
          null,
          null,
          null));

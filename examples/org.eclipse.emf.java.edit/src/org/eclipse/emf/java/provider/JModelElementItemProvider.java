@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JModelElementItemProvider.java,v 1.5 2005/11/23 18:10:05 emerks Exp $
+ * $Id: JModelElementItemProvider.java,v 1.6 2006/05/15 22:07:12 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -91,6 +91,8 @@ public class JModelElementItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JModelElement_name_feature", "_UI_JModelElement_type"),
          JavaPackage.Literals.JMODEL_ELEMENT__NAME,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -112,6 +114,8 @@ public class JModelElementItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JModelElement_jNode_feature", "_UI_JModelElement_type"),
          JavaPackage.Literals.JMODEL_ELEMENT__JNODE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));

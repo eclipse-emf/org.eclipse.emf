@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectToChangesMapEntryItemProvider.java,v 1.9 2006/05/03 19:56:09 davidms Exp $
+ * $Id: EObjectToChangesMapEntryItemProvider.java,v 1.10 2006/05/15 22:05:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -98,6 +98,8 @@ public class EObjectToChangesMapEntryItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EObjectToChangesMapEntry_key_feature", "_UI_EObjectToChangesMapEntry_type"),
          ChangePackage.Literals.EOBJECT_TO_CHANGES_MAP_ENTRY__KEY,
          true,
+         false,
+         false,
          null,
          null,
          null));

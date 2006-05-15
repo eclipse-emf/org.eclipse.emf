@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PeriodicalItemProvider.java,v 1.2 2005/12/05 12:36:45 emerks Exp $
+ * $Id: PeriodicalItemProvider.java,v 1.3 2006/05/15 22:06:35 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -97,6 +97,8 @@ public class PeriodicalItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Periodical_title_feature", "_UI_Periodical_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.PERIODICAL__TITLE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -118,6 +120,8 @@ public class PeriodicalItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Periodical_issuesPerYear_feature", "_UI_Periodical_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.PERIODICAL__ISSUES_PER_YEAR,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));

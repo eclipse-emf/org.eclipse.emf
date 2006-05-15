@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethodItemProvider.java,v 1.6 2005/11/23 18:10:05 emerks Exp $
+ * $Id: JMethodItemProvider.java,v 1.7 2006/05/15 22:07:12 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -102,6 +102,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_abstract_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__ABSTRACT,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -123,6 +125,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_final_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__FINAL,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -144,6 +148,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_native_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__NATIVE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -165,6 +171,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_synchronized_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__SYNCHRONIZED,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -186,6 +194,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_javaMethod_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__JAVA_METHOD,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -207,6 +217,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_constructor_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__CONSTRUCTOR,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -228,6 +240,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_javaConstructor_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__JAVA_CONSTRUCTOR,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -249,6 +263,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_body_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__BODY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -270,6 +286,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_parameters_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__PARAMETERS,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -291,6 +309,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_exceptions_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__EXCEPTIONS,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -312,6 +332,8 @@ public class JMethodItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMethod_returnType_feature", "_UI_JMethod_type"),
          JavaPackage.Literals.JMETHOD__RETURN_TYPE,
          true,
+         false,
+         false,
          null,
          null,
          null));

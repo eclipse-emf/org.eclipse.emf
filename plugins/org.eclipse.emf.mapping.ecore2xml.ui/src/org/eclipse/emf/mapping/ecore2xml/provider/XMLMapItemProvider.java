@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XMLMapItemProvider.java,v 1.8 2006/05/03 20:34:37 davidms Exp $
+ * $Id: XMLMapItemProvider.java,v 1.9 2006/05/15 22:09:11 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -106,6 +106,8 @@ public class XMLMapItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_XMLMap_iDAttributeName_feature", "_UI_XMLMap_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          Ecore2XMLPackage.Literals.XML_MAP__ID_ATTRIBUTE_NAME,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -127,6 +129,8 @@ public class XMLMapItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_XMLMap_noNamespacePackage_feature", "_UI_XMLMap_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          Ecore2XMLPackage.Literals.XML_MAP__NO_NAMESPACE_PACKAGE,
          true,
+         false,
+         false,
          null,
          null,
          null));

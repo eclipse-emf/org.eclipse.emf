@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LibraryItemProvider.java,v 1.3 2006/04/03 18:01:03 emerks Exp $
+ * $Id: LibraryItemProvider.java,v 1.4 2006/05/15 22:06:35 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -102,6 +102,8 @@ public class LibraryItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Addressable_address_feature", "_UI_Addressable_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.ADDRESSABLE__ADDRESS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -123,6 +125,8 @@ public class LibraryItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Library_name_feature", "_UI_Library_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.LIBRARY__NAME,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -143,6 +147,8 @@ public class LibraryItemProvider
          getString("_UI_Library_books_feature"), //$NON-NLS-1$
          getString("_UI_PropertyDescriptor_description", "_UI_Library_books_feature", "_UI_Library_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.LIBRARY__BOOKS,
+         false,
+         false,
          false,
          null,
          null,

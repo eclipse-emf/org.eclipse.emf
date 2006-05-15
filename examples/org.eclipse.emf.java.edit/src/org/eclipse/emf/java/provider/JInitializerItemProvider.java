@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JInitializerItemProvider.java,v 1.6 2006/05/03 20:22:06 davidms Exp $
+ * $Id: JInitializerItemProvider.java,v 1.7 2006/05/15 22:07:12 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -89,6 +89,8 @@ public class JInitializerItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JInitializer_body_feature", "_UI_JInitializer_type"),
          JavaPackage.Literals.JINITIALIZER__BODY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));

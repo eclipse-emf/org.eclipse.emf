@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AudioVisualItemItemProvider.java,v 1.1 2005/12/05 12:36:44 emerks Exp $
+ * $Id: AudioVisualItemItemProvider.java,v 1.2 2006/05/15 22:06:35 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -98,6 +98,8 @@ public class AudioVisualItemItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_AudioVisualItem_title_feature", "_UI_AudioVisualItem_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.AUDIO_VISUAL_ITEM__TITLE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -119,6 +121,8 @@ public class AudioVisualItemItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_AudioVisualItem_minutesLength_feature", "_UI_AudioVisualItem_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.AUDIO_VISUAL_ITEM__MINUTES_LENGTH,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));
@@ -140,6 +144,8 @@ public class AudioVisualItemItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_AudioVisualItem_damaged_feature", "_UI_AudioVisualItem_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.AUDIO_VISUAL_ITEM__DAMAGED,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));

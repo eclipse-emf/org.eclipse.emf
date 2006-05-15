@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: ENamedElementToXMLInfoMapEntryItemProvider.java,v 1.6 2006/05/03 20:34:37 davidms Exp $
+ * $Id: ENamedElementToXMLInfoMapEntryItemProvider.java,v 1.7 2006/05/15 22:09:11 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.provider;
 
@@ -105,6 +105,8 @@ public class ENamedElementToXMLInfoMapEntryItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ENamedElementToXMLInfoMapEntry_key_feature", "_UI_ENamedElementToXMLInfoMapEntry_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          Ecore2XMLPackage.Literals.ENAMED_ELEMENT_TO_XML_INFO_MAP_ENTRY__KEY,
          true,
+         false,
+         false,
          null,
          null,
          null));

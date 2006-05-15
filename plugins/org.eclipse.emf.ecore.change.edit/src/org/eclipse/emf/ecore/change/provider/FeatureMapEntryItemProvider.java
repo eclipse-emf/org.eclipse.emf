@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryItemProvider.java,v 1.4 2006/05/03 19:56:09 davidms Exp $
+ * $Id: FeatureMapEntryItemProvider.java,v 1.5 2006/05/15 22:05:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.provider;
 
@@ -100,6 +100,8 @@ public class FeatureMapEntryItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureMapEntry_featureName_feature", "_UI_FeatureMapEntry_type"),
          ChangePackage.Literals.FEATURE_MAP_ENTRY__FEATURE_NAME,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -121,6 +123,8 @@ public class FeatureMapEntryItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureMapEntry_dataValue_feature", "_UI_FeatureMapEntry_type"),
          ChangePackage.Literals.FEATURE_MAP_ENTRY__DATA_VALUE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -141,6 +145,8 @@ public class FeatureMapEntryItemProvider
          getString("_UI_FeatureMapEntry_value_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureMapEntry_value_feature", "_UI_FeatureMapEntry_type"),
          ChangePackage.Literals.FEATURE_MAP_ENTRY__VALUE,
+         false,
+         false,
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
@@ -163,6 +169,8 @@ public class FeatureMapEntryItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureMapEntry_feature_feature", "_UI_FeatureMapEntry_type"),
          ChangePackage.Literals.FEATURE_MAP_ENTRY__FEATURE,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -184,6 +192,8 @@ public class FeatureMapEntryItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_FeatureMapEntry_referenceValue_feature", "_UI_FeatureMapEntry_type"),
          ChangePackage.Literals.FEATURE_MAP_ENTRY__REFERENCE_VALUE,
          true,
+         false,
+         false,
          null,
          null,
          null));

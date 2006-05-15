@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemItemProvider.java,v 1.2 2005/12/05 12:36:45 emerks Exp $
+ * $Id: ItemItemProvider.java,v 1.3 2006/05/15 22:06:35 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -98,6 +98,8 @@ public class ItemItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_Item_publicationDate_feature", "_UI_Item_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.ITEM__PUBLICATION_DATE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));

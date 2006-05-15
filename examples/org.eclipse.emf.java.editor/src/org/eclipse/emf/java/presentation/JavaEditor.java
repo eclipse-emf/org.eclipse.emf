@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.15 2005/08/24 13:52:06 marcelop Exp $
+ * $Id: JavaEditor.java,v 1.16 2006/05/15 22:08:29 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
 
 import java.io.IOException;
+import java.io.InputStream;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -27,6 +29,7 @@ import java.util.Collections;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,8 +110,15 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.notify.AdapterFactory;
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.ui.MarkerHelper;
 import org.eclipse.emf.common.ui.ViewerPane;
+import org.eclipse.emf.common.ui.editor.ProblemEditorPart;
+
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -116,6 +126,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -131,6 +142,8 @@ import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.emf.edit.ui.dnd.ViewerDragAdapter;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
+import org.eclipse.emf.edit.ui.util.EditUIMarkerHelper;
+
 import org.eclipse.emf.edit.ui.view.ExtendedPropertySheetPage;
 
 import org.eclipse.emf.java.JCompilationUnit;
@@ -294,6 +307,15 @@ public class JavaEditor
   protected ISelection editorSelection= StructuredSelection.EMPTY;
 
   /**
+   * The MarkerHelper is responsible for creating workspace resource markers presented
+   * in Eclipse's Problems View.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected MarkerHelper markerHelper = new EditUIMarkerHelper();
+
+  /**
    * This listens for when the outline becomes active
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -344,19 +366,96 @@ public class JavaEditor
    * Resources that have been removed since last activation.
    * @generated
    */
-  Collection removedResources = new ArrayList();
+  protected Collection removedResources = new ArrayList();
 
   /**
    * Resources that have been changed since last activation.
    * @generated
    */
-  Collection changedResources = new ArrayList();
+  protected Collection changedResources = new ArrayList();
 
   /**
    * Resources that have been saved.
    * @generated
    */
-  Collection savedResources = new ArrayList();
+  protected Collection savedResources = new ArrayList();
+
+  /**
+   * Map to store the diagnostic associated with a resource.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected Map resourceToDiagnosticMap = new LinkedHashMap();
+
+  /**
+   * Controls whether the problem indication should be updated.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected boolean updateProblemIndication = true;
+
+  /**
+   * Adapter used to update the problem indication when resources are demanded loaded.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected EContentAdapter problemIndicationAdapter = 
+    new EContentAdapter()
+    {
+      public void notifyChanged(Notification notification)
+      {
+        if (notification.getNotifier() instanceof Resource)
+        {
+          switch (notification.getFeatureID(Resource.class))
+          {
+            case Resource.RESOURCE__IS_LOADED:
+            case Resource.RESOURCE__ERRORS:
+            case Resource.RESOURCE__WARNINGS:
+            {
+              Resource resource = (Resource)notification.getNotifier();
+              Diagnostic diagnostic = analyzeResourceProblems((Resource)notification.getNotifier(), null);
+              if (diagnostic.getSeverity() != Diagnostic.OK)
+              {
+                resourceToDiagnosticMap.put(resource, diagnostic);
+              }
+              else
+              {
+                resourceToDiagnosticMap.remove(resource);
+              }
+
+              if (updateProblemIndication)
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
+                   {
+                     public void run()
+                     {
+                       updateProblemIndication();
+                     }
+                   });
+              }
+            }
+          }
+        }
+        else
+        {
+          super.notifyChanged(notification);
+        }
+      }
+
+      protected void setTarget(Resource target)
+      {
+        basicSetTarget(target);
+      }
+
+      protected void unsetTarget(Resource target)
+      {
+        basicUnsetTarget(target);
+      }
+    };
 
   /**
    * This listens for workspace changes.
@@ -384,7 +483,7 @@ public class JavaEditor
               public boolean visit(IResourceDelta delta)
               {
                 if (delta.getFlags() != IResourceDelta.MARKERS &&
-                      delta.getResource().getType() == IResource.FILE)
+                    delta.getResource().getType() == IResource.FILE)
                 {
                   if ((delta.getKind() & (IResourceDelta.CHANGED | IResourceDelta.REMOVED)) != 0)
                   {
@@ -395,7 +494,7 @@ public class JavaEditor
                       {
                         removedResources.add(resource);
                       }
-                      else
+                      else if (!savedResources.remove(resource))
                       {
                         changedResources.add(resource);
                       }
@@ -440,6 +539,17 @@ public class JavaEditor
             if (!visitor.getChangedResources().isEmpty())
             {
               changedResources.addAll(visitor.getChangedResources());
+              if (getSite().getPage().getActiveEditor() == JavaEditor.this)
+              {
+                getSite().getShell().getDisplay().asyncExec
+                  (new Runnable()
+                   {
+                     public void run()
+                     {
+                       handleActivate();
+                     }
+                   });
+              }
             }
           }
           catch (CoreException exception)
@@ -491,7 +601,6 @@ public class JavaEditor
     }
   }
 
-
   /**
    * Handles what to do with changed resources on activation.
    * @generated
@@ -502,6 +611,7 @@ public class JavaEditor
     {
       editingDomain.getCommandStack().flush();
 
+      updateProblemIndication = false;
       for (Iterator i = changedResources.iterator(); i.hasNext(); )
       {
         Resource resource = (Resource)i.next();
@@ -513,6 +623,82 @@ public class JavaEditor
             resource.load(Collections.EMPTY_MAP);
           }
           catch (IOException exception)
+          {
+            if (!resourceToDiagnosticMap.containsKey(resource))
+            {
+              resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+            }
+          }
+        }
+      }
+      updateProblemIndication = true;
+      updateProblemIndication();
+    }
+  }
+  
+  /**
+   * Updates the problems indication with the information described in the specified diagnostic.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void updateProblemIndication()
+  {
+    if (updateProblemIndication)
+    {
+      BasicDiagnostic diagnostic =
+        new BasicDiagnostic
+          (Diagnostic.OK,
+           "org.eclipse.emf.java.editor",
+           0,
+           null,
+           new Object [] { editingDomain.getResourceSet() });
+      for (Iterator i = resourceToDiagnosticMap.values().iterator(); i.hasNext(); )
+      {
+        Diagnostic childDiagnostic = (Diagnostic)i.next();
+        if (childDiagnostic.getSeverity() != Diagnostic.OK)
+        {
+          diagnostic.add(childDiagnostic);
+        }
+      }
+
+      int lastEditorPage = getPageCount() - 1;
+      if (lastEditorPage >= 0 && getEditor(lastEditorPage) instanceof ProblemEditorPart)
+      {
+        ((ProblemEditorPart)getEditor(lastEditorPage)).setDiagnostic(diagnostic);
+        if (diagnostic.getSeverity() != Diagnostic.OK)
+        {
+          setActivePage(lastEditorPage);
+        }
+      }
+      else if (diagnostic.getSeverity() != Diagnostic.OK)
+      {
+        ProblemEditorPart problemEditorPart = new ProblemEditorPart();
+        problemEditorPart.setDiagnostic(diagnostic);
+        problemEditorPart.setMarkerHelper(markerHelper);
+        try
+        {
+          addPage(++lastEditorPage, problemEditorPart, getEditorInput());
+          setPageText(lastEditorPage, problemEditorPart.getPartName());
+          setActivePage(lastEditorPage);
+          showTabs();
+        }
+        catch (PartInitException exception)
+        {
+          JavaEditorPlugin.INSTANCE.log(exception);
+        }
+      }
+
+      if (markerHelper.hasMarkers(editingDomain.getResourceSet()))
+      {
+        markerHelper.deleteMarkers(editingDomain.getResourceSet());
+        if (diagnostic.getSeverity() != Diagnostic.OK)
+        {
+          try
+          {
+            markerHelper.createMarkers(diagnostic);
+          }
+          catch (CoreException exception)
           {
             JavaEditorPlugin.INSTANCE.log(exception);
           }
@@ -578,7 +764,7 @@ public class JavaEditor
                   {
                     setSelectionToViewer(mostRecentCommand.getAffectedObjects());
                   }
-                  if (propertySheetPage != null)
+                  if (propertySheetPage != null && !propertySheetPage.getControl().isDisposed())
                   {
                     propertySheetPage.refresh();
                   }
@@ -799,19 +985,66 @@ public class JavaEditor
    */
   public void createModel()
   {
-    // I assume that the input is a file object.
+    // Assumes that the input is a file object.
     //
     IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-
+    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString());;
+    Exception exception = null;
+    Resource resource = null;
     try
     {
       // Load the resource through the editing domain.
       //
-      editingDomain.loadResource(URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString()).toString());
+      resource = editingDomain.getResourceSet().getResource(resourceURI, true);
     }
-    catch (Exception exception)
+    catch (Exception e)
     {
-      JavaEditorPlugin.INSTANCE.log(exception);
+      exception = e;
+      resource = editingDomain.getResourceSet().getResource(resourceURI, false);
+    }
+
+    Diagnostic diagnostic = analyzeResourceProblems(resource, exception);
+    if (diagnostic.getSeverity() != Diagnostic.OK)
+    {
+      resourceToDiagnosticMap.put(resource,  analyzeResourceProblems(resource, exception));
+    }
+    editingDomain.getResourceSet().eAdapters().add(problemIndicationAdapter);
+  }
+
+  /**
+   * Returns a dignostic describing the errors and warnings listed in the resource
+   * and the specified exception (if any).
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Diagnostic analyzeResourceProblems(Resource resource, Exception exception) 
+  {
+    if (!resource.getErrors().isEmpty() || !resource.getWarnings().isEmpty())
+    {
+      BasicDiagnostic basicDiagnostic =
+        new BasicDiagnostic
+          (Diagnostic.ERROR,
+           "org.eclipse.emf.java.editor",
+           0,
+           getString("_UI_CreateModelError_message", resource.getURI()),
+           new Object [] { exception == null ? (Object)resource : exception });
+      basicDiagnostic.merge(EcoreUtil.computeDiagnostic(resource, true));
+      return basicDiagnostic;
+    }
+    else if (exception != null)
+    {
+      return
+        new BasicDiagnostic
+          (Diagnostic.ERROR,
+           "org.eclipse.emf.java.editor",
+           0,
+           getString("_UI_CreateModelError_message", resource.getURI()),
+           new Object[] { exception });
+    }
+    else
+    {
+      return Diagnostic.OK_INSTANCE;
     }
   }
 
@@ -1161,8 +1394,8 @@ public class JavaEditor
   }
 
   /**
-   * If there is just one page in the multi-page editor part, this hides
-   * the single tab at the bottom.
+   * If there is just one page in the multi-page editor part,
+   * this hides the single tab at the bottom.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -1177,6 +1410,27 @@ public class JavaEditor
         ((CTabFolder)getContainer()).setTabHeight(1);
         Point point = getContainer().getSize();
         getContainer().setSize(point.x, point.y + 6);
+      }
+    }
+  }
+
+  /**
+   * If there is more than one page in the multi-page editor part,
+   * this shows the tabs at the bottom.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void showTabs()
+  {
+    if (getPageCount() > 1)
+    {
+      setPageText(0, getString("_UI_SelectionPage_label"));
+      if (getContainer() instanceof CTabFolder)
+      {
+        ((CTabFolder)getContainer()).setTabHeight(SWT.DEFAULT);
+        Point point = getContainer().getSize();
+        getContainer().setSize(point.x, point.y - 6);
       }
     }
   }
@@ -1207,7 +1461,7 @@ public class JavaEditor
   {
     if (key.equals(IContentOutlinePage.class))
     {
-      return getContentOutlinePage();
+      return showOutlineView() ? getContentOutlinePage() : null;
     }
     else if (key.equals(IPropertySheetPage.class))
     {
@@ -1400,21 +1654,30 @@ public class JavaEditor
         //
         public void execute(IProgressMonitor monitor)
         {
-          try
+          // Save the resources to the file system.
+          //
+          boolean first = true;
+          for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
           {
-            // Save the resource to the file system.
-            //
-            Resource savedResource = (Resource)editingDomain.getResourceSet().getResources().get(0);
-            savedResources.add(savedResource);
-            savedResource.save(Collections.EMPTY_MAP);
-          }
-          catch (Exception exception)
-          {
-            JavaEditorPlugin.INSTANCE.log(exception);
+            Resource resource = (Resource)i.next();
+            if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
+            {
+              try
+              {
+                savedResources.add(resource);
+                resource.save(Collections.EMPTY_MAP);
+              }
+              catch (Exception exception)
+              {
+                resourceToDiagnosticMap.put(resource, analyzeResourceProblems(resource, exception));
+              }
+              first = false;
+            }
           }
         }
       };
 
+    updateProblemIndication = false;
     try
     {
       // This runs the options, and shows progress.
@@ -1432,6 +1695,33 @@ public class JavaEditor
       //
       JavaEditorPlugin.INSTANCE.log(exception);
     }
+    updateProblemIndication = true;
+    updateProblemIndication();
+  }
+
+  /**
+   * This returns wether something has been persisted to the URI of the specified resource.
+   * The implementation uses the URI converter from the editor's resource set to try to open an input stream. 
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected boolean isPersisted(Resource resource)
+  {
+    boolean result = false;
+    try
+    {
+      InputStream stream = editingDomain.getResourceSet().getURIConverter().createInputStream(resource.getURI());
+      if (stream != null)
+      {
+        result = true;
+        stream.close();
+      }
+    }
+    catch (IOException e)
+    {
+    }
+    return result;
   }
 
   /**
@@ -1465,7 +1755,7 @@ public class JavaEditor
       }
     }
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1606,7 +1896,7 @@ public class JavaEditor
   {
     IStatusLineManager statusLineManager = currentViewer != null && currentViewer == contentOutlineViewer ?
       contentOutlineStatusLineManager : getActionBars().getStatusLineManager();
-  
+
     if (statusLineManager != null)
     {
       if (selection instanceof IStructuredSelection)
@@ -1709,6 +1999,8 @@ public class JavaEditor
    */
   public void dispose()
   {
+    updateProblemIndication = false;
+
     ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 
     getSite().getPage().removePartListener(partListener);
@@ -1733,6 +2025,16 @@ public class JavaEditor
     super.dispose();
   }
 
+  /**
+   * Returns whether the outline view should be presented to the user.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected boolean showOutlineView()
+  {
+    return true;
+  }
   public void setupClassLoader(IProject project)
   {
     JavaPackageResourceImpl javaPackageResource = 

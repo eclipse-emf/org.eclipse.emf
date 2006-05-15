@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JClassItemProvider.java,v 1.7 2005/11/23 18:10:05 emerks Exp $
+ * $Id: JClassItemProvider.java,v 1.8 2006/05/15 22:07:12 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -106,6 +106,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_abstract_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__ABSTRACT,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -127,6 +129,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_final_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__FINAL,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -148,6 +152,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_interface_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__INTERFACE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -169,6 +175,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_throwable_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__THROWABLE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -190,6 +198,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_javaClass_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__JAVA_CLASS,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -211,6 +221,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_fields_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__FIELDS,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -232,6 +244,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_methods_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__METHODS,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -253,6 +267,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_superTypes_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__SUPER_TYPES,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -274,6 +290,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allSuperTypes_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__ALL_SUPER_TYPES,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -295,6 +313,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_members_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__MEMBERS,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -316,6 +336,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_componentType_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__COMPONENT_TYPE,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -337,6 +359,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_unit_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__UNIT,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -358,6 +382,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allMethods_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__ALL_METHODS,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -379,6 +405,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_allFields_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__ALL_FIELDS,
          true,
+         false,
+         false,
          null,
          null,
          null));
@@ -400,6 +428,8 @@ public class JClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JClass_package_feature", "_UI_JClass_type"),
          JavaPackage.Literals.JCLASS__PACKAGE,
          true,
+         false,
+         false,
          null,
          null,
          null));

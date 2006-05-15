@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMemberItemProvider.java,v 1.6 2005/11/23 18:10:05 emerks Exp $
+ * $Id: JMemberItemProvider.java,v 1.7 2006/05/15 22:07:12 emerks Exp $
  */
 package org.eclipse.emf.java.provider;
 
@@ -92,6 +92,8 @@ public class JMemberItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_static_feature", "_UI_JMember_type"),
          JavaPackage.Literals.JMEMBER__STATIC,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -113,6 +115,8 @@ public class JMemberItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_visibility_feature", "_UI_JMember_type"),
          JavaPackage.Literals.JMEMBER__VISIBILITY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -134,6 +138,8 @@ public class JMemberItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_comment_feature", "_UI_JMember_type"),
          JavaPackage.Literals.JMEMBER__COMMENT,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -155,6 +161,8 @@ public class JMemberItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_JMember_containingType_feature", "_UI_JMember_type"),
          JavaPackage.Literals.JMEMBER__CONTAINING_TYPE,
          true,
+         false,
+         false,
          null,
          null,
          null));

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: VideoCassetteItemProvider.java,v 1.3 2006/04/03 18:01:03 emerks Exp $
+ * $Id: VideoCassetteItemProvider.java,v 1.4 2006/05/15 22:06:35 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.provider;
 
@@ -94,6 +94,8 @@ public class VideoCassetteItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_VideoCassette_cast_feature", "_UI_VideoCassette_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          EXTLibraryPackage.Literals.VIDEO_CASSETTE__CAST,
          true,
+         false,
+         false,
          null,
          null,
          null));
