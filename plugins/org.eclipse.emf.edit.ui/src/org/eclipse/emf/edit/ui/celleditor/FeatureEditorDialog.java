@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: FeatureEditorDialog.java,v 1.7 2005/06/08 06:20:52 nickb Exp $
+ * $Id: FeatureEditorDialog.java,v 1.8 2006/05/15 19:42:04 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +46,7 @@ import org.eclipse.swt.widgets.Text;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.common.ui.celleditor.ExtendedComboBoxCellEditor;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
@@ -68,6 +70,37 @@ public class FeatureEditorDialog extends Dialog
   protected ItemProvider values;
   protected List choiceOfValues;
   protected EList result;
+  protected boolean multiLine;
+
+  public FeatureEditorDialog
+    (Shell parent, 
+     ILabelProvider labelProvider, 
+     Object object, 
+     EClassifier eClassifier, 
+     List currentValues, 
+     String displayName, 
+     List choiceOfValues,
+     boolean multiLine,
+     boolean sortChoices)
+  {
+    super(parent);
+    setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
+    this.labelProvider = labelProvider;
+    this.object = object;
+    this.eClassifier = eClassifier;
+    this.displayName = displayName;
+    this.choiceOfValues = choiceOfValues;
+    this.multiLine = multiLine;
+
+    AdapterFactory adapterFactory = new ComposedAdapterFactory(Collections.EMPTY_LIST);
+    values = new ItemProvider(adapterFactory, currentValues);
+    contentProvider = new AdapterFactoryContentProvider(adapterFactory);
+    if (sortChoices && choiceOfValues != null)
+    {
+      this.choiceOfValues = new ArrayList(choiceOfValues);
+      ExtendedComboBoxCellEditor.createItems(this.choiceOfValues, labelProvider, true);
+    }
+  }
 
   public FeatureEditorDialog
     (Shell parent, 
@@ -78,17 +111,7 @@ public class FeatureEditorDialog extends Dialog
      String displayName, 
      List choiceOfValues)
   {
-    super(parent);
-    setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
-    this.labelProvider = labelProvider;
-    this.object = object;
-    this.eClassifier = eClassifier;
-    this.displayName = displayName;
-    this.choiceOfValues = choiceOfValues;
-
-    AdapterFactory adapterFactory = new ComposedAdapterFactory(Collections.EMPTY_LIST);
-    values = new ItemProvider(adapterFactory, currentValues);
-    contentProvider = new AdapterFactoryContentProvider(adapterFactory);
+    this(parent, labelProvider, object, eClassifier, currentValues, displayName, choiceOfValues, false, false);
   }
 
   public FeatureEditorDialog
@@ -173,14 +196,24 @@ public class FeatureEditorDialog extends Dialog
       choiceTableViewer.setInput(new ItemProvider(choiceOfValues));
     }
 
-    final Text choiceText = choiceOfValues == null ? new Text(choiceComposite, SWT.MULTI | SWT.BORDER) : null;
+    // We use multi even for a single line because we want to respond to the enter key.
+    //
+    int style = multiLine ?
+      SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER :
+      SWT.MULTI | SWT.BORDER;
+    final Text choiceText = choiceOfValues == null ? new Text(choiceComposite, style) : null;
     if (choiceText != null)
     {
       GridData choiceTextGridData = new GridData();
       choiceTextGridData.widthHint = Display.getCurrent().getBounds().width / 5;
       choiceTextGridData.verticalAlignment = SWT.BEGINNING;
       choiceTextGridData.horizontalAlignment = SWT.FILL;
-      choiceTextGridData.grabExcessHorizontalSpace= true;
+      choiceTextGridData.grabExcessHorizontalSpace = true;
+      if (multiLine)
+      {
+        choiceTextGridData.verticalAlignment = SWT.FILL;
+        choiceTextGridData.grabExcessVerticalSpace = true;
+      }
       choiceText.setLayoutData(choiceTextGridData);
     }
 
@@ -276,7 +309,7 @@ public class FeatureEditorDialog extends Dialog
         {
           public void keyPressed(KeyEvent event)
           {
-            if (event.character == '\r' || event.character == '\n')
+            if (!multiLine && (event.character == '\r' || event.character == '\n'))
             {
               try
               {
