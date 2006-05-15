@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.25 2006/01/24 22:24:01 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.26 2006/05/15 19:33:11 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -104,6 +104,8 @@ public class <%=genClass.getProviderClassName()%>
   <%}%>
 				 <%=genFeature.getQualifiedFeatureAccessor()%>,
 				 <%=genFeature.getProperty() == GenPropertyKind.EDITABLE_LITERAL ? "true" : "false"%>,
+				 <%=genFeature.isPropertyMultiLine() ? "true" : "false"%>,
+				 <%=genFeature.isPropertySortChoices() ? "true" : "false"%>,
   <%if (genFeature.isReferenceType()) {%>
 				 null,
   <%} else {%>
@@ -195,7 +197,11 @@ public class <%=genClass.getProviderClassName()%>
 		return getString("_UI_<%=genClass.getName()%>_type") + " " + <%=genClass.getSafeUncapName()%>.<%=genClass.getLabelFeature().getGetAccessor()%>();<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
   <%} else {%>
     <%if (labelFeature.isStringType() && !genClass.isExternalInterface() && !labelFeature.getGenClass().isDynamic()) {%>
-		String label = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();
+      <%if (labelFeature.isPropertyMultiLine()) {%>
+		String label = crop(((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>());
+      <%} else {%>
+		String label = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();		
+      <%}%>
     <%} else {%>
       <%if (genClass.isExternalInterface() || labelFeature.getGenClass().isDynamic()) {%>
 		<%=genModel.getImportedName("java.lang.Object")%> labelValue = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%>)object).eGet(<%=labelFeature.getQualifiedFeatureAccessor()%>);
