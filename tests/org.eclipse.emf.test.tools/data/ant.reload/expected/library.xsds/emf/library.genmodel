@@ -32,7 +32,7 @@
       ecorePackage="hr.ecore#/">
     <genClasses ecoreClass="hr.ecore#//Person">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute hr.ecore#//Person/name"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference hr.ecore#//Person/library"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference hr.ecore#//Person/library"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Library" basePackage="org.examples" resource="XML" disposableProviderFactory="true"
@@ -41,7 +41,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute library.ecore#//Library/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/writers"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference library.ecore#//Library/books"/>
-      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference library.ecore#//Library/employees"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference library.ecore#//Library/employees"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
