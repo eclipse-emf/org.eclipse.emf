@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.14 2006/03/13 14:17:33 emerks Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.15 2006/05/15 21:02:45 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -119,6 +119,8 @@ public class EAnnotationItemProvider
          getString("_UI_EAnnotation_references_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EAnnotation_references_feature", "_UI_EAnnotation_type"),
          EcorePackage.Literals.EANNOTATION__REFERENCES,
+         true,
+         false,
          true,
          null,
          null,

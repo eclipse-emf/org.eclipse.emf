@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.14 2006/04/17 15:03:15 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.15 2006/05/15 21:02:45 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -102,6 +102,8 @@ public class ETypedElementItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_ordered_feature", "_UI_ETypedElement_type"),
          EcorePackage.Literals.ETYPED_ELEMENT__ORDERED,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -123,6 +125,8 @@ public class ETypedElementItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_unique_feature", "_UI_ETypedElement_type"),
          EcorePackage.Literals.ETYPED_ELEMENT__UNIQUE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -144,6 +148,8 @@ public class ETypedElementItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_lowerBound_feature", "_UI_ETypedElement_type"),
          EcorePackage.Literals.ETYPED_ELEMENT__LOWER_BOUND,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));
@@ -165,6 +171,8 @@ public class ETypedElementItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_upperBound_feature", "_UI_ETypedElement_type"),
          EcorePackage.Literals.ETYPED_ELEMENT__UPPER_BOUND,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));
@@ -185,6 +193,8 @@ public class ETypedElementItemProvider
          getString("_UI_ETypedElement_many_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_many_feature", "_UI_ETypedElement_type"),
          EcorePackage.Literals.ETYPED_ELEMENT__MANY,
+         false,
+         false,
          false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -207,6 +217,8 @@ public class ETypedElementItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_required_feature", "_UI_ETypedElement_type"),
          EcorePackage.Literals.ETYPED_ELEMENT__REQUIRED,
          false,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -223,10 +235,16 @@ public class ETypedElementItemProvider
     itemPropertyDescriptors.add
       (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
          getString("_UI_ETypedElement_eType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_ETypedElement_eType_feature", "_UI_ETypedElement_type"),
          EcorePackage.eINSTANCE.getETypedElement_EType(),
-         true)
+         true,
+         false,
+         true,
+         null,
+         null,
+         null)
        {
          public Collection getChoiceOfValues(Object object)
          {

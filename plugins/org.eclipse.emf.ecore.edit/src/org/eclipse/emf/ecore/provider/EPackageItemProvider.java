@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageItemProvider.java,v 1.10 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EPackageItemProvider.java,v 1.11 2006/05/15 21:02:45 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -95,6 +95,8 @@ public class EPackageItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_nsURI_feature", "_UI_EPackage_type"),
          EcorePackage.Literals.EPACKAGE__NS_URI,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -116,6 +118,8 @@ public class EPackageItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_nsPrefix_feature", "_UI_EPackage_type"),
          EcorePackage.Literals.EPACKAGE__NS_PREFIX,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -136,7 +140,9 @@ public class EPackageItemProvider
          getString("_UI_EPackage_eFactoryInstance_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EPackage_eFactoryInstance_feature", "_UI_EPackage_type"),
          EcorePackage.Literals.EPACKAGE__EFACTORY_INSTANCE,
-         true,
+         false,
+         false,
+         false,
          null,
          null,
          null));

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.11 2006/03/24 18:06:15 davidms Exp $
+ * $Id: EReferenceItemProvider.java,v 1.12 2006/05/15 21:02:45 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -106,6 +106,8 @@ public class EReferenceItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_containment_feature", "_UI_EReference_type"),
          EcorePackage.Literals.EREFERENCE__CONTAINMENT,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -126,6 +128,8 @@ public class EReferenceItemProvider
          getString("_UI_EReference_container_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_container_feature", "_UI_EReference_type"),
          EcorePackage.Literals.EREFERENCE__CONTAINER,
+         false,
+         false,
          false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
@@ -148,6 +152,8 @@ public class EReferenceItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_resolveProxies_feature", "_UI_EReference_type"),
          EcorePackage.Literals.EREFERENCE__RESOLVE_PROXIES,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -168,7 +174,12 @@ public class EReferenceItemProvider
          getString("_UI_EReference_eOpposite_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_eOpposite_feature", "_UI_EReference_type"),
          EcorePackage.eINSTANCE.getEReference_EOpposite(),
-         true)
+         true,
+         false,
+         true,
+         null,
+         null,
+         null)
         {
           public Collection getChoiceOfValues(Object object)
           {
@@ -267,6 +278,8 @@ public class EReferenceItemProvider
          getString("_UI_EReference_eReferenceType_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EReference_eReferenceType_feature", "_UI_EReference_type"),
          EcorePackage.Literals.EREFERENCE__EREFERENCE_TYPE,
+         false,
+         false,
          false,
          null,
          null,

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.12 2006/04/17 15:02:45 emerks Exp $
+ * $Id: EClassItemProvider.java,v 1.13 2006/05/15 21:02:45 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -96,6 +96,8 @@ public class EClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EClass_abstract_feature", "_UI_EClass_type"),
          EcorePackage.Literals.ECLASS__ABSTRACT,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -117,6 +119,8 @@ public class EClassItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EClass_interface_feature", "_UI_EClass_type"),
          EcorePackage.Literals.ECLASS__INTERFACE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -136,8 +140,13 @@ public class EClassItemProvider
          getResourceLocator(),
          getString("_UI_EClass_eSuperTypes_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EClass_eSuperTypes_feature", "_UI_EClass_type"),
-         EcorePackage.eINSTANCE.getEClass_ESuperTypes(),
-         true)
+         EcorePackage.Literals.ECLASS__ESUPER_TYPES,
+         true,
+         false,
+         true,
+         null,
+         null,
+         null)
        {
          public Collection getChoiceOfValues(Object object)
          {

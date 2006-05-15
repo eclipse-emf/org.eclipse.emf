@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureItemProvider.java,v 1.10 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EStructuralFeatureItemProvider.java,v 1.11 2006/05/15 21:02:45 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -100,6 +100,8 @@ public class EStructuralFeatureItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_changeable_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__CHANGEABLE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -121,6 +123,8 @@ public class EStructuralFeatureItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_volatile_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__VOLATILE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -142,6 +146,8 @@ public class EStructuralFeatureItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_transient_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__TRANSIENT,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -163,6 +169,8 @@ public class EStructuralFeatureItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValueLiteral_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__DEFAULT_VALUE_LITERAL,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -184,6 +192,8 @@ public class EStructuralFeatureItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValue_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__DEFAULT_VALUE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -205,6 +215,8 @@ public class EStructuralFeatureItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_unsettable_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__UNSETTABLE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -226,6 +238,8 @@ public class EStructuralFeatureItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_derived_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__DERIVED,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
@@ -246,6 +260,8 @@ public class EStructuralFeatureItemProvider
          getString("_UI_EStructuralFeature_eContainingClass_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_eContainingClass_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS,
+         false,
+         false,
          false,
          null,
          null,

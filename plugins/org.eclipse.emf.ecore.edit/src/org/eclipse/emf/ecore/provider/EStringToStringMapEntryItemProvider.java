@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryItemProvider.java,v 1.11 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EStringToStringMapEntryItemProvider.java,v 1.12 2006/05/15 21:01:58 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -97,6 +97,8 @@ public class EStringToStringMapEntryItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EStringToStringMapEntry_key_feature", "_UI_EStringToStringMapEntry_type"),
          EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__KEY,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -118,6 +120,8 @@ public class EStringToStringMapEntryItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EStringToStringMapEntry_value_feature", "_UI_EStringToStringMapEntry_type"),
          EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY__VALUE,
          true,
+         true,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -143,7 +147,9 @@ public class EStringToStringMapEntryItemProvider
   public String getText(Object object)
   {
     Map.Entry eStringToStringMapEntry = (Map.Entry)object;
-    return "" + eStringToStringMapEntry.getKey() + " -> " + eStringToStringMapEntry.getValue();
+    String key = "" + eStringToStringMapEntry.getKey();
+    String value = crop("" + eStringToStringMapEntry.getValue());
+    return key + " -> " + value;
   }
 
   /**

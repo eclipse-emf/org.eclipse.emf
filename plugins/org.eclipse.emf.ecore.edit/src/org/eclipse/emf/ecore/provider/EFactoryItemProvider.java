@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryItemProvider.java,v 1.9 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EFactoryItemProvider.java,v 1.10 2006/05/15 21:02:45 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -88,7 +88,9 @@ public class EFactoryItemProvider
          getString("_UI_EFactory_ePackage_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EFactory_ePackage_feature", "_UI_EFactory_type"),
          EcorePackage.Literals.EFACTORY__EPACKAGE,
-         true,
+         false,
+         false,
+         false,
          null,
          null,
          null));

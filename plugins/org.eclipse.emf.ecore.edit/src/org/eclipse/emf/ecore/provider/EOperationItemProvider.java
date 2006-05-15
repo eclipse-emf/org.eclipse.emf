@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationItemProvider.java,v 1.10 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EOperationItemProvider.java,v 1.11 2006/05/15 21:02:45 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -92,6 +92,8 @@ public class EOperationItemProvider
          getString("_UI_EOperation_eExceptions_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EOperation_eExceptions_feature", "_UI_EOperation_type"),
          EcorePackage.Literals.EOPERATION__EEXCEPTIONS,
+         true,
+         false,
          true,
          null,
          null,

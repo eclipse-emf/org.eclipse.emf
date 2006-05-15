@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralItemProvider.java,v 1.10 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EEnumLiteralItemProvider.java,v 1.11 2006/05/15 21:02:45 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -93,6 +93,8 @@ public class EEnumLiteralItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_value_feature", "_UI_EEnumLiteral_type"),
          EcorePackage.Literals.EENUM_LITERAL__VALUE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE,
          null,
          null));
@@ -114,6 +116,8 @@ public class EEnumLiteralItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_instance_feature", "_UI_EEnumLiteral_type"),
          EcorePackage.Literals.EENUM_LITERAL__INSTANCE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
@@ -135,6 +139,8 @@ public class EEnumLiteralItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EEnumLiteral_literal_feature", "_UI_EEnumLiteral_type"),
          EcorePackage.Literals.EENUM_LITERAL__LITERAL,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));

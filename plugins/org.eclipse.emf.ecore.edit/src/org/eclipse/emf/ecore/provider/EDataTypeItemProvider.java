@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataTypeItemProvider.java,v 1.9 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EDataTypeItemProvider.java,v 1.10 2006/05/15 21:02:45 davidms Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -91,6 +91,8 @@ public class EDataTypeItemProvider
          getString("_UI_PropertyDescriptor_description", "_UI_EDataType_serializable_feature", "_UI_EDataType_type"),
          EcorePackage.Literals.EDATA_TYPE__SERIALIZABLE,
          true,
+         false,
+         false,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
          null,
          null));
