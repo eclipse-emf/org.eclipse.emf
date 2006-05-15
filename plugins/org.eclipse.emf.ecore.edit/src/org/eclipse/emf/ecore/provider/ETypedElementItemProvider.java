@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.15 2006/05/15 21:02:45 davidms Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.16 2006/05/15 22:10:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -255,7 +255,11 @@ public class ETypedElementItemProvider
            for (Iterator i = EcorePackage.eINSTANCE.getEClassifiers().iterator(); i.hasNext(); )
            {
              Object classifier = i.next();
-             if (!(classifier instanceof EClass) && !result.contains(classifier))
+             if (classifier instanceof EClass)
+             {
+               result.remove(classifier);
+             }
+             else if (!result.contains(classifier))
              {
                result.add(classifier);
              }
