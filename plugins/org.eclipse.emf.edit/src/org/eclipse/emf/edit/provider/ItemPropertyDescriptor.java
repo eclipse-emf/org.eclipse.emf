@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.21 2006/02/15 19:09:13 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.22 2006/05/15 19:39:42 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -111,6 +111,18 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   protected EReference [] parentReferences;
 
   /**
+   * Whether the value of this property consists of multi-line text.
+   * @since 2.2.0
+   */
+  protected boolean multiLine;
+
+  /**
+   * Whether the choices for this property should be sorted for display.
+   * @since 2.2.0
+   */
+  protected boolean sortChoices;
+
+  /**
    * This represents the group of properties into which this one should be placed.
    */
   protected String category;
@@ -177,7 +189,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
               return result.toString();
             }
           }
-          else if (eDataType.isInstance(object))
+          if (eDataType.isInstance(object))
           {
             return convert(eDataType, object);
           }
@@ -216,7 +228,25 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
           }
         } 
       }
-      return EcoreUtil.convertToString(eDataType, value);
+      return crop(EcoreUtil.convertToString(eDataType, value));
+    }
+
+    // This is copied from ItemProviderAdapterFactory.
+    //
+    protected String crop(String text)
+    {
+      if (text != null)
+      {
+        char[] chars = text.toCharArray();
+        for (int i = 0; i < chars.length; i++)
+        {
+          if (Character.isISOControl(chars[i]))
+          {
+            return text.substring(0, i) + "...";
+          }
+        }
+      }
+      return text;
     }
 
     public Object getImage(Object object)
@@ -239,7 +269,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       String description,
       EStructuralFeature feature)
   {
-    this(adapterFactory, null, displayName, description, feature, true, null, null, null);
+    this(adapterFactory, null, displayName, description, feature, true, false, false, null, null, null);
   }
 
   /**
@@ -257,7 +287,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       String description,
       EStructuralFeature feature)
   {
-    this(adapterFactory, resourceLocator, displayName, description, feature, true, null, null, null);
+    this(adapterFactory, resourceLocator, displayName, description, feature, true, false, false, null, null, null);
   }
 
   /**
@@ -275,7 +305,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       EStructuralFeature feature, 
       boolean isSettable)
   {
-    this(adapterFactory, null, displayName, description, feature, isSettable, null, null, null);
+    this(adapterFactory, null, displayName, description, feature, isSettable, false, false, null, null, null);
   }
 
   /**
@@ -290,7 +320,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       EStructuralFeature feature, 
       boolean isSettable)
   {
-    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, null, null, null);
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, false, false, null, null, null);
   }
 
   /**
@@ -309,7 +339,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       boolean isSettable,
       Object staticImage)
   {
-    this(adapterFactory, null, displayName, description, feature, isSettable, staticImage, null, null);
+    this(adapterFactory, null, displayName, description, feature, isSettable, false, false, staticImage, null, null);
   }
 
   /**
@@ -325,7 +355,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       boolean isSettable,
       Object staticImage)
   {
-    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, staticImage, null, null);
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, false, false, staticImage, null, null);
   }
 
   /**
@@ -344,7 +374,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       boolean isSettable,
       String category)
   {
-    this(adapterFactory, null, displayName, description, feature, isSettable, null, category, null);
+    this(adapterFactory, null, displayName, description, feature, isSettable, false, false, null, category, null);
   }
 
   /**
@@ -364,7 +394,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       boolean isSettable,
       String category)
   {
-    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, null, category, null);
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, false, false, null, category, null);
   }
 
   /**
@@ -372,7 +402,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    * determines the cell editor from the type of the structural feature. 
    * 
    * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
-   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, Object, String, String[])
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, boolean, boolean, Object, String, String[])
    * this} form, instead.
    */
   public ItemPropertyDescriptor
@@ -384,7 +414,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       Object staticImage,
       String category)
   {
-    this(adapterFactory, null, displayName, description, feature, isSettable, staticImage, category, null);
+    this(adapterFactory, null, displayName, description, feature, isSettable, false, false, staticImage, category, null);
   }
 
   /**
@@ -392,7 +422,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    * cell editor from the type of the structural feature. 
    * 
    * <p>To reduce the number of constructors for this class, this one will soon be deprecated.  For new code, please
-   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, Object, String, String[])
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, boolean, boolean, Object, String, String[])
    * this} form, instead.
    */
   public ItemPropertyDescriptor
@@ -405,7 +435,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       Object staticImage,
       String category)
   {
-    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, staticImage, category, null);
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, false, false, staticImage, category, null);
   }
 
   /**
@@ -425,7 +455,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       String category,
       String [] filterFlags)
   {
-    this(adapterFactory, null, displayName, description, feature, isSettable, null, category, filterFlags);
+    this(adapterFactory, null, displayName, description, feature, isSettable, false, false, null, category, filterFlags);
   }
 
   /**
@@ -442,7 +472,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       String category,
       String [] filterFlags)
   {
-    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, null, category, filterFlags);
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, false, false, null, category, filterFlags);
   }
 
   /**
@@ -450,7 +480,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    * flags; and determines the cell editor from the type of the structural feature. 
    * 
    * <p>To reduce the number of constructors for this class, this one may be deprecated in the future.  For new code, please
-   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, Object, String, String[])
+   * use {@link #ItemPropertyDescriptor(AdapterFactory, ResourceLocator, String, String, EStructuralFeature, boolean, boolean, boolean, Object, String, String[])
    * this} form, instead.
    */
   public ItemPropertyDescriptor
@@ -463,7 +493,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       String category,
       String [] filterFlags)
   {
-    this(adapterFactory, null, displayName, description, feature, isSettable, staticImage, category, filterFlags);
+    this(adapterFactory, null, displayName, description, feature, isSettable, false, false, staticImage, category, filterFlags);
   }
 
   /**
@@ -481,6 +511,28 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       String category,
       String [] filterFlags)
   {
+    this(adapterFactory, resourceLocator, displayName, description, feature, isSettable, false, false, staticImage, category, filterFlags);
+    
+  }
+
+  /**
+   * This creates an instance that uses a resource locator; indicates whether to be mutli-line and to sort choices; specifies
+   * a  static image, a category, and filter flags; and determines the cell editor from the type of the structural feature. 
+   * @since 2.2.0
+   */
+  public ItemPropertyDescriptor
+     (AdapterFactory adapterFactory,
+      ResourceLocator resourceLocator,
+      String displayName,
+      String description,
+      EStructuralFeature feature, 
+      boolean isSettable,
+      boolean multiLine,
+      boolean sortChoices,
+      Object staticImage,
+      String category,
+      String [] filterFlags)
+  {
     this.adapterFactory = adapterFactory;
     this.resourceLocator = resourceLocator;
     this.itemDelegator = new ItemDelegator(adapterFactory, resourceLocator);
@@ -488,6 +540,8 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
     this.description = description;
     this.feature = feature;
     this.isSettable = isSettable;
+    this.multiLine = multiLine;
+    this.sortChoices = sortChoices;
     this.staticImage = staticImage;
     this.category = category;
     this.filterFlags = filterFlags;
@@ -1354,5 +1408,15 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   public Collection getChoiceOfValues(Object object)
   {
     return getComboBoxObjects(object);
+  }
+  
+  public boolean isMultiLine(Object object)
+  {
+    return multiLine;
+  }
+
+  public boolean isSortChoices(Object object)
+  {
+    return sortChoices;
   }
 }

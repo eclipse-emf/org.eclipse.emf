@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.8 2006/05/10 19:17:18 emerks Exp $
+ * $Id: WrapperItemProvider.java,v 1.9 2006/05/15 19:39:42 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -270,6 +270,26 @@ public class WrapperItemProvider implements IWrapperItemProvider
   }
 
   /**
+   * Returns whether value's single property consists of multi-line text. By default, false is returned. Subclasses may use this in
+   * creating a property descriptor, and user subclasses may override it to enable multi-line text editing.
+   * @since 2.2.0
+   */
+  protected boolean isPropertyMultiLine()
+  {
+    return false;
+  }
+
+  /**
+   * Returns whether value's single property should sort its choices for selection. By default, false is returned. Subclasses
+   * may use this in creating a property descriptor, and user subclasses may override it to enable sorting.
+   * @since 2.2.0
+   */
+  protected boolean isPropertySortChoices()
+  {
+    return false;
+  }
+
+  /**
    * Returns an image for a value's single property. By default, a standard property icon is selected based on the type
    * of the structural feature. Subclasses may use this in creating a property descriptor, and user subclasses may
    * override it to select a different icon. 
@@ -321,7 +341,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
 
   /**
    * Returns filter flags for a value's single property. By default, null is returned. Subclasses may use this in
-   * createing a property descriptor, and user subclasses may override it to actually provide a category.
+   * creating a property descriptor, and user subclasses may override it to actually provide filter flags.
    */
   protected String[] getPropertyFilterFlags()
   {
@@ -578,6 +598,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
         getPropertyDescription(),
         feature,
         isPropertySettable(),
+        isPropertyMultiLine(),
+        isPropertySortChoices(),
         getPropertyImage(),
         getPropertyCategory(),
         getPropertyFilterFlags());

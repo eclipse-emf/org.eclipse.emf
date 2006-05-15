@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptorDecorator.java,v 1.3 2005/06/08 06:17:05 nickb Exp $
+ * $Id: ItemPropertyDescriptorDecorator.java,v 1.4 2006/05/15 19:39:42 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -156,5 +156,23 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor
   public boolean isMany(Object thisObject)
   {
     return itemPropertyDescriptor.isMany(thisObject);
+  }
+  
+  /**
+   * This does the delegated job of determing whether the property's value consists of multi-line text.
+   * @since 2.2.0
+   */
+  public boolean isMultiLine(Object object)
+  {
+    return itemPropertyDescriptor.isMultiLine(object);
+  }
+
+  /**
+   * This does the delegated job of determing the choices for this property should be sorted for display.
+   * @since 2.2.0
+   */
+  public boolean isSortChoices(Object object)
+  {
+    return itemPropertyDescriptor.isSortChoices(object);
   }
 }

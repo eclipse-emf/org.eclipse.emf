@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IItemPropertyDescriptor.java,v 1.3 2005/06/08 06:17:05 nickb Exp $
+ * $Id: IItemPropertyDescriptor.java,v 1.4 2006/05/15 19:36:54 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -106,6 +106,18 @@ public interface IItemPropertyDescriptor
   public boolean isMany(Object object);
 
   public Collection getChoiceOfValues(Object object);
+  
+  /**
+   * Returns whether this property's value will consist of multi-line text.
+   * @since 2.2.0
+   */
+  boolean isMultiLine(Object object);
+
+  /**
+   * Returns whether the choices for this property should be sorted for display.
+   * @since 2.2.0
+   */
+  boolean isSortChoices(Object object);
 
   /**
    * This interface may be implemented by item property descriptors to allow an object to be provided as an override for
