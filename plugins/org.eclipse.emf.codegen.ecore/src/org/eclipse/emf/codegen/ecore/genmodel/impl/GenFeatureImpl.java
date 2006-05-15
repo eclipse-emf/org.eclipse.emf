@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.34 2006/05/03 18:42:11 davidms Exp $
+ * $Id: GenFeatureImpl.java,v 1.35 2006/05/15 19:20:30 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -68,6 +68,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getPropertyCategory <em>Property Category</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getPropertyFilterFlags <em>Property Filter Flags</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getPropertyDescription <em>Property Description</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isPropertyMultiLine <em>Property Multi Line</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#isPropertySortChoices <em>Property Sort Choices</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getGenClass <em>Gen Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl#getEcoreFeature <em>Ecore Feature</em>}</li>
  * </ul>
@@ -215,6 +217,46 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @ordered
    */
   protected String propertyDescription = PROPERTY_DESCRIPTION_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isPropertyMultiLine() <em>Property Multi Line</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isPropertyMultiLine()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean PROPERTY_MULTI_LINE_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isPropertyMultiLine() <em>Property Multi Line</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isPropertyMultiLine()
+   * @generated
+   * @ordered
+   */
+  protected boolean propertyMultiLine = PROPERTY_MULTI_LINE_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isPropertySortChoices() <em>Property Sort Choices</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isPropertySortChoices()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean PROPERTY_SORT_CHOICES_EDEFAULT = false;
+
+  /**
+   * The cached value of the '{@link #isPropertySortChoices() <em>Property Sort Choices</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isPropertySortChoices()
+   * @generated
+   * @ordered
+   */
+  protected boolean propertySortChoices = PROPERTY_SORT_CHOICES_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getEcoreFeature() <em>Ecore Feature</em>}' reference.
@@ -448,6 +490,52 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION, oldPropertyDescription, propertyDescription));
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isPropertyMultiLine()
+  {
+    return propertyMultiLine;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setPropertyMultiLine(boolean newPropertyMultiLine)
+  {
+    boolean oldPropertyMultiLine = propertyMultiLine;
+    propertyMultiLine = newPropertyMultiLine;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__PROPERTY_MULTI_LINE, oldPropertyMultiLine, propertyMultiLine));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isPropertySortChoices()
+  {
+    return propertySortChoices;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setPropertySortChoices(boolean newPropertySortChoices)
+  {
+    boolean oldPropertySortChoices = propertySortChoices;
+    propertySortChoices = newPropertySortChoices;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_FEATURE__PROPERTY_SORT_CHOICES, oldPropertySortChoices, propertySortChoices));
+  }
+
   protected void autoSetCreateChild()
   {
     if (!isSetCreateChildGen())
@@ -614,6 +702,10 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         return getPropertyFilterFlags();
       case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
         return getPropertyDescription();
+      case GenModelPackage.GEN_FEATURE__PROPERTY_MULTI_LINE:
+        return isPropertyMultiLine() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_FEATURE__PROPERTY_SORT_CHOICES:
+        return isPropertySortChoices() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         return getGenClass();
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
@@ -653,6 +745,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         return;
       case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
         setPropertyDescription((String)newValue);
+        return;
+      case GenModelPackage.GEN_FEATURE__PROPERTY_MULTI_LINE:
+        setPropertyMultiLine(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_FEATURE__PROPERTY_SORT_CHOICES:
+        setPropertySortChoices(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         setGenClass((GenClass)newValue);
@@ -694,6 +792,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
         setPropertyDescription(PROPERTY_DESCRIPTION_EDEFAULT);
         return;
+      case GenModelPackage.GEN_FEATURE__PROPERTY_MULTI_LINE:
+        setPropertyMultiLine(PROPERTY_MULTI_LINE_EDEFAULT);
+        return;
+      case GenModelPackage.GEN_FEATURE__PROPERTY_SORT_CHOICES:
+        setPropertySortChoices(PROPERTY_SORT_CHOICES_EDEFAULT);
+        return;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         setGenClass((GenClass)null);
         return;
@@ -727,6 +831,10 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         return propertyFilterFlags != null && !propertyFilterFlags.isEmpty();
       case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
         return PROPERTY_DESCRIPTION_EDEFAULT == null ? propertyDescription != null : !PROPERTY_DESCRIPTION_EDEFAULT.equals(propertyDescription);
+      case GenModelPackage.GEN_FEATURE__PROPERTY_MULTI_LINE:
+        return propertyMultiLine != PROPERTY_MULTI_LINE_EDEFAULT;
+      case GenModelPackage.GEN_FEATURE__PROPERTY_SORT_CHOICES:
+        return propertySortChoices != PROPERTY_SORT_CHOICES_EDEFAULT;
       case GenModelPackage.GEN_FEATURE__GEN_CLASS:
         return getGenClass() != null;
       case GenModelPackage.GEN_FEATURE__ECORE_FEATURE:
@@ -759,6 +867,10 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     result.append(propertyFilterFlags);
     result.append(", propertyDescription: ");
     result.append(propertyDescription);
+    result.append(", propertyMultiLine: ");
+    result.append(propertyMultiLine);
+    result.append(", propertySortChoices: ");
+    result.append(propertySortChoices);
     result.append(')');
     return result.toString();
   }
@@ -1376,6 +1488,11 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         setCreateChild(false);
         setNotify(true);
       }
+
+      if (getProperty() == GenPropertyKind.EDITABLE_LITERAL && isReferenceType())
+      {
+        setPropertySortChoices(true);
+      }
     }
   }
 
@@ -1590,6 +1707,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     setCreateChild(oldGenFeatureVersion.isCreateChild());
     setPropertyCategory(oldGenFeatureVersion.getPropertyCategory());
     setPropertyDescription(oldGenFeatureVersion.getPropertyDescription());
+    setPropertyMultiLine(oldGenFeatureVersion.isPropertyMultiLine());
+    setPropertySortChoices(oldGenFeatureVersion.isPropertySortChoices());
 
     getPropertyFilterFlags().addAll(oldGenFeatureVersion.getPropertyFilterFlags());
     reconcileGenAnnotations(oldGenFeatureVersion);

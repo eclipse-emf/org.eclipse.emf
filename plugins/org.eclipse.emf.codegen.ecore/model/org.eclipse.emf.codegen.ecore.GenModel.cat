@@ -461,6 +461,14 @@
 		(object ClassAttribute "propertyDescription"
 		    quid       	"426FEB3C02F3"
 		    type       	"String"
+		    exportControl 	"Public")
+		(object ClassAttribute "propertyMultiLine"
+		    quid       	"445DDEB80263"
+		    type       	"boolean"
+		    exportControl 	"Public")
+		(object ClassAttribute "propertySortChoices"
+		    quid       	"44651BC1002C"
+		    type       	"boolean"
 		    exportControl 	"Public")))
 	(object Class "GenBase"
 	    quid       	"3C176A0701D7"
@@ -2908,18 +2916,18 @@
 		    location   	(1920, 1312)
 		    label      	(object ItemLabel
 			Parent_View 	@156
-			location   	(1801, 1262)
+			location   	(1796, 1261)
 			fill_color 	13434879
 			nlines     	1
-			max_width  	238
+			max_width  	248
 			justify    	0
 			label      	"GenFeature")
 		    icon_style 	"Icon"
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759CD00A1"
-		    width      	256
-		    height     	125
+		    width      	266
+		    height     	126
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenClass" @157
@@ -3263,7 +3271,7 @@
 		    client     	@156
 		    supplier   	@166
 		    line_style 	3
-		    origin_attachment 	(1862, 1250)
+		    origin_attachment 	(1862, 1249)
 		    terminal_attachment 	(1862, 1121)
 		    drawSupplier 	@167)
 		(object InheritView "" @171
@@ -3431,6 +3439,14 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D8C92B10303"
+		    compartment 	(object Compartment
+			Parent_View 	@183
+			location   	(1706, 248)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	3
+			max_width  	228)
 		    width      	350
 		    height     	292
 		    annotation 	8
@@ -3462,6 +3478,14 @@
 		    line_color 	3342489
 		    fill_color 	7778803
 		    quidu      	"3D8C9D820115"
+		    compartment 	(object Compartment
+			Parent_View 	@184
+			location   	(1700, 728)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	3
+			max_width  	228)
 		    width      	362
 		    height     	292
 		    annotation 	8
@@ -3489,7 +3513,7 @@
 			fill_color 	13434879
 			anchor     	2
 			nlines     	8
-			max_width  	0
+			max_width  	706
 			compartmentItems 	(list Compartment
 			    "+ creationCommands : boolean = true"
 			    "+ editDirectory : String"
@@ -3509,7 +3533,7 @@
 		    location   	(1248, 752)
 		    label      	(object ItemLabel
 			Parent_View 	@186
-			location   	(894, 521)
+			location   	(894, 471)
 			fill_color 	13434879
 			nlines     	1
 			max_width  	708
@@ -3519,8 +3543,16 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759CD00A1"
+		    compartment 	(object Compartment
+			Parent_View 	@186
+			location   	(894, 531)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	10
+			max_width  	706)
 		    width      	726
-		    height     	486
+		    height     	586
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::genmodel::GenClass" @187
@@ -3540,21 +3572,29 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3C1759410016"
+		    compartment 	(object Compartment
+			Parent_View 	@187
+			location   	(984, 178)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	4
+			max_width  	534)
 		    width      	546
 		    height     	236
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object AssociationViewNew "$UNNAMED$25" @188
-		    location   	(1248, 425)
+		    location   	(1248, 400)
 		    stereotype 	TRUE
 		    quidu      	"3D2C53A600A6"
 		    roleview_list 	(list RoleViews
 			(object RoleView "labelFeature" @189
 			    Parent_View 	@188
-			    location   	(912, 249)
+			    location   	(912, 224)
 			    label      	(object SegLabel @190
 				Parent_View 	@189
-				location   	(1416, 469)
+				location   	(1416, 431)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
@@ -3572,7 +3612,7 @@
 			    line_style 	0
 			    label      	(object SegLabel @191
 				Parent_View 	@189
-				location   	(1172, 471)
+				location   	(1172, 432)
 				anchor     	2
 				anchor_loc 	1
 				nlines     	1
@@ -3584,7 +3624,7 @@
 				orientation 	1))
 			(object RoleView "$UNNAMED$26" @192
 			    Parent_View 	@188
-			    location   	(912, 249)
+			    location   	(912, 224)
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"3D2C53A602E1"
@@ -3597,10 +3637,10 @@
 		    location   	(464, 768)
 		    label      	(object ItemLabel
 			Parent_View 	@193
-			location   	(111, 687)
+			location   	(108, 662)
 			fill_color 	13434879
 			nlines     	1
-			max_width  	706
+			max_width  	712
 			justify    	0
 			label      	"GenPackage")
 		    icon_style 	"Icon"
@@ -3609,15 +3649,16 @@
 		    quidu      	"3C17589A01D3"
 		    compartment 	(object Compartment
 			Parent_View 	@193
-			location   	(111, 747)
+			location   	(108, 722)
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	2
-			max_width  	0
+			nlines     	3
+			max_width  	718
 			compartmentItems 	(list Compartment
-			    "+ disposableProviderFactory : boolean"))
-		    width      	724
-		    height     	186
+			    "+ disposableProviderFactory : boolean"
+			    "+ multipleEditorPages : boolean = true"))
+		    width      	730
+		    height     	236
 		    annotation 	8
 		    autoResize 	TRUE)))))

@@ -209,6 +209,10 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/propertyFilterFlags"/>
       <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="The description of this feature's property descriptor"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/propertyDescription"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether this feature should be edited as a multi-line property"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/propertyMultiLine"/>
+      <genFeatures createChild="false" propertyCategory="Edit" propertyDescription="Whether the choices for values of this feature should be sorted for display when editing the property"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenFeature/propertySortChoices"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenFeature/genClass"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this structural feature"

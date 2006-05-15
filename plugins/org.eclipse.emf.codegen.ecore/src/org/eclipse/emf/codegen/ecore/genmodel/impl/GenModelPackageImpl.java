@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.34 2006/05/03 21:38:25 marcelop Exp $
+ * $Id: GenModelPackageImpl.java,v 1.35 2006/05/15 19:20:30 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1202,9 +1202,29 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getGenFeature_PropertyMultiLine()
+  {
+    return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(7);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getGenFeature_PropertySortChoices()
+  {
+    return (EAttribute)genFeatureEClass.getEStructuralFeatures().get(8);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getGenFeature_GenClass()
   {
-    return (EReference)genFeatureEClass.getEStructuralFeatures().get(7);
+    return (EReference)genFeatureEClass.getEStructuralFeatures().get(9);
   }
 
   /**
@@ -1214,7 +1234,7 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
    */
   public EReference getGenFeature_EcoreFeature()
   {
-    return (EReference)genFeatureEClass.getEStructuralFeatures().get(8);
+    return (EReference)genFeatureEClass.getEStructuralFeatures().get(10);
   }
 
   /**
@@ -1645,6 +1665,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     createEAttribute(genFeatureEClass, GEN_FEATURE__PROPERTY_CATEGORY);
     createEAttribute(genFeatureEClass, GEN_FEATURE__PROPERTY_FILTER_FLAGS);
     createEAttribute(genFeatureEClass, GEN_FEATURE__PROPERTY_DESCRIPTION);
+    createEAttribute(genFeatureEClass, GEN_FEATURE__PROPERTY_MULTI_LINE);
+    createEAttribute(genFeatureEClass, GEN_FEATURE__PROPERTY_SORT_CHOICES);
     createEReference(genFeatureEClass, GEN_FEATURE__GEN_CLASS);
     createEReference(genFeatureEClass, GEN_FEATURE__ECORE_FEATURE);
 
@@ -1830,6 +1852,8 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
     initEAttribute(getGenFeature_PropertyCategory(), ecorePackage.getEString(), "propertyCategory", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenFeature_PropertyFilterFlags(), ecorePackage.getEString(), "propertyFilterFlags", null, 0, -1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getGenFeature_PropertyDescription(), ecorePackage.getEString(), "propertyDescription", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenFeature_PropertyMultiLine(), ecorePackage.getEBoolean(), "propertyMultiLine", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getGenFeature_PropertySortChoices(), ecorePackage.getEBoolean(), "propertySortChoices", null, 0, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenFeature_GenClass(), this.getGenClass(), this.getGenClass_GenFeatures(), "genClass", null, 1, 1, GenFeature.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getGenFeature_EcoreFeature(), theEcorePackage.getEStructuralFeature(), null, "ecoreFeature", null, 1, 1, GenFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

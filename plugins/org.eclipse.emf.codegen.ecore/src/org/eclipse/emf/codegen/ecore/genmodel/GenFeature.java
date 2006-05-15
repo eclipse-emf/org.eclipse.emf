@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.17 2005/12/10 13:19:11 emerks Exp $
+ * $Id: GenFeature.java,v 1.18 2006/05/15 19:20:30 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -39,6 +39,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyCategory <em>Property Category</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyFilterFlags <em>Property Filter Flags</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getPropertyDescription <em>Property Description</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isPropertyMultiLine <em>Property Multi Line</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isPropertySortChoices <em>Property Sort Choices</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getGenClass <em>Gen Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getEcoreFeature <em>Ecore Feature</em>}</li>
  * </ul>
@@ -48,7 +50,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @model
  * @generated
  */
-public interface GenFeature extends GenTypedElement {
+public interface GenFeature extends GenTypedElement
+{
   /**
    * Returns the value of the '<em><b>Property</b></em>' attribute.
    * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind}.
@@ -253,6 +256,58 @@ public interface GenFeature extends GenTypedElement {
    * @generated
    */
   void setPropertyDescription(String value);
+
+  /**
+   * Returns the value of the '<em><b>Property Multi Line</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Property Multi Line</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Property Multi Line</em>' attribute.
+   * @see #setPropertyMultiLine(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature_PropertyMultiLine()
+   * @model
+   * @generated
+   */
+  boolean isPropertyMultiLine();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isPropertyMultiLine <em>Property Multi Line</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Property Multi Line</em>' attribute.
+   * @see #isPropertyMultiLine()
+   * @generated
+   */
+  void setPropertyMultiLine(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Property Sort Choices</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Property Sort Choices</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Property Sort Choices</em>' attribute.
+   * @see #setPropertySortChoices(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenFeature_PropertySortChoices()
+   * @model
+   * @generated
+   */
+  boolean isPropertySortChoices();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isPropertySortChoices <em>Property Sort Choices</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Property Sort Choices</em>' attribute.
+   * @see #isPropertySortChoices()
+   * @generated
+   */
+  void setPropertySortChoices(boolean value);
 
   /**
    * Returns the value of the '<em><b>Gen Class</b></em>' container reference.

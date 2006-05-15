@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.33 2006/05/03 21:38:25 marcelop Exp $
+ * $Id: GenModelPackage.java,v 1.34 2006/05/15 19:20:30 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -1101,13 +1101,31 @@ public interface GenModelPackage extends EPackage
   int GEN_FEATURE__PROPERTY_DESCRIPTION = GEN_TYPED_ELEMENT_FEATURE_COUNT + 6;
 
   /**
+   * The feature id for the '<em><b>Property Multi Line</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__PROPERTY_MULTI_LINE = GEN_TYPED_ELEMENT_FEATURE_COUNT + 7;
+
+  /**
+   * The feature id for the '<em><b>Property Sort Choices</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_FEATURE__PROPERTY_SORT_CHOICES = GEN_TYPED_ELEMENT_FEATURE_COUNT + 8;
+
+  /**
    * The feature id for the '<em><b>Gen Class</b></em>' container reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__GEN_CLASS = GEN_TYPED_ELEMENT_FEATURE_COUNT + 7;
+  int GEN_FEATURE__GEN_CLASS = GEN_TYPED_ELEMENT_FEATURE_COUNT + 9;
 
   /**
    * The feature id for the '<em><b>Ecore Feature</b></em>' reference.
@@ -1116,7 +1134,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_FEATURE__ECORE_FEATURE = GEN_TYPED_ELEMENT_FEATURE_COUNT + 8;
+  int GEN_FEATURE__ECORE_FEATURE = GEN_TYPED_ELEMENT_FEATURE_COUNT + 10;
 
   /**
    * The number of structural features of the '<em>Gen Feature</em>' class.
@@ -1125,7 +1143,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_FEATURE_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 9;
+  int GEN_FEATURE_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 11;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl <em>Gen Data Type</em>}' class.
@@ -2543,6 +2561,28 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenFeature_PropertyDescription();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isPropertyMultiLine <em>Property Multi Line</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Property Multi Line</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isPropertyMultiLine()
+   * @see #getGenFeature()
+   * @generated
+   */
+  EAttribute getGenFeature_PropertyMultiLine();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isPropertySortChoices <em>Property Sort Choices</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Property Sort Choices</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenFeature#isPropertySortChoices()
+   * @see #getGenFeature()
+   * @generated
+   */
+  EAttribute getGenFeature_PropertySortChoices();
+
+  /**
    * Returns the meta object for the container reference '{@link org.eclipse.emf.codegen.ecore.genmodel.GenFeature#getGenClass <em>Gen Class</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3671,6 +3711,22 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EAttribute GEN_FEATURE__PROPERTY_DESCRIPTION = eINSTANCE.getGenFeature_PropertyDescription();
+
+    /**
+     * The meta object literal for the '<em><b>Property Multi Line</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_FEATURE__PROPERTY_MULTI_LINE = eINSTANCE.getGenFeature_PropertyMultiLine();
+
+    /**
+     * The meta object literal for the '<em><b>Property Sort Choices</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_FEATURE__PROPERTY_SORT_CHOICES = eINSTANCE.getGenFeature_PropertySortChoices();
 
     /**
      * The meta object literal for the '<em><b>Gen Class</b></em>' container reference feature.
