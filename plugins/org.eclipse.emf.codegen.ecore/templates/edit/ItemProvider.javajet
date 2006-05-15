@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.27 2006/05/15 20:51:35 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProvider" version="$Id: ItemProvider.javajet,v 1.28 2006/05/15 20:58:37 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -214,7 +214,7 @@ public class <%=genClass.getProviderClassName()%>
       <%if (labelFeature.isPropertyMultiLine()) {%>
 		String label = crop(((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>());
       <%} else {%>
-		String label = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();		
+		String label = ((<%=genClass.getImportedInterfaceName()%>)object).<%=labelFeature.getGetAccessor()%>();
       <%}%>
     <%} else {%>
       <%if (genClass.isExternalInterface() || labelFeature.getGenClass().isDynamic()) {%>

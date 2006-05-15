@@ -108,7 +108,7 @@ public class ItemProvider
   protected final String TEXT_91 = "());";
   protected final String TEXT_92 = NL + "\t\tString label = ((";
   protected final String TEXT_93 = ")object).";
-  protected final String TEXT_94 = "();\t\t";
+  protected final String TEXT_94 = "();";
   protected final String TEXT_95 = NL + "\t\t";
   protected final String TEXT_96 = " labelValue = ((";
   protected final String TEXT_97 = ")object).eGet(";
