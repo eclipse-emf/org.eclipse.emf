@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.19 2006/05/04 12:23:34 emerks Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.20 2006/05/15 22:01:00 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -675,6 +675,7 @@ public class GenModelActionBarContributor
    */
   public GenModelActionBarContributor()
   {
+    super(ADDITIONS_LAST_STYLE);
     showGenAnnotationsAction.setChecked(
       Boolean.valueOf(GenModelEditPlugin.getPlugin().getDialogSettings().get("showGenAnnotationsAction")).booleanValue());
   }
@@ -801,7 +802,7 @@ public class GenModelActionBarContributor
     
     super.menuAboutToShow(menuManager);
 
-    menuManager.insertBefore("additions", new Separator("generate-actions"));
+    menuManager.insertBefore("edit", new Separator("generate-actions"));
     menuManager.insertAfter("generate-actions", generateAllAction);
     menuManager.insertAfter("generate-actions", generateTestsAction);
     menuManager.insertAfter("generate-actions", generateEditorAction);
@@ -811,13 +812,13 @@ public class GenModelActionBarContributor
     // menuManager.insertBefore("additions", new Separator("schema-actions"));
     // menuManager.insertAfter("schema-actions", generateSchemaAction);
 
-    menuManager.insertBefore("additions", new Separator("open-actions"));
+    menuManager.insertBefore("edit", new Separator("open-actions"));
     menuManager.insertAfter("open-actions", openGenModelAction);
     menuManager.insertAfter("open-actions", openEcoreAction);
     
     if (showGenAnnotationsAction.isChecked())
     {
-      menuManager.insertBefore("additions", new Separator("annotation-actions"));
+      menuManager.insertBefore("edit", new Separator("annotation-actions"));
       if (addDetailAction.isEnabled()) menuManager.insertAfter("annotation-actions", addDetailAction);
       if (annotateAction.isEnabled()) menuManager.insertAfter("annotation-actions", annotateAction);
     }

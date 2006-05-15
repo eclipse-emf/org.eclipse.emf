@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.11 2006/01/23 20:51:38 davidms Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.12 2006/05/15 21:59:34 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -113,11 +113,30 @@ public class EditingDomainActionBarContributor
   protected ValidateAction validateAction;
 
   /**
-   * This creates an instance the contributor.
+   * This style bit indicates that the "additions" separator should come after the "edit" separator.
+   */
+  public static final int ADDITIONS_LAST_STYLE = 0x1;
+  
+  /**
+   * This is used to encode the style bits.
+   */
+  protected int style;
+
+  /**
+   * This creates an instance of the contributor.
    */
   public EditingDomainActionBarContributor()
   {
     super();
+  }
+
+  /**
+   * This creates an instance of the contributor.
+   */
+  public EditingDomainActionBarContributor(int style)
+  {
+    super();
+    this.style = style;
   }
 
   public void init(IActionBars actionBars)
@@ -384,7 +403,10 @@ public class EditingDomainActionBarContributor
   {
     // Add our standard marker.
     //
-    menuManager.add(new Separator("additions"));
+    if ((style & ADDITIONS_LAST_STYLE) == 0)
+    {
+      menuManager.add(new Separator("additions"));
+    }
     menuManager.add(new Separator("edit"));
 
     // Add the edit menu actions.
@@ -399,6 +421,11 @@ public class EditingDomainActionBarContributor
     menuManager.add(new ActionContributionItem(deleteAction));
     menuManager.add(new Separator());
 
+    if ((style & ADDITIONS_LAST_STYLE) != 0)
+    {
+      menuManager.add(new Separator("additions"));
+      menuManager.add(new Separator());
+    }
     // Add our other standard marker.
     //
     menuManager.add(new Separator("additions-end"));
@@ -411,19 +438,20 @@ public class EditingDomainActionBarContributor
    */
   protected void addGlobalActions(IMenuManager menuManager)
   {
+    String key = (style & ADDITIONS_LAST_STYLE) == 0 ? "additions-end" : "additions";
     if (validateAction != null)
     {
-      menuManager.insertBefore("additions-end", new ActionContributionItem(validateAction));
+      menuManager.insertBefore(key, new ActionContributionItem(validateAction));
     }
 
     if (controlAction != null)
     {
-      menuManager.insertBefore("additions-end", new ActionContributionItem(controlAction));
+      menuManager.insertBefore(key, new ActionContributionItem(controlAction));
     }
 
     if (validateAction != null || controlAction != null)
     {
-      menuManager.insertBefore("additions-end", new Separator());
+      menuManager.insertBefore(key, new Separator());
     }
 
     if (loadResourceAction != null)

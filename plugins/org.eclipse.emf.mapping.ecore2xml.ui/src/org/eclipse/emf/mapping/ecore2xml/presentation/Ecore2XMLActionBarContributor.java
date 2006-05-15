@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLActionBarContributor.java,v 1.4 2006/05/03 20:33:53 davidms Exp $
+ * $Id: Ecore2XMLActionBarContributor.java,v 1.5 2006/05/15 21:56:05 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -174,6 +174,7 @@ public class Ecore2XMLActionBarContributor
    */
   public Ecore2XMLActionBarContributor()
   {
+    super(ADDITIONS_LAST_STYLE);
     loadResourceAction = new LoadResourceAction();
     validateAction = new ValidateAction();
     controlAction = new ControlAction();
@@ -439,11 +440,11 @@ public class Ecore2XMLActionBarContributor
 
     submenuManager = new MenuManager(Ecore2XMLUIPlugin.INSTANCE.getString("_UI_CreateChild_menu_item")); //$NON-NLS-1$
     populateManager(submenuManager, createChildActions, null);
-    menuManager.insertBefore("additions", submenuManager); //$NON-NLS-1$
+    menuManager.insertBefore("edit", submenuManager); //$NON-NLS-1$
 
     submenuManager = new MenuManager(Ecore2XMLUIPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item")); //$NON-NLS-1$
     populateManager(submenuManager, createSiblingActions, null);
-    menuManager.insertBefore("additions", submenuManager); //$NON-NLS-1$
+    menuManager.insertBefore("edit", submenuManager); //$NON-NLS-1$
   }
 
   /**

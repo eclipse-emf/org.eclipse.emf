@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryActionBarContributor.java,v 1.2 2006/04/03 18:02:29 emerks Exp $
+ * $Id: EXTLibraryActionBarContributor.java,v 1.3 2006/05/15 21:56:33 emerks Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -173,6 +173,7 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
    */
   public EXTLibraryActionBarContributor()
   {
+    super(ADDITIONS_LAST_STYLE);
     loadResourceAction = new LoadResourceAction();
     validateAction = new ValidateAction();
     controlAction = new ControlAction();
@@ -438,11 +439,11 @@ public class EXTLibraryActionBarContributor extends EditingDomainActionBarContri
 
     submenuManager = new MenuManager(EXTLibraryEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item")); //$NON-NLS-1$
     populateManager(submenuManager, createChildActions, null);
-    menuManager.insertBefore("additions", submenuManager); //$NON-NLS-1$
+    menuManager.insertBefore("edit", submenuManager); //$NON-NLS-1$
 
     submenuManager = new MenuManager(EXTLibraryEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item")); //$NON-NLS-1$
     populateManager(submenuManager, createSiblingActions, null);
-    menuManager.insertBefore("additions", submenuManager); //$NON-NLS-1$
+    menuManager.insertBefore("edit", submenuManager); //$NON-NLS-1$
   }
 
   /**

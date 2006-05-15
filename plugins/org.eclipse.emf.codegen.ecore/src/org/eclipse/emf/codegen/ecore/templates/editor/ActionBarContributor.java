@@ -60,7 +60,7 @@ public class ActionBarContributor
   protected final String TEXT_44 = " createSiblingActions;" + NL + "" + NL + "\t/**" + NL + "\t * This is the menu manager into which menu contribution items should be added for CreateSibling actions." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected ";
   protected final String TEXT_45 = " createSiblingMenuManager;" + NL;
   protected final String TEXT_46 = NL + "\t/**" + NL + "\t * This creates an instance of the contributor." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_47 = "()" + NL + "\t{" + NL + "\t\tloadResourceAction = new ";
+  protected final String TEXT_47 = "()" + NL + "\t{" + NL + "\t\tsuper(ADDITIONS_LAST_STYLE);" + NL + "\t\tloadResourceAction = new ";
   protected final String TEXT_48 = "();" + NL + "\t\tvalidateAction = new ";
   protected final String TEXT_49 = "();" + NL + "\t\tcontrolAction = new ";
   protected final String TEXT_50 = "();" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * This adds Separators for editor additions to the tool bar." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void contributeToToolBar(";
@@ -145,11 +145,11 @@ public class ActionBarContributor
   protected final String TEXT_129 = " submenuManager = null;" + NL + "" + NL + "\t\tsubmenuManager = new ";
   protected final String TEXT_130 = "(";
   protected final String TEXT_131 = ".INSTANCE.getString(\"_UI_CreateChild_menu_item\"));";
-  protected final String TEXT_132 = NL + "\t\tpopulateManager(submenuManager, createChildActions, null);" + NL + "\t\tmenuManager.insertBefore(\"additions\", submenuManager);";
+  protected final String TEXT_132 = NL + "\t\tpopulateManager(submenuManager, createChildActions, null);" + NL + "\t\tmenuManager.insertBefore(\"edit\", submenuManager);";
   protected final String TEXT_133 = NL + NL + "\t\tsubmenuManager = new ";
   protected final String TEXT_134 = "(";
   protected final String TEXT_135 = ".INSTANCE.getString(\"_UI_CreateSibling_menu_item\"));";
-  protected final String TEXT_136 = NL + "\t\tpopulateManager(submenuManager, createSiblingActions, null);" + NL + "\t\tmenuManager.insertBefore(\"additions\", submenuManager);";
+  protected final String TEXT_136 = NL + "\t\tpopulateManager(submenuManager, createSiblingActions, null);" + NL + "\t\tmenuManager.insertBefore(\"edit\", submenuManager);";
   protected final String TEXT_137 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * This inserts global actions before the \"additions-end\" separator." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected void addGlobalActions(";
   protected final String TEXT_138 = " menuManager)" + NL + "\t{" + NL + "\t\tmenuManager.insertAfter(\"additions-end\", new ";
   protected final String TEXT_139 = "(\"ui-actions\"));";

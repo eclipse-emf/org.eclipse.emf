@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.9 2006/02/14 19:38:04 emerks Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.10 2006/05/15 22:00:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -332,6 +332,7 @@ public class EcoreActionBarContributor
    */
   public EcoreActionBarContributor()
   {
+    super(ADDITIONS_LAST_STYLE);
     loadResourceAction = new ExtendedLoadResourceAction();
     validateAction = new ValidateAction();
     controlAction = new ControlAction();
@@ -603,11 +604,11 @@ public class EcoreActionBarContributor
 
     submenuManager = new MenuManager(EcoreEditorPlugin.INSTANCE.getString("_UI_CreateChild_menu_item"));
     populateManager(submenuManager, createChildActions, null);
-    menuManager.insertBefore("additions", submenuManager);
+    menuManager.insertBefore("edit", submenuManager);
 
     submenuManager = new MenuManager(EcoreEditorPlugin.INSTANCE.getString("_UI_CreateSibling_menu_item"));
     populateManager(submenuManager, createSiblingActions, null);
-    menuManager.insertBefore("additions", submenuManager);
+    menuManager.insertBefore("edit", submenuManager);
   }
 
   /**

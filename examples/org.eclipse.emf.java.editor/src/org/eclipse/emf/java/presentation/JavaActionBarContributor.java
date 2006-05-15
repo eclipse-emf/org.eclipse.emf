@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaActionBarContributor.java,v 1.7 2006/05/03 20:22:55 davidms Exp $
+ * $Id: JavaActionBarContributor.java,v 1.8 2006/05/15 21:56:21 emerks Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -129,6 +129,7 @@ public class JavaActionBarContributor
    */
   public JavaActionBarContributor()
   {
+    super(ADDITIONS_LAST_STYLE);
     loadResourceAction = new LoadResourceAction();
     validateAction = new ValidateAction();
     controlAction = new ControlAction();
