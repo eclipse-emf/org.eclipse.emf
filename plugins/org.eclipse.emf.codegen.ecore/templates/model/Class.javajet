@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.44 2006/04/13 11:42:30 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.45 2006/05/17 14:12:33 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -567,6 +567,10 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 <%@ start %>
 		// TODO: implement this method to return the '<%=genFeature.getFormattedName()%>' <%=genFeature.getFeatureKind()%>
 		// Ensure that you remove @generated or mark it @generated NOT
+        <%if (genFeature.isListType()) {%>
+		// The list is expected to implement org.eclipse.emf.ecore.util.InternalEList and org.eclipse.emf.ecore.EStructuralFeature.Setting
+		// so it's likely that an appropriate subclass of org.eclipse.emf.ecore.util.<%if (genFeature.isMapType()) {%>EcoreEMap<%} else if (genFeature.isFeatureMapType()) {%>BasicFeatureMap<%} else {%>EcoreEList<%}%> should be used.
+        <%}%>
 		throw new UnsupportedOperationException();
 <%@ end %><%//Class/getGenFeature.todo.override.javajetinc%>
       <%}%>
