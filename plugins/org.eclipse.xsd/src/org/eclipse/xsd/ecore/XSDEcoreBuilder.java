@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.59 2006/05/11 12:31:39 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.60 2006/05/17 12:44:08 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2421,7 +2421,7 @@ public class XSDEcoreBuilder extends MapBuilder
       String name = getEcoreAttribute(xsdFeature, "name");
       if (name == null)
       {
-        name= validName(xsdFeature.getName(), false);       
+        name= validName(xsdFeature.getName(), true);       
       }
       
       if (xsdFeature instanceof XSDElementDeclaration)
