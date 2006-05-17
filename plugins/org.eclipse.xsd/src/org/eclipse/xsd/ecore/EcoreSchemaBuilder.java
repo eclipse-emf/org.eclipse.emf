@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.8 2006/04/30 17:21:29 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.9 2006/05/17 12:44:55 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -417,7 +417,7 @@ public class EcoreSchemaBuilder extends MapBuilder
       }
       
       String ecoreName = eDataType.getName();
-      if (!name.equals(ecoreName))
+      if (!name.equals(ecoreName) || Character.isLowerCase(ecoreName.charAt(0)) || ecoreName.indexOf('_') != -1)
       {
         createEcoreAnnotation(xsdSimpleTypeDefinition, "name", ecoreName);
       }
@@ -533,7 +533,7 @@ public class EcoreSchemaBuilder extends MapBuilder
     }
     
     String ecoreName = eClass.getName();
-    if (!name.equals(ecoreName))
+    if (!name.equals(ecoreName) || Character.isLowerCase(ecoreName.charAt(0)) || ecoreName.indexOf('_') != -1)
     {
       createEcoreAnnotation(xsdComplexTypeDefinition, "name", ecoreName);
     }
@@ -943,7 +943,7 @@ public class EcoreSchemaBuilder extends MapBuilder
     }
 
     String ecoreName = eStructuralFeature.getName();
-    if (!name.equals(ecoreName))
+    if (!name.equals(ecoreName) || Character.isUpperCase(ecoreName.charAt(0)) || ecoreName.indexOf('_') != -1)
     {
       createEcoreAnnotation(xsdAttributeUse, "name", ecoreName);
     }
@@ -1157,7 +1157,7 @@ public class EcoreSchemaBuilder extends MapBuilder
     }
     
     String ecoreName = eStructuralFeature.getName();
-    if (!name.equals(ecoreName))
+    if (!name.equals(ecoreName) || Character.isUpperCase(ecoreName.charAt(0)) || ecoreName.indexOf('_') != -1)
     {
       createEcoreAnnotation(xsdParticle, "name", ecoreName);
     }
