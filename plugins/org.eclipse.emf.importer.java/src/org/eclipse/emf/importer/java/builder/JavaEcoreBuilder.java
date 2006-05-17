@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.17 2006/05/13 17:55:00 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.18 2006/05/17 21:07:16 davidms Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -187,6 +187,8 @@ public class JavaEcoreBuilder
   protected Collection usedGenPackages = new ArrayList();
 
   protected BasicDiagnostic basicDiagnostic;
+
+  protected boolean foundJava = false;
 
   /**
    * The old version to against which to reconcile.
@@ -455,7 +457,12 @@ public class JavaEcoreBuilder
     
     IPath targetFragmentRoot = analyseProject(project);  
     modelImporter.setModelPluginDirectory(targetFragmentRoot.toString());    
-    
+
+    if (packageNameToEPackageMap.isEmpty())
+    {
+      error(JavaImporterPlugin.INSTANCE.getString(foundJava ? "_UI_NoModelElementsInJava_message" : "_UI_NoModelElements_message"));
+    }
+
     for (Iterator i = packageNameToEPackageMap.values().iterator(); i.hasNext();)
     {
       EPackage ePackage = (EPackage)i.next();
@@ -665,6 +672,7 @@ public class JavaEcoreBuilder
    */
   protected void analyzeCompilationUnit(IDOMCompilationUnit compilationUnit)
   {
+    foundJava = true;
     for (IDOMNode child = compilationUnit.getFirstChild(); child != null; child = child.getNextNode())
     {
       if (child.getNodeType() == IDOMNode.TYPE)
