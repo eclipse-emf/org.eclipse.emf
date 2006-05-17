@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.12 2006/05/08 21:21:50 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.13 2006/05/17 19:26:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -513,6 +513,8 @@ public class EcorePlugin  extends EMFPlugin
          EcorePlugin.getPlugin().getBundle().getSymbolicName(), 
          PACKAGE_REGISTRY_IMPLEMENTATION)
       {
+        IConfigurationElement previous;
+
         protected boolean readElement(IConfigurationElement element)
         {
           if (element.getName().equals("registry"))
@@ -526,7 +528,10 @@ public class EcorePlugin  extends EMFPlugin
             {
               if (defaultRegistryImplementation != null)
               {
-                log(new Exception("Multiple attempts to define the registry implementation"));
+                if (previous != null)
+                {
+                  log("Both '" + previous.getContributor().getName() + "' and '" + element.getContributor().getName() + " register a package registry implementation");
+                }
                 if (defaultRegistryImplementation instanceof EPackageRegistryImpl.Delegator)
                 {
                   return false;
@@ -535,6 +540,7 @@ public class EcorePlugin  extends EMFPlugin
               try
               {
                 defaultRegistryImplementation = (EPackage.Registry)element.createExecutableExtension("class");
+                previous = element;
               }
               catch (CoreException exception)
               {
