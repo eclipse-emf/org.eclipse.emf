@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtensionParserRegistryReader.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: ExtensionParserRegistryReader.java,v 1.4 2006/05/17 19:27:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -58,8 +58,13 @@ class ExtensionParserRegistryReader extends RegistryReader
       }
       else
       {
-        Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put
-          (type, new ResourceFactoryDescriptor(element, ATT_CLASS));
+        Object previous = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(type, new ResourceFactoryDescriptor(element, ATT_CLASS));
+        if (previous instanceof ResourceFactoryDescriptor)
+        {
+          ResourceFactoryDescriptor descriptor = (ResourceFactoryDescriptor)previous;
+          EcorePlugin.INSTANCE.log
+            ("Both '" + descriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + " register an extension parser for '" + type + "'");
+        }
         return true;
       }
     }

@@ -12,10 +12,13 @@
  *
  * </copyright>
  *
- * $Id: URIMappingRegistryReader.java,v 1.4 2006/02/22 22:28:57 marcelop Exp $
+ * $Id: URIMappingRegistryReader.java,v 1.5 2006/05/17 19:27:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -35,6 +38,8 @@ class URIMappingRegistryReader extends RegistryReader
   static final String ATT_SOURCE   = "source";
   static final String ATT_TARGET   = "target";
    
+  protected Map map = new HashMap();
+
   public URIMappingRegistryReader() 
   {
     super
@@ -71,6 +76,12 @@ class URIMappingRegistryReader extends RegistryReader
                   (Platform.getBundle(element.getDeclaringExtension().getContributor().getName()).getEntry("/").toString()));
           }
           URIConverter.URI_MAP.put(sourceURI, targetURI);
+          IConfigurationElement previous = (IConfigurationElement)map.put(sourceURI, element);
+          if (previous != null)
+          {
+            EcorePlugin.INSTANCE.log
+              ("Both '" + previous.getContributor().getName() + "' and '" + element.getContributor().getName() + " register a URI mapping for '" + sourceURI + "'");
+          }
           return true;
         }
       }
