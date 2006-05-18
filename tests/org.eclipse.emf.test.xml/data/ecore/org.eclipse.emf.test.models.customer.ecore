@@ -172,7 +172,7 @@
         <details key="namespace" value="##targetNamespace"/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//ID"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iD" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//ID"
         iD="true">
       <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
         <details key="kind" value="attribute"/>
