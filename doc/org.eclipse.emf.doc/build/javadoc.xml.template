@@ -18,7 +18,7 @@
 	<target name="javadoc" depends="extractPlatformJavadoc">
 	
 	<echo message="Get Aurora Doclet and compile it for use with javadoc"/>
-	<cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/technology" package="org.eclipse.gmf/doc/org.eclipse.gmf.runtime.doclet" quiet="yes"/>
+	<cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/technology" package="org.eclipse.gmf/doc/org.eclipse.gmf.runtime.doclet" reallyquiet="yes"/>
 	<delete dir="org.eclipse.gmf/doc/org.eclipse.gmf.runtime.doclet/src/CVS"/>
 	<move todir="."><fileset dir="org.eclipse.gmf/doc/org.eclipse.gmf.runtime.doclet/src"/></move>
 	<javac srcdir="org/eclipse/gmf/runtime/doclet" classpath=".:${java.home}/../lib/tools.jar"/>
@@ -48,10 +48,9 @@
 				<arg value="-J-Xmx256m"/>
 			
 				<doclet name="org.eclipse.gmf.runtime.doclet.AuroraDoclet" path="org/eclipse/gmf/runtime/doclet/AuroraDoclet">
-					<param name="-tocFilename" value="toc-javadoc.xml"/>
+					<param name="-tocFilename" value="../toc-javadoc.xml"/>
 				</doclet>
 			
-				
 				<link offline="true" href="http://java.sun.com/j2se/1.4/docs/api/" packagelistLoc="${javaHome}/docs/api/"/>
 				<link offline="true" href="/help/topic/org.eclipse.platform.doc.isv/reference/api/" packagelistLoc="${javadoc.link.location}/platform/reference/api/"/>
 				
@@ -113,6 +112,11 @@
 @packagesets@
 				
 		</javadoc>
+
+		<!-- clean up doclet stuff -->
+		<delete includeEmptyDirs="true">
+			<fileset dir="org.eclipse.gmf" defaultexcludes="no"/>
+		</delete>
 		
 		<!-- make sure the doc-files are copied -->
 		<macrodef name="copyDocFiles">
