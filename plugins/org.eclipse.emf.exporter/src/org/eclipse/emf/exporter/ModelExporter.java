@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporter.java,v 1.9 2006/04/10 19:35:11 marcelop Exp $
+ * $Id: ModelExporter.java,v 1.10 2006/05/19 13:06:50 emerks Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -286,6 +286,7 @@ public abstract class ModelExporter extends ModelConverter
     
     if (genModel != null)
     {
+      genModel.reconcile();
       Diagnostic diagnostic = genModel.diagnose();
       if (diagnostic.getSeverity() != Diagnostic.OK)
       {
