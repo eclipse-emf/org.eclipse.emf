@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.26 2006/03/06 15:17:14 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.27 2006/05/19 16:50:23 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -1548,9 +1548,17 @@ public final class FeatureMapUtil
       else
       {
         EStructuralFeature affiliation = ExtendedMetaData.INSTANCE.getAffiliation(eclass, feature);
-        return
-          affiliation == null ||
-            affiliation.isMany() && ExtendedMetaData.INSTANCE.getFeatureKind(affiliation) != ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE;
+        if (affiliation == null)
+        {
+          return true;
+        }
+        else
+        {
+          int affiliationUpperBound = affiliation.getUpperBound();
+          return 
+            (affiliationUpperBound > 1 || affiliationUpperBound == ETypedElement.UNBOUNDED_MULTIPLICITY) && 
+              ExtendedMetaData.INSTANCE.getFeatureKind(affiliation) != ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE;
+        }
       }
     }
     else
