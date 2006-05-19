@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.1 2006/05/01 10:39:29 davidms Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.2 2006/05/19 22:34:06 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -145,6 +145,12 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   protected Collection getGenerateTestsChildren(Object object)
   {
     return Collections.EMPTY_LIST;
+  }
+
+  protected Object getParent(Object object)
+  {
+    Object result = ((GenBase)object).eContainer();
+    return result instanceof GenBase ? result : null;
   }
 
   public Diagnostic doGenerate(Object object, Object projectType, Monitor monitor)
