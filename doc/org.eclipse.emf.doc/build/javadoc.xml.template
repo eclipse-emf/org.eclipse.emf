@@ -49,7 +49,7 @@
 			
 				<doclet name="org.eclipse.gmf.runtime.doclet.AuroraDoclet" path="org/eclipse/gmf/runtime/doclet/AuroraDoclet">
 					<param name="-tocFilename" value="../toc-javadoc.xml"/>
-					<param name="-tocRefPrefix" value="references/api/"/>
+					<param name="-tocRefPrefix" value="references/javadoc/"/>
 					<param name="-tocTitle" value="API Reference (Javadoc)"/>
 				</doclet>
 			

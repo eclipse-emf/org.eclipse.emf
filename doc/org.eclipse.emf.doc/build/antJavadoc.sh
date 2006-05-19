@@ -5,7 +5,7 @@ currentPath=$PWD
 eclipseDir=$1
 
 # The destination directory
-destDir=$eclipseDir/plugins/org.eclipse.emf.doc/references/api
+destDir=$eclipseDir/plugins/org.eclipse.emf.doc/references/javadoc
 
 # Don't execute if the destination directory has files
 if [ -d "$destDir" ]; then
