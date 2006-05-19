@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassGeneratorAdapter.java,v 1.5 2006/05/03 13:05:52 emerks Exp $
+ * $Id: GenClassGeneratorAdapter.java,v 1.6 2006/05/19 22:33:50 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -61,6 +61,11 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
   public GenClassGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
   {
     super(generatorAdapterFactory);
+  }
+
+  public Object getGenerateParent(Object object, Object projectType)
+  {
+    return getParent(object);
   }
 
   protected Diagnostic generateModel(Object object, Monitor monitor)
