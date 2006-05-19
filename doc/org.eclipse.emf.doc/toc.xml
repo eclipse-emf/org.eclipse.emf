@@ -25,10 +25,9 @@
 		<topic label="EMF FAQ" href="http://www.eclipse.org/emf/faq/faq.php?FAQ=EMF" />
 	</topic>
 
-	<anchor id="reference-api-before" />
-	<topic label="API Reference (Javadoc)">
-		<link toc="toc-javadoc.xml"/>
-		<anchor id="reference-api-javadoc-after" />
+	<topic label="Reference">
+    	<topic label="API Reference (Javadoc)">
+	    	<link toc="toc-javadoc.xml"/>
+    	</topic>
 	</topic>
-	<anchor id="reference-api-after" />
 </toc>
