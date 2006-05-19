@@ -49,6 +49,8 @@
 			
 				<doclet name="org.eclipse.gmf.runtime.doclet.AuroraDoclet" path="org/eclipse/gmf/runtime/doclet/AuroraDoclet">
 					<param name="-tocFilename" value="../toc-javadoc.xml"/>
+					<param name="-tocRefPrefix" value="reference/api/"/>
+					<param name="-tocTitle" value="API Reference (Javadoc)"/>
 				</doclet>
 			
 				<link offline="true" href="http://java.sun.com/j2se/1.4/docs/api/" packagelistLoc="${javaHome}/docs/api/"/>
