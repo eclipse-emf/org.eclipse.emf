@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.2 2006/05/01 17:53:48 davidms Exp $
+ * $Id: Generator.java,v 1.3 2006/05/19 22:35:03 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -210,14 +211,30 @@ public class Generator
 
   private GeneratorData[] getGeneratorData(Object object, Object projectType, boolean forGenerate)
   {
-    List result = new ArrayList();
-    result.add(object);
-
     // Since we're invoking plugged-in code, we must be defensive against cycles.
     //
     Set objects = new HashSet();
 
-    for (int i = 0; i < result.size(); )
+    // Compute the GeneratorData for the given object and its children, then for the parents of the given object.
+    //
+    List childrenData = getGeneratorData(object, projectType, forGenerate, true, false, objects);
+    List parentsData = getGeneratorData(object, projectType, forGenerate, false, true, objects);
+
+    // Combine the two lists.
+    //
+    List result = new ArrayList(parentsData.size() + childrenData.size());
+    Collections.reverse(parentsData);
+    result.addAll(parentsData);
+    result.addAll(childrenData);
+    return (GeneratorData[])result.toArray(new GeneratorData[result.size()]);
+  }
+
+  private List getGeneratorData(Object object, Object projectType, boolean forGenerate, boolean forChildren, boolean skipFirst, Set objects)
+  {
+    List result  = new ArrayList();
+    result.add(object);
+
+    for (int i = 0; i < result.size(); skipFirst = false)
     {
       Object o = result.get(i);
 
@@ -228,23 +245,37 @@ public class Generator
         for (Iterator adaptersIter = adapters.iterator(); adaptersIter.hasNext(); )
         {
           GeneratorAdapter adapter = (GeneratorAdapter)adaptersIter.next();
-          Collection children = forGenerate ?
-            adapter.getGenerateChildren(o, projectType) : 
-            adapter.getCanGenerateChildren(o, projectType);
-  
-          for (Iterator childrenIter = children.iterator(); childrenIter.hasNext(); )
+          if (forChildren)
           {
-            Object child = childrenIter.next();
-            if (objects.add(child))
+            Collection children = forGenerate ? adapter.getGenerateChildren(o, projectType) : adapter.getCanGenerateChildren(o, projectType);
+
+            for (Iterator childrenIter = children.iterator(); childrenIter.hasNext(); )
             {
-              result.add(child);
+              Object child = childrenIter.next();
+              if (objects.add(child))
+              {
+                result.add(child);
+              }
             }
           }
-          result.add(i++, new GeneratorData(o, adapter));
+          else
+          {
+            Object parent = forGenerate ? adapter.getGenerateParent(o, projectType) : adapter.getCanGenerateParent(o, projectType);
+
+            if (parent != null && objects.add(parent))
+            {
+              result.add(parent);
+            }
+          }
+
+          if (!skipFirst)
+          {
+            result.add(i++, new GeneratorData(o, adapter));
+          }
         }
       }
     }
-    return (GeneratorData[])result.toArray(new GeneratorData[result.size()]);
+    return result;
   }
 
   public boolean canGenerate(Object object, Object projectType)
