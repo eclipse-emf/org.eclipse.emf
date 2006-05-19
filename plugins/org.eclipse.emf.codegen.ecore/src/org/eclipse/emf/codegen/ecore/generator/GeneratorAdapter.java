@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorAdapter.java,v 1.1 2006/05/01 10:25:51 davidms Exp $
+ * $Id: GeneratorAdapter.java,v 1.2 2006/05/19 22:31:12 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -30,9 +30,11 @@ public interface GeneratorAdapter
   void setAdapterFactory(GeneratorAdapterFactory adapterFactory);
 
   Collection getCanGenerateChildren(Object object, Object projectType);
+  Object getCanGenerateParent(Object object, Object projectType);
   boolean canGenerate(Object object, Object projectType);
   
   Collection getGenerateChildren(Object object, Object projectType);
+  Object getGenerateParent(Object object, Object projectType);
   Diagnostic preGenerate(Object object, Object projectType);
   Diagnostic generate(Object object, Object projectType, Monitor monitor);
   Diagnostic postGenerate(Object object, Object projectType);

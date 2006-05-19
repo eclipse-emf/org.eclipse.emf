@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.3 2006/05/10 18:46:31 davidms Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.4 2006/05/19 22:31:12 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -121,11 +121,21 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     return Collections.EMPTY_LIST;
   }
 
+  public Object getCanGenerateParent(Object object, Object projectType)
+  {
+    return null;
+  }
+
   public abstract boolean canGenerate(Object object, Object projectType);
   
   public Collection getGenerateChildren(Object object, Object projectType)
   {
     return Collections.EMPTY_LIST;
+  }
+
+  public Object getGenerateParent(Object object, Object projectType)
+  {
+    return null;
   }
 
 //public void preGenerate(Object object, Object projectType)
