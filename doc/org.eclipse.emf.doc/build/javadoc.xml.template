@@ -17,12 +17,14 @@
 	
 	<target name="javadoc" depends="extractPlatformJavadoc">
 	
-	<echo message="Get Doclet and compile it for use with javadoc"/>
+	<echo message="Get Doclet and compile it with JDK1.4 for use with javadoc"/>
 	<cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/tools" 
 		package="org.eclipse.emf.releng.build/org.eclipse.emf.build" 
 		reallyquiet="yes"/>
 	<delete dir="org.eclipse.emf.releng.build/org.eclipse.emf.build/src/CVS"/>
 	<move todir="."><fileset dir="org.eclipse.emf.releng.build/org.eclipse.emf.build/src"/></move>
+	
+	<!-- requires JDK1.4 for compilation -->
 	<javac srcdir="org/eclipse/emf/build/doclet" classpath=".:${java.home}/../lib/tools.jar" failonerror="true"/>
 	
 		<javadoc 
@@ -52,8 +54,7 @@
 				<doclet name="org.eclipse.emf.build.doclet.Doclet" path="org/eclipse/emf/build/doclet/Doclet">
 					<param name="-tocFilename" value="../topics_Reference.xml"/>
 					<param name="-tocRefPrefix" value="references/javadoc/"/>
-					<param name="-tocTitle" value="Reference"/>
-					<param name="-topicTitle" value="API Reference"/>
+					<param name="-tocTitle" value="API Reference"/>
 				</doclet>
 			
 				<link offline="true" href="http://java.sun.com/j2se/1.4/docs/api/" packagelistLoc="${javaHome}/docs/api/"/>
