@@ -75,10 +75,10 @@
 		<antcall target="build.index"/>
 
 		<zip destfile="${build.result.folder}/doc.zip" compress="true">
-			<zipfileset dir="references" prefix="references"/>
-			<zipfileset dir="images" prefix="images"/>
-			<zipfileset dir="tutorials" prefix="tutorials"/>
 			<zipfileset dir="css" prefix="css"/>
+			<zipfileset dir="images" prefix="images"/>
+			<zipfileset dir="references" prefix="references"/>
+			<zipfileset dir="tutorials" prefix="tutorials"/>
 		</zip>
 	</target>
 
