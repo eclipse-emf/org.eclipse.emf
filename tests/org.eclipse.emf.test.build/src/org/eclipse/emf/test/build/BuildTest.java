@@ -26,7 +26,7 @@ public class BuildTest extends TestCase
   protected final static String[] REQUIRED_DOC_PLUGIN_FILES = 
    {"doc.zip", "toc.xml"};  
   protected final static String[] REQUIRED_BRANDING_PLUGIN_FILES = 
-   {"about.ini", "about.mappings", "about.properties", "eclipse32.gif"};
+   {"about.ini", "about.mappings", "about.properties", "eclipse32.png"};
   protected final static String[] REQUIRED_SOURCE_PLUGIN_FILES = 
    {"src/"};
   protected final static String[] REQUIRED_SRC_SUBDIR_FILES = 
