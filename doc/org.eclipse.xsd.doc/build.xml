@@ -2,6 +2,7 @@
 <project name="org.eclipse.xsd.doc" default="build.jars" basedir=".">
 	
 	<property name="pluginVersion" value="2.2.0"/>
+	<property name="projectName" value="xsd"/>
 	
 	<property name="basews" value="${ws}"/>
 	<property name="baseos" value="${os}"/>
@@ -30,7 +31,7 @@
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="pluginTemp" value="${basedir}"/>
-		<condition property="build.result.folder" value="${pluginTemp}/org.eclipse.xsd.doc">
+		<condition property="build.result.folder" value="${pluginTemp}/org.eclipse.${projectName}.doc">
 			<isset property="buildTempFolder"/>
 		</condition>
 		<property name="build.result.folder" value="${basedir}"/>
@@ -42,29 +43,27 @@
 		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
 	</target>
 
-	<target name="build.update.jar" depends="init" description="Build the plug-in: org.eclipse.xsd.doc for an update site.">
+	<target name="build.update.jar" depends="init" description="Build the plug-in: org.eclipse.${projectName}.doc for an update site.">
 		<delete dir="${temp.folder}"/>
 		<mkdir dir="${temp.folder}"/>
 		<antcall target="build.jars"/>
 		<antcall target="gather.bin.parts">
 			<param name="destination.temp.folder" value="${temp.folder}/"/>
 		</antcall>
-		<zip destfile="${plugin.destination}/org.eclipse.xsd.doc_${pluginVersion}.${forceContextQualifier}.jar" basedir="${temp.folder}/org.eclipse.xsd.doc_${pluginVersion}.${forceContextQualifier}" filesonly="false" whenempty="skip" update="false"/>
+		<zip destfile="${plugin.destination}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}.jar" basedir="${temp.folder}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}" filesonly="false" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
 	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
-		<mkdir dir="${destination.temp.folder}/org.eclipse.xsd.doc_${pluginVersion}.${forceContextQualifier}"/>
-		<copy todir="${destination.temp.folder}/org.eclipse.xsd.doc_${pluginVersion}.${forceContextQualifier}" failonerror="true" overwrite="false">
-			<fileset dir="${build.result.folder}" includes="about.html,about.ini,about.mappings,about.properties,eclipse*.gif,eclipse*.png,eclipse*.jpg,plugin.properties,plugin.xml,toc.xml,doc.zip,index/**,META-INF/**"/>
+		<mkdir dir="${destination.temp.folder}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}"/>
+		<copy todir="${destination.temp.folder}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}" failonerror="true" overwrite="false">
+			<fileset dir="${build.result.folder}" 
+             includes="about.*,eclipse*.gif,eclipse*.png,eclipse*.jpg,plugin.*,toc*.xml,topics_*.xml,doc.zip,index/**,META-INF/**"/>
 		</copy>
-		<copy todir="${destination.temp.folder}/org.eclipse.xsd.doc_${pluginVersion}.${forceContextQualifier}">
-			<fileset dir="${basedir}" includes="about.html,about.ini,about.mappings,about.properties,eclipse*.gif,eclipse*.png,eclipse*.jpg,plugin.properties,plugin.xml,toc.xml,doc.zip,index/**,META-INF/**"/>
-		</copy>
-		<eclipse.versionReplacer path="${destination.temp.folder}/org.eclipse.xsd.doc_${pluginVersion}.${forceContextQualifier}" version="${pluginVersion}.${forceContextQualifier}"/>
+		<eclipse.versionReplacer path="${destination.temp.folder}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}" version="${pluginVersion}.${forceContextQualifier}"/>
 	</target>
 
-	<target name="build.jars" depends="init" description="Build all the jars for the plug-in: org.eclipse.xsd.doc.">
+	<target name="build.jars" depends="init" description="Build all the jars for the plug-in: org.eclipse.${projectName}.doc.">
 		<property name="eclipseDir" location="../.."/>
 
 		<chmod perm="754" file="build/antJavadoc.sh"/>
@@ -78,6 +77,8 @@
 		<zip destfile="${build.result.folder}/doc.zip" compress="true">
 			<zipfileset dir="references" prefix="references"/>
 			<zipfileset dir="images" prefix="images"/>
+			<zipfileset dir="tutorials" prefix="tutorials"/>
+			<zipfileset dir="css" prefix="css"/>
 		</zip>
 	</target>
 
@@ -97,18 +98,18 @@
 	<target name="gather.logs" depends="init" if="destination.temp.folder">
 	</target>
 
-	<target name="clean" depends="init" description="Clean the plug-in: org.eclipse.xsd.doc of all the zips, jars and logs created.">
-		<delete file="${plugin.destination}/org.eclipse.xsd.doc_${pluginVersion}.${forceContextQualifier}.jar"/>
-		<delete file="${plugin.destination}/org.eclipse.xsd.doc_${pluginVersion}.${forceContextQualifier}.zip"/>
+	<target name="clean" depends="init" description="Clean the plug-in: org.eclipse.${projectName}.doc of all the zips, jars and logs created.">
+		<delete file="${plugin.destination}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}.jar"/>
+		<delete file="${plugin.destination}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}.zip"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 
 	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
-		<eclipse.convertPath fileSystemPath="D:/eclipse/emf/eclipse/plugins/org.eclipse.xsd.doc" property="resourcePath"/>
+		<eclipse.convertPath fileSystemPath="D:/eclipse/${projectName}/eclipse/plugins/org.eclipse.${projectName}.doc" property="resourcePath"/>
 		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
 	</target>
 
-	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: org.eclipse.xsd.doc.">
+	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: org.eclipse.${projectName}.doc.">
 		<delete dir="${temp.folder}"/>
 		<mkdir dir="${temp.folder}"/>
 		<antcall target="build.jars"/>
@@ -122,7 +123,7 @@
 		<delete>
 			<fileset dir="${temp.folder}" includes="**/*.bin.log"			/>
 		</delete>
-		<zip destfile="${plugin.destination}/org.eclipse.xsd.doc_${pluginVersion}.${forceContextQualifier}.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+		<zip destfile="${plugin.destination}/org.eclipse.${projectName}.doc_${pluginVersion}.${forceContextQualifier}.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
 		<delete dir="${temp.folder}"/>
 	</target>
 

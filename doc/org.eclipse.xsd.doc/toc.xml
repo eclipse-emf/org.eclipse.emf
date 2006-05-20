@@ -18,10 +18,7 @@
 	<topic label="Reference">
 		<topic label="Article: Analyzing XML schemas with the Schema Infoset Model" href="references/articles/dwtip1-scpw/index.html"/>
 		<topic label="Diagrams and Animations" href="references/diagrams/diagrams.html"/>
-    	<topic label="API Reference (Javadoc)" href="references/javadoc/index.html"/>
-    	<!-- <topic label="API Reference (Javadoc)">
-	    	<link toc="toc-javadoc.xml"/>
-    	</topic> -->
+	    <link toc="topics_Reference.xml"/>
 	</topic>
 	
 </toc>
