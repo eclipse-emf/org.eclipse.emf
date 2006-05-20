@@ -12,8 +12,17 @@
   <!-- ====================================================================== -->
   <!-- Define TOCs                                                            -->
   <!-- ====================================================================== -->
-  <extension point="org.eclipse.help.toc">
-    <toc file="tutorials.xml" />
-    <toc file="javadoc.xml" />
-  </extension>
+
+   <extension point="org.eclipse.help.toc">
+       <toc file="topics_Reference.xml" />
+   </extension>
+
+<!-- ============================================================================= -->
+<!-- Define Javadoc locations                                                      -->
+<!-- ============================================================================= -->
+   <extension point="org.eclipse.pde.core.javadoc">
+       <javadoc path="references/javadoc">
+       </javadoc>
+   </extension>
+
 </plugin>
