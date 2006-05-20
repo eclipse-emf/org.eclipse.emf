@@ -26,8 +26,6 @@
 	</topic>
 
 	<topic label="Reference">
-    	<topic label="API Reference (Javadoc)">
-	    	<link toc="toc-javadoc.xml"/>
-    	</topic>
+	    <link toc="topics_Reference.xml"/>
 	</topic>
 </toc>

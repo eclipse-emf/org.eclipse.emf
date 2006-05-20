@@ -17,11 +17,13 @@
 	
 	<target name="javadoc" depends="extractPlatformJavadoc">
 	
-	<echo message="Get Aurora Doclet and compile it for use with javadoc"/>
-	<cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/technology" package="org.eclipse.gmf/doc/org.eclipse.gmf.runtime.doclet" reallyquiet="yes"/>
-	<delete dir="org.eclipse.gmf/doc/org.eclipse.gmf.runtime.doclet/src/CVS"/>
-	<move todir="."><fileset dir="org.eclipse.gmf/doc/org.eclipse.gmf.runtime.doclet/src"/></move>
-	<javac srcdir="org/eclipse/gmf/runtime/doclet" classpath=".:${java.home}/../lib/tools.jar"/>
+	<echo message="Get Doclet and compile it for use with javadoc"/>
+	<cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/tools" 
+		package="org.eclipse.emf.releng.build/org.eclipse.emf.build" 
+		reallyquiet="yes"/>
+	<delete dir="org.eclipse.emf.releng.build/org.eclipse.emf.build/src/CVS"/>
+	<move todir="."><fileset dir="org.eclipse.emf.releng.build/org.eclipse.emf.build/src"/></move>
+	<javac srcdir="org/eclipse/emf/build/doclet" classpath=".:${java.home}/../lib/tools.jar" failonerror="true"/>
 	
 		<javadoc 
 			destdir="${destDir}" 
@@ -29,7 +31,7 @@
 			overview="${overview}"
 
 			windowtitle="EMF Javadoc"
-			footer="Copyright 2001-2004 IBM Corporation and others.&lt;br&gt; All Rights Reserved."
+			footer="Copyright 2001-2006 IBM Corporation and others.&lt;br&gt; All Rights Reserved."
 
 			access="protected" 
 			additionalparam="-breakiterator -tag model:X -tag generated:X -tag ordered:X"
@@ -47,10 +49,11 @@
 			version="true"> 
 				<arg value="-J-Xmx256m"/>
 			
-				<doclet name="org.eclipse.gmf.runtime.doclet.AuroraDoclet" path="org/eclipse/gmf/runtime/doclet/AuroraDoclet">
-					<param name="-tocFilename" value="../toc-javadoc.xml"/>
+				<doclet name="org.eclipse.emf.build.doclet.Doclet" path="org/eclipse/emf/build/doclet/Doclet">
+					<param name="-tocFilename" value="../topics_Reference.xml"/>
 					<param name="-tocRefPrefix" value="references/javadoc/"/>
-					<param name="-tocTitle" value="API Reference (Javadoc)"/>
+					<param name="-tocTitle" value="Reference"/>
+					<param name="-topicTitle" value="API Reference"/>
 				</doclet>
 			
 				<link offline="true" href="http://java.sun.com/j2se/1.4/docs/api/" packagelistLoc="${javaHome}/docs/api/"/>
@@ -115,11 +118,6 @@
 				
 		</javadoc>
 
-		<!-- clean up doclet stuff -->
-		<delete includeEmptyDirs="true">
-			<fileset dir="org.eclipse.gmf" defaultexcludes="no"/>
-		</delete>
-		
 		<!-- make sure the doc-files are copied -->
 		<macrodef name="copyDocFiles">
 			<attribute name="pluginDir"/>
