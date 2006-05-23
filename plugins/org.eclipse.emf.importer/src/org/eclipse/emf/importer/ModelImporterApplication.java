@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.18 2006/05/10 20:16:58 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.19 2006/05/23 17:29:49 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -51,6 +52,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.importer.util.ImporterUtil;
 
 
 /**
@@ -157,7 +159,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       }
       else
       {
-        processArguments(arguments, 0);
+        processArguments(arguments, "-pdelaunch".equals(arguments[0]) ? 1 : 0);
         execute(CodeGenUtil.createMonitor(monitor, 1));
       }
     }
@@ -436,13 +438,13 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
 
       if (referencedGenModelPathToEPackageNSURIs != null)
       {
+        ResourceSet resourceSet = getModelImporter().createResourceSet();
         for (Iterator i = referencedGenModelPathToEPackageNSURIs.entrySet().iterator(); i.hasNext();)
         {
           Map.Entry entry = (Map.Entry)i.next();
           IPath genModelPath = (IPath)entry.getKey();
           Set ePackageNSURIs = (Set)entry.getValue();
   
-          ResourceSet resourceSet = getModelImporter().createResourceSet();
           Resource resource = resourceSet.getResource(URI.createFileURI(genModelPath.toOSString()), true);
           GenModel referencedGenModel = (GenModel)resource.getContents().get(0);
           for (Iterator j = referencedGenModel.getGenPackages().iterator(); j.hasNext();)
@@ -557,7 +559,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       GenModel referencedGenModel = (GenModel)EcoreUtil.create(genModel.eClass()); 
       genModelResource.getContents().add(referencedGenModel);
       referencedGenModel.initialize(referencedEPackages);
-      genModel.getUsedGenPackages().addAll(referencedGenModel.getGenPackages());
+      ImporterUtil.addUniqueGenPackages(genModel.getUsedGenPackages(), referencedGenModel.getGenPackages());
       referencedGenModel.getForeignModel().addAll(genModel.getForeignModel());
       modelImporter.traverseGenPackages(referencedGenModel.getGenPackages());
 
@@ -583,7 +585,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
           else
           {
             i.remove();
-            referencedGenModel.getUsedGenPackages().add(genPackage);
+            ImporterUtil.addUniqueGenPackages(genModel.getUsedGenPackages(), Collections.singletonList(genPackage));
             GenModel ecoreGenModel = (GenModel)EcoreUtil.create(genModel.eClass());
             genModel.eResource().getContents().add(ecoreGenModel);
             ecoreGenModel.getGenPackages().add(genPackage);
