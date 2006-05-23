@@ -59,7 +59,7 @@ public class ImporterUtil
    * genPackage in <tt>genPackagesToAdd</tt>.</p>
    * 
    * <p>After dealing with the NSURI, this method calls <tt>genPackages.addAll()</tt> which is expected to 
-   * perform a "contains" check to ensure the unicity of the list's elements.</p> 
+   * perform a "contains" check to ensure the uniqueness of the list's elements.</p> 
    * 
    * @param genPackages
    * @param genPackagesToAdd
@@ -81,13 +81,15 @@ public class ImporterUtil
         for (Iterator i = genPackages.iterator(); i.hasNext();)
         {
           GenPackage genPackage = (GenPackage)i.next();
-          if (nsURIs.contains(genPackage.getNSURI()))
+          if (nsURIs.contains(genPackage.getNSURI()) && !genPackagesToAdd.contains(genPackage))
           {
             i.remove();
           }
         }
       }
       
+      // This will not add duplicates.
+      //
       genPackages.addAll(genPackagesToAdd);
     }
   }
