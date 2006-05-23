@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchema.java,v 1.5 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDSchema.java,v 1.6 2006/05/23 16:13:08 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -651,7 +651,7 @@ public interface XSDSchema extends XSDScope
    * @<!-- end-user-doc -->
    * @return the value of the '<em>Incorporated Versions</em>' containment reference list.
    * @see org.eclipse.xsd.XSDPackage#getXSDSchema_IncorporatedVersions()
-   * @model type="org.eclipse.xsd.XSDSchema" containment="true" resolveProxies="false" transient="true"
+   * @model type="org.eclipse.xsd.XSDSchema" containment="true" transient="true"
    * @generated
    */
   EList getIncorporatedVersions();
