@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.35 2006/05/15 19:20:30 davidms Exp $
+ * $Id: GenFeatureImpl.java,v 1.36 2006/05/23 16:12:00 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1559,8 +1559,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         if (reference.isContainment())
         {
           appendModelSetting(result, qualified, "containment", "true");
+          if (reference.isResolveProxies() && getGenModel().isContainmentProxies())
+          {
+            appendModelSetting(result, qualified, "resolveProxies", "true");
+          }
         }
-        if (!reference.isResolveProxies())
+        else if (!reference.isResolveProxies())
         {
           appendModelSetting(result, qualified, "resolveProxies", "false");
         }
