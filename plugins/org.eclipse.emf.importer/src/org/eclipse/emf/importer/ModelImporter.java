@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.25 2006/05/13 16:42:41 emerks Exp $
+ * $Id: ModelImporter.java,v 1.26 2006/05/23 17:25:14 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -642,6 +643,7 @@ public abstract class ModelImporter extends ModelConverter
     getGenModel().getUsedGenPackages().addAll(referencedGenPackages);
     traverseGenPackages(getGenModel().getGenPackages());
     adjustGenModel(monitor);
+    adjustUsedGenPackages();
 
     // Restore all configured settings from the original.
     //
@@ -785,6 +787,35 @@ public abstract class ModelImporter extends ModelConverter
     genModel.setModelPluginID(getModelPluginID());
     genModel.setModelDirectory(getModelPluginDirectory());
     genModel.getUsedGenPackages().addAll(genModel.computeMissingUsedGenPackages());
+  }
+  
+  protected void adjustUsedGenPackages()
+  {
+    if (originalGenModel != null && !originalGenModel.getUsedGenPackages().isEmpty())
+    {
+      GenModel genModel = getGenModel();
+      List usedGenPackages = new ArrayList(genModel.getUsedGenPackages());
+      usedGenPackages.removeAll(originalGenModel.getUsedGenPackages());
+      if (!usedGenPackages.isEmpty())
+      {
+        Map nsURIOriginalUsedGenPackageMap = new HashMap();
+        for (Iterator i = originalGenModel.getUsedGenPackages().iterator(); i.hasNext();)
+        {
+          GenPackage genPackage = (GenPackage)i.next();
+          nsURIOriginalUsedGenPackageMap.put(genPackage.getNSURI(), genPackage);
+        }
+        
+        for (Iterator i = usedGenPackages.iterator(); i.hasNext();)
+        {
+          GenPackage genPackage = (GenPackage)i.next();
+          GenPackage originalUsedGenPackage = (GenPackage)nsURIOriginalUsedGenPackageMap.get(genPackage.getNSURI());
+          if (originalUsedGenPackage != null)
+          {
+            genModel.getUsedGenPackages().remove(originalUsedGenPackage);
+          }
+        }
+      }
+    }
   }
 
   protected boolean canConvert(EPackage ePackage)
