@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.12 2006/05/15 21:02:45 davidms Exp $
+ * $Id: EReferenceItemProvider.java,v 1.13 2006/05/23 16:23:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -216,6 +216,11 @@ public class EReferenceItemProvider
             return result;
           }
           
+          public void resetPropertyValue(Object object)
+          {
+            setPropertyValue(object, null);
+          }
+
           public void setPropertyValue(Object object, Object value)
           {
             EReference eReference = (EReference)object;
