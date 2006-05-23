@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.24 2006/05/01 10:23:35 davidms Exp $
+ * $Id: Generator.java,v 1.25 2006/05/23 17:55:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -572,7 +572,7 @@ public class Generator extends CodeGen
         List classpathEntries = new UniqueEList();
   
         progressMonitor.beginTask("", 10);
-        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_CreatingEMFProject_message", new Object [] { projectName }));
+        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_CreatingEMFProject_message", new Object [] { projectName, projectLocationPath != null ? projectLocationPath.toOSString() : projectName }));
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         project = workspace.getRoot().getProject(projectName);
   
