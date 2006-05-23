@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Library.java,v 1.2 2005/04/01 17:57:37 marcelop Exp $
+ * $Id: Library.java,v 1.3 2006/05/23 16:12:22 emerks Exp $
  */
 package org.examples.library;
 
@@ -75,7 +75,7 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see org.examples.library.LibraryPackage#getLibrary_Writers()
-   * @model type="org.examples.library.Writer" containment="true" resolveProxies="false"
+   * @model type="org.examples.library.Writer" containment="true"
    *        extendedMetaData="kind='element' name='writers'"
    * @generated
    */
@@ -92,7 +92,7 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' containment reference list.
    * @see org.examples.library.LibraryPackage#getLibrary_Books()
-   * @model type="org.examples.library.Book" containment="true" resolveProxies="false"
+   * @model type="org.examples.library.Book" containment="true"
    *        extendedMetaData="kind='element' name='books'"
    * @generated
    */

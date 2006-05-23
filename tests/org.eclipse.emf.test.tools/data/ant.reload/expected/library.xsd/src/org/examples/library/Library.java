@@ -103,7 +103,7 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Writers</em>' containment reference list.
    * @see org.examples.library.LibraryPackage#getLibrary_Writers()
-   * @model type="org.examples.library.Writer" containment="true" resolveProxies="false"
+   * @model type="org.examples.library.Writer" containment="true"
    *        extendedMetaData="kind='element' name='writers'"
    * @generated
    */
@@ -120,7 +120,7 @@ public interface Library extends EObject
    * <!-- end-user-doc -->
    * @return the value of the '<em>Books</em>' containment reference list.
    * @see org.examples.library.LibraryPackage#getLibrary_Books()
-   * @model type="org.examples.library.Book" containment="true" resolveProxies="false"
+   * @model type="org.examples.library.Book" containment="true"
    *        extendedMetaData="kind='element' name='books'"
    * @generated
    */
