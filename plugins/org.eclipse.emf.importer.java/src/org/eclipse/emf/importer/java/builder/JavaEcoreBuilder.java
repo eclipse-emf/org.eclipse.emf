@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.18 2006/05/17 21:07:16 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.19 2006/05/23 16:10:55 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1134,7 +1134,7 @@ public class JavaEcoreBuilder
         //
         eReference.setContainment("true".equals(containment) || mapType != null && !returnType.endsWith("Entry") || keyType != null
           && valueType != null);
-        eReference.setResolveProxies(!eReference.isContainment() && !"false".equals(resolveProxies));
+        eReference.setResolveProxies(eReference.isContainment() ? "true".equals(resolveProxies) : !"false".equals(resolveProxies));
         eReference.setUnsettable("true".equals(getModelAnnotationAttribute(modelAnnotation, "unsettable")));
 
         // Defer the handling of the opposite.
