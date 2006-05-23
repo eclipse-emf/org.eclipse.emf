@@ -16,6 +16,13 @@
  */
 package org.eclipse.emf.importer.util;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+
 
 /**
  * Utility methods and classes.  This class cannot import UI code because it is used on headless
@@ -45,5 +52,43 @@ public class ImporterUtil
       }
     }
     return sb.toString();
+  }
+  
+  /**
+   * <p>Removes any GenPackage from <tt>genPackages</tt> that has the same NSURI of a
+   * genPackage in <tt>genPackagesToAdd</tt>.</p>
+   * 
+   * <p>After dealing with the NSURI, this method calls <tt>genPackages.addAll()</tt> which is expected to 
+   * perform a "contains" check to ensure the unicity of the list's elements.</p> 
+   * 
+   * @param genPackages
+   * @param genPackagesToAdd
+   */
+  public static void addUniqueGenPackages(List genPackages, List genPackagesToAdd)
+  {
+    if (!genPackagesToAdd.isEmpty())
+    {      
+      if (!genPackages.isEmpty())
+      {
+        Set nsURIs = new HashSet();
+        for (Iterator i = genPackagesToAdd.iterator(); i.hasNext();)
+        {
+          GenPackage genPackage = (GenPackage)i.next();
+          String nsURI = genPackage.getNSURI();
+          nsURIs.add(nsURI);
+        }
+        
+        for (Iterator i = genPackages.iterator(); i.hasNext();)
+        {
+          GenPackage genPackage = (GenPackage)i.next();
+          if (nsURIs.contains(genPackage.getNSURI()))
+          {
+            i.remove();
+          }
+        }
+      }
+      
+      genPackages.addAll(genPackagesToAdd);
+    }
   }
 }
