@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescription.java,v 1.5 2005/06/08 06:16:16 nickb Exp $
+ * $Id: ChangeDescription.java,v 1.6 2006/05/23 16:13:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.change;
 
@@ -41,7 +41,8 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface ChangeDescription extends EObject{
+public interface ChangeDescription extends EObject
+{
   /**
    * Returns the value of the '<em><b>Object Changes</b></em>' map.
    * The key is of type {@link org.eclipse.emf.ecore.EObject},
@@ -86,7 +87,7 @@ public interface ChangeDescription extends EObject{
    * <!-- end-user-doc -->
    * @return the value of the '<em>Objects To Attach</em>' containment reference list.
    * @see org.eclipse.emf.ecore.change.ChangePackage#getChangeDescription_ObjectsToAttach()
-   * @model type="org.eclipse.emf.ecore.EObject" containment="true" resolveProxies="false"
+   * @model type="org.eclipse.emf.ecore.EObject" containment="true"
    * @generated
    */
   EList getObjectsToAttach();

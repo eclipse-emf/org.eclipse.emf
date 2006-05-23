@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnum.java,v 1.6 2005/12/02 12:16:44 emerks Exp $
+ * $Id: EEnum.java,v 1.7 2006/05/23 16:13:10 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -50,7 +50,7 @@ public interface EEnum extends EDataType
    * @return the value of the '<em>ELiterals</em>' containment reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEEnum_ELiterals()
    * @see org.eclipse.emf.ecore.EEnumLiteral#getEEnum
-   * @model type="org.eclipse.emf.ecore.EEnumLiteral" opposite="eEnum" containment="true" resolveProxies="false"
+   * @model type="org.eclipse.emf.ecore.EEnumLiteral" opposite="eEnum" containment="true"
    * @generated
    */
   EList getELiterals();
