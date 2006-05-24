@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.12 2006/05/10 20:15:27 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.13 2006/05/24 18:45:34 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -101,6 +101,11 @@ import org.eclipse.emf.common.util.URI;
  *    <td>The ID of the generated model plugin.</td>
  * </tr>
  * <tr>
+ *    <td valign="top">autoBuild</td>
+ *    <td>Boolean value that sets the Eclipse's 'Build Automatically' flag.  If not specified, this task doesn't 
+ *    change the current workspace's setting.</td>
+ * </tr>
+ * <tr>
  *    <td valign="top">sdo</td>
  *    <td>Boolean value indicating whether the SDO API should be generated.</td>
  * </tr>
@@ -179,6 +184,8 @@ public abstract class GeneratorTask extends EMFTask
   protected boolean generateModelProject = true;
   protected boolean generateEditProject = true;
   protected boolean generateEditorProject = true;
+  
+  protected Boolean autoBuild; 
 
   protected boolean supportMultipleURIs()
   {
@@ -304,6 +311,11 @@ public abstract class GeneratorTask extends EMFTask
   public void setGenerateJavaCode(boolean generateJavaCode)
   {
     this.generateJavaCode = generateJavaCode;
+  }
+  
+  public void setAutoBuild(boolean autoBuild)
+  {
+    this.autoBuild = Boolean.valueOf(autoBuild);
   }
 
   protected Commandline getCommandline()
@@ -455,12 +467,15 @@ public abstract class GeneratorTask extends EMFTask
   {
     List arguments = new ArrayList();
 
-    if (generateModelProject)
-      arguments.add("-model");
-    if (generateEditProject)
-      arguments.add("-edit");
-    if (generateEditorProject)
-      arguments.add("-editor");
+    if (generateModelProject)  arguments.add("-model");
+    if (generateEditProject)   arguments.add("-edit");
+    if (generateEditorProject) arguments.add("-editor");
+    
+    if (autoBuild != null)
+    {
+      arguments.add("-autoBuild");
+      arguments.add(autoBuild.toString());
+    };
 
     arguments.add(genModel.getAbsolutePath());
     return arguments;
