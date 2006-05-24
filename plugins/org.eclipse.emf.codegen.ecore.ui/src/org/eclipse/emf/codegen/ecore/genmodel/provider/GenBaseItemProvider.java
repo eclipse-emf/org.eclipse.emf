@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseItemProvider.java,v 1.8 2005/12/08 05:07:55 marcelop Exp $
+ * $Id: GenBaseItemProvider.java,v 1.9 2006/05/24 18:14:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -189,16 +189,31 @@ public class GenBaseItemProvider
     return false;
   }
 
-  protected ItemPropertyDescriptor createItemPropertyDescriptor(AdapterFactory adapterFactory, ResourceLocator resourceLocator, String displayName, String description, EStructuralFeature feature, boolean isSettable, Object staticImage, String category, String[] filterFlags)
+  protected ItemPropertyDescriptor createItemPropertyDescriptor
+    (AdapterFactory adapterFactory, 
+     ResourceLocator resourceLocator, 
+     String displayName, 
+     String description, 
+     EStructuralFeature feature, 
+     boolean isSettable, 
+     boolean multiLine,
+     boolean sortChoices,
+     Object staticImage, 
+     String category, 
+     String[] filterFlags)
   {
     return new GenItemPropertyDescriptor(
       adapterFactory,
+      resourceLocator,
       displayName,
       description,
       feature,
       isSettable,
+      multiLine,
+      sortChoices,
       staticImage,
-      category);
+      category,
+      filterFlags);
   }
 
   /**
@@ -224,6 +239,22 @@ public class GenBaseItemProvider
     {
       super(adapterFactory, displayName, description, feature, isSettable,
             staticImage, category);
+    }
+
+    public GenItemPropertyDescriptor
+       (AdapterFactory adapterFactory,
+        ResourceLocator resourceLocator,
+        String displayName,
+        String description,
+        EStructuralFeature feature, 
+        boolean isSettable,
+        boolean multiLine,
+        boolean sortChoices,
+        Object staticImage,
+        String category,
+        String [] filterFlags)
+    {
+      super(adapterFactory, resourceLocator, displayName, description, feature, isSettable, multiLine, sortChoices, staticImage, category, filterFlags);
     }
 
     public boolean canSetProperty(Object object)
