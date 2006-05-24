@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.19 2006/05/23 16:10:55 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.20 2006/05/24 20:03:10 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -115,38 +116,38 @@ public class JavaEcoreBuilder
    * The map from a package name to the corresponding package.
    * These are populated from the GenModels of required projects.
    */
-  protected Map externalPackageNameToEPackageMap = new HashMap();
+  protected Map externalPackageNameToEPackageMap = new LinkedHashMap();
 
   /**
    * The map from a package name to the corresponding package.
    * These are populated on demand during traversal as modeled class and enums are discovered.
    */
-  protected Map packageNameToEPackageMap = new HashMap();
+  protected Map packageNameToEPackageMap = new LinkedHashMap();
 
   /**
    * The map from package to the map of ordering constants.
    * These are populated as the package interface is traversed.
    */
-  protected Map ePackageToOrderingMap = new HashMap();
+  protected Map ePackageToOrderingMap = new LinkedHashMap();
 
   /**
    * The map from package to the it's prefix.
    * These are populated as the package interfaces are traversed.
    */
-  protected Map ePackageToPrefixMap = new HashMap();
+  protected Map ePackageToPrefixMap = new LinkedHashMap();
 
   /**
    * The map from a model element to the corresponding JDOM node.
    * These are populated during traversal as each model element is created.
    */
-  protected Map eModelElementToIDOMNodeMap = new HashMap();
+  protected Map eModelElementToIDOMNodeMap = new LinkedHashMap();
 
   /**
    * The map from a typed element to its type name.
    * These are populated during traversal as each typed element is created.
    * They must be patched after traversal is completed.
    */
-  protected Map eTypedElementToTypeNameMap = new HashMap();
+  protected Map eTypedElementToTypeNameMap = new LinkedHashMap();
 
   /**
    * The map from a typed element to its datatype's instance type name.
@@ -154,7 +155,7 @@ public class JavaEcoreBuilder
    * They must be patched after traversal is completed.
    * They are only needed if the instance must be determined bottom up.
    */
-  protected Map eTypedElementToInstanceTypeNameMap = new HashMap();
+  protected Map eTypedElementToInstanceTypeNameMap = new LinkedHashMap();
 
   /**
    * The set of data types that were created without setting the instance class.
@@ -166,7 +167,7 @@ public class JavaEcoreBuilder
    * These are populated during traversal as each class is created.
    * They must be patched after traversal is completed.
    */
-  protected Map eClassToSuperTypeNamesMap = new HashMap();
+  protected Map eClassToSuperTypeNamesMap = new LinkedHashMap();
 
   /**
    * The map from a reference to the name it's opposite.
@@ -174,7 +175,7 @@ public class JavaEcoreBuilder
    * They must be patched after traversal and patching of typed elements is completed.
    * The opposite found as a feature of the type.
    */
-  protected Map eReferenceToOppositeNameMap = new HashMap();
+  protected Map eReferenceToOppositeNameMap = new LinkedHashMap();
 
   /**
    * All the external GenModels from all required projects.
