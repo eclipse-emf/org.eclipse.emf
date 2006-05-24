@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.25 2006/05/23 17:55:32 marcelop Exp $
+ * $Id: Generator.java,v 1.26 2006/05/24 18:44:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -36,6 +36,7 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -97,6 +98,7 @@ public class Generator extends CodeGen
     System.out.println("  [-generateSchema] [-nonNLSMarkers]");
     System.out.println("  [-codeFormatting { default | <profile-file> } ]");
     System.out.println("  [-model] [-edit] [-editor]");
+    System.out.println("  [-autoBuild <true|false>]");
     System.out.println("  <genmodel-file>");
     System.out.println("  [ <target-root-directory> ]");
     System.out.println("");
@@ -198,6 +200,7 @@ public class Generator extends CodeGen
                   boolean edit = false;
                   boolean editor = false;
                   boolean tests = false;
+                  Boolean autoBuild = null;
                   
                   int index = 0;
                   for (; index < arguments.length && arguments[index].startsWith("-"); ++index)
@@ -205,6 +208,10 @@ public class Generator extends CodeGen
                     if (arguments[index].equalsIgnoreCase("-projects"))
                     {
                       rootLocation = new File(arguments[++index]).getAbsoluteFile().getCanonicalPath();
+                    }
+                    else if (arguments[index].equalsIgnoreCase("-autoBuild"))
+                    {
+                      autoBuild = Boolean.valueOf(arguments[++index]);
                     }
                     else if (arguments[index].equalsIgnoreCase("-dynamicTemplates"))
                     {
@@ -273,6 +280,25 @@ public class Generator extends CodeGen
                   String genModelName = arguments[index++];
   
                   progressMonitor.beginTask("Generating " + genModelName, 2);
+                  
+                  if (autoBuild != null)
+                  {
+                    IWorkspaceDescription description = workspace.getDescription();
+                    if (description.isAutoBuilding() != autoBuild.booleanValue())
+                    {
+                      description.setAutoBuilding(autoBuild.booleanValue());
+                      try
+                      {
+                        workspace.setDescription(description);
+                      }
+                      catch (CoreException coreException)
+                      {
+                        generator.printStatus(
+                          "Unable to set autoBuild to " + autoBuild.toString() + ".  Code generation will proceed normally.", 
+                          coreException.getStatus());
+                      }
+                    }
+                  }
             
                   // Create a resource set and load the model file into it.
                   //
