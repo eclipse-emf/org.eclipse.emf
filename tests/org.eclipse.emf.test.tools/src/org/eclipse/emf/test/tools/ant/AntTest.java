@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.20 2006/05/10 20:21:29 marcelop Exp $
+ * $Id: AntTest.java,v 1.21 2006/05/24 18:46:31 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -22,6 +22,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 
@@ -270,6 +271,8 @@ public class AntTest extends TestCase
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "xsd", testTokenReplacements);
+    
+    assertFalse(ResourcesPlugin.getWorkspace().getDescription().isAutoBuilding());
   }  
 
   public void testXSDs() throws Exception
@@ -298,6 +301,8 @@ public class AntTest extends TestCase
     testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
            
     runAntAndTest(rootDir, rootExpectedDir, antScript, "xsds", testTokenReplacements);
+    
+    assertTrue(ResourcesPlugin.getWorkspace().getDescription().isAutoBuilding());
   }  
   
   public void testEcore() throws Exception

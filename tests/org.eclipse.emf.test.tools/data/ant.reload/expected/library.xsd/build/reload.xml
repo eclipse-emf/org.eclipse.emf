@@ -10,7 +10,8 @@
 		<emf.XSD2Java
 			model="${main.directory}/model/library.xsd"
 			genModel="${genModel}"
-			reconcileGenModel="reload">
+			reconcileGenModel="reload"
+			autoBuild="false">
 			<arg line="-packages http://www.example.eclipse.org/Library"/>
 			<arg line="-packageMap http://www.example.eclipse.org/Library org.examples.library"/>			
 		</emf.XSD2Java>

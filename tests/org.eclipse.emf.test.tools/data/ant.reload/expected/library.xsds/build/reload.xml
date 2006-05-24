@@ -9,7 +9,8 @@
 	<target name="xsds">
 		<emf.XSD2Java
 			genModel="${genModel}"
-			reconcileGenModel="reload">
+			reconcileGenModel="reload"
+			autoBuild="true">
 			<model file="${main.directory}/model/libraryPart1.xsd"/>
 			<model file="${main.directory}/model/libraryPart2.xsd"/>
 			<model file="${main.directory}/model/libraryPart3.xsd"/>
