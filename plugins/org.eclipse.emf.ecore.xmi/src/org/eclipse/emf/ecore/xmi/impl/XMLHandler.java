@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.57 2006/05/13 16:17:42 emerks Exp $
+ * $Id: XMLHandler.java,v 1.58 2006/05/25 16:12:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2475,7 +2475,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
                  createObjectFromFeatureType(object, eReference) :
                  createObjectFromTypeName(object, qName, eReference));
           setAttributes(oldAttributes);
-          handleProxy(proxy, id);
+          if (proxy != null)
+          {
+            handleProxy(proxy, id);
+          }
           objects.pop();
           types.pop();
           mixedTargets.pop();
