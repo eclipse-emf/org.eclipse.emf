@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.2 2006/05/19 22:34:06 davidms Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.3 2006/05/25 21:31:44 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -222,15 +222,14 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     }    
   }
 
-  protected boolean ensureProjectExists(URI workspacePath, Object object, Object projectType, boolean force, Monitor monitor)
+  protected void ensureProjectExists(String workspacePath, Object object, Object projectType, boolean force, Monitor monitor)
   {
     try
     {
       if (EMFPlugin.IS_ECLIPSE_RUNNING)
       {
-        return EclipseHelper.ensureProjectExists(workspacePath.toString(), object, projectType, force, monitor);
+        EclipseHelper.ensureProjectExists(workspacePath, object, projectType, force, monitor);
       }
-      return true;
     }
     finally
     {
