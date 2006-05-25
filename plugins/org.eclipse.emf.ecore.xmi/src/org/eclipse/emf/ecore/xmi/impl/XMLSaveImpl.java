@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.57 2006/04/26 12:40:05 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.58 2006/05/25 18:07:41 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -2855,6 +2855,7 @@ public class XMLSaveImpl implements XMLSave
     
     protected final char[] AMP = { '&', 'a', 'm', 'p', ';' };
     protected final char[] LESS = { '&', 'l', 't', ';' };
+    protected final char[] GREATER = { '&', 'g', 't', ';' };
     protected final char[] QUOTE = { '&', 'q', 'u', 'o', 't', ';' };
     protected final char[] LINE_FEED = System.getProperty("line.separator").toCharArray();
 
@@ -3120,6 +3121,17 @@ public class XMLSaveImpl implements XMLSave
             outputPos = replaceChars(outputPos, CR, inputLength);
             changed = true;
             break;
+          }
+          case '>':
+          {
+            if (inputPos >= 3 && input.charAt(inputPos - 2) == ']' && input.charAt(inputPos - 3) == ']')
+            {
+              outputPos = replaceChars(outputPos, GREATER, inputLength);
+              changed = true;
+              break;
+            }
+
+            // continue with default processing
           }
           default:
           {
