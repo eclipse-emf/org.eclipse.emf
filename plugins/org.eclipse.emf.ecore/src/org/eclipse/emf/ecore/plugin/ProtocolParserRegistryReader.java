@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProtocolParserRegistryReader.java,v 1.4 2006/05/17 19:27:50 emerks Exp $
+ * $Id: ProtocolParserRegistryReader.java,v 1.5 2006/05/25 19:17:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -63,7 +63,7 @@ class ProtocolParserRegistryReader extends RegistryReader
         {
           ResourceFactoryDescriptor descriptor = (ResourceFactoryDescriptor)previous;
           EcorePlugin.INSTANCE.log
-            ("Both '" + descriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + " register a protocol parser for '" + protocolName + "'");
+            ("Both '" + descriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a protocol parser for '" + protocolName + "'");
         }
         return true;
       }

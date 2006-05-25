@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIMappingRegistryReader.java,v 1.5 2006/05/17 19:27:50 emerks Exp $
+ * $Id: URIMappingRegistryReader.java,v 1.6 2006/05/25 19:17:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -80,7 +80,7 @@ class URIMappingRegistryReader extends RegistryReader
           if (previous != null)
           {
             EcorePlugin.INSTANCE.log
-              ("Both '" + previous.getContributor().getName() + "' and '" + element.getContributor().getName() + " register a URI mapping for '" + sourceURI + "'");
+              ("Both '" + previous.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a URI mapping for '" + sourceURI + "'");
           }
           return true;
         }

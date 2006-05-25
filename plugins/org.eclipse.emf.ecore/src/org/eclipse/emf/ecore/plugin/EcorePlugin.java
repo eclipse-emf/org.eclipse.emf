@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.13 2006/05/17 19:26:18 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.14 2006/05/25 19:17:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -530,7 +530,7 @@ public class EcorePlugin  extends EMFPlugin
               {
                 if (previous != null)
                 {
-                  log("Both '" + previous.getContributor().getName() + "' and '" + element.getContributor().getName() + " register a package registry implementation");
+                  log("Both '" + previous.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a package registry implementation");
                 }
                 if (defaultRegistryImplementation instanceof EPackageRegistryImpl.Delegator)
                 {

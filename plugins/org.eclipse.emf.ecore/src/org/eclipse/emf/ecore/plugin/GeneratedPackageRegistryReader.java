@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratedPackageRegistryReader.java,v 1.6 2006/05/17 19:27:50 emerks Exp $
+ * $Id: GeneratedPackageRegistryReader.java,v 1.7 2006/05/25 19:17:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -73,7 +73,7 @@ class GeneratedPackageRegistryReader extends RegistryReader
         {
           PluginClassDescriptor descriptor = (PluginClassDescriptor)previous;
           EcorePlugin.INSTANCE.log
-            ("Both '" + descriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + " register a package for '" + packageURI + "'");
+            ("Both '" + descriptor.element.getContributor().getName() + "' and '" + element.getContributor().getName() + "' register a package for '" + packageURI + "'");
         }
         
         if (ePackageNsURIToGenModelLocationMap != null)
