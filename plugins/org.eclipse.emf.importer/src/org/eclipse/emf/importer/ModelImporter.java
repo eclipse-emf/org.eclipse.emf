@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.26 2006/05/23 17:25:14 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.27 2006/05/26 20:06:44 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -359,7 +359,7 @@ public abstract class ModelImporter extends ModelConverter
     }
   }
 
-  protected GenModel getOriginalGenModel()
+  public GenModel getOriginalGenModel()
   {
     return originalGenModel;
   }
@@ -452,6 +452,7 @@ public abstract class ModelImporter extends ModelConverter
   
   protected void loadOriginalGenModel(URI genModelURI) throws DiagnosticException
   {
+    RuntimeException runtimeException = null;
     ResourceSet resourceSet = createResourceSet();
     Resource resource = null;
     try
@@ -460,34 +461,56 @@ public abstract class ModelImporter extends ModelConverter
     }
     catch (RuntimeException exception)
     {
+      runtimeException = exception;
       resource = resourceSet.getResource(genModelURI, false);
     }
 
     if (resource != null && !resource.getContents().isEmpty() && resource.getContents().get(0) instanceof GenModel)
     {
       originalGenModel = (GenModel)resource.getContents().get(0);
-    }
 
-    if (getOriginalGenModel() != null)
-    {
+      setGenModelFileName(getOriginalGenModelPath().lastSegment());
+      setGenModelContainerPath(getOriginalGenModelPath().removeLastSegments(1));
+      genModelPath = getOriginalGenModelPath();
+
       getOriginalGenModel().reconcile();
+      for (Iterator i = getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext();)
+      {
+        GenPackage referencedGenPackage = (GenPackage)i.next();
+        if (!referencedGenPackage.eIsProxy())
+        {
+          getReferencedGenPackages().add(referencedGenPackage);
+        }
+      }
+
+      handleOriginalGenModel();
 
       Diagnostic diagnostic = getOriginalGenModel().diagnose();
       if (diagnostic.getSeverity() != Diagnostic.OK)
       {
         throw new DiagnosticException(diagnostic);
       }
-
-      setGenModelFileName(getOriginalGenModelPath().lastSegment());
-      setGenModelContainerPath(getOriginalGenModelPath().removeLastSegments(1));
-      genModelPath = getOriginalGenModelPath();
-
-      for (Iterator i = getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext();)
-      {
-        GenPackage referencedGenPackage = (GenPackage)i.next();
-        getReferencedGenPackages().add(referencedGenPackage);
-      }
     }
+    else
+    {
+      Diagnostic diagnostic = runtimeException != null ?
+        BasicDiagnostic.toDiagnostic(runtimeException) :
+        new BasicDiagnostic(
+          Diagnostic.ERROR, 
+          ImporterPlugin.ID, 
+          0, 
+          ImporterPlugin.INSTANCE.getString("_UI_LoadProblem_title"),
+          null);        
+      throw new DiagnosticException(diagnostic);
+    }
+  }
+
+  /**
+   * Subclasses may overwrite this method to perform actions on the reloaded genmodel.
+   * @throws DiagnosticException
+   */
+  protected void handleOriginalGenModel() throws DiagnosticException
+  {
   }
 
   public Diagnostic computeEPackages(Monitor monitor) throws Exception
@@ -791,15 +814,15 @@ public abstract class ModelImporter extends ModelConverter
   
   protected void adjustUsedGenPackages()
   {
-    if (originalGenModel != null && !originalGenModel.getUsedGenPackages().isEmpty())
+    if (getOriginalGenModel() != null && !getOriginalGenModel().getUsedGenPackages().isEmpty())
     {
       GenModel genModel = getGenModel();
       List usedGenPackages = new ArrayList(genModel.getUsedGenPackages());
-      usedGenPackages.removeAll(originalGenModel.getUsedGenPackages());
+      usedGenPackages.removeAll(getOriginalGenModel().getUsedGenPackages());
       if (!usedGenPackages.isEmpty())
       {
         Map nsURIOriginalUsedGenPackageMap = new HashMap();
-        for (Iterator i = originalGenModel.getUsedGenPackages().iterator(); i.hasNext();)
+        for (Iterator i = getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext();)
         {
           GenPackage genPackage = (GenPackage)i.next();
           nsURIOriginalUsedGenPackageMap.put(genPackage.getNSURI(), genPackage);
