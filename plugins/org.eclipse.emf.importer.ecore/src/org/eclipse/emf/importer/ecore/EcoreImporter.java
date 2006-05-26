@@ -12,18 +12,20 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporter.java,v 1.8 2005/11/28 22:36:34 marcelop Exp $
+ * $Id: EcoreImporter.java,v 1.9 2006/05/26 20:08:48 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore;
 
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -101,10 +103,9 @@ public class EcoreImporter extends ModelImporter
     }
   }
 
-  protected void loadOriginalGenModel(URI genModelURI) throws DiagnosticException
+  protected void handleOriginalGenModel() throws DiagnosticException
   {
-    super.loadOriginalGenModel(genModelURI);
-
+    URI genModelURI = getOriginalGenModel().eResource().getURI();
     StringBuffer text = new StringBuffer();
     for (Iterator i = getOriginalGenModel().getForeignModel().iterator(); i.hasNext();)
     {
@@ -115,6 +116,22 @@ public class EcoreImporter extends ModelImporter
         text.append(" ");
       }
     }
+    
+    if (text.length() == 0)
+    {
+      List locations = new UniqueEList();
+      for (Iterator i = getOriginalGenModel().getGenPackages().iterator(); i.hasNext();)
+      {
+        GenPackage genPackage = (GenPackage)i.next();
+        URI ecoreURI = genPackage.getEcorePackage().eResource().getURI();
+        if (locations.add(ecoreURI))
+        {
+          text.append(makeAbsolute(URI.createURI(ecoreURI.toString()), genModelURI).toString());
+          text.append(" ");
+        }
+      }
+    }
+    
     setModelLocation(text.toString().trim());
   }
 }
