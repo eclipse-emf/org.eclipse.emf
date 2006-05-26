@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.12 2005/12/14 07:56:02 marcelop Exp $
+ * $Id: RoseImporter.java,v 1.13 2006/05/26 20:09:25 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -380,10 +380,8 @@ public class RoseImporter extends ModelImporter
     }
   }
 
-  protected void loadOriginalGenModel(URI genModelURI) throws DiagnosticException
+  protected void handleOriginalGenModel() throws DiagnosticException
   {
-    super.loadOriginalGenModel(genModelURI);
-
     try
     {
       Iterator values = getOriginalGenModel().getForeignModel().iterator();
