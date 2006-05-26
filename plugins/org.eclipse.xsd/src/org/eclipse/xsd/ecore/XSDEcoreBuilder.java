@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.60 2006/05/17 12:44:08 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.61 2006/05/26 20:46:49 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2782,10 +2782,17 @@ public class XSDEcoreBuilder extends MapBuilder
   protected void setAnnotations(EModelElement eModelElement, XSDConcreteComponent xsdComponent)
   {
     List xsdAnnotations = new ArrayList();
+    List elements = new ArrayList();
+    boolean append = true;
 
     if (xsdComponent instanceof XSDParticle)
     {
       xsdComponent = ((XSDParticle)xsdComponent).getContent();
+    }
+
+    if (xsdComponent != null)
+    {
+      elements.add(xsdComponent.getElement());
     }
 
     if (xsdComponent instanceof XSDAttributeDeclaration)
@@ -2794,19 +2801,28 @@ public class XSDEcoreBuilder extends MapBuilder
     }
     else if (xsdComponent instanceof XSDAttributeUse)
     {
-      xsdAnnotations.add(((XSDAttributeUse)xsdComponent).getContent().getAnnotation());
+      XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)xsdComponent;
+      xsdAnnotations.add(xsdAttributeUse.getContent().getAnnotation());
+      XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
+      xsdAnnotations.add(xsdAttributeDeclaration.getAnnotation());
+      elements.add(xsdAttributeDeclaration.getElement());
+      append = false;
     }
     else if (xsdComponent instanceof XSDElementDeclaration)
     {
-      xsdAnnotations.add(((XSDElementDeclaration)xsdComponent).getAnnotation());
+      XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)xsdComponent;
+      xsdAnnotations.add(xsdElementDeclaration.getAnnotation());
+      if (xsdElementDeclaration.isElementDeclarationReference())
+      {
+        XSDElementDeclaration resolvedElementDeclaration = xsdElementDeclaration.getResolvedElementDeclaration();
+        xsdAnnotations.add(resolvedElementDeclaration.getAnnotation());
+        elements.add(resolvedElementDeclaration.getElement());
+      }
+      append = false;
     }
     else if (xsdComponent instanceof XSDAttributeGroupDefinition)
     {
       xsdAnnotations.add(((XSDAttributeGroupDefinition)xsdComponent).getAnnotation());
-    }
-    else if (xsdComponent instanceof XSDElementDeclaration)
-    {
-      xsdAnnotations.add(((XSDElementDeclaration)xsdComponent).getAnnotation());
     }
     else if (xsdComponent instanceof XSDFacet)
     {
@@ -2859,6 +2875,10 @@ public class XSDEcoreBuilder extends MapBuilder
               String existingDocumentation =  EcoreUtil.getDocumentation(eModelElement);
               if (existingDocumentation != null)
               {
+                if (!append)
+                {
+                  continue;
+                }
                 documentationBody = existingDocumentation + System.getProperty("line.separator") + documentationBody;
               }
               EcoreUtil.setDocumentation(eModelElement, documentationBody);
@@ -2899,6 +2919,10 @@ public class XSDEcoreBuilder extends MapBuilder
 
               if (existingApplicationInformation != null)
               {
+                if (!append)
+                {
+                  continue;
+                }
                 applicationInformationBody = 
                   existingApplicationInformation + System.getProperty("line.separator") + applicationInformationBody;
               }
@@ -2921,15 +2945,15 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
     
-    if (xsdComponent != null)
+    for (Iterator i = elements.iterator(); i.hasNext(); )
     {
-      Element element = xsdComponent.getElement();
+      Element element = (Element)i.next();
       if (element != null)
       {
         NamedNodeMap attributes = element.getAttributes();
-        for (int i = 0, length = attributes.getLength(); i < length; ++i)
+        for (int j = 0, length = attributes.getLength(); j < length; ++j)
         {
-          Attr attribute = (Attr)attributes.item(i);
+          Attr attribute = (Attr)attributes.item(j);
           if (!ignore(attribute))
           {
             String sourceURI = attribute.getNamespaceURI();
@@ -2940,7 +2964,10 @@ public class XSDEcoreBuilder extends MapBuilder
               eAnnotation.setSource(sourceURI);
               eModelElement.getEAnnotations().add(eAnnotation);
             }
-            eAnnotation.getDetails().put(attribute.getLocalName(), attribute.getValue());
+            if (append || eAnnotation.getDetails().get(attribute.getLocalName()) == null)
+            {
+              eAnnotation.getDetails().put(attribute.getLocalName(), attribute.getValue());
+            }
           }
         }
       }
