@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.8 2005/12/14 08:00:01 marcelop Exp $
+ * $Id: XSDImporter.java,v 1.9 2006/05/26 20:09:38 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -217,10 +217,9 @@ public class XSDImporter extends ModelImporter
     return resources;
   }
 
-  protected void loadOriginalGenModel(URI genModelURI) throws DiagnosticException
+  protected void handleOriginalGenModel() throws DiagnosticException
   {
-    super.loadOriginalGenModel(genModelURI);
-
+    URI genModelURI = getOriginalGenModel().eResource().getURI();
     StringBuffer text = new StringBuffer();
     for (Iterator i = getOriginalGenModel().getForeignModel().iterator(); i.hasNext();)
     {
