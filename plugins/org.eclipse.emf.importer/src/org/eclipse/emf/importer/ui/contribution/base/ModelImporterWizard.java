@@ -69,11 +69,15 @@ public abstract class ModelImporterWizard extends ModelConverterWizard implement
       }
       catch (DiagnosticException exception)
       {
+        String message = getModelImporter().getOriginalGenModel() != null ?
+          ImporterPlugin.INSTANCE.getString("_UI_ProblematicModel_message") :
+          ImporterPlugin.INSTANCE.getString("_UI_InvalidModel_message");
+          
         Diagnostic diagnostic = exception.getDiagnostic();
         ErrorDialog.openError
           (getShell(),
            GenModelEditPlugin.INSTANCE.getString("_UI_ModelProblems_title"),
-           ImporterPlugin.INSTANCE.getString("_UI_InvalidModel_message"),
+           message,
            BasicDiagnostic.toIStatus(diagnostic));
       }
     }
