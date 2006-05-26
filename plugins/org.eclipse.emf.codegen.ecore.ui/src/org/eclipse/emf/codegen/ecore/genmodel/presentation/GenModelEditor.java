@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.29 2006/05/26 20:01:08 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.30 2006/05/26 21:38:19 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -129,6 +129,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
@@ -1013,6 +1014,7 @@ public class GenModelEditor
     // Assumes that the input is a file object.
     //
     IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
+    editingDomain.getResourceSet().getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
     URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString());;
     Exception exception = null;
     Resource resource = null;
