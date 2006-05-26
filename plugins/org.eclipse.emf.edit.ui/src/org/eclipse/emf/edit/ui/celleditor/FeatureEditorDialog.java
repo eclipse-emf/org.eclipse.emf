@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureEditorDialog.java,v 1.8 2006/05/15 19:42:04 davidms Exp $
+ * $Id: FeatureEditorDialog.java,v 1.9 2006/05/26 20:02:46 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -23,7 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IContentProvider;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -302,6 +304,31 @@ public class FeatureEditorDialog extends Dialog
       featureTableViewer.setSelection(new StructuredSelection(values.getChildren().get(0)));
     }
     
+    if (choiceTableViewer != null)
+    {
+      choiceTableViewer.addDoubleClickListener(new IDoubleClickListener()
+        {
+          public void doubleClick(DoubleClickEvent event)
+          {
+            if (addButton.isEnabled())
+            {
+              addButton.notifyListeners(SWT.Selection, null);
+            }
+          }
+        });
+
+      featureTableViewer.addDoubleClickListener(new IDoubleClickListener()
+      {
+        public void doubleClick(DoubleClickEvent event)
+        {
+          if (removeButton.isEnabled())
+          {
+            removeButton.notifyListeners(SWT.Selection, null);
+          }
+        }
+      });
+    }
+    
     if (choiceText != null)
     {
       choiceText.addKeyListener(
@@ -367,6 +394,7 @@ public class FeatureEditorDialog extends Dialog
     addButton.addSelectionListener(
       new SelectionAdapter()
       {
+        // event is null when choiceTableViewer is double clicked
         public void widgetSelected(SelectionEvent event)
         {
           if (choiceTableViewer != null)
@@ -401,6 +429,7 @@ public class FeatureEditorDialog extends Dialog
     removeButton.addSelectionListener(
       new SelectionAdapter()
       {
+        // event is null when featureTableViewer is double clicked 
         public void widgetSelected(SelectionEvent event)
         {
           IStructuredSelection selection = (IStructuredSelection)featureTableViewer.getSelection();
