@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteCommand.java,v 1.3 2006/05/08 21:55:37 davidms Exp $
+ * $Id: DeleteCommand.java,v 1.4 2006/05/29 13:56:33 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -140,13 +140,16 @@ public class DeleteCommand extends CompoundCommand
         if (!eObjects.contains(referencingEObject))
         {
           EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
-          if (eStructuralFeature.isMany())
+          if (eStructuralFeature.isChangeable())
           {
-            appendAndExecute(RemoveCommand.create(domain, referencingEObject, eStructuralFeature, eObject));
-          }
-          else
-          {
-            appendAndExecute(SetCommand.create(domain, referencingEObject, eStructuralFeature, null));
+            if (eStructuralFeature.isMany())
+            {
+              appendAndExecute(RemoveCommand.create(domain, referencingEObject, eStructuralFeature, eObject));
+            }
+            else
+            {
+              appendAndExecute(SetCommand.create(domain, referencingEObject, eStructuralFeature, null));
+            }
           }
         }
       }
