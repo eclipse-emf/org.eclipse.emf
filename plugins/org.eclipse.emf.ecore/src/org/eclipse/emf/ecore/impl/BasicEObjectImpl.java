@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.25 2006/05/12 21:08:41 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.26 2006/05/29 13:59:16 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -653,7 +653,18 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     int dynamicFeatureID = featureID - eStaticFeatureCount();
     if (dynamicFeatureID < 0)
     {
-      eSet(eFeature, newValue); /* backward compatibility with old generated overrides */ 
+      if (eFeature == null)
+      {
+        throw new IllegalArgumentException("The feature ID" + featureID + " is not a valid feature ID");
+      }
+      else if (!eFeature.isChangeable())
+      {
+        throw new IllegalArgumentException("The feature '" + eFeature.getName() + "' is not a valid changeable feature");
+      }
+      else
+      {
+        eSet(eFeature, newValue); /* backward compatibility with old generated overrides */ 
+      }
     }
     else
     {
@@ -724,7 +735,18 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     int dynamicFeatureID = featureID - eStaticFeatureCount();
     if (dynamicFeatureID < 0)
     {
-      eUnset(eFeature); /* backward compatibility with old generated overrides */ 
+      if (eFeature == null)
+      {
+        throw new IllegalArgumentException("The feature ID" + featureID + " is not a valid feature ID");
+      }
+      else if (!eFeature.isChangeable())
+      {
+        throw new IllegalArgumentException("The feature '" + eFeature.getName() + "' is not a valid changeable feature");
+      }
+      else
+      {
+        eUnset(eFeature); /* backward compatibility with old generated overrides */ 
+      }
     }
     else
     {
