@@ -16,6 +16,7 @@
  */
 package org.eclipse.emf.codegen.ecore.ui;
 
+import java.io.PrintStream;
 import java.util.Collections;
 
 import org.eclipse.core.resources.IProject;
@@ -37,6 +38,9 @@ import org.eclipse.ui.part.ISetSelectionTarget;
 
 import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 
 
@@ -82,6 +86,8 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
     newProjectCreationPage.setDescription(GenModelEditPlugin.INSTANCE.getString("_UI_EmptyProject_description"));
     addPage(newProjectCreationPage);
   }
+  
+  
 
   public boolean performFinish()
   {
@@ -96,7 +102,25 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
               genModelProjectLocation,
               Collections.EMPTY_LIST,
               progressMonitor,
-              Generator.EMF_MODEL_PROJECT_STYLE);
+              Generator.EMF_MODEL_PROJECT_STYLE | Generator.EMF_PLUGIN_PROJECT_STYLE);
+
+            CodeGenUtil.EclipseUtil.findOrCreateContainer
+              (new Path("/" + genModelContainerPath.segment(0) + "/model"), true, genModelProjectLocation, progressMonitor);
+
+            PrintStream manifest = 
+              new PrintStream
+                (new URIConverterImpl().createOutputStream
+                   (URI.createPlatformResourceURI("/" + genModelContainerPath.segment(0) + "/META-INF/MANIFEST.MF", true)));
+            manifest.println("Manifest-Version: 1.0");
+            manifest.println("Bundle-ManifestVersion: 2");
+            manifest.print("Bundle-Name: ");
+            manifest.print(genModelContainerPath.segment(0));
+            manifest.println(" Plug-in");
+            manifest.print("Bundle-SymbolicName: ");
+            manifest.println(genModelContainerPath.segment(0));
+            manifest.println("Bundle-Version: 0.1.0");
+            manifest.println("Require-Bundle: org.eclipse.emf.ecore");
+            manifest.close();
           }
           catch (Exception exception)
           {
