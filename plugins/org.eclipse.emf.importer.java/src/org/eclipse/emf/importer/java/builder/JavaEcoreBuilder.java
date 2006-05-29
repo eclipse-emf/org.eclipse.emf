@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.20 2006/05/24 20:03:10 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.21 2006/05/29 15:46:24 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,6 +42,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -54,6 +56,7 @@ import org.eclipse.jdt.core.jdom.IDOMMethod;
 import org.eclipse.jdt.core.jdom.IDOMNode;
 import org.eclipse.jdt.core.jdom.IDOMPackage;
 import org.eclipse.jdt.core.jdom.IDOMType;
+import org.eclipse.osgi.util.ManifestElement;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -65,6 +68,8 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -93,6 +98,8 @@ import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.java.JavaImporterPlugin;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.Constants;
 
 
 public class JavaEcoreBuilder
@@ -180,7 +187,7 @@ public class JavaEcoreBuilder
   /**
    * All the external GenModels from all required projects.
    */
-  protected Collection externalGenModels = new ArrayList();
+  protected Collection externalGenModels = new UniqueEList();
 
   /**
    * All the used GenPackages.
@@ -456,6 +463,116 @@ public class JavaEcoreBuilder
       }
     }
     
+    // Iterate over all projects to look at the manifests.
+    //
+    List allReferencedPluginIDs = new UniqueEList();
+    allReferencedProjects.add(project);
+    for (Iterator i = allReferencedProjects.iterator(); i.hasNext();)
+    {
+      IProject referencedProject = (IProject)i.next();
+      URI manifestURI = URI.createURI(referencedProject.getFullPath() + "/META-INF/MANIFEST.MF");
+      try
+      {
+        // Determine the required plugins.
+        //
+        Manifest manifest = new Manifest(resourceSet.getURIConverter().createInputStream(manifestURI));
+        String requires =  manifest.getMainAttributes().getValue("Require-Bundle");
+        if (requires != null)
+        {
+          ManifestElement[] elements = ManifestElement.parseHeader(Constants.REQUIRE_BUNDLE, requires);
+          for (int j = 0; j < elements.length; ++j)
+          {
+            // Include each required plugin of the starting project and the exported ones of all the required projects.
+            //
+            ManifestElement element = elements[j];
+            if (project == referencedProject || "reexport".equals(element.getDirective("visibility")))
+            {
+              String pluginID = element.getValue();
+              allReferencedPluginIDs.add(pluginID);
+            }
+          }
+        }
+      }
+      catch (IOException exception)
+      {
+      }
+    }
+
+    // Iterate over all the plugin IDs to determinethe dependency closure.
+    // The list grows as the plugins are visited.
+    //
+    for (int i = 0; i < allReferencedPluginIDs.size(); ++i)
+    {
+      // Determine the required plugins.
+      //
+      String pluginID = (String)allReferencedPluginIDs.get(i);
+      Bundle bundle = Platform.getBundle(pluginID);
+      String requires = (String)bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
+      if (requires != null)
+      {
+        ManifestElement[] elements = ManifestElement.parseHeader(Constants.REQUIRE_BUNDLE, requires);
+        for (int j = 0; j < elements.length; ++j)
+        {
+          // Also add each required plugin for consideration in the loop.
+          //
+          ManifestElement element = elements[j];
+          String value = element.getValue();
+          if ("reexport".equals(element.getDirective("visibility")))
+          {
+            allReferencedPluginIDs.add(value);
+          }
+        }
+      }
+    }
+
+    // Determine the inverse map from plugin IDs to their registered GenModel locations.
+    //
+    Map allPluginsWithGenModels = new HashMap();
+    for (Iterator i = EcorePlugin.getEPackageNsURIToGenModelLocationMap().entrySet().iterator(); i.hasNext(); )
+    {
+      // If it's a platform plugin URI, include it in the map.
+      //
+      Map.Entry entry = (Map.Entry)i.next();
+      URI genModelLocation = (URI)entry.getValue();
+      if ("platform".equals(genModelLocation.scheme()) && 
+            genModelLocation.segmentCount() > 2 &&
+            "plugin".equals(genModelLocation.segment(0)))
+      {
+        List list = (List)allPluginsWithGenModels.get(genModelLocation.segment(1));
+        if (list == null)
+        {
+          list = new UniqueEList();
+        }
+        list.add(genModelLocation);
+        allPluginsWithGenModels.put(genModelLocation.segment(1), list);
+      }
+    }
+
+    // Keep only the plugins that have GenModels for consideration.
+    //
+    allReferencedPluginIDs.retainAll(allPluginsWithGenModels.keySet());
+    for (Iterator i = allReferencedPluginIDs.iterator(); i.hasNext(); )
+    {
+      // Consider each GenModel location URI for each required plugin.
+      //
+      String pluginID = (String)i.next();
+      for (Iterator j = ((List)allPluginsWithGenModels.get(pluginID)).iterator(); j.hasNext(); )
+      {
+        // Load the model and if it's not one already considered, e.g., a local version in the workspace, process its GenPackages.
+        //
+        Resource resource = resourceSet.getResource((URI)j.next(), true);
+        GenModel genModel = (GenModel)resource.getContents().get(0);
+        if (externalGenModels.add(genModel))
+        {
+          for (Iterator k = genModel.getGenPackages().iterator(); k.hasNext();)
+          {
+            GenPackage genPackage = (GenPackage)k.next();
+            determineExternalPackages(genPackage, modelImporter);
+          }
+        }
+      }
+    }
+
     IPath targetFragmentRoot = analyseProject(project);  
     modelImporter.setModelPluginDirectory(targetFragmentRoot.toString());    
 
