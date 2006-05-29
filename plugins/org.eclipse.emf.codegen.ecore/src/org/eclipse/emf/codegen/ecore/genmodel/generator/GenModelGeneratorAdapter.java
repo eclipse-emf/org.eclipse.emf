@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapter.java,v 1.3 2006/05/01 18:12:17 davidms Exp $
+ * $Id: GenModelGeneratorAdapter.java,v 1.4 2006/05/29 15:45:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -112,9 +112,9 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getModelDirectory(), genModel, MODEL_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
     generateModelPluginClass(genModel, monitor);
-    generateModelManifest(genModel, monitor);
     generateModelPluginProperties(genModel, monitor);
     generateModelBuildProperties(genModel, monitor);
+    generateModelManifest(genModel, monitor);
 
     return Diagnostic.OK_INSTANCE;
   }
@@ -152,7 +152,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
           (genModel.getModelProjectDirectory() + "/META-INF/MANIFEST.MF",
            getJETEmitter(getJETEmitterDescriptors(), MODEL_MANIFEST_MF_ID),
            null,
-           false,
+           genModel.isUpdateClasspath() && !exists(toURI(genModel.getModelProjectDirectory()).appendSegment("plugin.xml")),
            MANIFEST_ENCODING,
            createMonitor(monitor, 1));
       }
@@ -205,7 +205,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getModelProjectDirectory() + "/build.properties",
          getJETEmitter(getJETEmitterDescriptors(), MODEL_BUILD_PROPERTIES_ID),
          null,
-         false,
+         genModel.isUpdateClasspath() && !exists(toURI(genModel.getModelProjectDirectory()).appendSegment("plugin.xml")),
          PROPERTIES_ENCODING,
          createMonitor(monitor, 1));
     }
@@ -227,9 +227,9 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getEditDirectory(), genModel, EDIT_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
     generateEditPluginClass(genModel, monitor);
-    generateEditManifest(genModel, monitor);
     generateEditPluginProperties(genModel, monitor);
     generateEditBuildProperties(genModel, monitor);
+    generateEditManifest(genModel, monitor);
 
     return Diagnostic.OK_INSTANCE;
   }
@@ -267,7 +267,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
           (genModel.getEditProjectDirectory() + "/META-INF/MANIFEST.MF",
            getJETEmitter(getJETEmitterDescriptors(), EDIT_MANIFEST_MF_ID),
            null,
-           false,
+           genModel.isUpdateClasspath() && !exists(toURI(genModel.getEditProjectDirectory()).appendSegment("plugin.xml")),
            MANIFEST_ENCODING,
            createMonitor(monitor, 1));
       }
@@ -311,7 +311,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getEditProjectDirectory() + "/build.properties",
        getJETEmitter(getJETEmitterDescriptors(), EDIT_BUILD_PROPERTIES_ID),
        null,
-       false,
+       genModel.isUpdateClasspath() && !exists(toURI(genModel.getEditProjectDirectory()).appendSegment("plugin.xml")),
        PROPERTIES_ENCODING,
        createMonitor(monitor, 1));
   }
@@ -328,9 +328,9 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getEditorDirectory(), genModel, EDITOR_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
     generateEditorPluginClass(genModel, monitor);
-    generateEditorManifest(genModel, monitor);
     generateEditorPluginProperties(genModel, monitor);
     generateEditorBuildProperties(genModel, monitor);
+    generateEditorManifest(genModel, monitor);
     generateAdvisor(genModel, monitor);
 
     return Diagnostic.OK_INSTANCE;
@@ -360,7 +360,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getEditorProjectDirectory() + "/META-INF/MANIFEST.MF",
          getJETEmitter(getJETEmitterDescriptors(), EDITOR_MANIFEST_MF_ID),
          null,
-         false,
+         genModel.isUpdateClasspath() && !exists(toURI(genModel.getEditorProjectDirectory()).appendSegment("plugin.xml")),
          MANIFEST_ENCODING,
          createMonitor(monitor, 1));
     }
@@ -399,7 +399,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getEditorProjectDirectory() + "/build.properties",
        getJETEmitter(getJETEmitterDescriptors(), EDITOR_BUILD_PROPERTIES_ID),
        null,
-       false,
+       genModel.isUpdateClasspath() && !exists(toURI(genModel.getEditorProjectDirectory()).appendSegment("plugin.xml")),
        PROPERTIES_ENCODING,
        createMonitor(monitor, 1));
   }
@@ -437,9 +437,9 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
       (genModel.getTestsDirectory(), genModel, TESTS_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
 
     generateModelTestSuite(genModel, monitor);
-    generateTestsManifest(genModel, monitor);
     generateTestsPluginProperties(genModel, monitor);
     generateTestsBuildProperties(genModel, monitor);
+    generateTestsManifest(genModel, monitor);
 
     return Diagnostic.OK_INSTANCE;
   }
@@ -477,7 +477,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
           (genModel.getTestsProjectDirectory() + "/META-INF/MANIFEST.MF",
            getJETEmitter(getJETEmitterDescriptors(), TESTS_MANIFEST_MF_ID),
            null,
-           false,
+           genModel.isUpdateClasspath() && !exists(toURI(genModel.getTestsProjectDirectory()).appendSegment("plugin.xml")),
            MANIFEST_ENCODING,
            createMonitor(monitor, 1));
       }
@@ -530,7 +530,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
         (genModel.getTestsProjectDirectory() + "/build.properties",
          getJETEmitter(getJETEmitterDescriptors(), TESTS_BUILD_PROPERTIES_ID),
          null,
-         false,
+         genModel.isUpdateClasspath() && !exists(toURI(genModel.getTestsProjectDirectory()).appendSegment("plugin.xml")),
          PROPERTIES_ENCODING,
          createMonitor(monitor, 1));
     }
