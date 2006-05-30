@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.21 2006/05/29 15:46:24 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.22 2006/05/30 11:41:52 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -470,11 +470,11 @@ public class JavaEcoreBuilder
     for (Iterator i = allReferencedProjects.iterator(); i.hasNext();)
     {
       IProject referencedProject = (IProject)i.next();
-      URI manifestURI = URI.createURI(referencedProject.getFullPath() + "/META-INF/MANIFEST.MF");
       try
       {
         // Determine the required plugins.
         //
+        URI manifestURI = URI.createURI(referencedProject.getFullPath() + "/META-INF/MANIFEST.MF");
         Manifest manifest = new Manifest(resourceSet.getURIConverter().createInputStream(manifestURI));
         String requires =  manifest.getMainAttributes().getValue("Require-Bundle");
         if (requires != null)
@@ -507,19 +507,22 @@ public class JavaEcoreBuilder
       //
       String pluginID = (String)allReferencedPluginIDs.get(i);
       Bundle bundle = Platform.getBundle(pluginID);
-      String requires = (String)bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
-      if (requires != null)
+      if (bundle != null)
       {
-        ManifestElement[] elements = ManifestElement.parseHeader(Constants.REQUIRE_BUNDLE, requires);
-        for (int j = 0; j < elements.length; ++j)
+        String requires = (String)bundle.getHeaders().get(Constants.REQUIRE_BUNDLE);
+        if (requires != null)
         {
-          // Also add each required plugin for consideration in the loop.
-          //
-          ManifestElement element = elements[j];
-          String value = element.getValue();
-          if ("reexport".equals(element.getDirective("visibility")))
+          ManifestElement[] elements = ManifestElement.parseHeader(Constants.REQUIRE_BUNDLE, requires);
+          for (int j = 0; j < elements.length; ++j)
           {
-            allReferencedPluginIDs.add(value);
+            // Also add each required plugin for consideration in the loop.
+            //
+            ManifestElement element = elements[j];
+            String value = element.getValue();
+            if ("reexport".equals(element.getDirective("visibility")))
+            {
+              allReferencedPluginIDs.add(value);
+            }
           }
         }
       }
