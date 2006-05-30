@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DragAndDropCommand.java,v 1.7 2006/01/17 18:55:41 davidms Exp $
+ * $Id: DragAndDropCommand.java,v 1.8 2006/05/30 11:40:51 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -806,10 +806,15 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
       dropCommand = SetCommand.create(domain, owner, null, collection.iterator().next());
     }
 
-    if (!dropCommand.canExecute() || analyzeForNonContainment(dropCommand))
+    if (!dropCommand.canExecute() || !analyzeForNonContainment(dropCommand))
     {
       dropCommand.dispose();
       dropCommand = AddCommand.create(domain, owner, null, collection);
+      if (!analyzeForNonContainment(dropCommand))
+      {
+        dropCommand.dispose();
+        dropCommand = UnexecutableCommand.INSTANCE;
+      }
     }
 
     boolean result = dropCommand.canExecute();
