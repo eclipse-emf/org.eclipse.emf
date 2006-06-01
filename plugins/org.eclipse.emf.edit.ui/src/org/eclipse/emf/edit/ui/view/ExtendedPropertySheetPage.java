@@ -3,16 +3,16 @@
  *
  * Copyright (c) 2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Common Public License v1.0
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/cpl-v10.html
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: 
  *   IBM - Initial API and implementation
  *
  * </copyright>
  *
- * $Id: ExtendedPropertySheetPage.java,v 1.2 2005/08/23 21:32:56 marcelop Exp $
+ * $Id: ExtendedPropertySheetPage.java,v 1.3 2006/06/01 20:51:08 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.view;
 
