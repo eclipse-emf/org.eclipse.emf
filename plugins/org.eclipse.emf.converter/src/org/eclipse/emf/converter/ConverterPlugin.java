@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ConverterPlugin.java,v 1.1 2005/12/14 07:45:42 marcelop Exp $
+ * $Id: ConverterPlugin.java,v 1.2 2006/06/01 13:24:26 davidms Exp $
  */
 package org.eclipse.emf.converter;
 
 import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 
 
@@ -71,7 +70,7 @@ public final class ConverterPlugin extends EMFPlugin
   /**
    * The actual implementation of the Eclipse <b>Plugin</b>.
    */
-  public static class Implementation extends EclipseUIPlugin
+  public static class Implementation extends EclipsePlugin
   {
     /**
      * Creates an instance.

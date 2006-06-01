@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ExporterPlugin.java,v 1.1 2005/12/14 08:06:32 marcelop Exp $
+ * $Id: ExporterPlugin.java,v 1.2 2006/06/01 13:24:21 davidms Exp $
  */
 package org.eclipse.emf.exporter;
 
 import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.converter.ConverterPlugin;
 
@@ -72,7 +71,7 @@ public final class ExporterPlugin extends EMFPlugin
   /**
    * The actual implementation of the Eclipse <b>Plugin</b>.
    */
-  public static class Implementation extends EclipseUIPlugin
+  public static class Implementation extends EclipsePlugin
   {
     /**
      * Creates an instance.
