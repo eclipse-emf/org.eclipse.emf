@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.7 2005/12/14 07:48:49 marcelop Exp $
+ * $Id: EMFProjectWizard.java,v 1.8 2006/06/01 21:40:22 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -51,7 +51,7 @@ public class EMFProjectWizard extends EMFModelWizard
 
   public void addPages()
   {
-    WizardNewProjectCreationPage newProjectCreationPage = new WizardNewProjectCreationPage("NewProjectCreationPage")
+    WizardNewProjectCreationPage page = new WizardNewProjectCreationPage("NewProjectCreationPage")
       {
         protected boolean validatePage()
         {
@@ -68,10 +68,17 @@ public class EMFProjectWizard extends EMFModelWizard
           }
         }
       };
-    newProjectCreationPage.setTitle(ImporterPlugin.INSTANCE.getString("_UI_EMFProjectWizard_name"));
-    newProjectCreationPage.setDescription(ImporterPlugin.INSTANCE.getString("_UI_CreateEMFProject_label"));
-    addPage(newProjectCreationPage);
+    page.setTitle(ImporterPlugin.INSTANCE.getString("_UI_EMFProjectWizard_name"));
+    page.setDescription(ImporterPlugin.INSTANCE.getString("_UI_CreateEMFProject_label"));
+    addPage(page);
 
+    if (defaultPath != null)
+    {
+      String path = defaultPath.removeLastSegments(defaultPath.segmentCount()-1).toString();
+      page.setInitialProjectName(path.charAt(0) == '/' ? path.substring(1) : path);
+      page.setPageComplete(page.isPageComplete());    
+    }
+    
     addSelectionPage();
   }
 

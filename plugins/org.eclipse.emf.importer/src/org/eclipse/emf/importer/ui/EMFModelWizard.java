@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.11 2006/05/13 16:42:41 emerks Exp $
+ * $Id: EMFModelWizard.java,v 1.12 2006/06/01 21:40:22 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -99,7 +99,10 @@ public class EMFModelWizard extends Wizard implements INewWizard
         }
         else
         {
-          setFileName(getDefaultGenModelFileName());
+          if (getFileName() == null)
+          {
+            setFileName(getDefaultGenModelFileName());
+          }
         }
       }
     }
@@ -157,6 +160,9 @@ public class EMFModelWizard extends Wizard implements INewWizard
 
   protected IFile modelFile;
   protected ModelConverterDescriptorSelectionPage selectionPage;
+  
+  protected IPath defaultPath;
+  protected String defaultDescriptorID;  
 
   public EMFModelWizard()
   {
@@ -195,6 +201,13 @@ public class EMFModelWizard extends Wizard implements INewWizard
       page.setTitle(ImporterPlugin.INSTANCE.getString("_UI_EMFModelWizard_name"));
       page.setDescription(ImporterPlugin.INSTANCE.getString("_UI_CreateGeneratorModel_label"));
       addPage(page);
+      
+      if (defaultPath != null)
+      {
+        page.setContainerFullPath(defaultPath.removeLastSegments(defaultPath.segmentCount()-1));
+        page.setFileName(defaultPath.removeFirstSegments(1).toString());
+        page.setPageComplete(page.isPageComplete());    
+      }      
     }
     else
     {
@@ -227,7 +240,9 @@ public class EMFModelWizard extends Wizard implements INewWizard
   
   protected String getDefaultGenModelFileName()
   {
-    return "My.genmodel";
+    return defaultPath == null ?
+      "My.genmodel" : 
+      defaultPath.removeFirstSegments(defaultPath.segmentCount()-1).toString();
   }
 
   protected List getModelImporterDescriptors()
@@ -238,6 +253,16 @@ public class EMFModelWizard extends Wizard implements INewWizard
   protected ModelImporterDescriptor computeSuggestedDescriptor()
   {
     ModelImporterDescriptor descriptor = null;
+    
+    if (defaultDescriptorID != null)
+    {
+      descriptor = ModelImporterManager.INSTANCE.getModelImporterDescriptor(defaultDescriptorID);
+      if (descriptor != null)
+      {
+        return descriptor;
+      }
+    }
+    
     if (reloadFile != null)
     {
       URI reloadURI = URI.createPlatformResourceURI(reloadFile.getFullPath().toString());
@@ -353,5 +378,37 @@ public class EMFModelWizard extends Wizard implements INewWizard
   {
     selectionPage.performFinish();
     return true;
+  }
+  
+  /**
+   * Sets the model importer descriptor that will be selected when this wizard
+   * is presented to the user.  This method has to be invoke before the wizard
+   * pages are added.
+   * @param id
+   */
+  public void setDefaultModelImporterDescriptorID(String id)
+  {
+    defaultDescriptorID = id;
+  }
+  
+  public String getDefaultModelImporterDescriptorID()
+  {
+    return defaultDescriptorID;
+  }
+  
+  /**
+   * Sets the path of the genmodel that will be used when this wizard
+   * is presented to the user.  This method has to be invoke before the wizard
+   * pages are added.
+   * @param path The <b>absolute</b> path of the genmodel.
+   */
+  public void setDefaultPath(IPath path)
+  {
+    defaultPath = path.makeAbsolute();
+  }
+  
+  public IPath getDefaultPath()
+  {
+    return defaultPath;
   }
 }
