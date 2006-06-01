@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterPlugin.java,v 1.3 2005/08/19 16:48:33 davidms Exp $
+ * $Id: XSDImporterPlugin.java,v 1.4 2006/06/01 13:24:20 davidms Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
 import org.eclipse.emf.common.EMFPlugin;
-import org.eclipse.emf.common.ui.EclipseUIPlugin;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.importer.ImporterPlugin;
 
@@ -66,7 +65,7 @@ public final class XSDImporterPlugin extends EMFPlugin
   /**
    * The actual implementation of the Eclipse <b>Plugin</b>.
    */
-  public static class Implementation extends EclipseUIPlugin
+  public static class Implementation extends EclipsePlugin
   {
     /**
      * Creates an instance.
