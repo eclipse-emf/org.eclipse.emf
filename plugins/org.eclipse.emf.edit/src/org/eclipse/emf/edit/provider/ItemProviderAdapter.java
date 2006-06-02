@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.24 2006/05/15 19:39:27 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.25 2006/06/02 22:01:02 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -1422,6 +1422,22 @@ public class ItemProviderAdapter
     else if (targets != null)
     {
       targets.remove(target);
+    }
+
+    if (childrenStoreMap != null)
+    {
+      ChildrenStore store = (ChildrenStore)childrenStoreMap.remove(target);
+      if (store != null && wrappers != null)
+      {
+        for (Iterator i = store.getChildren().iterator(); i.hasNext(); )
+        {
+          Object child = i.next();
+          if (wrappers.remove(child))
+          {
+            ((IDisposable)child).dispose();
+          }
+        }
+      }
     }
   }
 
