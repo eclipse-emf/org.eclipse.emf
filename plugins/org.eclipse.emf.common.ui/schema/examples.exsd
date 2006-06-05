@@ -51,6 +51,7 @@
       <complexType>
          <sequence>
             <element ref="projectDescriptor" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="fileToOpen" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="id" type="string">
             <annotation>
@@ -111,6 +112,30 @@
       </complexType>
    </element>
 
+   <element name="fileToOpen">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="file"/>
+         </appInfo>
+      </annotation>
+      <complexType>
+         <attribute name="location" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A workspace path of a file that will be presented to the user after the example is installed.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="editorID" type="string">
+            <annotation>
+               <documentation>
+                  An optional attribute to indicate the editor that should be used to open the file.  If this attribute is not used or if the editor is not available, the default editor for the resource will be used.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
    <annotation>
       <appInfo>
          <meta.section type="since"/>
@@ -130,11 +155,12 @@
     &lt;example
       id=&quot;com.mycompany.example.XYZ&quot; 
       wizardID=&quot;com.mycompany.example.XYZNewWizard&quot;&gt;
-      &lt;projectDescription
+      &lt;fileToOpen location=&quot;xyz1/readme.html&quot;/&gt;
+      &lt;projectDescriptor
         name=&quot;p1&quot;
         contentURI=&quot;platform:/plugin/com.mycompany.example/XYZ1.zip&quot;
         description=&quot;%_UI_XYZ1_desc&quot;/&gt;
-      &lt;projectDescription
+      &lt;projectDescriptor
         name=&quot;p2&quot;
         contentURI=&quot;platform:/plugin/com.mycompany.example/XYZ2/&quot;
         description=&quot;%_UI_XYZ2_desc&quot;/&gt;

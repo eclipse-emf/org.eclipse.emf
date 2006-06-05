@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExampleInstallerWizard.java,v 1.1 2006/05/14 11:51:05 emerks Exp $
+ * $Id: ExampleInstallerWizard.java,v 1.2 2006/06/05 16:59:14 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -44,6 +44,7 @@ public class ExampleInstallerWizard extends AbstractExampleInstallerWizard imple
 {
   protected IConfigurationElement wizardConfigurationElement;
   protected List projectDescriptors;
+  protected List filesToOpen;
   
   public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException
   {
@@ -54,14 +55,25 @@ public class ExampleInstallerWizard extends AbstractExampleInstallerWizard imple
   {
     if (projectDescriptors == null)
     {
-      projectDescriptors = createProjectDescriptors();
+      loadFromExtensionPoints();
     }
     return projectDescriptors;
   }
   
-  protected List createProjectDescriptors()
+  protected List getFilesToOpen()
   {
-    List projectDescriptors = new ArrayList();
+    if (filesToOpen == null)
+    {
+      loadFromExtensionPoints();
+    }
+    return filesToOpen;
+  }
+
+  protected void loadFromExtensionPoints()
+  {
+    projectDescriptors = new ArrayList();
+    filesToOpen = new ArrayList();
+    
     String wizardID = wizardConfigurationElement.getAttribute("id");
     
     IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(CommonUIPlugin.INSTANCE.getSymbolicName(), "examples");
@@ -100,6 +112,20 @@ public class ExampleInstallerWizard extends AbstractExampleInstallerWizard imple
         
         if (!projectDescriptors.isEmpty())
         {
+          IConfigurationElement[] openElements = exampleElement.getChildren("fileToOpen");
+          for (int j = 0; j < openElements.length; j++)
+          {
+            IConfigurationElement openElement = openElements[j];
+            String location = openElement.getAttribute("location");
+            if (location != null)
+            {
+              AbstractExampleInstallerWizard.FileToOpen fileToOpen = new AbstractExampleInstallerWizard.FileToOpen();
+              fileToOpen.setLocation(location);                
+              fileToOpen.setEditorID(openElement.getAttribute("editorID"));
+              filesToOpen.add(fileToOpen);
+            }
+          }
+          
           String imagePath = exampleElement.getAttribute("pageImage");
           if (imagePath != null)
           {
@@ -125,7 +151,5 @@ public class ExampleInstallerWizard extends AbstractExampleInstallerWizard imple
         }
       }
     }
-    
-    return projectDescriptors;
   }
 }
