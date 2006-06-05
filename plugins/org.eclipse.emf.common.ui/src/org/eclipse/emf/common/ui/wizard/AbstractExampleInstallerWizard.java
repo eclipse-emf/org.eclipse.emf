@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractExampleInstallerWizard.java,v 1.1 2006/05/14 11:50:39 emerks Exp $
+ * $Id: AbstractExampleInstallerWizard.java,v 1.2 2006/06/05 17:16:37 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -27,10 +27,12 @@ import java.util.jar.JarFile;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -50,12 +52,16 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IEditorRegistry;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.DeleteResourceAction;
 import org.eclipse.ui.actions.RenameResourceAction;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.IOverwriteQuery;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.wizards.datatransfer.FileSystemStructureProvider;
 import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 import org.eclipse.ui.wizards.datatransfer.ZipFileStructureProvider;
@@ -131,6 +137,43 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
         project = ResourcesPlugin.getWorkspace().getRoot().getProject(getName());
       }
       return project;
+    }
+  }
+  
+  public static class FileToOpen
+  {
+    protected String location;
+    protected String editorID;
+    
+    protected IFile workspaceFile;
+    
+    public String getEditorID()
+    {
+      return editorID;
+    }
+    
+    public void setEditorID(String editorID)
+    {
+      this.editorID = editorID;
+    }
+    
+    public String getLocation()
+    {
+      return location;
+    }
+    
+    public void setLocation(String location)
+    {
+      this.location = location;
+    }
+   
+    public IFile getWorkspaceFile()
+    {
+      if (workspaceFile == null)
+      {
+        workspaceFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(getLocation()));
+      }
+      return workspaceFile;
     }
   }
 
@@ -317,17 +360,8 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
           projects.add(projectDescriptor.getProject());
         }
       }
-
-      if (!projects.isEmpty())
-      {
-        DeleteResourceAction deleteResourceAction = new DeleteResourceAction(getShell());
-        deleteResourceAction.selectionChanged(new StructuredSelection(projects));
-        deleteResourceAction.run();
-
-        IProject project = (IProject)projects.get(projects.size() - 1);
-        waitForDeleteJob(project);
-        refresh();
-      }
+      
+      deleteExistingProjects(projects);
     }
 
     protected void deleteExistingProject()
@@ -335,13 +369,65 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       ProjectDescriptor projectDescriptor = getSelectedProjectDescriptor();
       if (projectDescriptor.getProject().exists())
       {
+        List projects = new ArrayList();
+        projects.add(projectDescriptor.getProject());
+        deleteExistingProjects(projects);
+      }
+    }
+    
+    protected void deleteExistingProjects(List existingProjects)
+    {
+      if (!existingProjects.isEmpty())
+      {
         DeleteResourceAction deleteResourceAction = new DeleteResourceAction(getShell());
-        deleteResourceAction.selectionChanged(new StructuredSelection(projectDescriptor.getProject()));
+        deleteResourceAction.selectionChanged(new StructuredSelection(existingProjects));
         deleteResourceAction.run();
 
-        waitForDeleteJob(projectDescriptor.getProject());
+        waitForDeleteJob(existingProjects);
         refresh();
       }
+    }
+
+    protected void waitForDeleteJob(final List existingProjects)
+    {
+      // If the no project is deleted in the first 3s, this code
+      // assumes that the user has canceled the delete job.
+      BusyIndicator.showWhile(getShell().getDisplay(), new Runnable()
+        {
+          public void run()
+          {
+            int counter = 0;
+            int initialSize = existingProjects.size();
+            int size = initialSize;
+            while (size > 0 && counter < 30)
+            {
+              for (Iterator i = existingProjects.iterator(); i.hasNext();)
+              {
+                IProject project = (IProject)i.next();
+                if (!project.exists())
+                {
+                  i.remove();
+                }
+              }
+              size = existingProjects.size();
+              if (size > 0)
+              {
+                if (initialSize == size)
+                {
+                  counter++;
+                }
+                
+                try
+                {
+                  Thread.sleep(100);
+                }
+                catch (InterruptedException e)
+                {
+                }
+              }
+            }
+          }
+        });
     }
 
     protected void renameExistingProject()
@@ -355,26 +441,6 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
         projectDescriptor.project = null;
         refresh();
       }
-    }
-
-    protected void waitForDeleteJob(final IProject project)
-    {
-      BusyIndicator.showWhile(getShell().getDisplay(), new Runnable()
-        {
-          public void run()
-          {
-            while (project.exists())
-            {
-              try
-              {
-                Thread.sleep(100);
-              }
-              catch (InterruptedException e)
-              {
-              }
-            }
-          }
-        });
     }
   }
 
@@ -401,7 +467,8 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     this.structuredSelection = selection;
   }
 
-  protected abstract List getProjectDescriptors();
+  protected abstract List/*<ProjectDescriptor>*/ getProjectDescriptors();
+  protected abstract List/*<FileToOpen>*/ getFilesToOpen();
 
   protected ProjectPage projectPage;
 
@@ -420,43 +487,38 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
 
   public boolean performFinish()
   {
-    final List projectDescriptors = getProjectDescriptors();
     final Exception exceptionWrapper = new Exception();
 
     try
     {
-      getContainer().run(true, false, new IRunnableWithProgress()
+      getContainer().run(false, true, new IRunnableWithProgress()
         {
           public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException
           {
+            monitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_InstallingExample_message"), 2);
+
             WorkspaceModifyOperation op = new WorkspaceModifyOperation()
               {
                 protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException
                 {
-                  monitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_CreatingProjects_message"), 2 * projectDescriptors.size());
-                  for (Iterator i = projectDescriptors.iterator(); i.hasNext();)
+                  try
                   {
-                    try
-                    {
-                      ProjectDescriptor projectDescriptor = (ProjectDescriptor)i.next();
-
-                      ImportOperation importOperation = createImportOperation(projectDescriptor);
-                      createProject(projectDescriptor, new SubProgressMonitor(monitor, 1));
-                      importOperation.setContext(getShell());
-                      importOperation.run(new SubProgressMonitor(monitor, 1));
-                    }
-                    catch (Exception exception)
-                    {
-                      exceptionWrapper.initCause(exception);
-                      throw new InterruptedException();
-                    }
+                    installExample(monitor);
+                  }
+                  catch (Exception e)
+                  {
+                    exceptionWrapper.initCause(e);
+                    throw new InterruptedException();
                   }
                 }
-              };
-            op.run(monitor);
+              };  
+            op.run(new SubProgressMonitor(monitor, 1));
+            
+            openFiles(new SubProgressMonitor(monitor, 1));
+            monitor.done();
           }
         });
-
+      
       return true;
     }
     catch (InterruptedException e)
@@ -476,6 +538,49 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       projectPage.refresh();
     }
     return false;
+  }
+  
+  protected void installExample(IProgressMonitor progressMonitor) throws Exception
+  {
+    List projectDescriptors = getProjectDescriptors();
+    progressMonitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_CreatingProjects_message"), 2 * projectDescriptors.size());
+    for (Iterator i = projectDescriptors.iterator(); i.hasNext();)
+    {
+      ProjectDescriptor projectDescriptor = (ProjectDescriptor)i.next();
+
+      ImportOperation importOperation = createImportOperation(projectDescriptor);
+      createProject(projectDescriptor, new SubProgressMonitor(progressMonitor, 1));
+      importOperation.setContext(getShell());
+      importOperation.run(new SubProgressMonitor(progressMonitor, 1));
+    }
+    progressMonitor.done();
+  }
+  
+  protected void openFiles(IProgressMonitor progressMonitor)
+  {
+    List filesToOpen = getFilesToOpen();
+    if (!filesToOpen.isEmpty())
+    {
+      progressMonitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_OpeningFiles_message"), filesToOpen.size());
+      for (Iterator i = filesToOpen.iterator(); i.hasNext();)
+      {
+        FileToOpen fileToOpen = (FileToOpen)i.next();
+        IFile workspaceFile = fileToOpen.getWorkspaceFile();
+        if (workspaceFile != null && workspaceFile.exists())
+        {
+          try
+          {
+            openEditor(workspaceFile, fileToOpen.getEditorID());
+            progressMonitor.worked(1);
+          }
+          catch (PartInitException e)
+          {
+            CommonUIPlugin.INSTANCE.log(e);
+          }
+        }
+      }
+      progressMonitor.done();
+    }    
   }
 
   protected void openErrorDialog(String message, Throwable throwable)
@@ -593,4 +698,26 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       zipFileStructureProvider,
       OVERWRITE_ALL_QUERY);
   }
+  
+  protected IWorkbench getWorkbench()
+  {
+    return workbench;
+  }
+
+  protected IStructuredSelection getSelection()
+  {
+    return structuredSelection;
+  }  
+  
+  protected void openEditor(IFile file, String editorID) throws PartInitException
+  {
+    IEditorRegistry editorRegistry = getWorkbench().getEditorRegistry();
+    if (editorID == null || editorRegistry.findEditor(editorID) == null)
+    {
+      editorID = getWorkbench().getEditorRegistry().getDefaultEditor(file.getFullPath().toString()).getId();
+    }
+    
+    IWorkbenchPage page = getWorkbench().getActiveWorkbenchWindow().getActivePage();
+    page.openEditor(new FileEditorInput(file), editorID, true, IWorkbenchPage.MATCH_ID);
+  }  
 }
