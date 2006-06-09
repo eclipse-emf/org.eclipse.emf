@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.37 2006/06/09 18:06:10 davidms Exp $
+ * $Id: EcoreEditor.java,v 1.38 2006/06/09 19:05:27 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1127,10 +1127,7 @@ public class EcoreEditor
       selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
       selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
       selectionViewer.setInput(editingDomain.getResourceSet());
-
-      ArrayList selection = new ArrayList();
-      selection.add(editingDomain.getResourceSet().getResources().get(0));
-      selectionViewer.setSelection(new StructuredSelection(selection), true);
+      selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
 
       new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.32 2006/06/09 18:06:08 davidms Exp $
+ * $Id: GenModelEditor.java,v 1.33 2006/06/09 19:05:29 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1107,10 +1107,7 @@ public class GenModelEditor
         selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
         selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
         selectionViewer.setInput(resource);
-
-        ArrayList selection = new ArrayList();
-        selection.add(genModel);
-        selectionViewer.setSelection(new StructuredSelection(selection), true);
+        selectionViewer.setSelection(new StructuredSelection(genModel), true);
 
         new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
   
