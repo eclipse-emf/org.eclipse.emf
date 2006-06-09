@@ -10,14 +10,14 @@
 <body lang="EN-US" xml:lang="EN-US">
 <h1>Generating an EMF Model using XML Schema (XSD)</h1>
 
-<p>Last updated: June 17, 2005</p>
+<p>Last updated: May 31, 2006</p>
 
 <p>This tutorial provides a step-by-step description for creating an EMF model
-from an XML schema and then generating a simple model editor for it. Following
+from an XML Schema and then generating a simple model editor for it. Following
 this tutorial will show how easy EMF makes it to go from a simple model
-definition in an XML schema to a fully functioning editor for that model.</p>
+definition in an XML Schema to a fully functioning editor for that model.</p>
 
-<p>The screenshots are based on version 3.1.0 RC2 of the Eclipse SDK and version 2.1.0 I200506160200
+<p>The screenshots are based on version 3.2.0 RC6 of the Eclipse SDK and version 2.2.0 RC6a
 of EMF.</p>
 
 <p>The XML Schema file we use in this tutorial can be found here:
@@ -100,8 +100,7 @@ available in your Eclipse environment:</p>
 <img src="images/../../clibmod/images/img002.gif" alt="Plug-in Details"/><br/>
 &nbsp;</li>
 
-<li>Click the "Version" column heading to order the plug-ins by that field.
-Then, check that the highlighted set of plug-ins are present.<br/>
+<li>Check that the highlighted set of plug-ins are present.<br/>
 <img src="images/img001.gif" alt="Check EMF plug-ins"/><br/>
 &nbsp;</li>
 </ul>
@@ -155,11 +154,11 @@ used for your schema. Then, click the "Next" button.<br/>
 <li>In general, more than one package may be produced from a single schema if it
 includes other schemas that declare different target namespaces. Select the
 package for which you want to generate an EMF model -- in this case, the only
-package, "library". Click the "Finish" button.<br/>
+package, "org.eclipse.example.library". Click the "Finish" button.<br/>
 <img src="images/img105.gif" alt="Select package"/><br/>
 &nbsp;</li>
 
-<li>A core model (library.ecore) and a generator model (library.genmodel) will
+<li>An Ecore model (library.ecore) and a generator model (library.genmodel) will
 be created. If "Create XML Schema to Ecore Map" was checked above, a mapping
 model (library.xsd2ecore) will also be created. It can be opened to see exactly
 how the schema was mapped to Ecore. The generator model is automatically opened
@@ -185,8 +184,9 @@ children of enumerated types are enum literals.</p>
 
 <li>There are properties associated with each object. If the Properties view
 isn't already showing, right-click the "Library" model object and select "Show
-Properties View" from the pop-up menu.<br/>
-<img src="images/img202.gif" alt="Show Properties View"/><br/>
+Properties View" from the pop-up menu, or simply double-click the "Library"
+object.<br/>
+<img src="images/../../clibmod/images/img202.gif" alt="Show Properties View"/><br/>
 &nbsp;</li>
 
 <li>These properties control the behavior of the code generator.<br/>
@@ -260,7 +260,7 @@ workbench preferences, you can initiate compilation manually:</p>
 
 <ul>
 <li>Select "Build All" from the "Project" menu.<br/>
-<img src="images/img303.gif" alt="Project/Build All"/><br/>
+<img src="images/../../clibmod/images/img304.gif" alt="Project/Build All"/><br/>
 &nbsp;</li>
 
 <li>Observe the Problems view. There should be no errors in the library,
@@ -273,12 +273,12 @@ library.edit, and library.editor projects.<br/>
 <p style="text-align: right"><a id="step4" name="step4">&nbsp;</a><a href="#top">contents</a></p>
 <h2>Step 4: Run the Generated Editor</h2>
 
-<p>In order to test the new plug-ins, a second instance of Eclipse, called an
-Eclipse Application (previously "Run-time Workbench") must be launched. The plug-ins will run in this
-workbench.</p>
+<p>In order to test the new plug-ins, a second instance of Eclipse must be
+launched. The plug-ins will run in this workbench.</p>
 
 <ul>
-<li>Select "Run As/Eclipse Application" from the "Run" toolbar drop-down.<br/>
+<li>Select one of the projects and choose "Run As/Eclipse Application" from the
+"Run" menu or toolbar drop-down.<br/>
 <img src="images/../../clibmod/images/img401.gif" alt="Run/Run As/Eclipse Application"/><br/>
 &nbsp;</li>
 
@@ -297,7 +297,7 @@ model.</p>
 <img src="images/../../clibmod/images/img101.gif" alt="File/New/Project..."/><br/>
 &nbsp;</li>
 
-<li>Expand "Simple" and select "Project". Click the "Next" button.<br/>
+<li>Expand "General" and select "Project". Click the "Next" button.<br/>
 <img src="images/../../clibmod/images/img403.gif" alt="Simple Project"/><br/>
 &nbsp;</li>
 
@@ -368,8 +368,8 @@ view.<br/>
 &nbsp;</li>
 
 <li>You can save, close, and then re-open the model using the text editor if you
-wish to see the schema-based XML serialization (right-click "My.library", then select "Open With > Text Editor").<br/>
-<br/>
+wish to see the schema-based XML serialization (right-click "My.library",
+then select "Open With/Text Editor").<br/>
 <pre class="code">
 &lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;library:Library xmlns:library="http://www.example.eclipse.org/Library">
