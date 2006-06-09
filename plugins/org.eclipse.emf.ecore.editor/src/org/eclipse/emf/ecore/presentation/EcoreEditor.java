@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.36 2006/05/10 17:25:42 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.37 2006/06/09 18:06:10 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1104,7 +1104,8 @@ public class EcoreEditor
    * This is the method used by the framework to install your own controls.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
+   * <p>This is not generated to preserve setting the selection until that goes into the template. 
    */
   public void createPages()
   {
@@ -1126,6 +1127,10 @@ public class EcoreEditor
       selectionViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
       selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
       selectionViewer.setInput(editingDomain.getResourceSet());
+
+      ArrayList selection = new ArrayList();
+      selection.add(editingDomain.getResourceSet().getResources().get(0));
+      selectionViewer.setSelection(new StructuredSelection(selection), true);
 
       new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
 
