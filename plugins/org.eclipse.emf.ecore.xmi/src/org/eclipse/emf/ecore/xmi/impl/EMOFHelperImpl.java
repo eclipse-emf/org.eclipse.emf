@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.9 2006/01/10 20:27:09 elena Exp $
+ * $Id: EMOFHelperImpl.java,v 1.10 2006/06/10 13:18:44 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EContentsEList;
+import org.eclipse.emf.ecore.util.ECrossReferenceEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
@@ -171,7 +172,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     if (propertyFeatureList != null)
     {
       EcoreUtil.Copier copier = 
-        new EcoreUtil.Copier()
+        new EcoreUtil.Copier(false)
         {
           protected EObject createCopy(EObject eObject)
           {
@@ -203,7 +204,14 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
       {
         EObject eObject = (EObject)contents.next();
         for (EContentsEList.FeatureIterator featureIterator = 
-             (EContentsEList.FeatureIterator)eObject.eCrossReferences().iterator(); featureIterator.hasNext(); )
+               new ECrossReferenceEList.FeatureIteratorImpl(eObject) 
+               {
+                 protected boolean isIncluded(EStructuralFeature eStructuralFeature)
+                {
+                  return !eStructuralFeature.isDerived() && super.isIncluded(eStructuralFeature);
+                }
+               };
+             featureIterator.hasNext(); )
         {
           EObject targetEObject = (EObject)featureIterator.next();
           EObject copyEObject = (EObject)copier.get(targetEObject);
