@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFExtendedMetaData.java,v 1.4 2006/02/07 15:23:48 khussey Exp $
+ * $Id: EMOFExtendedMetaData.java,v 1.5 2006/06/10 13:19:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -124,5 +124,31 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
       }
     }
     return super.getFeatureKind(feature);
+  }
+
+  protected EPackageExtendedMetaData createEPackageExtendedMetaData(EPackage ePackage)
+  {
+    return 
+      new EPackageExtendedMetaDataImpl(ePackage)
+      {
+        public EClassifier getType(String name)
+        {
+          if (ePackage == EcorePackage.eINSTANCE)
+          {
+            // Ensure that the map for Ecore is not repeatedly populated and that Property maps to EReference rather than EAttribute.
+            //
+            if (nameToClassifierMap == null)
+            {
+              super.getType(name);
+              nameToClassifierMap.put("Property", EcorePackage.Literals.EREFERENCE);
+            }
+            return (EClassifier)nameToClassifierMap.get(name);
+          }
+          else
+          {
+            return super.getType(name);
+          }
+        }
+      };
   }
 }
