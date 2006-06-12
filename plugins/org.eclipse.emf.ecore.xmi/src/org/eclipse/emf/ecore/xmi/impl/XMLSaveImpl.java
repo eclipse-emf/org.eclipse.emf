@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.58 2006/05/25 18:07:41 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.59 2006/06/12 20:02:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -584,7 +584,7 @@ public class XMLSaveImpl implements XMLSave
     }
   }
 
-  protected void writeTopElements(EObject top)
+  protected boolean writeTopElements(EObject top)
   {
     if (!useEncodedAttributeStyle)
     {
@@ -596,9 +596,11 @@ public class XMLSaveImpl implements XMLSave
         if (containerReference != null && !containerReference.isTransient())
         {
           saveHref(container, containerReference);
+          return true;
         }
       }
     }
+    return false;
   }
 
   protected Object writeTopObject(EObject top)
@@ -1309,8 +1311,16 @@ public class XMLSaveImpl implements XMLSave
 
       if (content == null)
       {
-        endSaveFeatures(o, EMPTY_ELEMENT, null);
-        return false;
+        if (o == root && writeTopElements(root))
+        {
+          endSaveFeatures(o, 0, null);
+          return true;
+        }
+        else
+        {
+          endSaveFeatures(o, EMPTY_ELEMENT, null);
+          return false;
+        }
       }
       else
       {
