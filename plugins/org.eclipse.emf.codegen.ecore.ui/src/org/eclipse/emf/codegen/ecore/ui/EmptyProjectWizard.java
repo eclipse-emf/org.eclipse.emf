@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -53,6 +53,7 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
   protected IPath genModelProjectLocation;
   protected IPath genModelContainerPath;
   protected IProject project;
+  protected String initialProjectName;
 
   public void init(IWorkbench workbench, IStructuredSelection selection)
   {
@@ -81,7 +82,8 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
           }
         }
       };
-
+      
+    newProjectCreationPage.setInitialProjectName(initialProjectName);
     newProjectCreationPage.setTitle(GenModelEditPlugin.INSTANCE.getString("_UI_EmptyProject_title"));
     newProjectCreationPage.setDescription(GenModelEditPlugin.INSTANCE.getString("_UI_EmptyProject_description"));
     addPage(newProjectCreationPage);
@@ -161,5 +163,10 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
     }
     
     return true;
+  }
+  
+  public void setInitialProjectName(String value)
+  {
+    initialProjectName = value;
   }
 }
