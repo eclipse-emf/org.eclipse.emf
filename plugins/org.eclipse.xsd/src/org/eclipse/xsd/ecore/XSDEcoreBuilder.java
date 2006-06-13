@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.61 2006/05/26 20:46:49 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.62 2006/06/13 14:16:44 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -629,7 +629,10 @@ public class XSDEcoreBuilder extends MapBuilder
             EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
             setAnnotations(eEnumLiteral, xsdEnumerationFacet);
             String literalName = getEcoreAttribute(xsdEnumerationFacet, "name");
-            literalName = validName(literalName != null ? literalName : literal, UNCHANGED_CASE, "_");
+            if (literalName == null)
+            {
+              literalName = validName(literal, UNCHANGED_CASE, "_");
+            }
             eEnumLiteral.setName(literalName);
             int value = i.previousIndex();
             String valueLiteral = getEcoreAttribute(xsdEnumerationFacet, "value");
