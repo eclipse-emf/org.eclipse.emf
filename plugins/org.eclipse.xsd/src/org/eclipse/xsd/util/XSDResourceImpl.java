@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.15 2006/05/10 22:03:19 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.16 2006/06/13 21:13:26 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -434,9 +434,14 @@ public class XSDResourceImpl extends ResourceImpl
         public InputSource resolveEntity(String publicId, String systemId) throws SAXException
         {
           InputSource inputSource;
-          if ("-//W3C//DTD XMLSCHEMA 200102//EN".equals(publicId) || "http://www.w3.org/2001/XMLSchema.dtd".equals(systemId))
+          if ("-//W3C//DTD XMLSCHEMA 200102//EN".equalsIgnoreCase(publicId) || "http://www.w3.org/2001/XMLSchema.dtd".equalsIgnoreCase(systemId))
           {
             inputSource = new InputSource(baseURL + "cache/www.w3.org/2001/XMLSchema.dtd");
+            inputSource.setPublicId(publicId);
+          }
+          else if (systemId != null && systemId.startsWith("file://bundleentry:"))
+          {
+            inputSource = new InputSource(systemId.substring(7));
             inputSource.setPublicId(publicId);
           }
           else
