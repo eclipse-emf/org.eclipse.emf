@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.20 2006/05/23 21:35:07 emerks Exp $
+ * $Id: ModelImporterApplication.java,v 1.21 2006/06/13 14:57:06 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -80,7 +80,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
   protected String modelPluginID;
 
   protected List referencedEPackages;
-  protected Map referencedGenModelPathToEPackageNSURIs;
+  protected Map referencedGenModelURIToEPackageNSURIs;
 
   protected boolean quiet = false;
 
@@ -316,17 +316,17 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     }
     else if (arguments[index].equalsIgnoreCase("-refGenModel"))
     {
-      if (referencedGenModelPathToEPackageNSURIs == null)
+      if (referencedGenModelURIToEPackageNSURIs == null)
       {
-        referencedGenModelPathToEPackageNSURIs = new HashMap();
+        referencedGenModelURIToEPackageNSURIs = new HashMap();
       }
 
-      IPath genModelPath = new Path(new File(arguments[++index]).getAbsolutePath());
-      Set ePackageNSURIs = (Set)referencedGenModelPathToEPackageNSURIs.get(genModelPath);
+      URI genModelURI = URI.createURI(arguments[++index]);
+      Set ePackageNSURIs = (Set)referencedGenModelURIToEPackageNSURIs.get(genModelURI);
       if (ePackageNSURIs == null)
       {
         ePackageNSURIs = new HashSet();
-        referencedGenModelPathToEPackageNSURIs.put(genModelPath, ePackageNSURIs);
+        referencedGenModelURIToEPackageNSURIs.put(genModelURI, ePackageNSURIs);
       }
 
       do
@@ -436,16 +436,23 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     {
       monitor.beginTask("", 1);
 
-      if (referencedGenModelPathToEPackageNSURIs != null)
+      if (referencedGenModelURIToEPackageNSURIs != null)
       {
         ResourceSet resourceSet = getModelImporter().createResourceSet();
-        for (Iterator i = referencedGenModelPathToEPackageNSURIs.entrySet().iterator(); i.hasNext();)
+        for (Iterator i = referencedGenModelURIToEPackageNSURIs.entrySet().iterator(); i.hasNext();)
         {
           Map.Entry entry = (Map.Entry)i.next();
-          IPath genModelPath = (IPath)entry.getKey();
+          URI genModelURI = (URI)entry.getKey();
           Set ePackageNSURIs = (Set)entry.getValue();
-  
-          Resource resource = resourceSet.getResource(URI.createFileURI(genModelPath.toOSString()), true);
+          
+          File genModelFile = new File(genModelURI.toString());
+          if (genModelFile.isFile())
+          {
+            IPath genModelPath = new Path(genModelFile.getAbsolutePath());
+            genModelURI = URI.createFileURI(genModelPath.toOSString());
+          }
+          
+          Resource resource = resourceSet.getResource(genModelURI, true);
           GenModel referencedGenModel = (GenModel)resource.getContents().get(0);
           for (Iterator j = referencedGenModel.getGenPackages().iterator(); j.hasNext();)
           {
@@ -480,6 +487,20 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     getModelImporter().getEPackageImportInfo(ePackage).setConvert(generate);
     if (!generate)
     {
+      // The referencedEPackages list is used to track the packages for
+      // which is necessary to create the stub GenModel.  So if the ePackage
+      // is referenced by an existing GenPackage, it doesn't need to be added to
+      // referencedEPackages.
+      
+      for (Iterator i = getModelImporter().getReferencedGenPackages().iterator(); i.hasNext();)
+      {
+        GenPackage genPackage = (GenPackage)i.next();
+        if (genPackage.getEcorePackage() == ePackage || (genPackage.getNSURI() != null && genPackage.getNSURI().equals(ePackage.getNsURI())))
+        {
+          return;
+        }
+      }
+      
       if (referencedEPackages == null)
       {
         referencedEPackages = new ArrayList();
