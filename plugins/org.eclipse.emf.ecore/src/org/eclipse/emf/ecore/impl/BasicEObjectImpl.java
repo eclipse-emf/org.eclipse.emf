@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.26 2006/05/29 13:59:16 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.27 2006/06/14 21:55:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -512,12 +512,23 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   public Resource.Internal eInternalResource()
   {
     Resource.Internal result = eDirectResource();
-    if (result == null) 
+    if (result == null)
     {
-      InternalEObject eContainer = eInternalContainer();
-      if (eContainer != null)
+      int count = 0;
+      for (InternalEObject eContainer = eInternalContainer(); eContainer != null; eContainer = eContainer.eInternalContainer())
       {
-        result = eContainer.eInternalResource();
+        // Since the cycle is detected by checking if we hit "this" again, after many iterations we'll call this method recursively 
+        // in case we started with something that wasn't part of a cycle but later traversed up to a cycle.
+        //
+        if (++count > 100000)
+        {
+          return eContainer.eInternalResource();
+        }
+        result = eContainer.eDirectResource();
+        if (result != null || eContainer == this)
+        {
+          break;
+        }
       }
     }
     return result;
