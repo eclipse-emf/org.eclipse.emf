@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.58 2006/05/25 16:12:06 emerks Exp $
+ * $Id: XMLHandler.java,v 1.59 2006/06/14 17:22:24 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1355,6 +1355,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     //if (useNonDeprecatedMethods)
     //{
         helper.addPrefix(prefix, uri);
+        prefixesToFactories.remove(prefix);
     //}
   }
 
@@ -1387,6 +1388,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     int index = attrib.indexOf(":");
     String prefix = index == -1 ? "" : attrib.substring(index + 1);
     helper.addPrefix(prefix, value);
+    prefixesToFactories.remove(prefix);
   }
 
   protected void handleXSISchemaLocation(String schemaLocations)
