@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.44 2006/05/13 16:25:08 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.45 2006/06/14 21:56:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -740,9 +740,21 @@ public class EcoreUtil
   public static EObject getRootContainer(EObject eObject)
   {
     EObject result = eObject;
-    for (EObject parent = eObject; parent != null; parent = parent.eContainer())
+    if (eObject != null)
     {
-      result = parent;
+      int count = 0;
+      for (EObject parent = eObject.eContainer(); parent != null; parent = parent.eContainer())
+      {
+        if (++count > 100000)
+        {
+          return getRootContainer(parent);
+        }
+        result = parent;
+        if (parent == eObject)
+        {
+          throw new IllegalStateException("There is a cycle in the containment hierarchy of " + eObject);
+        }
+      }
     }
     return result;
   }
@@ -772,9 +784,21 @@ public class EcoreUtil
     else
     {
       EObject result = eObject;
-      for (InternalEObject parent = (InternalEObject)eObject; parent != null; parent = parent.eInternalContainer())
+      if (eObject != null)
       {
-        result = parent;
+        int count = 0;
+        for (InternalEObject parent = ((InternalEObject)eObject).eInternalContainer(); parent != null; parent = parent.eInternalContainer())
+        {
+          if (++count > 100000)
+          {
+            return getRootContainer(parent, false);
+          }
+          result = parent;
+          if (parent == eObject)
+          {
+            throw new IllegalStateException("There is a cycle in the containment hierarchy of " + eObject);
+          }
+        }
       }
       return result;
     }
