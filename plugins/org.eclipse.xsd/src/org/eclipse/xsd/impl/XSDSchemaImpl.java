@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.29 2006/05/03 21:45:32 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.30 2006/06/14 11:25:02 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -2086,7 +2086,7 @@ public class XSDSchemaImpl
       namespace = null;
     }
 
-    if (namespace == null ? getTargetNamespace() == null || hasRetargetedNamespace() : namespace.equals(getTargetNamespace()))
+    if (namespace == null ? getTargetNamespace() == null || "".equals(getTargetNamespace()) || hasRetargetedNamespace() : namespace.equals(getTargetNamespace()))
     {
       if (incorporatingSchemas == null)
       {
@@ -2130,7 +2130,7 @@ public class XSDSchemaImpl
           {
             XSDImport xsdImport = (XSDImport)xsdSchemaContent;
             String importNamespace = xsdImport.getNamespace();
-            if (namespace == null ? importNamespace == null : namespace.equals(importNamespace))
+            if (namespace == null ? importNamespace == null || "".equals(importNamespace): namespace.equals(importNamespace))
             {
               XSDSchema importedSchema = ((XSDImportImpl)xsdImport).importSchema();
               if (importedSchema != null)
@@ -2155,8 +2155,13 @@ public class XSDSchemaImpl
    */
   protected XSDNamedComponent resolveNamedComponent(EReference namedComponentsRefReference, String namespace, String localName)
   {
+    if ("".equals(namespace))
+    {
+      namespace = null;
+    }
+
     Collection resolvedSchemas = resolveSchema(namespace);
-    for (Iterator i = resolveSchema(namespace).iterator(); i.hasNext(); )
+    for (Iterator i = resolvedSchemas.iterator(); i.hasNext(); )
     {
       XSDSchema resolvedSchema = (XSDSchema)i.next();
       XSDNamedComponent xsdNamedComponent = 
