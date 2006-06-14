@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2005 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.14 2005/11/25 13:35:04 emerks Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.15 2006/06/14 14:22:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -189,7 +189,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         {
           FeatureChange featureChange = (FeatureChange)j.next();
           EStructuralFeature feature = featureChange.getFeature();
-          if (FeatureMapUtil.isFeatureMap(feature))
+          if (feature != null && FeatureMapUtil.isFeatureMap(feature))
           {
             objectsBeforeChange.addAll(getContainedEObjects((List)featureChange.getValue()));
             objectsAfterChange.addAll(getContainedEObjects((List)objectToChange.eGet(feature)));
@@ -337,7 +337,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         EStructuralFeature feature  = featureChange.getFeature();
 
         int featureKind = 
-          FeatureMapUtil.isFeatureMap(feature) ?
+          feature != null && FeatureMapUtil.isFeatureMap(feature) ?
             3 :
             feature instanceof EReference && ((EReference)feature).isContainment() ? 
               feature.isMany() ? 
@@ -462,11 +462,11 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
         if (reverse || featureChange.isSet())
         {
           EStructuralFeature feature = featureChange.getFeature();
-          if (FeatureMapUtil.isFeatureMap(feature) ||
-                feature != null && 
-                  feature.isMany() &&
-                  feature instanceof EReference &&
-                  (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))
+          if (feature != null &&
+                (FeatureMapUtil.isFeatureMap(feature) ||
+                  (feature.isMany() &&
+                   feature instanceof EReference &&
+                   (((EReference)feature).getEOpposite() != null || ((EReference)feature).isContainment()))))
           {
             if (reverse)
             {
