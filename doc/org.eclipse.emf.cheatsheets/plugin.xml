@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="org.eclipse.emf"
+            name="%_UI_CheatSheetCategory_title"/>
+      <cheatsheet
+            category="org.eclipse.emf"
+            composite="false"
+            contentFile="cheatsheets/GenerateEMFFromJava.xml"
+            id="org.eclipse.emf.genEMFModJava"
+            name="%_UI_CheatsheetGenJava_title">
+         <description>
+            %_UI_CheatsheetGenJava_description
+         </description>
+      </cheatsheet>
+      <cheatsheet
+            category="org.eclipse.emf"
+            composite="false"
+            contentFile="cheatsheets/GenerateExtendedEMF.xml"
+            id="org.eclipse.emf.genExtEMFMod"
+            name="%_UI_CheatsheetExtModel_title">
+         <description>
+            %_UI_CheatsheetExtModel_description
+         </description>
+      </cheatsheet>
+      <cheatsheet
+            category="org.eclipse.emf"
+            composite="false"
+            contentFile="cheatsheets/GenerateEMFFromRose.xml"
+            id="org.eclipse.emf.genEMFModRose"
+            name="%_UI_CheatsheetGenRose_title">
+         <description>
+            %_UI_CheatsheetGenRose_description
+         </description>
+      </cheatsheet>
+   </extension>
+</plugin>

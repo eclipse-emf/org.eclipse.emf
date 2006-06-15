@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Simple Cheat Sheet -->
+<cheatsheet title="Generating an Extended EMF Model">
+
+    <!-- Introduction -->
+
+    <intro href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#step1a">
+        <description>
+            This cheat sheet is a step-by-step description of generating an extended EMF
+            model and model editor from Rose file.
+            <br /><br />
+            This cheat sheet requires an existing library model and editor in
+            your workspace. If they are not generated, please refer to one of the
+            &quot;Generating an EMF Model&quot; cheatsheets for details.
+        </description>
+    </intro>
+    <onCompletion>
+		Congratulations you have succesfully created an Extended EMF model from a UML specification described in Rose, 
+		generated the code, and created instances of the model.
+	</onCompletion>
+    
+    <item title="Set Up the Environment">
+  		<description>
+  	  		Your environment must be set up so you can perform the steps of this cheat sheet.
+  		</description>
+  
+    	<subitem 
+      		label="Download &quot;schoollibrary.mdl&quot; to the directory of your workspace." 
+      		skip="true" >
+      		<action
+        		pluginId="org.eclipse.emf.cheatsheets"
+        		class="org.eclipse.emf.cheatsheets.actions.CopyFileFromPluginAction"
+        		param1=""
+        		param2=""
+        		param3="org.eclipse.emf.doc/tutorials/slibmod/schoollibrary.mdl" />
+    	</subitem>
+      
+    	<subitem 
+      		when="true" 
+      		label="Delete or rename the following projects if they exist in your workspace:&quot;schoollibrary.rose&quot;,&quot;schoollibrary.rose.edit&quot;,&quot;schoollibrary.rose.editor&quot;"
+      		skip="true" />
+  	</item>
+
+    <!-- Item -->
+
+    <item title="Import the Model from Rose"
+         href="/org.eclipse.emf.doc/tutorials/slibmod/slibmod.html#step1a"
+         dialog="true"
+         skip="true">
+      <description>
+        First, you must create a new library EMF project in your workspace, where
+        the model to be generated is defined in a Rose file.
+      </description>
+      <subitem label="Select &quot;File-&gt;New-&gt;Project...&quot;. Expand &quot;Eclipse Modeling Framework&quot; and select &quot;EMF Project&quot;. Then, click &quot;Next&quot;." skip="true">
+      	<action
+          pluginId="org.eclipse.emf.cheatsheets"
+          class="org.eclipse.emf.cheatsheets.actions.OpenEMFProjectWizardAction"
+          param1="schoollibrary.rose"
+          param2="org.eclipse.emf.importer.rose" />
+      </subitem>
+      <subitem label="Enter &quot;schoollibrary.rose&quot; as &quot;Project name&quot;, then click &quot;Next&quot;." skip="false" />
+      <subitem label="Select &quot;Rose class model&quot;, then click &quot;Next&quot;." skip="false" />
+      <subitem label="Click &quot;Browse File System...&quot;, locate the workspace folder and select the downloaded Rose model file &quot;schoollibrary.mdl&quot;." skip="false" />
+      <subitem label="Enter &quot;schoollibrary.genmodel&quot; for &quot;Generator model file name&quot;, then click &quot;Next&quot;." skip="false" />
+      <subitem label="Select &quot;schoollibrary&quot; package, then click &quot;Browse&quot;." skip="false" />
+      <subitem label="Expand &quot;Workspace&quot;, expand &quot;library&quot; and select &quot;model&quot;. Select the generator file &quot;library.genmodel&quot;, then click &quot;Ok&quot;." skip="false" />
+      <subitem label="In the &quot;Referenced generator models&quot; section, expand &quot;Library&quot; model, and select the &quot;Library&quot; package. Then, click &quot;Finish&quot;." skip="false" />
+   	</item>
+
+    <!-- Item -->
+
+    <item title="Generate the EMF Model and Editor Code"
+        href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#step2"
+        dialog="true"
+        skip="true">
+        <description>
+            Before the code can be ran by Eclipse the EMF Model and Editor Code
+            must be generated and compiled.
+        </description>
+        <subitem label="In the generator, right click on &quot;Schoollibrary&quot; and select &quot;Generate All&quot;." />
+        <subitem label="If project is not build automatically, then select &quot;Project-&gt;Build All&quot; to compile the generated code." skip="true">
+            <action
+                pluginId="org.eclipse.emf.cheatsheets"
+                class="org.eclipse.emf.cheatsheets.actions.BuildAllProjectsAction" />
+        </subitem>
+        <subitem label="Select &quot;Source-&gt;Organize Imports&quot; to remove unused imports." />
+    </item>
+
+    <!-- Item -->
+
+    <item title="Run the Generated Editor"
+        href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#step4"
+        dialog="true"
+        skip="true">
+        <description>
+            Now, you are set to run the generated editor to created new library models.
+        </description>
+        <subitem label="Select &quot;Run-&gt;Run As-&gt;Eclipse Application&quot; to run a new instance of Eclipse with the newly generated editor." />
+        <subitem label="Create a general project: &quot;schoollibrarytest&quot;." />
+        <subitem label="Right click &quot;schoollibrarytest&quot; and select &quot;New-&gt;Other...&quot;." />
+        <subitem label="Expand &quot;Example EMF Model Creation Wizards&quot; and select &quot;Schoollibrary Model&quot;. Then, click &quot;Next&quot;." />
+        <subitem label="Enter &quot;My.schoollibrary&quot; as filename, then click &quot;Next&quot;." />
+        <subitem label="Select &quot;School Library&quot; as model object, then click &quot;Finish&quot;." />
+        <subitem label="In &quot;Resource Set&quot;, expand &quot;platform:/resource/schoollibrarytest/My.schoollibrary&quot;. Right click &quot;School Library&quot; and select &quot;New Child-&gt;School Book&quot; to create a School Book object in School Library model." />
+    </item>
+    
+    <item title="Modify the Editor"
+        href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#step4"
+        dialog="true"
+        skip="true">
+        <description>
+            This will show how to modify the code that gets generated. You will
+            change a label in the generated editor, then regenerate the code.
+        </description>
+        <subitem label="In the school library generator model, select the &quot;SchoolLibrary&quot; class. Right click and select &quot;View Properties&quot;." />
+        <subitem label="In the &quot;Properties View&quot;, change the &quot;Label Feature&quot; to &quot;location : EString&quot;." />
+        <subitem label="Right click &quot;SchoolLibrary&quot; class and select &quot;Generate Edit Code&quot;." />
+    </item>
+
+</cheatsheet>
