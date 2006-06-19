@@ -29,7 +29,7 @@
         		class="org.eclipse.emf.cheatsheets.actions.CopyFileFromPluginAction"
         		param1=""
         		param2=""
-        		param3="org.eclipse.emf.doc/tutorials/xlibmod/library.xsd" />
+        		param3="org.eclipse.xsd.cheatsheets/archive/xsd/library.xsd" />
     	</subitem>
       
     	<subitem 
