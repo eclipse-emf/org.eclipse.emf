@@ -12,14 +12,14 @@
  *
  * </copyright>
  *
- * $Id: CopyFileFromPluginAction.java,v 1.1 2006/06/15 23:33:43 marcelop Exp $
+ * $Id: CopyFileFromPluginAction.java,v 1.2 2006/06/19 02:53:05 marcelop Exp $
  */
 package org.eclipse.emf.cheatsheets.actions;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.StringTokenizer;
 
@@ -171,7 +171,6 @@ public class CopyFileFromPluginAction extends Action implements ICheatSheetActio
       catch (IOException e)
       {
         CheatSheetsPlugin.INSTANCE.log(e);
-        targetFile = null;
       }
     }
     monitor.done();
@@ -179,7 +178,7 @@ public class CopyFileFromPluginAction extends Action implements ICheatSheetActio
     return targetFile;
   }
 
-  protected void copyFileToWorkspaceFolder(String sourceFile)
+  protected void copyFileToWorkspaceFolder(String sourceFile) throws CoreException
   {
     String targetFileName = sourceFile.substring(sourceFile.lastIndexOf('/') + 1);
     String sourcePluginId = sourceFile.substring(0, sourceFile.indexOf('/'));
