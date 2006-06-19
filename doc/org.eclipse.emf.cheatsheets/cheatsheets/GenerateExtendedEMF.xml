@@ -33,7 +33,7 @@
         		class="org.eclipse.emf.cheatsheets.actions.CopyFileFromPluginAction"
         		param1=""
         		param2=""
-        		param3="org.eclipse.emf.doc/tutorials/slibmod/schoollibrary.mdl" />
+        		param3="org.eclipse.emf.cheatsheets/archive/extended/schoollibrary.mdl" />
     	</subitem>
       
     	<subitem 

@@ -25,7 +25,7 @@
         class="org.eclipse.emf.cheatsheets.actions.CopyFileFromPluginAction"
         param1=""
         param2=""
-        param3="org.eclipse.emf.doc/tutorials/clibmod/library.mdl" />
+        param3="org.eclipse.emf.cheatsheets/archive/rose/library.mdl" />
     </subitem>
       
     <subitem 
