@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.24 2006/05/03 18:42:11 davidms Exp $
+ * $Id: GenOperationImpl.java,v 1.25 2006/06/20 19:56:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -647,6 +647,26 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       {
         appendModelSetting(result, "ordered", "false");
       }
+    }
+    
+    List genExceptions = getGenExceptions();
+    if (!genExceptions.isEmpty())
+    {
+      StringBuffer exceptions = new StringBuffer();
+      for (Iterator i = genExceptions.iterator(); i.hasNext(); )
+      {
+        GenClassifier genClassifier = (GenClassifier)i.next();
+        GenPackage genPackage = genClassifier.getGenPackage();
+        if (genPackage != null)
+        {
+          if (exceptions.length() > 0)
+          {
+            exceptions.append(' ');
+          }
+          exceptions.append(genPackage.getInterfacePackageName() + "." + genClassifier.getName());
+        }
+      }
+      appendModelSetting(result, "exceptions", exceptions.toString());
     }
 
     for (Iterator i = getGenParameters().iterator(); i.hasNext(); )
