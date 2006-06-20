@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.22 2006/05/30 11:41:52 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.23 2006/06/20 19:57:04 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -175,6 +175,13 @@ public class JavaEcoreBuilder
    * They must be patched after traversal is completed.
    */
   protected Map eClassToSuperTypeNamesMap = new LinkedHashMap();
+
+  /**
+   * The map from an operation to its exception type names.
+   * These are populated during traversal as each operation is created.
+   * They must be patched after traversal is completed.
+   */
+  protected Map eOperationToExceptionTypeNamesMap = new LinkedHashMap();
 
   /**
    * The map from a reference to the name it's opposite.
@@ -353,6 +360,42 @@ public class JavaEcoreBuilder
             error(CodeGenEcorePlugin.INSTANCE.getString(
               "_UI_TheSuperTypeDoesNotResolveCorrectly_message",
               new Object []{ superTypeNames[j] }));
+          }
+        }
+      }
+    }
+
+    // Fix all the operations that have exceptions that need resolving.
+    //
+    for (Iterator i = eOperationToExceptionTypeNamesMap.entrySet().iterator(); i.hasNext();)
+    {
+      Map.Entry entry = (Map.Entry)i.next();
+      EOperation eOperation = (EOperation)entry.getKey();
+      String[] exceptionTypeNames = (String[])entry.getValue();
+      if (exceptionTypeNames != null)
+      {
+        for (int j = 0; j < exceptionTypeNames.length; ++j)
+        {
+          String compositeName = exceptionTypeNames[j];
+          int index = compositeName.indexOf(":");
+          String typeName = index == -1 ? compositeName : compositeName.substring(0, index);
+          EClassifier eClassifier = resolve(eOperation, typeName, true);
+          if (index != -1 && demandCreatedEDataTypes.contains(eClassifier)) 
+          {
+            demandCreatedEDataTypes.remove(eClassifier);
+            EClassifier resolvedInstanceClassName = resolve(eOperation, compositeName.substring(index + 1), false);
+            ((EDataType)eClassifier).setInstanceClassName(resolvedInstanceClassName.getInstanceClassName());
+          }
+          if (eClassifier != null)
+          {
+            eOperation.getEExceptions().add(eClassifier);
+            used(eClassifier);
+          }
+          else
+          {
+            error(CodeGenEcorePlugin.INSTANCE.getString(
+              "_UI_TheTypeDoesNotResolveCorrectly_message",
+              new Object []{ exceptionTypeNames[j] }));
           }
         }
       }
@@ -905,8 +948,14 @@ public class JavaEcoreBuilder
             String feature = stringTokenizer.nextToken();
             if (eClass.getEStructuralFeature(feature) == null)
             {
-              analyzeMethod(eClass, getFilteredModelAnnotations(modelAnnotation, feature), "get" + Character.toUpperCase(feature.charAt(0))
-                + feature.substring(1), "java.lang.Object", null, null);
+              analyzeMethod
+                (eClass, 
+                 getFilteredModelAnnotations(modelAnnotation, feature), 
+                 "get" + Character.toUpperCase(feature.charAt(0)) + feature.substring(1), 
+                 "java.lang.Object", 
+                 null, 
+                 null,
+                 null);
             }
             else
             {
@@ -1056,19 +1105,26 @@ public class JavaEcoreBuilder
                       for (StringTokenizer stringTokenizer = new StringTokenizer(features, " "); stringTokenizer.hasMoreTokens();)
                       {
                         String feature = stringTokenizer.nextToken();
-                        analyzeMethod(eClass, getFilteredModelAnnotations(methodAnnotation, feature), "get"
-                          + Character.toUpperCase(feature.charAt(0)) + feature.substring(1), "java.lang.Object", null, null);
+                        analyzeMethod
+                          (eClass, 
+                           getFilteredModelAnnotations(methodAnnotation, feature), 
+                           "get" + Character.toUpperCase(feature.charAt(0)) + feature.substring(1), 
+                           "java.lang.Object", 
+                           null, 
+                           null,
+                           null);
                       }
                     }
                     else
                     {
-                      analyzeMethod(eClass, getFilteredModelAnnotations(methodAnnotation, "key"), "getKey", "java.lang.Object", null, null);
+                      analyzeMethod(eClass, getFilteredModelAnnotations(methodAnnotation, "key"), "getKey", "java.lang.Object", null, null, null);
 
                       analyzeMethod(
                         eClass,
                         getFilteredModelAnnotations(methodAnnotation, "value"),
                         "getValue",
                         "java.lang.Object",
+                        null,
                         null,
                         null);
                     }
@@ -1125,8 +1181,9 @@ public class JavaEcoreBuilder
       String returnType = method.getReturnType();
       String[] parameterNames = method.getParameterNames();
       String[] parameterTypes = method.getParameterTypes();
+      String[] exceptionTypes = method.getExceptions();
 
-      ETypedElement eTypedElement = analyzeMethod(eClass, modelAnnotation, methodName, returnType, parameterNames, parameterTypes);
+      ETypedElement eTypedElement = analyzeMethod(eClass, modelAnnotation, methodName, returnType, parameterNames, parameterTypes, exceptionTypes);
       if (eTypedElement != null)
       {
         EcoreUtil.setDocumentation(eTypedElement, getModelDocumentation(method.getComment()));
@@ -1151,7 +1208,8 @@ public class JavaEcoreBuilder
     String methodName,
     String returnType,
     String[] parameterNames,
-    String[] parameterTypes)
+    String[] parameterTypes,
+    String[] exceptionTypes)
   {
     // We will create an EAttribute, EReference, or an EOperation.
     //
@@ -1193,7 +1251,7 @@ public class JavaEcoreBuilder
       
       if (parameterTypes != null)
       {
-        // Each token in parameters will specify a dataType for the corresponding paramter, but can be overridden by a
+        // Each token in parameters will specify a dataType for the corresponding parameter, but can be overridden by a
         // parameter-name-prefixed dataType property.
         //
         StringTokenizer stringTokenizer = new StringTokenizer(parameters == null ? "" : parameters);
@@ -1226,6 +1284,29 @@ public class JavaEcoreBuilder
           identifierName.append(')');
           handleETypedElement(eParameter, parameterName, parameterType, parameterModelAnnotation, identifierName.toString());
           eParameter.getEAnnotations().addAll(extractEAnnotations(parameterModelAnnotation));
+        }
+      }
+
+      if (exceptionTypes != null)
+      {
+        // Each token in exceptions will specify a data type for the corresponding exception.
+        //
+        String exceptions = getModelAnnotationAttribute(modelAnnotation, "exceptions");
+        StringTokenizer stringTokenizer = new StringTokenizer(exceptions == null ? "" : exceptions);
+        String[] exceptionTypeNames = new String[exceptionTypes.length];
+        for (int i = 0; i < exceptionTypes.length; ++i)
+        {
+          exceptionTypeNames[i] = exceptionTypes[i];
+          if (stringTokenizer.hasMoreTokens())
+          {
+            String dataType = stringTokenizer.nextToken();
+            if (!"-".equals(dataType))
+            {
+              exceptionTypeNames[i] = dataType + ":" + exceptionTypeNames[i];
+            }
+          }
+
+          eOperationToExceptionTypeNamesMap.put(eOperation, exceptionTypeNames); 
         }
       }
     }
