@@ -55,7 +55,7 @@
 
   <item
     title="Generate the code"
-    href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#step2"
+    href="/org.eclipse.emf.doc/tutorials/xlibmod/xlibmod.html#step2"
     dialog="true"
     skip="true">
     <description>
@@ -74,7 +74,7 @@
 
   <item
     title="Run the generated editor"
-    href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#step4"
+    href="/org.eclipse.emf.doc/tutorials/xlibmod/xlibmod.html#step4"
     dialog="true"
     skip="true">
     <description>
