@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cheatsheet title="Generating an EMF Model from Annotated Java">
 
-  <intro href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#step1b">
+  <intro href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html">
     <description>
       This cheat sheet is a step-by-step description of how to generate an EMF
       model and editor from a set of annotated Java interfaces.
@@ -17,7 +17,7 @@
   </item>
 
   <item title="Create an empty EMF project"
-    href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#newJavaProj"
+    href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#newEmptyEMFProj"
     dialog="true"
     skip="true">
     <description>
