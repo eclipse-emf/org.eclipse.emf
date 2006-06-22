@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.12 2006/06/01 21:40:22 marcelop Exp $
+ * $Id: EMFModelWizard.java,v 1.13 2006/06/22 15:52:36 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -204,8 +204,8 @@ public class EMFModelWizard extends Wizard implements INewWizard
       
       if (defaultPath != null)
       {
-        page.setContainerFullPath(defaultPath.removeLastSegments(defaultPath.segmentCount()-1));
-        page.setFileName(defaultPath.removeFirstSegments(1).toString());
+        page.setContainerFullPath(defaultPath.removeLastSegments(1));
+        page.setFileName(defaultPath.lastSegment());
         page.setPageComplete(page.isPageComplete());    
       }      
     }
