@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cheatsheet title="Generating an Extended EMF Model">
 
-  <intro href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#step1a">
+  <intro href="/org.eclipse.emf.doc/tutorials/slibmod/slibmod.html">
     <description>
       This cheat sheet is a step-by-step description of how to generate an extended EMF
       model and editor from a Rose class diagram.
@@ -67,7 +67,7 @@
 
   <item
     title="Generate the code"
-    href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#step2"
+    href="/org.eclipse.emf.doc/tutorials/slibmod/slibmod.html#step2"
     dialog="true"
     skip="true">
     <description>
@@ -84,7 +84,7 @@
 
   <item
     title="Run the generated editor"
-    href="/org.eclipse.emf.doc/tutorials/clibmod/clibmod.html#step4"
+    href="/org.eclipse.emf.doc/tutorials/slibmod/slibmod.html#step3"
     dialog="true"
     skip="true">
     <description>
