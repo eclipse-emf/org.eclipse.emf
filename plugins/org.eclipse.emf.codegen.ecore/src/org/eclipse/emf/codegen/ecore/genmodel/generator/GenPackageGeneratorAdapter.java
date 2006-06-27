@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.6 2006/05/19 22:33:50 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.7 2006/06/27 14:45:28 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -109,6 +109,11 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     List result = new ArrayList(genPackage.getGenClasses());
     result.addAll(genPackage.getNestedGenPackages());
     return result;
+  }
+
+  protected Collection getGenerateEditorChildren(Object object)
+  {
+    return new ArrayList(((GenPackage)object).getNestedGenPackages());
   }
 
   protected Collection getGenerateTestsChildren(Object object)
