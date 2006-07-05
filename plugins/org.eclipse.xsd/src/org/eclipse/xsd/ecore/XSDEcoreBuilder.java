@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.62 2006/06/13 14:16:44 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.63 2006/07/05 11:30:09 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -731,6 +731,10 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
 
+    boolean isRestriction = 
+      !eClass.getESuperTypes().isEmpty() && 
+        xsdComplexTypeDefinition.getDerivationMethod() == XSDDerivationMethod.RESTRICTION_LITERAL;
+
     for (Iterator i = getEcoreTypeQNamesAttribute(xsdComplexTypeDefinition, "implements").iterator(); i.hasNext(); )
     {
       XSDTypeDefinition mixin = (XSDTypeDefinition)i.next();
@@ -746,10 +750,6 @@ public class XSDEcoreBuilder extends MapBuilder
 
     // 51210
     // EAnnotation contentParticle = null;
-
-    boolean isRestriction = 
-      !eClass.getESuperTypes().isEmpty() && 
-        xsdComplexTypeDefinition.getDerivationMethod() == XSDDerivationMethod.RESTRICTION_LITERAL;
 
     if (xsdComplexTypeDefinition.getContentTypeCategory() == XSDContentTypeCategory.SIMPLE_LITERAL)
     {
