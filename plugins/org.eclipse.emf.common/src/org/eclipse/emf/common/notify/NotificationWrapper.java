@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationWrapper.java,v 1.2 2005/06/08 06:19:08 nickb Exp $
+ * $Id: NotificationWrapper.java,v 1.3 2006/07/05 11:40:15 emerks Exp $
  */
 package org.eclipse.emf.common.notify;
 
@@ -146,7 +146,7 @@ public class NotificationWrapper implements Notification
    */
   public boolean merge(Notification notification)
   {
-    return notification.merge(notification);
+    return false;
   }
 
   /**
