@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.59 2006/05/05 15:47:13 khussey Exp $
+ * $Id: GenPackageImpl.java,v 1.60 2006/07/05 11:15:42 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1711,7 +1711,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public String getQualifiedSwitchClassName()
   {
-    return getUtilitiesPackageName() + getSwitchClassName();
+    return getUtilitiesPackageName() + "." + getSwitchClassName();
   }
 
   public String getTestSuiteClassName()
