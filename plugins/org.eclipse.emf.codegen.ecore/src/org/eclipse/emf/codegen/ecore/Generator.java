@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.26 2006/05/24 18:44:57 marcelop Exp $
+ * $Id: Generator.java,v 1.27 2006/07/07 17:21:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -320,10 +320,16 @@ public class Generator extends CodeGen
 
                     if (dynamicTemplates)
                     {
-                      genModel.setDynamicTemplates(dynamicTemplates);
+                      genModel.setDynamicTemplates(true);
                     }
-                    genModel.setForceOverwrite(forceOverwrite);
-                    genModel.setRedirection(diff ? ".{0}.new" : "");
+                    if (forceOverwrite)
+                    {
+                      genModel.setForceOverwrite(true);
+                    }
+                    if (diff)
+                    {
+                      genModel.setRedirection(".{0}.new");
+                    }
     
                     if (index < arguments.length)
                     {
@@ -369,9 +375,18 @@ public class Generator extends CodeGen
                     genModel.setCanGenerate(true);
                     genModel.setUpdateClasspath(false);
     
-                    genModel.setGenerateSchema(generateSchema);
-                    genModel.setNonNLSMarkers(nonNLSMarkers);
-                    genModel.setCodeFormatting(codeFormatting);
+                    if (generateSchema)
+                    {
+                      genModel.setGenerateSchema(true);
+                    }
+                    if (nonNLSMarkers)
+                    {
+                      genModel.setNonNLSMarkers(true);
+                    }
+                    if (codeFormatting)
+                    {
+                      genModel.setCodeFormatting(true);
+                    }
   
                     if (profileFile != null)
                     {
