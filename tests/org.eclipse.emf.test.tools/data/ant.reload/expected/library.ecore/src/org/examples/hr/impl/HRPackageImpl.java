@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: HRPackageImpl.java,v 1.1 2006/05/10 20:21:29 marcelop Exp $
+ * $Id: HRPackageImpl.java,v 1.2 2006/07/07 17:22:37 marcelop Exp $
  */
 package org.examples.hr.impl;
 
@@ -34,7 +34,7 @@ public class HRPackageImpl extends EPackageImpl implements HRPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String copyright = "This is my code.";
+  public static final String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * <!-- begin-user-doc -->
@@ -213,9 +213,9 @@ public class HRPackageImpl extends EPackageImpl implements HRPackage
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(personEClass, Person.class, "Person", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getPerson_Name(), ecorePackage.getEString(), "name", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getPerson_Library(), theLibraryPackage.getLibrary(), theLibraryPackage.getLibrary_Employees(), "Library", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(personEClass, Person.class, "Person", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+    initEAttribute(getPerson_Name(), ecorePackage.getEString(), "name", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEReference(getPerson_Library(), theLibraryPackage.getLibrary(), theLibraryPackage.getLibrary_Employees(), "Library", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
     // Create resource
     createResource(eNS_URI);

@@ -41,7 +41,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
   {
     try
     {
-      LibraryFactory theLibraryFactory = (LibraryFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.eclipse.org/Library2"); 
+      LibraryFactory theLibraryFactory = (LibraryFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.eclipse.org/Library2"); //$NON-NLS-1$ 
       if (theLibraryFactory != null)
       {
         return theLibraryFactory;
@@ -76,7 +76,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
     {
       case LibraryPackage.LIBRARY: return createLibrary();
       default:
-        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
     }
   }
 

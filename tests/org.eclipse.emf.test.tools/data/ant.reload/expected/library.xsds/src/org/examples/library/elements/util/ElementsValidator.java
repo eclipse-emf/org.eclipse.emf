@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsValidator.java,v 1.3 2005/12/10 14:24:05 emerks Exp $
+ * $Id: ElementsValidator.java,v 1.4 2006/07/07 17:22:36 marcelop Exp $
  */
 package org.examples.library.elements.util;
 
@@ -32,7 +32,7 @@ public class ElementsValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String copyright = "This is my code.";
+  public static final String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * The cached model package
@@ -50,7 +50,7 @@ public class ElementsValidator extends EObjectValidator
    * @see org.eclipse.emf.common.util.Diagnostic#getCode()
    * @generated
    */
-  public static final String DIAGNOSTIC_SOURCE = "org.examples.library.elements";
+  public static final String DIAGNOSTIC_SOURCE = "org.examples.library.elements"; //$NON-NLS-1$
 
   /**
    * A constant with a fixed name that can be used as the base value for additional hand written constants.

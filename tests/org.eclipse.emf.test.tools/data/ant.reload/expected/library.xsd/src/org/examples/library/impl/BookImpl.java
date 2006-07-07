@@ -479,12 +479,12 @@ public class BookImpl extends EObjectImpl implements Book
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (title: ");
+    result.append(" (title: "); //$NON-NLS-1$
     result.append(title);
-    result.append(", pages: ");
-    if (pagesESet) result.append(pages); else result.append("<unset>");
-    result.append(", category: ");
-    if (categoryESet) result.append(category); else result.append("<unset>");
+    result.append(", pages: "); //$NON-NLS-1$
+    if (pagesESet) result.append(pages); else result.append("<unset>"); //$NON-NLS-1$
+    result.append(", category: "); //$NON-NLS-1$
+    if (categoryESet) result.append(category); else result.append("<unset>"); //$NON-NLS-1$
     result.append(')');
     return result.toString();
   }

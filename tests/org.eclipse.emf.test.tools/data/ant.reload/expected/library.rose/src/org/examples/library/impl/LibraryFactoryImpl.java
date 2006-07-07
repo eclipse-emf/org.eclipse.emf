@@ -42,7 +42,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
   {
     try
     {
-      LibraryFactory theLibraryFactory = (LibraryFactory)EPackage.Registry.INSTANCE.getEFactory("library.xmi"); 
+      LibraryFactory theLibraryFactory = (LibraryFactory)EPackage.Registry.INSTANCE.getEFactory("library.xmi"); //$NON-NLS-1$ 
       if (theLibraryFactory != null)
       {
         return theLibraryFactory;
@@ -79,7 +79,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
       case LibraryPackage.LIBRARY: return createLibrary();
       case LibraryPackage.WRITER: return createWriter();
       default:
-        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
     }
   }
 
@@ -95,7 +95,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
       case LibraryPackage.BOOK_CATEGORY:
         return createBookCategoryFromString(eDataType, initialValue);
       default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
     }
   }
 
@@ -111,7 +111,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
       case LibraryPackage.BOOK_CATEGORY:
         return convertBookCategoryToString(eDataType, instanceValue);
       default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
     }
   }
 
@@ -156,7 +156,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
   public BookCategory createBookCategoryFromString(EDataType eDataType, String initialValue)
   {
     BookCategory result = BookCategory.get(initialValue);
-    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     return result;
   }
 

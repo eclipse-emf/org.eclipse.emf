@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.21 2006/05/24 18:46:31 marcelop Exp $
+ * $Id: AntTest.java,v 1.22 2006/07/07 17:22:37 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
 import java.io.File;
+import java.io.IOException;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -26,6 +27,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.test.tools.TestUtil;
 
 public class AntTest extends TestCase
@@ -243,6 +249,7 @@ public class AntTest extends TestCase
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
            
+    adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "rose", testTokenReplacements);
   }
   
@@ -269,7 +276,8 @@ public class AntTest extends TestCase
    
     String[] testTokenReplacements = new String[1];
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
-           
+        
+    adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "xsd", testTokenReplacements);
     
     assertFalse(ResourcesPlugin.getWorkspace().getDescription().isAutoBuilding());
@@ -300,6 +308,7 @@ public class AntTest extends TestCase
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
     testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
            
+    adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "xsds", testTokenReplacements);
     
     assertTrue(ResourcesPlugin.getWorkspace().getDescription().isAutoBuilding());
@@ -331,6 +340,7 @@ public class AntTest extends TestCase
     testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
            
+    adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
     runAntAndTest(rootDir, rootExpectedDir, antScript, "ecore", testTokenReplacements);
   }  
 
@@ -427,4 +437,36 @@ public class AntTest extends TestCase
     }
     return path;
   }
+  
+  protected void adjustGenModelForReload(File genModelFile)
+  {
+    if (genModelFile.exists())
+    {
+      ResourceSet resourceSet = new ResourceSetImpl();
+      Resource resource = resourceSet.getResource(URI.createFileURI(genModelFile.getAbsolutePath()), true);
+      if (!resource.getContents().isEmpty())
+      {
+        Object object = resource.getContents().get(0);
+        if (object instanceof GenModel)
+        {
+          adjustGenModelForReload((GenModel)object);
+          try
+          {
+            resource.save(null);
+          }
+          catch (IOException e)
+          {
+          }
+        }
+      }
+    }
+  }
+  
+  protected void adjustGenModelForReload(GenModel genModel)
+  {
+    if (genModel != null)
+    {
+      genModel.setNonNLSMarkers(true);
+    }
+  }  
 }

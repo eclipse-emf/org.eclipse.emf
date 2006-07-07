@@ -128,7 +128,7 @@ public final class BookCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final BookCategory IT_LITERAL = new BookCategory(IT, "IT", "IT");
+  public static final BookCategory IT_LITERAL = new BookCategory(IT, "IT", "IT"); //$NON-NLS-1$ //$NON-NLS-2$
 
   /**
    * An array of all the '<em><b>Book Category</b></em>' enumerators.

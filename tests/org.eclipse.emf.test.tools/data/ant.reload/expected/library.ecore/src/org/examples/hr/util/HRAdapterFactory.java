@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: HRAdapterFactory.java,v 1.1 2006/05/10 20:21:29 marcelop Exp $
+ * $Id: HRAdapterFactory.java,v 1.2 2006/07/07 17:22:35 marcelop Exp $
  */
 package org.examples.hr.util;
 
@@ -30,7 +30,7 @@ public class HRAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String copyright = "This is my code.";
+  public static final String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * The cached model package.

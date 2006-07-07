@@ -366,26 +366,26 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
     writerEClass.getESuperTypes().add(theHrPackage.getPerson());
 
     // Initialize classes and features; add operations and parameters
-    initEClass(bookEClass, Book.class, "Book", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getBook_Title(), theXMLTypePackage.getString(), "title", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getBook_Pages(), theXMLTypePackage.getInt(), "pages", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getBook_Category(), this.getBookCategory(), "category", "Mystery", 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getBook_Author(), theXMLTypePackage.getAnyURI(), "author", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getBook_Uuid(), this.getUUID(), "uuid", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(bookEClass, Book.class, "Book", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+    initEAttribute(getBook_Title(), theXMLTypePackage.getString(), "title", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEAttribute(getBook_Pages(), theXMLTypePackage.getInt(), "pages", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEAttribute(getBook_Category(), this.getBookCategory(), "category", "Mystery", 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$ //$NON-NLS-2$
+    initEAttribute(getBook_Author(), theXMLTypePackage.getAnyURI(), "author", null, 1, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEAttribute(getBook_Uuid(), this.getUUID(), "uuid", null, 0, 1, Book.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
-    initEClass(writerEClass, Writer.class, "Writer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getWriter_Books(), theXMLTypePackage.getAnyURI(), "books", null, 0, -1, Writer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(writerEClass, Writer.class, "Writer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+    initEAttribute(getWriter_Books(), theXMLTypePackage.getAnyURI(), "books", null, 0, -1, Writer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
     // Initialize enums and add enum literals
-    initEEnum(bookCategoryEEnum, BookCategory.class, "BookCategory");
+    initEEnum(bookCategoryEEnum, BookCategory.class, "BookCategory"); //$NON-NLS-1$
     addEEnumLiteral(bookCategoryEEnum, BookCategory.MYSTERY_LITERAL);
     addEEnumLiteral(bookCategoryEEnum, BookCategory.SCIENCE_FICTION_LITERAL);
     addEEnumLiteral(bookCategoryEEnum, BookCategory.BIOGRAPHY_LITERAL);
     addEEnumLiteral(bookCategoryEEnum, BookCategory.IT_LITERAL);
 
     // Initialize data types
-    initEDataType(bookCategoryObjectEDataType, BookCategory.class, "BookCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(uuidEDataType, byte[].class, "UUID", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(bookCategoryObjectEDataType, BookCategory.class, "BookCategoryObject", IS_SERIALIZABLE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+    initEDataType(uuidEDataType, byte[].class, "UUID", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
 
     // Create resource
     createResource(eNS_URI);
@@ -403,94 +403,94 @@ public class ElementsPackageImpl extends EPackageImpl implements ElementsPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$		
     addAnnotation
       (bookEClass, 
        source, 
        new String[] 
        {
-       "name", "Book",
-       "kind", "elementOnly"
+       "name", "Book", //$NON-NLS-1$ //$NON-NLS-2$
+       "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getBook_Title(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "title"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "title" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getBook_Pages(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "pages"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "pages" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getBook_Category(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "category"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "category" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getBook_Author(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "author"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "author" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getBook_Uuid(), 
        source, 
        new String[] 
        {
-       "kind", "attribute",
-       "name", "uuid"
+       "kind", "attribute", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "uuid" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (bookCategoryEEnum, 
        source, 
        new String[] 
        {
-       "name", "BookCategory"
+       "name", "BookCategory" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (bookCategoryObjectEDataType, 
        source, 
        new String[] 
        {
-       "name", "BookCategory:Object",
-       "baseType", "BookCategory"
+       "name", "BookCategory:Object", //$NON-NLS-1$ //$NON-NLS-2$
+       "baseType", "BookCategory" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (uuidEDataType, 
        source, 
        new String[] 
        {
-       "name", "UUID",
-       "baseType", "http://www.eclipse.org/emf/2003/XMLType#hexBinary",
-       "length", "16"
+       "name", "UUID", //$NON-NLS-1$ //$NON-NLS-2$
+       "baseType", "http://www.eclipse.org/emf/2003/XMLType#hexBinary", //$NON-NLS-1$ //$NON-NLS-2$
+       "length", "16" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (writerEClass, 
        source, 
        new String[] 
        {
-       "name", "Writer",
-       "kind", "elementOnly"
+       "name", "Writer", //$NON-NLS-1$ //$NON-NLS-2$
+       "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getWriter_Books(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "books"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "books" //$NON-NLS-1$ //$NON-NLS-2$
        });
   }
 

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookImpl.java,v 1.1 2006/05/10 20:21:29 marcelop Exp $
+ * $Id: BookImpl.java,v 1.2 2006/07/07 17:22:36 marcelop Exp $
  */
 package org.examples.library.impl;
 
@@ -407,11 +407,11 @@ public class BookImpl extends EObjectImpl implements Book
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (title: ");
+    result.append(" (title: "); //$NON-NLS-1$
     result.append(title);
-    result.append(", pages: ");
+    result.append(", pages: "); //$NON-NLS-1$
     result.append(pages);
-    result.append(", category: ");
+    result.append(", category: "); //$NON-NLS-1$
     result.append(category);
     result.append(')');
     return result.toString();

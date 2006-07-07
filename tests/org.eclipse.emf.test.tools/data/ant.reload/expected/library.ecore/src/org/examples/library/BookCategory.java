@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookCategory.java,v 1.1 2006/05/10 20:21:29 marcelop Exp $
+ * $Id: BookCategory.java,v 1.2 2006/07/07 17:22:35 marcelop Exp $
  */
 package org.examples.library;
 
@@ -128,7 +128,7 @@ public final class BookCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
-  public static final BookCategory IT_LITERAL = new BookCategory(IT, "IT", "IT");
+  public static final BookCategory IT_LITERAL = new BookCategory(IT, "IT", "IT"); //$NON-NLS-1$ //$NON-NLS-2$
 
   /**
    * An array of all the '<em><b>Book Category</b></em>' enumerators.

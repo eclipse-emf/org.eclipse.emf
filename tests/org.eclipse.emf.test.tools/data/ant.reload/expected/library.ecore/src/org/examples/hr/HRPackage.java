@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: HRPackage.java,v 1.1 2006/05/10 20:21:29 marcelop Exp $
+ * $Id: HRPackage.java,v 1.2 2006/07/07 17:22:35 marcelop Exp $
  */
 package org.examples.hr;
 
@@ -33,7 +33,7 @@ public interface HRPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String copyright = "This is my code.";
+  String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * The package name.
@@ -41,7 +41,7 @@ public interface HRPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNAME = "hr";
+  String eNAME = "hr"; //$NON-NLS-1$
 
   /**
    * The package namespace URI.
@@ -49,7 +49,7 @@ public interface HRPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_URI = "hr.xmi";
+  String eNS_URI = "hr.xmi"; //$NON-NLS-1$
 
   /**
    * The package namespace name.
@@ -57,7 +57,7 @@ public interface HRPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_PREFIX = "hr";
+  String eNS_PREFIX = "hr"; //$NON-NLS-1$
 
   /**
    * The singleton instance of the package.

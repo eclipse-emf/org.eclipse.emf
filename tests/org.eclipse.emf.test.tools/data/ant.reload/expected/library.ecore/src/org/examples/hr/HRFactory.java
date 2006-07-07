@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: HRFactory.java,v 1.1 2006/05/10 20:21:29 marcelop Exp $
+ * $Id: HRFactory.java,v 1.2 2006/07/07 17:22:35 marcelop Exp $
  */
 package org.examples.hr;
 
@@ -23,7 +23,7 @@ public interface HRFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  String copyright = "This is my code.";
+  String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * The singleton instance of the factory.

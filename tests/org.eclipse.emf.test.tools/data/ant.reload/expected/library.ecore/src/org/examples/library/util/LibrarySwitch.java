@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibrarySwitch.java,v 1.1 2006/05/10 20:21:29 marcelop Exp $
+ * $Id: LibrarySwitch.java,v 1.2 2006/07/07 17:22:36 marcelop Exp $
  */
 package org.examples.library.util;
 

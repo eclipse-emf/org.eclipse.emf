@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.1 2006/05/10 20:21:29 marcelop Exp $
+ * $Id: LibraryImpl.java,v 1.2 2006/07/07 17:22:36 marcelop Exp $
  */
 package org.examples.library.impl;
 
@@ -384,9 +384,9 @@ public class LibraryImpl extends EObjectImpl implements Library
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (name: ");
+    result.append(" (name: "); //$NON-NLS-1$
     result.append(name);
-    result.append(", site: ");
+    result.append(", site: "); //$NON-NLS-1$
     result.append(site);
     result.append(')');
     return result.toString();

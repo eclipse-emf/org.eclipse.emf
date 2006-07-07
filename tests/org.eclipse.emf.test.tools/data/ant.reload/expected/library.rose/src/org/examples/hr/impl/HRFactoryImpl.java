@@ -29,7 +29,7 @@ public class HRFactoryImpl extends EFactoryImpl implements HRFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String copyright = "This is my code.";
+  public static final String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * Creates the default factory implementation.
@@ -41,7 +41,7 @@ public class HRFactoryImpl extends EFactoryImpl implements HRFactory
   {
     try
     {
-      HRFactory theHRFactory = (HRFactory)EPackage.Registry.INSTANCE.getEFactory("hr.xmi"); 
+      HRFactory theHRFactory = (HRFactory)EPackage.Registry.INSTANCE.getEFactory("hr.xmi"); //$NON-NLS-1$ 
       if (theHRFactory != null)
       {
         return theHRFactory;
@@ -76,7 +76,7 @@ public class HRFactoryImpl extends EFactoryImpl implements HRFactory
     {
       case HRPackage.PERSON: return createPerson();
       default:
-        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
     }
   }
 

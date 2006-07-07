@@ -30,7 +30,7 @@ public class HRAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String copyright = "This is my code.";
+  public static final String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * The cached model package.

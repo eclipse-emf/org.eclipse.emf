@@ -163,7 +163,7 @@ public class WriterImpl extends PersonImpl implements Writer
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (books: ");
+    result.append(" (books: "); //$NON-NLS-1$
     result.append(books);
     result.append(')');
     return result.toString();

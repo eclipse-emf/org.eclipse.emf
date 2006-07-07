@@ -249,11 +249,11 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(libraryEClass, Library.class, "Library", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getLibrary_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getLibrary_Writers(), theElementsPackage.getWriter(), null, "writers", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getLibrary_Books(), theElementsPackage.getBook(), null, "books", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getLibrary_Employees(), theHrPackage.getPerson(), theHrPackage.getPerson_Library(), "employees", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(libraryEClass, Library.class, "Library", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+    initEAttribute(getLibrary_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEReference(getLibrary_Writers(), theElementsPackage.getWriter(), null, "writers", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEReference(getLibrary_Books(), theElementsPackage.getBook(), null, "books", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEReference(getLibrary_Employees(), theHrPackage.getPerson(), theHrPackage.getPerson_Library(), "employees", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
     // Create resource
     createResource(eNS_URI);
@@ -271,46 +271,46 @@ public class LibraryPackageImpl extends EPackageImpl implements LibraryPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$		
     addAnnotation
       (libraryEClass, 
        source, 
        new String[] 
        {
-       "name", "Library",
-       "kind", "elementOnly"
+       "name", "Library", //$NON-NLS-1$ //$NON-NLS-2$
+       "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getLibrary_Name(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "name"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getLibrary_Writers(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "writers"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "writers" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getLibrary_Books(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "books"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "books" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getLibrary_Employees(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "employees"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "employees" //$NON-NLS-1$ //$NON-NLS-2$
        });
   }
 

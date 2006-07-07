@@ -45,7 +45,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
   {
     try
     {
-      ElementsFactory theElementsFactory = (ElementsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.eclipse.org/Library1"); 
+      ElementsFactory theElementsFactory = (ElementsFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.example.eclipse.org/Library1"); //$NON-NLS-1$ 
       if (theElementsFactory != null)
       {
         return theElementsFactory;
@@ -81,7 +81,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
       case ElementsPackage.BOOK: return createBook();
       case ElementsPackage.WRITER: return createWriter();
       default:
-        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
     }
   }
 
@@ -101,7 +101,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
       case ElementsPackage.UUID:
         return createUUIDFromString(eDataType, initialValue);
       default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
     }
   }
 
@@ -121,7 +121,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
       case ElementsPackage.UUID:
         return convertUUIDToString(eDataType, instanceValue);
       default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier"); //$NON-NLS-1$ //$NON-NLS-2$
     }
   }
 
@@ -155,7 +155,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
   public BookCategory createBookCategoryFromString(EDataType eDataType, String initialValue)
   {
     BookCategory result = BookCategory.get(initialValue);
-    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
     return result;
   }
 

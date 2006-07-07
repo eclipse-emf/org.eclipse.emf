@@ -33,7 +33,7 @@ public interface HrPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String copyright = "This is my code.";
+  String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * The package name.
@@ -41,7 +41,7 @@ public interface HrPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNAME = "hr";
+  String eNAME = "hr"; //$NON-NLS-1$
 
   /**
    * The package namespace URI.
@@ -49,7 +49,7 @@ public interface HrPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_URI = "http://www.example.eclipse.org/Library3";
+  String eNS_URI = "http://www.example.eclipse.org/Library3"; //$NON-NLS-1$
 
   /**
    * The package namespace name.
@@ -57,7 +57,7 @@ public interface HrPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_PREFIX = "library3";
+  String eNS_PREFIX = "library3"; //$NON-NLS-1$
 
   /**
    * The singleton instance of the package.

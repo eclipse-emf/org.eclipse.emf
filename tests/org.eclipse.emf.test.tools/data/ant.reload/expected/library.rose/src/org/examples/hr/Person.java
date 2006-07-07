@@ -34,7 +34,7 @@ public interface Person extends EObject
    * <!-- end-user-doc -->
    * @generated
    */
-  String copyright = "This is my code.";
+  String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.

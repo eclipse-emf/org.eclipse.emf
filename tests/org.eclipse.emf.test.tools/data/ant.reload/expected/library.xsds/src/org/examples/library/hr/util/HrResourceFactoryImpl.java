@@ -28,7 +28,7 @@ public class HrResourceFactoryImpl extends ResourceFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String copyright = "This is my code.";
+  public static final String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * Creates an instance of the resource factory.

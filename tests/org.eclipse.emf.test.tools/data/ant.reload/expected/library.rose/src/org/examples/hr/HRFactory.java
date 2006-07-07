@@ -23,7 +23,7 @@ public interface HRFactory extends EFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  String copyright = "This is my code.";
+  String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * The singleton instance of the factory.

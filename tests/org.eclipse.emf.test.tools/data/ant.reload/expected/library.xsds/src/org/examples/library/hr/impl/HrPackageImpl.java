@@ -40,7 +40,7 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String copyright = "This is my code.";
+  public static final String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * <!-- begin-user-doc -->
@@ -226,9 +226,9 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
     // Add supertypes to classes
 
     // Initialize classes and features; add operations and parameters
-    initEClass(personEClass, Person.class, "Person", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getPerson_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getPerson_Library(), theLibraryPackage.getLibrary(), theLibraryPackage.getLibrary_Employees(), "library", null, 1, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(personEClass, Person.class, "Person", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS); //$NON-NLS-1$
+    initEAttribute(getPerson_Name(), theXMLTypePackage.getString(), "name", null, 1, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
+    initEReference(getPerson_Library(), theLibraryPackage.getLibrary(), theLibraryPackage.getLibrary_Employees(), "library", null, 1, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED); //$NON-NLS-1$
 
     // Create resource
     createResource(eNS_URI);
@@ -246,30 +246,30 @@ public class HrPackageImpl extends EPackageImpl implements HrPackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData"; //$NON-NLS-1$		
     addAnnotation
       (personEClass, 
        source, 
        new String[] 
        {
-       "name", "Person",
-       "kind", "elementOnly"
+       "name", "Person", //$NON-NLS-1$ //$NON-NLS-2$
+       "kind", "elementOnly" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getPerson_Name(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "name"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "name" //$NON-NLS-1$ //$NON-NLS-2$
        });		
     addAnnotation
       (getPerson_Library(), 
        source, 
        new String[] 
        {
-       "kind", "element",
-       "name", "library"
+       "kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+       "name", "library" //$NON-NLS-1$ //$NON-NLS-2$
        });
   }
 

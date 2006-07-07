@@ -49,7 +49,7 @@ public class PersonImpl extends EObjectImpl implements Person
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String copyright = "This is my code.";
+  public static final String copyright = "This is my code."; //$NON-NLS-1$
 
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -251,7 +251,7 @@ public class PersonImpl extends EObjectImpl implements Person
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (name: ");
+    result.append(" (name: "); //$NON-NLS-1$
     result.append(name);
     result.append(')');
     return result.toString();
