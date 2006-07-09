@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataGraphTest.java,v 1.5 2005/06/08 06:17:25 nickb Exp $
+ * $Id: DataGraphTest.java,v 1.6 2006/07/09 13:40:09 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.sdo.SDOFactory;
 import org.eclipse.emf.ecore.sdo.impl.DynamicEDataObjectImpl;
 import org.eclipse.emf.ecore.sdo.util.DataGraphResourceFactoryImpl;
 import org.eclipse.emf.ecore.sdo.util.SDOUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
 import commonj.sdo.ChangeSummary;
@@ -70,7 +71,7 @@ public class DataGraphTest extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("DataGraphTest");
-    //ts.addTest(new DataGraphTest("testSave"));
+    ts.addTest(new DataGraphTest("testSave"));
     ts.addTest(new DataGraphTest("testLoad"));
     ts.addTest(new DataGraphTest("testChangeSummary"));
     ts.addTest(new DataGraphTest("testMultivalueXPathAccess"));
@@ -87,16 +88,17 @@ public class DataGraphTest extends TestCase
     expectedXML = "<sdo:datagraph xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\"><testClass name=\"Root\"><child name=\"Parent\"><child name=\"Child\"/></child></testClass></sdo:datagraph>"
       + System.getProperties().getProperty("line.separator");
 
-    modifiedXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\"><changeSummary xmlns=\"\"><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges></changeSummary><testClass name=\"Root2\"><child name=\"Parent\"><child name=\"Child\"/></child></testClass></sdo:datagraph>"
+    modifiedXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\" xmlns:tp=\"testPackage\"><changeSummary xmlns=\"\"><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges></changeSummary><tp:testClass name=\"Root2\"><child name=\"Parent\"><child name=\"Child\"/><reference>//@eRootObject</reference></child></tp:testClass></sdo:datagraph>"
       + System.getProperties().getProperty("line.separator");
 
-    finalXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"testPackage\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\"><changeSummary><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges><objectChanges key=\"#//@eRootObject/@child.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\"><listChanges index=\"0\" referenceValues=\"#//@eChangeSummary/@objectsToAttach.0\"/></value></objectChanges><objectChanges key=\"#//@eChangeSummary/@objectsToAttach.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Child\"/><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\" set=\"false\"/></objectChanges><objectsToAttach xsi:type=\"testClass\"/></changeSummary><testClass name=\"Root2\"><child name=\"Parent\"/></testClass></sdo:datagraph>"
+    finalXML = "<sdo:datagraph xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:sdo=\"commonj.sdo\" xmlns:sdo_1=\"http://www.eclipse.org/emf/2003/SDO\" xmlns:tp=\"testPackage\"><changeSummary xmlns=\"\"><objectChanges key=\"#//@eRootObject\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Root\"/></objectChanges><objectChanges key=\"#//@eRootObject/@child.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\"><listChanges index=\"0\" referenceValues=\"#//@eChangeSummary/@objectsToAttach.0\"/></value></objectChanges><objectChanges key=\"#//@eChangeSummary/@objectsToAttach.0\"><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"name\" dataValue=\"Child\"/><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"child\" set=\"false\"/><value xsi:type=\"sdo_1:EChangeSummarySetting\" featureName=\"reference\" set=\"false\"/></objectChanges><objectsToAttach xsi:type=\"tp:testClass\"/></changeSummary><tp:testClass name=\"Root2\"><child name=\"Parent\"><reference>//@eRootObject</reference></child></tp:testClass></sdo:datagraph>"
       + System.getProperties().getProperty("line.separator");
 
     // Create a dynamic package
     EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
     ePackage.setName("testPackage");
     ePackage.setNsURI("testPackage");
+    ePackage.setNsPrefix("tp");
     EPackage.Registry.INSTANCE.put("testPackage", ePackage);
 
     // Set the factory impl to one that creates data objects.
@@ -115,6 +117,13 @@ public class DataGraphTest extends TestCase
     eReference.setEType(eClass);
     eReference.setContainment(true);
     eClass.getEStructuralFeatures().add(eReference);
+    
+    EReference crossReference = EcoreFactory.eINSTANCE.createEReference();
+    crossReference.setName("reference");
+    crossReference.setEType(eClass);
+    crossReference.setResolveProxies(false);
+    eClass.getEStructuralFeatures().add(crossReference);
+    ExtendedMetaData.INSTANCE.setFeatureKind(crossReference, ExtendedMetaData.ELEMENT_FEATURE);
 
     // Register the class with the package
     ePackage.getEClassifiers().add(eClass);
@@ -132,6 +141,7 @@ public class DataGraphTest extends TestCase
     parentObject.set("name", "Parent");
     DataObject childObject = parentObject.createDataObject("child", "testPackage", "testClass");
     childObject.set("name", "Child");
+    parentObject.set("reference", rootObject);
   }
 
   public void testSave() throws Exception
