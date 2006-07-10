@@ -54,7 +54,7 @@ classes themselves.
 
 <p><b>Schema Based Constraint</b> - as with Named Constraint, but defined within schema. Eg., '<tt class="code">quantity</tt> must be an <tt class="code">int</tt> between 0 and 100'. Since these types of constraints have known behaviours, no additional work is required to implement them: all simple type constraints will be automatically implemented by the code generator.</p>
 
-<p><pre class="code">
+<p><pre>
   &lt;xsd:element name="quantity"&gt;
     &lt;xsd:simpleType&gt;
       &lt;xsd:restriction base="xsd:int"&gt;
@@ -108,7 +108,7 @@ classes themselves.
 
 <p>For Schema, you can define a <tt class="code">&lt;xsd:restriction/&gt;</tt> (as above) or named constraint:</p>
 
-<p><pre class="code">
+<p><pre>
   &lt;xsd:complexType name="Item"&gt;
     &lt;xsd:annotation&gt;
        &lt;xsd:appinfo source="http://www.eclipse.org/emf/2002/Ecore" 
@@ -125,7 +125,7 @@ classes themselves.
 
 <p><b>Invariant</b></p>
 
-<p><pre class="code">
+<p><pre>
   /**
     * @model
     */
@@ -150,7 +150,7 @@ classes themselves.
 
 <p><b>Constraint</b></p>
 
-<p><pre class="code">
+<p><pre>
   /**
    * @model 
   annotation="http://www.eclipse.org/emf/2002/Ecore 
@@ -176,7 +176,7 @@ classes themselves.
 
 <p><b>Invariant</b>, com.example.ppo.impl.USAddressImpl</p>
 
-<p><pre class="code">  public boolean hasUSState(
+<p><pre>  public boolean hasUSState(
     DiagnosticChain diagnostics, 
     Map context)
   {
@@ -218,7 +218,7 @@ classes themselves.
 
 <p><b>Constraint</b>, com.example.ppo.util.PPOValidator</p>
 
-<p><pre class="code">  public boolean validateItem_ValidShipDate(
+<p><pre>  public boolean validateItem_ValidShipDate(
     Item item, DiagnosticChain diagnostics, 
     Map context)
   {
@@ -254,7 +254,7 @@ classes themselves.
 
 <p>Code is also generated in the validator, eg., in com.example.ppo.util.PPOValidator, for each defined invariant, but these method(s) simply delegate to the invariant method(s) on the objects themselves, eg.:</p>
 
-<p><pre class="code">  public boolean validateUSAddress_hasUSState(USAddress usAddress, 
+<p><pre>  public boolean validateUSAddress_hasUSState(USAddress usAddress, 
     DiagnosticChain diagnostics, Map context)
   {
     return usAddress.hasUSState(diagnostics, context);
@@ -294,7 +294,7 @@ classes themselves.
 
 <p>To implement validation in another way, such as when saving or opening a file, you need only do something like:</p>
 
-<p><pre class="code">  public static boolean validateObject(EObject eObject)
+<p><pre>  public static boolean validateObject(EObject eObject)
   {
     Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
     return diagnostic.getSeverity() == Diagnostic.OK;
@@ -302,7 +302,7 @@ classes themselves.
 
 <p>Using a <tt class="code">Diagnostician</tt>, the result of the evaluation is calculated based on a <tt class="code">Diagnostic</tt>, not a simple boolean return.  This allows you to decide which severity represents a failure, and to expose the information about the constraints and invariants that were not satisfied.  As an example, if you were interested only in errors and warnings, you could do something like this:</p>
 
-<p><pre class="code">  public static boolean validateObject(EObject eObject)
+<p><pre>  public static boolean validateObject(EObject eObject)
   {
     Diagnostic diagnostic = Diagnostician.INSTANCE.validate(eObject);
     if (diagnostic.getSeverity() == Diagnostic.ERROR || 

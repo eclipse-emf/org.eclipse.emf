@@ -61,7 +61,7 @@ provider</i>.</p>
 interface. For example, a TreeViewer uses a content provider that implements the
 following interface:</p>
 
-<pre class="code">
+<pre>
   public interface ITreeContentProvider ...
   {
     public Object[] getChildren(Object object);
@@ -93,7 +93,7 @@ delegating to EMF adapters that know how to navigate the model objects (items)
 for the viewers. For example, the EMF adapter class used to support a tree
 viewer would implement the following EMF.Edit interface:</p>
 
-<pre class="code">
+<pre>
   public interface ITreeItemProvider
   {
     public Collection getChildren(Object object);
@@ -128,7 +128,7 @@ method of the required interface (in this case, ITreeItemProvider).</p>
 <p>The getChildren() method in AdapterFactoryContentProvider looks something
 like this:</p>
 
-<pre class="code">
+<pre>
   public Object[] getChildren(Object object)
   {
     ITreeItemContentProvider adapter =
@@ -152,7 +152,7 @@ objects or include additional, phantom, objects). To allow this mixture of EMF
 and non-EMF objects, the framework base class for adapter factories provides an
 implementation of adapt() that works something like this:</p>
 
-<pre class="code">
+<pre>
   public Object adapt(Object object, Object type)
   {
     if (object instanceof Notifier)
@@ -206,7 +206,7 @@ content provider, the item providers are where the work actually gets done.</p>
 <p>Using the EMF.Edit provider classes, a user might construct a TreeViewer for
 some EMF model as follows:</p>
 
-<pre class="code">
+<pre>
   myAdapterFactory = ...
 
   treeViewer = new TreeViewer();
@@ -271,7 +271,7 @@ remember the tree item provider interface that we looked at previously in the
 content provider section, you may have noticed that all the methods took an
 extra argument (an object):</p>
 
-<pre class="code">
+<pre>
   public interface ITreeItemProvider
   {
     public Collection getChildren(Object object);
@@ -335,7 +335,7 @@ read provider. Here's the big picture:</p>
 Department. To remove a department from the company (to implement, for example,
 an editor delete action) we could simply write the following code:</p>
 
-<pre class="code">
+<pre>
   Department d = ...
   Company c = ...
   c.getDepartments().remove(d);
@@ -348,7 +348,7 @@ modification.</p>
 (org.eclipse.emf.edit.command.RemoveCommand) to remove the department, we would
 write the following:</p>
 
-<pre class="code">
+<pre>
   Department d = ...
   Company c = ...
   EditingDomain ed = ...
@@ -384,7 +384,7 @@ object, we can do that by using the EditingDomain to help with the job.</p>
 method, createCommand(), that can be used, instead of new, to create
 commands:</p>
 
-<pre class="code">
+<pre>
   public interface EditingDomain
   {
     ...
@@ -403,7 +403,7 @@ providing static convenience create() methods in every command class. Using the
 static create() method, you can create and execute a RemoveCommand like this:
 </p>
 
-<pre class="code">
+<pre>
   Department d = ...
   EditingDomain ed = ...
   Command cmd = RemoveCommand.create(ed, d);
@@ -425,7 +425,7 @@ RemoveCommand.create() call. As stated previously, the static create() method is
 just a convenience method that delegates to the editing domain something like
 this:</p>
 
-<pre class="code">
+<pre>
   public static Command create(EditingDomain domain, Object value) 
   {
     return domain.createCommand(
@@ -438,7 +438,7 @@ this:</p>
 an item provider using the standard delegation pattern (as
 AdapterFactorContentProvider delegated getChildren() earlier):</p>
 
-<pre class="code">
+<pre>
   public Command createCommand(Class commandClass, CommandParameter commandParameter)
   {
     Object owner = ...  // get the owner object for the command
@@ -466,7 +466,7 @@ CompanyItemProvider for company c in the original code fragment). So, the
 CompanyItemProvider could implement createCommand() by doing something like
 this:</p>
 
-<pre class="code">
+<pre>
   public class CompanyItemProvider ...
   {
     ...
@@ -497,7 +497,7 @@ example of the Template Method design pattern.</p>
 <p>To make our RemoveCommand example work, CompanyItemProvider only needs
 to implement the following method:</p>
 
-<pre class="code">
+<pre>
   public Collection getChildrenFeatures(Object object)
   {
     return Collections.singleton(CompanyPackage.eINSTANCE.getCompany_Departments());
@@ -519,7 +519,7 @@ up. For example, assume that we want to do some extra cleanup whenever we remove
 a department from a company. The simplest way to achieve that might be to create
 a subclassof RemoveCommand  called RemoveDepartmentCommand like this:</p>
 
-<pre class="code">
+<pre>
   public class RemoveDepartmentCommand extends RemoveCommand
   {
     public void execute()
@@ -537,7 +537,7 @@ editingDomain.createCommand()) instead of new RemoveCommand(), then we can
 easily substitute our RemoveDepartmentCommand for the standard RemoveCommand by
 overriding createCommand() in the item provider like this:</p>
 
-<pre class="code">
+<pre>
   public class CompanyItemProvider ...
   {
     ...
@@ -558,7 +558,7 @@ overriding createCommand() in the item provider like this:</p>
 implementation of createCommand() dispatches the creation of each command to
 command-specific convenience methods, something like this:</p>
 
-<pre class="code">
+<pre>
   public Command createCommand(final Object object, ...
   {
     ...
@@ -574,7 +574,7 @@ command-specific convenience methods, something like this:</p>
 overriding createRemoveCommand(), instead of the createCommand() method itself:
 </p>
 
-<pre class="code">
+<pre>
   protected Command createRemoveCommand(...) 
   {
     return new RemoveDepartmentCommand(...);
@@ -617,7 +617,7 @@ to the viewer, and if so, what type of update it should result in.</p>
 simple implementation of interface IViewerNotification. This interface extends
 the basic Notification interface like this:</p>
 
-<pre class="code">
+<pre>
   public interface IViewerNotification extends Notification
   {
     Object getElement();
@@ -633,7 +633,7 @@ also determine how to efficiently update the viewer.</p>
 
 <p>The notifyChanged() method in class CompanyItemProvider looks like this:</p>
 
-<pre class="code">
+<pre>
   public void notifyChanged(Notification notification)
   {
     ...
@@ -682,7 +682,7 @@ adapter factories, to which it simply delegates its implementation.</p>
 <p>To set up a composed adapter factory, you would write something like this:
 </p>
 
-<pre class="code">
+<pre>
   model1AdapterFactory = ...
   model2AdapterFactory = ...
 
@@ -745,7 +745,7 @@ implement the dispatch efficiently.</p>
 <p>When using the Stateful pattern, the adapter factory create methods simply
 return a new object like this:</p>
 
-<pre class="code">
+<pre>
   class ABCItemProviderAdapterFactory extends ABCAdapterFactoryImpl
   {
     ...
@@ -760,7 +760,7 @@ return a new object like this:</p>
 <p>If, instead, the Singleton pattern is used, the adapter factory also keeps
 track of the singleton instance and returns it for each call:</p>
 
-<pre class="code">
+<pre>
   protected DepartmentItemProvider departmentItemProvider;
 
   public Adapter createDepartmentAdapter()
@@ -779,7 +779,7 @@ track of the singleton instance and returns it for each call:</p>
 generated. The generated item providers mix in all the interfaces needed to
 support the standard viewers, commands, and the property sheet:</p>
 
-<pre class="code">
+<pre>
   public class DepartmentItemProvider extends ...
     implements 
       IEditingDomainItemProvider,
@@ -796,14 +796,14 @@ support the standard viewers, commands, and the property sheet:</p>
 generated item provider will extend from the EMF.Edit item provider base class,
 ItemProviderAdapter:</p>
 
-<pre class="code">
+<pre>
   public class EmployeeItemProvider extends ItemProviderAdapter ...
 </pre>
 
 <p>If, instead, the model class inherits from a base class, then the generated
 item provider will extend from the base item provider like this:</p>
 
-<pre class="code">
+<pre>
   public class EmployeeItemProvider extends PersonItemProvider ...
 </pre>
 

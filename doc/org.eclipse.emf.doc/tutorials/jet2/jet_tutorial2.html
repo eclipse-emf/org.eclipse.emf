@@ -155,7 +155,7 @@
   plug-in, so the template file will be located in a <i>myplugin/templates/</i> 
   folder under the Eclipse <i>plugins/</i> folder. The following code can then 
   be used to locate and generate a template from this folder:</p>
-<pre class="code"> String pluginId = "myplugin.id";
+<pre> String pluginId = "myplugin.id";
  String base = Platform.getBundle(pluginId).getEntry("/").toString();
  String uri = base + "templates/myTemplate.javajet";
  <tt class="code">JETEmitter</tt> emitter = new JETEmitter(uri);
@@ -197,7 +197,7 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
   place. (The term headless refers to running Eclipse without the user interface.)</p>
 <p>This means that using <tt class="code">JETEmitter</tt> from a simple standalone application (a standard 
   Java class with a <tt class="code">main</tt> method) <i>will not work</i>:</p>
-<pre class="code"> // This fails: cannot use <tt class="code">JETEmitter</tt> from a standalone application
+<pre> // This fails: cannot use <tt class="code">JETEmitter</tt> from a standalone application
  public static void main(String[] args) {
      <tt class="code">JETEmitter</tt> emitter = new JETEmitter("/myproject/templates/HelloWorld.txtjet");
  
@@ -235,7 +235,7 @@ translation.  This value can be changed by the <tt class="code">setProjectName</
   template using <tt class="code">JETEmitter</tt>. The example shows how a <tt class="code">JETEmitter</tt> can be constructed 
   <img src="images/tag_1.gif" width="24" height="13"/>with a class loader parameter or by <img src="images/tag_2.gif" width="24" height="13"/>constructing 
   an anonymous subclass.</p>
-<pre class="code">package org.eclipse.emf.examples.jet.article2.actionexample;
+<pre>package org.eclipse.emf.examples.jet.article2.actionexample;
 // imports omitted
 public class EmitAction implements IActionDelegate {
     protected ISelection selection;
@@ -313,7 +313,7 @@ Classpath Variables menua action.. Your program will need to add a class path va
 <h3><a name="typesafe_enum_example"></a>Typesafe Enumerations</h3>
 <p>Let's have a look at a typesafe enumeration class to see what kind of source 
   code we want to generate. The Digit class below is an example typesafe enum.</p>
-<pre class="code"> // an example typesafe enum
+<pre> // an example typesafe enum
  package x.y.z;
  public class Digit { 
 <img src="images/tag_1.gif" width="24" height="13"/>  public static final Digit ZERO = new Digit(0, "zero");
@@ -453,7 +453,7 @@ Classpath Variables menua action.. Your program will need to add a class path va
   code with JET scriptlets and expressions that call our model classes. The resulting 
   template could look something like this:</p>
 
-<pre class="code"> <span class="highlight"><span class="highlight">&lt;%@ jet package="translated" imports="java.util.* article2.model.*" class="TypeSafeEnumeration" %&gt;</span></span>
+<pre> <span class="highlight"><span class="highlight">&lt;%@ jet package="translated" imports="java.util.* article2.model.*" class="TypeSafeEnumeration" %&gt;</span></span>
  <span class="highlight"><span class="highlight">&lt;% TypesafeEnum enum = (TypesafeEnum) argument; %&gt;</span></span>
  package <span class="highlight">&lt;%=enum.getPackageName()%&gt;</span>;
  
@@ -520,7 +520,7 @@ Classpath Variables menua action.. Your program will need to add a class path va
   method. The implementation of the <tt class="code">constructorValues</tt> method is shown 
   below. </p>
 
-<pre class="code">// class Instance
+<pre>// class Instance
 /**
  * Convenience method that returns the attribute values of this instance,
  * in the order expected by the constructor of this instance.
@@ -593,7 +593,7 @@ public String constructorValues() {
   before we <img src="images/tag_3.gif" width="24" height="13"/>call generate on 
   the <tt class="code">JETEmitter</tt>. The generated typesafe enum source code is <img src="images/tag_4.gif" width="24" height="13"/>saved 
   to the location in the workspace that the user specified.</p>
-<pre class="code"> // class NewTypesafeEnumCreationWizard
+<pre> // class NewTypesafeEnumCreationWizard
  protected void finishPage(IProgressMonitor monitor) 
  throws InterruptedException, CoreException {
  
@@ -617,7 +617,7 @@ public String constructorValues() {
 <h3><a name="pluginxml"></a>Registering our Wizard </h3>
 <p>Our final code snippet below shows the part of our <tt class="code">plugin.xml</tt> configuration 
   file where we register our wizard as a contribution to the workbench.</p>
-<pre class="code">   &lt;extension point="org.eclipse.ui.newWizards"&gt;
+<pre>   &lt;extension point="org.eclipse.ui.newWizards"&gt;
       &lt;wizard 
             name="Typesafe Enum"
             icon="icons/newenum_wiz.gif"
@@ -934,7 +934,7 @@ servlets.
   a <tt class="code">JMerge</tt> control model file as the third argument. The <tt class="code">plugins/org.eclipse.emf.codegen/test</tt> 
   folder in your Eclipse installation contains an example <tt class="code">merge.xml</tt> file.</p>
 
-<pre class="code">   @echo off
+<pre>   @echo off
    set ECLIPSE_HOME=C:\eclipse-2.1\eclipse
    set WORKSPACE=%ECLIPSE_HOME%\workspace
    set OPTS=-Xmx900M -Djava.compiler=NONE -verify -cp %ECLIPSE_HOME%\startup.jar
@@ -973,7 +973,7 @@ servlets.
 </ul>
 <p>Here's a simple Ant buildfile (the taskdef class path assumes you have Eclipse 
   2.1 and EMF 1.1.0): </p>
-<pre class="code"> &lt;project default="jetc_multiple_templates"&gt;
+<pre> &lt;project default="jetc_multiple_templates"&gt;
   
   &lt;property name="eclipse.plugins.dir" location="C:/eclipse-2.1/eclipse/plugins"/&gt;
   

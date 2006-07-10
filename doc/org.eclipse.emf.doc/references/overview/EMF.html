@@ -135,7 +135,7 @@ you can simply draw the class diagram as shown above.
 Alternatively, we could describe the model directly in an XMI document that 
 would look something like this:
 </p>
-<pre class="code">
+<pre>
   &lt;ecore:EPackage xmi:version=&quot;2.0&quot; xmlns:xmi=&quot;http://www.omg.org/XMI&quot;
       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
       xmlns:ecore=&quot;http://www.eclipse.org/emf/2002/Ecore&quot;
@@ -164,7 +164,7 @@ metadata and merge the generated code with the rest of the implementation.
 <p>
 We could have defined our Book model class in Java like this:
 </p>
-<pre class="code">
+<pre>
   /**
    * @model
    */
@@ -196,7 +196,7 @@ additional details about the model element. If for example, we wanted the pages
 attribute to be read-only (that is, no generation of a set method), we would 
 need to add the following to the annotation:
 </p>
-<pre class="code">
+<pre>
   /**
    * @model changeable=&quot;false&quot;
    */
@@ -213,7 +213,7 @@ application that must use XML to integrate with an existing application or to
 comply with a standard. Here is how we would specify a schema that's equivalent
 to our simple book model:
 </p>
-<pre class="code">
+<pre>
   &lt;xsd:schema targetNamespace=&quot;http:///library.ecore&quot;
       xmlns=&quot;http:///library.ecore&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
     &lt;xsd:complexType name=&quot;Book&quot;&gt;
@@ -243,7 +243,7 @@ For each class in the model, a Java interface and corresponding implementation
 class will be generated. In our example, the generated interface for Book 
 looks like this:
 </p>
-<pre class="code">
+<pre>
   public interface Book extends EObject
   {
     String getTitle();
@@ -275,7 +275,7 @@ Class BookImpl will include, among other things, implementations of the title
 and pages accessors. The pages attribute, for example, has the following 
 generated implementation:
 </p>
-<pre class="code">
+<pre>
   public class BookImpl extends EObjectImpl implements Book
   {
     ...
@@ -340,7 +340,7 @@ Running this model through the EMF generator will, in addition to generating the
 new interface Writer and implementation class WriterImpl, generate 
 additional get and set methods in interface Book:
 </p>
-<pre class="code">
+<pre>
   Writer getAuthor();
   void setAuthor(Writer value);</pre>
 <p>
@@ -348,7 +348,7 @@ Since the author reference is one-way, the implementation of the setAuthor()
 method looks much like a simple data setter, like the earlier one for
 setPages():
 </p>
-<pre class="code">
+<pre>
   public void setAuthor(Writer newAuthor)
   {
     Writer oldAuthor = author;
@@ -372,7 +372,7 @@ actual referenced
 object<sup><a class="footnote" href="#fn5">[5]</a><a name="ref5">&nbsp;</a></sup>.
 As a result, the getAuthor() method looks like this:
 </p>
-<pre class="code">
+<pre>
   public Writer getAuthor()
   {
     if (author != null &amp;&amp; author.eIsProxy())
@@ -414,7 +414,7 @@ Writer is books.
 If we regenerate our model, the getAuthor() method will be unaffected, but 
 setAuthor() will now look like this:
 </p>
-<pre class="code">
+<pre>
   public void setAuthor(Writer newAuthor)
   {
     if (newAuthor != author)
@@ -441,7 +441,7 @@ and therefore this book cannot be in more than one Writer's books reference.
 Finally, we set the author reference by calling another generated method
 (basicSetAuthor()) which looks like this:
 </p>
-<pre class="code">
+<pre>
   public NotificationChain basicSetAuthor(Writer newAuthor, NotificationChain msgs)
   {
     Writer oldAuthor = author;
@@ -474,7 +474,7 @@ reference where the upper bound is greater than 1) in EMF are manipulated
 using a collection API, so only a get method is generated in the 
 interface:
 </p>
-<pre class="code">
+<pre>
   public interface Writer extends EObject
   {
     ...
@@ -487,12 +487,12 @@ java.util.List that adds two move methods to the API. Other than that, from
 a client perspective, you can consider it a standard Java List. For 
 example, to add a book to the books association, you can simply call:
 </p>
-<pre class="code">
+<pre>
   aWriter.getBooks().add(aBook);</pre>
 <p>
 or to iterate over them you would do something like this:
 </p>
-<pre class="code">
+<pre>
   for (Iterator iter = aWriter.getBooks().iterator(); iter.hasNext(); )
   {
     Book book = (Book)iter.next();
@@ -506,7 +506,7 @@ we still need to do all the fancy inverse handshaking that we showed for the
 setAuthor() method. Looking at the implementation of the getBooks() method in 
 WriterImpl shows us how the multiplicity-many case gets handled:
 </p>
-<pre class="code">
+<pre>
   public EList getBooks()
   {
     if (books == null)
@@ -535,7 +535,7 @@ call eInverseAdd() on the Book, similar to the way eInverseAdd() was called on
 the Writer during setAuthor(). Here's what eInverseAdd() looks like in class 
 BookImpl:
 </p>
-<pre class="code">
+<pre>
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID,
                                        Class baseClass, NotificationChain msgs)
   {
@@ -580,7 +580,7 @@ contained object is guaranteed to be in the same resource as its container,
 proxy resolution isn't needed. Therefore, the generated get method in
 LibraryImpl will use a non-resolving EList implementation class:
 </p>
-<pre class="code">
+<pre>
   public EList getBooks()
   {
     if (books == null)
@@ -614,7 +614,7 @@ container generically. As a result, containment references are always
 implicitly two-way. To access the Library from a Book, you can write something 
 like this:
 </p>
-<pre class="code">
+<pre>
   EObject container = book.eContainer();
   if (container instanceof Library)
     library = (Library)container;</pre>
@@ -626,7 +626,7 @@ explicitly two-way instead:
 <p>
 and let EMF generate a nice typesafe get method for you:
 </p>
-<pre class="code">
+<pre>
   public Library getLibrary()
   {
     if (eContainerFeatureID != LibraryPackage.BOOK__LIBRARY) return null;
@@ -653,7 +653,7 @@ If we add an enumeration attribute, category, to class Book:
 and regenerate the implementation classes, interface Book will now include a 
 getter and setter for category:
 </p>
-<pre class="code">
+<pre>
   BookCategory getCategory();
   void setCategory(BookCategory value);</pre>
 <p>
@@ -661,7 +661,7 @@ In the generated interface, the category methods use a typesafe enumeration
 class called BookCategory. This class defines static constants for the
 enumeration's values and other convenience methods, like this:
 </p>
-<pre class="code">
+<pre>
   public final class BookCategory extends AbstractEnumerator
   {
     public static final int MYSTERY = 0;
@@ -703,7 +703,7 @@ The literal constants have the same names with _LITERAL appended.
 The constants provide convenient access to the literals when, for example, 
 setting the category of a book:
 </p>
-<pre class="code">
+<pre>
   book.setCategory(BookCategory.SCIENCE_FICTION_LITERAL);</pre>
 <p>
 The BookCategory constructor is private and therefore the only instances of the 
@@ -713,13 +713,13 @@ equality comparisons (that is .equals() calls) are never needed. Literals can
 always be reliably compared using the simpler and more efficient == operator, 
 like this:
 </p>
-<pre class="code">
+<pre>
   book.getCategory() == BookCategory.MYSTERY_LITERAL</pre>
 <p>
 When comparing against many values, a switch statement using the int values is 
 better yet:
 </p>
-<pre class="code">
+<pre>
   switch (book.getCategory().value()) {
     case BookCategory.MYSTERY:
       // do something ...
@@ -748,7 +748,7 @@ metadata<sup><a class="footnote" href="#fn14">[14]</a><a name="ref14">&nbsp;</a>
 <p>
 Here is the factory interface for the book example:
 </p>
-<pre class="code">
+<pre>
   public interface LibraryFactory extends EFactory
   {
     LibraryFactory eINSTANCE = new LibraryFactoryImpl();
@@ -768,7 +768,7 @@ constant reference (that is, eINSTANCE) to the factory singleton.
 The LibraryPackage interface provides convenient access to all the metadata of 
 our model:
 </p>
-<pre class="code">
+<pre>
   public interface LibraryPackage extends EPackage
   {
     ...
@@ -813,12 +813,12 @@ like this:
 The EMF generator handles single inheritance as you'd expect: the generated 
 interface extends the super interface:
 </p>
-<pre class="code">
+<pre>
   public interface SchoolBook extends Book</pre>
 <p>
 and the implementation class extends the super implementation class:
 </p>
-<pre class="code">
+<pre>
   public class SchoolBookImpl extends BookImpl implements SchoolBook</pre>
 <p>
 As in Java itself, multiple interface inheritance is supported, but each EMF 
@@ -839,13 +839,13 @@ shown<sup><a class="footnote" href="#fn15">[15]</a><a name="ref15">&nbsp;</a></s
 If we regenerate the model, interface SchoolBook will now extend the two
 interfaces:
 </p>
-<pre class="code">
+<pre>
   public interface SchoolBook extends Book, Asset</pre>
 <p>
 The implementation class looks the same as before, only now it includes 
 implementations of the mixed-in methods getValue() and setValue():
 </p>
-<pre class="code">
+<pre>
   public class SchoolBookImpl extends BookImpl implements SchoolBook
   {
     public float getValue()
@@ -868,7 +868,7 @@ modify the model and then regenerate. For example, let's add a method,
 isRecommended(), to class Book. To do this you simply go ahead and add the new 
 method signature to the Java interface Book:
 </p>
-<pre class="code">
+<pre>
   public interface Book ...
   {
     boolean isRecommended();
@@ -877,7 +877,7 @@ method signature to the Java interface Book:
 <p>
 and its implementation in class BookImpl:
 </p>
-<pre class="code">
+<pre>
   public boolean isRecommended()
   {
     return getAuthor().getName().equals(&quot;William Shakespeare&quot;);
@@ -887,7 +887,7 @@ The EMF generator won't wipe out this change because it isn't a generated method
 to begin with.  Every method generated by EMF includes a Javadoc comment that 
 contains an @generated tag, like this:
 </p>
-<pre class="code">
+<pre>
   /**
    * ...
    * @generated
@@ -903,7 +903,7 @@ implementation of a generated method, we can do that by removing the @generated
 tag from
 it<sup><a class="footnote" href="#fn16">[16]</a><a name="ref16">&nbsp;</a></sup>:
 </p>
-<pre class="code">
+<pre>
   /**
    * ...
    * <strike>@generated</strike> // (removed)
@@ -925,7 +925,7 @@ version of the method it redirects the output to it. For example, if we want to
 extend the generated getTitle() implementation, instead of completely discarding 
 it, then we can do that by simply renaming it like this:
 </p>
-<pre class="code">
+<pre>
   /**
    * ...
    * @generated
@@ -937,7 +937,7 @@ it, then we can do that by simply renaming it like this:
 <p>
 and then adding our override as a user method that does whatever we want:
 </p>
-<pre class="code">
+<pre>
   public String getTitle()
   {
     String result = getTitleGen();
@@ -974,7 +974,7 @@ and will be generated into its body.
 Using the generated classes, a client program can create and initialize a Book 
 with the following simple Java statements:
 </p>
-<pre class="code">
+<pre>
   LibraryFactory factory = LibraryFactory.eINSTANCE;
 
   Book book = factory.createBook();
@@ -989,7 +989,7 @@ Because the Book to Writer association (author) is two-way, the inverse
 reference (books) is automatically initialized. We can verify this by iterating 
 over the books reference like this:
 </p>
-<pre class="code">
+<pre>
   System.out.println(&quot;Shakespeare books:&quot;);
   for (Iterator iter = writer.getBooks().iterator(); iter.hasNext(); )
   {
@@ -999,7 +999,7 @@ over the books reference like this:
 <p>
 Running this program would produce output something like this:
 </p>
-<pre class="code">
+<pre>
   Shakespeare books:
     title: King Lear</pre>
 <h3>Saving and loading resources</h3>
@@ -1008,7 +1008,7 @@ To create a document named mylibrary.xmi containing the above model, all we need
 to do is create an EMF resource at the beginning of the program, put the book
 and writer into the resource, and call save() at the end:
 </p>
-<pre class="code">
+<pre>
   // Create a resource set.
   ResourceSet resourceSet = new ResourceSetImpl();
 
@@ -1047,7 +1047,7 @@ references.
 Running this program will produce the file mylibrary.xmi with contents something 
 like this:
 </p>
-<pre class="code">
+<pre>
   &lt;xmi:XMI xmi:version=&quot;2.0&quot; xmlns:xmi=&quot;http://www.omg.org/XMI&quot;
       xmlns:library=&quot;http:///library.ecore&quot;&gt;
     &lt;library:Book title=&quot;King Lear&quot; author=&quot;/1&quot;/&gt;
@@ -1057,7 +1057,7 @@ like this:
 To load the document mylibrary.xmi, as saved above, we set up a resource set,
 and then simply demand-load the resource into it, as follows:
 </p>
-<pre class="code">
+<pre>
    // Create a resource set.
    ResourceSet resourceSet = new ResourceSetImpl();
 
@@ -1098,12 +1098,12 @@ Splitting a model into multiple documents, with cross references between them,
 is simple. If we wanted to serialize the books and writers, in the save example
 above, into separate documents, all we need to do is create a second resource:
 </p>
-<pre class="code">
+<pre>
   Resource anotherResource = resourceSet.createResource(anotherFileURI);</pre>
 <p>
 and add the writer to it, instead of the first:
 </p>
-<pre class="code">
+<pre>
   <strike>resource.getContents().add(writer);</strike> // (replaced)
   anotherResource.getContents().add(writer);</pre>
 <p>
@@ -1133,7 +1133,7 @@ Previously, when we looked at set methods in generated EMF classes, we saw that
 notifications are always sent when an attribute or reference is changed. For
 example, the BookImpl.setPages() method included the following line:
 </p>
-<pre class="code">
+<pre>
   eNotify(newENotificationImpl(this, ..., oldPages, pages));</pre>
 <p>
 Every EObject can maintain a list of observers (also referred to as adapters),
@@ -1145,7 +1145,7 @@ observers.
 An observer can be attached to any EObject (for example, book) by adding to the 
 eAdapters list like this:
 </p>
-<pre class="code">
+<pre>
   Adapter bookObserver = ...
   book.eAdapters().add(bookObserver);</pre>
 <p>
@@ -1156,7 +1156,7 @@ attaches such extended behavior by asking an
 adapter factory to adapt an object with an extension of the required type. 
 Typically it looks something like this:
 </p>
-<pre class="code">
+<pre>
   EObject someObject = ...;
   AdapterFactory someAdapterFactory = ...;
   Object requiredType = ...;
@@ -1171,7 +1171,7 @@ For example, the argument might be the actual java.lang.Class for an interface
 of the chosen adapter. The returned adapter could then be downcast to the 
 requested interface like this:
 </p>
-<pre class="code">
+<pre>
   MyAdapter theAdapter =
     (MyAdapter)someAdapterFactory.adapt(someObject, MyAdapter.class);</pre>
 <p>
@@ -1188,7 +1188,7 @@ the notifications, based on the notification's type.
 Sometimes adapters are designed to adapt a specific class (for example, Book). 
 In this case, the notifyChanged() method might look something like this:
 </p>
-<pre class="code">
+<pre>
   public void notifyChanged(Notification notification)
   {
     Book book = (Book)notification.getNotifier();
@@ -1225,7 +1225,7 @@ represents the feature).
 Every generated model class can also be manipulated using the reflective API 
 defined in interface EObject:
 </p>
-<pre class="code">
+<pre>
   public interface EObject ...
   {
     ..
@@ -1238,12 +1238,12 @@ defined in interface EObject:
 <p>
 Using the reflective API, we could set the name of an author like this:
 </p>
-<pre class="code">
+<pre>
   writer.eSet(LibraryPackage.eINSTANCE.getWriter_Name(), &quot;William Shakespeare&quot;);</pre>
 <p>
 or get the name like this:
 </p>
-<pre class="code">
+<pre>
   String name = (String)writer.eGet(LibraryPackage.eINSTANCE.getWriter_Name());</pre>
 <p>
 Notice that the feature being accessed is identified by metadata obtained from
@@ -1292,13 +1292,13 @@ to put a feature in the unset state and to determine if it is in that state. For
 example, if the pages attribute in class Book is declared to be unsettable, then
 we'll get two more generated methods:
 </p>
-<pre class="code">
+<pre>
   boolean isSetPages();
   void unsetPages();</pre>
 <p>
 in addition to the original two:
 </p>
-<pre class="code">
+<pre>
   int getPages();
   void setPages(int value);</pre>
 <p>
@@ -1397,7 +1397,7 @@ java.util.Date like this:
 If we regenerate, the publicationDate attribute will now appear in the Book
 interface:
 </p>
-<pre class="code">
+<pre>
   import java.util.Date;
 
   public interface Book extends EObject
@@ -1423,7 +1423,7 @@ default, but the EMF framework doesn't want to require that, so it generates two
 more methods in the factory implementation class for every data type defined in
 the model:
 </p>
-<pre class="code">
+<pre>
   /**
    * @generated
    */
@@ -1448,7 +1448,7 @@ method, if one exists.  Typically you should take over these methods (by
 removing the @generated tags) and change them to appropriate custom
 implementations:
 </p>
-<pre class="code">
+<pre>
   /**
    * <strike>@generated</strike> // (removed)
    */
