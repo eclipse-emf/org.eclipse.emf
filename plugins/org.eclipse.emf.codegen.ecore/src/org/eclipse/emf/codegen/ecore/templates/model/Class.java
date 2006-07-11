@@ -1330,7 +1330,7 @@ public class Class
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -3560,7 +3560,6 @@ public class Class
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_984);
     for (Iterator i=genClass.getEInverseAddGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
-    if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {
     stringBuffer.append(TEXT_985);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_986);
@@ -3634,7 +3633,6 @@ public class Class
     stringBuffer.append(TEXT_1018);
     }
     }
-    }
     stringBuffer.append(TEXT_1019);
     if (genModel.isMinimalReflectiveMethods()) {
     stringBuffer.append(TEXT_1020);
@@ -3652,7 +3650,6 @@ public class Class
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_1026);
     for (Iterator i=genClass.getEInverseRemoveGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
-    if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {
     stringBuffer.append(TEXT_1027);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1028);
@@ -3694,7 +3691,6 @@ public class Class
     stringBuffer.append(TEXT_1045);
     }
     }
-    }
     stringBuffer.append(TEXT_1046);
     if (genModel.isMinimalReflectiveMethods()) {
     stringBuffer.append(TEXT_1047);
@@ -3711,7 +3707,6 @@ public class Class
     stringBuffer.append(TEXT_1052);
     for (Iterator i=genClass.getEBasicRemoveFromContainerGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
     GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();
-    if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {
     stringBuffer.append(TEXT_1053);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1054);
@@ -3719,7 +3714,6 @@ public class Class
     stringBuffer.append(TEXT_1055);
     stringBuffer.append(targetClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_1056);
-    }
     }
     stringBuffer.append(TEXT_1057);
     if (genModel.isMinimalReflectiveMethods()) {
@@ -3731,8 +3725,7 @@ public class Class
     }
     if (isImplementation && !genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_1061);
-    for (Iterator i=genClass.getAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
-    if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {
+    for (Iterator i=genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenFeatures().iterator() : genClass.getAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
     stringBuffer.append(TEXT_1062);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1063);
@@ -3792,7 +3785,6 @@ public class Class
     stringBuffer.append(TEXT_1088);
     }
     }
-    }
     stringBuffer.append(TEXT_1089);
     if (genModel.isMinimalReflectiveMethods()) {
     stringBuffer.append(TEXT_1090);
@@ -3804,7 +3796,6 @@ public class Class
     if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getESetGenFeatures())) {
     stringBuffer.append(TEXT_1093);
     for (Iterator i=genClass.getESetGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
-    if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {
     stringBuffer.append(TEXT_1094);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1095);
@@ -3865,7 +3856,6 @@ public class Class
     }
     stringBuffer.append(TEXT_1121);
     }
-    }
     stringBuffer.append(TEXT_1122);
     if (genModel.isMinimalReflectiveMethods()) {
     stringBuffer.append(TEXT_1123);
@@ -3874,7 +3864,6 @@ public class Class
     }
     stringBuffer.append(TEXT_1125);
     for (Iterator i=genClass.getESetGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
-    if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {
     stringBuffer.append(TEXT_1126);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1127);
@@ -3909,7 +3898,6 @@ public class Class
     }
     stringBuffer.append(TEXT_1141);
     }
-    }
     stringBuffer.append(TEXT_1142);
     if (genModel.isMinimalReflectiveMethods()) {
     stringBuffer.append(TEXT_1143);
@@ -3920,8 +3908,7 @@ public class Class
     }
     if (isImplementation && !genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_1146);
-    for (Iterator i=genClass.getAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
-    if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {
+    for (Iterator i=genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenFeatures().iterator() : genClass.getAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
     stringBuffer.append(TEXT_1147);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1148);
@@ -4081,7 +4068,6 @@ public class Class
     stringBuffer.append(TEXT_1213);
     stringBuffer.append(genFeature.getGetAccessor());
     stringBuffer.append(TEXT_1214);
-    }
     }
     }
     }

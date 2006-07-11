@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.62 2006/05/06 19:25:18 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.63 2006/07/11 17:38:53 khussey Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1035,8 +1035,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     return 
       collectGenFeatures
-        (getAllBaseGenClasses(), 
-         getGenFeatures(), 
+        (null, 
+         getGenModel().isMinimalReflectiveMethods() ? getImplementedGenFeatures() : getAllGenFeatures(), 
          new GenFeatureFilter() 
          {
            public boolean accept(GenFeature genFeature) 
@@ -1050,8 +1050,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     return 
      collectGenFeatures
-       (getAllBaseGenClasses(), 
-        getGenFeatures(), 
+       (null, 
+        getGenModel().isMinimalReflectiveMethods() ? getImplementedGenFeatures() : getAllGenFeatures(), 
         new GenFeatureFilter() 
         {
           public boolean accept(GenFeature genFeature) 
@@ -1065,8 +1065,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     return 
       collectGenFeatures
-        (getAllBaseGenClasses(), 
-         getGenFeatures(), 
+        (null, 
+         getGenModel().isMinimalReflectiveMethods() ? getImplementedGenFeatures() : getAllGenFeatures(), 
          new GenFeatureFilter() 
          {
            public boolean accept(GenFeature genFeature) 
@@ -1083,8 +1083,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     return 
       collectGenFeatures
-        (getAllBaseGenClasses(), 
-         getGenFeatures(), 
+        (null, 
+         getGenModel().isMinimalReflectiveMethods() ? getImplementedGenFeatures() : getAllGenFeatures(), 
          new GenFeatureFilter() 
          {
            public boolean accept(GenFeature genFeature) 
