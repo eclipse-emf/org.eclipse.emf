@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: DynamicEStoreEObjectImpl.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: DynamicEStoreEObjectImpl.java,v 1.5 2006/07/12 13:58:13 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -149,7 +148,7 @@ public class DynamicEStoreEObjectImpl extends DynamicEObjectImpl
     return new EStoreEObjectImpl.EStoreFeatureMap(this, eStructuralFeature, eStore());
   }
 
-  public EObject eContainer()
+  public InternalEObject eInternalContainer()
   {
     if (eContainer == EUNINITIALIZED_CONTAINER)
     {
