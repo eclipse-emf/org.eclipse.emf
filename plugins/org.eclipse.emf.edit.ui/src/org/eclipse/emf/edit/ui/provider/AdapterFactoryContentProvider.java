@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryContentProvider.java,v 1.8 2006/05/09 12:31:44 emerks Exp $
+ * $Id: AdapterFactoryContentProvider.java,v 1.9 2006/07/13 16:22:56 davidms Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -399,7 +399,7 @@ public class AdapterFactoryContentProvider
         {
           return n1;
         }
-        else if (n2.isContentRefresh() && n2.isContentRefresh())
+        else if (n2.isContentRefresh() && n2.isLabelUpdate())
         {
           return n2;
         }
@@ -407,7 +407,7 @@ public class AdapterFactoryContentProvider
         {
           if (n2.isLabelUpdate())
           {
-            n1 = new ViewerNotification(n1, n1.getElement());
+            n1 = new ViewerNotification(n1, n1.getElement(), true, true);
           }
           return n1;
         }
@@ -415,7 +415,7 @@ public class AdapterFactoryContentProvider
         {
           if (n1.isLabelUpdate())
           {
-            n2 = new ViewerNotification(n2, n2.getElement());
+            n2 = new ViewerNotification(n2, n2.getElement(), true, true);
           }
           return n2;
         }
