@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.63 2006/07/05 11:30:09 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.64 2006/07/15 12:15:38 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -2856,7 +2856,8 @@ public class XSDEcoreBuilder extends MapBuilder
       xsdAnnotations.add(((XSDWildcard)xsdComponent).getAnnotation());
     }
 
-    for (Iterator i = xsdAnnotations.iterator(); i.hasNext(); )
+    boolean first = true;
+    for (Iterator i = xsdAnnotations.iterator(); i.hasNext(); first = false)
     {
       XSDAnnotation xsdAnnotation = (XSDAnnotation)i.next();
       if (xsdAnnotation != null && !"true".equals(getEcoreAttribute(xsdAnnotation, "ignore")))
@@ -2878,7 +2879,7 @@ public class XSDEcoreBuilder extends MapBuilder
               String existingDocumentation =  EcoreUtil.getDocumentation(eModelElement);
               if (existingDocumentation != null)
               {
-                if (!append)
+                if (!first && !append)
                 {
                   continue;
                 }
@@ -2922,7 +2923,7 @@ public class XSDEcoreBuilder extends MapBuilder
 
               if (existingApplicationInformation != null)
               {
-                if (!append)
+                if (!first && !append)
                 {
                   continue;
                 }
@@ -2948,7 +2949,8 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
     
-    for (Iterator i = elements.iterator(); i.hasNext(); )
+    first = true;
+    for (Iterator i = elements.iterator(); i.hasNext(); first = false)
     {
       Element element = (Element)i.next();
       if (element != null)
@@ -2967,7 +2969,7 @@ public class XSDEcoreBuilder extends MapBuilder
               eAnnotation.setSource(sourceURI);
               eModelElement.getEAnnotations().add(eAnnotation);
             }
-            if (append || eAnnotation.getDetails().get(attribute.getLocalName()) == null)
+            if (first || append || eAnnotation.getDetails().get(attribute.getLocalName()) == null)
             {
               eAnnotation.getDetails().put(attribute.getLocalName(), attribute.getValue());
             }
