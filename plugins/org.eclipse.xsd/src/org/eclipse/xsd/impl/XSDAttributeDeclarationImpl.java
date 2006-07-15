@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.12 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.13 2006/07/15 12:33:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -187,7 +187,7 @@ public class XSDAttributeDeclarationImpl
       {
         XSDSimpleTypeDefinition newTypeDefinition = 
           resolveSimpleTypeDefinition(typeDefinition.getTargetNamespace(), typeDefinition.getName());
-        if (newTypeDefinition.getContainer() != null & newTypeDefinition != typeDefinition)
+        if (forceResolve || newTypeDefinition.getContainer() != null & newTypeDefinition != typeDefinition)
         {
           setTypeDefinition(newTypeDefinition);
         }

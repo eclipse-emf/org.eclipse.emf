@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.15 2006/05/03 20:39:01 davidms Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.16 2006/07/15 12:33:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -550,7 +550,7 @@ public class XSDElementDeclarationImpl
       if (typeDefinition != null && (forceResolve || typeDefinition.getContainer() == null))
       {
         XSDTypeDefinition newTypeDefinition = resolveTypeDefinition(typeDefinition.getTargetNamespace(), typeDefinition.getName());
-        if (newTypeDefinition.getContainer() != null && newTypeDefinition != typeDefinition)
+        if (forceResolve || newTypeDefinition.getContainer() != null && newTypeDefinition != typeDefinition)
         {
           setTypeDefinition(newTypeDefinition);
         }

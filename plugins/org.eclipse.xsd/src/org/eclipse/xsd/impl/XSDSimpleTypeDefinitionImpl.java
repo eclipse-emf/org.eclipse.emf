@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.18 2006/05/03 20:39:01 davidms Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.19 2006/07/15 12:33:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -656,7 +656,7 @@ public class XSDSimpleTypeDefinitionImpl
           {
             XSDSimpleTypeDefinition newItemTypeDefinition = 
               resolveSimpleTypeDefinition(theItemTypeDefinition.getTargetNamespace(), theItemTypeDefinition.getName());
-            if (newItemTypeDefinition.getContainer() != null && newItemTypeDefinition != theItemTypeDefinition)
+            if (forceResolve || newItemTypeDefinition.getContainer() != null && newItemTypeDefinition != theItemTypeDefinition)
             {
               setItemTypeDefinition(newItemTypeDefinition);
             }
@@ -671,7 +671,7 @@ public class XSDSimpleTypeDefinitionImpl
             {
               XSDSimpleTypeDefinition newMemberTypeDefinition = 
                 resolveSimpleTypeDefinition(theMemberTypeDefinition.getTargetNamespace(), theMemberTypeDefinition.getName());
-              if (newMemberTypeDefinition.getContainer() != null && newMemberTypeDefinition != theMemberTypeDefinition)
+              if (forceResolve || newMemberTypeDefinition.getContainer() != null && newMemberTypeDefinition != theMemberTypeDefinition)
               {
                 if (getMemberTypeDefinitions().contains(newMemberTypeDefinition))
                 {

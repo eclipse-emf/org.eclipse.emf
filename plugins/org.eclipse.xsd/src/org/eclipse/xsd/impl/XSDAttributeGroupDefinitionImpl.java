@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.11 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.12 2006/07/15 12:33:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -243,7 +243,7 @@ public class XSDAttributeGroupDefinitionImpl
       XSDAttributeGroupDefinition newResolvedAttributeGroupDefinition =
         resolveAttributeGroupDefinition
           (theResolvedAttributeGroupDefinition.getTargetNamespace(), theResolvedAttributeGroupDefinition.getName());
-      if (newResolvedAttributeGroupDefinition.getContainer() != null)
+      if (forceResolve || newResolvedAttributeGroupDefinition.getContainer() != null)
       {
         handleNewResolvedAttributeGroupDefinition(newResolvedAttributeGroupDefinition);
       }
