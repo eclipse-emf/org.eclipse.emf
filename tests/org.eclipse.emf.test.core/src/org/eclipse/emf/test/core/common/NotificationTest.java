@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationTest.java,v 1.1 2006/07/18 05:39:03 marcelop Exp $
+ * $Id: NotificationTest.java,v 1.2 2006/07/18 05:40:54 marcelop Exp $
  */
 package org.eclipse.emf.test.core.common;
 
@@ -165,18 +165,6 @@ public class NotificationTest extends TestCase
     removedObjects.add(resource.getContents().remove(0));
     removedObjects.add(resource.getContents().remove(resource.getContents().size()-1));
     removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);    
-
-    // *** Reset
-    removedObjects.clear();
-    resource.getContents().clear();
-    resource.getContents().addAll(initialContents);
-    myAdapter.mergedNotification = null;
-    
-    // Clear
-    removedObjects.addAll(resource.getContents());
-    resource.getContents().clear();
-    removeNotificationMergeCheck(removedObjects, initialContents, myAdapter.mergedNotification);    
-
 
     // *** Reset
     removedObjects.clear();
