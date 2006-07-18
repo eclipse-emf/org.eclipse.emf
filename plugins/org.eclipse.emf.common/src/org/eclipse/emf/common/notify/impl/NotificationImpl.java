@@ -12,14 +12,17 @@
  *
  * </copyright>
  *
- * $Id: NotificationImpl.java,v 1.6 2006/03/09 17:11:03 emerks Exp $
+ * $Id: NotificationImpl.java,v 1.7 2006/07/18 05:36:43 marcelop Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
 
+import java.util.List;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.BasicEList;
 
 
 /**
@@ -770,6 +773,101 @@ public class NotificationImpl implements Notification, NotificationChain
             }
           }
         }
+      }
+      case Notification.REMOVE:
+      {
+        int notificationEventType = notification.getEventType();
+        switch (notificationEventType)
+        {
+          case Notification.REMOVE:
+          {
+            Object notificationNotifier = notification.getNotifier();
+            if (notificationNotifier == getNotifier() && getFeatureID(null) == notification.getFeatureID(null))
+            {
+              boolean originalWasSet = wasSet();
+              int originalPosition = getPosition();
+              int notificationPosition = notification.getPosition();
+
+              eventType = Notification.REMOVE_MANY;
+              BasicEList removedValues = new BasicEList(2);
+              if (originalPosition <= notificationPosition)
+              {
+                removedValues.add(oldValue);
+                removedValues.add(notification.getOldValue());
+                newValue = new int [] { position = originalPosition, notificationPosition + 1 };
+              }
+              else
+              {
+                removedValues.add(notification.getOldValue());
+                removedValues.add(oldValue);
+                newValue = new int [] { position = notificationPosition, originalPosition };
+              }
+              oldValue = removedValues;
+
+              if (!originalWasSet)
+              {
+                position = IS_SET_CHANGE_INDEX - position - 1;
+              }
+              
+              return true;
+            }
+            break;
+          }
+        }
+        break;
+      }
+      case Notification.REMOVE_MANY:
+      {
+        int notificationEventType = notification.getEventType();
+        switch (notificationEventType)
+        {
+          case Notification.REMOVE:
+          {
+            Object notificationNotifier = notification.getNotifier();
+            if (notificationNotifier == getNotifier() && getFeatureID(null) == notification.getFeatureID(null))
+            {
+              boolean originalWasSet = wasSet();
+              int notificationPosition = notification.getPosition();
+
+              int [] positions = (int [])newValue;
+              int [] newPositions = new int [positions.length + 1];
+
+              int index = 0;
+              while (index < positions.length)
+              {
+                int oldPosition = positions[index];
+                if (oldPosition <= notificationPosition)
+                {
+                  newPositions[index++] = oldPosition;
+                  ++notificationPosition;
+                }
+                else
+                {
+                  break;
+                }
+              }
+
+              ((List)oldValue).add(index, notification.getOldValue());
+              newPositions[index] = notificationPosition;
+
+              while (++index < newPositions.length)
+              {
+                newPositions[index] = positions[index - 1];
+              }
+              
+              newValue = newPositions;
+
+              if (!originalWasSet)
+              {
+                position = IS_SET_CHANGE_INDEX - newPositions[0];
+              }
+
+              return true;
+            }
+            break;
+          }
+        }
+        break;
       }
     }
 
