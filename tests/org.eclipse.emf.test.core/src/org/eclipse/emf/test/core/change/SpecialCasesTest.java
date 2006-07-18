@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpecialCasesTest.java,v 1.20 2006/02/06 22:24:23 marcelop Exp $
+ * $Id: SpecialCasesTest.java,v 1.21 2006/07/18 05:38:37 marcelop Exp $
  */
 package org.eclipse.emf.test.core.change;
 
@@ -72,6 +72,7 @@ public class SpecialCasesTest  extends TestCase
   public static Test suite()
   {
     TestSuite ts = new TestSuite("Change Moldel - Special Cases");
+    ts.addTest(new SpecialCasesTest("testAddAllToAnotherContainment"));
     ts.addTest(new SpecialCasesTest("testFeatureMapChange"));
     ts.addTest(new SpecialCasesTest("testOneToManyContainment"));
     ts.addTest(new SpecialCasesTest("testOneToOneContainment"));
@@ -93,8 +94,7 @@ public class SpecialCasesTest  extends TestCase
     
     Supplier supplier = supplierFactory.createSupplier();
     supplier.setName("ACME");
-    ResourceSet resourceSet = new ResourceSetImpl();
-    Resource resource = resourceSet.createResource(URI.createFileURI("dummy.temp"));
+    Resource resource = new ResourceImpl(URI.createFileURI("dummy.xml"));
     resource.getContents().add(supplier);
     
     PurchaseOrder po1 = supplierFactory.createPurchaseOrder();
@@ -1121,4 +1121,129 @@ public class SpecialCasesTest  extends TestCase
     
     assertFalse(changeDescription.getObjectChanges().containsKey(mary));
   }
+  
+  /*
+   * Bugzilla 150866
+   */
+  public void testAddAllToAnotherContainment()
+  {
+    // Creating the model
+    EPackage pack = EcoreFactory.eINSTANCE.createEPackage();
+    
+    EClass person = EcoreFactory.eINSTANCE.createEClass();
+    person.setName("Person");
+    pack.getEClassifiers().add(person);
+    
+    EReference friendsReference = EcoreFactory.eINSTANCE.createEReference();
+    friendsReference.setName("Friends");
+    friendsReference.setEType(person);
+    friendsReference.setContainment(true);
+    friendsReference.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    person.getEStructuralFeatures().add(friendsReference);
+
+    EReference enemiesReference = EcoreFactory.eINSTANCE.createEReference();
+    enemiesReference.setName("Enemies");
+    enemiesReference.setEType(person);
+    enemiesReference.setContainment(true);
+    enemiesReference.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+    person.getEStructuralFeatures().add(enemiesReference);
+    
+    // Instantiating the model
+    EObject john = pack.getEFactoryInstance().create(person);
+    List johnFriends = (List)john.eGet(friendsReference);
+    new ResourceImpl().getContents().add(john);
+    
+    EObject mary = pack.getEFactoryInstance().create(person);
+    johnFriends.add(mary);
+    EObject joe = pack.getEFactoryInstance().create(person);
+    johnFriends.add(joe);
+    EObject jane = pack.getEFactoryInstance().create(person);
+    johnFriends.add(jane);
+    EObject mark = pack.getEFactoryInstance().create(person);
+    johnFriends.add(mark);
+    EObject beth = pack.getEFactoryInstance().create(person);
+    johnFriends.add(beth);
+
+    // State 0
+    assertEquals(5, johnFriends.size());
+    assertEquals(mary, johnFriends.get(0));
+    assertEquals(joe, johnFriends.get(1));
+    assertEquals(jane, johnFriends.get(2));
+    assertEquals(mark, johnFriends.get(3));
+    assertEquals(beth, johnFriends.get(4));
+    
+    ChangeRecorder changeRecorder = new ChangeRecorder(john);
+    johnFriends.clear();
+    ChangeDescription changeDescription = changeRecorder.endRecording();
+    
+    // State 1.0
+    assertTrue(johnFriends.isEmpty());
+
+    changeDescription.applyAndReverse();
+
+    // State 0
+    assertEquals(5, johnFriends.size());
+    assertEquals(mary, johnFriends.get(0));
+    assertEquals(joe, johnFriends.get(1));
+    assertEquals(jane, johnFriends.get(2));
+    assertEquals(mark, johnFriends.get(3));
+    assertEquals(beth, johnFriends.get(4));
+    
+    List list = new ArrayList();
+    list.add(joe);
+    list.add(mark);
+    list.add(mary);
+    list.add(beth);
+    
+    changeRecorder.beginRecording(Collections.singleton(john));
+    johnFriends.removeAll(list);
+    changeDescription = changeRecorder.endRecording();
+    
+    // State 1.1
+    assertEquals(1, johnFriends.size());    
+    assertEquals(jane, johnFriends.get(0));
+
+    changeDescription.applyAndReverse();
+
+    // State 0
+    assertEquals(5, johnFriends.size());
+    assertEquals(mary, johnFriends.get(0));
+    assertEquals(joe, johnFriends.get(1));
+    assertEquals(jane, johnFriends.get(2));
+    assertEquals(mark, johnFriends.get(3));
+    assertEquals(beth, johnFriends.get(4));
+    
+    
+    //======
+    
+    
+    List johnEnemies = (List)john.eGet(enemiesReference);
+    
+    // Part of State 0
+    assertTrue(johnEnemies.isEmpty());
+    
+    changeRecorder.beginRecording(Collections.singleton(john));
+    johnEnemies.addAll(list);
+    changeDescription = changeRecorder.endRecording();    
+    
+    // State 1.2
+    assertEquals(1, johnFriends.size());    
+    assertEquals(jane, johnFriends.get(0));
+    assertEquals(4, johnEnemies.size());    
+    assertEquals(joe, johnEnemies.get(0));
+    assertEquals(mark, johnEnemies.get(1));
+    assertEquals(mary, johnEnemies.get(2));
+    assertEquals(beth, johnEnemies.get(3));
+
+    changeDescription.applyAndReverse();
+
+    // State 0
+    assertEquals(5, johnFriends.size());
+    assertEquals(mary, johnFriends.get(0));
+    assertEquals(joe, johnFriends.get(1));
+    assertEquals(jane, johnFriends.get(2));
+    assertEquals(mark, johnFriends.get(3));
+    assertEquals(beth, johnFriends.get(4));
+    assertTrue(johnEnemies.isEmpty());
+  }  
 }
