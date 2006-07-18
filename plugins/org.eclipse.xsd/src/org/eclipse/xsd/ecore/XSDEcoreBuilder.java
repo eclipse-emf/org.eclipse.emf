@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.64 2006/07/15 12:15:38 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.65 2006/07/18 17:31:25 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -182,7 +182,18 @@ public class XSDEcoreBuilder extends MapBuilder
 
       String nsPrefix = ePackage.getName();
       int index = nsPrefix.lastIndexOf('.');
-      ePackage.setNsPrefix(index == -1 ? nsPrefix : nsPrefix.substring(index + 1));
+      nsPrefix = index == -1 ? nsPrefix : nsPrefix.substring(index + 1);
+
+      // http://www.w3.org/TR/REC-xml-names/#xmlReserved
+      // Namespace Constraint: Leading "XML"
+      // Prefixes beginning with the three-letter sequence x, m, l, in any case combination, 
+      // are reserved for use by XML and XML-related specifications.
+      //
+      if (nsPrefix.toLowerCase().startsWith("xml"))
+      {
+        nsPrefix = "_" + nsPrefix;
+      }
+      ePackage.setNsPrefix(nsPrefix);
 
       extendedMetaData.setQualified(ePackage, targetNamespace != null);
       extendedMetaData.putPackage(targetNamespace, ePackage);
