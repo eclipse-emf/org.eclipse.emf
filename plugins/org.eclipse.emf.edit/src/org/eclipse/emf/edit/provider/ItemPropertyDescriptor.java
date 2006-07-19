@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.22 2006/05/15 19:39:42 davidms Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.23 2006/07/19 17:43:39 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -744,7 +744,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
 
   public Object getHelpContextIds(Object object)
   {
-    return new String [] {};
+    return null;
   }
 
   protected static final EcorePackage ecorePackage = EcorePackage.eINSTANCE;
