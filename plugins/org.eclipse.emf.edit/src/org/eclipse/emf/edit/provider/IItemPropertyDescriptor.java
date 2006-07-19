@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IItemPropertyDescriptor.java,v 1.4 2006/05/15 19:36:54 davidms Exp $
+ * $Id: IItemPropertyDescriptor.java,v 1.5 2006/07/19 17:42:58 davidms Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -75,7 +75,7 @@ public interface IItemPropertyDescriptor
   String[] getFilterFlags(Object object);
 
   /*
-   * Returns the help context ids for this property.
+   * Returns the help context id for this property.
    */
   Object getHelpContextIds(Object object);
 
