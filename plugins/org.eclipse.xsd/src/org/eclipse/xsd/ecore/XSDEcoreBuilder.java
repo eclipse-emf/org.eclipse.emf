@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.65 2006/07/18 17:31:25 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.66 2006/07/19 19:56:17 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1066,7 +1066,7 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
 
-    for (Iterator i = xsdComplexTypeDefinition.getAttributeUses().iterator(); i.hasNext(); )
+    for (Iterator i = getAttributeUses(xsdComplexTypeDefinition).iterator(); i.hasNext(); )
     {
       XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)i.next();
       XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
@@ -1353,6 +1353,46 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
     return eClass;
+  }
+  
+  protected boolean useSortedAttributes()
+  {
+    return true;
+  }
+
+  protected List getAttributeUses(XSDComplexTypeDefinition xsdComplexTypeDefinition)
+  {
+    if (useSortedAttributes())
+    {
+      return xsdComplexTypeDefinition.getAttributeUses();
+    }
+    else
+    {
+      List result = new ArrayList(xsdComplexTypeDefinition.getAttributeUses());
+      reorderAttributeUses(result, xsdComplexTypeDefinition.getAttributeContents());
+      return result;
+    }
+  }
+
+  protected void reorderAttributeUses(List attributeUses, List attributeContents)
+  {
+    for (Iterator i = attributeContents.iterator(); i.hasNext(); )
+    {
+      Object attributeContent = i.next();
+      if (attributeContent instanceof XSDAttributeUse)
+      {
+        int index = attributeUses.indexOf(attributeContent);
+        if (index != -1)
+        {
+          attributeUses.remove(index);
+          attributeUses.add(attributeContent);
+        }
+      }
+      else
+      {
+        reorderAttributeUses(attributeUses, ((XSDAttributeGroupDefinition)attributeContent).getContents());
+      }
+    }
   }
 
   protected final List ANY_NAMESPACE_WILDCARD = Arrays.asList(new String [] { "##any" });
