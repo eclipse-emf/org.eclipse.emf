@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.16 2006/05/01 10:17:26 davidms Exp $
+ * $Id: JETEmitter.java,v 1.17 2006/07/21 10:50:27 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -326,7 +326,7 @@ public class JETEmitter
       EclipseHelper.initialize(progressMonitor, this);
     }
   }
-
+  
   /**
    * Registers the specified classpath variable in the workspace  
    * and adds a classpath entry to the {@link #getClasspathEntries() classpath entry list}.
@@ -604,6 +604,7 @@ public class JETEmitter
     {
       Bundle bundle = Platform.getBundle(pluginID);
       URL classpathURL = Platform.inDevelopmentMode() ? bundle.getEntry(".classpath") : null;
+      boolean addClasspathEntries = true;
       if (classpathURL != null)
       {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -643,6 +644,7 @@ public class JETEmitter
                 folder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
                 IPath path = folder.getFullPath();
                 jetEmitter.getClasspathEntries().add(JavaCore.newLibraryEntry(path, null, null));
+                addClasspathEntries = false;
                 break;
               }
             }
@@ -653,7 +655,7 @@ public class JETEmitter
           CodeGenPlugin.INSTANCE.log(exception);
         }
       }
-      else
+      if (addClasspathEntries)
       {
         CodeGenUtil.EclipseUtil.addClasspathEntries(jetEmitter.getClasspathEntries(), variableName, pluginID);
       }
