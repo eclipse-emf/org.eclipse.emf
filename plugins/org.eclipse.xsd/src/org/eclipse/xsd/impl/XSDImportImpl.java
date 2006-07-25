@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImportImpl.java,v 1.7 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDImportImpl.java,v 1.8 2006/07/25 14:06:36 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -455,6 +455,10 @@ public class XSDImportImpl
       if (theElement != null)
       {
         niceSetAttribute(theElement, XSDConstants.NAMESPACE_ATTRIBUTE, getNamespace());
+      }
+      if (eAttribute != null && getResolvedSchema() != null && getSchema().isIncrementalUpdate())
+      {
+        getSchema().reset();
       }
     }
   }
