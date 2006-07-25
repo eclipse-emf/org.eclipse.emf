@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.13 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.14 2006/07/25 14:07:37 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -287,6 +287,19 @@ public abstract class XSDSchemaDirectiveImpl
       {
         niceSetAttribute(theElement, XSDConstants.SCHEMALOCATION_ATTRIBUTE, getSchemaLocation());
       }
+      if (eAttribute != null && getResolvedSchema() != null && getSchema().isIncrementalUpdate())
+      {
+        getSchema().reset();
+      }
+    }
+  }
+  
+  protected void orphanBy(XSDSchema xsdSchema)
+  {
+    super.orphanBy(xsdSchema);
+    if (resolved && xsdSchema.isIncrementalUpdate())
+    {
+      xsdSchema.reset();
     }
   }
 
