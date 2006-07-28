@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XSDSchemaBuildingTools.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDSchemaBuildingTools.java,v 1.4 2006/07/28 12:59:09 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -405,7 +405,9 @@ public abstract class XSDSchemaBuildingTools
    * additional items for the particles, like min/maxOccours etc.</p>
    *
    * <p>If passed an XSDSchema, we then add this as a global 
-   * XSDModelGroupDefinition.  Otherwise, if passed an 
+   * XSDModelGroupDefinition.  If passed an XSDModelGroup, add this to the contents,
+   * If passed an XSDModelGroupDefinition, set this as the model group,
+   * Otherwise, if passed an 
    * XSDComplexTypeDefinition we set this group to be the 
    * single content of the typedef.</p>
    *
@@ -471,6 +473,16 @@ public abstract class XSDSchemaBuildingTools
       modelGroupDef.setName(localName);
       modelGroupDef.setModelGroup(modelGroup);
       ((XSDSchema)component).getContents().add(modelGroupDef);
+    }
+    else if(component instanceof XSDModelGroupDefinition)
+    {
+      ((XSDModelGroupDefinition)component).setModelGroup(modelGroup);
+    }
+    else if(component instanceof XSDModelGroup)
+    {
+      XSDParticle particle = xsdFactory.createXSDParticle();
+      particle.setContent(modelGroup);
+      ((XSDModelGroup)component).getContents().add(particle);
     }
     else
     {
