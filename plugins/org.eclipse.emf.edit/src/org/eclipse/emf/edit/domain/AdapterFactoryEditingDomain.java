@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.16 2006/01/31 20:43:31 davidms Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.17 2006/07/31 17:01:56 emerks Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -449,7 +449,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
             //
             removeCommand.append(createCommand(RemoveCommand.class, new CommandParameter(parent, null, siblings)));
           }
-          else
+          else if (object != null)
           {
             // The parent is null, which implies a top-leve removal, so create a self-removing command.
             //
