@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.66 2006/07/19 19:56:17 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.67 2006/08/01 18:10:01 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -34,7 +34,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
@@ -1250,11 +1249,10 @@ public class XSDEcoreBuilder extends MapBuilder
         Element applicationInformation = (Element)i.next();
         if ("operations".equals(applicationInformation.getAttributeNS(EcorePackage.eNS_URI, "key")))
         {
-          NodeList operations = applicationInformation.getElementsByTagNameNS(null, "operation");
-          for (int j = 0, size = operations.getLength(); j < size; ++j)
+          for (Iterator j =  getElements(applicationInformation, "operation").iterator(); j.hasNext(); )
           {
             EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
-            Element operation = (Element)operations.item(j);
+            Element operation = (Element)j.next();
             String operationName = operation.getAttributeNS(null, "name");
             eOperation.setName(operationName);
             XSDTypeDefinition returnType = getEcoreTypeQNameAttribute(xsdComplexTypeDefinition, operation, null, "type");
@@ -1271,88 +1269,110 @@ public class XSDEcoreBuilder extends MapBuilder
               eOperation.getEExceptions().add(getEClassifier(exceptionTypeDefinition));
             }
           
-            NodeList parameters = operation.getElementsByTagNameNS(null, "parameter");
-            for (int k = 0, parameterSize = parameters.getLength(); k < parameterSize; ++k)
+            for (Iterator k = getElements(operation, "parameter").iterator(); k.hasNext(); )
             {
               EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
-              Element parameter = (Element)parameters.item(k);
+              Element parameter = (Element)k.next();
               String paramaterName = parameter.getAttributeNS(null, "name");
               XSDTypeDefinition parameterType = getEcoreTypeQNameAttribute(xsdComplexTypeDefinition, parameter, null, "type");
               EClassifier parameterEType = getEClassifier(parameterType);
               eParameter.setName(paramaterName);
               eParameter.setEType(parameterEType);
-              
-              String lowerBound = parameter.getAttributeNS(null, "lowerBound");
-              if (!"".equals(lowerBound))
-              {
-                eParameter.setLowerBound(Integer.parseInt(lowerBound));
-              }
-              
-              String upperBound = parameter.getAttributeNS(null, "upperBound");
-              if (!"".equals(upperBound))
-              {
-                eParameter.setUpperBound(Integer.parseInt(upperBound));
-              }
-              
-              if ("false".equals(parameter.getAttributeNS(null, "unique")))
-              {
-                eParameter.setUnique(false);
-              }
-            
-              if ("false".equals(parameter.getAttributeNS(null, "ordered")))
-              {
-                eParameter.setOrdered(false);
-              }
 
+              populateETypedElement(eParameter, parameter);
               eOperation.getEParameters().add(eParameter);
             }
             
-            String lowerBound = operation.getAttributeNS(null, "lowerBound");
-            if (!"".equals(lowerBound))
+            List body = getElements(operation, "body");
+            if (!body.isEmpty())
             {
-              eOperation.setLowerBound(Integer.parseInt(lowerBound));
-            }
-            
-            String upperBound = operation.getAttributeNS(null, "upperBound");
-            if (!"".equals(upperBound))
-            {
-              eOperation.setUpperBound(Integer.parseInt(upperBound));
-            }
-            
-            if ("false".equals(operation.getAttributeNS(null, "unique")))
-            {
-              eOperation.setUnique(false);
-            }
-            
-            if ("false".equals(operation.getAttributeNS(null, "ordered")))
-            {
-              eOperation.setOrdered(false);
-            }
-            
-            NodeList body = operation.getElementsByTagNameNS(null, "body");
-            if (body.getLength() > 0)
-            {
-              StringBuffer text = new StringBuffer();
-              for (Node node = body.item(0).getFirstChild(); node != null; node = node.getNextSibling())
-              {
-                switch (node.getNodeType())
-                {
-                  case Node.TEXT_NODE:
-                  case Node.CDATA_SECTION_NODE:
-                  {
-                    text.append(node.getNodeValue());
-                  }
-                }
-              }
-              EcoreUtil.setAnnotation(eOperation, "http://www.eclipse.org/emf/2002/GenModel", "body", text.toString());
+              EcoreUtil.setAnnotation(eOperation, "http://www.eclipse.org/emf/2002/GenModel", "body", getText((Element)body.get(0)));
             }
 
+            populateETypedElement(eOperation, operation);
             eClass.getEOperations().add(eOperation);
           }
         }
       }
     }
     return eClass;
+  }
+  
+  protected void populateETypedElement(ETypedElement eTypedElement, Element element)
+  {
+    String lowerBound = element.getAttributeNS(null, "lowerBound");
+    if (!"".equals(lowerBound))
+    {
+      eTypedElement.setLowerBound(Integer.parseInt(lowerBound));
+    }
+    
+    String upperBound = element.getAttributeNS(null, "upperBound");
+    if (!"".equals(upperBound))
+    {
+      eTypedElement.setUpperBound(Integer.parseInt(upperBound));
+    }
+    
+    if ("false".equals(element.getAttributeNS(null, "unique")))
+    {
+      eTypedElement.setUnique(false);
+    }
+  
+    if ("false".equals(element.getAttributeNS(null, "ordered")))
+    {
+      eTypedElement.setOrdered(false);
+    }
+
+    for (Iterator l = getElements(element, "annotation").iterator(); l.hasNext(); )
+    {
+      EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+      Element annotation = (Element)l.next();
+      if (annotation.hasAttributeNS(null, "source"))
+      {
+        eAnnotation.setSource(annotation.getAttributeNS(null, "source"));
+      }
+      for (Iterator m = getElements(annotation, "detail").iterator(); m.hasNext(); )
+      {
+        Element detail = (Element)m.next();
+        eAnnotation.getDetails().put
+          (detail.hasAttributeNS(null, "key") ? detail.getAttributeNS(null, "key") : null,
+           getText(detail));
+      }
+      eTypedElement.getEAnnotations().add(eAnnotation);
+    }
+  }
+  
+  private String getText(Element element)
+  {
+    StringBuffer text = new StringBuffer();
+    for (Node node = element.getFirstChild(); node != null; node = node.getNextSibling())
+    {
+      switch (node.getNodeType())
+      {
+        case Node.TEXT_NODE:
+        case Node.CDATA_SECTION_NODE:
+        {
+          text.append(node.getNodeValue());
+        }
+      }
+    }
+    return text.toString();
+  }
+
+  private List getElements(Element element, String localName)
+  {
+    List result = new ArrayList();
+    for (Node node = element.getFirstChild(); node != null; node = node.getNextSibling())
+    {
+      if (node.getNodeType() == Node.ELEMENT_NODE)
+      {
+        Element child = (Element)node;
+        if (localName.equals(child.getLocalName()) && child.getNamespaceURI() == null)
+        {
+          result.add(child);
+        }
+      }
+    }
+    return result;
   }
   
   protected boolean useSortedAttributes()
