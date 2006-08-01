@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.9 2006/05/17 12:44:55 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.10 2006/08/01 18:09:20 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -571,6 +571,7 @@ public class EcoreSchemaBuilder extends MapBuilder
         Element operation = document.createElementNS(null, "operation");
         operation.setAttributeNS(null, "name", eOperation.getName());
         applicationInformation.appendChild(operation);
+        buildAnnotation(eOperation, operation);
         EClassifier returnEType = eOperation.getEType();
         if (returnEType != null)
         {
@@ -615,6 +616,7 @@ public class EcoreSchemaBuilder extends MapBuilder
           Element parameter = document.createElementNS(null, "parameter");
           parameter.setAttributeNS(null, "name", eParameter.getName());
           operation.appendChild(parameter);
+          buildAnnotation(eParameter, parameter);
           EClassifier parameterEType = eParameter.getEType();
           XSDTypeDefinition parameterType = xsdSchema.resolveTypeDefinitionURI(getURI(parameterEType));
           if (!XSDConstants.isURType(parameterType))
@@ -1530,5 +1532,54 @@ public class EcoreSchemaBuilder extends MapBuilder
     }
 
     xsdAnnotation.getElement().appendChild(userInformation);
+  }
+
+  protected void buildAnnotation(EModelElement eModelElement, Element parent)
+  {
+    Document document = parent.getOwnerDocument();
+    for (Iterator j = eModelElement.getEAnnotations().iterator();  j.hasNext(); )
+    {
+      EAnnotation eAnnotation = (EAnnotation)j.next();
+      String source = eAnnotation.getSource();
+      if (!isIgnoredAnnotationSource(source))
+      {
+        Element annotation = document.createElementNS(null, "annotation");
+        if (source != null)
+        {
+          annotation.setAttributeNS(null, "source", source);
+        }
+        for (Iterator k = eAnnotation.getDetails().iterator(); k.hasNext(); )
+        {
+          Map.Entry entry = (Map.Entry)k.next();
+          String key = (String)entry.getKey();
+          String value = (String)entry.getValue();
+          Element detail = document.createElementNS(null, "detail");
+          if (key != null)
+          {
+            detail.setAttributeNS(null, "key", key);
+          }
+          if (value != null)
+          {
+            detail.appendChild(document.createTextNode(value));
+          }
+          annotation.appendChild(detail);
+        }
+        parent.appendChild(annotation);
+      }
+      else if (GEN_MODEL_PACKAGE_NS_URI.equals(source) && eAnnotation.getDetails().containsKey("documentation"))
+      {
+        String documentation = EcoreUtil.getDocumentation(eModelElement);
+        if (documentation != null)
+        {
+          Element annotation = document.createElementNS(null, "annotation");
+          annotation.setAttributeNS(null, "source", GEN_MODEL_PACKAGE_NS_URI);
+          Element detail = document.createElementNS(null, "detail");
+          detail.setAttributeNS(null, "key", "documentation");
+          detail.appendChild(document.createTextNode(documentation));
+          annotation.appendChild(detail);
+          parent.appendChild(annotation);
+        }
+      }
+    }
   }
 }
