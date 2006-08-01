@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.59 2006/06/14 17:22:24 emerks Exp $
+ * $Id: XMLHandler.java,v 1.60 2006/08/01 18:41:10 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -316,6 +316,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected Attributes attribs;
   protected Map featuresToKinds;
   protected boolean useConfigurationCache;
+  protected boolean needsPushContext;
 
   /**
    */
@@ -807,6 +808,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
     isRoot = true;
     helper.pushContext();
+    needsPushContext = true;
   }
 
   /**
@@ -815,7 +817,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    */
   public void startElement(String uri, String localName, String name)
   {
-    helper.pushContext();
+    if (needsPushContext)
+    {
+      helper.pushContext();
+    }
+    needsPushContext = true;
     if (text != null && text.length() > 0)
     {
       if (mixedTargets.peek() != null)
@@ -852,7 +858,6 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       }
     }
     processElement(name, prefix, localName);
-    
   }
 
   protected void processElement(String name, String prefix, String localName)
@@ -1352,6 +1357,12 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   public void startPrefixMapping(String prefix, String uri)
   {
+    if (needsPushContext)
+    {
+      helper.pushContext();
+      needsPushContext = false;
+    }
+
     //if (useNonDeprecatedMethods)
     //{
         helper.addPrefix(prefix, uri);
