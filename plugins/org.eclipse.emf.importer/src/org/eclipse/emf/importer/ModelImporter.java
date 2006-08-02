@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.27 2006/05/26 20:06:44 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.28 2006/08/02 15:26:57 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -219,10 +219,13 @@ public abstract class ModelImporter extends ModelConverter
     {
       URI modelURI = (URI)modelLocationURIs.get(0);
       String name = URI.decode(modelURI.lastSegment());
-      int index = name.lastIndexOf('.');
-      return (index >= 0 ? name.substring(0, index) : name) + ".genmodel";
+      if (name != null)
+      {
+        int index = name.lastIndexOf('.');
+        return (index >= 0 ? name.substring(0, index) : name) + ".genmodel";
+      }
     }
-    return null;
+    return genModelFileName;
   }
 
   public Diagnostic checkGenModelFileName()
