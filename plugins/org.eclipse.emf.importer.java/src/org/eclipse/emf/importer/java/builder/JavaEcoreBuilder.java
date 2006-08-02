@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.23 2006/06/20 19:57:04 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.24 2006/08/02 11:42:11 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1823,10 +1823,16 @@ public class JavaEcoreBuilder
         mapType = keyType.substring(0, indexOfAt);
         keyType = keyType.substring(indexOfAt + 1);
       }
-      EClassifier keyEClassifier = resolve(eModelElement, keyType);
+
+      // Resolve using the container so that EDataTypes will be created, if necessary, 
+      // which won't happen for EReferences, which typically must resolve to an EClass, but that's the the case here.
+      //
+      EModelElement container = (EModelElement)eModelElement.eContainer();
+
+      EClassifier keyEClassifier = resolve(container, keyType);
 
       String valueType = typeName.substring(indexOfSlash + 1);
-      EClassifier valueEClassifier = resolve(eModelElement, valueType);
+      EClassifier valueEClassifier = resolve(container, valueType);
 
       if (mapType == null)
       {
