@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.63 2006/07/11 17:38:53 khussey Exp $
+ * $Id: GenClassImpl.java,v 1.64 2006/08/08 19:52:57 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1056,7 +1056,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         {
           public boolean accept(GenFeature genFeature) 
           {
-            return genFeature.isBidirectional() && !genFeature.isVolatile();
+            return genFeature.isBidirectional() && (!genFeature.isVolatile() || genFeature.hasDelegateFeature());
           }
         });
   }
@@ -1073,7 +1073,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
            {
              return genFeature.isEffectiveContains() ||
                (genFeature.isBidirectional() &&
-                !genFeature.getReverse().isVolatile()) ||
+                  (!genFeature.getReverse().isVolatile() || genFeature.getReverse().hasDelegateFeature())) ||
                genFeature.isFeatureMapType();
            }
          });
