@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.45 2006/06/14 21:56:15 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.46 2006/08/08 19:49:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -617,6 +617,7 @@ public class EcoreUtil
             {
               FeatureMap featureMap = (FeatureMap)eObject.eGet(eStructuralFeature);
               FeatureMap copyFeatureMap = (FeatureMap)copyEObject.eGet(getTarget(eStructuralFeature));
+              int copyFeatureMapSize = copyFeatureMap.size();
               for (int k = 0, featureMapSize = featureMap.size(); k < featureMapSize; ++k)
               {
                 EStructuralFeature feature = featureMap.getEStructuralFeature(k);
@@ -624,7 +625,29 @@ public class EcoreUtil
                 {
                   Object referencedEObject = featureMap.getValue(k);
                   Object copyReferencedEObject = get(referencedEObject);
-                  copyFeatureMap.add(feature, copyReferencedEObject == null ? referencedEObject : copyReferencedEObject);
+                  if (copyReferencedEObject == null && referencedEObject != null)
+                  {
+                    EReference reference = (EReference)feature;
+                    if (reference.isContainment() || reference.getEOpposite() != null)
+                    {
+                      continue;
+                    }
+                    copyReferencedEObject = referencedEObject;
+                  }
+                  // If we can't add it, it must aleady be in the list so find it and move it to the end.
+                  //
+                  if (!copyFeatureMap.add(feature, copyReferencedEObject))
+                  {
+                    for (int l = 0; l < copyFeatureMapSize; ++l) 
+                    {
+                      if (copyFeatureMap.getEStructuralFeature(l) == feature && copyFeatureMap.getValue(l) == copyReferencedEObject)
+                      {
+                        copyFeatureMap.move(copyFeatureMap.size() - 1, l);
+                        --copyFeatureMapSize;
+                        break;
+                      }
+                    }
+                  }
                 }
                 else
                 {
