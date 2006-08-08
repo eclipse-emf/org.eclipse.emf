@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.36 2006/05/23 16:12:00 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.37 2006/08/08 19:53:51 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1197,14 +1197,16 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
   public boolean isVolatile()
   {
-    // We treat the feature as volatile if it is volatile itself or if it is
-    // a reference whose opposite end is volatile.
-
+    // We treat the feature as volatile if it is volatile itself or if it is 
+    // a reference whose opposite end is volatile, 
+    // unless that oppsosite volatile reference delegates to a feature map,
+    // in which case, a full implementation of the references can be generated.
+    //
     EReference eReverseFeature = isReferenceType() ?
       ((EReference)getEcoreFeature()).getEOpposite() : null;
 
     return (getEcoreFeature().isVolatile() ||
-            (eReverseFeature != null && eReverseFeature.isVolatile()));
+            (eReverseFeature != null && eReverseFeature.isVolatile() && !getReverse().hasDelegateFeature()));
   }
 
   public boolean isChangeable()
@@ -1241,7 +1243,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     EClass ecoreClass = ecoreFeature.getEContainingClass();
     EStructuralFeature mixedFeature = getExtendedMetaData().getMixedFeature(ecoreClass);
     return 
-      (mixedFeature != null && mixedFeature != ecoreFeature) ||
+      (mixedFeature != null && mixedFeature != ecoreFeature && getExtendedMetaData().getFeatureKind(ecoreFeature) >= ExtendedMetaData.ELEMENT_FEATURE) ||
       getExtendedMetaData().getGroup(ecoreFeature) != null;
   }
 
@@ -1250,7 +1252,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     EStructuralFeature ecoreFeature = getEcoreFeature();
     EClass ecoreClass = ecoreFeature.getEContainingClass();
     EStructuralFeature eStructuralFeature = getExtendedMetaData().getGroup(ecoreFeature);
-    if (eStructuralFeature == null)
+    if (eStructuralFeature == null && getExtendedMetaData().getFeatureKind(ecoreFeature) >= ExtendedMetaData.ELEMENT_FEATURE)
     {
       eStructuralFeature = getExtendedMetaData().getMixedFeature(ecoreClass);
     }
