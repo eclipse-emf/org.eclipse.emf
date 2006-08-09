@@ -21,7 +21,7 @@
   <xsd:complexType name="EAttribute">
     <xsd:complexContent>
       <xsd:extension base="ecore:EStructuralFeature">
-        <xsd:attribute name="iD" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="iD" type="ecore:EBoolean"/>
         <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:lowerBound="1" ecore:reference="ecore:EDataType" ecore:transient="true" ecore:volatile="true" name="eAttributeType" type="xsd:anyURI"/>
       </xsd:extension>
     </xsd:complexContent>
@@ -34,7 +34,6 @@
           <xsd:element maxOccurs="unbounded" minOccurs="0" name="contents"/>
         </xsd:sequence>
         <xsd:attribute name="source" type="ecore:EString"/>
-        <xsd:attribute ecore:opposite="eAnnotations" ecore:reference="ecore:EModelElement" ecore:transient="true" name="eModelElement" type="xsd:IDREF"/>
         <xsd:attribute ecore:reference="xsd:anyType" name="references">
           <xsd:simpleType>
             <xsd:list itemType="xsd:anyURI"/>
@@ -67,8 +66,8 @@
           <xsd:element ecore:opposite="eContainingClass" maxOccurs="unbounded" minOccurs="0" name="eOperations" type="ecore:EOperation"/>
           <xsd:element ecore:opposite="eContainingClass" maxOccurs="unbounded" minOccurs="0" name="eStructuralFeatures" type="ecore:EStructuralFeature"/>
         </xsd:sequence>
-        <xsd:attribute name="abstract" type="ecore:EBoolean"/>
-        <xsd:attribute name="interface" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="abstract" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="interface" type="ecore:EBoolean"/>
         <xsd:attribute ecore:reference="ecore:EClass" name="eSuperTypes">
           <xsd:simpleType>
             <xsd:list itemType="xsd:anyURI"/>
@@ -132,14 +131,13 @@
         <xsd:attribute name="instanceClassName" type="ecore:EString"/>
         <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="instanceClass" type="ecore:EJavaClass"/>
         <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="defaultValue" type="ecore:EJavaObject"/>
-        <xsd:attribute ecore:changeable="false" ecore:opposite="eClassifiers" ecore:reference="ecore:EPackage" ecore:transient="true" name="ePackage" type="xsd:anyURI"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
   <xsd:complexType name="EDataType">
     <xsd:complexContent>
       <xsd:extension base="ecore:EClassifier">
-        <xsd:attribute default="true" name="serializable" type="ecore:EBoolean"/>
+        <xsd:attribute default="true" ecore:unsettable="false" name="serializable" type="ecore:EBoolean"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -168,10 +166,9 @@
   <xsd:complexType name="EEnumLiteral">
     <xsd:complexContent>
       <xsd:extension base="ecore:ENamedElement">
-        <xsd:attribute name="value" type="ecore:EInt"/>
+        <xsd:attribute ecore:unsettable="false" name="value" type="ecore:EInt"/>
         <xsd:attribute ecore:transient="true" name="instance" type="ecore:EEnumerator"/>
         <xsd:attribute name="literal" type="ecore:EString"/>
-        <xsd:attribute ecore:changeable="false" ecore:opposite="eLiterals" ecore:reference="ecore:EEnum" ecore:transient="true" name="eEnum" type="xsd:IDREF"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -254,7 +251,6 @@
         <xsd:sequence>
           <xsd:element ecore:opposite="eOperation" maxOccurs="unbounded" minOccurs="0" name="eParameters" type="ecore:EParameter"/>
         </xsd:sequence>
-        <xsd:attribute ecore:changeable="false" ecore:opposite="eOperations" ecore:reference="ecore:EClass" ecore:transient="true" name="eContainingClass" type="xsd:IDREF"/>
         <xsd:attribute ecore:reference="ecore:EClassifier" name="eExceptions">
           <xsd:simpleType>
             <xsd:list itemType="xsd:anyURI"/>
@@ -280,23 +276,20 @@
         <xsd:attribute name="nsURI" type="ecore:EString"/>
         <xsd:attribute name="nsPrefix" type="ecore:EString"/>
         <xsd:attribute ecore:lowerBound="1" ecore:opposite="ePackage" ecore:reference="ecore:EFactory" ecore:transient="true" name="eFactoryInstance" type="xsd:IDREF"/>
-        <xsd:attribute ecore:changeable="false" ecore:opposite="eSubpackages" ecore:reference="ecore:EPackage" ecore:transient="true" name="eSuperPackage" type="xsd:anyURI"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
   <xsd:complexType name="EParameter">
     <xsd:complexContent>
-      <xsd:extension base="ecore:ETypedElement">
-        <xsd:attribute ecore:changeable="false" ecore:opposite="eParameters" ecore:reference="ecore:EOperation" ecore:transient="true" name="eOperation" type="xsd:IDREF"/>
-      </xsd:extension>
+      <xsd:extension base="ecore:ETypedElement"/>
     </xsd:complexContent>
   </xsd:complexType>
   <xsd:complexType name="EReference">
     <xsd:complexContent>
       <xsd:extension base="ecore:EStructuralFeature">
-        <xsd:attribute name="containment" type="ecore:EBoolean"/>
-        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="container" type="ecore:EBoolean"/>
-        <xsd:attribute default="true" name="resolveProxies" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="containment" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:unsettable="false" ecore:volatile="true" name="container" type="ecore:EBoolean"/>
+        <xsd:attribute default="true" ecore:unsettable="false" name="resolveProxies" type="ecore:EBoolean"/>
         <xsd:attribute ecore:reference="ecore:EReference" name="eOpposite" type="xsd:anyURI"/>
         <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:lowerBound="1" ecore:reference="ecore:EClass" ecore:transient="true" ecore:volatile="true" name="eReferenceType" type="xsd:anyURI"/>
       </xsd:extension>
@@ -311,26 +304,25 @@
     </xsd:annotation>
     <xsd:complexContent>
       <xsd:extension base="ecore:ETypedElement">
-        <xsd:attribute default="true" name="changeable" type="ecore:EBoolean"/>
-        <xsd:attribute name="volatile" type="ecore:EBoolean"/>
-        <xsd:attribute name="transient" type="ecore:EBoolean"/>
+        <xsd:attribute default="true" ecore:unsettable="false" name="changeable" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="volatile" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="transient" type="ecore:EBoolean"/>
         <xsd:attribute name="defaultValueLiteral" type="ecore:EString"/>
         <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="defaultValue" type="ecore:EJavaObject"/>
-        <xsd:attribute name="unsettable" type="ecore:EBoolean"/>
-        <xsd:attribute name="derived" type="ecore:EBoolean"/>
-        <xsd:attribute ecore:changeable="false" ecore:opposite="eStructuralFeatures" ecore:reference="ecore:EClass" ecore:transient="true" name="eContainingClass" type="xsd:IDREF"/>
+        <xsd:attribute ecore:unsettable="false" name="unsettable" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="derived" type="ecore:EBoolean"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
   <xsd:complexType abstract="true" name="ETypedElement">
     <xsd:complexContent>
       <xsd:extension base="ecore:ENamedElement">
-        <xsd:attribute default="true" name="ordered" type="ecore:EBoolean"/>
-        <xsd:attribute default="true" name="unique" type="ecore:EBoolean"/>
-        <xsd:attribute name="lowerBound" type="ecore:EInt"/>
-        <xsd:attribute default="1" name="upperBound" type="ecore:EInt"/>
-        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="many" type="ecore:EBoolean"/>
-        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:volatile="true" name="required" type="ecore:EBoolean"/>
+        <xsd:attribute default="true" ecore:unsettable="false" name="ordered" type="ecore:EBoolean"/>
+        <xsd:attribute default="true" ecore:unsettable="false" name="unique" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:unsettable="false" name="lowerBound" type="ecore:EInt"/>
+        <xsd:attribute default="1" ecore:unsettable="false" name="upperBound" type="ecore:EInt"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:unsettable="false" ecore:volatile="true" name="many" type="ecore:EBoolean"/>
+        <xsd:attribute ecore:changeable="false" ecore:derived="true" ecore:transient="true" ecore:unsettable="false" ecore:volatile="true" name="required" type="ecore:EBoolean"/>
         <xsd:attribute ecore:reference="ecore:EClassifier" name="eType" type="xsd:anyURI"/>
       </xsd:extension>
     </xsd:complexContent>
