@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.67 2006/08/01 18:10:01 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.68 2006/08/09 15:05:40 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1748,7 +1748,7 @@ public class XSDEcoreBuilder extends MapBuilder
 
           if (xsdElementDeclaration.isNillable() && !canSupportNull((EDataType)type))
           {
-            eAttribute.setEType(type = (EDataType)typeToTypeObjectMap.get(type));
+              eAttribute.setEType(type = (EDataType)typeToTypeObjectMap.get(type));
             if (maxOccurs == 1)
             {
               eAttribute.setUnsettable(true);
@@ -1875,22 +1875,33 @@ public class XSDEcoreBuilder extends MapBuilder
       int upperBound = 1;
       if (attributeTypeDefinition.getVariety() == XSDVariety.LIST_LITERAL)
       {
+        XSDLengthFacet xsdLengthFacet = attributeTypeDefinition.getEffectiveLengthFacet();
         if (isRequired)
         {
-          XSDMinLengthFacet xsdMinLengthFacet = attributeTypeDefinition.getEffectiveMinLengthFacet();
-          if (xsdMinLengthFacet != null)
+          if (xsdLengthFacet != null)
           {
-            lowerBound = xsdMinLengthFacet.getValue();
+            lowerBound = xsdLengthFacet.getValue();
+          }
+          else
+          {
+            XSDMinLengthFacet xsdMinLengthFacet = attributeTypeDefinition.getEffectiveMinLengthFacet();
+            if (xsdMinLengthFacet != null)
+            {
+              lowerBound = xsdMinLengthFacet.getValue();
+            }
           }
         }
-        XSDMaxLengthFacet xsdMaxLengthFacet = attributeTypeDefinition.getEffectiveMaxLengthFacet();
-        if (xsdMaxLengthFacet != null)
+        if (xsdLengthFacet != null)
         {
-          upperBound = xsdMaxLengthFacet.getValue();
+          upperBound = xsdLengthFacet.getValue();
         }
         else
         {
-          upperBound = -1;
+          XSDMaxLengthFacet xsdMaxLengthFacet = attributeTypeDefinition.getEffectiveMaxLengthFacet();
+          if (xsdMaxLengthFacet != null)
+          {
+            upperBound = xsdMaxLengthFacet.getValue();
+          }
         }
       }
   
@@ -1915,20 +1926,35 @@ public class XSDEcoreBuilder extends MapBuilder
       if (isMany)
       {
         EDataType eDataType = getEDataType(attributeTypeDefinition.getItemTypeDefinition());
+        XSDLengthFacet xsdLengthFacet = attributeTypeDefinition.getEffectiveLengthFacet();
         int lowerBound = isRequired ? 1 : 0;
         int upperBound = -1;
         if (isRequired)
         {
-          XSDMinLengthFacet xsdMinLengthFacet = attributeTypeDefinition.getEffectiveMinLengthFacet();
-          if (xsdMinLengthFacet != null)
+          if (xsdLengthFacet != null)
           {
-            lowerBound = xsdMinLengthFacet.getValue();
+            lowerBound = xsdLengthFacet.getValue();
+          }
+          else
+          {
+            XSDMinLengthFacet xsdMinLengthFacet = attributeTypeDefinition.getEffectiveMinLengthFacet();
+            if (xsdMinLengthFacet != null)
+            {
+              lowerBound = xsdMinLengthFacet.getValue();
+            }
           }
         }
-        XSDMaxLengthFacet xsdMaxLengthFacet = attributeTypeDefinition.getEffectiveMaxLengthFacet();
-        if (xsdMaxLengthFacet != null)
+        if (xsdLengthFacet != null)
         {
-          upperBound = xsdMaxLengthFacet.getValue();
+          upperBound = xsdLengthFacet.getValue();
+        }
+        else
+        {
+          XSDMaxLengthFacet xsdMaxLengthFacet = attributeTypeDefinition.getEffectiveMaxLengthFacet();
+          if (xsdMaxLengthFacet != null)
+          {
+            upperBound = xsdMaxLengthFacet.getValue();
+          }
         }
         EStructuralFeature result =
           createFeature
