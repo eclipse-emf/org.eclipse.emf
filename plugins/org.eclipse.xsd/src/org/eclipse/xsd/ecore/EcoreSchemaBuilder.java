@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.10 2006/08/01 18:09:20 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.11 2006/08/09 14:37:41 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -45,6 +45,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeUse;
+import org.eclipse.xsd.XSDAttributeUseCategory;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDCompositor;
@@ -58,7 +59,10 @@ import org.eclipse.xsd.XSDFactory;
 import org.eclipse.xsd.XSDFeature;
 import org.eclipse.xsd.XSDForm;
 import org.eclipse.xsd.XSDImport;
+import org.eclipse.xsd.XSDLengthFacet;
 import org.eclipse.xsd.XSDMaxInclusiveFacet;
+import org.eclipse.xsd.XSDMaxLengthFacet;
+import org.eclipse.xsd.XSDMinLengthFacet;
 import org.eclipse.xsd.XSDModelGroup;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDParticle;
@@ -735,7 +739,7 @@ public class EcoreSchemaBuilder extends MapBuilder
           {
             return buildElementParticle(xsdComplexTypeDefinition, eReference);
           }
-          else if (eReference.isContainer())
+          else if (eReference.isContainer() && eReference.isTransient())
           {
             return null;
           }
@@ -886,35 +890,16 @@ public class EcoreSchemaBuilder extends MapBuilder
       if (eStructuralFeature instanceof EReference)
       {
         referenceType = eType;
-        if (eStructuralFeature.isMany())
-        {
-          if (((EReference)eStructuralFeature).isResolveProxies())
-          {
-            XSDSimpleTypeDefinition xsdSimpleTypeDefinition = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
-            xsdSimpleTypeDefinition.setItemTypeDefinition
-              (xsdComplexTypeDefinition.getSchema().getSchemaForSchema().resolveSimpleTypeDefinition("anyURI"));
-            xsdAttributeDeclaration.setAnonymousTypeDefinition(xsdSimpleTypeDefinition);
-          }
-          else
-          {
-            XSDSimpleTypeDefinition xsdSimpleTypeDefinition =  
-                xsdComplexTypeDefinition.getSchema().getSchemaForSchema().resolveSimpleTypeDefinition("IDREFS");
-            xsdAttributeDeclaration.setTypeDefinition(xsdSimpleTypeDefinition);
-          }
-        }
-        else
-        {
-          XSDSimpleTypeDefinition xsdSimpleTypeDefinition =  
-              xsdComplexTypeDefinition.getSchema().getSchemaForSchema().resolveSimpleTypeDefinition
-                (((EReference)eStructuralFeature).isResolveProxies() ?  "anyURI" : "IDREF");
-          xsdAttributeDeclaration.setTypeDefinition(xsdSimpleTypeDefinition);
-        }
+        XSDSimpleTypeDefinition xsdSimpleTypeDefinition =  
+            xsdComplexTypeDefinition.getSchema().getSchemaForSchema().resolveSimpleTypeDefinition
+              (((EReference)eStructuralFeature).isResolveProxies() ?  "anyURI" : "IDREF");
+        handleMultiplicity(xsdComplexTypeDefinition.getSchema(), eStructuralFeature, xsdAttributeDeclaration, xsdSimpleTypeDefinition);
       }
       else
       {
         XSDSimpleTypeDefinition xsdSimpleTypeDefinition =  xsdComplexTypeDefinition.resolveSimpleTypeDefinitionURI(getURI(eType));
         handleImport(xsdComplexTypeDefinition.getSchema(), xsdSimpleTypeDefinition);
-        xsdAttributeDeclaration.setTypeDefinition(xsdSimpleTypeDefinition);
+        handleMultiplicity(xsdComplexTypeDefinition.getSchema(), eStructuralFeature, xsdAttributeDeclaration, xsdSimpleTypeDefinition);
       }
     }
     
@@ -922,6 +907,11 @@ public class EcoreSchemaBuilder extends MapBuilder
     xsdComplexTypeDefinition.getAttributeContents().add(xsdAttributeUse);
     map(xsdAttributeUse, eStructuralFeature);
     
+    if (referenceType == null && eStructuralFeature.isMany())
+    {
+      createEcoreAnnotation(xsdAttributeUse, "many", "true");
+    }
+
     if (eStructuralFeature instanceof EReference)
     {
       EReference eReference = (EReference)eStructuralFeature;
@@ -931,7 +921,7 @@ public class EcoreSchemaBuilder extends MapBuilder
         createEcoreAnnotation(xsdAttributeUse, "opposite", eOpposite.getName());
       }
     }
-    
+
     if (eStructuralFeature.isRequired())
     {
       if (eStructuralFeature.isTransient())
@@ -940,8 +930,21 @@ public class EcoreSchemaBuilder extends MapBuilder
       }
       else
       {
-        xsdAttributeUse.setRequired(true);
+        xsdAttributeUse.setUse(XSDAttributeUseCategory.REQUIRED_LITERAL);
       }
+    }
+    
+    if (eStructuralFeature.isMany())
+    {
+      if (eStructuralFeature.isUnsettable())
+      {
+        createEcoreAnnotation(xsdAttributeUse, "unsettable", "true");
+      }
+    }
+    else if ((eStructuralFeature.getEType().getDefaultValue() != null || eStructuralFeature.getDefaultValueLiteral() != null) !=
+                eStructuralFeature.isUnsettable())
+    {
+      createEcoreAnnotation(xsdAttributeUse, "unsettable", Boolean.toString(eStructuralFeature.isUnsettable()));
     }
 
     String ecoreName = eStructuralFeature.getName();
@@ -1017,6 +1020,76 @@ public class EcoreSchemaBuilder extends MapBuilder
     return xsdAttributeUse;
   }
   
+  protected void handleMultiplicity
+    (XSDSchema xsdSchema,
+     EStructuralFeature eStructuralFeature, 
+     XSDAttributeDeclaration xsdAttributeDeclaration, 
+     XSDSimpleTypeDefinition xsdSimpleTypeDefinition)
+  {
+    if (eStructuralFeature.isMany())
+    {
+      XSDSimpleTypeDefinition xsdListTypeDefinition;
+      if (xsdSimpleTypeDefinition.hasNameAndTargetNamespace("IDREF", defaultXMLSchemaNamespace))
+      {
+        xsdListTypeDefinition = xsdSchema.getSchemaForSchema().resolveSimpleTypeDefinition("IDREFS");
+      }
+      else
+      {
+        xsdListTypeDefinition = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
+        xsdListTypeDefinition.setItemTypeDefinition(xsdSimpleTypeDefinition);
+      }
+      if (eStructuralFeature.getLowerBound() > 1 || eStructuralFeature.getUpperBound() > 1)
+      {
+        XSDSimpleTypeDefinition xsdRestrictedTypeDefinition = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
+        if (xsdListTypeDefinition.getContainer() == null)
+        {
+          xsdRestrictedTypeDefinition.getContents().add(xsdListTypeDefinition);
+        }
+        else
+        {
+          xsdRestrictedTypeDefinition.setBaseTypeDefinition(xsdListTypeDefinition);
+        }
+        if (eStructuralFeature.getLowerBound() == eStructuralFeature.getUpperBound())
+        {
+          XSDLengthFacet xsdLengthFacet = XSDFactory.eINSTANCE.createXSDLengthFacet();
+          xsdLengthFacet.setLexicalValue(Integer.toString(eStructuralFeature.getLowerBound()));
+          xsdRestrictedTypeDefinition.getFacetContents().add(xsdLengthFacet);
+        }
+        else
+        {
+          if (eStructuralFeature.getLowerBound() > 1)
+          {
+            XSDMinLengthFacet xsdMinLengthFacet = XSDFactory.eINSTANCE.createXSDMinLengthFacet();
+            xsdMinLengthFacet.setLexicalValue(Integer.toString(eStructuralFeature.getLowerBound()));
+            xsdRestrictedTypeDefinition.getFacetContents().add(xsdMinLengthFacet);
+          }
+          if (eStructuralFeature.getUpperBound() > 1)
+          {
+            XSDMaxLengthFacet xsdMaxLengthFacet = XSDFactory.eINSTANCE.createXSDMaxLengthFacet();
+            xsdMaxLengthFacet.setLexicalValue(Integer.toString(eStructuralFeature.getUpperBound()));
+            xsdRestrictedTypeDefinition.getFacetContents().add(xsdMaxLengthFacet);
+          }
+        }
+        xsdAttributeDeclaration.setAnonymousTypeDefinition(xsdRestrictedTypeDefinition);
+      }
+      else
+      {
+        if (xsdListTypeDefinition.getContainer() == null)
+        {
+          xsdAttributeDeclaration.setAnonymousTypeDefinition(xsdListTypeDefinition);
+        }
+        else
+        {
+          xsdAttributeDeclaration.setTypeDefinition(xsdListTypeDefinition);
+        }
+      }
+    }
+    else
+    {
+      xsdAttributeDeclaration.setTypeDefinition(xsdSimpleTypeDefinition);
+    }
+  }
+
   protected XSDParticle buildElementParticle(XSDComplexTypeDefinition xsdComplexTypeDefinition, EStructuralFeature eStructuralFeature)
   {
     String namespace = extendedMetaData.getNamespace(eStructuralFeature);
@@ -1118,6 +1191,21 @@ public class EcoreSchemaBuilder extends MapBuilder
     xsdModelGroup.getContents().add(xsdParticle);
     map(xsdParticle, eStructuralFeature);
     
+    if (eStructuralFeature.isMany())
+    {
+      if (eStructuralFeature.isUnsettable())
+      {
+        createEcoreAnnotation(xsdParticle, "unsettable", "true");
+      }
+    }
+    else if (xsdElementDeclaration.isNillable() ?
+               !eStructuralFeature.isUnsettable() :
+               (eStructuralFeature.getEType().getDefaultValue() != null || eStructuralFeature.getDefaultValueLiteral() != null) !=
+                  eStructuralFeature.isUnsettable())
+    {
+      createEcoreAnnotation(xsdParticle, "unsettable", Boolean.toString(eStructuralFeature.isUnsettable()));
+    }
+
     if (eOpposite != null)
     {
       createEcoreAnnotation(xsdParticle, "opposite", eOpposite.getName());
