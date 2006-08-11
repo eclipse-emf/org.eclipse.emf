@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.68 2006/08/09 15:05:40 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.69 2006/08/11 21:56:38 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1863,6 +1863,10 @@ public class XSDEcoreBuilder extends MapBuilder
     (EClass eClass, XSDAttributeDeclaration xsdAttributeDeclaration, String name, XSDComponent xsdComponent, boolean isRequired)
   {
     XSDSimpleTypeDefinition attributeTypeDefinition = (XSDSimpleTypeDefinition)getEffectiveTypeDefinition(xsdComponent, xsdAttributeDeclaration);
+    if (attributeTypeDefinition == null)
+    {
+      attributeTypeDefinition = xsdComponent.getSchema().getSchemaForSchema().resolveSimpleTypeDefinition("anySimpleType");
+    }
   
     XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdComponent, "reference");
     if (referenceType == null)
