@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.4 2006/05/19 22:31:12 davidms Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.5 2006/08/11 21:59:35 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -1110,14 +1110,17 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
         IDocument doc = new Document(contents);
         TextEdit edit = ((CodeFormatter)codeFormatter).format(CodeFormatter.K_COMPILATION_UNIT, doc.get(), 0, doc.get().length(), 0, null);
   
-        try
+        if (edit != null)
         {
-          edit.apply(doc);
-          contents = doc.get();
-        }
-        catch (Exception exception)
-        {
-          CodeGenEcorePlugin.INSTANCE.log(exception);
+          try
+          {
+            edit.apply(doc);
+            contents = doc.get();
+          }
+          catch (Exception exception)
+          {
+            CodeGenEcorePlugin.INSTANCE.log(exception);
+          }
         }
       }
       return contents;
