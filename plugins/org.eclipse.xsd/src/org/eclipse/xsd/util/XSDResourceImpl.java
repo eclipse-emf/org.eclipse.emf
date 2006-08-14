@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.16 2006/06/13 21:13:26 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.17 2006/08/14 13:01:10 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -32,6 +32,7 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
@@ -150,6 +151,8 @@ public class XSDResourceImpl extends ResourceImpl
     try
     {
       Transformer transformer = new DefaultJAXPConfiguration().createTransformer(encoding);
+      // Be sure to use actual encoding of the transformer which might be non-null even if encoding started as null.
+      encoding = transformer.getOutputProperty(OutputKeys.ENCODING);
       Writer writer = encoding == null ? new OutputStreamWriter(outputStream) : new OutputStreamWriter(outputStream, encoding);
       transformer.transform(new DOMSource(element), new StreamResult(writer));
     }
@@ -211,8 +214,11 @@ public class XSDResourceImpl extends ResourceImpl
       {
         try
         {
+          Transformer transformer = config.createTransformer(encoding);
+          // Be sure to use actual encoding of the transformer which might be non-null even if encoding started as null.
+          encoding = transformer.getOutputProperty(OutputKeys.ENCODING);
           Writer writer = encoding == null ? new OutputStreamWriter(outputStream) : new OutputStreamWriter(outputStream, encoding);
-          config.createTransformer(encoding).transform(new DOMSource(document), new StreamResult(writer));
+          transformer.transform(new DOMSource(document), new StreamResult(writer));
         }
         catch (TransformerException exception)
         {
@@ -253,6 +259,8 @@ public class XSDResourceImpl extends ResourceImpl
     try
     {
       Transformer transformer = new DefaultJAXPConfiguration().createTransformer(encoding);
+      // Be sure to use actual encoding of the transformer which might be non-null even if encoding started as null.
+      encoding = transformer.getOutputProperty(OutputKeys.ENCODING);
       Writer writer = encoding == null ? new OutputStreamWriter(outputStream) : new OutputStreamWriter(outputStream, encoding);
       transformer.transform(new DOMSource(document), new StreamResult(writer));
     }
