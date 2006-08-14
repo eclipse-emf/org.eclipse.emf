@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.69 2006/08/11 21:56:38 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.70 2006/08/14 18:12:58 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1657,7 +1657,12 @@ public class XSDEcoreBuilder extends MapBuilder
           extendedMetaData.setName(eAttribute, xsdAttributeDeclaration.getName());
           extendedMetaData.setNamespace(eAttribute, xsdAttributeDeclaration.getTargetNamespace());
 
-          eAttribute.setDefaultValueLiteral(xsdAttributeUse.getLexicalValue());
+          String defaultValue = getEcoreAttribute(xsdComponent, "default");
+          if (defaultValue == null)
+          {
+            defaultValue = xsdAttributeUse.getLexicalValue();
+          }
+          eAttribute.setDefaultValueLiteral(defaultValue);
           initialize(eAttribute, (XSDSimpleTypeDefinition)getEffectiveTypeDefinition(xsdAttributeUse, xsdAttributeDeclaration));
         }
         else if (xsdComponent instanceof XSDAttributeDeclaration)
