@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.11 2006/08/09 14:37:41 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.12 2006/08/14 18:12:27 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -847,28 +847,14 @@ public class EcoreSchemaBuilder extends MapBuilder
     //
     String typeNamespace = extendedMetaData.getNamespace(eStructuralFeature.getEContainingClass());
     boolean isRef = namespace != null && !namespace.equals(typeNamespace);
-    String defaultValue = eStructuralFeature.getDefaultValueLiteral();
     if (namespace == null ? typeNamespace == null : namespace.equals(typeNamespace))
     {
       EStructuralFeature globalFeature = extendedMetaData.getAttribute(namespace, name);
       isRef = globalFeature != null && globalFeature.getEType() == eStructuralFeature.getEType();
-      
-      // Ignore the default value if it's the same as the referenced one.
-      //
-      if (defaultValue != null && isRef && defaultValue.equals(globalFeature.getDefaultValueLiteral()))
-      {
-        defaultValue = null;
-      }
     }
     
     XSDAttributeUse xsdAttributeUse = XSDFactory.eINSTANCE.createXSDAttributeUse();
     XSDAttributeDeclaration xsdAttributeDeclaration = XSDFactory.eINSTANCE.createXSDAttributeDeclaration();
-    
-    if (defaultValue != null)
-    {
-      xsdAttributeUse.setConstraint(XSDConstraint.DEFAULT_LITERAL);
-      xsdAttributeUse.setLexicalValue(defaultValue);
-    }
     
     EClassifier referenceType = null;
     if (isRef)
@@ -922,6 +908,7 @@ public class EcoreSchemaBuilder extends MapBuilder
       }
     }
 
+    boolean canHaveDefault = true;
     if (eStructuralFeature.isRequired())
     {
       if (eStructuralFeature.isTransient())
@@ -931,9 +918,24 @@ public class EcoreSchemaBuilder extends MapBuilder
       else
       {
         xsdAttributeUse.setUse(XSDAttributeUseCategory.REQUIRED_LITERAL);
+        canHaveDefault = false;
       }
     }
-    
+
+    String defaultValue = eStructuralFeature.getDefaultValueLiteral();
+    if (defaultValue != null)
+    {
+      if (canHaveDefault)
+      {
+        xsdAttributeUse.setConstraint(XSDConstraint.DEFAULT_LITERAL);
+        xsdAttributeUse.setLexicalValue(defaultValue);
+      }
+      else
+      {
+        createEcoreAnnotation(xsdAttributeUse, "default", defaultValue);
+      }
+    }
+
     if (eStructuralFeature.isMany())
     {
       if (eStructuralFeature.isUnsettable())
