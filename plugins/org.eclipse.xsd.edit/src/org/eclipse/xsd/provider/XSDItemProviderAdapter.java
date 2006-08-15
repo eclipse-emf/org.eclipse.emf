@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapter.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDItemProviderAdapter.java,v 1.6 2006/08/15 13:46:39 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -169,26 +169,12 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
           Object propertyDefaultValue = getPropertyDefaultValue(o);
           if (propertyDefaultValue.equals(value))
           {
-            super.setPropertyValue(o, null);
+            resetPropertyValue(o);
             return;
           }
         }
       }
       super.setPropertyValue(o, value);
-    }
-
-    public void resetPropertyValue(Object o)
-    {
-      if (feature instanceof EAttribute)
-      {
-        EAttribute attribute = (EAttribute)feature;
-        if (!attribute.isMany())
-        {
-          super.setPropertyValue(o, null);
-          return;
-        }
-      }
-      super.resetPropertyValue(o);
     }
 
     public Collection getChoiceOfValues(Object o)
