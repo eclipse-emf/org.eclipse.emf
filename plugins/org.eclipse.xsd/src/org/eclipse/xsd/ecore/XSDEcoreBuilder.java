@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.70 2006/08/14 18:12:58 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.71 2006/08/15 16:04:41 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1910,6 +1910,10 @@ public class XSDEcoreBuilder extends MapBuilder
           if (xsdMaxLengthFacet != null)
           {
             upperBound = xsdMaxLengthFacet.getValue();
+          }
+          else
+          {
+            upperBound = -1;
           }
         }
       }
