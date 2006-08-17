@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.14 2006/04/06 13:30:10 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.15 2006/08/17 19:52:34 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1895,8 +1895,8 @@ public abstract class XSDConcreteComponentImpl
   public XSDConcreteComponent getContainer()
   {
     return 
-      eContainer() instanceof XSDConcreteComponent ?
-        (XSDConcreteComponent)eContainer() :
+      eContainer instanceof XSDConcreteComponent ?
+        (XSDConcreteComponent)eContainer :
          null;
   }
 
@@ -2101,10 +2101,9 @@ public abstract class XSDConcreteComponentImpl
 
   public static void setListContentAndOrder(EList targetList, List prototypeList)
   {
-    for (ListIterator objects = prototypeList.listIterator(); objects.hasNext(); )
+    for (int index = 0, size = prototypeList.size(); index < size; ++index)
     {
-      int index = objects.nextIndex();
-      Object prototypeObject = objects.next();
+      Object prototypeObject = prototypeList.get(index);
       if (targetList.size() <= index)
       {
         targetList.add(prototypeObject);
