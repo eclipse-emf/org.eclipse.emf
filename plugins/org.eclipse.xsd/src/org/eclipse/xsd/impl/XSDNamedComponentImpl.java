@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.11 2006/01/25 19:54:55 emerks Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.12 2006/08/17 19:55:16 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -20,16 +20,20 @@ package org.eclipse.xsd.impl;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.w3c.dom.Element;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectEList;
 
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -165,8 +169,101 @@ public abstract class XSDNamedComponentImpl
     }
   }
 
+  public static class XSDNamedComponentList extends EObjectEList
+  {
+    protected Map map;
+    protected XSDSchemaImpl xsdSchema;
+
+    public XSDNamedComponentList(Class dataClass, XSDSchemaImpl owner, int featureID)
+    {
+      super(dataClass, (InternalEObject)owner, featureID);
+      xsdSchema = owner;
+    }
+    
+    protected boolean isFromThisNamespace(XSDNamedComponent xsdNamedComponent)
+    {
+      String targetNamespace = xsdNamedComponent.getTargetNamespace();
+      return targetNamespace == null ? xsdSchema.getTargetNamespace() == null : targetNamespace.equals(xsdSchema.getTargetNamespace());
+    }
+
+    protected void didAdd(int index, Object newObject)
+    {
+      XSDNamedComponent xsdNamedComponent = (XSDNamedComponent)newObject;
+      if (isFromThisNamespace(xsdNamedComponent))
+      {
+        if (map == null)
+        {
+          map = new HashMap();
+        }
+        map.put(xsdNamedComponent.getName(), xsdNamedComponent);
+      }
+    }
+
+    protected void didClear(int size, Object[] oldObjects)
+    {
+      map = null;
+    }
+
+    protected void didRemove(int index, Object oldObject)
+    {
+      if (map != null)
+      {
+        XSDNamedComponent xsdNamedComponent = (XSDNamedComponent)oldObject;
+        if (isFromThisNamespace(xsdNamedComponent))
+        {
+          map.remove(xsdNamedComponent.getName());
+        }
+      }
+    }
+
+    protected void didSet(int index, Object newObject, Object oldObject)
+    {
+      didRemove(index, oldObject);
+      didAdd(index, newObject);
+    }
+
+    public XSDNamedComponent get(String targetNamespace, String localName)
+    {
+      // If the list is empty, there can't be a match.
+      //
+      if (isEmpty())
+      {
+        return null;
+      }
+
+      // If we are looking up a name in the owning schema's namespace...
+      //
+      if (targetNamespace == null ? xsdSchema.getTargetNamespace() == null : targetNamespace.equals(xsdSchema.getTargetNamespace()))
+      {
+        // Look up the result in the map if there is one.
+        //
+        if (map == null)
+        {
+          return null;
+        }
+        XSDNamedComponent result = (XSDNamedComponent)map.get(localName);
+        return result;
+      }
+
+      int index = 
+        Collections.binarySearch(this, new String [] { targetNamespace, localName}, StringPairComparator.getInstance());
+      if (index < 0)
+      {
+        return null;
+      }
+      else 
+      {
+        return (XSDNamedComponent)this.get(index);
+      }
+    }
+  }
+
   public static XSDNamedComponent findInSortedList(List xsdNamedComponents, String targetNamespace, String localName)
   {
+    if (xsdNamedComponents instanceof XSDNamedComponentList)
+    {
+      return ((XSDNamedComponentList)xsdNamedComponents).get(targetNamespace, localName);
+    }
     int index = 
       Collections.binarySearch(xsdNamedComponents, new String [] { targetNamespace, localName}, StringPairComparator.getInstance());
     if (index < 0)
@@ -178,7 +275,7 @@ public abstract class XSDNamedComponentImpl
       return (XSDNamedComponent)xsdNamedComponents.get(index);
     }
   }
-
+  
   public static void mergeToSortedList(List xsdNamedComponentsTarget, List xsdNamedComponentsSource)
   {
     Iterator sourceComponents = xsdNamedComponentsSource.iterator();
