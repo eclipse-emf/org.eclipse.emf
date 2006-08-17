@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.30 2006/06/14 11:25:02 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.31 2006/08/17 19:55:44 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1059,13 +1059,13 @@ public class XSDSchemaImpl
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList getElementDeclarations()
   {
     if (elementDeclarations == null)
     {
-      elementDeclarations = new EObjectEList(XSDElementDeclaration.class, this, XSDPackage.XSD_SCHEMA__ELEMENT_DECLARATIONS);
+      elementDeclarations = new XSDNamedComponentImpl.XSDNamedComponentList(XSDElementDeclaration.class, this, XSDPackage.XSD_SCHEMA__ELEMENT_DECLARATIONS);
     }
     return elementDeclarations;
   }
@@ -1073,13 +1073,13 @@ public class XSDSchemaImpl
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList getAttributeDeclarations()
   {
     if (attributeDeclarations == null)
     {
-      attributeDeclarations = new EObjectEList(XSDAttributeDeclaration.class, this, XSDPackage.XSD_SCHEMA__ATTRIBUTE_DECLARATIONS);
+      attributeDeclarations = new XSDNamedComponentImpl.XSDNamedComponentList(XSDAttributeDeclaration.class, this, XSDPackage.XSD_SCHEMA__ATTRIBUTE_DECLARATIONS);
     }
     return attributeDeclarations;
   }
@@ -1087,13 +1087,13 @@ public class XSDSchemaImpl
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList getAttributeGroupDefinitions()
   {
     if (attributeGroupDefinitions == null)
     {
-      attributeGroupDefinitions = new EObjectEList(XSDAttributeGroupDefinition.class, this, XSDPackage.XSD_SCHEMA__ATTRIBUTE_GROUP_DEFINITIONS);
+      attributeGroupDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList(XSDAttributeGroupDefinition.class, this, XSDPackage.XSD_SCHEMA__ATTRIBUTE_GROUP_DEFINITIONS);
     }
     return attributeGroupDefinitions;
   }
@@ -1101,13 +1101,13 @@ public class XSDSchemaImpl
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList getTypeDefinitions()
   {
     if (typeDefinitions == null)
     {
-      typeDefinitions = new EObjectEList(XSDTypeDefinition.class, this, XSDPackage.XSD_SCHEMA__TYPE_DEFINITIONS);
+      typeDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList(XSDTypeDefinition.class, this, XSDPackage.XSD_SCHEMA__TYPE_DEFINITIONS);
     }
     return typeDefinitions;
   }
@@ -1115,13 +1115,13 @@ public class XSDSchemaImpl
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList getModelGroupDefinitions()
   {
     if (modelGroupDefinitions == null)
     {
-      modelGroupDefinitions = new EObjectEList(XSDModelGroupDefinition.class, this, XSDPackage.XSD_SCHEMA__MODEL_GROUP_DEFINITIONS);
+      modelGroupDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList(XSDModelGroupDefinition.class, this, XSDPackage.XSD_SCHEMA__MODEL_GROUP_DEFINITIONS);
     }
     return modelGroupDefinitions;
   }
@@ -1129,13 +1129,13 @@ public class XSDSchemaImpl
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList getIdentityConstraintDefinitions()
   {
     if (identityConstraintDefinitions == null)
     {
-      identityConstraintDefinitions = new EObjectEList(XSDIdentityConstraintDefinition.class, this, XSDPackage.XSD_SCHEMA__IDENTITY_CONSTRAINT_DEFINITIONS);
+      identityConstraintDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList(XSDIdentityConstraintDefinition.class, this, XSDPackage.XSD_SCHEMA__IDENTITY_CONSTRAINT_DEFINITIONS);
     }
     return identityConstraintDefinitions;
   }
@@ -1143,13 +1143,13 @@ public class XSDSchemaImpl
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EList getNotationDeclarations()
   {
     if (notationDeclarations == null)
     {
-      notationDeclarations = new EObjectEList(XSDNotationDeclaration.class, this, XSDPackage.XSD_SCHEMA__NOTATION_DECLARATIONS);
+      notationDeclarations = new XSDNamedComponentImpl.XSDNamedComponentList(XSDNotationDeclaration.class, this, XSDPackage.XSD_SCHEMA__NOTATION_DECLARATIONS);
     }
     return notationDeclarations;
   }
