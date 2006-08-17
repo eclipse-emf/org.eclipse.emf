@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleMappedObjectViewer.java,v 1.2 2005/06/08 06:23:57 nickb Exp $
+ * $Id: SimpleMappedObjectViewer.java,v 1.3 2006/08/17 21:19:58 emerks Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -47,7 +47,7 @@ import org.eclipse.emf.mapping.Mapping;
 import org.eclipse.emf.mapping.domain.MappingDomain;
 
 
-class SimpleMappedObjectViewer extends TreeViewer 
+public class SimpleMappedObjectViewer extends TreeViewer 
 {
   protected SimpleMappedObjectViewer otherViewer;
   protected MappingDomain mappingDomain;
@@ -244,7 +244,7 @@ class SimpleMappedObjectViewer extends TreeViewer
     }
   }
 
-  void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
+  public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
   {
     String label = isTop ? "Top" : "Bottom";
     String oppositeLabel = isTop ? "Bottom" : "Top";

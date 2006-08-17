@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.8 2005/08/24 13:52:08 marcelop Exp $
+ * $Id: MappingEditor.java,v 1.9 2006/08/17 21:19:58 emerks Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -343,7 +343,7 @@ public abstract class MappingEditor
       }
     };
 
-  CommandStackListener commandStackListener =
+  protected CommandStackListener commandStackListener =
     new CommandStackListener()
     {
       public void commandStackChanged(final EventObject event)
@@ -1260,7 +1260,7 @@ public abstract class MappingEditor
     }
   }
 
-  class MyViewerPane extends ViewerPane
+  protected class MyViewerPane extends ViewerPane
   {
     protected MappingDomain domain;
     protected boolean isTop;
@@ -2785,7 +2785,7 @@ public abstract class MappingEditor
       this.adapterFactory = adapterFactory;
     }
 
-    void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
+    public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
     {
       showTopFirst = 
         new Action
@@ -2961,87 +2961,86 @@ public abstract class MappingEditor
       super.setSelectionToWidget(filteredSelection, reveal);
     }
   }
-}
 
-class DelayedColumnFitter extends ControlAdapter
-{
-  protected Table table;
-  protected DelayedLayout delayedLayout;
-  protected int columnResizeTime;
-  protected int oldWidth;
-  protected boolean inLayout;
-
-  public void controlResized(ControlEvent event)
+  protected static class DelayedColumnFitter extends ControlAdapter
   {
-    if (event.getSource() instanceof Table)
+    protected Table table;
+    protected DelayedLayout delayedLayout;
+    protected int columnResizeTime;
+    protected int oldWidth;
+    protected boolean inLayout;
+  
+    public void controlResized(ControlEvent event)
     {
-      table = (Table)event.getSource();
-      if (delayedLayout == null)
+      if (event.getSource() instanceof Table)
       {
-        delayedLayout = new DelayedLayout(event.time);
-      }
-    }
-    else
-    {
-      if (!inLayout)
-      {
-        columnResizeTime = event.time;
-      }
-    }
-  }
-
-  protected class DelayedLayout implements Runnable
-  {
-    protected TableLayout layout;
-    protected int newWidth;
-    protected boolean ignore;
-
-    public DelayedLayout(int time)
-    {
-      newWidth = table.getClientArea().width;
-      if (oldWidth != newWidth && oldWidth != 0)
-      {
-        layout = new TableLayout();
-        TableColumn [] tableColumns = table.getColumns();
-        for (int i = 0; i < tableColumns.length; ++i)
+        table = (Table)event.getSource();
+        if (delayedLayout == null)
         {
-          layout.addColumnData(new ColumnWeightData(tableColumns[i].getWidth(), true));
-        }
-
-        if (columnResizeTime != 0 && time - columnResizeTime < 500)
-        {
-          ignore = true;
+          delayedLayout = new DelayedLayout(event.time);
         }
       }
       else
       {
-        ignore = true;
-      }
-
-      oldWidth = newWidth;
-      columnResizeTime = 0;
-
-      table.getDisplay().asyncExec(this);
-    }
-
-    public void run()
-    {
-      delayedLayout = null;
-      if (!table.isDisposed() && !ignore)
-      {
-        columnResizeTime = 0;
-        table.setLayout(layout);
-        inLayout = true;
-        table.layout();
-        inLayout = false;
-/*
-        if (delayedLayout != null)
+        if (!inLayout)
         {
-          System.out.println("Layout causes a layout!!!!!");
+          columnResizeTime = event.time;
         }
-*/
       }
     }
-  } 
+  
+    protected class DelayedLayout implements Runnable
+    {
+      protected TableLayout layout;
+      protected int newWidth;
+      protected boolean ignore;
+  
+      public DelayedLayout(int time)
+      {
+        newWidth = table.getClientArea().width;
+        if (oldWidth != newWidth && oldWidth != 0)
+        {
+          layout = new TableLayout();
+          TableColumn [] tableColumns = table.getColumns();
+          for (int i = 0; i < tableColumns.length; ++i)
+          {
+            layout.addColumnData(new ColumnWeightData(tableColumns[i].getWidth(), true));
+          }
+  
+          if (columnResizeTime != 0 && time - columnResizeTime < 500)
+          {
+            ignore = true;
+          }
+        }
+        else
+        {
+          ignore = true;
+        }
+  
+        oldWidth = newWidth;
+        columnResizeTime = 0;
+  
+        table.getDisplay().asyncExec(this);
+      }
+  
+      public void run()
+      {
+        delayedLayout = null;
+        if (!table.isDisposed() && !ignore)
+        {
+          columnResizeTime = 0;
+          table.setLayout(layout);
+          inLayout = true;
+          table.layout();
+          inLayout = false;
+  /*
+          if (delayedLayout != null)
+          {
+            System.out.println("Layout causes a layout!!!!!");
+          }
+  */
+        }
+      }
+    } 
+  }
 }
-
