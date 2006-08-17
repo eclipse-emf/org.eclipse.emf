@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.8 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.9 2006/08/17 19:53:45 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -682,11 +682,11 @@ public class XSDIdentityConstraintDefinitionImpl
 
   protected void adoptBy(XSDSchema xsdSchema)
   {
+    super.adoptBy(xsdSchema);
     if (!xsdSchema.getIdentityConstraintDefinitions().contains(this))
     {
       XSDNamedComponentImpl.addToSortedList(xsdSchema.getIdentityConstraintDefinitions(), this);
     }
-    super.adoptBy(xsdSchema);
   }
 
   protected void orphanBy(XSDSchema xsdSchema)
