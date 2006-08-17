@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XSDEnumerationFacetImpl.java,v 1.9 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDEnumerationFacetImpl.java,v 1.10 2006/08/17 19:53:09 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -258,10 +257,12 @@ public class XSDEnumerationFacetImpl
 
   public boolean isConstraintSatisfied(Object value)
   {
-    for (Iterator values = getValue().iterator(); values.hasNext(); )
+    EList values = getValue();
+    XSDSimpleTypeDefinition xsdSimpleTypeDefinition = getSimpleTypeDefinition();
+    for (int i = 0, size = values.size(); i < size; ++i)
     {
-      Object object = values.next();
-      if (getSimpleTypeDefinition().equalValues(object, value))
+      Object object = values.get(i);
+      if (xsdSimpleTypeDefinition.equalValues(object, value))
       {
         return true;
       }
