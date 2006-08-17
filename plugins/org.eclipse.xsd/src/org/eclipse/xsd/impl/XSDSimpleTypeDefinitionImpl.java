@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.19 2006/07/15 12:33:14 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.20 2006/08/17 19:56:46 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -224,20 +224,20 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getFacetContents()
-   * @generated
+   * @generated NOT
    * @ordered
    */
-  protected EList facetContents = null;
+  protected EcoreEList facetContents = null;
 
   /**
    * The cached value of the '{@link #getFacets() <em>Facets</em>}' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getFacets()
-   * @generated
+   * @generated NOT
    * @ordered
    */
-  protected EList facets = null;
+  protected EcoreEList facets = null;
 
   /**
    * The cached value of the '{@link #getMemberTypeDefinitions() <em>Member Type Definitions</em>}' reference list.
@@ -2119,12 +2119,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDTotalDigitsFacet getTotalDigitsFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDTotalDigitsFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDTotalDigitsFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDTotalDigitsFacet)
+        {
+          return (XSDTotalDigitsFacet)facet;
+        }
       }
     }
     return null;
@@ -2132,12 +2136,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDTotalDigitsFacet getEffectiveTotalDigitsFacet()
   {
-    for (Iterator facets = getFacets().iterator(); facets.hasNext(); )
+    if (facets != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDTotalDigitsFacet)
+      Object [] facetData = facets.data();
+      for (int i = 0, size = facets.size(); i < size; ++i)
       {
-        return (XSDTotalDigitsFacet)facet;
+        Object facet = facetData[i];
+        if (facet instanceof XSDTotalDigitsFacet)
+        {
+          return (XSDTotalDigitsFacet)facet;
+        }
       }
     }
     return null;
@@ -2145,12 +2153,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDFractionDigitsFacet getFractionDigitsFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDFractionDigitsFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDFractionDigitsFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDFractionDigitsFacet)
+        {
+          return (XSDFractionDigitsFacet)facet;
+        }
       }
     }
     return null;
@@ -2158,12 +2170,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDFractionDigitsFacet getEffectiveFractionDigitsFacet()
   {
-    for (Iterator facets = getFacets().iterator(); facets.hasNext(); )
+    if (facets != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDFractionDigitsFacet)
+      Object [] facetData = facets.data();
+      for (int i = 0, size = facets.size(); i < size; ++i)
       {
-        return (XSDFractionDigitsFacet)facet;
+        Object facet = facetData[i];
+        if (facet instanceof XSDFractionDigitsFacet)
+        {
+          return (XSDFractionDigitsFacet)facet;
+        }
       }
     }
     return null;
@@ -2171,12 +2187,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDLengthFacet getLengthFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDLengthFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDLengthFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDLengthFacet)
+        {
+          return (XSDLengthFacet)facet;
+        }
       }
     }
     return null;
@@ -2184,12 +2204,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDLengthFacet getEffectiveLengthFacet()
   {
-    for (Iterator facets = getFacets().iterator(); facets.hasNext(); )
+    if (facets != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDLengthFacet)
+      Object [] facetData = facets.data();
+      for (int i = 0, size = facets.size(); i < size; ++i)
       {
-        return (XSDLengthFacet)facet;
+        Object facet = facetData[i];
+        if (facet instanceof XSDLengthFacet)
+        {
+          return (XSDLengthFacet)facet;
+        }
       }
     }
     return null;
@@ -2197,12 +2221,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMaxLengthFacet getMaxLengthFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMaxLengthFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDMaxLengthFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDMaxLengthFacet)
+        {
+          return (XSDMaxLengthFacet)facet;
+        }
       }
     }
     return null;
@@ -2210,12 +2238,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMaxLengthFacet getEffectiveMaxLengthFacet()
   {
-    for (Iterator facets = getFacets().iterator(); facets.hasNext(); )
+    if (facets != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMaxLengthFacet)
+      Object [] facetData = facets.data();
+      for (int i = 0, size = facets.size(); i < size; ++i)
       {
-        return (XSDMaxLengthFacet)facet;
+        Object facet = facetData[i];
+        if (facet instanceof XSDMaxLengthFacet)
+        {
+          return (XSDMaxLengthFacet)facet;
+        }
       }
     }
     return null;
@@ -2223,12 +2255,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMinLengthFacet getMinLengthFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMinLengthFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDMinLengthFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDMinLengthFacet)
+        {
+          return (XSDMinLengthFacet)facet;
+        }
       }
     }
     return null;
@@ -2236,12 +2272,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMinLengthFacet getEffectiveMinLengthFacet()
   {
-    for (Iterator facets = getFacets().iterator(); facets.hasNext(); )
+    if (facets != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMinLengthFacet)
+      Object [] facetData = facets.data();
+      for (int i = 0, size = facets.size(); i < size; ++i)
       {
-        return (XSDMinLengthFacet)facet;
+        Object facet = facetData[i];
+        if (facet instanceof XSDMinLengthFacet)
+        {
+          return (XSDMinLengthFacet)facet;
+        }
       }
     }
     return null;
@@ -2249,12 +2289,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMaxExclusiveFacet getMaxExclusiveFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMaxExclusiveFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDMaxExclusiveFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDMaxExclusiveFacet)
+        {
+          return (XSDMaxExclusiveFacet)facet;
+        }
       }
     }
     return null;
@@ -2262,12 +2306,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMaxInclusiveFacet getMaxInclusiveFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMaxInclusiveFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDMaxInclusiveFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDMaxInclusiveFacet)
+        {
+          return (XSDMaxInclusiveFacet)facet;
+        }
       }
     }
     return null;
@@ -2275,12 +2323,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMaxFacet getMaxFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMaxFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDMaxFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDMaxFacet)
+        {
+          return (XSDMaxFacet)facet;
+        }
       }
     }
     return null;
@@ -2288,12 +2340,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMaxFacet getEffectiveMaxFacet()
   {
-    for (Iterator facets = getFacets().iterator(); facets.hasNext(); )
+    if (facets != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMaxFacet)
+      Object [] facetData = facets.data();
+      for (int i = 0, size = facets.size(); i < size; ++i)
       {
-        return (XSDMaxFacet)facet;
+        Object facet = facetData[i];
+        if (facet instanceof XSDMaxFacet)
+        {
+          return (XSDMaxFacet)facet;
+        }
       }
     }
     return null;
@@ -2301,12 +2357,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMinExclusiveFacet getMinExclusiveFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMinExclusiveFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDMinExclusiveFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDMinExclusiveFacet)
+        {
+          return (XSDMinExclusiveFacet)facet;
+        }
       }
     }
     return null;
@@ -2314,12 +2374,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMinInclusiveFacet getMinInclusiveFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMinInclusiveFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDMinInclusiveFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDMinInclusiveFacet)
+        {
+          return (XSDMinInclusiveFacet)facet;
+        }
       }
     }
     return null;
@@ -2327,12 +2391,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMinFacet getMinFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMinFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDMinFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDMinFacet)
+        {
+          return (XSDMinFacet)facet;
+        }
       }
     }
     return null;
@@ -2340,12 +2408,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDMinFacet getEffectiveMinFacet()
   {
-    for (Iterator facets = getFacets().iterator(); facets.hasNext(); )
+    if (facets != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDMinFacet)
+      Object [] facetData = facets.data();
+      for (int i = 0, size = facets.size(); i < size; ++i)
       {
-        return (XSDMinFacet)facet;
+        Object facet = facetData[i];
+        if (facet instanceof XSDMinFacet)
+        {
+          return (XSDMinFacet)facet;
+        }
       }
     }
     return null;
@@ -2717,12 +2789,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDWhiteSpaceFacet getWhiteSpaceFacet()
   {
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDWhiteSpaceFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        return (XSDWhiteSpaceFacet)facet;
+        Object facet = facets[i];
+        if (facet instanceof XSDWhiteSpaceFacet)
+        {
+          return (XSDWhiteSpaceFacet)facet;
+        }
       }
     }
     return null;
@@ -2730,12 +2806,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDWhiteSpaceFacet getEffectiveWhiteSpaceFacet()
   {
-    for (Iterator facets = getFacets().iterator(); facets.hasNext(); )
+    if (facets != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDWhiteSpaceFacet)
+      Object [] facetData = facets.data();
+      for (int i = 0, size = facets.size(); i < size; ++i)
       {
-        return (XSDWhiteSpaceFacet)facet;
+        Object facet = facetData[i];
+        if (facet instanceof XSDWhiteSpaceFacet)
+        {
+          return (XSDWhiteSpaceFacet)facet;
+        }
       }
     }
     return null;
@@ -2744,12 +2824,16 @@ public class XSDSimpleTypeDefinitionImpl
   public EList getEnumerationFacets()
   {
     EList result = new BasicEList();
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDEnumerationFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        result.add(facet);
+        Object facet = facets[i];
+        if (facet instanceof XSDEnumerationFacet)
+        {
+          result.add(facet);
+        }
       }
     }
     return 
@@ -2759,12 +2843,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDEnumerationFacet getEffectiveEnumerationFacet()
   {
-    for (Iterator facets = getFacets().iterator(); facets.hasNext(); )
+    if (facets != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDEnumerationFacet)
+      Object [] facetData = facets.data();
+      for (int i = 0, size = facets.size(); i < size; ++i)
       {
-        return (XSDEnumerationFacet)facet;
+        Object facet = facetData[i];
+        if (facet instanceof XSDEnumerationFacet)
+        {
+          return (XSDEnumerationFacet)facet;
+        }
       }
     }
     return null;
@@ -2773,12 +2861,16 @@ public class XSDSimpleTypeDefinitionImpl
   public EList getPatternFacets()
   {
     EList result = new BasicEList();
-    for (Iterator facets = getFacetContents().iterator(); facets.hasNext(); )
+    if (facetContents != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDPatternFacet)
+      Object [] facets = facetContents.data();
+      for (int i = 0, size = facetContents.size(); i < size; ++i)
       {
-        result.add(facet);
+        Object facet = facets[i];
+        if (facet instanceof XSDPatternFacet)
+        {
+          result.add(facet);
+        }
       }
     }
     return 
@@ -2788,12 +2880,16 @@ public class XSDSimpleTypeDefinitionImpl
 
   public XSDPatternFacet getEffectivePatternFacet()
   {
-    for (Iterator facets = getFacets().iterator(); facets.hasNext(); )
+    if (facets != null)
     {
-      Object facet = facets.next();
-      if (facet instanceof XSDPatternFacet)
+      Object [] facetData = facets.data();
+      for (int i = 0, size = facets.size(); i < size; ++i)
       {
-        return (XSDPatternFacet)facet;
+        Object facet = facetData[i];
+        if (facet instanceof XSDPatternFacet)
+        {
+          return (XSDPatternFacet)facet;
+        }
       }
     }
     return null;
@@ -3644,6 +3740,11 @@ public class XSDSimpleTypeDefinitionImpl
 
   public AssessmentImpl assess(AssessmentImpl assessment)
   {
+    return assess(assessment, true);
+  }
+
+  public AssessmentImpl assess(AssessmentImpl assessment, boolean validate)
+  {
     assessment.xsdSimpleTypeDefinition = this;
 
     // Determine the literal from the node.
@@ -3692,7 +3793,10 @@ public class XSDSimpleTypeDefinitionImpl
 
     if (!isCircular())
     {
-      assessment.validate(getEffectivePatternFacet());
+      if (validate)
+      {
+        assessment.validate(getEffectivePatternFacet());
+      }
 
       switch (getVariety().getValue())
       {
@@ -3703,7 +3807,7 @@ public class XSDSimpleTypeDefinitionImpl
           {
             XSDAnySimpleType xsdAnySimpleType = XSDTypeRegister.getTypeImplementer(thePrimitiveTypeDefinition.getName());
             xsdAnySimpleType.assess(assessment);
-            if (assessment.diagnostics == null)
+            if (validate && assessment.diagnostics == null)
             {
               assessment.validate(getEffectiveLengthFacet());
               assessment.validate(getEffectiveMinLengthFacet());
@@ -3745,7 +3849,7 @@ public class XSDSimpleTypeDefinitionImpl
             }
           }
 
-          if (!good)
+          if (validate && !good)
           {
             assessment.reportDatatypeDiagnostic();
           }
@@ -3766,7 +3870,7 @@ public class XSDSimpleTypeDefinitionImpl
             {
               AssessmentImpl nestedAssessment = new AssessmentImpl(assessment.node, assessment.yield);
               nestedAssessment.literal = nestedAssessment.normalizedLiteral = tokens.nextToken();
-              ((XSDSimpleTypeDefinitionImpl)getItemTypeDefinition()).assess(nestedAssessment);
+              ((XSDSimpleTypeDefinitionImpl)getItemTypeDefinition()).assess(nestedAssessment, validate);
               if (nestedAssessment.value != null)
               {
                 list.add(nestedAssessment.value);
@@ -3778,15 +3882,21 @@ public class XSDSimpleTypeDefinitionImpl
               assessment.assessments.add(nestedAssessment);
             }
 
-            assessment.validate(getEffectiveLengthFacet());
-            assessment.validate(getEffectiveMinLengthFacet());
-            assessment.validate(getEffectiveMaxLengthFacet());
+            if (validate)
+            {
+              assessment.validate(getEffectiveLengthFacet());
+              assessment.validate(getEffectiveMinLengthFacet());
+              assessment.validate(getEffectiveMaxLengthFacet());
+            }
           }
           break;
         }
       }
 
-      assessment.validate(getEffectiveEnumerationFacet());
+      if (validate)
+      {
+        assessment.validate(getEffectiveEnumerationFacet());
+      }
     }
 
     return assessment;
@@ -3802,14 +3912,14 @@ public class XSDSimpleTypeDefinitionImpl
   public Object getValue(String literal)
   {
     AssessmentImpl assessment = new AssessmentImpl(literal, 0);
-    assess(assessment);
+    assess(assessment, false);
     return assessment.value;
   }
 
   public String getCanonicalLiteral(String literal)
   {
     AssessmentImpl assessment = new AssessmentImpl(literal, 0);
-    assess(assessment);
+    assess(assessment, false);
     return assessment.normalizedLiteral;
   }
 
