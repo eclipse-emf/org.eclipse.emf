@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.15 2006/05/07 12:01:41 emerks Exp $
+ * $Id: EEnumImpl.java,v 1.16 2006/08/21 15:30:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -72,7 +72,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
     {
       for (int i = 0, size = eLiterals.size(); i < size; ++i)
       {
-        freeze(eLiterals.get(0));
+        freeze(eLiterals.get(i));
       }
     }
     super.freeze();
