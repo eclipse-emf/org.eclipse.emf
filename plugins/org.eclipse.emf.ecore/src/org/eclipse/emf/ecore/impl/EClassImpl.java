@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.26 2006/05/07 12:01:41 emerks Exp $
+ * $Id: EClassImpl.java,v 1.27 2006/08/21 15:28:16 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -119,14 +119,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     {
       for (int i = 0, size = eStructuralFeatures.size(); i < size; ++i)
       {
-        freeze(eStructuralFeatures.get(0));
+        freeze(eStructuralFeatures.get(i));
       }
     }
     if (eOperations != null)
     {
       for (int i = 0, size = eOperations.size(); i < size; ++i)
       {
-        freeze(eOperations.get(0));
+        freeze(eOperations.get(i));
       }
     }
     super.freeze();
