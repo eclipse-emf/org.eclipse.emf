@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.29 2006/05/10 17:31:26 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.30 2006/08/21 15:34:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -173,14 +173,14 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     {
       for (int i = 0, size = eClassifiers.size(); i < size; ++i)
       {
-        freeze(eClassifiers.get(0));
+        freeze(eClassifiers.get(i));
       }
     }
     if (eSubpackages != null)
     {
       for (int i = 0, size = eSubpackages.size(); i < size; ++i)
       {
-        freeze(eSubpackages.get(0));
+        freeze(eSubpackages.get(i));
       }
     }
     super.freeze();
