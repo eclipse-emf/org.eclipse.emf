@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.25 2006/06/20 19:56:35 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.26 2006/08/22 19:23:40 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -685,19 +685,23 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
   public boolean reconcile(GenOperation oldGenOperationVersion)
   {
-    if (getEcoreOperation().getName().equals(oldGenOperationVersion.getEcoreOperation().getName()))
+    if (getEcoreOperation().getName().equals(oldGenOperationVersion.getEcoreOperation().getName()) &&
+          getGenParameters().size() == oldGenOperationVersion.getGenParameters().size())
     {
-      for (Iterator i = getGenParameters().iterator(); i.hasNext(); )
+      for (Iterator i = getGenParameters().iterator(), j = oldGenOperationVersion.getGenParameters().iterator(); i.hasNext(); )
       {
         GenParameter genParameter = (GenParameter)i.next();
-        for (Iterator j = oldGenOperationVersion.getGenParameters().iterator(); j.hasNext(); )
+        GenParameter oldGenParameterVersion = (GenParameter)j.next();
+        if (!genParameter.getType().equals(oldGenParameterVersion.getType()))
         {
-          GenParameter oldGenParameterVersion = (GenParameter)j.next();
-          if (genParameter.reconcile(oldGenParameterVersion))
-          {
-            break;
-          }
+          return false;
         }
+      }
+      for (Iterator i = getGenParameters().iterator(), j = oldGenOperationVersion.getGenParameters().iterator(); i.hasNext(); )
+      {
+        GenParameter genParameter = (GenParameter)i.next();
+        GenParameter oldGenParameterVersion = (GenParameter)j.next();
+        genParameter.reconcile(oldGenParameterVersion);
       }
       reconcileSettings(oldGenOperationVersion);
       return true;
