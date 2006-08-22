@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.27 2006/05/19 16:50:23 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.28 2006/08/22 20:39:40 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -1508,6 +1508,12 @@ public final class FeatureMapUtil
     if (eStructuralFeature == null)
     {
       return NULL_VALIDATOR;
+    }
+    else if (eStructuralFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__MIXED)
+    {
+      // Don't cache this one as it will cause leaks because to dynamic demand created document roots.
+      //
+      return new BasicValidator(containingClass, eStructuralFeature);
     }
     else
     {
