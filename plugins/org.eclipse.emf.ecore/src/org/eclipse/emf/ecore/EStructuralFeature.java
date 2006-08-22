@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.10 2006/02/10 20:56:03 emerks Exp $
+ * $Id: EStructuralFeature.java,v 1.11 2006/08/22 18:15:05 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -299,6 +299,9 @@ public interface EStructuralFeature extends ETypedElement
 
     /**
      * Set the value held by the feature of the object.
+     * If the new value is this setting itself, or is modified as a side effect of modifying this setting
+     * (i.e., if it is a view on the setting),
+     * the behavior is undefined and will likely result in simply clearing the list.
      * @param newValue the newValue.
      * @see EObject#eSet(EStructuralFeature, Object)
      */

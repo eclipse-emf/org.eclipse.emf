@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.7 2006/01/27 20:48:55 emerks Exp $
+ * $Id: EObject.java,v 1.8 2006/08/22 18:15:05 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -331,7 +331,10 @@ public interface EObject extends Notifier
    * and each object in that list must be {@link EClassifier#isInstance an instance of} 
    * the feature's {@link EStructuralFeature#getEType type};
    * the existing contents are cleared and the contents of the new value are added.
-   * Otherwise the new value directly must be an instance of the feature's type
+   * However, if the new value is the content list itself, or is modified as a side effect of modifying the content list 
+   * (i.e., if it is a view on the content list),
+   * the behavior is undefined and will likely result in simply clearing the list.
+   * If the feature is single-valued, the new value directly must be an instance of the feature's type
    * and it becomes the new value of the feature of the object.
    * If the feature is {@link EAttribute#isUnsettable unsettable},
    * the modeled state becomes set;
