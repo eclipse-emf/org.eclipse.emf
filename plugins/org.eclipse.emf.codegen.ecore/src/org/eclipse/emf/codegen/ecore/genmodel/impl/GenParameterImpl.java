@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.13 2006/05/03 18:42:11 davidms Exp $
+ * $Id: GenParameterImpl.java,v 1.14 2006/08/22 19:24:16 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -310,15 +310,8 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
 
   public boolean reconcile(GenParameter oldGenParameterVersion)
   {
-    if (getEcoreParameter().getName().equals(oldGenParameterVersion.getEcoreParameter().getName()))
-    {
-      reconcileSettings(oldGenParameterVersion);
-      return true;
-    }
-    else
-    {
-      return false;
-    }
+    reconcileSettings(oldGenParameterVersion);
+    return true;
   }
 
   public String getQualifiedModelInfo()
