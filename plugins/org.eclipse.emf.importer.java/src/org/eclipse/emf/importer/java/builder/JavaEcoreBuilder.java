@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.24 2006/08/02 11:42:11 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.25 2006/08/23 01:30:29 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1175,7 +1175,7 @@ public class JavaEcoreBuilder
     // Check whether this has @model annotation contents.
     //
     String modelAnnotation = getModelAnnotation(method.getComment());
-    if (modelAnnotation != null)
+    if (modelAnnotation != null && method.getName() != null)
     {
       String methodName = method.getName();
       String returnType = method.getReturnType();
