@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.emf.java.edit
-Bundle-Version: 2.1.0.qualifier
+Bundle-Version: 2.2.0.qualifier
 Bundle-ClassPath: java.edit.jar
 Bundle-Activator: org.eclipse.emf.java.provider.JavaEditPlugin$Implementation
 Bundle-Vendor: %providerName
