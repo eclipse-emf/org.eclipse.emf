@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.59 2006/06/12 20:02:33 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.60 2006/08/24 16:42:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -753,7 +753,7 @@ public class XMLSaveImpl implements XMLSave
           Resource resource = ePackage.eResource();
           if (resource != null)
           {
-            String nsURI = ePackage.getNsURI();
+            String nsURI = extendedMetaData == null ? ePackage.getNsURI() : extendedMetaData.getNamespace(ePackage);
             if (!handledBySchemaLocationMap.containsKey(nsURI))
             {
               URI uri = resource.getURI();
