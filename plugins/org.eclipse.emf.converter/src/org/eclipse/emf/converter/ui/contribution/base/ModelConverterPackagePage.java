@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.6 2006/04/18 17:01:33 marcelop Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.7 2006/08/26 12:24:51 emerks Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -732,14 +732,40 @@ public class ModelConverterPackagePage extends ModelConverterPage
         GenModel genModel = (GenModel)genModelResource.getContents().get(0);
         genModels.add(genModel);
       }
+      
       addExternalGenModels(genModels);
+      addReferencedGenModels(genModels);
 
+      List genPackagesToCheck = new ArrayList();
+      Object[] checkedElements = treeViewer.getCheckedElements();
+      LOOP:
+      for (int i = 0; i < checkedElements.length; i++)
+      {
+        if (checkedElements[i] instanceof GenPackage)
+        {
+          GenPackage checkedGenPackage = (GenPackage)checkedElements[i];
+          String nsURI = checkedGenPackage.getNSURI();
+          for (Iterator j = genModels.iterator(); j.hasNext(); )
+          {
+            for (Iterator k = ((GenModel)j.next()).getGenPackages().iterator(); k.hasNext(); )
+            {
+              GenPackage genPackage = (GenPackage)k.next();
+              if (nsURI.equals(genPackage.getNSURI()))
+              {
+                genPackagesToCheck.add(genPackage);
+                continue LOOP;
+              }
+            }
+          }
+        }
+      }
       treeViewer.getTree().deselectAll();
       treeViewer.setInput(new ItemProvider(genModels));
       for (Iterator i = genModels.iterator(); i.hasNext();)
       {
         treeViewer.expandToLevel(i.next(), AbstractTreeViewer.ALL_LEVELS);
       }
+      treeViewer.setCheckedElements(genPackagesToCheck.toArray());
       referencedGenModelsCheckboxTreeViewerCheckStateChanged(null);
     }
   }
@@ -962,5 +988,9 @@ public class ModelConverterPackagePage extends ModelConverterPage
         genModels.remove(exporterGenModel);
       }
     }
+  }
+
+  protected void addReferencedGenModels(List genModels)
+  {
   }
 }

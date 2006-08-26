@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterPackagePage.java,v 1.2 2006/04/18 17:01:34 marcelop Exp $
+ * $Id: ModelImporterPackagePage.java,v 1.3 2006/08/26 12:25:20 emerks Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
@@ -26,7 +26,10 @@ import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.converter.ui.contribution.base.ModelConverterPackagePage;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.importer.ImporterPlugin;
@@ -140,5 +143,28 @@ public class ModelImporterPackagePage extends ModelConverterPackagePage implemen
       }
     }
     return fileNames.size() < checkedCount ? ImporterPlugin.INSTANCE.getString("_UI_DuplicateEcoreNames_message") : null;
+  }
+
+  protected void addReferencedGenModels(List genModels)
+  {
+    super.addReferencedGenModels(genModels);
+    LOOP:
+    for (Iterator i = getModelImporter().getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext(); )
+    {
+      GenModel genModel = ((GenPackage)i.next()).getGenModel();
+      if (genModel != null)
+      {
+        URI genModelURI = genModel.eResource().getURI();
+        for (Iterator k = genModels.iterator(); k.hasNext(); )
+        {
+          GenModel otherGenModel = (GenModel)k.next();
+          if (genModelURI.equals(otherGenModel.eResource().getURI()))
+          {
+            continue LOOP;
+          }
+        }
+        genModels.add(genModel);
+      }
+    }
   }
 }
