@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDSchemaItemProvider.java,v 1.6 2006/08/26 13:25:14 emerks Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -21,10 +21,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.command.CopyCommand;
+import org.eclipse.emf.edit.command.InitializeCopyCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
@@ -322,5 +327,32 @@ public class XSDSchemaItemProvider
       // notation declaration
       newChildDescriptors.add(createChildParameter(schemaContents, createNotationDeclaration(xsdSchema)));
     }
+  }
+
+  /**
+   * We need to copy the prefix to namespace map as well as the schema for schema prefix.
+   */
+  protected Command createInitializeCopyCommand(EditingDomain domain, EObject owner, CopyCommand.Helper helper)
+  {
+    return 
+      new InitializeCopyCommand(domain, owner, helper)
+      {
+        protected Collection getAttributesToCopy()
+        {
+          Collection result = new ArrayList(this.owner.eClass().getEAllAttributes());
+          result.remove(xsdPackage.getXSDConcreteComponent_Element());
+          result.remove(xsdPackage.getXSDSchema_Document());
+          return result;
+        }
+        
+        protected void copyAttributes()
+        {
+          XSDSchema ownerSchema = (XSDSchema)owner;
+          XSDSchema copySchema = (XSDSchema)copy;
+          copySchema.getQNamePrefixToNamespaceMap().putAll(ownerSchema.getQNamePrefixToNamespaceMap());
+          copySchema.setSchemaForSchemaQNamePrefix(ownerSchema.getSchemaForSchemaQNamePrefix());
+          super.copyAttributes();
+        }
+      };
   }
 }
