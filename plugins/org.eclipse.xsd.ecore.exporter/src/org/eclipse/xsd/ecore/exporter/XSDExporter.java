@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDExporter.java,v 1.5 2006/04/10 19:36:20 marcelop Exp $
+ * $Id: XSDExporter.java,v 1.6 2006/08/27 16:52:44 emerks Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
@@ -103,7 +103,12 @@ public class XSDExporter extends ModelExporter
           EPackage referencedEPackage = genModel.getExtendedMetaData().getPackage(xsdImport.getNamespace());
           GenPackage referencedGenPackage = genModel.findGenPackage(referencedEPackage);
           URI artifactURI = getReferencedGenPackageArtifactURI(exportData, referencedGenPackage);
-          xsdImport.setSchemaLocation(computeSchemaLocation(xsdImport, artifactURI));
+          URI importLocationURI = URI.createURI(computeSchemaLocation(xsdImport, artifactURI));
+          if (!schemaLocationURI.isRelative() && schemaLocationURI.isHierarchical() && !importLocationURI.isRelative())
+          {
+            importLocationURI = importLocationURI.deresolve(schemaLocationURI, true, true, false);
+          }
+          xsdImport.setSchemaLocation(importLocationURI.toString());
         }
         else if (!(content instanceof XSDAnnotation))
         {
