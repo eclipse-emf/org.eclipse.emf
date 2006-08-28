@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.12 2006/08/14 18:12:27 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.13 2006/08/28 12:25:42 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -769,6 +769,8 @@ public class EcoreSchemaBuilder extends MapBuilder
     xsdModelGroup.getContents().add(xsdParticle);
     map(xsdParticle, eStructuralFeature);
         
+    createEcoreAnnotation(xsdParticle, "featureName", eStructuralFeature.getName());
+
     buildAnnotations(xsdModelGroup, eStructuralFeature);
 
     return xsdParticle;
@@ -1218,7 +1220,10 @@ public class EcoreSchemaBuilder extends MapBuilder
       if (eStructuralFeature.isTransient() && !xsdComplexTypeDefinition.isMixed())
       {
         xsdParticle.setMinOccurs(0);
-        createEcoreAnnotation(xsdParticle, "lowerBound", Integer.toString(eStructuralFeature.getLowerBound()));
+        if (eStructuralFeature.getLowerBound() != 0)
+        {
+          createEcoreAnnotation(xsdParticle, "lowerBound", Integer.toString(eStructuralFeature.getLowerBound()));
+        }
       }
       else if (eStructuralFeature.getLowerBound() != 1)
       {
@@ -1235,9 +1240,12 @@ public class EcoreSchemaBuilder extends MapBuilder
       if (eStructuralFeature.isTransient() && !xsdComplexTypeDefinition.isMixed())
       {
         xsdParticle.setMinOccurs(0);
+        if (eStructuralFeature.getLowerBound() != 0)
+        {
+          createEcoreAnnotation(xsdParticle, "lowerBound", Integer.toString(eStructuralFeature.getLowerBound()));
+        }
       }
-
-      if (eStructuralFeature.getLowerBound() != 1)
+      else if (eStructuralFeature.getLowerBound() != 1)
       {
         createEcoreAnnotation(xsdParticle, "lowerBound", Integer.toString(eStructuralFeature.getLowerBound()));
       }
