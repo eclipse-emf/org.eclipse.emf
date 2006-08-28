@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.33 2006/06/09 19:05:29 davidms Exp $
+ * $Id: GenModelEditor.java,v 1.34 2006/08/28 15:44:27 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -124,6 +124,7 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EObject;
@@ -1777,7 +1778,7 @@ public class GenModelEditor
       Diagnostic mapDiagnostic = (Diagnostic)resourceToDiagnosticMap.get(mainResource);
       if (mapDiagnostic != null)
       {
-        diagnostic.getChildren().add(mapDiagnostic);
+        ((DiagnosticChain)diagnostic).add(mapDiagnostic);
       }
       resourceToDiagnosticMap.put(mainResource, diagnostic);
     }
