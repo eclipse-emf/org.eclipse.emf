@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.13 2006/08/28 12:25:42 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.14 2006/08/28 13:50:57 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -202,7 +202,10 @@ public class EcoreSchemaBuilder extends MapBuilder
     }
     else
     {
-      createEcoreAnnotation(xsdSchema, "documentRoot", documentRootEClass.getName());
+      if (!"DocumentRoot".equals(documentRootEClass.getName()))
+      {
+        createEcoreAnnotation(xsdSchema, "documentRoot", documentRootEClass.getName());
+      }
       
       for (int i = 0, size = documentRootEClass.getFeatureCount(); i < size; ++i)
       {
