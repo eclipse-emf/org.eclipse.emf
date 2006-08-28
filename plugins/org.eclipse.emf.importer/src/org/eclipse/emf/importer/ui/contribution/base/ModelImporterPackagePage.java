@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterPackagePage.java,v 1.3 2006/08/26 12:25:20 emerks Exp $
+ * $Id: ModelImporterPackagePage.java,v 1.4 2006/08/28 20:11:51 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
@@ -148,22 +148,25 @@ public class ModelImporterPackagePage extends ModelConverterPackagePage implemen
   protected void addReferencedGenModels(List genModels)
   {
     super.addReferencedGenModels(genModels);
-    LOOP:
-    for (Iterator i = getModelImporter().getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext(); )
+    if (getModelImporter().getOriginalGenModel() != null)
     {
-      GenModel genModel = ((GenPackage)i.next()).getGenModel();
-      if (genModel != null)
+      LOOP:
+      for (Iterator i = getModelImporter().getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext(); )
       {
-        URI genModelURI = genModel.eResource().getURI();
-        for (Iterator k = genModels.iterator(); k.hasNext(); )
+        GenModel genModel = ((GenPackage)i.next()).getGenModel();
+        if (genModel != null)
         {
-          GenModel otherGenModel = (GenModel)k.next();
-          if (genModelURI.equals(otherGenModel.eResource().getURI()))
+          URI genModelURI = genModel.eResource().getURI();
+          for (Iterator k = genModels.iterator(); k.hasNext(); )
           {
-            continue LOOP;
+            GenModel otherGenModel = (GenModel)k.next();
+            if (genModelURI.equals(otherGenModel.eResource().getURI()))
+            {
+              continue LOOP;
+            }
           }
+          genModels.add(genModel);
         }
-        genModels.add(genModel);
       }
     }
   }
