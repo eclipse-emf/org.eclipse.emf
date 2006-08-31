@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,16 +12,17 @@
  *
  * </copyright>
  *
- * $Id: JETCompileTemplateOperation.java,v 1.5 2005/11/18 12:04:17 emerks Exp $
+ * $Id: JETCompileTemplateOperation.java,v 1.6 2006/08/31 15:40:50 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -249,8 +250,8 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
               JETCompiler compiler =  new JETCompiler(containerLocations, relativePath);
               compiler.parse();
   
-              ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-              compiler.generate(arrayOutputStream);
+              StringWriter stringWriter = new StringWriter();
+              compiler.generate(stringWriter);
   
               JETSkeleton skeleton = compiler.getSkeleton();
               if (skeleton.getClassName().equals("")) 
@@ -271,21 +272,32 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
   
               progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_JETUpdate_message", new Object [] { fileName }));
   
+              String encoding = outputFile.getCharset();
+              String result = stringWriter.getBuffer().toString();
+              byte [] bytes;
+              try
+              {
+                bytes = encoding == null ? result.getBytes() : result.getBytes(encoding);
+              }
+              catch (UnsupportedEncodingException exception)
+              {
+                bytes = result.getBytes();
+              }
+              
               if (!outputFile.exists()) 
               {
-                outputFile.create(new ByteArrayInputStream(arrayOutputStream.toByteArray()), true, progressMonitor);
+                outputFile.create(new ByteArrayInputStream(bytes), true, progressMonitor);
               } 
               else 
               {
                 boolean changed = true;
-                byte [] newBytes = arrayOutputStream.toByteArray();
                 try
                 {
                   InputStream inputStream = outputFile.getContents();
                   byte [] oldBytes =  new byte[inputStream.available()];
                   inputStream.read(oldBytes);
                   inputStream.close();
-                  changed = !Arrays.equals(oldBytes, newBytes);
+                  changed = !Arrays.equals(oldBytes, bytes);
                 }
                 catch (IOException exception) 
                 {
@@ -293,7 +305,7 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
   
                 if (changed)
                 {
-                  outputFile.setContents(new ByteArrayInputStream(arrayOutputStream.toByteArray()), true, true, progressMonitor);
+                  outputFile.setContents(new ByteArrayInputStream(bytes), true, true, progressMonitor);
                 }
               }
   
