@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.15 2005/11/18 12:04:31 emerks Exp $
+ * $Id: JETCompiler.java,v 1.16 2006/08/31 15:39:45 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -657,6 +658,13 @@ public class JETCompiler implements JETParseEventListener
     writer = new PrintWriter(oStream);
     endPageProcessing();
     writer.close();
+  }
+
+  public void generate(Writer writer) throws JETException
+  {
+    this.writer = new PrintWriter(writer);
+    endPageProcessing();
+    this.writer.close();
   }
 
   public JETSkeleton getSkeleton()
