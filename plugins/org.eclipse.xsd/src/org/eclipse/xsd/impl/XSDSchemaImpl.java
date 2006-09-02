@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.31 2006/08/17 19:55:44 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.32 2006/09/02 15:25:30 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -2826,54 +2827,66 @@ public class XSDSchemaImpl
     return deletionNode;
   }
 
+  private static class DummyEventListener implements EventListener, Serializable
+  {
+    public void handleEvent(Event arg0)
+    {
+    }
+  }
+
   protected EventListener getEventListener()
   {
     if (eventListener == null)
     {
-      eventListener = 
-        new EventListener()
+      class XSDSchemaEventListener implements EventListener, Serializable
+      {
+        public void handleEvent(Event event) 
         {
-          public void handleEvent(Event event) 
+          if (event instanceof MutationEvent)
           {
-            if (event instanceof MutationEvent)
+            MutationEvent mutationEvent = (MutationEvent)event;
+            if (mutationEvent.getTarget() instanceof Node)
             {
-              MutationEvent mutationEvent = (MutationEvent)event;
-              if (mutationEvent.getTarget() instanceof Node)
+              Node node = (Node)mutationEvent.getTarget();
+              while (node.getNodeType() != Node.ELEMENT_NODE)
               {
-                Node node = (Node)mutationEvent.getTarget();
-                while (node.getNodeType() != Node.ELEMENT_NODE)
+                node = node.getParentNode();
+              }
+              if (mutationEvent.getAttrChange() == 0)
+              {
+                XSDConcreteComponent listener = getCorrespondingComponent(node.getParentNode());
+                if (listener != null)
                 {
-                  node = node.getParentNode();
-                }
-                if (mutationEvent.getAttrChange() == 0)
-                {
-                  XSDConcreteComponent listener = getCorrespondingComponent(node.getParentNode());
-                  if (listener != null)
+                  if (event.getType().equals("DOMNodeRemoved"))
                   {
-                    if (event.getType().equals("DOMNodeRemoved"))
-                    {
-                      deletionNode = (Node)event.getTarget();
-                    }
-                    Node parent = node.getParentNode();
-                    if (parent.getNodeType() == Node.ELEMENT_NODE)
-                    {
-                      listener.elementContentsChanged((Element)parent);
-                    }
-                    deletionNode = null;
+                    deletionNode = (Node)event.getTarget();
                   }
-                }
-                else
-                {
-                  XSDConcreteComponent listener = getCorrespondingComponent(node);
-                  if (listener != null)
+                  Node parent = node.getParentNode();
+                  if (parent.getNodeType() == Node.ELEMENT_NODE)
                   {
-                    listener.elementAttributesChanged((Element)node);
+                    listener.elementContentsChanged((Element)parent);
                   }
+                  deletionNode = null;
+                }
+              }
+              else
+              {
+                XSDConcreteComponent listener = getCorrespondingComponent(node);
+                if (listener != null)
+                {
+                  listener.elementAttributesChanged((Element)node);
                 }
               }
             }
           }
-        };
+        }
+
+        public Object writeReplace()
+        {
+          return new DummyEventListener();
+        }
+      };
+      eventListener = new XSDSchemaEventListener();
     }
     return eventListener;
   }
