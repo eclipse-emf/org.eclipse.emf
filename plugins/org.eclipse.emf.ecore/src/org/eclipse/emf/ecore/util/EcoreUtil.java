@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.46 2006/08/08 19:49:12 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.47 2006/09/07 13:20:17 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -396,7 +396,7 @@ public class EcoreUtil
      * Whether proxies should be resolved during copying.
      */
     protected boolean resolveProxies = true;
-    
+
     /**
      * Creates an instance.
      */
@@ -412,7 +412,7 @@ public class EcoreUtil
     {
       this.resolveProxies = resolveProxies;
     }
-     
+
     /**
      * Returns a collection containing a copy of each EObject in the given collection.
      * @param eObjects the collection of objects to copy.
@@ -844,15 +844,20 @@ public class EcoreUtil
       {
         return true;
       }
-      
-      InternalEObject eContainer = ((InternalEObject)eObject).eInternalContainer();
-      while (eContainer != null)
+
+      int count = 0;
+      for (InternalEObject eContainer = ((InternalEObject)eObject).eInternalContainer(); 
+           eContainer != null && eContainer != eObject; 
+           eContainer = eContainer.eInternalContainer())
       {
+        if (++count > 100000)
+        {
+          return isAncestor(ancestorEObject, eContainer);
+        }
         if (eContainer == ancestorEObject)
         {
           return true;
         }
-        eContainer = eContainer.eInternalContainer();
       }
     }
     return false;
