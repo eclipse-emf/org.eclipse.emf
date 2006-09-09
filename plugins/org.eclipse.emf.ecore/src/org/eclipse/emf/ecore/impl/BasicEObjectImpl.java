@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.27 2006/06/14 21:55:13 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.28 2006/09/09 13:31:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -1116,7 +1117,8 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
 
   public EStructuralFeature.Setting eSetting(final EStructuralFeature eFeature)
   {
-    int index = eClass().getFeatureID(eFeature);
+    EClass eClass = eClass();
+    int index = eClass.getFeatureID(eFeature);
     int dynamicIndex = eStaticFeatureCount();
     if (index >= dynamicIndex)
     {
@@ -1124,49 +1126,64 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     }
     else if (index <= -1)
     {
-      throw new IllegalArgumentException("The feature '" + eFeature.getName() + "' is not a valid feature");
+      EStructuralFeature openFeature = ExtendedMetaData.INSTANCE.getAffiliation(eClass, eFeature);
+      if (openFeature != null)
+      {
+        if (!FeatureMapUtil.isFeatureMap(openFeature))
+        {
+          openFeature = ExtendedMetaData.INSTANCE.getGroup(openFeature);
+        }
+        FeatureMap featureMap = (FeatureMap)eGet(openFeature);
+        int upperBound = openFeature.getUpperBound();
+        if (upperBound > 1 || upperBound == ETypedElement.UNBOUNDED_MULTIPLICITY)
+        {
+          return (EStructuralFeature.Setting)((FeatureMap.Internal)featureMap).get(eFeature, false);
+        }
+      }
+      else
+      {
+        throw new IllegalArgumentException("The feature '" + eFeature.getName() + "' is not a valid feature");
+      }
     }
     else if (eFeature.isMany())
     {
       return (EStructuralFeature.Setting)eGet(eFeature, false);
     }
-    else
-    {
-      EStructuralFeature.Setting setting =
-        new EStructuralFeature.Setting()
+
+    EStructuralFeature.Setting setting =
+      new EStructuralFeature.Setting()
+      {
+        public EObject getEObject()
         {
-          public EObject getEObject()
-          {
-            return BasicEObjectImpl.this;
-          }
+          return BasicEObjectImpl.this;
+        }
 
-          public EStructuralFeature getEStructuralFeature()
-          {
-            return eFeature;
-          }
+        public EStructuralFeature getEStructuralFeature()
+        {
+          return eFeature;
+        }
 
-          public Object get(boolean resolve)
-          {
-            return BasicEObjectImpl.this.eGet(eFeature, resolve);
-          }
+        public Object get(boolean resolve)
+        {
+          return BasicEObjectImpl.this.eGet(eFeature, resolve);
+        }
 
-          public void set(Object newValue)
-          {
-            BasicEObjectImpl.this.eSet(eFeature, newValue);
-          }
+        public void set(Object newValue)
+        {
+          BasicEObjectImpl.this.eSet(eFeature, newValue);
+        }
 
-          public boolean isSet()
-          {
-            return BasicEObjectImpl.this.eIsSet(eFeature);
-          }
+        public boolean isSet()
+        {
+          return BasicEObjectImpl.this.eIsSet(eFeature);
+        }
 
-          public void unset()
-          {
-            BasicEObjectImpl.this.eUnset(eFeature);
-          }
-        };
-      return setting;
-    }
+        public void unset()
+        {
+          BasicEObjectImpl.this.eUnset(eFeature);
+        }
+      };
+    return setting;
   }
 
   public InternalEObject.EStore eStore()
