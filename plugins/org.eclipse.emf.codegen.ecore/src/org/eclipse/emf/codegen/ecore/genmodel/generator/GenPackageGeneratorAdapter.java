@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.7 2006/06/27 14:45:28 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.8 2006/09/13 22:27:59 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -146,7 +146,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
       ((GenPackage)object).clearCache();
       return Diagnostic.OK_INSTANCE;
     }
-    return super.doPreGenerate(object, projectType);
+    return super.doPostGenerate(object, projectType);
   }
 
   protected Diagnostic generateModel(Object object, Monitor monitor)
