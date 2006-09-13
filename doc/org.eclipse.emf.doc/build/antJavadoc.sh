@@ -21,6 +21,7 @@ function groupPackage
 		if [ -d "$srcDir" ]; then
 			packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);/\1/' | sort | uniq | xargs | sed -e 's/ /:/g'`
 			packages=`echo $packages | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
+			packages=`echo $packages | sort | uniq`
 		
 			sed -e "s/\@${plugin}\@/${packages}/g" $currentPath/javadoc.xml.template > javadoc.xml.template.tmp
 	
@@ -65,15 +66,19 @@ pluginDirs=`find $eclipseDir/plugins -name @dot -printf '%T@ %p\n' | sort -n | g
 # All the jars in the plugins directory
 classpath=`find $eclipseDir/plugins -name "*.jar" | tr '\n' ':'`; echo "Got classpath: "; echo $classpath;
 
-# Calculates the packagesets and the calls to copyDocFiles
+# Calculates the packagesets and the calls to copyDocFiles (used in javadoc.xml.template)
+# also calculates pluginIDs used in the PDE Javadoc extension point in the plugin.xml 
 packagesets=""
 copydocfiles=""
+pluginIDs=""
+
 for pluginDir in $pluginDirs; do
 	pluginDir=`echo $pluginDir | sed -e 's/\/runtime$//g'`
 	srcDir=$pluginDir/src
 	if [ -d "$srcDir" ]; then
 		packagesets=$packagesets"<packageset dir=\"$srcDir\"><exclude name=\"$srcDir/**/doc-files/**\"/></packageset>"
 		copydocfiles=$copydocfiles"<copyDocFiles pluginDir=\"$pluginDir\"/>"
+		pluginIDs=$pluginIDs"<plugin id=\"$pluginDir\"/>"
 	fi
 	srcDir=$pluginDir/tasks
 	if [ -d "$srcDir" ]; then
@@ -81,6 +86,9 @@ for pluginDir in $pluginDirs; do
 		copydocfiles=$copydocfiles"<copyDocFiles pluginDir=\"$pluginDir\"/>"
 	fi
 done
+
+echo TEST1
+echo $pluginIDs
 
 # Replaces the token @packagesets@ in the template by the actual value
 packagesets=`echo $packagesets | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
