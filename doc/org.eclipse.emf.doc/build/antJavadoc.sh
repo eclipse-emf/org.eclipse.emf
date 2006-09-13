@@ -19,7 +19,7 @@ function groupPackage
 	if [ "x$hasToken" != "x"  ]; then
 		srcDir=$eclipseDir/plugins/$plugin/src
 		if [ -d "$srcDir" ]; then
-			packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);/\1/' | sort | uniq | xargs | sed -e 's/ /:/g'`
+			packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);.*/\1/' | sort | uniq | xargs | sed -e 's/ /:/g'`
 			packages=`echo $packages | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
 			packages=`echo $packages | sort | uniq`
 		
@@ -78,7 +78,8 @@ for pluginDir in $pluginDirs; do
 	if [ -d "$srcDir" ]; then
 		packagesets=$packagesets"<packageset dir=\"$srcDir\"><exclude name=\"$srcDir/**/doc-files/**\"/></packageset>"
 		copydocfiles=$copydocfiles"<copyDocFiles pluginDir=\"$pluginDir\"/>"
-		pluginIDs=$pluginIDs"<plugin id=\"$pluginDir\"/>"
+		pluginID=`echo $pluginDir | sed -e 's|.*plugins/org|org|"`
+		pluginIDs=$pluginIDs"<plugin id=\"$pluginID\"/>"
 	fi
 	srcDir=$pluginDir/tasks
 	if [ -d "$srcDir" ]; then
