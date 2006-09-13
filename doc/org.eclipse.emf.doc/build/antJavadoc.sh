@@ -77,7 +77,7 @@ for pluginDir in $pluginDirs; do
 	if [ -d "$srcDir" ]; then
 		packagesets=$packagesets"<packageset dir=\"$srcDir\"><exclude name=\"$srcDir/**/doc-files/**\"/></packageset>"
 		copydocfiles=$copydocfiles"<copyDocFiles pluginDir=\"$pluginDir\"/>"
-		pluginID=`echo $pluginDir | sed -e 's|.*plugins/org|org|"`
+		pluginID=`echo "$pluginDir" | sed -e 's|.*plugins/org|org|'`
 		pluginIDs=$pluginIDs"<plugin id=\"$pluginID\"/>"
 	fi
 	srcDir=$pluginDir/tasks
