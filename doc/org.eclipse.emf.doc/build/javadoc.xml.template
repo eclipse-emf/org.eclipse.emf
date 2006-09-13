@@ -98,6 +98,10 @@
 				<group title="Codegen Ecore"                  packages="@org.eclipse.emf.codegen.ecore@"/>
 				<group title="Codegen Ecore UI"               packages="@org.eclipse.emf.codegen.ecore.ui@"/>
 				
+				<group title="Converter Framework"            packages="@org.eclipse.emf.converter@:@org.eclipse.emf.exporter@:@org.eclipse.emf.importer@:@org.eclipse.emf.importer.ecore@:@org.eclipse.emf.importer.java@:@org.eclipse.emf.importer.rose@"/>
+				
+				<group title="Ant"                            packages="@org.eclipse.emf.ant@"/>
+				
 				<group title="Change Model"                   packages="org.eclipse.emf.ecore.change:org.eclipse.emf.ecore.change.impl"/>
 				<group title="Change Utilities"               packages="org.eclipse.emf.ecore.change.util"/>
 				<group title="Change Edit"                    packages="@org.eclipse.emf.ecore.change.edit@"/>
