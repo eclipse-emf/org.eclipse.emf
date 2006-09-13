@@ -12,16 +12,18 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.22 2006/02/02 13:49:22 davidms Exp $
+ * $Id: URI.java,v 1.23 2006/09/13 19:15:30 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -156,7 +158,46 @@ public final class URI
   // The fragment of any URI is removed before caching it here, to minimize
   // the size of the cache in the usual case where most URIs only differ by
   // the fragment.
-  private static final Map uriCache = Collections.synchronizedMap(new HashMap());
+  private static final Map uriCache = 
+    new HashMap()
+    {
+      static final int MIN_LIMIT = 1000;
+      int count;
+      int limit = MIN_LIMIT;
+
+      public synchronized Object get(Object key)
+      {
+        WeakReference reference = (WeakReference)super.get(key);
+        return reference == null ? null : reference.get();
+      }
+         
+      public synchronized Object put(Object key, Object value)
+      {
+        super.put(key, new WeakReference(value));
+        if (++count > limit)
+        {
+          cleanGCedValues();
+        }
+
+        // The return value is not used.
+        return null;
+      }
+      
+      private void cleanGCedValues()
+      {
+        for (Iterator i = entrySet().iterator(); i.hasNext(); )
+        {
+          Map.Entry entry = (Map.Entry)i.next();
+          WeakReference reference = (WeakReference)entry.getValue();
+          if (reference.get() == null)
+          {
+            i.remove();
+          }
+        }
+        count = 0;
+        limit = Math.max(MIN_LIMIT, size() / 2);
+      }
+    };
 
   // The lower-cased schemes that will be used to identify archive URIs.
   private static final Set archiveSchemes;
