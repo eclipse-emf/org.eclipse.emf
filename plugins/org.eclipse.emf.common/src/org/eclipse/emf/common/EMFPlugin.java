@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.14 2006/05/12 16:38:23 marcelop Exp $
+ * $Id: EMFPlugin.java,v 1.15 2006/09/13 18:58:14 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -118,6 +118,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
     }
   }
 
+  private static final URI DOT = URI.createURI(".");
   /*
    * Javadoc copied from interface.
    */
@@ -208,7 +209,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
                 //
                 InputStream inputStream = new URL(uri.toString()).openStream();
                 inputStream.close();
-                baseURL = new URL(uri.trimSegments(1).toString() + "/");
+                baseURL = new URL(DOT.resolve(uri).toString());
               }
               catch (IOException exception)
               {
@@ -228,7 +229,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
           }
           else
           {
-            baseURL = new URL(URI.createURI(pluginPropertiesURL.toString()).trimSegments(1).toString() + "/");
+            baseURL = new URL(DOT.resolve(URI.createURI(pluginPropertiesURL.toString())).toString());
           }
         }
         catch (IOException exception)
