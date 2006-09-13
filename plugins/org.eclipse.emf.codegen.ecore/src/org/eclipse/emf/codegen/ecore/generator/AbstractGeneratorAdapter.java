@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.5 2006/08/11 21:59:35 emerks Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.6 2006/09/13 18:42:46 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -848,7 +848,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     {
       try
       {
-        InputStream inputStream = uriConverter.createInputStream(uri);
+        InputStream inputStream = getURIConverter().createInputStream(uri);
         inputStream.close();
         return true;
       }
