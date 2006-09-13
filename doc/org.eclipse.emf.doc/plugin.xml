@@ -21,7 +21,8 @@
 <!-- Define Javadoc locations                                                      -->
 <!-- ============================================================================= -->
    <extension point="org.eclipse.pde.core.javadoc">
-       <javadoc path="references/javadoc">
+       <javadoc path="doc.zip!/references/javadoc" archive="true">
+           <!-- @pluginIDs@ -->
        </javadoc>
    </extension>
 

@@ -89,6 +89,11 @@ done
 
 echo TEST1
 echo $pluginIDs
+# Replaces the token <!-- @pluginIDs@ --> in the plugin.xml by the value of pluginIDs
+pluginIDs=`echo $pluginIDs | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
+echo $pluginIDs
+sed -e "s/<\!-- \@pluginIDs\@ -->/${pluginIDs}/g" $currentPath/../plugin.xml > plugin2.xml
+mv plugin2.xml ../plugin.xml
 
 # Replaces the token @packagesets@ in the template by the actual value
 packagesets=`echo $packagesets | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`
