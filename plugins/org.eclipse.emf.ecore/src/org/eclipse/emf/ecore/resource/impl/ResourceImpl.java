@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.17 2006/05/03 16:50:49 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.18 2006/09/18 15:47:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -739,6 +739,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       }
     }
     
+    EObject result = null;
     for (TreeIterator i = getAllProperContents(getContents()); i.hasNext(); )
     {
       EObject eObject = (EObject)i.next();
@@ -752,12 +753,16 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
           
         if (eObjectId.equals(id))
         {
-          return eObject;
+          result = eObject;
+          if (map == null)
+          {
+            break;
+          }
         }
       }
     }
 
-    return null;
+    return result;
   }
 
   public void attached(EObject eObject)
