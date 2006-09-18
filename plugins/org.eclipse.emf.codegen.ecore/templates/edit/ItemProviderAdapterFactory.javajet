@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.7 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.8 2006/09/18 14:12:22 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -189,7 +189,7 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	public Adapter create<%=genClass.getName()%>Adapter()
 	{
 		return
-			get<%=genClass.getItemProviderAdapterFactoryClassName()%> == null ?
+			get<%=genClass.getItemProviderAdapterFactoryClassName()%>() == null ?
 				null :
 				get<%=genClass.getItemProviderAdapterFactoryClassName()%>().create<%=genClass.getName()%>Adapter();
 	}
