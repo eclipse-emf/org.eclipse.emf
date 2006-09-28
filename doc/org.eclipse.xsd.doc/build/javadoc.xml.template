@@ -16,17 +16,10 @@
 	</target>
 	
 	<target name="javadoc" depends="extractPlatformJavadoc">
-	<echo message="Get Doclet and compile it with JDK1.4 for use with javadoc"/>
-	<cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/tools" 
-		package="org.eclipse.emf.releng.build/org.eclipse.emf.build" 
-		reallyquiet="yes"/>
-	<delete dir="org.eclipse.emf.releng.build/org.eclipse.emf.build/src/CVS"/>
-	<move todir="."><fileset dir="org.eclipse.emf.releng.build/org.eclipse.emf.build/src"/></move>
-	<!-- requires JDK1.4 for compilation -->
-	<javac srcdir="org/eclipse/emf/build/doclet" classpath=".:${java.home}/../lib/tools.jar" failonerror="true"/>
+	<echo message="Get precompiled Doclet use with javadoc"/>
 		<javadoc 
 			destdir="${destDir}" 
-			classpath="${classpath}"
+			classpath="${classpath}:${eclipseDir}/../org.eclipse.emf.releng.build/org.eclipse.emf.build/emf.build_jdk50.jar"
 			overview="${overview}"
 
 			windowtitle="XSD Javadoc"
