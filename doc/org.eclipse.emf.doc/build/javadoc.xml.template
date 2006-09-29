@@ -19,7 +19,7 @@
 		<echo message="Get precompiled Doclet use with javadoc"/>
 		<javadoc 
 			destdir="${destDir}" 
-			classpath="${classpath}:${eclipseDir}/../org.eclipse.emf.releng.build/org.eclipse.emf.build/emf.build_jdk1.4.jar"
+			classpath="${classpath}:${eclipseDir}/../org.eclipse.emf.releng.build/org.eclipse.emf.build/emf.build_jdk14.jar"
 			overview="${overview}"
 
 			windowtitle="EMF Javadoc"
