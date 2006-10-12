@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.8 2006/09/13 22:27:59 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.9 2006/10/12 20:56:52 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -575,7 +575,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
   protected void generateModelWizard(GenPackage genPackage, Monitor monitor)
   {
-    if (genPackage.hasConcreteClasses())
+    if (genPackage.hasConcreteClasses() && genPackage.isGenerateModelWizard())
     {
       message = CodeGenEcorePlugin.INSTANCE.getString
         ("_UI_GeneratingJavaClass_message", new Object[] { genPackage.getQualifiedModelWizardClassName() });
@@ -638,7 +638,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
   protected void generateModelWizardIcon(GenPackage genPackage, Monitor monitor)
   {
-    if (genPackage.hasConcreteClasses())
+    if (genPackage.hasConcreteClasses() && genPackage.isGenerateModelWizard())
     {
       message = CodeGenEcorePlugin.INSTANCE.getString
         ("_UI_GeneratingModelWizardIcon_message", new Object[] { genPackage.getModelWizardIconFileName() });
