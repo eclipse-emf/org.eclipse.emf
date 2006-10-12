@@ -203,7 +203,7 @@ public class ActionBarContributor
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_13);
     }
-    if (genModel.isRichClientPlatform()) {
+    if (genModel.isRichClientPlatform()) {if (genPackage.isGenerateModelWizard()) {
     stringBuffer.append(TEXT_14);
     stringBuffer.append(genPackage.getPrefix());
     stringBuffer.append(TEXT_15);
@@ -221,7 +221,7 @@ public class ActionBarContributor
     stringBuffer.append(TEXT_21);
     stringBuffer.append(genModel.getImportedName("org.eclipse.jface.wizard.WizardDialog"));
     stringBuffer.append(TEXT_22);
-    }
+    }}
     stringBuffer.append(TEXT_23);
     stringBuffer.append(genModel.getImportedName("org.eclipse.ui.IEditorPart"));
     stringBuffer.append(TEXT_24);

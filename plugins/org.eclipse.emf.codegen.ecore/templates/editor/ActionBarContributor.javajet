@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.16 2006/05/15 22:01:23 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.17 2006/10/12 20:55:11 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -40,7 +40,7 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	public static final String copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
 
 <%}%>
-<%if (genModel.isRichClientPlatform()) {%>
+<%if (genModel.isRichClientPlatform()) {if (genPackage.isGenerateModelWizard()) {%>
 	/**
 	 * Action to create objects from the <%=genPackage.getPrefix()%> model.
 	 * <!-- begin-user-doc -->
@@ -64,7 +64,7 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 		}
 	}
 
-<%}%>
+<%}}%>
 	/**
 	 * This keeps track of the active editor.
 	 * <!-- begin-user-doc -->
