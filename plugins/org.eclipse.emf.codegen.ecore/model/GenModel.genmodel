@@ -11,7 +11,7 @@
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
   <genPackages prefix="GenModel" basePackage="org.eclipse.emf.codegen.ecore" disposableProviderFactory="true"
-      multipleEditorPages="false" ecorePackage="GenModel.ecore#/">
+      multipleEditorPages="false" generateModelWizard="false" ecorePackage="GenModel.ecore#/">
     <genEnums ecoreEnum="GenModel.ecore#//GenProviderKind">
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenProviderKind/Singleton"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenProviderKind/Stateful"/>

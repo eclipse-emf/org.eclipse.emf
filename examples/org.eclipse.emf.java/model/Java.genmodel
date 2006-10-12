@@ -8,7 +8,8 @@
   <foreignModel>Java.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>
-  <genPackages prefix="Java" basePackage="org.eclipse.emf" ecorePackage="Java.ecore#/">
+  <genPackages prefix="Java" basePackage="org.eclipse.emf" generateModelWizard="false"
+      ecorePackage="Java.ecore#/">
     <genEnums ecoreEnum="Java.ecore#//JVisibility">
       <genEnumLiterals ecoreEnumLiteral="Java.ecore#//JVisibility/public"/>
       <genEnumLiterals ecoreEnumLiteral="Java.ecore#//JVisibility/protected"/>
