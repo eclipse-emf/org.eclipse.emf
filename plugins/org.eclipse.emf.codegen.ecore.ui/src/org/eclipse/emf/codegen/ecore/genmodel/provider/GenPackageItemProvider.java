@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageItemProvider.java,v 1.21 2006/05/15 19:34:39 davidms Exp $
+ * $Id: GenPackageItemProvider.java,v 1.22 2006/10/12 20:57:08 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -89,6 +89,7 @@ public class GenPackageItemProvider
       addLiteralsInterfacePropertyDescriptor(object);
       addDataTypeConvertersPropertyDescriptor(object);
       addMultipleEditorPagesPropertyDescriptor(object);
+      addGenerateModelWizardPropertyDescriptor(object);
       addEcorePackagePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
@@ -486,6 +487,29 @@ public class GenPackageItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Generate Model Wizard feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addGenerateModelWizardPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenPackage_generateModelWizard_feature"),
+         getString("_UI_GenPackage_generateModelWizard_description"),
+         GenModelPackage.Literals.GEN_PACKAGE__GENERATE_MODEL_WIZARD,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_EditorPropertyCategory"),
+         null));
+  }
+
+  /**
    * This adds a property descriptor for the Ecore Package feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -593,6 +617,7 @@ public class GenPackageItemProvider
       case GenModelPackage.GEN_PACKAGE__LITERALS_INTERFACE:
       case GenModelPackage.GEN_PACKAGE__DATA_TYPE_CONVERTERS:
       case GenModelPackage.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES:
+      case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;

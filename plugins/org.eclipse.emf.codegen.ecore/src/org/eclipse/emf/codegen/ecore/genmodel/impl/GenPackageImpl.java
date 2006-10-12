@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.60 2006/07/05 11:15:42 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.61 2006/10/12 20:55:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -110,6 +110,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isLiteralsInterface <em>Literals Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isDataTypeConverters <em>Data Type Converters</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isMultipleEditorPages <em>Multiple Editor Pages</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#isGenerateModelWizard <em>Generate Model Wizard</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl#getGenEnums <em>Gen Enums</em>}</li>
@@ -465,6 +466,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @ordered
    */
   protected boolean multipleEditorPages = MULTIPLE_EDITOR_PAGES_EDEFAULT;
+
+  /**
+   * The default value of the '{@link #isGenerateModelWizard() <em>Generate Model Wizard</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isGenerateModelWizard()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean GENERATE_MODEL_WIZARD_EDEFAULT = true;
+
+  /**
+   * The cached value of the '{@link #isGenerateModelWizard() <em>Generate Model Wizard</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isGenerateModelWizard()
+   * @generated
+   * @ordered
+   */
+  protected boolean generateModelWizard = GENERATE_MODEL_WIZARD_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getEcorePackage() <em>Ecore Package</em>}' reference.
@@ -949,6 +970,29 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES, oldMultipleEditorPages, multipleEditorPages));
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isGenerateModelWizard()
+  {
+    return generateModelWizard;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setGenerateModelWizard(boolean newGenerateModelWizard)
+  {
+    boolean oldGenerateModelWizard = generateModelWizard;
+    generateModelWizard = newGenerateModelWizard;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD, oldGenerateModelWizard, generateModelWizard));
+  }
+
   public  EModelElement getEcoreModelElement()
   {
     return getEcorePackage();
@@ -1221,6 +1265,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return isDataTypeConverters() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES:
         return isMultipleEditorPages() ? Boolean.TRUE : Boolean.FALSE;
+      case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
+        return isGenerateModelWizard() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         if (resolve) return getEcorePackage();
         return basicGetEcorePackage();
@@ -1299,6 +1345,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return;
       case GenModelPackage.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES:
         setMultipleEditorPages(((Boolean)newValue).booleanValue());
+        return;
+      case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
+        setGenerateModelWizard(((Boolean)newValue).booleanValue());
         return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)newValue);
@@ -1386,6 +1435,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES:
         setMultipleEditorPages(MULTIPLE_EDITOR_PAGES_EDEFAULT);
         return;
+      case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
+        setGenerateModelWizard(GENERATE_MODEL_WIZARD_EDEFAULT);
+        return;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         setEcorePackage((EPackage)null);
         return;
@@ -1451,6 +1503,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return dataTypeConverters != DATA_TYPE_CONVERTERS_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__MULTIPLE_EDITOR_PAGES:
         return multipleEditorPages != MULTIPLE_EDITOR_PAGES_EDEFAULT;
+      case GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD:
+        return generateModelWizard != GENERATE_MODEL_WIZARD_EDEFAULT;
       case GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE:
         return ecorePackage != null;
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
@@ -1513,6 +1567,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     result.append(dataTypeConverters);
     result.append(", multipleEditorPages: ");
     result.append(multipleEditorPages);
+    result.append(", generateModelWizard: ");
+    result.append(generateModelWizard);
     result.append(')');
     return result.toString();
   }

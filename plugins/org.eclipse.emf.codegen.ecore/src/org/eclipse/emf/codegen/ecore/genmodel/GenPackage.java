@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.27 2006/05/04 14:30:45 emerks Exp $
+ * $Id: GenPackage.java,v 1.28 2006/10/12 20:55:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -49,6 +49,7 @@ import org.eclipse.emf.ecore.EPackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isLiteralsInterface <em>Literals Interface</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isDataTypeConverters <em>Data Type Converters</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isMultipleEditorPages <em>Multiple Editor Pages</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isGenerateModelWizard <em>Generate Model Wizard</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getEcorePackage <em>Ecore Package</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenEnums <em>Gen Enums</em>}</li>
@@ -520,6 +521,33 @@ public interface GenPackage extends GenBase
    * @generated
    */
   void setMultipleEditorPages(boolean value);
+
+  /**
+   * Returns the value of the '<em><b>Generate Model Wizard</b></em>' attribute.
+   * The default value is <code>"true"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Generate Model Wizard</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Generate Model Wizard</em>' attribute.
+   * @see #setGenerateModelWizard(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenPackage_GenerateModelWizard()
+   * @model default="true"
+   * @generated
+   */
+  boolean isGenerateModelWizard();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#isGenerateModelWizard <em>Generate Model Wizard</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Generate Model Wizard</em>' attribute.
+   * @see #isGenerateModelWizard()
+   * @generated
+   */
+  void setGenerateModelWizard(boolean value);
 
   /**
    * Returns the value of the '<em><b>Ecore Package</b></em>' reference.
