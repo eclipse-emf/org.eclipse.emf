@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.4 2006/10/13 19:50:51 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.5 2006/10/13 22:55:09 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -118,11 +118,11 @@ public class DeprecatedJMergerTest extends TestCase
     String actualMerge = mergeResult.toString();
     if (expectedMerge == null ? actualMerge == null : expectedMerge.equals(actualMerge))
     {
-      System.out.println("are the same");
+      System.out.println("are the same on " + getName());
     }
     else
     {
-      System.out.println("are NOT the same");
+      System.out.println("are NOT the same on " + getName());
       System.out.println("============================\nexpectedMerge\n============================\n" + expectedMerge);
       System.out.println("============================\nactualMerge\n============================\n" + actualMerge);
     }

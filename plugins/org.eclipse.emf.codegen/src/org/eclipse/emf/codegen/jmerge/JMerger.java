@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.19 2006/02/21 06:19:48 marcelop Exp $
+ * $Id: JMerger.java,v 1.20 2006/10/13 22:55:10 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -613,6 +613,11 @@ public class JMerger
         {
           Method sourceGetMethod = pullRule.getSourceGetFeature().getFeatureMethod();
           Object value = sourceGetMethod.invoke(sourceNode, noArguments);
+          if ("getHeader".equals(sourceGetMethod.getName()))
+          {
+            System.out.println("getHeader");
+            System.out.println(value);
+          }
           Method targetPutMethod = pullRule.getTargetPutFeature().getFeatureMethod();
           if (!sourceGetMethod.getReturnType().isArray() || 
                 targetPutMethod.getParameterTypes()[0].isAssignableFrom(sourceGetMethod.getReturnType()))
