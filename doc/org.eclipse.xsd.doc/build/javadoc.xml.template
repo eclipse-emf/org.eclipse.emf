@@ -2,7 +2,7 @@
 <project name="Plugin Javadoc" default="javadoc">
 	<property name="destDir"    value="doc"/>
 	<property name="overview"   value="build/overview.html"/>
-	<property name="eclipseDir" location="../../.."/>
+	<property name="eclipseDir" value="../../.."/>
 	
 	<property environment="env"/>
 	<property name="javaHome" value="${env.JAVA_HOME}"/>
@@ -15,18 +15,17 @@
 	</target>
 	
 	<target name="javadoc" depends="extractPlatformJavadoc">
-		<echo message="Get precompiled Doclet use with javadoc"/>
-		<path id="javadoc.doclet.path">
-		     <fileset dir="${eclipseDir}/../org.eclipse.emf.releng.build/org.eclipse.emf.build/">
-		        <include name="**/emf.build_jdk50.jar"/>
-		      </fileset>
-			<pathelement path="bin"/>
-			<pathelement path="${classpath}"/>
-		</path>
+		<echo message="Get Doclet and compile it with JDK5.0 for use with javadoc"/>
+		<cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/tools" 
+			package="org.eclipse.emf.releng.build/org.eclipse.emf.build" reallyquiet="yes"/>
+		<delete dir="org.eclipse.emf.releng.build/org.eclipse.emf.build/src/CVS"/>
+		<move todir="."><fileset dir="org.eclipse.emf.releng.build/org.eclipse.emf.build/src"/></move>
+		<!-- requires JDK5.0 for compilation -->
+		<javac srcdir="org/eclipse/emf/build/doclet" classpath=".:${java.home}/../lib/tools.jar" failonerror="true"/>
 		<javadoc 
 			destdir="${destDir}" 
+			classpath="${classpath}"
 			overview="${overview}"
-			docletpathref="javadoc.doclet.path"
 
 			windowtitle="XSD Javadoc"
 			footer="Copyright 2001-2006 IBM Corporation and others.&lt;br&gt; All Rights Reserved."
@@ -45,10 +44,9 @@
 			splitindex="true" 
 			use="true" 
 			version="true"> 
-				<classpath refid="javadoc.doclet.path"/>
 				<arg value="-J-Xmx256m"/>
 				
-				<doclet name="org.eclipse.emf.build.doclet.Doclet">
+				<doclet name="org.eclipse.emf.build.doclet.Doclet" path="org/eclipse/emf/build/doclet/Doclet">
 					<param name="-tocFilename" value="../topics_Reference.xml"/>
 					<param name="-tocRefPrefix" value="references/javadoc/"/>
 					<param name="-tocTitle" value="API Reference"/>
@@ -92,7 +90,7 @@
 			</sequential>
 		</macrodef>
 
-<!-- @copydocfiles@ -->
+@copydocfiles@
 
 	</target>
 </project>
