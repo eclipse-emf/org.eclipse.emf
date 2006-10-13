@@ -3,7 +3,7 @@
 	<property name="destDir"    value="doc"/>
 	<property name="overview"   value="build/overview.html"/>
 	<property name="eclipseDir" location="../../.."/>
-	<property name="classpath"  value="bin:${eclipseDir}/../org.eclipse.emf.releng.build/org.eclipse.emf.build/emf.build_jdk50.jar"/>
+	<property name="javadocClasspath"  value="${classpath}:bin:${eclipseDir}/../org.eclipse.emf.releng.build/org.eclipse.emf.build/emf.build_jdk50.jar"/>
 	
 	<property environment="env"/>
 	<property name="javaHome" value="${env.JAVA_HOME}"/>
@@ -16,10 +16,10 @@
 	</target>
 	
 	<target name="javadoc" depends="extractPlatformJavadoc">
-		<echo message="Get precompiled Doclet use with javadoc - classpath = ${classpath}"/>
+		<echo message="Get precompiled Doclet use with javadoc - classpath = ${javadocClasspath}"/>
 		<javadoc 
 			destdir="${destDir}" 
-			classpath="${classpath}"
+			classpath="${javadocClasspath}"
 			overview="${overview}"
 
 			windowtitle="XSD Javadoc"
