@@ -216,8 +216,8 @@ public class CodeGenUtil
       result.add("StackOverflowError");
       result.add("String");
       result.add("StringBuffer");
-      result.add("StringIndexOutOfBoundsException");
       result.add("StringBuilder");
+      result.add("StringIndexOutOfBoundsException");
       result.add("System");
       result.add("Thread");
       result.add("ThreadDeath");
