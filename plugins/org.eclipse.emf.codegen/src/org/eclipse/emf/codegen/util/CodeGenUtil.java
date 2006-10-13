@@ -217,6 +217,7 @@ public class CodeGenUtil
       result.add("String");
       result.add("StringBuffer");
       result.add("StringIndexOutOfBoundsException");
+      result.add("StringBuilder");
       result.add("System");
       result.add("Thread");
       result.add("ThreadDeath");
