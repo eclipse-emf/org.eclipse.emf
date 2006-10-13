@@ -170,6 +170,7 @@ public class CodeGenUtil
       result.add("Comparable");
       result.add("Compiler");
       result.add("Double");
+      result.add("Enum");
       result.add("Error");
       result.add("Exception");
       result.add("ExceptionInInitializerError");
