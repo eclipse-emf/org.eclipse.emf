@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Plugin Javadoc" default="javadoc">
 	<property name="destDir"    value="doc"/>
-	<property name="classpath"  value="bin"/>
 	<property name="overview"   value="build/overview.html"/>
-	<property name="eclipseDir" value="../../.."/>
+	<property name="eclipseDir" location="../../.."/>
+	<property name="classpath"  value="bin:${eclipseDir}/../org.eclipse.emf.releng.build/org.eclipse.emf.build/emf.build_jdk50.jar"/>
 	
 	<property environment="env"/>
 	<property name="javaHome" value="${env.JAVA_HOME}"/>
@@ -16,10 +16,10 @@
 	</target>
 	
 	<target name="javadoc" depends="extractPlatformJavadoc">
-	<echo message="Get precompiled Doclet use with javadoc"/>
+		<echo message="Get precompiled Doclet use with javadoc - classpath = ${classpath}"/>
 		<javadoc 
 			destdir="${destDir}" 
-			classpath="${classpath}:${eclipseDir}/../org.eclipse.emf.releng.build/org.eclipse.emf.build/emf.build_jdk50.jar"
+			classpath="${classpath}"
 			overview="${overview}"
 
 			windowtitle="XSD Javadoc"
