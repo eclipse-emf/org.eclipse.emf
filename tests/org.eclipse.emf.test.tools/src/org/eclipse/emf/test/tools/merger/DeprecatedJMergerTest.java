@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.5 2006/10/13 22:55:09 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.6 2006/10/13 23:41:28 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -47,7 +47,7 @@ public class DeprecatedJMergerTest extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("JMergerTest");
+    TestSuite ts = new TestSuite("DeprecatedJMergerTest");
     ts.addTest(new DeprecatedJMergerTest("merge0"));
     ts.addTest(new DeprecatedJMergerTest("merge1"));
     ts.addTest(new DeprecatedJMergerTest("merge2"));
@@ -116,16 +116,6 @@ public class DeprecatedJMergerTest extends TestCase
     
     String expectedMerge = TestUtil.readFile(expected, false);
     String actualMerge = mergeResult.toString();
-    if (expectedMerge == null ? actualMerge == null : expectedMerge.equals(actualMerge))
-    {
-      System.out.println("are the same on " + getName());
-    }
-    else
-    {
-      System.out.println("are NOT the same on " + getName());
-      System.out.println("============================\nexpectedMerge\n============================\n" + expectedMerge);
-      System.out.println("============================\nactualMerge\n============================\n" + actualMerge);
-    }
     assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\r'", expectedMerge, actualMerge);    
   }
   
