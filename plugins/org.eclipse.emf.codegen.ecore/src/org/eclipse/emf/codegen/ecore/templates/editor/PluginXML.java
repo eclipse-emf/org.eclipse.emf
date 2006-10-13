@@ -228,8 +228,10 @@ public class PluginXML
     stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
     stringBuffer.append(TEXT_55);
     }
-    for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); if (genPackage.hasConcreteClasses()){
-    if (genPackage.isGenerateModelWizard()) {if (genModel.isRichClientPlatform()) {
+    for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();
+    if (genPackage.hasConcreteClasses()){
+    if (genPackage.isGenerateModelWizard()) {
+    if (genModel.isRichClientPlatform()) {
     stringBuffer.append(TEXT_56);
     stringBuffer.append(genPackage.getModelWizardClassName());
     stringBuffer.append(TEXT_57);
@@ -253,7 +255,8 @@ public class PluginXML
     stringBuffer.append(TEXT_66);
     stringBuffer.append(genPackage.getModelWizardClassName());
     stringBuffer.append(TEXT_67);
-    }}
+    }
+    }
     stringBuffer.append(TEXT_68);
     stringBuffer.append(genPackage.getQualifiedEditorClassName());
     stringBuffer.append(TEXT_69);
@@ -267,7 +270,8 @@ public class PluginXML
     stringBuffer.append(TEXT_73);
     stringBuffer.append(genPackage.getQualifiedActionBarContributorClassName());
     stringBuffer.append(TEXT_74);
-    }}
+    }
+    }
     stringBuffer.append(TEXT_75);
     stringBuffer.append(TEXT_76);
     return stringBuffer.toString();

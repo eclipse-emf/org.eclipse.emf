@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.18 2006/10/12 20:55:11 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.19 2006/10/13 21:40:52 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -156,8 +156,10 @@
   </extension>
    
 <%}%>
-<%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); if (genPackage.hasConcreteClasses()){%>
-  <%if (genPackage.isGenerateModelWizard()) {if (genModel.isRichClientPlatform()) {%>
+<%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();%>
+  <%if (genPackage.hasConcreteClasses()){%>
+    <%if (genPackage.isGenerateModelWizard()) {%>
+      <%if (genModel.isRichClientPlatform()) {%>
 
   <extension
     point="org.eclipse.ui.actionSets">
@@ -173,7 +175,7 @@
       </action>
     </actionSet>
   </extension>  
-  <%} else {%>
+      <%} else {%>
 
   <extension
     point = "org.eclipse.ui.newWizards">
@@ -191,7 +193,8 @@
       <selection class = "org.eclipse.core.resources.IResource" />
     </wizard>
   </extension>
-  <%}}%>
+      <%}%>
+    <%}%>
 
   <extension point = "org.eclipse.ui.editors">
     <editor
@@ -203,5 +206,6 @@
         contributorClass="<%=genPackage.getQualifiedActionBarContributorClassName()%>" >
     </editor>
   </extension>    
-<%}}%>
+  <%}%>
+<%}%>
 </plugin>
