@@ -20,8 +20,8 @@
 			package="org.eclipse.emf.releng.build/org.eclipse.emf.build" reallyquiet="yes"/>
 		<delete dir="org.eclipse.emf.releng.build/org.eclipse.emf.build/src/CVS"/>
 		<move todir="."><fileset dir="org.eclipse.emf.releng.build/org.eclipse.emf.build/src"/></move>
-		<!-- requires JDK5.0 for compilation -->
-		<javac srcdir="org/eclipse/emf/build/doclet" classpath=".:${java.home}/../lib/tools.jar" failonerror="true"/>
+		<!-- requires JDK5.0 for compilation, but source must be set to 1.4 -->
+		<javac srcdir="org/eclipse/emf/build/doclet" classpath=".:${java.home}/../lib/tools.jar" source="1.4" failonerror="true"/>
 		<javadoc 
 			destdir="${destDir}" 
 			classpath="${classpath}"
@@ -63,7 +63,7 @@
 				<tag name="implements" description="ignore" enabled="false"/>
 				<tag name="ordered"    description="ignore" enabled="false"/>
 
-				<!-- If you add a @plugin@ below, don't forget to update the antjavadoc.sh file -->				
+				<!-- If you add a @plugin@ below, don't forget to update the antjavadoc.sh file -->
 
 				<group title="XML Schema Model API"                       packages="org.eclipse.xsd:org.eclipse.xsd.util"/>
 				<group title="XML Schema Model Implementation"            packages="org.eclipse.xsd.impl:org.eclipse.xsd.impl.type"/>
