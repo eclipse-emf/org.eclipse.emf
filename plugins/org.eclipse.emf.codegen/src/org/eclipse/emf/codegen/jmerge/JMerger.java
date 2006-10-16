@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.21 2006/10/13 23:41:29 marcelop Exp $
+ * $Id: JMerger.java,v 1.22 2006/10/16 16:58:54 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 import org.eclipse.core.runtime.IPlatformRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
 import org.eclipse.jdt.core.jdom.IDOMField;
@@ -49,6 +50,7 @@ import org.eclipse.jdt.core.jdom.IDOMNode;
 import org.eclipse.jdt.core.jdom.IDOMPackage;
 import org.eclipse.jdt.core.jdom.IDOMType;
 
+import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 
 
@@ -76,10 +78,15 @@ public class JMerger
    */
   public JMerger()
   {
+    if ("1.3".compareTo(JavaCore.getOption(JavaCore.COMPILER_SOURCE)) < 0)
+    {
+      CodeGenPlugin.INSTANCE.log(CodeGenPlugin.INSTANCE.getString("_UI_JDOMInvalidSourceCompatibility_message"));
+    }    
   }
 
   public JMerger(JControlModel jControlModel, IDOMCompilationUnit sourceCompilationUnit, IDOMCompilationUnit targetCompilationUnit) 
   {
+    this();
     this.jControlModel = jControlModel;
     setSourceCompilationUnit(sourceCompilationUnit);
     setTargetCompilationUnit(targetCompilationUnit);
