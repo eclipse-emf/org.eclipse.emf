@@ -12,16 +12,19 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.6 2006/10/13 23:41:28 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.7 2006/10/16 16:56:27 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.Hashtable;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.eclipse.jdt.core.JavaCore;
 
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.codegen.jmerge.JMerger;
@@ -120,7 +123,19 @@ public class DeprecatedJMergerTest extends TestCase
   }
   
   protected String mergeFiles() throws Exception
-  {        
+  {   
+    String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE);
+    if ("1.3".compareTo(sourceCompatibility) < 0)
+    {
+      Hashtable map = JavaCore.getOptions();
+      map.put(JavaCore.COMPILER_SOURCE, "1.3");
+      JavaCore.setOptions(map);    
+    }
+    else
+    {
+      sourceCompatibility = null;
+    }
+    
     JMerger jMerger = new JMerger();
     JControlModel controlModel = new JControlModel(mergeXML.getAbsolutePath());
     jMerger.setControlModel(controlModel);
@@ -137,6 +152,12 @@ public class DeprecatedJMergerTest extends TestCase
     // merge source and target
     jMerger.merge();
     
+    if (sourceCompatibility != null)
+    {
+      Hashtable map = JavaCore.getOptions();
+      map.put(JavaCore.COMPILER_SOURCE, sourceCompatibility);
+      JavaCore.setOptions(map);    
+    }    
     return jMerger.getTargetCompilationUnitContents();
   }  
 }

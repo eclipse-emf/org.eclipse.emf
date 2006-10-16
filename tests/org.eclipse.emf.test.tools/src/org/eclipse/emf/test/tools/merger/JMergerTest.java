@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.10 2006/04/03 21:06:45 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.11 2006/10/16 16:56:27 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
 import java.io.FileInputStream;
+
+import org.eclipse.jdt.core.JavaCore;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -60,6 +62,9 @@ public class JMergerTest extends DeprecatedJMergerTest
     FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(JMerger.DEFAULT_FACADE_HELPER_CLASS);
     assertTrue(facadeHelper instanceof JDOMFacadeHelper);
     
+    String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE);
+    ((JDOMFacadeHelper)facadeHelper).setForcedSourceCompatibility(true);
+    
     JControlModel controlModel = new JControlModel();
     assertFalse(controlModel.canMerge());
     controlModel.initialize(facadeHelper, mergeXML.getAbsolutePath());
@@ -77,6 +82,9 @@ public class JMergerTest extends DeprecatedJMergerTest
     
     // merge source and target
     jMerger.merge();
+    
+    // Ensure the facade is returning the COMPILER_SOURCE to the original value.
+    assertEquals(sourceCompatibility, JavaCore.getOption(JavaCore.COMPILER_SOURCE));
     
     return jMerger.getTargetCompilationUnitContents();
   }  

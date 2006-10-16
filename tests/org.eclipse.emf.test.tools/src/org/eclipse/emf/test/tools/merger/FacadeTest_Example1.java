@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeTest_Example1.java,v 1.3 2006/05/10 20:33:58 marcelop Exp $
+ * $Id: FacadeTest_Example1.java,v 1.4 2006/10/16 16:56:27 marcelop Exp $
  */
 
 package org.eclipse.emf.test.tools.merger;
@@ -85,7 +85,9 @@ public class FacadeTest_Example1 extends TestCase
   
   public void testJDOM() throws Exception
   {
-    readTest(new JDOMFacadeHelper(), getJavaFile());
+    JDOMFacadeHelper facadeHelper = new JDOMFacadeHelper();
+    facadeHelper.setForcedSourceCompatibility(true);
+    readTest(facadeHelper, getJavaFile());
   }
   
   public void testAST() throws Exception
