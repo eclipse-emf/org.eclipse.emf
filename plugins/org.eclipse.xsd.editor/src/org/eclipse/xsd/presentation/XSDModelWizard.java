@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelWizard.java,v 1.4 2005/08/05 14:44:35 marcelop Exp $
+ * $Id: XSDModelWizard.java,v 1.5 2006/10/16 03:36:27 davidms Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -175,7 +175,7 @@ public class XSDModelWizard extends Wizard implements INewWizard
 
               // Get the URI of the model file.
               //
-              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString());
+              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
 
               // Create a resource for this file.
               //

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditor.java,v 1.20 2006/05/15 21:55:39 emerks Exp $
+ * $Id: XSDEditor.java,v 1.21 2006/10/16 03:36:27 davidms Exp $
  */
 package org.eclipse.xsd.presentation;
 
@@ -1022,7 +1022,7 @@ public class XSDEditor
             IFile file = modelFile.getFile();
 
             editingDomain.getResourceSet().getLoadOptions().put(XSDResourceImpl.XSD_PROGRESS_MONITOR, progressMonitor);
-            createResource("platform:/resource" + file.getFullPath());
+            createResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true).toString());
             editingDomain.getResourceSet().getLoadOptions().remove(XSDResourceImpl.XSD_PROGRESS_MONITOR);
 
             progressMonitor.worked(1);
@@ -2058,15 +2058,15 @@ public class XSDEditor
    */
   public void doSaveAs()
   {
-    SaveAsDialog saveAsDialog= new SaveAsDialog(getSite().getShell());
+    SaveAsDialog saveAsDialog = new SaveAsDialog(getSite().getShell());
     saveAsDialog.open();
-    IPath path= saveAsDialog.getResult();
+    IPath path = saveAsDialog.getResult();
     if (path != null)
     {
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
       if (file != null)
       {
-        xsdSchema.eResource().setURI(URI.createURI("platform:/resource" + file.getFullPath()));
+        xsdSchema.eResource().setURI(URI.createPlatformResourceURI(file.getFullPath().toString(), true));
         IFileEditorInput modelFile = new FileEditorInput(file);
         setInput(modelFile);
         setPartName(file.getName());
@@ -2800,8 +2800,8 @@ public class XSDEditor
       ResourceSet resourceSet = new ResourceSetImpl();
       resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new GenericXMLResourceFactoryImpl());
 
-      Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(file.getFullPath().toString()), true);
-      resource.setURI(URI.createPlatformResourceURI(file.getFullPath().toString() + ".save.xml"));
+      Resource resource = resourceSet.getResource(URI.createPlatformResourceURI(file.getFullPath().toString(), true), true);
+      resource.setURI(URI.createPlatformResourceURI(file.getFullPath().toString() + ".save.xml", true));
       try
       {
         resource.save(Collections.EMPTY_MAP);
@@ -2826,7 +2826,7 @@ public class XSDEditor
         }
       }
 
-      Resource ePackagesResource = resourceSet.createResource(URI.createPlatformResourceURI(file.getFullPath().toString() + ".ecore"));
+      Resource ePackagesResource = resourceSet.createResource(URI.createPlatformResourceURI(file.getFullPath().toString() + ".ecore", true));
       ePackagesResource.getContents().addAll(EcoreUtil.copyAll(ePackages));
       try
       {
@@ -2841,11 +2841,11 @@ public class XSDEditor
       try
       {
         XSDParser xsdParser = new XSDParser();
-        xsdParser.parse(URI.createPlatformResourceURI(file.getFullPath().toString()).toString());
+        xsdParser.parse(URI.createPlatformResourceURI(file.getFullPath().toString(), true).toString());
         Document document = xsdParser.getDocument();
         OutputStream outputStream = 
           resourceSet.getURIConverter().createOutputStream
-            (URI.createPlatformResourceURI(file.getFullPath().toString() + ".format.xml"));
+            (URI.createPlatformResourceURI(file.getFullPath().toString() + ".format.xml", true));
         XSDResourceImpl.serialize(outputStream, document);
         outputStream.close();
       }
@@ -2858,11 +2858,11 @@ public class XSDEditor
       try
       {
         XSDParser xsdParser = new XSDParser();
-        xsdParser.parse(URI.createPlatformResourceURI(file.getFullPath().toString() + ".save.xml").toString());
+        xsdParser.parse(URI.createPlatformResourceURI(file.getFullPath().toString() + ".save.xml", true).toString());
         Document document = xsdParser.getDocument();
         OutputStream outputStream = 
           resourceSet.getURIConverter().createOutputStream
-            (URI.createPlatformResourceURI(file.getFullPath().toString() + ".save.format.xml"));
+            (URI.createPlatformResourceURI(file.getFullPath().toString() + ".save.format.xml", true));
         XSDResourceImpl.serialize(outputStream, document);
         outputStream.close();
       }

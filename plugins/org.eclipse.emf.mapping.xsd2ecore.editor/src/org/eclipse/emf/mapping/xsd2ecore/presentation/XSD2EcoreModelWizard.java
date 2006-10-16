@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreModelWizard.java,v 1.4 2005/06/12 13:40:19 emerks Exp $
+ * $Id: XSD2EcoreModelWizard.java,v 1.5 2006/10/16 03:35:30 davidms Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.presentation;
 
@@ -180,7 +180,7 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
 
               // Get the URI of the model file.
               //
-              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString());
+              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
 
               // Create a resource for this file.
               //
