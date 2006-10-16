@@ -12,18 +12,19 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.12 2006/04/03 19:24:12 nickb Exp $
+ * $Id: URITest.java,v 1.13 2006/10/16 03:37:16 davidms Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-
-import org.eclipse.emf.common.util.URI;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.eclipse.emf.common.util.URI;
 
 public class URITest extends TestCase
 {
@@ -42,6 +43,7 @@ public class URITest extends TestCase
     suite.addTest(new URITest("testJARParse"));
     suite.addTest(new URITest("testFragmentAppendAndTrim"));
     suite.addTest(new URITest("testEncodeAndDecode"));
+    suite.addTest(new URITest("testPlatformURI"));
     return suite;
   }
 
@@ -597,5 +599,56 @@ public class URITest extends TestCase
 
     assertEquals("Bad URI encode: " + unencoded, encodedWithFragmentLast, URI.createURI(unencoded, false, URI.FRAGMENT_LAST_SEPARATOR).toString());
     assertEquals("Bad URI decode: " + encodedWithFragmentLast, unencoded, URI.decode(encodedWithFragmentLast.toString()));
+  }
+  
+  public void testPlatformURI() throws Exception
+  {
+    {
+      String resource = "platform:/resource/myProject/foo.txt";
+      URI uri = URI.createURI(resource);
+      assertTrue(uri.isPlatform());
+      assertEquals("platform:/resource/myProject/foo.txt", uri.toString());
+      assertEquals("/myProject/foo.txt", uri.toPlatformString(true));
+    }    
+    {
+      String resource = "myProject/foo.txt";
+      URI uri = URI.createPlatformResourceURI(resource);
+      assertTrue(uri.isPlatform());
+      assertEquals("platform:/resource/myProject/foo.txt", uri.toString());
+      assertEquals("/myProject/foo.txt", uri.toPlatformString(true));
+    }
+    {
+      String resource = "platform:/resource/myProject/foo.txt";
+      URI uri = URI.createPlatformResourceURI(resource);
+      assertTrue(uri.isPlatform());
+      assertEquals("platform:/resource/platform:/resource/myProject/foo.txt", uri.toString());
+      assertEquals("/platform:/resource/myProject/foo.txt", uri.toPlatformString(true));
+    }
+    {
+      String resource = new File("myProject/foo.txt").getAbsolutePath();
+      URI uri = URI.createFileURI(resource);
+      assertFalse(uri.isPlatform());
+      assertTrue(uri.isFile());
+      assertEquals("file:/" + resource.replace('\\', '/'), uri.toString());
+      assertNull(uri.toPlatformString(true));
+    }
+    {
+      String resource = "myProject/foo.txt";
+      URI uri = URI.createFileURI(resource);
+      assertFalse(uri.isPlatform());
+      assertTrue(uri.isFile());
+      assertEquals("myProject/foo.txt", uri.toString());
+      assertNull(uri.toPlatformString(true));
+    }
+
+    String[] paths = UNENCODED_PLATFORM_PATHS;
+    String[] encodedURIStrings = ENCODED_PLATFORM_PATH_URIS;
+    for (int i = 0, len = paths.length; i < len; i++)
+    {
+      String path = paths[i];
+      URI uri = URI.createPlatformResourceURI(path, true);
+      assertEquals("Bad platform resource encode: " + path, encodedURIStrings[i], uri.toString());
+      assertEquals(encodedURIStrings[i].substring("platform:/resource".length()), uri.toPlatformString(false));      
+    }
   }
 }
