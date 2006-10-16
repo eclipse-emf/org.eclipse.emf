@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URITest.java,v 1.13 2006/10/16 03:37:16 davidms Exp $
+ * $Id: URITest.java,v 1.14 2006/10/16 18:43:07 marcelop Exp $
  */
 package org.eclipse.emf.test.core.common.util;
 
@@ -612,15 +612,17 @@ public class URITest extends TestCase
     }    
     {
       String resource = "myProject/foo.txt";
-      URI uri = URI.createPlatformResourceURI(resource);
+      URI uri = URI.createPlatformResourceURI(resource, true);
       assertTrue(uri.isPlatform());
+      assertFalse(uri.isFile());
       assertEquals("platform:/resource/myProject/foo.txt", uri.toString());
       assertEquals("/myProject/foo.txt", uri.toPlatformString(true));
     }
     {
       String resource = "platform:/resource/myProject/foo.txt";
-      URI uri = URI.createPlatformResourceURI(resource);
+      URI uri = URI.createPlatformResourceURI(resource, true);
       assertTrue(uri.isPlatform());
+      assertFalse(uri.isFile());
       assertEquals("platform:/resource/platform:/resource/myProject/foo.txt", uri.toString());
       assertEquals("/platform:/resource/myProject/foo.txt", uri.toPlatformString(true));
     }
@@ -629,7 +631,11 @@ public class URITest extends TestCase
       URI uri = URI.createFileURI(resource);
       assertFalse(uri.isPlatform());
       assertTrue(uri.isFile());
-      assertEquals("file:/" + resource.replace('\\', '/'), uri.toString());
+      
+      resource = resource.replace('\\', '/');   
+      if (resource.charAt(0) != '/') resource = "/" + resource;
+      
+      assertEquals("file:" + resource, uri.toString());
       assertNull(uri.toPlatformString(true));
     }
     {
