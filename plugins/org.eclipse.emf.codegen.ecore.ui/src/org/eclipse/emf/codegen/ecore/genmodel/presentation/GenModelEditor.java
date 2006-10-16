@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.34 2006/08/28 15:44:27 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.35 2006/10/16 03:18:06 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1017,7 +1017,7 @@ public class GenModelEditor
     // Assumes that the input is a file object.
     //
     IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString());;
+    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);;
     Exception exception = null;
     Resource resource = null;
     try
@@ -1476,15 +1476,15 @@ public class GenModelEditor
    */
   public void doSaveAs()
   {
-    SaveAsDialog saveAsDialog= new SaveAsDialog(getSite().getShell());
+    SaveAsDialog saveAsDialog = new SaveAsDialog(getSite().getShell());
     saveAsDialog.open();
-    IPath path= saveAsDialog.getResult();
+    IPath path = saveAsDialog.getResult();
     if (path != null)
     {
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
       if (file != null)
       {
-        doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString()), new FileEditorInput(file));
+        doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString(), true), new FileEditorInput(file));
       }
     }
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.69 2006/06/06 19:27:21 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.70 2006/10/16 03:17:20 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -6723,9 +6723,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       URI genModelURI = eResource().getURI();
       URI modelDirectory = URI.createURI(getModelDirectory());    
       return 
-        "platform".equals(genModelURI.scheme()) && 
-           genModelURI.segmentCount() > 1 && 
-           "resource".equals(genModelURI.segment(0)) &&
+        genModelURI.isPlatformResource() && 
            modelDirectory.segmentCount() > 0 &&
            genModelURI.segment(1).equals(modelDirectory.segment(0));
     }

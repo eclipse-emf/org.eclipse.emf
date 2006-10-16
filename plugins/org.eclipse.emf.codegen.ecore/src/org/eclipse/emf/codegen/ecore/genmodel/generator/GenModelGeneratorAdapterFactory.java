@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapterFactory.java,v 1.2 2006/05/02 17:33:51 davidms Exp $
+ * $Id: GenModelGeneratorAdapterFactory.java,v 1.3 2006/10/16 03:17:20 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -137,7 +137,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     if (genModel.isDynamicTemplates() && templateDirectory != null)
     {
       result = new String[2];
-      result[0] = templateDirectory.indexOf(':') == -1 ? URI.createPlatformResourceURI(templateDirectory).toString() : templateDirectory;
+      result[0] = templateDirectory.indexOf(':') == -1 ? URI.createPlatformResourceURI(templateDirectory, true).toString() : templateDirectory;
       result[1] = staticLocation;
     }
     else

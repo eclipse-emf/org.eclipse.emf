@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.50 2006/05/01 10:35:06 davidms Exp $
+ * $Id: GenBaseImpl.java,v 1.51 2006/10/16 03:17:20 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2366,7 +2366,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             else
             {
               URI genModelURI = genBase.getGenModel().eResource().getURI();
-              if (genModelURI.toString().startsWith("platform:/resource/"))
+              if (genModelURI.isPlatformResource())
               {
                 IProject genModelProject = workspace.getRoot().getProject(genModelURI.segments()[1]);
                 projectLocation = genModelProject.getDescription().getLocation();
@@ -2525,7 +2525,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
             else
             {
               URI genModelURI = genModel.eResource().getURI();
-              if (genModelURI.toString().startsWith("platform:/resource/"))
+              if (genModelURI.isPlatformResource())
               {
                 IProject genModelProject = workspace.getRoot().getProject(genModelURI.segments()[1]);
                 projectLocation = genModelProject.getDescription().getLocation();

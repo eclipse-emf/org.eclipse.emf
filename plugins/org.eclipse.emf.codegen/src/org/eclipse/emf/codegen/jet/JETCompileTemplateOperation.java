@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompileTemplateOperation.java,v 1.6 2006/08/31 15:40:50 emerks Exp $
+ * $Id: JETCompileTemplateOperation.java,v 1.7 2006/10/16 03:18:07 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -230,7 +230,7 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
           Object container = j.next();
           if (container instanceof IContainer)
           {
-            containerLocations[j.previousIndex()] = "platform:/resource" + ((IContainer)container).getFullPath();
+            containerLocations[j.previousIndex()] = URI.createPlatformResourceURI(((IContainer)container).getFullPath().toString(), true).toString();
           }
           else
           {
