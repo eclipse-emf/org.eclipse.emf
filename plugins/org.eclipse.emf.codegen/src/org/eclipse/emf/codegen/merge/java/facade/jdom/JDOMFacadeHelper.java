@@ -12,11 +12,14 @@
  *
  * </copyright>
  *
- * $Id: JDOMFacadeHelper.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JDOMFacadeHelper.java,v 1.2 2006/10/16 16:59:51 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
 
+import java.util.Hashtable;
+
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.jdom.DOMFactory;
 import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
 import org.eclipse.jdt.core.jdom.IDOMField;
@@ -27,6 +30,7 @@ import org.eclipse.jdt.core.jdom.IDOMNode;
 import org.eclipse.jdt.core.jdom.IDOMPackage;
 import org.eclipse.jdt.core.jdom.IDOMType;
 
+import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 import org.eclipse.emf.codegen.merge.java.facade.JField;
@@ -46,7 +50,8 @@ public class JDOMFacadeHelper extends FacadeHelper
   }
 
   protected DOMFactory jdomFactory;
-
+  protected boolean forcedSourceCompatibility;
+  
   public void reset()
   {
     jdomFactory = null;
@@ -61,10 +66,52 @@ public class JDOMFacadeHelper extends FacadeHelper
     }
     return jdomFactory;
   }
+  
+  public void setForcedSourceCompatibility(boolean forcedSourceCompatibility)
+  {
+    this.forcedSourceCompatibility = forcedSourceCompatibility; 
+  }
+  
+  public boolean isForcedSourceCompatibility()
+  {
+    return forcedSourceCompatibility;
+  }
+  
+  protected void adjustSourceCompatibility(String value)
+  {
+    Hashtable map = JavaCore.getOptions();
+    map.put(JavaCore.COMPILER_SOURCE, value);
+    JavaCore.setOptions(map);    
+  }
 
   public JCompilationUnit createCompilationUnit(String name, String content)
   {
-    return (JCompilationUnit)convertToNode(getJDOMFactory().createCompilationUnit(content, name));
+    String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE);
+    if ("1.3".compareTo(sourceCompatibility) < 0)
+    {
+      if (isForcedSourceCompatibility())
+      {
+        adjustSourceCompatibility("1.3");
+      }
+      else
+      {
+        sourceCompatibility = null;
+        CodeGenPlugin.INSTANCE.log(CodeGenPlugin.INSTANCE.getString("_UI_JDOMInvalidSourceCompatibility_message"));
+      }
+    }
+    else
+    {
+      sourceCompatibility = null;
+    }
+    
+    JCompilationUnit jCompilationUnit = (JCompilationUnit)convertToNode(getJDOMFactory().createCompilationUnit(content, name));
+    
+    if (sourceCompatibility != null)
+    {
+      adjustSourceCompatibility(sourceCompatibility);
+    }
+    
+    return jCompilationUnit;
   }
 
   protected JNode doConvertToNode(Object object)
