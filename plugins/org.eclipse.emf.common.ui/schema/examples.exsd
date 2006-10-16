@@ -95,7 +95,7 @@
          <attribute name="contentURI" type="string">
             <annotation>
                <documentation>
-                  The URI of the content of the project.  This attribute is supposed to be the location of a compressed file or a directory (in the later case, the URI must end with a /).  If the specified URI is relative, it is assumed that the file or directory is in the plugin declaring the extension point.
+                  The location of the content of the project. This should be either an absolute URI or a plug-in-based path identifying an archive file or a directory. In the latter case, the location must end with a /.
                </documentation>
             </annotation>
          </attribute>
