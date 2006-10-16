@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.25 2006/08/23 01:30:29 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.26 2006/10/16 03:45:54 davidms Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -580,9 +580,7 @@ public class JavaEcoreBuilder
       //
       Map.Entry entry = (Map.Entry)i.next();
       URI genModelLocation = (URI)entry.getValue();
-      if ("platform".equals(genModelLocation.scheme()) && 
-            genModelLocation.segmentCount() > 2 &&
-            "plugin".equals(genModelLocation.segment(0)))
+      if (genModelLocation.isPlatformPlugin())
       {
         List list = (List)allPluginsWithGenModels.get(genModelLocation.segment(1));
         if (list == null)

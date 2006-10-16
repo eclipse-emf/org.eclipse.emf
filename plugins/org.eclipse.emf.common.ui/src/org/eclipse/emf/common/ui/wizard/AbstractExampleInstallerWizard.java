@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractExampleInstallerWizard.java,v 1.2 2006/06/05 17:16:37 marcelop Exp $
+ * $Id: AbstractExampleInstallerWizard.java,v 1.3 2006/10/16 03:46:10 davidms Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -618,7 +618,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
   protected ImportOperation createDirectoryImportOperation(ProjectDescriptor projectDescriptor) throws Exception
   {
     URI contentURI = projectDescriptor.getContentURI();
-    if ("platform".equals(contentURI.scheme()))
+    if (contentURI.isPlatform())
     {
       contentURI = CommonPlugin.asLocalURI(contentURI);
     }
@@ -649,7 +649,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
   protected ImportOperation createFileImportOperation(ProjectDescriptor projectDescriptor) throws Exception
   {
     URI contentURI = projectDescriptor.getContentURI();
-    if ("platform".equals(contentURI.scheme()))
+    if (contentURI.isPlatform())
     {
       contentURI = CommonPlugin.asLocalURI(contentURI);
     }

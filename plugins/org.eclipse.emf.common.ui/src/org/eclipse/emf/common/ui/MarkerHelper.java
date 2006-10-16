@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MarkerHelper.java,v 1.5 2006/07/17 17:05:27 marcelop Exp $
+ * $Id: MarkerHelper.java,v 1.6 2006/10/16 03:46:10 davidms Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -83,18 +83,10 @@ public class MarkerHelper
 
   protected IFile getFile(URI uri)
   {
-    String scheme = uri.scheme();
-    if ("platform".equals(scheme) && uri.segmentCount() > 1 && "resource".equals(uri.segment(0)))
-    {
-      StringBuffer platformResourcePath = new StringBuffer();
-      for (int j = 1, size = uri.segmentCount(); j < size; ++j)
-      {
-        platformResourcePath.append('/');
-        platformResourcePath.append(URI.decode(uri.segment(j)));
-      }
-      return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourcePath.toString()));
-    }
-    return null;
+    String platformResourceString = uri.toPlatformString(true);
+    return platformResourceString != null ?
+      ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourceString)) :
+      null;
   }
 
   /**

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExampleInstallerWizard.java,v 1.2 2006/06/05 16:59:14 marcelop Exp $
+ * $Id: ExampleInstallerWizard.java,v 1.3 2006/10/16 03:46:10 davidms Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -99,7 +99,7 @@ public class ExampleInstallerWizard extends AbstractExampleInstallerWizard imple
               URI uri = URI.createURI(contentURI);
               if (uri.isRelative())
               {
-                uri = URI.createURI("platform:/plugin/" + projectDescriptorElement.getContributor().getName() + "/" + contentURI);
+                uri = URI.createPlatformPluginURI(projectDescriptorElement.getContributor().getName() + "/" + contentURI, true);
               }
               projectDescriptor.setContentURI(uri);
               

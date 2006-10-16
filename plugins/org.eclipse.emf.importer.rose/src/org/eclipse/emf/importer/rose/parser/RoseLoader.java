@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseLoader.java,v 1.4 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseLoader.java,v 1.5 2006/10/16 03:45:07 davidms Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -75,13 +75,13 @@ public class RoseLoader extends RoseComponent
         InputStream inputStream = null;
         try
         {
-          inputStream = uriConverter.createInputStream(URI.createPlatformResourceURI(name + "/" + tail));
+          inputStream = uriConverter.createInputStream(URI.createPlatformResourceURI(name + "/" + tail, true));
         }
         catch (Exception resourceException)
         {
           try
           {
-            inputStream = uriConverter.createInputStream(URI.createURI("platform:/plugin/" + name + "/" + tail));
+            inputStream = uriConverter.createInputStream(URI.createPlatformPluginURI(name + "/" + tail, true));
           }
           catch (Exception pluginException)
           {

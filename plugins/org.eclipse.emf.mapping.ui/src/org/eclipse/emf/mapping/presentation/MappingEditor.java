@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MappingEditor.java,v 1.9 2006/08/17 21:19:58 emerks Exp $
+ * $Id: MappingEditor.java,v 1.10 2006/10/16 03:45:24 davidms Exp $
  */
 package org.eclipse.emf.mapping.presentation;
 
@@ -1596,7 +1596,7 @@ public abstract class MappingEditor
 
   public String getURIFromFile(IFile file)
   {
-    return URI.createPlatformResourceURI(file.getFullPath().toString()).toString();
+    return URI.createPlatformResourceURI(file.getFullPath().toString(), true).toString();
   }
 
   /**
