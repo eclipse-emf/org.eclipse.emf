@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.13 2006/06/22 15:52:36 marcelop Exp $
+ * $Id: EMFModelWizard.java,v 1.14 2006/10/16 03:32:34 davidms Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -265,7 +265,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
     
     if (reloadFile != null)
     {
-      URI reloadURI = URI.createPlatformResourceURI(reloadFile.getFullPath().toString());
+      URI reloadURI = URI.createPlatformResourceURI(reloadFile.getFullPath().toString(), true);
       ResourceSet resourceSet = ConverterUtil.createResourceSet();
       Resource reloadResource = null;
       try

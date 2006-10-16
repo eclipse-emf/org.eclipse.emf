@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterDetailPage.java,v 1.3 2006/02/21 20:28:45 marcelop Exp $
+ * $Id: ModelImporterDetailPage.java,v 1.4 2006/10/16 03:32:34 davidms Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
@@ -310,7 +310,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
       {
         if (isValidWorkspaceResource(files[i]))
         {
-          text.append(URI.createURI(URI.createPlatformResourceURI(files[i].getFullPath().toString()).toString(), true));
+          text.append(URI.createPlatformResourceURI(files[i].getFullPath().toString(), true));
           text.append("  ");
         }
       }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddOutputRootAction.java,v 1.4 2005/06/08 06:23:41 nickb Exp $
+ * $Id: AddOutputRootAction.java,v 1.5 2006/10/16 03:33:51 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
@@ -69,7 +69,7 @@ public class AddOutputRootAction extends AddRootBottomAction
         if (resource.getType() == IResource.FILE && "ecore".equals(resource.getFullPath().getFileExtension())) //$NON-NLS-1$
         {
           bottomsToAdd.addAll(((Ecore2EcoreEditor)workbenchPart).getEditingDomain().getResourceSet().getResource(
-            URI.createPlatformResourceURI(resource.getFullPath().toString()),
+            URI.createPlatformResourceURI(resource.getFullPath().toString(), true),
             true).getContents());
         }
       }

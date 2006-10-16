@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateDynamicInstanceAction.java,v 1.3 2005/06/08 06:17:55 nickb Exp $
+ * $Id: CreateDynamicInstanceAction.java,v 1.4 2006/10/16 03:28:08 davidms Exp $
  */
 package org.eclipse.emf.ecore.action;
 
@@ -41,7 +41,7 @@ public class CreateDynamicInstanceAction
   extends ActionDelegate
   implements IActionDelegate
 {
-  protected static final URI PLATFORM_RESOURCE = URI.createPlatformResourceURI("/");
+  protected static final URI PLATFORM_RESOURCE = URI.createPlatformResourceURI("/", false);
 
   protected EClass eClass;
 

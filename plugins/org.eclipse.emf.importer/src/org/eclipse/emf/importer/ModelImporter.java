@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.28 2006/08/02 15:26:57 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.29 2006/10/16 03:32:34 davidms Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -634,7 +634,11 @@ public abstract class ModelImporter extends ModelConverter
   {
     ResourceSet resourceSet = getGenModelResourceSet();
     
-    resourceSet.getURIConverter().getURIMap().remove(URI.createPlatformResourceURI(getModelProjectName() + "/"));
+    // We don't need to encode here because the only platform resource URIs in the map are for projects
+    // whose names are the same as corresponding plug-in IDs, and hence never need to be encoded
+    // (see EcorePlugin.computePlatformResourceToPlatformPluginMap()).
+    //
+    resourceSet.getURIConverter().getURIMap().remove(URI.createPlatformResourceURI(getModelProjectName() + "/", false));
 
     // Create resources for all the root EPackages.
     //

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.38 2006/06/09 19:05:27 davidms Exp $
+ * $Id: EcoreEditor.java,v 1.39 2006/10/16 03:27:28 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1007,7 +1007,7 @@ public class EcoreEditor
     // Assumes that the input is a file object.
     //
     IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString());;
+    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);;
     Exception exception = null;
     Resource resource = null;
     try

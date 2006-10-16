@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryModelWizard.java,v 1.2 2006/04/03 18:02:29 emerks Exp $
+ * $Id: EXTLibraryModelWizard.java,v 1.3 2006/10/16 03:31:24 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -245,7 +245,7 @@ public class EXTLibraryModelWizard extends Wizard implements INewWizard
 
               // Get the URI of the model file.
               //
-              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString());
+              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
 
               // Create a resource for this file.
               //

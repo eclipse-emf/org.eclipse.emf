@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.7 2006/05/15 22:09:12 emerks Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.8 2006/10/16 03:34:58 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -1014,7 +1014,7 @@ public class Ecore2XMLEditor
     // Assumes that the input is a file object.
     //
     IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString());;
+    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);;
     Exception exception = null;
     Resource resource = null;
     try
@@ -1671,15 +1671,15 @@ public class Ecore2XMLEditor
    */
   public void doSaveAs()
   {
-    SaveAsDialog saveAsDialog= new SaveAsDialog(getSite().getShell());
+    SaveAsDialog saveAsDialog = new SaveAsDialog(getSite().getShell());
     saveAsDialog.open();
-    IPath path= saveAsDialog.getResult();
+    IPath path = saveAsDialog.getResult();
     if (path != null)
     {
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
       if (file != null)
       {
-        doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString()), new FileEditorInput(file));
+        doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString(), true), new FileEditorInput(file));
       }
     }
   }

@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
 import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.examples.jet.article2.TypesafeEnumPlugin;
 
 import org.eclipse.jface.action.IAction;
@@ -43,7 +44,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
  * templates.
  * 
  * @author Remko Popma
- * @version $Revision: 1.2 $ ($Date: 2005/11/18 12:09:05 $)
+ * @version $Revision: 1.3 $ ($Date: 2006/10/16 03:30:34 $)
  */
 public class EmitAction implements IActionDelegate
 {
@@ -64,7 +65,7 @@ public class EmitAction implements IActionDelegate
       IFile file = (IFile)i.next();
       IPath fullPath = file.getFullPath();
 
-      String templateURI = "platform:/resource" + fullPath;
+      String templateURI = URI.createPlatformResourceURI(fullPath.toString(), true).toString();
       ClassLoader classloader = getClass().getClassLoader();
       JETEmitter emitter = new JETEmitter(templateURI, classloader);
 

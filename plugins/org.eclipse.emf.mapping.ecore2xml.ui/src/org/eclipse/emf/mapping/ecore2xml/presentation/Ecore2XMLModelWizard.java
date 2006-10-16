@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLModelWizard.java,v 1.5 2006/05/03 20:33:53 davidms Exp $
+ * $Id: Ecore2XMLModelWizard.java,v 1.6 2006/10/16 03:34:57 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -234,7 +234,7 @@ public class Ecore2XMLModelWizard extends Wizard implements INewWizard
 
               // Get the URI of the model file.
               //
-              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString());
+              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
 
               // Create a resource for this file.
               //

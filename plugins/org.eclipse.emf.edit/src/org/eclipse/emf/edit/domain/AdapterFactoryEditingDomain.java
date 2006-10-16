@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.17 2006/07/31 17:01:56 emerks Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.18 2006/10/16 03:29:47 davidms Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -727,9 +727,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
       return isReadOnlyURI(URI.createURI(uri.authority()));
     }
 
-    return !uri.isHierarchical() ||
-      !("file".equals(uri.scheme()) || 
-        ("platform".equals(uri.scheme()) && !uri.hasAuthority() && uri.segmentCount() > 0 && "resource".equals(uri.segment(0))));
+    return !uri.isPlatformResource() && (uri.isRelative() || !uri.isFile());
   }
 
   /**

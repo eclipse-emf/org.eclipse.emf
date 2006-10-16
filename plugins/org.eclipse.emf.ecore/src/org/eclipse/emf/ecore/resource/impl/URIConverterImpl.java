@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.8 2006/05/05 16:58:57 emerks Exp $
+ * $Id: URIConverterImpl.java,v 1.9 2006/10/16 03:26:23 davidms Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -295,15 +295,9 @@ public class URIConverterImpl implements URIConverter
       {
         return createArchiveOutputStream(converted);  
       }
-      else if ("platform".equals(scheme) && converted.segmentCount() > 1 && "resource".equals(converted.segment(0)))
+      else if (converted.isPlatformResource())
       {
-        StringBuffer platformResourcePath = new StringBuffer();
-        for (int i = 1, size = converted.segmentCount(); i < size; ++i)
-        {
-          platformResourcePath.append('/');
-          platformResourcePath.append(URI.decode(converted.segment(i)));
-        }
-        return createPlatformResourceOutputStream(platformResourcePath.toString());
+        return createPlatformResourceOutputStream(converted.toPlatformString(true));
       }
       else
       {
@@ -437,17 +431,10 @@ public class URIConverterImpl implements URIConverter
       {
         return createArchiveInputStream(converted);
       }
-      else if ("platform".equals(scheme) && converted.segmentCount() > 1 && "resource".equals(converted.segment(0)))
+      else if (converted.isPlatformResource())
       {
-        
-        StringBuffer platformResourcePath = new StringBuffer();
-        for (int i = 1, size = converted.segmentCount(); i < size; ++i)
-        {
-          platformResourcePath.append('/');
-          platformResourcePath.append(URI.decode(converted.segment(i)));
-        }
-        return createPlatformResourceInputStream(platformResourcePath.toString());
-      }
+        return createPlatformResourceInputStream(converted.toPlatformString(true));
+      }      
       else
       {
         return createURLInputStream(converted);
@@ -596,7 +583,7 @@ public class URIConverterImpl implements URIConverter
       {
         if (result.hasAbsolutePath())
         {
-          result = URI.createPlatformResourceURI(result.trimFragment().toString());
+          result = URI.createPlatformResourceURI(result.trimFragment().toString(), false);
           if (fragment != null)
           {
             result = result.appendFragment(fragment);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.14 2006/05/25 19:17:08 emerks Exp $
+ * $Id: EcorePlugin.java,v 1.15 2006/10/16 03:26:23 davidms Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -251,12 +251,12 @@ public class EcorePlugin  extends EMFPlugin
       for (Iterator i = uris.iterator(); i.hasNext(); )
       {
         URI uri = (URI)i.next();
-        if ("platform".equals(uri.scheme()) && uri.segmentCount() > 1 && "plugin".equals(uri.segment(0)))
+        if (uri.isPlatformPlugin())
         {
           String pluginID = uri.segment(1);
           if (!root.getProject(pluginID).isOpen())
           {
-            result.put(URI.createPlatformResourceURI(pluginID + "/"), URI.createURI("platform:/plugin/" + pluginID + "/"));
+            result.put(URI.createPlatformResourceURI(pluginID + "/", false), URI.createPlatformPluginURI(pluginID + "/", false));
           }
         }
       }
@@ -377,8 +377,8 @@ public class EcorePlugin  extends EMFPlugin
             
             if (pluginID != null)
             {
-              URI platformPluginURI = URI.createURI("platform:/plugin/" + pluginID + "/");
-              URI platformResourceURI = URI.createPlatformResourceURI(project.getName() + "/");
+              URI platformPluginURI = URI.createPlatformPluginURI(pluginID + "/", false);
+              URI platformResourceURI = URI.createPlatformResourceURI(project.getName() + "/",  true);
               result.put(platformPluginURI, platformResourceURI);
             }
           }

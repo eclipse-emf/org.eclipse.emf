@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: GenerateEcore2XMLActionDelegate.java,v 1.7 2006/01/23 22:15:52 khussey Exp $
+ * $Id: GenerateEcore2XMLActionDelegate.java,v 1.8 2006/10/16 03:34:58 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.action;
 
@@ -198,19 +198,10 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
   {
     URI uri = resource.getURI();
     uri = resource.getResourceSet().getURIConverter().normalize(uri);
-    String scheme = uri.scheme();
-    if ("platform".equals(scheme) && uri.segmentCount() > 1 && "resource".equals(uri.segment(0)))
-    {
-      StringBuffer platformResourcePath = new StringBuffer();
-      for (int j = 1, size = uri.segmentCount(); j < size; ++j)
-      {
-        platformResourcePath.append('/');
-        platformResourcePath.append(uri.segment(j));
-      }
-      return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourcePath.toString()));
-    }
-    
-    return null;
+    String platformResourceString = uri.toPlatformString(true);
+    return platformResourceString != null ?
+      ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourceString)) :
+      null;
   }
   
   /*

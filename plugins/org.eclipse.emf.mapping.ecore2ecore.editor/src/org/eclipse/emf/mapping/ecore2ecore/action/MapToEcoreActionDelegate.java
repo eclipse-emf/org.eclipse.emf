@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MapToEcoreActionDelegate.java,v 1.4 2005/06/08 06:23:41 nickb Exp $
+ * $Id: MapToEcoreActionDelegate.java,v 1.5 2006/10/16 03:33:51 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.action;
 
@@ -88,19 +88,10 @@ public class MapToEcoreActionDelegate extends ActionDelegate
   {
       URI uri = resource.getURI();
       uri = resource.getResourceSet().getURIConverter().normalize(uri);
-      String scheme = uri.scheme();
-      if ("platform".equals(scheme) && uri.segmentCount() > 1 && "resource".equals(uri.segment(0)))
-      {
-        StringBuffer platformResourcePath = new StringBuffer();
-        for (int j = 1, size = uri.segmentCount(); j < size; ++j)
-        {
-          platformResourcePath.append('/');
-          platformResourcePath.append(uri.segment(j));
-        }
-        return ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourcePath.toString()));
-      }
-
-      return null;
+      String platformResourceString = uri.toPlatformString(true);
+      return platformResourceString != null ?
+        ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourceString)) :
+        null;
   }
 
   /*

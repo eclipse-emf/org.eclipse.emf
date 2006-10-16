@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.4 2006/05/15 22:06:47 emerks Exp $
+ * $Id: EXTLibraryEditor.java,v 1.5 2006/10/16 03:31:24 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -1011,7 +1011,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
     // Assumes that the input is a file object.
     //
     IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString());;
+    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);;
     Exception exception = null;
     Resource resource = null;
     try
@@ -1668,15 +1668,15 @@ public class EXTLibraryEditor extends MultiPageEditorPart
    */
   public void doSaveAs()
   {
-    SaveAsDialog saveAsDialog= new SaveAsDialog(getSite().getShell());
+    SaveAsDialog saveAsDialog = new SaveAsDialog(getSite().getShell());
     saveAsDialog.open();
-    IPath path= saveAsDialog.getResult();
+    IPath path = saveAsDialog.getResult();
     if (path != null)
     {
       IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
       if (file != null)
       {
-        doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString()), new FileEditorInput(file));
+        doSaveAs(URI.createPlatformResourceURI(file.getFullPath().toString(), true), new FileEditorInput(file));
       }
     }
   }

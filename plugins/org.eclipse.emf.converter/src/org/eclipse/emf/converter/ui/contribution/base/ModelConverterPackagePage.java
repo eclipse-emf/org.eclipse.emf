@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.7 2006/08/26 12:24:51 emerks Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.8 2006/10/16 03:25:57 davidms Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -668,7 +668,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
       {
         String location = uri.toString();
   
-        if ("platform".equals(uri.scheme()) && uri.segmentCount() > 1)
+        if (uri.isPlatform())
         {
           boolean plugin = "plugin".equals(uri.segment(0));
           String type = ConverterPlugin.INSTANCE.getString(plugin ? "_UI_PlatformPlugin_label" : "_UI_PlatformResource_label");
@@ -695,10 +695,9 @@ public class ModelConverterPackagePage extends ModelConverterPage
     Resource resource = getModelConverter().getGenModel().eResource();
     if (resource != null)
     {
-      String stringURI = resource.getURI().toString();
-      if (stringURI.startsWith("platform:/resource/"));
+      if (resource.getURI().isPlatformResource());
       {
-        path = new Path(stringURI.substring("platform:/resource/".length())).makeAbsolute();
+        path = new Path(resource.getURI().toPlatformString(true)).makeAbsolute();
       }
     }
     final IPath genModelPath = path;

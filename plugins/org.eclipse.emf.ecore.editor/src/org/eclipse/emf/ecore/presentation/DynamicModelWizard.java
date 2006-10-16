@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicModelWizard.java,v 1.5 2005/06/12 13:30:07 emerks Exp $
+ * $Id: DynamicModelWizard.java,v 1.6 2006/10/16 03:27:28 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -136,7 +136,7 @@ public class DynamicModelWizard extends Wizard implements INewWizard
 
               // Get the URI of the model file.
               //
-              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString());
+              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
 
               // Create a resource for this file.
               //

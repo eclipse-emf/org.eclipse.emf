@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConverterUtil.java,v 1.3 2005/12/16 18:13:05 marcelop Exp $
+ * $Id: ConverterUtil.java,v 1.4 2006/10/16 03:25:57 davidms Exp $
  */
 package org.eclipse.emf.converter.util;
 
@@ -119,9 +119,9 @@ public class ConverterUtil
             extenalFiles.add(file);
           }        
         }
-        else if (uri.toString().startsWith("platform:/resource"))
+        else if (uri.isPlatformResource())
         {
-          String path = uri.toString().substring("platform:/resources".length());
+          String path = uri.toPlatformString(true);
           org.eclipse.core.resources.IResource workspaceResource = workspaceRoot.findMember(new org.eclipse.core.runtime.Path(path));
           if (workspaceResource != null && workspaceResource.getType() == org.eclipse.core.resources.IResource.FILE && workspaceResource.getResourceAttributes().isReadOnly())
           {

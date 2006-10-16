@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2EcoreModelWizard.java,v 1.10 2005/07/06 19:45:16 davidms Exp $
+ * $Id: Ecore2EcoreModelWizard.java,v 1.11 2006/10/16 03:33:51 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2ecore.presentation;
 
@@ -256,7 +256,7 @@ public class Ecore2EcoreModelWizard extends Wizard implements INewWizard
 
               // Get the URI of the model file.
               //
-              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString());
+              URI fileURI = URI.createPlatformResourceURI(modelFile.getFullPath().toString(), true);
 
               // Create a resource for this file.
               //

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterDirectoryURIPage.java,v 1.1 2005/12/14 08:06:32 marcelop Exp $
+ * $Id: ModelExporterDirectoryURIPage.java,v 1.2 2006/10/16 03:31:49 davidms Exp $
  */
 
 package org.eclipse.emf.exporter.ui.contribution.base;
@@ -120,10 +120,9 @@ public class ModelExporterDirectoryURIPage extends ModelConverterURIPage impleme
     URI uri = getModelExporter().getDirectoryURI();
     if (uri != null)
     {
-      String uriString = uri.toString();
-      if (uriString.startsWith("platform:/resource/"))
+      if (uri.isPlatformResource())
       {
-        String initialFolder = uriString.substring("platform;/resource/".length());
+        String initialFolder = uri.toPlatformString(true);
         initialFolderResource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(initialFolder));
       }
     }
