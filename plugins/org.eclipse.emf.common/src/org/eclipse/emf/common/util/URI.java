@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.23 2006/09/13 19:15:30 emerks Exp $
+ * $Id: URI.java,v 1.24 2006/10/16 03:14:19 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -207,6 +207,7 @@ public final class URI
   private static final String SCHEME_JAR = "jar";
   private static final String SCHEME_ZIP = "zip";
   private static final String SCHEME_ARCHIVE = "archive";
+  private static final String SCHEME_PLATFORM = "platform";
 
   // Special segment values interpreted at resolve and resolve time.
   private static final String SEGMENT_EMPTY = "";
@@ -846,7 +847,7 @@ public final class URI
   }
 
   /**
-   * Static factory method based on parsing a platform-relative path string.
+   * Static factory method based on parsing a workspace-relative path string.
    *
    * <p>The <code>pathName</code> must be of the form:
    * <pre>
@@ -874,6 +875,7 @@ public final class URI
    *
    * @see org.eclipse.core.runtime.Platform#resolve
    * @see #createPlatformResourceURI(String, boolean)
+   * @deprecated org.eclipse.emf.common 3.0 Use {@link #createPlatformResourceURI(String, boolean)} instead.
    */
   public static URI createPlatformResourceURI(String pathName)
   {
@@ -881,7 +883,7 @@ public final class URI
   }
 
   /**
-   * Static factory method based on parsing a platform-relative path string,
+   * Static factory method based on parsing a workspace-relative path string,
    * with an option to encode the created URI.
    *
    * <p>The <code>pathName</code> must be of the form:
@@ -913,6 +915,48 @@ public final class URI
    */
   public static URI createPlatformResourceURI(String pathName, boolean encode)
   {
+    return createPlatformURI("platform:/resource", "platform:/resource/", pathName, encode);
+  }
+
+  /**
+   * Static factory method based on parsing a plug-in-based path string,
+   * with an option to encode the created URI.
+   *
+   * <p>The <code>pathName</code> must be of the form:
+   * <pre>
+   *   /plugin-id/path</pre>
+   *
+   * <p>Platform-specific path separators will be converterted to slashes.
+   * If not included, the leading path separator will be added.  The
+   * result will be of this form, which is parsed using {@link #createURI
+   * createURI}:
+   * <pre>
+   *   platform:/plugin/plugin-id/path</pre>
+   *
+   * <p>This scheme supports relocatable plug-in content in Eclipse.
+   *
+   * <p>Depending on the <code>encode</code> argument, the path may be
+   * automatically encoded to escape all spaces, <code>#</code> characters,
+   * and other characters disallowed in URIs, as well as <code>?</code>,
+   * which would delimit a path from a query.  Decoding can be performed with
+   * the static {@link #decode(String) decode} method.
+   * 
+   * @exception java.lang.IllegalArgumentException if any component parsed
+   * from the path is not valid according to {@link #validDevice validDevice},
+   * {@link #validSegments validSegments}, {@link #validQuery validQuery}, or
+   * {@link #validFragment validFragment}.
+   *
+   * @see org.eclipse.core.runtime.Platform#resolve
+   * @since org.eclipse.emf.common 3.0
+   */
+  public static URI createPlatformPluginURI(String pathName, boolean encode)
+  {
+    return createPlatformURI("platform:/plugin", "platform:/plugin/", pathName, encode);
+  }
+
+  // Private constructor for use of platform factory methods.
+  private static URI createPlatformURI(String unrootedBase, String rootedBase, String pathName, boolean encode)
+  {
     if (File.separatorChar != SEGMENT_SEPARATOR)
     {
       pathName = pathName.replace(File.separatorChar, SEGMENT_SEPARATOR);
@@ -922,7 +966,7 @@ public final class URI
     {
       pathName = encode(pathName, PATH_CHAR_HI, PATH_CHAR_LO, false);
     }
-    URI result = createURI((pathName.charAt(0) == SEGMENT_SEPARATOR ? "platform:/resource" : "platform:/resource/") + pathName);
+    URI result = createURI((pathName.charAt(0) == SEGMENT_SEPARATOR ? unrootedBase : rootedBase) + pathName);
     return result;
   }
   
@@ -1433,6 +1477,42 @@ public final class URI
   {
     return isHierarchical() &&
       ((isRelative() && !hasQuery()) || SCHEME_FILE.equalsIgnoreCase(scheme));
+  }
+
+  /**
+   * Returns <code>true</code> if this is a platform URI, that is, an absolute,
+   * hierarchical URI, with "platform" scheme, no authority, and at least two
+   * segments; <code>false</code> is returned otherwise.
+   * @since org.eclipse.emf.common 3.0
+   */
+  public boolean isPlatform()
+  {
+    return isHierarchical() && !hasAuthority() && segmentCount() >= 2 && 
+      SCHEME_PLATFORM.equalsIgnoreCase(scheme);
+  }
+
+  /**
+   * Returns <code>true</code> if this is a platform resource URI, that is,
+   * a {@link #isPlatform platform URI} whose first segment is "resource";
+   * <code>false</code> is returned otherwise.
+   * @see #isPlatform
+   * @since org.eclipse.emf.common 3.0
+   */
+  public boolean isPlatformResource()
+  {
+    return isPlatform() && "resource".equals(segments[0]);
+  }
+
+  /**
+   * Returns <code>true</code> if this is a platform plug-in URI, that is,
+   * a {@link #isPlatform platform URI} whose first segment is "plugin";
+   * <code>false</code> is returned otherwise.
+   * @see #isPlatform
+   * @since org.eclipse.emf.common 3.0
+   */
+  public boolean isPlatformPlugin()
+  {
+    return isPlatform() && "plugin".equals(segments[0]);
   }
 
   /**
@@ -2335,7 +2415,7 @@ public final class URI
 
   /**
    * If this URI may refer directly to a locally accessible file, as
-   * determined by {@link #isFile isFile}, {@link decode decodes} and formats  
+   * determined by {@link #isFile isFile}, {@link #decode decodes} and formats  
    * the URI as a pathname to that file; returns null otherwise.
    *
    * <p>If there is no authority, the format of this string is:
@@ -2375,6 +2455,28 @@ public final class URI
     }
 
     return decode(result.toString());
+  }
+  
+  /**
+   * If this is a platform URI, as determined by {@link #isPlatform}, returns
+   * the workspace-relative or plug-in-based path to the resource, optionally
+   * {@link #decode decoding} the segments in the process.
+   * @see #createPlatformResourceURI(String, boolean)
+   * @see #createPlatformPluginURI
+   * @since org.eclipse.emf.common 3.0
+   */
+  public String toPlatformString(boolean decode)
+  {
+    if (isPlatform())
+    {
+      StringBuffer result = new StringBuffer();
+      for (int i = 1, len = segments.length; i < len; i++)
+      {
+        result.append('/').append(decode ? URI.decode(segments[i]) : segments[i]);
+      }
+      return result.toString();
+    }
+    return null;
   }
 
   /**
