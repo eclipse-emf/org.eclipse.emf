@@ -84,16 +84,17 @@ packagesets="";
 copydocfiles="";
 for pluginDir in $pluginDirs; do
 	pluginDir=`echo $pluginDir | sed -e 's/\/runtime$//g'`;
-	srcDir=$pluginDir/src;
-	if [ $debug -gt 0 ]; then echo "[antJd] srcDir: "$srcDir; fi
-	if [ -d "$srcDir" ]; then
-		# define what to include when javadoc'ing here:
-		packagesets=$packagesets"<packageset dir=\"$srcDir\"> ";
-		packagesets=$packagesets"<exclude name=\"$srcDir/**/doc-files/**\"/> ";
-		packagesets=$packagesets""$javadocExclusions;
-		packagesets=$packagesets"</packageset>";
-		copydocfiles=$copydocfiles"<copyDocFiles pluginDir=\"$pluginDir\"/>";
-	fi
+	for srcDir in $pluginDir/src $pluginDir/tasks; do
+		if [ $debug -gt 0 ]; then echo "[antJd] srcDir: "$srcDir; fi
+		if [ -d "$srcDir" ]; then
+			# define what to include when javadoc'ing here:
+			packagesets=$packagesets"<packageset dir=\"$srcDir\"> ";
+			packagesets=$packagesets"<exclude name=\"$srcDir/**/doc-files/**\"/> ";
+			packagesets=$packagesets""$javadocExclusions;
+			packagesets=$packagesets"</packageset>";
+			copydocfiles=$copydocfiles"<copyDocFiles pluginDir=\"$pluginDir\"/>";
+		fi
+	done
 done
 if [ $debug -gt 0 ]; then 
 	echo "[antJd] packagesets:";	echo $packagesets;
