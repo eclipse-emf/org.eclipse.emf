@@ -93,8 +93,8 @@ public class BuildTest extends TestCase
  
   public void testFeatures() throws Exception
   {
-    assertNotNull(featuresDir);
-    assertTrue(featuresDir.isDirectory());
+    assertNotNull("Features Dir '" + featuresDir + "' is null", featuresDir);
+    assertTrue("Features Dir '" + featuresDir + "' is not a directory", featuresDir.isDirectory());
     
     StringBuffer result = new StringBuffer();
     File[] features = featuresDir.listFiles();
@@ -125,7 +125,7 @@ public class BuildTest extends TestCase
     {
       result.deleteCharAt(0);
     }  
-    assertTrue(result.toString(), result.length() == 0);
+    assertTrue("'" + result.toString() + "' is not of length 0", result.length() == 0);
   }
 
   public void testPlugins() throws Exception
@@ -220,7 +220,7 @@ public class BuildTest extends TestCase
   
   protected String getMissingFiles(File dir, String[] requiredFiles)
   {
-    assertTrue(dir.isDirectory());
+    assertTrue("Directory '" + dir + "' is not a directory", dir.isDirectory());
     
     StringBuffer result = new StringBuffer();
     for (int i = 0; i < requiredFiles.length; i++)
@@ -316,17 +316,17 @@ public class BuildTest extends TestCase
   protected String testSrcDir(File pluginDir)
   {
     File srcDir = new File(pluginDir, "src");
-    assertTrue(srcDir.isDirectory());
+    assertTrue("Directory '" + srcDir + "' is not a directory", srcDir.isDirectory());
     
     StringBuffer result = new StringBuffer();
     File[] files = srcDir.listFiles();
     for (int i = 0; i < files.length; i++)
     {
       File dir = files[i];
-      assertTrue(dir.isDirectory());
+      assertTrue("Directory '" + dir + "' is not a directory", dir.isDirectory());
       
       String name = dir.getName(); 
-      assertTrue(name.indexOf('_') >= 0);
+      assertTrue("Directory '" + dir + "' does not contain an '_'", name.indexOf('_') >= 0);
       
       String missingFiles = getMissingFiles(dir, REQUIRED_SRC_SUBDIR_FILES);
       if (missingFiles.length() > 0)
