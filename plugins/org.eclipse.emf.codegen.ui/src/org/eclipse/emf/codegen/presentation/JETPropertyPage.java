@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETPropertyPage.java,v 1.3 2005/06/08 06:23:43 nickb Exp $
+ * $Id: JETPropertyPage.java,v 1.4 2006/10/17 11:32:56 davidms Exp $
  */
 package org.eclipse.emf.codegen.presentation;
 
@@ -24,6 +24,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -181,9 +182,10 @@ public class JETPropertyPage extends PropertyPage implements Listener
         } 
         else 
         {
-          setErrorMessage
+          setMessage
             (CodeGenUIPlugin.getPlugin().getString
-               ("_UI_ContainerDoesNotExist_message", new String [] { newJavaSourceContainer.toString() }));
+               ("_UI_ContainerDoesNotExist_message", new String [] { newJavaSourceContainer.toString() }), 
+             IMessageProvider.WARNING);
         }
       }
     }
