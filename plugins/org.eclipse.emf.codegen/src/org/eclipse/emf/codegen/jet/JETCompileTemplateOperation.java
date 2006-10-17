@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompileTemplateOperation.java,v 1.7 2006/10/16 03:18:07 davidms Exp $
+ * $Id: JETCompileTemplateOperation.java,v 1.8 2006/10/17 11:32:23 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -219,6 +219,11 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
 
         JETNature nature = JETNature.getRuntime(project);
         IContainer directory = nature.getJavaSourceContainer();
+
+        if(!directory.exists())
+        {
+          project.getFolder(directory.getProjectRelativePath()).create(true, true, new SubProgressMonitor(progressMonitor, 1));
+        }
 
         IPath filePath = file instanceof IFile ? ((IFile)file).getFullPath() : new Path(file.toString());
         List templateContainers = nature.getTemplateContainers();
