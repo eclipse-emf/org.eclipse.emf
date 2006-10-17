@@ -120,14 +120,17 @@ copydocfiles=`echo $copydocfiles | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\.
 sed -e "s/<\!-- \@copydocfiles\@ -->/${copydocfiles}/g" $antScript.tmp2 > $antScript;
 
 #run ant to do javadoc build
-ant -f $antScript \
-	-DdestDir="$destDir" \
-	-Dclasspath="$classpath" \
-	-DeclipseDir="$eclipseDir" \
-	-Ddocjar="$docjar" \
-	-DwindowTitle="$windowTitle" \
-	-DgroupTitle="$groupTitle" \
-	-Doverview="$currentPath/overview.html";
+cmd="ant -f $antScript \
+	-DdestDir=\"$destDir\" \
+	-Dclasspath=\"$classpath\" \
+	-DeclipseDir=\"$eclipseDir\" \
+	-Ddocjar=\"$docjar\" \
+	-DwindowTitle=\"$windowTitle\" \
+	-DgroupTitle=\"$groupTitle\" \
+	-Doverview=\"$currentPath/overview.html\"";
+
+echo $cmd | sed -e 's/\-D/@/g' | tr "@" "\n";
+$cmd;
 
 # Clean up tempfiles
 rm -f $antScript $antScript.tmp $antScript.tmp2;
