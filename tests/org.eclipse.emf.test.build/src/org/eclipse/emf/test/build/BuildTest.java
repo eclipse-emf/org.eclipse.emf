@@ -326,7 +326,7 @@ public class BuildTest extends TestCase
       assertTrue("Directory '" + dir + "' is not a directory", dir.isDirectory());
       
       String name = dir.getName(); 
-      assertTrue("Directory '" + dir + "' does not contain an '_'", name.indexOf('_') >= 0);
+      assertTrue("Directory '" + dir + "' has name '" + name+ "' which does not contain an '_'", name.indexOf('_') >= 0);
       
       String missingFiles = getMissingFiles(dir, REQUIRED_SRC_SUBDIR_FILES);
       if (missingFiles.length() > 0)
