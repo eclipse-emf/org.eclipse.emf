@@ -130,8 +130,8 @@ public class BuildTest extends TestCase
 
   public void testPlugins() throws Exception
   {
-    assertNotNull(pluginsDir);
-    assertTrue(pluginsDir.isDirectory());
+    assertNotNull("Plugin Dir '" + pluginsDir + "' is null", pluginsDir);
+    assertTrue("Plugin Dir '" + pluginsDir + "' is not a directory", pluginsDir.isDirectory());
     
     StringBuffer result = new StringBuffer();
     int docPluginsCounter = 0;
@@ -211,11 +211,11 @@ public class BuildTest extends TestCase
     {
       result.deleteCharAt(0);
     }    
-    assertTrue(result.toString(), result.length() == 0);
+    assertTrue("'" + result.toString() + "' is not of length 0", result.length() == 0);
     
-    assertEquals("expected number of doc plugins", expectedNumberOfDocPlugins, docPluginsCounter);
-    assertEquals("expected number of source plugins", expectedNumberOfSourcePlugins, sourcePluginsCounter);
-    assertEquals("expected number of branding plugins", brandingPluginNames.size(), brandingPluginsCounter);
+    assertEquals("Expected number of doc plugins is not " + expectedNumberOfDocPlugins, expectedNumberOfDocPlugins, docPluginsCounter);
+    assertEquals("Expected number of source plugins is not " + expectedNumberOfSourcePlugins, expectedNumberOfSourcePlugins, sourcePluginsCounter);
+    assertEquals("Expected number of branding plugins is not " + brandingPluginNames.size(), brandingPluginNames.size(), brandingPluginsCounter);
   }
   
   protected String getMissingFiles(File dir, String[] requiredFiles)
