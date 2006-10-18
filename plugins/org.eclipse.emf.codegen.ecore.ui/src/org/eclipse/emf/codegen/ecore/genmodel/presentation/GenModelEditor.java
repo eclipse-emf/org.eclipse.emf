@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.35 2006/10/16 03:18:06 davidms Exp $
+ * $Id: GenModelEditor.java,v 1.36 2006/10/18 03:27:20 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1259,9 +1259,7 @@ public class GenModelEditor
           {
             // Select the root object in the view.
             //
-            ArrayList selection = new ArrayList();
-            selection.add(editingDomain.getResourceSet().getResources().get(0));
-            contentOutlineViewer.setSelection(new StructuredSelection(selection), true);
+            contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
           }
         }
 

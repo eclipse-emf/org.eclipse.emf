@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.39 2006/10/16 03:27:28 davidms Exp $
+ * $Id: EcoreEditor.java,v 1.40 2006/10/18 03:27:36 davidms Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1277,9 +1277,7 @@ public class EcoreEditor
           {
             // Select the root object in the view.
             //
-            ArrayList selection = new ArrayList();
-            selection.add(editingDomain.getResourceSet().getResources().get(0));
-            contentOutlineViewer.setSelection(new StructuredSelection(selection), true);
+            contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
           }
         }
 
