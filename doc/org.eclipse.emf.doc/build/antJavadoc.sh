@@ -43,7 +43,7 @@ if [ $debug -gt 0 ]; then echo "[antJd] destDir: "$destDir; fi
 
 hasToken=`grep -c "@plugin@" $antScript`;
 if [ $hasToken -gt 0  ]; then
-	srcDir=$pluginPath/$pluginName/src; if [ $debug -gt 0 ]; then echo "[antJd] srcDir: "$srcDir; fi
+	srcDir=$pluginPath/$pluginName.source/src; if [ $debug -gt 0 ]; then echo "[antJd] srcDir: "$srcDir; fi
 	if [ -d "$srcDir" ]; then
 		#if [ `find $srcDir -name "*.java" | grep -c .` -eq 0 ]; then # must unpack zips first
 		#	if [ $debug -gt 0 ]; then echo "[antJd] Unpacking *src.zip"; fi
