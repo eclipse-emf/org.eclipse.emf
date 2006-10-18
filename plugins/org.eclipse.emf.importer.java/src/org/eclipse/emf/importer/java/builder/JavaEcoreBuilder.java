@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.26 2006/10/16 03:45:54 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.27 2006/10/18 02:11:34 davidms Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -1397,6 +1397,11 @@ public class JavaEcoreBuilder
     return eTypedElement;
   }
 
+  protected boolean isListType(String type)
+  {
+    return "EList".equals(type) || "org.eclipse.emf.common.util.EList".equals(type)|| "List".equals(type) || "java.util.List".equals(type);
+  }
+
   protected void handleETypedElement(ETypedElement eTypedElement, String name, String type, String modelAnnotation, String identifierName)
   {
     eTypedElement.setName(name);
@@ -1411,22 +1416,19 @@ public class JavaEcoreBuilder
 
     // For lists, maps, and feature maps, the default is many-valued, which can be overriden by an upper-bound declaration.
     //
-    if (dataType == null || mapType != null)
+    if (isListType(type) && (dataType == null || (modelType != null && !isListType(modelType))))
     {
-      if ("EList".equals(type) || "org.eclipse.emf.common.util.EList".equals(type)|| "List".equals(type) || "java.util.List".equals(type))
+      eTypedElement.setUpperBound(-1);
+      if (modelType == null && !"false".equals(many))
       {
-        eTypedElement.setUpperBound(-1);
-        if (modelType == null && !"false".equals(many))
-        {
-          error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheTypeMustBeSpecifiedFor_message", new Object [] { identifierName }));
-          modelType = "java.lang.Object";
-        }
+        error(CodeGenEcorePlugin.INSTANCE.getString("_UI_TheTypeMustBeSpecifiedFor_message", new Object [] { identifierName }));
+        modelType = "java.lang.Object";
       }
-      else if (mapType != null || (keyType != null && valueType != null) || 
-               "FeatureMap".equals(type) || "org.eclipse.emf.common.util.FeatureMap".equals(type))
-      {
-        eTypedElement.setUpperBound(-1);
-      }
+    }
+    else if (mapType != null || (keyType != null && valueType != null) || 
+              "FeatureMap".equals(type) || "org.eclipse.emf.common.util.FeatureMap".equals(type))
+    {
+      eTypedElement.setUpperBound(-1);
     }
 
     if (many != null)
