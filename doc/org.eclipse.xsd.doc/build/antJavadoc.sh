@@ -57,13 +57,13 @@ if [ $hasToken -gt 0  ]; then
 		if [ $debug -gt 1 ]; then echo "[antJd] packages1: "$packages; fi
 		packages=`echo $packages | sed -e 's/\//\\\\\\//g' | sed -e 's/\./\\\\\./g'`; # slash escape
 		if [ $debug -gt 1 ]; then echo "[antJd] packages2: "$packages; fi
-		cat $antScript | sed -e "s/\@plugin\@/$packages/g" > $antScript.tmp;
+		sed -e "s/\@plugin\@/${packages}/g" $antScript > $antScript.tmp;
 	else 
 		echo "[antJd] ERROR! "$srcDir" does not exist!";
 		exit 1;
   	fi
 else 
-	echo "[antJd] ERROR! "$currentPath"/javadoc.xml does not contain token @plugin@!";
+	echo "[antJd] ERROR! "$antScript" does not contain token @plugin@!";
 	exit 1;
 fi
 
