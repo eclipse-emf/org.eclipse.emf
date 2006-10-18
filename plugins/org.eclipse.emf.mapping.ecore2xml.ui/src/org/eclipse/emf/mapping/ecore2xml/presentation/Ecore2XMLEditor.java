@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: Ecore2XMLEditor.java,v 1.8 2006/10/16 03:34:58 davidms Exp $
+ * $Id: Ecore2XMLEditor.java,v 1.9 2006/10/18 03:30:16 davidms Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.presentation;
 
@@ -1116,6 +1116,7 @@ public class Ecore2XMLEditor
 
         selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
         selectionViewer.setInput(editingDomain.getResourceSet());
+        selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
         viewerPane.setTitle(editingDomain.getResourceSet());
 
         new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
@@ -1439,9 +1440,7 @@ public class Ecore2XMLEditor
           {
             // Select the root object in the view.
             //
-            ArrayList selection = new ArrayList();
-            selection.add(editingDomain.getResourceSet().getResources().get(0));
-            contentOutlineViewer.setSelection(new StructuredSelection(selection), true);
+            contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
           }
         }
 

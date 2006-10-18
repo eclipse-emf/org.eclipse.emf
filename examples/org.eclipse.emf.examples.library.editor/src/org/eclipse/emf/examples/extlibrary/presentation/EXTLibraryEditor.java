@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EXTLibraryEditor.java,v 1.5 2006/10/16 03:31:24 davidms Exp $
+ * $Id: EXTLibraryEditor.java,v 1.6 2006/10/18 03:28:48 davidms Exp $
  */
 package org.eclipse.emf.examples.extlibrary.presentation;
 
@@ -1113,6 +1113,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
 
         selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
         selectionViewer.setInput(editingDomain.getResourceSet());
+        selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
         viewerPane.setTitle(editingDomain.getResourceSet());
 
         new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
@@ -1436,9 +1437,7 @@ public class EXTLibraryEditor extends MultiPageEditorPart
           {
             // Select the root object in the view.
             //
-            ArrayList selection = new ArrayList();
-            selection.add(editingDomain.getResourceSet().getResources().get(0));
-            contentOutlineViewer.setSelection(new StructuredSelection(selection), true);
+            contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
           }
         }
 
