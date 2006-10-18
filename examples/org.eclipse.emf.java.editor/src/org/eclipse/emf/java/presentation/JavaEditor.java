@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEditor.java,v 1.17 2006/10/16 03:33:13 davidms Exp $
+ * $Id: JavaEditor.java,v 1.18 2006/10/18 03:29:51 davidms Exp $
  */
 package org.eclipse.emf.java.presentation;
 
@@ -1209,6 +1209,7 @@ public class JavaEditor
 
       selectionViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory));
       selectionViewer.setInput(editingDomain.getResourceSet());
+      selectionViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
       viewerPane.setTitle(editingDomain.getResourceSet());
 
       new AdapterFactoryTreeEditor(selectionViewer.getTree(), adapterFactory);
@@ -1511,9 +1512,7 @@ public class JavaEditor
           {
             // Select the root object in the view.
             //
-            ArrayList selection = new ArrayList();
-            selection.add(editingDomain.getResourceSet().getResources().get(0));
-            contentOutlineViewer.setSelection(new StructuredSelection(selection), true);
+            contentOutlineViewer.setSelection(new StructuredSelection(editingDomain.getResourceSet().getResources().get(0)), true);
           }
         }
 
