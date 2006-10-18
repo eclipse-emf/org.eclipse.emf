@@ -313,6 +313,20 @@ public class BuildTest extends TestCase
       pluginDir + "/doc.zip doesn't have a reference/javadoc/*/doc-files/*.gif";
   }
   
+  /*
+   * For example, looking for these folders, but should have no org/eclipse/ folder as well.
+   *
+   * nickb@emf:/tmp/xsd221/eclipse/plugins/org.eclipse.xsd.source_2.2.1.v200609210005/src $ 
+   *    ls . org.eclipse.emf.mapping.xsd2ecore.editor_2.1.0.v200609210005
+   * .:
+   * org.eclipse.emf.mapping.xsd2ecore.editor_2.1.0.v200609210005  org.eclipse.xsd.edit_2.2.1.v200609210005
+   * org.eclipse.emf.mapping.xsd2ecore_2.1.0.v200609210005         org.eclipse.xsd.editor_2.2.0.v200609210005
+   * org.eclipse.xsd.ecore.exporter_2.2.1.v200609210005            org.eclipse.xsd_2.2.1.v200609210005
+   * org.eclipse.xsd.ecore.importer_2.2.0.v200609210005
+   * 
+   * org.eclipse.emf.mapping.xsd2ecore.editor_2.1.0.v200609210005:
+   * about.html  src.zip
+   */
   protected String testSrcDir(File pluginDir)
   {
     File srcDir = new File(pluginDir, "src");
