@@ -55,6 +55,8 @@
 				<link offline="true" href="http://java.sun.com/j2se/1.5.0/docs/api/" packagelistLoc="${javaHome}/docs/api/"/>
 				<link offline="true" href="/help/topic/org.eclipse.platform.doc.isv/reference/api/" packagelistLoc="${javadoc.link.location}/platform/reference/api/"/>
 				<link offline="true" href="/help/topic/org.eclipse.emf.doc/references/javadoc/" packagelistLoc="${eclipseDir}/plugins/org.eclipse.emf.doc/references/javadoc/"/>
+				<link offline="true" href="/help/topic/org.eclipse.emf.ecore.sdo.doc/references/javadoc/" packagelistLoc="${eclipseDir}/plugins/org.eclipse.emf.ecore.sdo.doc/references/javadoc/"/>
+				<link offline="true" href="/help/topic/org.eclipse.xsd.doc/references/javadoc/" packagelistLoc="${eclipseDir}/plugins/org.eclipse.xsd.doc/references/javadoc/"/>
 				
 				<tag name="ignore"     description="ignore" enabled="false"/>
 				<tag name="generated"  description="ignore" enabled="false"/>
