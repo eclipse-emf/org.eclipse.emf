@@ -32,7 +32,7 @@ currentPath=$PWD"/"$0; currentPath=${currentPath%/*}; if [ $debug -gt 0 ]; then 
 pluginPath=${currentPath%/$pluginName*}; if [ $debug -gt 0 ]; then echo "[antJd] pluginName: "$pluginName; echo "[antJd] pluginPath: "$pluginPath; fi
 
 # ant script to create and then execute
-antScript=$currentPath"/javadoc.xml"; if [ $debug -gt 0 ]; then echo "[antJd] antScript: "$antScript; fi
+antScript=$currentPath"/javadoc.xml.template"; if [ $debug -gt 0 ]; then echo "[antJd] antScript: "$antScript; fi
 
 # The eclipse directory
 eclipseDir=`cd $1; echo $PWD`; if [ $debug -gt 0 ]; then echo "[antJd] eclipseDir: "$eclipseDir; fi
