@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.9 2006/03/31 15:53:56 emerks Exp $
+ * $Id: XSDParser.java,v 1.10 2006/10/18 14:27:30 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -414,6 +414,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     saveLocation();
     document = createDocument();
     xsdSchema = null;
+    stack.clear();
 
     getEncoding();
   }
