@@ -43,15 +43,15 @@ if [ $debug -gt 0 ]; then echo "[antJd] destDir: "$destDir; fi
 
 hasToken=`grep -c "@plugin@" $antScript`;
 if [ $hasToken -gt 0  ]; then
-	srcDir=$pluginPath/$pluginName.source/src; if [ $debug -gt 0 ]; then echo "[antJd] srcDir: "$srcDir; fi
+	srcDir=$pluginPath/$pluginName/src; if [ $debug -gt 0 ]; then echo "[antJd] srcDir: "$srcDir; fi
 	if [ -d "$srcDir" ]; then
-		if [ `find $srcDir -name "*.java" | grep -c .` -eq 0 ]; then # must unpack zips first
-			if [ $debug -gt 0 ]; then echo "[antJd] Unpacking *src.zip"; fi
-			for f in `find $srcDir -name "*src.zip"`; do 
-				if [ $debug -gt 1 ]; then echo "[antJd] Unpack $f"; fi
-				unzip -q -d $srcDir $f; 
-			done
-		fi
+		#if [ `find $srcDir -name "*.java" | grep -c .` -eq 0 ]; then # must unpack zips first
+		#	if [ $debug -gt 0 ]; then echo "[antJd] Unpacking *src.zip"; fi
+		#	for f in `find $srcDir -name "*src.zip"`; do 
+		#		if [ $debug -gt 1 ]; then echo "[antJd] Unpack $f"; fi
+		#		unzip -q -d $srcDir $f; 
+		#	done
+		#fi
 		if [ $debug -gt 0 ]; then echo "[antJd] *.java in srcDir: "; echo "-----------------"; echo `find $srcDir -type f -name '*.java'`; echo "-----------------"; fi
 		packages=`find $srcDir -type f -name '*.java' -exec grep -e '^package .*;' {} \; | sed -e 's/^package *\(.*\);/\1/' | sed -e 's/[ ]*//g' | dos2unix | sort | uniq | xargs | sed -e 's/ /:/g'`;
 		if [ $debug -gt 1 ]; then echo "[antJd] packages1: "$packages; fi
@@ -101,8 +101,8 @@ if [ $debug -gt 0 ]; then
 	echo "[antJd] copydocfiles:";	echo $copydocfiles;
 fi
 	
-# Finds the proper org.eclipse.platform.doc.isv jar
-docjar=`find $eclipseDir/plugins/ -name "org.eclipse.platform.doc.isv*.jar" -printf "%f"`; if [ $debug -gt 1 ]; then echo "[antJd] docjar: "$docjar; fi
+# Finds the proper org.eclipse.platform.doc.isv jar (with full path)
+docjar=`find $eclipseDir/plugins/ -name "org.eclipse.platform.doc.isv*.jar"`; if [ $debug -gt 1 ]; then echo "[antJd] docjar: "$docjar; fi
 
 if [ -f $antScript ]; then
 	true;
