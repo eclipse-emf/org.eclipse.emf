@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.36 2006/10/18 03:27:20 davidms Exp $
+ * $Id: GenModelEditor.java,v 1.37 2006/10/19 04:25:05 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -1541,9 +1541,9 @@ public class GenModelEditor
    */
   public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException
   {
+    setSite(site);
     if (editorInput instanceof IFileEditorInput)
     {
-      setSite(site);
       setInputWithNotify(editorInput);
       setPartName(editorInput.getName());
       site.setSelectionProvider(this);
