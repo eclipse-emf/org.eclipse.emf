@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.29 2006/10/16 03:32:34 davidms Exp $
+ * $Id: ModelImporter.java,v 1.30 2006/10/20 15:41:09 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -116,6 +116,7 @@ public abstract class ModelImporter extends ModelConverter
 
   protected String modelPluginID;
   protected String modelPluginDirectory;
+  protected String projectName;
 
   protected boolean usePlatformURI = true;
   protected IWorkspaceRoot workspaceRoot;
@@ -944,8 +945,18 @@ public abstract class ModelImporter extends ModelConverter
   {
     this.modelPluginDirectory = modelPluginDirectory;
   }
+  
+  public void setModelProjectName(String projectName)
+  {
+    this.projectName = projectName;
+  }
 
   public String getModelProjectName()
+  {
+    return projectName != null ? projectName : computeModelProjectName();
+  }
+  
+  protected String computeModelProjectName()
   {
     IPath path = getGenModelProjectLocation();
     if (path != null)
@@ -960,7 +971,7 @@ public abstract class ModelImporter extends ModelConverter
     }
 
     return null;
-  }  
+  }
       
   protected Map getEcoreSaveOptions()
   {
