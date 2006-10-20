@@ -136,6 +136,7 @@ public abstract class ModelImporterWizard extends ModelConverterWizard implement
   {
     this.projectPath = projectPath;
     getModelImporter().setGenModelContainerPath(getModelImporter().computeGenModelContainerPath(projectPath));
+    getModelImporter().setModelProjectName(projectPath.segment(0));
   }
 
   public IPath getGenModelProjectPath()
