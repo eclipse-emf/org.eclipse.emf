@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactory.java,v 1.4 2005/07/14 19:37:20 davidms Exp $
+ * $Id: ComposedAdapterFactory.java,v 1.5 2006/10/23 17:19:17 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -255,6 +255,11 @@ public class ComposedAdapterFactory
 
   public Adapter adapt(Notifier target, Object type)
   {
+    return adapt(target, type, false);
+  }
+
+  protected Adapter adapt(Notifier target, Object type, boolean isNew)
+  {
     Adapter result = null;
 
     if (target instanceof EObject)
@@ -273,7 +278,7 @@ public class ComposedAdapterFactory
         AdapterFactory delegateAdapterFactory = getFactoryForTypes(types);
         if (delegateAdapterFactory != null)
         {
-          result = delegateAdapterFactory.adapt(target, type);
+          result = isNew ? delegateAdapterFactory.adaptNew(target, type) : delegateAdapterFactory.adapt(target, type);
         }
 
         if (result == null)
@@ -296,7 +301,7 @@ public class ComposedAdapterFactory
               delegateAdapterFactory = getFactoryForTypes(superTypes);
               if (delegateAdapterFactory != null)
               {
-                result = delegateAdapterFactory.adapt(target, type);
+                result = isNew ? delegateAdapterFactory.adaptNew(target, type) : delegateAdapterFactory.adapt(target, type);
                 if (result != null)
                 {
                   break;
@@ -310,7 +315,7 @@ public class ComposedAdapterFactory
     }
     else
     {
-      result = adapt(target, type, new HashSet(), target.getClass());
+      result = isNew ? adapt(target, type, new HashSet(), target.getClass(), true): adapt(target, type, new HashSet(), target.getClass());
     }
 
     return result;    
@@ -318,8 +323,12 @@ public class ComposedAdapterFactory
 
   protected Adapter adapt(Notifier target, Object type, Collection failedPackages, Class javaClass)
   {
+    return adapt(target, type, failedPackages, javaClass, false);
+  }
+  
+  protected Adapter adapt(Notifier target, Object type, Collection failedPackages, Class javaClass, boolean isNew)
+  {
     Adapter result = null;
-
 
     Package javaPackage = javaClass.getPackage();
     if (failedPackages.add(javaPackage))
@@ -333,7 +342,7 @@ public class ComposedAdapterFactory
       AdapterFactory delegateAdapterFactory = getFactoryForTypes(types);
       if (delegateAdapterFactory != null)
       {
-        result = delegateAdapterFactory.adapt(target, type);
+        result = isNew ? delegateAdapterFactory.adaptNew(target, type) : delegateAdapterFactory.adapt(target, type);
       }
     }
 
@@ -342,14 +351,14 @@ public class ComposedAdapterFactory
       Class superclass = javaClass.getSuperclass();
       if (superclass != null)
       {
-        result = adapt(target, type, failedPackages, javaClass.getSuperclass());
+        result = adapt(target, type, failedPackages, javaClass.getSuperclass(), isNew);
       }
       if (result == null)
       {
         Class [] interfaces = javaClass.getInterfaces();
         for (int i = 0; i < interfaces.length; ++i)
         {
-          result = adapt(target, type, failedPackages, interfaces[i]);
+          result = adapt(target, type, failedPackages, interfaces[i], isNew);
           if (result != null)
           {
             break;
@@ -361,15 +370,9 @@ public class ComposedAdapterFactory
     return result;
   }
 
-  /**
-   * This method isn't implemented and will throw and exception.
-   */
   public Adapter adaptNew(Notifier target, Object type)
   {
-    throw 
-      new RuntimeException
-        (EMFEditPlugin.INSTANCE.getString
-          ("_EXC_Method_not_implemented", new Object [] { this.getClass() + "adaptNew(Notifier target, Object type)" }));
+    return adapt(target, type, true);
   }
 
   public void adaptAllNew(Notifier target)
