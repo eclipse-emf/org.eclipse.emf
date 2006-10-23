@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ControlAction.java,v 1.1 2006/01/23 20:51:06 davidms Exp $
+ * $Id: ControlAction.java,v 1.2 2006/10/23 15:26:03 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -122,16 +122,20 @@ public class ControlAction extends CommandActionHandler
     {
       if (eObject == null) return;
 
-      ControlResourceDialog dialog =
-        new ControlResourceDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), domain, eObject.eResource());
-      dialog.open();
-      Resource resource = dialog.getResource();
+      Resource resource = getResource();
       if (resource == null) return;
 
       command = new AddCommand(domain, resource.getContents(), eObject);
       command = new SelfAffectingCommand(EMFEditUIPlugin.INSTANCE.getString("_UI_ControlCommand_label"), command);
     }
     super.run();
+  }
+  
+  protected Resource getResource()
+  {
+    ControlResourceDialog dialog = new ControlResourceDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), domain, eObject.eResource());
+    dialog.open();
+    return dialog.getResource();
   }
 
   public void setActiveWorkbenchPart(IWorkbenchPart workbenchPart)
