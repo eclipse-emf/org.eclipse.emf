@@ -89,7 +89,7 @@
 
     <merge:pull 
       sourceGet="Type/getSuperInterfaces"
-      sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)\n"
+      sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)(?:&lt;!--|\n)"
       targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
       targetPut="Type/addSuperInterface"/>
 
