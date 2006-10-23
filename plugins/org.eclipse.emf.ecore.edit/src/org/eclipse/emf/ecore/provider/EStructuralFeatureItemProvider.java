@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureItemProvider.java,v 1.11 2006/05/15 21:02:45 davidms Exp $
+ * $Id: EStructuralFeatureItemProvider.java,v 1.12 2006/10/23 13:27:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -24,6 +24,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
@@ -157,12 +158,12 @@ public class EStructuralFeatureItemProvider
    * This adds a property descriptor for the Default Value Literal feature.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void addDefaultValueLiteralPropertyDescriptor(Object object)
   {
     itemPropertyDescriptors.add
-      (createItemPropertyDescriptor
+      (new ItemPropertyDescriptor
         (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
          getResourceLocator(),
          getString("_UI_EStructuralFeature_defaultValueLiteral_feature"),
@@ -173,7 +174,13 @@ public class EStructuralFeatureItemProvider
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
-         null));
+         null)
+      {
+        public boolean canSetProperty(Object object)
+        {
+          return !(object instanceof EReference);
+        }
+      });
   }
 
   /**
