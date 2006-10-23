@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.61 2006/10/23 12:40:27 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.62 2006/10/23 12:47:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -766,7 +766,20 @@ public class XMLSaveImpl implements XMLSave
                 }
                 xsiSchemaLocation.append(nsURI);
                 xsiSchemaLocation.append(' ');
-                String location = javaImplementationLocation == null ? helper.getHREF(ePackage) : javaImplementationLocation;
+
+                String location;
+                if (javaImplementationLocation == null)
+                {
+                  location = helper.getHREF(ePackage);
+                  if (escapeURI != null)
+                  {
+                    location = escapeURI.convert(location);
+                  }
+                }
+                else 
+                {
+                  location = javaImplementationLocation;
+                }
                 if (location.endsWith("#/"))
                 {
                   location = location.substring(0, location.length() - 2);
