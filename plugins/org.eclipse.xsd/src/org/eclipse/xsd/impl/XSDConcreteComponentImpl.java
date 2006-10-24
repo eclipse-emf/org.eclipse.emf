@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.16 2006/10/24 18:23:03 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.17 2006/10/24 18:30:53 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1442,9 +1442,10 @@ public abstract class XSDConcreteComponentImpl
           if (parent == contentElement)
           {
             XSDConcreteComponentImpl parentComponent = (XSDConcreteComponentImpl)getContainer();
+            boolean oldParentUpdatingDOM = parentComponent.updatingDOM;
             parentComponent.updatingDOM = true;
             niceRemoveChild(contentElement.getParentNode(), contentElement);
-            parentComponent.updatingDOM = false;
+            parentComponent.updatingDOM = oldParentUpdatingDOM;
           }
           else
           {
