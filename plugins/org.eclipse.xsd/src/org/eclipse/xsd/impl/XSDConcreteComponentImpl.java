@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.15 2006/08/17 19:52:34 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.16 2006/10/24 18:23:03 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -1439,7 +1439,17 @@ public abstract class XSDConcreteComponentImpl
         Element contentElement = xsdConcreteComponent.getElement();
         if (contentElement != null)
         {
-          niceRemoveChild(contentElement.getParentNode(), contentElement);
+          if (parent == contentElement)
+          {
+            XSDConcreteComponentImpl parentComponent = (XSDConcreteComponentImpl)getContainer();
+            parentComponent.updatingDOM = true;
+            niceRemoveChild(contentElement.getParentNode(), contentElement);
+            parentComponent.updatingDOM = false;
+          }
+          else
+          {
+            niceRemoveChild(contentElement.getParentNode(), contentElement);
+          }
         }
       }
     }
@@ -1505,7 +1515,7 @@ public abstract class XSDConcreteComponentImpl
 
   public void niceInsertBefore(Node parent, Node newChild, Node referenceChild)
   {
-    if (isReconciling)
+    if (isReconciling || parent == newChild)
     {
       // System.out.println("**** cyclic dom writeback avoided " + eClass().getName());
       return;
