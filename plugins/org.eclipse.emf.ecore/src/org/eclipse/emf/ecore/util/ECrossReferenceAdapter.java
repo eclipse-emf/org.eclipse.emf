@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.17 2006/07/19 13:05:44 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.17.2.1 2006/10/25 13:55:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -197,7 +197,7 @@ public class ECrossReferenceAdapter implements Adapter.Internal
           {
             if (collection.size() == 1)
             {
-              remove(crossReferencedEObject);  
+              super.remove(crossReferencedEObject);  
             }
             else
             {
