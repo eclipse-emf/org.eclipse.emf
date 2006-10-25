@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.60 2006/08/01 18:41:10 emerks Exp $
+ * $Id: XMLHandler.java,v 1.61 2006/10/25 13:32:55 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -1167,7 +1167,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     {
       newObject = createObjectFromFactory(eFactory, name);
     }
-    validateCreateObjectFromFactory(eFactory, name, newObject);
+    newObject = validateCreateObjectFromFactory(eFactory, name, newObject, top);
     
     if (top)
     {
@@ -1982,6 +1982,26 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       }
       handleObjectAttribs(newObject);
     }
+    return newObject;
+  }
+
+  protected EObject validateCreateObjectFromFactory(EFactory factory, String typeName, EObject newObject, boolean top)
+  {
+    if (newObject == null && top && (recordUnknownFeature || processAnyXML) && factory != null && extendedMetaData != null)
+    {
+      if (useNewMethods)
+      {
+        EClassifier type = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName);
+        newObject = createObject(type.getEPackage().getEFactoryInstance(), type, false);
+      }
+      else
+      {
+        factory = extendedMetaData.demandType(extendedMetaData.getNamespace(factory.getEPackage()), typeName).getEPackage().getEFactoryInstance();
+        newObject = createObjectFromFactory(factory, typeName);
+      }
+    }
+
+    validateCreateObjectFromFactory(factory, typeName, newObject);
     return newObject;
   }
 
