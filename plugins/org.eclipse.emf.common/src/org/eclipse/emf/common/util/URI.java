@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.24 2006/10/16 03:14:19 davidms Exp $
+ * $Id: URI.java,v 1.25 2006/10/25 20:10:00 davidms Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -875,7 +875,7 @@ public final class URI
    *
    * @see org.eclipse.core.runtime.Platform#resolve
    * @see #createPlatformResourceURI(String, boolean)
-   * @deprecated org.eclipse.emf.common 3.0 Use {@link #createPlatformResourceURI(String, boolean)} instead.
+   * @deprecated org.eclipse.emf.common 2.3 Use {@link #createPlatformResourceURI(String, boolean)} instead.
    */
   public static URI createPlatformResourceURI(String pathName)
   {
@@ -947,7 +947,7 @@ public final class URI
    * {@link #validFragment validFragment}.
    *
    * @see org.eclipse.core.runtime.Platform#resolve
-   * @since org.eclipse.emf.common 3.0
+   * @since org.eclipse.emf.common 2.3
    */
   public static URI createPlatformPluginURI(String pathName, boolean encode)
   {
@@ -1483,7 +1483,7 @@ public final class URI
    * Returns <code>true</code> if this is a platform URI, that is, an absolute,
    * hierarchical URI, with "platform" scheme, no authority, and at least two
    * segments; <code>false</code> is returned otherwise.
-   * @since org.eclipse.emf.common 3.0
+   * @since org.eclipse.emf.common 2.3
    */
   public boolean isPlatform()
   {
@@ -1496,7 +1496,7 @@ public final class URI
    * a {@link #isPlatform platform URI} whose first segment is "resource";
    * <code>false</code> is returned otherwise.
    * @see #isPlatform
-   * @since org.eclipse.emf.common 3.0
+   * @since org.eclipse.emf.common 2.3
    */
   public boolean isPlatformResource()
   {
@@ -1508,7 +1508,7 @@ public final class URI
    * a {@link #isPlatform platform URI} whose first segment is "plugin";
    * <code>false</code> is returned otherwise.
    * @see #isPlatform
-   * @since org.eclipse.emf.common 3.0
+   * @since org.eclipse.emf.common 2.3
    */
   public boolean isPlatformPlugin()
   {
@@ -2463,7 +2463,7 @@ public final class URI
    * {@link #decode decoding} the segments in the process.
    * @see #createPlatformResourceURI(String, boolean)
    * @see #createPlatformPluginURI
-   * @since org.eclipse.emf.common 3.0
+   * @since org.eclipse.emf.common 2.3
    */
   public String toPlatformString(boolean decode)
   {
