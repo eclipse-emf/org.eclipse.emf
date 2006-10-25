@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.11 2006/04/21 09:50:14 emerks Exp $
+ * $Id: NotifyingListImpl.java,v 1.12 2006/10/25 12:46:09 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -556,7 +557,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
         boolean oldIsSet = isSet();
         doAddAllUnique(index, objects, start, end);
         NotificationImpl notification;
-        if (collectionSize == 0)
+        if (collectionSize == 1)
         {
           notification = createNotification(Notification.ADD, null, objects[0], index, oldIsSet);
         }
@@ -569,11 +570,11 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
             {
               actualObjects[i] = objects[j];
             }
-            notification = createNotification(Notification.ADD_MANY, null, actualObjects, index, oldIsSet);
+            notification = createNotification(Notification.ADD_MANY, null, Arrays.asList(actualObjects), index, oldIsSet);
           }
           else
           {
-            notification =  createNotification(Notification.ADD_MANY, null, objects, index, oldIsSet);
+            notification =  createNotification(Notification.ADD_MANY, null, Arrays.asList(objects), index, oldIsSet);
           }
         }
         if (hasInverse())
