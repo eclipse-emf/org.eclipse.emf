@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceAdapter.java,v 1.18 2006/10/23 17:28:51 emerks Exp $
+ * $Id: ECrossReferenceAdapter.java,v 1.19 2006/10/27 09:21:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -377,8 +377,9 @@ public class ECrossReferenceAdapter implements Adapter.Internal
               Object value = setting.get(true);
               if (setting.getEStructuralFeature().isMany())
               {
-                List list = ((InternalEList)value).basicList();
-                int index =  list.indexOf(proxy);
+                InternalEList list = (InternalEList)value;
+                List basicList = list.basicList();
+                int index =  basicList.indexOf(proxy);
                 if (index != -1)
                 {
                   list.get(index);
