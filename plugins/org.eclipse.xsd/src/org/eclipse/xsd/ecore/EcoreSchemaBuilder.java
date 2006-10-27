@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.14 2006/08/28 13:50:57 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.15 2006/10/27 17:54:10 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -1592,19 +1592,35 @@ public class EcoreSchemaBuilder extends MapBuilder
     }
     else if (xsdComponent instanceof XSDTypeDefinition)
     {
-      ((XSDTypeDefinition)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+      XSDTypeDefinition xsdTypeDefinition = ((XSDTypeDefinition)xsdComponent);
+      if ((xsdAnnotation = xsdTypeDefinition.getAnnotation()) == null)
+      {
+        xsdTypeDefinition.setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+      }
     }
     else if (xsdComponent instanceof XSDFacet)
     {
-      ((XSDFacet)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+      XSDFacet xsdFacet = ((XSDFacet)xsdComponent);
+      if ((xsdAnnotation = xsdFacet.getAnnotation()) == null)
+      {
+        xsdFacet.setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+      }
     }
     else if (xsdComponent instanceof XSDElementDeclaration)
     {
-      ((XSDElementDeclaration)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+      XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)xsdComponent);
+      if ((xsdAnnotation = xsdElementDeclaration.getAnnotation()) == null)
+      {
+        xsdElementDeclaration.setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+      }
     }
     else if (xsdComponent instanceof XSDAttributeDeclaration)
     {
-      ((XSDAttributeDeclaration)xsdComponent).setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+      XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)xsdComponent);
+      if ((xsdAnnotation = xsdAttributeDeclaration.getAnnotation()) == null)
+      {
+        xsdAttributeDeclaration.setAnnotation(xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation());
+      }
     }
 
     return xsdAnnotation;
