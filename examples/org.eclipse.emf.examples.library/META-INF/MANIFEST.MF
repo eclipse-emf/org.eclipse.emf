@@ -6,6 +6,7 @@ Bundle-Version: 2.3.0.qualifier
 Bundle-ClassPath: org.eclipse.emf.examples.library.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.examples.extlibrary,
  org.eclipse.emf.examples.extlibrary.impl,
  org.eclipse.emf.examples.extlibrary.util

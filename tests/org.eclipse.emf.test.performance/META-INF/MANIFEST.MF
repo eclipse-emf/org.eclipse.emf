@@ -7,6 +7,7 @@ Bundle-ClassPath: test.performance.jar
 Bundle-Activator: org.eclipse.emf.test.performance.EMFTestPerformancePlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: com.example.ipo,
  com.example.ipo.impl,
  com.example.ipo.util,

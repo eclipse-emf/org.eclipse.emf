@@ -7,6 +7,7 @@ Bundle-ClassPath: ecore.editor.jar
 Bundle-Activator: org.eclipse.emf.ecore.presentation.EcoreEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.ecore.action,
  org.eclipse.emf.ecore.presentation
 Require-Bundle: org.eclipse.core.runtime,

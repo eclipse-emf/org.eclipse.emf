@@ -7,6 +7,7 @@ Bundle-ClassPath: converter.jar
 Bundle-Activator: org.eclipse.emf.converter.ConverterPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.converter,
  org.eclipse.emf.converter.ui,
  org.eclipse.emf.converter.ui.contribution,

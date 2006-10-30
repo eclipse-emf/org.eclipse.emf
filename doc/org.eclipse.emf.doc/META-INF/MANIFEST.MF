@@ -5,5 +5,6 @@ Bundle-SymbolicName: org.eclipse.emf.doc; singleton:=true
 Bundle-Version: 2.2.1.qualifier
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.help
 Eclipse-LazyStart: true

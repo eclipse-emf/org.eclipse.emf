@@ -7,6 +7,7 @@ Bundle-ClassPath: java.jar
 Bundle-Activator: org.eclipse.emf.java.JavaPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.java,
  org.eclipse.emf.java.impl,
  org.eclipse.emf.java.util

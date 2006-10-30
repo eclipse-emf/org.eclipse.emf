@@ -7,6 +7,7 @@ Bundle-ClassPath: mapping.ecore2ecore.editor.jar
 Bundle-Activator: org.eclipse.emf.mapping.ecore2ecore.presentation.Ecore2EcoreEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.mapping.ecore2ecore.action,
  org.eclipse.emf.mapping.ecore2ecore.presentation
 Require-Bundle: org.eclipse.core.runtime,

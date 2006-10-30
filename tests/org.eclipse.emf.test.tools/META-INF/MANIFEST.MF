@@ -7,6 +7,7 @@ Bundle-ClassPath: test.tools.jar
 Bundle-Activator: org.eclipse.emf.test.tools.EMFTestToolsPlugin
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.emf.test.tools,
  org.eclipse.emf.test.tools.ant,
  org.eclipse.emf.test.tools.importer,
