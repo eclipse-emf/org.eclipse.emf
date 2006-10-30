@@ -7,6 +7,7 @@ Bundle-ClassPath: xsd.jar
 Bundle-Activator: org.eclipse.xsd.XSDPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.xsd,
  org.eclipse.xsd.ecore,
  org.eclipse.xsd.impl,

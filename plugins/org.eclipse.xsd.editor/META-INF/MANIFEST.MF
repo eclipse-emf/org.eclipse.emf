@@ -7,6 +7,7 @@ Bundle-ClassPath: xsd.editor.jar
 Bundle-Activator: org.eclipse.xsd.presentation.XSDEditorPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.xsd.presentation
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
