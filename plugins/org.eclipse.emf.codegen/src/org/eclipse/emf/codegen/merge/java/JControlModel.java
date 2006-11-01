@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.4 2006/02/14 12:58:01 emerks Exp $
+ * $Id: JControlModel.java,v 1.5 2006/11/01 21:19:51 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -495,10 +495,10 @@ public class JControlModel extends PrefixHandler
   
   protected FacadeHelper facadeHelper;
   
-  protected List dictionaryPatterns;
-  protected List pullRules;
-  protected List sweepRules;
-  protected List sortRules;
+  protected List<DictionaryPattern> dictionaryPatterns;
+  protected List<PullRule> pullRules;
+  protected List<SweepRule> sweepRules;
+  protected List<SortRule> sortRules;
   protected Pattern blockPattern;
   protected Pattern noImportPattern;
   protected String redirect;
@@ -577,38 +577,38 @@ public class JControlModel extends PrefixHandler
     return noImportPattern;
   }
 
-  public List getDictionaryPatterns()
+  public List<DictionaryPattern> getDictionaryPatterns()
   {
     if (dictionaryPatterns == null)
     {
-      dictionaryPatterns = new ArrayList();
+      dictionaryPatterns = new ArrayList<DictionaryPattern>();
     }
     return dictionaryPatterns;
   }
 
-  public List getPullRules()
+  public List<PullRule> getPullRules()
   {
     if (pullRules == null)
     {
-      pullRules = new ArrayList();
+      pullRules = new ArrayList<PullRule>();
     }
     return pullRules;
   }
 
-  public List getSweepRules()
+  public List<SweepRule> getSweepRules()
   {
     if (sweepRules == null)
     {
-      sweepRules = new ArrayList();
+      sweepRules = new ArrayList<SweepRule>();
     }
     return sweepRules;
   }
 
-  public List getSortRules()
+  public List<SortRule> getSortRules()
   {
     if (sortRules == null)
     {
-      sortRules = new ArrayList();
+      sortRules = new ArrayList<SortRule>();
     }
     return sortRules;
   }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.1 2006/01/18 20:47:06 marcelop Exp $
+ * $Id: PropertyMerger.java,v 1.2 2006/11/01 21:25:08 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.properties;
 
@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -35,8 +34,8 @@ public class PropertyMerger
 {
   protected String sourceProperties;
   protected String targetProperties;
-  protected Map sourceToTargetMap = new LinkedHashMap();
-  protected Map targetToSourceMap = new LinkedHashMap();
+  protected Map<String, String> sourceToTargetMap = new LinkedHashMap<String, String>();
+  protected Map<String, String> targetToSourceMap = new LinkedHashMap<String, String>();
 
   /**
    * This creates an empty instances, when used as a runnable.
@@ -65,7 +64,7 @@ public class PropertyMerger
     this.targetProperties = targetProperties;
   }
 
-  public Map getSourceToTargetMap()
+  public Map<String, String> getSourceToTargetMap()
   {
     return sourceToTargetMap;
   }
@@ -160,13 +159,12 @@ public class PropertyMerger
       }
     }
     
-    Map sourcePropertyFragments = parse(sourceProperties);
-    Map targetPropertyFragments = parse(targetProperties);
+    Map<String, String> sourcePropertyFragments = parse(sourceProperties);
+    Map<String, String> targetPropertyFragments = parse(targetProperties);
     
     StringBuffer result = new StringBuffer(targetProperties);
-    for (Iterator i = sourcePropertyFragments.entrySet().iterator(); i.hasNext(); )
+    for (Map.Entry<String, String> entry : sourcePropertyFragments.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
       if (!targetPropertyFragments.containsKey(entry.getKey()))
       {
         result.append(entry.getValue());
@@ -178,9 +176,9 @@ public class PropertyMerger
 
   protected static Pattern propertyLine = Pattern.compile("\\s*(\\S+)\\s*=.*", Pattern.MULTILINE);
 
-  public Map parse(String properties)
+  public Map<String, String> parse(String properties)
   {
-    Map result = new LinkedHashMap();
+    Map<String, String> result = new LinkedHashMap<String, String>();
     int i = 0;
     while (i < properties.length())
     {

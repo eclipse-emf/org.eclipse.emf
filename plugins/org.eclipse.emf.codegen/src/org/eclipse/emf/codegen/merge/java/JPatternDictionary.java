@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.2 2006/02/02 18:20:01 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.3 2006/11/01 21:21:06 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
@@ -21,7 +21,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -48,13 +47,13 @@ public class JPatternDictionary extends FacadeVisitor
   protected JControlModel controlModel;
   protected JPackage jPackage;
   
-  protected Map importMap;
-  protected Map typeMap;
-  protected Map initializerMap;
-  protected Map fieldMap;
-  protected Map methodMap;
-  protected Map markupMap;  
-  protected Set noImportSet;
+  protected Map<String, JImport> importMap;
+  protected Map<String, JType> typeMap;
+  protected Map<String, JInitializer> initializerMap;
+  protected Map<String, JField> fieldMap;
+  protected Map<String, JMethod> methodMap;
+  protected Map<String, Collection<JNode>> markupMap;  
+  protected Set<String> noImportSet;
   
   public JPatternDictionary(JCompilationUnit compilationUnit, JControlModel controlModel)
   {
@@ -68,56 +67,56 @@ public class JPatternDictionary extends FacadeVisitor
     return jPackage;
   }
   
-  public Map getImportMap()
+  public Map<String, JImport> getImportMap()
   {
     if (importMap == null)
     {
-      importMap = new HashMap();
+      importMap = new HashMap<String, JImport>();
     }
     return importMap;
   }
 
-  public Map getTypeMap()
+  public Map<String, JType> getTypeMap()
   {
     if (typeMap == null)
     {
-      typeMap = new HashMap();
+      typeMap = new HashMap<String, JType>();
     }
     return typeMap;
   }
 
-  public Map getInitializerMap()
+  public Map<String, JInitializer> getInitializerMap()
   {
     if (initializerMap == null)
     {
-      initializerMap = new HashMap();
+      initializerMap = new HashMap<String, JInitializer>();
     }
     return initializerMap;
   }
 
-  public Map getFieldMap()
+  public Map<String, JField> getFieldMap()
   {
     if (fieldMap == null)
     {
-      fieldMap = new HashMap();
+      fieldMap = new HashMap<String, JField>();
     }
     return fieldMap;
   }
 
-  public Map getMethodMap()
+  public Map<String, JMethod> getMethodMap()
   {
     if (methodMap == null)
     {
-      methodMap = new HashMap();
+      methodMap = new HashMap<String, JMethod>();
     }
     return methodMap;
   }
 
-  public Map getMarkupMap()
+  public Map<String, Collection<JNode>> getMarkupMap()
   {
     if (markupMap == null)
     {
-      markupMap = new HashMap();
+      markupMap = new HashMap<String, Collection<JNode>>();
     }
     return markupMap;
   }
@@ -130,13 +129,12 @@ public class JPatternDictionary extends FacadeVisitor
     }
     else
     {
-      for (Iterator markupEntries = getMarkupMap().entrySet().iterator(); markupEntries.hasNext(); )
+      for (Map.Entry<String, Collection<JNode>> markupEntry : getMarkupMap().entrySet())
       {
-        Map.Entry markupEntry = (Map.Entry)markupEntries.next();
-        String key = (String)markupEntry.getKey();
+        String key = markupEntry.getKey();
         if (key != null && markupPattern.matcher(key).find())
         {
-          if (((Collection)markupEntry.getValue()).contains(node))
+          if (markupEntry.getValue().contains(node))
           {
             return true;
           }
@@ -146,11 +144,11 @@ public class JPatternDictionary extends FacadeVisitor
     }
   }
   
-  protected Set getNoImporterSet()
+  protected Set<String> getNoImporterSet()
   {
     if (noImportSet == null)
     {
-      noImportSet = new HashSet();
+      noImportSet = new HashSet<String>();
     }
     return noImportSet;
   }
@@ -161,6 +159,7 @@ public class JPatternDictionary extends FacadeVisitor
   }
   
     
+  @Override
   protected boolean visit(JCompilationUnit compilationUnit)
   {
     if (controlModel.getNoImportPattern() != null)
@@ -174,47 +173,53 @@ public class JPatternDictionary extends FacadeVisitor
     return true;
   }
   
+  @Override
   protected boolean visit(JPackage jPackage)
   {
     this.jPackage = jPackage;
     return super.visit(jPackage);
   }
   
+  @Override
   protected boolean visit(JType type)
   {
     getTypeMap().put(type.getQualifiedName(), type);
     return true;
   }  
   
+  @Override
   protected boolean visit(JImport jImport)
   {
     getImportMap().put(jImport.getQualifiedName(), jImport);
     return super.visit(jImport);
   }
-    
+
+  @Override
   protected boolean visit(JInitializer initializer)
   {
     getInitializerMap().put(initializer.getQualifiedName(), initializer);
     return super.visit(initializer);
   }
   
+  @Override
   protected boolean visit(JField field)
   {
     getFieldMap().put(field.getQualifiedName(), field);
     return super.visit(field);
   }
   
+  @Override
   protected boolean visit(JMethod method)
   {
     getMethodMap().put(method.getQualifiedName(), method);
     return super.visit(method);
   }
     
+  @Override
   protected void afterVisit(JNode node)
   {
-    for (Iterator dictionaryPatterns = controlModel.getDictionaryPatterns().iterator(); dictionaryPatterns.hasNext(); )
+    for (JControlModel.DictionaryPattern dictionaryPattern : controlModel.getDictionaryPatterns())
     {
-      JControlModel.DictionaryPattern dictionaryPattern = (JControlModel.DictionaryPattern)dictionaryPatterns.next();
       if (dictionaryPattern.getSelectorFeature().getFeatureClass().isInstance(node))
       {
         try
@@ -257,10 +262,10 @@ public class JPatternDictionary extends FacadeVisitor
               for (int i = 1; i <= matcher.groupCount(); ++i)
               {
                 String markup = matcher.group(i);
-                Collection collection = (Collection)getMarkupMap().get(markup);
+                Collection<JNode> collection = getMarkupMap().get(markup);
                 if (collection == null)
                 {
-                  collection = new HashSet();
+                  collection = new HashSet<JNode>();
                   getMarkupMap().put(markup, collection);
                 }
                 collection.add(node);

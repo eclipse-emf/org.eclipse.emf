@@ -12,11 +12,10 @@
  *
  * </copyright>
  *
- * $Id: FacadeVisitor.java,v 1.1 2006/01/18 20:42:16 marcelop Exp $
+ * $Id: FacadeVisitor.java,v 1.2 2006/11/01 21:22:02 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
-import java.util.Iterator;
 
 public class FacadeVisitor
 {
@@ -100,9 +99,8 @@ public class FacadeVisitor
     
   protected void visitChildren(JNode node)
   {
-    for (Iterator i = node.getChildren().iterator(); i.hasNext();)
+    for (JNode child : node.getChildren())
     {
-      JNode child = (JNode)i.next();
       visit(child);
     }
   }

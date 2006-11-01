@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JNode.java,v 1.1 2006/01/18 20:42:16 marcelop Exp $
+ * $Id: JNode.java,v 1.2 2006/11/01 21:22:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -87,5 +87,5 @@ public interface JNode
    *
    * @return a list of the children
    */
-  List getChildren();  
+  List<JNode> getChildren();  
 }
