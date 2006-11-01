@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethod.java,v 1.1 2006/01/18 20:42:16 marcelop Exp $
+ * $Id: JMethod.java,v 1.2 2006/11/01 21:24:27 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -98,11 +98,9 @@ public interface JMethod extends JMember
    * Type names must be specified as they would appear in source code. For
    * example: <code>"File"</code>, <code>"java.io.File"</code>, or 
    * <code>"int[]"</code>.
-   * 
-   * @param types the list of type names
-   * @param names the list of parameter name
+   * @param names the list of parameter names
    */
-  void setParameters(String[] types, String[] names) throws IllegalArgumentException;
+  void setParameterNames(String[] names) throws IllegalArgumentException;
 
   /**
    * Returns the type signatures of the exceptions this method throws,
