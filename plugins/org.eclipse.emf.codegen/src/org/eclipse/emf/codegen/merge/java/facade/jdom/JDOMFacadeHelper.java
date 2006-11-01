@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMFacadeHelper.java,v 1.2 2006/10/16 16:59:51 marcelop Exp $
+ * $Id: JDOMFacadeHelper.java,v 1.3 2006/11/01 21:28:55 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -204,22 +204,36 @@ public class JDOMFacadeHelper extends FacadeHelper
   
   public boolean addChild(JNode node, JNode child)
   {
-    IDOMNode idomNode = getIDOMNode(node);
-    IDOMNode idomChild = getIDOMNode(child);
-    idomNode.addChild(idomChild);
-    return true;
+    if (child != null)
+    {
+      IDOMNode idomNode = getIDOMNode(node);
+      IDOMNode idomChild = getIDOMNode(child);
+      idomNode.addChild(idomChild);
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
   
   public boolean insertSibling(JNode node, JNode sibiling, boolean before)
   {
-    IDOMNode idomNode = getIDOMNode(node);
-    if (!before)
+    if (sibiling != null)
     {
-      idomNode = idomNode.getNextNode();
+      IDOMNode idomNode = getIDOMNode(node);
+      if (!before)
+      {
+        idomNode = idomNode.getNextNode();
+      }
+      IDOMNode idomSibiling = getIDOMNode(sibiling);
+      idomNode.insertSibling(idomSibiling);
+      return true;
     }
-    IDOMNode idomSibiling = getIDOMNode(sibiling);
-    idomNode.insertSibling(idomSibiling);
-    return true;
+    else
+    {
+      return false;
+    }
   }
   
   public boolean remove(JNode node)
@@ -251,4 +265,9 @@ public class JDOMFacadeHelper extends FacadeHelper
     IDOMNode idomNode = getIDOMNode(node);
     return convertToNode(idomNode.getNextNode());
   }  
+  
+  public boolean fixInterfaceBrace()
+  {
+    return true;
+  }
 }
