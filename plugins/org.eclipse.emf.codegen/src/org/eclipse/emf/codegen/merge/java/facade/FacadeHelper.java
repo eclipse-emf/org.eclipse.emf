@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.1 2006/01/18 20:42:16 marcelop Exp $
+ * $Id: FacadeHelper.java,v 1.2 2006/11/01 21:27:15 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +30,7 @@ public abstract class FacadeHelper
   protected static final String CLASS_PREFIX = "org.eclipse.emf.codegen.merge.java.facade.J";
   
   protected JControlModel controlModel;
-  protected Map objectToNodeMap;
+  protected Map<Object, JNode> objectToNodeMap;
   
   public void reset()
   {
@@ -41,11 +40,11 @@ public abstract class FacadeHelper
     }   
   }
   
-  protected Map getObjectToNodeMap()
+  protected Map<Object, JNode> getObjectToNodeMap()
   {
     if (objectToNodeMap == null)
     {
-      objectToNodeMap = new HashMap();
+      objectToNodeMap = new HashMap<Object, JNode>();
     }
     return objectToNodeMap;
   }
@@ -82,7 +81,7 @@ public abstract class FacadeHelper
   
   public JNode convertToNode(Object object)
   {
-    JNode node = (JNode)getObjectToNodeMap().get(object);
+    JNode node = getObjectToNodeMap().get(object);
     if (node == null)
     {
       node = doConvertToNode(object);
@@ -147,9 +146,8 @@ public abstract class FacadeHelper
     JCompilationUnit compilationUnit = getCompilationUnit(node);
     if (compilationUnit != null)
     {
-      for (Iterator i = compilationUnit.getChildren().iterator(); i.hasNext();)
+      for (JNode child : compilationUnit.getChildren())
       {
-        JNode child = (JNode)i.next();
         if (child instanceof JPackage)
         {
           return (JPackage)child;
@@ -162,13 +160,12 @@ public abstract class FacadeHelper
   /**
    * Returns the first public type in of a compilation unit. 
    * @param compilationUnit
-   * @return the first public type of a compilation unti
+   * @return the first public type of a compilation unit
    */
   public JType getMainType(JCompilationUnit compilationUnit)
   {
-    for (Iterator i = getChildren(compilationUnit, JType.class).iterator(); i.hasNext();)
+    for (JType type : getChildren(compilationUnit, JType.class))
     {
-      JType type = (JType)i.next();
       if (FacadeFlags.isPublic(type.getFlags()))
       {
        return type; 
@@ -185,17 +182,16 @@ public abstract class FacadeHelper
    * @param the class of the child
    * @return the list of children of a {@link JNode}
    */
-  public List getChildren(JNode node, Class cls)
+  public <T extends JNode> List<T> getChildren(JNode node, Class<T> cls)
   {
     if (node != null && cls != null)
     {
-      List children = new ArrayList();
-      for (Iterator i = node.getChildren().iterator(); i.hasNext();)
+      List<T> children = new ArrayList<T>();
+      for (JNode child : node.getChildren())
       {
-        JNode child = (JNode)i.next();
         if (cls.isInstance(child))
         {
-          children.add(child);
+          children.add(cls.cast(child));
         }
       }
       
@@ -204,7 +200,7 @@ public abstract class FacadeHelper
         return Collections.unmodifiableList(children); 
       }
     }
-    return Collections.EMPTY_LIST; 
+    return Collections.<T>emptyList(); 
   }
 
   /**
@@ -218,10 +214,10 @@ public abstract class FacadeHelper
   {
     if (node != null)
     {
-      List children = node.getChildren();
+      List<JNode> children = node.getChildren();
       if (!children.isEmpty())
       {
-        return (JNode)children.get(0);
+        return children.get(0);
       }
     }
     return null;
@@ -259,11 +255,11 @@ public abstract class FacadeHelper
   {
     if (node != null && node.getParent() != null)
     {
-      List children = node.getParent().getChildren();
+      List<JNode> children = node.getParent().getChildren();
       int index = children.indexOf(node) + pos;
       if (index >= 0 && index < children.size())
       {
-        return (JNode)children.get(index);
+        return children.get(index);
       }
     }
     return null;
@@ -294,22 +290,22 @@ public abstract class FacadeHelper
   }
   
   /**
-   * Inserts the given un-parented node as a sibling of the specofoed node, immediately 
+   * Inserts the given un-parented node as a sibling of the specified node, immediately 
    * before or after it.
    * @param node the node that will be after the new sibiling
-   * @param sibling the new sibling node
+   * @param newSibling the new sibling node
    * @param before whether the sibiling should be added before the node
    * @see #addChild(JNode, JNode)
    * @see #remove(JNode)
    */
-  public boolean insertSibling(JNode node, JNode sibiling, boolean before)
+  public boolean insertSibling(JNode node, JNode newSibling, boolean before)
   {
-     if (node != null && sibiling != null)
+     if (node != null && newSibling != null)
      {
        JNode parent = node.getParent();
        if (parent != null)
        {
-         List children = parent.getChildren();
+         List<JNode> children = parent.getChildren();
          int index = children.indexOf(node);
          if (!before)
          {
@@ -320,12 +316,12 @@ public abstract class FacadeHelper
          {
            if (index == children.size())
            {
-             return children.add(sibiling);
+             return children.add(newSibling);
            }
            else
            {
-             children.add(index, sibiling);
-             return children.get(index) == sibiling;             
+             children.add(index, newSibling);
+             return children.get(index) == newSibling;             
            }
          }
          catch(UnsupportedOperationException e)
@@ -374,5 +370,19 @@ public abstract class FacadeHelper
   public String applyFormatRules(String value)
   {
     return CodeGenUtil.convertFormat(getControlModel().getLeadingTabReplacement(), getControlModel().convertToStandardBraceStyle(), value);
-  }   
+  }
+  
+  /**
+   * @param object
+   * @return
+   */
+  public String toString(Object object)
+  {
+    return object == null ? null : object.toString();  
+  }
+
+  public boolean fixInterfaceBrace()
+  {
+    return false;
+  }
 }
