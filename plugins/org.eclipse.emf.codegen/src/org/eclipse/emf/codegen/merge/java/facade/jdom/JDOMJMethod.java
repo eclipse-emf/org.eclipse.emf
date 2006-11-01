@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJMethod.java,v 1.2 2006/04/17 21:41:32 marcelop Exp $
+ * $Id: JDOMJMethod.java,v 1.3 2006/11/01 21:24:48 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -86,9 +86,9 @@ public class JDOMJMethod extends JDOMJMember implements JMethod
     return ret == null ? EMPTY_STRING_ARRAY : ret;
   }
   
-  public void setParameters(String[] types, String[] names) throws IllegalArgumentException
+  public void setParameterNames(String[] names) throws IllegalArgumentException
   {
-    getIDOMMethod().setParameters(types, names);
+    getIDOMMethod().setParameters(getParameterTypes(), names);
   }
 
   public String[] getExceptions()
