@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.4 2006/03/15 20:06:34 emerks Exp $
+ * $Id: JMerger.java,v 1.5 2006/11/01 21:20:49 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -62,9 +62,9 @@ public class JMerger
   protected JCompilationUnit targetCompilationUnit;
   protected JPatternDictionary sourcePatternDictionary;
   protected JPatternDictionary targetPatternDictionary;
-  protected Map sourceToTargetMap = new HashMap();
-  protected Map targetToSourceMap = new HashMap();
-  protected Map orderedSourceChildrenMap = new HashMap();
+  protected Map<JNode, JNode> sourceToTargetMap = new HashMap<JNode, JNode>();
+  protected Map<JNode, JNode> targetToSourceMap = new HashMap<JNode, JNode>();
+  protected Map<JNode, List<JNode>> orderedSourceChildrenMap = new HashMap<JNode, List<JNode>>();
   protected boolean isBlocked;
   protected boolean fixInterfaceBrace;
   protected JControlModel controlModel;
@@ -204,12 +204,12 @@ public class JMerger
     this.targetPatternDictionary = targetPatternDictionary;
   }
 
-  public Map getSourceToTargetMap()
+  public Map<JNode, JNode> getSourceToTargetMap()
   {
     return sourceToTargetMap;
   }
 
-  public void setSourceToTargetMap(Map sourceToTargetMap)
+  public void setSourceToTargetMap(Map<JNode, JNode> sourceToTargetMap)
   {
     this.sourceToTargetMap = sourceToTargetMap;
   }
@@ -308,9 +308,8 @@ public class JMerger
     }
 
 */
-      for (Iterator i = targetCompilationUnit.getChildren().iterator(); i.hasNext();)
+      for (JNode child : targetCompilationUnit.getChildren())
       {
-        JNode child = (JNode)i.next();
         if (child instanceof JPackage)
         {
           pullTargetPackage((JPackage)child);
@@ -350,7 +349,7 @@ public class JMerger
 
   protected void pullTargetImport(JImport targetImport)
   {
-    JImport sourceImport = (JImport)sourcePatternDictionary.getImportMap().get(targetImport.getQualifiedName());
+    JImport sourceImport = sourcePatternDictionary.getImportMap().get(targetImport.getQualifiedName());
     map(sourceImport, targetImport);
     if (sourceImport != null)
     {
@@ -360,7 +359,7 @@ public class JMerger
 
   protected void pullTargetType(JType targetType)
   {
-    JType sourceType = (JType)sourcePatternDictionary.getTypeMap().get(targetType.getQualifiedName());
+    JType sourceType = sourcePatternDictionary.getTypeMap().get(targetType.getQualifiedName());
 
     map(sourceType, targetType);
     if (sourceType != null)
@@ -407,9 +406,8 @@ public class JMerger
 */
     }
     
-    for (Iterator i = targetType.getChildren().iterator(); i.hasNext();)
+    for (JNode child : targetType.getChildren())
     {
-      JNode child = (JNode)i.next();
       if (child instanceof JInitializer)
       {
         pullTargetInitializer((JInitializer)child);
@@ -431,8 +429,7 @@ public class JMerger
 
   protected void pullTargetInitializer(JInitializer targetInitializer)
   {
-    JInitializer sourceInitializer = 
-      (JInitializer)sourcePatternDictionary.getInitializerMap().get(targetInitializer.getQualifiedName());
+    JInitializer sourceInitializer = sourcePatternDictionary.getInitializerMap().get(targetInitializer.getQualifiedName());
     map(sourceInitializer, targetInitializer);
     if (sourceInitializer != null)
     {
@@ -462,8 +459,7 @@ public class JMerger
 
   protected void pullTargetField(JField targetField)
   {
-    JField sourceField = 
-      (JField)sourcePatternDictionary.getFieldMap().get(targetField.getQualifiedName());
+    JField sourceField = sourcePatternDictionary.getFieldMap().get(targetField.getQualifiedName());
 
     map(sourceField, targetField);
     if (sourceField != null)
@@ -508,8 +504,7 @@ public class JMerger
   protected void pullTargetMethod(JMethod targetMethod)
   {
     String qualifiedTargetMethodName = targetMethod.getQualifiedName();
-    JMethod sourceMethod = 
-      (JMethod)sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
+    JMethod sourceMethod = sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
 
     if (sourceMethod == null && 
           getControlModel().getRedirect() != null && 
@@ -520,8 +515,7 @@ public class JMerger
       qualifiedTargetMethodName =
         qualifiedTargetMethodName.substring(0, index - getControlModel().getRedirect().length()) + 
           qualifiedTargetMethodName.substring(index);
-      sourceMethod = 
-        (JMethod)sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
+      sourceMethod = sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
     }
 
     map(sourceMethod, targetMethod);
@@ -590,9 +584,8 @@ public class JMerger
   {
     try
     {
-      for (Iterator pullRules = getControlModel().getPullRules().iterator(); pullRules.hasNext(); )
+      for (JControlModel.PullRule pullRule : getControlModel().getPullRules())
       {
-        JControlModel.PullRule pullRule = (JControlModel.PullRule)pullRules.next();
         if (sourcePatternDictionary.isMarkedUp(pullRule.getSourceMarkup(), sourceNode) && 
               targetPatternDictionary.isMarkedUp(pullRule.getTargetMarkup(), targetNode) && 
               pullRule.getSourceGetFeature().getFeatureClass().isInstance(sourceNode) &&
@@ -694,16 +687,16 @@ public class JMerger
               {
                 JMethod sourceMethod = (JMethod)sourceNode;
                 JMethod targetMethod = (JMethod)targetNode;
-                String [] sourceParameterNames = sourceMethod.getParameterNames();
-                String [] targetParameterTypes = targetMethod.getParameterTypes();
-                targetMethod.setParameters(targetParameterTypes, sourceParameterNames);
+                String[] sourceParameterNames = sourceMethod.getParameterNames();
+                targetMethod.setParameterNames(sourceParameterNames);
               }
             }
           }
+          // source method return type is array (getExceptions), target is not array (i.e. addException)
           else
           {
-            ArrayList additionalStrings = new ArrayList();
-            String [] sourceStrings = (String [])value;
+            ArrayList<String> additionalStrings = new ArrayList<String>();
+            String[] sourceStrings = (String[])value;
             if (sourceStrings != null)
             {
               additionalStrings.addAll(Arrays.asList(sourceStrings));
@@ -712,9 +705,9 @@ public class JMerger
             if (targetPutMethod.getName().equals("addSuperInterface"))
             {
               Pattern sourceTransfer = pullRule.getSourceTransfer();
-              if (sourceTransfer != null)
+              String comment = ((JMember)targetNode).getComment();
+              if (sourceTransfer != null && comment != null)
               {
-                String comment = ((JMember)targetNode).getComment();
                 Matcher matcher = sourceTransfer.matcher(comment);
                 while (matcher.find() && matcher.groupCount() >= 1)
                 {
@@ -734,21 +727,21 @@ public class JMerger
               }
 
               JType type = (JType)targetNode;
-              String [] superInterfaces = (String [])additionalStrings.toArray(new String [additionalStrings.size()]);
+              String[] superInterfaces = additionalStrings.toArray(new String[additionalStrings.size()]);
               if (type.getSuperInterfaces() == null ?
                    superInterfaces.length != 0 :
                    !Arrays.equals(type.getSuperInterfaces(), superInterfaces))
               {
-                type.setSuperInterfaces((String [])additionalStrings.toArray(new String [additionalStrings.size()]));
+                type.setSuperInterfaces(additionalStrings.toArray(new String[additionalStrings.size()]));
               }
             }
+            // target method is NOT addSuperInterface
             else
             {
               String [] oldStringValues = (String [])sourceGetMethod.invoke(targetNode, noArguments);
-              List old = oldStringValues == null ? Collections.EMPTY_LIST : Arrays.asList(oldStringValues);
-              for (Iterator i = additionalStrings.iterator(); i.hasNext(); )
+              List<String> old = oldStringValues == null ? Collections.<String>emptyList() : Arrays.<String>asList(oldStringValues);
+              for (String string : additionalStrings)
               {
-                String string = (String)i.next();
                 if (!old.contains(string))
                 {
                   targetPutMethod.invoke(targetNode, new Object [] { string });
@@ -775,9 +768,8 @@ public class JMerger
 
   protected void pushSourceCompilationUnit()
   {
-    for (Iterator i = sourceCompilationUnit.getChildren().iterator(); i.hasNext();)
+    for (JNode child : sourceCompilationUnit.getChildren())
     {
-      JNode child = (JNode)i.next();
       if (child instanceof JPackage)
       {
         pushSourcePackage((JPackage)child);
@@ -817,9 +809,8 @@ public class JMerger
     }
     else
     {
-      for (Iterator i = sourceType.getChildren().iterator(); i.hasNext();)
+      for (JNode child : sourceType.getChildren())
       {
-        JNode child = (JNode)i.next();
         if (child instanceof JInitializer)
         {
           pushSourceInitializer((JInitializer)child);
@@ -867,17 +858,16 @@ public class JMerger
 
   public void applySortRules(JNode sourceNode)
   {
-    for (Iterator sortRules = getControlModel().getSortRules().iterator(); sortRules.hasNext(); )
+    for (JControlModel.SortRule sortRule : getControlModel().getSortRules())
     {
-      JControlModel.SortRule sortRule = (JControlModel.SortRule)sortRules.next();
       if (sourcePatternDictionary.isMarkedUp(sortRule.getMarkup(), sourceNode)  &&
             sortRule.getSelector().isInstance(sourceNode))
       {
         JNode parent = sourceNode.getParent();
-        List children = (List)orderedSourceChildrenMap.get(parent);
+        List<JNode> children = orderedSourceChildrenMap.get(parent);
         if (children == null)
         {
-          children = new ArrayList();
+          children = new ArrayList<JNode>();
           orderedSourceChildrenMap.put(parent, children);
         }
         children.add(sourceNode);
@@ -891,24 +881,22 @@ public class JMerger
 
   protected void sweepTargetCompilationUnit()
   {
-    for (Iterator entries = targetToSourceMap.entrySet().iterator(); entries.hasNext(); )
+    for (Map.Entry<JNode, JNode> entry : targetToSourceMap.entrySet())
     {
-      Map.Entry entry = (Map.Entry)entries.next();
       if (entry.getValue() == null)
       {
-        applySweepRules((JNode)entry.getKey());
+        applySweepRules(entry.getKey());
       }
     }
   }
 
   protected void applySweepRules(JNode targetNode)
   {
-    for (Iterator sweepRules = getControlModel().getSweepRules().iterator(); sweepRules.hasNext(); )
+    for (JControlModel.SweepRule sweepRule : getControlModel().getSweepRules())
     {
-      JControlModel.SweepRule sweepRule = (JControlModel.SweepRule)sweepRules.next();
       if (sweepRule.getSelector() == JImport.class && targetNode instanceof JImport)
       {
-        if (sweepRule.getMarkup().matcher(((JNode)targetNode).getName()).find())
+        if (sweepRule.getMarkup().matcher(targetNode.getName()).find())
         {
           getControlModel().getFacadeHelper().remove(targetNode);
           break;
@@ -927,18 +915,17 @@ public class JMerger
 
   protected void sortTargetCompilationUnit()
   {
-    for (Iterator values = orderedSourceChildrenMap.values().iterator(); values.hasNext(); )
+    for (List<JNode> children : orderedSourceChildrenMap.values())
     {
-      List children = (List)values.next();
       if (children.size() > 2)
       {
-        Iterator i = children.iterator();
-        JNode sourceNode = (JNode)i.next();
-        JNode previousTargetNode = (JNode)sourceToTargetMap.get(sourceNode);
+        Iterator<JNode> i = children.iterator();
+        JNode sourceNode = i.next();
+        JNode previousTargetNode = sourceToTargetMap.get(sourceNode);
         do
         {
-          sourceNode = (JNode)i.next();
-          JNode nextTargetNode = (JNode)sourceToTargetMap.get(sourceNode);
+          sourceNode = i.next();
+          JNode nextTargetNode = sourceToTargetMap.get(sourceNode);
 
           boolean reorder = true;
           for (JNode domNode = getControlModel().getFacadeHelper().getPrevious(nextTargetNode); domNode != null; domNode = getControlModel().getFacadeHelper().getPrevious(domNode))
@@ -988,7 +975,7 @@ public class JMerger
         
     for (JNode previousNode = getControlModel().getFacadeHelper().getPrevious(sourceNode); previousNode != null; previousNode = getControlModel().getFacadeHelper().getPrevious(previousNode))
     {
-      JNode targetSibling = (JNode)sourceToTargetMap.get(previousNode);
+      JNode targetSibling = sourceToTargetMap.get(previousNode);
       if (targetSibling != null)
       {
         JNode targetNextSibling = getControlModel().getFacadeHelper().getNext(targetSibling);
@@ -1008,7 +995,7 @@ public class JMerger
     JNode sourceParent = sourceNode.getParent();
     if (sourceParent != null)
     {
-      JNode targetParent = (JNode)sourceToTargetMap.get(sourceParent);
+      JNode targetParent = sourceToTargetMap.get(sourceParent);
       JNode targetSibling = getControlModel().getFacadeHelper().getFirstChild(targetParent);
       if (targetSibling == null)
       {
