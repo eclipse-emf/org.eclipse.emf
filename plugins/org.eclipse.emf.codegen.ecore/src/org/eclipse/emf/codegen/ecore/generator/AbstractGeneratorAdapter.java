@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.6 2006/09/13 18:42:46 davidms Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.7 2006/11/01 21:29:42 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -623,7 +623,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       if (jControlModel.canMerge())
       {
         JMerger jMerger = new JMerger(jControlModel);
-        jMerger.setFixInterfaceBrace(true);
+        jMerger.setFixInterfaceBrace(jControlModel.getFacadeHelper().fixInterfaceBrace());
         jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(emitterResult));
 
         // Create a code formatter for this compilation unit, if needed.
