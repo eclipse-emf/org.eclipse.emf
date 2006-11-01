@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: AbstractJNode.java,v 1.2 2006/04/17 21:41:32 marcelop Exp $
+ * $Id: AbstractJNode.java,v 1.3 2006/11/01 21:21:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @since 2.2.0
@@ -132,5 +134,15 @@ public abstract class AbstractJNode implements JNode
     }
     result.append(")");
     return result.toString();
+  }
+  
+  public List<JNode> getChildren()
+  {
+    return Collections.<JNode>emptyList();
+  }  
+  
+  public int getFlags()
+  {
+    return FacadeFlags.DEFAULT;
   }  
 }
