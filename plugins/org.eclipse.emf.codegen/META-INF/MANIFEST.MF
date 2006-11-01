@@ -22,5 +22,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
- org.eclipse.debug.core
+ org.eclipse.debug.core,
+ org.eclipse.text
 Eclipse-LazyStart: true
