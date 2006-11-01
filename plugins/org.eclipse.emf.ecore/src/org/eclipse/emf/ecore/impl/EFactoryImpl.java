@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.20 2006/04/20 18:57:05 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.21 2006/11/01 19:03:19 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -263,7 +263,12 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
 
     if (eDataType instanceof EEnum)
     {
-      return ((EEnum)eDataType).getEEnumLiteralByLiteral(stringValue);
+      Object result = ((EEnum)eDataType).getEEnumLiteralByLiteral(stringValue);
+      if (result == null)
+      {
+        throw new IllegalArgumentException("The value '" + stringValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+      }
+      return result;
     }
 
     switch (ExtendedMetaData.INSTANCE.getWhiteSpaceFacet(eDataType))
