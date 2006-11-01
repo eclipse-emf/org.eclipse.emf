@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.30 2006/10/20 15:41:09 marcelop Exp $
+ * $Id: ModelImporter.java,v 1.31 2006/11/01 16:08:30 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -660,7 +660,7 @@ public abstract class ModelImporter extends ModelConverter
       GenPackage genPackage = (GenPackage)i.next();
       EPackage realEPackage = genPackage.getEcorePackage();
       EPackage referredEPackage = getReferredEPackage(genPackage);
-      if (referredEPackage != null)
+      if (referredEPackage != null && referredEPackage != realEPackage)
       {
         URI ecoreURI = realEPackage.eResource().getURI();
         Resource resource = resourceSet.createResource(ecoreURI);
