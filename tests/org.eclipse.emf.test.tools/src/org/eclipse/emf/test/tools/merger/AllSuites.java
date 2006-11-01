@@ -12,9 +12,9 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.13 2006/11/01 21:32:17 marcelop Exp $
+ * $Id: AllSuites.java,v 1.1 2006/11/01 21:32:17 marcelop Exp $
  */
-package org.eclipse.emf.test.tools;
+package org.eclipse.emf.test.tools.merger;
 
 
 
@@ -25,18 +25,17 @@ import junit.framework.TestSuite;
 public class AllSuites extends TestSuite
 {
   private static Test[] suites = new Test []{ 
-    org.eclipse.emf.test.tools.JETTest.suite()
-    ,org.eclipse.emf.test.tools.merger.AllSuites.suite()
-    ,org.eclipse.emf.test.tools.ant.AntTest.suite()
-    ,org.eclipse.emf.test.tools.converter.ConverterUtilTest.suite()
-    ,org.eclipse.emf.test.tools.importer.ImporterUtilTest.suite()
-    ,org.eclipse.emf.test.tools.importer.ModelImporterTest.suite()
-    ,org.eclipse.emf.test.tools.codegen.GenModelTest.suite()
+    org.eclipse.emf.test.tools.merger.ASTTest.suite()
+    ,org.eclipse.emf.test.tools.merger.DeprecatedJMergerTest.suite()
+    ,org.eclipse.emf.test.tools.merger.JMergerTest.suite()
+    ,org.eclipse.emf.test.tools.merger.JMergerASTTest.suite()    
+    ,org.eclipse.emf.test.tools.merger.FacadeTest.suite()
+    ,org.eclipse.emf.test.tools.merger.FacadeTest_Example1.suite()
   };
 
   public static Test suite()
   {
-    return new AllSuites("EMF Tools JUnit Test Suite");
+    return new AllSuites("EMF Merge Tests");
   }
 
   public AllSuites()

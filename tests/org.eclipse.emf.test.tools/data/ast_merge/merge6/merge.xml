@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options 
+	indent = "&#x9;"
+	xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+
+<!--
+  indent="&#x9;"
+  braceStyle="standard"	
+-->	
+	
+<!-- Dictionary patterns -->	
+	
+    <merge:dictionaryPattern
+      name="orderedMembers" 
+      select="Member/getComment" 
+      match="\s*@\s*(ordered)\s*\n"/>      
+
+<!-- Pull Rules -->
+
+ 		<merge:pull
+      sourceGet="Type/getFlags"
+      targetPut="Type/setFlags"/> 
+      
+ 		<merge:pull
+      sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)\n" 		
+      sourceGet="Type/getSuperInterfaces"
+      targetPut="Type/addSuperInterface"/> 
+
+<!-- Sort -->
+
+    <merge:sort markup="^ordered$" select="Member"/>    
+
+<!-- Sweep -->
+
+    <merge:sweep select="Member"/>    
+    <merge:sweep markup="^org.eclipse.emf.ecore.util.EObjectCompositeEList$" select="Import"/>      
+    <merge:sweep markup="^org.eclipse.emf.ecore.util.EObjectCompositeEListNew$" select="Import"/>          
+    
+</merge:options>

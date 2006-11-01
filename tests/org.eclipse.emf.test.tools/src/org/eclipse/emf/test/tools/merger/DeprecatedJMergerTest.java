@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.7 2006/10/16 16:56:27 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.8 2006/11/01 21:32:17 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -58,9 +58,14 @@ public class DeprecatedJMergerTest extends TestCase
     return ts;
   }
   
+  protected String getDataDirectory()
+  {
+    return TestUtil.getPluginDirectory() + "/data/" + getName();
+  }
+  
   protected void setUp() throws Exception
   {
-    String dir = TestUtil.getPluginDirectory() + "/data/" + getName();
+    String dir = getDataDirectory(); 
 
     mergeXML = new File(dir + "/merge.xml").getAbsoluteFile();
     assertTrue("Merge xml file is not available - " + mergeXML.getAbsolutePath(), mergeXML.isFile());

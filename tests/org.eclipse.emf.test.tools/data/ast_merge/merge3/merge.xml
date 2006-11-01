@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+	<merge:pull 
+		sourceGet="Method/getReturnType" 
+		targetPut="Method/setReturnType"/>
+
+    <merge:pull
+      sourceGet="CompilationUnit/getHeader"
+      targetPut="CompilationUnit/setHeader"/>
+</merge:options>

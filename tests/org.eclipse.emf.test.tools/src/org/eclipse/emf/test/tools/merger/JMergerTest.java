@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.11 2006/10/16 16:56:27 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.12 2006/11/01 21:32:17 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -57,14 +57,25 @@ public class JMergerTest extends DeprecatedJMergerTest
     return ts;
   }  
   
+  protected FacadeHelper instanciateFacadeHelper()
+  {
+    FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(JDOMFacadeHelper.class.getCanonicalName());
+    ((JDOMFacadeHelper)facadeHelper).setForcedSourceCompatibility(true);
+    return facadeHelper;
+  }
+  
+  protected void instanceTest(FacadeHelper facadeHelper)
+  {
+  	assertTrue(JDOMFacadeHelper.class.isInstance(facadeHelper));
+  }
+  
   protected String mergeFiles() throws Exception
   {
-    FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(JMerger.DEFAULT_FACADE_HELPER_CLASS);
-    assertTrue(facadeHelper instanceof JDOMFacadeHelper);
+    String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE); 
     
-    String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE);
-    ((JDOMFacadeHelper)facadeHelper).setForcedSourceCompatibility(true);
-    
+    FacadeHelper facadeHelper = instanciateFacadeHelper();
+    instanceTest(facadeHelper);
+
     JControlModel controlModel = new JControlModel();
     assertFalse(controlModel.canMerge());
     controlModel.initialize(facadeHelper, mergeXML.getAbsolutePath());

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options 
+  indent="  "
+  braceStyle="standard"
+	xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+	
+<!-- Dictionary patterns -->	
+	
+    <merge:dictionaryPattern
+      name="generatedMember" 
+      select="Member/getComment" 
+      match="\s*@\s*(gen)erated\s*\n"/>
+
+    <merge:dictionaryPattern
+      name="setSuperInterfaces" 
+      select="Member/getComment" 
+      match="\s*set (super) interfaces\s*\n"/>
+
+    <merge:dictionaryPattern
+      name="addSuperInterfaces" 
+      select="Member/getComment" 
+      match="\s*add (sup)er interfaces\s*\n"/>
+
+    <merge:dictionaryPattern
+      name="replaceComment" 
+      select="Member/getComment" 
+      match="\s*set this (comm)ent\s*\n"/>
+      
+    <merge:dictionaryPattern
+      name="replaceFlags" 
+      select="Member/getComment" 
+      match="\s*set these (flags)\s*\n"/>      
+
+<!-- Rules -->
+
+<!-- Compilation Unit -->
+
+    <merge:pull
+      sourceGet="CompilationUnit/getHeader"
+      targetPut="CompilationUnit/setHeader"/> 
+
+<!-- Member -->
+    
+    <merge:pull
+    	targetMarkup="^comm$"
+      sourceGet="Member/getComment"
+      targetPut="Member/setComment"/>
+
+    <merge:pull
+    	targetMarkup="^flags$"
+      sourceGet="Member/getFlags"
+      targetPut="Member/setFlags"/>
+      
+<!-- Type -->
+
+    <merge:pull
+      sourceGet="Type/getSuperclass"
+      targetPut="Type/setSuperclass"/>
+
+    <merge:pull
+    	targetMarkup="^super$"  
+      sourceGet="Type/getSuperInterfaces"
+      targetPut="Type/setSuperInterfaces"/>
+
+    <merge:pull
+    	targetMarkup="^sup$"  
+      sourceGet="Type/getSuperInterfaces"
+      targetPut="Type/addSuperInterface"/>
+      
+<!-- Method -->
+
+		<!-- setBody also sets parameters -->
+    <merge:pull
+			targetMarkup="^gen$"
+      sourceGet="Method/getBody"
+      targetPut="Method/setBody"/>   
+      
+	  <merge:pull 
+      sourceGet="Method/getExceptions"
+      targetPut="Method/setExceptions"/>           
+	
+		<merge:pull 
+			sourceGet="Method/getReturnType" 
+			targetPut="Method/setReturnType"/>
+      
+<!-- Field -->      
+      
+    <merge:pull 
+      sourceGet="Field/getInitializer"
+      targetPut="Field/setInitializer"/> 
+                   
+    <merge:pull 
+      sourceGet="Field/getType"
+      targetPut="Field/setType"/>   
+
+    <merge:pull 
+      sourceGet="Field/getFlags"
+      targetPut="Field/setFlags"/>   
+      
+<!-- Initializer -->  
+
+    <merge:pull 
+      sourceTransfer="(\s*//\s*begin-user-code.*?//\s*end-user-code\s*)\n"    
+      sourceGet="Initializer/getBody"
+      targetPut="Initializer/setBody"/>  
+      
+</merge:options>

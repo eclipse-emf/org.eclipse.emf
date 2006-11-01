@@ -38,6 +38,16 @@ class AnotherClass
  */
 public class Example1 extends EObjectImpl
 {
+	/**
+	   * Gets the boolean instance.  Now I will ask you to see 
+	   * something {@link EObjectImpl#eAdapters()}.  
+	   * @param b
+	   * @generated NOT
+	   */
+	  public Boolean getBooleanInstance() throws Exception
+	  {
+	    return booleanInstance == null ? Boolean.FALSE : booleanInstance;
+	  }
 	// A public inner class.  It is indented with TABs
 	public abstract class InnerClass implements Notification, org.eclipse.emf.common.notify.Notifier 
 	{
@@ -142,10 +152,9 @@ public class Example1 extends EObjectImpl
   // This is a simple comment
 
   //This is another simple comment
-  private static long[][] aMethodWithNoComments(int[] a)
+  private static long[][] aMethodWithNoComments(int[] a) throws RuntimeException, IllegalAccessError, java.lang.NullPointerException
   {
-     System.out.println("I don't do anything");
-     return null;
+    return Collections.EMPTY_LIST;
   }
   
   /**

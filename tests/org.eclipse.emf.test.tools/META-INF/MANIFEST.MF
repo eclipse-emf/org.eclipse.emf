@@ -19,5 +19,6 @@ Require-Bundle: org.apache.ant,
  org.eclipse.emf.codegen.ecore,
  org.eclipse.emf.importer,
  org.eclipse.jdt.core,
- org.junit
+ org.junit,
+ org.eclipse.text
 Eclipse-LazyStart: true
