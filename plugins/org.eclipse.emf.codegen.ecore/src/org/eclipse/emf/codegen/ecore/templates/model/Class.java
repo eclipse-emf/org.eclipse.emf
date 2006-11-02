@@ -1322,6 +1322,7 @@ public class Class
   protected final String TEXT_1305 = " container = eContainer();" + NL + "\t\treturn container == null ? null : (";
   protected final String TEXT_1306 = ")container.eGet(eContainmentFeature());" + NL + "\t}" + NL;
   protected final String TEXT_1307 = NL + "} //";
+  protected final String TEXT_1308 = NL;
 
   public String generate(Object argument)
   {
@@ -4291,6 +4292,7 @@ public class Class
     stringBuffer.append(isInterface ? " " + genClass.getInterfaceName() : genClass.getClassName());
     // TODO fix the space above
     genModel.emitSortedImports();
+    stringBuffer.append(TEXT_1308);
     return stringBuffer.toString();
   }
 }

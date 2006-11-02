@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.5 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.6 2006/11/02 16:21:57 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -32,4 +32,3 @@
 
 pluginName = <%=genModel.getModelName()%> Model
 providerName = www.example.org
-

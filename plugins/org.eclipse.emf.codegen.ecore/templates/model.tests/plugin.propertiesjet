@@ -32,4 +32,3 @@
 
 pluginName = <%=genModel.getModelName()%> Tests
 providerName = www.example.org
-

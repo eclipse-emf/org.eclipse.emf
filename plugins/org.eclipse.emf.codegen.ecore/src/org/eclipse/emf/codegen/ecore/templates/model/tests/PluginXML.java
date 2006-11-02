@@ -33,7 +33,7 @@ public class PluginXML
   protected final String TEXT_16 = ".jar\">";
   protected final String TEXT_17 = NL + "    <library name=\".\">";
   protected final String TEXT_18 = NL + "      <export name=\"*\"/>" + NL + "    </library>" + NL + "  </runtime>";
-  protected final String TEXT_19 = NL + "</plugin>" + NL;
+  protected final String TEXT_19 = NL + "</plugin>";
   protected final String TEXT_20 = NL;
 
   public String generate(Object argument)

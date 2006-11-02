@@ -24,6 +24,7 @@ public class BuildProperties
   protected final String TEXT_8 = NL + "source.";
   protected final String TEXT_9 = " = src/" + NL + "output.";
   protected final String TEXT_10 = " = bin/";
+  protected final String TEXT_11 = NL;
 
   public String generate(Object argument)
   {
@@ -64,6 +65,7 @@ public class BuildProperties
     stringBuffer.append(TEXT_9);
     stringBuffer.append(pluginClassesLocation);
     stringBuffer.append(TEXT_10);
+    stringBuffer.append(TEXT_11);
     return stringBuffer.toString();
   }
 }

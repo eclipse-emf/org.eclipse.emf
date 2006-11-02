@@ -49,7 +49,7 @@ public class PluginXML
   protected final String TEXT_32 = NL + NL + "  <extension point=\"org.eclipse.emf.ecore.extension_parser\">" + NL + "    <parser" + NL + "       type=\"";
   protected final String TEXT_33 = "\"" + NL + "       class=\"";
   protected final String TEXT_34 = "\" />" + NL + "  </extension>";
-  protected final String TEXT_35 = NL + NL + "</plugin>" + NL;
+  protected final String TEXT_35 = NL + NL + "</plugin>";
   protected final String TEXT_36 = NL;
 
   public String generate(Object argument)

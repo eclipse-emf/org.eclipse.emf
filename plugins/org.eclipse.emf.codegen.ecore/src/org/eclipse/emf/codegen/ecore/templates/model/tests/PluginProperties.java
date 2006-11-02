@@ -18,7 +18,7 @@ public class PluginProperties
   protected final String TEXT_2 = "# <copyright>" + NL + "# </copyright>" + NL + "#" + NL + "# ";
   protected final String TEXT_3 = "Id";
   protected final String TEXT_4 = NL + NL + "# ====================================================================" + NL + "# To code developer:" + NL + "#   Do NOT change the properties between this line and the" + NL + "#   \"%%% END OF TRANSLATED PROPERTIES %%%\" line." + NL + "#   Make a new property name, append to the end of the file and change" + NL + "#   the code to use the new property." + NL + "# ====================================================================" + NL + "" + NL + "# ====================================================================" + NL + "# %%% END OF TRANSLATED PROPERTIES %%%" + NL + "# ====================================================================" + NL + "" + NL + "pluginName = ";
-  protected final String TEXT_5 = " Tests" + NL + "providerName = www.example.org" + NL;
+  protected final String TEXT_5 = " Tests" + NL + "providerName = www.example.org";
   protected final String TEXT_6 = NL;
 
   public String generate(Object argument)
