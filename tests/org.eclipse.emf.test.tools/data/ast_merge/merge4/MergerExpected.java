@@ -189,9 +189,7 @@ private class EchoSoapBindingImpl extends echo.EchoBindingImpl   implements echo
     NullPointerException,
     IllegalArgumentException,
   //end-user-code  
-    TestS
-  
-  {
+    TestS {
     // begin-user-code
     System.out.println("Source user code 3");
     // end-user-code    
