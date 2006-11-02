@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.12 2006/11/01 21:32:17 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.13 2006/11/02 17:18:34 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -83,7 +83,7 @@ public class JMergerTest extends DeprecatedJMergerTest
     JMerger jMerger = new JMerger(controlModel);
 
     // set source
-    jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(source, false)));
+    jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(source, true)));
     
     // set target
     if (target.isFile())
