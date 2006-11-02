@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.1 2006/05/10 20:21:29 marcelop Exp $
+ * $Id: WriterImpl.java,v 1.2 2006/11/02 16:22:25 marcelop Exp $
  */
 package org.examples.library.impl;
 

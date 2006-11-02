@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PersonImpl.java,v 1.2 2006/07/07 17:22:37 marcelop Exp $
+ * $Id: PersonImpl.java,v 1.3 2006/11/02 16:22:26 marcelop Exp $
  */
 package org.examples.hr.impl;
 

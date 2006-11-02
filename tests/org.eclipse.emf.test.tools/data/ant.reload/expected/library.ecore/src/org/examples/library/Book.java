@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Book.java,v 1.2 2006/07/07 17:22:34 marcelop Exp $
+ * $Id: Book.java,v 1.3 2006/11/02 16:22:25 marcelop Exp $
  */
 package org.examples.library;
 

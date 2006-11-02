@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.6 2005/06/08 22:25:17 marcelop Exp $
+ $Id: plugin.xml,v 1.7 2006/11/02 16:22:25 marcelop Exp $
 -->
 
 <plugin>
@@ -17,4 +17,3 @@
   </extension>
 
 </plugin>
-
