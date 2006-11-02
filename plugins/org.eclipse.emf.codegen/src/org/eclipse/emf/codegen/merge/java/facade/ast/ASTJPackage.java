@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJPackage.java,v 1.2 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: ASTJPackage.java,v 1.3 2006/11/02 18:03:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -49,5 +49,17 @@ public class ASTJPackage extends ASTJNode implements JPackage
   public String getName()
   {
     return ASTFacadeHelper.toString(getASTPackageDeclaration().getName());
+  }
+  
+  @Override
+  public String getContents()
+  {
+    String content = super.getContents();
+    String header = getFacadeHelper().getCompilationUnit(this).getHeader();
+    if (header != null)
+    {
+      content = content.substring(header.length());
+    }
+    return content;
   }
 }
