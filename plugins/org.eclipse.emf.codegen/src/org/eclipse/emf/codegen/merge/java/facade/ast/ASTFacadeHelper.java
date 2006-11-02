@@ -12,17 +12,13 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.2 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.3 2006/11/02 18:02:27 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.codegen.CodeGenPlugin;
-import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
-import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
-import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.AST;
@@ -44,6 +40,11 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+
+import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
+import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
+import org.eclipse.emf.codegen.merge.java.facade.JNode;
 
 /**
  * @since 2.2.0
@@ -238,8 +239,8 @@ public class ASTFacadeHelper extends FacadeHelper
     Map javaCoreOptions = JavaCore.getOptions();
 
     // TODO add functionality to set source and compliance options
-//    javaCoreOptions.put(CompilerOptions.OPTION_Source, "1.5");
-//    javaCoreOptions.put(CompilerOptions.OPTION_Compliance, "1.5");
+    //javaCoreOptions.put(JavaCore.COMPILER_SOURCE, "1.5");
+    //javaCoreOptions.put(JavaCore.COMPILER_COMPLIANCE, "1.5");
     
     if (getControlModel() != null)
     {
