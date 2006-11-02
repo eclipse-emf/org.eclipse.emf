@@ -15,6 +15,11 @@
 
   // line comment1 
 
+/**
+ * A javadoc
+ */
+
+  
 package org.eclipse.emf.test.tools.merger;
 
 import java.util.Collections;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeTest_Example1.java,v 1.6 2006/11/02 18:04:54 marcelop Exp $
+ * $Id: FacadeTest_Example1.java,v 1.7 2006/11/02 20:41:39 marcelop Exp $
  */
 
 package org.eclipse.emf.test.tools.merger;
@@ -174,7 +174,11 @@ public class FacadeTest_Example1 extends TestCase
     expectedHeader.append("\n").append(" * </copyright>");
     expectedHeader.append("\n").append(" */");
     expectedHeader.append("\n").append("\n  // line comment1 ");
-    expectedHeader.append("\n").append("\n");
+    expectedHeader.append("\n").append("\n/**");
+    expectedHeader.append("\n").append(" * A javadoc");
+    expectedHeader.append("\n").append(" */");
+    expectedHeader.append("\n").append("\n  ");
+    expectedHeader.append("\n");
     if (testHeader) assertContentEquals(expectedHeader.toString(), compilationUnit.getHeader());
   }
   
