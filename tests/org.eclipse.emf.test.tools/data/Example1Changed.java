@@ -12,6 +12,9 @@
  *
  * </copyright>
  */
+
+  // line comment1 
+
 package org.eclipse.emf.test.tools.merger;
 
 import java.util.Collections;
