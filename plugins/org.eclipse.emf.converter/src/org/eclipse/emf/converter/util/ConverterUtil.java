@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConverterUtil.java,v 1.4 2006/10/16 03:25:57 davidms Exp $
+ * $Id: ConverterUtil.java,v 1.5 2006/11/03 11:39:17 emerks Exp $
  */
 package org.eclipse.emf.converter.util;
 
@@ -106,7 +106,7 @@ public class ConverterUtil
       org.eclipse.core.resources.IWorkspaceRoot workspaceRoot= workspace.getRoot();
       
       List workspaceFiles = new ArrayList(emfResources.size());
-      List extenalFiles = new ArrayList(emfResources.size());
+      List externalFiles = new ArrayList(emfResources.size());
       for (Iterator i = emfResources.iterator(); i.hasNext();)
       {
         Resource resource = (Resource)i.next();
@@ -116,7 +116,7 @@ public class ConverterUtil
           File file = new File(uri.toFileString());
           if (file.isFile() && !file.canWrite())
           {
-            extenalFiles.add(file);
+            externalFiles.add(file);
           }        
         }
         else if (uri.isPlatformResource())
@@ -151,9 +151,9 @@ public class ConverterUtil
           }
         }
       }
-      if (!extenalFiles.isEmpty())
+      if (!externalFiles.isEmpty())
       {
-        for (Iterator i = extenalFiles.iterator(); i.hasNext();)
+        for (Iterator i = externalFiles.iterator(); i.hasNext();)
         {
           File file = (File)i.next();
           readOnlyFiles.append(", ").append(file.getAbsolutePath());
