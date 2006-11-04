@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFSaveImpl.java,v 1.5 2005/06/08 06:16:07 nickb Exp $
+ * $Id: EMOFSaveImpl.java,v 1.6 2006/11/04 16:04:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -194,22 +194,40 @@ public class EMOFSaveImpl extends XMISaveImpl
             for (Iterator iter = values.basicIterator(); iter.hasNext(); )
             {
               EObject value = (EObject)iter.next();
-              doc.startElement(EMOFExtendedMetaData.EMOF_TAG_ELEMENT);
-              doc.addAttribute(XMLResource.HREF, helper.getHREF(value));
-              doc.endEmptyElement();
+              String href = helper.getHREF(value);
+              if (href != null)
+              {
+                doc.startElement(EMOFExtendedMetaData.EMOF_TAG_ELEMENT);
+                doc.addAttribute(XMLResource.HREF, href);
+                doc.endEmptyElement();
+              }
             }
           }
           else
           {
             StringBuffer ids = new StringBuffer();
+            boolean failed = true;
             for (Iterator iter = values.basicIterator();; )
             {
               EObject value = (EObject)iter.next();
-              ids.append(helper.getIDREF(value));
-              if (!iter.hasNext()) break;
-              ids.append(" ");
+              String idref =  helper.getIDREF(value);
+              if (idref == null)
+              {
+                failed = true;
+                if (!iter.hasNext()) break;
+              }
+              else
+              {
+                ids.append(idref);
+                if (!iter.hasNext()) break;
+                ids.append(' ');
+              }
             }
-            doc.addAttribute(EMOFExtendedMetaData.EMOF_TAG_ELEMENT, ids.toString());
+            String idsString = ids.toString();
+            if (!failed || (idsString = idsString.trim()).length() != 0)
+            {
+              doc.addAttribute(EMOFExtendedMetaData.EMOF_TAG_ELEMENT, ids.toString());
+            }
           }
         }
         doc.endElement();

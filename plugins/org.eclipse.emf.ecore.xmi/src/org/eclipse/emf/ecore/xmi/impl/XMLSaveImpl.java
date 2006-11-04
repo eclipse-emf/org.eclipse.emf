@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.62 2006/10/23 12:47:23 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.63 2006/11/04 16:04:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -741,7 +741,7 @@ public class XMLSaveImpl implements XMLSave
             else
             {
               xsiNoNamespaceSchemaLocation = helper.getHREF(ePackage);
-              if (xsiNoNamespaceSchemaLocation.endsWith("#/"))
+              if (xsiNoNamespaceSchemaLocation != null && xsiNoNamespaceSchemaLocation.endsWith("#/"))
               {
                 xsiNoNamespaceSchemaLocation = xsiNoNamespaceSchemaLocation.substring(0, xsiNoNamespaceSchemaLocation.length() - 2);
               }
@@ -1741,7 +1741,7 @@ public class XMLSaveImpl implements XMLSave
           if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && expectedType.isAbstract())
           {
             buffer.append(helper.getQName(eClass));
-            buffer.append(" ");
+            buffer.append(' ');
           }
         }
         buffer.append(id);
@@ -1771,11 +1771,20 @@ public class XMLSaveImpl implements XMLSave
     if (!values.isEmpty())
     {
       buffer.setLength(0);
+      boolean failure = false;
       for (Iterator i = values.basicIterator();;)
       {
         EObject value = (EObject)i.next();
         String id = helper.getHREF(value);
-        if (id != null)
+        if (id == null)
+        {
+          failure = true;
+          if (!i.hasNext())
+          {
+            break;
+          }
+        }
+        else
         {
           if (escapeURI != null)
           {
@@ -1788,35 +1797,39 @@ public class XMLSaveImpl implements XMLSave
             if (saveTypeInfo ? xmlTypeInfo.shouldSaveType(eClass, expectedType, f) : eClass != expectedType && expectedType.isAbstract())
             {
               buffer.append(helper.getQName(eClass));
-              buffer.append(" ");
+              buffer.append(' ');
             }
           }
           buffer.append(id);
-        }
-        if (i.hasNext())
-        {
-          buffer.append(" ");
-        }
-        else
-        {
-          break;
+          if (i.hasNext())
+          {
+            buffer.append(' ');
+          }
+          else
+          {
+            break;
+          }
         }
       }
 
-      if (!toDOM)
+      String string = buffer.toString();
+      if (!failure || (string = string.trim()).length() != 0)
       {
-        String name = helper.getQName(f);
-        doc.startAttribute(name);
-        doc.addAttributeContent(buffer.toString());
-        doc.endAttribute();
-      }
-      else
-      {
-        helper.populateNameInfo(nameInfo, f);
-        Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
-        attr.setNodeValue(buffer.toString());      
-        ((Element)currentNode).setAttributeNodeNS(attr);
-        handler.recordValues(attr, o, f, values);
+        if (!toDOM)
+        {
+          String name = helper.getQName(f);
+          doc.startAttribute(name);
+          doc.addAttributeContent(string);
+          doc.endAttribute();
+        }
+        else
+        {
+          helper.populateNameInfo(nameInfo, f);
+          Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+          attr.setNodeValue(string);
+          ((Element)currentNode).setAttributeNodeNS(attr);
+          handler.recordValues(attr, o, f, values);
+        }
       }
     }
   }
@@ -1827,19 +1840,22 @@ public class XMLSaveImpl implements XMLSave
     if (value != null)
     {
       String id = helper.getIDREF(value);
-      if (!toDOM)
+      if (id != null)
       {
-        String name = helper.getQName(f);       
-        doc.addAttribute(name, id);
+        if (!toDOM)
+        {
+          String name = helper.getQName(f);       
+          doc.addAttribute(name, id);
+        }
+        else
+        {
+          helper.populateNameInfo(nameInfo, f);  
+          Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+          attr.setNodeValue(id);      
+          ((Element)currentNode).setAttributeNodeNS(attr);
+          handler.recordValues(attr, o, f, value);
+        }    
       }
-      else
-      {
-        helper.populateNameInfo(nameInfo, f);  
-        Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
-        attr.setNodeValue(id);      
-        ((Element)currentNode).setAttributeNodeNS(attr);
-        handler.recordValues(attr, o, f, value);
-      }    
     }
   }
 
@@ -1850,32 +1866,48 @@ public class XMLSaveImpl implements XMLSave
     {     
       buffer.setLength(0);
       StringBuffer ids = buffer;
+      boolean failure = false;
       for (Iterator i = values.basicIterator();;)
       {
         EObject value = (EObject)i.next();
         String id = helper.getIDREF(value);
-        ids.append(id);
-        if (i.hasNext())
+        if (id == null)
         {
-          ids.append(" ");
+          failure = true;
+          if (!i.hasNext())
+          {
+            break;
+          }
         }
         else
         {
-          break;
+          ids.append(id);
+          if (i.hasNext())
+          {
+            ids.append(' ');
+          }
+          else
+          {
+            break;
+          }
         }
       }
-      if (!toDOM)
+      String idsString = ids.toString();
+      if (!failure || (idsString = idsString.trim()).length() != 0)
       {
-        String name = helper.getQName(f);
-        doc.addAttribute(name, ids.toString());
-      }
-      else
-      {
-        helper.populateNameInfo(nameInfo, f);
-        Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
-        attr.setNodeValue(ids.toString());      
-        ((Element)currentNode).setAttributeNodeNS(attr);
-        handler.recordValues(attr, o, f, values);
+        if (!toDOM)
+        {
+          String name = helper.getQName(f);
+          doc.addAttribute(name, idsString);
+        }
+        else
+        {
+          helper.populateNameInfo(nameInfo, f);
+          Attr attr = document.createAttributeNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+          attr.setNodeValue(idsString);      
+          ((Element)currentNode).setAttributeNodeNS(attr);
+          handler.recordValues(attr, o, f, values);
+        }
       }
     }
   }
@@ -1943,15 +1975,18 @@ public class XMLSaveImpl implements XMLSave
   {
     EObject value = (EObject)helper.getValue(o, f);
     String svalue = helper.getHREF(value);   
-    if (escapeURI != null && svalue != null)
+    if (svalue != null)
     {
-      svalue = escapeURI.convert(svalue);
-    }
-    if (toDOM)
-    {            
-      Node text = document.createTextNode(svalue);
-      currentNode.appendChild(text);
-      handler.recordValues(text, o, f, value);
+      if (escapeURI != null)
+      {
+        svalue = escapeURI.convert(svalue);
+      }
+      if (toDOM)
+      {            
+        Node text = document.createTextNode(svalue);
+        currentNode.appendChild(text);
+        handler.recordValues(text, o, f, value);
+      }
     }
     return svalue;
   }
@@ -1963,24 +1998,39 @@ public class XMLSaveImpl implements XMLSave
     StringBuffer result = buffer;
     int size = values.size();
     String href = null;
+    boolean failure = false;
     for (int i = 0; i < size; i++)
     {
       href = helper.getHREF(((EObject)values.basicGet(i)));
-      if (escapeURI != null && href != null)
+      if (href == null)
       {
-        href = escapeURI.convert(href);
+        failure = true;
       }
-      result.append(href);
-      result.append(' ');
+      else
+      {
+        if (escapeURI != null)
+        {
+          href = escapeURI.convert(href);
+        }
+        result.append(href);
+        result.append(' ');
+      }
     }
     String svalue = result.substring(0, result.length() - 1);
-    if (toDOM)
-    {            
-      Node text = document.createTextNode(svalue);
-      currentNode.appendChild(text);
-      handler.recordValues(text, o, f, values);
+    if (failure && (svalue = svalue.trim()).length() == 0)
+    {
+      return null;
     }
-    return svalue;
+    else
+    {
+      if (toDOM)
+      {            
+        Node text = document.createTextNode(svalue);
+        currentNode.appendChild(text);
+        handler.recordValues(text, o, f, values);
+      }
+      return svalue;
+    }
   }
   
   protected void saveElementIDRef(EObject o, EObject target, EStructuralFeature f)
@@ -1992,13 +2042,16 @@ public class XMLSaveImpl implements XMLSave
     else
     {
       String id = helper.getIDREF(target);
-      helper.populateNameInfo(nameInfo, f);
-      Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
-      Node text = document.createTextNode(id);
-      elem.appendChild(text);
-      currentNode.appendChild(elem);
-      handler.recordValues(elem, o, f, target);
-      handler.recordValues(text, o, f, target);
+      if (id != null)
+      {
+        helper.populateNameInfo(nameInfo, f);
+        Element elem = document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName());
+        Node text = document.createTextNode(id);
+        elem.appendChild(text);
+        currentNode.appendChild(elem);
+        handler.recordValues(elem, o, f, target);
+        handler.recordValues(text, o, f, target);
+      }
     }
   }
 
@@ -2006,7 +2059,10 @@ public class XMLSaveImpl implements XMLSave
   {
     String name = helper.getQName(f);
     String id = helper.getIDREF(target);
-    doc.saveDataValueElement(name, id);
+    if (id != null)
+    {
+      doc.saveDataValueElement(name, id);
+    }
   }
 
   protected void saveElementIDRefSingle(EObject o, EStructuralFeature f)
@@ -2032,13 +2088,20 @@ public class XMLSaveImpl implements XMLSave
   {
     EObject value = (EObject)helper.getValue(o, f);
     String svalue = helper.getIDREF(value);
-    if (toDOM)
-    {            
-      Node text = document.createTextNode(svalue);
-      currentNode.appendChild(text);
-      handler.recordValues(text, o, f, value);
+    if (svalue == null)
+    {
+      return null;
     }
-    return svalue;
+    else
+    {
+      if (toDOM)
+      {
+        Node text = document.createTextNode(svalue);
+        currentNode.appendChild(text);
+        handler.recordValues(text, o, f, value);
+      }
+      return svalue;
+    }
   }
 
   protected String getElementIDRefManySimple(EObject o, EStructuralFeature f)
@@ -2046,19 +2109,35 @@ public class XMLSaveImpl implements XMLSave
     InternalEList values = (InternalEList)helper.getValue(o, f);
     buffer.setLength(0);
     StringBuffer result = buffer;
+    boolean failure = false;
     for (int i = 0, size = values.size(); i < size; i++)
     {
-      result.append(helper.getIDREF((EObject)values.basicGet(i)));
-      result.append(' ');
+      String idref = helper.getIDREF((EObject)values.basicGet(i));
+      if (idref == null)
+      {
+        failure = true;
+      }
+      else
+      {
+        result.append(idref);
+        result.append(' ');
+      }
     }
     String svalue = result.substring(0, result.length() - 1);
-    if (toDOM)
+    if (failure && (svalue = svalue.trim()).length() == 0)
     {
-      Node text = document.createTextNode(svalue);
-      currentNode.appendChild(text);
-      handler.recordValues(text, o, f, values);
+      return null;
     }
-    return svalue;
+    else
+    {
+      if (toDOM)
+      {
+        Node text = document.createTextNode(svalue);
+        currentNode.appendChild(text);
+        handler.recordValues(text, o, f, values);
+      }
+      return svalue;
+    }
   }
 
 /*

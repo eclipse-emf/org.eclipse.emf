@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.10 2006/06/10 13:18:44 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.11 2006/11/04 16:04:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -82,7 +82,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
   public String getHREF(EObject obj)
   {
     String href = super.getHREF(obj);
-    if (href.startsWith(EMOFExtendedMetaData.ECORE_EDATATYPE_HREF_PREFIX))
+    if (href != null && href.startsWith(EMOFExtendedMetaData.ECORE_EDATATYPE_HREF_PREFIX))
     {
       String dataType = href.substring(EMOFExtendedMetaData.ECORE_EDATATYPE_HREF_PREFIX.length());
       for (int i = 0; i < EMOFExtendedMetaData.MAPPED_ECORE_EDATATYPES.length; i++)

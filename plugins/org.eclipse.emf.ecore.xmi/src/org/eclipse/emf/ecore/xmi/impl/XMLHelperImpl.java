@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.34 2006/05/12 15:50:44 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.35 2006/11/04 16:04:12 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -665,6 +665,14 @@ public class XMLHelperImpl implements XMLHelper
         result += "?" + query + "?";
       }
     }
+    else if ("/-1".equals(result))
+    {
+      if (object.eResource() != containingResource)
+      {
+        URI uriResult = handleDanglingHREF(object);
+        return uriResult == null || !uriResult.hasFragment() ? null : uriResult.fragment();
+      }
+    }
     return result;
   }
 
@@ -679,14 +687,17 @@ public class XMLHelperImpl implements XMLHelper
     {
       DanglingHREFException exception = new DanglingHREFException(
         "The object '" + object + "' is not contained in a resource.", 
-        resource.getURI() == null ? "unknown" : resource.getURI().toString(), 0, 0);
+        resource == null || resource.getURI() == null ? "unknown" : resource.getURI().toString(), 0, 0);
  
       if (danglingHREFException == null)
       {
         danglingHREFException = exception;
       }
    
-      resource.getErrors().add(exception);
+      if (resource != null)
+      {
+        resource.getErrors().add(exception);
+      }
     }
 
     return null;
