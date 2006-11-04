@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreTest.java,v 1.3 2005/06/08 06:20:41 nickb Exp $
+ * $Id: XSD2EcoreTest.java,v 1.4 2006/11/04 15:58:33 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -100,9 +100,9 @@ public class XSD2EcoreTest extends TestCase
 
     // Add in the right order the files to compare with the output
     
-    ecorefiles.add(BASE_ECORE_URI + "org.eclipse.emf.test.models.order.ecore");
-    ecorefiles.add(BASE_ECORE_URI + "org.eclipse.emf.test.models.customer.ecore");
     ecorefiles.add(BASE_ECORE_URI + "org.eclipse.emf.test.models.movie.db.ecore");
+    ecorefiles.add(BASE_ECORE_URI + "org.eclipse.emf.test.models.customer.ecore");
+    ecorefiles.add(BASE_ECORE_URI + "org.eclipse.emf.test.models.order.ecore");
   }
 
   /**
