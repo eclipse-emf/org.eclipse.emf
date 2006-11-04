@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.18 2006/09/18 15:47:04 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.19 2006/11/04 16:02:39 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -39,6 +39,7 @@ import org.eclipse.emf.common.notify.impl.NotificationImpl;
 import org.eclipse.emf.common.notify.impl.NotifierImpl;
 import org.eclipse.emf.common.notify.impl.NotifyingListImpl;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -195,6 +196,13 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   protected boolean isLoading;
   
+  /**
+   * A copy of the {@link #contents contents} list while the contents are being {@link #unload() unloaded}.
+   * I.e., if this is not <code>null</code>, then the resource is in the process of unloading.
+   * @see #unload()
+   */
+  protected List unloadingContents;
+
   /**
    * The modification tracking adapter.
    * @see #isTrackingModification
@@ -585,23 +593,30 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     else
     {
       InternalEObject internalEObject = (InternalEObject)eObject;
-      if (internalEObject.eDirectResource() == this)
+      if (internalEObject.eDirectResource() == this || unloadingContents != null && unloadingContents.contains(internalEObject))
       {
         return "/" + getURIFragmentRootSegment(eObject);
       }
       else
       {
         List uriFragmentPath = new ArrayList();
+        boolean isContained = false;
         for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
         {
           uriFragmentPath.add(container.eURIFragmentSegment(internalEObject.eContainingFeature(), internalEObject));
           internalEObject = container;
-          if (container.eDirectResource() == this)
+          if (container.eDirectResource() == this || unloadingContents != null && unloadingContents.contains(container))
           {
+            isContained = true;
             break;
           }
         }
-  
+        
+        if (!isContained)
+        {
+          return "/-1";
+        }
+
         StringBuffer result = new StringBuffer("/");
         result.append(getURIFragmentRootSegment(internalEObject));
   
@@ -1200,7 +1215,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   protected void doUnload()
   {
-    Iterator allContents = getAllProperContents(new ArrayList(getContents()));
+    Iterator allContents = getAllProperContents(unloadingContents);
 
     // This guard is needed to ensure that clear doesn't make the resource become loaded.
     //
@@ -1224,11 +1239,19 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   {
     if (isLoaded)
     {
+      unloadingContents = new BasicEList.FastCompare(getContents());
       Notification notification = setLoaded(false);
-      doUnload();
-      if (notification != null)
+      try
       {
-        eNotify(notification);
+        doUnload();
+      }
+      finally
+      {
+        unloadingContents = null;
+        if (notification != null)
+        {
+          eNotify(notification);
+        }
       }
     }
   }
