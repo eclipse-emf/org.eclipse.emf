@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ChangeNotifier.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: ChangeNotifier.java,v 1.3 2006/11/04 16:00:12 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -37,10 +36,14 @@ public class ChangeNotifier extends ArrayList implements IChangeNotifier
    */
   public void fireNotifyChanged(Notification notification)
   {
-    for (Iterator listeners = new ArrayList(this).iterator(); listeners.hasNext(); )
+    int size = size();
+    INotifyChangedListener [] listeners = new INotifyChangedListener[size];
+    toArray(listeners);
+    int expectedModCount = modCount;
+    for (int i = 0; i < size; ++i)
     {
-      INotifyChangedListener notifyChangedListener = (INotifyChangedListener)listeners.next();
-      if (this.contains(notifyChangedListener))
+      INotifyChangedListener notifyChangedListener = listeners[i];
+      if (expectedModCount == modCount || this.contains(notifyChangedListener))
       {
         notifyChangedListener.notifyChanged(notification);
       }
