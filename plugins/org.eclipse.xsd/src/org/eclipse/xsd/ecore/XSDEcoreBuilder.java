@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.71 2006/08/15 16:04:41 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.72 2006/11/04 15:58:32 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -79,9 +80,9 @@ public class XSDEcoreBuilder extends MapBuilder
   protected List simpleDiagnostics;
   protected List diagnostics;
   protected List xsdSchemas = new UniqueEList();
-  protected Map targetNamespaceToEPackageMap = new HashMap();
+  protected Map targetNamespaceToEPackageMap = new LinkedHashMap();
   protected ExtendedMetaData extendedMetaData;
-  protected Map eReferenceToOppositeNameMap = new HashMap();
+  protected Map eReferenceToOppositeNameMap = new LinkedHashMap();
   protected Map typeToTypeObjectMap = new HashMap();
 
   public XSDEcoreBuilder()
