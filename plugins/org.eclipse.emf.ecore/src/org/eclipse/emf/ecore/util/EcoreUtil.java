@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.47 2006/09/07 13:20:17 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.48 2006/11/05 13:16:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -398,6 +398,11 @@ public class EcoreUtil
     protected boolean resolveProxies = true;
 
     /**
+     * Whether non-copied references should be used during copying.
+     */
+    protected boolean useOriginalReferences = true;
+
+    /**
      * Creates an instance.
      */
     public Copier()
@@ -411,6 +416,17 @@ public class EcoreUtil
     public Copier(boolean resolveProxies)
     {
       this.resolveProxies = resolveProxies;
+    }
+
+    /**
+     * Creates an instance that resolves proxies or not and uses non-copied references or not as specified.
+     * @param resolveProxies whether proxies should be resolved while copying.
+     * @param useOriginalReferences whether non-copied references should be used while copying.
+     */
+    public Copier(boolean resolveProxies, boolean useOriginalReferences)
+    {
+      this.resolveProxies = resolveProxies;
+      this.useOriginalReferences = useOriginalReferences;
     }
 
     /**
@@ -628,7 +644,7 @@ public class EcoreUtil
                   if (copyReferencedEObject == null && referencedEObject != null)
                   {
                     EReference reference = (EReference)feature;
-                    if (reference.isContainment() || reference.getEOpposite() != null)
+                    if (!useOriginalReferences || reference.isContainment() || reference.getEOpposite() != null)
                     {
                       continue;
                     }
@@ -690,7 +706,7 @@ public class EcoreUtil
               Object copyReferencedEObject = get(referencedEObject);
               if (copyReferencedEObject == null)
               {
-                if (!isBidirectional)
+                if (useOriginalReferences && !isBidirectional)
                 {
                   target.addUnique(index, referencedEObject);
                   ++index;
@@ -731,7 +747,7 @@ public class EcoreUtil
             Object copyReferencedEObject = get(referencedEObject);
             if (copyReferencedEObject == null)
             {
-              if (eReference.getEOpposite() == null)
+              if (useOriginalReferences && eReference.getEOpposite() == null)
               {
                 copyEObject.eSet(getTarget(eReference), referencedEObject);
               }
