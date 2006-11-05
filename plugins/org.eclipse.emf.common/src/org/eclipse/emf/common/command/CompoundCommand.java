@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CompoundCommand.java,v 1.3 2005/06/08 05:44:08 nickb Exp $
+ * $Id: CompoundCommand.java,v 1.4 2006/11/05 13:47:53 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -558,6 +558,11 @@ public class CompoundCommand extends AbstractCommand
    */
   public void append(Command command) 
   {
+    if (isPrepared)
+    {
+      throw new IllegalStateException("The command is already prepared");
+    }
+
     if (command != null)
     {
       commandList.add(command);
