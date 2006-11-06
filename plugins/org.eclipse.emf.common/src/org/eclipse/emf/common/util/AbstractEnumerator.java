@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,15 +12,21 @@
  *
  * </copyright>
  *
- * $Id: AbstractEnumerator.java,v 1.3 2005/10/28 13:57:55 davidms Exp $
+ * $Id: AbstractEnumerator.java,v 1.4 2006/11/06 16:02:26 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
 
 /**
  * An extensible enumerator implementation.
  */
-public abstract class AbstractEnumerator implements Enumerator
+public abstract class AbstractEnumerator implements Enumerator, Serializable
 {
   /**
    * The name of the enumerator.
@@ -92,8 +98,57 @@ public abstract class AbstractEnumerator implements Enumerator
    * Returns the literal value of the enumerator, which is its string representation.
    * @return the literal.
    */
+  @Override
   public final String toString()
   {
     return literal;
+  }
+
+  private static class AbstractEnumeratorExternalizeable implements Externalizable
+  {
+    protected AbstractEnumerator enumerator;
+
+    public AbstractEnumeratorExternalizeable()
+    {
+    }
+
+    public AbstractEnumeratorExternalizeable(AbstractEnumerator enumerator)
+    {
+      this.enumerator = enumerator;
+    }
+
+    public void writeExternal(ObjectOutput objectOutput) throws IOException
+    {
+      objectOutput.writeObject(enumerator.getClass());
+      objectOutput.writeUTF(enumerator.getName());
+    }
+
+    private static final Class<?> [] SIGNATURE = new Class [] { String.class };
+
+    public void readExternal(ObjectInput objectInput) throws IOException, ClassNotFoundException
+    {
+      Class<?> _class = (Class<?>)objectInput.readObject();
+      String name = objectInput.readUTF();
+      try
+      {
+        enumerator = (AbstractEnumerator)_class.getMethod("get", SIGNATURE).invoke(null, new Object [] { name });
+      }
+      catch (Exception exception)
+      {
+        IOException ioException = new IOException();
+        ioException.initCause(exception);
+        throw ioException;
+      }
+    }
+
+    protected Object readResolve()
+    {
+      return enumerator;
+    } 
+  }
+
+  protected Object writeReplace() throws ObjectStreamException
+  {
+    return new AbstractEnumeratorExternalizeable(this);
   }
 }
