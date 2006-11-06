@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.48 2006/11/05 13:16:58 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.49 2006/11/06 18:55:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -2974,6 +2974,49 @@ public class EcoreUtil
       List list = resource.getContents();
       list.set(list.indexOf(eObject), replacementEObject);
     }
+  }
+  
+  /**
+   * Deletes the object from its {@link EObject#eResource containing} resource 
+   * and/or its {@link EObject#eContainer containing} object
+   * as well as from any other feature that references it 
+   * within the enclosing resource set, resource, or root object.
+   * @param eObject the object to delete.
+   * @since 2.3
+   */
+  public static void delete(EObject eObject)
+  {
+    EObject rootEObject = getRootContainer(eObject);
+    Resource resource = rootEObject.eResource();
+
+    Collection usages;
+    if (resource == null)
+    {
+      usages = UsageCrossReferencer.find(eObject, rootEObject);
+    }
+    else
+    {
+      ResourceSet resourceSet = resource.getResourceSet();
+      if (resourceSet == null)
+      {
+        usages = UsageCrossReferencer.find(eObject, resource);
+      }
+      else
+      {
+        usages = UsageCrossReferencer.find(eObject, resourceSet);
+      }
+    }
+
+    for (Iterator i = usages.iterator(); i.hasNext(); )
+    {
+      EStructuralFeature.Setting setting = (EStructuralFeature.Setting)i.next();
+      if (setting.getEStructuralFeature().isChangeable())
+      {
+        remove(setting, eObject);
+      }
+    }
+
+    remove(eObject);
   }
 
   /**
