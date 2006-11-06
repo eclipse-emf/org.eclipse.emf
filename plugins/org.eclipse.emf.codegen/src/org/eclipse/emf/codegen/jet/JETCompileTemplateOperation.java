@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompileTemplateOperation.java,v 1.8 2006/10/17 11:32:23 davidms Exp $
+ * $Id: JETCompileTemplateOperation.java,v 1.9 2006/11/06 18:36:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -44,6 +44,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
 
@@ -310,6 +311,16 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
   
                 if (changed)
                 {
+                  if (outputFile.isReadOnly()) 
+                  {
+                    // This call should get the files checked out from version control if the project is a 'team' project.
+                    //
+                    IStatus status = ResourcesPlugin.getWorkspace().validateEdit(new IFile [] { outputFile }, null);
+                    if (!status.isOK()) 
+                    {
+                      throw new CoreException(status);
+                    }
+                  }
                   outputFile.setContents(new ByteArrayInputStream(bytes), true, true, progressMonitor);
                 }
               }
