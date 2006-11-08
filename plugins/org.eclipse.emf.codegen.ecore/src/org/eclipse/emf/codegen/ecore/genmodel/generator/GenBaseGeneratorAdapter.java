@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.3 2006/05/25 21:31:44 davidms Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.3.2.1 2006/11/08 22:04:36 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -46,14 +46,39 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 
 /**
+ * A base generator adapter implementation for GenModel elements.
+ * 
+ * This base defines four project types for code generation and provides implementations of
+ * {@link #canGenerate(Object, Object)}, {@link #getGenerateChildren(Object, Object)}, and
+ * {@link #doGenerate(Object, Object, Monitor)} that dispatch to project-type-specific methods, which
+ * can be overridden in subclasses.
+ * 
  * @since 2.2.0
  */
 public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
 {
-  //DMS values? location?
+  /**
+   * The project type constant representing a model project.
+   * This is the string "org.eclipse.emf.codegen.ecore.genmodel.generator.ModelProject".
+   */
   public static final String MODEL_PROJECT_TYPE = "org.eclipse.emf.codegen.ecore.genmodel.generator.ModelProject";
+
+  /**
+   * The project type constant representing an edit project.
+   * This is the string "org.eclipse.emf.codegen.ecore.genmodel.generator.EditProject".
+   */
   public static final String EDIT_PROJECT_TYPE = "org.eclipse.emf.codegen.ecore.genmodel.generator.EditProject";
+
+  /**
+   * The project type constant representing an editor project.
+   * This is the string "org.eclipse.emf.codegen.ecore.genmodel.generator.EditorProject".
+   */
   public static final String EDITOR_PROJECT_TYPE = "org.eclipse.emf.codegen.ecore.genmodel.generator.EditorProject";
+
+  /**
+   * The project type constant representing a tests project.
+   * This is the string "org.eclipse.emf.codegen.ecore.genmodel.generator.TestsProject".
+   */
   public static final String TESTS_PROJECT_TYPE = "org.eclipse.emf.codegen.ecore.genmodel.generator.TestsProject";
 
   public GenBaseGeneratorAdapter()
@@ -65,6 +90,10 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     super(generatorAdapterFactory);
   }
 
+  /**
+   * Based on the given project type, dispatches to one of {@link #canGenerateModel(Object)},
+   * {@link #canGenerateEdit(Object)}, {@link #canGenerateEditor(Object)}, or {@link #canGenerateTests(Object)}.
+   */
   public boolean canGenerate(Object object, Object projectType)
   {
     if (MODEL_PROJECT_TYPE.equals(projectType))
@@ -86,26 +115,43 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     return false;
   }
 
+  /**
+   * Delegates to the GenMoel element's {@link GenBase#canGenerate() canGenerate()} method.
+   */
   public boolean canGenerateModel(Object object)
   {
     return ((GenBase)object).canGenerate();
   }
 
+  /**
+   * Delegates to the GenMoel element's {@link GenBase#canGenerateEdit()() canGenerateEdit()} method.
+   */
   public boolean canGenerateEdit(Object object)
   {
     return ((GenBase)object).canGenerateEdit();
   }
 
+  /**
+   * Delegates to the GenMoel element's {@link GenBase#canGenerateEditor()() canGenerateEditor()} method.
+   */
   public boolean canGenerateEditor(Object object)
   {
     return ((GenBase)object).canGenerateEditor();
   }
 
+  /**
+   * Delegates to the GenMoel element's {@link GenBase#canGenerateTests() canGenerateTests()} method.
+   */
   public boolean canGenerateTests(Object object)
   {
     return ((GenBase)object).canGenerateTests();
   }
 
+  /**
+   * Based on the given project type, dispatches to one of {@link #getGenerateModelChildren(Object)},
+   * {@link #getGenerateEditChildren(Object)}, {@link #getGenerateEditorChildren(Object)}, or
+   * {@link #getGenerateTestsChildren(Object)}.
+   */
   public Collection getGenerateChildren(Object object, Object projectType)
   {
     if (MODEL_PROJECT_TYPE.equals(projectType))
@@ -147,12 +193,20 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     return Collections.EMPTY_LIST;
   }
 
+  /**
+   * Returns the container of the given object if it is a GenModel element, and null otherwise. 
+   */
   protected Object getParent(Object object)
   {
     Object result = ((GenBase)object).eContainer();
     return result instanceof GenBase ? result : null;
   }
 
+  /**
+   * Based on the given project type, dispatches to one of {@link #generateModel(Object, Monitor)},
+   * {@link #generateEdit(Object, Monitor)}, {@link #generateEditor(Object, Monitor)}, or
+   * {@link #generateTests(Object, Monitor)}.
+   */
   public Diagnostic doGenerate(Object object, Object projectType, Monitor monitor)
   {
     if (MODEL_PROJECT_TYPE.equals(projectType))
@@ -194,6 +248,44 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     return Diagnostic.OK_INSTANCE;
   }
 
+  /**
+   * Returns the user-specified portion of the dynamic template path from the GenModel.
+   * 
+   * <p>This method can be overridden, but to maintain compatibility with 2.2.1, it should not be invoked by subclasses,
+   * except from its own overrides. Nor should such overrides be invoked.
+   * @since org.eclipse.emf.codegen.ecore 2.2.2
+   */
+  protected List getUserTemplatePath()
+  {
+    String templateLocation = ((GenBase)generatingObject).getGenModel().getTemplateDirectory();
+    if (templateLocation != null)
+    {
+      if (templateLocation.indexOf(':') == -1)
+      {
+        templateLocation = URI.createPlatformResourceURI(templateLocation, true).toString();
+      }
+      return Collections.singletonList(templateLocation);
+    }
+    return Collections.EMPTY_LIST;
+  }
+
+  /**
+   * Adds the default EMF template location to the base portion of the dynamic template path. Subclasses may
+   * override this to add to the front of the path, and then invoke this implementation.
+   * *
+   * <p>To maintain compatibility with 2.2.1, this method should not be invoked by subclasses, except from its own
+   * overrides. Nor should such overrides be invoked.
+   * @since org.eclipse.emf.codegen.ecore 2.2.2
+   */
+  protected void addBaseTemplatePathEntries(List templatePath)
+  {
+    templatePath.add(CodeGenEcorePlugin.INSTANCE.getBaseURL().toString() + "templates");
+    super.addBaseTemplatePathEntries(templatePath);
+  }
+
+  /**
+   * Adds the plug-ins required for GenModel/Ecore-based templates to the <code>JETEmitter</code>'s classpath.
+   */
   protected void addClasspathEntries(JETEmitter jetEmitter) throws JETException
   {
     jetEmitter.addVariable("EMF_CODEGEN", "org.eclipse.emf.codegen");
@@ -202,12 +294,18 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     jetEmitter.addVariable("EMF_ECORE", "org.eclipse.emf.ecore");
   }
 
+  /**
+   * Creates the import manager and stores it on the <code>GenModel</code>, for use its in computing names.
+   */
   protected void createImportManager(String packageName, String className)
   {
     super.createImportManager(packageName, className);
     updateImportManager();
   }
 
+  /**
+   * Clears the import manager and removes it from the <code>GenModel</code>.
+   */
   protected void clearImportManager()
   {
     super.clearImportManager();
@@ -222,6 +320,10 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     }    
   }
 
+  /**
+   * Ensures that a project exists. If not, a properly configured EMF project will be created. Similarly, if the project
+   * does exist and <code>force</code> is true, it will be reconfigured to match the default EMF configuration.
+   */
   protected void ensureProjectExists(String workspacePath, Object object, Object projectType, boolean force, Monitor monitor)
   {
     try
@@ -237,6 +339,10 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     }
   }
 
+  /*
+   * All Eclipse-dependent operations are delegated to this class. This pattern avoids any runtime failure due to
+   * missing dependencies in the standalone case.
+   */
   private static class EclipseHelper
   {
     public static boolean ensureProjectExists(String workspacePath, Object object, Object projectType, boolean force, Monitor monitor)
