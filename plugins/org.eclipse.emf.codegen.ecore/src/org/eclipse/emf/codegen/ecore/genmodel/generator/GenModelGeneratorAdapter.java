@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapter.java,v 1.4 2006/05/29 15:45:20 emerks Exp $
+ * $Id: GenModelGeneratorAdapter.java,v 1.4.2.1 2006/11/08 22:06:05 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
+import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
@@ -28,6 +29,16 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 
 /**
+ * A {@link GeneratorAdapter} for instances of {@link GenModel}. This contributes the model level artifacts to EMF's
+ * default code generation.
+ * 
+ * <p>This implementation should not be extended merely to augment the default code generation for models. The
+ * recommended approach is to implement a new adapter and register the {@link GeneratorAdapterFactory adapter factory}
+ * that creates it, so that it is contributed to code generation. Such registration is usually done through the
+ * <code>org.eclipse.emf.codegen.ecore.generatorAdapters</code> extension point.
+ * 
+ * <p>This implementation may be extended, however, in order to remove from or change the default code generation.
+ * 
  * @since 2.2.0
  */
 public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
@@ -79,6 +90,10 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     new JETEmitterDescriptor("model.tests/build.propertiesjet", "org.eclipse.emf.codegen.ecore.templates.model.tests.BuildProperties")
   };
 
+  /**
+   * Returns the set of <code>JETEmitterDescriptor</code>s used by the adapter. The contents of the returned array
+   * should never be changed. Rather, subclasses may override this method to return a different array altogether.
+   */
   protected JETEmitterDescriptor[] getJETEmitterDescriptors()
   {
     return JET_EMITTER_DESCRIPTORS;
@@ -89,11 +104,17 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     super(generatorAdapterFactory);
   }
 
+  /**
+   * Returns the {@link GenModel}'s packages.
+   */
   public Collection getGenerateChildren(Object object, Object projectType)
   {
     return new ArrayList(((GenModel)object).getGenPackages());
   }
 
+  /**
+   * Prepares the {@link GenModel} for generation.
+   */
   protected Diagnostic doPreGenerate(Object object, Object projectType)
   {
     ((GenModel)object).getStaticGenPackages();
