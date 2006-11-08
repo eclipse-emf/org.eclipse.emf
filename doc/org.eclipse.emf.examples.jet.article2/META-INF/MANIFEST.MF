@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.emf.examples.jet.article2; singleton:=true
+Bundle-Version: 2.3.0
+Bundle-ClassPath: typesafe_enum.jar
+Bundle-Activator: org.eclipse.emf.examples.jet.article2.TypesafeEnumPlugin
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.emf.examples.jet.article2,
+ org.eclipse.emf.examples.jet.article2.actionexample,
+ org.eclipse.emf.examples.jet.article2.codegen,
+ org.eclipse.emf.examples.jet.article2.model,
+ org.eclipse.emf.examples.jet.article2.ui
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.jdt.ui,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.launching,
+ org.eclipse.emf.codegen;visibility:=reexport
+Eclipse-LazyStart: true
