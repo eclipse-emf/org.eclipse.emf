@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenEnumGeneratorAdapter.java,v 1.4 2006/05/19 22:33:50 davidms Exp $
+ * $Id: GenEnumGeneratorAdapter.java,v 1.5 2006/11/08 20:39:33 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
+import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -24,6 +25,16 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 
 /**
+ * A {@link GeneratorAdapter} for instances of {@link GenEnum}. This contributes the artifacts for every enum to EMF's
+ * default code generation.
+ * 
+ * <p>This implementation should not be extended merely to augment the default code generation for enums. The
+ * recommended approach is to implement a new adapter and register the {@link GeneratorAdapterFactory adapter factory}
+ * that creates it, so that it is contributed to code generation. Such registration is usually done through the
+ * <code>org.eclipse.emf.codegen.ecore.generatorAdapters</code> extension point.
+ * 
+ * <p>This implementation may be extended, however, in order to remove from or change the default code generation.
+ * 
  * @since 2.2.0
  */
 public class GenEnumGeneratorAdapter extends GenBaseGeneratorAdapter
@@ -35,6 +46,10 @@ public class GenEnumGeneratorAdapter extends GenBaseGeneratorAdapter
     new JETEmitterDescriptor("model/EnumClass.javajet", "org.eclipse.emf.codegen.ecore.templates.model.EnumClass")
   };
 
+  /**
+   * Returns the set of <code>JETEmitterDescriptor</code>s used by the adapter. The contents of the returned array
+   * should never be changed. Rather, subclasses may override this method to return a different array altogether.
+   */
   protected JETEmitterDescriptor[] getJETEmitterDescriptors()
   {
     return JET_EMITTER_DESCRIPTORS;
@@ -45,6 +60,9 @@ public class GenEnumGeneratorAdapter extends GenBaseGeneratorAdapter
     super(generatorAdapterFactory);
   }
 
+  /**
+   * Returns the {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage} that contains the given {@link GenEnum}.
+   */
   public Object getGenerateParent(Object object, Object projectType)
   {
     return getParent(object);

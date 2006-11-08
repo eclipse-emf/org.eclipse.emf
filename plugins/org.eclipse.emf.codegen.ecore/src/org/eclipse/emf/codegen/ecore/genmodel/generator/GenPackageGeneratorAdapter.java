@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.9 2006/10/12 20:56:52 marcelop Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.10 2006/11/08 20:39:33 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
+import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -37,6 +38,16 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
+ * A {@link GeneratorAdapter} for instances of {@link GenPackage}. This contributes the package level artifacts to EMF's
+ * default code generation.
+ * 
+ * <p>This implementation should not be extended merely to augment the default code generation for packages. The
+ * recommended approach is to implement a new adapter and register the {@link GeneratorAdapterFactory adapter factory}
+ * that creates it, so that it is contributed to code generation. Such registration is usually done through the
+ * <code>org.eclipse.emf.codegen.ecore.generatorAdapters</code> extension point.
+ * 
+ * <p>This implementation may be extended, however, in order to remove from or change the default code generation.
+ * 
  * @since 2.2.0
  */
 public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
@@ -74,6 +85,10 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     new JETEmitterDescriptor("model.tests/PackageExample.javajet", "org.eclipse.emf.codegen.ecore.templates.model.tests.PackageExample")
   };
 
+  /**
+   * Returns the set of <code>JETEmitterDescriptor</code>s used by the adapter. The contents of the returned array
+   * should never be changed. Rather, subclasses may override this method to return a different array altogether.
+   */
   protected JETEmitterDescriptor[] getJETEmitterDescriptors()
   {
     return JET_EMITTER_DESCRIPTORS;
@@ -84,6 +99,11 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
   private static final String[] INPUT_PATH_NAMES = { "editor/ModelFile.gif", "editor/NewModel.gif" };
 
+  /**
+   * Returns the set of {@link org.eclipse.emf.codegen.util.GIFEmitter} input paths used by the adapter. The contents
+   * of the returned array should never be changed. Rather, subclasses may override this method to return a different
+   * array altogether.
+   */
   protected String[] getInputPathNames()
   {
     return INPUT_PATH_NAMES;
@@ -124,11 +144,17 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     return result;
   }
 
+  /**
+   * Returns the {@link GenModel} or {@link GenPackage} that contains the given {@link GenPackage}.
+   */
   public Object getGenerateParent(Object object, Object projectType)
   {
     return getParent(object);
   }
 
+  /**
+   * Prepares the {@link GenPackage} for generation.
+   */
   protected Diagnostic doPreGenerate(Object object, Object projectType)
   {
     if (MODEL_PROJECT_TYPE.equals(projectType))
@@ -139,6 +165,9 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     return super.doPreGenerate(object, projectType);
   }
 
+  /**
+   * Cleans up the {@link GenPackage} after generation.
+   */
   protected Diagnostic doPostGenerate(Object object, Object projectType)
   {
     if (MODEL_PROJECT_TYPE.equals(projectType))
