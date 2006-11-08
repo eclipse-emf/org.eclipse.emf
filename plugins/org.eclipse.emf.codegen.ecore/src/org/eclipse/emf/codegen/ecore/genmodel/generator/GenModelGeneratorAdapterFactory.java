@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapterFactory.java,v 1.3 2006/10/16 03:17:20 davidms Exp $
+ * $Id: GenModelGeneratorAdapterFactory.java,v 1.4 2006/11/08 20:40:26 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -29,10 +29,26 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
+ * A generator adapter factory for the {@link org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage GenModel package}.
+ * This implementation creates the adapters that perform default EMF code generation. It can also be subclassed to
+ * create derived adapters that remove from or change the default code generation, or to create separate adapters
+ * that augment the default code generation.
+ * 
+ * <p>The factory implements a singleton adapter pattern, where one adapter is cached and reused for all objects of a
+ * given type.
+ * 
+ * <p>This implementation also initializes its generator's options based on the {@link GenModel}.
+ * 
  * @since 2.2.0
  */
 public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory implements GeneratorAdapterFactory
 {
+  /**
+   * A descriptor for this adapter factory, which can be used to programatically
+   * {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor.Registry#addDescriptor(String, org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor) register}
+   * it.
+   * @see org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory.Descriptor.Registry
+   */
   public static final GeneratorAdapterFactory.Descriptor DESCRIPTOR = new GeneratorAdapterFactory.Descriptor()
   {
     public GeneratorAdapterFactory createAdapterFactory()
@@ -41,6 +57,9 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     }
   };
 
+  /**
+   * The default JMerge rules file for EMF.
+   */
   protected static final String MERGE_RULES_PATH_NAME = "emf-merge.xml";
 
   protected Generator generator;
@@ -53,19 +72,27 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
   {
   }
 
+  /**
+   * Returns <code>true</code> when the type is <code>GeneratorAdapter.class</code>.
+   */
   public boolean isFactoryForType(Object type)
   {
     return type == GeneratorAdapter.class;
   }
 
-  // Because each of many generator adapter factories can have its own generator adapter on a single object, we need 
-  // to use the adapter factory instance as the type seen by the adapter.
-  //
+  /**
+   * Does an {@link org.eclipse.emf.common.notify.impl.AdapterFactoryImpl#adapt(Notifier, Object) adapt(Notifier, Object)},
+   * substituting <code>this</code> for the given <code>type</code>. This substitution is necessary because each of many
+   * generator adapter factories can have its own generator adapter on a single object.
+   */ 
   public Adapter adapt(Notifier target, Object type)
   {
     return super.adapt(target, this);
   }
 
+  /**
+   * Returns a singleton {@link GenModelGeneratorAdapter}.
+   */
   public Adapter createGenModelAdapter()
   {
     if (genModelGeneratorAdapter == null)
@@ -75,6 +102,9 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     return genModelGeneratorAdapter;
   }
 
+  /**
+   * Returns a singleton {@link GenPackageGeneratorAdapter}.
+   */
   public Adapter createGenPackageAdapter()
   {
     if (genPackageGeneratorAdapter == null)
@@ -84,6 +114,9 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     return genPackageGeneratorAdapter;
   }
 
+  /**
+   * Returns a singleton {@link GenClassGeneratorAdapter}.
+   */
   public Adapter createGenClassAdapter()
   {
     if (genClassGeneratorAdapter == null)
@@ -93,6 +126,9 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     return genClassGeneratorAdapter;
   }
 
+  /**
+   * Returns a singleton {@link GenEnumGeneratorAdapter}.
+   */
   public Adapter createGenEnumAdapter()
   {
     if (genEnumGeneratorAdapter == null)
@@ -112,6 +148,10 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     this.generator = generator;
   }
 
+  /**
+   * Performs initialization for the given input {@link GenModel}. It is used as the basis for setting
+   * {@link Generator#getOptions() options} on the associated {@link Generator}.
+   */
   public void initialize(Object input)
   {
     Generator.Options options = generator.getOptions();
@@ -121,13 +161,15 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     options.redirectionPattern = genModel.getRedirection();
     options.forceOverwrite = genModel.isForceOverwrite();
     options.dynamicTemplates = genModel.isDynamicTemplates();
-    options.templatePath = getTemplatePath(genModel);
     options.mergerFacadeHelperClass = genModel.getFacadeHelperClass();
-    options.mergeRulesURI = JETCompiler.find(options.templatePath, MERGE_RULES_PATH_NAME);
+    options.mergeRulesURI = JETCompiler.find(getTemplatePath(genModel), MERGE_RULES_PATH_NAME);
     options.codeFormatting = genModel.isCodeFormatting();
     options.resourceSet = resource != null ? resource.getResourceSet() : null;
   }
 
+  /**
+   * Computes the default template path for the given <code>GenModel</code>.
+   */
   protected String[] getTemplatePath(GenModel genModel)
   {
     String[] result = null;
