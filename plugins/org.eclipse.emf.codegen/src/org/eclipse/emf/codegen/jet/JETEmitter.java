@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.17 2006/07/21 10:50:27 emerks Exp $
+ * $Id: JETEmitter.java,v 1.18 2006/11/08 20:26:31 davidms Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -27,6 +27,7 @@ import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -69,6 +70,7 @@ import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
 
 
 /**
@@ -352,7 +354,7 @@ public class JETEmitter
    */
   public void addVariable(String variableName, String pluginID) throws JETException
   {
-    if (EMFPlugin.IS_ECLIPSE_RUNNING)
+    if (EMFPlugin.IS_ECLIPSE_RUNNING && method == null)
     {
       EclipseHelper.addVariable(this, variableName, pluginID);
     }
@@ -422,7 +424,7 @@ public class JETEmitter
         final InputStream contents = new ByteArrayInputStream(outputStream.toByteArray());
   
         final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IJavaModel javaModel= JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
+        IJavaModel javaModel = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
         if (!javaModel.isOpen())
         {
           javaModel.open(new SubProgressMonitor(progressMonitor, 1));
@@ -459,6 +461,21 @@ public class JETEmitter
   
         javaProject = JavaCore.create(project);
   
+        // Get the existing classpath and remove the project root if necessary.
+        // Any new non-duplicate entries will be added to this.
+        //
+        List classpath = new UniqueEList(Arrays.asList(javaProject.getRawClasspath()));
+        for (int i = 0, len = classpath.size(); i < len; i++)
+        {
+          IClasspathEntry entry = (IClasspathEntry)classpath.get(i);
+          if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE && ("/" + project.getName()).equals(entry.getPath().toString()))
+          {
+            classpath.remove(i);
+          }
+        }
+
+        // Add the new entries, including source, JRE container, and added variables and classpath containers. 
+        //
         progressMonitor.subTask
           (CodeGenPlugin.getPlugin().getString("_UI_JETInitializingProject_message", new Object [] { project.getName() }));
         IClasspathEntry classpathEntry = 
@@ -466,7 +483,6 @@ public class JETEmitter
 
         IClasspathEntry jreClasspathEntry = JavaCore.newContainerEntry(new Path("org.eclipse.jdt.launching.JRE_CONTAINER"));
 
-        List classpath = new ArrayList();
         classpath.add(classpathEntry);
         classpath.add(jreClasspathEntry);
         classpath.addAll(jetEmitter.classpathEntries);
@@ -482,9 +498,9 @@ public class JETEmitter
           runtimeFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
         }
   
-        IClasspathEntry [] classpathEntryArray = (IClasspathEntry[])classpath.toArray(new IClasspathEntry [classpath.size()]);
-  
-        javaProject.setRawClasspath(classpathEntryArray, new SubProgressMonitor(progressMonitor, 1));
+        javaProject.setRawClasspath
+          ((IClasspathEntry[])classpath.toArray(new IClasspathEntry[classpath.size()]),
+           new SubProgressMonitor(progressMonitor, 1));
   
         javaProject.setOutputLocation(new Path("/" + project.getName() + "/runtime"), new SubProgressMonitor(progressMonitor, 1));
   
