@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.23 2006/07/19 17:43:39 davidms Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.24 2006/11/09 12:09:24 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.MissingResourceException;
 
@@ -813,6 +814,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    */
   static public Collection getReachableObjectsOfType(EObject object, EClassifier type)
   {
+    LinkedList itemQueue = new LinkedList();
     Collection visited  = new HashSet();
     Collection result = new ArrayList();
     Resource resource = object.eResource();
@@ -826,7 +828,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
           Object child = i.next();
           if (child instanceof EObject)
           {
-            collectReachableObjectsOfType(visited, result, (EObject)child, type);
+            collectReachableObjectsOfType(visited, itemQueue, result, (EObject)child, type);
             i.prune();
           }
         }
@@ -835,22 +837,45 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       {
         for (Iterator i = resource.getContents().iterator(); i.hasNext(); )
         {
-          collectReachableObjectsOfType(visited, result, (EObject)i.next(), type);
+          collectReachableObjectsOfType(visited, itemQueue, result, (EObject)i.next(), type);
         }
       }
     }
     else
     {
-      collectReachableObjectsOfType(visited, result, EcoreUtil.getRootContainer(object), type);
+      collectReachableObjectsOfType(visited, itemQueue, result, EcoreUtil.getRootContainer(object), type);
     }
+
+    while (!itemQueue.isEmpty()) 
+    {
+      EObject nextItem = (EObject)itemQueue.removeFirst();
+      collectReachableObjectsOfType(visited, itemQueue, result, nextItem, type);
+    } 
+
     return result;
   }
-
+ 
   /**
    * This will visit all reachable references from object except those in visited;
    * it updates visited and adds to result any object with a meta object that indicates that it is a subtype of type.
    */
   static public void collectReachableObjectsOfType(Collection visited, Collection result, EObject object, EClassifier type)
+  {
+    LinkedList itemQueue = new LinkedList();
+    collectReachableObjectsOfType(visited, itemQueue, result, object, type);
+    while (!itemQueue.isEmpty()) 
+    {
+      EObject nextItem = (EObject)itemQueue.removeFirst();
+      collectReachableObjectsOfType(visited, itemQueue, result, nextItem, type);
+    } 
+  }
+
+  /**
+   * This will visit all reachable references from object except those in visited and add them to the queue.
+   * The queue is processed outside this recursive traversal to avoid stack overflows.
+   * It updates visited and adds to result any object with a meta object that indicates that it is a subtype of type.
+   */
+  static private void collectReachableObjectsOfType(Collection visited,  LinkedList itemQueue, Collection result,  EObject object,  EClassifier type)
   {
     if (visited.add(object))
     {
@@ -875,7 +900,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
                 Object referencedObject = referencedObjects.next();
                 if (referencedObject instanceof EObject)
                 {
-                  collectReachableObjectsOfType(visited, result, (EObject)referencedObject, type);
+                  itemQueue.addLast(referencedObject);
                 }
               }
             }
@@ -884,7 +909,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
               Object referencedObject = object.eGet(eReference);
               if (referencedObject instanceof EObject)
               {
-                collectReachableObjectsOfType(visited, result, (EObject)referencedObject, type);
+                itemQueue.addLast(referencedObject);
               }
             }
           }
@@ -895,7 +920,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
               FeatureMap.Entry entry = (FeatureMap.Entry)j.next();
               if (entry.getEStructuralFeature() instanceof EReference && entry.getValue() != null)
               {
-                collectReachableObjectsOfType(visited, result, (EObject)entry.getValue(), type);
+                itemQueue.addLast(entry.getValue());
               }
             }
           }
