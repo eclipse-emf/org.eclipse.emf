@@ -735,7 +735,7 @@ public class CodeGenUtil
               for (int i = begin - 1; i >= current; --i)
               {
                 char character = string.charAt(i);
-                if (character == '\n' || character == '\r')
+                if (character == '\n' || character == '\r' || i == current)
                 {
                   boolean slash = false;
                   while (++i < begin)
