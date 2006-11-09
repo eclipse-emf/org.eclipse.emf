@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.22 2006/10/16 16:58:54 marcelop Exp $
+ * $Id: JMerger.java,v 1.23 2006/11/09 14:41:37 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -78,7 +78,7 @@ public class JMerger
    */
   public JMerger()
   {
-    if ("1.3".compareTo(JavaCore.getOption(JavaCore.COMPILER_SOURCE)) < 0)
+    if ("1.4".compareTo(JavaCore.getOption(JavaCore.COMPILER_SOURCE)) < 0)
     {
       CodeGenPlugin.INSTANCE.log(CodeGenPlugin.INSTANCE.getString("_UI_JDOMInvalidSourceCompatibility_message"));
     }    
