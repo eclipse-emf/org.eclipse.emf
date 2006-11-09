@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.14 2006/11/09 03:36:39 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.15 2006/11/09 14:49:50 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -61,7 +61,6 @@ public class JMergerTest extends DeprecatedJMergerTest
   protected FacadeHelper instanciateFacadeHelper()
   {
     FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(JDOMFacadeHelper.class.getCanonicalName());
-    ((JDOMFacadeHelper)facadeHelper).setForcedSourceCompatibility(true);
     return facadeHelper;
   }
   
@@ -75,6 +74,7 @@ public class JMergerTest extends DeprecatedJMergerTest
    */
   public void merge4() throws Exception
   {  
+    adjustSourceCompatibility("1.5");
     applyGenModelEditorFormatting = true;
     verifyMerge(mergeFiles());
   }  
