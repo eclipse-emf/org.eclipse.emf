@@ -12,17 +12,17 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.13 2006/11/02 17:18:34 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.14 2006/11/09 03:36:39 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
 import java.io.FileInputStream;
 
-import org.eclipse.jdt.core.JavaCore;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.eclipse.jdt.core.JavaCore;
 
 import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.merge.java.JMerger;
@@ -54,6 +54,7 @@ public class JMergerTest extends DeprecatedJMergerTest
       String name = ((TestCase)superTS.testAt(i)).getName();
       ts.addTest(new JMergerTest(name));
     }
+    ts.addTest(new JMergerTest("merge4"));
     return ts;
   }  
   
@@ -69,6 +70,15 @@ public class JMergerTest extends DeprecatedJMergerTest
   	assertTrue(JDOMFacadeHelper.class.isInstance(facadeHelper));
   }
   
+  /*
+   * Bugzilla 163856
+   */
+  public void merge4() throws Exception
+  {  
+    applyGenModelEditorFormatting = true;
+    verifyMerge(mergeFiles());
+  }  
+  
   protected String mergeFiles() throws Exception
   {
     String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE); 
@@ -79,6 +89,10 @@ public class JMergerTest extends DeprecatedJMergerTest
     JControlModel controlModel = new JControlModel();
     assertFalse(controlModel.canMerge());
     controlModel.initialize(facadeHelper, mergeXML.getAbsolutePath());
+    if (applyGenModelEditorFormatting)
+    {
+      applyGenModelEditorFormattingSettings(controlModel);
+    }    
     assertTrue(controlModel.canMerge());
     JMerger jMerger = new JMerger(controlModel);
 

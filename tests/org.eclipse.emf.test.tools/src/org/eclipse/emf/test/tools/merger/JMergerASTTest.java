@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerASTTest.java,v 1.2 2006/11/01 22:08:01 marcelop Exp $
+ * $Id: JMergerASTTest.java,v 1.3 2006/11/09 03:36:39 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -53,6 +53,7 @@ public class JMergerASTTest extends JMergerTest
     ts.addTest(new JMergerASTTest("merge5"));
     ts.addTest(new JMergerASTTest("merge6"));
     ts.addTest(new JMergerASTTest("merge7"));
+    ts.addTest(new JMergerASTTest("merge8"));
     return ts;
   }  
   
@@ -89,5 +90,14 @@ public class JMergerASTTest extends JMergerTest
   public void merge7() throws Exception
   {
     verifyMerge(mergeFiles());
-  }   
+  }
+  
+  /*
+   * Bugzilla 163856
+   */
+  public void merge8() throws Exception
+  {
+    applyGenModelEditorFormatting = true;
+    verifyMerge(mergeFiles());
+  }     
 }
