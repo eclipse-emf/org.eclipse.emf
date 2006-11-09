@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.4 2006/11/08 20:33:23 davidms Exp $
+ * $Id: Generator.java,v 1.5 2006/11/09 20:27:03 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -101,7 +101,8 @@ public class Generator
 
     /**
      * A path for dynamic templates: ordered list of URIs corresponding to base locations under which to find templates.
-     * This path actually needs to be specialized on a per-adapter method, so this field should not be used.
+     * A single path for all code generation is actually insufficient. This path needs to specified and extended on a
+     * per-adapter basis, so this field should not be used.
      * @deprecated org.eclipse.emf.codegen.ecore 2.2.2 Override {@link AbstractGeneratorAdapter#addBaseTemplatePathEntries(List)} instead. 
      * @see AbstractGeneratorAdapter#addBaseTemplatePathEntries(List)
      */
