@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.8 2006/11/08 20:31:48 davidms Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.9 2006/11/09 20:38:09 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -423,6 +423,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   private String[] getTemplatePath()
   {
+    // Consult the generator option for backwards compatibility.
+    //
     String[] legacyPath = getGenerator().getOptions().templatePath;
     if (legacyPath != null)
     {
@@ -438,6 +440,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   /**
    * Returns the user-specified portion of the dynamic template path, an ordered list of URIs corresponding to locations
    * under which to find templates. This implementation returns an empty list.
+   * 
+   * <p>This method is only consulted if the generator's {@link Generator.Options#templatePath templatePath} option is
+   * set to null.
+   * 
+   * @see Generator.Options#templatePath
    * @see org.eclipse.emf.codegen.jet.JETEmitter#JETEmitter(String[], String)
    * @see org.eclipse.emf.codegen.jet.JETCompiler#find(String[], String)
    * @since org.eclipse.emf.codegen.ecore 2.2.2
@@ -461,6 +468,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * Adds template locations to the base portion of the dynamic template path, an ordered list of URIs corresponding to
    * locations under which to find templates. Order matters, so the pattern is to add local entries first, and then
    * invoke the superclass implementation. This implementation does nothing.
+   * 
+   * <p>This method is only consulted if the generator's {@link Generator.Options#templatePath templatePath} option is
+   * set to null.
+   * 
+   * @see Generator.Options#templatePath
    * @see org.eclipse.emf.codegen.jet.JETEmitter#JETEmitter(String[], String)
    * @see org.eclipse.emf.codegen.jet.JETCompiler#find(String[], String)
    * @since org.eclipse.emf.codegen.ecore 2.2.2
