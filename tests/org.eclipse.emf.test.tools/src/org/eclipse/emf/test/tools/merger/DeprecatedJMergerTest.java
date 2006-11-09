@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.9 2006/11/09 03:37:38 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.10 2006/11/09 14:44:23 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -111,6 +111,13 @@ public class DeprecatedJMergerTest extends TestCase
   {
     verifyMerge(mergeFiles());
   }
+  
+  protected void adjustSourceCompatibility(String value)
+  {
+    Hashtable map = JavaCore.getOptions();
+    map.put(JavaCore.COMPILER_SOURCE, value);
+    JavaCore.setOptions(map);    
+  }  
   
   protected void applyGenModelEditorFormattingSettings(org.eclipse.emf.codegen.merge.java.JControlModel jControlModel)
   {
