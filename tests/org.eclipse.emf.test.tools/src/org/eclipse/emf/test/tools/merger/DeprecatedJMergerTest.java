@@ -12,22 +12,25 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.8 2006/11/01 21:32:17 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.9 2006/11/09 03:37:38 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Hashtable;
+import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.codegen.jmerge.JMerger;
+import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.test.tools.TestUtil;
 
 /**
@@ -39,6 +42,8 @@ public class DeprecatedJMergerTest extends TestCase
   protected File source;
   protected File target; 
   protected File expected;
+  
+  protected boolean applyGenModelEditorFormatting = false;
   
   /**
    * @param name
@@ -106,7 +111,32 @@ public class DeprecatedJMergerTest extends TestCase
   {
     verifyMerge(mergeFiles());
   }
-
+  
+  protected void applyGenModelEditorFormattingSettings(org.eclipse.emf.codegen.merge.java.JControlModel jControlModel)
+  {
+    if (CommonPlugin.IS_ECLIPSE_RUNNING)
+    {
+      Map options = JavaCore.getOptions();
+      String tabSize = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
+      String braceStyle = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
+      String tabCharacter = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
+      if (JavaCore.TAB.equals(tabCharacter))
+      {
+         jControlModel.setLeadingTabReplacement("\t");
+      }
+      else
+      {
+        String spaces = "";
+        for (int i = Integer.parseInt(tabSize); i > 0; --i)
+        {
+          spaces += " ";
+        }
+        jControlModel.setLeadingTabReplacement(spaces);
+      }
+      jControlModel.setConvertToStandardBraceStyle(DefaultCodeFormatterConstants.END_OF_LINE.equals(braceStyle));
+    }
+  }
+  
   protected void verifyMerge(String targetContents)
   {
     // extract merged contents
@@ -144,6 +174,10 @@ public class DeprecatedJMergerTest extends TestCase
     JMerger jMerger = new JMerger();
     JControlModel controlModel = new JControlModel(mergeXML.getAbsolutePath());
     jMerger.setControlModel(controlModel);
+    if (applyGenModelEditorFormatting)
+    {
+      applyGenModelEditorFormattingSettings(controlModel);
+    }
 
     // set source
     jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(source, false)));
