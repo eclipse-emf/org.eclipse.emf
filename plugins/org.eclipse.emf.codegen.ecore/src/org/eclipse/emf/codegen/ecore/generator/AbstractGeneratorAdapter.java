@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.6.2.1 2006/11/08 22:03:13 davidms Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.6.2.2 2006/11/09 21:37:24 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -423,6 +423,8 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   private String[] getTemplatePath()
   {
+    // Consult the generator option for backwards compatibility.
+    //
     String[] legacyPath = getGenerator().getOptions().templatePath;
     if (legacyPath != null)
     {
@@ -441,6 +443,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * 
    * <p>This method can be overridden, but to maintain compatibility with 2.2.1, it should not be invoked by subclasses,
    * except from its own overrides. Nor should such overrides be invoked.
+   * 
+   * <p>This method is only consulted if the generator's {@link Generator.Options#templatePath templatePath} option is
+   * set to null.
+   * 
+   * @see Generator.Options#templatePath
    * @see org.eclipse.emf.codegen.jet.JETEmitter#JETEmitter(String[], String)
    * @see org.eclipse.emf.codegen.jet.JETCompiler#find(String[], String)
    * @since org.eclipse.emf.codegen.ecore 2.2.2
@@ -467,6 +474,11 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * 
    * <p>This method can be overridden, but to maintain compatibility with 2.2.1, it should not be invoked by subclasses,
    * except from its own overrides. Nor should such overrides be invoked.
+   *
+   * <p>This method is only consulted if the generator's {@link Generator.Options#templatePath templatePath} option is
+   * set to null.
+   * 
+   * @see Generator.Options#templatePath
    * @see org.eclipse.emf.codegen.jet.JETEmitter#JETEmitter(String[], String)
    * @see org.eclipse.emf.codegen.jet.JETCompiler#find(String[], String)
    * @since org.eclipse.emf.codegen.ecore 2.2.2
