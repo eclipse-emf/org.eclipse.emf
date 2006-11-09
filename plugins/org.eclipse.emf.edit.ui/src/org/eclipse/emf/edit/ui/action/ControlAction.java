@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ControlAction.java,v 1.1 2006/01/23 20:51:06 davidms Exp $
+ * $Id: ControlAction.java,v 1.1.2.1 2006/11/09 12:26:02 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -36,6 +36,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
@@ -131,6 +132,11 @@ public class ControlAction extends CommandActionHandler
       command = new AddCommand(domain, resource.getContents(), eObject);
       command = new SelfAffectingCommand(EMFEditUIPlugin.INSTANCE.getString("_UI_ControlCommand_label"), command);
     }
+
+    // Ensure that all proxies are resolved so that references into the controlled object will be saved to reference the new resource.
+    //
+    EcoreUtil.resolveAll(domain.getResourceSet());
+
     super.run();
   }
 
