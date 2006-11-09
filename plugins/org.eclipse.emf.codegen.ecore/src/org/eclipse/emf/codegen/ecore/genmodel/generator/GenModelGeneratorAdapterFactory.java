@@ -12,9 +12,11 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapterFactory.java,v 1.4 2006/11/08 20:40:26 davidms Exp $
+ * $Id: GenModelGeneratorAdapterFactory.java,v 1.5 2006/11/09 20:28:40 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
+
+import java.util.Arrays;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
@@ -161,16 +163,57 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     options.redirectionPattern = genModel.getRedirection();
     options.forceOverwrite = genModel.isForceOverwrite();
     options.dynamicTemplates = genModel.isDynamicTemplates();
+
+    // For backwards compatibility, we must check whether getTemplatePath() has been overridden to return something
+    // other than the default, and, if so, behave as before.
+    //
+    String[] defaultTemplatePath = getDefaultTemplatePath(genModel);
+    String[] templatePath = getTemplatePath(genModel);
+    if (!Arrays.equals(templatePath, defaultTemplatePath))
+    {
+      options.templatePath = templatePath;
+      options.mergeRulesURI = JETCompiler.find(templatePath, MERGE_RULES_PATH_NAME);
+    }
+    else
+    {
+      options.mergeRulesURI = getMergeRulesURI(genModel);
+    }
+
     options.mergerFacadeHelperClass = genModel.getFacadeHelperClass();
-    options.mergeRulesURI = JETCompiler.find(getTemplatePath(genModel), MERGE_RULES_PATH_NAME);
     options.codeFormatting = genModel.isCodeFormatting();
     options.resourceSet = resource != null ? resource.getResourceSet() : null;
   }
 
   /**
-   * Computes the default template path for the given <code>GenModel</code>.
+   * Computes the template path for the given <code>GenModel</code>. The result of this method was intended to be used
+   * in setting the generator's {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options#templatePath templatePath}
+   * option. However, a single path for all code generation is actually insufficient. The path needs to be specified and
+   * extended on a per-adapter basis.
+   * 
+   * <p>If this implementation is not overridden, the generator's <code>templatePath</code> will no longer be set to
+   * the default value. Instead, it will be left null, and template paths will be computed on a per-adapter basis using
+   * {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter#addBaseTemplatePathEntries(java.util.List)}.
+   * 
+   * <p>In order to preserve backwards compatibility, if this implementation is overridden to return something other
+   * than the default, the generator's <code>templatePath</code> will be set to this result.
+   * 
+   * <p>Previously, this path was also searched to obtain the value to set as the generator's
+   * {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options#mergeRulesURI mergeRulesURI} option. Now, if this
+   * method is not overridden, the new {@link #getMergeRulesURI(GenModel)} method will be invoked to compute that value. 
+   * 
+   * @deprecated org.eclipse.emf.codegen.ecore 2.2.2 Override
+   *              {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter#addBaseTemplatePathEntries(java.util.List)}
+   *              and, if needed, {@link #getMergeRulesURI(GenModel)}, instead.
    */
   protected String[] getTemplatePath(GenModel genModel)
+  {
+    return getDefaultTemplatePath(genModel);
+  }
+
+  /*
+   * Computes the default path for the given GenModel. This was previously the implementation of getTemplatePath().
+   */
+  private String[] getDefaultTemplatePath(GenModel genModel)
   {
     String[] result = null;
     String staticLocation = CodeGenEcorePlugin.INSTANCE.getBaseURL().toString() + "templates";
@@ -188,6 +231,23 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
       result[0] = staticLocation; 
     }
     return result;
+  }
+
+  /**
+   * Returns the URI of the merge rules file for the given <code>GenModel</code>.
+   * 
+   * <p>The default implementation of this method is to search the default path that would be returned by
+   * {@link #getTemplatePath(GenModel)}, if not overridden, for a file called "emf-merge.xml", and return the URI of
+   * the first such file encontered. Since that method has been deprecated, this method can now be overridden to search
+   * a different path, or indeed, obtain the merge rules URI in some other way.
+   * 
+   * <p>This method is only invoked if {@link #getTemplatePath(GenModel)} has not been overridden.
+   * 
+   * @since org.eclipse.emf.codegen.ecore 2.2.2
+   */
+  protected String getMergeRulesURI(GenModel genModel)
+  {
+    return JETCompiler.find(getDefaultTemplatePath(genModel), MERGE_RULES_PATH_NAME);
   }
 
   public void dispose()
