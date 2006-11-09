@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMFacadeHelper.java,v 1.3 2006/11/01 21:28:55 marcelop Exp $
+ * $Id: JDOMFacadeHelper.java,v 1.4 2006/11/09 14:51:54 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -52,6 +52,11 @@ public class JDOMFacadeHelper extends FacadeHelper
   protected DOMFactory jdomFactory;
   protected boolean forcedSourceCompatibility;
   
+  public JDOMFacadeHelper()
+  {
+    setForcedSourceCompatibility(true);
+  }
+  
   public void reset()
   {
     jdomFactory = null;
@@ -87,11 +92,11 @@ public class JDOMFacadeHelper extends FacadeHelper
   public JCompilationUnit createCompilationUnit(String name, String content)
   {
     String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE);
-    if ("1.3".compareTo(sourceCompatibility) < 0)
+    if ("1.4".compareTo(sourceCompatibility) < 0)
     {
       if (isForcedSourceCompatibility())
       {
-        adjustSourceCompatibility("1.3");
+        adjustSourceCompatibility("1.4");
       }
       else
       {
