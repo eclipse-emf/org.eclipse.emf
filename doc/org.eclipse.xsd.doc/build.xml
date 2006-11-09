@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="org.eclipse.xsd.doc" default="build.jars" basedir=".">
 	
-	<property name="pluginVersion" value="2.2.1"/>
+	<property name="pluginVersion" value="2.3.0"/>
 	<property name="projectName" value="xsd"/>
 	
 	<property name="basews" value="${ws}"/>
