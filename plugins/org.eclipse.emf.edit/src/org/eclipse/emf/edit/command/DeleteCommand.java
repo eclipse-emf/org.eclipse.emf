@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteCommand.java,v 1.4 2006/05/29 13:56:33 emerks Exp $
+ * $Id: DeleteCommand.java,v 1.5 2006/11/09 12:04:22 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -97,8 +97,13 @@ public class DeleteCommand extends CompoundCommand
 
   protected boolean prepare()
   {
-    append(RemoveCommand.create(domain, collection));
+    prepareCommand();
     return super.prepare();
+  }
+  
+  protected void prepareCommand()
+  {
+    append(RemoveCommand.create(domain, collection));
   }
 
   public void execute()
