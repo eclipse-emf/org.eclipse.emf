@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension point="org.eclipse.emf.codegen.ecore.generatorAdapters">
+      <!-- Adapter Factory -->
+      <adapterFactory class="org.eclipse.emf.examples.generator.validator.ValidatorGeneratorAdapterFactory"/>
+      <!-- Single Adapter -->
+      <!--
+      <adapter modelClass="GenModel" class="org.eclipse.emf.examples.generator.validator.GenModelValidatorGeneratorAdapter"/>
+      <adapter modelClass="GenClass" class="org.eclipse.emf.examples.generator.validator.GenClassValidatorGeneratorAdapter"/>
+      -->
+   </extension>
+
+</plugin>

@@ -1,0 +1,90 @@
+/**
+ * <copyright> 
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: GenModelValidatorGeneratorAdapter.java,v 1.1 2006/11/10 23:04:27 davidms Exp $
+ */
+package org.eclipse.emf.examples.generator.validator;
+
+import java.util.List;
+
+import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
+import org.eclipse.emf.codegen.jet.JETEmitter;
+import org.eclipse.emf.codegen.jet.JETException;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.Monitor;
+
+public class GenModelValidatorGeneratorAdapter extends GenBaseGeneratorAdapter
+{
+  protected static final int MODEL_DESCRIPTION_ID = 0;
+
+  protected static final JETEmitterDescriptor[] JET_EMITTER_DESCRIPTORS =
+  {
+    new JETEmitterDescriptor("model/ModelDescription.txtjet", "org.eclipse.emf.examples.generator.validator.templates.model.ModelDescription")
+  };
+
+  protected JETEmitterDescriptor[] getJETEmitterDescriptors()
+  {
+    return JET_EMITTER_DESCRIPTORS;
+  }
+
+  public GenModelValidatorGeneratorAdapter()
+  {
+  }
+
+  public GenModelValidatorGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
+  {
+    super(generatorAdapterFactory);
+  }
+
+  public boolean canGenerate(Object object, Object projectType)
+  {
+    return MODEL_PROJECT_TYPE.equals(projectType) ? super.canGenerate(object, projectType) : false;
+  }
+
+  protected Diagnostic generateModel(Object object, Monitor monitor)
+  {
+    GenModel genModel = (GenModel)object;
+
+    monitor.beginTask("", 2);
+    message = ValidatorGeneratorPlugin.INSTANCE.getString("GeneratingModelDescription.message");    
+    monitor.subTask(message);
+
+    ensureProjectExists
+      (genModel.getModelDirectory(), genModel, MODEL_PROJECT_TYPE, genModel.isUpdateClasspath(), createMonitor(monitor, 1));
+
+    generateText
+      (genModel.getModelProjectDirectory() + "/text/description.txt",
+       getJETEmitter(getJETEmitterDescriptors(), MODEL_DESCRIPTION_ID),
+       null,
+       true,
+       null,
+       createMonitor(monitor, 1));
+
+    return Diagnostic.OK_INSTANCE;
+  }
+
+  protected void addBaseTemplatePathEntries(List templatePath)
+  {
+    templatePath.add(ValidatorGeneratorUtil.TEMPLATE_LOCATION);
+    super.addBaseTemplatePathEntries(templatePath);
+  }
+
+  protected void addClasspathEntries(JETEmitter jetEmitter) throws JETException
+  {
+    super.addClasspathEntries(jetEmitter);
+    jetEmitter.addVariable(ValidatorGeneratorUtil.CLASSPATH_VARIABLE_NAME, ValidatorGeneratorPlugin.ID);
+  }
+}
