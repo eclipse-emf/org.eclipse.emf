@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.5 2006/11/01 21:20:49 marcelop Exp $
+ * $Id: JMerger.java,v 1.6 2006/11/13 16:32:20 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -44,7 +44,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 import org.eclipse.emf.codegen.merge.java.facade.JType;
-import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper;
+import org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
@@ -56,7 +56,7 @@ import org.eclipse.emf.common.util.Monitor;
  */
 public class JMerger
 {
-  public static final String DEFAULT_FACADE_HELPER_CLASS = JDOMFacadeHelper.class.getName(); 
+  public static final String DEFAULT_FACADE_HELPER_CLASS = ASTFacadeHelper.class.getName(); 
   
   protected JCompilationUnit sourceCompilationUnit;
   protected JCompilationUnit targetCompilationUnit;
