@@ -295,7 +295,7 @@
 		    quid       	"4396F3050916"
 		    documentation 	"The default value must be always equals to JMerger.DEFAULT_FACADE_HELPER_CLASS."
 		    type       	"String"
-		    initv      	"org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper"
+		    initv      	"org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper"
 		    exportControl 	"Public")))
 	(object Class "GenPackage"
 	    quid       	"3C17589A01D3"
@@ -1717,31 +1717,31 @@
 				height     	48
 				orientation 	1))))
 		(object AssociationViewNew "$UNNAMED$12" @56
-		    location   	(690, 279)
+		    location   	(690, 280)
 		    stereotype 	TRUE
 		    quidu      	"3C45AEB6027F"
 		    roleview_list 	(list RoleViews
 			(object RoleView "$UNNAMED$13" @57
 			    Parent_View 	@56
-			    location   	(-78, -265)
+			    location   	(-78, -264)
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"3C45AEB80047"
 			    client     	@56
 			    supplier   	@12
 			    vertices   	(list Points
-				(690, 279)
+				(690, 280)
 				(690, 137)
 				(779, 137))
 			    line_style 	3
-			    origin_attachment 	(690, 279)
+			    origin_attachment 	(690, 280)
 			    terminal_attachment 	(779, 137))
 			(object RoleView "usedGenPackages" @58
 			    Parent_View 	@56
-			    location   	(-78, -265)
+			    location   	(-78, -264)
 			    label      	(object SegLabel @59
 				Parent_View 	@58
-				location   	(494, 353)
+				location   	(494, 354)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
@@ -1757,11 +1757,11 @@
 			    client     	@56
 			    supplier   	@43
 			    vertices   	(list Points
-				(690, 279)
+				(690, 280)
 				(690, 447)
 				(754, 447))
 			    line_style 	3
-			    origin_attachment 	(690, 279)
+			    origin_attachment 	(690, 280)
 			    terminal_attachment 	(754, 447)
 			    label      	(object SegLabel @60
 				Parent_View 	@58
@@ -2624,6 +2624,14 @@
 		    line_color 	8421504
 		    fill_color 	13227724
 		    quidu      	"3C176A0701D7"
+		    compartment 	(object Compartment
+			Parent_View 	@134
+			location   	(279, 1867)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	409)
 		    width      	420
 		    height     	186
 		    annotation 	8
@@ -3081,7 +3089,7 @@
 			icon_style 	"Icon"
 			fill_color 	13434879
 			anchor     	2
-			nlines     	25
+			nlines     	52
 			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ copyrightText : String"

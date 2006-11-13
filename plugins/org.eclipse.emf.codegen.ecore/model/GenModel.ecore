@@ -79,7 +79,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrayAccessors" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="suppressUnsettable" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="facadeHelperClass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        defaultValueLiteral="org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper">
+        defaultValueLiteral="org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The default value must be always equals to JMerger.DEFAULT_FACADE_HELPER_CLASS."/>
       </eAnnotations>

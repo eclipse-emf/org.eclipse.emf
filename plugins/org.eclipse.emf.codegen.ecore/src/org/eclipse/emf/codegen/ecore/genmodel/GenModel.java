@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.37 2006/05/01 10:28:29 davidms Exp $
+ * $Id: GenModel.java,v 1.38 2006/11/13 16:35:43 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -1539,7 +1539,7 @@ public interface GenModel extends GenBase
 
   /**
    * Returns the value of the '<em><b>Facade Helper Class</b></em>' attribute.
-   * The default value is <code>"org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper"</code>.
+   * The default value is <code>"org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper"</code>.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Facade Helper Class</em>' attribute isn't clear,
@@ -1552,7 +1552,7 @@ public interface GenModel extends GenBase
    * @return the value of the '<em>Facade Helper Class</em>' attribute.
    * @see #setFacadeHelperClass(String)
    * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_FacadeHelperClass()
-   * @model default="org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper"
+   * @model default="org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper"
    * @generated
    */
   String getFacadeHelperClass();

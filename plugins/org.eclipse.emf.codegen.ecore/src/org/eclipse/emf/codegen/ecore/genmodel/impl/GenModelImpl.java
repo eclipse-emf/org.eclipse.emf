@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.70 2006/10/16 03:17:20 davidms Exp $
+ * $Id: GenModelImpl.java,v 1.71 2006/11/13 16:35:43 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1178,7 +1178,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected static final String FACADE_HELPER_CLASS_EDEFAULT = "org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper";
+  protected static final String FACADE_HELPER_CLASS_EDEFAULT = "org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper";
 
   /**
    * The cached value of the '{@link #getFacadeHelperClass() <em>Facade Helper Class</em>}' attribute.
