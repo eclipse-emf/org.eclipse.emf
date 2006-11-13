@@ -4,6 +4,7 @@
   <extension-point id="facadeHelpers" name="%_UI_FacadeHelpers_extensionpoint" schema="schema/facadeHelpers.exsd" />
 
   <extension point="org.eclipse.emf.codegen.facadeHelpers">
+    <facadeHelper class="org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper"/>
     <facadeHelper class="org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper"/>
   </extension>
 
