@@ -852,20 +852,17 @@ public class CodeGenUtil
 
   public static FacadeHelper instantiateFacadeHelper(String facadeHelperClass)
   {
-    if (!"org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMFacadeHelper".equals(facadeHelperClass))
+    try
     {
-      try
+      Class cls = Class.forName(facadeHelperClass);
+      Object object = cls.newInstance();
+      if (object instanceof FacadeHelper)
       {
-        Class cls = Class.forName(facadeHelperClass);
-        Object object = cls.newInstance();
-        if (object instanceof FacadeHelper)
-        {
-          return (FacadeHelper)object;
-        }
+        return (FacadeHelper)object;
       }
-      catch (Exception e)
-      {
-      }
+    }
+    catch (Exception e)
+    {
     }
       
     if (CodeGenPlugin.IS_ECLIPSE_RUNNING)
