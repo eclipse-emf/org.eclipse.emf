@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.72 2006/11/04 15:58:32 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.73 2006/11/14 12:51:57 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -754,7 +754,7 @@ public class XSDEcoreBuilder extends MapBuilder
         EClassifier mixinType = getEClassifier(mixin);
         if (mixinType instanceof EClass && mixinType != EcorePackage.eINSTANCE.getEObject())
         {
-          eClass.getESuperTypes().add(mixinType);
+          eClass.getESuperTypes().add((EClass)mixinType);
         }
       }
     }
@@ -765,12 +765,13 @@ public class XSDEcoreBuilder extends MapBuilder
     if (xsdComplexTypeDefinition.getContentTypeCategory() == XSDContentTypeCategory.SIMPLE_LITERAL)
     {
       extendedMetaData.setContentKind(eClass, ExtendedMetaData.SIMPLE_CONTENT);
+      EClassifier eClassifier = getEClassifier(xsdComplexTypeDefinition.getSimpleType());
       if (eClass.getEAllStructuralFeatures().isEmpty())
       {
         createFeature
           (eClass,
            "value",
-           getEClassifier(xsdComplexTypeDefinition.getSimpleType()),
+           eClassifier,
            null,
            0,
            1);
