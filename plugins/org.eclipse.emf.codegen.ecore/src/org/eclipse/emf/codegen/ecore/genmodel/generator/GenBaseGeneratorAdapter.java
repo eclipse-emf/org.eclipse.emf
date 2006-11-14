@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.3.2.1 2006/11/08 22:04:36 davidms Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.3.2.2 2006/11/14 17:59:58 davidms Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -258,7 +258,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   protected List getUserTemplatePath()
   {
     String templateLocation = ((GenBase)generatingObject).getGenModel().getTemplateDirectory();
-    if (templateLocation != null)
+    if (templateLocation != null && templateLocation.length() != 0)
     {
       if (templateLocation.indexOf(':') == -1)
       {
