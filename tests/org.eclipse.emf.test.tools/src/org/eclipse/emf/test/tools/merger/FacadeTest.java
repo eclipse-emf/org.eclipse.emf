@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeTest.java,v 1.1 2006/01/19 05:36:20 marcelop Exp $
+ * $Id: FacadeTest.java,v 1.2 2006/11/15 17:51:01 marcelop Exp $
  */
 
 package org.eclipse.emf.test.tools.merger;
@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl;
 import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeFlags;
+import org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -42,6 +43,7 @@ public class FacadeTest extends TestCase
     TestSuite ts = new TestSuite("FacadeTest");
     ts.addTest(new FacadeTest("testFacadeFlags"));
     ts.addTest(new FacadeTest("testGenModelDefaultFacadeClass"));
+    ts.addTest(new FacadeTest("testASTFacadeHelperDebugFlag"));
     return ts;
   }
   
@@ -83,5 +85,18 @@ public class FacadeTest extends TestCase
   public void testGenModelDefaultFacadeClass()
   {
     assertEquals(JMerger.DEFAULT_FACADE_HELPER_CLASS, MyGenModel.PUBLIC_FACADE_HELPER);
+  }
+  
+  public void testASTFacadeHelperDebugFlag()
+  {
+    boolean debug = new ASTFacadeHelper()
+    {
+      public boolean getDebugFlag()
+      {
+        return DEBUG;
+      }
+    }.getDebugFlag();
+    
+    assertFalse(debug);
   }
 }
