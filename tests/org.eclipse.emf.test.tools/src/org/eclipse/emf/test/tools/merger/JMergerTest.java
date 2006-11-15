@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTest.java,v 1.16 2006/11/15 17:59:45 marcelop Exp $
+ * $Id: JMergerTest.java,v 1.17 2006/11/15 20:19:49 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -56,6 +56,7 @@ public class JMergerTest extends DeprecatedJMergerTest
     }
     ts.addTest(new JMergerTest("merge4"));
     ts.addTest(new JMergerTest("merge5"));
+    ts.addTest(new JMergerTest("merge6"));
     return ts;
   }  
   
@@ -88,6 +89,11 @@ public class JMergerTest extends DeprecatedJMergerTest
     verifyMerge(mergeFiles());
   }  
   
+  public void merge6() throws Exception
+  {
+    verifyMerge(mergeFiles());
+  }  
+
   protected String mergeFiles() throws Exception
   {
     String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE); 

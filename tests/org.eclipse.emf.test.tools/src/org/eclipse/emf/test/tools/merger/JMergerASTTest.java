@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerASTTest.java,v 1.4 2006/11/15 17:59:45 marcelop Exp $
+ * $Id: JMergerASTTest.java,v 1.5 2006/11/15 20:19:49 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -41,40 +41,42 @@ public class JMergerASTTest extends JMergerTest
 
   public static Test suite()
   {
-    TestSuite superTS = (TestSuite)JMergerTest.suite();
     TestSuite ts = new TestSuite("JMergerASTTest");
     
-    for (int i=0; i<superTS.testCount(); i++)
-    {
-      String name = ((TestCase)superTS.testAt(i)).getName();
-      ts.addTest(new JMergerASTTest(name));
-    }
+    ts.addTest(new JMergerASTTest("merge0"));
+    ts.addTest(new JMergerASTTest("merge1"));
+    ts.addTest(new JMergerASTTest("merge2"));
+    ts.addTest(new JMergerASTTest("merge3"));
     ts.addTest(new JMergerASTTest("merge4"));
     ts.addTest(new JMergerASTTest("merge5"));
     ts.addTest(new JMergerASTTest("merge6"));
     ts.addTest(new JMergerASTTest("merge7"));
     ts.addTest(new JMergerASTTest("merge8"));
     ts.addTest(new JMergerASTTest("merge9"));
+    ts.addTest(new JMergerASTTest("merge10"));
     return ts;
   }  
   
+  @Override
   protected String getDataDirectory()
   {
     return TestUtil.getPluginDirectory() + "/data/ast_merge/" + getName();
   }
   
+  @Override
   protected FacadeHelper instanciateFacadeHelper()
   {
   	return CodeGenUtil.instantiateFacadeHelper(ASTFacadeHelper.class.getCanonicalName());
   }
   
+  @Override
   protected void instanceTest(FacadeHelper facadeHelper)
   {
   	assertTrue(ASTFacadeHelper.class.isInstance(facadeHelper));
   }
   
   public void merge4() throws Exception
-  {
+  {    
     verifyMerge(mergeFiles());
   }
 
@@ -106,6 +108,11 @@ public class JMergerASTTest extends JMergerTest
    * Bugzilla 164683
    */
   public void merge9() throws Exception
+  {
+    verifyMerge(mergeFiles());
+  }  
+
+  public void merge10() throws Exception
   {
     verifyMerge(mergeFiles());
   }  
