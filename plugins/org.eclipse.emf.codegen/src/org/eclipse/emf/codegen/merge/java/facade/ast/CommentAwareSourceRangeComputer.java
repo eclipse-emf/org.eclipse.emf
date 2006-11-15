@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommentAwareSourceRangeComputer.java,v 1.2 2006/11/15 17:57:34 marcelop Exp $
+ * $Id: CommentAwareSourceRangeComputer.java,v 1.3 2006/11/15 20:15:45 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -427,12 +427,21 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
    */
   public SourceRange computeDefaultSourceRange(ASTNode node)
   {
-    int extendedStartPos = compilationUnit.getExtendedStartPosition(node);
-    int extendedEndPos = extendedStartPos + compilationUnit.getExtendedLength(node);
-
     int nodeStartPos = node.getStartPosition();
     int nodeEndPos = nodeStartPos + node.getLength();
 
+    int extendedStartPos = compilationUnit.getExtendedStartPosition(node);
+    int extendedEndPos = extendedStartPos + compilationUnit.getExtendedLength(node);
+
+    // we don't want to include the line comments immediately before an import in the 
+    // returned range
+    if (node.getNodeType() == ASTNode.IMPORT_DECLARATION)
+    {
+      extendedStartPos = nodeStartPos;
+    }
+
+    int extendedLength = nodeEndPos - extendedStartPos;
+    
     // check for the line comment at the last line of a node
     Comment firstTrailingComment = findFirstCommentInRange(nodeEndPos, extendedEndPos);
     if (firstTrailingComment != null && firstTrailingComment.isLineComment())
@@ -441,12 +450,11 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
       int commentEndPos = commentStartPos + firstTrailingComment.getLength();
       if (compilationUnit.getLineNumber(commentStartPos) == compilationUnit.getLineNumber(nodeEndPos))
       {
-        return new SourceRange(extendedStartPos, commentEndPos - extendedStartPos);
+        extendedLength = commentEndPos - extendedStartPos;
       }
     }
 
-    // return default range
-    return new SourceRange(extendedStartPos, nodeEndPos - extendedStartPos);
+    return new SourceRange(extendedStartPos, extendedLength);
   }
 
   /**
