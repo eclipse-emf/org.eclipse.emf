@@ -14,6 +14,9 @@
 * 
 * This is the target header
 */
+/*
+ * target comment before the import that is removed by the sweep rule
+ */
 import b;
 import a  ;
 import org.eclipse.emf.ecore.util.EObjectCompositeEListNew;
