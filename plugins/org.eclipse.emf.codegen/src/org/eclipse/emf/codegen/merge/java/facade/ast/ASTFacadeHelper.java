@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.3 2006/11/02 18:02:27 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.4 2006/11/15 17:59:06 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -39,6 +39,8 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
+import org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer;
+import org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer.SourceRange;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
@@ -538,7 +540,15 @@ public class ASTFacadeHelper extends FacadeHelper
       char[] originalContents = compilationUnit.getOriginalContents();
       //String resultString = new String(originalContents, compilationUnit.getASTCompilationUnit().getExtendedStartPosition(node), compilationUnit.getASTCompilationUnit().getExtendedLength(node));
 
-      String resultString = new String(originalContents, node.getStartPosition(), node.getLength());      
+      int start = node.getStartPosition();
+      int length = node.getLength();
+      TargetSourceRangeComputer rangeComputer = compilationUnit.getRewriter().getExtendedSourceRangeComputer();
+      if (rangeComputer instanceof CommentAwareSourceRangeComputer)
+      {
+        SourceRange sourceRange = ((CommentAwareSourceRangeComputer)rangeComputer).computeDefaultSourceRange(node);
+        length = (sourceRange.getStartPosition() + sourceRange.getLength()) - start;
+      }
+      String resultString = new String(originalContents, start, length);      
       
       nodeContents.put(node, resultString);
       return resultString;      
