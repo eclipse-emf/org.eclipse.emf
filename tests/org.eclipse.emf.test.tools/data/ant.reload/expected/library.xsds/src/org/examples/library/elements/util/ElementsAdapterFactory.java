@@ -14,7 +14,6 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import org.examples.library.elements.*;
-
 import org.examples.library.hr.Person;
 
 /**

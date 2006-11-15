@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.examples.hr.HRPackage;
 
 /**
@@ -417,7 +416,7 @@ public interface LibraryPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals 
+  interface Literals
   {
     /**
      * The meta object literal for the '{@link org.examples.library.impl.BookImpl <em>Book</em>}' class.

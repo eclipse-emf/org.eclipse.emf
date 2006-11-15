@@ -9,7 +9,6 @@ package org.examples.library;
 import org.eclipse.emf.common.util.EList;
 
 import org.examples.hr.Person;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -28,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Writer extends Person 
+public interface Writer extends Person
 {
   /**
    * <!-- begin-user-doc -->

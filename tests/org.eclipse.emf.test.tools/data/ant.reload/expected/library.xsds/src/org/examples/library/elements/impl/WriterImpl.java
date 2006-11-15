@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 import org.examples.library.elements.ElementsPackage;
 import org.examples.library.elements.Writer;
-
 import org.examples.library.hr.impl.PersonImpl;
 
 /**

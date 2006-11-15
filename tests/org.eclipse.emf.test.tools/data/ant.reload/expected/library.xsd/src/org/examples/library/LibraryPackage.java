@@ -420,7 +420,7 @@ public interface LibraryPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals 
+  interface Literals
   {
     /**
      * The meta object literal for the '{@link org.examples.library.impl.BookImpl <em>Book</em>}' class.

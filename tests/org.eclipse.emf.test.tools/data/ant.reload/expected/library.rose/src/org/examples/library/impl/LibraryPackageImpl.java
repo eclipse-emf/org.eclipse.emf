@@ -15,9 +15,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.examples.hr.HRPackage;
-
 import org.examples.hr.impl.HRPackageImpl;
-
 import org.examples.library.Book;
 import org.examples.library.BookCategory;
 import org.examples.library.Library;

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibrarySwitch.java,v 1.2 2006/07/07 17:22:36 marcelop Exp $
+ * $Id: LibrarySwitch.java,v 1.3 2006/11/15 21:58:03 marcelop Exp $
  */
 package org.examples.library.util;
 
@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import org.examples.hr.Person;
-
 import org.examples.library.*;
 
 /**
@@ -28,7 +27,7 @@ import org.examples.library.*;
  * @see org.examples.library.LibraryPackage
  * @generated
  */
-public class LibrarySwitch 
+public class LibrarySwitch
 {
   /**
    * <!-- begin-user-doc -->

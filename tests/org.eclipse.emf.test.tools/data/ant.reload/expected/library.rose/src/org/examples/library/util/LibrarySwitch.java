@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import org.examples.hr.Person;
-
 import org.examples.library.*;
 
 /**
@@ -28,7 +27,7 @@ import org.examples.library.*;
  * @see org.examples.library.LibraryPackage
  * @generated
  */
-public class LibrarySwitch 
+public class LibrarySwitch
 {
   /**
    * <!-- begin-user-doc -->

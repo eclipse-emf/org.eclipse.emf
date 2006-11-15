@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.examples.hr.HRPackage;
 import org.examples.hr.Person;
-
 import org.examples.library.Book;
 import org.examples.library.Library;
 import org.examples.library.LibraryPackage;

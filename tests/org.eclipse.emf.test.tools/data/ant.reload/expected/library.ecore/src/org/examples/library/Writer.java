@@ -2,14 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Writer.java,v 1.3 2006/11/02 16:22:25 marcelop Exp $
+ * $Id: Writer.java,v 1.4 2006/11/15 21:58:03 marcelop Exp $
  */
 package org.examples.library;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.examples.hr.Person;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -28,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Writer extends Person 
+public interface Writer extends Person
 {
   /**
    * <!-- begin-user-doc -->

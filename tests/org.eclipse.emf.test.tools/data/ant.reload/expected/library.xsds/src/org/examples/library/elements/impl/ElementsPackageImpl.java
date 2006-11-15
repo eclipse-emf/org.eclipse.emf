@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.EValidator;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -27,11 +26,8 @@ import org.examples.library.elements.ElementsPackage;
 import org.examples.library.elements.Writer;
 
 import org.examples.library.elements.util.ElementsValidator;
-
 import org.examples.library.hr.HrPackage;
-
 import org.examples.library.hr.impl.HrPackageImpl;
-
 import org.examples.library.impl.LibraryPackageImpl;
 
 /**

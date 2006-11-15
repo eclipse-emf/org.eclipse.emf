@@ -16,7 +16,6 @@ package org.eclipse.emf.test.tools.merger;
 
 import source.ClassA;
 import source.ClassB;
-
 import target.ClassA;
 
 
@@ -31,7 +30,8 @@ import target.ClassA;
  * @author EMF Team (source)
  * @generated
  */
-public class MergerExample {
+public class MergerExample
+{
   /**
    * Target javadoc 5
    * @generated
@@ -87,9 +87,9 @@ public class MergerExample {
    * <!-- end-user-doc -->
    * @generated
    */
-  protected boolean newAttribute = true;  
-  
-  /**
+  protected boolean newAttribute = true;
+
+/**
    * Source javadoc 13
    * <!-- begin-user-doc -->
    * Target user javadoc 16
@@ -135,7 +135,7 @@ public class MergerExample {
   protected Object sourceRequired()
   {
     System.out.println("Source code 4");
-  }
+  }    
   
   /**
    * Target javadoc 26

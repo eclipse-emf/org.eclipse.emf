@@ -22,9 +22,7 @@ import org.examples.library.LibraryPackage;
 import org.examples.library.elements.ElementsPackage;
 
 import org.examples.library.elements.impl.ElementsPackageImpl;
-
 import org.examples.library.hr.HrPackage;
-
 import org.examples.library.hr.impl.HrPackageImpl;
 
 /**

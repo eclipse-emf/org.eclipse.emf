@@ -28,7 +28,6 @@ import org.examples.library.LibraryPackage;
 
 import org.examples.library.elements.Book;
 import org.examples.library.elements.Writer;
-
 import org.examples.library.hr.HrPackage;
 import org.examples.library.hr.Person;
 

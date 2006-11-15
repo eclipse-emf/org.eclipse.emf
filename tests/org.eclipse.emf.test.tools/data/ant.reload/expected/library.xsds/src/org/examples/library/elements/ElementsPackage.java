@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.examples.library.hr.HrPackage;
 
 /**
@@ -351,7 +350,7 @@ public interface ElementsPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals 
+  interface Literals
   {
     /**
      * The meta object literal for the '{@link org.examples.library.elements.impl.BookImpl <em>Book</em>}' class.
@@ -441,7 +440,7 @@ public interface ElementsPackage extends EPackage
      */
     EDataType BOOK_CATEGORY_OBJECT = eINSTANCE.getBookCategoryObject();
 
-      /**
+    /**
      * The meta object literal for the '<em>UUID</em>' data type.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->

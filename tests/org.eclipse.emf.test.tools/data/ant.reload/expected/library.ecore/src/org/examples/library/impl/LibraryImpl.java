@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryImpl.java,v 1.3 2006/11/02 16:22:25 marcelop Exp $
+ * $Id: LibraryImpl.java,v 1.4 2006/11/15 21:58:02 marcelop Exp $
  */
 package org.examples.library.impl;
 
@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.examples.hr.HRPackage;
 import org.examples.hr.Person;
-
 import org.examples.library.Book;
 import org.examples.library.Library;
 import org.examples.library.LibraryPackage;

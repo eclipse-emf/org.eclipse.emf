@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryPackageImpl.java,v 1.2 2006/07/07 17:22:36 marcelop Exp $
+ * $Id: LibraryPackageImpl.java,v 1.3 2006/11/15 21:58:02 marcelop Exp $
  */
 package org.examples.library.impl;
 
@@ -15,9 +15,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.examples.hr.HRPackage;
-
 import org.examples.hr.impl.HRPackageImpl;
-
 import org.examples.library.Book;
 import org.examples.library.BookCategory;
 import org.examples.library.Library;

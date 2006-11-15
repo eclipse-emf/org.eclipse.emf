@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.examples.hr.impl.PersonImpl;
-
 import org.examples.library.Book;
 import org.examples.library.LibraryPackage;
 import org.examples.library.Writer;

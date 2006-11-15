@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import org.examples.library.elements.*;
-
 import org.examples.library.hr.Person;
 
 /**
@@ -28,7 +27,7 @@ import org.examples.library.hr.Person;
  * @see org.examples.library.elements.ElementsPackage
  * @generated
  */
-public class ElementsSwitch 
+public class ElementsSwitch
 {
   /**
    * <!-- begin-user-doc -->

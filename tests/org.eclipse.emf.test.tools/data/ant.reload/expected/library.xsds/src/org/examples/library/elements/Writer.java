@@ -9,7 +9,6 @@ package org.examples.library.elements;
 import org.eclipse.emf.common.util.EList;
 
 import org.examples.library.hr.Person;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -28,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='Writer' kind='elementOnly'"
  * @generated
  */
-public interface Writer extends Person 
+public interface Writer extends Person
 {
   /**
    * <!-- begin-user-doc -->

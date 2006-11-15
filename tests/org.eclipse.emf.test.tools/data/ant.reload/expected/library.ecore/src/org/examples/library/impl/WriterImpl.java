@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: WriterImpl.java,v 1.3 2006/11/02 16:22:25 marcelop Exp $
+ * $Id: WriterImpl.java,v 1.4 2006/11/15 21:58:02 marcelop Exp $
  */
 package org.examples.library.impl;
 
@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.examples.hr.impl.PersonImpl;
-
 import org.examples.library.Book;
 import org.examples.library.LibraryPackage;
 import org.examples.library.Writer;

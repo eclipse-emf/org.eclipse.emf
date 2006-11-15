@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryAdapterFactory.java,v 1.2 2006/07/07 17:22:36 marcelop Exp $
+ * $Id: LibraryAdapterFactory.java,v 1.3 2006/11/15 21:58:03 marcelop Exp $
  */
 package org.examples.library.util;
 
@@ -14,7 +14,6 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import org.examples.hr.Person;
-
 import org.examples.library.*;
 
 /**

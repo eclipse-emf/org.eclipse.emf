@@ -198,7 +198,7 @@ public interface LibraryPackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals 
+  interface Literals
   {
     /**
      * The meta object literal for the '{@link org.examples.library.impl.LibraryImpl <em>Library</em>}' class.
@@ -234,7 +234,7 @@ public interface LibraryPackage extends EPackage
      */
     EReference LIBRARY__BOOKS = eINSTANCE.getLibrary_Books();
 
-      /**
+    /**
      * The meta object literal for the '<em><b>Employees</b></em>' reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
