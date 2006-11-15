@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommentAwareSourceRangeComputer.java,v 1.1 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: CommentAwareSourceRangeComputer.java,v 1.2 2006/11/15 17:57:34 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -169,7 +169,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
    * @param includeHangingCommentsOnly
    * @return comment, <code>null</code> if not found
    * 
-   * @see #getDefaultSourceRange(ASTNode)
+   * @see #computeDefaultSourceRange(ASTNode)
    */
   protected Comment findLeadingComment(ASTNode node, ASTNode previousNode, boolean includeHangingCommentsOnly)
   {
@@ -187,7 +187,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     else
     {
       // get the end position of the range for the previous node
-      SourceRange range = getDefaultSourceRange(previousNode);
+      SourceRange range = computeDefaultSourceRange(previousNode);
       rangeStartPos = range.getStartPosition() + range.getLength();//previousNode.getStartPosition() + previousNode.getLength();
     }
 
@@ -381,7 +381,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
    * 
    * @param node
    * 
-   * @see #getDefaultSourceRange(ASTNode)
+   * @see #computeDefaultSourceRange(ASTNode)
    * @see #unmarkNodeForRemoval(ASTNode)
    */
   public void markNodeForRemoval(ASTNode node)
@@ -414,7 +414,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
   }
 
   /**
-   * Returns the default range for the node.
+   * Calculates the default range for the node.
    * <p>
    * The default range starts at an extended start position and ends at the non-extended end of the node.
    * If the node has a line comment on the last line of the node, this comment is included in the default range.
@@ -425,7 +425,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
    * @see CompilationUnit#getExtendedStartPosition(ASTNode)
    * @see ASTNode#getStartPosition() 
    */
-  protected SourceRange getDefaultSourceRange(ASTNode node)
+  public SourceRange computeDefaultSourceRange(ASTNode node)
   {
     int extendedStartPos = compilationUnit.getExtendedStartPosition(node);
     int extendedEndPos = extendedStartPos + compilationUnit.getExtendedLength(node);
@@ -466,20 +466,20 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
   /**
    * Calculates the range of a node as follows:
    * <p>
-   * For any node the range is at least the range returned by {@link #getDefaultSourceRange(ASTNode)}.
+   * For any node the range is at least the range returned by {@link #computeDefaultSourceRange(ASTNode)}.
    * <p>
    * If the node should have an extended range (as defined by {@link #shouldHaveExtendedRange(ASTNode)}),
    * the range is extended to include all leading comments up to the previous node, and hanging trailing comments
    * if the next node has been removed.
    * 
-   * @see #getDefaultSourceRange(ASTNode)
+   * @see #computeDefaultSourceRange(ASTNode)
    * @see #shouldHaveExtendedRange(ASTNode)
    * @see org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer#computeSourceRange(org.eclipse.jdt.core.dom.ASTNode)
    */
   @Override
   public SourceRange computeSourceRange(ASTNode node)
   {
-    SourceRange sourceRange = getDefaultSourceRange(node);
+    SourceRange sourceRange = computeDefaultSourceRange(node);
 
     // check if given node should use the default range (i.e. node removed), or extended
     if (shouldHaveExtendedRange(node))
