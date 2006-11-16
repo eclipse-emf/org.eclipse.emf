@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.4 2006/11/15 17:59:06 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.5 2006/11/16 20:08:23 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ArrayType;
+import org.eclipse.jdt.core.dom.ChildListPropertyDescriptor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
@@ -39,9 +40,12 @@ import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
+import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer;
 import org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer.SourceRange;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
+import org.eclipse.jdt.internal.core.dom.rewrite.ListRewriteEvent;
+import org.eclipse.jdt.internal.core.dom.rewrite.NodeRewriteEvent;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
@@ -53,6 +57,50 @@ import org.eclipse.emf.codegen.merge.java.facade.JNode;
  */
 public class ASTFacadeHelper extends FacadeHelper
 {
+  public static class ASTRewriteWithRemove extends ASTRewrite
+  {
+    protected ASTRewriteWithRemove(AST ast)
+    {
+      super(ast);
+    }
+    
+    /**
+     * Workaround method that removes nodes similar to {@link #remove(ASTNode, org.eclipse.text.edits.TextEditGroup)}, but
+     * it allows removal of newly created and inserted nodes that were not a part of original tree.
+     * <p>
+     * Note that {@link #remove(ASTNode, org.eclipse.text.edits.TextEditGroup)} does not remove newly created nodes that
+     * have been inserted with {@link ListRewrite#insertFirst(ASTNode, org.eclipse.text.edits.TextEditGroup)} or
+     * similar methods.
+     * 
+     * @param parent
+     * @param childProperty
+     * @param node
+     */
+    public void remove(ASTNode parent, ChildListPropertyDescriptor childProperty, ASTNode node)
+    {
+      ListRewrite lrw = getListRewrite(parent, childProperty);
+      
+      if (lrw.getRewrittenList().contains(node) && !lrw.getOriginalList().contains(node))
+      {
+        ListRewriteEvent listEvent = super.getRewriteEventStore().getListEvent(parent, childProperty, true);
+        int index = listEvent.getIndex(node, ListRewriteEvent.NEW);
+        if (index >= 0)
+        {
+          listEvent.revertChange((NodeRewriteEvent)listEvent.getChildren()[index]);
+        }
+        else
+        {
+          lrw.remove(node, null);
+        }
+      }
+      else
+      {
+        lrw.remove(node, null);
+      }
+    }
+  }
+  
+  
   /**
    * Debug output setting
    */
@@ -165,7 +213,7 @@ public class ASTFacadeHelper extends FacadeHelper
     }
     
     // create rewriter to record changes
-    ASTRewrite rewriter = ASTRewrite.create(astCompilationUnit.getAST());
+    ASTRewrite rewriter = new ASTRewriteWithRemove(astCompilationUnit.getAST());
 
     // keep comments between nodes when removing or moving nodes
     rewriter.setTargetSourceRangeComputer(new CommentAwareSourceRangeComputer(astCompilationUnit));
