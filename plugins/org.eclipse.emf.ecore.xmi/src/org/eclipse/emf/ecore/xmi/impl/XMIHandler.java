@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.9 2006/04/26 12:32:05 emerks Exp $
+ * $Id: XMIHandler.java,v 1.10 2006/11/16 19:45:05 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -22,6 +22,8 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -113,6 +115,22 @@ public abstract class XMIHandler extends XMLHandler
     else
     {
       return super.createDocumentRoot(prefix, uri, name, eFactory, top);
+    }
+  }
+  
+  protected void createObject(EObject peekObject, EStructuralFeature feature)
+  {
+    String id = attribs.getValue("xmi:idref");
+    if (id != null)
+    {
+      setValueFromId(peekObject, (EReference)feature, id);
+      objects.push(null);
+      mixedTargets.push(null);
+      types.push(OBJECT_TYPE);
+    }
+    else
+    {
+      super.createObject(peekObject, feature);
     }
   }
 
