@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJNode.java,v 1.2 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: ASTJNode.java,v 1.3 2006/11/16 20:10:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -381,9 +381,13 @@ public abstract class ASTJNode extends AbstractJNode
     {
       ((ASTFacadeHelper)facadeHelper).logInfo("Removing node from list property <" + nodeToRemove + ">");
     }
+
+    // listRewrite.remove(..) does not remove newly inserted nodes that were not a part of original tree (!!!)
+//    ListRewrite listRewrite = getRewriter().getListRewrite(parentNode, property);
+//    listRewrite.remove(nodeToRemove, null);
     
-    ListRewrite listRewrite = getRewriter().getListRewrite(parentNode, property);
-    listRewrite.remove(nodeToRemove, null);
+    // call workaround
+    ((ASTFacadeHelper.ASTRewriteWithRemove)rewriter).remove(parentNode, property, nodeToRemove);
   }    
 
   /**
