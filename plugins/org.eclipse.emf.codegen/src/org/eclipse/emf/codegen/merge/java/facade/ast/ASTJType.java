@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJType.java,v 1.2 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: ASTJType.java,v 1.3 2006/11/16 20:11:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -271,15 +271,19 @@ public class ASTJType extends ASTJMember implements JType
       BodyDeclaration astNode = memberNode.getASTBodyDeclaration();
       if (astNode != null)
       {
-        // mark the node to be removed
-        nodeToBeRemoved(astNode);
+        // if are dealing with original, not cloned node
+        if (astNode.getParent() != null && astNode.getLocationInParent() != null)
+        {
+          // mark the node to be removed
+          nodeToBeRemoved(astNode);
+          
+          // assume that the node is being moved (to allow insertion after)
+          memberNode.setOriginalASTNode(astNode);
+          
+          ASTNode moveTargetASTNode = rewriter.createMoveTarget(astNode);
+          memberNode.setASTNode(moveTargetASTNode);
+        }
         
-        // assume that the node is moved (to allow insertion after)
-        memberNode.setOriginalASTNode(astNode);
-        
-        ASTNode moveTargetASTNode = rewriter.createMoveTarget(astNode);
-        memberNode.setASTNode(moveTargetASTNode);
-  
         // remove the node
         removeNodeFromListProperty(getASTNode(), astNode, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
         memberNode.setParent(null);
