@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.46 2006/07/11 17:38:53 khussey Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Class" version="$Id: Class.javajet,v 1.46.2.1 2006/11/19 21:54:31 davidms Exp $" %>
 <%
 /**
  * <copyright>
@@ -766,7 +766,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 		}
         <%if (genFeature.isUnsettable()) {%>
 		else
-    	{
+		{
           <%if (genModel.isVirtualDelegation()) {%>
 			boolean old<%=genFeature.getCapName()%>ESet = eVirtualIsSet(<%=genClass.getQualifiedFeatureID(genFeature)%>);
           <%} else if (genClass.isESetFlag(genFeature)) {%>
@@ -784,7 +784,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 			if (eNotificationRequired())
 				eNotify(new <%=genModel.getImportedName("org.eclipse.emf.ecore.impl.ENotificationImpl")%>(this, <%=genModel.getImportedName("org.eclipse.emf.common.notify.Notification")%>.SET, <%=genClass.getQualifiedFeatureID(genFeature)%>, new<%=genFeature.getCapName()%>, new<%=genFeature.getCapName()%>, !old<%=genFeature.getCapName()%>ESet));
           <%}%>
-    	}
+		}
         <%} else {%>
           <%if (!genModel.isSuppressNotification()) {%>
 		else if (eNotificationRequired())
@@ -968,7 +968,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 			if (msgs != null) msgs.dispatch();
 		}
 		else
-    	{
+		{
         <%if (genModel.isVirtualDelegation()) {%>
 			boolean old<%=genFeature.getCapName()%>ESet = eVirtualIsSet(<%=genClass.getQualifiedFeatureID(genFeature)%>);
         <%} else if (genClass.isESetFlag(genFeature)) {%>
@@ -986,7 +986,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 			if (eNotificationRequired())
 				eNotify(new <%=genModel.getImportedName("org.eclipse.emf.ecore.impl.ENotificationImpl")%>(this, <%=genModel.getImportedName("org.eclipse.emf.common.notify.Notification")%>.UNSET, <%=genClass.getQualifiedFeatureID(genFeature)%>, null, null, old<%=genFeature.getCapName()%>ESet));
         <%}%>
-    	}
+		}
       <%} else {%>
         <%if (genClass.isFlag(genFeature)) {%>
           <%if (!genModel.isSuppressNotification()) {%>
