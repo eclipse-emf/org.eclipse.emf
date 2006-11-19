@@ -584,7 +584,7 @@ public class Class
   protected final String TEXT_567 = "(";
   protected final String TEXT_568 = "new";
   protected final String TEXT_569 = ", msgs);" + NL + "\t\t\tif (msgs != null) msgs.dispatch();" + NL + "\t\t}";
-  protected final String TEXT_570 = NL + "\t\telse" + NL + "    \t{";
+  protected final String TEXT_570 = NL + "\t\telse" + NL + "\t\t{";
   protected final String TEXT_571 = NL + "\t\t\tboolean old";
   protected final String TEXT_572 = "ESet = eVirtualIsSet(";
   protected final String TEXT_573 = ");";
@@ -607,7 +607,7 @@ public class Class
   protected final String TEXT_590 = ", new";
   protected final String TEXT_591 = ", !old";
   protected final String TEXT_592 = "ESet));";
-  protected final String TEXT_593 = NL + "    \t}";
+  protected final String TEXT_593 = NL + "\t\t}";
   protected final String TEXT_594 = NL + "\t\telse if (eNotificationRequired())" + NL + "\t\t\teNotify(new ";
   protected final String TEXT_595 = "(this, ";
   protected final String TEXT_596 = ".SET, ";
@@ -807,7 +807,7 @@ public class Class
   protected final String TEXT_790 = ", ";
   protected final String TEXT_791 = ".class, msgs);";
   protected final String TEXT_792 = NL + "\t\t\tmsgs = basicUnset";
-  protected final String TEXT_793 = "(msgs);" + NL + "\t\t\tif (msgs != null) msgs.dispatch();" + NL + "\t\t}" + NL + "\t\telse" + NL + "    \t{";
+  protected final String TEXT_793 = "(msgs);" + NL + "\t\t\tif (msgs != null) msgs.dispatch();" + NL + "\t\t}" + NL + "\t\telse" + NL + "\t\t{";
   protected final String TEXT_794 = NL + "\t\t\tboolean old";
   protected final String TEXT_795 = "ESet = eVirtualIsSet(";
   protected final String TEXT_796 = ");";
@@ -828,7 +828,7 @@ public class Class
   protected final String TEXT_811 = ".UNSET, ";
   protected final String TEXT_812 = ", null, null, old";
   protected final String TEXT_813 = "ESet));";
-  protected final String TEXT_814 = NL + "    \t}";
+  protected final String TEXT_814 = NL + "\t\t}";
   protected final String TEXT_815 = NL + "\t\t";
   protected final String TEXT_816 = " old";
   protected final String TEXT_817 = " = (";
