@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.60 2006/08/24 16:42:04 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.60.2.1 2006/11/20 19:50:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -647,6 +647,7 @@ public class XMLSaveImpl implements XMLSave
       else
       {
         root = top;
+        currentNode = document;
         saveFeatures(top);
         return null;
       }
