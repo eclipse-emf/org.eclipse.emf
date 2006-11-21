@@ -12,26 +12,22 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.10 2006/11/09 14:44:23 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.11 2006/11/21 19:35:50 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Hashtable;
-import java.util.Map;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
-
 import org.eclipse.emf.codegen.jmerge.JControlModel;
 import org.eclipse.emf.codegen.jmerge.JMerger;
-import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.test.tools.TestUtil;
+import org.eclipse.jdt.core.JavaCore;
 
 /**
  * Each test method in this class works with a data/mergeN directory.
@@ -42,8 +38,6 @@ public class DeprecatedJMergerTest extends TestCase
   protected File source;
   protected File target; 
   protected File expected;
-  
-  protected boolean applyGenModelEditorFormatting = false;
   
   /**
    * @param name
@@ -65,9 +59,10 @@ public class DeprecatedJMergerTest extends TestCase
   
   protected String getDataDirectory()
   {
-    return TestUtil.getPluginDirectory() + "/data/" + getName();
+    return TestUtil.getPluginDirectory() + "/data/merge.input/java1.4/" + getName() + ".deprecated";
   }
   
+  @Override
   protected void setUp() throws Exception
   {
     String dir = getDataDirectory(); 
@@ -112,56 +107,9 @@ public class DeprecatedJMergerTest extends TestCase
     verifyMerge(mergeFiles());
   }
   
-  protected void adjustSourceCompatibility(String value)
-  {
-    Hashtable map = JavaCore.getOptions();
-    map.put(JavaCore.COMPILER_SOURCE, value);
-    JavaCore.setOptions(map);    
-  }  
-  
-  protected void applyGenModelEditorFormattingSettings(org.eclipse.emf.codegen.merge.java.JControlModel jControlModel)
-  {
-    if (CommonPlugin.IS_ECLIPSE_RUNNING)
-    {
-      Map options = JavaCore.getOptions();
-      String tabSize = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
-      String braceStyle = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
-      String tabCharacter = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
-      if (JavaCore.TAB.equals(tabCharacter))
-      {
-         jControlModel.setLeadingTabReplacement("\t");
-      }
-      else
-      {
-        String spaces = "";
-        for (int i = Integer.parseInt(tabSize); i > 0; --i)
-        {
-          spaces += " ";
-        }
-        jControlModel.setLeadingTabReplacement(spaces);
-      }
-      jControlModel.setConvertToStandardBraceStyle(DefaultCodeFormatterConstants.END_OF_LINE.equals(braceStyle));
-    }
-  }
-  
   protected void verifyMerge(String targetContents)
   {
-    // extract merged contents
-    StringBuffer mergeResult = new StringBuffer(targetContents);
-    
-    // The merge expected file was saved without any '\r' so
-    // we need to remove it from the mergedResult
-    for (int i=mergeResult.length()-1; i >= 0; i--)
-    {
-      if ('\r' == mergeResult.charAt(i))
-      {
-        mergeResult.deleteCharAt(i);
-      }
-    }
-    
-    String expectedMerge = TestUtil.readFile(expected, false);
-    String actualMerge = mergeResult.toString();
-    assertEquals("Make sure the line breaks are OK.  The expected merge should have no '\r'", expectedMerge, actualMerge);    
+    JMergerTest.verifyMerge(expected, targetContents);
   }
   
   protected String mergeFiles() throws Exception
@@ -181,10 +129,6 @@ public class DeprecatedJMergerTest extends TestCase
     JMerger jMerger = new JMerger();
     JControlModel controlModel = new JControlModel(mergeXML.getAbsolutePath());
     jMerger.setControlModel(controlModel);
-    if (applyGenModelEditorFormatting)
-    {
-      applyGenModelEditorFormattingSettings(controlModel);
-    }
 
     // set source
     jMerger.setSourceCompilationUnit(jMerger.createCompilationUnitForContents(TestUtil.readFile(source, false)));

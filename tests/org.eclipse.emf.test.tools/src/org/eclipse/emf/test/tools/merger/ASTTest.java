@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.14 2006/11/01 21:32:17 marcelop Exp $
+ * $Id: ASTTest.java,v 1.15 2006/11/21 19:35:50 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -104,11 +104,11 @@ public class ASTTest extends TestCase
      assertEquals(1, javadoc.tags().size());
      TagElement tagElement = (TagElement)javadoc.tags().get(0);
      assertEquals(9, tagElement.fragments().size());
-     for (Iterator i = tagElement.fragments().iterator(); i.hasNext();)
-    {
-      TextElement element = (TextElement)i.next();
-      System.out.println(element.getText());
-    }
+//     for (Iterator i = tagElement.fragments().iterator(); i.hasNext();)
+//    {
+//      TextElement element = (TextElement)i.next();
+//      System.out.println(element.getText());
+//    }
    }
    
    
