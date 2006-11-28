@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.10 2006/04/21 09:50:14 emerks Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.10.2.1 2006/11/28 11:47:42 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -1095,7 +1095,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
         Object [] oldData = delegateToArray();
         int oldSize = size;
         doClear(size, oldData);
-        NotificationChain notifications = createNotificationChain(size);
+        NotificationChain notifications = createNotificationChain(oldSize);
         for (int i = 0; i < oldSize; ++i)
         {
           notifications = inverseRemove(oldData[i], notifications);
