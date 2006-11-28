@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTask.java,v 1.3 2005/06/08 06:17:17 nickb Exp $
+ * $Id: EMFTask.java,v 1.4 2006/11/28 13:26:55 emerks Exp $
  */
 package org.eclipse.emf.ant.taskdefs;
 
@@ -50,10 +50,13 @@ public abstract class EMFTask extends Task
   {
     try
     {
-      IProgressMonitor progressMonitor = (IProgressMonitor)getProject().getReferences().get(AntCorePlugin.ECLIPSE_PROGRESS_MONITOR);
-      if (progressMonitor != null)
+      if (getProject() != null)
       {
-        return progressMonitor;
+        IProgressMonitor progressMonitor = (IProgressMonitor)getProject().getReferences().get(AntCorePlugin.ECLIPSE_PROGRESS_MONITOR);
+        if (progressMonitor != null)
+        {
+          return progressMonitor;
+        }
       }
     }
     catch (Exception e)
