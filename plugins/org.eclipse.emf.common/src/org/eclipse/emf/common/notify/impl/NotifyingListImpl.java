@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotifyingListImpl.java,v 1.11 2006/04/21 09:50:14 emerks Exp $
+ * $Id: NotifyingListImpl.java,v 1.11.2.1 2006/11/28 11:47:03 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -1103,7 +1103,7 @@ public class NotifyingListImpl extends BasicEList implements NotifyingList
         Object [] oldData = data;
         int oldSize = size;
         doClear();
-        NotificationChain notifications = createNotificationChain(size);
+        NotificationChain notifications = createNotificationChain(oldSize);
         for (int i = 0; i < oldSize; ++i)
         {
           notifications = inverseRemove(oldData[i], notifications);
