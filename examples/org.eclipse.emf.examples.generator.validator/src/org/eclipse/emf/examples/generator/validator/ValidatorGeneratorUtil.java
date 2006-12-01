@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidatorGeneratorUtil.java,v 1.1 2006/11/10 23:04:27 davidms Exp $
+ * $Id: ValidatorGeneratorUtil.java,v 1.2 2006/12/01 12:11:59 emerks Exp $
  */
 package org.eclipse.emf.examples.generator.validator;
 
@@ -20,8 +20,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypedElement;
 import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.ecore.ETypedElement;
@@ -87,7 +89,8 @@ public class ValidatorGeneratorUtil
   public static String getTypeExpression(GenTypedElement genTypedElement)
   {
     StringBuffer result = new StringBuffer();
-    result.append(genTypedElement.getTypeGenClassifier().getName());
+    GenClassifier genClassifier = genTypedElement.getTypeGenClassifier();
+    result.append(genClassifier == null ? "void" : genClassifier.getName());
 
     ETypedElement eTypedElement = (ETypedElement)genTypedElement.getEcoreModelElement();
     int lowerBound = eTypedElement.getLowerBound();
@@ -123,7 +126,8 @@ public class ValidatorGeneratorUtil
 
     for (Iterator i = genOperation.getGenParameters().iterator(); i.hasNext(); )
     {
-      result.append(getTypeExpression(genOperation));
+      GenParameter genParameter = (GenParameter)i.next();
+      result.append(getTypeExpression(genParameter));
       if (i.hasNext())
       {
         result.append(", ");
@@ -132,6 +136,5 @@ public class ValidatorGeneratorUtil
     result.append(')');
     return result.toString();
   }
-
   
 }
