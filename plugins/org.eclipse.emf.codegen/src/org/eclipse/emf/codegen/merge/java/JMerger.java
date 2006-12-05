@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.7 2006/12/05 00:22:42 marcelop Exp $
+ * $Id: JMerger.java,v 1.8 2006/12/05 00:29:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -917,7 +917,7 @@ public class JMerger
   {
     for (List<JNode> children : orderedSourceChildrenMap.values())
     {
-      if (children.size() > 2)
+      if (children.size() >= 2)
       {
         Iterator<JNode> i = children.iterator();
         JNode sourceNode = i.next();
