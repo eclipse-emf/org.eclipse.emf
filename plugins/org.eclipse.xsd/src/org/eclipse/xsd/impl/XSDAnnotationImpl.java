@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotationImpl.java,v 1.8 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDAnnotationImpl.java,v 1.9 2006/12/05 20:32:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -68,7 +68,7 @@ public class XSDAnnotationImpl
    * @generated
    * @ordered
    */
-  protected EList applicationInformation = null;
+  protected EList<Element> applicationInformation = null;
 
   /**
    * The cached value of the '{@link #getUserInformation() <em>User Information</em>}' attribute list.
@@ -78,7 +78,7 @@ public class XSDAnnotationImpl
    * @generated
    * @ordered
    */
-  protected EList userInformation = null;
+  protected EList<Element> userInformation = null;
 
   /**
    * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' attribute list.
@@ -88,7 +88,7 @@ public class XSDAnnotationImpl
    * @generated
    * @ordered
    */
-  protected EList attributes = null;
+  protected EList<Attr> attributes = null;
 
   public static XSDAnnotation createAnnotation(Node node)
   {
@@ -127,11 +127,11 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getApplicationInformation()
+  public EList<Element> getApplicationInformation()
   {
     if (applicationInformation == null)
     {
-      applicationInformation = new EDataTypeUniqueEList(Element.class, this, XSDPackage.XSD_ANNOTATION__APPLICATION_INFORMATION);
+      applicationInformation = new EDataTypeUniqueEList<Element>(Element.class, this, XSDPackage.XSD_ANNOTATION__APPLICATION_INFORMATION);
     }
     return applicationInformation;
   }
@@ -141,11 +141,11 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getUserInformation()
+  public EList<Element> getUserInformation()
   {
     if (userInformation == null)
     {
-      userInformation = new EDataTypeUniqueEList(Element.class, this, XSDPackage.XSD_ANNOTATION__USER_INFORMATION);
+      userInformation = new EDataTypeUniqueEList<Element>(Element.class, this, XSDPackage.XSD_ANNOTATION__USER_INFORMATION);
     }
     return userInformation;
   }
@@ -155,11 +155,11 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getAttributes()
+  public EList<Attr> getAttributes()
   {
     if (attributes == null)
     {
-      attributes = new EDataTypeUniqueEList(Attr.class, this, XSDPackage.XSD_ANNOTATION__ATTRIBUTES);
+      attributes = new EDataTypeUniqueEList<Attr>(Attr.class, this, XSDPackage.XSD_ANNOTATION__ATTRIBUTES);
     }
     return attributes;
   }
@@ -194,15 +194,15 @@ public class XSDAnnotationImpl
     {
       case XSDPackage.XSD_ANNOTATION__APPLICATION_INFORMATION:
         getApplicationInformation().clear();
-        getApplicationInformation().addAll((Collection)newValue);
+        getApplicationInformation().addAll((Collection<? extends Element>)newValue);
         return;
       case XSDPackage.XSD_ANNOTATION__USER_INFORMATION:
         getUserInformation().clear();
-        getUserInformation().addAll((Collection)newValue);
+        getUserInformation().addAll((Collection<? extends Element>)newValue);
         return;
       case XSDPackage.XSD_ANNOTATION__ATTRIBUTES:
         getAttributes().clear();
-        getAttributes().addAll((Collection)newValue);
+        getAttributes().addAll((Collection<? extends Attr>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

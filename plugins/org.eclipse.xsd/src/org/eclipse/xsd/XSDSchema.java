@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchema.java,v 1.6 2006/05/23 16:13:08 emerks Exp $
+ * $Id: XSDSchema.java,v 1.7 2006/12/05 20:32:33 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -281,7 +281,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDProhibitedSubstitutions" unsettable="true"
    * @generated
    */
-  EList getFinalDefault();
+  EList<XSDProhibitedSubstitutions> getFinalDefault();
 
   /**
    * Unsets the value of the '{@link org.eclipse.xsd.XSDSchema#getFinalDefault <em>Final Default</em>}' attribute list.
@@ -342,7 +342,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDDisallowedSubstitutions" unsettable="true"
    * @generated
    */
-  EList getBlockDefault();
+  EList<XSDDisallowedSubstitutions> getBlockDefault();
 
   /**
    * Unsets the value of the '{@link org.eclipse.xsd.XSDSchema#getBlockDefault <em>Block Default</em>}' attribute list.
@@ -425,7 +425,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDSchemaContent" containment="true"
    * @generated
    */
-  EList getContents();
+  EList<XSDSchemaContent> getContents();
 
   /**
    * Returns the value of the '<em><b>Element Declarations</b></em>' reference list.
@@ -443,7 +443,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDElementDeclaration" resolveProxies="false"
    * @generated
    */
-  EList getElementDeclarations();
+  EList<XSDElementDeclaration> getElementDeclarations();
 
   /**
    * Returns the value of the '<em><b>Attribute Declarations</b></em>' reference list.
@@ -461,7 +461,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDAttributeDeclaration" resolveProxies="false"
    * @generated
    */
-  EList getAttributeDeclarations();
+  EList<XSDAttributeDeclaration> getAttributeDeclarations();
 
   /**
    * Returns the value of the '<em><b>Attribute Group Definitions</b></em>' reference list.
@@ -479,7 +479,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDAttributeGroupDefinition" resolveProxies="false"
    * @generated
    */
-  EList getAttributeGroupDefinitions();
+  EList<XSDAttributeGroupDefinition> getAttributeGroupDefinitions();
 
   /**
    * Returns the value of the '<em><b>Type Definitions</b></em>' reference list.
@@ -497,7 +497,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDTypeDefinition" resolveProxies="false"
    * @generated
    */
-  EList getTypeDefinitions();
+  EList<XSDTypeDefinition> getTypeDefinitions();
 
   /**
    * Returns the value of the '<em><b>Model Group Definitions</b></em>' reference list.
@@ -515,7 +515,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDModelGroupDefinition" resolveProxies="false"
    * @generated
    */
-  EList getModelGroupDefinitions();
+  EList<XSDModelGroupDefinition> getModelGroupDefinitions();
 
   /**
    * Returns the value of the '<em><b>Identity Constraint Definitions</b></em>' reference list.
@@ -536,7 +536,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDIdentityConstraintDefinition" resolveProxies="false"
    * @generated
    */
-  EList getIdentityConstraintDefinitions();
+  EList<XSDIdentityConstraintDefinition> getIdentityConstraintDefinitions();
 
   /**
    * Returns the value of the '<em><b>Notation Declarations</b></em>' reference list.
@@ -554,7 +554,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDNotationDeclaration" resolveProxies="false"
    * @generated
    */
-  EList getNotationDeclarations();
+  EList<XSDNotationDeclaration> getNotationDeclarations();
 
   /**
    * Returns the value of the '<em><b>Annotations</b></em>' reference list.
@@ -572,7 +572,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDAnnotation" resolveProxies="false"
    * @generated
    */
-  EList getAnnotations();
+  EList<XSDAnnotation> getAnnotations();
 
   /**
    * Returns the value of the '<em><b>All Diagnostics</b></em>' reference list.
@@ -589,7 +589,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDDiagnostic" resolveProxies="false"
    * @generated
    */
-  EList getAllDiagnostics();
+  EList<XSDDiagnostic> getAllDiagnostics();
 
   /**
    * Returns the value of the '<em><b>Referencing Directives</b></em>' reference list.
@@ -606,7 +606,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDSchemaDirective" resolveProxies="false"
    * @generated
    */
-  EList getReferencingDirectives();
+  EList<XSDSchemaDirective> getReferencingDirectives();
 
   /**
    * Returns the value of the '<em><b>Root Version</b></em>' reference.
@@ -654,7 +654,7 @@ public interface XSDSchema extends XSDScope
    * @model type="org.eclipse.xsd.XSDSchema" containment="true" transient="true"
    * @generated
    */
-  EList getIncorporatedVersions();
+  EList<XSDSchema> getIncorporatedVersions();
 
   /**
    * Returns the value of the '<em><b>Schema For Schema</b></em>' reference.

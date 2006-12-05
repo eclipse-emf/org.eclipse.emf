@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinition.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDComplexTypeDefinition.java,v 1.5 2006/12/05 20:32:33 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -134,7 +134,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @model type="org.eclipse.xsd.XSDComplexFinal"
    * @generated
    */
-  EList getFinal();
+  EList<XSDComplexFinal> getFinal();
 
   /**
    * Returns the String value of the '{@link org.eclipse.xsd.XSDComplexTypeDefinition#getFinal <em>Final</em>}' attribute list.
@@ -251,7 +251,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @model type="org.eclipse.xsd.XSDProhibitedSubstitutions"
    * @generated
    */
-  EList getProhibitedSubstitutions();
+  EList<XSDProhibitedSubstitutions> getProhibitedSubstitutions();
 
   /**
    * Returns the String value of the 
@@ -283,7 +283,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @model type="org.eclipse.xsd.XSDComplexFinal" unsettable="true"
    * @generated
    */
-  EList getLexicalFinal();
+  EList<XSDComplexFinal> getLexicalFinal();
 
   /**
    * Unsets the value of the '{@link org.eclipse.xsd.XSDComplexTypeDefinition#getLexicalFinal <em>Lexical Final</em>}' attribute list.
@@ -347,7 +347,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @model type="org.eclipse.xsd.XSDProhibitedSubstitutions" unsettable="true"
    * @generated
    */
-  EList getBlock();
+  EList<XSDProhibitedSubstitutions> getBlock();
 
   /**
    * Unsets the value of the '{@link org.eclipse.xsd.XSDComplexTypeDefinition#getBlock <em>Block</em>}' attribute list.
@@ -569,7 +569,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @model type="org.eclipse.xsd.XSDAttributeUse" resolveProxies="false"
    * @generated
    */
-  EList getAttributeUses();
+  EList<XSDAttributeUse> getAttributeUses();
 
   /**
    * Returns the value of the '<em><b>Attribute Contents</b></em>' containment reference list.
@@ -585,7 +585,7 @@ public interface XSDComplexTypeDefinition extends XSDTypeDefinition, XSDScope
    * @model type="org.eclipse.xsd.XSDAttributeGroupContent" containment="true"
    * @generated
    */
-  EList getAttributeContents();
+  EList<XSDAttributeGroupContent> getAttributeContents();
 
   /**
    * Returns the value of the '<em><b>Attribute Wildcard</b></em>' reference.

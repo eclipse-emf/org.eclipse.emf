@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.17 2006/10/24 18:30:53 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.18 2006/12/05 20:32:15 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -128,7 +128,7 @@ public abstract class XSDConcreteComponentImpl
    * @generated
    * @ordered
    */
-  protected EList diagnostics = null;
+  protected EList<XSDDiagnostic> diagnostics = null;
 
   protected static final int FATAL=0;
   protected static final int ERROR=1;
@@ -1955,11 +1955,11 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getDiagnostics()
+  public EList<XSDDiagnostic> getDiagnostics()
   {
     if (diagnostics == null)
     {
-      diagnostics = new EObjectContainmentEList(XSDDiagnostic.class, this, XSDPackage.XSD_CONCRETE_COMPONENT__DIAGNOSTICS);
+      diagnostics = new EObjectContainmentEList<XSDDiagnostic>(XSDDiagnostic.class, this, XSDPackage.XSD_CONCRETE_COMPONENT__DIAGNOSTICS);
     }
     return diagnostics;
   }
@@ -1974,7 +1974,7 @@ public abstract class XSDConcreteComponentImpl
     switch (featureID)
     {
       case XSDPackage.XSD_CONCRETE_COMPONENT__DIAGNOSTICS:
-        return ((InternalEList)getDiagnostics()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getDiagnostics()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -2016,7 +2016,7 @@ public abstract class XSDConcreteComponentImpl
         return;
       case XSDPackage.XSD_CONCRETE_COMPONENT__DIAGNOSTICS:
         getDiagnostics().clear();
-        getDiagnostics().addAll((Collection)newValue);
+        getDiagnostics().addAll((Collection<? extends XSDDiagnostic>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

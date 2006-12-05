@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroup.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDModelGroup.java,v 1.4 2006/12/05 20:32:32 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -115,7 +115,7 @@ public interface XSDModelGroup extends XSDTerm
    * @model type="org.eclipse.xsd.XSDParticle" containment="true"
    * @generated
    */
-  EList getContents();
+  EList<XSDParticle> getContents();
 
   /**
    * Returns the value of the '<em><b>Particles</b></em>' reference list.
@@ -132,6 +132,6 @@ public interface XSDModelGroup extends XSDTerm
    * @model type="org.eclipse.xsd.XSDParticle" resolveProxies="false" required="true"
    * @generated
    */
-  EList getParticles();
+  EList<XSDParticle> getParticles();
 
 }

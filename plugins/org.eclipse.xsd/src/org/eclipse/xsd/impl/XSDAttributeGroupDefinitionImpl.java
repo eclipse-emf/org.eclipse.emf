@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.12 2006/07/15 12:33:14 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.13 2006/12/05 20:32:31 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -109,7 +109,7 @@ public class XSDAttributeGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList contents = null;
+  protected EList<XSDAttributeGroupContent> contents = null;
 
   /**
    * The cached value of the '{@link #getAttributeUses() <em>Attribute Uses</em>}' reference list.
@@ -119,7 +119,7 @@ public class XSDAttributeGroupDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList attributeUses = null;
+  protected EList<XSDAttributeUse> attributeUses = null;
 
   /**
    * The cached value of the '{@link #getAttributeWildcardContent() <em>Attribute Wildcard Content</em>}' containment reference.
@@ -737,11 +737,11 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getContents()
+  public EList<XSDAttributeGroupContent> getContents()
   {
     if (contents == null)
     {
-      contents = new EObjectContainmentEList(XSDAttributeGroupContent.class, this, XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTENTS);
+      contents = new EObjectContainmentEList<XSDAttributeGroupContent>(XSDAttributeGroupContent.class, this, XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTENTS);
     }
     return contents;
   }
@@ -751,11 +751,11 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getAttributeUses()
+  public EList<XSDAttributeUse> getAttributeUses()
   {
     if (attributeUses == null)
     {
-      attributeUses = new EObjectEList(XSDAttributeUse.class, this, XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_USES);
+      attributeUses = new EObjectEList<XSDAttributeUse>(XSDAttributeUse.class, this, XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_USES);
     }
     return attributeUses;
   }
@@ -914,7 +914,7 @@ public class XSDAttributeGroupDefinitionImpl
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION:
         return basicSetAnnotation(null, msgs);
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTENTS:
-        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_WILDCARD_CONTENT:
         return basicSetAttributeWildcardContent(null, msgs);
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__SYNTHETIC_WILDCARD:
@@ -966,11 +966,11 @@ public class XSDAttributeGroupDefinitionImpl
         return;
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__CONTENTS:
         getContents().clear();
-        getContents().addAll((Collection)newValue);
+        getContents().addAll((Collection<? extends XSDAttributeGroupContent>)newValue);
         return;
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_USES:
         getAttributeUses().clear();
-        getAttributeUses().addAll((Collection)newValue);
+        getAttributeUses().addAll((Collection<? extends XSDAttributeUse>)newValue);
         return;
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION__ATTRIBUTE_WILDCARD_CONTENT:
         setAttributeWildcardContent((XSDWildcard)newValue);

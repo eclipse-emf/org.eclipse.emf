@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRepeatableFacetImpl.java,v 1.8 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDRepeatableFacetImpl.java,v 1.9 2006/12/05 20:32:31 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -57,7 +57,7 @@ public abstract class XSDRepeatableFacetImpl
    * @generated
    * @ordered
    */
-  protected EList annotations = null;
+  protected EList<XSDAnnotation> annotations = null;
 
   public static XSDRepeatableFacet createRepeatableFacet(Node node)
   {
@@ -101,11 +101,11 @@ public abstract class XSDRepeatableFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getAnnotations()
+  public EList<XSDAnnotation> getAnnotations()
   {
     if (annotations == null)
     {
-      annotations = new EObjectEList(XSDAnnotation.class, this, XSDPackage.XSD_REPEATABLE_FACET__ANNOTATIONS);
+      annotations = new EObjectEList<XSDAnnotation>(XSDAnnotation.class, this, XSDPackage.XSD_REPEATABLE_FACET__ANNOTATIONS);
     }
     return annotations;
   }
@@ -136,7 +136,7 @@ public abstract class XSDRepeatableFacetImpl
     {
       case XSDPackage.XSD_REPEATABLE_FACET__ANNOTATIONS:
         getAnnotations().clear();
-        getAnnotations().addAll((Collection)newValue);
+        getAnnotations().addAll((Collection<? extends XSDAnnotation>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

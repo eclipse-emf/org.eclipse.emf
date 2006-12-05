@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupImpl.java,v 1.7 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDModelGroupImpl.java,v 1.8 2006/12/05 20:32:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -109,7 +109,7 @@ public class XSDModelGroupImpl
    * @generated
    * @ordered
    */
-  protected EList contents = null;
+  protected EList<XSDParticle> contents = null;
 
   /**
    * The cached value of the '{@link #getParticles() <em>Particles</em>}' reference list.
@@ -119,7 +119,7 @@ public class XSDModelGroupImpl
    * @generated
    * @ordered
    */
-  protected EList particles = null;
+  protected EList<XSDParticle> particles = null;
 
   public static XSDModelGroup createModelGroup(Node node)
   {
@@ -247,11 +247,11 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getContents()
+  public EList<XSDParticle> getContents()
   {
     if (contents == null)
     {
-      contents = new EObjectContainmentEList(XSDParticle.class, this, XSDPackage.XSD_MODEL_GROUP__CONTENTS);
+      contents = new EObjectContainmentEList<XSDParticle>(XSDParticle.class, this, XSDPackage.XSD_MODEL_GROUP__CONTENTS);
     }
     return contents;
   }
@@ -261,11 +261,11 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getParticles()
+  public EList<XSDParticle> getParticles()
   {
     if (particles == null)
     {
-      particles = new EObjectEList(XSDParticle.class, this, XSDPackage.XSD_MODEL_GROUP__PARTICLES);
+      particles = new EObjectEList<XSDParticle>(XSDParticle.class, this, XSDPackage.XSD_MODEL_GROUP__PARTICLES);
     }
     return particles;
   }
@@ -282,7 +282,7 @@ public class XSDModelGroupImpl
       case XSDPackage.XSD_MODEL_GROUP__ANNOTATION:
         return basicSetAnnotation(null, msgs);
       case XSDPackage.XSD_MODEL_GROUP__CONTENTS:
-        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -325,11 +325,11 @@ public class XSDModelGroupImpl
         return;
       case XSDPackage.XSD_MODEL_GROUP__CONTENTS:
         getContents().clear();
-        getContents().addAll((Collection)newValue);
+        getContents().addAll((Collection<? extends XSDParticle>)newValue);
         return;
       case XSDPackage.XSD_MODEL_GROUP__PARTICLES:
         getParticles().clear();
-        getParticles().addAll((Collection)newValue);
+        getParticles().addAll((Collection<? extends XSDParticle>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

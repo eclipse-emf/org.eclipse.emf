@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPatternFacetImpl.java,v 1.11 2006/04/04 10:10:22 emerks Exp $
+ * $Id: XSDPatternFacetImpl.java,v 1.12 2006/12/05 20:32:15 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -68,7 +68,7 @@ public class XSDPatternFacetImpl
    * @generated
    * @ordered
    */
-  protected EList value = null;
+  protected EList<String> value = null;
 
   public static XSDPatternFacet createPatternFacet(Node node)
   {
@@ -107,11 +107,11 @@ public class XSDPatternFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getValue()
+  public EList<String> getValue()
   {
     if (value == null)
     {
-      value = new EDataTypeUniqueEList(String.class, this, XSDPackage.XSD_PATTERN_FACET__VALUE);
+      value = new EDataTypeUniqueEList<String>(String.class, this, XSDPackage.XSD_PATTERN_FACET__VALUE);
     }
     return value;
   }
@@ -142,7 +142,7 @@ public class XSDPatternFacetImpl
     {
       case XSDPackage.XSD_PATTERN_FACET__VALUE:
         getValue().clear();
-        getValue().addAll((Collection)newValue);
+        getValue().addAll((Collection<? extends String>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -268,7 +268,7 @@ public class XSDPatternFacetImpl
     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)getContainer();
     if (xsdSimpleTypeDefinition != null && !xsdSimpleTypeDefinition.getSyntheticFacets().contains(this))
     {
-      Object newValue = getLexicalValue();
+      String newValue = getLexicalValue();
       if (!getValue().contains(newValue))
       {
         getValue().clear();

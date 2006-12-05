@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.11 2006/05/03 20:39:01 davidms Exp $
+ * $Id: XSDWildcardImpl.java,v 1.12 2006/12/05 20:32:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -100,7 +100,7 @@ public class XSDWildcardImpl
    * @generated
    * @ordered
    */
-  protected EList namespaceConstraint = null;
+  protected EList<String> namespaceConstraint = null;
 
   /**
    * The default value of the '{@link #getProcessContents() <em>Process Contents</em>}' attribute.
@@ -139,7 +139,7 @@ public class XSDWildcardImpl
    * @generated
    * @ordered
    */
-  protected EList lexicalNamespaceConstraint = null;
+  protected EList<String> lexicalNamespaceConstraint = null;
 
   /**
    * The cached value of the '{@link #getAnnotation() <em>Annotation</em>}' containment reference.
@@ -159,7 +159,7 @@ public class XSDWildcardImpl
    * @generated
    * @ordered
    */
-  protected EList annotations = null;
+  protected EList<XSDAnnotation> annotations = null;
 
   public static XSDWildcard createWildcard(Node node)
   {
@@ -225,11 +225,11 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getNamespaceConstraint()
+  public EList<String> getNamespaceConstraint()
   {
     if (namespaceConstraint == null)
     {
-      namespaceConstraint = new EDataTypeUniqueEList(String.class, this, XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT);
+      namespaceConstraint = new EDataTypeUniqueEList<String>(String.class, this, XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT);
     }
     return namespaceConstraint;
   }
@@ -289,11 +289,11 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getLexicalNamespaceConstraint()
+  public EList<String> getLexicalNamespaceConstraint()
   {
     if (lexicalNamespaceConstraint == null)
     {
-      lexicalNamespaceConstraint = new EDataTypeUniqueEList.Unsettable(String.class, this, XSDPackage.XSD_WILDCARD__LEXICAL_NAMESPACE_CONSTRAINT);
+      lexicalNamespaceConstraint = new EDataTypeUniqueEList.Unsettable<String>(String.class, this, XSDPackage.XSD_WILDCARD__LEXICAL_NAMESPACE_CONSTRAINT);
     }
     return lexicalNamespaceConstraint;
   }
@@ -305,7 +305,7 @@ public class XSDWildcardImpl
    */
   public void unsetLexicalNamespaceConstraint()
   {
-    if (lexicalNamespaceConstraint != null) ((InternalEList.Unsettable)lexicalNamespaceConstraint).unset();
+    if (lexicalNamespaceConstraint != null) ((InternalEList.Unsettable<?>)lexicalNamespaceConstraint).unset();
   }
 
   /**
@@ -315,7 +315,7 @@ public class XSDWildcardImpl
    */
   public boolean isSetLexicalNamespaceConstraint()
   {
-    return lexicalNamespaceConstraint != null && ((InternalEList.Unsettable)lexicalNamespaceConstraint).isSet();
+    return lexicalNamespaceConstraint != null && ((InternalEList.Unsettable<?>)lexicalNamespaceConstraint).isSet();
   }
 
   /**
@@ -371,11 +371,11 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getAnnotations()
+  public EList<XSDAnnotation> getAnnotations()
   {
     if (annotations == null)
     {
-      annotations = new EObjectEList(XSDAnnotation.class, this, XSDPackage.XSD_WILDCARD__ANNOTATIONS);
+      annotations = new EObjectEList<XSDAnnotation>(XSDAnnotation.class, this, XSDPackage.XSD_WILDCARD__ANNOTATIONS);
     }
     return annotations;
   }
@@ -434,21 +434,21 @@ public class XSDWildcardImpl
         return;
       case XSDPackage.XSD_WILDCARD__NAMESPACE_CONSTRAINT:
         getNamespaceConstraint().clear();
-        getNamespaceConstraint().addAll((Collection)newValue);
+        getNamespaceConstraint().addAll((Collection<? extends String>)newValue);
         return;
       case XSDPackage.XSD_WILDCARD__PROCESS_CONTENTS:
         setProcessContents((XSDProcessContents)newValue);
         return;
       case XSDPackage.XSD_WILDCARD__LEXICAL_NAMESPACE_CONSTRAINT:
         getLexicalNamespaceConstraint().clear();
-        getLexicalNamespaceConstraint().addAll((Collection)newValue);
+        getLexicalNamespaceConstraint().addAll((Collection<? extends String>)newValue);
         return;
       case XSDPackage.XSD_WILDCARD__ANNOTATION:
         setAnnotation((XSDAnnotation)newValue);
         return;
       case XSDPackage.XSD_WILDCARD__ANNOTATIONS:
         getAnnotations().clear();
-        getAnnotations().addAll((Collection)newValue);
+        getAnnotations().addAll((Collection<? extends XSDAnnotation>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -814,7 +814,7 @@ public class XSDWildcardImpl
     super.adoptContent(eReference, xsdConcreteComponent);
     if (eReference == XSDPackage.Literals.XSD_WILDCARD__ANNOTATION)
     {
-      getAnnotations().add(xsdConcreteComponent);
+      getAnnotations().add((XSDAnnotation)xsdConcreteComponent);
     }
   }
 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinition.java,v 1.5 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDSimpleTypeDefinition.java,v 1.6 2006/12/05 20:32:32 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -169,7 +169,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="org.eclipse.xsd.XSDSimpleFinal"
    * @generated
    */
-  EList getFinal();
+  EList<XSDSimpleFinal> getFinal();
 
   /**
    * Returns the String value of the '{@link org.eclipse.xsd.XSDSimpleTypeDefinition#getFinal <em>Final</em>}' attribute list.
@@ -199,7 +199,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="org.eclipse.xsd.XSDSimpleFinal" unsettable="true"
    * @generated
    */
-  EList getLexicalFinal();
+  EList<XSDSimpleFinal> getLexicalFinal();
 
   /**
    * Unsets the value of the '{@link org.eclipse.xsd.XSDSimpleTypeDefinition#getLexicalFinal <em>Lexical Final</em>}' attribute list.
@@ -258,7 +258,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="java.lang.String"
    * @generated
    */
-  EList getValidFacets();
+  EList<String> getValidFacets();
 
   /**
    * Returns the value of the '<em><b>Contents</b></em>' containment reference list.
@@ -276,7 +276,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="org.eclipse.xsd.XSDSimpleTypeDefinition" containment="true"
    * @generated
    */
-  EList getContents();
+  EList<XSDSimpleTypeDefinition> getContents();
 
   /**
    * Returns the value of the '<em><b>Facet Contents</b></em>' containment reference list.
@@ -295,7 +295,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="org.eclipse.xsd.XSDConstrainingFacet" containment="true"
    * @generated
    */
-  EList getFacetContents();
+  EList<XSDConstrainingFacet> getFacetContents();
 
   /**
    * Returns the value of the '<em><b>Facets</b></em>' reference list.
@@ -313,7 +313,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="org.eclipse.xsd.XSDConstrainingFacet" resolveProxies="false"
    * @generated
    */
-  EList getFacets();
+  EList<XSDConstrainingFacet> getFacets();
 
   /**
    * Returns the value of the '<em><b>Member Type Definitions</b></em>' reference list.
@@ -338,7 +338,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="org.eclipse.xsd.XSDSimpleTypeDefinition" resolveProxies="false"
    * @generated
    */
-  EList getMemberTypeDefinitions();
+  EList<XSDSimpleTypeDefinition> getMemberTypeDefinitions();
 
   /**
    * Returns the value of the '<em><b>Fundamental Facets</b></em>' containment reference list.
@@ -356,7 +356,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="org.eclipse.xsd.XSDFundamentalFacet" containment="true" required="true" transient="true"
    * @generated
    */
-  EList getFundamentalFacets();
+  EList<XSDFundamentalFacet> getFundamentalFacets();
 
   /**
    * Returns the value of the '<em><b>Base Type Definition</b></em>' reference.
@@ -586,7 +586,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="org.eclipse.xsd.XSDEnumerationFacet" resolveProxies="false" transient="true" changeable="false" volatile="true"
    * @generated
    */
-  EList getEnumerationFacets();
+  EList<XSDEnumerationFacet> getEnumerationFacets();
 
   /**
    * Returns the value of the '<em><b>Pattern Facets</b></em>' reference list.
@@ -601,7 +601,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="org.eclipse.xsd.XSDPatternFacet" resolveProxies="false" transient="true" changeable="false" volatile="true"
    * @generated
    */
-  EList getPatternFacets();
+  EList<XSDPatternFacet> getPatternFacets();
 
   /**
    * Returns the value of the '<em><b>Cardinality Facet</b></em>' reference.
@@ -874,7 +874,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
    * @model type="org.eclipse.xsd.XSDFacet" containment="true" transient="true"
    * @generated
    */
-  EList getSyntheticFacets();
+  EList<XSDFacet> getSyntheticFacets();
 
   /**
    * Returns an assessment of the node.

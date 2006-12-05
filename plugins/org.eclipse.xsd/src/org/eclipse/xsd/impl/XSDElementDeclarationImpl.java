@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.16 2006/07/15 12:33:14 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.17 2006/12/05 20:32:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -132,7 +132,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList disallowedSubstitutions = null;
+  protected EList<XSDDisallowedSubstitutions> disallowedSubstitutions = null;
 
   /**
    * The cached value of the '{@link #getSubstitutionGroupExclusions() <em>Substitution Group Exclusions</em>}' attribute list.
@@ -142,7 +142,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList substitutionGroupExclusions = null;
+  protected EList<XSDSubstitutionGroupExclusions> substitutionGroupExclusions = null;
 
   /**
    * The default value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
@@ -181,7 +181,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList lexicalFinal = null;
+  protected EList<XSDProhibitedSubstitutions> lexicalFinal = null;
 
   /**
    * The cached value of the '{@link #getBlock() <em>Block</em>}' attribute list.
@@ -191,7 +191,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList block = null;
+  protected EList<XSDDisallowedSubstitutions> block = null;
 
   /**
    * The default value of the '{@link #isElementDeclarationReference() <em>Element Declaration Reference</em>}' attribute.
@@ -251,7 +251,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList identityConstraintDefinitions = null;
+  protected EList<XSDIdentityConstraintDefinition> identityConstraintDefinitions = null;
 
   /**
    * The cached value of the '{@link #getResolvedElementDeclaration() <em>Resolved Element Declaration</em>}' reference.
@@ -281,7 +281,7 @@ public class XSDElementDeclarationImpl
    * @generated
    * @ordered
    */
-  protected EList substitutionGroup = null;
+  protected EList<XSDElementDeclaration> substitutionGroup = null;
 
   public static XSDElementDeclaration createElementDeclaration(Node node)
   {
@@ -374,11 +374,11 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getDisallowedSubstitutions()
+  public EList<XSDDisallowedSubstitutions> getDisallowedSubstitutions()
   {
     if (disallowedSubstitutions == null)
     {
-      disallowedSubstitutions = new EDataTypeUniqueEList(XSDDisallowedSubstitutions.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__DISALLOWED_SUBSTITUTIONS);
+      disallowedSubstitutions = new EDataTypeUniqueEList<XSDDisallowedSubstitutions>(XSDDisallowedSubstitutions.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__DISALLOWED_SUBSTITUTIONS);
     }
     return disallowedSubstitutions;
   }
@@ -388,11 +388,11 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getSubstitutionGroupExclusions()
+  public EList<XSDSubstitutionGroupExclusions> getSubstitutionGroupExclusions()
   {
     if (substitutionGroupExclusions == null)
     {
-      substitutionGroupExclusions = new EDataTypeUniqueEList(XSDSubstitutionGroupExclusions.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP_EXCLUSIONS);
+      substitutionGroupExclusions = new EDataTypeUniqueEList<XSDSubstitutionGroupExclusions>(XSDSubstitutionGroupExclusions.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP_EXCLUSIONS);
     }
     return substitutionGroupExclusions;
   }
@@ -452,11 +452,11 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getLexicalFinal()
+  public EList<XSDProhibitedSubstitutions> getLexicalFinal()
   {
     if (lexicalFinal == null)
     {
-      lexicalFinal = new EDataTypeUniqueEList.Unsettable(XSDProhibitedSubstitutions.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__LEXICAL_FINAL);
+      lexicalFinal = new EDataTypeUniqueEList.Unsettable<XSDProhibitedSubstitutions>(XSDProhibitedSubstitutions.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__LEXICAL_FINAL);
     }
     return lexicalFinal;
   }
@@ -468,7 +468,7 @@ public class XSDElementDeclarationImpl
    */
   public void unsetLexicalFinal()
   {
-    if (lexicalFinal != null) ((InternalEList.Unsettable)lexicalFinal).unset();
+    if (lexicalFinal != null) ((InternalEList.Unsettable<?>)lexicalFinal).unset();
   }
 
   /**
@@ -478,7 +478,7 @@ public class XSDElementDeclarationImpl
    */
   public boolean isSetLexicalFinal()
   {
-    return lexicalFinal != null && ((InternalEList.Unsettable)lexicalFinal).isSet();
+    return lexicalFinal != null && ((InternalEList.Unsettable<?>)lexicalFinal).isSet();
   }
 
   /**
@@ -486,11 +486,11 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getBlock()
+  public EList<XSDDisallowedSubstitutions> getBlock()
   {
     if (block == null)
     {
-      block = new EDataTypeUniqueEList.Unsettable(XSDDisallowedSubstitutions.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__BLOCK);
+      block = new EDataTypeUniqueEList.Unsettable<XSDDisallowedSubstitutions>(XSDDisallowedSubstitutions.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__BLOCK);
     }
     return block;
   }
@@ -502,7 +502,7 @@ public class XSDElementDeclarationImpl
    */
   public void unsetBlock()
   {
-    if (block != null) ((InternalEList.Unsettable)block).unset();
+    if (block != null) ((InternalEList.Unsettable<?>)block).unset();
   }
 
   /**
@@ -512,7 +512,7 @@ public class XSDElementDeclarationImpl
    */
   public boolean isSetBlock()
   {
-    return block != null && ((InternalEList.Unsettable)block).isSet();
+    return block != null && ((InternalEList.Unsettable<?>)block).isSet();
   }
 
   /**
@@ -1826,11 +1826,11 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getIdentityConstraintDefinitions()
+  public EList<XSDIdentityConstraintDefinition> getIdentityConstraintDefinitions()
   {
     if (identityConstraintDefinitions == null)
     {
-      identityConstraintDefinitions = new EObjectContainmentEList(XSDIdentityConstraintDefinition.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__IDENTITY_CONSTRAINT_DEFINITIONS);
+      identityConstraintDefinitions = new EObjectContainmentEList<XSDIdentityConstraintDefinition>(XSDIdentityConstraintDefinition.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__IDENTITY_CONSTRAINT_DEFINITIONS);
     }
     return identityConstraintDefinitions;
   }
@@ -1886,11 +1886,11 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getSubstitutionGroup()
+  public EList<XSDElementDeclaration> getSubstitutionGroup()
   {
     if (substitutionGroup == null)
     {
-      substitutionGroup = new EObjectEList(XSDElementDeclaration.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP);
+      substitutionGroup = new EObjectEList<XSDElementDeclaration>(XSDElementDeclaration.class, this, XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP);
     }
     return substitutionGroup;
   }
@@ -1909,7 +1909,7 @@ public class XSDElementDeclarationImpl
       case XSDPackage.XSD_ELEMENT_DECLARATION__ANONYMOUS_TYPE_DEFINITION:
         return basicSetAnonymousTypeDefinition(null, msgs);
       case XSDPackage.XSD_ELEMENT_DECLARATION__IDENTITY_CONSTRAINT_DEFINITIONS:
-        return ((InternalEList)getIdentityConstraintDefinitions()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getIdentityConstraintDefinitions()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -1971,22 +1971,22 @@ public class XSDElementDeclarationImpl
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__DISALLOWED_SUBSTITUTIONS:
         getDisallowedSubstitutions().clear();
-        getDisallowedSubstitutions().addAll((Collection)newValue);
+        getDisallowedSubstitutions().addAll((Collection<? extends XSDDisallowedSubstitutions>)newValue);
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP_EXCLUSIONS:
         getSubstitutionGroupExclusions().clear();
-        getSubstitutionGroupExclusions().addAll((Collection)newValue);
+        getSubstitutionGroupExclusions().addAll((Collection<? extends XSDSubstitutionGroupExclusions>)newValue);
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__ABSTRACT:
         setAbstract(((Boolean)newValue).booleanValue());
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__LEXICAL_FINAL:
         getLexicalFinal().clear();
-        getLexicalFinal().addAll((Collection)newValue);
+        getLexicalFinal().addAll((Collection<? extends XSDProhibitedSubstitutions>)newValue);
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__BLOCK:
         getBlock().clear();
-        getBlock().addAll((Collection)newValue);
+        getBlock().addAll((Collection<? extends XSDDisallowedSubstitutions>)newValue);
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__ANNOTATION:
         setAnnotation((XSDAnnotation)newValue);
@@ -1999,7 +1999,7 @@ public class XSDElementDeclarationImpl
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__IDENTITY_CONSTRAINT_DEFINITIONS:
         getIdentityConstraintDefinitions().clear();
-        getIdentityConstraintDefinitions().addAll((Collection)newValue);
+        getIdentityConstraintDefinitions().addAll((Collection<? extends XSDIdentityConstraintDefinition>)newValue);
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__RESOLVED_ELEMENT_DECLARATION:
         setResolvedElementDeclaration((XSDElementDeclaration)newValue);
@@ -2009,7 +2009,7 @@ public class XSDElementDeclarationImpl
         return;
       case XSDPackage.XSD_ELEMENT_DECLARATION__SUBSTITUTION_GROUP:
         getSubstitutionGroup().clear();
-        getSubstitutionGroup().addAll((Collection)newValue);
+        getSubstitutionGroup().addAll((Collection<? extends XSDElementDeclaration>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

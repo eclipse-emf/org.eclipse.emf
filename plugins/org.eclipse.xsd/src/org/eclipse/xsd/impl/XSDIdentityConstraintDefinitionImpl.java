@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.9 2006/08/17 19:53:45 emerks Exp $
+ * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.10 2006/12/05 20:32:15 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -127,7 +127,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList fields = null;
+  protected EList<XSDXPathDefinition> fields = null;
 
   public static XSDIdentityConstraintDefinition createIdentityConstraintDefinition(Node node)
   {
@@ -314,11 +314,11 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getFields()
+  public EList<XSDXPathDefinition> getFields()
   {
     if (fields == null)
     {
-      fields = new EObjectContainmentEList(XSDXPathDefinition.class, this, XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS);
+      fields = new EObjectContainmentEList<XSDXPathDefinition>(XSDXPathDefinition.class, this, XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS);
     }
     return fields;
   }
@@ -337,7 +337,7 @@ public class XSDIdentityConstraintDefinitionImpl
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__SELECTOR:
         return basicSetSelector(null, msgs);
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS:
-        return ((InternalEList)getFields()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getFields()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -388,7 +388,7 @@ public class XSDIdentityConstraintDefinitionImpl
         return;
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION__FIELDS:
         getFields().clear();
-        getFields().addAll((Collection)newValue);
+        getFields().addAll((Collection<? extends XSDXPathDefinition>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

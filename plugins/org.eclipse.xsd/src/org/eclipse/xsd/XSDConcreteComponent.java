@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponent.java,v 1.5 2006/05/23 16:13:08 emerks Exp $
+ * $Id: XSDConcreteComponent.java,v 1.6 2006/12/05 20:32:32 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -152,7 +152,7 @@ public interface XSDConcreteComponent extends EObject
    * @model type="org.eclipse.xsd.XSDDiagnostic" containment="true" transient="true"
    * @generated
    */
-  EList getDiagnostics();
+  EList<XSDDiagnostic> getDiagnostics();
 
   /**
    * Called to indicate that the given element has changed;

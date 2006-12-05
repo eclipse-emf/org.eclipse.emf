@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEnumerationFacetImpl.java,v 1.10 2006/08/17 19:53:09 emerks Exp $
+ * $Id: XSDEnumerationFacetImpl.java,v 1.11 2006/12/05 20:32:31 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -61,7 +61,7 @@ public class XSDEnumerationFacetImpl
    * @generated
    * @ordered
    */
-  protected EList value = null;
+  protected EList<Object> value = null;
 
   public static XSDEnumerationFacet createEnumerationFacet(Node node)
   {
@@ -100,11 +100,11 @@ public class XSDEnumerationFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getValue()
+  public EList<Object> getValue()
   {
     if (value == null)
     {
-      value = new EDataTypeUniqueEList(Object.class, this, XSDPackage.XSD_ENUMERATION_FACET__VALUE);
+      value = new EDataTypeUniqueEList<Object>(Object.class, this, XSDPackage.XSD_ENUMERATION_FACET__VALUE);
     }
     return value;
   }
@@ -135,7 +135,7 @@ public class XSDEnumerationFacetImpl
     {
       case XSDPackage.XSD_ENUMERATION_FACET__VALUE:
         getValue().clear();
-        getValue().addAll((Collection)newValue);
+        getValue().addAll((Collection<? extends Object>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

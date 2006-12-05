@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPatternFacet.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDPatternFacet.java,v 1.4 2006/12/05 20:32:33 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -58,6 +58,6 @@ public interface XSDPatternFacet extends XSDRepeatableFacet
    * @model type="java.lang.String"
    * @generated
    */
-  EList getValue();
+  EList<String> getValue();
 
 }

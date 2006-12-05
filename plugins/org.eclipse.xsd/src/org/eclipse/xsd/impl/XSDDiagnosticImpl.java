@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticImpl.java,v 1.9 2006/04/04 10:10:22 emerks Exp $
+ * $Id: XSDDiagnosticImpl.java,v 1.10 2006/12/05 20:32:32 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -233,7 +233,7 @@ public class XSDDiagnosticImpl
    * @generated
    * @ordered
    */
-  protected EList substitutions = null;
+  protected EList<String> substitutions = null;
 
   /**
    * The cached value of the '{@link #getComponents() <em>Components</em>}' reference list.
@@ -243,7 +243,7 @@ public class XSDDiagnosticImpl
    * @generated
    * @ordered
    */
-  protected EList components = null;
+  protected EList<XSDConcreteComponent> components = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -506,11 +506,11 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getSubstitutions()
+  public EList<String> getSubstitutions()
   {
     if (substitutions == null)
     {
-      substitutions = new EDataTypeUniqueEList(String.class, this, XSDPackage.XSD_DIAGNOSTIC__SUBSTITUTIONS);
+      substitutions = new EDataTypeUniqueEList<String>(String.class, this, XSDPackage.XSD_DIAGNOSTIC__SUBSTITUTIONS);
     }
     return substitutions;
   }
@@ -520,11 +520,11 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getComponents()
+  public EList<XSDConcreteComponent> getComponents()
   {
     if (components == null)
     {
-      components = new EObjectEList(XSDConcreteComponent.class, this, XSDPackage.XSD_DIAGNOSTIC__COMPONENTS);
+      components = new EObjectEList<XSDConcreteComponent>(XSDConcreteComponent.class, this, XSDPackage.XSD_DIAGNOSTIC__COMPONENTS);
     }
     return components;
   }
@@ -635,11 +635,11 @@ public class XSDDiagnosticImpl
         return;
       case XSDPackage.XSD_DIAGNOSTIC__SUBSTITUTIONS:
         getSubstitutions().clear();
-        getSubstitutions().addAll((Collection)newValue);
+        getSubstitutions().addAll((Collection<? extends String>)newValue);
         return;
       case XSDPackage.XSD_DIAGNOSTIC__COMPONENTS:
         getComponents().clear();
-        getComponents().addAll((Collection)newValue);
+        getComponents().addAll((Collection<? extends XSDConcreteComponent>)newValue);
         return;
       case XSDPackage.XSD_DIAGNOSTIC__PRIMARY_COMPONENT:
         setPrimaryComponent((XSDConcreteComponent)newValue);

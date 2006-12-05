@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinition.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDAttributeGroupDefinition.java,v 1.4 2006/12/05 20:32:33 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -107,7 +107,7 @@ public interface XSDAttributeGroupDefinition extends XSDRedefinableComponent, XS
    * @model type="org.eclipse.xsd.XSDAttributeGroupContent" containment="true"
    * @generated
    */
-  EList getContents();
+  EList<XSDAttributeGroupContent> getContents();
 
   /**
    * Returns the value of the '<em><b>Attribute Uses</b></em>' reference list.
@@ -125,7 +125,7 @@ public interface XSDAttributeGroupDefinition extends XSDRedefinableComponent, XS
    * @model type="org.eclipse.xsd.XSDAttributeUse" resolveProxies="false"
    * @generated
    */
-  EList getAttributeUses();
+  EList<XSDAttributeUse> getAttributeUses();
 
   /**
    * Returns the value of the '<em><b>Attribute Wildcard Content</b></em>' containment reference.

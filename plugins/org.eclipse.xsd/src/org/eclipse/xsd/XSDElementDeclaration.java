@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclaration.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDElementDeclaration.java,v 1.4 2006/12/05 20:32:32 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -126,7 +126,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * @model type="org.eclipse.xsd.XSDDisallowedSubstitutions"
    * @generated
    */
-  EList getDisallowedSubstitutions();
+  EList<XSDDisallowedSubstitutions> getDisallowedSubstitutions();
 
   /**
    * Returns the String value of the '{@link #getDisallowedSubstitutions() <em>Disallowed Substitutions</em>}' attribute list.
@@ -158,7 +158,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * @model type="org.eclipse.xsd.XSDSubstitutionGroupExclusions"
    * @generated
    */
-  EList getSubstitutionGroupExclusions();
+  EList<XSDSubstitutionGroupExclusions> getSubstitutionGroupExclusions();
 
   /**
    * Returns the value of the '<em><b>Substitution Group Exclusions</b></em>' attribute list.
@@ -244,7 +244,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * @model type="org.eclipse.xsd.XSDProhibitedSubstitutions" unsettable="true"
    * @generated
    */
-  EList getLexicalFinal();
+  EList<XSDProhibitedSubstitutions> getLexicalFinal();
 
   /**
    * Unsets the value of the '{@link org.eclipse.xsd.XSDElementDeclaration#getLexicalFinal <em>Lexical Final</em>}' attribute list.
@@ -307,7 +307,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * @model type="org.eclipse.xsd.XSDDisallowedSubstitutions" unsettable="true"
    * @generated
    */
-  EList getBlock();
+  EList<XSDDisallowedSubstitutions> getBlock();
 
   /**
    * Unsets the value of the '{@link org.eclipse.xsd.XSDElementDeclaration#getBlock <em>Block</em>}' attribute list.
@@ -479,7 +479,7 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * @model type="org.eclipse.xsd.XSDIdentityConstraintDefinition" containment="true"
    * @generated
    */
-  EList getIdentityConstraintDefinitions();
+  EList<XSDIdentityConstraintDefinition> getIdentityConstraintDefinitions();
 
   /**
    * Returns the value of the '<em><b>Resolved Element Declaration</b></em>' reference.
@@ -551,6 +551,6 @@ public interface XSDElementDeclaration extends XSDFeature, XSDSchemaContent, XSD
    * @model type="org.eclipse.xsd.XSDElementDeclaration" resolveProxies="false"
    * @generated
    */
-  EList getSubstitutionGroup();
+  EList<XSDElementDeclaration> getSubstitutionGroup();
 
 }

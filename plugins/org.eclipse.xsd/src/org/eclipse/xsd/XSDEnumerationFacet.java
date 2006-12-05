@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEnumerationFacet.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDEnumerationFacet.java,v 1.4 2006/12/05 20:32:33 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -55,6 +55,6 @@ public interface XSDEnumerationFacet extends XSDRepeatableFacet
    * @model type="java.lang.Object" dataType="org.eclipse.xsd.Value"
    * @generated
    */
-  EList getValue();
+  EList<Object> getValue();
 
 } 

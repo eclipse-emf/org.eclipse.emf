@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.18 2006/05/03 20:39:01 davidms Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.19 2006/12/05 20:32:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -147,7 +147,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList final_ = null;
+  protected EList<XSDComplexFinal> final_ = null;
 
   /**
    * The default value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
@@ -206,7 +206,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList prohibitedSubstitutions = null;
+  protected EList<XSDProhibitedSubstitutions> prohibitedSubstitutions = null;
 
   /**
    * The cached value of the '{@link #getLexicalFinal() <em>Lexical Final</em>}' attribute list.
@@ -216,7 +216,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList lexicalFinal = null;
+  protected EList<XSDComplexFinal> lexicalFinal = null;
 
   /**
    * The cached value of the '{@link #getBlock() <em>Block</em>}' attribute list.
@@ -226,7 +226,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList block = null;
+  protected EList<XSDProhibitedSubstitutions> block = null;
 
   /**
    * The default value of the '{@link #isMixed() <em>Mixed</em>}' attribute.
@@ -305,7 +305,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList attributeUses = null;
+  protected EList<XSDAttributeUse> attributeUses = null;
 
   /**
    * The cached value of the '{@link #getAttributeContents() <em>Attribute Contents</em>}' containment reference list.
@@ -315,7 +315,7 @@ public class XSDComplexTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList attributeContents = null;
+  protected EList<XSDAttributeGroupContent> attributeContents = null;
 
   /**
    * The cached value of the '{@link #getAttributeWildcard() <em>Attribute Wildcard</em>}' reference.
@@ -444,11 +444,11 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getFinal()
+  public EList<XSDComplexFinal> getFinal()
   {
     if (final_ == null)
     {
-      final_ = new EDataTypeUniqueEList(XSDComplexFinal.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__FINAL);
+      final_ = new EDataTypeUniqueEList<XSDComplexFinal>(XSDComplexFinal.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__FINAL);
     }
     return final_;
   }
@@ -531,11 +531,11 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getProhibitedSubstitutions()
+  public EList<XSDProhibitedSubstitutions> getProhibitedSubstitutions()
   {
     if (prohibitedSubstitutions == null)
     {
-      prohibitedSubstitutions = new EDataTypeUniqueEList(XSDProhibitedSubstitutions.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__PROHIBITED_SUBSTITUTIONS);
+      prohibitedSubstitutions = new EDataTypeUniqueEList<XSDProhibitedSubstitutions>(XSDProhibitedSubstitutions.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__PROHIBITED_SUBSTITUTIONS);
     }
     return prohibitedSubstitutions;
   }
@@ -545,11 +545,11 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getLexicalFinal()
+  public EList<XSDComplexFinal> getLexicalFinal()
   {
     if (lexicalFinal == null)
     {
-      lexicalFinal = new EDataTypeUniqueEList.Unsettable(XSDComplexFinal.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__LEXICAL_FINAL);
+      lexicalFinal = new EDataTypeUniqueEList.Unsettable<XSDComplexFinal>(XSDComplexFinal.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__LEXICAL_FINAL);
     }
     return lexicalFinal;
   }
@@ -561,7 +561,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public void unsetLexicalFinal()
   {
-    if (lexicalFinal != null) ((InternalEList.Unsettable)lexicalFinal).unset();
+    if (lexicalFinal != null) ((InternalEList.Unsettable<?>)lexicalFinal).unset();
   }
 
   /**
@@ -571,7 +571,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public boolean isSetLexicalFinal()
   {
-    return lexicalFinal != null && ((InternalEList.Unsettable)lexicalFinal).isSet();
+    return lexicalFinal != null && ((InternalEList.Unsettable<?>)lexicalFinal).isSet();
   }
 
   /**
@@ -579,11 +579,11 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getBlock()
+  public EList<XSDProhibitedSubstitutions> getBlock()
   {
     if (block == null)
     {
-      block = new EDataTypeUniqueEList.Unsettable(XSDProhibitedSubstitutions.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__BLOCK);
+      block = new EDataTypeUniqueEList.Unsettable<XSDProhibitedSubstitutions>(XSDProhibitedSubstitutions.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__BLOCK);
     }
     return block;
   }
@@ -595,7 +595,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public void unsetBlock()
   {
-    if (block != null) ((InternalEList.Unsettable)block).unset();
+    if (block != null) ((InternalEList.Unsettable<?>)block).unset();
   }
 
   /**
@@ -605,7 +605,7 @@ public class XSDComplexTypeDefinitionImpl
    */
   public boolean isSetBlock()
   {
-    return block != null && ((InternalEList.Unsettable)block).isSet();
+    return block != null && ((InternalEList.Unsettable<?>)block).isSet();
   }
 
   /**
@@ -810,11 +810,11 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getAttributeUses()
+  public EList<XSDAttributeUse> getAttributeUses()
   {
     if (attributeUses == null)
     {
-      attributeUses = new EObjectEList(XSDAttributeUse.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_USES);
+      attributeUses = new EObjectEList<XSDAttributeUse>(XSDAttributeUse.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_USES);
     }
     return attributeUses;
   }
@@ -824,11 +824,11 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getAttributeContents()
+  public EList<XSDAttributeGroupContent> getAttributeContents()
   {
     if (attributeContents == null)
     {
-      attributeContents = new EObjectContainmentEList(XSDAttributeGroupContent.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_CONTENTS);
+      attributeContents = new EObjectContainmentEList<XSDAttributeGroupContent>(XSDAttributeGroupContent.class, this, XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_CONTENTS);
     }
     return attributeContents;
   }
@@ -2651,15 +2651,15 @@ public class XSDComplexTypeDefinitionImpl
     }
     else if (eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__ANNOTATION)
     {
-      getAnnotations().add(0, xsdConcreteComponent);
+      getAnnotations().add(0, (XSDAnnotation)xsdConcreteComponent);
     }
     else if (eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION)
     {
-      getAnnotations().add(getAnnotation() == null ? 0 : 1, xsdConcreteComponent);
+      getAnnotations().add(getAnnotation() == null ? 0 : 1, (XSDAnnotation)xsdConcreteComponent);
     }
     else if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_ANNOTATION)
     {
-      getAnnotations().add(xsdConcreteComponent);
+      getAnnotations().add((XSDAnnotation)xsdConcreteComponent);
     }
   }
 
@@ -2871,7 +2871,7 @@ public class XSDComplexTypeDefinitionImpl
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__CONTENT:
         return basicSetContent(null, msgs);
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_CONTENTS:
-        return ((InternalEList)getAttributeContents()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getAttributeContents()).basicRemove(otherEnd, msgs);
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_WILDCARD_CONTENT:
         return basicSetAttributeWildcardContent(null, msgs);
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__SYNTHETIC_PARTICLE:
@@ -2947,7 +2947,7 @@ public class XSDComplexTypeDefinitionImpl
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__FINAL:
         getFinal().clear();
-        getFinal().addAll((Collection)newValue);
+        getFinal().addAll((Collection<? extends XSDComplexFinal>)newValue);
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ABSTRACT:
         setAbstract(((Boolean)newValue).booleanValue());
@@ -2957,15 +2957,15 @@ public class XSDComplexTypeDefinitionImpl
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__PROHIBITED_SUBSTITUTIONS:
         getProhibitedSubstitutions().clear();
-        getProhibitedSubstitutions().addAll((Collection)newValue);
+        getProhibitedSubstitutions().addAll((Collection<? extends XSDProhibitedSubstitutions>)newValue);
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__LEXICAL_FINAL:
         getLexicalFinal().clear();
-        getLexicalFinal().addAll((Collection)newValue);
+        getLexicalFinal().addAll((Collection<? extends XSDComplexFinal>)newValue);
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__BLOCK:
         getBlock().clear();
-        getBlock().addAll((Collection)newValue);
+        getBlock().addAll((Collection<? extends XSDProhibitedSubstitutions>)newValue);
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__MIXED:
         setMixed(((Boolean)newValue).booleanValue());
@@ -2984,11 +2984,11 @@ public class XSDComplexTypeDefinitionImpl
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_USES:
         getAttributeUses().clear();
-        getAttributeUses().addAll((Collection)newValue);
+        getAttributeUses().addAll((Collection<? extends XSDAttributeUse>)newValue);
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_CONTENTS:
         getAttributeContents().clear();
-        getAttributeContents().addAll((Collection)newValue);
+        getAttributeContents().addAll((Collection<? extends XSDAttributeGroupContent>)newValue);
         return;
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION__ATTRIBUTE_WILDCARD:
         setAttributeWildcard((XSDWildcard)newValue);

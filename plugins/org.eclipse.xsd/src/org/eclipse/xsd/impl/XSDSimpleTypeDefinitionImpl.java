@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.20 2006/08/17 19:56:46 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.21 2006/12/05 20:32:14 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -187,7 +187,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList final_ = null;
+  protected EList<XSDSimpleFinal> final_ = null;
 
   /**
    * The cached value of the '{@link #getLexicalFinal() <em>Lexical Final</em>}' attribute list.
@@ -197,7 +197,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList lexicalFinal = null;
+  protected EList<XSDSimpleFinal> lexicalFinal = null;
 
   /**
    * The cached value of the '{@link #getValidFacets() <em>Valid Facets</em>}' attribute list.
@@ -207,7 +207,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList validFacets = null;
+  protected EList<String> validFacets = null;
 
   /**
    * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
@@ -217,7 +217,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList contents = null;
+  protected EList<XSDSimpleTypeDefinition> contents = null;
 
   /**
    * The cached value of the '{@link #getFacetContents() <em>Facet Contents</em>}' containment reference list.
@@ -247,7 +247,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList memberTypeDefinitions = null;
+  protected EList<XSDSimpleTypeDefinition> memberTypeDefinitions = null;
 
   /**
    * The cached value of the '{@link #getFundamentalFacets() <em>Fundamental Facets</em>}' containment reference list.
@@ -257,7 +257,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList fundamentalFacets = null;
+  protected EList<XSDFundamentalFacet> fundamentalFacets = null;
 
   /**
    * The cached value of the '{@link #getBaseTypeDefinition() <em>Base Type Definition</em>}' reference.
@@ -297,7 +297,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList syntheticFacets = null;
+  protected EList<XSDFacet> syntheticFacets = null;
 
   public static XSDSimpleTypeDefinition createSimpleTypeDefinition(Node node)
   {
@@ -390,11 +390,11 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getFinal()
+  public EList<XSDSimpleFinal> getFinal()
   {
     if (final_ == null)
     {
-      final_ = new EDataTypeUniqueEList(XSDSimpleFinal.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FINAL);
+      final_ = new EDataTypeUniqueEList<XSDSimpleFinal>(XSDSimpleFinal.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FINAL);
     }
     return final_;
   }
@@ -404,11 +404,11 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getLexicalFinal()
+  public EList<XSDSimpleFinal> getLexicalFinal()
   {
     if (lexicalFinal == null)
     {
-      lexicalFinal = new EDataTypeUniqueEList.Unsettable(XSDSimpleFinal.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__LEXICAL_FINAL);
+      lexicalFinal = new EDataTypeUniqueEList.Unsettable<XSDSimpleFinal>(XSDSimpleFinal.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__LEXICAL_FINAL);
     }
     return lexicalFinal;
   }
@@ -420,7 +420,7 @@ public class XSDSimpleTypeDefinitionImpl
    */
   public void unsetLexicalFinal()
   {
-    if (lexicalFinal != null) ((InternalEList.Unsettable)lexicalFinal).unset();
+    if (lexicalFinal != null) ((InternalEList.Unsettable<?>)lexicalFinal).unset();
   }
 
   /**
@@ -430,7 +430,7 @@ public class XSDSimpleTypeDefinitionImpl
    */
   public boolean isSetLexicalFinal()
   {
-    return lexicalFinal != null && ((InternalEList.Unsettable)lexicalFinal).isSet();
+    return lexicalFinal != null && ((InternalEList.Unsettable<?>)lexicalFinal).isSet();
   }
 
   /**
@@ -438,11 +438,11 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getValidFacets()
+  public EList<String> getValidFacets()
   {
     if (validFacets == null)
     {
-      validFacets = new EDataTypeUniqueEList(String.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__VALID_FACETS);
+      validFacets = new EDataTypeUniqueEList<String>(String.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__VALID_FACETS);
     }
     return validFacets;
   }
@@ -452,11 +452,11 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getContents()
+  public EList<XSDSimpleTypeDefinition> getContents()
   {
     if (contents == null)
     {
-      contents = new EObjectContainmentEList(XSDSimpleTypeDefinition.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__CONTENTS);
+      contents = new EObjectContainmentEList<XSDSimpleTypeDefinition>(XSDSimpleTypeDefinition.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__CONTENTS);
     }
     return contents;
   }
@@ -466,11 +466,11 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getFacetContents()
+  public EList<XSDConstrainingFacet> getFacetContents()
   {
     if (facetContents == null)
     {
-      facetContents = new EObjectContainmentEList(XSDConstrainingFacet.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FACET_CONTENTS);
+      facetContents = new EObjectContainmentEList<XSDConstrainingFacet>(XSDConstrainingFacet.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FACET_CONTENTS);
     }
     return facetContents;
   }
@@ -480,11 +480,11 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getFacets()
+  public EList<XSDConstrainingFacet> getFacets()
   {
     if (facets == null)
     {
-      facets = new EObjectEList(XSDConstrainingFacet.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FACETS);
+      facets = new EObjectEList<XSDConstrainingFacet>(XSDConstrainingFacet.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FACETS);
     }
     return facets;
   }
@@ -494,11 +494,11 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getMemberTypeDefinitions()
+  public EList<XSDSimpleTypeDefinition> getMemberTypeDefinitions()
   {
     if (memberTypeDefinitions == null)
     {
-      memberTypeDefinitions = new EObjectEList(XSDSimpleTypeDefinition.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__MEMBER_TYPE_DEFINITIONS);
+      memberTypeDefinitions = new EObjectEList<XSDSimpleTypeDefinition>(XSDSimpleTypeDefinition.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__MEMBER_TYPE_DEFINITIONS);
     }
     return memberTypeDefinitions;
   }
@@ -508,11 +508,11 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getFundamentalFacets()
+  public EList<XSDFundamentalFacet> getFundamentalFacets()
   {
     if (fundamentalFacets == null)
     {
-      fundamentalFacets = new EObjectContainmentEList(XSDFundamentalFacet.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FUNDAMENTAL_FACETS);
+      fundamentalFacets = new EObjectContainmentEList<XSDFundamentalFacet>(XSDFundamentalFacet.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FUNDAMENTAL_FACETS);
     }
     return fundamentalFacets;
   }
@@ -2094,11 +2094,11 @@ public class XSDSimpleTypeDefinitionImpl
     }
     else if (eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__ANNOTATION)
     {
-      getAnnotations().add(0, xsdConcreteComponent);
+      getAnnotations().add(0, (XSDAnnotation)xsdConcreteComponent);
     }
     else if (eReference == XSDPackage.Literals.XSD_TYPE_DEFINITION__DERIVATION_ANNOTATION)
     {
-      getAnnotations().add(xsdConcreteComponent);
+      getAnnotations().add((XSDAnnotation)xsdConcreteComponent);
     }
   }
 
@@ -2428,11 +2428,11 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getSyntheticFacets()
+  public EList<XSDFacet> getSyntheticFacets()
   {
     if (syntheticFacets == null)
     {
-      syntheticFacets = new EObjectContainmentEList(XSDFacet.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__SYNTHETIC_FACETS);
+      syntheticFacets = new EObjectContainmentEList<XSDFacet>(XSDFacet.class, this, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__SYNTHETIC_FACETS);
     }
     return syntheticFacets;
   }
@@ -2447,13 +2447,13 @@ public class XSDSimpleTypeDefinitionImpl
     switch (featureID)
     {
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__CONTENTS:
-        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FACET_CONTENTS:
-        return ((InternalEList)getFacetContents()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getFacetContents()).basicRemove(otherEnd, msgs);
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FUNDAMENTAL_FACETS:
-        return ((InternalEList)getFundamentalFacets()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getFundamentalFacets()).basicRemove(otherEnd, msgs);
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__SYNTHETIC_FACETS:
-        return ((InternalEList)getSyntheticFacets()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getSyntheticFacets()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -2569,35 +2569,35 @@ public class XSDSimpleTypeDefinitionImpl
         return;
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FINAL:
         getFinal().clear();
-        getFinal().addAll((Collection)newValue);
+        getFinal().addAll((Collection<? extends XSDSimpleFinal>)newValue);
         return;
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__LEXICAL_FINAL:
         getLexicalFinal().clear();
-        getLexicalFinal().addAll((Collection)newValue);
+        getLexicalFinal().addAll((Collection<? extends XSDSimpleFinal>)newValue);
         return;
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__VALID_FACETS:
         getValidFacets().clear();
-        getValidFacets().addAll((Collection)newValue);
+        getValidFacets().addAll((Collection<? extends String>)newValue);
         return;
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__CONTENTS:
         getContents().clear();
-        getContents().addAll((Collection)newValue);
+        getContents().addAll((Collection<? extends XSDSimpleTypeDefinition>)newValue);
         return;
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FACET_CONTENTS:
         getFacetContents().clear();
-        getFacetContents().addAll((Collection)newValue);
+        getFacetContents().addAll((Collection<? extends XSDConstrainingFacet>)newValue);
         return;
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FACETS:
         getFacets().clear();
-        getFacets().addAll((Collection)newValue);
+        getFacets().addAll((Collection<? extends XSDConstrainingFacet>)newValue);
         return;
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__MEMBER_TYPE_DEFINITIONS:
         getMemberTypeDefinitions().clear();
-        getMemberTypeDefinitions().addAll((Collection)newValue);
+        getMemberTypeDefinitions().addAll((Collection<? extends XSDSimpleTypeDefinition>)newValue);
         return;
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__FUNDAMENTAL_FACETS:
         getFundamentalFacets().clear();
-        getFundamentalFacets().addAll((Collection)newValue);
+        getFundamentalFacets().addAll((Collection<? extends XSDFundamentalFacet>)newValue);
         return;
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__BASE_TYPE_DEFINITION:
         setBaseTypeDefinition((XSDSimpleTypeDefinition)newValue);
@@ -2610,7 +2610,7 @@ public class XSDSimpleTypeDefinitionImpl
         return;
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__SYNTHETIC_FACETS:
         getSyntheticFacets().clear();
-        getSyntheticFacets().addAll((Collection)newValue);
+        getSyntheticFacets().addAll((Collection<? extends XSDFacet>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

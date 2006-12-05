@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnostic.java,v 1.4 2006/04/04 10:10:22 emerks Exp $
+ * $Id: XSDDiagnostic.java,v 1.5 2006/12/05 20:32:34 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -281,7 +281,7 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * @model type="java.lang.String"
    * @generated
    */
-  EList getSubstitutions();
+  EList<String> getSubstitutions();
 
   /**
    * Returns the value of the '<em><b>Components</b></em>' reference list.
@@ -297,7 +297,7 @@ public interface XSDDiagnostic extends XSDConcreteComponent, Resource.Diagnostic
    * @model type="org.eclipse.xsd.XSDConcreteComponent" resolveProxies="false" required="true"
    * @generated
    */
-  EList getComponents();
+  EList<XSDConcreteComponent> getComponents();
 
   /**
    * Returns the value of the '<em><b>Primary Component</b></em>' reference.

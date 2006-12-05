@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.12 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDRedefineImpl.java,v 1.13 2006/12/05 20:32:15 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -75,7 +75,7 @@ public class XSDRedefineImpl
    * @generated
    * @ordered
    */
-  protected EList annotations = null;
+  protected EList<XSDAnnotation> annotations = null;
 
   /**
    * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
@@ -85,7 +85,7 @@ public class XSDRedefineImpl
    * @generated
    * @ordered
    */
-  protected EList contents = null;
+  protected EList<XSDRedefineContent> contents = null;
 
   public static XSDRedefine createRedefine(Node node)
   {
@@ -124,11 +124,11 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getAnnotations()
+  public EList<XSDAnnotation> getAnnotations()
   {
     if (annotations == null)
     {
-      annotations = new EObjectEList(XSDAnnotation.class, this, XSDPackage.XSD_REDEFINE__ANNOTATIONS);
+      annotations = new EObjectEList<XSDAnnotation>(XSDAnnotation.class, this, XSDPackage.XSD_REDEFINE__ANNOTATIONS);
     }
     return annotations;
   }
@@ -138,11 +138,11 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getContents()
+  public EList<XSDRedefineContent> getContents()
   {
     if (contents == null)
     {
-      contents = new EObjectContainmentEList(XSDRedefineContent.class, this, XSDPackage.XSD_REDEFINE__CONTENTS);
+      contents = new EObjectContainmentEList<XSDRedefineContent>(XSDRedefineContent.class, this, XSDPackage.XSD_REDEFINE__CONTENTS);
     }
     return contents;
   }
@@ -157,7 +157,7 @@ public class XSDRedefineImpl
     switch (featureID)
     {
       case XSDPackage.XSD_REDEFINE__CONTENTS:
-        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -190,11 +190,11 @@ public class XSDRedefineImpl
     {
       case XSDPackage.XSD_REDEFINE__ANNOTATIONS:
         getAnnotations().clear();
-        getAnnotations().addAll((Collection)newValue);
+        getAnnotations().addAll((Collection<? extends XSDAnnotation>)newValue);
         return;
       case XSDPackage.XSD_REDEFINE__CONTENTS:
         getContents().clear();
-        getContents().addAll((Collection)newValue);
+        getContents().addAll((Collection<? extends XSDRedefineContent>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotation.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDAnnotation.java,v 1.4 2006/12/05 20:32:34 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -24,6 +24,7 @@ import org.w3c.dom.Element;
 import org.eclipse.emf.common.util.EList;
 
 
+import org.w3c.dom.Attr;
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object 
@@ -62,7 +63,7 @@ public interface XSDAnnotation extends XSDComponent, XSDRedefineContent
    * @model type="org.w3c.dom.Element" dataType="org.eclipse.xsd.DOMElement"
    * @generated
    */
-  EList getApplicationInformation();
+  EList<Element> getApplicationInformation();
 
   /**
    * Returns the value of the '<em><b>User Information</b></em>' attribute list.
@@ -80,7 +81,7 @@ public interface XSDAnnotation extends XSDComponent, XSDRedefineContent
    * @model type="org.w3c.dom.Element" dataType="org.eclipse.xsd.DOMElement"
    * @generated
    */
-  EList getUserInformation();
+  EList<Element> getUserInformation();
 
   /**
    * Returns the value of the '<em><b>Attributes</b></em>' attribute list.
@@ -97,7 +98,7 @@ public interface XSDAnnotation extends XSDComponent, XSDRedefineContent
    * @model type="org.w3c.dom.Attr" dataType="org.eclipse.xsd.DOMAttr"
    * @generated
    */
-  EList getAttributes();
+  EList<Attr> getAttributes();
 
   /**
    * Creates a new appinfo element using the containing schema's document as the factory.

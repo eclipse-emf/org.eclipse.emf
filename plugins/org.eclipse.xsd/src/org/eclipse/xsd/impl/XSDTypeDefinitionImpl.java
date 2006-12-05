@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTypeDefinitionImpl.java,v 1.8 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDTypeDefinitionImpl.java,v 1.9 2006/12/05 20:32:13 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -90,7 +90,7 @@ public abstract class XSDTypeDefinitionImpl
    * @generated
    * @ordered
    */
-  protected EList annotations = null;
+  protected EList<XSDAnnotation> annotations = null;
 
   public static XSDTypeDefinition createTypeDefinition(Node node)
   {
@@ -230,11 +230,11 @@ public abstract class XSDTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getAnnotations()
+  public EList<XSDAnnotation> getAnnotations()
   {
     if (annotations == null)
     {
-      annotations = new EObjectEList(XSDAnnotation.class, this, XSDPackage.XSD_TYPE_DEFINITION__ANNOTATIONS);
+      annotations = new EObjectEList<XSDAnnotation>(XSDAnnotation.class, this, XSDPackage.XSD_TYPE_DEFINITION__ANNOTATIONS);
     }
     return annotations;
   }
@@ -440,7 +440,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
         return;
       case XSDPackage.XSD_TYPE_DEFINITION__ANNOTATIONS:
         getAnnotations().clear();
-        getAnnotations().addAll((Collection)newValue);
+        getAnnotations().addAll((Collection<? extends XSDAnnotation>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

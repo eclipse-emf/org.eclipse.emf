@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.32 2006/09/02 15:25:30 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.33 2006/12/05 20:32:31 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -256,7 +256,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList finalDefault = null;
+  protected EList<XSDProhibitedSubstitutions> finalDefault = null;
 
   /**
    * The cached value of the '{@link #getBlockDefault() <em>Block Default</em>}' attribute list.
@@ -266,7 +266,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList blockDefault = null;
+  protected EList<XSDDisallowedSubstitutions> blockDefault = null;
 
   /**
    * The default value of the '{@link #getVersion() <em>Version</em>}' attribute.
@@ -296,7 +296,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList contents = null;
+  protected EList<XSDSchemaContent> contents = null;
 
   /**
    * The cached value of the '{@link #getElementDeclarations() <em>Element Declarations</em>}' reference list.
@@ -306,7 +306,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList elementDeclarations = null;
+  protected EList<XSDElementDeclaration> elementDeclarations = null;
 
   /**
    * The cached value of the '{@link #getAttributeDeclarations() <em>Attribute Declarations</em>}' reference list.
@@ -316,7 +316,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList attributeDeclarations = null;
+  protected EList<XSDAttributeDeclaration> attributeDeclarations = null;
 
   /**
    * The cached value of the '{@link #getAttributeGroupDefinitions() <em>Attribute Group Definitions</em>}' reference list.
@@ -326,7 +326,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList attributeGroupDefinitions = null;
+  protected EList<XSDAttributeGroupDefinition> attributeGroupDefinitions = null;
 
   /**
    * The cached value of the '{@link #getTypeDefinitions() <em>Type Definitions</em>}' reference list.
@@ -336,7 +336,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList typeDefinitions = null;
+  protected EList<XSDTypeDefinition> typeDefinitions = null;
 
   /**
    * The cached value of the '{@link #getModelGroupDefinitions() <em>Model Group Definitions</em>}' reference list.
@@ -346,7 +346,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList modelGroupDefinitions = null;
+  protected EList<XSDModelGroupDefinition> modelGroupDefinitions = null;
 
   /**
    * The cached value of the '{@link #getIdentityConstraintDefinitions() <em>Identity Constraint Definitions</em>}' reference list.
@@ -356,7 +356,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList identityConstraintDefinitions = null;
+  protected EList<XSDIdentityConstraintDefinition> identityConstraintDefinitions = null;
 
   /**
    * The cached value of the '{@link #getNotationDeclarations() <em>Notation Declarations</em>}' reference list.
@@ -366,7 +366,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList notationDeclarations = null;
+  protected EList<XSDNotationDeclaration> notationDeclarations = null;
 
   /**
    * The cached value of the '{@link #getAnnotations() <em>Annotations</em>}' reference list.
@@ -376,7 +376,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList annotations = null;
+  protected EList<XSDAnnotation> annotations = null;
 
   /**
    * The cached value of the '{@link #getAllDiagnostics() <em>All Diagnostics</em>}' reference list.
@@ -386,7 +386,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList allDiagnostics = null;
+  protected EList<XSDDiagnostic> allDiagnostics = null;
 
   /**
    * The cached value of the '{@link #getReferencingDirectives() <em>Referencing Directives</em>}' reference list.
@@ -396,7 +396,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList referencingDirectives = null;
+  protected EList<XSDSchemaDirective> referencingDirectives = null;
 
   /**
    * The cached value of the '{@link #getIncorporatedVersions() <em>Incorporated Versions</em>}' containment reference list.
@@ -406,7 +406,7 @@ public class XSDSchemaImpl
    * @generated
    * @ordered
    */
-  protected EList incorporatedVersions = null;
+  protected EList<XSDSchema> incorporatedVersions = null;
 
   public static XSDSchema createSchema(Node node)
   {
@@ -957,11 +957,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getFinalDefault()
+  public EList<XSDProhibitedSubstitutions> getFinalDefault()
   {
     if (finalDefault == null)
     {
-      finalDefault = new EDataTypeUniqueEList.Unsettable(XSDProhibitedSubstitutions.class, this, XSDPackage.XSD_SCHEMA__FINAL_DEFAULT);
+      finalDefault = new EDataTypeUniqueEList.Unsettable<XSDProhibitedSubstitutions>(XSDProhibitedSubstitutions.class, this, XSDPackage.XSD_SCHEMA__FINAL_DEFAULT);
     }
     return finalDefault;
   }
@@ -973,7 +973,7 @@ public class XSDSchemaImpl
    */
   public void unsetFinalDefault()
   {
-    if (finalDefault != null) ((InternalEList.Unsettable)finalDefault).unset();
+    if (finalDefault != null) ((InternalEList.Unsettable<?>)finalDefault).unset();
   }
 
   /**
@@ -983,7 +983,7 @@ public class XSDSchemaImpl
    */
   public boolean isSetFinalDefault()
   {
-    return finalDefault != null && ((InternalEList.Unsettable)finalDefault).isSet();
+    return finalDefault != null && ((InternalEList.Unsettable<?>)finalDefault).isSet();
   }
 
   /**
@@ -991,11 +991,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getBlockDefault()
+  public EList<XSDDisallowedSubstitutions> getBlockDefault()
   {
     if (blockDefault == null)
     {
-      blockDefault = new EDataTypeUniqueEList.Unsettable(XSDDisallowedSubstitutions.class, this, XSDPackage.XSD_SCHEMA__BLOCK_DEFAULT);
+      blockDefault = new EDataTypeUniqueEList.Unsettable<XSDDisallowedSubstitutions>(XSDDisallowedSubstitutions.class, this, XSDPackage.XSD_SCHEMA__BLOCK_DEFAULT);
     }
     return blockDefault;
   }
@@ -1007,7 +1007,7 @@ public class XSDSchemaImpl
    */
   public void unsetBlockDefault()
   {
-    if (blockDefault != null) ((InternalEList.Unsettable)blockDefault).unset();
+    if (blockDefault != null) ((InternalEList.Unsettable<?>)blockDefault).unset();
   }
 
   /**
@@ -1017,7 +1017,7 @@ public class XSDSchemaImpl
    */
   public boolean isSetBlockDefault()
   {
-    return blockDefault != null && ((InternalEList.Unsettable)blockDefault).isSet();
+    return blockDefault != null && ((InternalEList.Unsettable<?>)blockDefault).isSet();
   }
 
   /**
@@ -1048,11 +1048,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getContents()
+  public EList<XSDSchemaContent> getContents()
   {
     if (contents == null)
     {
-      contents = new EObjectContainmentEList(XSDSchemaContent.class, this, XSDPackage.XSD_SCHEMA__CONTENTS);
+      contents = new EObjectContainmentEList<XSDSchemaContent>(XSDSchemaContent.class, this, XSDPackage.XSD_SCHEMA__CONTENTS);
     }
     return contents;
   }
@@ -1160,11 +1160,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getAnnotations()
+  public EList<XSDAnnotation> getAnnotations()
   {
     if (annotations == null)
     {
-      annotations = new EObjectEList(XSDAnnotation.class, this, XSDPackage.XSD_SCHEMA__ANNOTATIONS);
+      annotations = new EObjectEList<XSDAnnotation>(XSDAnnotation.class, this, XSDPackage.XSD_SCHEMA__ANNOTATIONS);
     }
     return annotations;
   }
@@ -1174,11 +1174,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getAllDiagnostics()
+  public EList<XSDDiagnostic> getAllDiagnostics()
   {
     if (allDiagnostics == null)
     {
-      allDiagnostics = new EObjectEList(XSDDiagnostic.class, this, XSDPackage.XSD_SCHEMA__ALL_DIAGNOSTICS);
+      allDiagnostics = new EObjectEList<XSDDiagnostic>(XSDDiagnostic.class, this, XSDPackage.XSD_SCHEMA__ALL_DIAGNOSTICS);
     }
     return allDiagnostics;
   }
@@ -1188,11 +1188,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getReferencingDirectives()
+  public EList<XSDSchemaDirective> getReferencingDirectives()
   {
     if (referencingDirectives == null)
     {
-      referencingDirectives = new EObjectEList(XSDSchemaDirective.class, this, XSDPackage.XSD_SCHEMA__REFERENCING_DIRECTIVES);
+      referencingDirectives = new EObjectEList<XSDSchemaDirective>(XSDSchemaDirective.class, this, XSDPackage.XSD_SCHEMA__REFERENCING_DIRECTIVES);
     }
     return referencingDirectives;
   }
@@ -1224,11 +1224,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getIncorporatedVersions()
+  public EList<XSDSchema> getIncorporatedVersions()
   {
     if (incorporatedVersions == null)
     {
-      incorporatedVersions = new EObjectContainmentEList(XSDSchema.class, this, XSDPackage.XSD_SCHEMA__INCORPORATED_VERSIONS);
+      incorporatedVersions = new EObjectContainmentEList<XSDSchema>(XSDSchema.class, this, XSDPackage.XSD_SCHEMA__INCORPORATED_VERSIONS);
     }
     return incorporatedVersions;
   }
@@ -2499,9 +2499,9 @@ public class XSDSchemaImpl
     switch (featureID)
     {
       case XSDPackage.XSD_SCHEMA__CONTENTS:
-        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
       case XSDPackage.XSD_SCHEMA__INCORPORATED_VERSIONS:
-        return ((InternalEList)getIncorporatedVersions()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getIncorporatedVersions()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -2591,62 +2591,62 @@ public class XSDSchemaImpl
         return;
       case XSDPackage.XSD_SCHEMA__FINAL_DEFAULT:
         getFinalDefault().clear();
-        getFinalDefault().addAll((Collection)newValue);
+        getFinalDefault().addAll((Collection<? extends XSDProhibitedSubstitutions>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__BLOCK_DEFAULT:
         getBlockDefault().clear();
-        getBlockDefault().addAll((Collection)newValue);
+        getBlockDefault().addAll((Collection<? extends XSDDisallowedSubstitutions>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__VERSION:
         setVersion((String)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__CONTENTS:
         getContents().clear();
-        getContents().addAll((Collection)newValue);
+        getContents().addAll((Collection<? extends XSDSchemaContent>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__ELEMENT_DECLARATIONS:
         getElementDeclarations().clear();
-        getElementDeclarations().addAll((Collection)newValue);
+        getElementDeclarations().addAll((Collection<? extends XSDElementDeclaration>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__ATTRIBUTE_DECLARATIONS:
         getAttributeDeclarations().clear();
-        getAttributeDeclarations().addAll((Collection)newValue);
+        getAttributeDeclarations().addAll((Collection<? extends XSDAttributeDeclaration>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__ATTRIBUTE_GROUP_DEFINITIONS:
         getAttributeGroupDefinitions().clear();
-        getAttributeGroupDefinitions().addAll((Collection)newValue);
+        getAttributeGroupDefinitions().addAll((Collection<? extends XSDAttributeGroupDefinition>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__TYPE_DEFINITIONS:
         getTypeDefinitions().clear();
-        getTypeDefinitions().addAll((Collection)newValue);
+        getTypeDefinitions().addAll((Collection<? extends XSDTypeDefinition>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__MODEL_GROUP_DEFINITIONS:
         getModelGroupDefinitions().clear();
-        getModelGroupDefinitions().addAll((Collection)newValue);
+        getModelGroupDefinitions().addAll((Collection<? extends XSDModelGroupDefinition>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__IDENTITY_CONSTRAINT_DEFINITIONS:
         getIdentityConstraintDefinitions().clear();
-        getIdentityConstraintDefinitions().addAll((Collection)newValue);
+        getIdentityConstraintDefinitions().addAll((Collection<? extends XSDIdentityConstraintDefinition>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__NOTATION_DECLARATIONS:
         getNotationDeclarations().clear();
-        getNotationDeclarations().addAll((Collection)newValue);
+        getNotationDeclarations().addAll((Collection<? extends XSDNotationDeclaration>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__ANNOTATIONS:
         getAnnotations().clear();
-        getAnnotations().addAll((Collection)newValue);
+        getAnnotations().addAll((Collection<? extends XSDAnnotation>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__ALL_DIAGNOSTICS:
         getAllDiagnostics().clear();
-        getAllDiagnostics().addAll((Collection)newValue);
+        getAllDiagnostics().addAll((Collection<? extends XSDDiagnostic>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__REFERENCING_DIRECTIVES:
         getReferencingDirectives().clear();
-        getReferencingDirectives().addAll((Collection)newValue);
+        getReferencingDirectives().addAll((Collection<? extends XSDSchemaDirective>)newValue);
         return;
       case XSDPackage.XSD_SCHEMA__INCORPORATED_VERSIONS:
         getIncorporatedVersions().clear();
-        getIncorporatedVersions().addAll((Collection)newValue);
+        getIncorporatedVersions().addAll((Collection<? extends XSDSchema>)newValue);
         return;
     }
     super.eSet(featureID, newValue);

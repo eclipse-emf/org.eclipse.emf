@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcard.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDWildcard.java,v 1.4 2006/12/05 20:32:32 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -92,7 +92,7 @@ public interface XSDWildcard extends XSDTerm
    * @model type="java.lang.String"
    * @generated
    */
-  EList getNamespaceConstraint();
+  EList<String> getNamespaceConstraint();
 
   /**
    * Returns the String value of the '{@link org.eclipse.xsd.XSDWildcard#getNamespaceConstraint <em>Namespace Constraint</em>}' attribute list.
@@ -177,7 +177,7 @@ public interface XSDWildcard extends XSDTerm
    * @model type="java.lang.String" unsettable="true"
    * @generated
    */
-  EList getLexicalNamespaceConstraint();
+  EList<String> getLexicalNamespaceConstraint();
 
   /**
    * Unsets the value of the '{@link org.eclipse.xsd.XSDWildcard#getLexicalNamespaceConstraint <em>Lexical Namespace Constraint</em>}' attribute list.
@@ -264,7 +264,7 @@ public interface XSDWildcard extends XSDTerm
    * @model type="org.eclipse.xsd.XSDAnnotation" resolveProxies="false"
    * @generated
    */
-  EList getAnnotations();
+  EList<XSDAnnotation> getAnnotations();
 
   /**
    * Returns whether this wildcard is a <a href="http://www.w3.org/TR/xmlschema-1/#cos-ns-subset">subset</a> of the given wildcard.
