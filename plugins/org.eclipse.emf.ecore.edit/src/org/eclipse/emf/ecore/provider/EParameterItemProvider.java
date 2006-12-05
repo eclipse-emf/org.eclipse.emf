@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterItemProvider.java,v 1.7 2006/01/24 22:24:42 davidms Exp $
+ * $Id: EParameterItemProvider.java,v 1.8 2006/12/05 20:26:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -94,10 +94,10 @@ public class EParameterItemProvider
     EParameter eParameter = (EParameter)object;
     StringBuffer result = new StringBuffer();
     result.append(eParameter.getName());
-    if (eParameter.getEType() != null)
+    if (eParameter.getEGenericType() != null)
     {
       result.append(" : ");
-      result.append(eParameter.getEType().getName());
+      result.append(EGenericTypeItemProvider.getText(eParameter.getEGenericType()));
     }
     return result.toString();
   }

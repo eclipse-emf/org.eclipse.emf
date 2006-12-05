@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.12 2006/05/15 21:02:45 davidms Exp $
+ * $Id: EClassifierItemProvider.java,v 1.13 2006/12/05 20:26:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -24,7 +24,14 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -72,6 +79,7 @@ public class EClassifierItemProvider
 
       addInstanceClassNamePropertyDescriptor(object);
       addDefaultValuePropertyDescriptor(object);
+      addInstanceTypeNamePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -98,7 +106,18 @@ public class EClassifierItemProvider
        {
          public void setPropertyValue(Object object, Object value)
          {
-           super.setPropertyValue(object, stripToNull((String)value));
+           EObject eObject = (EObject)object;
+           EditingDomain editingDomain = getEditingDomain(object);
+           value = stripToNull((String)value);
+           if (editingDomain == null)
+           {
+             eObject.eSet(EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME, value);
+           }
+           else
+           {
+             editingDomain.getCommandStack().execute
+               (SetCommand.create(editingDomain, getCommandOwner(eObject), EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME, value));
+           }
          }
        });
   }
@@ -124,6 +143,47 @@ public class EClassifierItemProvider
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
          null,
          null));
+  }
+
+  /**
+   * This adds a property descriptor for the Instance Type Name feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addInstanceTypeNamePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_EClassifier_instanceTypeName_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_EClassifier_instanceTypeName_feature", "_UI_EClassifier_type"),
+         EcorePackage.Literals.ECLASSIFIER__INSTANCE_TYPE_NAME,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         null,
+         null));
+  }
+
+  /**
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Collection getChildrenFeatures(Object object)
+  {
+    if (childrenFeatures == null)
+    {
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(EcorePackage.Literals.ECLASSIFIER__ETYPE_PARAMETERS);
+    }
+    return childrenFeatures;
   }
 
   /**
@@ -155,7 +215,11 @@ public class EClassifierItemProvider
     {
       case EcorePackage.ECLASSIFIER__INSTANCE_CLASS_NAME:
       case EcorePackage.ECLASSIFIER__DEFAULT_VALUE:
+      case EcorePackage.ECLASSIFIER__INSTANCE_TYPE_NAME:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+        return;
+      case EcorePackage.ECLASSIFIER__ETYPE_PARAMETERS:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
         return;
     }
     super.notifyChanged(notification);
@@ -166,11 +230,21 @@ public class EClassifierItemProvider
    * describing all of the children that can be created under this object.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
+
+    EClassifier eClassifier = (EClassifier)object;
+    if (!(object instanceof EEnum) && 
+          eClassifier.getInstanceClassName() != null)
+    {
+      newChildDescriptors.add
+        (createChildParameter
+          (EcorePackage.Literals.ECLASSIFIER__ETYPE_PARAMETERS,
+           EcoreFactory.eINSTANCE.createETypeParameter()));
+    }
   }
 
   /**

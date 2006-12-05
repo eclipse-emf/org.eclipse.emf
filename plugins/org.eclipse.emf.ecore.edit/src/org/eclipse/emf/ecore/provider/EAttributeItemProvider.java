@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeItemProvider.java,v 1.10 2006/05/15 21:02:45 davidms Exp $
+ * $Id: EAttributeItemProvider.java,v 1.11 2006/12/05 20:26:31 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -144,10 +144,10 @@ public class EAttributeItemProvider
     EAttribute eAttribute = (EAttribute)object;
     StringBuffer result = new StringBuffer();
     result.append(eAttribute.getName());
-    if (eAttribute.getEType() != null)
+    if (eAttribute.getEGenericType() != null)
     {
       result.append(" : ");
-      result.append(eAttribute.getEType().getName());
+      result.append(EGenericTypeItemProvider.getText(eAttribute.getEGenericType()));
     }
     return result.toString();
   }

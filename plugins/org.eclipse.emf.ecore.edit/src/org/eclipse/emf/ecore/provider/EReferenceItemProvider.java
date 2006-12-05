@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.13 2006/05/23 16:23:43 emerks Exp $
+ * $Id: EReferenceItemProvider.java,v 1.14 2006/12/05 20:26:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -313,10 +313,10 @@ public class EReferenceItemProvider
     EReference eReference = (EReference)object;
     StringBuffer result = new StringBuffer();
     result.append(eReference.getName());
-    if (eReference.getEType() != null)
+    if (eReference.getEGenericType() != null)
     {
       result.append(" : ");
-      result.append(eReference.getEType().getName());
+      result.append(EGenericTypeItemProvider.getText(eReference.getEGenericType()));
     }
     return result.toString();
   }

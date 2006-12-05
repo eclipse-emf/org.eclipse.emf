@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.13 2006/05/15 21:02:45 davidms Exp $
+ * $Id: EClassItemProvider.java,v 1.14 2006/12/05 20:26:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -25,9 +26,14 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -166,6 +172,42 @@ public class EClassItemProvider
            }
            return result;
          }
+         
+         @Override
+         public void setPropertyValue(Object object, Object value)
+         {
+           EditingDomain editingDomain = getEditingDomain(object);
+           if (editingDomain == null)
+           {
+             super.setPropertyValue(object, value);
+           }
+           else 
+           {
+             EClass eClass = (EClass)object;
+             List eGenericTypes = new ArrayList();
+             LOOP:
+             for (EClass eSuperType : (List<EClass>)value)
+             {
+               for (EGenericType eGenericSuperType : eClass.getEGenericSuperTypes())
+               {
+                 if (eGenericSuperType.getEClassifier() == eSuperType)
+                 {
+                   eGenericTypes.add(eGenericSuperType);
+                   continue LOOP;
+                 }
+               }
+               EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+               eGenericType.setEClassifier(eSuperType);
+               for (int i = 0, size = eSuperType.getETypeParameters().size(); i < size; ++i)
+               {
+                 eGenericType.getETypeArguments().add(EcoreFactory.eINSTANCE.createEGenericType());
+               }
+               eGenericTypes.add(eGenericType);
+             }
+             editingDomain.getCommandStack().execute
+               (SetCommand.create(editingDomain, object, EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES, eGenericTypes));
+           }
+         }
        });
   }
 
@@ -175,7 +217,7 @@ public class EClassItemProvider
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Collection getChildrenFeatures(Object object)
   {
@@ -184,6 +226,7 @@ public class EClassItemProvider
       super.getChildrenFeatures(object);
       childrenFeatures.add(EcorePackage.Literals.ECLASS__EOPERATIONS);
       childrenFeatures.add(EcorePackage.Literals.ECLASS__ESTRUCTURAL_FEATURES);
+      childrenFeatures.add(2, EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES);
     }
     return childrenFeatures;
   }
@@ -199,6 +242,15 @@ public class EClassItemProvider
     // adding (see {@link AddCommand}) it as a child.
 
     return super.getChildFeature(object, child);
+  }
+
+  @Override
+  public String getCreateChildText(Object owner, Object feature, Object child, Collection selection)
+  {
+    return
+      feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ?
+        getString("_UI_EGenericSuperType_label") : 
+        super.getCreateChildText(owner, feature, child, selection);
   }
 
   /**
@@ -226,13 +278,29 @@ public class EClassItemProvider
     {
       result.append(eClass.getName());
     }
-    if (!eClass.getESuperTypes().isEmpty())
+
+    if (!eClass.getETypeParameters().isEmpty())
+    {
+      result.append("<");
+      for (Iterator<ETypeParameter> i = eClass.getETypeParameters().iterator(); i.hasNext(); )
+      {
+        ETypeParameter eTypeParameter = i.next();
+        result.append(ETypeParameterItemProvider.getText(eTypeParameter));
+        if (i.hasNext())
+        {
+          result.append(", ");
+        }
+      }
+      result.append(">");
+    }
+
+    if (!eClass.getEGenericSuperTypes().isEmpty())
     {
       result.append(" -> ");
-      for (Iterator i = eClass.getESuperTypes().iterator(); i.hasNext(); )
+      for (Iterator i = eClass.getEGenericSuperTypes().iterator(); i.hasNext(); )
       {
-        EClass eSuperType = (EClass)i.next();
-        result.append(eSuperType.getName());
+        EGenericType eGenericSuperType = (EGenericType)i.next();
+        result.append(EGenericTypeItemProvider.getText(eGenericSuperType));
         if (i.hasNext())
         {
           result.append(", ");
@@ -241,9 +309,9 @@ public class EClassItemProvider
     }
     if (eClass.getInstanceClassName() != null)
     {
-      result.append(" <");
+      result.append(" [");
       result.append(eClass.getInstanceClassName());
-      result.append(">");
+      result.append("]");
     }
 
     return result.toString();
@@ -271,6 +339,7 @@ public class EClassItemProvider
         return;
       case EcorePackage.ECLASS__EOPERATIONS:
       case EcorePackage.ECLASS__ESTRUCTURAL_FEATURES:
+      case EcorePackage.ECLASS__EGENERIC_SUPER_TYPES:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
         return;
     }
@@ -302,6 +371,11 @@ public class EClassItemProvider
       (createChildParameter
         (EcorePackage.Literals.ECLASS__ESTRUCTURAL_FEATURES,
          EcoreFactory.eINSTANCE.createEReference()));
+
+    newChildDescriptors.add
+      (createChildParameter
+        (EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES,
+         EcoreFactory.eINSTANCE.createEGenericType()));
   }
 
   /**

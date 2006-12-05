@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementItemProvider.java,v 1.16 2006/05/15 22:10:12 emerks Exp $
+ * $Id: ETypedElementItemProvider.java,v 1.17 2006/12/05 20:26:51 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -26,10 +26,18 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.edit.command.SetCommand;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -286,12 +294,76 @@ public class ETypedElementItemProvider
                }
              }
            }
+           
+           // Let them choose type parameters as well.
+           //
+           for (EObject eObject = (EObject)object; eObject != null; eObject = eObject.eContainer())
+           {
+             if (eObject instanceof EClassifier)
+             {
+               result.addAll(((EClassifier)eObject).getETypeParameters());
+             }
+             else if (eObject instanceof EOperation)
+             {
+               result.addAll(((EOperation)eObject).getETypeParameters());
+             }
+           }
 
            return result;
+         }
+         
+         @Override
+         public void setPropertyValue(Object object, Object value)
+         {
+           EditingDomain editingDomain = getEditingDomain(object);
+           if (editingDomain == null)
+           {
+             super.setPropertyValue(object, value);
+           }
+           else 
+           {
+             
+             EGenericType eGenericType = null;
+             if (value instanceof EClassifier)
+             {
+               EClassifier eClassifier = (EClassifier)value;
+               eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+               eGenericType.setEClassifier(eClassifier);
+               for (int i = 0, size = eClassifier.getETypeParameters().size(); i < size; ++i)
+               {
+                 eGenericType.getETypeArguments().add(EcoreFactory.eINSTANCE.createEGenericType());
+               }
+             }
+             else if (value instanceof ETypeParameter)
+             {
+               eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+               eGenericType.setETypeParameter((ETypeParameter)value);
+             }
+             editingDomain.getCommandStack().execute
+               (SetCommand.create(editingDomain, object, EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE, eGenericType));
+           }
          }
        });
   }
 
+
+  /**
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Collection getChildrenFeatures(Object object)
+  {
+    if (childrenFeatures == null)
+    {
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE);
+    }
+    return childrenFeatures;
+  }
 
   /**
    * This returns the label text for the adapted class.
@@ -329,6 +401,9 @@ public class ETypedElementItemProvider
       case EcorePackage.ETYPED_ELEMENT__ETYPE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
+      case EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
+        return;
     }
     super.notifyChanged(notification);
   }
@@ -343,6 +418,11 @@ public class ETypedElementItemProvider
   protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
+
+    newChildDescriptors.add
+      (createChildParameter
+        (EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE,
+         EcoreFactory.eINSTANCE.createEGenericType()));
   }
 
   /**

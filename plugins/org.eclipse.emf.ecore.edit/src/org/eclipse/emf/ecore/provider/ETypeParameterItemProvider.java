@@ -1,18 +1,8 @@
 /**
  * <copyright>
- *
- * Copyright (c) 2002-2004 IBM Corporation and others.
- * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *   IBM - Initial API and implementation
- *
  * </copyright>
  *
- * $Id: EDataTypeItemProvider.java,v 1.11 2006/12/05 20:26:32 emerks Exp $
+ * $Id: ETypeParameterItemProvider.java,v 1.1 2006/12/05 20:26:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -23,34 +13,37 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EcoreFactory;
+
 import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.ETypeParameter;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
-
-
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link org.eclipse.emf.ecore.EDataType} object.
+ * This is the item provider adapter for a {@link org.eclipse.emf.ecore.ETypeParameter} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class EDataTypeItemProvider
-  extends EClassifierItemProvider
-  implements
-    IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource
+public class ETypeParameterItemProvider
+  extends ENamedElementItemProvider
+  implements	
+    IEditingDomainItemProvider,	
+    IStructuredItemContentProvider,	
+    ITreeItemContentProvider,	
+    IItemLabelProvider,	
+    IItemPropertySource		
 {
   /**
    * This constructs an instance from a factory and a notifier.
@@ -58,7 +51,7 @@ public class EDataTypeItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public EDataTypeItemProvider(AdapterFactory adapterFactory)
+  public ETypeParameterItemProvider(AdapterFactory adapterFactory)
   {
     super(adapterFactory);
   }
@@ -75,43 +68,46 @@ public class EDataTypeItemProvider
     {
       super.getPropertyDescriptors(object);
 
-      addSerializablePropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
 
   /**
-   * This adds a property descriptor for the Serializable feature.
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void addSerializablePropertyDescriptor(Object object)
+  public Collection getChildrenFeatures(Object object)
   {
-    itemPropertyDescriptors.add
-      (createItemPropertyDescriptor
-        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-         getResourceLocator(),
-         getString("_UI_EDataType_serializable_feature"),
-         getString("_UI_PropertyDescriptor_description", "_UI_EDataType_serializable_feature", "_UI_EDataType_type"),
-         EcorePackage.Literals.EDATA_TYPE__SERIALIZABLE,
-         true,
-         false,
-         false,
-         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
-         null,
-         null));
+    if (childrenFeatures == null)
+    {
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(EcorePackage.Literals.ETYPE_PARAMETER__EBOUNDS);
+    }
+    return childrenFeatures;
+  }
+  
+  @Override
+  public String getCreateChildText(Object owner, Object feature, Object child, Collection selection)
+  {
+    return 
+      feature == EcorePackage.Literals.ETYPE_PARAMETER__EBOUNDS ?
+      getString("_UI_EGenericBoundType_label") :
+      super.getCreateChildText(owner, feature, child, selection);
   }
 
   /**
-   * This returns EDataType.gif.
+   * This returns ETypeParameter.gif.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
   public Object getImage(Object object)
   {
-    return overlayImage(object, getResourceLocator().getImage("full/obj16/EDataType"));
+    return overlayImage(object, getResourceLocator().getImage("full/obj16/ETypeParameter"));
   }
 
   /**
@@ -122,27 +118,31 @@ public class EDataTypeItemProvider
    */
   public String getText(Object object)
   {
-    EDataType eDataType = (EDataType)object;
-    StringBuffer result = new StringBuffer();
-    result.append(eDataType.getName());
-    if (!eDataType.getETypeParameters().isEmpty())
+    return getText((ETypeParameter)object);
+  }
+  
+  static String getText(ETypeParameter eTypeParameter)
+  {
+    if (eTypeParameter.getEBounds().isEmpty())
     {
-      result.append("<");
-      for (Iterator<ETypeParameter> i = eDataType.getETypeParameters().iterator(); i.hasNext(); )
+      String name = eTypeParameter.getName();
+      return name == null ? "null" : name;
+    }
+    else
+    {
+      StringBuilder result = new StringBuilder();
+      result.append(eTypeParameter.getName());
+      result.append(" extends ");
+      for (Iterator<EGenericType> i = eTypeParameter.getEBounds().iterator(); i.hasNext(); )
       {
-        ETypeParameter eTypeParameter = i.next();
-        result.append(ETypeParameterItemProvider.getText(eTypeParameter));
+        result.append(EGenericTypeItemProvider.getText(i.next()));
         if (i.hasNext())
         {
-          result.append(", ");
+          result.append(" & ");
         }
       }
-      result.append(">");
+      return result.toString();
     }
-    result.append(" [");
-    result.append(eDataType.getInstanceClassName());
-    result.append("]");
-    return result.toString();
   }
 
   /**
@@ -150,16 +150,21 @@ public class EDataTypeItemProvider
    * children and by creating a viewer notification, which it passes to {@link #fireNotifyChanged}.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
 
-    switch (notification.getFeatureID(EDataType.class))
+    switch (notification.getFeatureID(ETypeParameter.class))
     {
-      case EcorePackage.EDATA_TYPE__SERIALIZABLE:
-        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+      case EcorePackage.ENAMED_ELEMENT__NAME:
+      {
+        fireNotifyChanged(new ViewerNotification(notification, ((EObject)notification.getNotifier()).eContainer(), true, true));
+        break;
+      }
+      case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, true));
         return;
     }
     super.notifyChanged(notification);
@@ -175,6 +180,11 @@ public class EDataTypeItemProvider
   protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
+
+    newChildDescriptors.add
+      (createChildParameter
+        (EcorePackage.Literals.ETYPE_PARAMETER__EBOUNDS,
+         EcoreFactory.eINSTANCE.createEGenericType()));
   }
 
   /**

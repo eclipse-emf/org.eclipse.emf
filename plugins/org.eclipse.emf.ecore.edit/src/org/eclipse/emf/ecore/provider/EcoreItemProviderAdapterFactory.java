@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreItemProviderAdapterFactory.java,v 1.5 2005/08/04 15:38:09 emerks Exp $
+ * $Id: EcoreItemProviderAdapterFactory.java,v 1.6 2006/12/05 20:26:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -401,6 +401,54 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
   }
 
   /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.ecore.EGenericType} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected EGenericTypeItemProvider eGenericTypeItemProvider;
+
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.ecore.EGenericType}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createEGenericTypeAdapter()
+  {
+    if (eGenericTypeItemProvider == null)
+    {
+      eGenericTypeItemProvider = new EGenericTypeItemProvider(this);
+    }
+
+    return eGenericTypeItemProvider;
+  }
+
+  /**
+   * This keeps track of the one adapter used for all {@link org.eclipse.emf.ecore.ETypeParameter} instances.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected ETypeParameterItemProvider eTypeParameterItemProvider;
+
+  /**
+   * This creates an adapter for a {@link org.eclipse.emf.ecore.ETypeParameter}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Adapter createETypeParameterAdapter()
+  {
+    if (eTypeParameterItemProvider == null)
+    {
+      eTypeParameterItemProvider = new ETypeParameterItemProvider(this);
+    }
+
+    return eTypeParameterItemProvider;
+  }
+
+  /**
    * This returns the root adapter factory that contains this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -521,6 +569,8 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
     if (eParameterItemProvider != null) eParameterItemProvider.dispose();
     if (eReferenceItemProvider != null) eReferenceItemProvider.dispose();
     if (eStringToStringMapEntryItemProvider != null) eStringToStringMapEntryItemProvider.dispose();
+    if (eGenericTypeItemProvider != null) eGenericTypeItemProvider.dispose();
+    if (eTypeParameterItemProvider != null) eTypeParameterItemProvider.dispose();
   }
 
 }
