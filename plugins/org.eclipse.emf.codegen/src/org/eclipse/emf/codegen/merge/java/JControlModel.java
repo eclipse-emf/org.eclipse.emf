@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.5 2006/11/01 21:19:51 marcelop Exp $
+ * $Id: JControlModel.java,v 1.6 2006/12/05 00:14:34 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -71,7 +71,7 @@ public class JControlModel extends PrefixHandler
 {  
   public static class Feature extends PrefixHandler
   {
-    protected Class featureClass;
+    protected Class<?> featureClass;
     protected Method featureMethod;
 
     public Feature(String classPrefix)
@@ -79,13 +79,13 @@ public class JControlModel extends PrefixHandler
       super(classPrefix);
     }
 
-    public Feature(String classPrefix, String path, Class[] parameterTypes)
+    public Feature(String classPrefix, String path, Class<?>[] parameterTypes)
     {
       super(classPrefix);
       initialize(path, parameterTypes);
     }
     
-    public Class getFeatureClass()
+    public Class<?> getFeatureClass()
     {
       return featureClass;
     }
@@ -95,7 +95,7 @@ public class JControlModel extends PrefixHandler
       return featureMethod;
     }
     
-    public void initialize(String path, Class[] parameterTypes)
+    public void initialize(String path, Class<?>[] parameterTypes)
     {
       int index = path.indexOf('/');
       String className = computeClassName(path.substring(0, index));
@@ -116,8 +116,8 @@ public class JControlModel extends PrefixHandler
 
   public static class DictionaryPattern extends PrefixHandler
   {
-    protected static Class[] noParameterTypes = new Class[0];
-    protected static Class[] stringParameterType = new Class[] { String.class };
+    protected static Class<?>[] noParameterTypes = new Class[0];
+    protected static Class<?>[] stringParameterType = new Class[] { String.class };
     protected String name;
     protected Feature selectorFeature;
     protected Pattern pattern;
@@ -140,7 +140,7 @@ public class JControlModel extends PrefixHandler
       pattern = Pattern.compile(element.getAttribute("match"), Pattern.MULTILINE | Pattern.DOTALL);
     }
     
-    protected Feature createFeature(String classPrefix, String path, Class[] parameterTypes)
+    protected Feature createFeature(String classPrefix, String path, Class<?>[] parameterTypes)
     {
       return new Feature(getClassPrefix(), path, parameterTypes);
     }
@@ -178,7 +178,7 @@ public class JControlModel extends PrefixHandler
 
   public static class PullRule extends PrefixHandler
   {
-    protected static Class[] noParameterTypes = new Class[0];
+    protected static Class<?>[] noParameterTypes = new Class[0];
     protected String name;
 
     protected Pattern sourceMarkup;
@@ -211,11 +211,11 @@ public class JControlModel extends PrefixHandler
         Method featureMethod = sourceGetFeature.getFeatureMethod();
         if (featureMethod != null)
         {
-          Class sourceReturnType = featureMethod.getReturnType();
-          targetPutFeature = createFeature(classPrefix, element.getAttribute("targetPut"), new Class[] { sourceReturnType });
+          Class<?> sourceReturnType = featureMethod.getReturnType();
+          targetPutFeature = createFeature(classPrefix, element.getAttribute("targetPut"), new Class<?>[] { sourceReturnType });
           if (targetPutFeature.getFeatureMethod() == null && sourceReturnType.isArray())
           {
-            targetPutFeature = createFeature(classPrefix, element.getAttribute("targetPut"), new Class[] { sourceReturnType.getComponentType() });
+            targetPutFeature = createFeature(classPrefix, element.getAttribute("targetPut"), new Class<?>[] { sourceReturnType.getComponentType() });
           }
         }
       }
@@ -241,7 +241,7 @@ public class JControlModel extends PrefixHandler
       }
     }
     
-    protected Feature createFeature(String classPrefix, String path, Class[] parameterTypes)
+    protected Feature createFeature(String classPrefix, String path, Class<?>[] parameterTypes)
     {
       return new Feature(getClassPrefix(), path, parameterTypes);
     }    
@@ -342,7 +342,7 @@ public class JControlModel extends PrefixHandler
   public static class SweepRule extends PrefixHandler
   {
     protected String name;
-    protected Class selector;
+    protected Class<?> selector;
     protected Pattern markup;
 
     public SweepRule(String classPrefix)
@@ -378,12 +378,12 @@ public class JControlModel extends PrefixHandler
       this.name = name;
     }
 
-    public Class getSelector()
+    public Class<?> getSelector()
     {
       return selector;
     }
 
-    public void setSelector(Class selector)
+    public void setSelector(Class<?> selector)
     {
       this.selector = selector;
     }
@@ -412,7 +412,7 @@ public class JControlModel extends PrefixHandler
   public static class SortRule extends PrefixHandler
   {
     protected String name;
-    protected Class selector;
+    protected Class<?> selector;
     protected Pattern markup;
 
     public SortRule(String classPrefix)
@@ -448,12 +448,12 @@ public class JControlModel extends PrefixHandler
       this.name = name;
     }
 
-    public Class getSelector()
+    public Class<?> getSelector()
     {
       return selector;
     }
 
-    public void setSelector(Class selector)
+    public void setSelector(Class<?> selector)
     {
       this.selector = selector;
     }
@@ -469,7 +469,7 @@ public class JControlModel extends PrefixHandler
     }
   }
   
-  public static Class classForClassName(String classPrefix, String className)
+  public static Class<?> classForClassName(String classPrefix, String className)
   {
     if (classPrefix != null)
     {
@@ -478,7 +478,7 @@ public class JControlModel extends PrefixHandler
     
     try
     {
-      Class result = Class.forName(className);
+      Class<?> result = Class.forName(className);
       return result;
     }
     catch (ClassNotFoundException exception)
