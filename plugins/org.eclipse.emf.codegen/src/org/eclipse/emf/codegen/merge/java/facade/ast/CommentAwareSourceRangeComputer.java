@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommentAwareSourceRangeComputer.java,v 1.3 2006/11/15 20:15:45 marcelop Exp $
+ * $Id: CommentAwareSourceRangeComputer.java,v 1.4 2006/12/05 00:16:37 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -336,7 +336,10 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     if (locationInParent != null && locationInParent.isChildListProperty())
     {
       ASTNode parent = node.getParent();
+      
+      @SuppressWarnings("unchecked")
       List<?> siblings = (List)parent.getStructuralProperty(locationInParent);
+      
       int index = siblings.indexOf(node);
       if (index >= 0 && index < siblings.size() - 1)
       {
@@ -362,7 +365,10 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     if (locationInParent != null && locationInParent.isChildListProperty())
     {
       ASTNode parent = node.getParent();
+      
+      @SuppressWarnings("unchecked")
       List<?> siblings = (List)parent.getStructuralProperty(locationInParent);
+      
       int index = siblings.indexOf(node);
       if (index > 0 && index < siblings.size())
       {
