@@ -175,7 +175,7 @@ public class ElementsFactoryImpl extends EFactoryImpl implements ElementsFactory
    */
   public BookCategory createBookCategoryObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (BookCategory)createBookCategoryFromString(ElementsPackage.Literals.BOOK_CATEGORY, initialValue);
+    return createBookCategoryFromString(ElementsPackage.Literals.BOOK_CATEGORY, initialValue);
   }
 
   /**

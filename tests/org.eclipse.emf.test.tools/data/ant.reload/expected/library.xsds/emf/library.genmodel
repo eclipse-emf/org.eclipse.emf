@@ -9,7 +9,7 @@
   <foreignModel>../model/libraryPart3.xsd</foreignModel>
   <genPackages prefix="Elements" basePackage="org.examples.library" resource="XML"
       disposableProviderFactory="true" ecorePackage="elements.ecore#/">
-    <genEnums ecoreEnum="elements.ecore#//BookCategory">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="elements.ecore#//BookCategory">
       <genEnumLiterals ecoreEnumLiteral="elements.ecore#//BookCategory/Mystery"/>
       <genEnumLiterals ecoreEnumLiteral="elements.ecore#//BookCategory/ScienceFiction"/>
       <genEnumLiterals ecoreEnumLiteral="elements.ecore#//BookCategory/Biography"/>

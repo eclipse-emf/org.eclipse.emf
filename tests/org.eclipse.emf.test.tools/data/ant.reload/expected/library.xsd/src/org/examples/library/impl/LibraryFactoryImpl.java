@@ -181,7 +181,7 @@ public class LibraryFactoryImpl extends EFactoryImpl implements LibraryFactory
    */
   public BookCategory createBookCategoryObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (BookCategory)createBookCategoryFromString(LibraryPackage.Literals.BOOK_CATEGORY, initialValue);
+    return createBookCategoryFromString(LibraryPackage.Literals.BOOK_CATEGORY, initialValue);
   }
 
   /**

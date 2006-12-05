@@ -7,7 +7,7 @@
   <foreignModel>../model/library.ecore</foreignModel>
   <genPackages prefix="Library" basePackage="org.examples" disposableProviderFactory="true"
       ecorePackage="library.ecore#/">
-    <genEnums ecoreEnum="library.ecore#//BookCategory">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="library.ecore#//BookCategory">
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//BookCategory/Mystery"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//BookCategory/ScienceFiction"/>
       <genEnumLiterals ecoreEnumLiteral="library.ecore#//BookCategory/Biography"/>
