@@ -38,7 +38,7 @@ public class ConverterUtilTest extends TestCase
 
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("ImporterUtilTest");
+    TestSuite ts = new TestSuite("ConverterUtilTest");
     ts.addTest(new ConverterUtilTest("testDecodeAction"));
     ts.addTest(new ConverterUtilTest("testMergeDiagnostic"));
     ts.addTest(new ConverterUtilTest("testCreateErrorDiagnostic"));
