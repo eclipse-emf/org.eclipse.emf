@@ -49,17 +49,17 @@ protected abstract class EchoSoapBindingImpl implements echo.Echo, Comparable
    */
   public class InnerClass1 {
     /**
-     * @ordered
-     */
-    int a 
-    = 1;   
-    
-    /**
      * target javadoc line 1
      * line 2
      * @ordered
      */
     int b   = 2;
+    
+    /**
+     * @ordered
+     */
+    int a 
+    = 1;   
     
 } 
   
