@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: GenerateEcore2XMLActionDelegate.java,v 1.8 2006/10/16 03:34:58 davidms Exp $
+ * $Id: GenerateEcore2XMLActionDelegate.java,v 1.9 2006/12/05 20:32:39 emerks Exp $
  */
 package org.eclipse.emf.mapping.ecore2xml.action;
 
@@ -233,7 +233,7 @@ public class GenerateEcore2XMLActionDelegate extends ActionDelegate
               URI ecore2xmlURI = ecore2ecoreResource.getURI().trimFileExtension().appendFileExtension(Ecore2XMLResource.FILE_EXTENSION);
               Resource ecore2xmlResource = ecore2ecoreResource.getResourceSet().createResource(ecore2xmlURI);
               
-              ecore2xmlResource.getContents().add(createXMLMap(mappingRoot));
+              ecore2xmlResource.getContents().add((EObject)createXMLMap(mappingRoot));
               
               try
               {
