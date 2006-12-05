@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.35 2006/03/03 17:14:44 emerks Exp $
+ * $Id: XMLResource.java,v 1.36 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.impl.ConfigurationCache;
+import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -213,6 +214,27 @@ public interface XMLResource extends Resource
   String OPTION_SAVE_DOCTYPE = "SAVE_DOCTYPE";
   
   /**
+   * A {@link ResourceEntityHandler} value that will be used during load and save to encode cross document reference URIs as entities;
+   * the default value is null, in which entities will not be defined at all.
+   * TODO this is work in progress and subject to arbitrary change.
+   */
+  String OPTION_RESOURCE_ENTITY_HANDLER = "RESOURCE_ENTITY_HANDLER";
+
+  /**
+   * An interface for a resource entity handler.
+   * It is used during load to record entities 
+   * and is used during save to assign entity names to values representing cross resource URI references.
+   * TODO this is work in progress and subject to arbitrary change.
+   */
+  public interface ResourceEntityHandler
+  {
+    void reset();
+    void handleEntity(String entityName, String entityValue);
+    String getEntityName(String entityValue);
+    Map<String, String> getNameToValueMap();
+  }
+
+  /**
    * Skip processing for values that contain characters special to XML
    * Faster for large computer-generated files
    */
@@ -349,13 +371,13 @@ public interface XMLResource extends Resource
    * Returns the map of options that, in addition to the overriding options specified during save,
    * are used to to control save behavior.
    */
-  Map getDefaultSaveOptions();
+  Map<Object, Object> getDefaultSaveOptions();
 
   /**
    * Returns the map of options that, in addition to the overriding options specified during load,
    * are used to to control load behavior.
    */
-  Map getDefaultLoadOptions();
+  Map<Object, Object> getDefaultLoadOptions();
 
   /**
    * Returns <a href='http://www.w3.org/TR/2004/REC-xml-20040204/#NT-PubidLiteral'>public identifier</a> specified on the doctype.
@@ -405,7 +427,8 @@ public interface XMLResource extends Resource
    * {@link Resource#getEObject(String)} instead.  This method may be removed from
    * this interface.
    */
-  Map getIDToEObjectMap();
+  @Deprecated
+  Map<String, EObject> getIDToEObjectMap();
 
   /**
    * Returns the Map of EObjects as keys and IDs as values.
@@ -414,7 +437,8 @@ public interface XMLResource extends Resource
    * {@link Resource#getEObject(String)} instead.  This method may be removed from
    * this interface.
    */
-  Map getEObjectToIDMap();
+  @Deprecated
+  Map<EObject, String> getEObjectToIDMap();
 
   /**
    * Returns the ID that was assigned with {@link #setID(EObject, String)}; if there is
@@ -433,7 +457,7 @@ public interface XMLResource extends Resource
    * Returns the map with {@link EObject} as keys and corresponding {@link org.eclipse.emf.ecore.xml.type.AnyType}s as the values.
    * It's used to record unrecognized elements and attributes.
    */
-  Map getEObjectToExtensionMap();
+  Map<EObject, AnyType> getEObjectToExtensionMap();
    
   /**
    * Create a DOM tree representing contents of this resource.
@@ -446,14 +470,14 @@ public interface XMLResource extends Resource
    * the returned document is the same as the one specified, otherwise the newly created document is returned.
    * @since 2.1.0
    */
-  Document save(Document document, Map options, DOMHandler handler);
+  Document save(Document document, Map<?, ?> options, DOMHandler handler);
   
   /**
    * Saves the resource to the writer using the specified options.
    * @param writer the writer
    * @param options the save options.
    */
-  void save(Writer writer, Map options) throws IOException;
+  void save(Writer writer, Map<?, ?> options) throws IOException;
     
   /**
    * Returns the {@link DOMHelper} 
@@ -472,9 +496,9 @@ public interface XMLResource extends Resource
    * @see #save(Document, Map, DOMHandler)
    * @since 2.1.0
    */
-  void load(Node node, Map options) throws IOException;
+  void load(Node node, Map<?, ?> options) throws IOException;
   
-  void load(InputSource inputSource, Map options) throws IOException;
+  void load(InputSource inputSource, Map<?, ?> options) throws IOException;
 
   /**
    * This interface represents a mapping from Ecore constructs to the
@@ -531,7 +555,7 @@ public interface XMLResource extends Resource
     /**
      * Returns the list of features for the given class in the order in which they should be saved.
      */
-    List getFeatures(EClass eClass);
+    List<EStructuralFeature> getFeatures(EClass eClass);
   }
 
   /**
@@ -596,11 +620,11 @@ public interface XMLResource extends Resource
 
   interface ResourceHandler
   {
-    public void preLoad(XMLResource resource, InputStream inputStream, Map options);
-    public void postLoad(XMLResource resource, InputStream inputStream, Map options);
+    public void preLoad(XMLResource resource, InputStream inputStream, Map<?, ?> options);
+    public void postLoad(XMLResource resource, InputStream inputStream, Map<?, ?> options);
 
-    public void preSave(XMLResource resource, OutputStream outputStream, Map options);
-    public void postSave(XMLResource resource, OutputStream outputStream, Map options);
+    public void preSave(XMLResource resource, OutputStream outputStream, Map<?, ?> options);
+    public void postSave(XMLResource resource, OutputStream outputStream, Map<?, ?> options);
   }
 
 }

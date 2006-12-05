@@ -12,15 +12,15 @@
  *
  * </copyright>
  *
- * $Id: EMOFHelperImpl.java,v 1.11 2006/11/04 16:04:12 emerks Exp $
+ * $Id: EMOFHelperImpl.java,v 1.12 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
@@ -43,7 +43,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
 {
   protected EClass propertyClass = null;
-  protected List propertyFeatureList = null;
+  protected List<EObject> propertyFeatureList = null;
 
   public EMOFHelperImpl(XMLResource resource)
   {
@@ -51,6 +51,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     packages.put(EcorePackage.eINSTANCE, EMOFExtendedMetaData.EMOF_PACKAGE_NS_PREFIX);
   }
 
+  @Override
   public Object getValue(EObject object, EStructuralFeature feature)
   {
     if (feature == EcorePackage.eINSTANCE.getEStructuralFeature_Changeable())
@@ -63,6 +64,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     }
   }
 
+  @Override
   public void setValue(EObject object, EStructuralFeature feature, Object value, int position)
   {
     if (feature == EcorePackage.eINSTANCE.getEStructuralFeature_Changeable())
@@ -79,6 +81,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     }
   }
 
+  @Override
   public String getHREF(EObject obj)
   {
     String href = super.getHREF(obj);
@@ -98,6 +101,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     return href;
   }
 
+  @Override
   public EStructuralFeature getFeature(EClass eClass, String namespaceURI, String name, boolean isElement)
   {
     if (eClass == EcorePackage.eINSTANCE.getEAnnotation() && EMOFExtendedMetaData.EMOF_TAG_ELEMENT.equals(name))
@@ -121,6 +125,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     return null;
   }
 
+  @Override
   public EClassifier getType(EFactory eFactory, String typeName)
   {
     EPackage ePackage = eFactory.getEPackage();
@@ -138,7 +143,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
           EPackage propertyPackage = EcoreFactory.eINSTANCE.createEPackage();
           propertyPackage.getEClassifiers().add(propertyClass);
 
-          propertyFeatureList = new ArrayList();
+          propertyFeatureList = new ArrayList<EObject>();
         }
         return propertyClass;
       }
@@ -150,6 +155,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
     return super.getType(eFactory, typeName);
   }
   
+  @Override
   public EObject createObject(EFactory eFactory, EClassifier type)
   {
     if (type == propertyClass)
@@ -174,6 +180,9 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
       EcoreUtil.Copier copier = 
         new EcoreUtil.Copier(false)
         {
+          private static final long serialVersionUID = 1L;
+
+          @Override
           protected EObject createCopy(EObject eObject)
           {
             EClass eClass = 
@@ -182,6 +191,7 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
                 : EcorePackage.eINSTANCE.getEReference();
             return EcoreUtil.create(eClass);
           }
+          @Override
           protected void copyContainment(EReference eReference, EObject eObject, EObject copyEObject)
           {
             // eAnnotations is the only possible containment reference. We'll move the annotations instead of copy
@@ -191,36 +201,36 @@ public class EMOFHelperImpl extends XMLHelperImpl implements EMOFHandler.Helper
       copier.copyAll(propertyFeatureList);
       copier.copyReferences();
 
-      for (Iterator iter = copier.entrySet().iterator(); iter.hasNext(); )
+      for (Map.Entry<EObject, EObject> entry : copier.entrySet())
       {
-        Map.Entry entry = (Map.Entry)iter.next();
         EStructuralFeature emofFeature = (EStructuralFeature)entry.getKey();
         EStructuralFeature ecoreFeature = (EStructuralFeature)entry.getValue();
         EClass eClass = emofFeature.getEContainingClass();
         eClass.getEStructuralFeatures().set(eClass.getEStructuralFeatures().indexOf(emofFeature), ecoreFeature);
       }
 
-      for (TreeIterator contents = EcoreUtil.getAllContents(resource.getContents(), false); contents.hasNext(); )
+      for (TreeIterator<Notifier> contents = EcoreUtil.getAllContents(resource.getContents(), false); contents.hasNext(); )
       {
         EObject eObject = (EObject)contents.next();
-        for (EContentsEList.FeatureIterator featureIterator = 
-               new ECrossReferenceEList.FeatureIteratorImpl(eObject) 
+        for (EContentsEList.FeatureIterator<EObject> featureIterator = 
+               new ECrossReferenceEList.FeatureIteratorImpl<EObject>(eObject) 
                {
-                 protected boolean isIncluded(EStructuralFeature eStructuralFeature)
+                 @Override
+                protected boolean isIncluded(EStructuralFeature eStructuralFeature)
                 {
                   return !eStructuralFeature.isDerived() && super.isIncluded(eStructuralFeature);
                 }
                };
              featureIterator.hasNext(); )
         {
-          EObject targetEObject = (EObject)featureIterator.next();
-          EObject copyEObject = (EObject)copier.get(targetEObject);
+          EObject targetEObject = featureIterator.next();
+          EObject copyEObject = copier.get(targetEObject);
           if (copyEObject != null)
           {
             EReference eReference = (EReference)featureIterator.feature();
             if (eReference.isMany())
             {
-              List list = (List)eObject.eGet(eReference);
+              @SuppressWarnings("unchecked") List<EObject> list = (List<EObject>)eObject.eGet(eReference);
               list.set(list.indexOf(targetEObject), copyEObject);
             }
             else

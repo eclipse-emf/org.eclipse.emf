@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFHandler.java,v 1.3 2005/06/08 06:16:07 nickb Exp $
+ * $Id: EMOFHandler.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -32,12 +32,13 @@ public class EMOFHandler extends SAXXMIHandler
   protected EMOFHandler.Helper emofHelper;
   protected static final String ECORE_EXTENSION_TYPE = "ecoreExtension";
 
-  public EMOFHandler(XMLResource xmiResource, EMOFHandler.Helper helper, Map options)
+  public EMOFHandler(XMLResource xmiResource, EMOFHandler.Helper helper, Map<?, ?> options)
   {
     super(xmiResource, helper, options);
     emofHelper = helper;
   }
 
+  @Override
   protected void handleProxy(InternalEObject proxy, String uriLiteral)
   {
     if (uriLiteral.startsWith(EMOFExtendedMetaData.MAPPED_EMOF_EDATATYPE_HREF_PREFIX))
@@ -61,6 +62,7 @@ public class EMOFHandler extends SAXXMIHandler
     super.handleProxy(proxy, uriLiteral);
   }
 
+  @Override
   protected void handleForwardReferences(boolean isEndDocument)
   {
     super.handleForwardReferences(isEndDocument);
@@ -71,6 +73,7 @@ public class EMOFHandler extends SAXXMIHandler
     }
   }
 
+  @Override
   protected void processElement(String name, String prefix, String localName)
   {
     if (EMOFExtendedMetaData.EXTENSION.equals(localName) && XMIResource.XMI_URI.equals(helper.getURI(prefix)))
@@ -90,6 +93,7 @@ public class EMOFHandler extends SAXXMIHandler
     }
   }
 
+  @Override
   public void endElement(String uri, String localName, String name)
   {
     if (types.peek() == ECORE_EXTENSION_TYPE)
@@ -105,6 +109,7 @@ public class EMOFHandler extends SAXXMIHandler
     }
   }
 
+  @Override
   protected void setAttribValue(EObject object, String name, String value)
   {
     if (object instanceof EAnnotation)

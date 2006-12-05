@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StringSegment.java,v 1.5 2005/11/07 21:27:36 elena Exp $
+ * $Id: StringSegment.java,v 1.6 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -31,13 +31,16 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.ecore.xmi.XMIPlugin;
 
 
 /**
  * A String Buffer that never reallocates
  */
-public class StringSegment extends BasicEList
+public class StringSegment extends BasicEList<StringSegment.Element>
 {
+  private static final long serialVersionUID = 1L;
+
   protected final static int LIST_SIZE = 100;
 
   protected static final int ELEMENT_SIZE = 1000;
@@ -105,6 +108,7 @@ public class StringSegment extends BasicEList
     return temporaryFileName;
   }
 
+  @Override
   protected Object[] newData(int capacity)
   {
     return new Element [capacity];
@@ -138,6 +142,7 @@ public class StringSegment extends BasicEList
         }
         catch (IOException exception)
         {
+          XMIPlugin.INSTANCE.log(exception);
         }
         bufferPosition = 0;
         if (length > buffer.length)
@@ -230,6 +235,7 @@ public class StringSegment extends BasicEList
       }
       catch (IOException exception)
       {
+        // If we can't create one, too bad.
       }
     }
 
@@ -248,6 +254,7 @@ public class StringSegment extends BasicEList
       }
       catch (IOException exception)
       {
+        XMIPlugin.INSTANCE.log(exception);
       }
       temporaryFile = null;
     }
@@ -374,6 +381,7 @@ public class StringSegment extends BasicEList
    * @param flushThreshold
    * @throws IOException
    */
+  @Deprecated
   public void write(OutputStreamWriter os, int flushThreshold) throws IOException
   {
     write((Writer)os, flushThreshold);
@@ -453,17 +461,28 @@ public class StringSegment extends BasicEList
     }
   }
 
-  public Iterator iterator()
+  @SuppressWarnings("unchecked")
+  @Override
+  public Iterator<Element> iterator()
+  {
+    // TODO This is really quite attrocious since there is code that will assume an iterator that returns strings!
+    return (ListIterator<Element>)(ListIterator<?>)new SegmentIterator();
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public ListIterator<Element> listIterator()
+  {
+    // TODO This is really quite attrocious since there is code that will assume an iterator that returns strings!
+    return (ListIterator<Element>)(Iterator<?>)new SegmentIterator();
+  }
+
+  public Iterator<String> stringIterator()
   {
     return new SegmentIterator();
   }
 
-  public ListIterator listIterator()
-  {
-    return new SegmentIterator();
-  }
-
-  protected class SegmentIterator implements ListIterator
+  protected class SegmentIterator implements ListIterator<String>
   {
     protected int outerIndex = 0;
 
@@ -471,6 +490,7 @@ public class StringSegment extends BasicEList
 
     SegmentIterator()
     {
+      super();
     }
 
     public boolean hasNext()
@@ -483,7 +503,7 @@ public class StringSegment extends BasicEList
       return outerIndex > 0 || innerIndex > 0;
     }
 
-    public Object next()
+    public String next()
     {
       Element element = (Element)data[outerIndex];
       if (innerIndex < element.size)
@@ -497,7 +517,7 @@ public class StringSegment extends BasicEList
       }
     }
 
-    public Object previous()
+    public String previous()
     {
       if (innerIndex > 0)
       {
@@ -511,7 +531,7 @@ public class StringSegment extends BasicEList
       }
     }
 
-    public void add(Object newElement)
+    public void add(String newElement)
     {
       throw new UnsupportedOperationException(SegmentIterator.class.toString());
     }
@@ -521,7 +541,7 @@ public class StringSegment extends BasicEList
       throw new UnsupportedOperationException(SegmentIterator.class.toString());
     }
 
-    public void set(Object newElement)
+    public void set(String newElement)
     {
       throw new UnsupportedOperationException(SegmentIterator.class.toString());
     }

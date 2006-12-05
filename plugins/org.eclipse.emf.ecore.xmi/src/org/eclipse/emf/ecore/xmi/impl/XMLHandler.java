@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.61 2006/10/25 13:32:55 emerks Exp $
+ * $Id: XMLHandler.java,v 1.62 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -97,37 +97,46 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected final static boolean DEBUG_DEMANDED_PACKAGES = false;
   
-  protected static class MyStack extends BasicEList
+  protected static class MyStack<E> extends BasicEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
     public MyStack()
     {
+      super();
     }
 
-    public final Object peek()
+    @SuppressWarnings("unchecked")
+    public final E peek()
     {
-      return size == 0 ? null : data[size - 1];
+      return size == 0 ? null : (E)data[size - 1];
     }
 
-    public final void push(Object o)
+    public final void push(E o)
     {
       grow(size + 1);  
       data[size++] = o;
     }
 
-    public final Object pop()
+    @SuppressWarnings("unchecked")
+    public final E pop()
     {
-      return size == 0 ?  null : data[--size];
+      return size == 0 ?  null : (E)data[--size];
     }
   }
 
-  protected static class MyEObjectStack extends MyStack
+  protected static class MyEObjectStack extends MyStack<EObject>
   {
+    private static final long serialVersionUID = 1L;
+
     protected EObject [] eObjectData;
 
     public MyEObjectStack()
     {
+      super();
     }
 
+    @Override
     protected final Object[] newData(int capacity)
     {
       return eObjectData = new EObject[capacity];
@@ -136,12 +145,6 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     public final EObject peekEObject()
     {
       return size == 0 ? null : eObjectData[size - 1];
-    }
-
-    public final void push(EObject o)
-    {
-      grow(size + 1);  
-      eObjectData[size++] = o;
     }
 
     public final EObject popEObject()
@@ -268,16 +271,16 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected XMLResource xmlResource;
   protected XMLHelper helper;
-  protected MyStack elements;
+  protected MyStack<String> elements;
   protected MyEObjectStack objects;
-  protected MyStack types;
-  protected MyStack mixedTargets;
-  protected Map prefixesToFactories;
-  protected Map urisToLocations;
-  protected Map externalURIToLocations;
+  protected MyStack<Object> types;
+  protected MyStack<FeatureMap> mixedTargets;
+  protected Map<String, EFactory> prefixesToFactories;
+  protected Map<String, URI> urisToLocations;
+  protected Map<String, URI> externalURIToLocations;
   protected boolean processSchemaLocations;
-  protected InternalEList extent;
-  protected List deferredExtent;
+  protected InternalEList<EObject> extent;
+  protected List<EObject> deferredExtent;
   protected ResourceSet resourceSet;
   protected EPackage.Registry packageRegistry;
   protected URI resourceURI;
@@ -287,15 +290,15 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected StringBuffer text;
   protected boolean isIDREF;
   protected boolean isSimpleFeature;
-  protected List sameDocumentProxies;
-  protected List forwardSingleReferences;
-  protected List forwardManyReferences;
+  protected List<InternalEObject> sameDocumentProxies;
+  protected List<SingleReference> forwardSingleReferences;
+  protected List<ManyReference> forwardManyReferences;
   protected Object[] identifiers;
   protected int[] positions;
   protected static final int ARRAY_SIZE = 64;
   protected static final int REFERENCE_THRESHOLD = 5;
   protected int capacity;
-  protected Set notFeatures;
+  protected Set<String> notFeatures;
   protected String idAttribute;
   protected String hrefAttribute;
   protected XMLResource.XMLMap xmlMap;
@@ -305,7 +308,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected boolean recordUnknownFeature;
   protected boolean useNewMethods;
   protected boolean recordAnyTypeNSDecls;
-  protected Map eObjectToExtensionMap;
+  protected Map<EObject, AnyType> eObjectToExtensionMap;
   protected EStructuralFeature contextFeature;
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
   protected boolean deferIDREFResolution;
@@ -314,35 +317,36 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected boolean isRoot;
   protected Locator locator;
   protected Attributes attribs;
-  protected Map featuresToKinds;
+  protected Map<EStructuralFeature, Integer> featuresToKinds;
   protected boolean useConfigurationCache;
   protected boolean needsPushContext;
+  protected XMLResource.ResourceEntityHandler resourceEntityHandler;
 
   /**
    */
-  public XMLHandler(XMLResource xmlResource, XMLHelper helper, Map options)
+  public XMLHandler(XMLResource xmlResource, XMLHelper helper, Map<?, ?> options)
   {
     this.xmlResource = xmlResource;
     this.helper = helper;
-    elements = new MyStack();
+    elements = new MyStack<String>();
     objects  = new MyEObjectStack();
-    mixedTargets = new MyStack();
+    mixedTargets = new MyStack<FeatureMap>();
 
-    types    = new MyStack();
-    prefixesToFactories = new HashMap();
-    forwardSingleReferences = new ArrayList();
-    forwardManyReferences   = new ArrayList();
-    sameDocumentProxies = new ArrayList();
+    types    = new MyStack<Object>();
+    prefixesToFactories = new HashMap<String, EFactory>();
+    forwardSingleReferences = new ArrayList<SingleReference>();
+    forwardManyReferences   = new ArrayList<ManyReference>();
+    sameDocumentProxies = new ArrayList<InternalEObject>();
     identifiers = new Object[ARRAY_SIZE];
     positions   = new int[ARRAY_SIZE];
     capacity    = ARRAY_SIZE;
     resourceSet  = xmlResource.getResourceSet();
     packageRegistry = resourceSet == null ? EPackage.Registry.INSTANCE : resourceSet.getPackageRegistry();
     resourceURI  = xmlResource.getURI();
-    extent       = (InternalEList) xmlResource.getContents();
+    extent       = (InternalEList<EObject>)xmlResource.getContents();
     if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_DEFER_ATTACHMENT)))
     {
-      deferredExtent = new ArrayList();
+      deferredExtent = new ArrayList<EObject>();
     }
     resolve      = resourceURI != null && resourceURI.isHierarchical() && !resourceURI.isRelative();
 
@@ -354,7 +358,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_DISABLE_NOTIFY)))
       disableNotify = true;
 
-    notFeatures = new HashSet();
+    notFeatures = new HashSet<String>();
     notFeatures.add(TYPE_ATTRIB);
     notFeatures.add(SCHEMA_LOCATION_ATTRIB);
     notFeatures.add(NO_NAMESPACE_SCHEMA_LOCATION_ATTRIB);
@@ -420,10 +424,12 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     
     helper.setAnySimpleType(anySimpleType);
     
-    eClassFeatureNamePairToEStructuralFeatureMap = (Map)options.get(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP);
+    @SuppressWarnings("unchecked") Map<EClassFeatureNamePair, EStructuralFeature> newEClassFeatureNamePairToEStructuralFeatureMap = 
+      (Map<EClassFeatureNamePair, EStructuralFeature>)options.get(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP);
+    eClassFeatureNamePairToEStructuralFeatureMap =  newEClassFeatureNamePairToEStructuralFeatureMap;
     if (eClassFeatureNamePairToEStructuralFeatureMap == null)
     {
-      eClassFeatureNamePairToEStructuralFeatureMap = new HashMap();
+      eClassFeatureNamePairToEStructuralFeatureMap = new HashMap<EClassFeatureNamePair, EStructuralFeature>();
     }
     else
     {
@@ -447,6 +453,12 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_CONFIGURATION_CACHE)))
     {
       useConfigurationCache = true;
+    }
+    
+    resourceEntityHandler = (XMLResource.ResourceEntityHandler)options.get(XMLResource.OPTION_RESOURCE_ENTITY_HANDLER); 
+    if (resourceEntityHandler != null)
+    {
+      resourceEntityHandler.reset();
     }
   }
 
@@ -478,17 +490,17 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     helper.setExtendedMetaData(extendedMetaData);
   }
 
-  public void prepare(XMLResource resource, XMLHelper helper, Map options)
+  public void prepare(XMLResource resource, XMLHelper helper, Map<?, ?> options)
   {
     this.xmlResource = resource;
     this.helper = helper;
     resourceSet = xmlResource.getResourceSet();
     packageRegistry = resourceSet == null ? EPackage.Registry.INSTANCE : resourceSet.getPackageRegistry();
     resourceURI = xmlResource.getURI();
-    extent = (InternalEList)xmlResource.getContents();
+    extent = (InternalEList<EObject>)xmlResource.getContents();
     if (Boolean.TRUE.equals(options.get(XMLResource.OPTION_DEFER_ATTACHMENT)))
     {
-      deferredExtent = new ArrayList();
+      deferredExtent = new ArrayList<EObject>();
     }
     resolve = resourceURI != null && resourceURI.isHierarchical() && !resourceURI.isRelative();
     eObjectToExtensionMap = xmlResource.getEObjectToExtensionMap();
@@ -507,10 +519,13 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     }
     
     // bug #126072 
-    eClassFeatureNamePairToEStructuralFeatureMap = (Map)options.get(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP);
+    @SuppressWarnings("unchecked") Map<EClassFeatureNamePair, EStructuralFeature> newEClassFeatureNamePairToEStructuralFeatureMap = 
+      (Map<EClassFeatureNamePair, EStructuralFeature>)options.get(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP);
+    eClassFeatureNamePairToEStructuralFeatureMap = 
+      newEClassFeatureNamePairToEStructuralFeatureMap;
     if (eClassFeatureNamePairToEStructuralFeatureMap == null)
     {
-      eClassFeatureNamePairToEStructuralFeatureMap = new HashMap();
+      eClassFeatureNamePairToEStructuralFeatureMap = new HashMap<EClassFeatureNamePair, EStructuralFeature>();
       isOptionUseXMLNameToFeatureSet = false;
     }
     else
@@ -520,6 +535,12 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       {
         ((XMLHelperImpl)helper).featuresToKinds = featuresToKinds;
       }
+    }
+
+    resourceEntityHandler = (XMLResource.ResourceEntityHandler)options.get(XMLResource.OPTION_RESOURCE_ENTITY_HANDLER); 
+    if (resourceEntityHandler != null)
+    {
+      resourceEntityHandler.reset();
     }
   }
 
@@ -575,18 +596,23 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     attribs = null;
     locator = null;
     urisToLocations = null;
+    resourceEntityHandler = null;
   }
 
   //
   // Overwrite DefaultHandler methods
   //
 
+  @Override
   public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException
   {
+    // Do nothing.
   }
 
+  @Override
   public void skippedEntity(String name) throws SAXException
   {
+    // Do nothing.
   }
 
   protected XMIException toXMIException(SAXParseException e)
@@ -600,27 +626,32 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     return xmiException;
   }
 
+  @Override
   public void warning(SAXParseException e) throws SAXException
   {
     warning(toXMIException(e));
   }
 
+  @Override
   public void error(SAXParseException e) throws SAXException
   {
     error(toXMIException(e));
   }
 
+  @Override
   public void fatalError(SAXParseException e) throws SAXException
   {
     fatalError(toXMIException(e));
     throw e;
   }
 
+  @Override
   public void setDocumentLocator(Locator locator)
   {
     setLocator(locator);
   }
 
+  @Override
   public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
   {
     setAttributes(attributes);
@@ -633,10 +664,18 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   public void startEntity(java.lang.String name)
   {
+    if (resourceEntityHandler != null)
+    {
+      text = new StringBuffer();
+    }
   }
 
   public void endEntity(java.lang.String name)
   {
+    if (resourceEntityHandler != null)
+    {
+      resourceEntityHandler.handleEntity(name, text.toString());
+    }
   }
 
   public void comment(char[] ch, int start, int length) // throws SAXException
@@ -682,19 +721,25 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   public void endDTD()
   {
+    // Do nothing.
   }
 
+  @Override
   public void unparsedEntityDecl(String name, String publicId, String systemId, String notationName) throws SAXException
   {
+    // Do nothing.
   }
 
+  @Override
   public void notationDecl(String name, String publicId, String systemId) throws SAXException
   {
+    // Do nothing.
   }
 
   //
   // Implement EntityResolver methods
   //
+  @Override
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException
   {
     return null;
@@ -714,6 +759,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    * Process the XML namespace declarations.
    * @deprecated since 2.2 
    */
+  @Deprecated
   protected void handleNamespaceAttribs()
   {
     for (int i = 0, size = attribs.getLength(); i < size; ++i)
@@ -775,18 +821,18 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected void setLocator(Object locator)
   {
     this.locator = (Locator)locator;
-    Class locatorClass = locator.getClass();
+    Class<?> locatorClass = locator.getClass();
     try
     {
-      Method encodingMethod = locatorClass.getMethod("getEncoding", null);
-      String encoding = (String)encodingMethod.invoke(locator, null);
+      Method encodingMethod = locatorClass.getMethod("getEncoding");
+      String encoding = (String)encodingMethod.invoke(locator);
       if (encoding != null)
       {
         this.xmlResource.setEncoding(encoding);
       }
 
-      Method versionMethod = locatorClass.getMethod("getXMLVersion", null);
-      String version = (String)versionMethod.invoke(locator, null);
+      Method versionMethod = locatorClass.getMethod("getXMLVersion");
+      String version = (String)versionMethod.invoke(locator);
       if (version != null)
       {
         this.xmlResource.setXMLVersion(version);
@@ -794,16 +840,19 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     }
     catch (NoSuchMethodException e)
     {
+      // Ignore.
     }
     catch (IllegalAccessException e)
     {
+      // Ignore.
     }
     catch (InvocationTargetException e)
     {
+      // Ignore.
     }
-  
   }
 
+  @Override
   public void startDocument()
   {
     isRoot = true;
@@ -902,18 +951,17 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     // other end of a bidirectional reference being handled as an IDREF rather than as a proxy.
     // When we are done with these, we know that funny proxies are now resolved as if they were handled as IDREFs.
     //
-    for (Iterator i = sameDocumentProxies.iterator(); i.hasNext(); )
+    for (Iterator<InternalEObject> i = sameDocumentProxies.iterator(); i.hasNext(); )
     {
-      InternalEObject proxy = (InternalEObject)i.next();
+      InternalEObject proxy = i.next();
 
       // Look through all the references...
       //
       LOOP:
-      for (Iterator j = proxy.eClass().getEAllReferences().iterator(); j.hasNext(); )
+      for (EReference eReference : proxy.eClass().getEAllReferences())
       {
         // And find the one that holds this proxy.
         //
-        EReference eReference = (EReference)j.next();
         EReference oppositeEReference = eReference.getEOpposite();
         if (oppositeEReference != null && proxy.eIsSet(eReference))
         {
@@ -931,7 +979,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
             // Compute the holder of the proxy
             //
-            EObject proxyHolder = (EObject)(eReference.isMany() ? ((List)proxy.eGet(eReference)).get(0) : proxy.eGet(eReference));
+            EObject proxyHolder = (EObject)(eReference.isMany() ? ((List<?>)proxy.eGet(eReference)).get(0) : proxy.eGet(eReference));
 
             // If the proxy holder can hold many values,
             // it may contain a duplicate that resulted when the other end was processed as an IDREF
@@ -941,8 +989,8 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
             {
               // So if the resolved object is also present...
               //
-              InternalEList holderContents = (InternalEList)proxyHolder.eGet(oppositeEReference);
-              List basicHolderContents = holderContents.basicList();
+              InternalEList<?> holderContents = (InternalEList<?>)proxyHolder.eGet(oppositeEReference);
+              List<?> basicHolderContents = holderContents.basicList();
               int resolvedEObjectIndex = basicHolderContents.indexOf(resolvedEObject);
               if (resolvedEObjectIndex != -1)
               {
@@ -958,14 +1006,14 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
             // If the resolved object doesn't contain a reference to the proxy holder as it should.
             //
             if (eReference.isMany() ?
-                  !((InternalEList)resolvedEObject.eGet(eReference)).basicList().contains(proxyHolder) :
+                  !((InternalEList<?>)resolvedEObject.eGet(eReference)).basicList().contains(proxyHolder) :
                   resolvedEObject.eGet(eReference) != proxyHolder)
             {
               // The proxy needs to be replaced in a way that updates both ends of the reference.
               //
               if (oppositeEReference.isMany())
               {
-                InternalEList proxyHolderList = (InternalEList)proxyHolder.eGet(oppositeEReference);
+                @SuppressWarnings("unchecked") InternalEList<EObject> proxyHolderList = (InternalEList<EObject>)proxyHolder.eGet(oppositeEReference);
                 proxyHolderList.setUnique(proxyHolderList.indexOf(proxy), resolvedEObject);
               }
               else
@@ -980,9 +1028,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       }
     }
 
-    for (Iterator i = forwardSingleReferences.iterator(); i.hasNext(); )
+    for (Iterator<SingleReference> i = forwardSingleReferences.iterator(); i.hasNext(); )
     {
-      SingleReference ref = (SingleReference) i.next();
+      SingleReference ref = i.next();
       EObject obj = xmlResource.getEObject((String) ref.getValue());
 
       if (obj != null)
@@ -1006,9 +1054,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       }
     }
 
-    for (Iterator i = forwardManyReferences.iterator(); i.hasNext(); )
+    for (Iterator<ManyReference> i = forwardManyReferences.iterator(); i.hasNext(); )
     {
-      ManyReference ref = (ManyReference) i.next();
+      ManyReference ref =  i.next();
       Object[] values = ref.getValues();
 
       boolean failure = false;
@@ -1055,6 +1103,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    * have been set due to a bi-directional reference being set).  If not,
    * set them.
    */
+  @Override
   public void endDocument()
   {    
     if (deferredExtent != null)
@@ -1067,7 +1116,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
     if (disableNotify) 
     {
-      for (Iterator i = EcoreUtil.getAllContents(xmlResource.getContents(), false); i.hasNext(); )
+      for (Iterator<?> i = EcoreUtil.getAllContents(xmlResource.getContents(), false); i.hasNext(); )
       {
         EObject eObject = (EObject)i.next();
         eObject.eSetDeliver(true);
@@ -1078,7 +1127,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     {
       if (extent.size() == 1)
       {
-        EObject root = (EObject)extent.get(0);
+        EObject root = extent.get(0);
         recordNamespacesSchemaLocations(root);     
       }
 
@@ -1086,10 +1135,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       {
         // EATM temporary for debug purposes only.
         //
-        Collection demandedPackages = EcoreUtil.copyAll(extendedMetaData.demandedPackages());
-        for (Iterator i = demandedPackages.iterator(); i.hasNext();)
+        Collection<EPackage> demandedPackages = EcoreUtil.copyAll(extendedMetaData.demandedPackages());
+        for (EPackage ePackage : demandedPackages)
         {
-          EPackage ePackage = (EPackage)i.next();
           ePackage.setName(ePackage.getNsURI());
         }
         extent.addAll(demandedPackages);
@@ -1097,14 +1145,15 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     }
   }
   
-  protected EMap recordNamespacesSchemaLocations(EObject root)
+  protected EMap<String, String> recordNamespacesSchemaLocations(EObject root)
   {
     EClass eClass = root.eClass();
     EReference xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(eClass);
-    EMap xmlnsPrefixMap = null;
+    EMap<String, String> xmlnsPrefixMap = null;
     if (xmlnsPrefixMapFeature != null)
     {
-      xmlnsPrefixMap = (EMap)root.eGet(xmlnsPrefixMapFeature);
+      @SuppressWarnings("unchecked") EMap<String, String> newXMLNSPrefixMap = (EMap<String, String>)root.eGet(xmlnsPrefixMapFeature);
+      xmlnsPrefixMap = newXMLNSPrefixMap;
       xmlnsPrefixMap.putAll(helper.getPrefixToNamespaceMap());
     }
 
@@ -1113,10 +1162,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       EReference xsiSchemaLocationMapFeature = extendedMetaData.getXSISchemaLocationMapFeature(eClass);
       if (xsiSchemaLocationMapFeature != null)
       {
-        EMap xsiSchemaLocationMap = (EMap)root.eGet(xsiSchemaLocationMapFeature);
-        for (Iterator i = urisToLocations.entrySet().iterator(); i.hasNext(); )
+        @SuppressWarnings("unchecked") EMap<String, String> newXSISchemaLocationMap = (EMap<String, String>)root.eGet(xsiSchemaLocationMapFeature);
+        EMap<String, String> xsiSchemaLocationMap = newXSISchemaLocationMap;
+        for (Map.Entry<String, URI> entry : urisToLocations.entrySet())
         {
-          Map.Entry entry = (Map.Entry)i.next();
           xsiSchemaLocationMap.put(entry.getKey(), entry.getValue().toString());
         }
       }
@@ -1212,16 +1261,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       if (eClass != null)
       {
         // EATM Kind of hacky.
-        EObject newObject = null;
-        String typeName = extendedMetaData.getName(eClass);;
-        if (useNewMethods)
-        {
-          newObject = createObject(eFactory, eClass, true);
-        }
-        else
-        {         
-          newObject = helper.createObject(eFactory, typeName);          
-        }
+        String typeName = extendedMetaData.getName(eClass);
+        @SuppressWarnings("deprecation") EObject newObject = 
+          useNewMethods ? 
+            createObject(eFactory, eClass, true) : 
+              helper.createObject(eFactory, typeName);          
         validateCreateObjectFromFactory(eFactory, typeName, newObject);
         if (top)
         {
@@ -1257,15 +1301,13 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           
       if (extendedMetaData != null && !mixedTargets.isEmpty())
       {
-        FeatureMap featureMap = (FeatureMap)mixedTargets.pop();
+        FeatureMap featureMap = mixedTargets.pop();
         EStructuralFeature target = extendedMetaData.getMixedFeature(object.eClass());
         if (target != null)
         {
           FeatureMap otherFeatureMap = (FeatureMap)object.eGet(target);
-          for (Iterator i = featureMap.iterator(); i.hasNext(); )
+          for (FeatureMap.Entry entry : featureMap)
           {
-            FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
-
             // Ignore a whitespace only text entry at the beginning.
             //
             if (entry.getEStructuralFeature() !=  XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT ||
@@ -1286,6 +1328,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    * Pop the appropriate stacks and set features whose values are in
    * the content of XML elements.
    */
+  @Override
   public void endElement(String uri, String localName, String name)
   {   
     elements.pop();
@@ -1355,6 +1398,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     return type != ERROR_TYPE;
   }
 
+  @Override
   public void startPrefixMapping(String prefix, String uri)
   {
     if (needsPushContext)
@@ -1370,10 +1414,13 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     //}
   }
 
+  @Override
   public void endPrefixMapping(String prefix)
   {
+    // Do nothing.
   }
 
+  @Override
   public void characters(char [] ch, int start, int length)
   {
     if (text == null && mixedTargets.peek() != null)
@@ -1387,6 +1434,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     }
   }
 
+  @Override
   public void processingInstruction(String target, String data)
   {
     // do nothing
@@ -1406,7 +1454,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
     if (urisToLocations == null)
     {
-      urisToLocations = new HashMap();
+      urisToLocations = new HashMap<String, URI>();
       xmlResource.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
     }
 
@@ -1430,7 +1478,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
     if (urisToLocations == null)
     {
-      urisToLocations = new HashMap();
+      urisToLocations = new HashMap<String, URI>();
       xmlResource.getDefaultSaveOptions().put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
     }
 
@@ -1471,7 +1519,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         XMIPlugin.INSTANCE.log(exception);
       }
 
-      URI locationForNull = (URI)urisToLocations.get(null);
+      URI locationForNull = urisToLocations.get(null);
       if (locationForNull != null && helper.getNoNamespacePackage() == null)
       {
         helper.setNoNamespacePackage(getPackageForURI(locationForNull.toString()));
@@ -1631,9 +1679,8 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           validateCreateObjectFromFactory(eFactory, name, newObject);
           if (newObject != null)
           {
-            for (Iterator i = peekObject.eClass().getEAllReferences().iterator(); i.hasNext(); )
+            for (EReference eReference : peekObject.eClass().getEAllReferences())
             {
-              EReference eReference = (EReference)i.next();
               if (eReference.getEType().isInstance(newObject))
               {
                 setFeatureValue(peekObject, eReference, newObject);
@@ -1683,7 +1730,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   
   protected AnyType getExtension(EObject peekObject)
   {
-    AnyType anyType = (AnyType)eObjectToExtensionMap.get(peekObject);
+    AnyType anyType = eObjectToExtensionMap.get(peekObject);
     if (anyType == null)
     {
       anyType = XMLTypeFactory.eINSTANCE.createAnyType();
@@ -1924,6 +1971,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    * Create an object given a content helper, a factory, and a type name,
    * and process the XML attributes.
    */
+  @Deprecated
   protected EObject createObjectFromFactory(EFactory factory, String typeName)
   {
     EObject newObject = null;
@@ -2025,7 +2073,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     {
       if (extendedMetaData != null)
       {
-        Collection demandedPackages = extendedMetaData.demandedPackages();
+        Collection<EPackage> demandedPackages = extendedMetaData.demandedPackages();
         if (!demandedPackages.isEmpty() && demandedPackages.contains(newObject.eClass().getEPackage()))
         {
           if (recordUnknownFeature)
@@ -2135,11 +2183,10 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     if (recordAnyTypeNSDecls && object instanceof AnyType)
     {
       FeatureMap featureMap = ((AnyType)object).getAnyAttribute();
-      for (Iterator i = helper.getAnyContentPrefixToURIMapping().entrySet().iterator(); i.hasNext();)
+      for (Map.Entry<String, String> entry : helper.getAnyContentPrefixToURIMapping().entrySet())
       {
-        Map.Entry entry = (Map.Entry)i.next();
         Object uri = entry.getValue();
-        featureMap.add(extendedMetaData.demandFeature(ExtendedMetaData.XMLNS_URI, (String)entry.getKey(), false), uri == null ? "" : uri);
+        featureMap.add(extendedMetaData.demandFeature(ExtendedMetaData.XMLNS_URI, entry.getKey(), false), uri == null ? "" : uri);
       }
     }
 
@@ -2153,7 +2200,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         EStructuralFeature mixedFeature = extendedMetaData.getMixedFeature(object.eClass());
         if (mixedFeature != null)
         {
-          mixedTargets.push(object.eGet(mixedFeature));
+          mixedTargets.push((FeatureMap)object.eGet(mixedFeature));
         }
         else
         {
@@ -2173,7 +2220,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected EFactory getFactoryForPrefix(String prefix)
   {
-    EFactory factory = (EFactory) prefixesToFactories.get(prefix);
+    EFactory factory =  prefixesToFactories.get(prefix);
     if (factory == null)
     {
       String uri = helper.getURI(prefix);
@@ -2222,10 +2269,9 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       if (uri.scheme() == null)
       {
         // This only works for old globally registered things.
-        for (Iterator entries = packageRegistry.entrySet().iterator(); entries.hasNext(); )
+        for (Map.Entry<String, Object> entry : packageRegistry.entrySet())
         {
-          Map.Entry entry = (Map.Entry)entries.next();
-          String nsURI = (String)entry.getKey();
+          String nsURI = entry.getKey();
           if (nsURI != null &&
                 nsURI.endsWith(uriString) &&
                 nsURI.charAt(nsURI.length() - uriString.length() - 1) == '/')
@@ -2238,7 +2284,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
       if (urisToLocations != null)
       {
-        URI locationURI = (URI)urisToLocations.get(uriString);
+        URI locationURI = urisToLocations.get(uriString);
         if (locationURI != null)
         {
           uri = locationURI;
@@ -2253,12 +2299,13 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         try
         {
           String className = uri.authority();
-          Class javaClass = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
+          Class<?> javaClass = Class.forName(className, true, Thread.currentThread().getContextClassLoader());
           Field field = javaClass.getField("eINSTANCE");
           resource = ((EPackage)field.get(null)).eResource();
         }
         catch (Exception exception)
         {
+          // Ignore it if we can't find it since we'll fail anyway.
         }
       }
 
@@ -2276,6 +2323,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
             }
             catch (IOException exception)
             {
+              // Continue with a different approach.
             }
           }
         }
@@ -2296,6 +2344,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           }
           catch (IOException exception)
           {
+            // Continue with a different approach.
           }
         }
       }
@@ -2309,7 +2358,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         }
         else
         {
-          List contents = resource.getContents();
+          List<EObject> contents = resource.getContents();
           if (!contents.isEmpty())
           {
             content = contents.get(0);
@@ -2426,14 +2475,15 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    */
   protected void setFeatureValues(ManyReference reference)
   {
-    List xmiExceptions = helper.setManyReference(reference, getLocation());
+    List<XMIException> xmiExceptions = helper.setManyReference(reference, getLocation());
 
     if (xmiExceptions != null)
-      for (Iterator i = xmiExceptions.iterator(); i.hasNext(); )
+    {
+      for (XMIException exception : xmiExceptions)
       {
-        XMIException exception = (XMIException) i.next();
         error(exception);
       }
+    }
   }
 
   /**
@@ -2655,6 +2705,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     public String namespaceURI;
     public boolean isElement;
 
+    @Override
     public boolean equals(Object that)
     {
       EClassFeatureNamePair typedThat = (EClassFeatureNamePair)that;
@@ -2665,19 +2716,21 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         (typedThat.namespaceURI != null ? typedThat.namespaceURI.equals(namespaceURI): namespaceURI == null);         
     }
 
+    @Override
     public int hashCode()
     {
       return eClass.hashCode() ^ featureName.hashCode() ^ (namespaceURI == null ? 0 : namespaceURI.hashCode()) + (isElement ? 0 : 1);
     }
   }
 
-  Map eClassFeatureNamePairToEStructuralFeatureMap = null;
+  Map<EClassFeatureNamePair, EStructuralFeature> eClassFeatureNamePairToEStructuralFeatureMap = null;
   boolean isOptionUseXMLNameToFeatureSet = false;
   EClassFeatureNamePair eClassFeatureNamePair = new  EClassFeatureNamePair();
 
   /**
    * @deprecated
    */
+  @Deprecated
   protected EStructuralFeature getFeature(EObject object, String prefix, String name)
   {
     EClass eClass = object.eClass();
@@ -2702,7 +2755,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     eClassFeatureNamePair.featureName = name;
     eClassFeatureNamePair.namespaceURI = uri;
     eClassFeatureNamePair.isElement = isElement;
-    EStructuralFeature result = (EStructuralFeature)eClassFeatureNamePairToEStructuralFeatureMap.get(eClassFeatureNamePair);
+    EStructuralFeature result = eClassFeatureNamePairToEStructuralFeatureMap.get(eClassFeatureNamePair);
     if (result == null)
     {
       result = helper.getFeature(eClass, uri, name, isElement);
@@ -2807,25 +2860,25 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
 
   protected void handleComment(String comment)
   {
-    FeatureMap featureMap = (FeatureMap)mixedTargets.peek();
+    FeatureMap featureMap = mixedTargets.peek();
     featureMap.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT, comment);
     text = null;
   }
   protected void handleMixedText()
   {
-    FeatureMap featureMap = (FeatureMap)mixedTargets.peek();
+    FeatureMap featureMap = mixedTargets.peek();
     featureMap.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT, text.toString());
     text = null;
   }
 
   protected void handleCDATA()
   {
-    FeatureMap featureMap = (FeatureMap)mixedTargets.peek();
+    FeatureMap featureMap = mixedTargets.peek();
     featureMap.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA, text.toString());
     text = null;
   }
   
-  protected EcoreBuilder createEcoreBuilder(Map options, ExtendedMetaData extendedMetaData)
+  protected EcoreBuilder createEcoreBuilder(Map<?, ?> options, ExtendedMetaData extendedMetaData)
   {
     return new DefaultEcoreBuilder(extendedMetaData);
   }

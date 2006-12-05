@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ClassNotFoundException.java,v 1.4 2005/06/08 06:16:07 nickb Exp $
+ * $Id: ClassNotFoundException.java,v 1.5 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.EFactory;
 
 public class ClassNotFoundException extends XMIException 
 {
+  private static final long serialVersionUID = 1L;
+
   protected String className;
   protected transient EFactory factory;
 

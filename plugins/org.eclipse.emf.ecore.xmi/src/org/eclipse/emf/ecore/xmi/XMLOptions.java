@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XMLOptions.java,v 1.2 2005/09/13 14:07:16 elena Exp $
+ * $Id: XMLOptions.java,v 1.3 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
 
 import java.util.Map;
+
+import org.eclipse.emf.common.util.URI;
 
 
 /**
@@ -67,12 +69,12 @@ public interface XMLOptions
    * (i.e., the schemaLocation attribute in the instance document).   
    * @param schemaLocations - map of target namespace to schema location of type {@link org.eclipse.emf.common.util.URI}
    */
-  void setExternalSchemaLocations(Map schemaLocations);
+  void setExternalSchemaLocations(Map<String, URI> schemaLocations);
 
   /**
    * @return external schema locations
    */
-  Map getExternalSchemaLocations();
+  Map<String, URI> getExternalSchemaLocations();
 
   /**
    * This options allows the user to specify that the schemaLocation/noNamespaceSchemaLocation attributes 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMISaveImpl.java,v 1.13 2006/04/26 12:32:50 emerks Exp $
+ * $Id: XMISaveImpl.java,v 1.14 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -48,12 +48,12 @@ public class XMISaveImpl extends XMLSaveImpl
     idAttributeNS = XMIResource.XMI_NS;
   }
 
-  public XMISaveImpl(Map options, XMLHelper helper, String encoding)
+  public XMISaveImpl(Map<?, ?> options, XMLHelper helper, String encoding)
   {
     this(options, helper, encoding, "1.0");
   }
 
-  public XMISaveImpl(Map options, XMLHelper helper, String encoding, String xmlVersion)
+  public XMISaveImpl(Map<?, ?> options, XMLHelper helper, String encoding, String xmlVersion)
   {
     super(options, helper, encoding, xmlVersion);
     this.xmiType = Boolean.TRUE.equals(options.get(XMIResource.OPTION_USE_XMI_TYPE));
@@ -61,7 +61,8 @@ public class XMISaveImpl extends XMLSaveImpl
     idAttributeNS = XMIResource.XMI_NS;
   }
 
-  protected void init(XMLResource resource, Map options)
+  @Override
+  protected void init(XMLResource resource, Map<?, ?> options)
   {
     super.init(resource, options);
     this.xmiType = Boolean.TRUE.equals(options.get(XMIResource.OPTION_USE_XMI_TYPE));
@@ -69,7 +70,8 @@ public class XMISaveImpl extends XMLSaveImpl
     helper.getPrefixToNamespaceMap().put(XMIResource.XMI_NS, xmiURI);
   }
 
-  public Object writeTopObjects(List contents)
+  @Override
+  public Object writeTopObjects(List<? extends EObject> contents)
   {
     if (!toDOM)
     {
@@ -78,7 +80,7 @@ public class XMISaveImpl extends XMLSaveImpl
 
       for (int i = 0, size = contents.size(); i < size; i++)
       {
-        EObject top = (EObject)contents.get(i);
+        EObject top = contents.get(i);
         EClass eClass = top.eClass();
         String name = helper.getQName(eClass);
         doc.startElement(name);
@@ -96,7 +98,7 @@ public class XMISaveImpl extends XMLSaveImpl
       document.appendChild(currentNode);
       for (int i = 0, size = contents.size(); i < size; i++)
       {
-        EObject top = (EObject)contents.get(i);
+        EObject top = contents.get(i);
         EClass eClass = top.eClass();
         helper.populateNameInfo(nameInfo, eClass);
         currentNode = currentNode.appendChild(document.createElementNS(nameInfo.getNamespaceURI(), nameInfo.getQualifiedName()));
@@ -108,6 +110,7 @@ public class XMISaveImpl extends XMLSaveImpl
     }
   }
 
+  @Override
   protected void saveTypeAttribute(EClass eClass)
   {
     if (xmiType)
@@ -127,6 +130,7 @@ public class XMISaveImpl extends XMLSaveImpl
     }
   }
 
+  @Override
   public void addNamespaceDeclarations()
   {
     String version = XMIResource.VERSION_VALUE;
@@ -147,11 +151,13 @@ public class XMISaveImpl extends XMLSaveImpl
     super.addNamespaceDeclarations();
   }
 
+  @Override
   public boolean isDuplicateURI(String nsURI)
   {
     return xmiURI.equals(nsURI);
   }
 
+  @Override
   protected void saveFeatureMapElementReference(EObject o, EReference f)
   {
     if (extendedMetaData == null || extendedMetaData.getFeatureKind(f) != ExtendedMetaData.ELEMENT_FEATURE)

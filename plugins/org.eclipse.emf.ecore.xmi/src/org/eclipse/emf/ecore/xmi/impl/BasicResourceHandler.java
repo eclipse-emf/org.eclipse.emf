@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicResourceHandler.java,v 1.2 2005/06/08 06:16:07 nickb Exp $
+ * $Id: BasicResourceHandler.java,v 1.3 2006/12/05 20:23:28 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.xmi.impl;
@@ -33,20 +33,24 @@ import org.eclipse.emf.ecore.xmi.XMLResource.ResourceHandler;
 public class BasicResourceHandler implements ResourceHandler
 {
 
-  public void preLoad(XMLResource resource, InputStream inputStream, Map options)
+  public void preLoad(XMLResource resource, InputStream inputStream, Map<?, ?> options)
   {
+    // Do nothing.
   }
 
-  public void postLoad(XMLResource resource, InputStream inputStream, Map options)
+  public void postLoad(XMLResource resource, InputStream inputStream, Map<?, ?> options)
   {
+    // Do nothing.
   }
 
-  public void preSave(XMLResource resource, OutputStream outputStream, Map options)
+  public void preSave(XMLResource resource, OutputStream outputStream, Map<?, ?> options)
   {
+    // Do nothing.
   }
 
-  public void postSave(XMLResource resource, OutputStream outputStream, Map options)
+  public void postSave(XMLResource resource, OutputStream outputStream, Map<?, ?> options)
   {
+    // Do nothing.
   }
 
 }

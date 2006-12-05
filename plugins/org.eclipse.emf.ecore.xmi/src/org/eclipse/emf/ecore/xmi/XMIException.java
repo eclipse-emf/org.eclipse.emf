@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIException.java,v 1.3 2006/04/27 15:30:26 marcelop Exp $
+ * $Id: XMIException.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 public class XMIException extends Exception implements Resource.Diagnostic
 {
+  private static final long serialVersionUID = 1L;
+
   protected String location;
   protected int line;
   protected int column;
@@ -65,6 +67,7 @@ public class XMIException extends Exception implements Resource.Diagnostic
     this.column = column;
   }
 
+  @Override
   public String getMessage()
   {
     String result = super.getMessage();
@@ -95,6 +98,7 @@ public class XMIException extends Exception implements Resource.Diagnostic
    * the constructors of this class take {@link Exception}s as arguments, it is 
    * save to do this cast <pre>(Exception)getCause()</pre>. 
    */
+  @Deprecated
   public Exception getWrappedException()
   {
     return (Exception)getCause();

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DefaultDOMHandlerImpl.java,v 1.4 2005/06/08 06:16:07 nickb Exp $
+ * $Id: DefaultDOMHandlerImpl.java,v 1.5 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -35,13 +35,13 @@ import org.w3c.dom.Node;
 public class DefaultDOMHandlerImpl implements DOMHandler, DOMHelper
 {
   /** store node to actual value mapping */
-  protected final HashMap nodeToObject = new HashMap();
+  protected final HashMap<Node, Object> nodeToObject = new HashMap<Node, Object>();
 
   /** store node to containment feature mapping */
-  protected final HashMap nodeToFeature = new HashMap();
+  protected final HashMap<Node, EStructuralFeature> nodeToFeature = new HashMap<Node, EStructuralFeature>();
 
   /** store node to container. used only to record some text/cdata nodes */
-  protected final HashMap nodeToContainer = new HashMap();
+  protected final HashMap<Node, EObject> nodeToContainer = new HashMap<Node, EObject>();
 
   protected ExtendedMetaData extendedMetaData;
 
@@ -103,7 +103,7 @@ public class DefaultDOMHandlerImpl implements DOMHandler, DOMHelper
     switch (type)
     {
       case Node.ELEMENT_NODE:
-        return (EStructuralFeature)nodeToFeature.get(node);
+        return nodeToFeature.get(node);
       case Node.ATTRIBUTE_NODE:
       {
         EObject obj = (EObject)nodeToObject.get(((Attr)node).getOwnerElement());
@@ -119,10 +119,10 @@ public class DefaultDOMHandlerImpl implements DOMHandler, DOMHelper
       case Node.TEXT_NODE:
       case Node.CDATA_SECTION_NODE:
       {
-        EStructuralFeature feature = (EStructuralFeature)nodeToFeature.get(node);
+        EStructuralFeature feature = nodeToFeature.get(node);
         if (feature == null)
         {
-          feature = (EStructuralFeature)nodeToFeature.get(node.getParentNode());
+          feature = nodeToFeature.get(node.getParentNode());
         }
         return feature;
       }

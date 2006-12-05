@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIResourceImpl.java,v 1.4 2005/12/07 18:52:31 elena Exp $
+ * $Id: XMIResourceImpl.java,v 1.5 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -47,21 +47,25 @@ public class XMIResourceImpl extends XMLResourceImpl implements XMIResource
     super(uri);
   }
 
+  @Override
   protected XMLHelper createXMLHelper()
   {
     return new XMIHelperImpl(this);
   }
 
+  @Override
   protected XMLLoad createXMLLoad()
   {
     return new XMILoadImpl(createXMLHelper());
   }
 
+  @Override
   protected XMLSave createXMLSave()
   {
     return new XMISaveImpl(createXMLHelper());
   }
   
+  @Override
   protected boolean useIDs()
   {
     return true;

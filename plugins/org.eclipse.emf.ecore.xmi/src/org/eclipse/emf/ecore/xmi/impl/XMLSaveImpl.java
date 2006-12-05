@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.64 2006/11/20 19:28:59 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.65 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -89,6 +89,7 @@ public class XMLSaveImpl implements XMLSave
   protected boolean keepDefaults;
   protected Escape escape;
   protected Escape escapeURI;
+  protected XMLResource.ResourceEntityHandler resourceEntityHandler;
   protected Lookup featureTable;
   protected String encoding;
   protected String xmlVersion;
@@ -101,7 +102,7 @@ public class XMLSaveImpl implements XMLSave
   protected ExtendedMetaData extendedMetaData;
   protected EClass anySimpleType;
   protected EClass anyType;
-  protected Map eObjectToExtensionMap;
+  protected Map<EObject, AnyType> eObjectToExtensionMap;
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
   protected int flushThreshold = Integer.MAX_VALUE;
   protected boolean toDOM;
@@ -168,12 +169,12 @@ public class XMLSaveImpl implements XMLSave
    * @param helper
    * @param encoding
    */
-  public XMLSaveImpl(Map options, XMLHelper helper, String encoding)
+  public XMLSaveImpl(Map<?, ?> options, XMLHelper helper, String encoding)
   {
     this(options, helper, encoding, "1.0");
   }
 
-  public XMLSaveImpl(Map options, XMLHelper helper, String encoding, String xmlVersion)
+  public XMLSaveImpl(Map<?, ?> options, XMLHelper helper, String encoding, String xmlVersion)
   {
     this.helper = helper;
     init(helper.getResource(), options);
@@ -181,7 +182,7 @@ public class XMLSaveImpl implements XMLSave
     this.xmlVersion = xmlVersion;
   }
   
-  public Document save(XMLResource resource, Document doc, Map options, DOMHandler handler)
+  public Document save(XMLResource resource, Document doc, Map<?, ?> options, DOMHandler handler)
   {
     toDOM = true;
     document = doc;
@@ -189,7 +190,7 @@ public class XMLSaveImpl implements XMLSave
     this.xmlResource = resource;
     
     init(resource, options);
-    List contents = resource.getContents();
+    List<EObject> contents = resource.getContents();
     traverse(contents);
     
     try
@@ -204,11 +205,11 @@ public class XMLSaveImpl implements XMLSave
     return document;
   }
   
-  public void save(XMLResource resource, Writer writer, Map options) throws IOException
+  public void save(XMLResource resource, Writer writer, Map<?, ?> options) throws IOException
   {
     this.xmlResource = resource;
     init(resource, options);
-    List contents = resource.getContents();
+    List<EObject> contents = resource.getContents();
     traverse(contents);
     
     write(writer);
@@ -218,7 +219,7 @@ public class XMLSaveImpl implements XMLSave
     this.xmlResource = null;
   }
 
-  public void save(XMLResource resource, OutputStream outputStream, Map options) throws IOException
+  public void save(XMLResource resource, OutputStream outputStream, Map<?, ?> options) throws IOException
   {
     if (outputStream instanceof URIConverter.Writeable)
     {
@@ -229,7 +230,7 @@ public class XMLSaveImpl implements XMLSave
     }
     this.xmlResource = resource;
     init(resource, options);
-    List contents = resource.getContents();
+    List<EObject> contents = resource.getContents();
     traverse(contents);
 
     if ("US-ASCII".equals(encoding) || "ASCII".equals(encoding))
@@ -248,23 +249,22 @@ public class XMLSaveImpl implements XMLSave
     this.xmlResource = null;
   }
 
-  private void endSave(List contents) throws IOException
+  private void endSave(List<EObject> contents) throws IOException
   {
     if (extendedMetaData != null && contents.size() >= 1)
     {
-      EObject root = (EObject)contents.get(0);
+      EObject root = contents.get(0);
       EClass eClass = root.eClass();
 
       EReference xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(eClass);
       if (xmlnsPrefixMapFeature != null)
       {
-        EMap xmlnsPrefixMap = (EMap)root.eGet(xmlnsPrefixMapFeature);
-        for (Iterator i = helper.getPrefixToNamespaceMap().iterator(); i.hasNext(); )
+        @SuppressWarnings("unchecked") EMap<String, String> xmlnsPrefixMap = (EMap<String, String>)root.eGet(xmlnsPrefixMapFeature);
+        for (Map.Entry<String, String> entry : helper.getPrefixToNamespaceMap())
         {
-          Map.Entry entry = (Map.Entry)i.next();
-          Object key = entry.getKey();
-          Object value = entry.getValue();
-          Object currentValue = xmlnsPrefixMap.get(key);
+          String key = entry.getKey();
+          String value = entry.getValue();
+          String currentValue = xmlnsPrefixMap.get(key);
           if (currentValue == null ? value != null : !currentValue.equals(value))
           {
             xmlnsPrefixMap.put(key, value);
@@ -298,7 +298,7 @@ public class XMLSaveImpl implements XMLSave
     helper = null;
   }
   
-  protected void init(XMLResource resource, Map options)
+  protected void init(XMLResource resource, Map<?, ?> options)
   {
     useCache =  Boolean.TRUE.equals(options.get(XMLResource.OPTION_CONFIGURATION_CACHE));
 
@@ -497,19 +497,19 @@ public class XMLSaveImpl implements XMLSave
       helper.setExtendedMetaData(extendedMetaData);
       if (resource != null && resource.getContents().size() >=1)
       {
-        EObject root = (EObject)resource.getContents().get(0);
+        EObject root = resource.getContents().get(0);
         EClass eClass = root.eClass();
 
         EReference xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(eClass);
         if (xmlnsPrefixMapFeature != null)
         {
-          EMap xmlnsPrefixMap = (EMap)root.eGet(xmlnsPrefixMapFeature);
+          @SuppressWarnings("unchecked") EMap<String, String> xmlnsPrefixMap = (EMap<String, String>)root.eGet(xmlnsPrefixMapFeature);
           helper.setPrefixToNamespaceMap(xmlnsPrefixMap);
         }
       }
     }
     
-    List lookup = (List)options.get(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE);
+    @SuppressWarnings("unchecked") List<Object> lookup = (List<Object>)options.get(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE);
     if (lookup != null)
     {
       // caching turned on by the user
@@ -528,9 +528,11 @@ public class XMLSaveImpl implements XMLSave
       //no caching
       featureTable = new Lookup(map, extendedMetaData);
     }
+
+    resourceEntityHandler = (XMLResource.ResourceEntityHandler)options.get(XMLResource.OPTION_RESOURCE_ENTITY_HANDLER);
   }
 
-  public void traverse(List contents)
+  public void traverse(List<? extends EObject> contents)
   {
     if (!toDOM && declareXML)
     {
@@ -546,7 +548,7 @@ public class XMLSaveImpl implements XMLSave
 
     if (size == 1)
     {
-      mark = writeTopObject((EObject) contents.get(0));
+      mark = writeTopObject(contents.get(0));
     }
     else
     {
@@ -563,6 +565,7 @@ public class XMLSaveImpl implements XMLSave
       currentNode = document.getDocumentElement();
     }
     addNamespaceDeclarations();
+    addDoctypeInformation();
   }
   /*
    * INTERNAL: this is a specialized method to add attributes for a top/root element
@@ -654,9 +657,9 @@ public class XMLSaveImpl implements XMLSave
     }
   }
 
-  protected Object writeTopObjects(List contents)
+  protected Object writeTopObjects(List<? extends EObject> contents)
   {
-    return writeTopObject((EObject)contents.get(0));
+    return writeTopObject(contents.get(0));
   }
 
   protected void addNamespaceDeclarations()
@@ -668,29 +671,28 @@ public class XMLSaveImpl implements XMLSave
     String xsiNoNamespaceSchemaLocation = null;
     if (declareSchemaLocation)
     {
-      Map handledBySchemaLocationMap = Collections.EMPTY_MAP;
+      Map<String, String> handledBySchemaLocationMap = Collections.emptyMap();
 
       if (extendedMetaData != null)
       {
         Resource resource = helper.getResource();
         if (resource != null && resource.getContents().size() >= 1)
         {
-          EObject root =  getSchemaLocationRoot((EObject)resource.getContents().get(0));
+          EObject root =  getSchemaLocationRoot(resource.getContents().get(0));
           EClass eClass = root.eClass();
 
           EReference xsiSchemaLocationMapFeature = extendedMetaData.getXSISchemaLocationMapFeature(eClass);
           if (xsiSchemaLocationMapFeature != null)
           {
-            EMap xsiSchemaLocationMap = (EMap)root.eGet(xsiSchemaLocationMapFeature);
+            @SuppressWarnings("unchecked") EMap<String, String> xsiSchemaLocationMap = (EMap<String, String>)root.eGet(xsiSchemaLocationMapFeature);
             if (!xsiSchemaLocationMap.isEmpty())
             {
               handledBySchemaLocationMap = xsiSchemaLocationMap.map();
               declareXSI = true;
-              for (Iterator i = xsiSchemaLocationMap.entrySet().iterator(); i.hasNext(); )
+              for (Map.Entry<String, String> entry : xsiSchemaLocationMap.entrySet())
               {
-                Map.Entry entry = (Map.Entry)i.next();
-                String namespace = (String)entry.getKey();
-                URI location = URI.createURI(entry.getValue().toString());
+                String namespace = entry.getKey();
+                URI location = URI.createURI(entry.getValue());
                 if (namespace == null)
                 {
                   xsiNoNamespaceSchemaLocation = helper.deresolve(location).toString();
@@ -727,6 +729,7 @@ public class XMLSaveImpl implements XMLSave
           }
           catch (Exception exception)
           {
+            // If there is no field, then we can't do this.
           }
         }
 
@@ -768,19 +771,8 @@ public class XMLSaveImpl implements XMLSave
                 xsiSchemaLocation.append(nsURI);
                 xsiSchemaLocation.append(' ');
 
-                String location;
-                if (javaImplementationLocation == null)
-                {
-                  location = helper.getHREF(ePackage);
-                  if (escapeURI != null)
-                  {
-                    location = escapeURI.convert(location);
-                  }
-                }
-                else 
-                {
-                  location = javaImplementationLocation;
-                }
+                String location = javaImplementationLocation == null ? helper.getHREF(ePackage) : javaImplementationLocation;
+                location = convertURI(location);
                 if (location.endsWith("#/"))
                 {
                   location = location.substring(0, location.length() - 2);
@@ -823,10 +815,9 @@ public class XMLSaveImpl implements XMLSave
         }
         if (nsURI != null && !isDuplicateURI(nsURI))
         {
-          List nsPrefixes = helper.getPrefixes(ePackage);
-          for (Iterator j = nsPrefixes.iterator(); j.hasNext(); )
+          List<String> nsPrefixes = helper.getPrefixes(ePackage);
+          for (String nsPrefix : nsPrefixes)
           {
-            String nsPrefix = (String)j.next();
             if (!toDOM)
             {
               if (nsPrefix != null && nsPrefix.length() > 0)
@@ -878,7 +869,25 @@ public class XMLSaveImpl implements XMLSave
       }
     }
   }
-  
+
+  protected void addDoctypeInformation()
+  {
+    if (resourceEntityHandler != null)
+    {
+      if (!toDOM)
+      {
+        for (Map.Entry<String, String> entry : resourceEntityHandler.getNameToValueMap().entrySet())
+        {
+          doc.addEntity(entry.getKey(), entry.getValue());
+        }
+      }
+      else
+      {
+        // TODO
+      }
+    }
+  }
+
   protected EObject getSchemaLocationRoot(EObject eObject)
   {
     return eObject;
@@ -894,6 +903,7 @@ public class XMLSaveImpl implements XMLSave
    * @param os
    * @throws IOException
    */
+  @Deprecated
   public void write(OutputStreamWriter os) throws IOException
   {
     write((Writer)os);
@@ -997,9 +1007,8 @@ public class XMLSaveImpl implements XMLSave
     {
       isAnyType = true;
       helper.pushContext();
-      for (Iterator i = ((AnyType)o).getAnyAttribute().iterator(); i.hasNext(); )
+      for (FeatureMap.Entry entry : ((AnyType)o).getAnyAttribute())
       {
-        FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
         if (ExtendedMetaData.XMLNS_URI.equals(extendedMetaData.getNamespace(entry.getEStructuralFeature())))
         {
           String uri = (String)entry.getValue();
@@ -1514,7 +1523,7 @@ public class XMLSaveImpl implements XMLSave
   {
     if (eObjectToExtensionMap != null)
     {
-      AnyType anyType = (AnyType)eObjectToExtensionMap.get(object);
+      AnyType anyType = eObjectToExtensionMap.get(object);
       return anyType != null && saveElementFeatureMap(anyType, XMLTypePackage.eINSTANCE.getAnyType_Mixed());
     }
     else
@@ -1529,7 +1538,7 @@ public class XMLSaveImpl implements XMLSave
   {
     if (eObjectToExtensionMap != null)
     {
-      AnyType anyType = (AnyType)eObjectToExtensionMap.get(object);
+      AnyType anyType = eObjectToExtensionMap.get(object);
       if (anyType != null)
       {
         saveAttributeFeatureMap(anyType, XMLTypePackage.eINSTANCE.getAnyType_AnyAttribute());
@@ -1565,7 +1574,7 @@ public class XMLSaveImpl implements XMLSave
 
   protected boolean isEmpty(EObject o, EStructuralFeature f)
   {
-    return ((List)helper.getValue(o, f)).isEmpty();
+    return ((List<?>)helper.getValue(o, f)).isEmpty();
   }
 
   protected void saveNil(EObject o, EStructuralFeature f)
@@ -1613,7 +1622,7 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveDataTypeMany(EObject o, EStructuralFeature f)
   {
-    List values = (List)helper.getValue(o, f);
+    List<?> values = (List<?>)helper.getValue(o, f);
     int size = values.size();
     if (size > 0)
     {
@@ -1678,7 +1687,7 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveDataTypeAttributeMany(EObject o, EStructuralFeature f)
   {
-    List values = (List)helper.getValue(o, f);
+    List<?> values = (List<?>)helper.getValue(o, f);
     int size = values.size();
     if (size > 0)
     {
@@ -1730,10 +1739,7 @@ public class XMLSaveImpl implements XMLSave
       String id = helper.getHREF(value);
       if (id != null)
       {
-        if (escapeURI != null)
-        {
-          id = escapeURI.convert(id);
-        }
+        id = convertURI(id);
         buffer.setLength(0);
         if (!id.startsWith("#"))
         {
@@ -1767,15 +1773,15 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveEObjectMany(EObject o, EStructuralFeature f)
   {
-    InternalEList values = (InternalEList)helper.getValue(o, f);
+    @SuppressWarnings("unchecked") InternalEList<? extends EObject> values = (InternalEList<? extends EObject>)helper.getValue(o, f);
 
     if (!values.isEmpty())
     {
       buffer.setLength(0);
       boolean failure = false;
-      for (Iterator i = values.basicIterator();;)
+      for (Iterator<? extends EObject> i = values.basicIterator();;)
       {
-        EObject value = (EObject)i.next();
+        EObject value = i.next();
         String id = helper.getHREF(value);
         if (id == null)
         {
@@ -1787,10 +1793,7 @@ public class XMLSaveImpl implements XMLSave
         }
         else
         {
-          if (escapeURI != null)
-          {
-            id = escapeURI.convert(id);
-          }
+          id = convertURI(id);
           if (!id.startsWith("#"))
           {
             EClass eClass = value.eClass();
@@ -1862,15 +1865,15 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveIDRefMany(EObject o, EStructuralFeature f)
   {
-    InternalEList values = (InternalEList)helper.getValue(o, f);
+    @SuppressWarnings("unchecked") InternalEList<? extends EObject> values = (InternalEList<? extends EObject>)helper.getValue(o, f);
     if (!values.isEmpty())
     {     
       buffer.setLength(0);
       StringBuffer ids = buffer;
       boolean failure = false;
-      for (Iterator i = values.basicIterator();;)
+      for (Iterator<? extends EObject> i = values.basicIterator();;)
       {
-        EObject value = (EObject)i.next();
+        EObject value = i.next();
         String id = helper.getIDREF(value);
         if (id == null)
         {
@@ -1918,10 +1921,7 @@ public class XMLSaveImpl implements XMLSave
     String href = helper.getHREF(remote);
     if (href != null)
     {
-      if (escapeURI != null)
-      {
-        href = escapeURI.convert(href);
-      }
+      href = convertURI(href);
       if (!toDOM)
       {
         doc.startElement(helper.getQName(f));        
@@ -1964,11 +1964,11 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveElementReferenceMany(EObject o, EStructuralFeature f)
   {
-    InternalEList values = (InternalEList)helper.getValue(o, f);
+    @SuppressWarnings("unchecked") InternalEList<? extends EObject> values = (InternalEList<? extends EObject>)helper.getValue(o, f);
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      saveElementReference((EObject)values.basicGet(i), f);
+      saveElementReference(values.basicGet(i), f);
     }
   }
 
@@ -1978,10 +1978,8 @@ public class XMLSaveImpl implements XMLSave
     String svalue = helper.getHREF(value);   
     if (svalue != null)
     {
-      if (escapeURI != null)
-      {
-        svalue = escapeURI.convert(svalue);
-      }
+      svalue = convertURI(svalue);
+
       if (toDOM)
       {            
         Node text = document.createTextNode(svalue);
@@ -1994,7 +1992,7 @@ public class XMLSaveImpl implements XMLSave
 
   protected String getElementReferenceManySimple(EObject o, EStructuralFeature f)
   {
-    InternalEList values = (InternalEList)helper.getValue(o, f);
+    @SuppressWarnings("unchecked") InternalEList<? extends EObject> values = (InternalEList<? extends EObject>)helper.getValue(o, f);
     buffer.setLength(0);
     StringBuffer result = buffer;
     int size = values.size();
@@ -2002,17 +2000,14 @@ public class XMLSaveImpl implements XMLSave
     boolean failure = false;
     for (int i = 0; i < size; i++)
     {
-      href = helper.getHREF(((EObject)values.basicGet(i)));
+      href = helper.getHREF(values.basicGet(i));
       if (href == null)
       {
         failure = true;
       }
       else
       {
-        if (escapeURI != null)
-        {
-          href = escapeURI.convert(href);
-        }
+        href = convertURI(href);
         result.append(href);
         result.append(' ');
       }
@@ -2077,11 +2072,11 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveElementIDRefMany(EObject o, EStructuralFeature f)
   {
-    InternalEList values = (InternalEList)helper.getValue(o, f);
+    @SuppressWarnings("unchecked") InternalEList<? extends EObject> values = (InternalEList<? extends EObject>)helper.getValue(o, f);
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      saveElementIDRef(o, (EObject)values.basicGet(i), f);
+      saveElementIDRef(o, values.basicGet(i), f);
     }
   }
 
@@ -2107,13 +2102,13 @@ public class XMLSaveImpl implements XMLSave
 
   protected String getElementIDRefManySimple(EObject o, EStructuralFeature f)
   {
-    InternalEList values = (InternalEList)helper.getValue(o, f);
+    @SuppressWarnings("unchecked") InternalEList<? extends EObject> values = (InternalEList<? extends EObject>)helper.getValue(o, f);
     buffer.setLength(0);
     StringBuffer result = buffer;
     boolean failure = false;
     for (int i = 0, size = values.size(); i < size; i++)
     {
-      String idref = helper.getIDREF((EObject)values.basicGet(i));
+      String idref = helper.getIDREF(values.basicGet(i));
       if (idref == null)
       {
         failure = true;
@@ -2174,10 +2169,7 @@ public class XMLSaveImpl implements XMLSave
     String href = helper.getHREF(remote);
     if (href != null)
     {
-      if (escapeURI != null)
-      {
-        href = escapeURI.convert(href);
-      }
+      href = convertURI(href);
       if (!toDOM)
       {
         String name = helper.getQName(f);
@@ -2240,11 +2232,11 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveHRefMany(EObject o, EStructuralFeature f)
   {
-    InternalEList values = (InternalEList)helper.getValue(o, f);
+    @SuppressWarnings("unchecked") InternalEList<? extends EObject> values = (InternalEList<? extends EObject>)helper.getValue(o, f);
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      saveHref((EObject)values.basicGet(i), f);
+      saveHref(values.basicGet(i), f);
     }
   }
 
@@ -2259,11 +2251,12 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveContainedMany(EObject o, EStructuralFeature f)
   {
-    List values = ((InternalEList)helper.getValue(o, f)).basicList();
+    @SuppressWarnings("unchecked")  List<? extends InternalEObject> values = 
+      ((InternalEList<? extends InternalEObject>)helper.getValue(o, f)).basicList();
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      InternalEObject value = (InternalEObject)values.get(i);
+      InternalEObject value = values.get(i);
       if (value != null)
       {
         saveElement(value, f);
@@ -2278,11 +2271,11 @@ public class XMLSaveImpl implements XMLSave
   
   protected boolean saveElementFeatureMap(EObject o, EStructuralFeature f)
   {
-    List values = (List)helper.getValue(o, f);
+    @SuppressWarnings("unchecked") List<? extends FeatureMap.Entry> values = (List<? extends FeatureMap.Entry>)helper.getValue(o, f);
     int size = values.size();
     for (int i = 0; i < size; i++)
     {
-      FeatureMap.Entry entry = (FeatureMap.Entry)values.get(i);
+      FeatureMap.Entry entry = values.get(i);
       EStructuralFeature entryFeature = entry.getEStructuralFeature();
       Object value = entry.getValue();
       if (entryFeature instanceof EReference)
@@ -2374,12 +2367,12 @@ public class XMLSaveImpl implements XMLSave
 
   protected void saveAttributeFeatureMap(EObject o, EStructuralFeature f)
   {
-    List values = (List)helper.getValue(o, f);
+    @SuppressWarnings("unchecked") List<? extends FeatureMap.Entry> values = (List<? extends FeatureMap.Entry>)helper.getValue(o, f);
     int size = values.size();
-    Set repeats = null;
+    Set<EReference> repeats = null;
     for (int i = 0; i < size; i++)
     {
-      FeatureMap.Entry entry = (FeatureMap.Entry)values.get(i);
+      FeatureMap.Entry entry = values.get(i);
       EStructuralFeature entryFeature = entry.getEStructuralFeature();
       if (entryFeature instanceof EReference)
       {
@@ -2388,7 +2381,7 @@ public class XMLSaveImpl implements XMLSave
         {
           if (repeats == null)
           {
-            repeats = new HashSet();
+            repeats = new HashSet<EReference>();
           }
           else if (repeats.contains(referenceEntryFeature))
           {
@@ -2458,15 +2451,15 @@ public class XMLSaveImpl implements XMLSave
 
   protected int sameDocMany(EObject o, EStructuralFeature f)
   {
-    InternalEList values = (InternalEList)helper.getValue(o, f);
+    @SuppressWarnings("unchecked") InternalEList<? extends InternalEObject> values = (InternalEList<? extends InternalEObject>)helper.getValue(o, f);
     if (values.isEmpty())
     {
       return SKIP;
     }
 
-    for (Iterator i = values.basicIterator(); i.hasNext(); )
+    for (Iterator<? extends InternalEObject> i = values.basicIterator(); i.hasNext(); )
     {
-      InternalEObject value = (InternalEObject)i.next();
+      InternalEObject value = i.next();
       if (value.eIsProxy())
       {
         return CROSS_DOC;
@@ -2560,7 +2553,7 @@ public class XMLSaveImpl implements XMLSave
     protected int[][] featureKinds;
     protected XMLResource.XMLMap map;
     protected ExtendedMetaData extendedMetaData;
-    protected ArrayList docRoots = new ArrayList();
+    protected ArrayList<EObject> docRoots = new ArrayList<EObject>();
 
     public Lookup(XMLResource.XMLMap map)
     {
@@ -2650,17 +2643,17 @@ public class XMLSaveImpl implements XMLSave
     {
       if (extendedMetaData != null)
       {
-        List f = new ArrayList();
+        List<EStructuralFeature> f = new ArrayList<EStructuralFeature>();
         f.addAll(cls.getEAllStructuralFeatures());
-        List orderedElements = extendedMetaData.getAllElements(cls);
+        List<EStructuralFeature> orderedElements = extendedMetaData.getAllElements(cls);
         f.removeAll(orderedElements);
         f.addAll(orderedElements);
-        return (EStructuralFeature[]) f.toArray(new EStructuralFeature[f.size()]);
+        return f.toArray(new EStructuralFeature[f.size()]);
       }
       else
       {
-        List f = map == null ? cls.getEAllStructuralFeatures() : map.getFeatures(cls);
-        return (EStructuralFeature[]) f.toArray(new EStructuralFeature[f.size()]);
+        List<EStructuralFeature> f = map == null ? cls.getEAllStructuralFeatures() : map.getFeatures(cls);
+        return f.toArray(new EStructuralFeature[f.size()]);
       }
     }
 
@@ -2876,6 +2869,25 @@ public class XMLSaveImpl implements XMLSave
         handler.recordValues(text, o, f, value);
       }
     }
+  }
+
+  protected String convertURI(String uri)
+  {
+    if (resourceEntityHandler != null)
+    {
+      int index = uri.indexOf('#');
+      if (index > 0)
+      {
+        String baseURI = uri.substring(0, index);
+        String fragment = uri.substring(index + 1);
+        String entityName = resourceEntityHandler.getEntityName(baseURI);
+        if (entityName != null)
+        {
+          return "&" + entityName + ";#" + (escapeURI == null ? fragment : escapeURI.convert(fragment));
+        }
+      }
+    }
+    return escapeURI != null ? escapeURI.convert(uri) : uri;
   }
 
   protected static class Escape
@@ -3339,6 +3351,7 @@ public class XMLSaveImpl implements XMLSave
      * @deprecated since 2.2
      * @see #replaceChars(int, char[], int)
      */
+    @Deprecated
     protected int replace(int pos, char[] replacement, int inputLength)
     {
       int rlen = replacement.length;

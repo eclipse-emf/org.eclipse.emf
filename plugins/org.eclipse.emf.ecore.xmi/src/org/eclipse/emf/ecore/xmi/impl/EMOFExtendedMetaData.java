@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EMOFExtendedMetaData.java,v 1.5 2006/06/10 13:19:36 emerks Exp $
+ * $Id: EMOFExtendedMetaData.java,v 1.6 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 import java.util.HashMap;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -58,20 +59,23 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
   public EMOFExtendedMetaData(XMLResource.XMLMap xmlMap)
   {
     super();
-    extendedMetaDataHolderCache = new HashMap();
+    extendedMetaDataHolderCache = new HashMap<EModelElement, Object>();
     this.xmlMap = xmlMap;
   }
 
+  @Override
   public String getNamespace(EPackage ePackage)
   {
     return ePackage == EcorePackage.eINSTANCE ? EMOF_PACKAGE_NS_URI : super.getNamespace(ePackage);
   }
 
+  @Override
   public EPackage getPackage(String namespace)
   {
     return EMOF_PACKAGE_NS_URI.equals(namespace) ? EcorePackage.eINSTANCE : super.getPackage(namespace);
   }
 
+  @Override
   public String getName(EClassifier eClassifier)
   {
     XMLResource.XMLInfo info = xmlMap.getInfo(eClassifier);
@@ -86,6 +90,7 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
     return super.getName(eClassifier);
   }
   
+  @Override
   public String getName(EStructuralFeature eStructuralFeature)
   {
     XMLResource.XMLInfo info = xmlMap.getInfo(eStructuralFeature);
@@ -100,6 +105,7 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
     return super.getName(eStructuralFeature);
   }
 
+  @Override
   public EClassifier getType(EPackage ePackage, String name)
   {
     EClassifier eClassifier = super.getType(ePackage, name);
@@ -110,6 +116,7 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
     return eClassifier;
   }
 
+  @Override
   public int getFeatureKind(EStructuralFeature feature)
   {
     XMLResource.XMLInfo info = xmlMap.getInfo(feature);
@@ -126,11 +133,13 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
     return super.getFeatureKind(feature);
   }
 
+  @Override
   protected EPackageExtendedMetaData createEPackageExtendedMetaData(EPackage ePackage)
   {
     return 
       new EPackageExtendedMetaDataImpl(ePackage)
       {
+        @Override
         public EClassifier getType(String name)
         {
           if (ePackage == EcorePackage.eINSTANCE)
@@ -142,7 +151,7 @@ public class EMOFExtendedMetaData extends BasicExtendedMetaData
               super.getType(name);
               nameToClassifierMap.put("Property", EcorePackage.Literals.EREFERENCE);
             }
-            return (EClassifier)nameToClassifierMap.get(name);
+            return nameToClassifierMap.get(name);
           }
           else
           {

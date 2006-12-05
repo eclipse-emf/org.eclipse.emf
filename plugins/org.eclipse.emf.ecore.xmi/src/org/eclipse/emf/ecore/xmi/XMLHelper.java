@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelper.java,v 1.12 2006/04/26 11:24:41 emerks Exp $
+ * $Id: XMLHelper.java,v 1.13 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -43,7 +43,7 @@ public interface XMLHelper
   /**
    * Sets various resource options on the helper
    */
-  public void setOptions(Map options);
+  public void setOptions(Map<?, ?> options);
   
   /**
    * Sets the package to use when there is no XML namespace in an XML
@@ -174,7 +174,7 @@ public interface XMLHelper
   /**
    * Return all the prefixes used for this package.
    */
-  List getPrefixes(EPackage ePackage);
+  List<String> getPrefixes(EPackage ePackage);
 
   /**
    * Returns the xmi:id or null to supress
@@ -205,6 +205,7 @@ public interface XMLHelper
    * Create an object given an EFactory and a type name.
    * @deprecated since 2.2. Instead use #createObject(EFactory, EClassifier) and #getType(EFactory, String)
    */
+  @Deprecated
   EObject createObject(EFactory eFactory, String name);
   
   /** Create an object given an EFactory and a type 
@@ -277,7 +278,7 @@ public interface XMLHelper
     int getColumnNumber();
   }
 
-  List setManyReference(ManyReference reference, String location);
+  List<XMIException> setManyReference(ManyReference reference, String location);
 
   void setCheckForDuplicates(boolean checkForDuplicates);
   
@@ -295,7 +296,7 @@ public interface XMLHelper
   /**
    * Returns a map of prefixes to URI mapping for elements with any content
    */
-  Map getAnyContentPrefixToURIMapping();
+  Map<String, String> getAnyContentPrefixToURIMapping();
   
   /**
    * Must be called during endDocument to record all the prefix to URI mappings that have
@@ -334,15 +335,15 @@ public interface XMLHelper
    * After popping the context, all namespace prefix mappings that were previously in scope are restored.
    * </p>
    */
-  public void popContext(Map prefixesToFactories);
+  public void popContext(Map<String, EFactory> prefixesToFactories);
   
   /** 
    * Converts the given valuevalue to string while saving an XML document. 
    */
   public String convertToString(EFactory factory, EDataType dataType, Object data);
 
-  EMap getPrefixToNamespaceMap();
-  void setPrefixToNamespaceMap(EMap prefixToNamespaceMap);
+  EMap<String, String> getPrefixToNamespaceMap();
+  void setPrefixToNamespaceMap(EMap<String, String> prefixToNamespaceMap);
   
   /**
    * Specify if qualified names must have a prefix or could use default namespace (if possible)

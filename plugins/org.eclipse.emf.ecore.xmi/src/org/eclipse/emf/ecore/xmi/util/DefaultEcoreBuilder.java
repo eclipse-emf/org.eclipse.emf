@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DefaultEcoreBuilder.java,v 1.2 2005/12/20 17:16:35 elena Exp $
+ * $Id: DefaultEcoreBuilder.java,v 1.3 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.EcoreBuilder;
 import org.eclipse.emf.ecore.xmi.XMIPlugin;
@@ -37,16 +38,16 @@ import org.eclipse.emf.ecore.xmi.XMIPlugin;
  */
 public class DefaultEcoreBuilder implements EcoreBuilder
 {
-  protected static final Class XSD_ECORE_BUILDER_CLASS;
+  protected static final Class<?> XSD_ECORE_BUILDER_CLASS;
 
-  protected static final Constructor XSD_ECORE_BUILDER_CONSTRUCTOR;
+  protected static final Constructor<?> XSD_ECORE_BUILDER_CONSTRUCTOR;
 
   protected static final Method XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD;
 
   static
   {
-    Class theXSDEcoreBuilderClass = null;
-    Constructor theXSDEcoreBuilderConstructor = null;
+    Class<?> theXSDEcoreBuilderClass = null;
+    Constructor<?> theXSDEcoreBuilderConstructor = null;
     Method theXSDEcoreBuilderGenerateResourcesMethod = null;
 
     try
@@ -78,28 +79,32 @@ public class DefaultEcoreBuilder implements EcoreBuilder
     this.extendedMetaData = extendedMetaData;    
   }
 
-  public Collection generate(URI uri) throws Exception
+  public Collection<? extends Resource> generate(URI uri) throws Exception
   {
     return generate(Collections.singleton(uri));
   }
 
-  public Collection generate(Map targetNamespaceToURI) throws Exception
+  public Collection<? extends Resource> generate(Map<String, URI> targetNamespaceToURI) throws Exception
   {
     if (targetNamespaceToURI != null && XSD_ECORE_BUILDER_CONSTRUCTOR != null && XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD != null)
     {
       Object ecoreBuilder = XSD_ECORE_BUILDER_CONSTRUCTOR.newInstance(new Object []{ extendedMetaData });
-      return (Collection)XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD.invoke(ecoreBuilder, new Object []{ targetNamespaceToURI.values() });
+      @SuppressWarnings("unchecked") Collection<? extends Resource> result = (Collection<? extends Resource>)
+        XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD.invoke(ecoreBuilder, new Object []{ targetNamespaceToURI.values() });
+      return result;
     }
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
-  public Collection generate(Collection uris) throws Exception
+  public Collection<? extends Resource> generate(Collection<URI> uris) throws Exception
   {
     if (uris != null && XSD_ECORE_BUILDER_CONSTRUCTOR != null && XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD != null)
     {
       Object ecoreBuilder = XSD_ECORE_BUILDER_CONSTRUCTOR.newInstance(new Object []{ extendedMetaData });
-      return (Collection)XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD.invoke(ecoreBuilder, new Object []{ uris });
+      @SuppressWarnings("unchecked") Collection<? extends Resource> result = (Collection<? extends Resource>)
+        XSD_ECORE_BUILDER_GENERATE_RESOURCES_METHOD.invoke(ecoreBuilder, new Object []{ uris });
+      return result;
     }
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 }

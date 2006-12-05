@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConfigurationCache.java,v 1.3 2005/12/07 18:52:31 elena Exp $
+ * $Id: ConfigurationCache.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.xmi.impl.XMLSaveImpl.Escape;
 
@@ -37,7 +38,7 @@ public class ConfigurationCache
 
   protected static final int SIZE = 100;
   
-  protected Map documentRoots = new HashMap();
+  protected Map<EPackage, EObject> documentRoots = new HashMap<EPackage, EObject>();
 
   protected XMLString printers[] = new XMLString [SIZE];
 
@@ -51,6 +52,7 @@ public class ConfigurationCache
 
   protected ConfigurationCache()
   {
+    super();
   }
 
   protected synchronized XMLString getPrinter()

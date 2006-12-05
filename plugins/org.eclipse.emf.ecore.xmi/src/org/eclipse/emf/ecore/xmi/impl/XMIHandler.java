@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIHandler.java,v 1.10 2006/11/16 19:45:05 emerks Exp $
+ * $Id: XMIHandler.java,v 1.11 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -48,7 +48,7 @@ public abstract class XMIHandler extends XMLHandler
   /**
    * Constructor.
    */
-  public XMIHandler(XMLResource xmiResource, XMLHelper helper, Map options)
+  public XMIHandler(XMLResource xmiResource, XMLHelper helper, Map<?, ?> options)
   {
     super(xmiResource, helper, options);
 
@@ -58,6 +58,7 @@ public abstract class XMIHandler extends XMLHandler
     notFeatures.add(UUID_ATTRIB);
   }
 
+  @Override
   protected void processElement(String name, String prefix, String localName)
   {
     if (localName.equals(XMIResource.XMI_TAG_NAME))
@@ -85,25 +86,19 @@ public abstract class XMIHandler extends XMLHandler
     }
   }
 
+  @Override
   protected boolean isTextFeatureValue(Object type)
   {
     return super.isTextFeatureValue(type) && type != XMI_ELEMENT_TYPE;
   }
 
+  @Override
   protected EObject createDocumentRoot(String prefix, String uri, String name, EFactory eFactory, boolean top)
   {
     if (extendedMetaData != null && eFactory != null && extendedMetaData.demandedPackages().contains(eFactory.getEPackage()))
     {
       EClass eClass = (EClass)extendedMetaData.demandType(uri, name);
-      EObject newObject = null;
-      if (useNewMethods)
-      {
-        newObject = createObject(eFactory, eClass, true);
-      }
-      else
-      {         
-        newObject = helper.createObject(eFactory, name);          
-      }
+      @SuppressWarnings("deprecation") EObject newObject = useNewMethods ? createObject(eFactory, eClass, true) : helper.createObject(eFactory, name);          
       validateCreateObjectFromFactory(eFactory, name, newObject);
       handleObjectAttribs(newObject);
       if (top)
@@ -118,6 +113,7 @@ public abstract class XMIHandler extends XMLHandler
     }
   }
   
+  @Override
   protected void createObject(EObject peekObject, EStructuralFeature feature)
   {
     String id = attribs.getValue("xmi:idref");
@@ -134,6 +130,7 @@ public abstract class XMIHandler extends XMLHandler
     }
   }
 
+  @Override
   protected void handleUnknownFeature(String prefix, String name, boolean isElement, EObject peekObject, String value)
   {
     if (XMI_EXTENSION.equals(name) && XMIResource.XMI_URI.equals(helper.getURI(prefix)))

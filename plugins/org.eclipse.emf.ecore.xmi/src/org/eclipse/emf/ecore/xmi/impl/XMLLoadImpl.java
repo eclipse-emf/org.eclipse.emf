@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.19 2006/05/04 11:49:45 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.20 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -21,7 +21,6 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -63,7 +62,7 @@ public class XMLLoadImpl implements XMLLoad
   protected XMLResource resource;
   protected InputStream is;
   protected XMLHelper helper;
-  protected Map options;
+  protected Map<?, ?> options;
 
   public XMLLoadImpl(XMLHelper helper)
   {
@@ -74,7 +73,7 @@ public class XMLLoadImpl implements XMLLoad
   {
     if (!resource.getErrors().isEmpty())
     {
-      Resource.Diagnostic error = (Resource.Diagnostic)resource.getErrors().get(0);
+      Resource.Diagnostic error = resource.getErrors().get(0);
       if (error instanceof Exception)
       {
         throw new Resource.IOWrappedException((Exception)error);
@@ -90,7 +89,7 @@ public class XMLLoadImpl implements XMLLoad
    * Start parsing with the default handler; either XMI
    * or XML.
    */
-  public void load(XMLResource resource, InputStream inputStream, Map options) throws IOException
+  public void load(XMLResource resource, InputStream inputStream, Map<?, ?> options) throws IOException
   {
     if (inputStream instanceof URIConverter.Readable)
     {
@@ -113,10 +112,10 @@ public class XMLLoadImpl implements XMLLoad
     is = inputStream;
     this.options = options;
     XMLParserPool pool = (XMLParserPool)options.get(XMLResource.OPTION_USE_PARSER_POOL);
-    Map parserFeatures = (Map) options.get(XMLResource.OPTION_PARSER_FEATURES);
-    Map parserProperties = (Map)options.get(XMLResource.OPTION_PARSER_PROPERTIES);
-    parserFeatures = (parserFeatures == null) ? Collections.EMPTY_MAP : parserFeatures;
-    parserProperties = (parserProperties == null) ? Collections.EMPTY_MAP : parserProperties;
+    @SuppressWarnings("unchecked") Map<String, Boolean> parserFeatures = (Map<String, Boolean>)options.get(XMLResource.OPTION_PARSER_FEATURES);
+    @SuppressWarnings("unchecked") Map<String, ?> parserProperties = (Map<String, ?>)options.get(XMLResource.OPTION_PARSER_PROPERTIES);
+    parserFeatures = (parserFeatures == null) ? Collections.<String, Boolean>emptyMap() : parserFeatures;
+    parserProperties = (parserProperties == null) ? Collections.<String, Object>emptyMap() : parserProperties;
 
     // HACK: reading encoding
     if (!Boolean.FALSE.equals(options.get(XMLResource.OPTION_USE_DEPRECATED_METHODS)))
@@ -142,17 +141,15 @@ public class XMLLoadImpl implements XMLLoad
         // set features and properties
         if (parserFeatures != null)
         {
-          for (Iterator i = parserFeatures.keySet().iterator(); i.hasNext();)
+          for (String feature : parserFeatures.keySet())
           {
-            String feature = (String) i.next();
-            parser.getXMLReader().setFeature(feature, ((Boolean) parserFeatures.get(feature)).booleanValue());
+            parser.getXMLReader().setFeature(feature, parserFeatures.get(feature).booleanValue());
           }
         }
         if (parserProperties !=null)
         {
-          for (Iterator i = parserProperties.keySet().iterator(); i.hasNext();)
+          for (String property : parserProperties.keySet())
           {
-            String property = (String) i.next();
             parser.getXMLReader().setProperty(property, parserProperties.get(property));
           }
         }
@@ -205,16 +202,16 @@ public class XMLLoadImpl implements XMLLoad
     }
   }
   
-  public void load(XMLResource resource, InputSource inputSource, Map options) throws IOException
+  public void load(XMLResource resource, InputSource inputSource, Map<?, ?> options) throws IOException
   {
     this.resource = resource;
    
     this.options = options;
     XMLParserPool pool = (XMLParserPool)options.get(XMLResource.OPTION_USE_PARSER_POOL);
-    Map parserFeatures = (Map) options.get(XMLResource.OPTION_PARSER_FEATURES);
-    Map parserProperties = (Map)options.get(XMLResource.OPTION_PARSER_PROPERTIES);
-    parserFeatures = (parserFeatures == null) ? Collections.EMPTY_MAP : parserFeatures;
-    parserProperties = (parserProperties == null) ? Collections.EMPTY_MAP : parserProperties;
+    @SuppressWarnings("unchecked") Map<String, Boolean> parserFeatures = (Map<String, Boolean>)options.get(XMLResource.OPTION_PARSER_FEATURES);
+    @SuppressWarnings("unchecked") Map<String, ?> parserProperties = (Map<String, ?>)options.get(XMLResource.OPTION_PARSER_PROPERTIES);
+    parserFeatures = (parserFeatures == null) ? Collections.<String, Boolean>emptyMap() : parserFeatures;
+    parserProperties = (parserProperties == null) ? Collections.<String, Object>emptyMap() : parserProperties;
 
     // Don't read encoding - rely on XML parser to provide one via Locator2
 
@@ -236,17 +233,15 @@ public class XMLLoadImpl implements XMLLoad
         // set features and properties
         if (parserFeatures != null)
         {
-          for (Iterator i = parserFeatures.keySet().iterator(); i.hasNext();)
+          for (String feature : parserFeatures.keySet())
           {
-            String feature = (String) i.next();
-            parser.getXMLReader().setFeature(feature, ((Boolean) parserFeatures.get(feature)).booleanValue());
+            parser.getXMLReader().setFeature(feature,  parserFeatures.get(feature).booleanValue());
           }
         }
         if (parserProperties !=null)
         {
-          for (Iterator i = parserProperties.keySet().iterator(); i.hasNext();)
+          for (String property : parserProperties.keySet())
           {
-            String property = (String) i.next();
             parser.getXMLReader().setProperty(property, parserProperties.get(property));
           }
         }
@@ -314,6 +309,7 @@ public class XMLLoadImpl implements XMLLoad
    * @deprecated since 2.2
    * The encoding will be reported by the parser using SAX 2 Locator
    */
+  @Deprecated
   protected String getEncoding() throws IOException
   {
     if (!is.markSupported())
@@ -361,7 +357,7 @@ public class XMLLoadImpl implements XMLLoad
   /* (non-Javadoc)
    * @see org.eclipse.emf.ecore.xmi.XMLLoad#load(org.eclipse.emf.ecore.xmi.XMLResource, org.w3c.dom.Node, java.util.Map)
    */
-  public void load(XMLResource resource, Node node, Map options) throws IOException
+  public void load(XMLResource resource, Node node, Map<?, ?> options) throws IOException
   {
     this.resource = resource;
     this.options = options;
@@ -506,7 +502,7 @@ public class XMLLoadImpl implements XMLLoad
         Node root = document.getDocumentElement();
         if (lexicalHandler != null)
         {
-          DocumentType doctype = (DocumentType)document.getDoctype();
+          DocumentType doctype = document.getDoctype();
           if (doctype != null)
           {
             String publicId = doctype.getPublicId();

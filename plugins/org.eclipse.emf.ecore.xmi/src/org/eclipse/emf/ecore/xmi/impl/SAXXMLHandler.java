@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SAXXMLHandler.java,v 1.9 2005/12/07 18:52:31 elena Exp $
+ * $Id: SAXXMLHandler.java,v 1.10 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -38,11 +38,12 @@ public class SAXXMLHandler extends XMLHandler
   /**
    * Constructor.
    */
-  public SAXXMLHandler(XMLResource xmiResource, XMLHelper helper, Map options)
+  public SAXXMLHandler(XMLResource xmiResource, XMLHelper helper, Map<?, ?> options)
   {
     super(xmiResource, helper, options);
   }
 
+  @Override
   protected String getXSIType()
   {
     return attribs.getValue(TYPE_ATTRIB);
@@ -51,6 +52,7 @@ public class SAXXMLHandler extends XMLHandler
   /**
    * Process the XML attributes for the newly created object.
    */
+  @Override
   protected void handleObjectAttribs(EObject obj)
   {
     if (attribs != null)
@@ -75,6 +77,7 @@ public class SAXXMLHandler extends XMLHandler
     }
   }
 
+  @Override
   protected void processObject(EObject object)
   {
     if (object != null)
@@ -97,10 +100,10 @@ public class SAXXMLHandler extends XMLHandler
   {
     if (xmlMap != null)
     {
-      List eAttributes = object.eClass().getEAllAttributes();
+      List<EAttribute> eAttributes = object.eClass().getEAllAttributes();
       if (eAttributes.size() >= 1)
       {
-        EAttribute eAttribute = (EAttribute) eAttributes.get(0);
+        EAttribute eAttribute = eAttributes.get(0);
         XMLInfo info = xmlMap.getInfo(eAttribute);
         if (info != null && info.getXMLRepresentation() == XMLInfo.CONTENT)
         {

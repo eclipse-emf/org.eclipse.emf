@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.7 2005/06/10 20:28:24 emerks Exp $
+ * $Id: XMLString.java,v 1.8 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -33,15 +33,17 @@ import org.eclipse.emf.common.util.BasicEList;
  */
 public class XMLString extends StringSegment
 {
-  protected List elementNames;
+  private static final long serialVersionUID = 1L;
 
-  protected List mixed;
+  protected List<String> elementNames;
+
+  protected List<Boolean> mixed;
 
   protected boolean isUnformatted;
 
   protected boolean isMixed;
 
-  protected List indents;
+  protected List<String> indents;
 
   protected int depth;
 
@@ -58,6 +60,10 @@ public class XMLString extends StringSegment
   protected boolean seenRoot;
 
   protected boolean saveDoctype;
+
+  protected Object docTypeMark;
+
+  protected String docTypeName;
 
   protected String publicId;
 
@@ -78,9 +84,9 @@ public class XMLString extends StringSegment
     super(temporaryFileName);
 
     this.lineWidth = lineWidth;
-    elementNames = new BasicEList();
-    mixed = new BasicEList();
-    indents = new BasicEList();
+    elementNames = new BasicEList<String>();
+    mixed = new BasicEList<Boolean>();
+    indents = new BasicEList<String>();
     indents.add("");
   }
 
@@ -238,6 +244,39 @@ public class XMLString extends StringSegment
     lastElementIsStart = false;
   }
 
+  public void addEntity(String name, String value)
+  {
+    if (docTypeMark != null)
+    {
+      resetToMark(docTypeMark);
+      if (saveDoctype)
+      {
+        add(" [");
+        addLine();
+        docTypeMark = mark();
+        add("]");
+      }
+      else
+      {
+        add("<!DOCTYPE ");
+        add(docTypeName);
+        add(" [");
+        addLine();
+        docTypeMark = mark();
+        add("]>");
+        addLine();
+      }
+      resetToMark(docTypeMark);
+    }
+
+    add("<!ENTITY ");
+    add(name);
+    add(" \"");
+    add(value);
+    add("\">");
+    addLine();
+  }
+
   final protected void saveDoctype(String name)
   {
     if (!seenRoot)
@@ -255,20 +294,34 @@ public class XMLString extends StringSegment
           add("\" ");
           add("\"");
           add(systemId);
-          add("\">");
+          add("\"");
+          docTypeMark = mark();
+          mark();
+          add(">");
         }
         else if (systemId != null)
         {
           add(" SYSTEM \"");
           add(systemId);
-          add("\">");
+          add("\"");
+          docTypeMark = mark();
+          mark();
+          add(">");
         }
         else
         {
+          docTypeMark = mark();
+          mark();
           add(">");
         }
 
         addLine();
+      }
+      else
+      {
+        docTypeMark = mark();
+        docTypeName = name;
+        mark();
       }
     }
   }
@@ -411,8 +464,8 @@ public class XMLString extends StringSegment
   protected String removeLast()
   {
     int end = elementNames.size();
-    isMixed = ((Boolean)mixed.remove(end - 1)).booleanValue();
-    String result = (String)elementNames.remove(end - 1);
+    isMixed = mixed.remove(end - 1).booleanValue();
+    String result = elementNames.remove(end - 1);
     if (result != null)
     {
       --depth;
@@ -432,7 +485,7 @@ public class XMLString extends StringSegment
     {
       indents.add(indents.get(i) + "  ");
     }
-    return (String)indents.get(nesting);
+    return indents.get(nesting);
   }
 
   protected String getAttributeIndent()
@@ -442,7 +495,7 @@ public class XMLString extends StringSegment
     {
       indents.add(indents.get(i) + "  ");
     }
-    return (String)indents.get(nesting);
+    return indents.get(nesting);
   }
 
   public void addText(String newString)
@@ -538,6 +591,7 @@ public class XMLString extends StringSegment
     }
   }
 
+  @Override
   public void add(String newString)
   {
     // Avoid a function call...
@@ -549,12 +603,14 @@ public class XMLString extends StringSegment
     super.add(newString);
   }
 
+  @Override
   public void addLine()
   {
     super.addLine();
     currentLineWidth = 0;
   }
 
+  @Override
   public Object mark()
   {
     markedLineWidth = currentLineWidth;
@@ -562,6 +618,7 @@ public class XMLString extends StringSegment
     return super.mark();
   }
 
+  @Override
   public void resetToMark(Object mark)
   {
     if (mark == null)

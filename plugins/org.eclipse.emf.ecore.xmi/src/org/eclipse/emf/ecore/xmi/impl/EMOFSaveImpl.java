@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFSaveImpl.java,v 1.6 2006/11/04 16:04:12 emerks Exp $
+ * $Id: EMOFSaveImpl.java,v 1.7 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -40,6 +40,7 @@ public class EMOFSaveImpl extends XMISaveImpl
     idAttributeName = XMI_ID_NS;
   }
 
+  @Override
   protected void saveTypeAttribute(EClass eClass)
   {
     if (eClass != EcorePackage.eINSTANCE.getEAttribute() && eClass != EcorePackage.eINSTANCE.getEReference())
@@ -48,6 +49,7 @@ public class EMOFSaveImpl extends XMISaveImpl
     }
   }
 
+  @Override
   protected void saveDataTypeElementSingle(EObject o, EStructuralFeature f)
   {
     if (f == EcorePackage.eINSTANCE.getEPackage_NsPrefix() ||
@@ -135,6 +137,7 @@ public class EMOFSaveImpl extends XMISaveImpl
     }
   }
 
+  @Override
   protected String getDatatypeValue(Object value, EStructuralFeature f, boolean isAttribute)
   {
     String result = super.getDatatypeValue(value, f, isAttribute);
@@ -152,6 +155,7 @@ public class EMOFSaveImpl extends XMISaveImpl
     doc.endContentElement(EcoreFactory.eINSTANCE.convertToString(eDataType, o.eGet(f)));
   }
 
+  @Override
   protected void saveContainedMany(EObject o, EStructuralFeature f)
   {
     if (f == EcorePackage.eINSTANCE.getEModelElement_EAnnotations())
@@ -167,14 +171,15 @@ public class EMOFSaveImpl extends XMISaveImpl
     }
   }
 
-  public Object writeTopObjects(List contents)
+  @Override
+  public Object writeTopObjects(List<? extends EObject> contents)
   {
     doc.startElement(XMI_TAG_NS);
     Object mark = doc.mark();
 
     for (int i = 0, size = contents.size(); i < size; i++)
     {
-      EObject top = (EObject)contents.get(i);
+      EObject top = contents.get(i);
       EClass eClass = top.eClass();
       if (eClass == EcorePackage.eINSTANCE.getEAnnotation())
       {
@@ -183,17 +188,17 @@ public class EMOFSaveImpl extends XMISaveImpl
 
         doc.startElement(EMOFExtendedMetaData.EMOF_TAG);
         doc.addAttribute(idAttributeName, helper.getID(annotation));
-        doc.addAttribute(EMOFExtendedMetaData.EMOF_TAG_NAME, (String)annotation.getDetails().get(EMOFExtendedMetaData.EMOF_TAG_NAME));
-        doc.addAttribute(EMOFExtendedMetaData.EMOF_TAG_VALUE, (String)annotation.getDetails().get(EMOFExtendedMetaData.EMOF_TAG_VALUE));
+        doc.addAttribute(EMOFExtendedMetaData.EMOF_TAG_NAME, annotation.getDetails().get(EMOFExtendedMetaData.EMOF_TAG_NAME));
+        doc.addAttribute(EMOFExtendedMetaData.EMOF_TAG_VALUE, annotation.getDetails().get(EMOFExtendedMetaData.EMOF_TAG_VALUE));
 
-        InternalEList values = (InternalEList)annotation.getReferences();
+        InternalEList<? extends EObject> values = (InternalEList<? extends EObject>)annotation.getReferences();
         if (!values.isEmpty())
         {
           if (sameDocMany(annotation, EcorePackage.eINSTANCE.getEAnnotation_References()) == CROSS_DOC)
           {
-            for (Iterator iter = values.basicIterator(); iter.hasNext(); )
+            for (Iterator<? extends EObject> iter = values.basicIterator(); iter.hasNext(); )
             {
-              EObject value = (EObject)iter.next();
+              EObject value = iter.next();
               String href = helper.getHREF(value);
               if (href != null)
               {
@@ -207,9 +212,9 @@ public class EMOFSaveImpl extends XMISaveImpl
           {
             StringBuffer ids = new StringBuffer();
             boolean failed = true;
-            for (Iterator iter = values.basicIterator();; )
+            for (Iterator<? extends EObject> iter = values.basicIterator();; )
             {
-              EObject value = (EObject)iter.next();
+              EObject value = iter.next();
               String idref =  helper.getIDREF(value);
               if (idref == null)
               {

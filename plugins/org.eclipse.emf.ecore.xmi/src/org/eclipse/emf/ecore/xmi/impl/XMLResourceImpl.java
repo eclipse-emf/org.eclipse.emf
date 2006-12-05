@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResourceImpl.java,v 1.19 2006/04/26 12:36:10 emerks Exp $
+ * $Id: XMLResourceImpl.java,v 1.20 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -23,7 +23,6 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.WeakHashMap;
@@ -41,6 +40,7 @@ import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLSave;
+import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -58,16 +58,16 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
    * It is used to store IDs during a load or if the user
    * sets the ID of an object.
    */
-  protected Map idToEObjectMap;
+  protected Map<String, EObject> idToEObjectMap;
 
   /**
    * The map from {@link EObject} to {@link #getID ID}.
    * It is used to store IDs during a load or if the user
    * sets the ID of an object.
    */
-  protected Map eObjectToIDMap;
+  protected Map<EObject, String> eObjectToIDMap;
 
-  protected Map eObjectToExtensionMap;
+  protected Map<EObject, AnyType> eObjectToExtensionMap;
 
   protected String encoding;
   protected String xmlVersion;
@@ -80,7 +80,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
    * The map from {@link EObject} to {@link #getID ID}. It is used to store
    * IDs for objects that have been detached.
    */
-  protected static final Map DETACHED_EOBJECT_TO_ID_MAP = Collections.synchronizedMap(new WeakHashMap());
+  protected static final Map<EObject, String> DETACHED_EOBJECT_TO_ID_MAP = Collections.synchronizedMap(new WeakHashMap<EObject, String>());
 
   /**
    * Constructor for XMLResourceImpl.
@@ -127,20 +127,20 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     return true;
   }
 
-  public Map getDefaultSaveOptions()
+  public Map<Object, Object> getDefaultSaveOptions()
   {
     if (defaultSaveOptions == null)
     {
-      defaultSaveOptions = new HashMap();
+      defaultSaveOptions = new HashMap<Object, Object>();
     }
     return defaultSaveOptions;
   }
 
-  public Map getDefaultLoadOptions()
+  public Map<Object, Object> getDefaultLoadOptions()
   {
     if (defaultLoadOptions == null)
     {
-      defaultLoadOptions = new HashMap();
+      defaultLoadOptions = new HashMap<Object, Object>();
     }
     return defaultLoadOptions;
   }
@@ -160,7 +160,8 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     return new XMLSaveImpl(createXMLHelper());
   }
 
-  public void doLoad(InputStream inputStream, Map options) throws IOException
+  @Override
+  public void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
   {
     XMLLoad xmlLoad = createXMLLoad();
 
@@ -184,7 +185,8 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
   }
 
-  public void doSave(OutputStream outputStream, Map options) throws IOException
+  @Override
+  public void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
     XMLSave xmlSave = createXMLSave();
 
@@ -219,7 +221,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
    * @param options the save options.
    * @see #doSave(Writer, Map)
    */
-  public final void save(Writer writer, Map options) throws IOException
+  public final void save(Writer writer, Map<?, ?> options) throws IOException
   {   
     if (defaultSaveOptions == null || defaultSaveOptions.isEmpty())
     {
@@ -231,7 +233,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
     else
     {
-      Map mergedOptions = new HashMap(defaultSaveOptions);
+      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(defaultSaveOptions);
       mergedOptions.putAll(options);
       doSave(writer, mergedOptions);
     }
@@ -239,7 +241,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     setModified(false);
   }
   
-  public void doSave(Writer writer, Map options) throws IOException
+  public void doSave(Writer writer, Map<?, ?> options) throws IOException
   {
     XMLSave xmlSave = createXMLSave();
 
@@ -251,7 +253,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     xmlSave.save(this, writer, options);
   }
 
-  public Document save(Document doc, Map options, DOMHandler handler)
+  public Document save(Document doc, Map<?, ?> options, DOMHandler handler)
   {
     XMLSave xmlSave = createXMLSave();
     domHandler = handler;
@@ -281,7 +283,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
     else
     {
-      Map mergedOptions = new HashMap(defaultSaveOptions);
+      Map<Object,Object> mergedOptions = new HashMap<Object, Object>(defaultSaveOptions);
       mergedOptions.putAll(options);
       return xmlSave.save(this, document, mergedOptions, domHandler);
     }
@@ -292,6 +294,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     return domHandler.getDOMHelper();
   }
 
+  @Override
   public boolean useZip()
   {
     return useZip;
@@ -336,31 +339,31 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     this.xmlVersion = version;
   }
 
-  public Map getIDToEObjectMap()
+  public Map<String, EObject> getIDToEObjectMap()
   {
     if (idToEObjectMap == null)
     {
-      idToEObjectMap = new HashMap();
+      idToEObjectMap = new HashMap<String, EObject>();
     }
 
     return idToEObjectMap;
   }
 
-  public Map getEObjectToIDMap()
+  public Map<EObject, String> getEObjectToIDMap()
   {
     if (eObjectToIDMap == null)
     {
-      eObjectToIDMap = new HashMap();
+      eObjectToIDMap = new HashMap<EObject, String>();
     }
 
     return eObjectToIDMap;
   }
 
-  public Map getEObjectToExtensionMap()
+  public Map<EObject, AnyType> getEObjectToExtensionMap()
   {
     if (eObjectToExtensionMap == null)
     {
-      eObjectToExtensionMap = new HashMap();
+      eObjectToExtensionMap = new HashMap<EObject, AnyType>();
     }
     return eObjectToExtensionMap;
   }
@@ -376,7 +379,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
     else
     {
-      return (String)eObjectToIDMap.get(eObject);
+      return eObjectToIDMap.get(eObject);
     }
   }
 
@@ -405,6 +408,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   /*
    * Javadoc copied from interface.
    */
+  @Override
   public String getURIFragment(EObject eObject)
   {
     String id = getID(eObject);
@@ -419,11 +423,12 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
   }
 
+  @Override
   protected EObject getEObjectByID(String id)
   {
     if (idToEObjectMap != null)
     {
-      EObject eObject = (EObject) idToEObjectMap.get(id);
+      EObject eObject = idToEObjectMap.get(id);
       if (eObject != null)
       {
         return eObject;
@@ -438,11 +443,13 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     return uriFragment.startsWith("/");
   }
   
+  @Override
   protected boolean isAttachedDetachedHelperRequired()
   {
     return useIDs() || super.isAttachedDetachedHelperRequired();
   }
 
+  @Override
   protected void attachedHelper(EObject eObject)
   {
     super.attachedHelper(eObject);
@@ -454,7 +461,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
       {
         if (assignIDsWhileLoading() || !isLoading())
         {
-          id = (String)DETACHED_EOBJECT_TO_ID_MAP.remove(eObject);
+          id = DETACHED_EOBJECT_TO_ID_MAP.remove(eObject);
           if (id == null)
           {
             id = EcoreUtil.generateUUID();
@@ -469,6 +476,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
   }
 
+  @Override
   protected void detachedHelper(EObject eObject)
   {
     if (useIDs())
@@ -491,6 +499,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
    * Does all the work of unloading the resource. It calls doUnload in
    * ResourceImpl, then it clears {@link #idToEObjectMap} and {@link #eObjectToIDMap} as necessary.
    */
+  @Override
   protected void doUnload()
   {
     super.doUnload();
@@ -515,26 +524,25 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
    * Returns a string representation of the {@link #idToEObjectMap ID} map.
    * @return a string representation of the ID map.
    */
+  @Override
   public String toKeyString()
   {
     StringBuffer result = new StringBuffer("Key type: ");
     result.append(getClass().toString());
     if (idToEObjectMap != null)
     {
-      TreeMap tree = new TreeMap();
-      for (Iterator i = idToEObjectMap.keySet().iterator(); i.hasNext(); )
+      TreeMap<String, String> tree = new TreeMap<String, String>();
+      for (String key : idToEObjectMap.keySet())
       {
-        Object key = i.next();
         if (key != null)
         {
-          tree.put(key.toString(), key);
+          tree.put(key, key);
         }
       }
 
       // add the key/value pairs to the output string
-      for (Iterator i = tree.values().iterator(); i.hasNext(); )
+      for (String key : tree.values())
       {
-        Object key = i.next();
         Object value = idToEObjectMap.get(key);
         result.append("\r\n\t[Key=" + key + ", Value=" + value + "]");
       }
@@ -542,7 +550,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     return result.toString();
   }
   
-  public final void load(Node node, Map options) throws IOException
+  public final void load(Node node, Map<?, ?> options) throws IOException
   {
     if (!isLoaded)
     {
@@ -571,7 +579,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
         }
         else
         {
-          Map mergedOptions = new HashMap(defaultLoadOptions);
+          Map<Object, Object> mergedOptions = new HashMap<Object, Object>(defaultLoadOptions);
           mergedOptions.putAll(options);
   
           doLoad(node, mergedOptions);
@@ -594,7 +602,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
   /* (non-Javadoc)
    * @see org.eclipse.emf.ecore.xmi.XMLResource#load(org.w3c.dom.Node, java.util.Map)
    */
-  public void doLoad(Node node, Map options) throws IOException
+  public void doLoad(Node node, Map<?, ?> options) throws IOException
   {
     XMLLoad xmlLoad = createXMLLoad();
 
@@ -606,7 +614,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     xmlLoad.load(this, node, options); 
   }
   
-  public final void load(InputSource inputSource, Map options) throws IOException
+  public final void load(InputSource inputSource, Map<?, ?> options) throws IOException
   {
     if (!isLoaded)
     {
@@ -635,7 +643,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
         }
         else
         {
-          Map mergedOptions = new HashMap(defaultLoadOptions);
+          Map<Object, Object> mergedOptions = new HashMap<Object, Object>(defaultLoadOptions);
           mergedOptions.putAll(options);
   
           doLoad(inputSource, mergedOptions);
@@ -655,7 +663,7 @@ public class XMLResourceImpl extends ResourceImpl implements XMLResource
     }
   }
   
-  public void doLoad(InputSource inputSource, Map options) throws IOException
+  public void doLoad(InputSource inputSource, Map<?, ?> options) throws IOException
   {
     XMLLoad xmlLoad = createXMLLoad();
 

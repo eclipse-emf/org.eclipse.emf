@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMOFResourceImpl.java,v 1.2 2005/06/08 06:16:07 nickb Exp $
+ * $Id: EMOFResourceImpl.java,v 1.3 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -47,21 +47,25 @@ public class EMOFResourceImpl extends XMIResourceImpl implements XMIResource
     super(uri);
   }
 
+  @Override
   protected XMLHelper createXMLHelper()
   {
     return null;
   }
 
+  @Override
   protected XMLLoad createXMLLoad()
   {
     return new EMOFLoadImpl(new EMOFHelperImpl(this));
   }     
   
+  @Override
   protected XMLSave createXMLSave()
   {
     return new EMOFSaveImpl(new EMOFHelperImpl(this));
   }
 
+  @Override
   public String getID(EObject eObject)
   {
     String id = super.getID(eObject);
@@ -80,7 +84,7 @@ public class EMOFResourceImpl extends XMIResourceImpl implements XMIResource
 
   protected String makeID(EObject eObject)
   {
-    List uriFragmentPath = new ArrayList();
+    List<String> uriFragmentPath = new ArrayList<String>();
     for (EObject container = eObject.eContainer(); container != null; container = eObject.eContainer())
     {
       uriFragmentPath.add(((InternalEObject)container).eURIFragmentSegment(eObject.eContainmentFeature(), eObject));
@@ -90,10 +94,10 @@ public class EMOFResourceImpl extends XMIResourceImpl implements XMIResource
     StringBuffer result = new StringBuffer(eObject instanceof ENamedElement ?
                                            ((ENamedElement)eObject).getName() :
                                            "_" + Integer.toString(getContents().indexOf(eObject)));
-    for (ListIterator i = uriFragmentPath.listIterator(uriFragmentPath.size()); i.hasPrevious(); )
+    for (ListIterator<String> i = uriFragmentPath.listIterator(uriFragmentPath.size()); i.hasPrevious(); )
     {
       result.append('.');
-      result.append((String)i.previous());
+      result.append(i.previous());
     }
 
     return result.toString();

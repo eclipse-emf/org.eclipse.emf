@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- *$Id: XMLParserPool.java,v 1.3 2005/12/07 18:52:31 elena Exp $
+ *$Id: XMLParserPool.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.xmi;
@@ -59,7 +59,8 @@ public interface XMLParserPool
    * @throws ParserConfigurationException
    * @throws SAXException
    */
-  public SAXParser get(Map features, Map properties, boolean useLexicalHandler) throws ParserConfigurationException, SAXException;
+  public SAXParser get(Map<String, Boolean> features, Map<String, ?> properties, boolean useLexicalHandler) 
+    throws ParserConfigurationException, SAXException;
 
   /**
    * Returns the parser to the pool.
@@ -68,7 +69,7 @@ public interface XMLParserPool
    * @param properties a map of a parser properties and their values.
    * @param useLexicalHandler whether a lexical handler was set during loading.
    */
-  public void release(SAXParser parser, Map features, Map properties, boolean useLexicalHandler);
+  public void release(SAXParser parser, Map<String, Boolean> features, Map<String, ?> properties, boolean useLexicalHandler);
   
   /**
    * Retrives XMLDefaultHandler from the pool and initializes / prepares it.
@@ -77,12 +78,12 @@ public interface XMLParserPool
    * @param helper - XMLHelper
    * @param options
    */
-  public XMLDefaultHandler getDefaultHandler(XMLResource resource, XMLLoad xmlLoad, XMLHelper helper, Map options);
+  public XMLDefaultHandler getDefaultHandler(XMLResource resource, XMLLoad xmlLoad, XMLHelper helper, Map<?, ?> options);
   
   /**
    * Returns the XMLDefaultHandler to the pool.
    * @param handler the handler to return to the pool
    * @param options
    */
-  public void releaseDefaultHandler(XMLDefaultHandler handler, Map options);
+  public void releaseDefaultHandler(XMLDefaultHandler handler, Map<?, ?> options);
 }

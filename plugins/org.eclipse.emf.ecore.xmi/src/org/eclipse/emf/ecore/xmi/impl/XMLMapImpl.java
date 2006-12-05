@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XMLMapImpl.java,v 1.3 2005/06/08 06:16:07 nickb Exp $
+ * $Id: XMLMapImpl.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,12 +27,15 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.XMLResource.XMLInfo;
 
 /**
  * This class represents a mapping from Ecore constructs to the
@@ -44,12 +46,12 @@ public class XMLMapImpl implements XMLResource.XMLMap
 {
   protected static final String XSD2ECORE = "http:///org/eclipse/emf/mapping/xsd2ecore/XSD2Ecore";
 
-  protected Map ecoreToXMLInfo;
+  protected Map<ENamedElement, XMLResource.XMLInfo> ecoreToXMLInfo;
   protected EPackage noNamespacePkg;
   protected String idAttributeName;
-  protected Map urisToNamesToClassifiers;
-  protected Map eClassToFeatures;
-  protected Set processedEPackages;
+  protected Map<String, Map<String, EClassifier>> urisToNamesToClassifiers;
+  protected Map<EClass, EList<EStructuralFeature>> eClassToFeatures;
+  protected Set<EPackage> processedEPackages;
   protected EPackage.Registry packageRegistry = EPackage.Registry.INSTANCE;
 
   /**
@@ -58,9 +60,9 @@ public class XMLMapImpl implements XMLResource.XMLMap
   public XMLMapImpl()
   {
     super();
-    ecoreToXMLInfo = new HashMap();
-    processedEPackages = new HashSet();
-    eClassToFeatures = new HashMap();
+    ecoreToXMLInfo = new HashMap<ENamedElement, XMLInfo>();
+    processedEPackages = new HashSet<EPackage>();
+    eClassToFeatures = new HashMap<EClass, EList<EStructuralFeature>>();
   }
 
   /**
@@ -78,19 +80,18 @@ public class XMLMapImpl implements XMLResource.XMLMap
    */
   public XMLResource.XMLInfo getInfo(ENamedElement element)
   {
-    XMLResource.XMLInfo result =  (XMLResource.XMLInfo)ecoreToXMLInfo.get(element);
+    XMLResource.XMLInfo result =  ecoreToXMLInfo.get(element);
     if (result == null)
     {
-      for (Iterator i = element.getEAnnotations().iterator(); i.hasNext(); )
+      for (EAnnotation eAnnotation : element.getEAnnotations())
       {
-        EAnnotation eAnnotation = (EAnnotation)i.next();
         if (XSD2ECORE.equals(eAnnotation.getSource()))
         {
           result = new XMLInfoImpl();
-          EMap details = eAnnotation.getDetails();
-          result.setName((String)details.get("name"));
-          result.setTargetNamespace((String)details.get("targetNamespace"));
-          String representation = (String)details.get("representation");
+          EMap<String, String> details = eAnnotation.getDetails();
+          result.setName(details.get("name"));
+          result.setTargetNamespace(details.get("targetNamespace"));
+          String representation = details.get("representation");
           if ("element".equals(representation))
           {
             result.setXMLRepresentation(XMLResource.XMLInfo.ELEMENT);
@@ -159,14 +160,13 @@ public class XMLMapImpl implements XMLResource.XMLMap
       {
         if (urisToNamesToClassifiers == null)
         {
-          urisToNamesToClassifiers = new HashMap();
+          urisToNamesToClassifiers = new HashMap<String, Map<String, EClassifier>>();
         }
 
         getInfoForClassifiers(ePackage);
 
-        for (Iterator i = ecoreToXMLInfo.entrySet().iterator(); i.hasNext(); )
+        for (Map.Entry<ENamedElement, XMLResource.XMLInfo> entry : ecoreToXMLInfo.entrySet())
         {
-          Map.Entry entry = (Map.Entry) i.next();
           Object key = entry.getKey();
 
           // Only handle classifiers from this package.
@@ -176,7 +176,7 @@ public class XMLMapImpl implements XMLResource.XMLMap
             EClassifier eClassifier = (EClassifier)key;
             if (eClassifier.getEPackage() == ePackage)
             {
-              XMLResource.XMLInfo info = (XMLResource.XMLInfo) entry.getValue();
+              XMLResource.XMLInfo info = entry.getValue();
               String uri = info.getTargetNamespace();
               if (uri == null)
               {
@@ -185,25 +185,25 @@ public class XMLMapImpl implements XMLResource.XMLMap
     
               if (key instanceof EClassifier && info.getName() != null)
               {
-                Map namesToClassifiers = (Map) urisToNamesToClassifiers.get(uri);
+                Map<String, EClassifier> namesToClassifiers = urisToNamesToClassifiers.get(uri);
     
                 if (namesToClassifiers == null)
                 {
-                  namesToClassifiers = new HashMap();
+                  namesToClassifiers = new HashMap<String, EClassifier>();
                   urisToNamesToClassifiers.put(uri, namesToClassifiers);
                 }
     
-                namesToClassifiers.put(info.getName(), key);
+                namesToClassifiers.put(info.getName(), eClassifier);
               }
             }
           }
         }
       }
 
-      Map namesToClassifiers = (Map) urisToNamesToClassifiers.get(namespaceURI);
+      Map<String, EClassifier> namesToClassifiers = urisToNamesToClassifiers.get(namespaceURI);
       if (namesToClassifiers != null)
       {
-        return (EClassifier) namesToClassifiers.get(name);
+        return namesToClassifiers.get(name);
       }
     }
 
@@ -216,9 +216,9 @@ public class XMLMapImpl implements XMLResource.XMLMap
    */
   private void getInfoForClassifiers(EPackage ePackage)
   {
-    for (Iterator i = ePackage.getEClassifiers().iterator(); i.hasNext(); )
+    for (EClassifier eClassifier : ePackage.getEClassifiers())
     {
-      getInfo((ENamedElement) i.next());
+      getInfo(eClassifier);
     }
   }
 
@@ -252,25 +252,25 @@ public class XMLMapImpl implements XMLResource.XMLMap
     return null;
   }
 
-  public List getFeatures(EClass eClass)
+  public List<EStructuralFeature> getFeatures(EClass eClass)
   {
-    EList result = (EList)eClassToFeatures.get(eClass);
+    EList<EStructuralFeature> result = eClassToFeatures.get(eClass);
     if (result == null)
     {
-      result = new UniqueEList();
-      for (Iterator i = eClass.getESuperTypes().iterator(); i.hasNext(); )
+      result = new UniqueEList<EStructuralFeature>();
+      for (EClass eSuperType : eClass.getESuperTypes())
       {
-        result.addAll(getFeatures((EClass)i.next()));
+        result.addAll(getFeatures(eSuperType));
       }
-      List eAttributes = eClass.getEAttributes();
+      List<EAttribute> eAttributes = eClass.getEAttributes();
       result.addAll(eAttributes);
-      List eReferences = eClass.getEReferences();
+      List<EReference> eReferences = eClass.getEReferences();
       result.addAll(eReferences);
 
       EAnnotation eAnnotation = eClass.getEAnnotation(XSD2ECORE);
       if (eAnnotation != null)
       {
-        String featureOrder = (String)eAnnotation.getDetails().get("feature-order");
+        String featureOrder = eAnnotation.getDetails().get("feature-order");
         if (featureOrder != null)
         {
           int size = result.size();
@@ -280,7 +280,7 @@ public class XMLMapImpl implements XMLResource.XMLMap
             String featureName = stringTokenizer.nextToken();
             for (int i = index; i < size; ++i)
             {
-              EStructuralFeature eStructuralFeature = (EStructuralFeature)result.get(i);
+              EStructuralFeature eStructuralFeature = result.get(i);
               if (featureName.equals(eStructuralFeature.getName()))
               {
                 result.move(index, eStructuralFeature);

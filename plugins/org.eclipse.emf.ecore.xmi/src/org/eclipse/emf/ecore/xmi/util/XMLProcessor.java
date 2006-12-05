@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLProcessor.java,v 1.7 2006/05/07 12:10:43 emerks Exp $
+ * $Id: XMLProcessor.java,v 1.8 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.util;
 
@@ -27,11 +27,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -65,11 +65,11 @@ public class XMLProcessor
 
   protected final static URI XML_URI = URI.createFileURI(XML_EXTENSION);
 
-  protected Map registrations;
+  protected Map<String, Resource.Factory> registrations;
 
-  protected Map loadOptions = new HashMap();
+  protected Map<Object, Object> loadOptions = new HashMap<Object, Object>();
 
-  protected Map saveOptions = new HashMap();
+  protected Map<Object, Object> saveOptions = new HashMap<Object, Object>();
 
   protected ExtendedMetaData extendedMetaData;
 
@@ -86,11 +86,11 @@ public class XMLProcessor
     ecoreBuilder = createEcoreBuilder();
     loadOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
     loadOptions.put(XMLResource.OPTION_USE_PARSER_POOL, new XMLParserPoolImpl(true));
-    loadOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap());
+    loadOptions.put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, new HashMap<String, EStructuralFeature>());
     loadOptions.put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
     loadOptions.put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
     saveOptions.put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-    saveOptions.put(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE, new ArrayList());
+    saveOptions.put(XMLResource.OPTION_USE_CACHED_LOOKUP_TABLE, new ArrayList<Object>()); // TODO
     saveOptions.put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
   }
 
@@ -126,7 +126,7 @@ public class XMLProcessor
    * @param schemaURIs - a list of URI {@link org.eclipse.common.util.URI} which point to XML Schemas
    * @throws SAXException
    */
-  public XMLProcessor(Collection schemaURIs) throws SAXException
+  public XMLProcessor(Collection<URI> schemaURIs) throws SAXException
   {
     this(new EPackageRegistryImpl());
     loadOptions.put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
@@ -135,13 +135,11 @@ public class XMLProcessor
     saveOptions.put(XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
     try
     {
-      Collection result = ecoreBuilder.generate(schemaURIs);
-      for (Iterator i = result.iterator(); i.hasNext();)
+      for (Resource resource : ecoreBuilder.generate(schemaURIs))
       {
-        Resource resource = (Resource)i.next();
-        for (Iterator j = EcoreUtil.getObjectsByType(resource.getContents(), EcorePackage.eINSTANCE.getEPackage()).iterator(); j.hasNext();)
+        for (EPackage ePackage : EcoreUtil.<EPackage>getObjectsByType(resource.getContents(), EcorePackage.eINSTANCE.getEPackage()))
         {
-          EcoreUtil.freeze((EPackage)j.next());
+          EcoreUtil.freeze(ePackage);
         }
       }
     }
@@ -155,11 +153,11 @@ public class XMLProcessor
     }
   }
 
-  protected Map getRegistrations()
+  protected Map<String, Resource.Factory> getRegistrations()
   {
     if (registrations == null)
     {
-      Map result = new HashMap();
+      Map<String, Resource.Factory> result = new HashMap<String, Resource.Factory>();
       result.put(STAR_EXTENSION, new XMLResourceFactoryImpl());
       registrations = result;
     }
@@ -197,7 +195,7 @@ public class XMLProcessor
    * @see org.eclipse.emf.common.util.URI
    */
   
-  public Resource load(String systemId, Map options) throws IOException
+  public Resource load(String systemId, Map<?, ?> options) throws IOException
   {
     ResourceSet resourceSet = createResourceSet();
     XMLResource resource = (XMLResource)resourceSet.createResource(URI.createURI(systemId));
@@ -205,7 +203,7 @@ public class XMLProcessor
     inputSource.setSystemId(systemId);
     if (options != null)
     {
-      Map mergedOptions = new HashMap(loadOptions);
+      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(loadOptions);
       mergedOptions.putAll(options);
       resource.load(inputSource, mergedOptions);
     }
@@ -217,13 +215,13 @@ public class XMLProcessor
     return resource;
   }
 
-  public Resource load(InputStream is, Map options) throws IOException
+  public Resource load(InputStream is, Map<?, ?> options) throws IOException
   {
     ResourceSet resourceSet = createResourceSet();
     Resource resource = resourceSet.createResource(XML_URI);
     if (options != null)
     {
-      Map mergedOptions = new HashMap(loadOptions);
+      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(loadOptions);
       mergedOptions.putAll(options);
       resource.load(is, mergedOptions);
     }
@@ -235,13 +233,13 @@ public class XMLProcessor
     return resource;
   }
 
-  public Resource load(InputSource inputSource, Map options) throws IOException
+  public Resource load(InputSource inputSource, Map<?, ?> options) throws IOException
   {
     ResourceSet resourceSet = createResourceSet();
     XMLResource resource = (XMLResource)resourceSet.createResource(XML_URI);
     if (options != null)
     {
-      Map mergedOptions = new HashMap(loadOptions);
+      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(loadOptions);
       mergedOptions.putAll(options);
       resource.load(inputSource, mergedOptions);
     }
@@ -253,13 +251,13 @@ public class XMLProcessor
     return resource;
   }
 
-  public Resource load(Node node, Map options) throws IOException
+  public Resource load(Node node, Map<?, ?> options) throws IOException
   {
     ResourceSet resourceSet = createResourceSet();
     XMLResource resource = (XMLResource)resourceSet.createResource(XML_URI);
     if (options != null)
     {
-      Map mergedOptions = new HashMap(loadOptions);
+      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(loadOptions);
       mergedOptions.putAll(options);
       resource.load(node, mergedOptions);
     }
@@ -271,11 +269,11 @@ public class XMLProcessor
     return resource;
   }
 
-  public void save(OutputStream outputStream, Resource resource, Map options) throws IOException
+  public void save(OutputStream outputStream, Resource resource, Map<?, ?> options) throws IOException
   {
     if (options != null)
     {
-      Map mergedOptions = new HashMap(saveOptions);
+      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(saveOptions);
       mergedOptions.putAll(options);
       resource.save(outputStream, mergedOptions);
     }
@@ -285,11 +283,11 @@ public class XMLProcessor
     }
   }
   
-  public void save(Writer writer, Resource resource, Map options) throws IOException
+  public void save(Writer writer, Resource resource, Map<?, ?> options) throws IOException
   {
     if (options != null)
     {
-      Map mergedOptions = new HashMap(saveOptions);
+      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(saveOptions);
       mergedOptions.putAll(options);
       ((XMLResource)resource).save(writer, mergedOptions);
     }
@@ -299,11 +297,11 @@ public class XMLProcessor
     }
   }
 
-  public void save(Document document, Resource resource, DOMHandler handler, Map options) throws IOException
+  public void save(Document document, Resource resource, DOMHandler handler, Map<?, ?> options) throws IOException
   {
     if (options != null)
     {
-      Map mergedOptions = new HashMap(saveOptions);
+      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(saveOptions);
       mergedOptions.putAll(options);
       ((XMLResource)resource).save(document, mergedOptions, handler);
     }
@@ -313,12 +311,12 @@ public class XMLProcessor
     }
   }
   
-  public String saveToString(Resource resource, Map options) throws IOException
+  public String saveToString(Resource resource, Map<?, ?> options) throws IOException
   {
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     if (options != null)
     {
-      Map mergedOptions = new HashMap(saveOptions);
+      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(saveOptions);
       mergedOptions.putAll(options);
       
       ((XMLResource)resource).save(os, mergedOptions);

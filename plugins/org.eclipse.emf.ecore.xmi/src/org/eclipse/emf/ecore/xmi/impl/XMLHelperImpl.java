@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.35 2006/11/04 16:04:12 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.36 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -49,6 +48,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xmi.DanglingHREFException;
 import org.eclipse.emf.ecore.xmi.IllegalValueException;
 import org.eclipse.emf.ecore.xmi.NameInfo;
+import org.eclipse.emf.ecore.xmi.XMIException;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
@@ -76,26 +76,26 @@ public class XMLHelperImpl implements XMLHelper
   protected XMLResource resource;
   protected URI resourceURI;
   protected boolean deresolve;
-  protected Map packages;
-  protected Map featuresToKinds;
+  protected Map<EPackage, String> packages;
+  protected Map<EStructuralFeature, Integer> featuresToKinds;
   protected String processDanglingHREF;
   protected DanglingHREFException danglingHREFException;
-  protected EMap prefixesToURIs;
-  protected Map urisToPrefixes;
-  protected Map anyPrefixesToURIs;
+  protected EMap<String, String> prefixesToURIs;
+  protected Map<String, List<String>> urisToPrefixes;
+  protected Map<String, String> anyPrefixesToURIs;
   protected NamespaceSupport namespaceSupport;
   protected EClass anySimpleType;
   // true if seen xmlns="" declaration
   protected boolean seenEmptyStringMapping;
   protected EPackage xmlSchemaTypePackage = XMLTypePackage.eINSTANCE;
-  protected List allPrefixToURI;
+  protected List<String> allPrefixToURI;
   protected boolean checkForDuplicates;
   protected boolean mustHavePrefix;
   
   private EPackage previousPackage;
   private String previousNS;
   
-  public static String saveString(Map options, List contents, String encoding, XMLHelper helper) throws Exception
+  public static String saveString(Map<?, ?> options, List<? extends EObject> contents, String encoding, XMLHelper helper) throws Exception
   {
     if (helper == null)
     {
@@ -103,8 +103,9 @@ public class XMLHelperImpl implements XMLHelper
     }
     if (!options.containsKey(XMLResource.OPTION_DECLARE_XML))
     {
-      options = new HashMap(options);
-      options.put(XMLResource.OPTION_DECLARE_XML, Boolean.FALSE);
+      Map<Object, Object> modifiedOptions = new HashMap<Object, Object>(options);
+      modifiedOptions.put(XMLResource.OPTION_DECLARE_XML, Boolean.FALSE);
+      options = modifiedOptions;
     }
     XMLSaveImpl save = new XMISaveImpl(options, helper, encoding);
     
@@ -130,48 +131,54 @@ public class XMLHelperImpl implements XMLHelper
   public XMLHelperImpl()
   {
     super();
-    packages = new HashMap();
-    featuresToKinds = new HashMap();
+    packages = new HashMap<EPackage, String>();
+    featuresToKinds = new HashMap<EStructuralFeature, Integer>();
     prefixesToURIs = 
-      new BasicEMap()
+      new BasicEMap<String, String>()
       {
-        protected List getPrefixes(Object uri)
+        private static final long serialVersionUID = 1L;
+
+        protected List<String> getPrefixes(String uri)
         {
-          List result = (List)urisToPrefixes.get(uri);
+          List<String> result = urisToPrefixes.get(uri);
           if (result == null)
           {
-            urisToPrefixes.put(uri, result = new ArrayList());
+            urisToPrefixes.put(uri, result = new ArrayList<String>());
           }
           return result;
         }
 
-        protected void didAdd(Entry entry)
+        @Override
+        protected void didAdd(Entry<String, String> entry)
         {
           getPrefixes(entry.getValue()).add(entry.getKey());
         }
 
-        protected void didClear(BasicEList[] oldEntryData)
+        @Override
+        protected void didClear(BasicEList<Entry<String, String>>[] oldEntryData)
         {
           urisToPrefixes.clear();
         }
 
-        protected void didModify(Entry entry, Object oldValue)
+        @Override
+        protected void didModify(Entry<String, String> entry, String oldValue)
         {
-          Object key = entry.getKey();
+          String key = entry.getKey();
           getPrefixes(oldValue).remove(key);
           getPrefixes(entry.getValue()).add(key);
         }
 
-        protected void didRemove(Entry entry)
+        @Override
+        protected void didRemove(Entry<String, String> entry)
         {
           getPrefixes(entry.getValue()).add(entry.getKey());
         }
       };
 
-    urisToPrefixes = new HashMap();
+    urisToPrefixes = new HashMap<String, List<String>>();
       
-    anyPrefixesToURIs = new HashMap();
-    allPrefixToURI = new ArrayList();
+    anyPrefixesToURIs = new HashMap<String, String>();
+    allPrefixToURI = new ArrayList<String>();
     namespaceSupport = new NamespaceSupport();
   }
 
@@ -181,7 +188,7 @@ public class XMLHelperImpl implements XMLHelper
     setResource(resource);
   }
   
-  public void setOptions (Map options)
+  public void setOptions(Map<?, ?> options)
   {
     laxFeatureProcessing = Boolean.TRUE.equals(options.get(XMLResource.OPTION_LAX_FEATURE_PROCESSING));
   }
@@ -493,14 +500,14 @@ public class XMLHelperImpl implements XMLHelper
     String namespaceURI = namespaceSupport.getURI(prefix);
     if (namespaceURI == null)
     {
-      namespaceURI = (String)prefixesToURIs.get(prefix);
+      namespaceURI = prefixesToURIs.get(prefix);
     }
     return namespaceURI;
   }
 
   protected String getPrefix(EPackage ePackage, boolean mustHavePrefix)
   {
-    String nsPrefix = (String)packages.get(ePackage);
+    String nsPrefix = packages.get(ePackage);
     if (nsPrefix == null || mustHavePrefix && nsPrefix.length() == 0)
     {
       String nsURI = 
@@ -511,12 +518,12 @@ public class XMLHelperImpl implements XMLHelper
             extendedMetaData.getNamespace(ePackage);
 
       boolean found = false;
-      List prefixes = (List)urisToPrefixes.get(nsURI);
+      List<String> prefixes = urisToPrefixes.get(nsURI);
       if (prefixes != null)
       {
-        for (Iterator i = prefixes.iterator(); i.hasNext(); )
+        for (String prefix : prefixes)
         {
-          nsPrefix = (String)i.next();
+          nsPrefix = prefix;
           if (!mustHavePrefix || nsPrefix.length() > 0)
           {
             found = true;
@@ -545,7 +552,7 @@ public class XMLHelperImpl implements XMLHelper
   
         if (prefixesToURIs.containsKey(nsPrefix))
         {
-          String currentValue = (String)prefixesToURIs.get(nsPrefix);
+          String currentValue = prefixesToURIs.get(nsPrefix);
           if (currentValue == null ? nsURI != null : !currentValue.equals(nsURI))
           {
             int index = 1;
@@ -569,12 +576,12 @@ public class XMLHelperImpl implements XMLHelper
     return nsPrefix;
   }
 
-  public List getPrefixes(EPackage ePackage)
+  public List<String> getPrefixes(EPackage ePackage)
   {
-    List result = new UniqueEList();
+    List<String> result = new UniqueEList<String>();
     result.add(getPrefix(ePackage));
     String namespace = extendedMetaData == null ? ePackage.getNsURI() : extendedMetaData.getNamespace(ePackage);
-    List prefixes = (List)urisToPrefixes.get(namespace);
+    List<String> prefixes = urisToPrefixes.get(namespace);
     if (prefixes != null)
     {
       result.addAll(prefixes);
@@ -758,7 +765,7 @@ public class XMLHelperImpl implements XMLHelper
 
   public int getFeatureKind(EStructuralFeature feature)
   {
-    Integer kind = (Integer) featuresToKinds.get(feature);
+    Integer kind = featuresToKinds.get(feature);
     if (kind != null)
     {
       return kind.intValue();
@@ -766,7 +773,7 @@ public class XMLHelperImpl implements XMLHelper
     else
     {
       computeFeatureKind(feature);
-      kind = (Integer) featuresToKinds.get(feature);
+      kind = featuresToKinds.get(feature);
       if (kind != null)
       {
         return kind.intValue();
@@ -827,7 +834,7 @@ public class XMLHelperImpl implements XMLHelper
         EClass eClass = (EClass)ePackage.getEClassifier(typeName);
         if (eClass == null && xmlMap != null)
         {
-          return (EClass)xmlMap.getClassifier(ePackage.getNsURI(), typeName);
+          return xmlMap.getClassifier(ePackage.getNsURI(), typeName);
         }
         return eClass;
       }
@@ -838,6 +845,7 @@ public class XMLHelperImpl implements XMLHelper
   /**
    * @deprecated since 2.2
    */
+  @Deprecated
   public EObject createObject(EFactory eFactory, String classXMIName)
   {
     return createObject(eFactory, getType(eFactory, classXMIName));
@@ -858,10 +866,10 @@ public class XMLHelperImpl implements XMLHelper
       }
       else if (laxFeatureProcessing && extendedMetaData != null)
       {
-        List structuralFeatures = eClass.getEAllStructuralFeatures();
+        List<EStructuralFeature> structuralFeatures = eClass.getEAllStructuralFeatures();
         for (int i = 0, size = structuralFeatures.size(); i < size; ++i)
         {
-          EStructuralFeature eStructuralFeature = (EStructuralFeature)structuralFeatures.get(i);
+          EStructuralFeature eStructuralFeature = structuralFeatures.get(i);
           if (name.equals(extendedMetaData.getName(eStructuralFeature))
             && (namespaceURI == null ? extendedMetaData.getNamespace(eStructuralFeature) == null : namespaceURI.equals(extendedMetaData.getNamespace(eStructuralFeature))))
           {
@@ -959,20 +967,18 @@ public class XMLHelperImpl implements XMLHelper
 
   public EPackage[] packages()
   {
-    Map map = new TreeMap();
+    Map<String, EPackage> map = new TreeMap<String, EPackage>();
 
     // Sort and eliminate duplicates caused by having both a regular package and a demanded package for the same nsURI.
     //
-    for (Iterator i = packages.entrySet().iterator(); i.hasNext(); )
+    for (EPackage ePackage : packages.keySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      EPackage ePackage = (EPackage)entry.getKey();
       String prefix= getPrefix(ePackage);
       if (prefix == null)
       {
         prefix = "";
       }
-      EPackage conflict = (EPackage)map.put(prefix, ePackage);
+      EPackage conflict = map.put(prefix, ePackage);
       if (conflict != null && conflict.eResource() != null)
       {
         map.put(prefix, conflict);
@@ -1027,7 +1033,7 @@ public class XMLHelperImpl implements XMLHelper
 
         if (kind == DATATYPE_IS_MANY)
         {
-          InternalEList list = (InternalEList) object.eGet(feature);
+          @SuppressWarnings("unchecked") InternalEList<Object> list = (InternalEList<Object>)object.eGet(feature);
           if (position == -2)
           {
             for (StringTokenizer stringTokenizer = new StringTokenizer((String)value, " "); stringTokenizer.hasMoreTokens(); )
@@ -1065,7 +1071,7 @@ public class XMLHelperImpl implements XMLHelper
       case IS_MANY_ADD:
       case IS_MANY_MOVE:
       {
-        InternalEList list = (InternalEList) object.eGet(feature);
+        @SuppressWarnings("unchecked") InternalEList<Object> list = (InternalEList<Object>)object.eGet(feature);
 
         if (position == -1)
         {
@@ -1105,12 +1111,12 @@ public class XMLHelperImpl implements XMLHelper
     }
   }
 
-  public List setManyReference(ManyReference reference, String location)
+  public List<XMIException> setManyReference(ManyReference reference, String location)
   {
     EStructuralFeature feature = reference.getFeature();
     int kind = getFeatureKind(feature);
-    InternalEList list = (InternalEList) reference.getObject().eGet(feature);
-    List xmiExceptions = new BasicEList();
+    @SuppressWarnings("unchecked") InternalEList<Object> list = (InternalEList<Object>)reference.getObject().eGet(feature);
+    List<XMIException> xmiExceptions = new BasicEList<XMIException>();
     Object[] values = reference.getValues();
     int[] positions = reference.getPositions();
 
@@ -1214,7 +1220,7 @@ public class XMLHelperImpl implements XMLHelper
     namespaceSupport.popContext();
   }
 
-  public void popContext(Map prefixesToFactories)
+  public void popContext(Map<String, EFactory> prefixesToFactories)
   {
     namespaceSupport.popContext(prefixesToFactories);
   }
@@ -1235,16 +1241,15 @@ public class XMLHelperImpl implements XMLHelper
     return namespaceSupport.getPrefix(namespaceURI);
   }
   
-  public Map getAnyContentPrefixToURIMapping()
+  public Map<String, String> getAnyContentPrefixToURIMapping()
   {
     anyPrefixesToURIs.clear();
     int count = namespaceSupport.getDeclaredPrefixCount();
     int size = allPrefixToURI.size();
-    Object uri, prefix = null;    
     while (count-->0)
     {         
-      uri = allPrefixToURI.remove(--size);
-      prefix = allPrefixToURI.remove(--size);
+      String uri = allPrefixToURI.remove(--size);
+      String prefix = allPrefixToURI.remove(--size);
       anyPrefixesToURIs.put(prefix, uri);
      }
     return anyPrefixesToURIs;
@@ -1261,7 +1266,7 @@ public class XMLHelperImpl implements XMLHelper
           namespaceSupport.getURI(prefix);
   }
 
-  public EMap getPrefixToNamespaceMap()
+  public EMap<String, String> getPrefixToNamespaceMap()
   {
     return prefixesToURIs;
   }
@@ -1270,9 +1275,9 @@ public class XMLHelperImpl implements XMLHelper
   {
     for (int i = 0, size = allPrefixToURI.size(); i < size;)
     {
-      String prefix = (String)allPrefixToURI.get(i++);
-      String uri = (String)allPrefixToURI.get(i++);
-      String originalURI = (String)prefixesToURIs.get(prefix);
+      String prefix = allPrefixToURI.get(i++);
+      String uri = allPrefixToURI.get(i++);
+      String originalURI = prefixesToURIs.get(prefix);
       if (uri == null)
       {
         // xmlns="" declaration
@@ -1310,13 +1315,12 @@ public class XMLHelperImpl implements XMLHelper
     }
   }
 
-  public void setPrefixToNamespaceMap(EMap prefixToNamespaceMap)
+  public void setPrefixToNamespaceMap(EMap<String, String> prefixToNamespaceMap)
   {
-    for (Iterator i = prefixToNamespaceMap.iterator(); i.hasNext(); )
+    for (Map.Entry<String, String> entry : prefixToNamespaceMap)
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      String prefix = (String)entry.getKey();
-      String namespace = (String)entry.getValue();
+      String prefix = entry.getKey();
+      String namespace = entry.getValue();
       EPackage ePackage = null;
       if (extendedMetaData == null)
       {
@@ -1379,7 +1383,7 @@ public class XMLHelperImpl implements XMLHelper
       namespaceSize = context[currentContext--];
     } 
 
-    public void popContext(Map prefixesToFactories)
+    public void popContext(Map<String, EFactory> prefixesToFactories)
     {
       int oldNamespaceSize = namespaceSize;
       for (int i = namespaceSize = context[currentContext--]; i < oldNamespaceSize; i += 2)
@@ -1477,10 +1481,10 @@ public class XMLHelperImpl implements XMLHelper
     {
       if (value instanceof List)
       {
-        List list = (List)value;
-        for (Iterator i = list.iterator(); i.hasNext(); )
+        List<?> list = (List<?>)value;
+        for (Object item : list)
         {
-          updateQNamePrefix(factory, dataType, i.next(), true);
+          updateQNamePrefix(factory, dataType, item, true);
         }
         return factory.convertToString(dataType, value);
       }
@@ -1499,8 +1503,8 @@ public class XMLHelperImpl implements XMLHelper
     {          
       if (obj instanceof List)
       {
-         List list = (List)obj;
-         for (int i=0;i<list.size();i++)
+         List<?> list = (List<?>)obj;
+         for (int i = 0; i < list.size(); i++)
          {
            updateQNameURI(list.get(i));
          }
@@ -1527,7 +1531,7 @@ public class XMLHelperImpl implements XMLHelper
        if (namespace == null)
        {
          seenEmptyStringMapping = true;
-         String uri = (String)prefixesToURIs.get("");
+         String uri = prefixesToURIs.get("");
          if (uri != null)
          {
            prefixesToURIs.put("", namespace);

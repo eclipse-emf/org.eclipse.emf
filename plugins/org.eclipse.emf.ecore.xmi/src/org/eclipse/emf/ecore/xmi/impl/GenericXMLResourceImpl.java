@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenericXMLResourceImpl.java,v 1.3 2005/12/07 18:52:31 elena Exp $
+ * $Id: GenericXMLResourceImpl.java,v 1.4 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -25,6 +25,7 @@ import java.util.Map;
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMIPlugin;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -35,16 +36,16 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class GenericXMLResourceImpl extends XMLResourceImpl
 {
-  protected static final Class xsdEcoreBuilderClass;
+  protected static final Class<?> xsdEcoreBuilderClass;
 
-  protected static final Constructor xsdEcoreBuilderConstructor;
+  protected static final Constructor<?> xsdEcoreBuilderConstructor;
 
   protected static final Method xsdEcoreBuilderGenerateResourcesMethod;
 
   static
   {
-    Class theXSDEcoreBuilderClass = null;
-    Constructor theXSDEcoreBuilderConstructor = null;
+    Class<?> theXSDEcoreBuilderClass = null;
+    Constructor<?> theXSDEcoreBuilderConstructor = null;
     Method theXSDEcoreBuilderGenerateResourcesMethod = null;
 
     try
@@ -76,6 +77,7 @@ public class GenericXMLResourceImpl extends XMLResourceImpl
       super(helper);
     }
 
+    @Override
     protected DefaultHandler makeDefaultHandler()
     {
       return new GenericSAXXMLHandler(resource, helper, options);
@@ -86,13 +88,14 @@ public class GenericXMLResourceImpl extends XMLResourceImpl
   {
     protected Object xsdEcoreBuilder;
 
-    protected Collection generatedResources;
+    protected Collection<? extends Resource> generatedResources;
 
-    protected GenericSAXXMLHandler(XMLResource xmlResource, XMLHelper helper, Map options)
+    protected GenericSAXXMLHandler(XMLResource xmlResource, XMLHelper helper, Map<?, ?> options)
     {
       super(xmlResource, helper, options);
     }
 
+    @Override
     protected void handleTopLocations(String prefix, String name)
     {
       if (urisToLocations != null && xsdEcoreBuilderConstructor != null && xsdEcoreBuilderGenerateResourcesMethod != null)
@@ -100,7 +103,10 @@ public class GenericXMLResourceImpl extends XMLResourceImpl
         try
         {
           xsdEcoreBuilder = xsdEcoreBuilderConstructor.newInstance(new Object []{ extendedMetaData });
-          generatedResources = (Collection)xsdEcoreBuilderGenerateResourcesMethod.invoke(xsdEcoreBuilder, new Object []{ urisToLocations.values() });
+          @SuppressWarnings("unchecked") Collection<? extends Resource> newGeneratedResources = 
+            (Collection<? extends Resource>)xsdEcoreBuilderGenerateResourcesMethod.invoke
+               (xsdEcoreBuilder, new Object []{ urisToLocations.values() });
+          generatedResources = newGeneratedResources;
           // xmlResource.getResourceSet().getResources().addAll(generatedResources);
         }
         catch (Exception exception)
@@ -118,12 +124,14 @@ public class GenericXMLResourceImpl extends XMLResourceImpl
       }
     }
 
+    @Override
     protected EPackage handleMissingPackage(String uriString)
     {
       return objects.isEmpty() ? extendedMetaData.demandPackage(uriString) : super.handleMissingPackage(uriString);
     }
   }
 
+  @Override
   protected XMLLoad createXMLLoad()
   {
     return new GenericXMLLoadImpl(createXMLHelper());

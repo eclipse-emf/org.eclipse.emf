@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SAXWrapper.java,v 1.6 2005/12/07 18:52:31 elena Exp $
+ * $Id: SAXWrapper.java,v 1.7 2006/12/05 20:23:28 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -36,12 +36,13 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
  * @deprecated 
  * This class wraps an XMLHandler with a SAX DefaultHandler.
  */
+@Deprecated
 public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
 {
   protected XMLHandler handler;
   
   
-  public void prepare(XMLResource resource, XMLHelper helper, Map options)
+  public void prepare(XMLResource resource, XMLHelper helper, Map<?,?> options)
   {
     handler.prepare(resource, helper, options);  
   }
@@ -60,53 +61,64 @@ public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
     this.handler = handler;
   }
 
+  @Override
   public void setDocumentLocator(Locator locator)
   {
     handler.setLocator(locator);
   }
 
+  @Override
   public void startDocument() throws SAXException
   {
     handler.startDocument();
   }
 
+  @Override
   public void endDocument() throws SAXException
   {
     handler.endDocument();
   }
 
+  @Override
   public void startPrefixMapping(String prefix, String uri) throws SAXException
   {
     handler.startPrefixMapping(prefix, uri);
   }
 
+  @Override
   public void endPrefixMapping(String prefix) throws SAXException
   {
+    // Ignore.
   }
 
+  @Override
   public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
   {
     handler.setAttributes(attributes);
     handler.startElement(uri, localName, qName);
   }
 
+  @Override
   public void endElement (String uri, String localName, String qName) throws SAXException
   {
     handler.endElement(uri, localName, qName);
   }
 
+  @Override
   public void warning (SAXParseException e) throws SAXException
   {
     XMIException xmi = new XMIException(e.getException() == null ? e : e.getException(), e.getSystemId(), e.getLineNumber(), e.getColumnNumber());
     handler.warning(xmi);
   }
 
+  @Override
   public void error (SAXParseException e) throws SAXException
   {
     XMIException xmi = new XMIException(e.getException() == null ? e : e.getException(), e.getSystemId(), e.getLineNumber(), e.getColumnNumber());
     handler.error(xmi);
   }
 
+  @Override
   public void fatalError (SAXParseException e) throws SAXException
   {
     XMIException xmi = new XMIException(e.getException() == null ? e : e.getException(), e.getSystemId(), e.getLineNumber(), e.getColumnNumber());
@@ -114,37 +126,44 @@ public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
     throw e;
   }
 
+  @Override
   public void characters (char ch[], int start, int length) throws SAXException
   {
     handler.characters(ch, start, length);
   }
 
+  @Override
   public void ignorableWhitespace (char ch[], int start, int length) throws SAXException
   {
     // handler.ignorableWhitespace(ch, start, length);
   }
 
+  @Override
   public void processingInstruction (String target, String data) throws SAXException
   {
     handler.processingInstruction(target, data);
   }
 
+  @Override
   public void skippedEntity (String name) throws SAXException
   {
     // handler.skippedEntity(name);
   }
 
+  @Override
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException
   {
     // handler.resolveEntity(publicId, systemId);
     return null;
   }
 
+  @Override
   public void notationDecl(String name, String publicId, String systemId) throws SAXException
   {
     // handler.notationDecl(name, publicId, systemId);
   }
 
+  @Override
   public void unparsedEntityDecl(String name, String publicId, String systemId, String notationName) throws SAXException
   {
     // handler.unparsedEntityDecl(name, publicId, systemId, notationName);
@@ -157,14 +176,17 @@ public class SAXWrapper extends DefaultHandler implements XMLDefaultHandler
 
   public void endDTD()
   {
+    // Ignore.
   }
 
   public void startEntity(java.lang.String name)
   {
+    // Ignore.
   }
 
   public void endEntity(java.lang.String name)
   {
+    // Ignore.
   }
 
   public void startCDATA()
