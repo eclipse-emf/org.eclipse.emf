@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationChainImpl.java,v 1.2 2005/06/08 06:19:08 nickb Exp $
+ * $Id: NotificationChainImpl.java,v 1.3 2006/12/05 20:19:57 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -26,8 +26,10 @@ import org.eclipse.emf.common.util.BasicEList;
 /**
  * A list that acts as a notification chain.
  */
-public class NotificationChainImpl extends BasicEList implements NotificationChain
+public class NotificationChainImpl extends BasicEList<Notification> implements NotificationChain
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Creates an empty instance.
    */
@@ -49,6 +51,7 @@ public class NotificationChainImpl extends BasicEList implements NotificationCha
    * Returns new data storage of type {@link Notification}[].
    * @return new data storage.
    */
+  @Override
   protected Object [] newData(int capacity)
   {
     return new Notification [capacity];
@@ -59,6 +62,7 @@ public class NotificationChainImpl extends BasicEList implements NotificationCha
    * @param newNotification a notification.
    * @return <code>true</code> when the notification is added and <code>false</code> when it is merged.
    */
+  @Override
   public boolean add(Notification newNotification)
   {
     if (newNotification == null)
@@ -80,19 +84,6 @@ public class NotificationChainImpl extends BasicEList implements NotificationCha
     }
   }
 
-  /**
-   * Returns the result of calling {@link #add(Notification)}.
-   * @param object the notification to add.
-   * @return the result of calling <code>add(Notification)</code>.
-   */
-  public boolean add(Object object)
-  {
-    return add((Notification)object);
-  }
-
-  /*
-   * Javadoc copied from interface.
-   */
   public void dispatch()
   {
     for (int i = 0; i < size; ++i)

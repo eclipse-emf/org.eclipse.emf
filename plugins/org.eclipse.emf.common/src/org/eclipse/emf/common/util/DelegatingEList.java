@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEList.java,v 1.6 2006/03/06 13:17:06 emerks Exp $
+ * $Id: DelegatingEList.java,v 1.7 2006/12/05 20:19:56 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -30,20 +30,21 @@ import java.util.NoSuchElementException;
 /**
  * A highly extensible delegating list implementation.
  */
-public abstract class DelegatingEList extends AbstractList implements EList, Cloneable, Serializable 
+public abstract class DelegatingEList<E> extends AbstractList<E> implements EList<E>, Cloneable, Serializable 
 {
   /**
    * Creates an empty instance.
    */
   public DelegatingEList() 
   {
+    super();
   }
 
   /**
    * Creates an instance that is a copy of the collection.
    * @param collection the initial contents of the list.
    */
-  public DelegatingEList(Collection collection) 
+  public DelegatingEList(Collection<? extends E> collection) 
   {
     addAll(collection);
   }
@@ -102,7 +103,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return the validated content.
    * @exception IllegalArgumentException if a constraint prevents the object from being added.
    */
-  protected Object validate(int index, Object object)
+  protected E validate(int index, E object)
   {
     if (!canContainNull() && object == null)
     {
@@ -120,7 +121,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param object the content.
    * @return the resolved object.
    */
-  protected Object resolve(int index, Object object)
+  protected E resolve(int index, E object)
   {
     return object;
   }
@@ -133,8 +134,9 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param newObject the new object at the position.
    * @param oldObject the old object at the position.
    */
-  protected void didSet(int index, Object newObject, Object oldObject)
+  protected void didSet(int index, E newObject, E oldObject)
   {
+    // Do nothing.
   }
 
   /**
@@ -144,8 +146,9 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param index the position object the new object.
    * @param newObject the new object at the position.
    */
-  protected void didAdd(int index, Object newObject)
+  protected void didAdd(int index, E newObject)
   {
+    // Do nothing.
   }
 
   /**
@@ -155,8 +158,9 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param index the position of the old object.
    * @param oldObject the old object at the position.
    */
-  protected void didRemove(int index, Object oldObject)
+  protected void didRemove(int index, E oldObject)
   {
+    // Do nothing.
   }
 
   /**
@@ -173,7 +177,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
     {
       for (int i = 0; i < size; ++i)
       {
-        didRemove(i, oldObjects[i]);
+        @SuppressWarnings("unchecked") E object = (E)oldObjects[i];
+        didRemove(i, object);
       }
     }
   }
@@ -186,8 +191,9 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param movedObject the moved object at the position.
    * @param oldIndex the position the object was at before the move.
    */
-  protected void didMove(int index, Object movedObject, int oldIndex)
+  protected void didMove(int index, E movedObject, int oldIndex)
   {
+    // Do nothing.
   }
 
   /**
@@ -197,18 +203,20 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    */
   protected void didChange()
   {
+    // Do nothing.
   }
 
   /**
    * Returns the list that acts as the backing store.
    * @return the list that acts as the backing store.
    */
-  protected abstract List delegateList();
+  protected abstract List<E> delegateList();
 
   /**
    * Returns the number of objects in the list.
    * @return the number of objects in the list.
    */
+  @Override
   public int size() 
   {
     return delegateSize();
@@ -227,6 +235,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * Returns whether the list has zero size.
    * @return whether the list has zero size.
    */
+  @Override
   public boolean isEmpty() 
   {
     return delegateIsEmpty();
@@ -246,6 +255,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param object the object in question.
    * @return whether the list contains the object.
    */
+  @Override
   public boolean contains(Object object) 
   {
     return delegateContains(object);
@@ -267,7 +277,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @see #contains
    * @see #useEquals
    */
-  public boolean containsAll(Collection collection) 
+  @Override
+  public boolean containsAll(Collection<?> collection) 
   {
     return delegateContainsAll(collection);
   }
@@ -278,7 +289,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @see #contains
    * @see #useEquals
    */
-  protected boolean delegateContainsAll(Collection collection) 
+  protected boolean delegateContainsAll(Collection<?> collection) 
   {
     return delegateList().containsAll(collection);
   }
@@ -288,6 +299,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param object the object in question.
    * @return the position of the first occurrence of the object in the list.
    */
+  @Override
   public int indexOf(Object object) 
   {
     return delegateIndexOf(object);
@@ -308,6 +320,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param object the object in question.
    * @return the position of the last occurrence of the object in the list.
    */
+  @Override
   public int lastIndexOf(Object object) 
   {
     return delegateLastIndexOf(object);
@@ -327,6 +340,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * Returns an array containing all the objects in sequence.
    * @return an array containing all the objects in sequence.
    */
+  @Override
   public Object[] toArray() 
   {
     return delegateToArray();
@@ -347,7 +361,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * otherwise, a suitably large array of the same type will be allocated and used instead.
    * @return an array containing all the objects in sequence.
    */
-  public Object[] toArray(Object array[]) 
+  @Override
+  public <T> T[] toArray(T[] array) 
   {
     return delegateToArray(array);
   }
@@ -358,7 +373,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * otherwise, a suitably large array of the same type will be allocated and used instead.
    * @return an array containing all the objects in sequence.
    */
-  protected Object[] delegateToArray(Object array[]) 
+  protected <T> T[] delegateToArray(T[] array) 
   {
     return delegateList().toArray(array);
   }
@@ -373,7 +388,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @see #resolve
    * @see #basicGet
    */
-  public Object get(int index) 
+  @Override
+  public E get(int index) 
   {
     return resolve(index, delegateGet(index));
   }
@@ -384,7 +400,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return the object at the index.
    * @exception IndexOutOfBoundsException if the index isn't within the size range.
    */
-  protected Object delegateGet(int index) 
+  protected E delegateGet(int index) 
   {
     return delegateList().get(index);
   }
@@ -397,7 +413,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @see #resolve
    * @see #get
    */
-  protected Object basicGet(int index) 
+  protected E basicGet(int index) 
   {
     return delegateGet(index);
   }
@@ -414,7 +430,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @exception IllegalArgumentException if there is a constraint violation, e.g., non-uniqueness.
    * @see #setUnique
    */
-  public Object set(int index, Object object) 
+  @Override
+  public E set(int index, E object) 
   {
     if (isUnique())
     {
@@ -438,9 +455,9 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return the old object at the index.
    * @see #set
    */
-  public Object setUnique(int index, Object object)
+  public E setUnique(int index, E object)
   {
-    Object oldObject = delegateSet(index, validate(index, object));
+    E oldObject = delegateSet(index, validate(index, object));
     didSet(index, object, oldObject);
     didChange();
     return oldObject;
@@ -452,7 +469,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param object the object to set.
    * @return the old object at the index.
    */
-  protected Object delegateSet(int index, Object object)
+  protected E delegateSet(int index, E object)
   {
     return delegateList().set(index, object);
   }
@@ -468,7 +485,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return whether the object was added.
    * @see #addUnique(Object)
    */
-  public boolean add(Object object)
+  @Override
+  public boolean add(E object)
   {
     if (isUnique() && contains(object))
     {
@@ -489,7 +507,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param object the object to be added.
    * @see #add(Object)
    */
-  public void addUnique(Object object) 
+  public void addUnique(E object) 
   {
     ++modCount;
 
@@ -503,7 +521,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * Adds the object at the end of the backing store list.
    * @param object the object to be added.
    */
-  protected void delegateAdd(Object object) 
+  protected void delegateAdd(E object) 
   {
     delegateList().add(object);
   }
@@ -519,7 +537,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * and the object is a duplicate.
    * @see #addUnique(int, Object)
    */
-  public void add(int index, Object object)
+  @Override
+  public void add(int index, E object)
   {
     if (isUnique() && contains(object))
     {
@@ -536,7 +555,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param object the object to be added.
    * @see #add(int, Object)
    */
-  public void addUnique(int index, Object object) 
+  public void addUnique(int index, E object) 
   {
     ++modCount;
 
@@ -549,7 +568,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * Adds the object at the given index in the backing store list.
    * @param object the object to be added.
    */
-  protected void delegateAdd(int index, Object object) 
+  protected void delegateAdd(int index, E object) 
   {
     delegateList().add(index, object);
   }
@@ -564,7 +583,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param collection the collection of objects to be added.
    * @see #addAllUnique(Collection)
    */
-  public boolean addAll(Collection collection)
+  @Override
+  public boolean addAll(Collection<? extends E> collection)
   {
     if (isUnique())
     {
@@ -580,7 +600,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param collection the collection of objects to be added.
    * @see #addAll(Collection)
    */
-  public boolean addAllUnique(Collection collection) 
+  public boolean addAllUnique(Collection<? extends E> collection) 
   {
     ++modCount;
 
@@ -591,12 +611,12 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
     else
     {
       int i = size();
-      for (Iterator objects = collection.iterator(); objects.hasNext(); ++i)
+      for (E object : collection)
       {
-        Object object = objects.next();
         delegateAdd(validate(i, object));
         didAdd(i, object);
         didChange();
+        i++;
       }
   
       return true;
@@ -616,7 +636,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return whether any objects were added.
    * @see #addAllUnique(int, Collection)
    */
-  public boolean addAll(int index, Collection collection) 
+  @Override
+  public boolean addAll(int index, Collection<? extends E> collection) 
   {
     if (isUnique())
     {
@@ -635,7 +656,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return whether any objects were added.
    * @see #addAll(int, Collection)
    */
-  public boolean addAllUnique(int index, Collection collection) 
+  public boolean addAllUnique(int index, Collection<? extends E> collection) 
   {
     ++modCount;
 
@@ -645,12 +666,12 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
     }
     else
     {
-      for (Iterator objects = collection.iterator(); objects.hasNext(); ++index)
+      for (E object : collection)
       {
-        Object object = objects.next();
         delegateAdd(index, validate(index, object));
         didAdd(index, object);
         didChange();
+        index++;
       }
 
       return true;
@@ -684,7 +705,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
       int index = size();
       for (int i = start; i < end; ++i, ++index)
       {
-        Object object = objects[i];
+        @SuppressWarnings("unchecked") E object = (E)objects[i];
         delegateAdd(validate(index, object));
         didAdd(index, object);
         didChange();
@@ -720,7 +741,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
     {
       for (int i = start; i < end; ++i, ++index)
       {
-        Object object = objects[i];
+        @SuppressWarnings("unchecked") E object = (E)objects[i];
         delegateAdd(validate(index, object));
         didAdd(index, object);
         didChange();
@@ -738,6 +759,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param object the object to be removed.
    * @return whether the object was actually contained by the list.
    */
+  @Override
   public boolean remove(Object object) 
   {
     int index = indexOf(object);
@@ -757,10 +779,11 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param collection the collection of objects to be removed.
    * @return whether any object was actually contained by the list.
    */
-  public boolean removeAll(Collection collection) 
+  @Override
+  public boolean removeAll(Collection<?> collection) 
   {
     boolean modified = false;
-    for (ListIterator i = listIterator(); i.hasNext(); )
+    for (ListIterator<?> i = listIterator(); i.hasNext(); )
     {
       if (collection.contains(i.next()))
       {
@@ -779,11 +802,12 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return the removed object.
    * @exception IndexOutOfBoundsException if the index isn't within the size range.
    */
-  public Object remove(int index) 
+  @Override
+  public E remove(int index) 
   {
     ++modCount;
 
-    Object oldObject = delegateRemove(index);
+    E oldObject = delegateRemove(index);
     didRemove(index, oldObject);
     didChange();
 
@@ -795,7 +819,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return the removed object.
    * @exception IndexOutOfBoundsException if the index isn't within the size range.
    */
-  protected Object delegateRemove(int index) 
+  protected E delegateRemove(int index) 
   {
     return delegateList().remove(index);
   }
@@ -808,10 +832,11 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param collection the collection of objects to be retained.
    * @return whether any object was actually removed.
    */
-  public boolean retainAll(Collection collection) 
+  @Override
+  public boolean retainAll(Collection<?> collection) 
   {
     boolean modified = false;
-    for (ListIterator i = listIterator(); i.hasNext(); )
+    for (ListIterator<?> i = listIterator(); i.hasNext(); )
     {
       if (!collection.contains(i.next()))
       {
@@ -825,6 +850,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
   /**
    * Clears the list of all objects.
    */
+  @Override
   public void clear() 
   {
     doClear(size(), delegateToArray());
@@ -861,7 +887,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param object the object to be moved.
    * @exception IndexOutOfBoundsException if the index isn't within the size range or the object isn't contained by the list.
    */
-  public void move(int index, Object object) 
+  public void move(int index, E object) 
   {
     move(index, indexOf(object));
   }
@@ -875,7 +901,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return the moved object.
    * @exception IndexOutOfBoundsException if either index isn't within the size range.
    */
-  public Object move(int targetIndex, int sourceIndex)
+  public E move(int targetIndex, int sourceIndex)
   {
     ++modCount;
     int size = size();
@@ -885,7 +911,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
     if (sourceIndex >= size || sourceIndex < 0)
       throw new IndexOutOfBoundsException("sourceIndex=" + sourceIndex + ", size=" + size);
 
-    Object object = delegateGet(sourceIndex);
+    E object = delegateGet(sourceIndex);
     if (targetIndex != sourceIndex)
     {
       delegateAdd(targetIndex, delegateRemove(sourceIndex));
@@ -901,6 +927,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return whether the object is a list with corresponding equal objects.
    * @see #useEquals
    */
+  @Override
   public boolean equals(Object object) 
   {
     return delegateEquals(object);
@@ -919,6 +946,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * Returns a hash code computed from each object's hash code.
    * @return a hash code.
    */
+  @Override
   public int hashCode() 
   {
     return delegateHashCode();
@@ -937,6 +965,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * Returns a string of the form <code>"[object1, object2]"</code>.
    * @return a string of the form <code>"[object1, object2]"</code>.
    */
+  @Override
   public String toString() 
   {
     return delegateToString();
@@ -957,16 +986,17 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return an iterator.
    * @see DelegatingEList.EIterator
    */
-  public Iterator iterator() 
+  @Override
+  public Iterator<E> iterator() 
   {
-    return new EIterator();
+    return new EIterator<E>();
   }
 
   /**
    * Returns an iterator over the backing store list.
    * @return an iterator.
    */
-  protected Iterator delegateIterator() 
+  protected Iterator<E> delegateIterator() 
   {
     return delegateList().iterator();
   }
@@ -974,7 +1004,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
   /**
    * An extensible iterator implementation.
    */
-  protected class EIterator implements Iterator 
+  protected class EIterator<E1> implements Iterator<E1>
   {
     /**
      * The current position of the iterator.
@@ -1002,15 +1032,27 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
 
     /**
      * Returns the next object and advances the iterator.
+     * This implementation delegates to {@link #doNext doNext}.
+     * @return the next object.
+     * @exception NoSuchElementException if the iterator is done.
+     */
+    @SuppressWarnings("unchecked")
+    public E1 next() 
+    {
+      return (E1)doNext();
+    }
+
+    /**
+     * Returns the next object and advances the iterator.
      * This implementation delegates to {@link DelegatingEList#get get}.
      * @return the next object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object next() 
+    protected E doNext() 
     {
       try 
       {
-        Object next = DelegatingEList.this.get(cursor);
+        E next = DelegatingEList.this.get(cursor);
         checkModCount();
         lastCursor = cursor++;
         return next;
@@ -1021,7 +1063,6 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
         throw new NoSuchElementException();
       }
     }
-
     /**
      * Removes the last object returned by {@link #next()} from the list,
      * it's an optional operation.
@@ -1073,15 +1114,15 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * This implementation allocates a {@link NonResolvingEIterator}.
    * @return a read-only iterator that does not resolve objects.
    */
-  protected Iterator basicIterator()
+  protected Iterator<E> basicIterator()
   {
-    return new NonResolvingEIterator();
+    return new NonResolvingEIterator<E>();
   }
 
   /**
    * An extended read-only iterator that does not {@link #resolve resolve} objects.
    */
-  protected class NonResolvingEIterator extends EIterator 
+  protected class NonResolvingEIterator<E1> extends EIterator<E1> 
   {
     /**
      * Returns the next object and advances the iterator.
@@ -1089,11 +1130,12 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * @return the next object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object next() 
+    @Override
+    public E doNext() 
     {
       try 
       {
-        Object next = delegateGet(cursor);
+        E next = delegateGet(cursor);
         checkModCount();
         lastCursor = cursor++;
         return next;
@@ -1109,6 +1151,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws and exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
+    @Override
     public void remove()
     {
       throw new UnsupportedOperationException();
@@ -1121,16 +1164,17 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return a list iterator.
    * @see DelegatingEList.EListIterator
    */
-  public ListIterator listIterator() 
+  @Override
+  public ListIterator<E> listIterator() 
   {
-    return new EListIterator();
+    return new EListIterator<E>();
   }
 
   /**
    * Returns a list iterator over the backing store list.
    * @return a list iterator.
    */
-  protected ListIterator delegateListIterator() 
+  protected ListIterator<E> delegateListIterator() 
   {
     return delegateList().listIterator();
   }
@@ -1143,25 +1187,27 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @see DelegatingEList.EListIterator
    * @exception IndexOutOfBoundsException if the index isn't within the size range.
    */
-  public ListIterator listIterator(int index) 
+  @Override
+  public ListIterator<E> listIterator(int index) 
   {
     int size = size();
     if (index < 0 || index > size())
       throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
 
-    return new EListIterator(index);
+    return new EListIterator<E>(index);
   }
 
   /**
    * An extensible list iterator implementation.
    */
-  protected class EListIterator extends EIterator implements ListIterator 
+  protected class EListIterator<E1> extends EIterator<E1> implements ListIterator<E1>
   {
     /**
      * Creates an instance.
      */
     public EListIterator() 
     {
+      super();
     }
 
     /**
@@ -1184,15 +1230,27 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
 
     /**
      * Returns the previous object and advances the iterator.
+     * This implementation delegates to {@link #doPrevious doPrevious}.
+     * @return the previous object.
+     * @exception NoSuchElementException if the iterator is done.
+     */
+    @SuppressWarnings("unchecked")
+    public E1 previous() 
+    {
+      return (E1)doPrevious();
+    }
+
+    /**
+     * Returns the previous object and advances the iterator.
      * This implementation delegates to {@link DelegatingEList#get get}.
      * @return the previous object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object previous() 
+    protected E doPrevious() 
     {
       try 
       {
-        Object previous = DelegatingEList.this.get(--cursor);
+        E previous = DelegatingEList.this.get(--cursor);
         checkModCount();
         lastCursor = cursor;
         return previous;
@@ -1224,6 +1282,21 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
 
     /**
      * Sets the object at the index of the last call to {@link #next next} or {@link #previous previous}.
+     * This implementation delegates to {@link #doSet doSet}.
+     * @param object the object to set.
+     * @exception IllegalStateException
+     * if <code>next</code> or <code>previous</code> have not yet been called,
+     * or {@link #remove remove} or {@link #add add} have already been called 
+     * after the last call to <code>next</code> or <code>previous</code>.
+     */
+    @SuppressWarnings("unchecked")
+    public void set(E1 object) 
+    {
+      doSet((E)object);
+    }
+
+    /**
+     * Sets the object at the index of the last call to {@link #next next} or {@link #previous previous}.
      * This implementation delegates to {@link DelegatingEList#set set}.
      * @param object the object to set.
      * @exception IllegalStateException
@@ -1231,7 +1304,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * or {@link #remove remove} or {@link #add add} have already been called 
      * after the last call to <code>next</code> or <code>previous</code>.
      */
-    public void set(Object object) 
+    protected void doSet(E object) 
     {
       if (lastCursor == -1)
       {
@@ -1251,10 +1324,21 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
 
     /**
      * Adds the object at the {@link #next next} index and advances the iterator past it.
+     * This implementation delegates to {@link #doAdd doAdd}.
+     * @param object the object to add.
+     */
+    @SuppressWarnings("unchecked")
+    public void add(E1 object) 
+    {
+      doAdd((E)object);
+    }
+
+    /**
+     * Adds the object at the {@link #next next} index and advances the iterator past it.
      * This implementation delegates to {@link DelegatingEList#add(int, Object) add(int, Object)}.
      * @param object the object to add.
      */
-    public void add(Object object) 
+    protected void doAdd(E object) 
     {
       checkModCount();
 
@@ -1276,9 +1360,9 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * This implementation allocates a {@link NonResolvingEListIterator}.
    * @return a read-only list iterator that does not resolve objects.
    */
-  protected ListIterator basicListIterator() 
+  protected ListIterator<E> basicListIterator() 
   {
-    return new NonResolvingEListIterator();
+    return new NonResolvingEListIterator<E>();
   }
 
   /**
@@ -1288,25 +1372,26 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @return a read-only list iterator advanced to the index.
    * @exception IndexOutOfBoundsException if the index isn't within the size range.
    */
-  protected ListIterator basicListIterator(int index) 
+  protected ListIterator<E> basicListIterator(int index) 
   {
     int size = size();
     if (index < 0 || index > size())
       throw new IndexOutOfBoundsException("index=" + index + ", size=" + size);
 
-    return new NonResolvingEListIterator(index);
+    return new NonResolvingEListIterator<E>(index);
   }
 
   /**
    * An extended read-only list iterator that does not {@link #resolve resolve} objects.
    */
-  protected class NonResolvingEListIterator extends EListIterator
+  protected class NonResolvingEListIterator<E1> extends EListIterator<E1>
   {
     /**
      * Creates an instance.
      */
     public NonResolvingEListIterator()
     {
+      super();
     }
 
     /**
@@ -1324,11 +1409,12 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * @return the next object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object next()
+    @Override
+    protected E doNext()
     {
       try
       {
-        Object next = delegateGet(cursor);
+        E next = delegateGet(cursor);
         checkModCount();
         lastCursor = cursor++;
         return next;
@@ -1346,11 +1432,12 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * @return the previous object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object previous()
+    @Override
+    protected E doPrevious()
     {
       try
       {
-        Object previous = delegateGet(--cursor);
+        E previous = delegateGet(--cursor);
         checkModCount();
         lastCursor = cursor;
         return previous;
@@ -1366,6 +1453,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
+    @Override
     public void remove()
     {
       throw new UnsupportedOperationException();
@@ -1375,7 +1463,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public void set(Object object)
+    @Override
+    public void set(E1 object)
     {
       throw new UnsupportedOperationException();
     }
@@ -1384,7 +1473,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public void add(Object object)
+    @Override
+    public void add(E1 object)
     {
       throw new UnsupportedOperationException();
     }
@@ -1393,20 +1483,23 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
   /**
    * An unmodifiable version of {@link DelegatingEList}.
    */
-  public static class UnmodifiableEList extends DelegatingEList
+  public static class UnmodifiableEList<E> extends DelegatingEList<E>
   {
-    protected List underlyingList;
+    private static final long serialVersionUID = 1L;
+
+    protected List<E> underlyingList;
 
     /**
      * Creates an initialized instance.
      * @param underlyingList the backing store list.
      */
-    public UnmodifiableEList(List underlyingList) 
+    public UnmodifiableEList(List<E> underlyingList) 
     {
       this.underlyingList = underlyingList;
     }
 
-    protected List delegateList()
+    @Override
+    protected List<E> delegateList()
     {
       return underlyingList;
     }
@@ -1415,7 +1508,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public Object set(int index, Object object) 
+    @Override
+    public E set(int index, E object) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1424,7 +1518,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public boolean add(Object object) 
+    @Override
+    public boolean add(E object) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1433,7 +1528,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public void add(int index, Object object) 
+    @Override
+    public void add(int index, E object) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1442,7 +1538,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public boolean addAll(Collection collection) 
+    @Override
+    public boolean addAll(Collection<? extends E> collection) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1451,7 +1548,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public boolean addAll(int index, Collection collection) 
+    @Override
+    public boolean addAll(int index, Collection<? extends E> collection) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1460,6 +1558,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
+    @Override
     public boolean remove(Object object) 
     {
       throw new UnsupportedOperationException();
@@ -1469,7 +1568,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public Object remove(int index) 
+    @Override
+    public E remove(int index) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1478,7 +1578,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public boolean removeAll(Collection collection) 
+    @Override
+    public boolean removeAll(Collection<?> collection) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1487,7 +1588,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public boolean retainAll(Collection collection) 
+    @Override
+    public boolean retainAll(Collection<?> collection) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1496,6 +1598,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
+    @Override
     public void clear() 
     {
       throw new UnsupportedOperationException();
@@ -1505,7 +1608,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public void move(int index, Object object) 
+    @Override
+    public void move(int index, E object) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1514,7 +1618,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public Object move(int targetIndex, int sourceIndex)
+    @Override
+    public E move(int targetIndex, int sourceIndex)
     {
       throw new UnsupportedOperationException();
     }
@@ -1523,7 +1628,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Returns the {@link DelegatingEList#basicIterator basic iterator}.
      * @return the basic iterator.
      */
-    public Iterator iterator() 
+    @Override
+    public Iterator<E> iterator() 
     {
       return basicIterator();
     }
@@ -1532,7 +1638,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * Returns the {@link #basicListIterator() basic list iterator}.
      * @return the basic list iterator.
      */
-    public ListIterator listIterator() 
+    @Override
+    public ListIterator<E> listIterator() 
     {
       return basicListIterator();
     }
@@ -1542,7 +1649,8 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
      * @param index the starting index.
      * @return the basic list iterator.
      */
-    public ListIterator listIterator(int index) 
+    @Override
+    public ListIterator<E> listIterator(int index) 
     {
       return basicListIterator(index);
     }
@@ -1552,7 +1660,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * Returns an <b>unsafe</b> list that provides a {@link #resolve non-resolving} view of the backing store list.
    * @return an <b>unsafe</b> list that provides a non-resolving view of the backign store list.
    */
-  protected List basicList()
+  protected List<E> basicList()
   {
     return delegateBasicList();
   }
@@ -1561,7 +1669,7 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * Returns an <b>unsafe</b> list that provides a {@link #resolve non-resolving} view of the backing store list.
    * @return an <b>unsafe</b> list that provides a non-resolving view of the backing store list.
    */
-  protected List delegateBasicList()
+  protected List<E> delegateBasicList()
   {
     return delegateList();
   }
@@ -1571,23 +1679,24 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param collection the other collection.
    * @return the collection of objects in the given collection that are also contained by this list.
    */
-  protected Collection getDuplicates(Collection collection)
+  protected Collection<E> getDuplicates(Collection<?> collection)
   {
-    Collection result = collection;
-    Collection filteredResult = null;
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    if (collection.isEmpty())
     {
-      Object object = i.next();
-      if (!contains(object))
-      {
-        if (filteredResult == null)
-        {
-          result = filteredResult = new BasicEList(collection);
-        }
-        filteredResult.remove(object);
-      }
+      return ECollections.emptyEList();
     }
-    return result;
+    else
+    {
+      Collection<E> filteredResult = new BasicEList<E>(collection.size());
+      for (E object : this)
+      {
+        if (!collection.contains(object))
+        {
+          filteredResult.add(object);
+        }
+      }
+      return filteredResult;
+    }
   }
 
   /**
@@ -1595,12 +1704,11 @@ public abstract class DelegatingEList extends AbstractList implements EList, Clo
    * @param collection the other collection.
    * @return the collection of objects in the given collection that are not also contained by this list.
    */
-  protected Collection getNonDuplicates(Collection collection)
+  protected Collection<E> getNonDuplicates(Collection<? extends E> collection)
   {
-    Collection result = new UniqueEList(collection.size());
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    Collection<E> result = new UniqueEList<E>(collection.size());
+    for (E object : collection)
     {
-      Object object = i.next();
       if (!contains(object))
       {
         result.add(object);

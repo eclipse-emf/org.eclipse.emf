@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeIterator.java,v 1.2 2005/06/08 06:19:08 nickb Exp $
+ * $Id: TreeIterator.java,v 1.3 2006/12/05 20:19:54 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -24,7 +24,7 @@ import java.util.Iterator;
  * A mechanism for iterating over all the nodes of a tree;
  * it provides the capability to {@link #prune prune} the iteration so that all descendants of a particular node are skipped.
  */
-public interface TreeIterator extends Iterator
+public interface TreeIterator<E> extends Iterator<E>
 {
   /**
    * Prunes the iterator so that it skips over all the nodes below the most recent result of calling {@link #next next()}.

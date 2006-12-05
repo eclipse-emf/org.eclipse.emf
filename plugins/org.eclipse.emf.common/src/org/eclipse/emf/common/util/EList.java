@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EList.java,v 1.2 2005/06/08 06:19:08 nickb Exp $
+ * $Id: EList.java,v 1.3 2006/12/05 20:19:54 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -23,14 +23,14 @@ import java.util.List;
 /**
  * A list that supports move.
  */
-public interface EList extends List
+public interface EList<E> extends List<E>
 {
   /**
    * Moves the object to the new position, if is in the list.
    * @param newPosition the position of the object after the move.
    * @param object the object to move.
    */
-  void move(int newPosition, Object object);
+  void move(int newPosition, E object);
 
   /**
    * Moves the object from the old position to the new position.
@@ -38,5 +38,5 @@ public interface EList extends List
    * @param oldPosition the position of the object before the move.
    * @return the moved object.
    */
-  Object move(int newPosition, int oldPosition);
+  E move(int newPosition, int oldPosition);
 }

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEMap.java,v 1.6 2005/06/08 06:19:08 nickb Exp $
+ * $Id: BasicEMap.java,v 1.7 2006/12/05 20:19:56 emerks Exp $
  */
 package  org.eclipse.emf.common.util;
 
@@ -36,15 +36,17 @@ import java.util.Set;
 /**
  * A highly extensible map implementation.
  */
-public class BasicEMap implements EMap, Cloneable, Serializable 
+public class BasicEMap<K, V> implements EMap<K, V>, Cloneable, Serializable 
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * An extended implementation interface for caching hash values 
    * and for upating an entry that may be manufactured as a uninitialized instance by a factory.
    * No client is expected to use this interface, 
    * other than to implement it in conjunction with a map implementation.
    */
-  public interface Entry extends Map.Entry
+  public interface Entry<K, V> extends Map.Entry<K, V>
   {
     /**
      * Sets the key.
@@ -52,7 +54,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
      * since the key of an entry already in the map must be immutable.
      * @param key the key.
      */
-    void setKey(Object key);
+    void setKey(K key);
 
     /**
      * Returns the hash code of the key.
@@ -72,7 +74,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * The underlying list of entries.
    */
-  protected transient EList delegateEList;
+  protected transient EList<Entry<K, V>> delegateEList;
 
   /**
    * The size of the map.
@@ -82,7 +84,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * The array of entry lists into which the hash codes are indexed.
    */
-  protected transient BasicEList entryData[];
+  protected transient BasicEList<Entry<K, V>> [] entryData;
 
   /**
    * The modification indicator used to ensure iterator integrity.
@@ -92,40 +94,41 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * An implementation class to hold the views.
    */
-  protected static class View
+  protected static class View<K, V>
   {
     /**
      * The map view.
      */
-    public transient Map map;
+    public transient Map<K, V> map;
 
     /**
      * The map key set view.
      */
-    public transient Set keySet;
+    public transient Set<K> keySet;
 
     /**
      * The entry set view.
      */
-    public transient Set entrySet;
+    public transient Set<Map.Entry<K, V>> entrySet;
 
     /**
      * The values collection view.
      */
-    public transient Collection values;
+    public transient Collection<V> values;
 
     /**
      * Creates an empty instance.
      */
     public View()
     {
+      super();
     }
   }
 
   /**
    * The various alternative views of the map.
    */
-  protected transient View view;
+  protected transient View<K, V> view;
 
   /**
    * Creates an empty instance.
@@ -143,32 +146,39 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   protected void initializeDelegateEList()
   {
     delegateEList =
-      new BasicEList()
+      new BasicEList<Entry<K, V>>()
       {
-        protected void didAdd(int index, Object newObject)
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        protected void didAdd(int index, Entry<K, V> newObject)
         {
-          doPut((Entry)newObject);
+          doPut(newObject);
         }
 
-        protected void didSet(int index, Object newObject, Object oldObject)
+        @Override
+        protected void didSet(int index, Entry<K, V> newObject, Entry<K, V> oldObject)
         {
           didRemove(index, oldObject);
           didAdd(index, newObject);
         }
 
-        protected void didRemove(int index, Object oldObject)
+        @Override
+        protected void didRemove(int index, Entry<K, V> oldObject)
         {
-          doRemove((Entry)oldObject);
+          doRemove(oldObject);
         }
 
+        @Override
         protected void didClear(int size, Object [] oldObjects)
         {
           doClear();
         }
 
-        protected void didMove(int index, Object movedObject, int oldIndex)
+        @Override
+        protected void didMove(int index, Entry<K, V> movedObject, int oldIndex)
         {
-          doMove((Entry)movedObject);
+          doMove(movedObject);
         }
       };
   }
@@ -194,7 +204,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * Creates an instance that is a copy of the map.
    * @param map the initial contents of the map.
    */
-  public BasicEMap(Map map) 
+  public BasicEMap(Map<? extends K, ? extends V> map) 
   {
     this();
     int mapSize = map.size();
@@ -212,7 +222,8 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * @param capacity the capacity of storage needed.
    * @return new entry data storage.
    */
-  protected BasicEList [] newEntryData(int capacity)
+  @SuppressWarnings("unchecked")
+  protected BasicEList<Entry<K, V>> [] newEntryData(int capacity)
   {
     return new BasicEList[capacity];
   }
@@ -231,9 +242,8 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       //
       int oldModCount = modCount;
       size = 0;
-      for (Iterator i = delegateEList.iterator(); i.hasNext(); )
+      for (Entry<K, V> entry : delegateEList)
       {
-        Entry entry = (Entry)i.next();
         doPut(entry);
       }
       modCount = oldModCount;
@@ -248,14 +258,17 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * @return a new list of entries.
    * @see #newEntry(int, Object, Object)
    */
-  protected BasicEList newList()
+  protected BasicEList<Entry<K, V>> newList()
   {
     return
-      new BasicEList()
+      new BasicEList<Entry<K, V>>()
       {
+        private static final long serialVersionUID = 1L;
+
+        @Override
         public Object [] newData(int listCapacity)
         {
-          return new EntryImpl [listCapacity];
+          return new BasicEMap.EntryImpl[listCapacity];
         }
       };
   }
@@ -271,7 +284,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * @return a new entry.
    * @see #newList
    */
-  protected Entry newEntry(int hash, Object key, Object value)
+  protected Entry<K, V> newEntry(int hash, K key, V value)
   {
     validateKey(key);
     validateValue(value);
@@ -285,7 +298,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * @param value the value.
    * @return the former value, or <code>null</code>.
    */
-  protected Object putEntry(Entry entry, Object value)
+  protected V putEntry(Entry<K, V> entry, V value)
   {
     return entry.setValue(value);
   }
@@ -320,7 +333,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * @param value the value of an entry.
    * @return the resolved value.
    */
-  protected Object resolve(Object key, Object value)
+  protected V resolve(K key, V value)
   {
     return value;
   }
@@ -333,8 +346,9 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * @param key the new key.
    * @exception IllegalArgumentException if a constraint prevents the object from being added.
    */
-  protected void validateKey(Object key)
+  protected void validateKey(K key)
   {
+    // Do nothing.
   }
 
   /**
@@ -345,8 +359,9 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * @param value the new value.
    * @exception IllegalArgumentException if a constraint prevents the object from being added.
    */
-  protected void validateValue(Object value)
+  protected void validateValue(V value)
   {
+    // Do nothing.
   }
 
   /**
@@ -355,8 +370,9 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * clients can use this to monitor additions to the map.
    * @param entry the added entry.
    */
-  protected void didAdd(Entry entry)
+  protected void didAdd(Entry<K, V> entry)
   {
+    // Do nothing.
   }
 
   /**
@@ -365,8 +381,9 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * clients can use this to monitor value changes in the map.
    * @param entry the new entry.
    */
-  protected void didModify(Entry entry, Object oldValue)
+  protected void didModify(Entry<K, V> entry, V oldValue)
   {
+    // Do nothing.
   }
 
   /**
@@ -375,8 +392,9 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * clients can use this to monitor removals from the map.
    * @param entry the removed entry.
    */
-  protected void didRemove(Entry entry)
+  protected void didRemove(Entry<K, V> entry)
   {
+    // Do nothing.
   }
 
   /**
@@ -385,20 +403,20 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * clients can use this to monitor clearing of the map.
    * @param oldEntryData the removed entries.
    */
-  protected void didClear(BasicEList [] oldEntryData)
+  protected void didClear(BasicEList<Entry<K, V>> [] oldEntryData)
   {
     if (oldEntryData != null)
     {
       for (int i = 0; i < oldEntryData.length; ++i)
       {
-        BasicEList eList = oldEntryData[i];
+        BasicEList<Entry<K, V>> eList = oldEntryData[i];
         if (eList != null)
         {
-          Entry [] entries = (Entry [])eList.data;
+          @SuppressWarnings("unchecked") Entry<K, V> [] entries = (Entry<K, V> [])eList.data;
           int size = eList.size;
           for (int j = 0; j < size; ++j)
           {
-            Entry entry = entries[j];
+            Entry<K, V> entry = entries[j];
             didRemove(entry);
           }
         }
@@ -433,7 +451,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
     {
       for (int i = 0, size = delegateEList.size(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateEList.get(i);
+        Entry<K, V> entry = delegateEList.get(i);
         if (key.equals(entry.getKey()))
         {
           return i;
@@ -444,7 +462,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
     {
       for (int i = 0, size = delegateEList.size(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateEList.get(i);
+        Entry<K, V> entry = delegateEList.get(i);
         if (key == entry.getKey())
         {
           return i;
@@ -487,14 +505,14 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       {
         for (int i = 0; i < entryData.length; ++i)
         {
-          BasicEList eList = entryData[i];
+          BasicEList<Entry<K, V>> eList = entryData[i];
           if (eList != null)
           {
-            Entry [] entries = (Entry [])eList.data;
+            @SuppressWarnings("unchecked") Entry<K, V> [] entries = (Entry<K, V> [])eList.data;
             int size = eList.size;
             for (int j = 0; j < size; ++j)
             {
-              Entry entry = entries[j];
+              Entry<K, V> entry = entries[j];
               if (value.equals(entry.getValue()))
               {
                 return true;
@@ -507,14 +525,14 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       {
         for (int i = 0; i < entryData.length; ++i)
         {
-          BasicEList eList = entryData[i];
+          BasicEList<Entry<K, V>> eList = entryData[i];
           if (eList != null)
           {
-            Entry [] entries = (Entry [])eList.data;
+            @SuppressWarnings("unchecked") Entry<K, V> [] entries = (Entry<K, V> [])eList.data;
             int size = eList.size;
             for (int j = 0; j < size; ++j)
             {
-              Entry entry = entries[j];
+              Entry<K, V> entry = entries[j];
               if (value == entry.getValue())
               {
                 return true;
@@ -531,17 +549,18 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /*
    * Javadoc copied from interface.
    */
-  public Object get(Object key) 
+  public V get(Object key) 
   {
     if (size > 0)
     {
       ensureEntryDataExists();
       int hash = hashOf(key);
       int index = indexOf(hash);
-      Entry entry = entryForKey(index, hash, key);
+      Entry<K, V> entry = entryForKey(index, hash, key);
       if (entry != null)
       {
-        return resolve(key, entry.getValue());
+        @SuppressWarnings("unchecked") K object = (K)key;
+        return resolve(object, entry.getValue());
       }
     }
 
@@ -551,7 +570,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /*
    * Javadoc copied from interface.
    */
-  public Object put(Object key, Object value) 
+  public V put(K key, V value) 
   {
     ensureEntryDataExists();
 
@@ -559,16 +578,16 @@ public class BasicEMap implements EMap, Cloneable, Serializable
     if (size > 0)
     {
       int index = indexOf(hash);
-      Entry entry = entryForKey(index, hash, key);
+      Entry<K, V> entry = entryForKey(index, hash, key);
       if (entry != null)
       {
-        Object result = putEntry(entry, value);
+        V result = putEntry(entry, value);
         didModify(entry, result);
         return result;
       }
     }
 
-    Entry entry = newEntry(hash, key, value);
+    Entry<K, V> entry = newEntry(hash, key, value);
     delegateEList.add(entry);
     return null;
   }
@@ -577,7 +596,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * Adds the new entry to the map.
    * @param entry the new entry.
    */
-  protected void doPut(Entry entry)
+  protected void doPut(Entry<K, V> entry)
   {
     if (entryData == null)
     {
@@ -589,7 +608,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       int hash = entry.getHash();
       grow(size + 1);
       int index = indexOf(hash);
-      BasicEList eList = entryData[index];
+      BasicEList<Entry<K, V>> eList = entryData[index];
       if (eList == null)
       {
         eList = entryData[index] = newList();
@@ -603,13 +622,13 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /*
    * Javadoc copied from source.
    */
-  public Object removeKey(Object key) 
+  public V removeKey(Object key) 
   {
     ensureEntryDataExists();
 
     int hash = hashOf(key);
     int index = indexOf(hash);
-    Entry entry = entryForKey(index, hash, key);
+    Entry<K, V> entry = entryForKey(index, hash, key);
     if (entry != null)
     {
       remove(entry);
@@ -625,7 +644,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * Removes the entry from the map.
    * @param entry an entry in the map.
    */
-  protected void doRemove(Entry entry)
+  protected void doRemove(Entry<K, V> entry)
   {
     if (entryData == null)
     {
@@ -648,23 +667,22 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * @param entryIndex the index in the list of entries.
    * @return the value of the entry.
    */
-  protected Object removeEntry(int index, int entryIndex)
+  protected V removeEntry(int index, int entryIndex)
   {
     ++modCount;
     --size;
 
-    Entry entry = (Entry)entryData[index].remove(entryIndex);
+    Entry<K, V> entry = entryData[index].remove(entryIndex);
     return entry.getValue();
   }
 
   /* 
    * Javadoc copied from interface.
    */
-  public void putAll(Map map) 
+  public void putAll(Map<? extends K, ? extends V> map) 
   {
-    for (Iterator i = map.entrySet().iterator(); i.hasNext(); ) 
+    for (Map.Entry<? extends K, ? extends V> entry : map.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
       put(entry.getKey(), entry.getValue());
     }
   }
@@ -672,11 +690,10 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /* 
    * Javadoc copied from interface.
    */
-  public void putAll(EMap map) 
+  public void putAll(EMap<? extends K, ? extends V> map) 
   {
-    for (Iterator i = map.iterator(); i.hasNext(); ) 
+    for (Map.Entry<? extends K, ? extends V> entry : map)
     {
-      Map.Entry entry = (Map.Entry)i.next();
       put(entry.getKey(), entry.getValue());
     }
   }
@@ -695,7 +712,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
     else
     {
       ++modCount;
-      BasicEList [] oldEntryData = entryData;
+      BasicEList<Entry<K, V>> [] oldEntryData = entryData;
       entryData = null;
       size = 0;
       didClear(oldEntryData);
@@ -705,7 +722,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Increments the modification count.
    */
-  protected void doMove(Entry entry) 
+  protected void doMove(Entry<K, V> entry) 
   {
     ++modCount;
   }
@@ -714,17 +731,20 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * Returns a shallow copy of this map.
    * @return a shallow copy of this map.
    */
+  @Override
   public Object clone() 
   {
     try 
     { 
-      BasicEMap result = (BasicEMap)super.clone();
+      @SuppressWarnings("unchecked") BasicEMap<K, V> result = (BasicEMap<K, V>)super.clone();
       if (entryData != null)
       {
         result.entryData = newEntryData(entryData.length);
         for (int i = 0; i < entryData.length; ++i)
         {
-          result.entryData[i] = (entryData[i] == null ? null : (BasicEList)entryData[i].clone());
+          @SuppressWarnings("unchecked") 
+            BasicEList<Entry<K, V>> basicEList = entryData[i] == null ? null : (BasicEList<Entry<K, V>>)entryData[i].clone();
+          result.entryData[i] = basicEList;
         }
       }
       result.view = null;
@@ -737,13 +757,14 @@ public class BasicEMap implements EMap, Cloneable, Serializable
     }
   }
 
-  protected class DelegatingMap implements EMap.InternalMapView
+  protected class DelegatingMap implements EMap.InternalMapView<K, V>
   {
     public DelegatingMap()
     {
+      super();
     }
 
-    public EMap eMap()
+    public EMap<K, V> eMap()
     {
       return BasicEMap.this;
     }
@@ -768,22 +789,22 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       return BasicEMap.this.containsValue(value);
     }
 
-    public Object get(Object key)
+    public V get(Object key)
     {
       return BasicEMap.this.get(key);
     }
 
-    public Object put(Object key, Object value)
+    public V put(K key, V value)
     {
       return BasicEMap.this.put(key, value);
     }
 
-    public Object remove(Object key)
+    public V remove(Object key)
     {
       return BasicEMap.this.removeKey(key);
     }
 
-    public void putAll(Map map)
+    public void putAll(Map<? extends K, ? extends V> map)
     {
       BasicEMap.this.putAll(map);
     }
@@ -793,26 +814,28 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       BasicEMap.this.clear();
     }
 
-    public Set keySet()
+    public Set<K> keySet()
     {
       return BasicEMap.this.keySet();
     }
 
-    public Collection values()
+    public Collection<V> values()
     {
       return BasicEMap.this.values();
     }
 
-    public Set entrySet()
+    public Set<Entry<K, V>> entrySet()
     {
       return BasicEMap.this.entrySet();
     }
 
+    @Override
     public boolean equals(Object object)
     {
       return BasicEMap.this.equals(object);
     }
 
+    @Override
     public int hashCode()
     {
       return BasicEMap.this.hashCode();
@@ -822,11 +845,11 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /*
    * Javadoc copied from interface.
    */
-  public Map map()
+  public Map<K, V> map()
   {
     if (view == null)
     {
-      view = new View();
+      view = new View<K, V>();
     }
     if (view.map == null)
     {
@@ -839,32 +862,37 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /*
    * Javadoc copied from interface.
    */
-  public Set keySet() 
+  public Set<K> keySet() 
   {
     if (view == null)
     {
-      view = new View();
+      view = new View<K, V>();
     }
+
     if (view.keySet == null) 
     {
       view.keySet = 
-        new AbstractSet() 
+        new AbstractSet<K>() 
         {
-          public Iterator iterator() 
+          @Override
+          public Iterator<K> iterator() 
           {
-            return BasicEMap.this.size == 0 ? ECollections.EMPTY_ELIST.iterator() : new BasicEMap.BasicEMapKeyIterator();
+            return BasicEMap.this.size == 0 ?  ECollections.<K>emptyEList().iterator() : new BasicEMapKeyIterator();
           }
 
+          @Override
           public int size() 
           {
             return BasicEMap.this.size;
           }
 
+          @Override
           public boolean contains(Object key) 
           {
             return BasicEMap.this.containsKey(key);
           }
 
+          @Override
           public boolean remove(Object key) 
           {
             int oldSize = BasicEMap.this.size;
@@ -872,6 +900,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
             return BasicEMap.this.size != oldSize;
           }
 
+          @Override
           public void clear() 
           {
             BasicEMap.this.clear();
@@ -884,29 +913,36 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /*
    * Javadoc copied from interface.
    */
-  public Collection values() 
+  public Collection<V> values() 
   {
     if (view == null)
     {
-      view = new View();
+      view = new View<K, V>();
     }
     if (view.values == null) 
     {
       view.values = 
-        new AbstractCollection() 
+        new AbstractCollection<V>() 
         {
-          public Iterator iterator() 
+          @Override
+          public Iterator<V> iterator() 
           {
-            return BasicEMap.this.size == 0 ? ECollections.EMPTY_ELIST.iterator() : new BasicEMap.BasicEMapValueIterator();
+            return BasicEMap.this.size == 0 ? ECollections.<V>emptyEList().iterator() : new BasicEMapValueIterator();
           }
+
+          @Override
           public int size() 
           {
             return size;
           }
+
+          @Override
           public boolean contains(Object value) 
           {
             return containsValue(value);
           }
+
+          @Override
           public void clear() 
           {
             BasicEMap.this.clear();
@@ -919,39 +955,41 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /*
    * Javadoc copied from interface.
    */
-  public Set entrySet() 
+  public Set<Map.Entry<K, V>> entrySet() 
   {
     if (view == null)
     {
-      view = new View();
+      view = new View<K, V>();
     }
     if (view.entrySet == null) 
     {
-      view.entrySet = new AbstractSet() 
+      view.entrySet = new AbstractSet<Map.Entry<K, V>>() 
       {
+        @Override
         public int size() 
         {
           return BasicEMap.this.size;
         }
 
+        @Override
         public boolean contains(Object object) 
         {
           if (BasicEMap.this.size > 0 && object instanceof Map.Entry)
           {
             BasicEMap.this.ensureEntryDataExists();
-            Map.Entry otherEntry = (Map.Entry)object;
+            @SuppressWarnings("unchecked") Map.Entry<K, V> otherEntry = (Map.Entry<K, V>)object;
             Object key = otherEntry.getKey();
   
             int hash = key == null ? 0 : key.hashCode();
             int index = BasicEMap.this.indexOf(hash);
-            BasicEList eList = entryData[index];
+            BasicEList<Entry<K, V>> eList = entryData[index];
             if (eList != null)
             {
-              Entry [] entries = (Entry [])eList.data;
+              @SuppressWarnings("unchecked") Entry<K, V> [] entries = (Entry<K, V> [])eList.data;
               int size = eList.size;
               for (int j = 0; j < size; ++j)
               {
-                Entry entry = entries[j];
+                Entry<K, V> entry = entries[j];
                 if (entry.getHash() == hash && entry.equals(otherEntry))
                 {
                   return true;
@@ -962,23 +1000,24 @@ public class BasicEMap implements EMap, Cloneable, Serializable
           return false;
         }
 
+        @Override
         public boolean remove(Object object) 
         {
           if (BasicEMap.this.size > 0 && object instanceof Map.Entry)
           {
             BasicEMap.this.ensureEntryDataExists();
-            Map.Entry otherEntry = (Map.Entry)object;
+            @SuppressWarnings("unchecked") Map.Entry<K, V> otherEntry = (Map.Entry<K, V>)object;
             Object key = otherEntry.getKey();
             int hash = key == null ? 0 : key.hashCode();
             int index = BasicEMap.this.indexOf(hash);
-            BasicEList eList = entryData[index];
+            BasicEList<Entry<K, V>> eList = entryData[index];
             if (eList != null)
             {
-              Entry [] entries = (Entry [])eList.data;
+              @SuppressWarnings("unchecked") Entry<K, V> [] entries = (Entry<K, V> [])eList.data;
               int size = eList.size;
               for (int j = 0; j < size; ++j)
               {
-                Entry entry = entries[j];
+                Entry<K, V> entry = entries[j];
                 if (entry.getHash() == hash && entry.equals(otherEntry)) 
                 {
                   // BasicEMap.this.removeEntry(index, j);
@@ -991,14 +1030,16 @@ public class BasicEMap implements EMap, Cloneable, Serializable
           return false;
         }
 
+        @Override
         public void clear() 
         {
           BasicEMap.this.clear();
         }
 
-        public Iterator iterator() 
+        @Override
+        public Iterator<Map.Entry<K, V>> iterator() 
         {
-          return BasicEMap.this.size == 0 ? ECollections.EMPTY_ELIST.iterator() : new BasicEMap.BasicEMapIterator();
+          return BasicEMap.this.size == 0 ? ECollections.<Map.Entry<K, V>>emptyEList().iterator() : new BasicEMapIterator<Map.Entry<K, V>>();
         }
       };
     }
@@ -1009,7 +1050,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * A simple and obvious entry implementation.
    */
-  protected class EntryImpl implements Entry 
+  protected class EntryImpl implements Entry<K, V>
   {
     /**
      * The cached hash code of the key.
@@ -1019,12 +1060,12 @@ public class BasicEMap implements EMap, Cloneable, Serializable
     /**
      * The key.
      */
-    protected Object key;
+    protected K key;
 
     /**
      * The value.
      */
-    protected Object value;
+    protected V value;
   
     /**
      * Creates a fully initialized instance.
@@ -1032,7 +1073,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
      * @param key the key.
      * @param value the value.
      */
-    public EntryImpl(int hash, Object key, Object value)
+    public EntryImpl(int hash, K key, V value)
     {
       this.hash = hash;
       this.key = key;
@@ -1043,6 +1084,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
      * Returns a new entry just like this one.
      * @return a new entry just like this one.
      */
+    @Override
     protected Object clone() 
     {
       return newEntry(hash, key, value);
@@ -1058,35 +1100,36 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       this.hash = hash;
     }
 
-    public Object getKey() 
+    public K getKey() 
     {
       return key;
     }
 
-    public void setKey(Object key) 
+    public void setKey(K key) 
     {
       throw new RuntimeException();
     }
 
-    public Object getValue() 
+    public V getValue() 
     {
       return value;
     }
 
-    public Object setValue(Object value)
+    public V setValue(V value)
     {
       BasicEMap.this.validateValue(value);
 
-      Object oldValue = this.value;
+      V oldValue = this.value;
       this.value = value;
       return oldValue;
     }
 
+    @Override
     public boolean equals(Object object) 
     {
       if (object instanceof Map.Entry)
       {
-        Map.Entry entry = (Map.Entry)object;
+        @SuppressWarnings("unchecked") Map.Entry<K, V> entry = (Map.Entry<K, V>)object;
   
         return 
           (BasicEMap.this.useEqualsForKey() && key != null ? key.equals(entry.getKey()) : key == entry.getKey())  &&
@@ -1098,11 +1141,13 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       }
     }
 
+    @Override
     public int hashCode() 
     {
       return hash ^ (value == null ? 0 : value.hashCode());
     }
 
+    @Override
     public String toString() 
     {
       return key + "->" + value;
@@ -1112,7 +1157,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * An iterator over the map entry data.
    */
-  protected class BasicEMapIterator implements Iterator 
+  protected class BasicEMapIterator<U> implements Iterator<U> 
   {
     /**
      * The cursor in the entry data.
@@ -1156,9 +1201,10 @@ public class BasicEMap implements EMap, Cloneable, Serializable
      * @param entry the entry.
      * @return the iterator result for the entry.
      */
-    protected Object yield(Entry entry)
+    @SuppressWarnings("unchecked")
+    protected U yield(Entry<K, V> entry)
     {
-      return entry;
+      return (U)entry;
     }
 
     /**
@@ -1170,7 +1216,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       if (entryCursor != -1)
       {
         ++entryCursor;
-        BasicEList eList = BasicEMap.this.entryData[cursor];
+        BasicEList<Entry<K, V>> eList = BasicEMap.this.entryData[cursor];
         if (entryCursor < eList.size)
         {
           return;
@@ -1180,7 +1226,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
 
       for (; cursor < BasicEMap.this.entryData.length; ++cursor)
       {
-        BasicEList eList = BasicEMap.this.entryData[cursor];
+        BasicEList<Entry<K, V>> eList = BasicEMap.this.entryData[cursor];
         if (eList != null && !eList.isEmpty())
         {
           entryCursor = 0;
@@ -1205,7 +1251,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
      * @return the next object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object next() 
+    public U next() 
     {
       if (BasicEMap.this.modCount != expectedModCount)
       {
@@ -1221,7 +1267,8 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       lastEntryCursor = entryCursor;
 
       scan();
-      return yield((Entry)BasicEMap.this.entryData[lastCursor].data[lastEntryCursor]);
+      @SuppressWarnings("unchecked") Entry<K, V> result = (Entry<K, V>)BasicEMap.this.entryData[lastCursor].data[lastEntryCursor];
+      return yield(result);
     }
 
     /**
@@ -1253,13 +1300,14 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * An iterator over the map key data.
    */
-  protected class BasicEMapKeyIterator extends BasicEMapIterator
+  protected class BasicEMapKeyIterator extends BasicEMapIterator<K>
   {
     /**
      * Creates an instance.
      */
     BasicEMapKeyIterator()
     {
+      super();
     }
 
     /**
@@ -1268,7 +1316,8 @@ public class BasicEMap implements EMap, Cloneable, Serializable
      * @param entry the entry.
      * @return the key of the entry.
      */
-    protected Object yield(Entry entry)
+    @Override
+    protected K yield(Entry<K, V> entry)
     {
       return entry.getKey();
     }
@@ -1277,13 +1326,14 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * An iterator over the map value data.
    */
-  protected class BasicEMapValueIterator extends BasicEMapIterator
+  protected class BasicEMapValueIterator extends BasicEMapIterator<V>
   {
     /**
      * Creates an instance.
      */
     BasicEMapValueIterator()
     {
+      super();
     }
 
     /**
@@ -1292,7 +1342,8 @@ public class BasicEMap implements EMap, Cloneable, Serializable
      * @param entry the entry.
      * @return the value of the entry.
      */
-    protected Object yield(Entry entry)
+    @Override
+    protected V yield(Entry<K, V> entry)
     {
       return entry.getValue();
     }
@@ -1325,18 +1376,18 @@ public class BasicEMap implements EMap, Cloneable, Serializable
    * @param key the key.
    * @return the entry.
    */
-  protected Entry entryForKey(int index, int hash, Object key)
+  protected Entry<K, V> entryForKey(int index, int hash, Object key)
   {
-    BasicEList eList = entryData[index];
+    BasicEList<Entry<K, V>> eList = entryData[index];
     if (eList != null)
     {
-      Entry [] entries = (Entry [])eList.data;
+      Object [] entries = eList.data;
       int size = eList.size;
       if (useEqualsForKey() && key != null) 
       {
         for (int j = 0; j < size; ++j)
         {
-          Entry entry = entries[j];
+          @SuppressWarnings("unchecked") Entry<K, V> entry = (Entry<K, V>)entries[j];
           if (entry.getHash() == hash && key.equals(entry.getKey())) 
           {
             return entry;
@@ -1347,7 +1398,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       {
         for (int j = 0; j < size; ++j)
         {
-          Entry entry = entries[j];
+          @SuppressWarnings("unchecked") Entry<K, V> entry = (Entry<K, V>)entries[j];
           if (entry.getKey() == key) 
           {
             return entry;
@@ -1370,14 +1421,14 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   {
     if (useEqualsForKey() && key != null) 
     {
-      BasicEList eList = entryData[index];
+      BasicEList<Entry<K, V>> eList = entryData[index];
       if (eList != null)
       {
-        Entry [] entries = (Entry [])eList.data;
+        Object [] entries = eList.data;
         int size = eList.size;
         for (int j = 0; j < size; ++j)
         {
-          Entry entry = entries[j];
+          @SuppressWarnings("unchecked") Entry<K, V> entry = (Entry<K, V>)entries[j];
           if (entry.getHash() == hash && key.equals(entry.getKey())) 
           {
             return j;
@@ -1387,14 +1438,14 @@ public class BasicEMap implements EMap, Cloneable, Serializable
     } 
     else 
     {
-      BasicEList eList = entryData[index];
+      BasicEList<Entry<K, V>> eList = entryData[index];
       if (eList != null)
       {
-        Entry [] entries = (Entry [])eList.data;
+        Object [] entries = eList.data;
         int size = eList.size;
         for (int j = 0; j < size; ++j)
         {
-          Entry entry = entries[j];
+          @SuppressWarnings("unchecked") Entry<K, V> entry = (Entry<K, V>)entries[j];
           if (entry.getKey() == key) 
           {
             return j;
@@ -1416,21 +1467,21 @@ public class BasicEMap implements EMap, Cloneable, Serializable
     int oldCapacity = entryData == null ? 0 : entryData.length;
     if (minimumCapacity > oldCapacity)
     {
-      BasicEList [] oldEntryData = entryData;
+      BasicEList<Entry<K, V>> [] oldEntryData = entryData;
       entryData = newEntryData(2 * oldCapacity + 4);
 
       for (int i = 0; i < oldCapacity; ++i)
       {
-        BasicEList oldEList = oldEntryData[i];
+        BasicEList<Entry<K, V>> oldEList = oldEntryData[i];
         if (oldEList != null)
         {
-          Entry [] entries = (Entry [])oldEList.data;
+          Object [] entries = oldEList.data;
           int size = oldEList.size;
           for (int j = 0; j < size; ++j)
           {
-            Entry entry = entries[j];
+            @SuppressWarnings("unchecked") Entry<K, V> entry = (Entry<K, V>)entries[j];
             int index = indexOf(entry.getHash());
-            BasicEList eList = entryData[index];
+            BasicEList<Entry<K, V>> eList = entryData[index];
             if (eList == null)
             {
               eList = entryData[index] = newList();
@@ -1466,14 +1517,14 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       //
       for (int i = 0; i < entryData.length; ++i)
       {
-        BasicEList eList = entryData[i];
+        BasicEList<Entry<K, V>> eList = entryData[i];
         if (eList != null)
         {
-          Entry [] entries = (Entry [])eList.data;
+          Object [] entries = eList.data;
           int size = eList.size;
           for (int j = 0; j < size; ++j)
           {
-            Entry entry = entries[j];
+            @SuppressWarnings("unchecked") Entry<K, V> entry = (Entry<K, V>)entries[j];
             objectOutputStream.writeObject(entry.getKey());
             objectOutputStream.writeObject(entry.getValue());
           }
@@ -1497,8 +1548,8 @@ public class BasicEMap implements EMap, Cloneable, Serializable
       //
       for (int i = 0; i < size; ++i) 
       {
-        Object key = objectInputStream.readObject();
-        Object value = objectInputStream.readObject();
+        @SuppressWarnings("unchecked") K key = (K)objectInputStream.readObject();
+        @SuppressWarnings("unchecked") V value = (V)objectInputStream.readObject();
         put(key, value);
       }
     }
@@ -1515,7 +1566,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public boolean containsAll(Collection collection)
+  public boolean containsAll(Collection<?> collection)
   {
     return delegateEList.containsAll(collection);
   }
@@ -1547,7 +1598,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public Object[] toArray(Object array[])
+  public <T> T[] toArray(T [] array)
   {
     return delegateEList.toArray(array);
   }
@@ -1555,7 +1606,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public Object get(int index)
+  public Entry<K, V> get(int index)
   {
     return delegateEList.get(index);
   }
@@ -1563,41 +1614,43 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public Object set(int index, Object object)
+  public Map.Entry<K, V> set(int index, Map.Entry<K, V> object)
   {
-    return delegateEList.set(index, object);
+    return delegateEList.set(index, (Entry<K, V>)object);
   }
 
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public boolean add(Object object)
+  public boolean add(Map.Entry<K, V> object)
   {
-    return delegateEList.add(object);
+    return delegateEList.add((Entry<K, V>)object);
   }
 
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public void add(int index, Object object)
+  public void add(int index, Map.Entry<K, V> object)
   {
-    delegateEList.add(index, object);
+    delegateEList.add(index, (Entry<K, V>)object);
   }
 
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public boolean addAll(Collection collection)
+  @SuppressWarnings("unchecked")
+  public boolean addAll(Collection<? extends Map.Entry<K, V>> collection)
   {
-    return delegateEList.addAll(collection);
+    return delegateEList.addAll((Collection<? extends Entry<K, V>>)collection);
   }
 
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public boolean addAll(int index, Collection collection)
+  @SuppressWarnings("unchecked")
+  public boolean addAll(int index, Collection<? extends Map.Entry<K, V>> collection)
   {
-    return delegateEList.addAll(index, collection);
+    return delegateEList.addAll(index, (Collection<? extends Entry<K, V>>)collection);
   }
 
   /**
@@ -1620,7 +1673,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public boolean removeAll(Collection collection)
+  public boolean removeAll(Collection<?> collection)
   {
     return delegateEList.removeAll(collection);
   }
@@ -1628,7 +1681,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public Object remove(int index)
+  public Map.Entry<K, V> remove(int index)
   {
     return delegateEList.remove(index);
   }
@@ -1636,7 +1689,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public boolean retainAll(Collection collection)
+  public boolean retainAll(Collection<?> collection)
   {
     return delegateEList.retainAll(collection);
   }
@@ -1652,15 +1705,15 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public void move(int index, Object object)
+  public void move(int index, Map.Entry<K, V> object)
   {
-    delegateEList.move(index, object);
+    delegateEList.move(index, (Entry<K, V>)object);
   }
 
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public Object move(int targetIndex, int sourceIndex)
+  public Map.Entry<K, V> move(int targetIndex, int sourceIndex)
   {
     return delegateEList.move(targetIndex, sourceIndex);
   }
@@ -1668,40 +1721,46 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public Iterator iterator()
+  @SuppressWarnings("unchecked")
+  public Iterator<Map.Entry<K, V>> iterator()
   {
-    return delegateEList.iterator();
+    return (Iterator<Map.Entry<K, V>>)(Iterator<?>)delegateEList.iterator();
+  }
+  
+  /**
+   * Delegates to {@link #delegateEList}.
+   */
+  @SuppressWarnings("unchecked")
+  public ListIterator<Map.Entry<K, V>> listIterator()
+  {
+    return (ListIterator<Map.Entry<K, V>>)(ListIterator<?>)(delegateEList.listIterator());
   }
 
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public ListIterator listIterator()
+  @SuppressWarnings("unchecked")
+  public ListIterator<Map.Entry<K, V>> listIterator(int index)
   {
-    return delegateEList.listIterator();
+    return (ListIterator<Map.Entry<K, V>>)(ListIterator<?>)delegateEList.listIterator(index);
   }
 
   /**
    * Delegates to {@link #delegateEList}.
    */
-  public ListIterator listIterator(int index)
+  @SuppressWarnings("unchecked")
+  public List<Map.Entry<K, V>> subList(int start, int end)
   {
-    return delegateEList.listIterator(index);
+    return (List<Map.Entry<K, V>>)(List<?>)delegateEList.subList(start, end);
   }
 
-  /**
-   * Delegates to {@link #delegateEList}.
-   */
-  public List subList(int start, int end)
-  {
-    return delegateEList.subList(start, end);
-  }
-
+  @Override
   public int hashCode()
   {
     return delegateEList.hashCode();
   }
 
+  @Override
   public boolean equals(Object object)
   {
     if (object instanceof EMap)
@@ -1717,6 +1776,7 @@ public class BasicEMap implements EMap, Cloneable, Serializable
   /**
    * Delegates to {@link #delegateEList}.
    */
+  @Override
   public String toString()
   {
     return delegateEList.toString();

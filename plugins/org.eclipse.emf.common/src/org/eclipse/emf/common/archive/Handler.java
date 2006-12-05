@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -83,6 +83,7 @@ public class Handler extends URLStreamHandler
    * Overrides parsing the URL to validate constraints on well formed archive syntax.
    * @see URLStreamHandler#parseURL(java.net.URL, java.lang.String, int, int)
    */
+  @Override
   protected void parseURL(URL url, String specification, int start, int limit)
   {
     super.parseURL(url, specification, start, limit);
@@ -121,6 +122,7 @@ public class Handler extends URLStreamHandler
   /**
    *  Returns a new {@link ArchiveURLConnection}.
    */
+  @Override
   protected URLConnection openConnection(URL url) throws IOException
   {
     return new ArchiveURLConnection(url);

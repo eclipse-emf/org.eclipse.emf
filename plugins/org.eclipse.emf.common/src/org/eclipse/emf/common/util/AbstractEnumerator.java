@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractEnumerator.java,v 1.4 2006/11/06 16:02:26 emerks Exp $
+ * $Id: AbstractEnumerator.java,v 1.5 2006/12/05 20:19:56 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -110,6 +110,7 @@ public abstract class AbstractEnumerator implements Enumerator, Serializable
 
     public AbstractEnumeratorExternalizeable()
     {
+      super();
     }
 
     public AbstractEnumeratorExternalizeable(AbstractEnumerator enumerator)

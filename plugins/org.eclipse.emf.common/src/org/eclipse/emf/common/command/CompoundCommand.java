@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CompoundCommand.java,v 1.4 2006/11/05 13:47:53 emerks Exp $
+ * $Id: CompoundCommand.java,v 1.5 2006/12/05 20:19:53 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.common.command;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -38,7 +37,7 @@ public class CompoundCommand extends AbstractCommand
   /**
    * The list of subcommands.
    */
-  protected List commandList;
+  protected List<Command> commandList;
 
   /**
    * When {@link #resultIndex} is set to this, 
@@ -67,7 +66,7 @@ public class CompoundCommand extends AbstractCommand
   public CompoundCommand()
   {
     super();
-    commandList = new ArrayList();
+    commandList = new ArrayList<Command>();
   }
 
   /**
@@ -77,7 +76,7 @@ public class CompoundCommand extends AbstractCommand
   public CompoundCommand(String label) 
   {
     super(label);
-    commandList = new ArrayList();
+    commandList = new ArrayList<Command>();
   }
   
   /**
@@ -88,14 +87,14 @@ public class CompoundCommand extends AbstractCommand
   public CompoundCommand(String label, String description) 
   {
     super(label, description);
-    commandList = new ArrayList();
+    commandList = new ArrayList<Command>();
   }
   
   /**
    * Creates an instance with the given list.
    * @param commandList the list of commands.
    */
-  public CompoundCommand(List commandList)
+  public CompoundCommand(List<Command> commandList)
   {
     super();
     this.commandList = commandList;
@@ -106,7 +105,7 @@ public class CompoundCommand extends AbstractCommand
    * @param label the label.
    * @param commandList the list of commands.
    */
-  public CompoundCommand(String label, List commandList)
+  public CompoundCommand(String label, List<Command> commandList)
   {
     super(label);
     this.commandList = commandList;
@@ -118,7 +117,7 @@ public class CompoundCommand extends AbstractCommand
    * @param description the description.
    * @param commandList the list of commands.
    */
-  public CompoundCommand(String label, String description, List commandList)
+  public CompoundCommand(String label, String description, List<Command> commandList)
   {
     super(label, description);
     this.commandList = commandList;
@@ -132,7 +131,7 @@ public class CompoundCommand extends AbstractCommand
   {
     super();
     this.resultIndex = resultIndex;
-    commandList = new ArrayList();
+    commandList = new ArrayList<Command>();
   }
 
   /**
@@ -144,7 +143,7 @@ public class CompoundCommand extends AbstractCommand
   {
     super(label);
     this.resultIndex = resultIndex;
-    commandList = new ArrayList();
+    commandList = new ArrayList<Command>();
   }
   
   /**
@@ -157,7 +156,7 @@ public class CompoundCommand extends AbstractCommand
   {
     super(label, description);
     this.resultIndex = resultIndex;
-    commandList = new ArrayList();
+    commandList = new ArrayList<Command>();
   }
   
   /**
@@ -165,7 +164,7 @@ public class CompoundCommand extends AbstractCommand
    * @param resultIndex the {@link #resultIndex}.
    * @param commandList the list of commands.
    */
-  public CompoundCommand(int resultIndex, List commandList)
+  public CompoundCommand(int resultIndex, List<Command> commandList)
   {
     super();
     this.resultIndex = resultIndex;
@@ -178,7 +177,7 @@ public class CompoundCommand extends AbstractCommand
    * @param label the label.
    * @param commandList the list of commands.
    */
-  public CompoundCommand(int resultIndex, String label, List commandList)
+  public CompoundCommand(int resultIndex, String label, List<Command> commandList)
   {
     super(label);
     this.resultIndex = resultIndex;
@@ -192,7 +191,7 @@ public class CompoundCommand extends AbstractCommand
    * @param description the description.
    * @param commandList the list of commands.
    */
-  public CompoundCommand(int resultIndex, String label, String description, List commandList)
+  public CompoundCommand(int resultIndex, String label, String description, List<Command> commandList)
   {
     super(label, description);
     this.resultIndex = resultIndex;
@@ -212,7 +211,7 @@ public class CompoundCommand extends AbstractCommand
    * Returns an unmodifiable view of the commands in the list.
    * @return an unmodifiable view of the commands in the list.
    */
-  public List getCommandList()
+  public List<Command> getCommandList()
   {
     return Collections.unmodifiableList(commandList);
   }
@@ -234,6 +233,7 @@ public class CompoundCommand extends AbstractCommand
    * An empty command list causes <code>false</code> to be returned.
    * @return whether all the commands can execute.
    */
+  @Override
   protected boolean prepare()
   {
     if (commandList.isEmpty())
@@ -242,9 +242,8 @@ public class CompoundCommand extends AbstractCommand
     }
     else
     {
-      for (Iterator commands = commandList.listIterator(); commands.hasNext(); ) 
+      for (Command command : commandList)
       {
-        Command command = (Command)commands.next();
         if (!command.canExecute())
         {
           return false;
@@ -260,11 +259,11 @@ public class CompoundCommand extends AbstractCommand
    */
   public void execute() 
   {
-    for (ListIterator commands = commandList.listIterator(); commands.hasNext(); ) 
+    for (ListIterator<Command> commands = commandList.listIterator(); commands.hasNext(); ) 
     {
       try
       {
-        Command command = (Command)commands.next();
+        Command command = commands.next();
         command.execute();
       }
       catch (RuntimeException exception)
@@ -279,7 +278,7 @@ public class CompoundCommand extends AbstractCommand
           //
           while (commands.hasPrevious())
           {
-            Command command = (Command)commands.previous();
+            Command command = commands.previous();
             if (command.canUndo())
             {
               command.undo();
@@ -306,11 +305,11 @@ public class CompoundCommand extends AbstractCommand
    * Returns <code>false</code> if any of the commands return <code>false</code> for {@link Command#canUndo}.
    * @return <code>false</code> if any of the commands return <code>false</code> for <code>canUndo</code>.
    */
+  @Override
   public boolean canUndo() 
   {
-    for (Iterator commands = commandList.listIterator(); commands.hasNext(); ) 
+    for (Command command : commandList)
     {
-      Command command = (Command)commands.next();
       if (!command.canUndo())
       {
         return false;
@@ -323,13 +322,14 @@ public class CompoundCommand extends AbstractCommand
   /**
    * Calls {@link Command#undo} for each command in the list, in reverse order.
    */
+  @Override
   public void undo() 
   {
-    for (ListIterator commands = commandList.listIterator(commandList.size()); commands.hasPrevious(); ) 
+    for (ListIterator<Command> commands = commandList.listIterator(commandList.size()); commands.hasPrevious(); ) 
     {
       try
       {
-        Command command = (Command)commands.previous();
+        Command command = commands.previous();
         command.undo();
       }
       catch (RuntimeException exception)
@@ -344,7 +344,7 @@ public class CompoundCommand extends AbstractCommand
           //
           while (commands.hasNext())
           {
-            Command command = (Command)commands.next();
+            Command command = commands.next();
             command.redo();
           }
         }
@@ -366,11 +366,11 @@ public class CompoundCommand extends AbstractCommand
    */
   public void redo() 
   {
-    for (ListIterator commands = commandList.listIterator(); commands.hasNext(); ) 
+    for (ListIterator<Command> commands = commandList.listIterator(); commands.hasNext(); ) 
     {
       try
       {
-        Command command = (Command)commands.next();
+        Command command = commands.next();
         command.redo();
       }
       catch (RuntimeException exception)
@@ -385,7 +385,7 @@ public class CompoundCommand extends AbstractCommand
           //
           while (commands.hasPrevious())
           {
-            Command command = (Command)commands.previous();
+            Command command = commands.previous();
             command.undo();
           }
         }
@@ -406,7 +406,8 @@ public class CompoundCommand extends AbstractCommand
    * this is affected by the setting of {@link #resultIndex}.
    * @return the result.
    */
-  public Collection getResult()
+  @Override
+  public Collection<?> getResult()
   {
     if (commandList.isEmpty())
     {
@@ -414,7 +415,7 @@ public class CompoundCommand extends AbstractCommand
     }
     else if (resultIndex == LAST_COMMAND_ALL)
     {
-      return ((Command)commandList.get(commandList.size() - 1)).getResult();
+      return commandList.get(commandList.size() - 1).getResult();
     }
     else if (resultIndex == MERGE_COMMAND_ALL)
     {
@@ -422,7 +423,7 @@ public class CompoundCommand extends AbstractCommand
     }
     else if (resultIndex < commandList.size())
     {
-      return ((Command)commandList.get(resultIndex)).getResult();
+      return commandList.get(resultIndex).getResult();
     }
     else
     {
@@ -434,13 +435,12 @@ public class CompoundCommand extends AbstractCommand
    * Returns the merged collection of all command results.
    * @return the merged collection of all command results.
    */
-  protected Collection getMergedResultCollection()
+  protected Collection<?> getMergedResultCollection()
   {
-    Collection result = new ArrayList();
+    Collection<Object> result = new ArrayList<Object>();
 
-    for (Iterator commands = commandList.iterator(); commands.hasNext(); )
+    for (Command command : commandList)
     {
-      Command command = (Command)commands.next();
       result.addAll(command.getResult());
     }
 
@@ -453,7 +453,8 @@ public class CompoundCommand extends AbstractCommand
    * this is affected by the setting of {@link #resultIndex}.
    * @return the affected objects.
    */
-  public Collection getAffectedObjects()
+  @Override
+  public Collection<?> getAffectedObjects()
   {
     if (commandList.isEmpty())
     {
@@ -461,7 +462,7 @@ public class CompoundCommand extends AbstractCommand
     }
     else if (resultIndex == LAST_COMMAND_ALL)
     {
-      return ((Command)commandList.get(commandList.size() - 1)).getAffectedObjects();
+      return commandList.get(commandList.size() - 1).getAffectedObjects();
     }
     else if (resultIndex == MERGE_COMMAND_ALL)
     {
@@ -469,7 +470,7 @@ public class CompoundCommand extends AbstractCommand
     }
     else if (resultIndex < commandList.size())
     {
-      return ((Command)commandList.get(resultIndex)).getAffectedObjects();
+      return commandList.get(resultIndex).getAffectedObjects();
     }
     else
     {
@@ -481,13 +482,12 @@ public class CompoundCommand extends AbstractCommand
    * Returns the merged collection of all command affected objects.
    * @return the merged collection of all command affected objects.
    */
-  protected Collection getMergedAffectedObjectsCollection()
+  protected Collection<?> getMergedAffectedObjectsCollection()
   {
-    Collection result = new ArrayList();
+    Collection<Object> result = new ArrayList<Object>();
 
-    for (Iterator commands = commandList.iterator(); commands.hasNext(); )
+    for (Command command : commandList)
     {
-      Command command = (Command)commands.next();
       result.addAll(command.getAffectedObjects());
     }
 
@@ -499,6 +499,7 @@ public class CompoundCommand extends AbstractCommand
    * this is affected by the setting of {@link #resultIndex}.
    * @return the label.
    */
+  @Override
   public String getLabel()
   {
     if (label != null)
@@ -511,11 +512,11 @@ public class CompoundCommand extends AbstractCommand
     }
     else if (resultIndex == LAST_COMMAND_ALL || resultIndex == MERGE_COMMAND_ALL)
     {
-      return ((Command)commandList.get(commandList.size() - 1)).getLabel();
+      return commandList.get(commandList.size() - 1).getLabel();
     }
     else if (resultIndex < commandList.size())
     {
-      return ((Command)commandList.get(resultIndex)).getLabel();
+      return commandList.get(resultIndex).getLabel();
     }
     else
     {
@@ -528,6 +529,7 @@ public class CompoundCommand extends AbstractCommand
    * this is affected by the setting of {@link #resultIndex}.
    * @return the description.
    */
+  @Override
   public String getDescription()
   {
     if (description != null)
@@ -540,11 +542,11 @@ public class CompoundCommand extends AbstractCommand
     }
     else if (resultIndex == LAST_COMMAND_ALL || resultIndex == MERGE_COMMAND_ALL)
     {
-      return ((Command)commandList.get(commandList.size() - 1)).getDescription();
+      return commandList.get(commandList.size() - 1).getDescription();
     }
     else if (resultIndex < commandList.size())
     {
-      return ((Command)commandList.get(resultIndex)).getDescription();
+      return commandList.get(resultIndex).getDescription();
     }
     else
     {
@@ -702,11 +704,11 @@ public class CompoundCommand extends AbstractCommand
   /**
    * Calls {@link Command#dispose} for each command in the list.
    */
+  @Override
   public void dispose()
   {
-    for (Iterator commands = commandList.listIterator(); commands.hasNext(); ) 
+    for (Command command : commandList)
     {
-      Command command = (Command)commands.next();
       command.dispose();
     }
   }
@@ -738,7 +740,7 @@ public class CompoundCommand extends AbstractCommand
       }
       case 1:
       {
-        Command result = (Command)commandList.remove(0);
+        Command result = commandList.remove(0);
         dispose();
         return result;
       }
@@ -749,9 +751,7 @@ public class CompoundCommand extends AbstractCommand
     }
   }
 
-  /*
-   * Javadoc copied from base class.
-   */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

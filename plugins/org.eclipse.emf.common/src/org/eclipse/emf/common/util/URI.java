@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URI.java,v 1.25 2006/10/25 20:10:00 davidms Exp $
+ * $Id: URI.java,v 1.26 2006/12/05 20:19:56 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -158,49 +158,49 @@ public final class URI
   // The fragment of any URI is removed before caching it here, to minimize
   // the size of the cache in the usual case where most URIs only differ by
   // the fragment.
-  private static final Map uriCache = 
-    new HashMap()
+  private static final URICache uriCache = new URICache();
+    
+  private static class URICache extends HashMap<String,WeakReference<URI>>
+  {
+    private static final long serialVersionUID = 1L;
+
+    static final int MIN_LIMIT = 1000;
+    int count;
+    int limit = MIN_LIMIT;
+
+    public synchronized URI get(String key)
     {
-      static final int MIN_LIMIT = 1000;
-      int count;
-      int limit = MIN_LIMIT;
-
-      public synchronized Object get(Object key)
-      {
-        WeakReference reference = (WeakReference)super.get(key);
-        return reference == null ? null : reference.get();
-      }
+      WeakReference<URI> reference = super.get(key);
+      return reference == null ? null : reference.get();
+    }
          
-      public synchronized Object put(Object key, Object value)
+    public synchronized void put(String key, URI value)
+    {
+      super.put(key, new WeakReference<URI>(value));
+      if (++count > limit)
       {
-        super.put(key, new WeakReference(value));
-        if (++count > limit)
-        {
-          cleanGCedValues();
-        }
-
-        // The return value is not used.
-        return null;
+        cleanGCedValues();
       }
+    }
       
-      private void cleanGCedValues()
+    private void cleanGCedValues()
+    {
+      for (Iterator<Map.Entry<String,WeakReference<URI>>> i = entrySet().iterator(); i.hasNext(); )
       {
-        for (Iterator i = entrySet().iterator(); i.hasNext(); )
+        Map.Entry<String,WeakReference<URI>> entry = i.next();
+        WeakReference<URI> reference = entry.getValue();
+        if (reference.get() == null)
         {
-          Map.Entry entry = (Map.Entry)i.next();
-          WeakReference reference = (WeakReference)entry.getValue();
-          if (reference.get() == null)
-          {
-            i.remove();
-          }
+          i.remove();
         }
-        count = 0;
-        limit = Math.max(MIN_LIMIT, size() / 2);
       }
-    };
+      count = 0;
+      limit = Math.max(MIN_LIMIT, size() / 2);
+    }
+  }
 
   // The lower-cased schemes that will be used to identify archive URIs.
-  private static final Set archiveSchemes;
+  private static final Set<String> archiveSchemes;
 
   // Identifies a file-type absolute URI.
   private static final String SCHEME_FILE = "file";
@@ -277,7 +277,7 @@ public final class URI
   // Static initializer for archiveSchemes.
   static
   {
-    Set set = new HashSet();
+    Set<String> set = new HashSet<String>();
     String propertyValue = System.getProperty("org.eclipse.emf.common.util.URI.archiveSchemes");
 
     if (propertyValue == null)
@@ -634,6 +634,7 @@ public final class URI
    * @deprecated Use {@link #createURI createURI}, which now has explicit
    * device support enabled. The two methods now operate identically.
    */
+  @Deprecated
   public static URI createDeviceURI(String uri)
   {
     return createURIWithCache(uri);
@@ -651,13 +652,14 @@ public final class URI
    * 
    * @deprecated Please use {@link #createURI createURI} instead.
    */
+  @Deprecated
   public static URI createURIWithCache(String uri)
   {
     int i = uri.indexOf(FRAGMENT_SEPARATOR);
     String base = i == -1 ? uri : uri.substring(0, i);
     String fragment = i == -1 ? null : uri.substring(i + 1);
 
-    URI result = (URI)uriCache.get(base);
+    URI result = uriCache.get(base);
 
     if (result == null)
     {
@@ -742,7 +744,7 @@ public final class URI
 
     if (segmentsRemain(uri, i))
     {
-      List segmentList = new ArrayList();
+      List<String> segmentList = new ArrayList<String>();
 
       while (segmentsRemain(uri, i))
       {
@@ -877,6 +879,7 @@ public final class URI
    * @see #createPlatformResourceURI(String, boolean)
    * @deprecated org.eclipse.emf.common 2.3 Use {@link #createPlatformResourceURI(String, boolean)} instead.
    */
+  @Deprecated
   public static URI createPlatformResourceURI(String pathName)
   {
     return createPlatformResourceURI(pathName, ENCODE_PLATFORM_RESOURCE_URIS);
@@ -1161,6 +1164,7 @@ public final class URI
       }
       catch (IllegalArgumentException e)
       {
+        // Ignore the exception and return false.
       }
     }
     return false;
@@ -1176,6 +1180,7 @@ public final class URI
    * @deprecated As of EMF 2.0, replaced by {@link #validArchiveAuthority
    * validArchiveAuthority}.
    */
+  @Deprecated
   public static boolean validJarAuthority(String value)
   {
     return validArchiveAuthority(value);
@@ -1542,6 +1547,7 @@ public final class URI
   /**
    * Returns the hash code.
    */
+  @Override
   public int hashCode()
   {
     return hashCode;
@@ -1555,6 +1561,7 @@ public final class URI
    * attempting to interpret what resource is being identified.  The
    * comparison of schemes is case-insensitive.
    */
+  @Override
   public boolean equals(Object obj)
   {
     if (this == obj) return true;
@@ -1681,14 +1688,14 @@ public final class URI
    */
   public String[] segments()
   {
-    return (String[])segments.clone();
+    return segments.clone();
   }
 
   /**
    * Returns an unmodifiable list containing the same segments as the array
    * returned by {@link #segments segments}.
    */
-  public List segmentsList()
+  public List<String> segmentsList()
   {
     return Collections.unmodifiableList(Arrays.asList(segments));
   }
@@ -2250,7 +2257,10 @@ public final class URI
     // empty and followed by a separator, while the last segment of endPath
     // will either be non-empty and not followed by a separator, or just empty
     for (int count = startCount < endCount ? startCount : endCount - 1;
-         diff < count && startPath[diff].equals(endPath[diff]); diff++);
+         diff < count && startPath[diff].equals(endPath[diff]); diff++)
+    {
+      // Empty statement.
+    }
 
     int upCount = startCount - diff;
     int downCount = endCount - diff;
@@ -2329,6 +2339,7 @@ public final class URI
    *   scheme:authority/pathSegment1/pathSegment2...?query#fragment</pre>
    * <p>Of course, absent components and their separators will be omitted.
    */
+  @Override
   public String toString()
   {
     if (cachedToString == null)

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicCommandStack.java,v 1.9 2006/10/23 17:23:12 emerks Exp $
+ * $Id: BasicCommandStack.java,v 1.10 2006/12/05 20:19:54 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.EventObject;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.eclipse.emf.common.CommonPlugin;
 import org.eclipse.emf.common.util.WrappedException;
@@ -37,7 +36,7 @@ public class BasicCommandStack implements CommandStack
   /**
    * The list of commands.
    */
-  protected List commandList;
+  protected List<Command> commandList;
 
   /**
    * The current position within the list from which the next execute, undo, or redo, will be performed. 
@@ -52,7 +51,7 @@ public class BasicCommandStack implements CommandStack
   /**
    * The {@link CommandStackListener}s.
    */
-  protected Collection listeners;
+  protected Collection<CommandStackListener> listeners;
 
   /**
    * The value of {@link #top} when {@link #saveIsDone} is called.
@@ -64,9 +63,9 @@ public class BasicCommandStack implements CommandStack
    */
   public BasicCommandStack() 
   {
-    commandList = new ArrayList();
+    commandList = new ArrayList<Command>();
     top = -1;
-    listeners = new ArrayList();
+    listeners = new ArrayList<CommandStackListener>();
   }
 
   /*
@@ -80,9 +79,9 @@ public class BasicCommandStack implements CommandStack
     {
       // Clear the list past the top.
       //
-      for (ListIterator commands = commandList.listIterator(top + 1); commands.hasNext(); commands.remove())
+      for (Iterator<Command> commands = commandList.listIterator(top + 1); commands.hasNext(); commands.remove())
       {
-        Command otherCommand = (Command)commands.next();
+        Command otherCommand = commands.next();
         otherCommand.dispose();
       }
 
@@ -125,7 +124,7 @@ public class BasicCommandStack implements CommandStack
    */
   public boolean canUndo() 
   {
-    return top != -1 && ((Command)commandList.get(top)).canUndo();
+    return top != -1 && commandList.get(top).canUndo();
   }
 
   /*
@@ -135,7 +134,7 @@ public class BasicCommandStack implements CommandStack
   {
     if (canUndo())
     {
-      Command command = (Command)commandList.get(top--);
+      Command command = commandList.get(top--);
       try
       {
         command.undo();
@@ -168,7 +167,7 @@ public class BasicCommandStack implements CommandStack
   {
     if (canRedo())
     {
-      Command command = (Command)commandList.get(++top);
+      Command command = commandList.get(++top);
       try
       {
         command.redo();
@@ -182,9 +181,9 @@ public class BasicCommandStack implements CommandStack
 
         // Clear the list past the top.
         //
-        for (ListIterator commands = commandList.listIterator(top--); commands.hasNext(); commands.remove())
+        for (Iterator<Command> commands = commandList.listIterator(top--); commands.hasNext(); commands.remove())
         {
-          Command otherCommand = (Command)commands.next();
+          Command otherCommand = commands.next();
           otherCommand.dispose();
         }
       }
@@ -200,9 +199,9 @@ public class BasicCommandStack implements CommandStack
   {
     // Clear the list.
     //
-    for (ListIterator commands = commandList.listIterator(); commands.hasNext(); commands.remove())
+    for (Iterator<Command> commands = commandList.listIterator(); commands.hasNext(); commands.remove())
     {
-      Command command = (Command)commands.next();
+      Command command = commands.next();
       command.dispose();
     }
     commandList.clear();
@@ -263,11 +262,11 @@ public class BasicCommandStack implements CommandStack
    */
   protected void notifyListeners()
   {
-    for (Iterator i = listeners.iterator(); i.hasNext(); )
+    for (CommandStackListener commandStackListener : listeners)
     {
-      ((CommandStackListener)i.next()).commandStackChanged(new EventObject(this));
+      commandStackListener.commandStackChanged(new EventObject(this));
     }
-  } 
+  }
 
   /**
    * Handles an exception thrown during command execution by loging it with the plugin.

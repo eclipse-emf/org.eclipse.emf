@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UniqueEList.java,v 1.3 2005/06/08 06:19:08 nickb Exp $
+ * $Id: UniqueEList.java,v 1.4 2006/12/05 20:19:56 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -23,8 +23,10 @@ import java.util.Collection;
 /**
  * A <code>BasicEList</code> that allows only {@link #isUnique unique} elements.
  */
-public class UniqueEList extends BasicEList
+public class UniqueEList<E> extends BasicEList<E>
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Creates an empty instance with no initial capacity.
    */
@@ -47,7 +49,7 @@ public class UniqueEList extends BasicEList
    * Creates an instance that is a copy of the collection, with duplicates removed.
    * @param collection the initial contents of the list.
    */
-  public UniqueEList(Collection collection)
+  public UniqueEList(Collection<? extends E> collection)
   {
     super(collection.size());
     addAll(collection);   
@@ -57,6 +59,7 @@ public class UniqueEList extends BasicEList
    * Returns <code>true</code> because this list requires uniqueness.
    * @return <code>true</code>.
    */
+  @Override
   protected boolean isUnique()
   {
     return true;
@@ -65,8 +68,10 @@ public class UniqueEList extends BasicEList
   /**
    * A <code>UniqueEList</code> that {@link #useEquals uses} <code>==</code> instead of <code>equals</code> to compare members.
    */
-  public static class FastCompare extends UniqueEList
+  public static class FastCompare<E> extends UniqueEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates an empty instance with no initial capacity.
      */
@@ -89,7 +94,7 @@ public class UniqueEList extends BasicEList
      * Creates an instance that is a copy of the collection, with duplicates removed.
      * @param collection the initial contents of the list.
      */
-    public FastCompare(Collection collection)
+    public FastCompare(Collection<? extends E> collection)
     {
       super(collection.size());
       addAll(collection);
@@ -99,6 +104,7 @@ public class UniqueEList extends BasicEList
      * Returns <code>false</code> because this list uses <code>==</code>.
      * @return <code>false</code>.
      */
+    @Override
     protected boolean useEquals()
     {
       return false;

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonPlugin.java,v 1.11 2006/02/14 18:14:43 marcelop Exp $
+ * $Id: CommonPlugin.java,v 1.12 2006/12/05 20:19:58 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.common;
 import java.io.IOException;
 import java.net.URL;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
@@ -57,9 +58,7 @@ public final class CommonPlugin extends EMFPlugin
     super(new ResourceLocator[] {});
   }
 
-  /*
-   * Javadoc copied from base class.
-   */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;
@@ -93,7 +92,7 @@ public final class CommonPlugin extends EMFPlugin
   /**
    * Use the platform, if available, to load the named class using the right class loader.
    */
-  public static Class loadClass(String pluginID, String className) throws ClassNotFoundException
+  public static Class<?> loadClass(String pluginID, String className) throws ClassNotFoundException
   {
     return plugin == null ? Class.forName(className) : Implementation.loadClass(pluginID, className);
   }
@@ -123,11 +122,12 @@ public final class CommonPlugin extends EMFPlugin
       try
       {
         String fragment = uri.fragment();
-        URL url = Platform.asLocalURL(new URL(uri.trimFragment().toString()));
+        URL url = FileLocator.toFileURL(new URL(uri.trimFragment().toString()));
         return fix(url, fragment);
       }
       catch (IOException exception)
       {
+        // Ignore the exception and return the original URI.
       }
       return uri;
     }
@@ -144,7 +144,7 @@ public final class CommonPlugin extends EMFPlugin
       URL url = null;
       try
       {
-        url = Platform.resolve(new URL(uriWithoutFragmentToString));
+        url = FileLocator.resolve(new URL(uriWithoutFragmentToString));
       }
       catch (IOException exception1)
       {
@@ -153,10 +153,11 @@ public final class CommonPlugin extends EMFPlugin
         try
         {
           uriWithoutFragmentToString = URI.decode(uriWithoutFragmentToString);
-          url = Platform.resolve(new URL(uriWithoutFragmentToString));
+          url = FileLocator.resolve(new URL(uriWithoutFragmentToString));
         }
         catch (IOException exception2)
         {
+          // Continue with the unresolved URI.
         }
       }
       if (url != null)
@@ -167,6 +168,7 @@ public final class CommonPlugin extends EMFPlugin
         }
         catch (IOException exception)
         {
+          // Return the original URI.
         }
       }
       
@@ -193,7 +195,7 @@ public final class CommonPlugin extends EMFPlugin
     /**
      * Use the platform to load the named class using the right class loader.
      */
-    public static Class loadClass(String pluginID, String className) throws ClassNotFoundException
+    public static Class<?> loadClass(String pluginID, String className) throws ClassNotFoundException
     {
       return Platform.getBundle(pluginID).loadClass(className);
     }

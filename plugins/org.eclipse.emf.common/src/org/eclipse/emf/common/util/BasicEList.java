@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEList.java,v 1.13 2006/01/24 20:28:49 emerks Exp $
+ * $Id: BasicEList.java,v 1.14 2006/12/05 20:19:55 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -35,8 +35,10 @@ import java.util.RandomAccess;
 /**
  * A highly extensible list implementation.
  */
-public class BasicEList extends AbstractList implements EList, RandomAccess, Cloneable, Serializable 
+public class BasicEList<E> extends AbstractList<E> implements EList<E>, RandomAccess, Cloneable, Serializable 
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * The size of the list.
    */
@@ -45,7 +47,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
   /**
    * The underlying data storage of the list.
    */
-  protected transient Object data[];
+  protected transient Object [] data;
 
   /**
    * Creates an empty instance with no initial capacity.
@@ -53,6 +55,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    */
   public BasicEList() 
   {
+    super();
   }
 
   /**
@@ -74,7 +77,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * Creates an instance that is a copy of the collection.
    * @param collection the initial contents of the list.
    */
-  public BasicEList(Collection collection) 
+  public BasicEList(Collection<? extends E> collection) 
   {
     size = collection.size();
 
@@ -165,7 +168,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return the validated content.
    * @exception IllegalArgumentException if a constraint prevents the object from being added.
    */
-  protected Object validate(int index, Object object)
+  protected E validate(int index, E object)
   {
     if (!canContainNull() && object == null)
     {
@@ -183,9 +186,10 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return the object that's been stored.
    * 
    */
-  protected Object assign(int index, Object object)
+  protected E assign(int index, E object)
   {
-    return data[index] = object;
+    data[index] = object;
+    return object;
   }
 
   /**
@@ -196,7 +200,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param object the content.
    * @return the resolved object.
    */
-  protected Object resolve(int index, Object object)
+  protected E resolve(int index, E object)
   {
     return object;
   }
@@ -209,8 +213,9 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param newObject the new object at the position.
    * @param oldObject the old object at the position.
    */
-  protected void didSet(int index, Object newObject, Object oldObject)
+  protected void didSet(int index, E newObject, E oldObject)
   {
+    // Do nothing.
   }
 
   /**
@@ -220,8 +225,9 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param index the position object the new object.
    * @param newObject the new object at the position.
    */
-  protected void didAdd(int index, Object newObject)
+  protected void didAdd(int index, E newObject)
   {
+    // Do nothing.
   }
 
   /**
@@ -231,8 +237,9 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param index the position of the old object.
    * @param oldObject the old object at the position.
    */
-  protected void didRemove(int index, Object oldObject)
+  protected void didRemove(int index, E oldObject)
   {
+    // Do nothing.
   }
 
   /**
@@ -249,7 +256,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
     {
       for (int i = 0; i < size; ++i)
       {
-        didRemove(i, oldObjects[i]);
+        @SuppressWarnings("unchecked") E object = (E)oldObjects[i];
+        didRemove(i, object);
       }
     }
   }
@@ -262,8 +270,9 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param movedObject the moved object at the position.
    * @param oldIndex the position the object was at before the move.
    */
-  protected void didMove(int index, Object movedObject, int oldIndex)
+  protected void didMove(int index, E movedObject, int oldIndex)
   {
+    // Do nothing.
   }
 
   /**
@@ -273,12 +282,14 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    */
   protected void didChange()
   {
+    // Do nothing.
   }
 
   /**
    * Returns the number of objects in the list.
    * @return the number of objects in the list.
    */
+  @Override
   public int size() 
   {
     return size;
@@ -288,6 +299,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * Returns whether the list has zero size.
    * @return whether the list has zero size.
    */
+  @Override
   public boolean isEmpty() 
   {
     return size == 0;
@@ -300,6 +312,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return whether the list contains the object.
    * @see #useEquals
    */
+  @Override
   public boolean contains(Object object) 
   {
     if (useEquals() && object != null)
@@ -335,11 +348,12 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @see #contains
    * @see #useEquals
    */
-  public boolean containsAll(Collection collection) 
+  @Override
+  public boolean containsAll(Collection<?> collection) 
   {
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    for (Object o : collection)
     {
-      if (!contains(i.next()))
+      if (!contains(o))
       {
         return false;
       }      
@@ -354,6 +368,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param object the object in question.
    * @return the position of the first occurrence of the object in the list.
    */
+  @Override
   public int indexOf(Object object) 
   {
     if (useEquals() && object != null)
@@ -385,6 +400,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param object the object in question.
    * @return the position of the last occurrence of the object in the list.
    */
+  @Override
   public int lastIndexOf(Object object) 
   {
     if (useEquals() && object != null) 
@@ -416,6 +432,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return an array containing all the objects in sequence.
    * @see #newData
    */
+  @Override
   public Object[] toArray() 
   {
     Object[] result = newData(size);
@@ -436,7 +453,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return an array containing all the objects in sequence.
    * @see #newData
    */
-  public Object[] toArray(Object array[]) 
+  @Override
+  public <T> T[] toArray(T[] array) 
   {
     // Guard for no data.
     //
@@ -444,7 +462,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
     {
       if (array.length < size)
       {
-        array = (Object[])Array.newInstance(array.getClass().getComponentType(), size);
+        @SuppressWarnings("unchecked") T [] newArray = (T[])Array.newInstance(array.getClass().getComponentType(), size);
+        array  = newArray;
       }
   
       System.arraycopy(data, 0, array, 0, size);
@@ -487,6 +506,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    */
   protected static class BasicIndexOutOfBoundsException extends IndexOutOfBoundsException
   {
+    private static final long serialVersionUID = 1L;
+
     /**
      * Constructs an instance with a message based on the arguments.
      */
@@ -506,12 +527,14 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @see #resolve
    * @see #basicGet
    */
-  public Object get(int index) 
+  @SuppressWarnings("unchecked")
+  @Override
+  public E get(int index) 
   {
     if (index >= size)
       throw new BasicIndexOutOfBoundsException(index, size);
 
-    return resolve(index, data[index]);
+    return resolve(index, (E)data[index]);
   }
 
   /**
@@ -522,12 +545,13 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @see #resolve
    * @see #get
    */
-  public Object basicGet(int index) 
+  @SuppressWarnings("unchecked")
+  public E basicGet(int index) 
   {
     if (index >= size)
       throw new BasicIndexOutOfBoundsException(index, size);
 
-    return data[index];
+    return (E)data[index];
   }
 
   /**
@@ -542,7 +566,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @exception IllegalArgumentException if there is a constraint violation, e.g., non-uniqueness.
    * @see #setUnique
    */
-  public Object set(int index, Object object) 
+  @Override
+  public E set(int index, E object) 
   {
     if (index >= size)
       throw new BasicIndexOutOfBoundsException(index, size);
@@ -569,9 +594,9 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return the old object at the index.
    * @see #set
    */
-  public Object setUnique(int index, Object object)
+  public E setUnique(int index, E object)
   {
-    Object oldObject = data[index];
+    @SuppressWarnings("unchecked") E oldObject = (E)data[index];
     assign(index, validate(index, object));
     didSet(index, object, oldObject);
     didChange();
@@ -583,13 +608,14 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * and returns whether the object was added; 
    * if {@link #isUnique uniqueness} is required,
    * duplicates will be ignored and <code>false</code> will be returned.
-   * This implementation delegates to {@link #addUnique(Object) addUnique(Object)} 
+   * This implementation delegates to {@link #addUnique(E) addUnique(E)} 
    * after uniqueness checking.
    * @param object the object to be added.
    * @return whether the object was added.
-   * @see #addUnique(Object)
+   * @see #addUnique(E)
    */
-  public boolean add(Object object)
+  @Override
+  public boolean add(E object)
   {
     if (isUnique() && contains(object))
     {
@@ -608,9 +634,9 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * after uniqueness checking.
    * @param object the object to be added.
-   * @see #add(Object)
+   * @see #add(E)
    */
-  public void addUnique(Object object) 
+  public void addUnique(E object) 
   {
     //  ++modCount
     //
@@ -625,14 +651,15 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * Adds the object at the given index in the list.
    * If {@link #isUnique uniqueness} is required,
    * duplicates will be ignored.
-   * This implementation delegates to {@link #addUnique(int, Object) addUnique(int, Object)} 
+   * This implementation delegates to {@link #addUnique(int, E) addUnique(int, E)} 
    * after uniqueness checking.
    * @param object the object to be added.
    * @exception IllegalArgumentException if {@link #isUnique uniqueness} is required,
    * and the object is a duplicate.
-   * @see #addUnique(int, Object)
+   * @see #addUnique(int, E)
    */
-  public void add(int index, Object object)
+  @Override
+  public void add(int index, E object)
   {
     if (index > size)
       throw new BasicIndexOutOfBoundsException(index, size);
@@ -650,15 +677,15 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * it does no ranging checking or uniqueness checking.
    * This implementation delegates to {@link #assign assign}, {@link #didAdd didAdd}, and {@link #didChange didChange}.
    * @param object the object to be added.
-   * @see #add(int, Object)
+   * @see #add(int, E)
    */
-  public void addUnique(int index, Object object) 
+  public void addUnique(int index, E object) 
   {
     // ++modCount
     //
     grow(size + 1);
     
-    Object validatedObject = validate(index, object);
+    E validatedObject = validate(index, object);
     if (index != size)
     {
       System.arraycopy(data, index, data, index + 1, size - index);
@@ -679,7 +706,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param collection the collection of objects to be added.
    * @see #addAllUnique(Collection)
    */
-  public boolean addAll(Collection collection)
+  @Override
+  public boolean addAll(Collection<? extends E> collection)
   {
     if (isUnique())
     {
@@ -695,7 +723,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param collection the collection of objects to be added.
    * @see #addAll(Collection)
    */
-  public boolean addAllUnique(Collection collection) 
+  public boolean addAllUnique(Collection<? extends E> collection) 
   {
     int growth = collection.size();
 
@@ -703,12 +731,12 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
     //
     grow(size + growth);
 
-    Iterator objects = collection.iterator();
+    Iterator<? extends E> objects = collection.iterator();
     int oldSize = size;
     size += growth;
     for (int i = oldSize; i < size; ++i)
     {
-      Object object = objects.next();
+      E object = objects.next();
       assign(i, validate(i, object));
       didAdd(i, object);
       didChange();
@@ -730,7 +758,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return whether any objects were added.
    * @see #addAllUnique(int, Collection)
    */
-  public boolean addAll(int index, Collection collection) 
+  @Override
+  public boolean addAll(int index, Collection<? extends E> collection) 
   {
     if (index > size)
       throw new BasicIndexOutOfBoundsException(index, size);
@@ -752,7 +781,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return whether any objects were added.
    * @see #addAll(int, Collection)
    */
-  public boolean addAllUnique(int index, Collection collection) 
+  public boolean addAllUnique(int index, Collection<? extends E> collection) 
   {
     int growth = collection.size();
 
@@ -766,11 +795,11 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
       System.arraycopy(data, index, data, index + growth, shifted);
     }
 
-    Iterator objects = collection.iterator();
+    Iterator<? extends E> objects = collection.iterator();
     size += growth;
     for (int i = 0; i < growth; ++i)
     {
-      Object object = objects.next();
+      E object = objects.next();
       assign(index, validate(index, object));
       didAdd(index, object);
       didChange();
@@ -804,7 +833,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
     int index = size;
     for (int i = start; i < end; ++i)
     {
-      Object object = objects[i];
+      @SuppressWarnings("unchecked") E object = (E)objects[i];
       assign(index, validate(index, object));
       didAdd(index, object);
       didChange();
@@ -843,7 +872,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
     size += growth;
     for (int i = start; i < end; ++i)
     {
-      Object object = objects[i];
+      @SuppressWarnings("unchecked") E object = (E)objects[i];
       assign(index, validate(index, object));
       didAdd(index, object);
       didChange();
@@ -861,6 +890,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param object the object to be removed.
    * @return whether the object was actually contained by the list.
    */
+  @Override
   public boolean remove(Object object) 
   {
     int index = indexOf(object);
@@ -880,7 +910,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param collection the collection of objects to be removed.
    * @return whether any object was actually contained by the list.
    */
-  public boolean removeAll(Collection collection) 
+  @Override
+  public boolean removeAll(Collection<?> collection) 
   {
     boolean modified = false;
     for (int i = size; --i >= 0; )
@@ -902,13 +933,14 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return the removed object.
    * @exception IndexOutOfBoundsException if the index isn't within the size range.
    */
-  public Object remove(int index) 
+  @Override
+  public E remove(int index) 
   {
     if (index >= size)
       throw new BasicIndexOutOfBoundsException(index, size);
 
     ++modCount;
-    Object oldObject = data[index];
+    @SuppressWarnings("unchecked") E oldObject = (E)data[index];
 
     int shifted = size - index - 1;
     if (shifted > 0)
@@ -933,7 +965,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param collection the collection of objects to be retained.
    * @return whether any object was actually removed.
    */
-  public boolean retainAll(Collection collection) 
+  @Override
+  public boolean retainAll(Collection<?> collection) 
   {
     boolean modified = false;
     for (int i = size; --i >= 0; )
@@ -952,6 +985,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * This implementation discards the data storage without modifying it
    * and delegates to {@link #didClear didClear} and {@link #didChange didChange}.
    */
+  @Override
   public void clear() 
   {
     ++modCount;
@@ -976,7 +1010,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param object the object to be moved.
    * @exception IndexOutOfBoundsException if the index isn't within the size range or the object isn't contained by the list.
    */
-  public void move(int index, Object object) 
+  public void move(int index, E object) 
   {
     move(index, indexOf(object));
   }
@@ -990,7 +1024,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return the moved object.
    * @exception IndexOutOfBoundsException if either index isn't within the size range.
    */
-  public Object move(int targetIndex, int sourceIndex)
+  public E move(int targetIndex, int sourceIndex)
   {
     ++modCount;
     if (targetIndex >= size)
@@ -999,7 +1033,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
     if (sourceIndex >= size)
       throw new IndexOutOfBoundsException("sourceIndex=" + sourceIndex + ", size=" + size);
 
-    Object object = data[sourceIndex];
+    @SuppressWarnings("unchecked") E object = (E)data[sourceIndex];
     if (targetIndex != sourceIndex)
     {
       if (targetIndex < sourceIndex)
@@ -1105,7 +1139,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
 
       for (int i = 0; i < size; ++i)
       {
-        didAdd(i, assign(i, objectInputStream.readObject()));
+        @SuppressWarnings("unchecked") E object = (E)objectInputStream.readObject();
+        didAdd(i, assign(i, object));
       }
     }
   }
@@ -1114,11 +1149,12 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * Returns a shallow copy of this list.
    * @return a shallow copy of this list.
    */
+  @Override
   public Object clone() 
   {
     try 
     {
-      BasicEList clone = (BasicEList)super.clone();
+      @SuppressWarnings("unchecked") BasicEList<E> clone = (BasicEList<E>)super.clone();
       if (size > 0)
       {
         clone.size = size;
@@ -1139,6 +1175,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return whether the object is a list with corresponding equal objects.
    * @see #useEquals
    */
+  @Override
   public boolean equals(Object object) 
   {
     if (object == this)
@@ -1151,13 +1188,13 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
       return false;
     }
 
-    List list = (List)object;
+    List<?> list = (List<?>)object;
     if (list.size() != size)
     {
       return false;
     }
 
-    Iterator objects = ((List)object).iterator();
+    Iterator<?> objects = list.iterator();
     if (useEquals())
     {
       for (int i = 0; i < size; ++i)
@@ -1190,6 +1227,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * Returns a hash code computed from each object's hash code.
    * @return a hash code.
    */
+  @Override
   public int hashCode() 
   {
     int hashCode = 1;
@@ -1205,6 +1243,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * Returns a string of the form <code>"[object1, object2]"</code>.
    * @return a string of the form <code>"[object1, object2]"</code>.
    */
+  @Override
   public String toString() 
   {
     StringBuffer stringBuffer = new StringBuffer();
@@ -1227,15 +1266,16 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return an iterator.
    * @see BasicEList.EIterator
    */
-  public Iterator iterator() 
+  @Override
+  public Iterator<E> iterator() 
   {
-    return new EIterator();
+    return new EIterator<E>();
   }
 
   /**
    * An extensible iterator implementation.
    */
-  protected class EIterator implements Iterator 
+  protected class EIterator<E1> implements Iterator<E1>
   {
     /**
      * The current position of the iterator.
@@ -1263,15 +1303,27 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
 
     /**
      * Returns the next object and advances the iterator.
+     * This implementation delegates to {@link #doNext doNext}.
+     * @return the next object.
+     * @exception NoSuchElementException if the iterator is done.
+     */
+    @SuppressWarnings("unchecked")
+    public E1 next() 
+    {
+      return (E1)doNext();
+    }
+
+    /**
+     * Returns the next object and advances the iterator.
      * This implementation delegates to {@link BasicEList#get get}.
      * @return the next object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object next() 
+    protected E doNext() 
     {
       try 
       {
-        Object next = BasicEList.this.get(cursor);
+        E next = BasicEList.this.get(cursor);
         checkModCount();
         lastCursor = cursor++;
         return next;
@@ -1334,15 +1386,15 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * This implementation allocates a {@link NonResolvingEIterator}.
    * @return a read-only iterator that does not resolve objects.
    */
-  protected Iterator basicIterator()
+  protected Iterator<E> basicIterator()
   {
-    return new NonResolvingEIterator();
+    return new NonResolvingEIterator<E>();
   }
 
   /**
    * An extended read-only iterator that does not {@link #resolve resolve} objects.
    */
-  protected class NonResolvingEIterator extends EIterator 
+  protected class NonResolvingEIterator<E1> extends EIterator<E1>
   {
     /**
      * Returns the next object and advances the iterator.
@@ -1350,11 +1402,12 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * @return the next object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object next() 
+    @Override
+    protected E doNext() 
     {
       try 
       {
-        Object next = BasicEList.this.data[cursor];
+        @SuppressWarnings("unchecked") E next = (E)BasicEList.this.data[cursor];
         checkModCount();
         lastCursor = cursor++;
         return next;
@@ -1370,6 +1423,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws and exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
+    @Override
     public void remove()
     {
       throw new UnsupportedOperationException();
@@ -1382,9 +1436,10 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return a list iterator.
    * @see BasicEList.EListIterator
    */
-  public ListIterator listIterator() 
+  @Override
+  public ListIterator<E> listIterator() 
   {
-    return new EListIterator();
+    return new EListIterator<E>();
   }
 
   /**
@@ -1395,24 +1450,26 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @see BasicEList.EListIterator
    * @exception IndexOutOfBoundsException if the index isn't within the size range.
    */
-  public ListIterator listIterator(int index) 
+  @Override
+  public ListIterator<E> listIterator(int index) 
   {
     if (index < 0 || index > size())
       throw new BasicIndexOutOfBoundsException(index, size);
 
-    return new EListIterator(index);
+    return new EListIterator<E>(index);
   }
 
   /**
    * An extensible list iterator implementation.
    */
-  protected class EListIterator extends EIterator implements ListIterator 
+  protected class EListIterator<E1> extends EIterator<E1> implements ListIterator<E1> 
   {
     /**
      * Creates an instance.
      */
     public EListIterator() 
     {
+      super();
     }
 
     /**
@@ -1435,15 +1492,27 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
 
     /**
      * Returns the previous object and advances the iterator.
+     * This implementation delegates to {@link BasicEList#doPrevious doPrevious}.
+     * @return the previous object.
+     * @exception NoSuchElementException if the iterator is done.
+     */
+    @SuppressWarnings("unchecked")
+    public E1 previous() 
+    {
+      return (E1)doPrevious();
+    }
+
+    /**
+     * Returns the previous object and advances the iterator.
      * This implementation delegates to {@link BasicEList#get get}.
      * @return the previous object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object previous() 
+    protected E doPrevious() 
     {
       try 
       {
-        Object previous = BasicEList.this.get(--cursor);
+        E previous = BasicEList.this.get(--cursor);
         checkModCount();
         lastCursor = cursor;
         return previous;
@@ -1482,7 +1551,22 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * or {@link #remove remove} or {@link #add add} have already been called 
      * after the last call to <code>next</code> or <code>previous</code>.
      */
-    public void set(Object object) 
+    @SuppressWarnings("unchecked")
+    public void set(E1 object) 
+    {
+      doSet((E)object);  
+    }
+
+    /**
+     * Sets the object at the index of the last call to {@link #next next} or {@link #previous previous}.
+     * This implementation delegates to {@link BasicEList#set set}.
+     * @param object the object to set.
+     * @exception IllegalStateException
+     * if <code>next</code> or <code>previous</code> have not yet been called,
+     * or {@link #remove remove} or {@link #add add} have already been called 
+     * after the last call to <code>next</code> or <code>previous</code>.
+     */
+    protected void doSet(E object) 
     {
       if (lastCursor == -1)
       {
@@ -1502,10 +1586,21 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
 
     /**
      * Adds the object at the {@link #next next} index and advances the iterator past it.
-     * This implementation delegates to {@link BasicEList#add(int, Object) add(int, Object)}.
+     * This implementation delegates to {@link BasicEList#doAdd(int, E) doAdd(E)}.
      * @param object the object to add.
      */
-    public void add(Object object) 
+    @SuppressWarnings("unchecked")
+    public void add(E1 object) 
+    {
+      doAdd((E)object);
+    }
+    
+    /**
+     * Adds the object at the {@link #next next} index and advances the iterator past it.
+     * This implementation delegates to {@link BasicEList#add(int, E) add(int, E)}.
+     * @param object the object to add.
+     */
+    protected void doAdd(E object) 
     {
       checkModCount();
 
@@ -1527,9 +1622,9 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * This implementation allocates a {@link NonResolvingEListIterator}.
    * @return a read-only list iterator that does not resolve objects.
    */
-  protected ListIterator basicListIterator() 
+  protected ListIterator<E> basicListIterator() 
   {
-    return new NonResolvingEListIterator();
+    return new NonResolvingEListIterator<E>();
   }
 
   /**
@@ -1539,24 +1634,25 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @return a read-only list iterator advanced to the index.
    * @exception IndexOutOfBoundsException if the index isn't within the size range.
    */
-  protected ListIterator basicListIterator(int index) 
+  protected ListIterator<E> basicListIterator(int index) 
   {
     if (index < 0 || index > size())
       throw new BasicIndexOutOfBoundsException(index, size);
 
-    return new NonResolvingEListIterator(index);
+    return new NonResolvingEListIterator<E>(index);
   }
 
   /**
    * An extended read-only list iterator that does not {@link #resolve resolve} objects.
    */
-  protected class NonResolvingEListIterator extends EListIterator
+  protected class NonResolvingEListIterator<E1> extends EListIterator<E1>
   {
     /**
      * Creates an instance.
      */
     public NonResolvingEListIterator()
     {
+      super();
     }
 
     /**
@@ -1574,11 +1670,12 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * @return the next object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object next()
+    @Override
+    protected E doNext()
     {
       try
       {
-        Object next = BasicEList.this.data[cursor];
+        @SuppressWarnings("unchecked") E next = (E)BasicEList.this.data[cursor];
         checkModCount();
         lastCursor = cursor++;
         return next;
@@ -1596,11 +1693,12 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * @return the previous object.
      * @exception NoSuchElementException if the iterator is done.
      */
-    public Object previous()
+    @Override
+    protected E doPrevious()
     {
       try
       {
-        Object previous = BasicEList.this.data[--cursor];
+        @SuppressWarnings("unchecked") E previous = (E)BasicEList.this.data[--cursor];
         checkModCount();
         lastCursor = cursor;
         return previous;
@@ -1616,6 +1714,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
+    @Override
     public void remove()
     {
       throw new UnsupportedOperationException();
@@ -1625,7 +1724,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public void set(Object object)
+    @Override
+    public void set(E1 object)
     {
       throw new UnsupportedOperationException();
     }
@@ -1634,7 +1734,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public void add(Object object)
+    @Override
+    public void add(E1 object)
     {
       throw new UnsupportedOperationException();
     }
@@ -1643,8 +1744,10 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
   /**
    * An unmodifiable version of {@link BasicEList}.
    */
-  public static class UnmodifiableEList extends BasicEList
+  public static class UnmodifiableEList<E> extends BasicEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates an initialized instance.
      * @param size the size of the list.
@@ -1660,7 +1763,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public Object set(int index, Object object) 
+    @Override
+    public E set(int index, E object) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1669,7 +1773,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public boolean add(Object object) 
+    @Override
+    public boolean add(E object) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1678,7 +1783,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public void add(int index, Object object) 
+    @Override
+    public void add(int index, E object) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1687,7 +1793,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public boolean addAll(Collection collection) 
+    @Override
+    public boolean addAll(Collection<? extends E> collection) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1696,7 +1803,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public boolean addAll(int index, Collection collection) 
+    @Override
+    public boolean addAll(int index, Collection<? extends E> collection) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1705,6 +1813,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
+    @Override
     public boolean remove(Object object) 
     {
       throw new UnsupportedOperationException();
@@ -1714,7 +1823,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public Object remove(int index) 
+    @Override
+    public E remove(int index) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1723,7 +1833,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public boolean removeAll(Collection collection) 
+    @Override
+    public boolean removeAll(Collection<?> collection) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1732,7 +1843,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public boolean retainAll(Collection collection) 
+    @Override
+    public boolean retainAll(Collection<?> collection) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1741,6 +1853,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
+    @Override
     public void clear() 
     {
       throw new UnsupportedOperationException();
@@ -1750,7 +1863,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public void move(int index, Object object) 
+    @Override
+    public void move(int index, E object) 
     {
       throw new UnsupportedOperationException();
     }
@@ -1759,7 +1873,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
-    public Object move(int targetIndex, int sourceIndex)
+    @Override
+    public E move(int targetIndex, int sourceIndex)
     {
       throw new UnsupportedOperationException();
     }
@@ -1768,6 +1883,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
+    @Override
     public void shrink() 
     {
       throw new UnsupportedOperationException();
@@ -1777,6 +1893,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Throws an exception.
      * @exception UnsupportedOperationException always because it's not supported.
      */
+    @Override
     public void grow(int minimumCapacity) 
     {
       throw new UnsupportedOperationException();
@@ -1786,7 +1903,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Returns the {@link BasicEList#basicIterator basic iterator}.
      * @return the basic iterator.
      */
-    public Iterator iterator() 
+    @Override
+    public Iterator<E> iterator() 
     {
       return basicIterator();
     }
@@ -1795,7 +1913,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Returns the {@link #basicListIterator() basic list iterator}.
      * @return the basic list iterator.
      */
-    public ListIterator listIterator() 
+    @Override
+    public ListIterator<E> listIterator() 
     {
       return basicListIterator();
     }
@@ -1805,7 +1924,8 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * @param index the starting index.
      * @return the basic list iterator.
      */
-    public ListIterator listIterator(int index) 
+    @Override
+    public ListIterator<E> listIterator(int index) 
     {
       return basicListIterator(index);
     }
@@ -1815,23 +1935,25 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * Returns an <b>unsafe</b> list that provides a {@link #resolve non-resolving} view of the underlying data storage.
    * @return an <b>unsafe</b> list that provides a non-resolving view of the underlying data storage.
    */
-  protected List basicList()
+  protected List<E> basicList()
   {
     if (size == 0)
     {
-      return ECollections.EMPTY_ELIST;
+      return ECollections.emptyEList();
     }
     else
     {
-      return new UnmodifiableEList(size, data);
+      return new UnmodifiableEList<E>(size, data);
     }
   }
 
   /**
    * A <code>BasicEList</code> that {@link #useEquals uses} <code>==</code> instead of <code>equals</code> to compare members.
    */
-  public static class FastCompare extends BasicEList
+  public static class FastCompare<E> extends BasicEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates an empty instance with no initial capacity.
      */
@@ -1854,7 +1976,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Creates an instance that is a copy of the collection.
      * @param collection the initial contents of the list.
      */
-    public FastCompare(Collection collection)
+    public FastCompare(Collection<? extends E> collection)
     {
       super(collection.size());
       addAll(collection);
@@ -1864,6 +1986,7 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
      * Returns <code>false</code> because this list uses <code>==</code>.
      * @return <code>false</code>.
      */
+    @Override
     protected boolean useEquals()
     {
       return false;
@@ -1875,23 +1998,24 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param collection the other collection.
    * @return the collection of objects in the given collection that are also contained by this list.
    */
-  protected Collection getDuplicates(Collection collection)
+  protected Collection<E> getDuplicates(Collection<?> collection)
   {
-    Collection result = collection;
-    Collection filteredResult = null;
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    if (collection.isEmpty())
     {
-      Object object = i.next();
-      if (!contains(object))
-      {
-        if (filteredResult == null)
-        {
-          result = filteredResult = useEquals() ? new BasicEList(collection) : new FastCompare(collection);
-        }
-        filteredResult.remove(object);
-      }
+      return ECollections.emptyEList();
     }
-    return result;
+    else
+    {
+      Collection<E> filteredResult = useEquals() ? new BasicEList<E>(collection.size()) : new FastCompare<E>(collection.size());
+      for (E object : this)
+      {
+        if (collection.contains(object))
+        {
+          filteredResult.add(object);
+        }
+      }
+      return filteredResult;
+    }
   }
 
   /**
@@ -1899,12 +2023,11 @@ public class BasicEList extends AbstractList implements EList, RandomAccess, Clo
    * @param collection the other collection.
    * @return the collection of objects in the given collection that are not also contained by this list.
    */
-  protected Collection getNonDuplicates(Collection collection)
+  protected Collection<E> getNonDuplicates(Collection<? extends E> collection)
   {
-    Collection result = useEquals() ?  new UniqueEList(collection.size()) : new UniqueEList.FastCompare(collection.size());
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    Collection<E> result = useEquals() ?  new UniqueEList<E>(collection.size()) : new UniqueEList.FastCompare<E>(collection.size());
+    for (E object : collection)
     {
-      Object object = i.next();
       if (!contains(object))
       {
         result.add(object);

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationWrapper.java,v 1.3 2006/07/05 11:40:15 emerks Exp $
+ * $Id: NotificationWrapper.java,v 1.4 2006/12/05 20:19:54 emerks Exp $
  */
 package org.eclipse.emf.common.notify;
 
@@ -72,7 +72,7 @@ public class NotificationWrapper implements Notification
    * Delegates to the getFeatureID method of the notification.
    * @return the featureID.
    */
-  public int getFeatureID(Class expectedClass)
+  public int getFeatureID(Class<?> expectedClass)
   {
     return notification.getFeatureID(expectedClass);
   }

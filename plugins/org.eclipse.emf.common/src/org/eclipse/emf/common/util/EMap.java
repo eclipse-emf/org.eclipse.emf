@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMap.java,v 1.2 2005/06/08 06:19:08 nickb Exp $
+ * $Id: EMap.java,v 1.3 2006/12/05 20:19:57 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -32,7 +32,7 @@ import java.util.Set;
  * The implementation of remove may delegate to <code>removeKey</code> 
  * for an object that is not an instance of <code>Map.Entry</code>.
  */
-public interface EMap extends EList
+public interface EMap<K, V> extends EList<Map.Entry<K, V>>
 {
   /**
    * Returns the value associated with the key.
@@ -40,7 +40,7 @@ public interface EMap extends EList
    * @param key the key of the value.
    * @return the value associated with the key.
    */
-  Object get(Object key);
+  V get(Object key);
 
   /**
    * Associates the key with the value
@@ -52,21 +52,21 @@ public interface EMap extends EList
    * @param value the value associated with the key.
    * @return the value formerly associated with the key, or <code>null</code>.
    */
-  Object put(Object key, Object value);
+  V put(K key, V value);
 
   /**
    * Puts each {@link java.util.Map.Entry Map.Entry} of the given map into this one.
    * @param map the map of entries.
    * @see #put
    */
-  void putAll(Map map);
+  void putAll(Map<? extends K, ? extends V> map);
 
   /**
    * Puts each {@link java.util.Map.Entry Map.Entry} of the given map into this one.
    * @param map the map of entries.
    * @see #put
    */
-  void putAll(EMap map);
+  void putAll(EMap<? extends K, ? extends V> map);
 
   /**
    * Returns the index in the list of the entry with the given key, 
@@ -98,42 +98,42 @@ public interface EMap extends EList
    * @return the value formerly associated with the key.
    * 
    */
-  Object removeKey(Object key);
+  V removeKey(Object key);
 
   /**
    * Returns a map view.
    * @return a map view.
    */
-  Map map();
+  Map<K, V> map();
 
   /**
    * Returns a set view of the entries.
    * @return a set view of the entries.
    */
-  Set entrySet();
+  Set<Map.Entry<K, V>> entrySet();
 
   /**
    * Returns a set view of the keys of the entries.
    * @return a set view of the keys of the entries.
    */
-  Set keySet();
+  Set<K> keySet();
 
   /**
    * Returns a collection view the values of the entries.
    * @return a collection view the values of the entries.
    */
-  Collection values();
+  Collection<V> values();
 
   /**
    * An internal interface implemented by the {@link #map() map view}.
    * It provides access to the EMap view.
    */
-  interface InternalMapView extends Map
+  interface InternalMapView<K, V> extends Map<K, V>
   {
     /**
      * Returns the EMap view of the map.
      * @return the EMap view of the map.
      */
-    EMap eMap();
+    EMap<K, V> eMap();
   }
 }

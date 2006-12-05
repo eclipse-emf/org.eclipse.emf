@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractCommand.java,v 1.4 2005/06/08 05:44:08 nickb Exp $
+ * $Id: AbstractCommand.java,v 1.5 2006/12/05 20:19:54 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -65,6 +65,7 @@ public abstract class AbstractCommand implements Command
    */
   protected AbstractCommand()
   {
+    super();
   }
 
   /**
@@ -142,7 +143,7 @@ public abstract class AbstractCommand implements Command
    * Returns an empty list.
    * @return an empty list.
    */
-  public Collection getResult()
+  public Collection<?> getResult()
   {
     return Collections.EMPTY_LIST;
   }
@@ -151,7 +152,7 @@ public abstract class AbstractCommand implements Command
    * Returns an empty list.
    * @return an empty list.
    */
-  public Collection getAffectedObjects()
+  public Collection<?> getAffectedObjects()
   {
     return Collections.EMPTY_LIST;
   }
@@ -202,8 +203,10 @@ public abstract class AbstractCommand implements Command
     {
       public ChainedCompoundCommand()
       {
+        super();
       }
 
+      @Override
       public Command chain(Command c)
       {
         append(c);
@@ -222,6 +225,7 @@ public abstract class AbstractCommand implements Command
    */
   public void dispose()
   {
+    // Do nothing.
   }
   
   /**
@@ -229,6 +233,7 @@ public abstract class AbstractCommand implements Command
    * followed by a space separated list of <tt>field:value</tt> pairs.
    * @return string representation.
    */
+  @Override
   public String toString()
   {
     String className = getClass().getName();
@@ -247,5 +252,6 @@ public abstract class AbstractCommand implements Command
    */
   public static interface NonDirtying
   {
+    // This is just a marker interface.
   }
 }

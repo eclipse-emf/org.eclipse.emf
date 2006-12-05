@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicNotifierImpl.java,v 1.4 2006/02/21 14:34:14 emerks Exp $
+ * $Id: BasicNotifierImpl.java,v 1.5 2006/12/05 20:19:58 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -37,10 +37,13 @@ public class BasicNotifierImpl implements Notifier
    */
   public BasicNotifierImpl()
   {
+    super();
   }
 
-  public static class EAdapterList extends BasicEList
+  public static class EAdapterList<E extends Object & Adapter> extends BasicEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
     protected Notifier notifier;
 
     public EAdapterList(Notifier notifier)
@@ -50,35 +53,40 @@ public class BasicNotifierImpl implements Notifier
 
     protected boolean safe;
 
+    @Override
     protected boolean canContainNull()
     {
       return false;
     }
 
+    @Override
     protected boolean useEquals()
     {
       return false;
     }
 
+    @Override
     protected Object [] newData(int capacity)
     {
       return new Adapter [capacity];
     }
 
-    protected void didAdd(int index, Object newObject)
+    @Override
+    protected void didAdd(int index, E newObject)
     {
-      Adapter adapter = (Adapter)newObject;
-      adapter.setTarget(notifier);
+      newObject.setTarget(notifier);
     }
 
-    protected void didRemove(int index, Object oldObject)
+    @Override
+    protected void didRemove(int index, E oldObject)
     {
-      Adapter adapter = (Adapter)oldObject;
+      E adapter = oldObject;
       if (notifier.eDeliver())
       {
         Notification notification = 
           new NotificationImpl(Notification.REMOVING_ADAPTER, oldObject, null, index)
           {
+            @Override
             public Object getNotifier()
             {
               return notifier;
@@ -96,10 +104,11 @@ public class BasicNotifierImpl implements Notifier
       }
     }
 
+    @Override
     public Object [] data()
     {
       safe = true;
-      return (Adapter [])data;
+      return data;
     }
 
     protected void ensureSafety()
@@ -113,86 +122,94 @@ public class BasicNotifierImpl implements Notifier
       }
     }
 
-    public boolean add(Object object)
+    @Override
+    public boolean add(E object)
     {
       ensureSafety();
       return super.add(object);
     }
 
-    public void add(int index, Object object)
+    @Override
+    public void add(int index, E object)
     {
       ensureSafety();
       super.add(index, object);
     }
 
-    public boolean addAll(Collection collection)
+    @Override
+    public boolean addAll(Collection<? extends E> collection)
     {
       ensureSafety();
       return super.addAll(collection);
     }
 
+    @Override
     public boolean remove(Object object)
     {
       ensureSafety();
       return super.remove(object);
     }
 
-    public Object remove(int index)
+    @Override
+    public E remove(int index)
     {
       ensureSafety();
       return super.remove(index);
     }
 
-    public boolean removeAll(Collection collection)
+    @Override
+    public boolean removeAll(Collection<?> collection)
     {
       ensureSafety();
       return super.removeAll(collection);
     }
 
+    @Override
     public void clear()
     {
       ensureSafety();
       super.clear();
     }
 
-    public boolean retainAll(Collection collection)
+    @Override
+    public boolean retainAll(Collection<?> collection)
     {
       ensureSafety();
       return super.retainAll(collection);
     }
 
-    public Object set(int index, Object object)
+    @Override
+    public E set(int index, E object)
     {
       ensureSafety();
       return super.set(index, object);
     }
 
-    public void move(int newPosition, Object object)
+    @Override
+    public void move(int newPosition, E object)
     {
       ensureSafety();
       super.move(newPosition, object);
     }
 
-    public Object move(int newPosition, int oldPosition)
+    @Override
+    public E move(int newPosition, int oldPosition)
     {
       ensureSafety();
       return super.move(newPosition, oldPosition);
     }
   }
 
-  /*
-   * Javadoc copied from interface.
-   */
-  public EList eAdapters()
+  public EList<Adapter> eAdapters()
   {
-    return ECollections.EMPTY_ELIST;
+    return ECollections.emptyEList();
   }
 
   /**
    * Returns the adapter list, even if it is <code>null</code>.
    * @return the adapter list, even if it is <code>null</code>.
    */
-  protected BasicEList eBasicAdapters()
+  protected BasicEList<Adapter> eBasicAdapters()
   {
     return null;
   }
@@ -218,7 +235,7 @@ public class BasicNotifierImpl implements Notifier
    */
   public void eNotify(Notification notification)
   {
-    BasicEList eAdapters = eBasicAdapters();
+    BasicEList<Adapter> eAdapters = eBasicAdapters();
     if (eAdapters != null && eDeliver())
     {
       int size = eAdapters.size();
@@ -241,7 +258,7 @@ public class BasicNotifierImpl implements Notifier
    */
   public boolean eNotificationRequired()
   {
-    BasicEList eAdapters = eBasicAdapters();
+    BasicEList<Adapter> eAdapters = eBasicAdapters();
     return eAdapters != null && eDeliver() && !eAdapters.isEmpty();
   }
 }

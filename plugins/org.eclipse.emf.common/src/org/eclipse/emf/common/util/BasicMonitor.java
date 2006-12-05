@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicMonitor.java,v 1.1 2005/11/18 12:01:19 emerks Exp $
+ * $Id: BasicMonitor.java,v 1.2 2006/12/05 20:19:56 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -35,6 +35,7 @@ public class BasicMonitor implements Monitor
   
   public BasicMonitor()
   {
+    super();
   }
 
   public boolean isCanceled()
@@ -67,26 +68,32 @@ public class BasicMonitor implements Monitor
  
   public void beginTask(String name, int totalWork)
   {
+    // Do nothing.
   }
   
   public void setTaskName(String name)
   {
+    // Do nothing.
   }
 
   public void subTask(String name)
   {
+    // Do nothing.
   }
 
   public void worked(int work)
   {
+    // Do nothing.
   }
   
   public void internalWorked(double work)
   {
+    // Do nothing.
   }
     
   public void done()
   {
+    // Do nothing.
   }
   
   /**
@@ -347,6 +354,7 @@ public class BasicMonitor implements Monitor
       this.printStream = printStream;
     }
 
+    @Override
     public void beginTask(String name, int totalWork)
     {
       if (name != null && name.length() != 0)
@@ -355,6 +363,7 @@ public class BasicMonitor implements Monitor
       }
     }
 
+    @Override
     public void setTaskName(String name)
     {
       if (name != null && name.length() != 0)
@@ -363,6 +372,7 @@ public class BasicMonitor implements Monitor
       }
     }
 
+    @Override
     public void subTask(String name)
     {
       if (name != null && name.length() != 0)
@@ -371,12 +381,14 @@ public class BasicMonitor implements Monitor
       }
     }
     
+    @Override
     public void setBlocked(Diagnostic reason)
     {
       super.setBlocked(reason);
       printStream.println("#>  " + reason.getMessage());
     }
   
+    @Override
     public void clearBlocked()
     {
       printStream.println("=>  " + getBlockedReason().getMessage());

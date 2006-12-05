@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: WrappedException.java,v 1.4 2005/12/15 12:55:50 emerks Exp $
+ * $Id: WrappedException.java,v 1.5 2006/12/05 20:19:56 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -22,6 +22,8 @@ package org.eclipse.emf.common.util;
  */
 public class WrappedException extends RuntimeException
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Creates an instance that wraps the exception.
    */

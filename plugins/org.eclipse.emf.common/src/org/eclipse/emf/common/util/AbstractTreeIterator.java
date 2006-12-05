@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractTreeIterator.java,v 1.4 2005/06/08 06:19:08 nickb Exp $
+ * $Id: AbstractTreeIterator.java,v 1.5 2006/12/05 20:19:54 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -26,7 +26,7 @@ import java.util.Iterator;
  * Clients need only implement {@link #getChildren getChildren} 
  * in order to implement a fully functional tree iterator.
  */
-public abstract class AbstractTreeIterator extends BasicEList implements TreeIterator
+public abstract class AbstractTreeIterator<E> extends BasicEList<Iterator<? extends E>> implements TreeIterator<E>
 {
   /**
    * Whether the first call to next returns the initial root object 
@@ -42,31 +42,33 @@ public abstract class AbstractTreeIterator extends BasicEList implements TreeIte
   /**
    * The iterator that would be cut short by a call to {@link #prune}.
    */
-  protected Iterator nextPruneIterator;
+  protected Iterator<? extends E> nextPruneIterator;
 
   /**
    * The iterator to which a {@link #remove} call will delegated.
    */
-  protected Iterator nextRemoveIterator;
+  protected Iterator<? extends E> nextRemoveIterator;
 
   /**
    * Creates an instance that iterates over an object, it's children, their children, and so on.
    * @param object the root object of the tree.
    */
-  public AbstractTreeIterator(Object object)
+  public AbstractTreeIterator(E object)
   {
     this.object = object;
     this.includeRoot = true;
   }
 
   /**
-   * Creates and instance that iterates over an object (but only if <code>includeRoot</code> is <code>true</code>), 
-   * it's children, their children, and so on.
+   * <p>Creates and instance that iterates over an object (but only if <code>includeRoot</code> is <code>true</code>), 
+   * it's children, their children, and so on.<p>
+   * <p>If <code>includeRoot</code> is <code>true</code>, the <code>object</code> is expected
+   * to be of the type {@link E}. 
    */
   public AbstractTreeIterator(Object object, boolean includeRoot)
   {
     this.object = object;
-    this.includeRoot = includeRoot;
+    this.includeRoot = includeRoot;    
   }
 
   /**
@@ -74,7 +76,7 @@ public abstract class AbstractTreeIterator extends BasicEList implements TreeIte
    * @param object the object for which children are required.
    * @return the iterator that yields the children.
    */
-  protected abstract Iterator getChildren(Object object);
+  protected abstract Iterator<? extends E> getChildren(Object object);
 
   /**
    * Returns whether there are more elements.
@@ -94,7 +96,7 @@ public abstract class AbstractTreeIterator extends BasicEList implements TreeIte
 
   private boolean hasAnyChildren()
   {
-    Iterator nextPruneIterator = this.nextPruneIterator;
+    Iterator<? extends E> nextPruneIterator = this.nextPruneIterator;
 
     nextPruneIterator = getChildren(object);
     add(nextPruneIterator);
@@ -105,41 +107,39 @@ public abstract class AbstractTreeIterator extends BasicEList implements TreeIte
   {
     // We don't create an iterator stack until the root mapping itself has been returned by next once.
     // After that the stack should be non-empty and the top iterator should yield true for hasNext.
-    return data == null || !isEmpty() && ((Iterator)data[size - 1]).hasNext();
+    return data == null || !isEmpty() && ((Iterator<?>)data[size - 1]).hasNext();
   }
 
   /**
    * Returns the next object and advances the iterator.
    * @return the next object.
    */
-  public Object next()
+  public E next()
   {
-    Object result;
-
     // If we are still on the root mapping itself...
     //
     if (data == null)
     {
       // Yield that mapping, create a stack, record it as the next one to prune, and add it to the stack.
       //
-      result = object;
       nextPruneIterator = getChildren(object);
       add(nextPruneIterator);
       if (includeRoot)
       {
+        @SuppressWarnings("unchecked") E result = (E)object;
         return result;
       }
     }
-
+    
     // Get the top iterator, retrieve it's result, and record it as the one to which remove will be delegated.
     //
-    Iterator currentIterator = (Iterator)data[size - 1];
-    result = currentIterator.next();
+    @SuppressWarnings("unchecked") Iterator<? extends E> currentIterator = (Iterator<? extends E>)data[size - 1];
+    E result = currentIterator.next();
     nextRemoveIterator = currentIterator;
 
     // If the result about to be returned has children...
     //
-    Iterator iterator = getChildren(result);
+    Iterator<? extends E> iterator = getChildren(result);
     if (iterator.hasNext())
     {
       // Record the iterator as the next one to prune, and add it to the stack.
@@ -170,7 +170,8 @@ public abstract class AbstractTreeIterator extends BasicEList implements TreeIte
 
         // Get the next one down and then test it for has next.
         //
-        currentIterator = (Iterator)data[size - 1];
+        @SuppressWarnings("unchecked") Iterator<? extends E> nextIterator = (Iterator<? extends E>)data[size - 1];
+        currentIterator = nextIterator;
       }
     }
 
@@ -213,7 +214,7 @@ public abstract class AbstractTreeIterator extends BasicEList implements TreeIte
 
         // Keep poping the stack until an iterator that has a next is at the top.
         //
-        while (!isEmpty() && !((Iterator)data[size - 1]).hasNext())
+        while (!isEmpty() && !((Iterator<?>)data[size - 1]).hasNext())
         {
           data[--size] = null;
         }

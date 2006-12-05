@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryImpl.java,v 1.5 2005/06/08 06:19:08 nickb Exp $
+ * $Id: AdapterFactoryImpl.java,v 1.6 2006/12/05 20:19:58 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
-
-import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -34,6 +32,7 @@ public class AdapterFactoryImpl implements AdapterFactory
    */
   public AdapterFactoryImpl()
   {
+    super();
   }
 
   /**
@@ -82,14 +81,10 @@ public class AdapterFactoryImpl implements AdapterFactory
     return object;
   }
 
-  /*
-   * Javadoc copied from interface.
-   */
   public Adapter adapt(Notifier target, Object type)
   {
-    for (Iterator adapters = target.eAdapters().iterator(); adapters.hasNext(); )
+    for (Adapter adapter : target.eAdapters())
     {
-      Adapter adapter = (Adapter)adapters.next();
       if (adapter.isAdapterForType(type))
       {
         return adapter;

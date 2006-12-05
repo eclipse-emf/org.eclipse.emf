@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommandWrapper.java,v 1.2 2005/06/08 05:44:08 nickb Exp $
+ * $Id: CommandWrapper.java,v 1.3 2006/12/05 20:19:54 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -158,6 +158,7 @@ public class CommandWrapper extends AbstractCommand
    * if the command wasn't given in the constructor.
    * @return whether the command can execute.
    */
+  @Override
   protected boolean prepare()
   {
     if (command == null)
@@ -183,6 +184,7 @@ public class CommandWrapper extends AbstractCommand
   /**
    * Delegates to the canUndo method of the command.
    */
+  @Override
   public boolean canUndo() 
   {
     return command == null || command.canUndo();
@@ -191,6 +193,7 @@ public class CommandWrapper extends AbstractCommand
   /**
    * Delegates to the undo method of the command.
    */
+  @Override
   public void undo() 
   {
     if (command != null)
@@ -214,7 +217,8 @@ public class CommandWrapper extends AbstractCommand
    * Delegates to the getResult method of the command.
    * @return the result.
    */
-  public Collection getResult()
+  @Override
+  public Collection<?> getResult()
   {
     return 
       command == null ?
@@ -226,7 +230,8 @@ public class CommandWrapper extends AbstractCommand
    * Delegates to the getAffectedObjects method of the command.
    * @return the result.
    */
-  public Collection getAffectedObjects()
+  @Override
+  public Collection<?> getAffectedObjects()
   {
     return 
       command == null ?
@@ -238,6 +243,7 @@ public class CommandWrapper extends AbstractCommand
    * Delegates to the getLabel method of the command.
    * @return the label.
    */
+  @Override
   public String getLabel()
   {
     return 
@@ -252,6 +258,7 @@ public class CommandWrapper extends AbstractCommand
    * Delegates to the getDescription method of the command.
    * @return the description.
    */
+  @Override
   public String getDescription()
   {
     return 
@@ -265,6 +272,7 @@ public class CommandWrapper extends AbstractCommand
   /**
    * Delegates to the dispose method of the command.
    */
+  @Override
   public void dispose()
   {
     if (command != null)
@@ -276,6 +284,7 @@ public class CommandWrapper extends AbstractCommand
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

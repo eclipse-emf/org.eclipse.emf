@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFPlugin.java,v 1.15 2006/09/13 18:58:14 emerks Exp $
+ * $Id: EMFPlugin.java,v 1.16 2006/12/05 20:19:58 emerks Exp $
  */
 package org.eclipse.emf.common;
 
@@ -71,6 +71,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
     }
     catch (Throwable exception)
     {
+      // Assume that we aren't running.
     }
     IS_ECLIPSE_RUNNING = result;
   }
@@ -79,10 +80,10 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
   protected URL baseURL;
   protected ResourceBundle untranslatedResourceBundle;
   protected ResourceBundle resourceBundle;
-  protected Map strings = new HashMap();
-  protected Map untranslatedStrings = new HashMap();
+  protected Map<String, String> strings = new HashMap<String, String>();
+  protected Map<String, String> untranslatedStrings = new HashMap<String, String>();
   protected boolean shouldTranslate = true;
-  protected Map images = new HashMap();
+  protected Map<String, Object> images = new HashMap<String, Object>();
 
   public EMFPlugin(ResourceLocator [] delegateResourceLocators)
   {
@@ -132,7 +133,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
         {
           // Determine the base URL by looking for the plugin.properties file in the standard way.
           //
-          Class theClass = getClass();
+          Class<? extends EMFPlugin> theClass = getClass();
           URL pluginPropertiesURL = theClass.getResource("plugin.properties");
           if (pluginPropertiesURL == null)
           {
@@ -213,6 +214,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
               }
               catch (IOException exception)
               {
+                // Continue with the established base URL.
               }
             }
             
@@ -251,7 +253,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
    */
   public Object getImage(String key)
   {
-    Object result = (URL)images.get(key);
+    Object result = images.get(key);
     if (result == null)
     {
       if (getPluginResourceLocator() == null)
@@ -319,6 +321,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
       }
       catch (MissingResourceException exception)
       {
+        // Ignore the exception since we will throw one when all else fails.
       }
     }
 
@@ -362,8 +365,8 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
    */
   public String getString(String key, boolean translate)
   {
-    Map stringMap = translate ? strings : untranslatedStrings;
-    String result = (String)stringMap.get(key);
+    Map<String, String> stringMap = translate ? strings : untranslatedStrings;
+    String result = stringMap.get(key);
     if (result == null)
     {
       try
@@ -398,6 +401,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
                 }
                 catch (IOException ioException)
                 {
+                  // We'll rethrow the original exception, not this one.
                 }
                 if (resourceBundle == null)
                 {
@@ -455,6 +459,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
       }
       catch (MissingResourceException exception)
       {
+        // Ignore this since we will throw an exception when all else fails.
       }
     }
 
@@ -529,6 +534,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
      * @param descriptor the description of the plugin.
      * @deprecated
      */
+    @Deprecated
     public EclipsePlugin(org.eclipse.core.runtime.IPluginDescriptor descriptor)
     {
       super(descriptor);
@@ -751,7 +757,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
     try
     {
       String [] relativePath = { "META-INF", "MANIFEST.MF" };
-      Class theClass =  args.length > 0 ? Class.forName(args[0]) : EMFPlugin.class;
+      Class<?> theClass =  args.length > 0 ? Class.forName(args[0]) : EMFPlugin.class;
 
       String className = theClass.getName();
       int index = className.lastIndexOf(".");
@@ -825,6 +831,7 @@ public abstract class EMFPlugin implements ResourceLocator, Logger
     }
     catch (Exception exception)
     {
+      // Just print an error message.
     }
     
     System.err.println("No Bundle information found");

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECollections.java,v 1.5 2006/03/29 19:05:12 marcelop Exp $
+ * $Id: ECollections.java,v 1.6 2006/12/05 20:19:54 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -37,6 +37,7 @@ public class ECollections
   // Suppress default constructor for noninstantiability.
   private ECollections()
   {
+    super();
   }
   
   /**
@@ -45,11 +46,11 @@ public class ECollections
    * @param newPosition the position of the object after the move.
    * @param object the object to move.
    */
-  public static void move(List list, int newPosition, Object object)
+  public static <T> void move(List<T> list, int newPosition, T object)
   {
     if (list instanceof EList)
     {
-      ((EList)list).move(newPosition, object);
+      ((EList<T>)list).move(newPosition, object);
     }
     else
     {
@@ -63,16 +64,17 @@ public class ECollections
    * @param list
    * @param targetIndex the position of the object after the move.
    * @param sourceIndex the position of the object before the move.
+   * @return the moved object
    */
-  public static Object move(List list, int targetIndex, int sourceIndex)
+  public static <T> T move(List<T> list, int targetIndex, int sourceIndex)
   {
     if (list instanceof EList)
     {
-      return ((EList)list).move(targetIndex, sourceIndex);
+      return ((EList<T>)list).move(targetIndex, sourceIndex);
     }
     else
     {
-      Object object = list.remove(sourceIndex);
+      T object = list.remove(sourceIndex);
       list.add(targetIndex, object);
       return object;
     }    
@@ -81,7 +83,7 @@ public class ECollections
   /**
    * Reverses the order of the elements in the specified EList.
    */
-  public static void reverse(EList list)
+  public static void reverse(EList<?> list)
   {
     int last = list.size() - 1;
     for (int i = 0; i < last; i++)
@@ -102,7 +104,7 @@ public class ECollections
    *         object is not found.
    * @since 2.1.0
    */
-  public static int indexOf(List list, Object o, int fromIndex)
+  public static int indexOf(List<?> list, Object o, int fromIndex)
   {
     if (fromIndex < 0)
     {
@@ -134,7 +136,7 @@ public class ECollections
    * avoid errors when sorting unique lists.
    * @since 2.1.0
   */
-  public static void sort(EList list)
+  public static void sort(EList<?> list)
   {
     Object[] listAsArray = list.toArray();
     Arrays.sort(listAsArray);   
@@ -155,10 +157,11 @@ public class ECollections
    * avoid errors when sorting unique lists.
    * @since 2.1.0
    */
-  public static void sort(EList list, Comparator comparator)
+  public static <T> void sort(EList<T> list, Comparator<? super T> comparator)
   {
     Object[] listAsArray = list.toArray();
-    Arrays.sort(listAsArray, comparator);
+    @SuppressWarnings("unchecked") Comparator<Object> objectComparator = (Comparator<Object>)comparator;
+    Arrays.sort(listAsArray, objectComparator);
     for (int i=0; i < listAsArray.length; i++)
     {
       int oldIndex = indexOf(list, listAsArray[i], i);
@@ -178,12 +181,11 @@ public class ECollections
    * @param eList the list to set.
    * @param prototypeList the list representing the desired content and order.
    */
-  public static void setEList(EList eList, List prototypeList)
+  public static <T> void setEList(EList<T> eList, List<? extends T> prototypeList)
   {
     int index = 0;
-    for (Iterator objects = prototypeList.iterator(); objects.hasNext(); ++index)
+    for (T prototypeObject : prototypeList)
     {
-      Object prototypeObject = objects.next();
       if (eList.size() <= index)
       {
         eList.add(prototypeObject);
@@ -229,6 +231,7 @@ public class ECollections
         }
         while (!done);
       }
+      ++index;
     }
     for (int i = eList.size(); i > index;)
     {
@@ -240,36 +243,47 @@ public class ECollections
    * Returns an unmodifiable view of the list.
    * @return an unmodifiable view of the list.
    */
-  public static EList unmodifiableEList(EList list)
+  public static <T> EList<T> unmodifiableEList(EList<? extends T> list)
   {
-    return new UnmodifiableEList(list);
+    return new UnmodifiableEList<T>(list);
   }
 
   /**
    * Returns an unmodifiable view of the map.
    * @return an unmodifiable view of the map.
    */
-  public static EMap unmodifiableEMap(EMap map)
+  public static <K, V> EMap<K, V> unmodifiableEMap(EMap<? extends K, ? extends V> map)
   {
-    return new UnmodifiableEMap(map);
+    return new UnmodifiableEMap<K, V>(map);
   }
 
   /**
    * An unmodifiable empty list with an efficient reusable iterator.
    */
-  public static final EList EMPTY_ELIST = new EmptyUnmodifiableEList();
+  public static final EList<?> EMPTY_ELIST = new EmptyUnmodifiableEList();
+  
+  @SuppressWarnings("unchecked")
+  public static <T> EList<T> emptyEList()
+  {
+    return (EList<T>)EMPTY_ELIST;
+  }
 
   /**
    * An unmodifiable empty map with an efficient reusable iterator.
    */
-  public static final EMap EMPTY_EMAP = new EmptyUnmodifiableEMap();
+  public static final EMap<?, ?> EMPTY_EMAP = new EmptyUnmodifiableEMap();
   
-
-  private static class UnmodifiableEList implements EList
+  @SuppressWarnings("unchecked")
+  public static <K, V> EMap<K, V> emptyEMap()
   {
-    protected EList list;
+    return (EMap<K, V>)EMPTY_EMAP;
+  }
 
-    public UnmodifiableEList(EList list)
+  private static class UnmodifiableEList<E> implements EList<E>
+  {
+    protected EList<? extends E> list;
+
+    public UnmodifiableEList(EList<? extends E> list)
     {
       this.list = list;
     }
@@ -294,28 +308,29 @@ public class ECollections
       return list.toArray();
     }
 
-    public Object[] toArray(Object[] a)
+    public <T> T[] toArray(T[] a)
     {
       return list.toArray(a);
     }
 
+    @Override
     public String toString()
     {
       return list.toString();
     }
 
-    public Iterator iterator()
+    public Iterator<E> iterator()
     {
       return 
-        new Iterator()
+        new Iterator<E>()
         {
-          Iterator i = list.iterator();
+          Iterator<? extends E> i = list.iterator();
 
           public boolean hasNext()
           {
             return i.hasNext();
           }
-          public Object next()
+          public E next()
           {
             return i.next();
           }
@@ -326,7 +341,7 @@ public class ECollections
         };
     }
 
-    public boolean add(Object o)
+    public boolean add(E o)
     {
       throw new UnsupportedOperationException();
     }
@@ -336,22 +351,22 @@ public class ECollections
       throw new UnsupportedOperationException();
     }
 
-    public boolean containsAll(Collection coll)
+    public boolean containsAll(Collection<?> coll)
     {
       return list.containsAll(coll);
     }
 
-    public boolean addAll(Collection coll)
+    public boolean addAll(Collection<? extends E> coll)
     {
       throw new UnsupportedOperationException();
     }
 
-    public boolean removeAll(Collection coll)
+    public boolean removeAll(Collection<?> coll)
     {
       throw new UnsupportedOperationException();
     }
 
-    public boolean retainAll(Collection coll)
+    public boolean retainAll(Collection<?> coll)
     {
       throw new UnsupportedOperationException();
     }
@@ -361,22 +376,24 @@ public class ECollections
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean equals(Object o)
     {
       return list.equals(o);
     }
 
+    @Override
     public int hashCode()
     {
       return list.hashCode();
     }
 
-    public Object get(int index)
+    public E get(int index)
     {
       return list.get(index);
     }
 
-    public Object set(int index, Object element)
+    public E set(int index, E element)
     {
       throw new UnsupportedOperationException();
     }
@@ -386,7 +403,7 @@ public class ECollections
       throw new UnsupportedOperationException();
     }
 
-    public Object remove(int index)
+    public E remove(int index)
     {
       throw new UnsupportedOperationException();
     }
@@ -401,29 +418,29 @@ public class ECollections
       return list.lastIndexOf(o);
     }
 
-    public boolean addAll(int index, Collection collection)
+    public boolean addAll(int index, Collection<? extends E> collection)
     {
       throw new UnsupportedOperationException();
     }
 
-    public ListIterator listIterator()
+    public ListIterator<E> listIterator()
     {
       return listIterator(0);
     }
 
-    public ListIterator listIterator(final int index)
+    public ListIterator<E> listIterator(final int index)
     {
       return 
-        new ListIterator()
+        new ListIterator<E>()
         {
-          ListIterator i = list.listIterator(index);
+          ListIterator<? extends E> i = list.listIterator(index);
 
           public boolean hasNext()
           {
             return i.hasNext();
           }
 
-          public Object next()
+          public E next()
           {
             return i.next();
           }
@@ -433,7 +450,7 @@ public class ECollections
             return i.hasPrevious();
           }
 
-          public Object previous()
+          public E previous()
           {
             return i.previous();
           }
@@ -453,41 +470,42 @@ public class ECollections
             throw new UnsupportedOperationException();
           }
 
-          public void set(Object o)
+          public void set(E o)
           {
             throw new UnsupportedOperationException();
           }
 
-          public void add(Object o)
+          public void add(E o)
           {
             throw new UnsupportedOperationException();
           }
         };
     }
 
-    public List subList(int fromIndex, int toIndex)
+    public List<E> subList(int fromIndex, int toIndex)
     {
-      return new UnmodifiableEList(new BasicEList(list.subList(fromIndex, toIndex)));
+      return new UnmodifiableEList<E>(new BasicEList<E>(list.subList(fromIndex, toIndex)));
     }
 
-    public void move(int newPosition, Object o)
+    public void move(int newPosition, E o)
     {
       throw new UnsupportedOperationException();
     }
 
-    public Object move(int newPosition, int oldPosition)
+    public E move(int newPosition, int oldPosition)
     {
       throw new UnsupportedOperationException();
     }
   }
   
-  private static class UnmodifiableEMap extends UnmodifiableEList implements EMap
+  private static class UnmodifiableEMap<K, V> extends UnmodifiableEList<Map.Entry<K, V>> implements EMap<K, V>
   {
-    protected EMap eMap;
+    protected EMap<? extends K, ? extends V> eMap;
     
-    public UnmodifiableEMap(EMap eMap)
+    @SuppressWarnings("unchecked")
+    public UnmodifiableEMap(EMap<? extends K, ? extends V> eMap)
     {
-      super(eMap);
+      super((EMap<K, V>)eMap);
       this.eMap = eMap;
     }
     
@@ -501,12 +519,13 @@ public class ECollections
       return eMap.containsValue(value);
     }
 
-    public Set entrySet()
+    @SuppressWarnings("unchecked")
+    public Set<Map.Entry<K, V>> entrySet()
     {
-      return Collections.unmodifiableSet(eMap.entrySet());
+      return Collections.unmodifiableSet((Set<Map.Entry<K, V>>)(Set<?>)eMap.entrySet());
     }
 
-    public Object get(Object key)
+    public V get(Object key)
     {
       return eMap.get(key);
     }
@@ -516,43 +535,43 @@ public class ECollections
       return eMap.indexOf(key);
     }
 
-    public Set keySet()
+    public Set<K> keySet()
     {
       return Collections.unmodifiableSet(eMap.keySet());
     }
 
-    public Map map()
+    public Map<K, V> map()
     {
       return Collections.unmodifiableMap(eMap.map());
     }
     
-    public Collection values()
+    public Collection<V> values()
     {
       return Collections.unmodifiableCollection(eMap.values());
     }
     
-    public Object put(Object key, Object value)
+    public V put(K key, V value)
     {
       throw new UnsupportedOperationException();
     }
 
-    public void putAll(EMap map)
+    public void putAll(EMap<? extends K, ? extends V> map)
     {
       throw new UnsupportedOperationException();
     }
 
-    public void putAll(Map map)
+    public void putAll(Map<? extends K, ? extends V> map)
     {
       throw new UnsupportedOperationException();
     }
 
-    public Object removeKey(Object key)
+    public V removeKey(Object key)
     {
       throw new UnsupportedOperationException();
     }
   }
-
-  private static class EmptyUnmodifiableEList implements EList
+  
+  private static class BasicEmptyUnmodifiableEList<E>
   {
     public int size()
     {
@@ -564,19 +583,22 @@ public class ECollections
       return true;
     }
 
+    @Override
     public boolean equals(Object o)
     {
       return Collections.EMPTY_LIST.equals(o);
     }
 
+    @Override
     public int hashCode()
     {
       return Collections.EMPTY_LIST.hashCode();
     }
 
-    public Object get(int index)
+    public E get(int index)
     {
-      return Collections.EMPTY_LIST.get(index);
+      Collections.EMPTY_LIST.get(index);
+      return null;
     }
 
     public boolean contains(Object o)
@@ -594,14 +616,14 @@ public class ECollections
       return -1;
     }
 
-    ListIterator listIterator = 
-      new ListIterator()
+    ListIterator<E> listIterator = 
+      new ListIterator<E>()
       {
         public boolean hasNext()
         {
           return false;
         }
-        public Object next()
+        public E next()
         {
           throw new NoSuchElementException();
         }
@@ -609,7 +631,7 @@ public class ECollections
         {
           return false;
         }
-        public Object previous()
+        public E previous()
         {
           throw new NoSuchElementException();
         }
@@ -626,53 +648,53 @@ public class ECollections
         {
           throw new UnsupportedOperationException();
         }
-        public void set(Object o)
+        public void set(E o)
         {
           throw new UnsupportedOperationException();
         }
-        public void add(Object o)
+        public void add(E o)
         {
           throw new UnsupportedOperationException();
         }
      };
 
-    public Iterator iterator()
+    public Iterator<E> iterator()
     {
       return listIterator;
     }
 
-    public ListIterator listIterator()
+    public ListIterator<E> listIterator()
     {
       return listIterator;
     }
 
-    public ListIterator listIterator(int index)
+    public ListIterator<E> listIterator(int index)
     {
       return listIterator;
     }
 
-    public List subList(int fromIndex, int toIndex)
+    public List<E> subList(int fromIndex, int toIndex)
     {
-      return Collections.EMPTY_LIST.subList(fromIndex, toIndex);
+      return Collections.<E>emptyList().subList(fromIndex, toIndex);
     }
-
 
     public Object[] toArray()
     {
       return Collections.EMPTY_LIST.toArray();
     }
 
-    public Object[] toArray(Object[] a)
+    public <T> T[] toArray(T[] a)
     {
-      return Collections.EMPTY_LIST.toArray(a);
+      return Collections.<T>emptyList().toArray(a);
     }
 
+    @Override
     public String toString()
     {
       return Collections.EMPTY_LIST.toString();
     }
 
-    public boolean add(Object o)
+    public boolean add(E o)
     {
       throw new UnsupportedOperationException();
     }
@@ -682,22 +704,22 @@ public class ECollections
       throw new UnsupportedOperationException();
     }
 
-    public boolean containsAll(Collection coll)
+    public boolean containsAll(Collection<?> coll)
     {
       return false;
     }
 
-    public boolean addAll(Collection coll)
+    public boolean addAll(Collection<? extends E> coll)
     {
       throw new UnsupportedOperationException();
     }
 
-    public boolean removeAll(Collection coll)
+    public boolean removeAll(Collection<?> coll)
     {
       throw new UnsupportedOperationException();
     }
 
-    public boolean retainAll(Collection coll)
+    public boolean retainAll(Collection<?> coll)
     {
       throw new UnsupportedOperationException();
     }
@@ -707,38 +729,46 @@ public class ECollections
       throw new UnsupportedOperationException();
     }
 
-    public Object set(int index, Object element)
+    public E set(int index, E element)
     {
       throw new UnsupportedOperationException();
     }
 
-    public void add(int index, Object element)
+    public void add(int index, E element)
     {
       throw new UnsupportedOperationException();
     }
 
-    public Object remove(int index)
+    public E remove(int index)
     {
       throw new UnsupportedOperationException();
     }
 
-    public boolean addAll(int index, Collection collection)
+    public boolean addAll(int index, Collection<? extends E> collection)
     {
       throw new UnsupportedOperationException();
     }
 
-    public void move(int newPosition, Object o)
+    public void move(int newPosition, E o)
     {
       throw new UnsupportedOperationException();
     }
 
-    public Object move(int newPosition, int oldPosition)
+    public E move(int newPosition, int oldPosition)
     {
       throw new UnsupportedOperationException();
     }
   }
   
-  private static class EmptyUnmodifiableEMap extends EmptyUnmodifiableEList implements EMap
+  private static class EmptyUnmodifiableEList extends BasicEmptyUnmodifiableEList<Object> implements EList<Object>
+  {
+    private EmptyUnmodifiableEList()
+    {
+      super();
+    }
+  }
+
+  private static class EmptyUnmodifiableEMap extends BasicEmptyUnmodifiableEList<Map.Entry<Object, Object>> implements EMap<Object, Object>
   {
     public boolean containsKey(Object key)
     {
@@ -750,9 +780,9 @@ public class ECollections
       return false;
     }
 
-    public Set entrySet()
+    public Set<Map.Entry<Object, Object>> entrySet()
     {
-      return Collections.EMPTY_SET;
+      return Collections.emptySet();
     }
 
     public Object get(Object key)
@@ -765,19 +795,19 @@ public class ECollections
       return -1;
     }
 
-    public Set keySet()
+    public Set<Object> keySet()
     {
-      return Collections.EMPTY_SET;
+      return Collections.emptySet();
     }
 
-    public Map map()
+    public Map<Object, Object> map()
     {
-      return Collections.EMPTY_MAP;
+      return Collections.emptyMap();
     }
     
-    public Collection values()
+    public Collection<Object> values()
     {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
     
     public Object put(Object key, Object value)
@@ -785,12 +815,12 @@ public class ECollections
       throw new UnsupportedOperationException();
     }
 
-    public void putAll(EMap map)
+    public void putAll(EMap<? extends Object, ? extends Object> map)
     {
       throw new UnsupportedOperationException();
     }
 
-    public void putAll(Map map)
+    public void putAll(Map<? extends Object, ? extends Object> map)
     {
       throw new UnsupportedOperationException();
     }
@@ -798,6 +828,6 @@ public class ECollections
     public Object removeKey(Object key)
     {
       throw new UnsupportedOperationException();
-    }
+    }    
   }
 }

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: NotifierImpl.java,v 1.2 2005/06/08 06:19:08 nickb Exp $
+ * $Id: NotifierImpl.java,v 1.3 2006/12/05 20:19:58 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
@@ -44,43 +45,39 @@ public class NotifierImpl extends BasicNotifierImpl
   /**
    * The list of {@link org.eclipse.emf.common.notify.Adapter}s associated with the notifier.
    */
-  protected BasicEList eAdapters;
+  protected BasicEList<Adapter> eAdapters;
 
   /**
    * Creates a blank new instance.
    */
   public NotifierImpl()
   {
+    super();
   }
 
-  /*
-   * Javadoc copied from interface.
-   */
-  public EList eAdapters()
+  @Override
+  public EList<Adapter> eAdapters()
   {
     if (eAdapters == null)
     {
-      eAdapters =  new EAdapterList(this);
+      eAdapters =  new EAdapterList<Adapter>(this);
     }
     return eAdapters;
   }
 
-  protected BasicEList eBasicAdapters()
+  @Override
+  protected BasicEList<Adapter> eBasicAdapters()
   {
     return eAdapters;
   }
 
-  /*
-   * Javadoc copied from interface.
-   */
+  @Override
   public boolean eDeliver()
   {
     return (eFlags & EDELIVER) != 0;
   }
 
-  /*
-   * Javadoc copied from interface.
-   */
+  @Override
   public void eSetDeliver(boolean deliver)
   {
     if (deliver)

@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: SingletonAdapterImpl.java,v 1.1 2006/05/01 10:42:36 davidms Exp $
+ * $Id: SingletonAdapterImpl.java,v 1.2 2006/12/05 20:19:57 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -37,13 +36,14 @@ public class SingletonAdapterImpl implements Adapter.Internal //extends AdapterI
   /**
    * The list of all the targets to which this adapter is set.
    */
-  protected List targets;
+  protected List<Notifier> targets;
 
   /**
    * Creates an instance.
    */
   public SingletonAdapterImpl()
   {
+    super();
   }
 
   /**
@@ -61,22 +61,19 @@ public class SingletonAdapterImpl implements Adapter.Internal //extends AdapterI
    */
   public void notifyChanged(Notification msg)
   {
+    // Do nothing.
   }
 
-  /*
-   * Javadoc copied from interface.
-   */
   public Notifier getTarget()
   {
-    return targets == null || targets.isEmpty() ? null : (Notifier)targets.get(targets.size() - 1);
-//  return target;
+    return targets == null || targets.isEmpty() ? null : targets.get(targets.size() - 1);
   }
 
   public void setTarget(Notifier target)
   {
     if (targets == null)
     {
-      targets = new ArrayList(); //DMS? new UniqueEList.FastCompare();
+      targets = new ArrayList<Notifier>(); //DMS? new UniqueEList.FastCompare();
     }
     targets.add(target);
   }
@@ -94,14 +91,14 @@ public class SingletonAdapterImpl implements Adapter.Internal //extends AdapterI
    */
   public void dispose()
   {
-    List oldTargets = targets;
+    List<Notifier> oldTargets = targets;
     targets = null;
 
     if (oldTargets != null)
     {
-      for (Iterator i = oldTargets.iterator(); i.hasNext(); )
+      for (Notifier notifier : oldTargets)
       {
-        ((Notifier)i.next()).eAdapters().remove(this);
+        notifier.eAdapters().remove(this);
       }
     }
   }

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostic.java,v 1.4 2005/11/22 20:16:58 marcelop Exp $
+ * $Id: Diagnostic.java,v 1.5 2006/12/05 20:19:56 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
@@ -81,12 +81,12 @@ public interface Diagnostic
    * the second element is typically some object describing the problematic feature or aspect of the primary source,
    * and the remaining elements are additional objects associated with or describing the problem.
    */
-  List getData();
+  List<?> getData();
 
   /**
    * Returns the list of child {@link Diagnostic diagnostics}.
    */
-  List getChildren();
+  List<Diagnostic> getChildren();
 
   /**
    * A diagnostic indicating that everything is okay.

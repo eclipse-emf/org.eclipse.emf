@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: BasicDiagnostic.java,v 1.10 2006/05/01 21:09:48 davidms Exp $
+ * $Id: BasicDiagnostic.java,v 1.11 2006/12/05 20:19:56 emerks Exp $
  */
 package org.eclipse.emf.common.util;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
@@ -44,13 +43,13 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
    * The message.
    * @see #getMessage
    */
-  protected List children;
+  protected List<Diagnostic> children;
 
   /**
    * The data.
    * @see #getData
    */
-  protected List data;
+  protected List<?> data;
 
   /**
    * The source.
@@ -69,6 +68,7 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
    */
   public BasicDiagnostic()
   {
+    super();
   }
 
   public BasicDiagnostic(String source, int code, String message, Object[] data) 
@@ -85,19 +85,19 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     this.severity = severity;
   }
 
-  public BasicDiagnostic(String source, int code, List children, String message, Object[] data)
+  public BasicDiagnostic(String source, int code, List<? extends Diagnostic> children, String message, Object[] data)
   {
     this(source, code, message, data);
     if (children != null)
     {
-      for (Iterator i = children.iterator(); i.hasNext(); )
+      for (Diagnostic diagnostic : children)
       {
-        add((Diagnostic)i.next());
+        add(diagnostic);
       }
     }
   }
 
-  protected List dataAsList(Object [] data)
+  protected List<?> dataAsList(Object [] data)
   {
     if (data == null)
     {
@@ -107,7 +107,7 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     {
       Object [] copy = new Object [data.length];
       System.arraycopy(data, 0, copy, 0, data.length);
-      return new BasicEList.UnmodifiableEList(copy.length, copy);
+      return new BasicEList.UnmodifiableEList<Object>(copy.length, copy);
     }
   }
   
@@ -126,17 +126,21 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     return message;
   }
 
-  public List getData()
+  public List<?> getData()
   {
     return data;
   }
 
-  public List getChildren()
+  public List<Diagnostic> getChildren()
   {
-    return 
-      children == null ?
-        Collections.EMPTY_LIST :
-        Collections.unmodifiableList(children);
+    if (children == null)
+    {
+      return Collections.emptyList();
+    }
+    else
+    {
+      return Collections.unmodifiableList(children);
+    }
   }
 
   protected void setSource(String source)
@@ -163,7 +167,7 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
   {
     if (children == null)
     {
-      children = new BasicEList();
+      children = new BasicEList<Diagnostic>();
     }
 
     children.add(diagnostic);
@@ -176,9 +180,9 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
 
   public void addAll(Diagnostic diagnostic)
   {
-    for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+    for (Diagnostic child : diagnostic.getChildren())
     {
-      add((Diagnostic)i.next());
+      add(child);
     }
   }
 
@@ -199,9 +203,8 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     if (children != null)
     {
       severity = OK;
-      for (Iterator i = children.iterator(); i.hasNext(); )
+      for (Diagnostic child : children)
       {
-        Diagnostic child = (Diagnostic)i.next();
         int childSeverity = child instanceof BasicDiagnostic ? ((BasicDiagnostic)child).recomputeSeverity() : child.getSeverity();
         if (childSeverity > severity)
         {
@@ -219,15 +222,14 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
    */
   public Throwable getException()
   {
-    List data = getData();
+    List<?> data = getData();
     if (data != null)
     {
-      for (Iterator i = data.iterator(); i.hasNext(); )
+      for (Object datum : data)
       {
-        Object d = i.next();
-        if (d instanceof Throwable)
+        if (datum instanceof Throwable)
         {
-          return (Throwable)d;
+          return (Throwable)datum;
         }
       }
     }
@@ -257,7 +259,7 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     {
       if (wrappedChildren == null)
       {
-        List children = diagnostic.getChildren();
+        List<Diagnostic> children = diagnostic.getChildren();
         if (children.isEmpty())
         {
           wrappedChildren = EMPTY_CHILDREN;
@@ -267,7 +269,7 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
           wrappedChildren = new IStatus [children.size()];
           for (int i = 0; i < wrappedChildren.length; ++i)
           {
-            wrappedChildren[i] = toIStatus((Diagnostic)children.get(i));
+            wrappedChildren[i] = toIStatus(children.get(i));
           }
         }
       }
@@ -314,6 +316,7 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
       return (diagnostic.getSeverity() & severityMask ) != 0;
     }
 
+    @Override
     public String toString()
     {
       return diagnostic.toString();
@@ -390,7 +393,8 @@ public class BasicDiagnostic implements Diagnostic, DiagnosticChain
     
     return basicDiagnostic;
   }  
-
+  
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer();

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NotificationImpl.java,v 1.7 2006/07/18 05:36:43 marcelop Exp $
+ * $Id: NotificationImpl.java,v 1.8 2006/12/05 20:19:57 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -510,7 +510,7 @@ public class NotificationImpl implements Notification, NotificationChain
     return null;
   }
 
-  public int getFeatureID(Class expectedClass)
+  public int getFeatureID(Class<?> expectedClass)
   {
     return NO_FEATURE_ID;
   }
@@ -789,7 +789,7 @@ public class NotificationImpl implements Notification, NotificationChain
               int notificationPosition = notification.getPosition();
 
               eventType = Notification.REMOVE_MANY;
-              BasicEList removedValues = new BasicEList(2);
+              BasicEList<Object> removedValues = new BasicEList<Object>(2);
               if (originalPosition <= notificationPosition)
               {
                 removedValues.add(oldValue);
@@ -847,7 +847,8 @@ public class NotificationImpl implements Notification, NotificationChain
                 }
               }
 
-              ((List)oldValue).add(index, notification.getOldValue());
+              @SuppressWarnings("unchecked")  List<Object> list = (List<Object>)oldValue;
+              list.add(index, notification.getOldValue());
               newPositions[index] = notificationPosition;
 
               while (++index < newPositions.length)
@@ -1035,6 +1036,7 @@ public class NotificationImpl implements Notification, NotificationChain
     }
   }
 
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

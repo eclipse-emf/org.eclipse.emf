@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StrictCompoundCommand.java,v 1.3 2005/06/08 05:44:08 nickb Exp $
+ * $Id: StrictCompoundCommand.java,v 1.4 2006/12/05 20:19:53 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -112,7 +112,7 @@ public class StrictCompoundCommand extends CompoundCommand
    * Creates an instance with the given command list.
    * @param commandList the list of commands.
    */
-  public StrictCompoundCommand(List commandList)
+  public StrictCompoundCommand(List<Command> commandList)
   {     
     super(commandList);
     resultIndex = LAST_COMMAND_ALL;
@@ -123,7 +123,7 @@ public class StrictCompoundCommand extends CompoundCommand
    * @param label the label.
    * @param commandList the list of commands.
    */
-  public StrictCompoundCommand(String label, List commandList)
+  public StrictCompoundCommand(String label, List<Command> commandList)
   {     
     super(label, commandList);
     resultIndex = LAST_COMMAND_ALL;
@@ -135,7 +135,7 @@ public class StrictCompoundCommand extends CompoundCommand
    * @param description the description.
    * @param commandList the list of commands.
    */
-  public StrictCompoundCommand(String label, String description, List commandList)
+  public StrictCompoundCommand(String label, String description, List<Command> commandList)
   {     
     super(label, description, commandList);
     resultIndex = LAST_COMMAND_ALL;
@@ -146,11 +146,12 @@ public class StrictCompoundCommand extends CompoundCommand
    * or if some command before the last one can't be undone and hence we can't test all the commands for executability.
    * @return whether the command can execute.
    */
+  @Override
   protected boolean prepare() 
   {
     // Go through the commands of the list.
     //
-    ListIterator commands = commandList.listIterator(); 
+    ListIterator<Command> commands = commandList.listIterator(); 
 
     // If there are some...
     //
@@ -162,7 +163,7 @@ public class StrictCompoundCommand extends CompoundCommand
       //
       for (;;)
       {
-        Command command = (Command)commands.next();
+        Command command = commands.next();
         if (command.canExecute())
         {
           if (commands.hasNext())
@@ -229,7 +230,7 @@ public class StrictCompoundCommand extends CompoundCommand
         //
         while (commands.hasPrevious()) 
         {
-          Command command = (Command)commands.previous();
+          Command command = commands.previous();
           command.undo();
         }
       }
@@ -249,17 +250,18 @@ public class StrictCompoundCommand extends CompoundCommand
    * In the case that {@link #isPessimistic} is false, only the last command will be executed
    * since the others will have been executed but not undone during {@link #prepare}.
    */
+  @Override
   public void execute() 
   {
     if (isPessimistic)
     {
-      for (ListIterator commands = commandList.listIterator(); commands.hasNext(); ) 
+      for (ListIterator<Command> commands = commandList.listIterator(); commands.hasNext(); ) 
       {
         try
         {
           // Either execute or redo the command, as appropriate.
           //
-          Command command = (Command)commands.next();
+          Command command = commands.next();
           if (commands.previousIndex() <= rightMostExecutedCommandIndex)
           {
             command.redo();
@@ -280,7 +282,7 @@ public class StrictCompoundCommand extends CompoundCommand
           while (commands.hasPrevious())
           {
             commands.previous();
-            Command command = (Command)commands.previous();
+            Command command = commands.previous();
             if (command.canUndo())
             {
               command.undo();
@@ -297,7 +299,7 @@ public class StrictCompoundCommand extends CompoundCommand
     }
     else if (!commandList.isEmpty())
     {
-      Command command = (Command)commandList.get(commandList.size() - 1);
+      Command command = commandList.get(commandList.size() - 1);
       command.execute();
     }
   }
@@ -307,6 +309,7 @@ public class StrictCompoundCommand extends CompoundCommand
    * In the case that {@link #isPessimistic} is false, only the last command will be undone
    * since the others will have been executed and not undo during {@link #prepare}.
    */
+  @Override
   public void undo() 
   {
     if (isPessimistic)
@@ -315,7 +318,7 @@ public class StrictCompoundCommand extends CompoundCommand
     }
     else if (!commandList.isEmpty())
     {
-      Command command = (Command)commandList.get(commandList.size() - 1);
+      Command command = commandList.get(commandList.size() - 1);
       command.undo();
     }
   }
@@ -325,6 +328,7 @@ public class StrictCompoundCommand extends CompoundCommand
    * In the case that {@link #isPessimistic} is false, only the last command will be redone
    * since the others will have been executed and not undo during {@link #prepare}.
    */
+  @Override
   public void redo() 
   {
     if (isPessimistic)
@@ -333,7 +337,7 @@ public class StrictCompoundCommand extends CompoundCommand
     }
     else if (!commandList.isEmpty())
     {
-      Command command = (Command)commandList.get(commandList.size() - 1);
+      Command command = commandList.get(commandList.size() - 1);
       command.redo();
     }
   }
@@ -383,6 +387,7 @@ public class StrictCompoundCommand extends CompoundCommand
    * </pre>
    * @return whether the command was successfully executed and appended.
    */
+  @Override
   public boolean appendAndExecute(Command command)
   {
     if (command != null)
@@ -433,6 +438,7 @@ public class StrictCompoundCommand extends CompoundCommand
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

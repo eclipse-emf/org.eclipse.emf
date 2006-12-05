@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingNotifyingListImpl.java,v 1.12 2006/11/28 12:04:05 emerks Exp $
+ * $Id: DelegatingNotifyingListImpl.java,v 1.13 2006/12/05 20:19:58 emerks Exp $
  */
 package org.eclipse.emf.common.notify.impl;
 
@@ -34,7 +34,7 @@ import org.eclipse.emf.common.util.DelegatingEList;
 /**
  * An extensible implementation of a notifying list that delegates to a backing list.
  */
-public abstract class DelegatingNotifyingListImpl extends DelegatingEList implements NotifyingList
+public abstract class DelegatingNotifyingListImpl<E> extends DelegatingEList<E> implements NotifyingList<E>
 {
   /**
    * Creates an empty instance.
@@ -48,7 +48,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * Creates an instance that is a copy of the collection.
    * @param collection the initial contents of the list.
    */
-  public DelegatingNotifyingListImpl(Collection collection)
+  public DelegatingNotifyingListImpl(Collection<? extends E> collection)
   {
     super(collection);
   }
@@ -85,7 +85,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param expectedClass the class to which the ID is relative.
    * @return <code>getFeatureID()</code>.
    */
-  protected int getFeatureID(Class expectedClass)
+  protected int getFeatureID(Class<?> expectedClass)
   {
     return getFeatureID();
   }
@@ -113,6 +113,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * Returns <code>!{@link #hasInverse()}</code>.
    * @return <code>!hasInverse</code>.
    */
+  @Override
   protected boolean canContainNull()
   {
     return !hasInverse();
@@ -143,7 +144,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param notifications the chain of accumulating notifications.
    * @return the <code>notifications</code>.
    */
-  protected NotificationChain shadowAdd(Object object, NotificationChain notifications)
+  protected NotificationChain shadowAdd(E object, NotificationChain notifications)
   {
     return notifications;
   }
@@ -155,7 +156,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param notifications the chain of accumulating notifications.
    * @return the <code>notifications</code>.
    */
-  protected NotificationChain shadowRemove(Object object, NotificationChain notifications)
+  protected NotificationChain shadowRemove(E object, NotificationChain notifications)
   {
     return notifications;
   }
@@ -168,7 +169,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param notifications the chain of accumulating notifications.
    * @return the <code>notifications</code>.
    */
-  protected NotificationChain shadowSet(Object oldObject, Object newObject, NotificationChain notifications)
+  protected NotificationChain shadowSet(E oldObject, E newObject, NotificationChain notifications)
   {
     return notifications;
   }
@@ -180,7 +181,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param notifications the chain of accumulating notifications.
    * @return the <code>notifications</code>.
    */
-  protected NotificationChain inverseAdd(Object object, NotificationChain notifications)
+  protected NotificationChain inverseAdd(E object, NotificationChain notifications)
   {
     return notifications;
   }
@@ -192,7 +193,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param notifications the chain of accumulating notifications.
    * @return the <code>notifications</code>.
    */
-  protected NotificationChain inverseRemove(Object object, NotificationChain notifications)
+  protected NotificationChain inverseRemove(E object, NotificationChain notifications)
   {
     return notifications;
   }
@@ -218,17 +219,20 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
     return 
       new NotificationImpl(eventType, oldObject, newObject, index, wasSet)
       {
+        @Override
         public Object getNotifier()
         {
           return DelegatingNotifyingListImpl.this.getNotifier();
         }
 
+        @Override
         public Object getFeature()
         {
           return DelegatingNotifyingListImpl.this.getFeature();
         }
 
-        public int getFeatureID(Class expectedClass)
+        @Override
+        public int getFeatureID(Class<?> expectedClass)
         {
           return DelegatingNotifyingListImpl.this.getFeatureID(expectedClass);
         }
@@ -265,7 +269,8 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @see #hasInverse
    * @see #inverseAdd
    */
-  public void addUnique(Object object)
+  @Override
+  public void addUnique(E object)
   {
     if (isNotificationRequired())
     {
@@ -311,7 +316,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * it does no uniqueness checking, inverse updating, or notification.
    * @param object the object to be added.
    */
-  protected void doAddUnique(Object object)
+  protected void doAddUnique(E object)
   {
     super.addUnique(object);
   }
@@ -327,7 +332,8 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @see #hasInverse
    * @see #inverseAdd
    */
-  public void addUnique(int index, Object object)
+  @Override
+  public void addUnique(int index, E object)
   {
     if (isNotificationRequired())
     {
@@ -372,7 +378,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * it does no range checking, uniqueness checking, inverse updating, or notification.
    * @param object the object to be added.
    */
-  protected void doAddUnique(int index, Object object)
+  protected void doAddUnique(int index, E object)
   {
     super.addUnique(index, object);
   }
@@ -384,7 +390,8 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param collection the collection of objects to be added.
    * @see #inverseAdd
    */
-  public boolean addAllUnique(Collection collection)
+  @Override
+  public boolean addAllUnique(Collection<? extends E> collection)
   {
     return addAllUnique(size(), collection);
   }
@@ -394,7 +401,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * it does no uniqueness checking, inverse updating, or notification.
    * @param collection the collection of objects to be added.
    */
-  protected boolean doAddAllUnique(Collection collection)
+  protected boolean doAddAllUnique(Collection<? extends E> collection)
   {
     return super.addAllUnique(collection);
   }
@@ -413,7 +420,8 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @see #hasInverse
    * @see #inverseAdd
    */
-  public boolean addAllUnique(int index, Collection collection)
+  @Override
+  public boolean addAllUnique(int index, Collection<? extends E> collection)
   {
     int collectionSize = collection.size();
     if (collectionSize == 0)
@@ -436,7 +444,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
           int lastIndex = index + collectionSize;
           for (int i = index; i < lastIndex; ++i)
           {            
-            Object value = delegateGet(i);
+            E value = delegateGet(i);
             notifications = inverseAdd(value, notifications);
             notifications = shadowAdd(value, notifications);
           }
@@ -482,7 +490,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param collection the collection of objects to be added.
    * @return whether any objects were added.
    */
-  protected boolean doAddAllUnique(int index, Collection collection)
+  protected boolean doAddAllUnique(int index, Collection<? extends E> collection)
   {
     return super.addAllUnique(index, collection);
   }
@@ -496,6 +504,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param end the index past the last object to be added.
    * @see #inverseAdd
    */
+  @Override
   public boolean addAllUnique(Object [] objects, int start, int end)
   {
     return addAllUnique(size(), objects, start, end);
@@ -533,6 +542,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @see #hasInverse
    * @see #inverseAdd
    */
+  @Override
   public boolean addAllUnique(int index, Object [] objects, int start, int end)
   {
     int collectionSize = end - start;
@@ -573,7 +583,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
           int lastIndex = index + collectionSize;
           for (int i = index; i < lastIndex; ++i)
           {            
-            Object value = delegateGet(i);
+            E value = delegateGet(i);
             notifications = inverseAdd(value, notifications);
             notifications = shadowAdd(value, notifications);
           }
@@ -636,7 +646,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @see #hasInverse
    * @see #inverseAdd
    */
-  public NotificationChain basicAdd(Object object, NotificationChain notifications)
+  public NotificationChain basicAdd(E object, NotificationChain notifications)
   {
     if (isNotificationRequired())
     {
@@ -672,7 +682,8 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @see #hasInverse
    * @see #inverseRemove
    */
-  public Object remove(int index)
+  @Override
+  public E remove(int index)
   {
     if (isNotificationRequired())
     {
@@ -683,7 +694,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
         notifications = shadowRemove(basicGet(index), null);
       }
       NotificationImpl notification = createNotification(Notification.REMOVE, doRemove(index), null, index, oldIsSet);
-      Object oldObject = notification.getOldValue();
+      @SuppressWarnings("unchecked") E oldObject = (E)notification.getOldValue();
       if (hasInverse() && oldObject != null)
       {
         notifications = inverseRemove(oldObject, notifications);
@@ -713,7 +724,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
     }
     else
     {
-      Object oldObject = doRemove(index);
+      E oldObject = doRemove(index);
       if (hasInverse() && oldObject != null)
       {
         NotificationChain notifications = inverseRemove(oldObject, null);
@@ -730,7 +741,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @return the removed object.
    * @exception IndexOutOfBoundsException if the index isn't within the size range.
    */
-  protected Object doRemove(int index)
+  protected E doRemove(int index)
   {
     return super.remove(index);
   }
@@ -746,7 +757,8 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @see #hasInverse
    * @see #inverseRemove
    */
-  public boolean removeAll(Collection collection)
+  @Override
+  public boolean removeAll(Collection<?> collection)
   {
     boolean oldIsSet = isSet();
 
@@ -761,7 +773,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
 
         // Copy to a list and allocate positions.
         //
-        BasicEList list = new BasicEList(collection);
+        BasicEList<Object> list = new BasicEList<Object>(collection);
         Object [] objects = list.data();
         positions = new int [listSize];
         int count = 0;
@@ -771,10 +783,10 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
           // Count up the objects that will be removed.
           // The objects are exchanged to produce this list's order
           //
-          for (ListIterator i = delegateListIterator(); i.hasNext(); )
+          for (ListIterator<E> i = delegateListIterator(); i.hasNext(); )
           {
-            Object initialObject = i.next();
-            Object object = initialObject;
+            E initialObject = i.next();
+            E object = initialObject;
             LOOP:
             for (int repeat = 0; repeat < 2; ++repeat)
             {
@@ -802,15 +814,15 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
         }
         else
         {
-          BasicEList resultList = new BasicEList(listSize);
+          BasicEList<Object> resultList = new BasicEList<Object>(listSize);
           
           // Count up the objects that will be removed.
           // The objects are exchanged to produce this list's order
           //
-          for (ListIterator i = delegateListIterator(); i.hasNext(); )
+          for (ListIterator<E> i = delegateListIterator(); i.hasNext(); )
           {
-            Object initialObject = i.next();
-            Object object = initialObject;
+            E initialObject = i.next();
+            E object = initialObject;
             LOOP:
             for (int repeat = 0; repeat < 2; ++repeat)
             {
@@ -861,7 +873,8 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
             //
             for (int i = 0; i < count; ++i)
             {
-              notifications = shadowRemove(objects[i], notifications);
+              @SuppressWarnings("unchecked") E object = (E)objects[i];
+              notifications = shadowRemove(object, notifications);
             }
           }
 
@@ -916,9 +929,10 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
         NotificationChain notifications = createNotificationChain(collectionSize);
         if (hasInverse())
         {
-          for (Iterator i = collection.iterator(); i.hasNext(); )
+          for (Iterator<?> i = collection.iterator(); i.hasNext(); )
           {
-            notifications = inverseRemove(i.next(), notifications);
+            @SuppressWarnings("unchecked") E object = (E)i.next();
+            notifications = inverseRemove(object, notifications);
           }
           if (notifications == null)
           {
@@ -946,9 +960,10 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
       else if (hasInverse())
       {
         NotificationChain notifications = createNotificationChain(collection.size());
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Iterator<?> i = collection.iterator(); i.hasNext(); )
         {
-          notifications = inverseRemove(i.next(), notifications);
+          @SuppressWarnings("unchecked") E object = (E)i.next();
+          notifications = inverseRemove(object, notifications);
         }
         if (notifications != null) notifications.dispatch();
       }
@@ -965,7 +980,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param object the object to be resolved.
    * @return the resolved object from this list for the purpose of testing whether removeAll applies to it.
    */
-  protected Object resolve(Object object)
+  protected E resolve(E object)
   {
     return object;
   }
@@ -976,7 +991,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param collection the collection of objects to be removed.
    * @return whether any object was actually contained by the list.
    */
-  protected boolean doRemoveAll(Collection collection)
+  protected boolean doRemoveAll(Collection<?> collection)
   {
     return super.removeAll(collection);
   }
@@ -1027,6 +1042,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @see #hasInverse
    * @see #inverseRemove
    */
+  @Override
   public void clear()
   {
     if (isNotificationRequired())
@@ -1035,7 +1051,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
       boolean oldIsSet = isSet();
       if (size > 0)
       {
-        BasicEList collection = new BasicEList(basicList());
+        BasicEList<E> collection = new BasicEList<E>(basicList());
         int collectionSize = size;
 
         NotificationChain notifications = createNotificationChain(collectionSize);
@@ -1055,7 +1071,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
 
         if (hasInverse())
         {
-          for (Iterator i = collection.iterator(); i.hasNext(); )
+          for (Iterator<E> i = collection.iterator(); i.hasNext(); )
           {
             notifications = inverseRemove(i.next(), notifications);
           }
@@ -1099,7 +1115,8 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
         NotificationChain notifications = createNotificationChain(oldSize);
         for (int i = 0; i < oldSize; ++i)
         {
-          notifications = inverseRemove(oldData[i], notifications);
+          @SuppressWarnings("unchecked") E object = (E)oldData[i];
+          notifications = inverseRemove(object, notifications);
         }
         if (notifications != null) notifications.dispatch();
       }
@@ -1138,14 +1155,15 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @see #inverseAdd
    * @see #inverseRemove
    */
-  public Object setUnique(int index, Object object)
+  @Override
+  public E setUnique(int index, E object)
   {
     if (isNotificationRequired())
     {
       NotificationChain notifications = null;
       boolean oldIsSet = isSet();
       Notification notification = createNotification(Notification.SET, doSetUnique(index, object), object, index, oldIsSet);
-      Object oldObject = notification.getOldValue();
+      @SuppressWarnings("unchecked") E oldObject = (E)notification.getOldValue();
       if (hasInverse() && !equalObjects(oldObject, object))
       {
         if (oldObject != null)
@@ -1190,7 +1208,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
     }
     else
     {
-      Object oldObject = doSetUnique(index, object);
+      E oldObject = doSetUnique(index, object);
       if (hasInverse() && !equalObjects(oldObject, object))
       {
         NotificationChain notifications = null;
@@ -1213,7 +1231,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @param object the object to set.
    * @return the old object at the index.
    */
-  protected Object doSetUnique(int index, Object object)
+  protected E doSetUnique(int index, E object)
   {
     return super.setUnique(index, object);
   }
@@ -1231,12 +1249,13 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @see #inverseAdd
    * @see #inverseRemove
    */
-  public NotificationChain basicSet(int index, Object object, NotificationChain notifications)
+  public NotificationChain basicSet(int index, E object, NotificationChain notifications)
   {
     if (isNotificationRequired())
     {
       boolean oldIsSet = isSet();
-      NotificationImpl notification = createNotification(Notification.SET, doSetUnique(index, object), object, index, oldIsSet);
+      NotificationImpl notification = 
+        createNotification(Notification.SET, doSetUnique(index, object), object, index, oldIsSet);
       if (notifications == null) 
       {
         notifications = notification;
@@ -1264,12 +1283,13 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @exception IndexOutOfBoundsException if either index isn't within the size range.
    * @see #isNotificationRequired
    */
-  public Object move(int targetIndex, int sourceIndex)
+  @Override
+  public E move(int targetIndex, int sourceIndex)
   {
     if (isNotificationRequired())
     {
       boolean oldIsSet = isSet();
-      Object object = doMove(targetIndex, sourceIndex);
+      E object = doMove(targetIndex, sourceIndex);
       dispatchNotification
         (createNotification
            (Notification.MOVE, 
@@ -1294,7 +1314,7 @@ public abstract class DelegatingNotifyingListImpl extends DelegatingEList implem
    * @return the moved object.
    * @exception IndexOutOfBoundsException if either index isn't within the size range.
    */
-  protected Object doMove(int targetIndex, int sourceIndex)
+  protected E doMove(int targetIndex, int sourceIndex)
   {
     return super.move(targetIndex, sourceIndex);
   }

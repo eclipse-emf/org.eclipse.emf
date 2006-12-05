@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -138,6 +138,7 @@ public class ArchiveURLConnection extends URLConnection
   /**
    * Record that this is connected.
    */
+  @Override
   public void connect() throws IOException
   {
     connected = true;
@@ -147,6 +148,7 @@ public class ArchiveURLConnection extends URLConnection
    * Creates the input stream for the URL.
    * @return the input stream for the URL.
    */
+  @Override
   public InputStream getInputStream() throws IOException 
   {
     // There must be at least one archive path.
@@ -236,6 +238,7 @@ public class ArchiveURLConnection extends URLConnection
       inputStream = 
         new FilterInputStream(zipFile.getInputStream(zipEntry))
         {
+          @Override
           public void close() throws IOException
           {
             super.close();
@@ -300,6 +303,7 @@ public class ArchiveURLConnection extends URLConnection
    * Creates the output stream for the URL.
    * @return the output stream for the URL.
    */
+  @Override
   public OutputStream getOutputStream() throws IOException
   {
     // There must be at least one archive separator.
@@ -457,6 +461,7 @@ public class ArchiveURLConnection extends URLConnection
         {
           protected boolean isClosed;
           
+          @Override
           public void close() throws IOException
           {
             // Make sure we close only once.

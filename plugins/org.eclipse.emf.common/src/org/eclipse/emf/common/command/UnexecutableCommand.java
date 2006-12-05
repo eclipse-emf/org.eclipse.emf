@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UnexecutableCommand.java,v 1.2 2005/06/08 05:44:08 nickb Exp $
+ * $Id: UnexecutableCommand.java,v 1.3 2006/12/05 20:19:54 emerks Exp $
  */
 package org.eclipse.emf.common.command;
 
@@ -44,6 +44,7 @@ public class UnexecutableCommand extends AbstractCommand
    * Returns <code>false</code>.
    * @return <code>false</code>.
    */
+  @Override
   public boolean canExecute() 
   {
     return false;
@@ -64,6 +65,7 @@ public class UnexecutableCommand extends AbstractCommand
    * Returns <code>false</code>.
    * @return <code>false</code>.
    */
+  @Override
   public boolean canUndo() 
   {
     return false;
