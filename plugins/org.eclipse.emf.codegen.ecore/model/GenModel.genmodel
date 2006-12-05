@@ -33,6 +33,11 @@
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDelegationKind/Reflective"/>
       <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenDelegationKind/Virtual"/>
     </genEnums>
+    <genEnums ecoreEnum="GenModel.ecore#//GenJDKLevel">
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK14"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK50"/>
+      <genEnumLiterals ecoreEnumLiteral="GenModel.ecore#//GenJDKLevel/JDK60"/>
+    </genEnums>
     <genClasses ecoreClass="GenModel.ecore#//GenModel">
       <genFeatures createChild="false" propertyCategory="All" propertyDescription="A copyright string to appear as a member of each generated class"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/copyrightText"/>
@@ -133,6 +138,8 @@
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/suppressUnsettable"/>
       <genFeatures createChild="false" propertyCategory="JET" propertyDescription="The class to be used to provide an implementation of the source manipulation API for merging Java code"
           ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/facadeHelperClass"/>
+      <genFeatures createChild="false" propertyCategory="All" propertyDescription="The JDK compliance level for the generated Java code"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenModel/complianceLevel"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/genPackages"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenModel/usedGenPackages"/>
     </genClasses>
@@ -227,6 +234,8 @@
       </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenEnum">
+      <genFeatures createChild="false" propertyCategory="Model" propertyDescription="Whether to generate the Java 5.0 enum to be binary compatible with the older type safe enum pattern"
+          ecoreFeature="ecore:EAttribute GenModel.ecore#//GenEnum/typeSafeEnumCompatible"/>
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this enumerated type" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnum/ecoreEnum"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenEnum/genEnumLiterals"/>
@@ -239,6 +248,7 @@
     </genClasses>
     <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenClassifier">
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenClassifier/genPackage"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenClassifier/genTypeParameters"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenDataType">
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
@@ -249,6 +259,7 @@
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
           propertyDescription="The Ecore model element for this operation" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/ecoreOperation"/>
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genParameters"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenOperation/genTypeParameters"/>
     </genClasses>
     <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenParameter">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenParameter/genOperation"/>
@@ -262,6 +273,9 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenAnnotation/genBase"/>
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenAnnotation/references"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenAnnotation/contents"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="GenModel.ecore#//GenTypeParameter">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenTypeParameter/ecoreTypeParameter"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

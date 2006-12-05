@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.12 2006/05/03 18:42:11 davidms Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.13 2006/12/05 20:29:51 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.notify.Notification;
@@ -318,6 +319,22 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
   public String getEnumLiteralID()
   {
     return format(getName(), '_', null, false, true).toUpperCase();
+  }
+  
+  public String getEnumLiteralInstanceConstantName()
+  {
+    return 
+      getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 || getGenEnum().isTypeSafeEnumCompatible() ? 
+        getEnumLiteralID() + "_LITERAL" :
+        getEnumLiteralID();
+  }
+  
+  public String getEnumLiteralValueConstantName()
+  {
+    return 
+      getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 || getGenEnum().isTypeSafeEnumCompatible() ? 
+        getEnumLiteralID() :
+        getEnumLiteralID() + "_VALUE";
   }
 
   public GenPackage getGenPackage()

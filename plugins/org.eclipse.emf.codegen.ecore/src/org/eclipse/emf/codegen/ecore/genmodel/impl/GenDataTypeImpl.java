@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.20 2006/04/11 12:00:29 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.21 2006/12/05 20:30:05 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -26,11 +26,15 @@ import java.util.List;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EDataType;
@@ -205,7 +209,12 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public String getRawQualifiedInstanceClassName()
   {
-    String name = getEcoreDataType().getInstanceClassName();
+    return getInternalQualifiedInstanceClassName(getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50);
+  }
+
+  protected String getInternalQualifiedInstanceClassName(boolean includeTemplateArguments)
+  {
+    String name = includeTemplateArguments ? getEcoreDataType().getInstanceTypeName() : getEcoreDataType().getInstanceClassName();
     if (name == null) name = "java.lang.Object";
 
     if (name.equals("org.eclipse.emf.common.util.Enumerator"))
@@ -224,9 +233,149 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return name;
   }
 
+  public String getRawImportedInstanceClassName()
+  {  
+   return getGenModel().getImportedName(getInternalQualifiedInstanceClassName(false)); 
+  }
+
   public String getImportedInstanceClassName()
   {
    return getGenModel().getImportedName(getRawQualifiedInstanceClassName()); 
+  }
+
+  public String getImportedParameterizedInstanceClassName()
+  {
+    String result = getImportedInstanceClassName();
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      if (getEffectiveItemType() != null)
+      {
+        result += "<" + getEffectiveItemType().getObjectType().getImportedParameterizedInstanceClassName() + ">";
+      }
+      else if (!getEcoreDataType().getETypeParameters().isEmpty())
+      {
+        result += "<";
+        for (Iterator<ETypeParameter> i = getEcoreDataType().getETypeParameters().iterator(); i.hasNext(); )
+        {
+          i.next();
+          result += "?";
+          if (i.hasNext())
+          {
+            result += ", ";
+          }
+        }
+        result += ">";
+      }
+    }
+    return result;
+  }
+
+  public String getImportedWildcardInstanceClassName()
+  {
+    String result = getImportedInstanceClassName();
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      if (getEffectiveItemType() != null)
+      {
+        result += "<?>";
+      }
+      else if (!getEcoreDataType().getETypeParameters().isEmpty())
+      {
+        result += "<";
+        for (Iterator<ETypeParameter> i = getEcoreDataType().getETypeParameters().iterator(); i.hasNext(); )
+        {
+          i.next();
+          result += "?";
+          if (i.hasNext())
+          {
+            result += ", ";
+          }
+        }
+        result += ">";
+      }
+    }
+    return result;
+  }
+
+  public String getImportedWildcardObjectInstanceClassName()
+  {
+    String result = getObjectInstanceClassName();
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      if (getEffectiveItemType() != null)
+      {
+        result += "<?>";
+      }
+      else if (!getEcoreDataType().getETypeParameters().isEmpty())
+      {
+        result += "<";
+        for (Iterator<ETypeParameter> i = getEcoreDataType().getETypeParameters().iterator(); i.hasNext(); )
+        {
+          i.next();
+          result += "?";
+          if (i.hasNext())
+          {
+            result += ", ";
+          }
+        }
+        result += ">";
+      }
+    }
+    return result;
+  }
+  
+  public String getImportedBoundedWildcardInstanceClassName()
+  {
+    String result = getImportedInstanceClassName();
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      if (getEffectiveItemType() != null)
+      {
+        result += "<? extends " + getEffectiveItemType().getObjectType().getImportedParameterizedInstanceClassName() + ">";
+      }
+      else if (!getEcoreDataType().getETypeParameters().isEmpty())
+      {
+        result += "<";
+        for (Iterator<ETypeParameter> i = getEcoreDataType().getETypeParameters().iterator(); i.hasNext(); )
+        {
+          i.next();
+          result += "?";
+          if (i.hasNext())
+          {
+            result += ", ";
+          }
+        }
+        result += ">";
+      }
+    }
+    return result;
+  }
+
+  public String getImportedParameterizedObjectInstanceClassName()
+  {
+    String result = getObjectInstanceClassName();
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      if (getEffectiveItemType() != null)
+      {
+        result += "<" + getEffectiveItemType().getObjectType().getImportedParameterizedInstanceClassName() + ">";
+      }
+      else if (!getEcoreDataType().getETypeParameters().isEmpty())
+      {
+        result += "<";
+        for (Iterator<ETypeParameter> i = getEcoreDataType().getETypeParameters().iterator(); i.hasNext(); )
+        {
+          i.next();
+          result += "?";
+          if (i.hasNext())
+          {
+            result += ", ";
+          }
+        }
+        result += ">";
+      }
+    }
+    return result;
   }
 
   public String getObjectInstanceClassName()
@@ -644,12 +793,44 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   public void initialize(EDataType eDataType)
   {
     setEcoreDataType(eDataType);
+    List typeParameters = eDataType.getETypeParameters();
+    LOOP:
+    for (int i = 0; i < typeParameters.size(); ++i) 
+    {
+      ETypeParameter typeParameter = (ETypeParameter)typeParameters.get(i);
+
+      for (int j = 0; j < getGenTypeParameters().size(); ++j)
+      {
+        GenTypeParameter genTypeParameter = (GenTypeParameter)getGenTypeParameters().get(j);
+        if (genTypeParameter.getEcoreTypeParameter() == typeParameter)
+        {
+          genTypeParameter.initialize(typeParameter);
+          if (i != j)
+          {
+            getGenTypeParameters().move(i, j);
+          }
+
+          continue LOOP;
+        }
+      }
+
+      GenTypeParameter genTypeParameter = getGenModel().createGenTypeParameter();
+      getGenTypeParameters().add(genTypeParameter);
+      genTypeParameter.initialize(typeParameter);
+    }
   }
 
   public boolean reconcile(GenDataType oldGenDataTypeVersion)
   {
     if (getEcoreDataType().getName().equals(oldGenDataTypeVersion.getEcoreDataType().getName()))
     {
+      for (Iterator i = getGenTypeParameters().iterator(), j = oldGenDataTypeVersion.getGenTypeParameters().iterator(); i.hasNext() && j.hasNext(); )
+      {
+        GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+        GenTypeParameter oldGenTypeParameterVersion = (GenTypeParameter)j.next();
+        genTypeParameter.reconcile(oldGenTypeParameterVersion);
+      }
+
       reconcileSettings(oldGenDataTypeVersion);
       return true;
     }
@@ -675,6 +856,15 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       }
       else
       {
+        for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+        {
+          GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+          if (!genTypeParameter.reconcile())
+          {
+            i.remove();
+          }
+        }
+
         return true;
       }
     }

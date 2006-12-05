@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.8 2005/11/29 15:03:03 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.9 2006/12/05 20:29:10 emerks Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -23,6 +23,7 @@ package <%=genPackage.getInterfacePackageName()%>;
 <%genModel.addImport("java.util.List");%>
 <%genModel.addImport("java.util.Collections");%>
 <%genModel.markImportLocation(stringBuffer, genPackage);%>
+<%boolean isEnum = genModel.useGenerics();%>
 
 /**
  * <!-- begin-user-doc -->
@@ -40,8 +41,22 @@ package <%=genPackage.getInterfacePackageName()%>;
 <%}%>
  * @generated
  */
-public final class <%=genEnum.getName()%> extends <%=genModel.isSuppressEMFMetaData() && !genModel.isSuppressInterfaces() ? "Internal" + genEnum.getName() : genModel.getImportedName("org.eclipse.emf.common.util.AbstractEnumerator")%>
+public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> <%if (isEnum) {%>implements<%} else {%>extends<%}%> <%=genModel.isSuppressEMFMetaData() && !genModel.isSuppressInterfaces() ? "Internal" + genEnum.getName() : genModel.getImportedName(isEnum ? "org.eclipse.emf.common.util.Enumerator" : "org.eclipse.emf.common.util.AbstractEnumerator")%>
 {
+<%if (isEnum) {%>
+  <%for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
+	/**
+	 * The '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal object.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #<%=genEnumLiteral.getEnumLiteralValueConstantName()%>
+	 * @generated
+	 * @ordered
+	 */
+	<%=genEnumLiteral.getEnumLiteralInstanceConstantName()%>(<%=genEnumLiteral.getValue()%>, "<%=genEnumLiteral.getName()%>", "<%=genEnumLiteral.getLiteral()%>")<%if (l.hasNext()) {%>,<%} else {%>;<%}%><%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+
+  <%}%>
+<%}%>
 <%if (genModel.getCopyrightText() != null) {%>
 	/**
 	 * <!-- begin-user-doc -->
@@ -67,7 +82,7 @@ public final class <%=genEnum.getName()%> extends <%=genModel.isSuppressEMFMetaD
 	 * <%=genEnumLiteral.getDocumentation(genModel.getIndentation(stringBuffer))%>
 	 * <!-- end-model-doc -->
 <%}%>
-	 * @see #<%=genEnumLiteral.getEnumLiteralID()%>_LITERAL
+	 * @see #<%=genEnumLiteral.getEnumLiteralInstanceConstantName()%>
 <%if (!genModel.isSuppressEMFModelTags()) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genEnumLiteral.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
 	 * @model <%=modelInfo%>
 <%} else {%>
@@ -78,19 +93,19 @@ public final class <%=genEnum.getName()%> extends <%=genModel.isSuppressEMFMetaD
 	 * @generated
 	 * @ordered
 	 */
-	public static final int <%=genEnumLiteral.getEnumLiteralID()%> = <%=genEnumLiteral.getValue()%>;
+	public static final int <%=genEnumLiteral.getEnumLiteralValueConstantName()%> = <%=genEnumLiteral.getValue()%>;
 
 <%}%>
-<%for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
+<%if (!isEnum) for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
 	/**
 	 * The '<em><b><%=genEnumLiteral.getFormattedName()%></b></em>' literal object.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #<%=genEnumLiteral.getEnumLiteralID()%>
+	 * @see #<%=genEnumLiteral.getEnumLiteralValueConstantName()%>
 	 * @generated
 	 * @ordered
 	 */
-	public static final <%=genEnum.getName()%> <%=genEnumLiteral.getEnumLiteralID()%>_LITERAL = new <%=genEnum.getName()%>(<%=genEnumLiteral.getEnumLiteralID()%>, "<%=genEnumLiteral.getName()%>", "<%=genEnumLiteral.getLiteral()%>");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+	public static final <%=genEnum.getName()%> <%=genEnumLiteral.getEnumLiteralInstanceConstantName()%> = new <%=genEnum.getName()%>(<%=genEnumLiteral.getEnumLiteralValueConstantName()%>, "<%=genEnumLiteral.getName()%>", "<%=genEnumLiteral.getLiteral()%>");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 
 <%}%>
 	/**
@@ -103,7 +118,7 @@ public final class <%=genEnum.getName()%> extends <%=genModel.isSuppressEMFMetaD
 		new <%=genEnum.getName()%>[]
 		{
 <%for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
-			<%=genEnumLiteral.getEnumLiteralID()%>_LITERAL,
+			<%=genEnumLiteral.getEnumLiteralInstanceConstantName()%>,
 <%}%>
 		};
 
@@ -113,7 +128,7 @@ public final class <%=genEnum.getName()%> extends <%=genModel.isSuppressEMFMetaD
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<%if (isEnum) {%><<%=genEnum.getName()%>><%}%> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
 	 * Returns the '<em><b><%=genEnum.getFormattedName()%></b></em>' literal with the specified literal value.
@@ -164,12 +179,35 @@ public final class <%=genEnum.getName()%> extends <%=genModel.isSuppressEMFMetaD
 		switch (value)
 		{
 <%for (Iterator l=genEnum.getUniqueValuedGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
-			case <%=genEnumLiteral.getEnumLiteralID()%>: return <%=genEnumLiteral.getEnumLiteralID()%>_LITERAL;
+			case <%=genEnumLiteral.getEnumLiteralValueConstantName()%>: return <%=genEnumLiteral.getEnumLiteralInstanceConstantName()%>;
 <%}%>
 		}
 		return null;	
 	}
 
+<%if (isEnum) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final int value;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final <%=genModel.getImportedName("java.lang.String")%> name;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private final <%=genModel.getImportedName("java.lang.String")%> literal;
+
+<%}%>
 	/**
 	 * Only this class can construct instances.
 	 * <!-- begin-user-doc -->
@@ -178,12 +216,75 @@ public final class <%=genEnum.getName()%> extends <%=genModel.isSuppressEMFMetaD
 	 */
 	private <%=genEnum.getName()%>(int value, <%=genModel.getImportedName("java.lang.String")%> name, <%=genModel.getImportedName("java.lang.String")%> literal)
 	{
+<%if (isEnum) {%>
+		this.value = value;
+		this.name = name;
+		this.literal = literal;
+<%} else {%>
 		super(value, name, literal);
+<%}%>
 	}
 
+<%if (isEnum) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getValue()
+	{
+	  return value;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genModel.getImportedName("java.lang.String")%> getName()
+	{
+	  return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genModel.getImportedName("java.lang.String")%> getLiteral()
+	{
+	  return literal;
+	}
+
+	/**
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+  <%}%>
+	public <%=genModel.getImportedName("java.lang.String")%> toString()
+	{
+		return literal;
+	}
+	
+<%}%>
 } //<%=genEnum.getName()%>
 <%if (genModel.isSuppressEMFMetaData()&& !genModel.isSuppressInterfaces() ) {%>
 
+  <%if (isEnum) {%>
+/**
+ * A private implementation interface.
+ * <!-- begin-user-doc -->
+ * <!-- end-user-doc -->
+ * @generated
+ */
+class Internal<%=genEnum.getName()%> extends org.eclipse.emf.common.util.Enumerator
+{
+}
+  <%} else {%>
 /**
  * A private implementation class to construct the instances.
  * <!-- begin-user-doc -->
@@ -203,5 +304,6 @@ class Internal<%=genEnum.getName()%> extends org.eclipse.emf.common.util.Abstrac
 		super(value, name, literal);
 	}
 }
+  <%}%>
 <%}%>
 <%genModel.emitSortedImports();%>

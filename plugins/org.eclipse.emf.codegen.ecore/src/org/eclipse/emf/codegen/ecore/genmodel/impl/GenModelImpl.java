@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.71 2006/11/13 16:35:43 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.72 2006/12/05 20:29:53 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -37,8 +37,10 @@ import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenAnnotation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnum;
 import org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
@@ -49,6 +51,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETEmitter;
 import org.eclipse.emf.codegen.jet.JETException;
@@ -146,6 +149,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isArrayAccessors <em>Array Accessors</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#isSuppressUnsettable <em>Suppress Unsettable</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getFacadeHelperClass <em>Facade Helper Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getComplianceLevel <em>Compliance Level</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelImpl#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1191,6 +1195,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected String facadeHelperClass = FACADE_HELPER_CLASS_EDEFAULT;
 
   /**
+   * The default value of the '{@link #getComplianceLevel() <em>Compliance Level</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getComplianceLevel()
+   * @generated
+   * @ordered
+   */
+  protected static final GenJDKLevel COMPLIANCE_LEVEL_EDEFAULT = GenJDKLevel.JDK14_LITERAL;
+
+  /**
+   * The cached value of the '{@link #getComplianceLevel() <em>Compliance Level</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getComplianceLevel()
+   * @generated
+   * @ordered
+   */
+  protected GenJDKLevel complianceLevel = COMPLIANCE_LEVEL_EDEFAULT;
+
+  /**
    * The cached value of the '{@link #getGenPackages() <em>Gen Packages</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1365,9 +1389,52 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public String getImportedName(String qualifiedName)
   {
-    int index = qualifiedName.indexOf("$");
-    importManager.addImport(index == -1 ? qualifiedName : qualifiedName.substring(0, index));
-    return importManager.getImportedName(qualifiedName);
+    int index = qualifiedName.indexOf("<");
+    if (index >= 0)
+    {
+      String baseName = qualifiedName.substring(0, index);
+      StringBuilder result = new StringBuilder(getImportedName(baseName));
+      result.append("<");
+      for (int start = ++index,  end = qualifiedName.lastIndexOf(">") +  1; index < end; ++index)
+      {
+        char character = qualifiedName.charAt(index);
+        switch (character)
+        {
+          case ' ': 
+          case ',': 
+          case '<': 
+          case '>': 
+          case '&': 
+          {
+            if (start != index)
+            {
+              String segment = qualifiedName.substring(start, index);
+              result.append(getImportedName(segment));
+            }
+            result.append(character);
+            start = index + 1;
+            break;
+          }
+          default:
+          {
+            break;
+          }
+        }
+      }
+      return result.toString();
+    }
+   
+    index = qualifiedName.indexOf("$");
+    String baseName = index == -1 ? qualifiedName : qualifiedName.substring(0, index);
+    if (baseName.contains("."))
+    {
+      importManager.addImport(index == -1 ? qualifiedName : qualifiedName.substring(0, index));
+      return importManager.getImportedName(qualifiedName);
+    }
+    else
+    {
+      return qualifiedName;
+    }
   }
 
   public void addImport(String qualifiedName)
@@ -4785,6 +4852,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  public GenJDKLevel getComplianceLevel()
+  {
+    return complianceLevel;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setComplianceLevel(GenJDKLevel newComplianceLevel)
+  {
+    GenJDKLevel oldComplianceLevel = complianceLevel;
+    complianceLevel = newComplianceLevel == null ? COMPLIANCE_LEVEL_EDEFAULT : newComplianceLevel;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL, oldComplianceLevel, complianceLevel));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EList getGenPackages()
   {
     if (genPackages == null)
@@ -5003,6 +5093,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return isSuppressUnsettable() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
         return getFacadeHelperClass();
+      case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
+        return getComplianceLevel();
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return getGenPackages();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -5175,6 +5267,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
         setFacadeHelperClass((String)newValue);
+        return;
+      case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
+        setComplianceLevel((GenJDKLevel)newValue);
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
@@ -5350,6 +5445,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
         setFacadeHelperClass(FACADE_HELPER_CLASS_EDEFAULT);
         return;
+      case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
+        setComplianceLevel(COMPLIANCE_LEVEL_EDEFAULT);
+        return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
         return;
@@ -5471,6 +5569,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return suppressUnsettable != SUPPRESS_UNSETTABLE_EDEFAULT;
       case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
         return FACADE_HELPER_CLASS_EDEFAULT == null ? facadeHelperClass != null : !FACADE_HELPER_CLASS_EDEFAULT.equals(facadeHelperClass);
+      case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
+        return complianceLevel != COMPLIANCE_LEVEL_EDEFAULT;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         return genPackages != null && !genPackages.isEmpty();
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
@@ -5589,6 +5689,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     result.append(suppressUnsettable);
     result.append(", facadeHelperClass: ");
     result.append(facadeHelperClass);
+    result.append(", complianceLevel: ");
+    result.append(complianceLevel);
     result.append(')');
     return result.toString();
   }
@@ -6399,6 +6501,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setArrayAccessors(oldGenModelVersion.isArrayAccessors());
     
     reconcileGenAnnotations(oldGenModelVersion);
+
+    setComplianceLevel(oldGenModelVersion.getComplianceLevel());
   }
 
   public boolean reconcile()
@@ -6677,6 +6781,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return GenModelFactory.eINSTANCE.createGenParameter();
   }
   
+  public GenTypeParameter createGenTypeParameter()
+  {
+    return GenModelFactory.eINSTANCE.createGenTypeParameter();
+  }
+
   public GenAnnotation createGenAnnotation()
   {
     return GenModelFactory.eINSTANCE.createGenAnnotation();
@@ -6748,6 +6857,22 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   public boolean isVirtualDelegation()
   {
     return getFeatureDelegation() == GenDelegationKind.VIRTUAL_LITERAL;
+  }
+  
+  public boolean useClassOverrideAnnotation()
+  {
+    return getComplianceLevel().getValue() >= GenJDKLevel.JDK50;
+  }
+
+  public boolean useGenerics()
+  {
+    return getComplianceLevel().getValue() >= GenJDKLevel.JDK50;
+  }
+
+  @Override
+  public GenClassifier findGenClassifier(EClassifier classifier)
+  {
+    return super.findGenClassifier(classifier);
   }
 
 } //GenModelImpl

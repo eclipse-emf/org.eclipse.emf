@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.15 2006/05/01 10:35:06 davidms Exp $
+ * $Id: GenEnumImpl.java,v 1.16 2006/12/05 20:29:54 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -52,6 +52,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumImpl#isTypeSafeEnumCompatible <em>Type Safe Enum Compatible</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumImpl#getEcoreEnum <em>Ecore Enum</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumImpl#getGenEnumLiterals <em>Gen Enum Literals</em>}</li>
  * </ul>
@@ -61,6 +62,26 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
 {
+  /**
+   * The default value of the '{@link #isTypeSafeEnumCompatible() <em>Type Safe Enum Compatible</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isTypeSafeEnumCompatible()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean TYPE_SAFE_ENUM_COMPATIBLE_EDEFAULT = true;
+
+  /**
+   * The cached value of the '{@link #isTypeSafeEnumCompatible() <em>Type Safe Enum Compatible</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isTypeSafeEnumCompatible()
+   * @generated
+   * @ordered
+   */
+  protected boolean typeSafeEnumCompatible = TYPE_SAFE_ENUM_COMPATIBLE_EDEFAULT;
+
   /**
    * The cached value of the '{@link #getEcoreEnum() <em>Ecore Enum</em>}' reference.
    * <!-- begin-user-doc -->
@@ -99,6 +120,29 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_ENUM;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isTypeSafeEnumCompatible()
+  {
+    return typeSafeEnumCompatible;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setTypeSafeEnumCompatible(boolean newTypeSafeEnumCompatible)
+  {
+    boolean oldTypeSafeEnumCompatible = typeSafeEnumCompatible;
+    typeSafeEnumCompatible = newTypeSafeEnumCompatible;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE, oldTypeSafeEnumCompatible, typeSafeEnumCompatible));
   }
 
   /**
@@ -197,6 +241,8 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   {
     switch (featureID)
     {
+      case GenModelPackage.GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE:
+        return isTypeSafeEnumCompatible() ? Boolean.TRUE : Boolean.FALSE;
       case GenModelPackage.GEN_ENUM__ECORE_ENUM:
         if (resolve) return getEcoreEnum();
         return basicGetEcoreEnum();
@@ -215,6 +261,9 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   {
     switch (featureID)
     {
+      case GenModelPackage.GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE:
+        setTypeSafeEnumCompatible(((Boolean)newValue).booleanValue());
+        return;
       case GenModelPackage.GEN_ENUM__ECORE_ENUM:
         setEcoreEnum((EEnum)newValue);
         return;
@@ -235,6 +284,9 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   {
     switch (featureID)
     {
+      case GenModelPackage.GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE:
+        setTypeSafeEnumCompatible(TYPE_SAFE_ENUM_COMPATIBLE_EDEFAULT);
+        return;
       case GenModelPackage.GEN_ENUM__ECORE_ENUM:
         setEcoreEnum((EEnum)null);
         return;
@@ -254,12 +306,30 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   {
     switch (featureID)
     {
+      case GenModelPackage.GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE:
+        return typeSafeEnumCompatible != TYPE_SAFE_ENUM_COMPATIBLE_EDEFAULT;
       case GenModelPackage.GEN_ENUM__ECORE_ENUM:
         return ecoreEnum != null;
       case GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS:
         return genEnumLiterals != null && !genEnumLiterals.isEmpty();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (typeSafeEnumCompatible: ");
+    result.append(typeSafeEnumCompatible);
+    result.append(')');
+    return result.toString();
   }
 
   public EClassifier getEcoreClassifier()
@@ -346,7 +416,11 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
 
   public void initialize(EEnum eEnum)
   {
-    setEcoreEnum(eEnum);
+    if (eEnum != getEcoreEnum())
+    {
+      setTypeSafeEnumCompatible(false);
+      setEcoreEnum(eEnum);
+    }
 
     LOOP:
     for (Iterator iter = eEnum.getELiterals().iterator(); iter.hasNext(); )
@@ -443,6 +517,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
 
   protected void reconcileSettings(GenEnum oldGenEnumVersion)
   {
+    setTypeSafeEnumCompatible(oldGenEnumVersion.isTypeSafeEnumCompatible());
     reconcileGenAnnotations(oldGenEnumVersion);
   }
 
@@ -478,7 +553,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   public String getStaticValue(String literal)
   {
     GenEnumLiteral genEnumLiteral = getGenEnumLiteral(literal);
-    return genEnumLiteral == null ? "null" : getImportedName() + "." + genEnumLiteral.getEnumLiteralID() + "_LITERAL";
+    return genEnumLiteral == null ? "null" : getImportedName() + "." + genEnumLiteral.getEnumLiteralInstanceConstantName();
   }
 
 } //GenEnumImpl

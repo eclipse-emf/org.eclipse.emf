@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelAdapterFactory.java,v 1.6 2005/12/05 20:11:14 marcelop Exp $
+ * $Id: GenModelAdapterFactory.java,v 1.7 2006/12/05 20:30:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -138,6 +138,10 @@ public class GenModelAdapterFactory extends AdapterFactoryImpl
       public Object caseGenAnnotation(GenAnnotation object)
       {
         return createGenAnnotationAdapter();
+      }
+      public Object caseGenTypeParameter(GenTypeParameter object)
+      {
+        return createGenTypeParameterAdapter();
       }
       public Object defaultCase(EObject object)
       {
@@ -350,6 +354,21 @@ public class GenModelAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createGenAnnotationAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter <em>Gen Type Parameter</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter
+   * @generated
+   */
+  public Adapter createGenTypeParameterAdapter()
   {
     return null;
   }

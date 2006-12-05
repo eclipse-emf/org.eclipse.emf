@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,17 +12,25 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.10 2005/11/25 13:11:55 emerks Exp $
+ * $Id: GenClassifierImpl.java,v 1.11 2006/12/05 20:29:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -36,6 +44,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl#getGenPackage <em>Gen Package</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassifierImpl#getGenTypeParameters <em>Gen Type Parameters</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,6 +52,16 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  */
 public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassifier
 {
+  /**
+   * The cached value of the '{@link #getGenTypeParameters() <em>Gen Type Parameters</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getGenTypeParameters()
+   * @generated
+   * @ordered
+   */
+  protected EList genTypeParameters = null;
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -78,14 +97,78 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
+  public EList getGenTypeParameters()
+  {
+    if (genTypeParameters == null)
+    {
+      genTypeParameters = new EObjectContainmentEList(GenTypeParameter.class, this, GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS);
+    }
+    return genTypeParameters;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS:
+        return ((InternalEList)getGenTypeParameters()).basicRemove(otherEnd, msgs);
+    }
+    return super.eInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_CLASSIFIER__GEN_PACKAGE:
         return getGenPackage();
+      case GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS:
+        return getGenTypeParameters();
     }
     return super.eGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS:
+        getGenTypeParameters().clear();
+        getGenTypeParameters().addAll((Collection)newValue);
+        return;
+    }
+    super.eSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS:
+        getGenTypeParameters().clear();
+        return;
+    }
+    super.eUnset(featureID);
   }
 
   /**
@@ -99,6 +182,8 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
     {
       case GenModelPackage.GEN_CLASSIFIER__GEN_PACKAGE:
         return getGenPackage() != null;
+      case GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS:
+        return genTypeParameters != null && !genTypeParameters.isEmpty();
     }
     return super.eIsSet(featureID);
   }
@@ -186,4 +271,27 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
   {
     return false;
   }
-} 
+
+  public boolean isUncheckedCast()
+  {
+    return 
+      getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50 && 
+        getEcoreClassifier().getInstanceTypeName() != null && 
+        getEcoreClassifier().getInstanceTypeName().indexOf('<') != -1;
+  }
+
+  public String getImportedParameterizedInstanceClassName()
+  {
+    return getImportedInstanceClassName();
+  }
+
+  public String getImportedWildcardInstanceClassName()
+  {
+    return getImportedInstanceClassName();
+  }
+
+  public String getImportedBoundedWildcardInstanceClassName()
+  {
+    return getImportedInstanceClassName();
+  }
+}

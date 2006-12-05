@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.20 2006/04/11 12:04:45 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.util.CodeGenUtil" class="ValidatorClass" version="$Id: ValidatorClass.javajet,v 1.21 2006/12/05 20:29:11 emerks Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,10 +16,12 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
+<%final String singleWildcard = genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50 ? "<?>" : "";%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getUtilitiesPackageName()%>;
 
 <%genModel.addImport("java.util.Map");%>
+<%final String _Map = genModel.useGenerics() ? "Map<" + genModel.getImportedName("java.lang.Object") + ", " + genModel.getImportedName("java.lang.Object") + ">" : "Map";%>
 <%genModel.addImport("org.eclipse.emf.common.util.DiagnosticChain");%>
 <%genModel.addImport("org.eclipse.emf.ecore.EPackage");%>
 <%if (!genPackage.hasJavaLangConflict() && !genPackage.getUtilitiesPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");%>
@@ -122,6 +124,9 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+  <%}%>
 	protected EPackage getEPackage()
 	{
 	  return <%=genPackage.getImportedPackageInterfaceName()%>.eINSTANCE;
@@ -133,7 +138,10 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map context)
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+  <%}%>
+	protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, <%=_Map%> context)
 	{
 		switch (classifierID)
 		{
@@ -145,7 +153,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 <%} else if (genDataType.isObjectType()) {%>
 				return validate<%=genDataType.getName()%>(value, diagnostics, context);
 <%} else {%>
-				return validate<%=genDataType.getName()%>((<%=genDataType.getImportedInstanceClassName()%>)value, diagnostics, context);
+				return validate<%=genDataType.getName()%>((<%=genDataType.getImportedWildcardInstanceClassName()%>)value, diagnostics, context);
 <%}%>
 <%} else { GenClass genClass = (GenClass)genClassifier;%>
 				return validate<%=genClass.getName()%>((<%=genClass.getImportedInterfaceName()%>)value, diagnostics, context);
@@ -162,7 +170,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validate<%=genClassifier.getName()%>(<%=genClassifier.getImportedInstanceClassName()%> <%=genClassifier.getSafeUncapName()%>, DiagnosticChain <%=diagnostics%>, Map <%=context%>)
+	public boolean validate<%=genClassifier.getName()%>(<%=genClassifier.getImportedWildcardInstanceClassName()%> <%=genClassifier.getSafeUncapName()%>, DiagnosticChain <%=diagnostics%>, <%=_Map%> <%=context%>)
 	{
 <%if (genClassifier.getAllGenConstraints().isEmpty()) {%>
 		return true;
@@ -271,12 +279,12 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean validate<%=genClassifier.getName()%>_<%=constraint%>(<%=genClassifier.getImportedInstanceClassName()%> <%=genClassifier.getSafeUncapName()%>, DiagnosticChain <%=diagnostics%>, Map <%=context%>)
+	public boolean validate<%=genClassifier.getName()%>_<%=constraint%>(<%=genClassifier.getImportedWildcardInstanceClassName()%> <%=genClassifier.getSafeUncapName()%>, DiagnosticChain <%=diagnostics%>, <%=_Map%> <%=context%>)
 	{
 <%if (genClassifier instanceof GenDataType) { GenDataType genDataType = (GenDataType)genClassifier;%>
 <%if (constraint.equals("ItemType") && genDataType.getItemType() != null) { GenDataType itemType = genDataType.getItemType(); String itemDelegate = itemType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(itemType.getGenPackage()) + "Validator.";%>
 		boolean <%=result%> = true;
-		for (<%=genModel.getImportedName("java.util.Iterator")%> i = <%=genClassifier.getSafeUncapName()%>.iterator(); i.hasNext() && (result || diagnostics != null); )
+		for (<%=genModel.getImportedName("java.util.Iterator")%><%=singleWildcard%> i = <%=genClassifier.getSafeUncapName()%>.iterator(); i.hasNext() && (result || diagnostics != null); )
 		{
 			Object item = i.next();
   <%if (itemType.getGenPackage().hasConstraints()) {%>
@@ -304,15 +312,22 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
   <%} else {%>
 			if (<%=memberType.getQualifiedClassifierAccessor()%>.isInstance(<%=genClassifier.getSafeUncapName()%>))
 			{
-				<%if (memberType.getGenPackage().hasConstraints()) {%>if (<%=memberDelegate%>validate<%=memberType.getName()%>(<%if (memberType.isPrimitiveType()) {%>(<%}%>(<%=memberType.getObjectInstanceClassName()%>)<%=genClassifier.getSafeUncapName()%><%if (memberType.isPrimitiveType()) {%>).<%=memberType.getPrimitiveValueFunction()%>()<%}%>, tempDiagnostics, <%=context%>)) <%}%>return true;
+				<%if (memberType.getGenPackage().hasConstraints()) {%>if (<%=memberDelegate%>validate<%=memberType.getName()%>(<%if (memberType.isPrimitiveType()) {%>(<%}%><%if (!memberType.isObjectType() && !memberType.getQualifiedInstanceClassName().equals(genDataType.getQualifiedInstanceClassName())) {%>(<%=memberType.getImportedWildcardObjectInstanceClassName()%>)<%}%><%=genClassifier.getSafeUncapName()%><%if (memberType.isPrimitiveType()) {%>).<%=memberType.getPrimitiveValueFunction()%>()<%}%>, tempDiagnostics, <%=context%>)) <%}%>return true;
 			}
   <%}%>
 <%}%>
+<%if (genModel.useGenerics()) {%>
+			for (<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%> diagnostic : tempDiagnostics.getChildren())
+			{
+				diagnostics.add(diagnostic);
+			}
+<%} else {%>
 			<%=genModel.getImportedName("java.util.List")%> children = tempDiagnostics.getChildren();
 			for (int i = 0; i < children.size(); i++)
 			{
 				diagnostics.add((<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>)children.get(i));
 			}
+<%}%>
 		}
 		else
 		{
@@ -322,7 +337,7 @@ public class <%=genPackage.getValidatorClassName()%> extends <%=genModel.getImpo
   <%} else {%>
 			if (<%=memberType.getQualifiedClassifierAccessor()%>.isInstance(<%=genClassifier.getSafeUncapName()%>))
 			{
-				<%if (memberType.getGenPackage().hasConstraints()) {%>if (<%=memberDelegate%>validate<%=memberType.getName()%>(<%if (memberType.isPrimitiveType()) {%>(<%}%>(<%=memberType.getObjectInstanceClassName()%>)<%=genClassifier.getSafeUncapName()%><%if (memberType.isPrimitiveType()) {%>).<%=memberType.getPrimitiveValueFunction()%>()<%}%>, null, <%=context%>)) <%}%>return true;
+				<%if (memberType.getGenPackage().hasConstraints()) {%>if (<%=memberDelegate%>validate<%=memberType.getName()%>(<%if (memberType.isPrimitiveType()) {%>(<%}%><%if (!memberType.isObjectType() && !memberType.getQualifiedInstanceClassName().equals(genDataType.getQualifiedInstanceClassName())) {%>(<%=memberType.getImportedWildcardObjectInstanceClassName()%>)<%}%><%=genClassifier.getSafeUncapName()%><%if (memberType.isPrimitiveType()) {%>).<%=memberType.getPrimitiveValueFunction()%>()<%}%>, null, <%=context%>)) <%}%>return true;
 			}
   <%}%>
 <%}%>

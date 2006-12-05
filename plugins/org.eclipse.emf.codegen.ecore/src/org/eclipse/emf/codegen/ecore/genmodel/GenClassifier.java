@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenClassifier.java,v 1.6 2005/11/23 17:11:40 khussey Exp $
+ * $Id: GenClassifier.java,v 1.7 2006/12/05 20:30:24 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
 
+import org.eclipse.emf.common.util.EList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClassifier;
@@ -31,6 +32,7 @@ import org.eclipse.emf.ecore.EClassifier;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getGenPackage <em>Gen Package</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getGenTypeParameters <em>Gen Type Parameters</em>}</li>
  * </ul>
  * </p>
  *
@@ -56,6 +58,21 @@ public interface GenClassifier extends GenBase {
    */
   GenPackage getGenPackage();
 
+  /**
+   * Returns the value of the '<em><b>Gen Type Parameters</b></em>' containment reference list.
+   * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * </p>
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Gen Type Parameters</em>' containment reference list.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenClassifier_GenTypeParameters()
+   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter" containment="true"
+   * @generated
+   */
+  EList getGenTypeParameters();
+
   EClassifier getEcoreClassifier();
   String getImportedMetaType();
   String getMetaType();
@@ -67,6 +84,31 @@ public interface GenClassifier extends GenBase {
   String getSafeUncapName();
 
   String getImportedInstanceClassName();
+  
+  /**
+   * @since 2.3
+   */
+  String getRawImportedInstanceClassName();
+  
+  /**
+   * @since 2.3
+   */
+  String getImportedParameterizedInstanceClassName();
+
+  /**
+   * @since 2.3
+   */
+  String getImportedWildcardInstanceClassName();
+
+  /**
+   * @since 2.3
+   */
+  String getImportedBoundedWildcardInstanceClassName();
+
+  /**
+   * @since 2.3
+   */
+  boolean isUncheckedCast();
 
   /**
    * This returns a name like 'XSDElementDeclaration' formatted like 'XSD Element Declaration'

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteral.java,v 1.4 2005/10/28 14:06:36 davidms Exp $
+ * $Id: GenEnumLiteral.java,v 1.5 2006/12/05 20:30:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -98,6 +98,16 @@ public interface GenEnumLiteral extends GenBase
   int getValue();
   String getEnumLiteralID();
   String getLiteral();
+  
+  /**
+   * @since 2.3
+   */
+  String getEnumLiteralInstanceConstantName();
+
+  /**
+   * @since 2.3
+   */
+  String getEnumLiteralValueConstantName();
 
   GenPackage getGenPackage(); // returns the package in which this enum literal is defined
   String getEnumLiteralAccessorName(); // returns the name of the enum literal get method in the package interface

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.64 2006/08/08 19:52:57 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.65 2006/12/05 20:29:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -33,11 +33,13 @@ import org.eclipse.emf.codegen.ecore.Generator;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
+import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.ECollections;
@@ -47,12 +49,15 @@ import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -366,6 +371,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   protected String getInternalQualifiedInterfaceName()
   {
+    return getInternalQualifiedInterfaceName(getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50);
+  }
+
+  protected String getInternalQualifiedInterfaceName(boolean includeTemplateArguments)
+  {
     if (isDynamic())
     {
       GenClass genClass = getBaseGenClass();
@@ -376,10 +386,15 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
 
     return getEcoreClass().getInstanceClassName() != null ?
-      getEcoreClass().getInstanceClassName() :
+      includeTemplateArguments ? getEcoreClass().getInstanceTypeName() : getEcoreClass().getInstanceClassName() :
       getGenPackage().getInterfacePackageName() + "." + getInterfaceName();
   }
   
+  public String getRawImportedInstanceClassName()
+  {
+    return getRawImportedInterfaceName();
+  }
+
   public String getImportedInstanceClassName()
   {
     return getImportedInterfaceName();
@@ -388,6 +403,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public String getImportedInterfaceName()
   {
     return getGenModel().getImportedName(getInternalQualifiedInterfaceName());
+  }
+
+  public String getRawImportedInterfaceName()
+  {
+    return getGenModel().getImportedName(getInternalQualifiedInterfaceName(false));
   }
 
   public String getClassName()
@@ -473,7 +493,22 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     GenClass extendsClass = getClassExtendsGenClass();
     if (extendsClass != null)
     {   
-      return " extends " + extendsClass.getImportedClassName();
+      StringBuilder result = new StringBuilder();
+      result.append(" extends ");
+      result.append(extendsClass.getImportedClassName());
+      if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+      {
+        EClass extendsEClass = extendsClass.getEcoreClass();
+        for (EGenericType eGenericType : getEcoreClass().getEAllGenericSuperTypes())
+        {
+          if (eGenericType.getEClassifier() == extendsEClass)
+          {
+            result.append(getTypeArguments(eGenericType.getETypeArguments(), true));
+            break;
+          }
+        }
+      }
+      return result.toString();
     }
     else if (!isEObject())
     {
@@ -511,13 +546,42 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     List result = new UniqueEList();
     if (isMapEntry())
     {
-      result.add(getGenModel().getImportedName("org.eclipse.emf.common.util.BasicEMap$Entry"));
+      if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+      {
+        result.add
+          (getGenModel().getImportedName("org.eclipse.emf.common.util.BasicEMap$Entry") + "<" + 
+              getMapEntryKeyFeature().getObjectType()+ ","  +
+              getMapEntryValueFeature().getObjectType() + ">");
+      }
+      else
+      {
+        result.add(getGenModel().getImportedName("org.eclipse.emf.common.util.BasicEMap$Entry"));
+      }
     }
     else
     {
       if (isExternalInterface() || !getGenModel().isSuppressInterfaces())
       {
-        result.add(getImportedInterfaceName());
+        if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50 && !getGenTypeParameters().isEmpty())
+        {
+          StringBuilder stringBuilder = new StringBuilder(getImportedInterfaceName());
+          stringBuilder.append('<');
+          for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+          {
+            GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+            stringBuilder.append(genTypeParameter.getName());
+            if (i.hasNext())
+            {
+              stringBuilder.append(", ");
+            }
+          }
+          stringBuilder.append('>');
+          result.add(stringBuilder.toString());
+        }
+        else
+        {
+          result.add(getImportedInterfaceName());
+        }
       }
       String rootImplementsInterface = getGenModel().getRootImplementsInterface();
       if (!isBlank(rootImplementsInterface))
@@ -623,12 +687,21 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       result.add(getGenModel().getImportedName(rootExtendsInterface));
     }
 
-    for (Iterator iter = getBaseGenClasses().iterator(); iter.hasNext(); )
+    boolean includeTypeArguments = getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50;
+    for (Iterator iter = getBaseGenClasses().iterator(), j = getEcoreClass().getEGenericSuperTypes().iterator(); iter.hasNext(); )
     {
       GenClass genClass = (GenClass)iter.next();
+      EGenericType eGenericType = (EGenericType)j.next();
       if (genClass.isExternalInterface() || genClass.isInterface() || !genClass.getGenModel().isSuppressInterfaces())
       {
-        result.add(genClass.getImportedInterfaceName());
+        if (includeTypeArguments && !eGenericType.getETypeArguments().isEmpty())
+        {
+          result.add(genClass.getImportedInterfaceName() + getTypeArguments(eGenericType.getETypeArguments(), true));
+        }
+        else
+        {
+          result.add(genClass.getImportedInterfaceName());
+        }
       }
     } 
 
@@ -650,6 +723,102 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (iter.hasNext()) result.append(", ");
     } 
     return result.toString();
+  }
+  
+  public boolean hasGenericSuperTypes()
+  {
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      for (EGenericType eGenericType : getEcoreClass().getEGenericSuperTypes())
+      {
+        if (eGenericType.getETypeParameter() != null || !eGenericType.getETypeArguments().isEmpty())
+        {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public String getTypeParameters()
+  {
+    if (!getGenTypeParameters().isEmpty() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      StringBuilder result = new StringBuilder("<");
+      for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+      {
+        GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+        result.append(genTypeParameter.getName());
+        List<EGenericType> eBounds = genTypeParameter.getEcoreTypeParameter().getEBounds();
+        if (!eBounds.isEmpty())
+        {
+          result.append(" extends ");
+          for (Iterator j = genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); j.hasNext(); )
+          {
+            EGenericType eBound = (EGenericType)j.next();
+            result.append(getTypeArgument(eBound, true));
+            if (j.hasNext())
+            {
+              result.append(" & ");
+            }
+          }
+        }
+        if (i.hasNext())
+        {
+          result.append(", ");
+        }
+      }
+      
+      result.append("> ");
+      return result.toString();
+    }
+    else
+    {
+      return "";
+    }
+  }
+
+  public String getClassTypeArguments()
+  {
+    return getTypeArguments(false, false);
+  }
+
+  public String getInterfaceTypeArguments()
+  {
+    return getTypeArguments(true, false);
+  }
+
+  public String getInterfaceWildTypeArguments()
+  {
+    return getTypeArguments(true, true);
+  }
+  
+  protected String getTypeArguments(boolean isInterface, boolean isWild)
+  {
+    if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      if (!getGenTypeParameters().isEmpty())
+      {
+        StringBuilder result = new StringBuilder("<");
+        for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+        {
+          GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+          result.append(isWild ? "?" : genTypeParameter.getName());
+          if (i.hasNext())
+          {
+            result.append(", ");
+          }
+        }
+        
+        result.append('>');
+        return result.toString();
+      }
+      else if (isMapEntry() && isInterface)
+      {
+        return "<" + getMapEntryKeyFeature().getObjectType() + ", " + getMapEntryValueFeature().getObjectType() + ">";
+      }
+    }
+    return "";
   }
 
   public List getAllGenFeatures()
@@ -1160,6 +1329,32 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
       setImage(!eClass.isAbstract());
     }
+    
+    List typeParameters = eClass.getETypeParameters();
+    LOOP:
+    for (int i = 0; i < typeParameters.size(); ++i) 
+    {
+      ETypeParameter typeParameter = (ETypeParameter)typeParameters.get(i);
+
+      for (int j = 0; j < getGenTypeParameters().size(); ++j)
+      {
+        GenTypeParameter genTypeParameter = (GenTypeParameter)getGenTypeParameters().get(j);
+        if (genTypeParameter.getEcoreTypeParameter() == typeParameter)
+        {
+          genTypeParameter.initialize(typeParameter);
+          if (i != j)
+          {
+            getGenTypeParameters().move(i, j);
+          }
+
+          continue LOOP;
+        }
+      }
+
+      GenTypeParameter genTypeParameter = getGenModel().createGenTypeParameter();
+      getGenTypeParameters().add(genTypeParameter);
+      genTypeParameter.initialize(typeParameter);
+    }
 
     int localFeatureIndex = 0;
     LOOP:
@@ -1313,7 +1508,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
     else if (isExternalInterface())
     {
-      appendModelSetting(result, "instanceClass", getEcoreClass().getInstanceClassName());
+      appendModelSetting
+        (result, 
+         "instanceClass", 
+         getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 ? getEcoreClass().getInstanceClassName() : getEcoreClass().getInstanceTypeName());
     }
     else
     {
@@ -2132,6 +2330,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           }
         }
       }
+
+      for (Iterator i = getGenTypeParameters().iterator(), j = oldGenClassVersion.getGenTypeParameters().iterator(); i.hasNext() && j.hasNext(); )
+      {
+        GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+        GenTypeParameter oldGenTypeParameterVersion = (GenTypeParameter)j.next();
+        genTypeParameter.reconcile(oldGenTypeParameterVersion);
+      }
+
       reconcileSettings(oldGenClassVersion);
       return true;
     }
@@ -2169,6 +2375,15 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
       else
       {
+        for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+        {
+          GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+          if (!genTypeParameter.reconcile())
+          {
+            i.remove();
+          }
+        }
+
         for (Iterator i = getGenFeatures().iterator(); i.hasNext(); )
         {
           GenFeature genFeature = (GenFeature)i.next();
@@ -2331,6 +2546,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       GenClass mapGenClass = genFeature.getMapEntryTypeGenClass();
       sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EcoreEMap"));
       sb.append(unsettable);
+      if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+      {
+        sb.append('<');
+        sb.append(mapGenClass.getMapEntryKeyFeature().getImportedType());
+        sb.append(',');
+        sb.append(mapGenClass.getMapEntryValueFeature().getImportedType());
+        sb.append('>');
+      }
       sb.append("(");
       sb.append(mapGenClass.getQualifiedClassifierAccessor());
       sb.append(", ");
@@ -2358,8 +2581,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     else if (getGenModel().isSuppressNotification())
     {
       sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.BasicInternalEList"));
+      if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+      {
+        sb.append('<');
+        sb.append(genFeature.getListItemType());
+        sb.append('>');
+      }
       sb.append("(");
-      sb.append(genFeature.getListItemType());
+      sb.append(genFeature.getRawListItemType());
       sb.append(".class)");
     }
     else if (genFeature.isEffectiveContains())
@@ -2373,8 +2602,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         {
           sb.append(".Resolving");
         }
+        if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+        {
+          sb.append('<');
+          sb.append(genFeature.getListItemType());
+          sb.append('>');
+        }
         sb.append("(");
-        sb.append(genFeature.getListItemType());
+        sb.append(genFeature.getRawListItemType());
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
         sb.append(", ");
@@ -2389,8 +2624,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         {
           sb.append(".Resolving");
         }
+        if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+        {
+          sb.append('<');
+          sb.append(genFeature.getListItemType());
+          sb.append('>');
+        }
         sb.append("(");
-        sb.append(genFeature.getListItemType());
+        sb.append(genFeature.getRawListItemType());
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
         sb.append(")");
@@ -2414,8 +2655,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         {
           sb.append(".ManyInverse");
         }
+        if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+        {
+          sb.append('<');
+          sb.append(genFeature.getListItemType());
+          sb.append('>');
+        }
         sb.append("(");
-        sb.append(genFeature.getListItemType());
+        sb.append(genFeature.getRawListItemType());
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
         sb.append(", ");
@@ -2433,8 +2680,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
           sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EObjectEList"));
         }
         sb.append(unsettable);
+        if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+        {
+          sb.append('<');
+          sb.append(genFeature.getListItemType());
+          sb.append('>');
+        }
         sb.append("(");
-        sb.append(genFeature.getListItemType());
+        sb.append(genFeature.getRawListItemType());
         sb.append(".class, this, ");
         sb.append(getQualifiedFeatureID(genFeature));
         sb.append(")");
@@ -2451,8 +2704,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         sb.append(getGenModel().getImportedName("org.eclipse.emf.ecore.util.EDataTypeEList"));
       }
       sb.append(unsettable);
+      if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+      {
+        sb.append('<');
+        sb.append(genFeature.getListItemType());
+        sb.append('>');
+      }
       sb.append("(");
-      sb.append(genFeature.getListItemType());
+      sb.append(genFeature.getRawListItemType());
       sb.append(".class, this, ");
       sb.append(getQualifiedFeatureID(genFeature));
       sb.append(")");

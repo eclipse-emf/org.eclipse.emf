@@ -478,7 +478,7 @@ public class ItemProvider
     stringBuffer.append(TEXT_98);
     } else {
     stringBuffer.append(TEXT_99);
-    stringBuffer.append(labelFeature.getImportedType());
+    stringBuffer.append(labelFeature.getRawImportedType());
     stringBuffer.append(TEXT_100);
     stringBuffer.append(genClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_101);

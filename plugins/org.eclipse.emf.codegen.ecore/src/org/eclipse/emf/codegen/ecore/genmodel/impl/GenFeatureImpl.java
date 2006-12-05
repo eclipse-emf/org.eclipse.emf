@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.38 2006/10/26 19:31:44 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.39 2006/12/05 20:29:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -29,6 +29,7 @@ import java.util.Set;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -1786,5 +1787,19 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   public boolean isEffectiveContains()
   {
     return isContains() && !getGenModel().isSuppressContainment();
+  }
+
+  public boolean hasEDefault()
+  {
+    return 
+      getEcoreFeature() instanceof EAttribute && 
+        (getEffectiveComplianceLevel().getValue() < GenJDKLevel.JDK50 ||
+           (getEcoreFeature().getEType().getETypeParameters().isEmpty() && 
+               getEcoreFeature().getEGenericType().getETypeParameter() == null));
+  }
+
+  public String getEDefault()
+  {
+    return hasEDefault() ? getUpperName() + "_" + "EDEFAULT" :  "null";
   }
 } //GenFeatureImpl

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.38 2006/11/13 16:35:43 marcelop Exp $
+ * $Id: GenModel.java,v 1.39 2006/12/05 20:30:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.codegen.util.ImportManager;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.jdt.core.formatter.CodeFormatter;
@@ -94,6 +95,7 @@ import org.eclipse.jdt.core.formatter.CodeFormatter;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isArrayAccessors <em>Array Accessors</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#isSuppressUnsettable <em>Suppress Unsettable</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getFacadeHelperClass <em>Facade Helper Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getComplianceLevel <em>Compliance Level</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getUsedGenPackages <em>Used Gen Packages</em>}</li>
  * </ul>
@@ -1568,6 +1570,35 @@ public interface GenModel extends GenBase
   void setFacadeHelperClass(String value);
 
   /**
+   * Returns the value of the '<em><b>Compliance Level</b></em>' attribute.
+   * The literals are from the enumeration {@link org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * </p>
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Compliance Level</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel
+   * @see #setComplianceLevel(GenJDKLevel)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenModel_ComplianceLevel()
+   * @model
+   * @generated
+   */
+  GenJDKLevel getComplianceLevel();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getComplianceLevel <em>Compliance Level</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Compliance Level</em>' attribute.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel
+   * @see #getComplianceLevel()
+   * @generated
+   */
+  void setComplianceLevel(GenJDKLevel value);
+
+  /**
    * Returns the value of the '<em><b>Gen Packages</b></em>' containment reference list.
    * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage}.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage#getGenModel <em>Gen Model</em>}'.
@@ -1940,6 +1971,11 @@ public interface GenModel extends GenBase
 
   GenPackage findGenPackage(EPackage ePackage);
 
+  /**
+   * @since 2.3
+   */
+  GenClassifier findGenClassifier(EClassifier eClassifier);
+
   List getAllGenPackagesWithClassifiers();
   List getAllUsedGenPackagesWithClassifiers();
   List getAllGenAndUsedGenPackagesWithClassifiers();
@@ -2035,6 +2071,10 @@ public interface GenModel extends GenBase
   GenParameter createGenParameter();
   GenAnnotation createGenAnnotation();
   GenBase create(EClass eClass);
+  /**
+   * @since 2.3
+   */
+  GenTypeParameter createGenTypeParameter();
 
   Set getPropertyCategories();
   
@@ -2048,4 +2088,14 @@ public interface GenModel extends GenBase
   List computeMissingUsedGenPackages();
 
   boolean isVirtualDelegation();
+
+  /**
+   * @since 2.3
+   */
+  boolean useClassOverrideAnnotation();
+
+  /**
+   * @since 2.3
+   */
+  boolean useGenerics();
 }

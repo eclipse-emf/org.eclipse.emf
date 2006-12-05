@@ -36,10 +36,16 @@ public class XMLProcessorClass
   protected final String TEXT_20 = ".Registry.INSTANCE));" + NL + "\t\t";
   protected final String TEXT_21 = ".eINSTANCE.eClass();";
   protected final String TEXT_22 = NL + "\t}" + NL + "\t" + NL + "\t/**" + NL + "\t * Register for \"*\" and \"xml\" file extensions the ";
-  protected final String TEXT_23 = " factory." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected Map getRegistrations()" + NL + "\t{" + NL + "\t\tif (registrations == null)" + NL + "\t\t{" + NL + "\t\t\tsuper.getRegistrations();" + NL + "\t\t\tregistrations.put(XML_EXTENSION, new ";
-  protected final String TEXT_24 = "());" + NL + "\t\t\tregistrations.put(STAR_EXTENSION, new ";
-  protected final String TEXT_25 = "());" + NL + "\t\t}" + NL + "\t\treturn registrations;" + NL + "\t}" + NL + "" + NL + "} //";
-  protected final String TEXT_26 = NL;
+  protected final String TEXT_23 = " factory." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_24 = NL + "\t@Override";
+  protected final String TEXT_25 = NL + "\tprotected Map";
+  protected final String TEXT_26 = "<";
+  protected final String TEXT_27 = ", ";
+  protected final String TEXT_28 = ".Factory>";
+  protected final String TEXT_29 = " getRegistrations()" + NL + "\t{" + NL + "\t\tif (registrations == null)" + NL + "\t\t{" + NL + "\t\t\tsuper.getRegistrations();" + NL + "\t\t\tregistrations.put(XML_EXTENSION, new ";
+  protected final String TEXT_30 = "());" + NL + "\t\t\tregistrations.put(STAR_EXTENSION, new ";
+  protected final String TEXT_31 = "());" + NL + "\t\t}" + NL + "\t\treturn registrations;" + NL + "\t}" + NL + "" + NL + "} //";
+  protected final String TEXT_32 = NL;
 
   public String generate(Object argument)
   {
@@ -48,7 +54,7 @@ public class XMLProcessorClass
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others. 
+ * Copyright (c) 2005-2006 IBM Corporation and others. 
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -106,13 +112,25 @@ public class XMLProcessorClass
     stringBuffer.append(TEXT_22);
     stringBuffer.append(genPackage.getResourceFactoryClassName());
     stringBuffer.append(TEXT_23);
-    stringBuffer.append(genPackage.getResourceFactoryClassName());
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_24);
-    stringBuffer.append(genPackage.getResourceFactoryClassName());
+    }
     stringBuffer.append(TEXT_25);
+    if (genModel.getComplianceLevel().getValue() >= GenJDKLevel.JDK50) {
+    stringBuffer.append(TEXT_26);
+    stringBuffer.append(genModel.getImportedName("java.lang.String"));
+    stringBuffer.append(TEXT_27);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.resource.Resource"));
+    stringBuffer.append(TEXT_28);
+    }
+    stringBuffer.append(TEXT_29);
+    stringBuffer.append(genPackage.getResourceFactoryClassName());
+    stringBuffer.append(TEXT_30);
+    stringBuffer.append(genPackage.getResourceFactoryClassName());
+    stringBuffer.append(TEXT_31);
     stringBuffer.append(genPackage.getXMLProcessorClassName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_26);
+    stringBuffer.append(TEXT_32);
     return stringBuffer.toString();
   }
 }

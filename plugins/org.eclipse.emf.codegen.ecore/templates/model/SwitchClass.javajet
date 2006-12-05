@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.11 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.12 2006/12/05 20:29:11 emerks Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -97,11 +97,11 @@ public class <%=genPackage.getSwitchClassName()%>
 		}
 		else
 		{
-			<%=genModel.getImportedName("java.util.List")%> eSuperTypes = theEClass.getESuperTypes();
+			<%=genModel.getImportedName("java.util.List")%><%if (genModel.useGenerics()) {%><<%=genModel.getImportedName("org.eclipse.emf.ecore.EClass")%>><%}%> eSuperTypes = theEClass.getESuperTypes();
 			return
 				eSuperTypes.isEmpty() ?
 					defaultCase(theEObject) :
-					doSwitch((EClass)eSuperTypes.get(0), theEObject);
+					doSwitch(<%if (!genModel.useGenerics()) {%>(EClass)<%}%>eSuperTypes.get(0), theEObject);
 		}
 	}
 
@@ -120,10 +120,10 @@ public class <%=genPackage.getSwitchClassName()%>
 <%if (!genClass.isExternalInterface() && !genClass.isEObject() || genClass.isMapEntry()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; %>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genPackage.getClassifierID(genClass)%>:
 			{
-				<%=genClass.getImportedInterfaceName()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%>)theEObject;
+				<%if (genClass.isUncheckedCast() || genClass.getInterfaceWildTypeArguments().length() > 0) {%>@SuppressWarnings("unchecked") <%}%><%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)theEObject;
 				Object <%=result%> = case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getSafeUncapName()%>);
 <%for (Iterator b=genClass.getSwitchGenClasses().iterator(); b.hasNext();) { GenClass baseGenClass = (GenClass)b.next();%>
-				if (<%=result%> == null) <%=result%> = case<%=genPackage.getClassUniqueName(baseGenClass)%>(<%if (genClass.isMapEntry()) {%>(<%=baseGenClass.getImportedInterfaceName()%>)<%}%><%=genClass.getSafeUncapName()%>);
+				if (<%=result%> == null) <%=result%> = case<%=genPackage.getClassUniqueName(baseGenClass)%>(<%if (genClass.isMapEntry()) {%>(<%=baseGenClass.getImportedInterfaceName()%><%=baseGenClass.getInterfaceTypeArguments()%>)<%}%><%=genClass.getSafeUncapName()%>);
 <%}%>
 				if (<%=result%> == null) <%=result%> = defaultCase(theEObject);
 				return <%=result%>;
@@ -146,7 +146,7 @@ public class <%=genPackage.getSwitchClassName()%>
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public Object case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getImportedInterfaceName()%> object)
+	public <%=genClass.getTypeParameters()%>Object case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceTypeArguments()%> object)
 	{
 		return null;
 	}

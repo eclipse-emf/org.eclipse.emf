@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackage.java,v 1.35 2006/10/12 20:55:57 marcelop Exp $
+ * $Id: GenModelPackage.java,v 1.36 2006/12/05 20:30:18 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -583,13 +583,22 @@ public interface GenModelPackage extends EPackage
   int GEN_MODEL__FACADE_HELPER_CLASS = GEN_BASE_FEATURE_COUNT + 50;
 
   /**
+   * The feature id for the '<em><b>Compliance Level</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_MODEL__COMPLIANCE_LEVEL = GEN_BASE_FEATURE_COUNT + 51;
+
+  /**
    * The feature id for the '<em><b>Gen Packages</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 51;
+  int GEN_MODEL__GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 52;
 
   /**
    * The feature id for the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -598,7 +607,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 52;
+  int GEN_MODEL__USED_GEN_PACKAGES = GEN_BASE_FEATURE_COUNT + 53;
 
   /**
    * The number of structural features of the '<em>Gen Model</em>' class.
@@ -607,7 +616,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 53;
+  int GEN_MODEL_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 54;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenPackageImpl <em>Gen Package</em>}' class.
@@ -891,13 +900,22 @@ public interface GenModelPackage extends EPackage
   int GEN_CLASSIFIER__GEN_PACKAGE = GEN_BASE_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>Gen Type Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_CLASSIFIER__GEN_TYPE_PARAMETERS = GEN_BASE_FEATURE_COUNT + 1;
+
+  /**
    * The number of structural features of the '<em>Gen Classifier</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_CLASSIFIER_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 1;
+  int GEN_CLASSIFIER_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenClassImpl <em>Gen Class</em>}' class.
@@ -926,6 +944,15 @@ public interface GenModelPackage extends EPackage
    * @ordered
    */
   int GEN_CLASS__GEN_PACKAGE = GEN_CLASSIFIER__GEN_PACKAGE;
+
+  /**
+   * The feature id for the '<em><b>Gen Type Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_CLASS__GEN_TYPE_PARAMETERS = GEN_CLASSIFIER__GEN_TYPE_PARAMETERS;
 
   /**
    * The feature id for the '<em><b>Provider</b></em>' attribute.
@@ -1183,6 +1210,15 @@ public interface GenModelPackage extends EPackage
   int GEN_DATA_TYPE__GEN_PACKAGE = GEN_CLASSIFIER__GEN_PACKAGE;
 
   /**
+   * The feature id for the '<em><b>Gen Type Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_DATA_TYPE__GEN_TYPE_PARAMETERS = GEN_CLASSIFIER__GEN_TYPE_PARAMETERS;
+
+  /**
    * The feature id for the '<em><b>Ecore Data Type</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1229,6 +1265,15 @@ public interface GenModelPackage extends EPackage
   int GEN_ENUM__GEN_PACKAGE = GEN_DATA_TYPE__GEN_PACKAGE;
 
   /**
+   * The feature id for the '<em><b>Gen Type Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ENUM__GEN_TYPE_PARAMETERS = GEN_DATA_TYPE__GEN_TYPE_PARAMETERS;
+
+  /**
    * The feature id for the '<em><b>Ecore Data Type</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1238,13 +1283,22 @@ public interface GenModelPackage extends EPackage
   int GEN_ENUM__ECORE_DATA_TYPE = GEN_DATA_TYPE__ECORE_DATA_TYPE;
 
   /**
+   * The feature id for the '<em><b>Type Safe Enum Compatible</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE = GEN_DATA_TYPE_FEATURE_COUNT + 0;
+
+  /**
    * The feature id for the '<em><b>Ecore Enum</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_ENUM__ECORE_ENUM = GEN_DATA_TYPE_FEATURE_COUNT + 0;
+  int GEN_ENUM__ECORE_ENUM = GEN_DATA_TYPE_FEATURE_COUNT + 1;
 
   /**
    * The feature id for the '<em><b>Gen Enum Literals</b></em>' containment reference list.
@@ -1253,7 +1307,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_ENUM__GEN_ENUM_LITERALS = GEN_DATA_TYPE_FEATURE_COUNT + 1;
+  int GEN_ENUM__GEN_ENUM_LITERALS = GEN_DATA_TYPE_FEATURE_COUNT + 2;
 
   /**
    * The number of structural features of the '<em>Gen Enum</em>' class.
@@ -1262,7 +1316,7 @@ public interface GenModelPackage extends EPackage
    * @generated
    * @ordered
    */
-  int GEN_ENUM_FEATURE_COUNT = GEN_DATA_TYPE_FEATURE_COUNT + 2;
+  int GEN_ENUM_FEATURE_COUNT = GEN_DATA_TYPE_FEATURE_COUNT + 3;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenEnumLiteralImpl <em>Gen Enum Literal</em>}' class.
@@ -1357,13 +1411,22 @@ public interface GenModelPackage extends EPackage
   int GEN_OPERATION__GEN_PARAMETERS = GEN_TYPED_ELEMENT_FEATURE_COUNT + 2;
 
   /**
+   * The feature id for the '<em><b>Gen Type Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_OPERATION__GEN_TYPE_PARAMETERS = GEN_TYPED_ELEMENT_FEATURE_COUNT + 3;
+
+  /**
    * The number of structural features of the '<em>Gen Operation</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int GEN_OPERATION_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 3;
+  int GEN_OPERATION_FEATURE_COUNT = GEN_TYPED_ELEMENT_FEATURE_COUNT + 4;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl <em>Gen Parameter</em>}' class.
@@ -1486,6 +1549,43 @@ public interface GenModelPackage extends EPackage
   int GEN_ANNOTATION_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 5;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypeParameterImpl <em>Gen Type Parameter</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypeParameterImpl
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenTypeParameter()
+   * @generated
+   */
+  int GEN_TYPE_PARAMETER = 13;
+
+  /**
+   * The feature id for the '<em><b>Gen Annotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_TYPE_PARAMETER__GEN_ANNOTATIONS = GEN_BASE__GEN_ANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Ecore Type Parameter</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_TYPE_PARAMETER__ECORE_TYPE_PARAMETER = GEN_BASE_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Gen Type Parameter</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int GEN_TYPE_PARAMETER_FEATURE_COUNT = GEN_BASE_FEATURE_COUNT + 1;
+
+  /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}' enum.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1493,7 +1593,7 @@ public interface GenModelPackage extends EPackage
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenProviderKind()
    * @generated
    */
-  int GEN_PROVIDER_KIND = 13;
+  int GEN_PROVIDER_KIND = 14;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind <em>Gen Property Kind</em>}' enum.
@@ -1503,7 +1603,7 @@ public interface GenModelPackage extends EPackage
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenPropertyKind()
    * @generated
    */
-  int GEN_PROPERTY_KIND = 14;
+  int GEN_PROPERTY_KIND = 15;
 
 
   /**
@@ -1514,7 +1614,7 @@ public interface GenModelPackage extends EPackage
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenResourceKind()
    * @generated
    */
-  int GEN_RESOURCE_KIND = 15;
+  int GEN_RESOURCE_KIND = 16;
 
 
   /**
@@ -1525,7 +1625,18 @@ public interface GenModelPackage extends EPackage
    * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenDelegationKind()
    * @generated
    */
-  int GEN_DELEGATION_KIND = 16;
+  int GEN_DELEGATION_KIND = 17;
+
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel <em>Gen JDK Level</em>}' enum.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel
+   * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenJDKLevel()
+   * @generated
+   */
+  int GEN_JDK_LEVEL = 18;
 
 
   /**
@@ -2100,6 +2211,17 @@ public interface GenModelPackage extends EPackage
   EAttribute getGenModel_FacadeHelperClass();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getComplianceLevel <em>Compliance Level</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Compliance Level</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModel#getComplianceLevel()
+   * @see #getGenModel()
+   * @generated
+   */
+  EAttribute getGenModel_ComplianceLevel();
+
+  /**
    * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenModel#getGenPackages <em>Gen Packages</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2656,6 +2778,17 @@ public interface GenModelPackage extends EPackage
   EClass getGenEnum();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum#isTypeSafeEnumCompatible <em>Type Safe Enum Compatible</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Type Safe Enum Compatible</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenEnum#isTypeSafeEnumCompatible()
+   * @see #getGenEnum()
+   * @generated
+   */
+  EAttribute getGenEnum_TypeSafeEnumCompatible();
+
+  /**
    * Returns the meta object for the reference '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum#getEcoreEnum <em>Ecore Enum</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2731,6 +2864,17 @@ public interface GenModelPackage extends EPackage
   EReference getGenClassifier_GenPackage();
 
   /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getGenTypeParameters <em>Gen Type Parameters</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Gen Type Parameters</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenClassifier#getGenTypeParameters()
+   * @see #getGenClassifier()
+   * @generated
+   */
+  EReference getGenClassifier_GenTypeParameters();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenDataType <em>Gen Data Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2793,6 +2937,17 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EReference getGenOperation_GenParameters();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenTypeParameters <em>Gen Type Parameters</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Gen Type Parameters</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenTypeParameters()
+   * @see #getGenOperation()
+   * @generated
+   */
+  EReference getGenOperation_GenTypeParameters();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenParameter <em>Gen Parameter</em>}'.
@@ -2902,6 +3057,27 @@ public interface GenModelPackage extends EPackage
   EReference getGenAnnotation_Contents();
 
   /**
+   * Returns the meta object for class '{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter <em>Gen Type Parameter</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Gen Type Parameter</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter
+   * @generated
+   */
+  EClass getGenTypeParameter();
+
+  /**
+   * Returns the meta object for the reference '{@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter#getEcoreTypeParameter <em>Ecore Type Parameter</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>Ecore Type Parameter</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter#getEcoreTypeParameter()
+   * @see #getGenTypeParameter()
+   * @generated
+   */
+  EReference getGenTypeParameter_EcoreTypeParameter();
+
+  /**
    * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2940,6 +3116,16 @@ public interface GenModelPackage extends EPackage
    * @generated
    */
   EEnum getGenDelegationKind();
+
+  /**
+   * Returns the meta object for enum '{@link org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel <em>Gen JDK Level</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for enum '<em>Gen JDK Level</em>'.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel
+   * @generated
+   */
+  EEnum getGenJDKLevel();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -3383,6 +3569,14 @@ public interface GenModelPackage extends EPackage
     EAttribute GEN_MODEL__FACADE_HELPER_CLASS = eINSTANCE.getGenModel_FacadeHelperClass();
 
     /**
+     * The meta object literal for the '<em><b>Compliance Level</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_MODEL__COMPLIANCE_LEVEL = eINSTANCE.getGenModel_ComplianceLevel();
+
+    /**
      * The meta object literal for the '<em><b>Gen Packages</b></em>' containment reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3801,6 +3995,14 @@ public interface GenModelPackage extends EPackage
     EClass GEN_ENUM = eINSTANCE.getGenEnum();
 
     /**
+     * The meta object literal for the '<em><b>Type Safe Enum Compatible</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE = eINSTANCE.getGenEnum_TypeSafeEnumCompatible();
+
+    /**
      * The meta object literal for the '<em><b>Ecore Enum</b></em>' reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3861,6 +4063,14 @@ public interface GenModelPackage extends EPackage
     EReference GEN_CLASSIFIER__GEN_PACKAGE = eINSTANCE.getGenClassifier_GenPackage();
 
     /**
+     * The meta object literal for the '<em><b>Gen Type Parameters</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_CLASSIFIER__GEN_TYPE_PARAMETERS = eINSTANCE.getGenClassifier_GenTypeParameters();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenDataTypeImpl <em>Gen Data Type</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3911,6 +4121,14 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EReference GEN_OPERATION__GEN_PARAMETERS = eINSTANCE.getGenOperation_GenParameters();
+
+    /**
+     * The meta object literal for the '<em><b>Gen Type Parameters</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_OPERATION__GEN_TYPE_PARAMETERS = eINSTANCE.getGenOperation_GenTypeParameters();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenParameterImpl <em>Gen Parameter</em>}' class.
@@ -3999,6 +4217,24 @@ public interface GenModelPackage extends EPackage
     EReference GEN_ANNOTATION__CONTENTS = eINSTANCE.getGenAnnotation_Contents();
 
     /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypeParameterImpl <em>Gen Type Parameter</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenTypeParameterImpl
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenTypeParameter()
+     * @generated
+     */
+    EClass GEN_TYPE_PARAMETER = eINSTANCE.getGenTypeParameter();
+
+    /**
+     * The meta object literal for the '<em><b>Ecore Type Parameter</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference GEN_TYPE_PARAMETER__ECORE_TYPE_PARAMETER = eINSTANCE.getGenTypeParameter_EcoreTypeParameter();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind <em>Gen Provider Kind</em>}' enum.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4037,6 +4273,16 @@ public interface GenModelPackage extends EPackage
      * @generated
      */
     EEnum GEN_DELEGATION_KIND = eINSTANCE.getGenDelegationKind();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel <em>Gen JDK Level</em>}' enum.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel
+     * @see org.eclipse.emf.codegen.ecore.genmodel.impl.GenModelPackageImpl#getGenJDKLevel()
+     * @generated
+     */
+    EEnum GEN_JDK_LEVEL = eINSTANCE.getGenJDKLevel();
 
   }
 

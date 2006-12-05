@@ -1,9 +1,9 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.9 2006/02/21 16:24:14 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.10 2006/12/05 20:29:11 emerks Exp $" %>
 <%
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -54,7 +54,10 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 <%}%>
 	}
 
-<%if (genPackage.isDataTypeConverters()) { boolean isXMLTypePackage = org.eclipse.emf.ecore.xml.type.XMLTypePackage.eNS_URI.equals(genPackage.getNSURI());%>
+<%if (genPackage.isDataTypeConverters() && genPackage.hasDocumentRoot()) { boolean isXMLTypePackage = org.eclipse.emf.ecore.xml.type.XMLTypePackage.eNS_URI.equals(genPackage.getNSURI());%>
+<%final String _Map = genModel.useGenerics() ? "Map<?, ?>" : "Map";%>
+<%final String _MapStringBoolean = genModel.useGenerics() ? "Map<String, Boolean>" : "Map";%>
+<%final String _MapStringWildcard = genModel.useGenerics() ? "Map<String, ?>" : "Map";%>
 <%if (!isXMLTypePackage) {%>
 <%genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLResource");%>
 <%genModel.getImportedName("org.eclipse.emf.ecore.xmi.XMLParserPool");%>
@@ -86,15 +89,18 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void doLoad(InputStream inputStream, Map options) throws IOException
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+  <%}%>
+	public void doLoad(InputStream inputStream, <%=_Map%> options) throws IOException
 	{
 		if (options != null && Boolean.TRUE.equals(options.get(OPTION_USE_DATA_CONVERTER)))
 		{
 		  getContents().add
 			 (load
 				 (new InputSource(inputStream), 
-				  (Map)options.get(XMLResource.OPTION_PARSER_FEATURES), 
-				  (Map)options.get(XMLResource.OPTION_PARSER_PROPERTIES), 
+				  (<%=_MapStringBoolean%>)options.get(XMLResource.OPTION_PARSER_FEATURES), 
+				  (<%=_MapStringWildcard%>)options.get(XMLResource.OPTION_PARSER_PROPERTIES), 
 				  Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER))).eContainer());
 		}
 		else
@@ -108,15 +114,18 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void doLoad(InputSource inputSource, Map options) throws IOException
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+  <%}%>
+	public void doLoad(InputSource inputSource, <%=_Map%> options) throws IOException
 	{
 		if (options != null && Boolean.TRUE.equals(options.get(OPTION_USE_DATA_CONVERTER)))
 		{
 		  getContents().add
 			 (load
 				 (inputSource,
-				  (Map)options.get(XMLResource.OPTION_PARSER_FEATURES), 
-				  (Map)options.get(XMLResource.OPTION_PARSER_PROPERTIES), 
+				  (<%=_MapStringBoolean%>)options.get(XMLResource.OPTION_PARSER_FEATURES), 
+				  (<%=_MapStringWildcard%>)options.get(XMLResource.OPTION_PARSER_PROPERTIES), 
 				  Boolean.TRUE.equals(options.get(XMLResource.OPTION_USE_LEXICAL_HANDLER))).eContainer());
 		}
 		else
@@ -145,9 +154,9 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 	 * @throws SAXException
 	 * @generated
 	 */
-	public static EObject load(InputSource inputSource, Map features, Map properties, boolean useLexicalHandler) throws IOException
+	public static EObject load(InputSource inputSource, <%=_MapStringBoolean%> features, <%=_MapStringWildcard%> properties, boolean useLexicalHandler) throws IOException
 	{
-		Map requiredFeatures = new HashMap();
+		<%=_MapStringBoolean%> requiredFeatures = new <%=_MapStringBoolean.replaceAll("Map","HashMap")%>();
 		requiredFeatures.put("http://xml.org/sax/features/namespaces", Boolean.TRUE); 
 		if (features != null)
 		{
@@ -156,7 +165,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		
 		if (properties == null)
 		{
-			properties = Collections.EMPTY_MAP;
+			properties = Collections.<%if (genModel.useGenerics()) {%>emptyMap()<%} else {%>EMPTY_MAP<%}%>;
 		}
 		
 		SAXParser saxParser = null;
@@ -169,7 +178,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 <%if (genModel.isSuppressEMFTypes()) {%>
 			return (EObject)((EObject)FrameFactory.INSTANCE.popDocumentRoot(documentRoot)).eContents().get(0);
 <%} else {%>
-			return (EObject)FrameFactory.INSTANCE.popDocumentRoot(documentRoot).eContents().get(0);
+			return FrameFactory.INSTANCE.popDocumentRoot(documentRoot).eContents().get(0);
 <%}%>
 		}
 		catch (Exception exception)
@@ -285,6 +294,9 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 			 * <!-- end-user-doc -->
 			 * @generated
 			 */
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+  <%}%>
 			public void handleAttributes(Attributes attributes)
 			{
 <%int count = 0; for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();%>
@@ -308,6 +320,9 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 <%}%>
 <%}%>
 <%}%>
+<%if (count == 0) {%>
+				// There are attributes to handle.
+<%}%>
 			}
 		
 			/**
@@ -315,6 +330,9 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 			 * <!-- end-user-doc -->
 			 * @generated
 			 */
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+  <%}%>
 			public <%=_StackFrame%> startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
 			{
 <%count = 0; for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();%>
@@ -342,6 +360,9 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 			 * <!-- end-user-doc -->
 			 * @generated
 			 */
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+  <%}%>
 			public void endElement(<%=_StackFrame%> child) throws SAXException
 			{
 <%count = 0; for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();%>
@@ -373,6 +394,9 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 			 * <!-- end-user-doc -->
 			 * @generated
 			 */
+  <%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+  <%}%>
 			public void create()
 			{
 				the<%=genClass.getInterfaceName()%> = <%=genPackage.getQualifiedFactoryInstanceAccessor()%>.create<%=genClass.getInterfaceName()%>();
@@ -414,10 +438,10 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public <%=genDataType.getImportedInstanceClassName()%> pop<%=genDataType.getName()%>(<%=_DataFrame%> <%=genDataType.getSafeUncapName()%>)
+		public <%=genDataType.getImportedParameterizedInstanceClassName()%> pop<%=genDataType.getName()%>(<%=_DataFrame%> <%=genDataType.getSafeUncapName()%>)
 		{
 <%if (genDataType.getGenPackage().isDataTypeConverters()) {%>
-			<%=genDataType.getImportedInstanceClassName()%> result<%=genDataType.getName()%>Value = <%=genDataType.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=genDataType.getName()%>(<%=genDataType.getSafeUncapName()%>.popValue());
+			<%=genDataType.getImportedParameterizedInstanceClassName()%> result<%=genDataType.getName()%>Value = <%=genDataType.getGenPackage().getQualifiedFactoryInstanceAccessor()%>.create<%=genDataType.getName()%>(<%=genDataType.getSafeUncapName()%>.popValue());
 <%} else if (genDataType.isPrimitiveType()) {%>
 			<%=genDataType.getImportedInstanceClassName()%> result<%=genDataType.getName()%>Value = ((<%=genDataType.getObjectInstanceClassName()%>)<%=genDataType.getGenPackage().getQualifiedEFactoryInstanceAccessor()%>.createFromString(<%=genDataType.getQualifiedClassifierAccessor()%>, <%=genDataType.getSafeUncapName()%>.popValue())).<%=genDataType.getPrimitiveValueFunction()%>();
 <%} else {%>

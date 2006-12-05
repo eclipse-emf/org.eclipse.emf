@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.18 2006/05/15 19:20:30 davidms Exp $
+ * $Id: GenFeature.java,v 1.19 2006/12/05 20:30:24 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -449,5 +449,14 @@ public interface GenFeature extends GenTypedElement
   boolean isBasicUnset();
   boolean isUnset();
   boolean isIsSet();
+  
+  /**
+   * @since 2.3
+   */
+  boolean hasEDefault();
 
+  /**
+   * @since 2.3
+   */
+  String getEDefault();
 }

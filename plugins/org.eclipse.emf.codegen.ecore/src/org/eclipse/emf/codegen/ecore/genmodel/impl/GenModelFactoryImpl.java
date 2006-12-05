@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactoryImpl.java,v 1.8 2005/12/05 20:11:14 marcelop Exp $
+ * $Id: GenModelFactoryImpl.java,v 1.9 2006/12/05 20:30:02 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -89,6 +89,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
       case GenModelPackage.GEN_OPERATION: return createGenOperation();
       case GenModelPackage.GEN_PARAMETER: return createGenParameter();
       case GenModelPackage.GEN_ANNOTATION: return createGenAnnotation();
+      case GenModelPackage.GEN_TYPE_PARAMETER: return createGenTypeParameter();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -111,6 +112,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return createGenResourceKindFromString(eDataType, initialValue);
       case GenModelPackage.GEN_DELEGATION_KIND:
         return createGenDelegationKindFromString(eDataType, initialValue);
+      case GenModelPackage.GEN_JDK_LEVEL:
+        return createGenJDKLevelFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -133,6 +136,8 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
         return convertGenResourceKindToString(eDataType, instanceValue);
       case GenModelPackage.GEN_DELEGATION_KIND:
         return convertGenDelegationKindToString(eDataType, instanceValue);
+      case GenModelPackage.GEN_JDK_LEVEL:
+        return convertGenJDKLevelToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -253,6 +258,17 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  public GenTypeParameter createGenTypeParameter()
+  {
+    GenTypeParameterImpl genTypeParameter = new GenTypeParameterImpl();
+    return genTypeParameter;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public GenProviderKind createGenProviderKindFromString(EDataType eDataType, String initialValue)
   {
     GenProviderKind result = GenProviderKind.get(initialValue);
@@ -332,6 +348,28 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * @generated
    */
   public String convertGenDelegationKindToString(EDataType eDataType, Object instanceValue)
+  {
+    return instanceValue == null ? null : instanceValue.toString();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public GenJDKLevel createGenJDKLevelFromString(EDataType eDataType, String initialValue)
+  {
+    GenJDKLevel result = GenJDKLevel.get(initialValue);
+    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+    return result;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertGenJDKLevelToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

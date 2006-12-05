@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnum.java,v 1.3 2005/06/08 06:18:44 nickb Exp $
+ * $Id: GenEnum.java,v 1.4 2006/12/05 20:30:23 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.EEnum;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum#isTypeSafeEnumCompatible <em>Type Safe Enum Compatible</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum#getEcoreEnum <em>Ecore Enum</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum#getGenEnumLiterals <em>Gen Enum Literals</em>}</li>
  * </ul>
@@ -42,6 +43,32 @@ import org.eclipse.emf.ecore.EEnum;
  */
 public interface GenEnum extends GenDataType
 {
+  /**
+   * Returns the value of the '<em><b>Type Safe Enum Compatible</b></em>' attribute.
+   * The default value is <code>"true"</code>.
+   * <!-- begin-user-doc -->
+   * <p>
+   * </p>
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Type Safe Enum Compatible</em>' attribute.
+   * @see #setTypeSafeEnumCompatible(boolean)
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenEnum_TypeSafeEnumCompatible()
+   * @model default="true"
+   * @generated
+   */
+  boolean isTypeSafeEnumCompatible();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.codegen.ecore.genmodel.GenEnum#isTypeSafeEnumCompatible <em>Type Safe Enum Compatible</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Type Safe Enum Compatible</em>' attribute.
+   * @see #isTypeSafeEnumCompatible()
+   * @generated
+   */
+  void setTypeSafeEnumCompatible(boolean value);
+
   /**
    * Returns the value of the '<em><b>Ecore Enum</b></em>' reference.
    * <!-- begin-user-doc -->

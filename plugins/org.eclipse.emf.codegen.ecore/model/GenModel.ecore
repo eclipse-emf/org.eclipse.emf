@@ -84,6 +84,7 @@
         <details key="documentation" value="The default value must be always equals to JMerger.DEFAULT_FACADE_HELPER_CLASS."/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="complianceLevel" eType="#//GenJDKLevel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genPackages" upperBound="-1"
         eType="#//GenPackage" containment="true" eOpposite="#//GenPackage/genModel"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="usedGenPackages" upperBound="-1"
@@ -176,6 +177,8 @@
         eType="#//GenAnnotation" containment="true" eOpposite="#//GenAnnotation/genBase"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenEnum" eSuperTypes="#//GenDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeSafeEnumCompatible"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreEnum" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EEnum"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genEnumLiterals" upperBound="-1"
@@ -191,6 +194,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="genPackage" lowerBound="1"
         eType="#//GenPackage" changeable="false" volatile="true" transient="true"
         resolveProxies="false" eOpposite="#//GenPackage/genClassifiers"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genTypeParameters" upperBound="-1"
+        eType="#//GenTypeParameter" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenDataType" eSuperTypes="#//GenClassifier">
     <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreDataType" lowerBound="1"
@@ -203,6 +208,8 @@
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EOperation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="genParameters" upperBound="-1"
         eType="#//GenParameter" containment="true" eOpposite="#//GenParameter/genOperation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="genTypeParameters" upperBound="-1"
+        eType="#//GenTypeParameter" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="GenParameter" eSuperTypes="#//GenTypedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="genOperation" lowerBound="1"
@@ -244,5 +251,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="contents" upperBound="-1"
         eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"
         containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GenJDKLevel">
+    <eLiterals name="JDK14" literal="1.4"/>
+    <eLiterals name="JDK50" value="1" literal="5.0"/>
+    <eLiterals name="JDK60" value="2" literal="6.0"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GenTypeParameter" eSuperTypes="#//GenBase">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ecoreTypeParameter" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//ETypeParameter"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.10 2005/10/21 21:44:15 emerks Exp $
+ * $Id: GenOperation.java,v 1.11 2006/12/05 20:30:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EOperation;
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenClass <em>Gen Class</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getEcoreOperation <em>Ecore Operation</em>}</li>
  *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenParameters <em>Gen Parameters</em>}</li>
+ *   <li>{@link org.eclipse.emf.codegen.ecore.genmodel.GenOperation#getGenTypeParameters <em>Gen Type Parameters</em>}</li>
  * </ul>
  * </p>
  *
@@ -114,6 +115,21 @@ public interface GenOperation extends GenTypedElement {
    */
   EList getGenParameters();
 
+  /**
+   * Returns the value of the '<em><b>Gen Type Parameters</b></em>' containment reference list.
+   * The list contents are of type {@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * </p>
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Gen Type Parameters</em>' containment reference list.
+   * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage#getGenOperation_GenTypeParameters()
+   * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter" containment="true"
+   * @generated
+   */
+  EList getGenTypeParameters();
+
   String getName();
   String getCapName();
   String getFormattedName();
@@ -172,4 +188,14 @@ public interface GenOperation extends GenTypedElement {
   boolean isInvariant();
 
   boolean isOverrideOf(GenOperation genOperation);
+
+  /**
+   * @since 2.3
+   */
+  String getTypeParameters();
+
+  /**
+   * @since 2.3
+   */
+  boolean hasGenericExceptions();
 }

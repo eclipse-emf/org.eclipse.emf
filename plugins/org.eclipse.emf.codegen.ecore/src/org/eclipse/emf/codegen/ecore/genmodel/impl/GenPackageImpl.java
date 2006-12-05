@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.62 2006/11/13 22:02:49 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.63 2006/12/05 20:29:40 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2887,7 +2887,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
                new Class [] { EPackage.class }).invoke(generator, new Object [] { getEcorePackage() });
 
           Iterator i = result.iterator();
-          Object xsdSchema = i.next();
+          EObject xsdSchema = (EObject)i.next();
 
           ResourceSet resourceSet = new ResourceSetImpl();
           resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
@@ -2907,7 +2907,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           {
             if (!"XML".equals(type))
             {
-              Object otherXSDSchema = i.next();
+              EObject otherXSDSchema = (EObject)i.next();
               URI otherURI = getEcorePackage().eResource().getURI().trimSegments(1).appendSegment("XMI.xsd");
               Resource otherXSDSchemaResource = resourceSet.createResource(otherURI);
               otherXSDSchemaResource.getContents().add(otherXSDSchema);
@@ -2922,7 +2922,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
             }
             if (i.hasNext())
             {
-              Object mappingRoot = i.next();
+              EObject mappingRoot = (EObject)i.next();
               URI mappingURI = getEcorePackage().eResource().getURI().trimSegments(1).appendSegment(getPrefix() + type + ".xsd2ecore");
               Resource mappingResource = resourceSet.createResource(mappingURI);
               mappingResource.getContents().add(mappingRoot);

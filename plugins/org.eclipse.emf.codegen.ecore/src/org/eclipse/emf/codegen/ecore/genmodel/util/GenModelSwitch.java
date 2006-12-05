@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelSwitch.java,v 1.10 2005/12/05 20:11:14 marcelop Exp $
+ * $Id: GenModelSwitch.java,v 1.11 2006/12/05 20:30:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -213,6 +213,14 @@ public class GenModelSwitch {
         GenAnnotation genAnnotation = (GenAnnotation)theEObject;
         Object result = caseGenAnnotation(genAnnotation);
         if (result == null) result = caseGenBase(genAnnotation);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case GenModelPackage.GEN_TYPE_PARAMETER:
+      {
+        GenTypeParameter genTypeParameter = (GenTypeParameter)theEObject;
+        Object result = caseGenTypeParameter(genTypeParameter);
+        if (result == null) result = caseGenBase(genTypeParameter);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -424,6 +432,22 @@ public class GenModelSwitch {
    * @generated
    */
   public Object caseGenAnnotation(GenAnnotation object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpretting the object as an instance of '<em>Gen Type Parameter</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>Gen Type Parameter</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public Object caseGenTypeParameter(GenTypeParameter object)
   {
     return null;
   }

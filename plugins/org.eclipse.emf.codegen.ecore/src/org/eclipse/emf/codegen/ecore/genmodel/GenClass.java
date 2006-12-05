@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.22 2006/05/01 10:27:39 davidms Exp $
+ * $Id: GenClass.java,v 1.23 2006/12/05 20:30:17 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -227,6 +227,10 @@ public interface GenClass extends GenClassifier
 
   String getQualifiedInterfaceName();
   String getImportedInterfaceName();
+  /**
+   * @since 2.3
+   */
+  String getRawImportedInterfaceName();
 
   String getClassName();
   String getQualifiedClassName();
@@ -266,6 +270,31 @@ public interface GenClass extends GenClassifier
   String getClassImplements();
   String getInterfaceExtends();
   boolean needsRootExtendsInterfaceExtendsTag();
+  
+  /**
+   * @since 2.3
+   */
+  boolean hasGenericSuperTypes();
+
+  /**
+   * @since 2.3
+   */
+  String getTypeParameters();
+
+  /**
+   * @since 2.3
+   */
+  String getInterfaceTypeArguments();
+
+  /**
+   * @since 2.3
+   */
+  String getInterfaceWildTypeArguments();
+
+  /**
+   * @since 2.3
+   */
+  String getClassTypeArguments();
 
   List/*of GenFeature*/ getAllGenFeatures();
   List/*of GenFeature*/ getInheritedGenFeatures();
