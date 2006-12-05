@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EObjectImpl.java,v 1.8 2005/11/18 19:06:17 emerks Exp $
+ * $Id: EObjectImpl.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -72,7 +73,7 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
   /**
    * The list of {@link org.eclipse.emf.common.notify.Adapter}s associated with the notifier.
    */
-  protected BasicEList eAdapters;
+  protected BasicEList<Adapter> eAdapters;
 
   /**
    * The container of this object.
@@ -106,6 +107,7 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.eINSTANCE.getEObject();
@@ -114,16 +116,18 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
   /*
    * Javadoc copied from interface.
    */
-  public EList eAdapters()
+  @Override
+  public EList<Adapter> eAdapters()
   {
     if (eAdapters == null)
     {
-      eAdapters =  new EAdapterList(this);
+      eAdapters =  new EAdapterList<Adapter>(this);
     }
     return eAdapters;
   }
 
-  protected BasicEList eBasicAdapters()
+  @Override
+  protected BasicEList<Adapter> eBasicAdapters()
   {
     return eAdapters;
   }
@@ -131,6 +135,7 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
   /*
    * Javadoc copied from interface.
    */
+  @Override
   public boolean eDeliver()
   {
     return (eFlags & EDELIVER) != 0;
@@ -139,6 +144,7 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
   /*
    * Javadoc copied from interface.
    */
+  @Override
   public void eSetDeliver(boolean deliver)
   {
     if (deliver)
@@ -154,6 +160,7 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
   /* 
    * @see org.eclipse.emf.ecore.EObject#eIsProxy()
    */
+  @Override
   public boolean eIsProxy()
   {
     return (eFlags & EPROXY) != 0;
@@ -162,6 +169,7 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
   /* 
    * @see org.eclipse.emf.ecore.InternalEObject#eSetProxyURI(org.eclipse.emf.common.util.URI)
    */
+  @Override
   public void eSetProxyURI(URI uri)
   {
     super.eSetProxyURI(uri);
@@ -175,6 +183,7 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
     }
   }
   
+  @Override
   protected EPropertiesHolder eProperties()
   {
     if (eProperties == null)
@@ -184,32 +193,38 @@ public class EObjectImpl extends BasicEObjectImpl implements EObject
     return eProperties;
   }
 
+  @Override
   protected EPropertiesHolder eBasicProperties()
   {
     return eProperties;
   }
 
+  @Override
   public InternalEObject eInternalContainer()
   {
     return eContainer;
   }
 
+  @Override
   public int eContainerFeatureID()
   {
     return eContainerFeatureID;
   }
 
+  @Override
   protected void eBasicSetContainer(InternalEObject newContainer, int newContainerFeatureID)
   {
     eContainer = newContainer;
     eContainerFeatureID = newContainerFeatureID;
   }
 
+  @Override
   public EClass eClass()
   {
     return (eFlags & EDYNAMIC_CLASS) == 0 ? eStaticClass() : eProperties().getEClass();
   }
 
+  @Override
   public void eSetClass(EClass eClass)
   {
     super.eSetClass(eClass);

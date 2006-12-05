@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectEList.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EObjectEList.java,v 1.4 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -21,27 +21,34 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.InternalEObject;
 
 
-public class EObjectEList extends EcoreEList
+public class EObjectEList<E> extends EcoreEList<E>
 {
-  public static class Unsettable extends EObjectEList
+  private static final long serialVersionUID = 1L;
+
+  public static class Unsettable<E> extends EObjectEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
     protected boolean isSet;
 
-    public Unsettable(Class dataClass, InternalEObject owner, int featureID)
+    public Unsettable(Class<?> dataClass, InternalEObject owner, int featureID)
     {
       super(dataClass, owner, featureID);
     }
 
+    @Override
     protected void didChange()
     {
       isSet = true;
     }
 
+    @Override
     public boolean isSet()
     {
       return isSet;
     }
 
+    @Override
     public void unset()
     {
       super.unset();
@@ -60,43 +67,50 @@ public class EObjectEList extends EcoreEList
 
   protected final int featureID;
 
-  public EObjectEList(Class dataClass, InternalEObject owner, int featureID)
+  public EObjectEList(Class<?> dataClass, InternalEObject owner, int featureID)
   {
     super(dataClass, owner);
     this.featureID = featureID;
   }
 
+  @Override
   public int getFeatureID()
   {
     return featureID;
   }
 
+  @Override
   protected boolean useEquals()
   {
     return false;
   }
 
+  @Override
   protected boolean isUnique()
   {
     return true;
   }
 
+  @Override
   protected boolean hasInverse()
   {
     return false;
   }
 
+  @Override
   protected boolean isEObject()
   {
     return true;
   }
 
+  @Override
   protected boolean canContainNull()
   {
     return false;
   }
 
-  protected Object resolve(int index, Object object)
+  @Override
+  protected E resolve(int index, E object)
   {
     return object;
   }

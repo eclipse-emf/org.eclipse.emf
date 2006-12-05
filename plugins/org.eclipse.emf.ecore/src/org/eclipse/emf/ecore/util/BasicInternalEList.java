@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicInternalEList.java,v 1.1 2005/12/10 13:34:27 emerks Exp $
+ * $Id: BasicInternalEList.java,v 1.2 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -27,34 +27,37 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 
 
-public class BasicInternalEList extends BasicEList implements InternalEList
+public class BasicInternalEList<E> extends BasicEList<E> implements InternalEList<E>
 {
-  protected final Class dataClass;
+  private static final long serialVersionUID = 1L;
+
+  protected final Class<? extends E> dataClass;
   
-  public BasicInternalEList(Class dataClass)
+  public BasicInternalEList(Class<? extends E> dataClass)
   {
     super();
     this.dataClass = dataClass;
   }
 
-  public BasicInternalEList(Class dataClass, int initialCapacity)
+  public BasicInternalEList(Class<? extends E> dataClass, int initialCapacity)
   {
     super(initialCapacity);
     this.dataClass = dataClass;
   }
 
-  public BasicInternalEList(Class dataClass, Collection collection)
+  public BasicInternalEList(Class<? extends E> dataClass, Collection<? extends E> collection)
   {
     super(collection);
     this.dataClass = dataClass;
   }
 
-  public BasicInternalEList(Class dataClass, int size, Object[] data)
+  public BasicInternalEList(Class<? extends E> dataClass, int size, Object[] data)
   {
     super(size, data);
     this.dataClass = dataClass;
   }
 
+  @Override
   protected Object [] newData(int capacity)
   {
     return (Object [])Array.newInstance(dataClass, capacity);
@@ -65,27 +68,31 @@ public class BasicInternalEList extends BasicEList implements InternalEList
     return null;
   }
 
-  public NotificationChain basicAdd(Object object, NotificationChain notifications)
+  public NotificationChain basicAdd(E object, NotificationChain notifications)
   {
     return null;
   }
 
-  public Iterator basicIterator()
+  @Override
+  public Iterator<E> basicIterator()
   {
     return super.basicIterator();
   }
 
-  public List basicList()
+  @Override
+  public List<E> basicList()
   {
     return super.basicList();
   }
 
-  public ListIterator basicListIterator()
+  @Override
+  public ListIterator<E> basicListIterator()
   {
     return super.basicListIterator();
   }
 
-  public ListIterator basicListIterator(int index)
+  @Override
+  public ListIterator<E> basicListIterator(int index)
   {
     return super.basicListIterator(index);
   }

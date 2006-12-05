@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLDuration.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLDuration.java,v 1.5 2006/12/05 20:22:26 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -112,6 +112,7 @@ public final class XMLDuration {
       valueString = value;
     }
     
+    @Override
     public boolean equals(Object obj)
     {
       if (!(obj instanceof XMLDuration))
@@ -120,6 +121,7 @@ public final class XMLDuration {
       return compareDates(dateValue, odata, true) == 0;
     }
     
+    @Override
     public int hashCode()
     {
       if (hashCode == 0)
@@ -388,7 +390,9 @@ public final class XMLDuration {
         return duration;
     }
 
-    public String toString() {
+    @Override
+    public String toString() 
+    {
       return valueString;
     }
 }

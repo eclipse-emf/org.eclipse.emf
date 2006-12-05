@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InternalEList.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: InternalEList.java,v 1.4 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -25,32 +25,32 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 
-public interface InternalEList extends EList
+public interface InternalEList<E> extends EList<E>
 {
   /**
    * Returns the unresolved value.
    */
-  Object basicGet(int index);
+  E basicGet(int index);
 
   /**
    * Returns an unmodifiable list that yields unresolved values.
    */
-  List basicList();
+  List<E> basicList();
 
   /**
    * Returns an iterator that yields unresolved values.
    */
-  Iterator basicIterator();
+  Iterator<E> basicIterator();
 
   /**
    * Returns a list iterator that yields unresolved values.
    */
-  ListIterator basicListIterator();
+  ListIterator<E> basicListIterator();
 
   /**
    * Returns a list iterator that yields unresolved values.
    */
-  ListIterator basicListIterator(int index);
+  ListIterator<E> basicListIterator(int index);
 
   /**
    * Removes the object with without updating the inverse.
@@ -60,27 +60,27 @@ public interface InternalEList extends EList
   /**
    * Adds the object without updating the inverse.
    */
-  NotificationChain basicAdd(Object object, NotificationChain notifications);
+  NotificationChain basicAdd(E object, NotificationChain notifications);
 
   /**
    * Adds the object without verifying uniqueness.
    */
-  void addUnique(Object object);
+  void addUnique(E object);
 
   /**
    * Adds the object without verifying uniqueness.
    */
-  void addUnique(int index, Object object);
+  void addUnique(int index, E object);
 
   /**
    * Sets the object without verifying uniqueness.
    */
-  Object setUnique(int index, Object object);
+  E setUnique(int index, E object);
 
   /**
    * Additional API for unsettable lists.
    */
-  interface Unsettable extends InternalEList
+  interface Unsettable<E> extends InternalEList<E>
   {
     /**
      * Returns whether a value is held by the feature of the object.

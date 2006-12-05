@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicEStoreEObjectImpl.java,v 1.5 2006/07/12 13:58:13 emerks Exp $
+ * $Id: DynamicEStoreEObjectImpl.java,v 1.6 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -78,6 +78,7 @@ public class DynamicEStoreEObjectImpl extends DynamicEObjectImpl
     return true;
   }
 
+  @Override
   public Object dynamicGet(int dynamicFeatureID)
   {
     Object result = eSettings[dynamicFeatureID];
@@ -107,6 +108,7 @@ public class DynamicEStoreEObjectImpl extends DynamicEObjectImpl
     return result;
   }
 
+  @Override
   public void dynamicSet(int dynamicFeatureID, Object value)
   {
     EStructuralFeature eStructuralFeature = eDynamicFeature(dynamicFeatureID);
@@ -124,12 +126,14 @@ public class DynamicEStoreEObjectImpl extends DynamicEObjectImpl
     }
   }
 
+  @Override
   public void dynamicUnset(int dynamicFeatureID)
   {
     eStore().unset(this, eDynamicFeature(dynamicFeatureID));
     eSettings[dynamicFeatureID] = null;
   }
 
+  @Override
   public boolean eDynamicIsSet(EStructuralFeature eStructuralFeature)
   {
     return 
@@ -138,9 +142,9 @@ public class DynamicEStoreEObjectImpl extends DynamicEObjectImpl
         eStore().isSet(this, eStructuralFeature);
   }
 
-  protected EList createList(EStructuralFeature eStructuralFeature)
+  protected <T> EList<T> createList(EStructuralFeature eStructuralFeature)
   {
-    return new EStoreEObjectImpl.EStoreEList(this, eStructuralFeature, eStore());
+    return new EStoreEObjectImpl.EStoreEList<T>(this, eStructuralFeature, eStore());
   }
 
   protected FeatureMap createFeatureMap(EStructuralFeature eStructuralFeature)
@@ -148,6 +152,7 @@ public class DynamicEStoreEObjectImpl extends DynamicEObjectImpl
     return new EStoreEObjectImpl.EStoreFeatureMap(this, eStructuralFeature, eStore());
   }
 
+  @Override
   public InternalEObject eInternalContainer()
   {
     if (eContainer == EUNINITIALIZED_CONTAINER)
@@ -158,6 +163,7 @@ public class DynamicEStoreEObjectImpl extends DynamicEObjectImpl
     return eContainer;
   }
 
+  @Override
   public int eContainerFeatureID()
   {
     if (eContainer == EUNINITIALIZED_CONTAINER)
@@ -189,11 +195,13 @@ public class DynamicEStoreEObjectImpl extends DynamicEObjectImpl
     }
   }
 
+  @Override
   public InternalEObject.EStore eStore()
   {
     return eStore;
   }
 
+  @Override
   public void eSetStore(InternalEObject.EStore store)
   {
     this.eStore = store;

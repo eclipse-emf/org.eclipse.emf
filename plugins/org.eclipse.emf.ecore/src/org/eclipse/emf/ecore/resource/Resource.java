@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Resource.java,v 1.7 2006/05/01 16:13:09 marcelop Exp $
+ * $Id: Resource.java,v 1.8 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -172,7 +172,7 @@ public interface Resource extends Notifier
    * </p>
    * @return the direct content objects.
    */
-  EList getContents();
+  EList<EObject> getContents();
 
   /**
    * Returns a tree iterator that iterates over all the {@link #getContents direct contents} and indirect contents of this resource.
@@ -181,7 +181,7 @@ public interface Resource extends Notifier
    * @see ResourceSet#getAllContents
    * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents
    */
-  TreeIterator getAllContents();
+  TreeIterator<EObject> getAllContents();
 
   /**
    * Returns the URI {@link URI#fragment fragment} that,
@@ -236,7 +236,7 @@ public interface Resource extends Notifier
    * @param options the save options.
    * @see #save(OutputStream, Map)
    */
-  void save(Map options) throws IOException;
+  void save(Map<?, ?> options) throws IOException;
 
   /**
    * Loads the resource using the specified options.
@@ -259,7 +259,7 @@ public interface Resource extends Notifier
    * @param options the load options.
    * @see #load(InputStream, Map)
    */
-  void load(Map options) throws IOException;
+  void load(Map<?, ?> options) throws IOException;
 
   /**
    * Saves the resource to the output stream using the specified options.
@@ -271,7 +271,7 @@ public interface Resource extends Notifier
    * @see #save(Map)
    * @see #load(InputStream, Map)
    */
-  void save(OutputStream outputStream, Map options) throws IOException;
+  void save(OutputStream outputStream, Map<?, ?> options) throws IOException;
 
   /**
    * Loads the resource from the input stream using the specified options.
@@ -283,7 +283,7 @@ public interface Resource extends Notifier
    * @see #load(Map)
    * @see #save(OutputStream, Map)
    */
-  void load(InputStream inputStream, Map options) throws IOException;
+  void load(InputStream inputStream, Map<?, ?> options) throws IOException;
 
   /**
    * Returns whether modification tracking is enabled.
@@ -370,7 +370,7 @@ public interface Resource extends Notifier
    * @return a list of the errors in the resource.
    * @see #load(Map)
    */
-  EList getErrors();
+  EList<Diagnostic> getErrors();
 
   /**
    * Returns a list of the warnings and informational messages in the resource;
@@ -381,7 +381,7 @@ public interface Resource extends Notifier
    * @return a list of the warnings in the resource.
    * @see #load(Map)
    */
-  EList getWarnings();
+  EList<Diagnostic> getWarnings();
 
   /**
    * A noteworthy issue in a document.
@@ -500,7 +500,7 @@ public interface Resource extends Notifier
        * or {@link org.eclipse.emf.ecore.resource.Resource.Factory.Descriptor}.
        * @return the protocol map.
        */
-      Map getProtocolToFactoryMap();
+      Map<String, Object> getProtocolToFactoryMap();
 
       /**
        * The file extension <code>"*"</code> that matches any extension.
@@ -522,7 +522,7 @@ public interface Resource extends Notifier
        * @return the file extension map.
        * @see #DEFAULT_EXTENSION
        */
-      Map getExtensionToFactoryMap();
+      Map<String, Object> getExtensionToFactoryMap();
 
       /**
        * The global static resource factory registry.
@@ -546,6 +546,8 @@ public interface Resource extends Notifier
    */
   class IOWrappedException extends IOException
   {
+    static final long serialVersionUID = 1L;
+
     /**
      * Creates an instance which wraps the given exception.
      * @param exception the exception to wrap.
@@ -561,6 +563,7 @@ public interface Resource extends Notifier
      * @return the wrapped exception.
      * @deprecated in 2.2.  Use {@link #getCause()} instead.  
      */
+    @Deprecated
     public Exception getWrappedException()
     {
       return (Exception)getCause();

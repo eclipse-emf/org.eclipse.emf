@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactory.java,v 1.4 2005/11/14 20:45:44 emerks Exp $
+ * $Id: EcoreFactory.java,v 1.5 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -141,6 +141,24 @@ public interface EcoreFactory extends EFactory
    * @generated
    */
   EReference createEReference();
+
+  /**
+   * Returns a new object of class '<em>EGeneric Type</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>EGeneric Type</em>'.
+   * @generated
+   */
+  EGenericType createEGenericType();
+
+  /**
+   * Returns a new object of class '<em>EType Parameter</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>EType Parameter</em>'.
+   * @generated
+   */
+  ETypeParameter createETypeParameter();
 
   /**
    * Returns the package supported by this factory.

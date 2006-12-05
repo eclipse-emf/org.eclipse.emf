@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Diagnostician.java,v 1.6 2005/06/08 06:20:10 nickb Exp $
+ * $Id: Diagnostician.java,v 1.7 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -73,7 +73,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
 
   public Diagnostic validate(EObject eObject)
   {
-    Map context = new HashMap();
+    Map<Object, Object> context = new HashMap<Object, Object>();
     context.put(EValidator.SubstitutionLabelProvider.class, this);
     context.put(EValidator.class, this);
     BasicDiagnostic diagnostics = 
@@ -96,23 +96,23 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
    */
   public boolean validate(EObject eObject, DiagnosticChain diagnostics)
   {
-    Map context = new HashMap();
+    Map<Object, Object> context = new HashMap<Object, Object>();
     context.put(EValidator.SubstitutionLabelProvider.class, this);
     context.put(EValidator.class, this);
     return validate(eObject, diagnostics, context);
   }
 
-  public boolean validate(EObject eObject, DiagnosticChain diagnostics, Map context)
+  public boolean validate(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate(eObject.eClass(), eObject, diagnostics, context); 
   }
 
-  public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map context)
+  public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     Object eValidator;
     while ((eValidator = eValidatorRegistry.get(eClass.eContainer())) == null)
     {
-      List eSuperTypes = eClass.getESuperTypes();
+      List<EClass> eSuperTypes = eClass.getESuperTypes();
       if (eSuperTypes.isEmpty())
       {
         eValidator = eValidatorRegistry.get(null);
@@ -120,7 +120,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
       }
       else
       {
-        eClass = (EClass)eSuperTypes.get(0);
+        eClass = eSuperTypes.get(0);
       }
     }
 
@@ -132,17 +132,17 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
     return result;
   }
 
-  protected boolean doValidateContents(EObject eObject, DiagnosticChain diagnostics, Map context)
+  protected boolean doValidateContents(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
-    List eContents = eObject.eContents();
+    List<EObject> eContents = eObject.eContents();
     if (!eContents.isEmpty())
     {
-      Iterator i = eContents.iterator(); 
-      EObject child = (EObject)i.next();
+      Iterator<EObject> i = eContents.iterator(); 
+      EObject child = i.next();
       boolean result = validate(child, diagnostics, context);
       while (i.hasNext() && (result || diagnostics != null))
       {
-        child = (EObject)i.next();
+        child = i.next();
         result &= validate(child, diagnostics, context);
       }
       return result;
@@ -155,7 +155,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
 
   public Diagnostic validate(EDataType eDataType, Object value)
   {
-    Map context = new HashMap();
+    Map<Object, Object> context = new HashMap<Object, Object>();
     context.put(EValidator.SubstitutionLabelProvider.class, this);
     context.put(EValidator.class, this);
     BasicDiagnostic diagnostics = 
@@ -170,7 +170,7 @@ public class Diagnostician implements EValidator.SubstitutionLabelProvider, EVal
     return diagnostics;
   }
 
-  public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map context)
+  public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     Object eValidator = eValidatorRegistry.get(eDataType.eContainer());
     if (eValidator == null)

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: InternalEObject.java,v 1.5 2006/02/10 20:48:18 emerks Exp $
+ * $Id: InternalEObject.java,v 1.6 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -94,7 +94,7 @@ public interface InternalEObject extends EObject
    * @param baseClass the base class for which a relative ID is desired.
    * @return the up-cast feature ID.
    */
-  int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass);
+  int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass);
 
   /**
    * Returns the container feature ID.
@@ -111,7 +111,7 @@ public interface InternalEObject extends EObject
    * @param baseClass the base class to which the ID is relative.
    * @return the down-cast feature ID.
    */
-  int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass);
+  int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass);
 
   /**
    * Sets this object to be directly contained by the resource 
@@ -126,14 +126,14 @@ public interface InternalEObject extends EObject
    * and returns accumulated notifications.
    * @return accumulated notifications.
    */
-  NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain notifications);
+  NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain notifications);
 
   /**
    * Removes the object at the other end of a bidirectional reference from the appropriate feature
    * and returns accumulated notifications.
    * @return accumulated notifications.
    */
-  NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain notifications);
+  NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain notifications);
 
   /**
    * Sets the container to be new container and appropriate feature.
@@ -355,7 +355,7 @@ public interface InternalEObject extends EObject
      * @param array the array to fill.
      * @return an array of the values in the content of the object's feature.
      */
-    Object[] toArray(InternalEObject object, EStructuralFeature feature, Object[] array);
+    <T> T[] toArray(InternalEObject object, EStructuralFeature feature, T[] array);
 
     /**
      * Returns the hash code of the {@link EObject#eGet(EStructuralFeature,boolean) content} of the object's feature.

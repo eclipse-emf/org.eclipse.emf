@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.12 2005/12/13 23:14:49 emerks Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.13 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -25,9 +25,9 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.*;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.util.FeatureMap;
 
@@ -81,6 +81,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -98,6 +99,8 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
       case EcorePackage.EPARAMETER: return createEParameter();
       case EcorePackage.EREFERENCE: return createEReference();
       case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY: return (EObject)createEStringToStringMapEntry();
+      case EcorePackage.EGENERIC_TYPE: return createEGenericType();
+      case EcorePackage.ETYPE_PARAMETER: return createETypeParameter();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -108,6 +111,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
@@ -148,6 +152,8 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
         return createEIntegerObjectFromString(eDataType, initialValue);
       case EcorePackage.EJAVA_CLASS:
         return createEJavaClassFromString(eDataType, initialValue);
+      case EcorePackage.EJAVA_OBJECT:
+        return createEJavaObjectFromString(eDataType, initialValue);
       case EcorePackage.ELONG:
         return createELongFromString(eDataType, initialValue);
       case EcorePackage.ELONG_OBJECT:
@@ -168,6 +174,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
@@ -208,6 +215,8 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
         return convertEIntegerObjectToString(eDataType, instanceValue);
       case EcorePackage.EJAVA_CLASS:
         return convertEJavaClassToString(eDataType, instanceValue);
+      case EcorePackage.EJAVA_OBJECT:
+        return convertEJavaObjectToString(eDataType, instanceValue);
       case EcorePackage.ELONG:
         return convertELongToString(eDataType, instanceValue);
       case EcorePackage.ELONG_OBJECT:
@@ -543,10 +552,32 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Map.Entry createEStringToStringMapEntry()
+  public Map.Entry<String, String> createEStringToStringMapEntry()
   {
     EStringToStringMapEntryImpl eStringToStringMapEntry = new EStringToStringMapEntryImpl();
     return eStringToStringMapEntry;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EGenericType createEGenericType()
+  {
+    EGenericTypeImpl eGenericType = new EGenericTypeImpl();
+    return eGenericType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ETypeParameter createETypeParameter()
+  {
+    ETypeParameterImpl eTypeParameter = new ETypeParameterImpl();
+    return eTypeParameter;
   }
 
   /**
@@ -602,6 +633,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   /**
    * @deprecated
    */
+  @Deprecated
   public static EcorePackage getPackage()
   {
     return EcorePackage.eINSTANCE;
@@ -837,72 +869,15 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public byte[] createEByteArrayFromString(EDataType eDataType, String initialValue)
   {
-    if (initialValue == null)
-    {
-      return null;
-    }
-
-    int size = initialValue.length();
-    int limit = (size + 1) / 2;
-    byte [] result = new byte[limit];
-    if (size % 2 != 0)
-    {
-      result[--limit] = hexCharToByte(initialValue.charAt(size - 1));
-    }
-    
-    for (int i = 0, j = 0; i < limit; ++i)
-    {
-      byte high = hexCharToByte(initialValue.charAt(j++));
-      byte low = hexCharToByte(initialValue.charAt(j++));
-      result[i] = (byte)(high << 4 | low);
-    }
-    return result;
+    return hexStringToBytes(initialValue);
   }
 
   protected static byte hexCharToByte(char character)
   {
-    switch (character)
-    {
-      case '0':
-      case '1':
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-      case '8':
-      case '9':
-      {
-        return (byte)(character - '0');
-      }
-      case 'a':
-      case 'b':
-      case 'c':
-      case 'd':
-      case 'e':
-      case 'f':
-      {
-        return (byte)(character - 'a' + 10);
-      }
-      case 'A':
-      case 'B':
-      case 'C':
-      case 'D':
-      case 'E':
-      case 'F':
-      {
-        return (byte)(character - 'A' + 10);
-      }
-      default:
-      {
-        throw new NumberFormatException("Invalid hexadecimal");
-      }
-    }
+    return EFactoryImpl.hexCharToByte(character);
   }
 
-  protected static final char [] HEX_DIGITS = 
-    { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+  protected static final char [] HEX_DIGITS =  EFactoryImpl.HEX_DIGITS;
 
   /**
    * <!-- begin-user-doc -->
@@ -918,15 +893,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
     else
     {
       byte [] bytes = (byte[])instanceValue;
-      char [] result = new char[2 * bytes.length];
-      for (int i = 0, j = 0; i < bytes.length; ++i)
-      {
-        int high = (bytes[i] >> 4) & 0xF;
-        int low = bytes[i] & 0xF;
-        result[j++] = HEX_DIGITS[high];
-        result[j++] = HEX_DIGITS[low];
-      }
-      return new String(result);
+      return bytesToHexString(bytes, bytes.length);
     }
   }
 
@@ -955,7 +922,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Class createEJavaClassFromString(EDataType metaObject, String initialValue) 
+  public Class<?> createEJavaClassFromString(EDataType metaObject, String initialValue) 
   {
     try
     {
@@ -983,7 +950,27 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public String convertEJavaClassToString(EDataType metaObject, Object instanceValue)
   {
-    return instanceValue == null ? "" : ((Class)instanceValue).getName();
+    return instanceValue == null ? "" : ((Class<?>)instanceValue).getName();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createEJavaObjectFromString(EDataType eDataType, String initialValue)
+  {
+    return createFromString(initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertEJavaObjectToString(EDataType eDataType, Object instanceValue)
+  {
+    return convertToString(instanceValue);
   }
 
   /**

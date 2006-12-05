@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.16 2005/12/02 18:07:47 davidms Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.17 2006/12/05 20:22:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -2143,5 +2143,6 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    */
   protected void createNullAnnotations()
   {
+    // Don't create anything.
   }
 } //XMLTypePackageImpl

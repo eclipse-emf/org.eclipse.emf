@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingEcoreEList.java,v 1.10 2006/03/17 19:47:20 emerks Exp $
+ * $Id: DelegatingEcoreEList.java,v 1.11 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -37,11 +37,11 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 
-public abstract class DelegatingEcoreEList 
-  extends DelegatingNotifyingListImpl 
-  implements InternalEList.Unsettable, EStructuralFeature.Setting
+public abstract class DelegatingEcoreEList<E>
+  extends DelegatingNotifyingListImpl<E>
+  implements InternalEList.Unsettable<E>, EStructuralFeature.Setting
 {
-  public static abstract class Unsettable extends DelegatingEcoreEList
+  public static abstract class Unsettable<E> extends DelegatingEcoreEList<E>
   {
     protected boolean isSet;
 
@@ -50,16 +50,19 @@ public abstract class DelegatingEcoreEList
       super(owner);
     }
 
+    @Override
     protected void didChange()
     {
       isSet = true;
     }
 
+    @Override
     public boolean isSet()
     {
       return isSet;
     }
 
+    @Override
     public void unset()
     {
       super.unset();
@@ -84,6 +87,7 @@ public abstract class DelegatingEcoreEList
     this.owner = owner;
   }
 
+  @Override
   protected boolean canContainNull()
   {
     EClassifier eClassifier = getFeatureType();
@@ -104,11 +108,13 @@ public abstract class DelegatingEcoreEList
     }
   }
 
+  @Override
   protected boolean isUnique()
   {
     return getEStructuralFeature().isUnique();
   }
 
+  @Override
   protected boolean hasInverse()
   {
     EStructuralFeature eStructuralFeature = getEStructuralFeature();
@@ -123,7 +129,8 @@ public abstract class DelegatingEcoreEList
     }
   }
 
-  protected Object validate(int index, Object object)
+  @Override
+  protected E validate(int index, E object)
   {
     super.validate(index, object);
     if (object != null && !isInstance(object))
@@ -138,16 +145,19 @@ public abstract class DelegatingEcoreEList
     return getFeatureType().isInstance(object);
   }
 
+  @Override
   public Object getNotifier()
   {
     return owner;
   }
 
+  @Override
   public Object getFeature()
   {
     return getEStructuralFeature();
   }
 
+  @Override
   public int getFeatureID()
   {
     return getEStructuralFeature().getFeatureID();
@@ -173,7 +183,7 @@ public abstract class DelegatingEcoreEList
     return getInverseEReference().getFeatureID();
   }
 
-  protected Class getInverseFeatureClass()
+  protected Class<?> getInverseFeatureClass()
   {
     return ((EClass)getInverseEReference().getEType()).getInstanceClass();
   }
@@ -246,14 +256,15 @@ public abstract class DelegatingEcoreEList
     return getFeatureType().getInstanceClass() != null;
   }
 
-  protected Object resolve(int index, Object object)
+  @Override
+  protected E resolve(int index, E object)
   {
     if (isEObject() && hasProxies())
     {
-      EObject resolved = resolveProxy((EObject)object);
+      @SuppressWarnings("unchecked") E resolved = (E)resolveProxy((EObject)object);
       if (resolved != object)
       {
-        Object oldObject = delegateGet(index);
+        E oldObject = delegateGet(index);
         delegateSet(index, validate(index, resolved));
         didSet(index, resolved, oldObject);
 
@@ -280,9 +291,11 @@ public abstract class DelegatingEcoreEList
     return object;
   }
 
-  protected Object resolve(Object object)
+  @SuppressWarnings("unchecked")
+  @Override
+  protected E resolve(E object)
   {
-    return isEObject() ? resolveProxy((EObject)object) : object;
+    return isEObject() ? (E)resolveProxy((EObject)object) : object;
   }
 
   protected EObject resolveProxy(EObject eObject)
@@ -290,6 +303,7 @@ public abstract class DelegatingEcoreEList
     return eObject.eIsProxy() ? owner.eResolveProxy((InternalEObject)eObject) : eObject;
   }
 
+  @Override
   public Object[] toArray()
   {
     if (hasProxies())
@@ -302,7 +316,8 @@ public abstract class DelegatingEcoreEList
     return super.toArray();
   }
 
-  public Object[] toArray(Object array[])
+  @Override
+  public <T> T[] toArray(T [] array)
   {
     if (hasProxies())
     {
@@ -314,6 +329,7 @@ public abstract class DelegatingEcoreEList
     return super.toArray(array);
   }
 
+  @Override
   protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index, boolean wasSet)
   {
     return new ENotificationImpl(owner, eventType, getFeatureID(), oldObject, newObject, index, wasSet);
@@ -324,30 +340,32 @@ public abstract class DelegatingEcoreEList
     return new ENotificationImpl(owner, eventType, getFeatureID(), oldValue, newValue);
   }
 
-  /*
-   * Javadoc copied from base class.
-   */
+  @Override
   protected void dispatchNotification(Notification notification)
   {
     owner.eNotify(notification);
   }
 
-  public Object basicGet(int index)
+  @Override
+  public E basicGet(int index)
   {
     return super.basicGet(index);
   }
 
-  public List basicList()
+  @Override
+  public List<E> basicList()
   {
     return super.basicList();
   }
 
+  @Override
   protected boolean isNotificationRequired()
   {
     return owner.eNotificationRequired();
   }
 
-  public NotificationChain inverseAdd(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain inverseAdd(E object, NotificationChain notifications)
   {
     InternalEObject internalEObject = (InternalEObject) object;
     if (hasNavigableInverse())
@@ -382,7 +400,8 @@ public abstract class DelegatingEcoreEList
     }
   }
 
-  public NotificationChain inverseRemove(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain inverseRemove(E object, NotificationChain notifications)
   {
     InternalEObject internalEObject = (InternalEObject) object;
     if (hasNavigableInverse())
@@ -420,6 +439,7 @@ public abstract class DelegatingEcoreEList
   /**
    * Resolve to compare objects but do not modify list
    */
+  @Override
   public boolean contains(Object object)
   {
     if (isEObject())
@@ -480,6 +500,7 @@ public abstract class DelegatingEcoreEList
     }
   }
 
+  @Override
   public int indexOf(Object object)
   {
     int index = super.indexOf(object);
@@ -503,6 +524,7 @@ public abstract class DelegatingEcoreEList
     return -1;
   }
 
+  @Override
   public int lastIndexOf(Object object)
   {
     int result = super.lastIndexOf(object);
@@ -521,17 +543,20 @@ public abstract class DelegatingEcoreEList
     return result;
   }
 
-  public Iterator basicIterator()
+  @Override
+  public Iterator<E> basicIterator()
   {
     return super.basicIterator();
   }
 
-  public ListIterator basicListIterator()
+  @Override
+  public ListIterator<E> basicListIterator()
   {
     return super.basicListIterator();
   }
 
-  public ListIterator basicListIterator(int index)
+  @Override
+  public ListIterator<E> basicListIterator(int index)
   {
     return super.basicListIterator(index);
   }
@@ -546,12 +571,14 @@ public abstract class DelegatingEcoreEList
     return this;
   }
 
+  @SuppressWarnings("unchecked")
   public void set(Object newValue)
   {
     clear();
-    addAll((List)newValue);
+    addAll((List<? extends E>)newValue);
   }
 
+  @Override
   public boolean isSet()
   {
     return !isEmpty();
@@ -562,41 +589,48 @@ public abstract class DelegatingEcoreEList
     clear();
   }
 
-  public static class UnmodifiableEList 
-    extends DelegatingEList.UnmodifiableEList 
-    implements InternalEList.Unsettable, EStructuralFeature.Setting
+  public static class UnmodifiableEList<E>
+    extends DelegatingEList.UnmodifiableEList<E>
+    implements InternalEList.Unsettable<E>, EStructuralFeature.Setting
   {
+    private static final long serialVersionUID = 1L;
+
     protected final InternalEObject owner;
     protected final EStructuralFeature eStructuralFeature;
 
-    public UnmodifiableEList(InternalEObject owner, EStructuralFeature eStructuralFeature, List underlyingList)
+    public UnmodifiableEList(InternalEObject owner, EStructuralFeature eStructuralFeature, List<E> underlyingList)
     {
       super(underlyingList);
       this.owner = owner;
       this.eStructuralFeature = eStructuralFeature;
     }
 
-    public Object basicGet(int index)
+    @Override
+    public E basicGet(int index)
     {
       return super.basicGet(index);
     }
 
-    public List basicList()
+    @Override
+    public List<E> basicList()
     {
       return super.basicList();
     }
 
-    public Iterator basicIterator()
+    @Override
+    public Iterator<E> basicIterator()
     {
       return super.basicIterator();
     }
 
-    public ListIterator basicListIterator()
+    @Override
+    public ListIterator<E> basicListIterator()
     {
       return super.basicListIterator();
     }
 
-    public ListIterator basicListIterator(int index)
+    @Override
+    public ListIterator<E> basicListIterator(int index)
     {
       return super.basicListIterator(index);
     }
@@ -636,13 +670,13 @@ public abstract class DelegatingEcoreEList
       throw new UnsupportedOperationException();
     }
 
-    public NotificationChain basicAdd(Object object, NotificationChain notifications)
+    public NotificationChain basicAdd(E object, NotificationChain notifications)
     {
       throw new UnsupportedOperationException();
     }
   }
 
-  public static abstract class Generic extends DelegatingEcoreEList
+  public static abstract class Generic<E> extends DelegatingEcoreEList<E>
   {
     public static final int IS_SET = EcoreEList.Generic.IS_SET;
     public static final int IS_UNSETTABLE = EcoreEList.Generic.IS_UNSETTABLE;
@@ -670,6 +704,7 @@ public abstract class DelegatingEcoreEList
       this.kind = kind;
     }
 
+    @Override
     protected boolean useEquals()
     {
       // We can use == for EObjects and EnumLiterals.
@@ -677,46 +712,55 @@ public abstract class DelegatingEcoreEList
       return (kind & (IS_EOBJECT | IS_ENUM)) == 0;
     }
 
+    @Override
     protected boolean canContainNull()
     {
       return (kind & (IS_EOBJECT | IS_PRIMITIVE | IS_ENUM)) == 0;
     }
 
+    @Override
     protected boolean isUnique()
     {
       return (kind & IS_UNIQUE) != 0;
     }
 
+    @Override
     protected boolean hasInverse()
     {
       return (kind & (HAS_NAVIGABLE_INVERSE | IS_CONTAINMENT)) != 0;
     }
 
+    @Override
     protected boolean hasManyInverse()
     {
       return (kind & HAS_MANY_INVERSE) != 0;
     }
 
+    @Override
     protected boolean hasNavigableInverse()
     {
       return (kind & HAS_NAVIGABLE_INVERSE) != 0; 
     }
 
+    @Override
     protected boolean isEObject()
     {
       return (kind & IS_EOBJECT) != 0;
     }
 
+    @Override
     protected boolean isContainment()
     {
       return (kind & IS_CONTAINMENT) != 0;
     }
 
+    @Override
     protected boolean hasProxies()
     {
       return (kind & HAS_PROXIES) != 0;
     }
 
+    @Override
     protected boolean hasInstanceClass()
     {
       return (kind & HAS_INSTANCE_CLASS) != 0;
@@ -732,11 +776,13 @@ public abstract class DelegatingEcoreEList
       return (kind & IS_UNSETTABLE) != 0;
     }
 
+    @Override
     public boolean isSet()
     {
       return isUnsettable() ? (kind & IS_SET) != 0 : !isEmpty();
     }
 
+    @Override
     public void unset()
     {
       super.unset();
@@ -755,13 +801,14 @@ public abstract class DelegatingEcoreEList
       }
     }
 
+    @Override
     protected void didChange()
     {
       kind |= IS_SET;
     }
   }
 
-  public static abstract class Dynamic extends Generic
+  public static abstract class Dynamic<E> extends Generic<E>
   {
     protected EStructuralFeature eStructuralFeature;
 
@@ -777,6 +824,7 @@ public abstract class DelegatingEcoreEList
       this.eStructuralFeature = eStructuralFeature;
     }
 
+    @Override
     public EStructuralFeature getEStructuralFeature()
     {
       return eStructuralFeature;

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.20 2006/05/07 12:03:41 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.21 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -21,14 +21,18 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -43,7 +47,9 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassifierImpl#getInstanceClassName <em>Instance Class Name</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassifierImpl#getInstanceClass <em>Instance Class</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassifierImpl#getDefaultValue <em>Default Value</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EClassifierImpl#getInstanceTypeName <em>Instance Type Name</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EClassifierImpl#getEPackage <em>EPackage</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EClassifierImpl#getETypeParameters <em>EType Parameters</em>}</li>
  * </ul>
  * </p>
  *
@@ -68,6 +74,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.ECLASSIFIER;
@@ -88,12 +95,14 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.ECLASSIFIER__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
       case EcorePackage.ECLASSIFIER__EPACKAGE:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
@@ -107,14 +116,17 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.ECLASSIFIER__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
       case EcorePackage.ECLASSIFIER__EPACKAGE:
         return eBasicSetContainer(null, EcorePackage.ECLASSIFIER__EPACKAGE, msgs);
+      case EcorePackage.ECLASSIFIER__ETYPE_PARAMETERS:
+        return ((InternalEList<?>)getETypeParameters()).basicRemove(otherEnd, msgs);
     }
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
@@ -124,6 +136,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -149,7 +162,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   {
     if (object != null)
     {
-      Class instanceClass = getInstanceClass();
+      Class<?> instanceClass = getInstanceClass();
       if (instanceClass != null)
       {
         if (instanceClass.isPrimitive())
@@ -211,7 +224,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getInstanceClassName()
-   * @generated
+   * @generated NOT
    * @ordered
    */
   protected static final String INSTANCE_CLASS_NAME_EDEFAULT = null;
@@ -221,7 +234,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getInstanceClassName()
-   * @generated
+   * @generated NOT
    * @ordered
    */
   protected String instanceClassName = INSTANCE_CLASS_NAME_EDEFAULT;
@@ -229,8 +242,9 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
+  @Deprecated
   public String getInstanceClassNameGen()
   {
     return instanceClassName;
@@ -238,7 +252,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
 
   public String getInstanceClassName()
   {
-    return getInstanceClassNameGen() != null ? getInstanceClassNameGen() : generatedInstanceClassName;
+    return instanceClassName != null ? instanceClassName : generatedInstanceClassName;
   }
 
   protected String generatedInstanceClassName;
@@ -260,7 +274,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     }
   }
 
-  public void setInstanceClassName(String value)
+  protected void basicSetInstanceClassName(String value)
   {
     if (instanceClassName == null && generatedInstanceClassName != null)
     {
@@ -274,10 +288,19 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     }
   }
 
+  public void setInstanceClassName(String value)
+  {
+    basicSetInstanceClassName(value);
+
+    // Forward the interned value.
+    //
+    basicSetInstanceTypeName(instanceClassName);
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void setInstanceClassNameGen(String newInstanceClassName)
   {
@@ -288,10 +311,30 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void unsetInstanceClassName()
+  {
+    setInstanceClassName(null);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean isSetInstanceClassName()
+  {
+    return instanceClassName != null && instanceClassName == instanceTypeName;
+  }
+
+  /**
    * The default value of the '{@link #getInstanceClass() <em>Instance Class</em>}' attribute.
    * @see #getInstanceClass()
    */
-  protected static final Class INSTANCE_CLASS_EDEFAULT = null;
+  protected static final Class<?> INSTANCE_CLASS_EDEFAULT = null;
 
   /**
    * The default value of the '{@link #getDefaultValue() <em>Default Value</em>}' attribute.
@@ -304,12 +347,43 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   protected static final Object DEFAULT_VALUE_EDEFAULT = null;
 
   /**
+   * The default value of the '{@link #getInstanceTypeName() <em>Instance Type Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getInstanceTypeName()
+   * @generated NOT
+   * @ordered
+   */
+  @SuppressWarnings("unused")
+  private static final String INSTANCE_TYPE_NAME_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getInstanceTypeName() <em>Instance Type Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getInstanceTypeName()
+   * @generated NOT
+   * @ordered
+   */
+  protected String instanceTypeName;
+
+  /**
+   * The cached value of the '{@link #getETypeParameters() <em>EType Parameters</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getETypeParameters()
+   * @generated
+   * @ordered
+   */
+  protected EList<ETypeParameter> eTypeParameters = null;
+
+  /**
    * The cached value of the '{@link #getInstanceClass() <em>Instance Class</em>}' attribute.
    * @see #getInstanceClass()
    */
-  protected Class instanceClass = INSTANCE_CLASS_EDEFAULT;
+  protected Class<?> instanceClass = INSTANCE_CLASS_EDEFAULT;
 
-  public Class getInstanceClass() 
+  public Class<?> getInstanceClass() 
   {
     if (instanceClass == null && (instanceClassName != null || generatedInstanceClassName != null))
     {
@@ -319,7 +393,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       }
       catch (ClassNotFoundException e)
       {
-        Class primitiveClass = getPrimitiveOrArrayClass();
+        Class<?> primitiveClass = getPrimitiveOrArrayClass();
         if (primitiveClass != null)
           setInstanceClassGen(primitiveClass);
         else
@@ -335,13 +409,13 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * used. Since the package may be model-specific code in another plug-in, its class loader may be able to see classes
    * that Ecore's can't.
    */
-  protected Class getClassForName(String name) throws ClassNotFoundException
+  protected Class<?> getClassForName(String name) throws ClassNotFoundException
   {
     EPackage p = getEPackage();
     return p != null ? Class.forName(name, true, p.getClass().getClassLoader()) : Class.forName(name);
   }
   
-  protected Class getPrimitiveOrArrayClass() 
+  protected Class<?> getPrimitiveOrArrayClass() 
   {
     String className = getInstanceClassName();
     int arrayIndex = className.indexOf('[');
@@ -375,7 +449,10 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       {
         return getClassForName(result.toString());
       }
-      catch (ClassNotFoundException e) {}
+      catch (ClassNotFoundException e) 
+      {
+        // Continue and return null.
+      }
     }
     else
     {
@@ -401,25 +478,28 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
 
   /**
    */
-  public Class getInstanceClassGen()
+  public Class<?> getInstanceClassGen()
   {
     return instanceClass;
   }
 
-  public void setInstanceClass(Class value)
+  public void setInstanceClass(Class<?> value)
   {
     if (value == null)
     {
       setInstanceClassNameGen(null);
+      basicSetInstanceTypeName(null);
     }
     else if (value.isArray())
     {
       String indices = "[]";
-      for (Class component = value.getComponentType(); ; component = component.getComponentType())
+      for (Class<?> component = value.getComponentType(); ; component = component.getComponentType())
       {
         if (!component.isArray())
         {
-          setInstanceClassNameGen((component.getName() + indices).intern());
+          String name = (component.getName() + indices).intern();
+          setInstanceClassNameGen(name);
+          basicSetInstanceTypeName(name);
           break;
         }
         indices += "[]";
@@ -427,7 +507,9 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     }
     else
     {
-      setInstanceClassNameGen(value.getName().intern());
+      String name = value.getName().intern();
+      setInstanceClassNameGen(name);
+      basicSetInstanceTypeName(name);
     }
 
     setInstanceClassGen(value);
@@ -435,7 +517,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
 
   /**
    */
-  public void setInstanceClassGen(Class newInstanceClass)
+  public void setInstanceClassGen(Class<?> newInstanceClass)
   {
     instanceClass = newInstanceClass;
   }
@@ -445,6 +527,87 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
   public Object getDefaultValue()
   {
     return null;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String getInstanceTypeName()
+  {
+    return instanceTypeName;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void setInstanceTypeName(String newInstanceTypeName)
+  {
+    String oldInstanceTypeName = instanceTypeName;
+    instanceTypeName = newInstanceTypeName;
+    if (newInstanceTypeName == null)
+    {
+      basicSetInstanceClassName(null);
+    }
+    else
+    {
+      // If it's a parameterized type...
+      //
+      int index = newInstanceTypeName.indexOf('<');
+      if (index != -1)
+      {
+        // The instance class name is the erasure.
+        //
+        basicSetInstanceClassName(newInstanceTypeName.substring(0, index));
+      }
+      else
+      {
+        // We set it and get back the interned string.
+        // This way, when instanceClassName == instanceTypeName we know we should serialize only the class name.
+        basicSetInstanceClassName(newInstanceTypeName);
+        instanceTypeName = instanceClassName;
+      }
+    }
+    
+    if (eNotificationRequired())
+    {
+      eNotify
+        (new ENotificationImpl(this,  Notification.SET,  EcorePackage.ECLASSIFIER__INSTANCE_TYPE_NAME,  oldInstanceTypeName, newInstanceTypeName));
+    }
+  }
+
+  protected void basicSetInstanceTypeName(String newInstanceTypeName)
+  {
+    String oldInstanceTypeName = instanceTypeName;
+    instanceTypeName = newInstanceTypeName;
+    if (eNotificationRequired())
+    {
+      eNotify
+        (new ENotificationImpl(this,  Notification.SET,  EcorePackage.ECLASSIFIER__INSTANCE_TYPE_NAME,  oldInstanceTypeName, newInstanceTypeName));
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void unsetInstanceTypeName()
+  {
+    setInstanceTypeName(null);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean isSetInstanceTypeName()
+  {
+    return instanceTypeName != null && instanceTypeName != instanceClassName && instanceTypeName != generatedInstanceClassName;
   }
 
   /**
@@ -488,6 +651,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
     }
   }
   
+  @Override
   protected void eBasicSetContainer(InternalEObject newContainer, int newContainerFeatureID)
   {
     // Ensure that cached ePackage is forgotten.
@@ -511,8 +675,25 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
+  public EList<ETypeParameter> getETypeParameters()
+  {
+    if (eTypeParameters == null)
+    {
+      eTypeParameters = new EObjectContainmentEList.Resolving<ETypeParameter>(ETypeParameter.class, this, EcorePackage.ECLASSIFIER__ETYPE_PARAMETERS);
+    }
+    return eTypeParameters;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  @Override
   public String toString()
   {
+    // TODO Update this after old tests pass and then update the old tests to reflect this change.
+    //
     if (eIsProxy()) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
@@ -527,6 +708,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -541,9 +723,13 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
         return getInstanceClass();
       case EcorePackage.ECLASSIFIER__DEFAULT_VALUE:
         return getDefaultValue();
+      case EcorePackage.ECLASSIFIER__INSTANCE_TYPE_NAME:
+        return getInstanceTypeName();
       case EcorePackage.ECLASSIFIER__EPACKAGE:
         if (resolve) return getEPackage();
         return basicGetEPackage();
+      case EcorePackage.ECLASSIFIER__ETYPE_PARAMETERS:
+        return getETypeParameters();
     }
     return eDynamicGet(featureID, resolve, coreType);
   }
@@ -553,19 +739,28 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.ECLASSIFIER__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.ECLASSIFIER__NAME:
         setName((String)newValue);
         return;
       case EcorePackage.ECLASSIFIER__INSTANCE_CLASS_NAME:
         setInstanceClassName((String)newValue);
+        return;
+      case EcorePackage.ECLASSIFIER__INSTANCE_TYPE_NAME:
+        setInstanceTypeName((String)newValue);
+        return;
+      case EcorePackage.ECLASSIFIER__ETYPE_PARAMETERS:
+        getETypeParameters().clear();
+        getETypeParameters().addAll((Collection<? extends ETypeParameter>)newValue);
         return;
     }
     eDynamicSet(featureID, newValue);
@@ -576,6 +771,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -587,7 +783,13 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
         setName(NAME_EDEFAULT);
         return;
       case EcorePackage.ECLASSIFIER__INSTANCE_CLASS_NAME:
-        setInstanceClassName(INSTANCE_CLASS_NAME_EDEFAULT);
+        unsetInstanceClassName();
+        return;
+      case EcorePackage.ECLASSIFIER__INSTANCE_TYPE_NAME:
+        unsetInstanceTypeName();
+        return;
+      case EcorePackage.ECLASSIFIER__ETYPE_PARAMETERS:
+        getETypeParameters().clear();
         return;
     }
     eDynamicUnset(featureID);
@@ -598,6 +800,7 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -607,13 +810,17 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       case EcorePackage.ECLASSIFIER__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EcorePackage.ECLASSIFIER__INSTANCE_CLASS_NAME:
-        return INSTANCE_CLASS_NAME_EDEFAULT == null ? instanceClassName != null : !INSTANCE_CLASS_NAME_EDEFAULT.equals(instanceClassName);
+        return isSetInstanceClassName();
       case EcorePackage.ECLASSIFIER__INSTANCE_CLASS:
-        return INSTANCE_CLASS_EDEFAULT == null ? getInstanceClass() != null : !INSTANCE_CLASS_EDEFAULT.equals(getInstanceClass());
+        return getInstanceClass() != null;
       case EcorePackage.ECLASSIFIER__DEFAULT_VALUE:
         return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
+      case EcorePackage.ECLASSIFIER__INSTANCE_TYPE_NAME:
+        return isSetInstanceTypeName();
       case EcorePackage.ECLASSIFIER__EPACKAGE:
         return basicGetEPackage() != null;
+      case EcorePackage.ECLASSIFIER__ETYPE_PARAMETERS:
+        return eTypeParameters != null && !eTypeParameters.isEmpty();
     }
     return eDynamicIsSet(featureID);
   }

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2005 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedMetaData.java,v 1.10 2005/12/13 23:15:20 emerks Exp $
+ * $Id: ExtendedMetaData.java,v 1.11 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -490,40 +490,40 @@ public interface ExtendedMetaData
    * If a datatype corresponds to a union type, returns the datatypes corresponding to its member types. 
    * <p>details key: "memberTypes"
    */
-  List /*EDataType*/ getMemberTypes(EDataType eDataType);
+  List<EDataType> getMemberTypes(EDataType eDataType);
 
   /**
    * Sets the member types for a datatype, indicating that the datatype corresponds to a union type. 
    * <p>details key: "memberTypes"
    */
-  void setMemberTypes(EDataType eDataType, List /*EDataType*/memberTypes);
+  void setMemberTypes(EDataType eDataType, List<EDataType> memberTypes);
 
   /**
    * Returns all the structural features of the given class, and its superclasses, corresponding to XML attributes
    * and attribute wildcards.
    */
-  List /*EStructuralFeature*/ getAllAttributes(EClass eClass);
+  List<EStructuralFeature> getAllAttributes(EClass eClass);
 
   /**
    * Returns all the structural features of the given class, and its superclasses, corresponding to elements, element
    * wildards, and model groups.
    */
-  List /*EStructuralFeature*/ getAllElements(EClass eClass);
+  List<EStructuralFeature> getAllElements(EClass eClass);
 
   /**
    * Returns the structural features of the given class corresponding to XML attributes and attribute wildcards.
    */
-  List /*EStructuralFeature*/ getAttributes(EClass eClass);
+  List<EStructuralFeature> getAttributes(EClass eClass);
 
   /**
    * Returns the structural features of the given class corresponding to elements, element wildcards, and model groups.
    */
-  List /*EStructuralFeature*/ getElements(EClass eClass);
+  List<EStructuralFeature> getElements(EClass eClass);
 
   /**
    * Tests whether any of a list of wildcards matches a given namespace.
    */
-  boolean matches(List /*String*/ wildcards, String namespace);
+  boolean matches(List<String> wildcards, String namespace);
 
   /**
    * Tests whether a wildcard matches a given namesapce. 
@@ -534,13 +534,13 @@ public interface ExtendedMetaData
    * Returns the allowable namespace patterns for a structural feature corresponding to an any or anyAttribute wildcard.
    * <p>details key: "wildcards" 
    */
-  List /*String*/ getWildcards(EStructuralFeature eStructuralFeature);
+  List<String> getWildcards(EStructuralFeature eStructuralFeature);
 
   /**
    * Sets the allowable namespace patterns for a structural feature corresponding to an any or anyAttribute wildcard.
    * <p>details key: "wildcards"
    */
-  void setWildcards(EStructuralFeature eStructuralFeature, List wildcards);
+  void setWildcards(EStructuralFeature eStructuralFeature, List<String> wildcards);
 
   /**
    * The processing kind ID for unspecified processing.
@@ -705,25 +705,25 @@ public interface ExtendedMetaData
    * Returns the enumeration constraint on the given datatype.
    * <p>details key: "enumeration"
    */
-  List getEnumerationFacet(EDataType eDataType);
+  List<String> getEnumerationFacet(EDataType eDataType);
 
   /**
    * Sets the enumeration constraint on the given datatype.
    * <p>details key: "enumeration"
    */
-  void setEnumerationFacet(EDataType eDataType, List literals);
+  void setEnumerationFacet(EDataType eDataType, List<String> literals);
 
   /**
    * Returns the pattern constraint on the given datatype.
    * <p>details key: "pattern"
    */
-  List getPatternFacet(EDataType eDataType);
+  List<String> getPatternFacet(EDataType eDataType);
 
   /**
    * Sets the pattern constraint on the given datatype.
    * <p>details key: "pattern"
    */
-  void setPatternFacet(EDataType eDataType, List pattern);
+  void setPatternFacet(EDataType eDataType, List<String> pattern);
 
   /**
    * Returns the total digits constraint on the given datatype.
@@ -860,7 +860,7 @@ public interface ExtendedMetaData
   /**
    * Returns the instance's collection of demand-created packages.
    */
-  Collection demandedPackages();
+  Collection<EPackage> demandedPackages();
 
   /**
    * The default ExtendedMetaData instance, which obtains packages from the global package registry, {@link

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratedPackageRegistryReader.java,v 1.8 2006/10/16 03:26:23 davidms Exp $
+ * $Id: GeneratedPackageRegistryReader.java,v 1.9 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -37,7 +37,7 @@ class GeneratedPackageRegistryReader extends RegistryReader
   static final String ATT_CLASS = "class";
   static final String ATT_GEN_MODEL = "genModel";
   
-  protected Map ePackageNsURIToGenModelLocationMap;
+  protected Map<String, URI> ePackageNsURIToGenModelLocationMap;
   
   public GeneratedPackageRegistryReader()
   {
@@ -47,12 +47,13 @@ class GeneratedPackageRegistryReader extends RegistryReader
        EcorePlugin.GENERATED_PACKAGE_PPID);
   }
   
-  public GeneratedPackageRegistryReader(Map ePackageNsURIToGenModelLocationMap)
+  public GeneratedPackageRegistryReader(Map<String, URI> ePackageNsURIToGenModelLocationMap)
   {
     this();
     this.ePackageNsURIToGenModelLocationMap = ePackageNsURIToGenModelLocationMap;
   }
 
+  @Override
   protected boolean readElement(IConfigurationElement element)
   {
     if (element.getName().equals(TAG_PACKAGE))

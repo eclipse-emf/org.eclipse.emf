@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.22 2006/02/10 21:00:53 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.23 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 
-public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
+public abstract class DelegatingFeatureMap extends DelegatingEcoreEList<FeatureMap.Entry> implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
 {
   protected FeatureMap.Internal.Wrapper wrapper = this;
   protected final FeatureMapUtil.Validator featureMapValidator;
@@ -79,12 +79,13 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return this;
   }
   
-  protected Object validate(int index, Object object)
+  @Override
+  protected Entry validate(int index, Entry object)
   {
     if (modCount == 0) return object;
 
-    Object result = super.validate(index, object);
-    EStructuralFeature eStructuralFeature = ((Entry)object).getEStructuralFeature();
+    Entry result = super.validate(index, object);
+    EStructuralFeature eStructuralFeature = object.getEStructuralFeature();
     if (!eStructuralFeature.isChangeable() || !featureMapValidator.isValid(eStructuralFeature))
     {
       throw
@@ -94,26 +95,31 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return result;
   }
 
+  @Override
   protected boolean isEObject()
   {
     return false;
   }
 
+  @Override
   protected boolean isUnique()
   {
     return false;
   }
 
+  @Override
   protected boolean canContainNull()
   {
     return false;
   }
 
+  @Override
   protected EClassifier getFeatureType()
   {
     return org.eclipse.emf.ecore.EcorePackage.eINSTANCE.getEJavaObject();
   }
 
+  @Override
   public EStructuralFeature getEStructuralFeature()
   {
     return eStructuralFeature;
@@ -140,11 +146,13 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return FeatureMapUtil.isMany(owner, feature);
   }
 
+  @Override
   protected boolean hasInverse()
   {
     return true;
   }
 
+  @Override
   protected boolean hasShadow()
   {
     return true;
@@ -158,7 +166,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     int result = size;
     for (int i = 0; i < size; ++i)
     {
-      Entry entry = (Entry)delegateGet(i);
+      Entry entry = delegateGet(i);
       if (validator.isValid(entry.getEStructuralFeature()))
       {
         if (index == count)
@@ -190,7 +198,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     EObject resolved = resolveProxy((EObject)object);
     if (resolved != object)
     {
-      Object oldObject = delegateGet(entryIndex);
+      Entry oldObject = delegateGet(entryIndex);
       Entry entry = createEntry(feature, resolved);
       delegateSet(entryIndex, validate(entryIndex, entry));
       didSet(entryIndex, entry, oldObject);
@@ -216,6 +224,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return object;
   }
 
+  @Override
   protected EObject resolveProxy(EObject eObject)
   {
     return owner.eResolveProxy((InternalEObject)eObject);
@@ -228,26 +237,26 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
   public EStructuralFeature getEStructuralFeature(int index)
   {
-    return ((Entry)get(index)).getEStructuralFeature();
+    return get(index).getEStructuralFeature();
   }
 
   public Object getValue(int index)
   {
-    return ((Entry)get(index)).getValue();
+    return get(index).getValue();
   }
 
   public Object setValue(int index, Object value)
   {
-    return ((Entry)set(index, createEntry(getEStructuralFeature(index), value))).getValue();
+    return set(index, createEntry(getEStructuralFeature(index), value)).getValue();
   }
 
-  public NotificationChain shadowAdd(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain shadowAdd(Entry object, NotificationChain notifications)
   {
     if (isNotificationRequired())
     {
-      Entry entry = (Entry)object;
-      EStructuralFeature feature = entry.getEStructuralFeature();
-      Object value = entry.getValue();
+      EStructuralFeature feature = object.getEStructuralFeature();
+      Object value = object.getValue();
       // EATM must fix isSet bits.
       NotificationImpl notification = 
         feature.isMany() ?
@@ -278,19 +287,20 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return notifications;
   }
 
-  public NotificationChain inverseAdd(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain inverseAdd(Entry object, NotificationChain notifications)
   {
     FeatureMap.Entry.Internal entry = (FeatureMap.Entry.Internal)object;
     return entry.inverseAdd(owner, getFeatureID(), notifications);
   }
 
-  public NotificationChain shadowRemove(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain shadowRemove(Entry object, NotificationChain notifications)
   {
     if (isNotificationRequired())
     {
-      Entry entry = (Entry)object;
-      EStructuralFeature feature = entry.getEStructuralFeature();
-      Object value = entry.getValue();
+      EStructuralFeature feature = object.getEStructuralFeature();
+      Object value = object.getValue();
       NotificationImpl notification = 
         feature.isMany() ?
           createNotification
@@ -320,20 +330,21 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return notifications;
   }
 
-  public NotificationChain inverseRemove(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain inverseRemove(Entry object, NotificationChain notifications)
   {
     FeatureMap.Entry.Internal entry = (FeatureMap.Entry.Internal)object;
     return entry.inverseRemove(owner, getFeatureID(), notifications);
   }
 
-  public NotificationChain shadowSet(Object oldObject, Object newObject, NotificationChain notifications)
+  @Override
+  public NotificationChain shadowSet(Entry oldObject, Entry newObject, NotificationChain notifications)
   {
     if (isNotificationRequired())
     {
-      Entry entry = (Entry)oldObject;
-      EStructuralFeature feature = entry.getEStructuralFeature();
-      Object oldValue = entry.getValue();
-      Object newValue = ((Entry)newObject).getValue();
+      EStructuralFeature feature = oldObject.getEStructuralFeature();
+      Object oldValue = oldObject.getValue();
+      Object newValue = newObject.getValue();
       NotificationImpl notification = 
         createNotification
           (Notification.SET,
@@ -384,7 +395,8 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return notifications;
   }
 
-  public Object move(int targetIndex, int sourceIndex)
+  @Override
+  public Entry move(int targetIndex, int sourceIndex)
   {
     if (!isNotificationRequired())
     {
@@ -392,8 +404,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     }
     else if (targetIndex != sourceIndex)
     {
-      Entry [] entries = (Entry[])delegateGet(sourceIndex);
-      Entry sourceEntry = entries[sourceIndex];
+      Entry sourceEntry =  delegateGet(sourceIndex);
       EStructuralFeature feature = sourceEntry.getEStructuralFeature();
       if (isMany(feature))
       {
@@ -409,7 +420,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
           }
           else
           {
-            Entry entry = entries[i];
+            Entry entry = delegateGet(i);
             boolean isValid = validator.isValid(entry.getEStructuralFeature());
             if (i == targetIndex)
             {
@@ -423,7 +434,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
           }
         }
 
-        Object result = super.move(targetIndex, sourceIndex);
+        Entry result = super.move(targetIndex, sourceIndex);
         
         if (featureSourceIndex != featureTargetIndex)
         {
@@ -442,18 +453,18 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return super.move(targetIndex, sourceIndex);
   }
 
-  public Object set(int index, Object object)
+  @Override
+  public Entry set(int index, Entry object)
   {
-    Entry entry = (Entry)object;
-    EStructuralFeature entryFeature = entry.getEStructuralFeature();
+    EStructuralFeature entryFeature = object.getEStructuralFeature();
     if (isMany(entryFeature))
     {
       if (entryFeature.isUnique())
       {
         for (int i = 0, size = delegateSize(); i < size; ++i)
         {
-          Entry otherEntry = (Entry)delegateGet(i);
-          if (otherEntry.equals(entry) && i != index)
+          Entry otherEntry = delegateGet(i);
+          if (otherEntry.equals(object) && i != index)
           {
             throw new IllegalArgumentException("The 'no duplicates' constraint is violated");
           }
@@ -465,7 +476,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), entryFeature);
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry otherEntry = (Entry)delegateGet(i);
+        Entry otherEntry = delegateGet(i);
         if (validator.isValid(otherEntry.getEStructuralFeature()) && i != index)
         {
           throw new IllegalArgumentException("The multiplicity constraint is violated");
@@ -476,18 +487,18 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return doSet(index, object);
   }
 
-  public Object doSet(int index, Object object)
+  public Entry doSet(int index, Entry object)
   {
     return super.set(index, object);
   }
 
-  public boolean add(Object object)
+  @Override
+  public boolean add(Entry object)
   {
-    Entry entry = (Entry)object;
-    EStructuralFeature entryFeature = entry.getEStructuralFeature();
+    EStructuralFeature entryFeature = object.getEStructuralFeature();
     if (isMany(entryFeature))
     {
-      if (entryFeature.isUnique() && contains(entryFeature, entry.getValue()))
+      if (entryFeature.isUnique() && contains(entryFeature, object.getValue()))
       {
         return false;
       }
@@ -497,10 +508,10 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), entryFeature);
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry otherEntry = (Entry)delegateGet(i);
+        Entry otherEntry = delegateGet(i);
         if (validator.isValid(otherEntry.getEStructuralFeature()))
         {
-          if (otherEntry.equals(entry))
+          if (otherEntry.equals(object))
           {
             return false;
           }
@@ -516,23 +527,23 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return doAdd(object);
   }
 
-  protected boolean doAdd(Object object)
+  protected boolean doAdd(Entry object)
   {
     return super.add(object);
   }
 
-  public void add(int index, Object object)
+  @Override
+  public void add(int index, Entry object)
   {
-    Entry entry = (Entry)object;
-    EStructuralFeature entryFeature = entry.getEStructuralFeature();
+    EStructuralFeature entryFeature = object.getEStructuralFeature();
     if (isMany(entryFeature))
     {
       if (entryFeature.isUnique())
       {
         for (int i = 0, size = delegateSize(); i < size; ++i)
         {
-          Entry otherEntry = (Entry)delegateGet(i);
-          if (otherEntry.equals(entry) && i != index)
+          Entry otherEntry = delegateGet(i);
+          if (otherEntry.equals(object) && i != index)
           {
             throw new IllegalArgumentException("The 'no duplicates' constraint is violated");
           }
@@ -544,7 +555,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), entryFeature);
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry otherEntry = (Entry)delegateGet(i);
+        Entry otherEntry = delegateGet(i);
         if (validator.isValid(otherEntry.getEStructuralFeature()))
         {
           throw new IllegalArgumentException("The multiplicity constraint is violated");
@@ -555,17 +566,17 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     doAdd(index, object);
   }
 
-  public void doAdd(int index, Object object)
+  public void doAdd(int index, Entry object)
   {
     super.add(index, object);
   }
 
-  public boolean addAll(Collection collection)
+  @Override
+  public boolean addAll(Collection<? extends Entry> collection)
   {
-    Collection uniqueCollection = new BasicEList(collection.size());
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    Collection<Entry> uniqueCollection = new BasicEList<Entry>(collection.size());
+    for (Entry entry : collection)
     {
-      Entry entry = (Entry)i.next();
       EStructuralFeature entryFeature = entry.getEStructuralFeature();
       if (isMany(entryFeature))
       {
@@ -580,7 +591,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         boolean include = true;
         for (int j = 0, size = delegateSize(); j < size; ++j)
         {
-          Entry otherEntry = (Entry)delegateGet(j);
+          Entry otherEntry = delegateGet(j);
           if (validator.isValid(otherEntry.getEStructuralFeature()))
           {
             doSet(j, entry);
@@ -598,17 +609,17 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return doAddAll(uniqueCollection);
   }
 
-  public boolean doAddAll(Collection collection)
+  public boolean doAddAll(Collection<? extends Entry> collection)
   {
     return super.addAll(collection);
   }
 
-  public boolean addAll(int index, Collection collection)
+  @Override
+  public boolean addAll(int index, Collection<? extends Entry> collection)
   {
-    Collection uniqueCollection = new BasicEList(collection.size());
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    Collection<Entry> uniqueCollection = new BasicEList<Entry>(collection.size());
+    for (Entry entry : collection)
     {
-      Entry entry = (Entry)i.next();
       EStructuralFeature entryFeature = entry.getEStructuralFeature();
       if (isMany(entryFeature))
       {
@@ -623,7 +634,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         boolean include = true;
         for (int j = 0, size = delegateSize(); j < size; ++j)
         {
-          Entry otherEntry = (Entry)delegateGet(j);
+          Entry otherEntry = delegateGet(j);
           if (validator.isValid(otherEntry.getEStructuralFeature()))
           {
             doSet(j, entry);
@@ -641,7 +652,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return doAddAll(index, uniqueCollection);
   }
 
-  public boolean doAddAll(int index, Collection collection)
+  public boolean doAddAll(int index, Collection<? extends Entry> collection)
   {
     return super.addAll(index, collection);
   }
@@ -653,7 +664,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     int result = 0;
     for (int i = 0, size = delegateSize(); i < size; ++i)
     {
-      Entry entry = (Entry)delegateGet(i);
+      Entry entry = delegateGet(i);
       if (validator.isValid(entry.getEStructuralFeature()))
       {
         ++result;
@@ -667,7 +678,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     for (int i = 0, size = delegateSize(); i < size; ++i)
     {
-      Entry entry = (Entry)delegateGet(i);
+      Entry entry = delegateGet(i);
       if (validator.isValid(entry.getEStructuralFeature()))
       {
         return false;
@@ -683,7 +694,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()) && entry.equals(object))
         {
           return true;
@@ -694,7 +705,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()) && object.equals(entry.getValue()))
         {
           return true;
@@ -705,7 +716,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()) && entry.getValue() == null)
         {
           return false;
@@ -716,11 +727,11 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return false;
   }
 
-  public boolean containsAll(EStructuralFeature feature, Collection collection)
+  public boolean containsAll(EStructuralFeature feature, Collection<?> collection)
   {
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    for (Object object : collection)
     {
-      if (!contains(feature, i.next()))
+      if (!contains(feature, object))
       {
         return false;
       }
@@ -737,7 +748,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (entry.equals(object))
@@ -752,7 +763,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (object.equals(entry.getValue()))
@@ -767,7 +778,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (entry.getValue() == null)
@@ -791,7 +802,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (entry.equals(object))
@@ -806,7 +817,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (object.equals(entry.getValue()))
@@ -821,7 +832,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (entry.getValue() == null)
@@ -836,28 +847,28 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return result;
   }
 
-  public Iterator iterator(EStructuralFeature feature)
+  public Iterator<Object> iterator(EStructuralFeature feature)
   {
     return 
       feature instanceof EReference && ((EReference)feature).isResolveProxies() ?
-        new ResolvingFeatureEIterator(feature, this) :
-        new FeatureEIterator(feature, this);
+        new ResolvingFeatureEIterator<Object>(feature, this) :
+        new FeatureEIterator<Object>(feature, this);
   }
 
-  public ListIterator listIterator(EStructuralFeature feature)
+  public ListIterator<Object> listIterator(EStructuralFeature feature)
   {
     return 
       feature instanceof EReference && ((EReference)feature).isResolveProxies() ?
-        new ResolvingFeatureEIterator(feature, this) :
-        new FeatureEIterator(feature, this);
+        new ResolvingFeatureEIterator<Object>(feature, this) :
+        new FeatureEIterator<Object>(feature, this);
   }
 
-  public ListIterator listIterator(EStructuralFeature feature, int index)
+  public ListIterator<Object> listIterator(EStructuralFeature feature, int index)
   {
-    ListIterator result =
+    ListIterator<Object> result =
       feature instanceof EReference && ((EReference)feature).isResolveProxies() ?
-        new ResolvingFeatureEIterator(feature, this) :
-        new FeatureEIterator(feature, this);
+        new ResolvingFeatureEIterator<Object>(feature, this) :
+        new FeatureEIterator<Object>(feature, this);
     for (int i = 0; i < index; ++i)
     {
       result.next();
@@ -865,17 +876,17 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return result;
   }
 
-  public ValueListIterator valueListIterator()
+  public ValueListIterator<Object> valueListIterator()
   {
-    return new ValueListIteratorImpl();
+    return new ValueListIteratorImpl<Object>();
   }
   
-  public ValueListIterator valueListIterator(int index)
+  public ValueListIterator<Object> valueListIterator(int index)
   {
-    return new ValueListIteratorImpl(index);
+    return new ValueListIteratorImpl<Object>(index);
   }
   
-  protected class ValueListIteratorImpl extends EListIterator implements ValueListIterator
+  protected class ValueListIteratorImpl<E> extends EListIterator<E> implements ValueListIterator<E>
   {
     public ValueListIteratorImpl()
     {
@@ -896,24 +907,29 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       return getEStructuralFeature(lastCursor);
     }
     
-    public Object next()
+    @SuppressWarnings("unchecked")
+    @Override
+    public E next()
     {
-      return ((Entry)super.next()).getValue();
+      return (E)doNext().getValue();
     }
     
-    public Object previous()
+    @SuppressWarnings("unchecked")
+    @Override
+    public E previous()
     {
-      return ((Entry)super.previous()).getValue();
+      return (E)doPrevious().getValue();
     }
 
-    public void add(Object value)
+    @Override
+    public void add(E value)
     {
-      super.add(FeatureMapUtil.createEntry(feature(), value));
+      doAdd(FeatureMapUtil.createEntry(feature(), value));
     }
     
     public void add(EStructuralFeature eStructuralFeature, Object value)
     {
-      super.add(FeatureMapUtil.createEntry(eStructuralFeature, value));
+      doAdd(FeatureMapUtil.createEntry(eStructuralFeature, value));
     }
   }
 
@@ -924,12 +940,13 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   }
 */
 
-  public EList list(EStructuralFeature feature)
+  @SuppressWarnings("unchecked")
+  public <T> EList<T> list(EStructuralFeature feature)
   {
     return
       FeatureMapUtil.isFeatureMap(feature) ?
-        new FeatureMapUtil.FeatureFeatureMap(feature, this) :
-        new FeatureMapUtil.FeatureEList(feature, this);
+        (EList<T>)new FeatureMapUtil.FeatureFeatureMap(feature, this) :
+        new FeatureMapUtil.FeatureEList<T>(feature, this);
   }
 
   public EStructuralFeature.Setting setting(EStructuralFeature feature)
@@ -940,24 +957,24 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         (EStructuralFeature.Setting)new FeatureMapUtil.FeatureValue(feature, this);
   }
 
-  public List basicList(EStructuralFeature feature)
+  public List<Object> basicList(EStructuralFeature feature)
   {
-    return new FeatureMapUtil.FeatureEList.Basic(feature, this);
+    return new FeatureMapUtil.FeatureEList.Basic<Object>(feature, this);
   }
 
-  public Iterator basicIterator(EStructuralFeature feature)
+  public Iterator<Object> basicIterator(EStructuralFeature feature)
   {
-    return new FeatureEIterator(feature, this);
+    return new FeatureEIterator<Object>(feature, this);
   }
 
-  public ListIterator basicListIterator(EStructuralFeature feature)
+  public ListIterator<Object> basicListIterator(EStructuralFeature feature)
   {
-    return new FeatureEIterator(feature, this);
+    return new FeatureEIterator<Object>(feature, this);
   }
 
-  public ListIterator basicListIterator(EStructuralFeature feature, int index)
+  public ListIterator<Object> basicListIterator(EStructuralFeature feature, int index)
   {
-    ListIterator result = new FeatureEIterator(feature, this);
+    ListIterator<Object> result = new FeatureEIterator<Object>(feature, this);
     for (int i = 0; i < index; ++i)
     {
       result.next();
@@ -967,13 +984,13 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
   public Object[] toArray(EStructuralFeature feature)
   {
-    List result = new BasicEList();
+    List<Object> result = new BasicEList<Object>();
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     if (FeatureMapUtil.isFeatureMap(feature))
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           result.add(entry);
@@ -984,7 +1001,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           result.add(entry.getValue());
@@ -994,15 +1011,15 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return result.toArray();
   }
 
-  public Object[] toArray(EStructuralFeature feature, Object [] array)
+  public <T> T[] toArray(EStructuralFeature feature, T [] array)
   {
-    List result = new BasicEList();
+    List<Object> result = new BasicEList<Object>();
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     if (FeatureMapUtil.isFeatureMap(feature))
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           result.add(entry);
@@ -1013,7 +1030,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           result.add(entry.getValue());
@@ -1028,16 +1045,16 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   {
     if (isMany(feature))
     {
-      List list = list(feature);
+      List<Object> list = list(feature);
       list.clear();
-      list.addAll((Collection)object);
+      list.addAll((Collection<?>)object);
     }
     else
     {
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (shouldUnset(feature, object))
@@ -1087,7 +1104,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (isFeatureMap ? entry.equals(object) : object == null ? entry.getValue() == null : object.equals(entry.getValue()))
@@ -1116,7 +1133,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (isFeatureMap ? entry.equals(object) : object == null ? entry.getValue() == null : object.equals(entry.getValue()))
@@ -1150,7 +1167,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           throw new IllegalArgumentException("The multiplicity constraint is violated");
@@ -1161,21 +1178,21 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     doAdd(entryIndex(feature, index), isFeatureMap ? (Entry)object : createEntry(feature, object));
   }
 
-  public boolean addAll(int index, EStructuralFeature feature, Collection collection)
+  public boolean addAll(int index, EStructuralFeature feature, Collection<?> collection)
   {
     if (collection.size() == 0)
     {
       return false;
     }
     boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
-    Collection entryCollection = isFeatureMap ? collection : new BasicEList(collection.size());
+    @SuppressWarnings("unchecked") Collection<Entry> entryCollection = 
+      isFeatureMap ? (Collection<Entry>)collection : new BasicEList<Entry>(collection.size());
     if (isMany(feature))
     {
       if (feature.isUnique())
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Object object = i.next();
           if (!contains(feature, object))
           {
             Entry entry = createEntry(feature, object);
@@ -1188,9 +1205,9 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       }
       else if (!isFeatureMap)
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Entry entry = createEntry(feature, i.next());
+          Entry entry = createEntry(feature, object);
           entryCollection.add(entry);
         }
       }
@@ -1214,7 +1231,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
         FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
         for (int i = 0, size = delegateSize(); i < size; ++i)
         {
-          Entry entry = (Entry)delegateGet(i);
+          Entry entry = delegateGet(i);
           if (validator.isValid(entry.getEStructuralFeature()))
           {
             if (collection.contains(entry.getValue()))
@@ -1235,21 +1252,21 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return doAddAll(index, entryCollection);
   }
 
-  public boolean addAll(EStructuralFeature feature, Collection collection)
+  public boolean addAll(EStructuralFeature feature, Collection<?> collection)
   {
     if (collection.size() == 0)
     {
       return false;
     }
     boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
-    Collection entryCollection = isFeatureMap ? collection : new BasicEList(collection.size());
+    @SuppressWarnings("unchecked") Collection<Entry> entryCollection = 
+      isFeatureMap ? (Collection<Entry>)collection : new BasicEList<Entry>(collection.size());
     if (isMany(feature))
     {
       if (feature.isUnique())
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Object object = i.next();
           if (!contains(feature, object))
           {
             Entry entry = createEntry(feature, object);
@@ -1262,9 +1279,9 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       }
       else if (!isFeatureMap)
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Entry entry = createEntry(feature, i.next());
+          Entry entry = createEntry(feature, object);
           entryCollection.add(entry);
         }
       }
@@ -1278,7 +1295,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (collection.contains(isFeatureMap ? entry : entry.getValue()))
@@ -1287,9 +1304,9 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
           }
           else
           {
-            for (Iterator j = collection.iterator(); j.hasNext(); )
+            for (Object object : collection)
             {
-              doSet(i, isFeatureMap ? j.next() : createEntry(feature, j.next()));
+              doSet(i, isFeatureMap ? (Entry)object : createEntry(feature, object));
             }
             return true;
           }
@@ -1305,21 +1322,21 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return doAddAll(entryCollection);
   }
 
-  public boolean addAll(EStructuralFeature feature, int index, Collection collection)
+  public boolean addAll(EStructuralFeature feature, int index, Collection<?> collection)
   {
     if (collection.size() == 0)
     {
       return false;
     }
     boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
-    Collection entryCollection = isFeatureMap ? collection : new BasicEList(collection.size());
+    @SuppressWarnings("unchecked") Collection<Entry> entryCollection = 
+      isFeatureMap ? (Collection<Entry>)collection : new BasicEList<Entry>(collection.size());
     if (isMany(feature))
     {
       if (feature.isUnique())
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Object object = i.next();
           if (!contains(feature, object))
           {
             Entry entry = createEntry(feature, object);
@@ -1329,9 +1346,9 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       }
       else if (!isFeatureMap)
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Entry entry = createEntry(feature, i.next());
+          Entry entry = createEntry(feature, object);
           entryCollection.add(entry);
         }
       }
@@ -1341,7 +1358,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           throw new IllegalArgumentException("The multiplicity constraint is violated");
@@ -1375,7 +1392,8 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     addUnique(entryIndex(feature, index), createRawEntry(feature, object));
   }
 
-  public void addUnique(Object object)
+  @Override
+  public void addUnique(Entry object)
   {
     modCount = -1;
     super.addUnique(object);
@@ -1387,7 +1405,8 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     super.addUnique(entry);
   }
 
-  public boolean addAllUnique(Collection collection)
+  @Override
+  public boolean addAllUnique(Collection<? extends Entry> collection)
   {
     modCount = -1;
     return super.addAllUnique(collection);
@@ -1405,7 +1424,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (entry.getEStructuralFeature() == feature)
         {
           return super.basicRemove(entry, notifications);
@@ -1455,7 +1474,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (entry.equals(object))
@@ -1470,7 +1489,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (object.equals(entry.getValue()))
@@ -1485,7 +1504,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (entry.getValue() == null)
@@ -1506,7 +1525,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     int count = 0;
     for (int i = 0, size = delegateSize(); i < size; ++i)
     {
-      Entry entry = (Entry)delegateGet(i);
+      Entry entry = delegateGet(i);
       if (validator.isValid(entry.getEStructuralFeature()))
       {
         if (count == index)
@@ -1521,7 +1540,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     throw new IndexOutOfBoundsException("index=" + index + ", size=" + count);
   }
 
-  public boolean removeAll(EStructuralFeature feature, Collection collection)
+  public boolean removeAll(EStructuralFeature feature, Collection<?> collection)
   {
     if (FeatureMapUtil.isFeatureMap(feature))
     {
@@ -1530,10 +1549,10 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     else
     {
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-      List entryCollection = new BasicEList(collection.size());
+      List<Entry> entryCollection = new BasicEList<Entry>(collection.size());
       for (int i = delegateSize(); --i >= 0; )
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (collection.contains(entry.getValue()))
@@ -1556,7 +1575,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (entry.equals(object))
@@ -1572,7 +1591,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (object.equals(entry.getValue()))
@@ -1588,7 +1607,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     {
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (entry.getValue() == null)
@@ -1637,14 +1656,14 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     return notifications;
   }
 
-  public boolean retainAll(EStructuralFeature feature, Collection collection)
+  public boolean retainAll(EStructuralFeature feature, Collection<?> collection)
   {
     boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    List entryCollection = new BasicEList(collection.size());
+    List<Entry> entryCollection = new BasicEList<Entry>(collection.size());
     for (int i = delegateSize(); --i >= 0; )
     {
-      Entry entry = (Entry)delegateGet(i);
+      Entry entry = delegateGet(i);
       if (validator.isValid(entry.getEStructuralFeature()))
       {
         if (!collection.contains(isFeatureMap ? entry : entry.getValue()))
@@ -1660,10 +1679,10 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   public void clear(EStructuralFeature feature)
   {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    List entryCollection = new BasicEList();
+    List<Entry> entryCollection = new BasicEList<Entry>();
     for (int i = delegateSize(); --i >= 0; )
     {
-      Entry entry = (Entry)delegateGet(i);
+      Entry entry = delegateGet(i);
       if (validator.isValid(entry.getEStructuralFeature()))
       {
         entryCollection.add(entry);
@@ -1707,7 +1726,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       int count = 0;
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (count == targetIndex)
@@ -1765,7 +1784,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       int count = 0;
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (FeatureMapUtil.isFeatureMap(feature))
@@ -1797,7 +1816,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       int count = 0;
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (count == index)
@@ -1826,7 +1845,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       int count = 0;
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (FeatureMapUtil.isFeatureMap(feature))
@@ -1867,12 +1886,12 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       int count = 0;
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (count == index)
           {
-            return doSet(i, FeatureMapUtil.isFeatureMap(feature) ? object : createEntry(feature, object));
+            return doSet(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
           }
           ++count;
         }
@@ -1885,7 +1904,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           return FeatureMapUtil.isFeatureMap(feature) ? entry : entry.getValue();
@@ -1904,12 +1923,12 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       int count = 0;
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           if (count == index)
           {
-            return setUnique(i, FeatureMapUtil.isFeatureMap(feature) ? object : createEntry(feature, object));
+            return setUnique(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
           }
           ++count;
         }
@@ -1922,10 +1941,10 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i);
+        Entry entry = delegateGet(i);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          return setUnique(i, FeatureMapUtil.isFeatureMap(feature) ? object : createEntry(feature, object));
+          return setUnique(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
         }
       }
 
@@ -1941,15 +1960,15 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   public void unset(EStructuralFeature feature)
   {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    List removals = null;
+    List<Entry> removals = null;
     for (int i = 0, size = delegateSize(); i < size; ++i)
     {
-      Entry entry = (Entry)delegateGet(i);
+      Entry entry = delegateGet(i);
       if (validator.isValid(entry.getEStructuralFeature()))
       {
         if (removals == null)
         {
-          removals = new BasicEList();
+          removals = new BasicEList<Entry>();
         }
         removals.add(entry);
       }
@@ -1961,6 +1980,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     }
   }
 
+  @Override
   public NotificationChain basicRemove(Object object, NotificationChain notifications)
   {
     // This may be called directly on an EObject for the case of a containment.
@@ -1975,7 +1995,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       EStructuralFeature feature = null;
       for (int i = 0, size = delegateSize(); i < size; ++i)
       {
-        Entry entry = (Entry)delegateGet(i); 
+        Entry entry = delegateGet(i); 
         if (object.equals(entry.getValue()))
         {
           feature = entry.getEStructuralFeature();
@@ -2027,19 +2047,20 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   /**
    * -------------------------------------------
    */
-  public static class FeatureEIterator extends FeatureMapUtil.BasicFeatureEIterator
+  public static class FeatureEIterator<E> extends FeatureMapUtil.BasicFeatureEIterator<E>
   {
     public FeatureEIterator(EStructuralFeature eStructuralFeature, FeatureMap.Internal featureMap)
     {
       super(eStructuralFeature, featureMap);
     }
 
+    @Override
     protected boolean scanNext()
     {
       int size = featureMap.size();
       while (entryCursor < size)
       {
-        Entry entry = (Entry)featureMap.get(entryCursor);
+        Entry entry = featureMap.get(entryCursor);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           preparedResult = extractValue(entry);
@@ -2054,11 +2075,12 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       return false;
     }
 
+    @Override
     protected boolean scanPrevious()
     {
       while (--entryCursor >= 0)
       {
-        Entry entry = (Entry)featureMap.get(entryCursor);
+        Entry entry = featureMap.get(entryCursor);
         if (validator.isValid(entry.getEStructuralFeature()))
         {
           preparedResult = extractValue(entry);
@@ -2076,13 +2098,14 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
   /**
    * -------------------------------------------
    */
-  public static class ResolvingFeatureEIterator extends FeatureEIterator
+  public static class ResolvingFeatureEIterator<E> extends FeatureEIterator<E>
   {
     public ResolvingFeatureEIterator(EStructuralFeature eStructuralFeature, FeatureMap.Internal featureMap)
     {
       super(eStructuralFeature, featureMap);
     }
 
+    @Override
     protected boolean resolve()
     {
       return true;
@@ -2097,8 +2120,11 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     protected DelegatingFeatureMap featureMap = 
       new DelegatingFeatureMap(this, -1)
       {
-        protected List theList = new java.util.ArrayList();
-        protected List delegateList()
+        private static final long serialVersionUID = 1L;
+
+        protected List<Entry> theList = new java.util.ArrayList<Entry>();
+        @Override
+        protected List<Entry> delegateList()
         {
           return theList;
         }
@@ -2110,6 +2136,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       super();
     }
 
+    @Override
     public Object eDynamicGet(EStructuralFeature eFeature, boolean resolve)
     {
       if (eFeature instanceof EReference && ((EReference)eFeature).isContainer())
@@ -2122,6 +2149,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       }
     }
 
+    @Override
     public void eDynamicSet(EStructuralFeature eFeature, Object newValue)
     {
       if (eFeature instanceof EReference && ((EReference)eFeature).isContainer())
@@ -2165,6 +2193,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 */
     }
 
+    @Override
     public void eDynamicUnset(EStructuralFeature eFeature)
     {
       if (eFeature instanceof EReference && ((EReference)eFeature).isContainer())
@@ -2177,6 +2206,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       }
     }
 
+    @Override
     public boolean eDynamicIsSet(EStructuralFeature eFeature)
     {
       if (eFeature instanceof EReference && ((EReference)eFeature).isContainer())
@@ -2189,7 +2219,8 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       }
     }
 
-    public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain notifications)
+    @Override
+    public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class<?> inverseClass, NotificationChain notifications)
     {
       EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
       if (feature.isMany())
@@ -2214,7 +2245,8 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       }
     }
 
-    public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain notifications)
+    @Override
+    public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class<?> inverseClass, NotificationChain notifications)
     {
       EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
       if (feature instanceof EReference && ((EReference)feature).isContainer())
@@ -2232,6 +2264,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       return featureMap;
     }
 
+    @Override
     public void eNotify(Notification notification)
     {
       if (notification.getFeatureID(null) != -1)
@@ -2240,6 +2273,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
       }
     }
 
+    @Override
     public String toString()
     {
       String result = super.toString();
@@ -2248,6 +2282,7 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
     }
   }
 
+    @Override
    public void set(Object newValue)
    {
      super.set(newValue instanceof FeatureMap ? newValue : ((FeatureMap.Internal.Wrapper)newValue).featureMap());

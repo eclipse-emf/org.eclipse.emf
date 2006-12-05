@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverterImpl.java,v 1.9 2006/10/16 03:26:23 davidms Exp $
+ * $Id: URIConverterImpl.java,v 1.10 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -97,12 +97,14 @@ public class URIConverterImpl implements URIConverter
       }
     }
 
+    @Override
     public void close() throws IOException 
     {
       flush();
       super.close();
     }
 
+    @Override
     public void flush() throws IOException 
     {
       super.flush();
@@ -211,7 +213,7 @@ public class URIConverterImpl implements URIConverter
   /**
    * A map that remaps URIs.
    */
-  public interface URIMap extends Map
+  public interface URIMap extends Map<URI, URI>
   {
     /**
      * Returns the remapped URI, or the URI itself.
@@ -467,21 +469,25 @@ public class URIConverterImpl implements URIConverter
       super(uri.toString());
     }
     
+    @Override
     protected boolean emulateArchiveScheme()
     {
       return false;
     }
     
+    @Override
     protected boolean useZipFile()
     {
       return true;
     }
     
+    @Override
     protected InputStream createInputStream(String nestedURL) throws IOException
     {
       return URIConverterImpl.this.createInputStream(URI.createURI(nestedURL));
     }
     
+    @Override
     protected OutputStream createOutputStream(String nestedURL) throws IOException
     {
       return URIConverterImpl.this.createOutputStream(URI.createURI(nestedURL));
@@ -621,7 +627,7 @@ public class URIConverterImpl implements URIConverter
   /*
    * Javadoc copied from interface.
    */
-  public Map getURIMap()
+  public Map<URI, URI> getURIMap()
   {
     return getInternalURIMap();
   }
@@ -637,6 +643,9 @@ public class URIConverterImpl implements URIConverter
       URIMappingRegistryImpl mappingRegistryImpl = 
         new URIMappingRegistryImpl()
         {
+          private static final long serialVersionUID = 1L;
+
+          @Override
           protected URI delegatedGetURI(URI uri)
           {
             return URIMappingRegistryImpl.INSTANCE.getURI(uri);

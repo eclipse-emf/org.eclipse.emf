@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEList.java,v 1.9 2006/03/17 19:47:20 emerks Exp $
+ * $Id: EcoreEList.java,v 1.10 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -37,24 +37,28 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 
-public class EcoreEList extends NotifyingListImpl implements InternalEList.Unsettable, EStructuralFeature.Setting
+public class EcoreEList<E> extends NotifyingListImpl<E> implements InternalEList.Unsettable<E>, EStructuralFeature.Setting
 {
-  protected final Class dataClass;
+  private static final long serialVersionUID = 1L;
+
+  protected final Class<?> dataClass;
   protected final InternalEObject owner;
 
-  public EcoreEList(Class dataClass, InternalEObject owner)
+  public EcoreEList(Class<?> dataClass, InternalEObject owner)
   {
     super();
     this.dataClass = dataClass;
     this.owner = owner;
   }
 
+  @Override
   protected Object [] newData(int capacity)
   {
     return (Object [])Array.newInstance(dataClass, capacity);
   }
 
-  protected Object validate(int index, Object object)
+  @Override
+  protected E validate(int index, E object)
   {
     super.validate(index, object);
     if (!hasInstanceClass() && object != null && !isInstance(object))
@@ -69,16 +73,19 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     return dataClass.isInstance(object);
   }
 
+  @Override
   public Object getNotifier()
   {
     return owner;
   }
 
+  @Override
   public Object getFeature()
   {
     return getEStructuralFeature();
   }
 
+  @Override
   public int getFeatureID()
   {
     return getEStructuralFeature().getFeatureID();
@@ -104,7 +111,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     return getInverseEReference().getFeatureID();
   }
 
-  protected Class getInverseFeatureClass()
+  protected Class<?> getInverseFeatureClass()
   {
     return ((EClass)getInverseEReference().getEType()).getInstanceClass();
   }
@@ -139,11 +146,13 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     return true;
   }
 
-  protected Object resolve(int index, Object object)
+  @SuppressWarnings("unchecked")
+  @Override
+  protected E resolve(int index, E object)
   {
     return
       isEObject() && hasProxies() ?
-        resolve(index, (EObject)object):
+        (E)resolve(index, (EObject)object):
         object;
   }
   
@@ -153,15 +162,18 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     if (resolved != eObject)
     {
       Object oldObject = data[index];
-      assign(index, validate(index, resolved));
-      didSet(index, resolved, oldObject);
+      @SuppressWarnings("unchecked") E resolvedElement = (E)resolved;
+      assign(index, validate(index, resolvedElement));
+      @SuppressWarnings("unchecked") E oldElement = (E)oldObject;
+      didSet(index, resolvedElement, oldElement);
 
       if (isContainment())
       {
-        NotificationChain notificationChain = inverseRemove(eObject, null);
+        @SuppressWarnings("unchecked") E element = (E)eObject;
+        NotificationChain notificationChain = inverseRemove(element, null);
         if (((InternalEObject)resolved).eInternalContainer() == null)
         {
-          notificationChain = inverseAdd(resolved, notificationChain);
+          notificationChain = inverseAdd(resolvedElement, notificationChain);
         }
         if (notificationChain != null)
         {
@@ -182,9 +194,11 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     }
   }
 
-  protected Object resolve(Object object)
+  @SuppressWarnings("unchecked")
+  @Override
+  protected E resolve(E object)
   {
-    return isEObject() ? resolveProxy((EObject)object) : object;
+    return isEObject() ? (E)resolveProxy((EObject)object) : object;
   }
 
   protected EObject resolveProxy(EObject eObject)
@@ -192,6 +206,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     return eObject.eIsProxy() ? owner.eResolveProxy((InternalEObject)eObject) : eObject;
   }
 
+  @Override
   public Object[] toArray()
   {
     if (hasProxies())
@@ -204,7 +219,8 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     return super.toArray();
   }
 
-  public Object[] toArray(Object array[])
+  @Override
+  public <T> T [] toArray(T [] array)
   {
     if (hasProxies())
     {
@@ -216,6 +232,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     return super.toArray(array);
   }
 
+  @Override
   protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index, boolean wasSet)
   {
     return new ENotificationImpl(owner, eventType, getFeatureID(), oldObject, newObject, index, wasSet);
@@ -226,25 +243,26 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     return new ENotificationImpl(owner, eventType, getFeatureID(), oldValue, newValue);
   }
 
-  /*
-   * Javadoc copied from base class.
-   */
+  @Override
   protected void dispatchNotification(Notification notification)
   {
     owner.eNotify(notification);
   }
 
-  public List basicList()
+  @Override
+  public List<E> basicList()
   {
     return super.basicList();
   }
 
+  @Override
   protected boolean isNotificationRequired()
   {
     return owner.eNotificationRequired();
   }
 
-  public NotificationChain inverseAdd(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain inverseAdd(E object, NotificationChain notifications)
   {
     InternalEObject internalEObject = (InternalEObject) object;
     if (hasNavigableInverse())
@@ -279,7 +297,8 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     }
   }
 
-  public NotificationChain inverseRemove(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain inverseRemove(E object, NotificationChain notifications)
   {
     InternalEObject internalEObject = (InternalEObject) object;
     if (hasNavigableInverse())
@@ -317,6 +336,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
   /**
    * Resolve to compare objects but do not modify list
    */
+  @Override
   public boolean contains(Object object)
   {
     if (isEObject())
@@ -376,6 +396,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     }
   }
 
+  @Override
   public int indexOf(Object object)
   {
     int index = super.indexOf(object);
@@ -399,6 +420,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     return -1;
   }
 
+  @Override
   public int lastIndexOf(Object object)
   {
     int result = super.lastIndexOf(object);
@@ -417,17 +439,20 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     return result;
   }
 
-  public Iterator basicIterator()
+  @Override
+  public Iterator<E> basicIterator()
   {
     return super.basicIterator();
   }
 
-  public ListIterator basicListIterator()
+  @Override
+  public ListIterator<E> basicListIterator()
   {
     return super.basicListIterator();
   }
 
-  public ListIterator basicListIterator(int index)
+  @Override
+  public ListIterator<E> basicListIterator(int index)
   {
     return super.basicListIterator(index);
   }
@@ -442,12 +467,14 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     return this;
   }
 
+  @SuppressWarnings("unchecked")
   public void set(Object newValue)
   {
     clear();
-    addAll((List)newValue);
+    addAll((List<? extends E>)newValue);
   }
 
+  @Override
   public boolean isSet()
   {
     return !isEmpty();
@@ -458,17 +485,22 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     clear();
   }
 
-  public static class UnmodifiableEList 
-    extends BasicEList.UnmodifiableEList 
-    implements InternalEList.Unsettable, EStructuralFeature.Setting
+  public static class UnmodifiableEList<E>
+    extends BasicEList.UnmodifiableEList<E>
+    implements InternalEList.Unsettable<E>, EStructuralFeature.Setting
   {
-    public static class FastCompare extends EcoreEList.UnmodifiableEList
+    private static final long serialVersionUID = 1L;
+
+    public static class FastCompare<E> extends EcoreEList.UnmodifiableEList<E>
     {
+      private static final long serialVersionUID = 1L;
+
       public FastCompare(InternalEObject owner, EStructuralFeature eStructuralFeature, int size, Object [] data)
       {
         super(owner, eStructuralFeature, size, data);
       }
       
+      @Override
       protected boolean useEquals()
       {
         return false;
@@ -485,22 +517,26 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
       this.eStructuralFeature = eStructuralFeature;
     }
 
-    public List basicList()
+    @Override
+    public List<E> basicList()
     {
       return super.basicList();
     }
 
-    public Iterator basicIterator()
+    @Override
+    public Iterator<E> basicIterator()
     {
       return super.basicIterator();
     }
 
-    public ListIterator basicListIterator()
+    @Override
+    public ListIterator<E> basicListIterator()
     {
       return super.basicListIterator();
     }
 
-    public ListIterator basicListIterator(int index)
+    @Override
+    public ListIterator<E> basicListIterator(int index)
     {
       return super.basicListIterator(index);
     }
@@ -540,14 +576,16 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
       throw new UnsupportedOperationException();
     }
 
-    public NotificationChain basicAdd(Object object, NotificationChain notifications)
+    public NotificationChain basicAdd(E object, NotificationChain notifications)
     {
       throw new UnsupportedOperationException();
     }
   }
 
-  public static class Generic extends EcoreEList
+  public static class Generic<E> extends EcoreEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
     public static final int IS_SET = 0x0001;
     public static final int IS_UNSETTABLE = 0x0002;
     public static final int HAS_INSTANCE_CLASS = 0x0004;
@@ -561,7 +599,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
     public static final int IS_EOBJECT = 0x0400;
     public static final int HAS_PROXIES = 0x0800;
 
-    public static Class wrapperClassFor(Class javaClass)
+    public static Class<?> wrapperClassFor(Class<?> javaClass)
     {
       if (javaClass == null)
       {
@@ -629,7 +667,7 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
         }
         else
         {
-          Class instanceClass = eClassifier.getInstanceClass();
+          Class<?> instanceClass = eClassifier.getInstanceClass();
           if (instanceClass != null && instanceClass.isPrimitive())
           {
             result |= IS_PRIMITIVE;
@@ -647,12 +685,13 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
 
     protected int kind;
 
-    public Generic(int kind, Class dataClass, InternalEObject owner)
+    public Generic(int kind, Class<?> dataClass, InternalEObject owner)
     {
       super(dataClass, owner);
       this.kind = kind;
     }
 
+    @Override
     protected boolean useEquals()
     {
       // We can use == for EObjects and EnumLiterals.
@@ -660,51 +699,61 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
       return (kind & (IS_EOBJECT | IS_ENUM)) == 0;
     }
 
+    @Override
     protected boolean canContainNull()
     {
       return (kind & (IS_EOBJECT | IS_PRIMITIVE | IS_ENUM)) == 0;
     }
 
+    @Override
     protected boolean isUnique()
     {
       return (kind & IS_UNIQUE) != 0;
     }
 
+    @Override
     protected boolean hasInverse()
     {
       return (kind & (HAS_NAVIGABLE_INVERSE | IS_CONTAINMENT)) != 0;
     }
 
+    @Override
     protected boolean hasManyInverse()
     {
       return (kind & HAS_MANY_INVERSE) != 0;
     }
 
+    @Override
     protected boolean hasNavigableInverse()
     {
       return (kind & HAS_NAVIGABLE_INVERSE) != 0; 
     }
 
+    @Override
     protected boolean isEObject()
     {
       return (kind & IS_EOBJECT) != 0;
     }
 
+    @Override
     protected boolean isContainment()
     {
       return (kind & IS_CONTAINMENT) != 0;
     }
 
+    @Override
     protected boolean hasProxies()
     {
       return (kind & HAS_PROXIES) != 0;
     }
 
+    @Override
     protected boolean hasInstanceClass()
     {
       return (kind & HAS_INSTANCE_CLASS) != 0;
     }
 
+    @Override
     protected boolean isInstance(Object object)
     {
       return dataClass == null ? getFeatureType().isInstance(object) : super.isInstance(object);
@@ -720,11 +769,13 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
       return (kind & IS_UNSETTABLE) != 0;
     }
 
+    @Override
     public boolean isSet()
     {
       return isUnsettable() ? (kind & IS_SET) != 0 : !isEmpty();
     }
 
+    @Override
     public void unset()
     {
       super.unset();
@@ -743,14 +794,17 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
       }
     }
 
+    @Override
     protected void didChange()
     {
       kind |= IS_SET;
     }
   }
 
-  public static class Dynamic extends Generic
+  public static class Dynamic<E> extends Generic<E>
   {
+    private static final long serialVersionUID = 1L;
+
     protected EStructuralFeature eStructuralFeature;
 
     public Dynamic(InternalEObject owner, EStructuralFeature eStructuralFeature)
@@ -765,12 +819,13 @@ public class EcoreEList extends NotifyingListImpl implements InternalEList.Unset
       this.eStructuralFeature = eStructuralFeature;
     }
 
-    public Dynamic(int kind, Class dataClass, InternalEObject owner, EStructuralFeature eStructuralFeature)
+    public Dynamic(int kind, Class<?> dataClass, InternalEObject owner, EStructuralFeature eStructuralFeature)
     {
       super(kind, dataClass, owner);
       this.eStructuralFeature = eStructuralFeature;
     }
 
+    @Override
     public EStructuralFeature getEStructuralFeature()
     {
       return eStructuralFeature;

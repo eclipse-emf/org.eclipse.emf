@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureImpl.java,v 1.22 2006/04/01 16:02:49 emerks Exp $
+ * $Id: EStructuralFeatureImpl.java,v 1.23 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -26,8 +26,10 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.NotificationChainImpl;
 import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
@@ -77,7 +79,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public abstract class EStructuralFeatureImpl extends ETypedElementImpl implements EStructuralFeature, EStructuralFeature.Internal, BasicExtendedMetaData.EStructuralFeatureExtendedMetaData.Holder
 {
   protected int featureID = -1;
-  protected Class containerClass;
+  protected Class<?> containerClass;
 
   /**
    * <!-- begin-user-doc -->
@@ -95,6 +97,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.ESTRUCTURAL_FEATURE;
@@ -438,6 +441,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -475,7 +479,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   /**
    * @generated modifiable
    */
-  public Class getContainerClass()
+  public Class<?> getContainerClass()
   {
     return containerClass;
   }
@@ -485,12 +489,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
       case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
@@ -504,12 +510,15 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.ESTRUCTURAL_FEATURE__EGENERIC_TYPE:
+        return basicUnsetEGenericType(msgs);
       case EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS:
         return eBasicSetContainer(null, EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS, msgs);
     }
@@ -521,6 +530,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -536,6 +546,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -559,6 +570,8 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
+      case EcorePackage.ESTRUCTURAL_FEATURE__EGENERIC_TYPE:
+        return getEGenericType();
       case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
         return isChangeable() ? Boolean.TRUE : Boolean.FALSE;
       case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
@@ -584,13 +597,15 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.ESTRUCTURAL_FEATURE__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__NAME:
         setName((String)newValue);
@@ -609,6 +624,9 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
         setEType((EClassifier)newValue);
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__EGENERIC_TYPE:
+        setEGenericType((EGenericType)newValue);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
         setChangeable(((Boolean)newValue).booleanValue());
@@ -637,6 +655,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -660,7 +679,10 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         setUpperBound(UPPER_BOUND_EDEFAULT);
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
-        setEType((EClassifier)null);
+        unsetEType();
+        return;
+      case EcorePackage.ESTRUCTURAL_FEATURE__EGENERIC_TYPE:
+        unsetEGenericType();
         return;
       case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
         setChangeable(CHANGEABLE_EDEFAULT);
@@ -689,6 +711,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -710,7 +733,9 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       case EcorePackage.ESTRUCTURAL_FEATURE__REQUIRED:
         return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__ETYPE:
-        return eType != null;
+        return isSetEType();
+      case EcorePackage.ESTRUCTURAL_FEATURE__EGENERIC_TYPE:
+        return isSetEGenericType();
       case EcorePackage.ESTRUCTURAL_FEATURE__CHANGEABLE:
         return ((eFlags & CHANGEABLE_EFLAG) != 0) != CHANGEABLE_EDEFAULT;
       case EcorePackage.ESTRUCTURAL_FEATURE__VOLATILE:
@@ -731,7 +756,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     return eDynamicIsSet(featureID);
   }
 
-  public void setContainerClass(Class containerClass)
+  public void setContainerClass(Class<?> containerClass)
   {
     this.containerClass = containerClass;
   }
@@ -776,7 +801,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       }
 
       EClassifier eType = getEType();
-      Class dataClass = EcoreUtil.wrapperClassFor(eType.getInstanceClass());
+      Class<?> dataClass = EcoreUtil.wrapperClassFor(eType.getInstanceClass());
       Object defaultValue = getDefaultValue();
       Object intrinsicDefaultValue = eType.getDefaultValue();
 
@@ -1483,11 +1508,11 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
     protected int style;
     protected int dynamicKind;
-    protected Class dataClass;
+    protected Class<?> dataClass;
     protected EStructuralFeature feature;
     protected EReference inverseFeature;
 
-    public InternalSettingDelegateMany(int style, Class dataClass, EStructuralFeature feature)
+    public InternalSettingDelegateMany(int style, Class<?> dataClass, EStructuralFeature feature)
     {
       this.style = style;
       this.dataClass = dataClass;
@@ -1502,7 +1527,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       this.feature = feature;
     }
 
-    public InternalSettingDelegateMany(int style, Class dataClass, EStructuralFeature feature, EReference inverseFeature)
+    public InternalSettingDelegateMany(int style, Class<?> dataClass, EStructuralFeature feature, EReference inverseFeature)
     {
       this.style = style;
       this.dataClass = dataClass;
@@ -1547,57 +1572,57 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         case INVERSE_RESOLVE_DYNAMIC:
         case INVERSE_UNSETTABLE_DYNAMIC:
         case INVERSE_DYNAMIC:
-          return new EcoreEList.Dynamic(dynamicKind, dataClass, owner, feature);
+          return new EcoreEList.Dynamic<Object>(dynamicKind, dataClass, owner, feature);
         case CONTAINMENT_UNSETTABLE:
-          return new EObjectContainmentEList.Unsettable(dataClass, owner, feature.getFeatureID());
+          return new EObjectContainmentEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID());
         case CONTAINMENT_UNSETTABLE_RESOLVE:
-          return new EObjectContainmentEList.Unsettable.Resolving(dataClass, owner, feature.getFeatureID());
+          return new EObjectContainmentEList.Unsettable.Resolving<Object>(dataClass, owner, feature.getFeatureID());
         case CONTAINMENT:
-          return new EObjectContainmentEList(dataClass, owner, feature.getFeatureID());
+          return new EObjectContainmentEList<Object>(dataClass, owner, feature.getFeatureID());
         case CONTAINMENT_RESOLVE:
-          return new EObjectContainmentEList.Resolving(dataClass, owner, feature.getFeatureID());
+          return new EObjectContainmentEList.Resolving<Object>(dataClass, owner, feature.getFeatureID());
         case EMAP:
-          return new EcoreEMap((EClass)feature.getEType(), dataClass, owner, feature.getFeatureID());
+          return new EcoreEMap<Object, Object>((EClass)feature.getEType(), dataClass, owner, feature.getFeatureID());
         case CONTAINMENT_INVERSE_UNSETTABLE:
-          return new EObjectContainmentWithInverseEList.Unsettable(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectContainmentWithInverseEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case CONTAINMENT_INVERSE_UNSETTABLE_RESOLVE:
-          return new EObjectContainmentWithInverseEList.Unsettable.Resolving(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectContainmentWithInverseEList.Unsettable.Resolving<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case CONTAINMENT_INVERSE:
-          return new EObjectContainmentWithInverseEList(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectContainmentWithInverseEList<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case CONTAINMENT_INVERSE_RESOLVE:
-          return new EObjectContainmentWithInverseEList.Resolving(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectContainmentWithInverseEList.Resolving<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case DATA_UNIQUE_UNSETTABLE:
-          return new EDataTypeUniqueEList.Unsettable(dataClass, owner, feature.getFeatureID());
+          return new EDataTypeUniqueEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID());
         case DATA_UNIQUE:
-          return new EDataTypeUniqueEList(dataClass, owner, feature.getFeatureID());
+          return new EDataTypeUniqueEList<Object>(dataClass, owner, feature.getFeatureID());
         case DATA_UNSETTABLE:
-          return new EDataTypeEList.Unsettable(dataClass, owner, feature.getFeatureID());
+          return new EDataTypeEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID());
         case DATA:
-          return new EDataTypeEList(dataClass, owner, feature.getFeatureID());
+          return new EDataTypeEList<Object>(dataClass, owner, feature.getFeatureID());
         case EOBJECT_RESOLVE_UNSETTABLE:
-          return new EObjectResolvingEList.Unsettable(dataClass, owner, feature.getFeatureID());
+          return new EObjectResolvingEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID());
         case EOBJECT_RESOLVE:
-          return new EObjectResolvingEList(dataClass, owner, feature.getFeatureID());
+          return new EObjectResolvingEList<Object>(dataClass, owner, feature.getFeatureID());
         case EOBJECT_UNSETTABLE:
-          return new EObjectEList.Unsettable(dataClass, owner, feature.getFeatureID());
+          return new EObjectEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID());
         case EOBJECT:
-          return new EObjectEList(dataClass, owner, feature.getFeatureID());
+          return new EObjectEList<Object>(dataClass, owner, feature.getFeatureID());
         case MANY_INVERSE_RESOLVE_UNSETTABLE:
-          return new EObjectWithInverseResolvingEList.Unsettable.ManyInverse(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseResolvingEList.Unsettable.ManyInverse<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case MANY_INVERSE_RESOLVE:
-          return new EObjectWithInverseResolvingEList.ManyInverse(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseResolvingEList.ManyInverse<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case MANY_INVERSE_UNSETTABLE:
-          return new EObjectWithInverseEList.Unsettable.ManyInverse(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseEList.Unsettable.ManyInverse<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case MANY_INVERSE:
-          return new EObjectWithInverseEList.ManyInverse(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseEList.ManyInverse<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case INVERSE_RESOLVE_UNSETTABLE:
-          return new EObjectWithInverseResolvingEList.Unsettable(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseResolvingEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case INVERSE_RESOLVE:
-          return new EObjectWithInverseResolvingEList(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseResolvingEList<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case INVERSE_UNSETTABLE:
-          return new EObjectWithInverseEList.Unsettable(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseEList.Unsettable<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case INVERSE:
-          return new EObjectWithInverseEList(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
+          return new EObjectWithInverseEList<Object>(dataClass, owner, feature.getFeatureID(), inverseFeature.getFeatureID());
         case FEATURE_MAP:
           return new BasicFeatureMap(owner, feature.getFeatureID());
         default:
@@ -1613,10 +1638,15 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
         settings.dynamicSet(index, setting = createDynamicSetting(owner));
       }
 
-      return
-        setting instanceof EStructuralFeature.Setting ?
-          (EStructuralFeature.Setting)setting :
-          new SettingMany(owner, feature, (List)settings.dynamicGet(index));
+      if (setting instanceof EStructuralFeature.Setting)
+      {
+        return (EStructuralFeature.Setting)setting;
+      }
+      else
+      {
+        @SuppressWarnings("unchecked") List<Object> result = (List<Object>)settings.dynamicGet(index);
+        return new SettingMany(owner, feature, result);
+      }
     }
 
     public Object dynamicGet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, boolean resolve, boolean coreType)
@@ -1630,7 +1660,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       {
         switch (style)
         {
-          case EMAP : return ((EMap)result).map();
+          case EMAP : return ((EMap<?, ?>)result).map();
           case FEATURE_MAP : return ((FeatureMap.Internal)result).getWrapper();
         }
       }
@@ -1678,7 +1708,8 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       {
         settings.dynamicSet(index, setting = createDynamicSetting(owner));
       }
-      return ((InternalEList)setting).basicAdd(otherEnd, notifications);
+      @SuppressWarnings("unchecked") NotificationChain result = ((InternalEList<InternalEObject>)setting).basicAdd(otherEnd, notifications);
+      return result;
     }
 
     public NotificationChain dynamicInverseRemove
@@ -1687,7 +1718,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       Object setting = settings.dynamicGet(index);
       if (setting != null)
       {
-        notifications = ((InternalEList)setting).basicRemove(otherEnd, notifications);
+        notifications = ((InternalEList<?>)setting).basicRemove(otherEnd, notifications);
       }
       return notifications;
     }
@@ -1845,6 +1876,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return owner.eInternalContainer() != null && owner.eContainerFeatureID() == featureID;
     }
 
+    @Override
     public NotificationChain dynamicInverseAdd
       (InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, InternalEObject otherEnd, NotificationChain notifications)
     {
@@ -1856,6 +1888,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return owner.eBasicSetContainer(otherEnd, featureID, notifications);
     }
 
+    @Override
     public NotificationChain dynamicInverseRemove
       (InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, InternalEObject otherEnd, NotificationChain notifications)
     {
@@ -1875,6 +1908,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
     
+    @Override
     protected boolean isResolveProxies()
     {
       return true;
@@ -2020,6 +2054,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       this.eDataType = eDataType;
     }
 
+    @Override
     protected void validate(Object object)
     {
       if (!eDataType.isInstance(object))
@@ -2031,14 +2066,15 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
   public static class InternalSettingDelegateSingleDataStatic extends InternalSettingDelegateSingleData
   {
-    protected Class dataClass;
+    protected Class<?> dataClass;
 
-    public InternalSettingDelegateSingleDataStatic(Class dataClass, Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature)
+    public InternalSettingDelegateSingleDataStatic(Class<?> dataClass, Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature)
     {
       super(defaultValue, intrinsicDefaultValue, feature);
       this.dataClass = dataClass;
     }
 
+    @Override
     protected void validate(Object object)
     {
       if (!dataClass.isInstance(object))
@@ -2055,6 +2091,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(defaultValue, intrinsicDefaultValue, feature);
     }
 
+    @Override
     public void dynamicSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, Object newValue)
     {
       if (owner.eNotificationRequired())
@@ -2119,6 +2156,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       }
     }
 
+    @Override
     public void dynamicUnset(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index)
     {
       if (owner.eNotificationRequired())
@@ -2145,6 +2183,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       }
     }
 
+    @Override
     public boolean dynamicIsSet(InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index)
     {
       Object setting = settings.dynamicGet(index);
@@ -2169,6 +2208,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       this.eDataType = eDataType;
     }
 
+    @Override
     protected void validate(Object object)
     {
       if (!eDataType.isInstance(object))
@@ -2180,14 +2220,15 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
   public static class InternalSettingDelegateSingleDataUnsettableStatic extends InternalSettingDelegateSingleDataUnsettable
   {
-    protected Class dataClass;
+    protected Class<?> dataClass;
 
-    public InternalSettingDelegateSingleDataUnsettableStatic(Class dataClass, Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature)
+    public InternalSettingDelegateSingleDataUnsettableStatic(Class<?> dataClass, Object defaultValue, Object intrinsicDefaultValue, EStructuralFeature feature)
     {
       super(defaultValue, intrinsicDefaultValue, feature);
       this.dataClass = dataClass;
     }
 
+    @Override
     protected void validate(Object object)
     {
       if (!dataClass.isInstance(object))
@@ -2470,6 +2511,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       }
     }
 
+    @Override
     public NotificationChain dynamicInverseAdd
       (InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, InternalEObject otherEnd, NotificationChain notifications)
     {
@@ -2522,6 +2564,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return notifications;
     }
 
+    @Override
     public NotificationChain dynamicInverseRemove
       (InternalEObject owner, EStructuralFeature.Internal.DynamicValueHolder settings, int index, InternalEObject otherEnd, NotificationChain notifications)
     {
@@ -2557,6 +2600,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature);
     }
 
+    @Override
     protected boolean isUnsettable()
     {
       return true;
@@ -2570,6 +2614,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
 
+    @Override
     protected boolean hasInverse()
     {
       return true;
@@ -2583,6 +2628,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
 
+    @Override
     protected boolean isUnsettable()
     {
       return true;
@@ -2601,6 +2647,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
 
+    @Override
     protected boolean isContainment()
     {
       return true;
@@ -2614,6 +2661,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature);
     }
     
+    @Override
     protected boolean isResolveProxies()
     {
       return true;
@@ -2627,6 +2675,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
 
+    @Override
     protected boolean hasInverse()
     {
       return true;
@@ -2640,6 +2689,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
     
+    @Override
     protected boolean isResolveProxies()
     {
       return true;
@@ -2653,6 +2703,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature);
     }
 
+    @Override
     protected boolean isUnsettable()
     {
       return true;
@@ -2666,6 +2717,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature);
     }
 
+    @Override
     protected boolean isResolveProxies()
     {
       return true;
@@ -2679,6 +2731,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
 
+    @Override
     protected boolean isUnsettable()
     {
       return true;
@@ -2692,6 +2745,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
     
+    @Override
     protected boolean isResolveProxies()
     {
       return true;
@@ -2710,6 +2764,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
 
+    @Override
     protected boolean isResolveProxies()
     {
       return true;
@@ -2723,6 +2778,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature);
     }
 
+    @Override
     protected boolean isUnsettable()
     {
       return true;
@@ -2736,6 +2792,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
 
+    @Override
     protected boolean hasInverse()
     {
       return true;
@@ -2749,6 +2806,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       super(eClass, feature, inverseFeature);
     }
 
+    @Override
     protected boolean isUnsettable()
     {
       return true;
@@ -2759,8 +2817,8 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
   {
     protected EObject owner;
     protected EStructuralFeature eStructuralFeature;
-    protected List list;
-    public SettingMany(EObject owner, EStructuralFeature eStructuralFeature, List list)
+    protected List<Object> list;
+    public SettingMany(EObject owner, EStructuralFeature eStructuralFeature, List<Object> list)
     {
       this.list = list;
     }
@@ -2783,14 +2841,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     public void set(Object newValue)
     {
       list.clear();
-      list.addAll((List)newValue);
+      list.addAll((List<?>)newValue);
     }
 
     public boolean isSet()
     {
       return 
         list instanceof InternalEList.Unsettable ? 
-          ((InternalEList.Unsettable)list).isSet() :
+          ((InternalEList.Unsettable<Object>)list).isSet() :
           !list.isEmpty();
     }
 
@@ -2798,7 +2856,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
     {
       if (list instanceof InternalEList.Unsettable)
       {
-        ((InternalEList.Unsettable)list).unset();
+        ((InternalEList.Unsettable<Object>)list).unset();
       }
       else
       {
@@ -2856,6 +2914,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return createEntry((Object)value);
     }
 
+    @Override
     public boolean equals(Object that)
     {
       if (this == that)
@@ -2881,12 +2940,14 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       }
     }
 
+    @Override
     public int hashCode()
     {
      Object value = getValue();
      return getEStructuralFeature().hashCode() ^ (value == null ? 0 : value.hashCode());
     }
 
+    @Override
     public String toString()
     {
       EStructuralFeature eStructuralFeature = getEStructuralFeature();
@@ -2915,6 +2976,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return value;
     }
 
+    @Override
     public Internal createEntry(Object value)
     {
       return new SimpleFeatureMapEntry(eStructuralFeature, value);
@@ -2956,6 +3018,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return value;
     }
 
+    @Override
     public Internal createEntry(InternalEObject value)
     {
       return new InverseUpdatingFeatureMapEntry(eStructuralFeature, value);
@@ -2973,12 +3036,12 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
 
     public final NotificationChain inverseAdd(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
     {
-      return inverseAdd(owner, (InternalEObject)value, featureID, notifications);
+      return inverseAdd(owner, value, featureID, notifications);
     }
 
     public final NotificationChain inverseRemove(InternalEObject owner, Object otherEnd, int featureID, NotificationChain notifications)
     {
-      return inverseRemove(owner, (InternalEObject)value, featureID, notifications);
+      return inverseRemove(owner, value, featureID, notifications);
     }
 
     protected final NotificationChain inverseAdd(InternalEObject owner, InternalEObject otherEnd, int featureID, NotificationChain notifications)
@@ -3026,6 +3089,7 @@ public abstract class EStructuralFeatureImpl extends ETypedElementImpl implement
       return value;
     }
 
+    @Override
     public final Internal createEntry(InternalEObject value)
     {
       return new ContainmentUpdatingFeatureMapEntry(eStructuralFeature, value);

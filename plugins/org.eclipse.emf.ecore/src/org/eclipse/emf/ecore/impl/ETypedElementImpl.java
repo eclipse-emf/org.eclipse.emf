@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementImpl.java,v 1.9 2006/05/07 12:01:41 emerks Exp $
+ * $Id: ETypedElementImpl.java,v 1.10 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -20,11 +20,16 @@ package org.eclipse.emf.ecore.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 
 /**
@@ -41,6 +46,7 @@ import org.eclipse.emf.ecore.InternalEObject;
  *   <li>{@link org.eclipse.emf.ecore.impl.ETypedElementImpl#isMany <em>Many</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.ETypedElementImpl#isRequired <em>Required</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.ETypedElementImpl#getEType <em>EType</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.ETypedElementImpl#getEGenericType <em>EGeneric Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -153,10 +159,20 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getEType()
-   * @generated
+   * @generated NOT
    * @ordered
    */
-  protected EClassifier eType = null;
+  protected EClassifier eType;
+
+  /**
+   * The cached value of the '{@link #getEGenericType() <em>EGeneric Type</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEGenericType()
+   * @generated NOT
+   * @ordered
+   */
+  protected EGenericType eGenericType;
 
   /**
    * <!-- begin-user-doc -->
@@ -170,6 +186,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
     eFlags |= UNIQUE_EFLAG;
   }
 
+  @Override
   protected void freeze()
   {
     getEType();
@@ -181,6 +198,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.ETYPED_ELEMENT;
@@ -293,11 +311,11 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
-  public EClassifier getETypeGen()
+  public EClassifier getEType()
   {
-    if (eType != null && eType.eIsProxy())
+    if (!isFrozen() && eType != null && eType.eIsProxy())
     {
       InternalEObject oldEType = (InternalEObject)eType;
       eType = (EClassifier)eResolveProxy(oldEType);
@@ -310,32 +328,181 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
     return eType;
   }
 
-  public EClassifier getEType()
-  {
-    return isFrozen() ? eType : getETypeGen();
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public EClassifier basicGetEType()
   {
     return eType;
   }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setEType(EClassifier newEType)
+  public NotificationChain setEType(EClassifier newEType, NotificationChain msgs)
   {
     EClassifier oldEType = eType;
     eType = newEType;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.ETYPED_ELEMENT__ETYPE, oldEType, eType));
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EcorePackage.ETYPED_ELEMENT__ETYPE, oldEType, eType);
+      if (msgs == null)
+      {
+        msgs = notification;
+      }
+      else
+      {
+        msgs.add(notification);
+      }
+    }
+   return msgs;
+  }
+
+  public void setEType(EClassifier newEType)
+  {
+    NotificationChain msgs = setEType(newEType, null);
+    EGenericType newEGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+    newEGenericType.setEClassifier(eType);
+    msgs = setEGenericType(newEGenericType, msgs);
+    if (msgs != null)
+    {
+      msgs.dispatch();
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void unsetEType()
+  {
+    setEType(null);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean isSetEType()
+  {
+    return 
+      eType != null &&
+        eGenericType.getETypeParameter() == null &&
+        eGenericType.getETypeArguments().isEmpty();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public EGenericType getEGenericType()
+  {
+    return eGenericType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public NotificationChain basicSetEGenericType(EGenericType newEGenericType, NotificationChain msgs)
+  {
+    EGenericType oldEGenericType = eGenericType;
+    eGenericType = newEGenericType;
+    if (eNotificationRequired())
+    {
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE, oldEGenericType, newEGenericType);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
+    }
+    if (newEGenericType == null)
+    {
+      if (eType != null)
+      {
+        msgs = setEType(null, msgs);
+      }
+    }
+    else
+    {
+      EClassifier newEType = newEGenericType.getERawType();
+      if (newEType != eType)
+      {
+        msgs = setEType(newEType, msgs);
+      }
+    }
+    return msgs;
+  }
+
+  public NotificationChain setEGenericType(EGenericType newEGenericType, NotificationChain msgs)
+  {
+    if (newEGenericType != eGenericType)
+    {
+      if (eGenericType != null)
+        msgs = ((InternalEObject)eGenericType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE, null, msgs);
+      if (newEGenericType != null)
+        msgs = ((InternalEObject)newEGenericType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE, null, msgs);
+      msgs = basicSetEGenericType(newEGenericType, msgs);
+    }
+    else if (eNotificationRequired())
+    {
+      ENotificationImpl notification = 
+        new ENotificationImpl(this, Notification.SET, EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE, newEGenericType, newEGenericType);
+      if (msgs == null)
+      {
+        msgs = notification;
+      }
+      else
+      {
+        msgs.add(notification);
+      }
+    }
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void setEGenericType(EGenericType newEGenericType)
+  {
+    NotificationChain msgs = setEGenericType(newEGenericType, null);
+    if (msgs != null)
+    {
+      msgs.dispatch();
+    }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public NotificationChain basicUnsetEGenericType(NotificationChain msgs)
+  {
+    msgs = setEType(null, msgs);
+    return basicSetEGenericType(null, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void unsetEGenericType()
+  {
+    setEGenericType(null);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean isSetEGenericType()
+  {
+    return eGenericType != null && !isSetEType();
   }
 
   /**
@@ -343,6 +510,25 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ETYPED_ELEMENT__EANNOTATIONS:
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE:
+        return basicUnsetEGenericType(msgs);
+    }
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -366,6 +552,8 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
       case EcorePackage.ETYPED_ELEMENT__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
+      case EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE:
+        return getEGenericType();
     }
     return eDynamicGet(featureID, resolve, coreType);
   }
@@ -375,13 +563,15 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.ETYPED_ELEMENT__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.ETYPED_ELEMENT__NAME:
         setName((String)newValue);
@@ -401,6 +591,9 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
       case EcorePackage.ETYPED_ELEMENT__ETYPE:
         setEType((EClassifier)newValue);
         return;
+      case EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE:
+        setEGenericType((EGenericType)newValue);
+        return;
     }
     eDynamicSet(featureID, newValue);
   }
@@ -410,6 +603,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -433,7 +627,10 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
         setUpperBound(UPPER_BOUND_EDEFAULT);
         return;
       case EcorePackage.ETYPED_ELEMENT__ETYPE:
-        setEType((EClassifier)null);
+        unsetEType();
+        return;
+      case EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE:
+        unsetEGenericType();
         return;
     }
     eDynamicUnset(featureID);
@@ -444,6 +641,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -465,7 +663,9 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
       case EcorePackage.ETYPED_ELEMENT__REQUIRED:
         return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.ETYPED_ELEMENT__ETYPE:
-        return eType != null;
+        return isSetEType();
+      case EcorePackage.ETYPED_ELEMENT__EGENERIC_TYPE:
+        return isSetEGenericType();
     }
     return eDynamicIsSet(featureID);
   }
@@ -475,6 +675,7 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

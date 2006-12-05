@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentAdapter.java,v 1.7 2006/05/04 11:40:14 emerks Exp $
+ * $Id: EContentAdapter.java,v 1.8 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -40,6 +40,7 @@ public class EContentAdapter extends AdapterImpl
   /**
    * Handles a notification by calling {@link #selfAdapt selfAdapter}.
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     selfAdapt(notification);
@@ -147,10 +148,9 @@ public class EContentAdapter extends AdapterImpl
       }
       case Notification.ADD_MANY:
       {
-        Collection newValues = (Collection)notification.getNewValue();
-        for (Iterator i = newValues.iterator(); i.hasNext(); )
+        @SuppressWarnings("unchecked") Collection<Notifier> newValues = (Collection<Notifier>)notification.getNewValue();
+        for (Notifier newValue : newValues)
         {
-          Notifier newValue = (Notifier)i.next();
           addAdapter(newValue);
         }
         break;
@@ -166,10 +166,9 @@ public class EContentAdapter extends AdapterImpl
       }
       case Notification.REMOVE_MANY:
       {
-        Collection oldValues = (Collection)notification.getOldValue();
-        for (Iterator i = oldValues.iterator(); i.hasNext(); )
+        @SuppressWarnings("unchecked") Collection<Notifier> oldValues = (Collection<Notifier>)notification.getOldValue();
+        for ( Notifier oldContentValue : oldValues)
         {
-          Notifier oldContentValue = (Notifier)i.next();
           removeAdapter(oldContentValue);
         }
         break;
@@ -181,6 +180,7 @@ public class EContentAdapter extends AdapterImpl
    * Handles installation of the adapter
    * by adding the adapter to each of the directly contained objects.
    */
+  @Override
   public void setTarget(Notifier target)
   {
     if (target instanceof EObject)
@@ -216,9 +216,12 @@ public class EContentAdapter extends AdapterImpl
   protected void setTarget(EObject target)
   {
     basicSetTarget(target);
-    for (Iterator i = resolve() ? target.eContents().iterator() : ((InternalEList)target.eContents()).basicIterator(); i.hasNext(); )
+    for (Iterator<? extends Notifier> i = resolve() ? 
+           target.eContents().iterator() : 
+           ((InternalEList<? extends Notifier>)target.eContents()).basicIterator();
+         i.hasNext(); )
     {
-      Notifier notifier = (Notifier)i.next();
+      Notifier notifier = i.next();
       addAdapter(notifier);
     }
   }
@@ -230,10 +233,10 @@ public class EContentAdapter extends AdapterImpl
   protected void setTarget(Resource target)
   {
     basicSetTarget(target);
-    List contents = target.getContents();
+    List<EObject> contents = target.getContents();
     for (int i = 0, size = contents.size(); i < size; ++i)
     {
-      Notifier notifier = (Notifier)contents.get(i);
+      Notifier notifier = contents.get(i);
       addAdapter(notifier);
     }
   }
@@ -245,10 +248,10 @@ public class EContentAdapter extends AdapterImpl
   protected void setTarget(ResourceSet target)
   {
     basicSetTarget(target);
-    List resources =  target.getResources();
+    List<Resource> resources =  target.getResources();
     for (int i = 0; i < resources.size(); ++i)
     {
-      Notifier notifier = (Notifier)resources.get(i);
+      Notifier notifier = resources.get(i);
       addAdapter(notifier);
     }
   }
@@ -257,6 +260,7 @@ public class EContentAdapter extends AdapterImpl
    * Handles deinstallation of the adapter
    * by removing the adapter from each of the directly contained objects.
    */
+  @Override
   public void unsetTarget(Notifier target)
   {
     unsetTarget((Object)target);
@@ -275,6 +279,7 @@ public class EContentAdapter extends AdapterImpl
    * by removing the adapter from each of the directly contained objects.
    * @deprecated Use or override {@link #unsetTarget(Notifier) instead.
    */
+  @Deprecated
   protected void unsetTarget(Object target)
   {
     if (target instanceof EObject)
@@ -302,9 +307,12 @@ public class EContentAdapter extends AdapterImpl
   protected void unsetTarget(EObject target)
   {
     basicUnsetTarget(target);
-    for (Iterator i = resolve() ? target.eContents().iterator() : ((InternalEList)target.eContents()).basicIterator(); i.hasNext(); )
+    for (Iterator<? extends Notifier> i = resolve() ? 
+           target.eContents().iterator() : 
+           ((InternalEList<EObject>)target.eContents()).basicIterator(); 
+         i.hasNext(); )
     {
-      Notifier notifier = (Notifier)i.next();
+      Notifier notifier = i.next();
       removeAdapter(notifier);
     }
   }
@@ -316,10 +324,10 @@ public class EContentAdapter extends AdapterImpl
   protected void unsetTarget(Resource target)
   {
     basicUnsetTarget(target);
-    List contents = target.getContents();
+    List<EObject> contents = target.getContents();
     for (int i = 0, size = contents.size(); i < size; ++i)
     {
-      Notifier notifier = (Notifier)contents.get(i);
+      Notifier notifier = contents.get(i);
       removeAdapter(notifier);
     }
   }
@@ -331,10 +339,10 @@ public class EContentAdapter extends AdapterImpl
   protected void unsetTarget(ResourceSet target)
   {
     basicUnsetTarget(target);
-    List resources =  target.getResources();
+    List<Resource> resources =  target.getResources();
     for (int i = 0; i < resources.size(); ++i)
     {
-      Notifier notifier = (Notifier)resources.get(i);
+      Notifier notifier = resources.get(i);
       removeAdapter(notifier);
     }
   }

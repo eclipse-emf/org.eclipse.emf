@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationImpl.java,v 1.12 2006/05/03 19:30:32 davidms Exp $
+ * $Id: EAnnotationImpl.java,v 1.13 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -84,7 +83,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * @generated
    * @ordered
    */
-  protected EMap details = null;
+  protected EMap<String, String> details = null;
 
   /**
    * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
@@ -94,7 +93,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * @generated
    * @ordered
    */
-  protected EList contents = null;
+  protected EList<EObject> contents = null;
 
   /**
    * The cached value of the '{@link #getReferences() <em>References</em>}' reference list.
@@ -104,7 +103,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * @generated
    * @ordered
    */
-  protected EList references = null;
+  protected EList<EObject> references = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -121,6 +120,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EANNOTATION;
@@ -154,26 +154,28 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EMap getDetails()
+  public EMap<String, String> getDetails()
   {
     if (details == null)
     {
       details = 
-        new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, EcorePackage.EANNOTATION__DETAILS)
+        new EcoreEMap<String, String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, EcorePackage.EANNOTATION__DETAILS)
         {
+          private static final long serialVersionUID = 1L;
+
+          @Override
           protected void ensureEntryDataExists()
           {
             if (entryData == null)
             {
               // Ensure that this race condition is thread safe; it doesn't matter who wins the race.
               //
-              BasicEList [] result = newEntryData(2 * size + 1);
-              for (Iterator i = delegateEList.iterator(); i.hasNext(); )
+              BasicEList<Entry<String, String>> [] result = newEntryData(2 * size + 1);
+              for (Entry<String, String> entry  : delegateEList)
               {
-                Entry entry = (Entry)i.next();
                 int hash = entry.getHash();
                 int index =  (hash & 0x7FFFFFFF) % result.length;
-                BasicEList eList = result[index];
+                BasicEList<Entry<String, String>> eList = result[index];
                 if (eList == null)
                 {
                   eList = result[index] = newList();
@@ -238,11 +240,11 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getContents()
+  public EList<EObject> getContents()
   {
     if (contents == null)
     {
-      contents = new EObjectContainmentEList(EObject.class, this, EcorePackage.EANNOTATION__CONTENTS);
+      contents = new EObjectContainmentEList<EObject>(EObject.class, this, EcorePackage.EANNOTATION__CONTENTS);
     }
     return contents;
   }
@@ -252,11 +254,11 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getReferences()
+  public EList<EObject> getReferences()
   {
     if (references == null)
     {
-      references = new EObjectResolvingEList(EObject.class, this, EcorePackage.EANNOTATION__REFERENCES);
+      references = new EObjectResolvingEList<EObject>(EObject.class, this, EcorePackage.EANNOTATION__REFERENCES);
     }
     return references;
   }
@@ -266,12 +268,14 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EANNOTATION__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
       case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
@@ -285,18 +289,19 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EANNOTATION__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
       case EcorePackage.EANNOTATION__DETAILS:
-        return ((InternalEList)getDetails()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getDetails()).basicRemove(otherEnd, msgs);
       case EcorePackage.EANNOTATION__EMODEL_ELEMENT:
         return basicSetEModelElement(null, msgs);
       case EcorePackage.EANNOTATION__CONTENTS:
-        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
     }
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
@@ -306,6 +311,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -321,6 +327,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -347,13 +354,15 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.EANNOTATION__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.EANNOTATION__SOURCE:
         setSource((String)newValue);
@@ -366,11 +375,11 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
         return;
       case EcorePackage.EANNOTATION__CONTENTS:
         getContents().clear();
-        getContents().addAll((Collection)newValue);
+        getContents().addAll((Collection<? extends EObject>)newValue);
         return;
       case EcorePackage.EANNOTATION__REFERENCES:
         getReferences().clear();
-        getReferences().addAll((Collection)newValue);
+        getReferences().addAll((Collection<? extends EObject>)newValue);
         return;
     }
     eDynamicSet(featureID, newValue);
@@ -381,6 +390,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -412,6 +422,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -437,6 +448,7 @@ public class EAnnotationImpl extends EModelElementImpl implements EAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

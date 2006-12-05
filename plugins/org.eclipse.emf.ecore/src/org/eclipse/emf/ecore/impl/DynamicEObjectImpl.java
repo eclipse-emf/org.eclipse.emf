@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicEObjectImpl.java,v 1.6 2006/04/20 18:56:16 emerks Exp $
+ * $Id: DynamicEObjectImpl.java,v 1.7 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -30,7 +31,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  */
 public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeature.Internal.DynamicValueHolder
 {
-  public static final class BasicEMapEntry extends DynamicEObjectImpl implements BasicEMap.Entry
+  public static final class BasicEMapEntry<K, V> extends DynamicEObjectImpl implements BasicEMap.Entry<K, V>
   {
     protected int hash;
     protected EStructuralFeature keyFeature;
@@ -52,9 +53,10 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
       super(eClass);
     }
 
-    public Object getKey()
+    @SuppressWarnings("unchecked")
+    public K getKey()
     {
-      return eGet(keyFeature);
+      return (K)eGet(keyFeature);
     }
 
     public void setKey(Object key)
@@ -77,18 +79,20 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
       this.hash = hash;
     }
 
-    public Object getValue()
+    @SuppressWarnings("unchecked")
+    public V getValue()
     {
-      return eGet(valueFeature);
+      return (V)eGet(valueFeature);
     }
 
-    public Object setValue(Object value)
+    public V setValue(V value)
     {
-      Object result = eGet(valueFeature);
+      @SuppressWarnings("unchecked") V result = (V)eGet(valueFeature);
       eSet(valueFeature, value);
       return result;
     }
 
+    @Override
     public void eSetClass(EClass eClass)
     {
       super.eSetClass(eClass);
@@ -104,8 +108,8 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
   {
     protected URI eProxyURI;
     protected Resource.Internal eResource;
-    protected EList eContents;
-    protected EList eCrossReferences;
+    protected EList<EObject> eContents;
+    protected EList<EObject> eCrossReferences;
 
     public EClass getEClass()
     {
@@ -137,22 +141,22 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
       this.eResource = eResource;
     }
 
-    public EList getEContents()
+    public EList<EObject> getEContents()
     {
       return eContents;
     }
 
-    public void setEContents(EList eContents)
+    public void setEContents(EList<EObject> eContents)
     {
       this.eContents = eContents;
     }
 
-    public EList getECrossReferences()
+    public EList<EObject> getECrossReferences()
     {
       return eCrossReferences;
     }
 
-    public void setECrossReferences(EList eCrossReferences)
+    public void setECrossReferences(EList<EObject> eCrossReferences)
     {
       this.eCrossReferences = eCrossReferences;
     }
@@ -205,16 +209,19 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
     eSetClass(eClass);
   }
 
+  @Override
   protected int eStaticFeatureCount()
   {
     return 0;
   }
 
+  @Override
   public int eDerivedStructuralFeatureID(EStructuralFeature eStructuralFeature)
   {
     return eClass().getFeatureID(eStructuralFeature);
   }
 
+  @Override
   protected BasicEObjectImpl.EPropertiesHolder eProperties()
   {
     if (eProperties == null)
@@ -224,11 +231,13 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
     return eProperties;
   }
 
+  @Override
   protected boolean eHasSettings()
   {
     return eSettings != null;
   }
 
+  @Override
   protected EStructuralFeature.Internal.DynamicValueHolder eSettings()
   {
     if (eSettings == null)
@@ -240,16 +249,19 @@ public class DynamicEObjectImpl extends EObjectImpl implements EStructuralFeatur
     return this;
   }
 
+  @Override
   protected EClass eDynamicClass()
   {
     return eClass;
   }
 
+  @Override
   public EClass eClass()
   {
     return eClass;
   }
 
+  @Override
   public void eSetClass(EClass eClass)
   {
     this.eClass = eClass;

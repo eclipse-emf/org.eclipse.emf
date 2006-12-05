@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactory.java,v 1.4 2005/12/10 13:33:52 emerks Exp $
+ * $Id: XMLTypeFactory.java,v 1.5 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -336,7 +336,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  List createENTITIES(String literal);
+  List<String> createENTITIES(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>ENTITIES</em>'.
@@ -346,7 +346,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
-  String convertENTITIES(List instanceValue);
+  String convertENTITIES(List<? extends String> instanceValue);
 
   /**
    * Returns an instance of data type '<em>ENTITIES Base</em>' corresponding the given literal.
@@ -356,7 +356,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  List createENTITIESBase(String literal);
+  List<String> createENTITIESBase(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>ENTITIES Base</em>'.
@@ -366,7 +366,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
-  String convertENTITIESBase(List instanceValue);
+  String convertENTITIESBase(List<? extends String> instanceValue);
 
   /**
    * Returns an instance of data type '<em>ENTITY</em>' corresponding the given literal.
@@ -596,7 +596,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  List createIDREFS(String literal);
+  List<String> createIDREFS(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>IDREFS</em>'.
@@ -606,7 +606,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
-  String convertIDREFS(List instanceValue);
+  String convertIDREFS(List<? extends String> instanceValue);
 
   /**
    * Returns an instance of data type '<em>IDREFS Base</em>' corresponding the given literal.
@@ -616,7 +616,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  List createIDREFSBase(String literal);
+  List<String> createIDREFSBase(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>IDREFS Base</em>'.
@@ -626,7 +626,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
-  String convertIDREFSBase(List instanceValue);
+  String convertIDREFSBase(List<? extends String> instanceValue);
 
   /**
    * Returns an instance of data type '<em>Int</em>' corresponding the given literal.
@@ -836,7 +836,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  List createNMTOKENS(String literal);
+  List<String> createNMTOKENS(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>NMTOKENS</em>'.
@@ -846,7 +846,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
-  String convertNMTOKENS(List instanceValue);
+  String convertNMTOKENS(List<? extends String> instanceValue);
 
   /**
    * Returns an instance of data type '<em>NMTOKENS Base</em>' corresponding the given literal.
@@ -856,7 +856,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a new instance value of the data type.
    * @generated
    */
-  List createNMTOKENSBase(String literal);
+  List<String> createNMTOKENSBase(String literal);
 
   /**
    * Returns a literal representation of an instance of data type '<em>NMTOKENS Base</em>'.
@@ -866,7 +866,7 @@ public interface XMLTypeFactory extends EFactory
    * @return a literal representation of the instance value.
    * @generated
    */
-  String convertNMTOKENSBase(List instanceValue);
+  String convertNMTOKENSBase(List<? extends String> instanceValue);
 
   /**
    * Returns an instance of data type '<em>Non Negative Integer</em>' corresponding the given literal.

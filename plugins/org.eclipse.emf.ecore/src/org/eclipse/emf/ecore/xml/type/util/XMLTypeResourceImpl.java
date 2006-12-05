@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeResourceImpl.java,v 1.2 2006/05/03 19:30:32 davidms Exp $
+ * $Id: XMLTypeResourceImpl.java,v 1.3 2006/12/05 20:22:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -543,8 +543,10 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public void handleAttributes(Attributes attributes)
       {
+        // There are attributes to handle.
       }
     
       /**
@@ -552,6 +554,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
       {
         return super.startElement(namespace, localName, qName, attributes);
@@ -562,6 +565,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
       {
         super.endElement(child);
@@ -572,6 +576,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public void create()
       {
         theAnyType = XMLTypeFactory.eINSTANCE.createAnyType();
@@ -637,8 +642,10 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public void handleAttributes(Attributes attributes)
       {
+        // There are attributes to handle.
       }
     
       /**
@@ -646,6 +653,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
       {
         return super.startElement(namespace, localName, qName, attributes);
@@ -656,6 +664,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
       {
         super.endElement(child);
@@ -666,6 +675,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public void create()
       {
         theSimpleAnyType = XMLTypeFactory.eINSTANCE.createSimpleAnyType();
@@ -752,8 +762,10 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public void handleAttributes(Attributes attributes)
       {
+        // There are attributes to handle.
       }
     
       /**
@@ -761,6 +773,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
       {
         if ("cDATA".equals(localName) && "http://www.eclipse.org/emf/2003/XMLType".equals(namespace))
@@ -786,6 +799,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
       {
         if (child == cDATA)
@@ -814,6 +828,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      @Override
       public void create()
       {
         theXMLTypeDocumentRoot = XMLTypeFactory.eINSTANCE.createXMLTypeDocumentRoot();
@@ -1191,9 +1206,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public List popENTITIES(XMLTypeResourceImpl.DataFrame entities)
+    public List<String> popENTITIES(XMLTypeResourceImpl.DataFrame entities)
     {
-      List resultENTITIESValue = XMLTypeFactory.eINSTANCE.createENTITIES(entities.popValue());
+      List<String> resultENTITIESValue = XMLTypeFactory.eINSTANCE.createENTITIES(entities.popValue());
       this.entities = entities;
       return resultENTITIESValue;
     }
@@ -1217,9 +1232,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public List popENTITIESBase(XMLTypeResourceImpl.DataFrame entitiesBase)
+    public List<String> popENTITIESBase(XMLTypeResourceImpl.DataFrame entitiesBase)
     {
-      List resultENTITIESBaseValue = XMLTypeFactory.eINSTANCE.createENTITIESBase(entitiesBase.popValue());
+      List<String> resultENTITIESBaseValue = XMLTypeFactory.eINSTANCE.createENTITIESBase(entitiesBase.popValue());
       this.entitiesBase = entitiesBase;
       return resultENTITIESBaseValue;
     }
@@ -1529,9 +1544,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public List popIDREFS(XMLTypeResourceImpl.DataFrame idrefs)
+    public List<String> popIDREFS(XMLTypeResourceImpl.DataFrame idrefs)
     {
-      List resultIDREFSValue = XMLTypeFactory.eINSTANCE.createIDREFS(idrefs.popValue());
+      List<String> resultIDREFSValue = XMLTypeFactory.eINSTANCE.createIDREFS(idrefs.popValue());
       this.idrefs = idrefs;
       return resultIDREFSValue;
     }
@@ -1555,9 +1570,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public List popIDREFSBase(XMLTypeResourceImpl.DataFrame idrefsBase)
+    public List<String> popIDREFSBase(XMLTypeResourceImpl.DataFrame idrefsBase)
     {
-      List resultIDREFSBaseValue = XMLTypeFactory.eINSTANCE.createIDREFSBase(idrefsBase.popValue());
+      List<String> resultIDREFSBaseValue = XMLTypeFactory.eINSTANCE.createIDREFSBase(idrefsBase.popValue());
       this.idrefsBase = idrefsBase;
       return resultIDREFSBaseValue;
     }
@@ -1841,9 +1856,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public List popNMTOKENS(XMLTypeResourceImpl.DataFrame nmtokens)
+    public List<String> popNMTOKENS(XMLTypeResourceImpl.DataFrame nmtokens)
     {
-      List resultNMTOKENSValue = XMLTypeFactory.eINSTANCE.createNMTOKENS(nmtokens.popValue());
+      List<String> resultNMTOKENSValue = XMLTypeFactory.eINSTANCE.createNMTOKENS(nmtokens.popValue());
       this.nmtokens = nmtokens;
       return resultNMTOKENSValue;
     }
@@ -1867,9 +1882,9 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
-    public List popNMTOKENSBase(XMLTypeResourceImpl.DataFrame nmtokensBase)
+    public List<String> popNMTOKENSBase(XMLTypeResourceImpl.DataFrame nmtokensBase)
     {
-      List resultNMTOKENSBaseValue = XMLTypeFactory.eINSTANCE.createNMTOKENSBase(nmtokensBase.popValue());
+      List<String> resultNMTOKENSBaseValue = XMLTypeFactory.eINSTANCE.createNMTOKENSBase(nmtokensBase.popValue());
       this.nmtokensBase = nmtokensBase;
       return resultNMTOKENSBaseValue;
     }
@@ -2361,6 +2376,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
     
     public void handleAttributes(Attributes attributes)
     {
+      // Do nothing.
     }
     
     public StackFrame startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
@@ -2382,10 +2398,12 @@ public class XMLTypeResourceImpl extends ResourceImpl
     
     public void characters(char[] text, int start, int length) throws SAXException
     {
+      // Do nothing.
     }
     
     public void create()
     {
+      // Do nothing.
     }
   }
 
@@ -2393,6 +2411,7 @@ public class XMLTypeResourceImpl extends ResourceImpl
   {
     protected StringBuffer stringBuffer;
     
+    @Override
     public void characters(char[] text, int start, int length) throws SAXException
     {
       if (stringBuffer == null)
@@ -2428,27 +2447,34 @@ public class XMLTypeResourceImpl extends ResourceImpl
       this.stackFrame = stackFrame;
     }
     
+    @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
     {
       stackFrame = stackFrame.startElement(uri, localName, qName, attributes);
     }
     
+    @Override
     public void endElement(String uri, String localName, String qName) throws SAXException
     {
       stackFrame = stackFrame.endElement();
     }
     
+    @Override
     public void characters(char[] text, int start, int length) throws SAXException
     {
       stackFrame.characters(text, start, length);
     }
 
+    @Override
     public void error(SAXParseException exception) throws SAXException
     {
+      // Ignore.
     }
 
+    @Override
     public void fatalError(SAXParseException exception) throws SAXException
     {
+      // Ignore.
     }
   }
  

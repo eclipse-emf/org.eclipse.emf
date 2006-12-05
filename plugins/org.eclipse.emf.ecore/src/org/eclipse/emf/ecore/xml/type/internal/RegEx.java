@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegEx.java,v 1.8 2005/06/12 13:29:22 emerks Exp $
+ * $Id: RegEx.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -357,11 +357,13 @@ public final class RegEx
      * Creates an instance.
      */
     public Match() {
+      super();
     }
 
     /**
      *
      */
+    @Override
     public synchronized Object clone() {
         Match ma = new Match();
         if (this.nofgroups > 0) {
@@ -497,6 +499,7 @@ public final class RegEx
   
   public final static class REUtil {
     private REUtil() {
+      super();
     }
 
     static final int composeFromSurrogates(int high, int low) {
@@ -1262,9 +1265,10 @@ public final class RegEx
    * <hr width="50%">
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.8 2005/06/12 13:29:22 emerks Exp $
+   * @version $Id: RegEx.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
    */
   public static class RegularExpression implements java.io.Serializable {
+      private static final long serialVersionUID = 1L;
       static final boolean DEBUG = false;
 
       /**
@@ -3564,6 +3568,7 @@ public final class RegEx
           int[] offsets;
 
           Context() {
+            super();
           }
 
           private void resetCommon(int nofclosures) {
@@ -3806,6 +3811,7 @@ public final class RegEx
       /**
        * Represents this instence in String.
        */
+      @Override
       public String toString() {
           return this.tokentree.toString(this.options);
       }
@@ -3825,6 +3831,7 @@ public final class RegEx
       /**
        *  Return true if patterns are the same and the options are equivalent.
        */
+      @Override
       public boolean equals(Object obj) {
           if (obj == null)  return false;
           if (!(obj instanceof RegularExpression))
@@ -3840,6 +3847,7 @@ public final class RegEx
       /**
        *
        */
+      @Override
       public int hashCode() {
           return (this.regex+"/"+this.getOptions()).hashCode();
       }
@@ -3934,6 +3942,8 @@ public final class RegEx
   }
   
   public static class ParseException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+
     int location;
 
     /*
@@ -4095,6 +4105,7 @@ public final class RegEx
             super(type);
             this.charData = data;
         }
+        @Override
         int getData() {
             return this.charData;
         }
@@ -4102,19 +4113,21 @@ public final class RegEx
 
     // ================================================================
     static class UnionOp extends Op {
-        Vector branches;
+        Vector<Op> branches;
         UnionOp(int type, int size) {
             super(type);
-            this.branches = new Vector(size);
+            this.branches = new Vector<Op>(size);
         }
         void addElement(Op op) {
             this.branches.addElement(op);
         }
+        @Override
         int size() {
             return this.branches.size();
         }
+        @Override
         Op elementAt(int index) {
-            return (Op)this.branches.elementAt(index);
+            return this.branches.elementAt(index);
         }
     }
 
@@ -4127,6 +4140,7 @@ public final class RegEx
         void setChild(Op child) {
             this.child = child;
         }
+        @Override
         Op getChild() {
             return this.child;
         }
@@ -4140,9 +4154,11 @@ public final class RegEx
             this.v1 = v1;
             this.v2 = v2;
         }
+        @Override
         int getData() {
             return this.v1;
         }
+        @Override
         int getData2() {
             return this.v2;
         }
@@ -4154,6 +4170,7 @@ public final class RegEx
             super(type);
             this.tok = tok;
         }
+        @Override
         RangeToken getToken() {
             return (RangeToken)this.tok;
         }
@@ -4165,6 +4182,7 @@ public final class RegEx
             super(type);
             this.string = literal;
         }
+        @Override
         String getString() {
             return this.string;
         }
@@ -4186,6 +4204,7 @@ public final class RegEx
 }
 
   final static class RangeToken extends Token implements java.io.Serializable {
+    private static final long serialVersionUID = 1L;
 
     int[] ranges;
     boolean sorted;
@@ -4200,6 +4219,7 @@ public final class RegEx
     }
 
                                                 // for RANGE or NRANGE
+    @Override
     protected void addRange(int start, int end) {
         this.icaseCache = null;
         //System.err.println("Token#addRange(): "+start+" "+end);
@@ -4250,6 +4270,7 @@ public final class RegEx
         this.compacted = true;
     }
 
+    @Override
     protected void sortRanges() {
         if (this.isSorted())
             return;
@@ -4280,6 +4301,7 @@ public final class RegEx
     /**
      * this.ranges is sorted.
      */
+    @Override
     protected void compactRanges() {
         boolean DEBUG = false;
         if (this.ranges == null || this.ranges.length <= 2)
@@ -4352,6 +4374,7 @@ public final class RegEx
         this.setCompacted();
     }
 
+    @Override
     protected void mergeRanges(Token token) {
         RangeToken tok = (RangeToken)token;
         this.sortRanges();
@@ -4385,6 +4408,7 @@ public final class RegEx
         this.ranges = result;
     }
 
+    @Override
     protected void subtractRanges(Token token) {
         if (token.type == NRANGE) {
             this.intersectRanges(token);
@@ -4478,6 +4502,7 @@ public final class RegEx
     /**
      * @param tok Ignore whether it is NRANGE or not.
      */
+    @Override
     protected void intersectRanges(Token token) {
         RangeToken tok = (RangeToken)token;
         if (tok.ranges == null || this.ranges == null)
@@ -4644,6 +4669,7 @@ public final class RegEx
         System.err.println("");
     }
 
+    @Override
     boolean match(int ch) {
         if (this.map == null)  this.createMap();
         boolean ret;
@@ -4691,6 +4717,7 @@ public final class RegEx
         //for (int i = 0;  i < asize;  i ++)  System.err.println("Map: "+Integer.toString(this.map[i], 16));
     }
 
+    @Override
     public String toString(int options) {
         String ret;
         if (this.type == RANGE) {
@@ -4822,7 +4849,7 @@ public final class RegEx
       int context = S_NORMAL;
       int parennumber = 1;
       boolean hasBackReferences;
-      Vector references = null;
+      Vector<ReferencePosition> references = null;
 
       public RegexParser() {
           //this.setLocale(Locale.getDefault());
@@ -4832,6 +4859,7 @@ public final class RegEx
       }
 
       public void setLocale(Locale locale) {
+        // Ignore.
       }
 
       final ParseException ex(String key, int loc) {
@@ -4860,7 +4888,7 @@ public final class RegEx
               throw ex("parser.parse.1", this.offset);
           if (this.references != null) {
               for (int i = 0;  i < this.references.size();  i ++) {
-                  ReferencePosition position = (ReferencePosition)this.references.elementAt(i);
+                  ReferencePosition position = this.references.elementAt(i);
                   if (this.parennumber <= position.refNumber)
                       throw ex("parser.parse.2", position.position);
               }
@@ -5179,7 +5207,7 @@ public final class RegEx
           if ('1' <= ch && ch <= '9') {
               refno = ch-'0';
               this.hasBackReferences = true;
-              if (this.references == null)  this.references = new Vector();
+              if (this.references == null)  this.references = new Vector<ReferencePosition>();
               this.references.addElement(new ReferencePosition(refno, this.offset));
               this.offset ++;
               if (this.regex.charAt(this.offset) != ')')  throw ex("parser.factor.1", this.offset);
@@ -5291,7 +5319,7 @@ public final class RegEx
           int refnum = this.chardata-'0';
           Token tok = Token.createBackReference(refnum);
           this.hasBackReferences = true;
-          if (this.references == null)  this.references = new Vector();
+          if (this.references == null)  this.references = new Vector<ReferencePosition>();
           this.references.addElement(new ReferencePosition(refnum, this.offset-2));
           this.next();
           return tok;
@@ -5825,6 +5853,7 @@ public final class RegEx
 
 
   static class Token implements java.io.Serializable {
+      private static final long serialVersionUID = 1L;
       static final boolean COUNTTOKENS = true;
       static int tokens = 0;
 
@@ -6036,6 +6065,7 @@ public final class RegEx
           return -1;
       }
 
+      @Override
       public String toString() {
           return this.toString(0);
       }
@@ -6328,6 +6358,7 @@ public final class RegEx
           Token token = null;
           int options = 0;
           FixedStringContainer() {
+            super();
           }
       }
 
@@ -6394,8 +6425,8 @@ public final class RegEx
       }
 
       // ------------------------------------------------------
-      private final static Hashtable categories = new Hashtable();
-      private final static Hashtable categories2 = new Hashtable();
+      private final static Hashtable<String, Token> categories = new Hashtable<String, Token>();
+      private final static Hashtable<String, Token> categories2 = new Hashtable<String, Token>();
       private static final String[] categoryNames = {
           "Cn", "Lu", "Ll", "Lt", "Lm", "Lo", "Mn", "Me", "Mc", "Nd",
           "Nl", "No", "Zs", "Zl", "Zp", "Cc", "Cf", null, "Co", "Cs",
@@ -6783,14 +6814,14 @@ public final class RegEx
           return range;
       }
 
-      static Hashtable nonxs = null;
+      static Hashtable<String, String> nonxs = null;
       /**
        * This method is called by only getRange().
        * So this method need not MT-safe.
        */
       static protected void registerNonXS(String name) {
           if (Token.nonxs == null)
-              Token.nonxs = new Hashtable();
+              Token.nonxs = new Hashtable<String, String>();
           Token.nonxs.put(name, name);
       }
       static protected boolean isRegisterNonXS(String name) {
@@ -6802,8 +6833,8 @@ public final class RegEx
       }
 
       private static void setAlias(String newName, String name, boolean positive) {
-          Token t1 = (Token)Token.categories.get(name);
-          Token t2 = (Token)Token.categories2.get(name);
+          Token t1 = Token.categories.get(name);
+          Token t2 = Token.categories2.get(name);
           if (positive) {
               Token.categories.put(newName, t1);
               Token.categories2.put(newName, t2);
@@ -6885,6 +6916,7 @@ public final class RegEx
        * This class represents a node in parse tree.
        */
       static class StringToken extends Token implements java.io.Serializable {
+          private static final long serialVersionUID = 1L;
           String string;
           int refNumber;
 
@@ -6894,13 +6926,16 @@ public final class RegEx
               this.refNumber = n;
           }
 
+          @Override
           int getReferenceNumber() {              // for STRING
               return this.refNumber;
           }
+          @Override
           String getString() {                    // for STRING
               return this.string;
           }
-          
+
+          @Override
           public String toString(int options) {
               if (this.type == BACKREFERENCE)
                   return "\\"+this.refNumber;
@@ -6913,6 +6948,7 @@ public final class RegEx
        * This class represents a node in parse tree.
        */
       static class ConcatToken extends Token implements java.io.Serializable {
+          private static final long serialVersionUID = 1L;
           Token child;
           Token child2;
           
@@ -6922,13 +6958,16 @@ public final class RegEx
               this.child2 = t2;
           }
 
+          @Override
           int size() {
               return 2;
           }
+          @Override
           Token getChild(int index) {
               return index == 0 ? this.child : this.child2;
           }
 
+          @Override
           public String toString(int options) {
               String ret;
               if (this.child2.type == CLOSURE && this.child2.getChild(0) == this.child) {
@@ -6945,6 +6984,8 @@ public final class RegEx
        * This class represents a node in parse tree.
        */
       static class CharToken extends Token implements java.io.Serializable {
+          private static final long serialVersionUID = 1L;
+
           int chardata;
 
           CharToken(int type, int ch) {
@@ -6952,10 +6993,12 @@ public final class RegEx
               this.chardata = ch;
           }
 
+          @Override
           int getChar() {
               return this.chardata;
           }
 
+          @Override
           public String toString(int options) {
               String ret;
               switch (this.type) {
@@ -6994,6 +7037,7 @@ public final class RegEx
               return ret;
           }
 
+          @Override
           boolean match(int ch) {
               if (this.type == CHAR) {
                   return ch == this.chardata;
@@ -7006,6 +7050,7 @@ public final class RegEx
        * This class represents a node in parse tree.
        */
       static class ClosureToken extends Token implements java.io.Serializable {
+          private static final long serialVersionUID = 1L;
           int min;
           int max;
           Token child;
@@ -7017,26 +7062,33 @@ public final class RegEx
               this.setMax(-1);
           }
 
+          @Override
           int size() {
               return 1;
           }
+          @Override
           Token getChild(int index) {
               return this.child;
           }
 
+          @Override
           final void setMin(int min) {
               this.min = min;
           }
+          @Override
           final void setMax(int max) {
               this.max = max;
           }
+          @Override
           final int getMin() {
               return this.min;
           }
+          @Override
           final int getMax() {
               return this.max;
           }
 
+          @Override
           public String toString(int options) {
               String ret;
               if (this.type == CLOSURE) {
@@ -7073,6 +7125,8 @@ public final class RegEx
      */
     static class ParenToken extends Token implements java.io.Serializable
     {
+      private static final long serialVersionUID = 1L;
+
       Token child;
 
       int parennumber;
@@ -7084,21 +7138,25 @@ public final class RegEx
         this.parennumber = paren;
       }
 
+      @Override
       int size()
       {
         return 1;
       }
 
+      @Override
       Token getChild(int index)
       {
         return this.child;
       }
 
+      @Override
       int getParenNumber()
       {
         return this.parennumber;
       }
 
+      @Override
       public String toString(int options)
       {
         String ret = null;
@@ -7140,6 +7198,8 @@ public final class RegEx
      */
     static class ConditionToken extends Token implements java.io.Serializable
     {
+      private static final long serialVersionUID = 1L;
+
       int refNumber;
 
       Token condition;
@@ -7157,11 +7217,13 @@ public final class RegEx
         this.no = nopat;
       }
 
+      @Override
       int size()
       {
         return this.no == null ? 1 : 2;
       }
 
+      @Override
       Token getChild(int index)
       {
         if (index == 0)
@@ -7171,6 +7233,7 @@ public final class RegEx
         throw new RuntimeException("Internal Error: " + index);
       }
 
+      @Override
       public String toString(int options)
       {
         String ret;
@@ -7204,6 +7267,8 @@ public final class RegEx
      */
     static class ModifierToken extends Token implements java.io.Serializable
     {
+      private static final long serialVersionUID = 1L;
+
       Token child;
 
       int add;
@@ -7218,11 +7283,13 @@ public final class RegEx
         this.mask = mask;
       }
 
+      @Override
       int size()
       {
         return 1;
       }
 
+      @Override
       Token getChild(int index)
       {
         return this.child;
@@ -7238,6 +7305,7 @@ public final class RegEx
         return this.mask;
       }
 
+      @Override
       public String toString(int options)
       {
         return "(?" + (this.add == 0 ? "" : REUtil.createOptionString(this.add))
@@ -7251,19 +7319,22 @@ public final class RegEx
      */
     static class UnionToken extends Token implements java.io.Serializable
     {
-      Vector children;
+      private static final long serialVersionUID = 1L;
+
+      Vector<Token> children;
 
       UnionToken(int type)
       {
         super(type);
       }
 
+      @Override
       void addChild(Token tok)
       {
         if (tok == null)
           return;
         if (this.children == null)
-          this.children = new Vector();
+          this.children = new Vector<Token>();
         if (this.type == UNION)
         {
           this.children.addElement(tok);
@@ -7282,7 +7353,7 @@ public final class RegEx
           this.children.addElement(tok);
           return;
         }
-        Token previous = (Token)this.children.elementAt(size - 1);
+        Token previous = this.children.elementAt(size - 1);
         if (!((previous.type == CHAR || previous.type == STRING) && (tok.type == CHAR || tok.type == STRING)))
         {
           this.children.addElement(tok);
@@ -7326,16 +7397,19 @@ public final class RegEx
         ((StringToken)previous).string = new String(buffer);
       }
 
+      @Override
       int size()
       {
         return this.children == null ? 0 : this.children.size();
       }
 
+      @Override
       Token getChild(int index)
       {
-        return (Token)this.children.elementAt(index);
+        return this.children.elementAt(index);
       }
 
+      @Override
       public String toString(int options)
       {
         String ret;
@@ -7361,7 +7435,7 @@ public final class RegEx
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < this.children.size(); i++)
             {
-              sb.append(((Token)this.children.elementAt(i)).toString(options));
+              sb.append(this.children.elementAt(i).toString(options));
             }
             ret = new String(sb);
           }
@@ -7378,11 +7452,11 @@ public final class RegEx
         else
         {
           StringBuffer sb = new StringBuffer();
-          sb.append(((Token)this.children.elementAt(0)).toString(options));
+          sb.append(this.children.elementAt(0).toString(options));
           for (int i = 1; i < this.children.size(); i++)
           {
             sb.append('|');
-            sb.append(((Token)this.children.elementAt(i)).toString(options));
+            sb.append(this.children.elementAt(i).toString(options));
           }
           ret = new String(sb);
         }
@@ -7395,7 +7469,7 @@ public final class RegEx
    * A regular expression parser for the XML Shema.
    *
    * @author TAMURA Kent &lt;kent@trl.ibm.co.jp&gt;
-   * @version $Id: RegEx.java,v 1.8 2005/06/12 13:29:22 emerks Exp $
+   * @version $Id: RegEx.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
    */
   static class ParserForXMLSchema extends RegexParser
   {
@@ -7410,79 +7484,94 @@ public final class RegEx
       //this.setLocale(locale);
     }
 
+    @Override
     Token processCaret() throws ParseException
     {
       this.next();
       return Token.createChar('^');
     }
 
+    @Override
     Token processDollar() throws ParseException
     {
       this.next();
       return Token.createChar('$');
     }
 
+    @Override
     Token processLookahead() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processNegativelookahead() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processLookbehind() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processNegativelookbehind() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processBacksolidus_A() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processBacksolidus_Z() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processBacksolidus_z() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processBacksolidus_b() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processBacksolidus_B() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processBacksolidus_lt() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processBacksolidus_gt() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processStar(Token tok) throws ParseException
     {
       this.next();
       return Token.createClosure(tok);
     }
 
+    @Override
     Token processPlus(Token tok) throws ParseException
     {
       // X+ -> XX*
@@ -7490,6 +7579,7 @@ public final class RegEx
       return Token.createConcat(tok, Token.createClosure(tok));
     }
 
+    @Override
     Token processQuestion(Token tok) throws ParseException
     {
       // X? -> X|
@@ -7500,11 +7590,13 @@ public final class RegEx
       return par;
     }
 
+    @Override
     boolean checkQuestion(int off)
     {
       return false;
     }
 
+    @Override
     Token processParen() throws ParseException
     {
       this.next();
@@ -7515,65 +7607,77 @@ public final class RegEx
       return tok;
     }
 
+    @Override
     Token processParen2() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processCondition() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processModifiers() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processIndependent() throws ParseException
     {
       throw ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token processBacksolidus_c() throws ParseException
     {
       this.next();
       return this.getTokenForShorthand('c');
     }
 
+    @Override
     Token processBacksolidus_C() throws ParseException
     {
       this.next();
       return this.getTokenForShorthand('C');
     }
 
+    @Override
     Token processBacksolidus_i() throws ParseException
     {
       this.next();
       return this.getTokenForShorthand('i');
     }
 
+    @Override
     Token processBacksolidus_I() throws ParseException
     {
       this.next();
       return this.getTokenForShorthand('I');
     }
 
+    @Override
     Token processBacksolidus_g() throws ParseException
     {
       throw this.ex("parser.process.1", this.offset - 2);
     }
 
+    @Override
     Token processBacksolidus_X() throws ParseException
     {
       throw ex("parser.process.1", this.offset - 2);
     }
 
+    @Override
     Token processBackreference() throws ParseException
     {
       throw ex("parser.process.1", this.offset - 4);
     }
 
+    @Override
     int processCIinCharacterClass(RangeToken tok, int c)
     {
       tok.mergeRanges(this.getTokenForShorthand(c));
@@ -7597,6 +7701,7 @@ public final class RegEx
      * @param useNrage Ignored.
      * @return This returns no NrageToken.
      */
+    @Override
     protected RangeToken parseCharacterClass(boolean useNrange) throws ParseException
     {
       this.setContext(S_INBRACKETS);
@@ -7745,11 +7850,13 @@ public final class RegEx
       return tok;
     }
 
+    @Override
     protected RangeToken parseSetOperations() throws ParseException
     {
       throw this.ex("parser.process.1", this.offset);
     }
 
+    @Override
     Token getTokenForShorthand(int ch)
     {
       switch (ch)
@@ -7779,6 +7886,7 @@ public final class RegEx
       }
     }
 
+    @Override
     int decodeEscaped() throws ParseException
     {
       if (this.read() != T_BACKSOLIDUS)
@@ -7816,16 +7924,16 @@ public final class RegEx
       return c;
     }
 
-    static private Hashtable ranges = null;
+    static private Hashtable<String, Token> ranges = null;
 
-    static private Hashtable ranges2 = null;
+    static private Hashtable<String, Token> ranges2 = null;
 
     static synchronized protected RangeToken getRange(String name, boolean positive)
     {
       if (ranges == null)
       {
-        ranges = new Hashtable();
-        ranges2 = new Hashtable();
+        ranges = new Hashtable<String, Token>();
+        ranges2 = new Hashtable<String, Token>();
 
         Token tok = Token.createRange();
         setupRange(tok, SPACES);
@@ -7844,7 +7952,7 @@ public final class RegEx
 
         tok = Token.createRange();
         setupRange(tok, LETTERS);
-        tok.mergeRanges((Token)ranges.get("xml:isDigit"));
+        tok.mergeRanges(ranges.get("xml:isDigit"));
         ranges.put("xml:isWord", tok);
         ranges2.put("xml:isWord", Token.complementRanges(tok));
 

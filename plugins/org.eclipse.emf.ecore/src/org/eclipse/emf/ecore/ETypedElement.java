@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElement.java,v 1.4 2005/11/07 21:59:01 davidms Exp $
+ * $Id: ETypedElement.java,v 1.5 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -33,6 +33,7 @@ package org.eclipse.emf.ecore;
  *   <li>{@link org.eclipse.emf.ecore.ETypedElement#isMany <em>Many</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.ETypedElement#isRequired <em>Required</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.ETypedElement#getEType <em>EType</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.ETypedElement#getEGenericType <em>EGeneric Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -191,13 +192,15 @@ public interface ETypedElement extends ENamedElement
    * Returns the value of the '<em><b>EType</b></em>' reference.
    * <!-- begin-user-doc -->
    * <p>
-   * It represents the type of the element.
+   * It represents the type of the element
+   * and is derived from the {@link #getEType() generic type}.
    * </p>
+   * @see #getEGenericType()
    * <!-- end-user-doc -->
    * @return the value of the '<em>EType</em>' reference.
    * @see #setEType(EClassifier)
    * @see org.eclipse.emf.ecore.EcorePackage#getETypedElement_EType()
-   * @model
+   * @model unsettable="true" volatile="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
    * @generated
    */
   EClassifier getEType();
@@ -211,5 +214,31 @@ public interface ETypedElement extends ENamedElement
    * @generated
    */
   void setEType(EClassifier value);
+
+  /**
+   * Returns the value of the '<em><b>EGeneric Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <p>
+   * It represents the generic type of the element.
+   * The {@link #getEType() type} is derived from this, i.e., it represents the {@link EGenericType#getERawType() erasure} of the generic type.
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>EGeneric Type</em>' containment reference.
+   * @see #setEGenericType(EGenericType)
+   * @see org.eclipse.emf.ecore.EcorePackage#getETypedElement_EGenericType()
+   * @model containment="true" unsettable="true" volatile="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @generated
+   */
+  EGenericType getEGenericType();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.ecore.ETypedElement#getEGenericType <em>EGeneric Type</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>EGeneric Type</em>' containment reference.
+   * @see #getEGenericType()
+   * @generated
+   */
+  void setEGenericType(EGenericType value);
 
 } //ETypedElement

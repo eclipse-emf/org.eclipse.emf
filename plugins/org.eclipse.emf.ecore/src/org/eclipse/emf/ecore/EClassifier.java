@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EClassifier.java,v 1.5 2005/11/07 21:57:40 davidms Exp $
+ * $Id: EClassifier.java,v 1.6 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
+import org.eclipse.emf.common.util.EList;
 
 
 /**
@@ -29,7 +30,9 @@ package org.eclipse.emf.ecore;
  *   <li>{@link org.eclipse.emf.ecore.EClassifier#getInstanceClassName <em>Instance Class Name</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EClassifier#getInstanceClass <em>Instance Class</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EClassifier#getDefaultValue <em>Default Value</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.EClassifier#getInstanceTypeName <em>Instance Type Name</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EClassifier#getEPackage <em>EPackage</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.EClassifier#getETypeParameters <em>EType Parameters</em>}</li>
  * </ul>
  * </p>
  *
@@ -51,7 +54,7 @@ public interface EClassifier extends ENamedElement
    * @return the value of the '<em>Instance Class Name</em>' attribute.
    * @see #setInstanceClassName(String)
    * @see org.eclipse.emf.ecore.EcorePackage#getEClassifier_InstanceClassName()
-   * @model
+   * @model unsettable="true" volatile="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
    * @generated
    */
   String getInstanceClassName();
@@ -80,14 +83,14 @@ public interface EClassifier extends ENamedElement
    * @model transient="true" changeable="false" volatile="true" derived="true"
    * @generated
    */
-  Class getInstanceClass();
+  Class<?> getInstanceClass();
 
   /**
    * Sets the value of the '{@link org.eclipse.emf.ecore.EClassifier#getInstanceClass <em>Instance Class</em>}' attribute.
    * @param value the new value of the '<em>Instance Class</em>' attribute.
    * @see #getInstanceClass()
    */
-  void setInstanceClass(Class value);
+  void setInstanceClass(Class<?> value);
 
   /**
    * Returns the value of the '<em><b>Default Value</b></em>' attribute.
@@ -107,6 +110,32 @@ public interface EClassifier extends ENamedElement
   Object getDefaultValue();
 
   /**
+   * Returns the value of the '<em><b>Instance Type Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <p>
+   * It represents the parameterized Java type that this meta object represents.
+   * </p>
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Instance Type Name</em>' attribute.
+   * @see #setInstanceTypeName(String)
+   * @see org.eclipse.emf.ecore.EcorePackage#getEClassifier_InstanceTypeName()
+   * @model unsettable="true" volatile="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @generated
+   */
+  String getInstanceTypeName();
+
+  /**
+   * Sets the value of the '{@link org.eclipse.emf.ecore.EClassifier#getInstanceTypeName <em>Instance Type Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Instance Type Name</em>' attribute.
+   * @see #getInstanceTypeName()
+   * @generated
+   */
+  void setInstanceTypeName(String value);
+
+  /**
    * Returns the value of the '<em><b>EPackage</b></em>' container reference.
    * It is bidirectional and its opposite is '{@link org.eclipse.emf.ecore.EPackage#getEClassifiers <em>EClassifiers</em>}'.
    * <!-- begin-user-doc -->
@@ -118,6 +147,22 @@ public interface EClassifier extends ENamedElement
    * @generated
    */
   EPackage getEPackage();
+
+  /**
+   * Returns the value of the '<em><b>EType Parameters</b></em>' containment reference list.
+   * The list contents are of type {@link org.eclipse.emf.ecore.ETypeParameter}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * A classifier can optionally introduce type parameters.
+   * </p>
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>EType Parameters</em>' containment reference list.
+   * @see org.eclipse.emf.ecore.EcorePackage#getEClassifier_ETypeParameters()
+   * @model type="org.eclipse.emf.ecore.ETypeParameter" containment="true" resolveProxies="true"
+   * @generated
+   */
+  EList<ETypeParameter> getETypeParameters();
 
   /**
    * <!-- begin-user-doc -->

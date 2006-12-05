@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObject.java,v 1.8 2006/08/22 18:15:05 emerks Exp $
+ * $Id: EObject.java,v 1.9 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -199,7 +199,7 @@ public interface EObject extends Notifier
    * @model many="false"
    * @generated
    */
-  EList eContents();
+  EList<EObject> eContents();
 
   /**
    * <!-- begin-user-doc -->
@@ -212,7 +212,7 @@ public interface EObject extends Notifier
    * @model
    * @generated
    */
-  TreeIterator eAllContents();
+  TreeIterator<EObject> eAllContents();
 
   /**
    * <!-- begin-user-doc -->
@@ -267,7 +267,7 @@ public interface EObject extends Notifier
    * @model many="false"
    * @generated
    */
-  EList eCrossReferences();
+  EList<EObject> eCrossReferences();
 
   /**
    * <!-- begin-user-doc -->

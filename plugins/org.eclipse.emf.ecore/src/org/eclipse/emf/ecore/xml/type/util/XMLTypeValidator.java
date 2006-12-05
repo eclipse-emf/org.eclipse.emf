@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.9 2005/11/23 18:10:02 emerks Exp $
+ * $Id: XMLTypeValidator.java,v 1.10 2006/12/05 20:22:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -91,6 +91,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EPackage getEPackage()
   {
     return XMLTypePackage.eINSTANCE;
@@ -102,7 +103,8 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map context)
+  @Override
+  protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     switch (classifierID)
     {
@@ -139,9 +141,9 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.DURATION:
         return validateDuration(value, diagnostics, context);
       case XMLTypePackage.ENTITIES:
-        return validateENTITIES((List)value, diagnostics, context);
+        return validateENTITIES((List<?>)value, diagnostics, context);
       case XMLTypePackage.ENTITIES_BASE:
-        return validateENTITIESBase((List)value, diagnostics, context);
+        return validateENTITIESBase((List<?>)value, diagnostics, context);
       case XMLTypePackage.ENTITY:
         return validateENTITY((String)value, diagnostics, context);
       case XMLTypePackage.FLOAT:
@@ -165,9 +167,9 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.IDREF:
         return validateIDREF((String)value, diagnostics, context);
       case XMLTypePackage.IDREFS:
-        return validateIDREFS((List)value, diagnostics, context);
+        return validateIDREFS((List<?>)value, diagnostics, context);
       case XMLTypePackage.IDREFS_BASE:
-        return validateIDREFSBase((List)value, diagnostics, context);
+        return validateIDREFSBase((List<?>)value, diagnostics, context);
       case XMLTypePackage.INT:
         return validateInt(((Integer)value).intValue(), diagnostics, context);
       case XMLTypePackage.INTEGER:
@@ -189,9 +191,9 @@ public class XMLTypeValidator extends EObjectValidator
       case XMLTypePackage.NMTOKEN:
         return validateNMTOKEN((String)value, diagnostics, context);
       case XMLTypePackage.NMTOKENS:
-        return validateNMTOKENS((List)value, diagnostics, context);
+        return validateNMTOKENS((List<?>)value, diagnostics, context);
       case XMLTypePackage.NMTOKENS_BASE:
-        return validateNMTOKENSBase((List)value, diagnostics, context);
+        return validateNMTOKENSBase((List<?>)value, diagnostics, context);
       case XMLTypePackage.NON_NEGATIVE_INTEGER:
         return validateNonNegativeInteger((BigInteger)value, diagnostics, context);
       case XMLTypePackage.NON_POSITIVE_INTEGER:
@@ -238,7 +240,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateAnyType(AnyType anyType, DiagnosticChain diagnostics, Map context)
+  public boolean validateAnyType(AnyType anyType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(anyType, diagnostics, context);
   }
@@ -248,7 +250,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateSimpleAnyType(SimpleAnyType simpleAnyType, DiagnosticChain diagnostics, Map context)
+  public boolean validateSimpleAnyType(SimpleAnyType simpleAnyType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(simpleAnyType, diagnostics, context);
   }
@@ -258,7 +260,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateXMLTypeDocumentRoot(XMLTypeDocumentRoot xmlTypeDocumentRoot, DiagnosticChain diagnostics, Map context)
+  public boolean validateXMLTypeDocumentRoot(XMLTypeDocumentRoot xmlTypeDocumentRoot, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(xmlTypeDocumentRoot, diagnostics, context);
   }
@@ -268,7 +270,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateAnySimpleType(Object anySimpleType, DiagnosticChain diagnostics, Map context)
+  public boolean validateAnySimpleType(Object anySimpleType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -278,7 +280,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateAnyURI(String anyURI, DiagnosticChain diagnostics, Map context)
+  public boolean validateAnyURI(String anyURI, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -288,7 +290,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateBase64Binary(byte[] base64Binary, DiagnosticChain diagnostics, Map context)
+  public boolean validateBase64Binary(byte[] base64Binary, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -298,7 +300,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateBoolean(boolean boolean_, DiagnosticChain diagnostics, Map context)
+  public boolean validateBoolean(boolean boolean_, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -308,7 +310,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateBooleanObject(Boolean booleanObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateBooleanObject(Boolean booleanObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -318,7 +320,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateByte(byte byte_, DiagnosticChain diagnostics, Map context)
+  public boolean validateByte(byte byte_, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -328,7 +330,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateByteObject(Byte byteObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateByteObject(Byte byteObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -338,7 +340,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateDate(Object date, DiagnosticChain diagnostics, Map context)
+  public boolean validateDate(Object date, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -348,7 +350,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateDateTime(Object dateTime, DiagnosticChain diagnostics, Map context)
+  public boolean validateDateTime(Object dateTime, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -358,7 +360,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateDecimal(BigDecimal decimal, DiagnosticChain diagnostics, Map context)
+  public boolean validateDecimal(BigDecimal decimal, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -368,7 +370,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateDouble(double double_, DiagnosticChain diagnostics, Map context)
+  public boolean validateDouble(double double_, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -378,7 +380,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateDoubleObject(Double doubleObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateDoubleObject(Double doubleObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -388,7 +390,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateDuration(Object duration, DiagnosticChain diagnostics, Map context)
+  public boolean validateDuration(Object duration, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -398,7 +400,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateENTITIES(List entities, DiagnosticChain diagnostics, Map context)
+  public boolean validateENTITIES(List<?> entities, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateENTITIESBase_ItemType(entities, diagnostics, context);
     if (result || diagnostics != null) result &= validateENTITIES_MinLength(entities, diagnostics, context);
@@ -411,7 +413,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateENTITIES_MinLength(List entities, DiagnosticChain diagnostics, Map context)
+  public boolean validateENTITIES_MinLength(List<?> entities, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     int length = entities.size();  
     boolean result = length >= 1;
@@ -425,7 +427,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateENTITIESBase(List entitiesBase, DiagnosticChain diagnostics, Map context)
+  public boolean validateENTITIESBase(List<?> entitiesBase, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateENTITIESBase_ItemType(entitiesBase, diagnostics, context);
     return result;
@@ -437,10 +439,10 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateENTITIESBase_ItemType(List entitiesBase, DiagnosticChain diagnostics, Map context)
+  public boolean validateENTITIESBase_ItemType(List<?> entitiesBase, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
-    for (Iterator i = entitiesBase.iterator(); i.hasNext() && (result || diagnostics != null); )
+    for (Iterator<?> i = entitiesBase.iterator(); i.hasNext() && (result || diagnostics != null); )
     {
       Object item = i.next();
       if (XMLTypePackage.Literals.ENTITY.isInstance(item))
@@ -461,7 +463,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateENTITY(String entity, DiagnosticChain diagnostics, Map context)
+  public boolean validateENTITY(String entity, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateNCName_Pattern(entity, diagnostics, context);
     return result;
@@ -472,7 +474,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateFloat(float float_, DiagnosticChain diagnostics, Map context)
+  public boolean validateFloat(float float_, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -482,7 +484,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateFloatObject(Float floatObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateFloatObject(Float floatObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -492,7 +494,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateGDay(Object gDay, DiagnosticChain diagnostics, Map context)
+  public boolean validateGDay(Object gDay, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -502,7 +504,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateGMonth(Object gMonth, DiagnosticChain diagnostics, Map context)
+  public boolean validateGMonth(Object gMonth, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -512,7 +514,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateGMonthDay(Object gMonthDay, DiagnosticChain diagnostics, Map context)
+  public boolean validateGMonthDay(Object gMonthDay, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -522,7 +524,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateGYear(Object gYear, DiagnosticChain diagnostics, Map context)
+  public boolean validateGYear(Object gYear, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -532,7 +534,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateGYearMonth(Object gYearMonth, DiagnosticChain diagnostics, Map context)
+  public boolean validateGYearMonth(Object gYearMonth, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -542,7 +544,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateHexBinary(byte[] hexBinary, DiagnosticChain diagnostics, Map context)
+  public boolean validateHexBinary(byte[] hexBinary, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -552,7 +554,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateID(String id, DiagnosticChain diagnostics, Map context)
+  public boolean validateID(String id, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateNCName_Pattern(id, diagnostics, context);
     return result;
@@ -563,7 +565,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateIDREF(String idref, DiagnosticChain diagnostics, Map context)
+  public boolean validateIDREF(String idref, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateNCName_Pattern(idref, diagnostics, context);
     return result;
@@ -574,7 +576,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateIDREFS(List idrefs, DiagnosticChain diagnostics, Map context)
+  public boolean validateIDREFS(List<?> idrefs, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateIDREFSBase_ItemType(idrefs, diagnostics, context);
     if (result || diagnostics != null) result &= validateIDREFS_MinLength(idrefs, diagnostics, context);
@@ -587,7 +589,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateIDREFS_MinLength(List idrefs, DiagnosticChain diagnostics, Map context)
+  public boolean validateIDREFS_MinLength(List<?> idrefs, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     int length = idrefs.size();  
     boolean result = length >= 1;
@@ -601,7 +603,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateIDREFSBase(List idrefsBase, DiagnosticChain diagnostics, Map context)
+  public boolean validateIDREFSBase(List<?> idrefsBase, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateIDREFSBase_ItemType(idrefsBase, diagnostics, context);
     return result;
@@ -613,10 +615,10 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateIDREFSBase_ItemType(List idrefsBase, DiagnosticChain diagnostics, Map context)
+  public boolean validateIDREFSBase_ItemType(List<?> idrefsBase, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
-    for (Iterator i = idrefsBase.iterator(); i.hasNext() && (result || diagnostics != null); )
+    for (Iterator<?> i = idrefsBase.iterator(); i.hasNext() && (result || diagnostics != null); )
     {
       Object item = i.next();
       if (XMLTypePackage.Literals.IDREF.isInstance(item))
@@ -637,7 +639,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateInt(int int_, DiagnosticChain diagnostics, Map context)
+  public boolean validateInt(int int_, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -647,7 +649,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateInteger(BigInteger integer, DiagnosticChain diagnostics, Map context)
+  public boolean validateInteger(BigInteger integer, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -657,7 +659,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateIntObject(Integer intObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateIntObject(Integer intObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -667,7 +669,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateLanguage(String language, DiagnosticChain diagnostics, Map context)
+  public boolean validateLanguage(String language, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateLanguage_Pattern(language, diagnostics, context);
     return result;
@@ -694,7 +696,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateLanguage_Pattern(String language, DiagnosticChain diagnostics, Map context)
+  public boolean validateLanguage_Pattern(String language, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validatePattern(XMLTypePackage.Literals.LANGUAGE, language, LANGUAGE__PATTERN__VALUES, diagnostics, context);
   }
@@ -704,7 +706,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateLong(long long_, DiagnosticChain diagnostics, Map context)
+  public boolean validateLong(long long_, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -714,7 +716,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateLongObject(Long longObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateLongObject(Long longObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -724,7 +726,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateName(String name, DiagnosticChain diagnostics, Map context)
+  public boolean validateName(String name, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateName_Pattern(name, diagnostics, context);
     return result;
@@ -751,7 +753,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateName_Pattern(String name, DiagnosticChain diagnostics, Map context)
+  public boolean validateName_Pattern(String name, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validatePattern(XMLTypePackage.Literals.NAME, name, NAME__PATTERN__VALUES, diagnostics, context);
   }
@@ -761,7 +763,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNCName(String ncName, DiagnosticChain diagnostics, Map context)
+  public boolean validateNCName(String ncName, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateNCName_Pattern(ncName, diagnostics, context);
     return result;
@@ -792,7 +794,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNCName_Pattern(String ncName, DiagnosticChain diagnostics, Map context)
+  public boolean validateNCName_Pattern(String ncName, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validatePattern(XMLTypePackage.Literals.NC_NAME, ncName, NC_NAME__PATTERN__VALUES, diagnostics, context);
   }
@@ -802,7 +804,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNegativeInteger(BigInteger negativeInteger, DiagnosticChain diagnostics, Map context)
+  public boolean validateNegativeInteger(BigInteger negativeInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateNegativeInteger_Max(negativeInteger, diagnostics, context);
     return result;
@@ -822,7 +824,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNegativeInteger_Max(BigInteger negativeInteger, DiagnosticChain diagnostics, Map context)
+  public boolean validateNegativeInteger_Max(BigInteger negativeInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = negativeInteger.compareTo(NEGATIVE_INTEGER__MAX__VALUE) <= 0;
     if (!result && diagnostics != null) 
@@ -835,7 +837,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNMTOKEN(String nmtoken, DiagnosticChain diagnostics, Map context)
+  public boolean validateNMTOKEN(String nmtoken, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateNMTOKEN_Pattern(nmtoken, diagnostics, context);
     return result;
@@ -862,7 +864,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNMTOKEN_Pattern(String nmtoken, DiagnosticChain diagnostics, Map context)
+  public boolean validateNMTOKEN_Pattern(String nmtoken, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validatePattern(XMLTypePackage.Literals.NMTOKEN, nmtoken, NMTOKEN__PATTERN__VALUES, diagnostics, context);
   }
@@ -872,7 +874,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNMTOKENS(List nmtokens, DiagnosticChain diagnostics, Map context)
+  public boolean validateNMTOKENS(List<?> nmtokens, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateNMTOKENSBase_ItemType(nmtokens, diagnostics, context);
     if (result || diagnostics != null) result &= validateNMTOKENS_MinLength(nmtokens, diagnostics, context);
@@ -885,7 +887,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNMTOKENS_MinLength(List nmtokens, DiagnosticChain diagnostics, Map context)
+  public boolean validateNMTOKENS_MinLength(List<?> nmtokens, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     int length = nmtokens.size();  
     boolean result = length >= 1;
@@ -899,7 +901,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNMTOKENSBase(List nmtokensBase, DiagnosticChain diagnostics, Map context)
+  public boolean validateNMTOKENSBase(List<?> nmtokensBase, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateNMTOKENSBase_ItemType(nmtokensBase, diagnostics, context);
     return result;
@@ -911,10 +913,10 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNMTOKENSBase_ItemType(List nmtokensBase, DiagnosticChain diagnostics, Map context)
+  public boolean validateNMTOKENSBase_ItemType(List<?> nmtokensBase, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
-    for (Iterator i = nmtokensBase.iterator(); i.hasNext() && (result || diagnostics != null); )
+    for (Iterator<?> i = nmtokensBase.iterator(); i.hasNext() && (result || diagnostics != null); )
     {
       Object item = i.next();
       if (XMLTypePackage.Literals.NMTOKEN.isInstance(item))
@@ -935,7 +937,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNonNegativeInteger(BigInteger nonNegativeInteger, DiagnosticChain diagnostics, Map context)
+  public boolean validateNonNegativeInteger(BigInteger nonNegativeInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateNonNegativeInteger_Min(nonNegativeInteger, diagnostics, context);
     return result;
@@ -955,7 +957,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNonNegativeInteger_Min(BigInteger nonNegativeInteger, DiagnosticChain diagnostics, Map context)
+  public boolean validateNonNegativeInteger_Min(BigInteger nonNegativeInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = nonNegativeInteger.compareTo(NON_NEGATIVE_INTEGER__MIN__VALUE) >= 0;
     if (!result && diagnostics != null) 
@@ -968,7 +970,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNonPositiveInteger(BigInteger nonPositiveInteger, DiagnosticChain diagnostics, Map context)
+  public boolean validateNonPositiveInteger(BigInteger nonPositiveInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateNonPositiveInteger_Max(nonPositiveInteger, diagnostics, context);
     return result;
@@ -988,7 +990,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNonPositiveInteger_Max(BigInteger nonPositiveInteger, DiagnosticChain diagnostics, Map context)
+  public boolean validateNonPositiveInteger_Max(BigInteger nonPositiveInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = nonPositiveInteger.compareTo(NON_POSITIVE_INTEGER__MAX__VALUE) <= 0;
     if (!result && diagnostics != null) 
@@ -1001,7 +1003,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNormalizedString(String normalizedString, DiagnosticChain diagnostics, Map context)
+  public boolean validateNormalizedString(String normalizedString, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -1011,7 +1013,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateNOTATION(Object notation, DiagnosticChain diagnostics, Map context)
+  public boolean validateNOTATION(Object notation, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -1021,7 +1023,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validatePositiveInteger(BigInteger positiveInteger, DiagnosticChain diagnostics, Map context)
+  public boolean validatePositiveInteger(BigInteger positiveInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validatePositiveInteger_Min(positiveInteger, diagnostics, context);
     return result;
@@ -1041,7 +1043,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validatePositiveInteger_Min(BigInteger positiveInteger, DiagnosticChain diagnostics, Map context)
+  public boolean validatePositiveInteger_Min(BigInteger positiveInteger, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = positiveInteger.compareTo(POSITIVE_INTEGER__MIN__VALUE) >= 0;
     if (!result && diagnostics != null) 
@@ -1054,7 +1056,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateQName(Object qName, DiagnosticChain diagnostics, Map context)
+  public boolean validateQName(Object qName, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -1064,7 +1066,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateShort(short short_, DiagnosticChain diagnostics, Map context)
+  public boolean validateShort(short short_, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -1074,7 +1076,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateShortObject(Short shortObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateShortObject(Short shortObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -1084,7 +1086,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateString(String string, DiagnosticChain diagnostics, Map context)
+  public boolean validateString(String string, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -1094,7 +1096,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateTime(Object time, DiagnosticChain diagnostics, Map context)
+  public boolean validateTime(Object time, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -1104,7 +1106,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateToken(String token, DiagnosticChain diagnostics, Map context)
+  public boolean validateToken(String token, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -1114,7 +1116,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedByte(short unsignedByte, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedByte(short unsignedByte, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateUnsignedByte_Min(unsignedByte, diagnostics, context);
     if (result || diagnostics != null) result &= validateUnsignedByte_Max(unsignedByte, diagnostics, context);
@@ -1135,7 +1137,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedByte_Min(short unsignedByte, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedByte_Min(short unsignedByte, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedByte >= UNSIGNED_BYTE__MIN__VALUE;
     if (!result && diagnostics != null) 
@@ -1157,7 +1159,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedByte_Max(short unsignedByte, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedByte_Max(short unsignedByte, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedByte <= UNSIGNED_BYTE__MAX__VALUE;
     if (!result && diagnostics != null) 
@@ -1170,7 +1172,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedByteObject(Short unsignedByteObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedByteObject(Short unsignedByteObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateUnsignedByte_Min(unsignedByteObject.shortValue(), diagnostics, context);
     if (result || diagnostics != null) result &= validateUnsignedByte_Max(unsignedByteObject.shortValue(), diagnostics, context);
@@ -1182,7 +1184,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedInt(long unsignedInt, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedInt(long unsignedInt, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateUnsignedInt_Min(unsignedInt, diagnostics, context);
     if (result || diagnostics != null) result &= validateUnsignedInt_Max(unsignedInt, diagnostics, context);
@@ -1203,7 +1205,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedInt_Min(long unsignedInt, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedInt_Min(long unsignedInt, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedInt >= UNSIGNED_INT__MIN__VALUE;
     if (!result && diagnostics != null) 
@@ -1225,7 +1227,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedInt_Max(long unsignedInt, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedInt_Max(long unsignedInt, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedInt <= UNSIGNED_INT__MAX__VALUE;
     if (!result && diagnostics != null) 
@@ -1238,7 +1240,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedIntObject(Long unsignedIntObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedIntObject(Long unsignedIntObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateUnsignedInt_Min(unsignedIntObject.longValue(), diagnostics, context);
     if (result || diagnostics != null) result &= validateUnsignedInt_Max(unsignedIntObject.longValue(), diagnostics, context);
@@ -1250,7 +1252,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedLong(BigInteger unsignedLong, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedLong(BigInteger unsignedLong, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateUnsignedLong_Min(unsignedLong, diagnostics, context);
     if (result || diagnostics != null) result &= validateUnsignedLong_Max(unsignedLong, diagnostics, context);
@@ -1271,7 +1273,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedLong_Min(BigInteger unsignedLong, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedLong_Min(BigInteger unsignedLong, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedLong.compareTo(UNSIGNED_LONG__MIN__VALUE) >= 0;
     if (!result && diagnostics != null) 
@@ -1293,7 +1295,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedLong_Max(BigInteger unsignedLong, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedLong_Max(BigInteger unsignedLong, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedLong.compareTo(UNSIGNED_LONG__MAX__VALUE) <= 0;
     if (!result && diagnostics != null) 
@@ -1306,7 +1308,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedShort(int unsignedShort, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedShort(int unsignedShort, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateUnsignedShort_Min(unsignedShort, diagnostics, context);
     if (result || diagnostics != null) result &= validateUnsignedShort_Max(unsignedShort, diagnostics, context);
@@ -1327,7 +1329,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedShort_Min(int unsignedShort, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedShort_Min(int unsignedShort, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedShort >= UNSIGNED_SHORT__MIN__VALUE;
     if (!result && diagnostics != null) 
@@ -1349,7 +1351,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedShort_Max(int unsignedShort, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedShort_Max(int unsignedShort, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = unsignedShort <= UNSIGNED_SHORT__MAX__VALUE;
     if (!result && diagnostics != null) 
@@ -1362,7 +1364,7 @@ public class XMLTypeValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateUnsignedShortObject(Integer unsignedShortObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateUnsignedShortObject(Integer unsignedShortObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateUnsignedShort_Min(unsignedShortObject.intValue(), diagnostics, context);
     if (result || diagnostics != null) result &= validateUnsignedShort_Max(unsignedShortObject.intValue(), diagnostics, context);

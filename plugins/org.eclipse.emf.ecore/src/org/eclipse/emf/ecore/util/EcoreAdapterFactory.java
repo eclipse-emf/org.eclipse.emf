@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreAdapterFactory.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EcoreAdapterFactory.java,v 1.5 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -66,6 +66,7 @@ public class EcoreAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -88,74 +89,102 @@ public class EcoreAdapterFactory extends AdapterFactoryImpl
   protected EcoreSwitch modelSwitch =
     new EcoreSwitch()
     {
+      @Override
       public Object caseEAttribute(EAttribute object)
       {
         return createEAttributeAdapter();
       }
+      @Override
       public Object caseEAnnotation(EAnnotation object)
       {
         return createEAnnotationAdapter();
       }
+      @Override
       public Object caseEClass(EClass object)
       {
         return createEClassAdapter();
       }
+      @Override
       public Object caseEClassifier(EClassifier object)
       {
         return createEClassifierAdapter();
       }
+      @Override
       public Object caseEDataType(EDataType object)
       {
         return createEDataTypeAdapter();
       }
+      @Override
       public Object caseEEnum(EEnum object)
       {
         return createEEnumAdapter();
       }
+      @Override
       public Object caseEEnumLiteral(EEnumLiteral object)
       {
         return createEEnumLiteralAdapter();
       }
+      @Override
       public Object caseEFactory(EFactory object)
       {
         return createEFactoryAdapter();
       }
+      @Override
       public Object caseEModelElement(EModelElement object)
       {
         return createEModelElementAdapter();
       }
+      @Override
       public Object caseENamedElement(ENamedElement object)
       {
         return createENamedElementAdapter();
       }
+      @Override
       public Object caseEOperation(EOperation object)
       {
         return createEOperationAdapter();
       }
+      @Override
       public Object caseEPackage(EPackage object)
       {
         return createEPackageAdapter();
       }
+      @Override
       public Object caseEParameter(EParameter object)
       {
         return createEParameterAdapter();
       }
+      @Override
       public Object caseEReference(EReference object)
       {
         return createEReferenceAdapter();
       }
+      @Override
       public Object caseEStructuralFeature(EStructuralFeature object)
       {
         return createEStructuralFeatureAdapter();
       }
+      @Override
       public Object caseETypedElement(ETypedElement object)
       {
         return createETypedElementAdapter();
       }
-      public Object caseEStringToStringMapEntry(Map.Entry object)
+      @Override
+      public Object caseEStringToStringMapEntry(Map.Entry<String, String> object)
       {
         return createEStringToStringMapEntryAdapter();
       }
+      @Override
+      public Object caseEGenericType(EGenericType object)
+      {
+        return createEGenericTypeAdapter();
+      }
+      @Override
+      public Object caseETypeParameter(ETypeParameter object)
+      {
+        return createETypeParameterAdapter();
+      }
+      @Override
       public Object defaultCase(EObject object)
       {
         return createEObjectAdapter();
@@ -170,6 +199,7 @@ public class EcoreAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
     return (Adapter)modelSwitch.doSwitch((EObject)target);
@@ -427,6 +457,36 @@ public class EcoreAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createEStringToStringMapEntryAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.ecore.EGenericType <em>EGeneric Type</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.ecore.EGenericType
+   * @generated
+   */
+  public Adapter createEGenericTypeAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link org.eclipse.emf.ecore.ETypeParameter <em>EType Parameter</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see org.eclipse.emf.ecore.ETypeParameter
+   * @generated
+   */
+  public Adapter createETypeParameterAdapter()
   {
     return null;
   }

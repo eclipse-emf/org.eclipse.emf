@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyType.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: SimpleAnyType.java,v 1.4 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -43,10 +43,6 @@ public interface SimpleAnyType extends AnyType
   /**
    * Returns the value of the '<em><b>Raw Value</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Raw Value</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Raw Value</em>' attribute.
    * @see #setRawValue(String)
@@ -70,10 +66,6 @@ public interface SimpleAnyType extends AnyType
   /**
    * Returns the value of the '<em><b>Value</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Value</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' attribute.
    * @see #setValue(Object)
@@ -97,10 +89,6 @@ public interface SimpleAnyType extends AnyType
   /**
    * Returns the value of the '<em><b>Instance Type</b></em>' reference.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Instance Type</em>' reference isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Instance Type</em>' reference.
    * @see #setInstanceType(EDataType)

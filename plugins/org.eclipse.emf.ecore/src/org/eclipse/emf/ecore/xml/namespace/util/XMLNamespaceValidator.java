@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceValidator.java,v 1.3 2006/05/03 19:30:32 davidms Exp $
+ * $Id: XMLNamespaceValidator.java,v 1.4 2006/12/05 20:22:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.util;
 
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -102,6 +101,7 @@ public class XMLNamespaceValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EPackage getEPackage()
   {
     return XMLNamespacePackage.eINSTANCE;
@@ -113,7 +113,8 @@ public class XMLNamespaceValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map context)
+  @Override
+  protected boolean validate(int classifierID, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     switch (classifierID)
     {
@@ -137,7 +138,7 @@ public class XMLNamespaceValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateXMLNamespaceDocumentRoot(XMLNamespaceDocumentRoot xmlNamespaceDocumentRoot, DiagnosticChain diagnostics, Map context)
+  public boolean validateXMLNamespaceDocumentRoot(XMLNamespaceDocumentRoot xmlNamespaceDocumentRoot, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(xmlNamespaceDocumentRoot, diagnostics, context);
   }
@@ -147,7 +148,7 @@ public class XMLNamespaceValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateSpaceType(SpaceType spaceType, DiagnosticChain diagnostics, Map context)
+  public boolean validateSpaceType(SpaceType spaceType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -157,7 +158,7 @@ public class XMLNamespaceValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateLangType(String langType, DiagnosticChain diagnostics, Map context)
+  public boolean validateLangType(String langType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = validateLangType_MemberTypes(langType, diagnostics, context);
     return result;
@@ -169,34 +170,33 @@ public class XMLNamespaceValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateLangType_MemberTypes(String langType, DiagnosticChain diagnostics, Map context)
+  public boolean validateLangType_MemberTypes(String langType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     if (diagnostics != null)
     {
       BasicDiagnostic tempDiagnostics = new BasicDiagnostic();
       if (XMLTypePackage.Literals.LANGUAGE.isInstance(langType))
       {
-        if (xmlTypeValidator.validateLanguage((String)langType, tempDiagnostics, context)) return true;
+        if (xmlTypeValidator.validateLanguage(langType, tempDiagnostics, context)) return true;
       }
       if (XMLNamespacePackage.Literals.LANG_TYPE_NULL.isInstance(langType))
       {
-        if (validateLangTypeNull((String)langType, tempDiagnostics, context)) return true;
+        if (validateLangTypeNull(langType, tempDiagnostics, context)) return true;
       }
-      List children = tempDiagnostics.getChildren();
-      for (int i = 0; i < children.size(); i++)
+      for (Diagnostic diagnostic : tempDiagnostics.getChildren())
       {
-        diagnostics.add((Diagnostic)children.get(i));
+        diagnostics.add(diagnostic);
       }
     }
     else
     {
       if (XMLTypePackage.Literals.LANGUAGE.isInstance(langType))
       {
-        if (xmlTypeValidator.validateLanguage((String)langType, null, context)) return true;
+        if (xmlTypeValidator.validateLanguage(langType, null, context)) return true;
       }
       if (XMLNamespacePackage.Literals.LANG_TYPE_NULL.isInstance(langType))
       {
-        if (validateLangTypeNull((String)langType, null, context)) return true;
+        if (validateLangTypeNull(langType, null, context)) return true;
       }
     }
     return false;
@@ -207,7 +207,7 @@ public class XMLNamespaceValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateLangTypeNull(String langTypeNull, DiagnosticChain diagnostics, Map context)
+  public boolean validateLangTypeNull(String langTypeNull, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }
@@ -217,7 +217,7 @@ public class XMLNamespaceValidator extends EObjectValidator
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean validateSpaceTypeObject(SpaceType spaceTypeObject, DiagnosticChain diagnostics, Map context)
+  public boolean validateSpaceTypeObject(SpaceType spaceTypeObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return true;
   }

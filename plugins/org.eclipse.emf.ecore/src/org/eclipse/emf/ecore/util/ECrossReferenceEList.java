@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ECrossReferenceEList.java,v 1.7 2006/05/12 21:07:22 emerks Exp $
+ * $Id: ECrossReferenceEList.java,v 1.8 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -29,26 +29,33 @@ import org.eclipse.emf.ecore.impl.EClassImpl;
 /**
  * A virtual list of all the cross references of an EObject.
  */
-public class ECrossReferenceEList extends EContentsEList
+public class ECrossReferenceEList<E> extends EContentsEList<E>
 {
-  public static final ECrossReferenceEList EMPTY_CROSS_REFERENCE_ELIST = 
-    new ECrossReferenceEList(null, (EStructuralFeature [])null)
+  public static final ECrossReferenceEList<?> EMPTY_CROSS_REFERENCE_ELIST = 
+    new ECrossReferenceEList<Object>(null, (EStructuralFeature [])null)
     {
-      public List basicList()
+      @Override
+      public List<Object> basicList()
       {
         return this;
       }
     };
+  
+  @SuppressWarnings("unchecked")
+  public static <T> ECrossReferenceEList<T> emptyCrossReferenceEList()
+  {
+    return (ECrossReferenceEList<T>)EMPTY_CROSS_REFERENCE_ELIST;
+  }
 
-  public static ECrossReferenceEList createECrossReferenceEList(EObject eObject)
+  public static <T> ECrossReferenceEList<T> createECrossReferenceEList(EObject eObject)
   {
     EStructuralFeature [] eStructuralFeatures = 
       ((EClassImpl.FeatureSubsetSupplier)eObject.eClass().getEAllStructuralFeatures()).crossReferences();
     
     return 
       eStructuralFeatures == null ?
-        EMPTY_CROSS_REFERENCE_ELIST:
-        new ECrossReferenceEList(eObject, eStructuralFeatures);
+        ECrossReferenceEList.<T>emptyCrossReferenceEList() :
+        new ECrossReferenceEList<T>(eObject, eStructuralFeatures);
   }
 
   public ECrossReferenceEList(EObject eObject)
@@ -63,7 +70,7 @@ public class ECrossReferenceEList extends EContentsEList
     super(eObject, eStructuralFeatures);
   }
 
-  public static class FeatureIteratorImpl extends EContentsEList.FeatureIteratorImpl
+  public static class FeatureIteratorImpl<E> extends EContentsEList.FeatureIteratorImpl<E>
   {
     protected static final EStructuralFeature[] NO_FEATURES = new EStructuralFeature [0];
     
@@ -77,6 +84,7 @@ public class ECrossReferenceEList extends EContentsEList
       super(eObject, eStructuralFeatures == null ? NO_FEATURES : eStructuralFeatures);
     }
 
+    @Override
     protected boolean isIncludedEntry(EStructuralFeature eStructuralFeature)
     {
       if (eStructuralFeature instanceof EReference)
@@ -91,7 +99,7 @@ public class ECrossReferenceEList extends EContentsEList
     }
   }
 
-  public static class ResolvingFeatureIteratorImpl extends FeatureIteratorImpl
+  public static class ResolvingFeatureIteratorImpl<E> extends FeatureIteratorImpl<E>
   {
     public ResolvingFeatureIteratorImpl(EObject eObject)
     {
@@ -103,12 +111,14 @@ public class ECrossReferenceEList extends EContentsEList
       super(eObject, eStructuralFeatures);
     }
 
+    @Override
     protected boolean resolve()
     {
       return true;
     }
   }
 
+  @Override
   protected boolean isIncluded(EStructuralFeature eStructuralFeature)
   {
     if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
@@ -122,6 +132,7 @@ public class ECrossReferenceEList extends EContentsEList
     }
   }
 
+  @Override
   protected boolean isIncludedEntry(EStructuralFeature eStructuralFeature)
   {
     if (eStructuralFeature instanceof EReference)
@@ -135,21 +146,25 @@ public class ECrossReferenceEList extends EContentsEList
     }
   }
 
-  protected ListIterator newResolvingListIterator()
+  @Override
+  protected ListIterator<E> newResolvingListIterator()
   {
-    return new ResolvingFeatureIteratorImpl(eObject, eStructuralFeatures);
+    return new ResolvingFeatureIteratorImpl<E>(eObject, eStructuralFeatures);
   }
   
-  protected ListIterator newNonResolvingListIterator()
+  @Override
+  protected ListIterator<E> newNonResolvingListIterator()
   {
-    return new FeatureIteratorImpl(eObject, eStructuralFeatures);
+    return new FeatureIteratorImpl<E>(eObject, eStructuralFeatures);
   }
 
-  public List basicList()
+  @Override
+  public List<E> basicList()
   {
     return
-      new ECrossReferenceEList(eObject, eStructuralFeatures)
+      new ECrossReferenceEList<E>(eObject, eStructuralFeatures)
       {
+        @Override
         protected boolean resolve()
         {
           return false;

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EPackageRegistryImpl.java,v 1.10 2006/05/08 21:21:50 emerks Exp $
+ * $Id: EPackageRegistryImpl.java,v 1.11 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
@@ -34,8 +33,10 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 /**
  * An implementation of a package registry that can delegate failed lookup to another registry.
  */
-public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
+public class EPackageRegistryImpl extends HashMap<String, Object> implements EPackage.Registry
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Creates the {@link EPackage.Registry#INSTANCE instance} of the global registry.
    */
@@ -81,6 +82,7 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
    */
   public EPackageRegistryImpl()
   {
+    super();
   }
 
   /**
@@ -155,6 +157,7 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
    */
   protected void initialize(EPackage ePackage)
   {
+    // Do nothing.
   }
 
   /**
@@ -192,6 +195,7 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
    * @param key the key whose presence in this map is to be tested.
    * @return whether this map or the delegate map contains this key.
    */
+  @Override
   public boolean containsKey(Object key)
   {
     return super.containsKey(key) || delegateRegistry != null && delegateRegistry.containsKey(key);
@@ -200,7 +204,7 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
   /**
    * A map from class loader to its associated registry.
    */
-  protected static Map classLoaderToRegistryMap = new WeakHashMap();
+  protected static Map<ClassLoader, EPackage.Registry> classLoaderToRegistryMap = new WeakHashMap<ClassLoader, EPackage.Registry>();
 
   /**
    * Returns the package registry associated with the given class loader.
@@ -209,7 +213,7 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
    */
   public static synchronized EPackage.Registry getRegistry(ClassLoader classLoader)
   {
-    EPackage.Registry result = (EPackage.Registry)classLoaderToRegistryMap.get(classLoader);
+    EPackage.Registry result = classLoaderToRegistryMap.get(classLoader);
     if (result == null)
     {
       if (classLoader == null)
@@ -275,9 +279,10 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
       return delegateRegistry().get(key);
     }
 
-    public Object put(Object key, Object value) 
+    public Object put(String key, Object value) 
     {
-      Class valueClass = value.getClass();
+      // TODO Binary incompatibility; an old override must override putAll.
+      Class<?> valueClass = value.getClass();
       if (valueClass == EPackageImpl.class) 
       {
         return delegateRegistry().put(key, value);
@@ -293,7 +298,7 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
         {
           try 
           {
-            Class loadedClass = classLoader.loadClass(valueClassName);
+            Class<?> loadedClass = classLoader.loadClass(valueClassName);
             if (loadedClass == valueClass) 
             {
               result = classLoader;
@@ -326,11 +331,10 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
       return delegateRegistry().remove(key);
     }
 
-    public void putAll(Map map)
+    public void putAll(Map<? extends String, ? extends Object> map)
     {
-      for (Iterator i = map.entrySet().iterator(); i.hasNext(); )
+      for (Map.Entry<? extends String, ? extends Object> entry : map.entrySet())
       {
-        Map.Entry entry = (Map.Entry)i.next();
         put(entry.getKey(), entry.getValue());
       }
     }
@@ -340,17 +344,17 @@ public class EPackageRegistryImpl extends HashMap implements EPackage.Registry
       delegateRegistry().clear();
     }
 
-    public Set keySet()
+    public Set<String> keySet()
     {
       return delegateRegistry().keySet();
     }
 
-    public Collection values()
+    public Collection<Object> values()
     {
       return delegateRegistry().values();
     }
 
-    public Set entrySet()
+    public Set<Entry<String, Object>> entrySet()
     {
       return delegateRegistry().entrySet();
     }

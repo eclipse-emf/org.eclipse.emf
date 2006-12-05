@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRoot.java,v 1.6 2005/09/23 17:46:24 emerks Exp $
+ * $Id: XMLNamespaceDocumentRoot.java,v 1.7 2006/12/05 20:22:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -50,10 +50,6 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * Returns the value of the '<em><b>Mixed</b></em>' attribute list.
    * The list contents are of type {@link org.eclipse.emf.ecore.util.FeatureMap.Entry}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Mixed</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_Mixed()
@@ -68,10 +64,6 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * The key is of type {@link java.lang.String},
    * and the value is of type {@link java.lang.String},
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>XMLNS Prefix Map</em>' map isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_XMLNSPrefixMap()
@@ -79,17 +71,13 @@ public interface XMLNamespaceDocumentRoot extends EObject
    *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
-  EMap getXMLNSPrefixMap();
+  EMap<String, String> getXMLNSPrefixMap();
 
   /**
    * Returns the value of the '<em><b>XSI Schema Location</b></em>' map.
    * The key is of type {@link java.lang.String},
    * and the value is of type {@link java.lang.String},
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>XSI Schema Location</em>' map isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage#getXMLNamespaceDocumentRoot_XSISchemaLocation()
@@ -97,15 +85,11 @@ public interface XMLNamespaceDocumentRoot extends EObject
    *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
-  EMap getXSISchemaLocation();
+  EMap<String, String> getXSISchemaLocation();
 
   /**
    * Returns the value of the '<em><b>Base</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Base</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Base</em>' attribute.
    * @see #setBase(String)
@@ -129,10 +113,6 @@ public interface XMLNamespaceDocumentRoot extends EObject
   /**
    * Returns the value of the '<em><b>Id</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Id</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Id</em>' attribute.
    * @see #setId(String)
@@ -156,10 +136,6 @@ public interface XMLNamespaceDocumentRoot extends EObject
   /**
    * Returns the value of the '<em><b>Lang</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Lang</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Lang</em>' attribute.
    * @see #setLang(String)
@@ -185,10 +161,6 @@ public interface XMLNamespaceDocumentRoot extends EObject
    * The default value is <code>"preserve"</code>.
    * The literals are from the enumeration {@link org.eclipse.emf.ecore.xml.namespace.SpaceType}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Space</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Space</em>' attribute.
    * @see org.eclipse.emf.ecore.xml.namespace.SpaceType

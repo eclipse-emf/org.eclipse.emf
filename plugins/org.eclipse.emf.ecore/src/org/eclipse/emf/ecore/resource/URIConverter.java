@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: URIConverter.java,v 1.5 2006/03/29 19:01:52 marcelop Exp $
+ * $Id: URIConverter.java,v 1.6 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
@@ -110,7 +110,7 @@ public interface URIConverter
    * @see #URI_MAP
    * @return the map used for remapping a logical URI to a physical URI.
    */
-  Map getURIMap();
+  Map<URI, URI> getURIMap();
 
   /**
    * The global static URI map.
@@ -120,7 +120,7 @@ public interface URIConverter
    * {@link org.eclipse.emf.ecore.plugin.EcorePlugin.Implementation#startup plugin registration}.
    * @see #normalize(URI)
    */
-  Map URI_MAP = org.eclipse.emf.ecore.resource.impl.URIMappingRegistryImpl.INSTANCE.map();
+  Map<URI, URI> URI_MAP = org.eclipse.emf.ecore.resource.impl.URIMappingRegistryImpl.INSTANCE.map();
 
   /**
    * Creates an input stream for the URI and returns it.
@@ -191,6 +191,7 @@ public interface URIConverter
       this(new StringReader(xmlString), getEncoding(xmlString));
     }
     
+    @Override
     public int read() throws IOException
     {
       if (buffer == null)
@@ -211,12 +212,14 @@ public interface URIConverter
       return encoding; 
     }
 
+    @Override
     public void close() throws IOException
     {
       super.close();
       reader.close();
     }
 
+    @Override
     public void reset() throws IOException
     {
       super.reset();
@@ -311,6 +314,7 @@ public interface URIConverter
       this.encoding = encoding;
     }
     
+    @Override
     public void write(int b) throws IOException
     {
       if (buffer == null)
@@ -331,12 +335,14 @@ public interface URIConverter
       return encoding;
     }
     
+    @Override
     public void close() throws IOException
     {
       super.close();
       writer.close();
     }
     
+    @Override
     public void flush() throws IOException
     {
       super.flush();

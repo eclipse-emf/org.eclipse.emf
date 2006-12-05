@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceImpl.java,v 1.19 2006/11/04 16:02:39 emerks Exp $
+ * $Id: ResourceImpl.java,v 1.20 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -120,7 +120,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * have the same key for an entry, map1's value will be the one in 
    * the merged map.
    */
-  protected static Map mergeMaps(Map map1, Map map2)
+  protected static Map<?, ?> mergeMaps(Map<?, ?> map1, Map<?, ?> map2)
   {
     if (map1 == null || map1.isEmpty())
     {
@@ -132,7 +132,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
     else
     {
-      Map mergedMap = new HashMap(map2);
+      Map<Object, Object> mergedMap = new HashMap<Object, Object>(map2);
       mergedMap.putAll(map1);
       return mergedMap;
     }
@@ -141,12 +141,12 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /**
    * The storage for the default save options.
    */
-  protected Map defaultSaveOptions;
+  protected Map<Object, Object> defaultSaveOptions;
 
   /**
    * The storage for the default load options.
    */
-  protected Map defaultLoadOptions;
+  protected Map<Object, Object> defaultLoadOptions;
 
   /**
    * The containing resource set.
@@ -164,19 +164,19 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * The contents.
    * @see #getContents
    */
-  protected ContentsEList contents;
+  protected ContentsEList<EObject> contents;
 
   /**
    * The errors.
    * @see #getErrors
    */
-  protected EList errors;
+  protected EList<Diagnostic> errors;
 
   /**
    * The warnings.
    * @see #getErrors
    */
-  protected EList warnings;
+  protected EList<Diagnostic> warnings;
 
   /**
    * The modified flag.
@@ -201,7 +201,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * I.e., if this is not <code>null</code>, then the resource is in the process of unloading.
    * @see #unload()
    */
-  protected List unloadingContents;
+  protected List<EObject> unloadingContents;
 
   /**
    * The modification tracking adapter.
@@ -215,13 +215,14 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * A map to retrieve the EObject based on the value of its ID feature.
    * @see #setIntrinsicIDToEObjectMap(Map)
    */
-  protected Map intrinsicIDToEObjectMap;
+  protected Map<String, EObject> intrinsicIDToEObjectMap;
 
   /**
    * Creates a empty instance.
    */
   public ResourceImpl()
   {
+    super();
   }
 
   /**
@@ -253,7 +254,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     ResourceSet oldResourceSet = this.resourceSet;
     if (oldResourceSet != null)
     {
-      notifications = ((InternalEList)oldResourceSet.getResources()).basicRemove(this, notifications);
+      notifications = ((InternalEList<Resource>)oldResourceSet.getResources()).basicRemove(this, notifications);
     }
 
     this.resourceSet = resourceSet;
@@ -267,11 +268,14 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       notifications.add
         (new NotificationImpl(Notification.SET, oldResourceSet, resourceSet)
          {
+           @Override
            public Object getNotifier()
            {
              return ResourceImpl.this;
            }
-           public int getFeatureID(Class expectedClass)
+
+           @Override
+           public int getFeatureID(Class<?> expectedClass)
            {
              return RESOURCE__RESOURCE_SET;
            }
@@ -301,11 +305,14 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       Notification notification =
         new NotificationImpl(Notification.SET, oldURI, uri)
         {
+          @Override
           public Object getNotifier()
           {
             return ResourceImpl.this;
           }
-          public int getFeatureID(Class expectedClass)
+
+          @Override
+          public int getFeatureID(Class<?> expectedClass)
           {
             return RESOURCE__URI;
           }
@@ -317,39 +324,48 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /**
    * A notifying list implementation for supporting {@link Resource#getContents}.
    */
-  protected class ContentsEList extends NotifyingListImpl implements InternalEList
+  protected class ContentsEList<E extends Object & EObject> extends NotifyingListImpl<E> implements InternalEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
+    @Override
     public Object getNotifier()
     {
       return ResourceImpl.this;
     }
 
+    @Override
     public int getFeatureID()
     {
       return RESOURCE__CONTENTS;
     }
 
+    @Override
     protected boolean isNotificationRequired()
     {
       return ResourceImpl.this.eNotificationRequired();
     }
 
+    @Override
     protected boolean useEquals()
     {
       return false;
     }
 
+    @Override
     protected boolean hasInverse()
     {
       return true;
     }
 
+    @Override
     protected boolean isUnique()
     {
       return true;
     }
 
-    public NotificationChain inverseAdd(Object object, NotificationChain notifications)
+    @Override
+    public NotificationChain inverseAdd(E object, NotificationChain notifications)
     {
       InternalEObject eObject = (InternalEObject)object;
       notifications = eObject.eSetResource(ResourceImpl.this, notifications);
@@ -357,7 +373,8 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       return notifications;
     }
 
-    public NotificationChain inverseRemove(Object object, NotificationChain notifications)
+    @Override
+    public NotificationChain inverseRemove(E object, NotificationChain notifications)
     {
       InternalEObject eObject = (InternalEObject)object;
       if (ResourceImpl.this.isLoaded)
@@ -367,32 +384,38 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       return eObject.eSetResource(null, notifications);
     }
 
-    public Iterator basicIterator()
+    @Override
+    public Iterator<E> basicIterator()
     {
       return super.basicIterator();
     }
 
-    public ListIterator basicListIterator()
+    @Override
+    public ListIterator<E> basicListIterator()
     {
       return super.basicListIterator();
     }
   
-    public ListIterator basicListIterator(int index)
+    @Override
+    public ListIterator<E> basicListIterator(int index)
     {
       return super.basicListIterator(index);
     }
 
-    public List basicList()
+    @Override
+    public List<E> basicList()
     {
       return super.basicList();
     }
 
+    @Override
     protected Object [] newData(int capacity)
     {
       return new EObject [capacity];
     }
 
-    protected void didAdd(int index, Object object)
+    @Override
+    protected void didAdd(int index, E object)
     {
       super.didAdd(index, object);
       if (index == size - 1)
@@ -402,18 +425,21 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       modified();
     }
 
-    protected void didRemove(int index, Object object)
+    @Override
+    protected void didRemove(int index, E object)
     {
       super.didRemove(index, object);
       modified();
     }
 
-    protected void didSet(int index, Object newObject, Object oldObject)
+    @Override
+    protected void didSet(int index, E newObject, E oldObject)
     {
       super.didSet(index, newObject, oldObject);
       modified();
     }
 
+    @Override
     protected void didClear(int oldSize, Object [] oldData)
     {
       if (oldSize == 0)
@@ -450,11 +476,11 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /*
    * Javadoc copied from interface.
    */
-  public EList getContents()
+  public EList<EObject> getContents()
   {
     if (contents == null)
     {
-      contents = new ContentsEList();
+      contents = new ContentsEList<EObject>();
     }
     return contents;
   }
@@ -462,31 +488,41 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /*
    * Javadoc copied from interface.
    */
-  public TreeIterator getAllContents()
+  public TreeIterator<EObject> getAllContents()
   {
     return
-      new AbstractTreeIterator(this, false)
+      new AbstractTreeIterator<EObject>(this, false)
       {
-        public Iterator getChildren(Object object)
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public Iterator<EObject> getChildren(Object object)
         {
           return object == ResourceImpl.this ? ResourceImpl.this.getContents().iterator() : ((EObject)object).eContents().iterator();
         }
       };
   }
   
-  protected TreeIterator getAllProperContents(EObject eObject)
+  protected TreeIterator<EObject> getAllProperContents(EObject eObject)
   {
     return EcoreUtil.getAllProperContents(eObject, false);
   }
 
-  protected TreeIterator getAllProperContents(List contents)
+  protected TreeIterator<EObject> getAllProperContents(List<EObject> contents)
   {
     return  
-      new ContentTreeIterator(contents, false)
+      new ContentTreeIterator<EObject>(contents, false)
       {
-        public Iterator getChildren(Object object)
+        private static final long serialVersionUID = 1L;
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public Iterator<EObject> getChildren(Object object)
         {
-          return object == this.object ? ((List)object).iterator() : new ProperContentIterator(((EObject)object));
+          return 
+            object == this.object ? 
+              ((List<EObject>)object).iterator() : 
+              new ProperContentIterator<EObject>(((EObject)object));
         }
       };
   }
@@ -494,23 +530,28 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /*
    * Javadoc copied from interface.
    */
-  public EList getErrors()
+  public EList<Diagnostic> getErrors()
   {
     if (errors == null)
     {
       errors =
-        new NotifyingListImpl()
+        new NotifyingListImpl<Diagnostic>()
         {
+          private static final long serialVersionUID = 1L;
+
+          @Override
           protected boolean isNotificationRequired()
           {
              return ResourceImpl.this.eNotificationRequired();
           }
 
+          @Override
           public Object getNotifier()
           {
             return ResourceImpl.this;
           }
 
+          @Override
           public int getFeatureID()
           {
             return RESOURCE__ERRORS;
@@ -523,23 +564,28 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /*
    * Javadoc copied from interface.
    */
-  public EList getWarnings()
+  public EList<Diagnostic> getWarnings()
   {
     if (warnings == null)
     {
       warnings =
-        new NotifyingListImpl()
+        new NotifyingListImpl<Diagnostic>()
         {
+          private static final long serialVersionUID = 1L;
+
+          @Override
           protected boolean isNotificationRequired()
           {
              return ResourceImpl.this.eNotificationRequired();
           }
 
+          @Override
           public Object getNotifier()
           {
             return ResourceImpl.this;
           }
 
+          @Override
           public int getFeatureID()
           {
             return RESOURCE__WARNINGS;
@@ -574,7 +620,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   protected String getURIFragmentRootSegment(EObject eObject)
   {
-    List contents = getContents();
+    List<EObject> contents = getContents();
     return contents.size() > 1 ?
       Integer.toString(contents.indexOf(eObject)) :
       "";
@@ -599,7 +645,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       }
       else
       {
-        List uriFragmentPath = new ArrayList();
+        List<String> uriFragmentPath = new ArrayList<String>();
         boolean isContained = false;
         for (InternalEObject container = internalEObject.eInternalContainer(); container != null; container = internalEObject.eInternalContainer())
         {
@@ -651,10 +697,10 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       }
     }
 
-    List contents = getContents();
+    List<EObject> contents = getContents();
     if (position < contents.size())
     {
-      return (EObject)contents.get(position);
+      return contents.get(position);
     }
     else
     {
@@ -672,7 +718,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     {
       if (uriFragment.charAt(0) == '/')
       {
-        ArrayList uriFragmentPath = new ArrayList(4);
+        ArrayList<String> uriFragmentPath = new ArrayList<String>(4);
         int start = 1;
         for (int i = 1; i < length; ++i)
         {
@@ -701,13 +747,13 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /**
    * Returns the object based on the fragment path as a list of Strings.
    */
-  protected EObject getEObject(List uriFragmentPath)
+  protected EObject getEObject(List<String> uriFragmentPath)
   {
     int size = uriFragmentPath.size();
-    EObject eObject = getEObjectForURIFragmentRootSegment(size == 0 ? "" : (String)uriFragmentPath.get(0));
+    EObject eObject = getEObjectForURIFragmentRootSegment(size == 0 ? "" : uriFragmentPath.get(0));
     for (int i = 1; i < size && eObject != null; ++i)
     {
-      eObject = ((InternalEObject)eObject).eObjectForURIFragmentSegment((String)uriFragmentPath.get(i));
+      eObject = ((InternalEObject)eObject).eObjectForURIFragmentSegment(uriFragmentPath.get(i));
     }
 
     return eObject;
@@ -719,7 +765,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @return the map used to cache the EObject that is identified by the value of its ID feature.
    * @see #setIntrinsicIDToEObjectMap
    */
-  public Map getIntrinsicIDToEObjectMap()
+  public Map<String, EObject> getIntrinsicIDToEObjectMap()
   {
     return intrinsicIDToEObjectMap;
   }
@@ -733,7 +779,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @param intrinsicIDToEObjectMap the new map or <code>null</code>.
    * @see #getIntrinsicIDToEObjectMap
    */
-  public void setIntrinsicIDToEObjectMap(Map intrinsicIDToEObjectMap)
+  public void setIntrinsicIDToEObjectMap(Map<String, EObject> intrinsicIDToEObjectMap)
   {
     this.intrinsicIDToEObjectMap = intrinsicIDToEObjectMap;
   }
@@ -744,10 +790,10 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   protected EObject getEObjectByID(String id)
   {
-    Map map = getIntrinsicIDToEObjectMap();
+    Map<String, EObject> map = getIntrinsicIDToEObjectMap();
     if (map != null)
     {
-      EObject eObject = (EObject)map.get(id);
+      EObject eObject = map.get(id);
       if (eObject != null)
       {
         return eObject;
@@ -755,9 +801,9 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     }
     
     EObject result = null;
-    for (TreeIterator i = getAllProperContents(getContents()); i.hasNext(); )
+    for (TreeIterator<EObject> i = getAllProperContents(getContents()); i.hasNext(); )
     {
-      EObject eObject = (EObject)i.next();
+      EObject eObject = i.next();
       String eObjectId = EcoreUtil.getID(eObject);
       if (eObjectId != null)
       {
@@ -785,9 +831,9 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     if (isAttachedDetachedHelperRequired())
     {
       attachedHelper(eObject);
-      for (TreeIterator tree = getAllProperContents(eObject); tree.hasNext(); )
+      for (TreeIterator<EObject> tree = getAllProperContents(eObject); tree.hasNext(); )
       {
-        attachedHelper((EObject)tree.next());
+        attachedHelper(tree.next());
       }
     }
   }
@@ -804,7 +850,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       eObject.eAdapters().add(modificationTrackingAdapter);
     }
     
-    Map map = getIntrinsicIDToEObjectMap();
+    Map<String, EObject> map = getIntrinsicIDToEObjectMap();
     if (map != null)
     {
       String id = EcoreUtil.getID(eObject);
@@ -823,8 +869,10 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @deprecated since 2.1.0.  This method is not invoked anymore.  See 
    * {@link #attachedHelper(EObject)}.
    */
+  @Deprecated
   final protected void addModificationTrackingAdapters(EObject eObject)
   {
+    // Do nothing.
   }
 
   public void detached(EObject eObject)
@@ -832,16 +880,16 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     if (isAttachedDetachedHelperRequired())
     {
       detachedHelper(eObject);
-      for (TreeIterator tree = getAllProperContents(eObject); tree.hasNext(); )
+      for (TreeIterator<EObject> tree = getAllProperContents(eObject); tree.hasNext(); )
       {
-        detachedHelper((EObject)tree.next());
+        detachedHelper(tree.next());
       }
     }
   }
   
   protected void detachedHelper(EObject eObject)
   {
-    Map map = getIntrinsicIDToEObjectMap();
+    Map<String, EObject> map = getIntrinsicIDToEObjectMap();
     if (map != null)
     {
       String id = EcoreUtil.getID(eObject);
@@ -864,8 +912,10 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @deprecated since 2.1.0.  This method is not invoked anymore.  See 
    * {@link #attachedHelper(EObject)}.
    */
+  @Deprecated
   final protected void removeModificationTrackingAdapters(EObject eObject)
   {
+    // Do nothing.
   }
 
 
@@ -887,7 +937,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /*
    * Javadoc copied from interface.
    */
-  public void save(Map options) throws IOException
+  public void save(Map<?, ?> options) throws IOException
   {
     URIConverter uriConverter = getURIConverter();
     OutputStream outputStream = uriConverter.createOutputStream(getURI());
@@ -904,7 +954,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /*
    * Javadoc copied from interface.
    */
-  public void load(Map options) throws IOException
+  public void load(Map<?, ?> options) throws IOException
   {
     if (!isLoaded)
     {
@@ -944,7 +994,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @see #doSave(OutputStream, Map)
    * @see #load(InputStream, Map)
    */
-  public final void save(OutputStream outputStream, Map options) throws IOException
+  public final void save(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
     if (errors != null)
     {
@@ -979,16 +1029,20 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       zipOutputStream = 
         new ZipOutputStream(outputStream)
         {
+          @Override
           public void finish() throws IOException
           {
             super.finish();
             def.end();
           }
 
+          @Override
           public void flush()
           {
+            // Do nothing.
           }
 
+          @Override
           public void close() throws IOException
           {
             try
@@ -997,6 +1051,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
             }
             catch (IOException exception)
             {
+              // Continue and try to close.
             }
             super.close();
           }
@@ -1035,7 +1090,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @param options the save options.
    * @exception UnsupportedOperationException.
    */
-  protected void doSave(OutputStream outputStream, Map options) throws IOException
+  protected void doSave(OutputStream outputStream, Map<?, ?> options) throws IOException
   {
     throw new UnsupportedOperationException();
   }
@@ -1056,7 +1111,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   /*
    * Javadoc copied from interface.
    */
-  public final void load(InputStream inputStream, Map options) throws IOException
+  public final void load(InputStream inputStream, Map<?, ?> options) throws IOException
   {
     if (!isLoaded)
     {
@@ -1142,7 +1197,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    * @param options the load options.
    * @exception UnsupportedOperationException.
    */
-  protected void doLoad(InputStream inputStream, Map options) throws IOException
+  protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
   {
     throw new UnsupportedOperationException();
   }
@@ -1191,11 +1246,14 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       Notification notification =
         new NotificationImpl(Notification.SET, oldIsLoaded, isLoaded)
         {
+          @Override
           public Object getNotifier()
           {
             return ResourceImpl.this;
           }
-          public int getFeatureID(Class expectedClass)
+
+          @Override
+          public int getFeatureID(Class<?> expectedClass)
           {
             return RESOURCE__IS_LOADED;
           }
@@ -1215,7 +1273,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   protected void doUnload()
   {
-    Iterator allContents = getAllProperContents(unloadingContents);
+    Iterator<EObject> allContents = getAllProperContents(unloadingContents);
 
     // This guard is needed to ensure that clear doesn't make the resource become loaded.
     //
@@ -1239,7 +1297,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
   {
     if (isLoaded)
     {
-      unloadingContents = new BasicEList.FastCompare(getContents());
+      unloadingContents = new BasicEList.FastCompare<EObject>(getContents());
       Notification notification = setLoaded(false);
       try
       {
@@ -1261,6 +1319,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
    */
   protected class ModificationTrackingAdapter extends AdapterImpl
   {
+    @Override
     public void notifyChanged(Notification notification)
     {
       switch (notification.getEventType())
@@ -1308,9 +1367,9 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       {
         modificationTrackingAdapter = createModificationTrackingAdapter();
         
-        for (TreeIterator i = getAllProperContents(getContents()); i.hasNext(); )
+        for (TreeIterator<EObject> i = getAllProperContents(getContents()); i.hasNext(); )
         {
-          EObject eObject = (EObject)i.next();
+          EObject eObject = i.next();
           eObject.eAdapters().add(modificationTrackingAdapter);
         }
       }
@@ -1319,9 +1378,9 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
         Adapter oldModificationTrackingAdapter = modificationTrackingAdapter;
         modificationTrackingAdapter = null;
         
-        for (TreeIterator i = getAllProperContents(getContents()); i.hasNext(); )
+        for (TreeIterator<EObject> i = getAllProperContents(getContents()); i.hasNext(); )
         {
-          EObject eObject = (EObject)i.next();
+          EObject eObject = i.next();
           eObject.eAdapters().remove(oldModificationTrackingAdapter);
         }
       }
@@ -1332,11 +1391,14 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       Notification notification =
         new NotificationImpl(Notification.SET, oldIsTrackingModification, isTrackingModification)
         {
+          @Override
           public Object getNotifier()
           {
             return ResourceImpl.this;
           }
-          public int getFeatureID(Class expectedClass)
+
+          @Override
+          public int getFeatureID(Class<?> expectedClass)
           {
             return RESOURCE__IS_TRACKING_MODIFICATION;
           }
@@ -1378,11 +1440,14 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
       Notification notification =
         new NotificationImpl(Notification.SET, oldIsModified, isModified)
         {
+          @Override
           public Object getNotifier()
           {
             return ResourceImpl.this;
           }
-          public int getFeatureID(Class expectedClass)
+
+          @Override
+          public int getFeatureID(Class<?> expectedClass)
           {
             return RESOURCE__IS_MODIFIED;
           }
@@ -1404,6 +1469,7 @@ public class ResourceImpl extends NotifierImpl implements Resource, Resource.Int
     return result.toString();
   }
 
+  @Override
   public String toString()
   {
     return

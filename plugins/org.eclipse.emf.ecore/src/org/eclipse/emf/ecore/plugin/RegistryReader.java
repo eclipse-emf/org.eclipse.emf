@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RegistryReader.java,v 1.6 2006/02/22 22:28:56 marcelop Exp $
+ * $Id: RegistryReader.java,v 1.7 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -163,7 +163,7 @@ public abstract class RegistryReader
       //
       try
       {
-        Class javaClass = Platform.getBundle(element.getDeclaringExtension().getContributor().getName()).loadClass(element.getAttribute(attributeName));
+        Class<?> javaClass = Platform.getBundle(element.getDeclaringExtension().getContributor().getName()).loadClass(element.getAttribute(attributeName));
         Field field = javaClass.getField("eINSTANCE");
         Object result = field.get(null);
         return (EPackage)result;
@@ -209,7 +209,7 @@ public abstract class RegistryReader
       //
       try
       {
-        Class javaClass = Platform.getBundle(element.getDeclaringExtension().getContributor().getName()).loadClass(element.getAttribute(attributeName));
+        Class<?> javaClass = Platform.getBundle(element.getDeclaringExtension().getContributor().getName()).loadClass(element.getAttribute(attributeName));
         return (EFactory)javaClass.newInstance();
       }
       catch (ClassNotFoundException e)

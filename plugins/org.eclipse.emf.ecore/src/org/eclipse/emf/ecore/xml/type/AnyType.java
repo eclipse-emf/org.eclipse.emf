@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AnyType.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: AnyType.java,v 1.4 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -45,10 +45,6 @@ public interface AnyType extends EObject
    * Returns the value of the '<em><b>Mixed</b></em>' attribute list.
    * The list contents are of type {@link org.eclipse.emf.ecore.util.FeatureMap.Entry}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Mixed</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getAnyType_Mixed()
@@ -62,10 +58,6 @@ public interface AnyType extends EObject
    * Returns the value of the '<em><b>Any</b></em>' attribute list.
    * The list contents are of type {@link org.eclipse.emf.ecore.util.FeatureMap.Entry}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Any</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Any</em>' attribute list.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getAnyType_Any()
@@ -79,10 +71,6 @@ public interface AnyType extends EObject
    * Returns the value of the '<em><b>Any Attribute</b></em>' attribute list.
    * The list contents are of type {@link org.eclipse.emf.ecore.util.FeatureMap.Entry}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Any Attribute</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Any Attribute</em>' attribute list.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getAnyType_AnyAttribute()

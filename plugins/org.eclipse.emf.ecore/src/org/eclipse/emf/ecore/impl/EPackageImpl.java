@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageImpl.java,v 1.30 2006/08/21 15:34:04 emerks Exp $
+ * $Id: EPackageImpl.java,v 1.31 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
@@ -46,6 +47,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -101,7 +103,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * The map from name to 
    */
-  protected Map eNameToEClassifierMap; 
+  protected Map<String, EClassifier> eNameToEClassifierMap; 
 
   /**
    * <!-- begin-user-doc -->
@@ -167,6 +169,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     }
   }
 
+  @Override
   public void freeze()
   {
     if (eClassifiers != null)
@@ -186,15 +189,15 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     super.freeze();
   }
   
+  @Override
   public void eSetProxyURI(URI uri)
   {
     // If we turn the package into a proxy, ensure that the child classifiers clear their cached container.
     //
     if (uri != null && eClassifiers != null)
     {
-      for (Iterator i = eClassifiers.iterator(); i.hasNext(); )
+      for (Object eClassifier : eClassifiers)
       {
-        Object eClassifier = i.next();
         if (eClassifier instanceof EClassifierImpl)
         {
           ((EClassifierImpl)eClassifier).ePackage = null;
@@ -209,6 +212,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EPACKAGE;
@@ -217,8 +221,10 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * @generated modifiable
    */
+  @Deprecated
   public void setNamespaceURI(String nsURI)
   {
+    // Do nothing.
   }
 
   /**
@@ -269,7 +275,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * @generated
    * @ordered
    */
-  protected EList eClassifiers = null;
+  protected EList<EClassifier> eClassifiers = null;
 
   /**
    * The cached value of the '{@link #getESubpackages() <em>ESubpackages</em>}' containment reference list.
@@ -279,7 +285,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * @generated
    * @ordered
    */
-  protected EList eSubpackages = null;
+  protected EList<EPackage> eSubpackages = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -380,14 +386,17 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getEClassifiers()
+  public EList<EClassifier> getEClassifiers()
   {
     if (eClassifiers == null)
     {
       eClassifiers = 
-        new EObjectContainmentWithInverseEList.Resolving
+        new EObjectContainmentWithInverseEList.Resolving<EClassifier>
           (EClassifier.class, this, EcorePackage.EPACKAGE__ECLASSIFIERS, EcorePackage.ECLASSIFIER__EPACKAGE)
         {
+          private static final long serialVersionUID = 1L;
+
+          @Override
           protected void didChange()
           {
             eNameToEClassifierMap = null;
@@ -409,17 +418,16 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   {
     if (eNameToEClassifierMap == null)
     {
-      List eClassifiers = getEClassifiers();
-      Map result = new HashMap(eClassifiers.size());
-      for (Iterator i = eClassifiers.iterator(); i.hasNext(); )
+      List<EClassifier> eClassifiers = getEClassifiers();
+      Map<String, EClassifier> result = new HashMap<String, EClassifier>(eClassifiers.size());
+      for (EClassifier eClassifier : eClassifiers)
       {
-        EClassifier eClassifier = (EClassifier)i.next();
         result.put(eClassifier.getName(), eClassifier);
       }
       eNameToEClassifierMap = result;
     }
 
-    return (EClassifier)eNameToEClassifierMap.get(name);
+    return eNameToEClassifierMap.get(name);
   }
 
   /**
@@ -427,20 +435,22 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EPACKAGE__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
       case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
         if (eFactoryInstance != null)
           msgs = ((InternalEObject)eFactoryInstance).eInverseRemove(this, EcorePackage.EFACTORY__EPACKAGE, EFactory.class, msgs);
         return basicSetEFactoryInstance((EFactory)otherEnd, msgs);
       case EcorePackage.EPACKAGE__ECLASSIFIERS:
-        return ((InternalEList)getEClassifiers()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEClassifiers()).basicAdd(otherEnd, msgs);
       case EcorePackage.EPACKAGE__ESUBPACKAGES:
-        return ((InternalEList)getESubpackages()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getESubpackages()).basicAdd(otherEnd, msgs);
       case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
@@ -454,18 +464,19 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EPACKAGE__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
       case EcorePackage.EPACKAGE__EFACTORY_INSTANCE:
         return basicSetEFactoryInstance(null, msgs);
       case EcorePackage.EPACKAGE__ECLASSIFIERS:
-        return ((InternalEList)getEClassifiers()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEClassifiers()).basicRemove(otherEnd, msgs);
       case EcorePackage.EPACKAGE__ESUBPACKAGES:
-        return ((InternalEList)getESubpackages()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getESubpackages()).basicRemove(otherEnd, msgs);
       case EcorePackage.EPACKAGE__ESUPER_PACKAGE:
         return eBasicSetContainer(null, EcorePackage.EPACKAGE__ESUPER_PACKAGE, msgs);
     }
@@ -477,6 +488,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -492,11 +504,11 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getESubpackages()
+  public EList<EPackage> getESubpackages()
   {
     if (eSubpackages == null)
     {
-      eSubpackages = new EObjectContainmentWithInverseEList.Resolving(EPackage.class, this, EcorePackage.EPACKAGE__ESUBPACKAGES, EcorePackage.EPACKAGE__ESUPER_PACKAGE);
+      eSubpackages = new EObjectContainmentWithInverseEList.Resolving<EPackage>(EPackage.class, this, EcorePackage.EPACKAGE__ESUBPACKAGES, EcorePackage.EPACKAGE__ESUPER_PACKAGE);
     }
     return eSubpackages;
   }
@@ -528,6 +540,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -558,13 +571,15 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.EPACKAGE__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.EPACKAGE__NAME:
         setName((String)newValue);
@@ -580,11 +595,11 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
         return;
       case EcorePackage.EPACKAGE__ECLASSIFIERS:
         getEClassifiers().clear();
-        getEClassifiers().addAll((Collection)newValue);
+        getEClassifiers().addAll((Collection<? extends EClassifier>)newValue);
         return;
       case EcorePackage.EPACKAGE__ESUBPACKAGES:
         getESubpackages().clear();
-        getESubpackages().addAll((Collection)newValue);
+        getESubpackages().addAll((Collection<? extends EPackage>)newValue);
         return;
     }
     eDynamicSet(featureID, newValue);
@@ -595,6 +610,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -629,6 +645,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -658,6 +675,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -733,12 +751,48 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     r.setFeatureID(id);
     owner.getEStructuralFeatures().add(r);
   }
+  
+  protected ETypeParameter addETypeParameter(EClassifier owner, String name)
+  {
+    ETypeParameter eTypeParameter = ecoreFactory.createETypeParameter();
+    eTypeParameter.setName(name);
+    owner.getETypeParameters().add(eTypeParameter);
+    return eTypeParameter;
+  }
+
+  protected ETypeParameter addETypeParameter(EOperation owner, String name)
+  {
+    ETypeParameter eTypeParameter = ecoreFactory.createETypeParameter();
+    eTypeParameter.setName(name);
+    owner.getETypeParameters().add(eTypeParameter);
+    return eTypeParameter;
+  }
+  
+  protected EGenericType createEGenericType()
+  {
+    EGenericType eGenericType = ecoreFactory.createEGenericType();
+    return eGenericType;
+  }
+
+  protected EGenericType createEGenericType(ETypeParameter eTypeParameter)
+  {
+    EGenericType eGenericType = ecoreFactory.createEGenericType();
+    eGenericType.setETypeParameter(eTypeParameter);
+    return eGenericType;
+  }
+
+  protected EGenericType createEGenericType(EClassifier eClassifier)
+  {
+    EGenericType eGenericType = ecoreFactory.createEGenericType();
+    eGenericType.setEClassifier(eClassifier);
+    return eGenericType;
+  }
 
   final static protected boolean IS_ABSTRACT = true;
   final static protected boolean IS_INTERFACE = true;
   final static protected boolean IS_GENERATED_INSTANCE_CLASS = true;
 
-  protected EClass initEClass(EClass c, Class instanceClass, String name, boolean isAbstract, boolean isInterface)
+  protected EClass initEClass(EClass c, Class<?> instanceClass, String name, boolean isAbstract, boolean isInterface)
   {
     initEClassifier(c, ecorePackage.getEClass(), instanceClass, name);
     c.setAbstract(isAbstract);
@@ -746,7 +800,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     return c;
   }
 
-  protected EClass initEClass(EClass c, Class instanceClass, String name, boolean isAbstract, boolean isInterface, boolean isGenerated)
+  protected EClass initEClass(EClass c, Class<?> instanceClass, String name, boolean isAbstract, boolean isInterface, boolean isGenerated)
   {
     initEClassifier(c, ecorePackage.getEClass(), instanceClass, name, isGenerated);
     c.setAbstract(isAbstract);
@@ -754,7 +808,18 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     return c;
   }
 
-  protected EEnum initEEnum(EEnum e, Class instanceClass, String name)
+  protected EClass initEClass
+    (EClass c, Class<?> instanceClass, String name, boolean isAbstract, boolean isInterface, boolean isGenerated, String instanceTypeName)
+  {
+    initEClass(c, instanceClass, name, isAbstract, isInterface, isGenerated);
+    if (instanceTypeName != null)
+    {
+      setInstanceTypeName(c, instanceTypeName);
+    }
+    return c;
+  }
+
+  protected EEnum initEEnum(EEnum e, Class<?> instanceClass, String name)
   {
     initEClassifier(e, ecorePackage.getEEnum(), instanceClass, name, true);
     return e;
@@ -762,21 +827,32 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
 
   final static protected boolean IS_SERIALIZABLE = true;
 
-  protected EDataType initEDataType(EDataType d, Class instanceClass, String name, boolean isSerializable)
+  protected EDataType initEDataType(EDataType d, Class<?> instanceClass, String name, boolean isSerializable)
   {
     initEClassifier(d, ecorePackage.getEDataType(), instanceClass, name, false);
     d.setSerializable(isSerializable);
     return d;
   }
 
-  protected EDataType initEDataType(EDataType d, Class instanceClass, String name, boolean isSerializable, boolean isGenerated)
+  protected EDataType initEDataType(EDataType d, Class<?> instanceClass, String name, boolean isSerializable, boolean isGenerated)
   {
     initEClassifier(d, ecorePackage.getEDataType(), instanceClass, name, isGenerated);
     d.setSerializable(isSerializable);
     return d;
   }
 
-  private void initEClassifier(EClassifier o, EClass metaObject, Class instanceClass, String name)
+  protected EDataType initEDataType
+    (EDataType d, Class<?> instanceClass, String name, boolean isSerializable, boolean isGenerated, String instanceTypeName)
+  {
+    initEDataType(d, instanceClass, name, isSerializable, isGenerated);
+    if (instanceTypeName != null)
+    {
+      setInstanceTypeName(d, instanceTypeName);
+    }
+    return d;
+  }
+
+  private void initEClassifier(EClassifier o, EClass metaObject, Class<?> instanceClass, String name)
   {
     o.setName(name);
     if (instanceClass != null)
@@ -785,7 +861,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     }
   }
 
-  private void initEClassifier(EClassifier o, EClass metaObject, Class instanceClass, String name, boolean isGenerated)
+  private void initEClassifier(EClassifier o, EClass metaObject, Class<?> instanceClass, String name, boolean isGenerated)
   {
     o.setName(name);
     if (instanceClass != null)
@@ -803,6 +879,11 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     ((EClassifierImpl)eClassifier).setGeneratedInstanceClass(true);
   }
 
+  protected void setInstanceTypeName(EClassifier eClassifier, String instanceTypeName)
+  {
+    ((EClassifierImpl)eClassifier).basicSetInstanceTypeName(instanceTypeName);
+  }
+
   protected static final boolean IS_DERIVED = true;
   protected static final boolean IS_TRANSIENT = true;
   protected static final boolean IS_VOLATILE = true;
@@ -815,6 +896,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * @deprecated
    */
+  @Deprecated
   protected EAttribute initEAttribute
     (EAttribute a, 
      EClassifier type,
@@ -835,6 +917,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * @deprecated
    */
+  @Deprecated
   protected EAttribute initEAttribute
     (EAttribute a, 
      EClassifier type,
@@ -856,6 +939,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * @deprecated
    */
+  @Deprecated
   protected EAttribute initEAttribute
     (EAttribute a, 
      EClassifier type,
@@ -950,7 +1034,43 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
      String defaultValue,
      int lowerBound, 
      int upperBound, 
-     Class containerClass,
+     Class<?> containerClass,
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isUnsettable,
+     boolean isID,
+     boolean isUnique,
+     boolean isDerived,
+     boolean isOrdered)
+  {
+    initEStructuralFeature
+      (a, 
+       type, 
+       name, 
+       defaultValue, 
+       lowerBound, 
+       upperBound, 
+       containerClass,
+       isTransient, 
+       isVolatile, 
+       isChangeable, 
+       isUnsettable, 
+       isUnique, 
+       isDerived, 
+       isOrdered);
+    a.setID(isID);
+    return a;
+  }
+
+  protected EAttribute initEAttribute
+    (EAttribute a, 
+     EGenericType type,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     Class<?> containerClass,
      boolean isTransient, 
      boolean isVolatile, 
      boolean isChangeable, 
@@ -986,6 +1106,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * @deprecated
    */
+  @Deprecated
   protected EReference initEReference
     (EReference r, 
      EClassifier type, 
@@ -1021,6 +1142,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * @deprecated
    */
+  @Deprecated
   protected EReference initEReference
     (EReference r, 
      EClassifier type, 
@@ -1057,6 +1179,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   /**
    * @deprecated
    */
+  @Deprecated
   protected EReference initEReference
     (EReference r, 
      EClassifier type, 
@@ -1176,7 +1299,50 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
      String defaultValue,
      int lowerBound, 
      int upperBound, 
-     Class containerClass,
+     Class<?> containerClass,
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable, 
+     boolean isContainment, 
+     boolean isResolveProxies,
+     boolean isUnsettable,
+     boolean isUnique,
+     boolean isDerived,
+     boolean isOrdered)
+  {
+    initEStructuralFeature
+      (r, 
+       type, 
+       name, 
+       defaultValue, 
+       lowerBound, 
+       upperBound, 
+       containerClass,
+       isTransient, 
+       isVolatile, 
+       isChangeable, 
+       isUnsettable, 
+       isUnique, 
+       isDerived, 
+       isOrdered);
+    r.setContainment(isContainment);
+    if (otherEnd != null)
+    {
+      r.setEOpposite(otherEnd);
+    }
+    r.setResolveProxies(isResolveProxies);
+    return r;
+  }
+
+  protected EReference initEReference
+    (EReference r, 
+     EGenericType type, 
+     EReference otherEnd,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     Class<?> containerClass,
      boolean isTransient, 
      boolean isVolatile, 
      boolean isChangeable, 
@@ -1218,7 +1384,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
      String defaultValue,
      int lowerBound, 
      int upperBound, 
-     Class containerClass,
+     Class<?> containerClass,
      boolean isTransient, 
      boolean isVolatile, 
      boolean isChangeable,
@@ -1245,6 +1411,40 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     }
   }
 
+  private void initEStructuralFeature
+    (EStructuralFeature s, 
+     EGenericType type,
+     String name, 
+     String defaultValue,
+     int lowerBound, 
+     int upperBound, 
+     Class<?> containerClass,
+     boolean isTransient, 
+     boolean isVolatile, 
+     boolean isChangeable,
+     boolean isUnsettable,
+     boolean isUnique,
+     boolean isDerived,
+     boolean isOrdered)
+  {
+    s.setName(name);
+    ((EStructuralFeatureImpl)s).setContainerClass(containerClass);
+    s.setTransient(isTransient);
+    s.setVolatile(isVolatile);
+    s.setChangeable(isChangeable);
+    s.setUnsettable(isUnsettable);
+    s.setUnique(isUnique);
+    s.setDerived(isDerived);
+    s.setOrdered(isOrdered);
+    s.setLowerBound(lowerBound);
+    s.setUpperBound(upperBound);
+    s.setEGenericType(type);
+    if (defaultValue != null)
+    {
+      s.setDefaultValueLiteral(defaultValue);
+    }
+  }
+  
   protected EOperation addEOperation(EClass owner, EClassifier type, String name)
   {
     EOperation o = ecoreFactory.createEOperation();
@@ -1260,6 +1460,11 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     o.setLowerBound(lowerBound);
     o.setUpperBound(UpperBound);
     return o;
+  }
+
+  protected void initEOperation(EOperation eOperation, EGenericType eGenericType)
+  {
+    eOperation.setEGenericType(eGenericType);
   }
 
   private EParameter internalAddEParameter(EOperation owner, EClassifier type, String name)
@@ -1283,9 +1488,24 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     p.setUpperBound(UpperBound);
   }
 
+  protected void addEParameter(EOperation owner, EGenericType type, String name, int lowerBound, int UpperBound)
+  {
+    EParameter p = ecoreFactory.createEParameter();
+    p.setEGenericType(type);
+    p.setName(name);
+    owner.getEParameters().add(p);
+    p.setLowerBound(lowerBound);
+    p.setUpperBound(UpperBound);
+  }
+
   protected void addEException(EOperation owner, EClassifier exception)
   {
     owner.getEExceptions().add(exception);
+  }
+
+  protected void addEException(EOperation owner, EGenericType exception)
+  {
+    owner.getEGenericExceptions().add(exception);
   }
 
   protected void addEEnumLiteral(EEnum owner, Enumerator e)
@@ -1299,7 +1519,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   {
     EAnnotation eAnnotation = ecoreFactory.createEAnnotation();
     eAnnotation.setSource(source);
-    EMap theDetails = eAnnotation.getDetails();
+    EMap<String, String> theDetails = eAnnotation.getDetails();
     for (int i = 1; i < details.length; i += 2)
     {
       theDetails.put(details[i - 1], details[i]);
@@ -1311,15 +1531,17 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   {
     EAnnotation eAnnotation = ecoreFactory.createEAnnotation();
     eAnnotation.setSource(source);
-    EMap theDetails = eAnnotation.getDetails();
+    EMap<String, String> theDetails = eAnnotation.getDetails();
     for (int i = 1; i < details.length; i += 2)
     {
       theDetails.put(details[i - 1], details[i]);
     }
-    List annotations = eNamedElement.getEAnnotations();
+    EList<EAnnotation> annotations = eNamedElement.getEAnnotations();
     for (int i = 0; i < depth; ++i)
     {
-      annotations = ((EAnnotation)annotations.get(annotations.size() - 1)).getContents();
+      @SuppressWarnings("unchecked") EList<EAnnotation> childAnnotations = 
+        (EList<EAnnotation>)(EList<?>)annotations.get(annotations.size() - 1).getContents();
+      annotations = childAnnotations;
     }
     annotations.add(eAnnotation);
   }
@@ -1333,9 +1555,8 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     target.getEClassifiers().addAll(source.getEClassifiers());
     target.getEAnnotations().addAll(source.getEAnnotations());
 
-    for (Iterator i = source.getESubpackages().iterator(); i.hasNext(); )
+    for (EPackage sourceSubpackage : source.getESubpackages())
     {
-      EPackage sourceSubpackage = (EPackage)i.next();
       EPackage targetSubpackage = EPackage.Registry.INSTANCE.getEPackage(sourceSubpackage.getNsURI());
       initializeFromLoadedEPackage(targetSubpackage, sourceSubpackage);
       target.getESubpackages().add(targetSubpackage);
@@ -1346,7 +1567,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
   {
     int id = 0;
     
-    for (Iterator i = getEClassifiers().iterator(); i.hasNext(); )
+    for (Iterator<EClassifier> i = getEClassifiers().iterator(); i.hasNext(); )
     {
       EClassifierImpl eClassifier = (EClassifierImpl)i.next();
       if (eClassifier instanceof EClass)
@@ -1357,7 +1578,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       }
     }
     
-    for (Iterator i = getEClassifiers().iterator(); i.hasNext(); )
+    for (Iterator<EClassifier> i = getEClassifiers().iterator(); i.hasNext(); )
     {
       EClassifierImpl eClassifier = (EClassifierImpl)i.next();
       if (eClassifier.getClassifierID() == -1 && eClassifier instanceof EEnum)
@@ -1368,7 +1589,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       }
     }
 
-    for (Iterator i = getEClassifiers().iterator(); i.hasNext(); )
+    for (Iterator<EClassifier> i = getEClassifiers().iterator(); i.hasNext(); )
     {
       EClassifierImpl eClassifier = (EClassifierImpl)i.next();
       if (eClassifier.getClassifierID() == -1 && eClassifier instanceof EDataType)
@@ -1401,7 +1622,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
 
   protected void fixEStructuralFeatures(EClass eClass)
   {
-    List features = eClass.getEStructuralFeatures();
+    List<EStructuralFeature> features = eClass.getEStructuralFeatures();
     if (!features.isEmpty())
     {
       // The container class must be null for the open content features of the document root
@@ -1409,11 +1630,11 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
       // rather than assumed to be a feature with a feature ID relative to the actual class.
       // Otherwise, it's good to have this optimization.
       //
-      Class containerClass = ExtendedMetaData.INSTANCE.getDocumentRoot(this) == eClass ? null : eClass.getInstanceClass();
+      Class<?> containerClass = ExtendedMetaData.INSTANCE.getDocumentRoot(this) == eClass ? null : eClass.getInstanceClass();
 
-      int id = eClass.getFeatureID((EStructuralFeature)features.get(0));
+      int id = eClass.getFeatureID(features.get(0));
       
-      for (Iterator i = features.iterator(); i.hasNext(); )
+      for (Iterator<EStructuralFeature> i = features.iterator(); i.hasNext(); )
       {
         EStructuralFeatureImpl eStructuralFeature = (EStructuralFeatureImpl)i.next();
         eStructuralFeature.setFeatureID(id++);
@@ -1424,15 +1645,14 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
 
   protected void fixEEnumLiterals(EEnum eEnum)
   {
-    Class enumClass = eEnum.getInstanceClass();
+    Class<?> enumClass = eEnum.getInstanceClass();
     
     try
     {
       Method getter = enumClass.getMethod("get", new Class[] { Integer.TYPE });
 
-      for (Iterator i = eEnum.getELiterals().iterator(); i.hasNext(); )
+      for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())
       {
-        EEnumLiteral eEnumLiteral = (EEnumLiteral)i.next();
         Enumerator instance = (Enumerator)getter.invoke(null, new Object[] { new Integer(eEnumLiteral.getValue()) });
         eEnumLiteral.setInstance(instance);
       }
@@ -1455,6 +1675,7 @@ public class EPackageImpl extends ENamedElementImpl implements EPackage, BasicEx
     this.ePackageExtendedMetaData = ePackageExtendedMetaData;
   }
 
+  @Override
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
     EObject result = getEClassifierGen(uriFragmentSegment);

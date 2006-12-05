@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2005 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DataValue.java,v 1.8 2005/06/12 13:29:22 emerks Exp $
+ * $Id: DataValue.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -87,10 +87,12 @@ public final class DataValue
 
 static class ValidationContext
 {
+  // Empty.
 }
 
 static class XSSimpleType
 {
+  // Empty.
 }
 
 /*
@@ -921,10 +923,10 @@ public static class EncodingMap {
     //
 
     /** fIANA2JavaMap */
-    protected final static Hashtable fIANA2JavaMap = new Hashtable();
+    protected final static Hashtable<String, String> fIANA2JavaMap = new Hashtable<String, String>();
 
     /** fJava2IANAMap */
-    protected final static Hashtable fJava2IANAMap = new Hashtable();
+    protected final static Hashtable<String, String> fJava2IANAMap = new Hashtable<String, String>();
 
     //
     // Static initialization
@@ -1368,7 +1370,10 @@ public static class EncodingMap {
     //
 
     /** Default constructor. */
-    public EncodingMap() {}
+    public EncodingMap() 
+    {
+      super();
+    }
 
     //
     // Public static methods
@@ -1391,7 +1396,7 @@ public static class EncodingMap {
      * @param ianaEncoding The IANA encoding name.
      */
     public static String getIANA2JavaMapping(String ianaEncoding) {
-        return (String)fIANA2JavaMap.get(ianaEncoding);
+        return fIANA2JavaMap.get(ianaEncoding);
     } // getIANA2JavaMapping(String):String
 
     /**
@@ -1400,7 +1405,7 @@ public static class EncodingMap {
      * @param ianaEncoding The IANA encoding name.
      */
     public static String removeIANA2JavaMapping(String ianaEncoding) {
-        return (String)fIANA2JavaMap.remove(ianaEncoding);
+        return fIANA2JavaMap.remove(ianaEncoding);
     } // removeIANA2JavaMapping(String):String
 
     /**
@@ -1420,7 +1425,7 @@ public static class EncodingMap {
      * @param javaEncoding The Java encoding name.
      */
     public static String getJava2IANAMapping(String javaEncoding) {
-        return (String)fJava2IANAMap.get(javaEncoding);
+        return fJava2IANAMap.get(javaEncoding);
     } // getJava2IANAMapping(String):String
 
     /**
@@ -1429,7 +1434,7 @@ public static class EncodingMap {
      * @param javaEncoding The Java encoding name.
      */
     public static String removeJava2IANAMapping(String javaEncoding) {
-        return (String)fJava2IANAMap.remove(javaEncoding);
+        return fJava2IANAMap.remove(javaEncoding);
     } // removeJava2IANAMapping
 
 } // class EncodingMap
@@ -1467,11 +1472,12 @@ public static class EncodingMap {
 * default port for a specific scheme). Rather, it only knows the
 * grammar and basic set of operations that can be applied to a URI.
 *
-* @version  $Id: DataValue.java,v 1.8 2005/06/12 13:29:22 emerks Exp $
+* @version  $Id: DataValue.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
 *
 **********************************************************************/
  public static final class URI implements Serializable {
-   
+
+  private static final long serialVersionUID = 1L;
 
   /*******************************************************************
   * MalformedURIExceptions are thrown in the process of building a URI
@@ -1480,6 +1486,8 @@ public static class EncodingMap {
   *
   ********************************************************************/
   public static class MalformedURIException extends IOException {
+    
+    private static final long serialVersionUID = 1L;
 
    /******************************************************************
     * Constructs a <code>MalformedURIException</code> with no specified
@@ -1625,6 +1633,7 @@ public static class EncodingMap {
     try {
         uri = new URI("abc://def.ghi.jkl");
     } catch (URI.MalformedURIException ex) {
+      // Just use null.
     }
     BASE_URI = uri;
   }
@@ -1657,6 +1666,7 @@ public static class EncodingMap {
   * Construct a new and uninitialized URI.
   */
   public URI() {
+    super();
   }
 
  /**
@@ -2886,6 +2896,7 @@ public static class EncodingMap {
   * @return true if p_test is a URI with all values equal to this
   *         URI, false otherwise
   */
+  @Override
   public boolean equals(Object p_test) {
     if (p_test instanceof URI) {
       URI testURI = (URI) p_test;
@@ -2919,6 +2930,7 @@ public static class EncodingMap {
   *
   * @return the URI string specification
   */
+  @Override
   public String toString() {
     StringBuffer uriSpecString = new StringBuffer();
 
@@ -3484,7 +3496,7 @@ public static class EncodingMap {
   * @author Michael Glavassevich, IBM
   * @author Rahul Srivastava, Sun Microsystems Inc.
   *
-  * @version $Id: DataValue.java,v 1.8 2005/06/12 13:29:22 emerks Exp $
+  * @version $Id: DataValue.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
   */
  public static final class XMLChar {
 

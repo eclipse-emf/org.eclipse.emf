@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.15 2006/01/20 16:17:51 marcelop Exp $
+ * $Id: EObjectValidator.java,v 1.16 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -75,7 +75,7 @@ public class EObjectValidator implements EValidator
   /**
    * @since 2.1.0
    */
-  public static String getObjectLabel(EObject eObject, Map context)
+  public static String getObjectLabel(EObject eObject, Map<Object, Object> context)
   {
     if (context != null)
     {
@@ -91,7 +91,7 @@ public class EObjectValidator implements EValidator
   /**
    * @since 2.1.0
    */
-  public static String getFeatureLabel(EStructuralFeature eStructuralFeature, Map context)
+  public static String getFeatureLabel(EStructuralFeature eStructuralFeature, Map<Object, Object> context)
   {
     if (context != null)
     {
@@ -107,7 +107,7 @@ public class EObjectValidator implements EValidator
   /**
    * @since 2.1.0
    */
-  public static String getValueLabel(EDataType eDataType, Object value, Map context)
+  public static String getValueLabel(EDataType eDataType, Object value, Map<Object, Object> context)
   {
     if (context != null)
     {
@@ -122,6 +122,7 @@ public class EObjectValidator implements EValidator
 
   public EObjectValidator()
   {
+    super();
   }
 
   protected EPackage getEPackage()
@@ -129,7 +130,7 @@ public class EObjectValidator implements EValidator
     return EcorePackage.eINSTANCE;
   }
 
-  protected EValidator getRootEValidator(Map context)
+  protected EValidator getRootEValidator(Map<Object, Object> context)
   {
     if (context != null)
     {
@@ -149,12 +150,12 @@ public class EObjectValidator implements EValidator
    * @param context a place to cache information, if it's <code>null</code>, no cache is supported.
    * @return whether the object is valid.
    */
-  public boolean validate(EObject eObject, DiagnosticChain diagnostics, Map context)
+  public boolean validate(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate(eObject.eClass(), eObject, diagnostics, context);
   }
 
-  public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map context)
+  public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     if (eClass.eContainer() == getEPackage())
     {
@@ -162,20 +163,20 @@ public class EObjectValidator implements EValidator
     }
     else
     {
-      List eSuperTypes = eClass.getESuperTypes();
+      List<EClass> eSuperTypes = eClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           validate_EveryDefaultConstraint(eObject, diagnostics, context) :
-          validate((EClass)eSuperTypes.get(0), eObject, diagnostics, context);
+          validate(eSuperTypes.get(0), eObject, diagnostics, context);
     }
   }
 
-  protected boolean validate(int classifierID, Object object, DiagnosticChain diagnostics, Map context)
+  protected boolean validate(int classifierID, Object object, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return classifierID != EcorePackage.EOBJECT || validate_EveryDefaultConstraint((EObject)object, diagnostics, context);
   }
 
-  public boolean validate_EveryDefaultConstraint(EObject object, DiagnosticChain theDiagnostics, Map context)
+  public boolean validate_EveryDefaultConstraint(EObject object, DiagnosticChain theDiagnostics, Map<Object, Object> context)
   {
     boolean result = validate_EveryMultiplicityConforms(object, theDiagnostics, context);
     if (result || theDiagnostics != null)
@@ -197,7 +198,7 @@ public class EObjectValidator implements EValidator
     return result;
   }
 
-  public boolean validate_EveryMultiplicityConforms(EObject eObject, DiagnosticChain diagnostics, Map context)
+  public boolean validate_EveryMultiplicityConforms(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
     EClass eClass = eObject.eClass();
@@ -213,7 +214,7 @@ public class EObjectValidator implements EValidator
   }
   
   protected boolean validate_MultiplicityConforms
-    (EObject eObject, EStructuralFeature eStructuralFeature, DiagnosticChain diagnostics, Map context)
+    (EObject eObject, EStructuralFeature eStructuralFeature, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
     if (eStructuralFeature.isMany())
@@ -221,7 +222,7 @@ public class EObjectValidator implements EValidator
       int lowerBound = eStructuralFeature.getLowerBound();
       if (lowerBound > 0)
       {
-        int size = ((List)eObject.eGet(eStructuralFeature)).size();
+        int size = ((List<?>)eObject.eGet(eStructuralFeature)).size();
         if (size < lowerBound)
         {
           result = false;
@@ -273,7 +274,7 @@ public class EObjectValidator implements EValidator
         int upperBound = eStructuralFeature.getUpperBound();
         if (upperBound > 0)
         {
-          int size = ((List)eObject.eGet(eStructuralFeature)).size();
+          int size = ((List<?>)eObject.eGet(eStructuralFeature)).size();
           if (size > upperBound)
           {
             result = false;
@@ -322,12 +323,12 @@ public class EObjectValidator implements EValidator
     return result;
   }
 
-  public boolean validate_EveryProxyResolves(EObject eObject, DiagnosticChain diagnostics, Map context)
+  public boolean validate_EveryProxyResolves(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
-    for (EContentsEList.FeatureIterator i = (EContentsEList.FeatureIterator)eObject.eCrossReferences().iterator(); i.hasNext(); )
+    for (EContentsEList.FeatureIterator<EObject> i = (EContentsEList.FeatureIterator<EObject>)eObject.eCrossReferences().iterator(); i.hasNext(); )
     {
-      EObject eCrossReferenceObject = (EObject)i.next();
+      EObject eCrossReferenceObject = i.next();
       if (eCrossReferenceObject.eIsProxy())
       {
         result = false;
@@ -357,12 +358,12 @@ public class EObjectValidator implements EValidator
     return result;
   }
 
-  public boolean validate_EveryReferenceIsContained(EObject eObject, DiagnosticChain diagnostics, Map context)
+  public boolean validate_EveryReferenceIsContained(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
-    for (EContentsEList.FeatureIterator i = (EContentsEList.FeatureIterator)eObject.eCrossReferences().iterator(); i.hasNext(); )
+    for (EContentsEList.FeatureIterator<EObject> i = (EContentsEList.FeatureIterator<EObject>)eObject.eCrossReferences().iterator(); i.hasNext(); )
     {
-      EObject eCrossReferenceObject = (EObject)i.next();
+      EObject eCrossReferenceObject = i.next();
       if (eCrossReferenceObject.eResource() == null && !eCrossReferenceObject.eIsProxy() && !i.feature().isTransient())
       {
         result = false;
@@ -392,12 +393,12 @@ public class EObjectValidator implements EValidator
     return result;
   }
 
-  public boolean validate_EveryDataValueConforms(EObject eObject, DiagnosticChain diagnostics, Map context)
+  public boolean validate_EveryDataValueConforms(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
-    for (Iterator i = eObject.eClass().getEAllAttributes().iterator(); i.hasNext(); )
+    for (EAttribute eAttribute : eObject.eClass().getEAllAttributes())
     {
-      result &= validate_DataValueConforms(eObject, (EAttribute)i.next(), diagnostics, context);
+      result &= validate_DataValueConforms(eObject, eAttribute, diagnostics, context);
       if (!result && diagnostics == null)
       {
         return false;
@@ -407,7 +408,7 @@ public class EObjectValidator implements EValidator
   }
 
   protected boolean validate_DataValueConforms
-    (EObject eObject, EAttribute eAttribute, DiagnosticChain diagnostics, Map context)
+    (EObject eObject, EAttribute eAttribute, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     if (!eObject.eIsSet(eAttribute))
     {
@@ -419,12 +420,12 @@ public class EObjectValidator implements EValidator
     Object value = eObject.eGet(eAttribute);
     if (FeatureMapUtil.isFeatureMap(eAttribute))
     {
-      Collection featureMap = (Collection)value;
+      @SuppressWarnings("unchecked") Collection<FeatureMap.Entry> featureMap = (Collection<FeatureMap.Entry>)value;
       EClass eClass = eObject.eClass();
-      Map entryFeatureToDiagnosticChainMap = null;
-      for (Iterator i = featureMap.iterator(); i.hasNext() && (result || diagnostics != null); )
+      Map<EStructuralFeature, DiagnosticChain> entryFeatureToDiagnosticChainMap = null;
+      for (Iterator<FeatureMap.Entry> i = featureMap.iterator(); i.hasNext() && (result || diagnostics != null); )
       {
-        FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
+        FeatureMap.Entry entry = i.next();
         EStructuralFeature entryFeature = entry.getEStructuralFeature();
         if (entryFeature instanceof EAttribute &&
               ExtendedMetaData.INSTANCE.getAffiliation(eClass, entryFeature) == eAttribute)
@@ -439,9 +440,9 @@ public class EObjectValidator implements EValidator
             {
               if (entryFeatureToDiagnosticChainMap == null)
               {
-                entryFeatureToDiagnosticChainMap = new HashMap();
+                entryFeatureToDiagnosticChainMap = new HashMap<EStructuralFeature, DiagnosticChain>();
               }
-              DiagnosticChain entryFeatureDiagnostic = (DiagnosticChain)entryFeatureToDiagnosticChainMap.get(entryFeature);
+              DiagnosticChain entryFeatureDiagnostic = entryFeatureToDiagnosticChainMap.get(entryFeature);
               if (entryFeatureDiagnostic == null)
               {
                 entryFeatureDiagnostic = createBadDataValueDiagnostic(eObject, (EAttribute)entryFeature, diagnostics, context);
@@ -455,7 +456,7 @@ public class EObjectValidator implements EValidator
     }
     else if (eAttribute.isMany())
     {
-      for (Iterator i = ((List)value).iterator(); i.hasNext() && result; )
+      for (Iterator<?> i = ((List<?>)value).iterator(); i.hasNext() && result; )
       {
         result &= rootValidator.validate(eDataType, i.next(), null, context);
       }
@@ -463,7 +464,7 @@ public class EObjectValidator implements EValidator
       if (!result && diagnostics != null)
       {
         DiagnosticChain diagnostic = createBadDataValueDiagnostic(eObject, eAttribute, diagnostics, context);
-        for (Iterator i = ((List)value).iterator(); i.hasNext(); )
+        for (Iterator<?> i = ((List<?>)value).iterator(); i.hasNext(); )
         {
           rootValidator.validate(eDataType, i.next(), diagnostic, context);
         }
@@ -483,7 +484,7 @@ public class EObjectValidator implements EValidator
   }
 
   protected DiagnosticChain createBadDataValueDiagnostic
-    (EObject eObject, EAttribute eAttribute, DiagnosticChain diagnostics, Map context)
+    (EObject eObject, EAttribute eAttribute, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     BasicDiagnostic diagnostic =
       new BasicDiagnostic
@@ -503,7 +504,7 @@ public class EObjectValidator implements EValidator
   }
 
   protected boolean validatePattern
-    (EDataType eDataType, Object value, PatternMatcher [][] patterns, DiagnosticChain diagnostics, Map context)
+    (EDataType eDataType, Object value, PatternMatcher [][] patterns, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     String literal = EcoreUtil.convertToString(eDataType, value);
     for (int i = 0; i < patterns.length; ++i)
@@ -532,7 +533,7 @@ public class EObjectValidator implements EValidator
 
   public class DynamicEDataTypeValidator
   {
-    protected List effectiveEnumeration;
+    protected List<Object> effectiveEnumeration;
     protected PatternMatcher [][] effectivePattern;
     protected int effectiveTotalDigits = -1;
     protected int effectiveFractionDigits = -1;
@@ -545,7 +546,7 @@ public class EObjectValidator implements EValidator
     protected boolean effectiveMaxIsInclusive;
     protected int effectiveTotalDigitsMax = -1;
     protected EDataType itemType;
-    protected List memberTypes;
+    protected List<EDataType> memberTypes;
 
     public DynamicEDataTypeValidator(EDataType eDataType)
     {
@@ -560,35 +561,35 @@ public class EObjectValidator implements EValidator
         }
       }
 
-      List patterns = null;
+      List<PatternMatcher[]> patterns = null;
 
       for (;;)
       {
         if (effectiveEnumeration == null)
         {
-          List enumeration = extendedMetaData.getEnumerationFacet(eDataType);
+          List<String> enumeration = extendedMetaData.getEnumerationFacet(eDataType);
           if (!enumeration.isEmpty())
           {
-            effectiveEnumeration = new ArrayList();
-            for (Iterator i = enumeration.iterator(); i.hasNext(); )
+            effectiveEnumeration = new ArrayList<Object>();
+            for (String enumerator : enumeration)
             {
-              effectiveEnumeration.add(EcoreUtil.createFromString(eDataType, (String)i.next()));
+              effectiveEnumeration.add(EcoreUtil.createFromString(eDataType, enumerator));
             }
           }
         }
 
-        List pattern = extendedMetaData.getPatternFacet(eDataType);
+        List<String> pattern = extendedMetaData.getPatternFacet(eDataType);
         if (!pattern.isEmpty())
         {
           if (patterns == null)
           {
-            patterns = new ArrayList();
+            patterns = new ArrayList<PatternMatcher[]>();
           }
           PatternMatcher [] children = new PatternMatcher [pattern.size()];
           patterns.add(children);
-          for (ListIterator i = pattern.listIterator(); i.hasNext(); )
+          for (ListIterator<String> i = pattern.listIterator(); i.hasNext(); )
           {
-            PatternMatcher patternMatcher = XMLTypeUtil.createPatternMatcher((String)i.next());
+            PatternMatcher patternMatcher = XMLTypeUtil.createPatternMatcher(i.next());
             children[i.previousIndex()] = patternMatcher;
           }
         }
@@ -684,20 +685,22 @@ public class EObjectValidator implements EValidator
         Object upperBound = EcoreUtil.createFromString(eDataType, digits.toString());
         Object lowerBound = EcoreUtil.createFromString(eDataType, "-" + digits.toString());
 
-        if (effectiveMin == null ||
+        @SuppressWarnings("unchecked") boolean lowerBounded = effectiveMin == null ||
               (effectiveMinIsInclusive ?
-                 ((Comparable)effectiveMin).compareTo(lowerBound) <= 0:
-                 ((Comparable)effectiveMin).compareTo(lowerBound) < 0))
+                 ((Comparable<Object>)effectiveMin).compareTo(lowerBound) <= 0:
+                 ((Comparable<Object>)effectiveMin).compareTo(lowerBound) < 0);
+        if (lowerBounded)
         {
           effectiveMinIsInclusive = false;
           effectiveMin = lowerBound;
           effectiveTotalDigitsMin = effectiveTotalDigits;
         }
 
-        if (effectiveMax == null ||
+        @SuppressWarnings("unchecked") boolean upperBounded = effectiveMax == null ||
               (effectiveMaxIsInclusive ?
-                 ((Comparable)effectiveMax).compareTo(upperBound) >= 0:
-                 ((Comparable)effectiveMax).compareTo(upperBound) > 0))
+                 ((Comparable<Object>)effectiveMax).compareTo(upperBound) >= 0:
+                 ((Comparable<Object>)effectiveMax).compareTo(upperBound) > 0);
+        if (upperBounded)
         {
           effectiveMaxIsInclusive = false;
           effectiveMax = upperBound;
@@ -712,7 +715,7 @@ public class EObjectValidator implements EValidator
       }
     }
 
-    public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map context)
+    public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
     {
       boolean result = true;
       if (effectiveEnumeration != null)
@@ -731,9 +734,10 @@ public class EObjectValidator implements EValidator
 
       if (effectiveMin != null)
       {
+        @SuppressWarnings("unchecked") Comparable<Object> comparableObject = (Comparable<Object>)effectiveMin;
         if (effectiveMinIsInclusive ?
-              ((Comparable)effectiveMin).compareTo(value) > 0:
-              ((Comparable)effectiveMin).compareTo(value) >= 0)
+              comparableObject.compareTo(value) > 0:
+              comparableObject.compareTo(value) >= 0)
         {
           if (diagnostics != null)
           {
@@ -752,9 +756,10 @@ public class EObjectValidator implements EValidator
 
       if (effectiveMax != null)
       {
+        @SuppressWarnings("unchecked") Comparable<Object> comparableObject = (Comparable<Object>)effectiveMax;
         if (effectiveMaxIsInclusive ?
-              ((Comparable)effectiveMax).compareTo(value) < 0:
-              ((Comparable)effectiveMax).compareTo(value) <= 0)
+              comparableObject.compareTo(value) < 0:
+              comparableObject.compareTo(value) <= 0)
         {
           if (diagnostics != null)
           {
@@ -778,7 +783,7 @@ public class EObjectValidator implements EValidator
             ((String)value).length() :
              value instanceof Object[] ?
                ((Object[])value).length :
-               ((Collection)value).size();
+               ((Collection<?>)value).size();
         if (length < effectiveMinLength)
         {
           if (diagnostics != null) reportMinLengthViolation(eDataType, value, length, effectiveMinLength, diagnostics, context);
@@ -793,7 +798,7 @@ public class EObjectValidator implements EValidator
             ((String)value).length() :
              value instanceof Object[] ?
                ((Object[])value).length :
-               ((Collection)value).size();
+               ((Collection<?>)value).size();
         if (length > effectiveMaxLength)
         {
           if (diagnostics != null) reportMaxLengthViolation(eDataType, value, length, effectiveMaxLength, diagnostics, context);
@@ -822,7 +827,7 @@ public class EObjectValidator implements EValidator
       if (itemType != null)
       {
         EValidator rootValidator = getRootEValidator(context);
-        for (Iterator i = ((List)value).iterator(); i.hasNext() && (result || diagnostics != null); )
+        for (Iterator<?> i = ((List<?>)value).iterator(); i.hasNext() && (result || diagnostics != null); )
         {
           result &= rootValidator.validate(itemType, i.next(), diagnostics, context);
         }
@@ -831,17 +836,16 @@ public class EObjectValidator implements EValidator
       else if (!memberTypes.isEmpty())
       {
         EValidator rootValidator = getRootEValidator(context);
-        for (Iterator i = memberTypes.iterator(); i.hasNext(); )
+        
+        for (EDataType memberType : memberTypes)
         {
-          EDataType memberType = (EDataType)i.next();
           if (rootValidator.validate(memberType, value, null, context))
           {
             return true;
           }
         }
-        for (Iterator i = memberTypes.iterator(); i.hasNext(); )
+        for (EDataType memberType : memberTypes)
         {
-          EDataType memberType = (EDataType)i.next();
           if (memberType.isInstance(value))
           {
             return rootValidator.validate(memberType, value, diagnostics, context);
@@ -856,7 +860,7 @@ public class EObjectValidator implements EValidator
     }
   }
 
-  public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map context)
+  public boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     if (!eDataType.isInstance(value))
     {
@@ -880,12 +884,14 @@ public class EObjectValidator implements EValidator
       return
         new DynamicEDataTypeValidator(eDataType)
         {
+          // Ensure that the class loader for this class will be used downstream.
+          //
         }.validate(eDataType, value, diagnostics, context);
     }
   }
 
   protected void reportMinViolation
-    (EDataType eDataType, Object value, Object bound, boolean isInclusive, DiagnosticChain diagnostics, Map context)
+    (EDataType eDataType, Object value, Object bound, boolean isInclusive, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
       (new BasicDiagnostic
@@ -904,7 +910,7 @@ public class EObjectValidator implements EValidator
   }
 
   protected void reportMaxViolation
-    (EDataType eDataType, Object value, Object bound, boolean isInclusive, DiagnosticChain diagnostics, Map context)
+    (EDataType eDataType, Object value, Object bound, boolean isInclusive, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
       (new BasicDiagnostic
@@ -923,7 +929,7 @@ public class EObjectValidator implements EValidator
   }
 
   protected void reportMinLengthViolation
-    (EDataType eDataType, Object value, int length, int bound, DiagnosticChain diagnostics, Map context)
+    (EDataType eDataType, Object value, int length, int bound, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
       (new BasicDiagnostic
@@ -942,7 +948,7 @@ public class EObjectValidator implements EValidator
   }
 
   protected void reportMaxLengthViolation
-    (EDataType eDataType, Object value, int length, int bound, DiagnosticChain diagnostics, Map context)
+    (EDataType eDataType, Object value, int length, int bound, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
       (new BasicDiagnostic
@@ -961,7 +967,7 @@ public class EObjectValidator implements EValidator
   }
 
   protected void reportTotalDigitsViolation
-    (EDataType eDataType, Object value, int totalDigits, DiagnosticChain diagnostics, Map context)
+    (EDataType eDataType, Object value, int totalDigits, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
       (new BasicDiagnostic
@@ -979,7 +985,7 @@ public class EObjectValidator implements EValidator
   }
 
   protected void reportFractionDigitsViolation
-    (EDataType eDataType, Object value, int fractionDigits, DiagnosticChain diagnostics, Map context)
+    (EDataType eDataType, Object value, int fractionDigits, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
       (new BasicDiagnostic
@@ -997,10 +1003,10 @@ public class EObjectValidator implements EValidator
   }
 
   protected void reportEnumerationViolation
-    (EDataType eDataType, Object value, Collection values, DiagnosticChain diagnostics, Map context)
+    (EDataType eDataType, Object value, Collection<?> values, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     String valueLiterals = "";
-    Iterator i = values.iterator();
+    Iterator<?> i = values.iterator();
     if (i.hasNext())
     {
       valueLiterals =
@@ -1029,7 +1035,7 @@ public class EObjectValidator implements EValidator
   }
 
   protected void reportDataValuePatternViolation
-    (EDataType eDataType, Object value, PatternMatcher [] patterns, DiagnosticChain diagnostics, Map context)
+    (EDataType eDataType, Object value, PatternMatcher [] patterns, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     String patternLiterals = "";
     if (patterns.length > 0)
@@ -1057,7 +1063,7 @@ public class EObjectValidator implements EValidator
   }
 
   protected void reportDataValueTypeViolation
-    (EDataType eDataType, Object value, DiagnosticChain diagnostics, Map context)
+    (EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     diagnostics.add
       (new BasicDiagnostic
@@ -1075,7 +1081,7 @@ public class EObjectValidator implements EValidator
          new Object [] { value, eDataType }));
   }
 
-  protected static Collection wrapEnumerationValues(Object [] values)
+  protected static Collection<Object> wrapEnumerationValues(Object [] values)
   {
     return java.util.Arrays.asList(values);
   }
@@ -1083,7 +1089,7 @@ public class EObjectValidator implements EValidator
   /**
    * @since 2.2
    */
-  public boolean validate_UniqueID(EObject eObject, DiagnosticChain diagnostics, Map context)
+  public boolean validate_UniqueID(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
     String id = EcoreUtil.getID(eObject);

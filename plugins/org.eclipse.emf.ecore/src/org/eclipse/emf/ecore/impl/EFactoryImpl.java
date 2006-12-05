@@ -12,11 +12,16 @@
  *
  * </copyright>
  *
- * $Id: EFactoryImpl.java,v 1.21 2006/11/01 19:03:19 emerks Exp $
+ * $Id: EFactoryImpl.java,v 1.22 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,12 +32,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
@@ -87,6 +92,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EFACTORY;
@@ -145,6 +151,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -162,13 +169,15 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.EFACTORY__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.EFACTORY__EPACKAGE:
         setEPackage((EPackage)newValue);
@@ -182,6 +191,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -201,6 +211,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -223,9 +234,9 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
 
-    for (List eSuperTypes = eClass.getESuperTypes(); !eSuperTypes.isEmpty(); )
+    for (List<EClass> eSuperTypes = eClass.getESuperTypes(); !eSuperTypes.isEmpty(); )
     {
-      EClass eSuperType = (EClass)eSuperTypes.get(0);
+      EClass eSuperType = eSuperTypes.get(0);
       if (eSuperType.getInstanceClass() != null)
       {
         EObject result = eSuperType.getEPackage().getEFactoryInstance().create(eSuperType);
@@ -242,7 +253,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
   {
     return
        eClass.getInstanceClassName() == "java.util.Map$Entry" ?
-         new DynamicEObjectImpl.BasicEMapEntry(eClass) :
+         new DynamicEObjectImpl.BasicEMapEntry<String, String>(eClass) :
          new DynamicEObjectImpl(eClass);
   }
 
@@ -294,7 +305,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     EDataType itemType = ExtendedMetaData.INSTANCE.getItemType(eDataType);
     if (itemType != null)
     {
-      List result = new ArrayList();
+      List<Object> result = new ArrayList<Object>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(stringValue); stringTokenizer.hasMoreTokens(); )
       {
         String item = stringTokenizer.nextToken();
@@ -303,12 +314,11 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       return result;
     }
 
-    List memberTypes = ExtendedMetaData.INSTANCE.getMemberTypes(eDataType);
+    List<EDataType> memberTypes = ExtendedMetaData.INSTANCE.getMemberTypes(eDataType);
     if (!memberTypes.isEmpty())
     {
-      for (Iterator i = memberTypes.iterator(); i.hasNext(); )
+      for (EDataType memberType : memberTypes)
       {
-        EDataType memberType = (EDataType)i.next();
         try
         {
           Object result = EcoreUtil.createFromString(memberType, stringValue);
@@ -319,12 +329,13 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
         }
         catch (RuntimeException exception)
         {
+          // Keep trying until all else has failed.
         }
       }
-      throw new IllegalArgumentException("The value '"+stringValue+"' does not match any member types of the union datatype '" + eDataType.getName() + "'");
+      throw new IllegalArgumentException("The value '" + stringValue + "' does not match any member types of the union datatype '" + eDataType.getName() + "'");
     }
 
-    Class c = EcoreUtil.wrapperClassFor(eDataType.getInstanceClass());
+    Class<?> c = EcoreUtil.wrapperClassFor(eDataType.getInstanceClass());
     if (c == null) return null;
 
     if (c == Character.class)
@@ -354,21 +365,23 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
         }
         catch (ParseException parseException)
         {
+          // Keep trying until all else has failed.
         }
       }
       throw new IllegalArgumentException("The value '" + stringValue + "' is not a date formatted string of the form yyyy-MM-dd'T'HH:mm:ss'.'SSSZ or a valid subset thereof");
     }
 
-    Class stringClass = String.class;
-    Class[] signature = { stringClass };
+    Class<String> stringClass = String.class;
+    Class<?>[] signature = { stringClass };
 
-    Constructor ctor = null;
+    Constructor<?> ctor = null;
     try
     {
       ctor = c.getConstructor(signature);
     }
     catch (NoSuchMethodException e)
     {
+      // Continue to try a different approach.
     }
     Exception formatException = null;
     try
@@ -399,6 +412,7 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
     }
     catch (NoSuchMethodException e)
     {
+      // Continue to try a different approach.
     }
 
     try
@@ -448,27 +462,25 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       {
         return null;
       }
-      List list = (List)objectValue;
+      List<?> list = (List<?>)objectValue;
       if (list.isEmpty())
       {
         return "";
       }
       StringBuffer result = new StringBuffer();
-      for (Iterator i = list.iterator(); i.hasNext(); )
+      for (Object item : list)
       {
-        Object item = i.next();
         result.append(EcoreUtil.convertToString(itemType, item));
         result.append(' ');
       }
       return result.substring(0, result.length() - 1);
     }
 
-    List memberTypes = ExtendedMetaData.INSTANCE.getMemberTypes(eDataType);
+    List<EDataType> memberTypes = ExtendedMetaData.INSTANCE.getMemberTypes(eDataType);
     if (!memberTypes.isEmpty())
     {
-      for (Iterator i = memberTypes.iterator(); i.hasNext(); )
+      for (EDataType memberType : memberTypes)
       {
-        EDataType memberType = (EDataType)i.next();
         if (memberType.isInstance(objectValue))
         {
           try
@@ -481,10 +493,11 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
           }
           catch (Exception e)
           {
+            // Keep trying until all else false.
           }
         }
       }
-      throw new IllegalArgumentException("Invalid value: '"+objectValue+"' for datatype :"+eDataType.getName());
+      throw new IllegalArgumentException("Invalid value: '" + objectValue + "' for datatype :"+eDataType.getName());
     }
 
     if (objectValue == null)
@@ -506,18 +519,153 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
       return objectValue.toString();
     }
   }
+  
+  byte[] hexStringToBytes(String initialValue)
+  {
+    if (initialValue == null)
+    {
+      return null;
+    }
+
+    int size = initialValue.length();
+    int limit = (size + 1) / 2;
+    byte [] result = new byte[limit];
+    if (size % 2 != 0)
+    {
+      result[--limit] = hexCharToByte(initialValue.charAt(size - 1));
+    }
+    
+    for (int i = 0, j = 0; i < limit; ++i)
+    {
+      byte high = hexCharToByte(initialValue.charAt(j++));
+      byte low = hexCharToByte(initialValue.charAt(j++));
+      result[i] = (byte)(high << 4 | low);
+    }
+    return result;
+  }
+
+  static byte hexCharToByte(char character)
+  {
+    switch (character)
+    {
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      {
+        return (byte)(character - '0');
+      }
+      case 'a':
+      case 'b':
+      case 'c':
+      case 'd':
+      case 'e':
+      case 'f':
+      {
+        return (byte)(character - 'a' + 10);
+      }
+      case 'A':
+      case 'B':
+      case 'C':
+      case 'D':
+      case 'E':
+      case 'F':
+      {
+        return (byte)(character - 'A' + 10);
+      }
+      default:
+      {
+        throw new NumberFormatException("Invalid hexadecimal");
+      }
+    }
+  }
+
+  static final char [] HEX_DIGITS = 
+    { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+
+  String bytesToHexString(byte [] bytes, int count)
+  {
+    if (bytes == null)
+    {
+      return null;
+    }
+    else
+    {
+      char [] result = new char[2 * count];
+      for (int i = 0, j = 0; i < count; ++i)
+      {
+        int high = (bytes[i] >> 4) & 0xF;
+        int low = bytes[i] & 0xF;
+        result[j++] = HEX_DIGITS[high];
+        result[j++] = HEX_DIGITS[low];
+      }
+      return new String(result);
+    }
+  }
+
+  protected Object createFromString(String hexString)
+  {
+    byte [] byteValue = hexStringToBytes(hexString);
+    ByteArrayInputStream bytes = new ByteArrayInputStream(byteValue);
+    try
+    {
+      ObjectInputStream in = new ObjectInputStream(bytes);
+      return in.readObject();
+    }
+    catch (IOException exception)
+    {
+      throw new RuntimeException(exception);
+    }
+    catch (ClassNotFoundException exception)
+    {
+      throw new RuntimeException(exception);
+    }
+  }
+
+  protected String convertToString(Object instanceValue)
+  {
+    ByteArrayOutputStream bytes = 
+      new ByteArrayOutputStream()
+      {
+        @Override
+        public String toString()
+        {
+          return bytesToHexString(buf, count);
+        }
+      };
+    try
+    {
+      ObjectOutputStream out = new ObjectOutputStream(bytes);
+      out.writeObject(instanceValue);
+      out.close();
+    }
+    catch (IOException exception)
+    {
+      throw new RuntimeException(exception);
+    }
+    return bytes.toString();
+  }
+
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EFACTORY__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
       case EcorePackage.EFACTORY__EPACKAGE:
         if (ePackage != null)
           msgs = ((InternalEObject)ePackage).eInverseRemove(this, EcorePackage.EPACKAGE__EFACTORY_INSTANCE, EPackage.class, msgs);
@@ -531,12 +679,13 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EFACTORY__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
       case EcorePackage.EFACTORY__EPACKAGE:
         return basicSetEPackage(null, msgs);
     }
@@ -555,16 +704,20 @@ public class EFactoryImpl extends EModelElementImpl implements EFactory
 
   private static class SafeSimpleDateFormat extends SimpleDateFormat
   {
+    private static final long serialVersionUID = 1L;
+
     public SafeSimpleDateFormat(String pattern)
     {
       super(pattern);
     }
     
+    @Override
     public synchronized Date parse(String source) throws ParseException
     {
       return super.parse(source);
     }
     
+    @Override
     public synchronized StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition)
     {
       return super.format(date, toAppendTo, fieldPosition);

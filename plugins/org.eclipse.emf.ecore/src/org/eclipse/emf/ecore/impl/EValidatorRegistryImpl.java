@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EValidatorRegistryImpl.java,v 1.4 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EValidatorRegistryImpl.java,v 1.5 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -28,12 +28,15 @@ import org.eclipse.emf.ecore.util.EObjectValidator;
 /**
  * An implementation of a validator registry.
  */
-public class EValidatorRegistryImpl extends HashMap implements EValidator.Registry
+public class EValidatorRegistryImpl extends HashMap<EPackage, Object> implements EValidator.Registry
 {
+  private static final long serialVersionUID = 1L;
+
   protected EValidator.Registry delegateRegistry;
 
   public EValidatorRegistryImpl()
   {
+    super();
   }
 
   public EValidatorRegistryImpl(EValidator.Registry delegateRegistry)
@@ -41,6 +44,7 @@ public class EValidatorRegistryImpl extends HashMap implements EValidator.Regist
     this.delegateRegistry = delegateRegistry;
   }
 
+  @Override
   public Object get(Object key)
   {
     Object eValidator = super.get(key);
@@ -48,7 +52,7 @@ public class EValidatorRegistryImpl extends HashMap implements EValidator.Regist
     {
       EValidator.Descriptor eValidatorDescriptor = (EValidator.Descriptor)eValidator;
       eValidator = eValidatorDescriptor.getEValidator();
-      put(key, eValidator);
+      put((EPackage)key, eValidator);
       return eValidator;
     }
     else if (eValidator != null)
@@ -76,6 +80,7 @@ public class EValidatorRegistryImpl extends HashMap implements EValidator.Regist
     return key == null ? EObjectValidator.INSTANCE : null;
   }
 
+  @Override
   public boolean containsKey(Object key)
   {
     return super.containsKey(key) || delegateRegistry != null && delegateRegistry.containsKey(key);

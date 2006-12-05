@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLCalendar.java,v 1.7 2005/11/02 22:58:33 elena Exp $
+ * $Id: XMLCalendar.java,v 1.8 2006/12/05 20:22:26 emerks Exp $
  *
  * ---------------------------------------------------------------------
  *
@@ -222,6 +222,7 @@ public final class XMLCalendar
     this.dataType = dataType;
   }
 
+  @Override
   public boolean equals(Object obj)
   {
     if (!(obj instanceof XMLCalendar))
@@ -238,6 +239,7 @@ public final class XMLCalendar
     return compare(this, (XMLCalendar)obj) == EQUALS;
   }
 
+  @Override
   public int hashCode()
   {
     int hashCode = dataType;
@@ -249,6 +251,7 @@ public final class XMLCalendar
     return hashCode;
   }
   
+  @Override
   public String toString()
   {
     switch (dataType)
@@ -1375,11 +1378,14 @@ public final class XMLCalendar
 
   private static class SafeSimpleDateFormat extends SimpleDateFormat
   {
+    private static final long serialVersionUID = 1L;
+
     public SafeSimpleDateFormat(String pattern)
     {
       super(pattern);
     }
 
+    @Override
     public synchronized Date parse(String source) throws ParseException
     {
       return super.parse(source);

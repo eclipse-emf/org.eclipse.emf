@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeUtil.java,v 1.8 2006/02/10 20:51:22 emerks Exp $
+ * $Id: XMLTypeUtil.java,v 1.9 2006/12/05 20:22:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -53,7 +53,7 @@ public final class XMLTypeUtil
   // TODO
   // This is faster than many charAt() calls.
   //
-  private static class CharArrayThreadLocal extends ThreadLocal
+  private static class CharArrayThreadLocal extends ThreadLocal<char[]>
   {
     private Thread cachedThread;
     private char [] cachedResult;
@@ -65,7 +65,7 @@ public final class XMLTypeUtil
       if (cachedThread != currentThread)
       {
         cachedThread = currentThread;
-        result = (char [])get();
+        result = get();
       }
       if (result.length < capacity)
       {
@@ -75,7 +75,8 @@ public final class XMLTypeUtil
       return cachedResult = result;
     }
 
-    protected Object initialValue()
+    @Override
+    protected char [] initialValue()
     {
       return new char [20];
     }
@@ -233,6 +234,7 @@ public final class XMLTypeUtil
       return regularExpression.matches(value);
     }
 
+    @Override
     public String toString()
     {
       return regularExpression.getPattern();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMap.java,v 1.5 2006/02/10 21:01:40 emerks Exp $
+ * $Id: FeatureMap.java,v 1.6 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -32,7 +32,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 /**
  * A list of entries where each entry consists of a feature and a single value of that feature's type.
  */
-public interface FeatureMap extends EList
+public interface FeatureMap extends EList<FeatureMap.Entry>
 {
   /**
    * A pair consisting of a feature and a single value of that feature's type.
@@ -63,15 +63,15 @@ public interface FeatureMap extends EList
     }
   }
   
-  interface ValueListIterator extends EContentsEList.FeatureListIterator
+  interface ValueListIterator<E> extends EContentsEList.FeatureListIterator<E>
   {
     void add(EStructuralFeature eStructuralFeature, Object value);
   }
   
-  ValueListIterator valueListIterator();
-  ValueListIterator valueListIterator(int index);
+  ValueListIterator<Object> valueListIterator();
+  ValueListIterator<Object> valueListIterator(int index);
 
-  EList list(EStructuralFeature feature);
+  <T> EList<T> list(EStructuralFeature feature);
 
   EStructuralFeature getEStructuralFeature(int index);
   Object getValue(int index);
@@ -85,10 +85,10 @@ public interface FeatureMap extends EList
   boolean add(EStructuralFeature feature, Object value);
   void add(int index, EStructuralFeature feature, Object value);
 
-  boolean addAll(EStructuralFeature feature, Collection values);
-  boolean addAll(int index, EStructuralFeature feature, Collection values);
+  boolean addAll(EStructuralFeature feature, Collection<?> values);
+  boolean addAll(int index, EStructuralFeature feature, Collection<?> values);
 
-  interface Internal extends FeatureMap, InternalEList, EStructuralFeature.Setting
+  interface Internal extends FeatureMap, InternalEList<Entry>, EStructuralFeature.Setting
   {
     int getModCount();
     EObject getEObject();
@@ -98,35 +98,34 @@ public interface FeatureMap extends EList
     int size(EStructuralFeature feature);
     boolean isEmpty(EStructuralFeature feature);
     boolean contains(EStructuralFeature feature, Object object);
-    boolean containsAll(EStructuralFeature feature, Collection collection);
+    boolean containsAll(EStructuralFeature feature, Collection<?> collection);
     int indexOf(EStructuralFeature feature, Object object);
     int lastIndexOf(EStructuralFeature feature, Object object);
-    Iterator iterator(EStructuralFeature feature);
-    ListIterator listIterator(EStructuralFeature feature);
-    ListIterator listIterator(EStructuralFeature feature, int index);
+    Iterator<Object> iterator(EStructuralFeature feature);
+    ListIterator<Object> listIterator(EStructuralFeature feature);
+    ListIterator<Object> listIterator(EStructuralFeature feature, int index);
     // List subList(EStructuralFeature feature, int from, int to);
     // EList list(EStructuralFeature feature);
     EStructuralFeature.Setting setting(EStructuralFeature feature);
-    List basicList(EStructuralFeature feature);
-    Iterator basicIterator(EStructuralFeature feature);
-    ListIterator basicListIterator(EStructuralFeature feature);
-    ListIterator basicListIterator(EStructuralFeature feature, int index);
+    List<Object> basicList(EStructuralFeature feature);
+    Iterator<Object> basicIterator(EStructuralFeature feature);
+    ListIterator<Object> basicListIterator(EStructuralFeature feature);
+    ListIterator<Object> basicListIterator(EStructuralFeature feature, int index);
     Object[] toArray(EStructuralFeature feature);
-    Object[] toArray(EStructuralFeature feature, Object [] array);
+    <T> T[] toArray(EStructuralFeature feature, T [] array);
     void add(EStructuralFeature feature, int index, Object object);
-    boolean addAll(EStructuralFeature feature, int index, Collection collection);
+    boolean addAll(EStructuralFeature feature, int index, Collection<?> collection);
     void addUnique(EStructuralFeature feature, Object object);
     void addUnique(EStructuralFeature feature, int index, Object object);
-    void addUnique(Object object);
-    boolean addAllUnique(Collection collection);
+    boolean addAllUnique(Collection<? extends Entry> collection);
     void addUnique(Entry.Internal entry);
     boolean addAllUnique(Entry.Internal [] entries, int start, int end);
     NotificationChain basicAdd(EStructuralFeature feature, Object object, NotificationChain notifications);
     boolean remove(EStructuralFeature feature, Object object);
     Object remove(EStructuralFeature feature, int index);
-    boolean removeAll(EStructuralFeature feature, Collection collection);
+    boolean removeAll(EStructuralFeature feature, Collection<?> collection);
     NotificationChain basicRemove(EStructuralFeature feature, Object object, NotificationChain notifications);
-    boolean retainAll(EStructuralFeature feature, Collection collection);
+    boolean retainAll(EStructuralFeature feature, Collection<?> collection);
     void clear(EStructuralFeature feature);
     void move(EStructuralFeature feature, int index, Object object);
     Object move(EStructuralFeature feature, int targetIndex, int sourceIndex);

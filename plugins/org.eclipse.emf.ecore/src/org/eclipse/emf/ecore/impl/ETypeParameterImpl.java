@@ -1,0 +1,288 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: ETypeParameterImpl.java,v 1.1 2006/12/05 20:22:26 emerks Exp $
+ */
+package org.eclipse.emf.ecore.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.ETypeParameter;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>EType Parameter</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.emf.ecore.impl.ETypeParameterImpl#getEBounds <em>EBounds</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.ETypeParameterImpl#getEGenericTypes <em>EGeneric Types</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParameter
+{
+  /**
+   * The cached value of the '{@link #getEBounds() <em>EBounds</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEBounds()
+   * @generated
+   * @ordered
+   */
+  protected EList<EGenericType> eBounds = null;
+
+  /**
+   * The cached value of the '{@link #getEGenericTypes() <em>EGeneric Types</em>}' reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEGenericTypes()
+   * @generated
+   * @ordered
+   */
+  protected EList<EGenericType> eGenericTypes = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected ETypeParameterImpl()
+  {
+    super();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EClass eStaticClass()
+  {
+    return EcorePackage.Literals.ETYPE_PARAMETER;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public EList<EGenericType> getEBounds()
+  {
+    if (eBounds == null)
+    {
+      eBounds = 
+        new EObjectContainmentEList<EGenericType>(EGenericType.class, this, EcorePackage.ETYPE_PARAMETER__EBOUNDS)
+        {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          public NotificationChain inverseAdd(EGenericType object, NotificationChain notifications)
+          {
+            notifications =  super.inverseAdd(object, notifications);
+            @SuppressWarnings("unchecked") EList<EGenericTypeImpl> eGenericTypes = (EList<EGenericTypeImpl>)(EList<?>)getEGenericTypes();
+            for (EGenericTypeImpl eGenericType : eGenericTypes)
+            {
+              notifications = eGenericType.setERawType(eGenericType.getErasure(ETypeParameterImpl.this), notifications);
+            }
+            return notifications;
+          }
+
+          @Override
+          public NotificationChain inverseRemove(EGenericType object, NotificationChain notifications)
+          {
+            notifications = super.inverseRemove(object, notifications);
+            @SuppressWarnings("unchecked") EList<EGenericTypeImpl> eGenericTypes = (EList<EGenericTypeImpl>)(EList<?>)getEGenericTypes();
+            for (EGenericTypeImpl eGenericType : eGenericTypes)
+            {
+              notifications = eGenericType.setERawType(eGenericType.getErasure(ETypeParameterImpl.this), notifications);
+            }
+            return notifications;
+          }
+        };
+    }
+    return eBounds;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<EGenericType> getEGenericTypes()
+  {
+    if (eGenericTypes == null)
+    {
+      eGenericTypes = new EObjectWithInverseEList<EGenericType>(EGenericType.class, this, EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES, EcorePackage.EGENERIC_TYPE__ETYPE_PARAMETER);
+    }
+    return eGenericTypes;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ETYPE_PARAMETER__EANNOTATIONS:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
+      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEGenericTypes()).basicAdd(otherEnd, msgs);
+    }
+    return eDynamicInverseAdd(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ETYPE_PARAMETER__EANNOTATIONS:
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
+        return ((InternalEList<?>)getEBounds()).basicRemove(otherEnd, msgs);
+      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
+        return ((InternalEList<?>)getEGenericTypes()).basicRemove(otherEnd, msgs);
+    }
+    return eDynamicInverseRemove(otherEnd, featureID, msgs);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ETYPE_PARAMETER__EANNOTATIONS:
+        return getEAnnotations();
+      case EcorePackage.ETYPE_PARAMETER__NAME:
+        return getName();
+      case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
+        return getEBounds();
+      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
+        return getEGenericTypes();
+    }
+    return eDynamicGet(featureID, resolve, coreType);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public void eSet(int featureID, Object newValue)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ETYPE_PARAMETER__EANNOTATIONS:
+        getEAnnotations().clear();
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
+        return;
+      case EcorePackage.ETYPE_PARAMETER__NAME:
+        setName((String)newValue);
+        return;
+      case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
+        getEBounds().clear();
+        getEBounds().addAll((Collection<? extends EGenericType>)newValue);
+        return;
+      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
+        getEGenericTypes().clear();
+        getEGenericTypes().addAll((Collection<? extends EGenericType>)newValue);
+        return;
+    }
+    eDynamicSet(featureID, newValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void eUnset(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ETYPE_PARAMETER__EANNOTATIONS:
+        getEAnnotations().clear();
+        return;
+      case EcorePackage.ETYPE_PARAMETER__NAME:
+        setName(NAME_EDEFAULT);
+        return;
+      case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
+        getEBounds().clear();
+        return;
+      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
+        getEGenericTypes().clear();
+        return;
+    }
+    eDynamicUnset(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public boolean eIsSet(int featureID)
+  {
+    switch (featureID)
+    {
+      case EcorePackage.ETYPE_PARAMETER__EANNOTATIONS:
+        return eAnnotations != null && !eAnnotations.isEmpty();
+      case EcorePackage.ETYPE_PARAMETER__NAME:
+        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+      case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
+        return eBounds != null && !eBounds.isEmpty();
+      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
+        return eGenericTypes != null && !eGenericTypes.isEmpty();
+    }
+    return eDynamicIsSet(featureID);
+  }
+
+} //ETypeParameterImpl

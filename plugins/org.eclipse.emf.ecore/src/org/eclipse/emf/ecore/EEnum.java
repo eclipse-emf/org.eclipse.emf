@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnum.java,v 1.7 2006/05/23 16:13:10 emerks Exp $
+ * $Id: EEnum.java,v 1.8 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -53,7 +53,7 @@ public interface EEnum extends EDataType
    * @model type="org.eclipse.emf.ecore.EEnumLiteral" opposite="eEnum" containment="true"
    * @generated
    */
-  EList getELiterals();
+  EList<EEnumLiteral> getELiterals();
 
   /**
    * <!-- begin-user-doc -->

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceDocumentRootImpl.java,v 1.9 2005/11/25 17:49:48 emerks Exp $
+ * $Id: XMLNamespaceDocumentRootImpl.java,v 1.10 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -75,7 +75,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * @generated
    * @ordered
    */
-  protected EMap xMLNSPrefixMap = null;
+  protected EMap<String, String> xMLNSPrefixMap = null;
 
   /**
    * The cached value of the '{@link #getXSISchemaLocation() <em>XSI Schema Location</em>}' map.
@@ -85,7 +85,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * @generated
    * @ordered
    */
-  protected EMap xSISchemaLocation = null;
+  protected EMap<String, String> xSISchemaLocation = null;
 
   /**
    * The default value of the '{@link #getBase() <em>Base</em>}' attribute.
@@ -191,6 +191,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XMLNamespacePackage.Literals.XML_NAMESPACE_DOCUMENT_ROOT;
@@ -215,11 +216,11 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getXMLNSPrefixMap()
+  public EMap<String, String> getXMLNSPrefixMap()
   {
     if (xMLNSPrefixMap == null)
     {
-      xMLNSPrefixMap = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
+      xMLNSPrefixMap = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP);
     }
     return xMLNSPrefixMap;
   }
@@ -229,11 +230,11 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getXSISchemaLocation()
+  public EMap<String, String> getXSISchemaLocation()
   {
     if (xSISchemaLocation == null)
     {
-      xSISchemaLocation = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
+      xSISchemaLocation = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
     }
     return xSISchemaLocation;
   }
@@ -362,16 +363,17 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__MIXED:
-        return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getMixed()).basicRemove(otherEnd, msgs);
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XMLNS_PREFIX_MAP:
-        return ((InternalEList)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
       case XMLNamespacePackage.XML_NAMESPACE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
-        return ((InternalEList)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
     }
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
@@ -381,6 +383,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -411,6 +414,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -445,6 +449,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -479,6 +484,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -506,6 +512,7 @@ public class XMLNamespaceDocumentRootImpl extends EObjectImpl implements XMLName
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

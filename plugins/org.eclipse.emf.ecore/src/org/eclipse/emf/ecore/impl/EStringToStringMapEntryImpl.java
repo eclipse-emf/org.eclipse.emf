@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryImpl.java,v 1.6 2006/05/12 21:10:08 emerks Exp $
+ * $Id: EStringToStringMapEntryImpl.java,v 1.7 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -43,7 +43,7 @@ import org.eclipse.emf.ecore.util.ECrossReferenceEList;
  *
  * @generated
  */
-public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMap.Entry
+public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMap.Entry<String,String>
 {
   /**
    * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
@@ -100,6 +100,7 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY;
@@ -107,30 +108,35 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
   protected static class EStringToStringMapEntryPropertiesHolderImpl extends EPropertiesHolderBaseImpl
   {
-    protected EList eContents;
-    protected EList eCrossReferences;
+    protected EList<EObject> eContents;
+    protected EList<EObject> eCrossReferences;
 
-    public EList getEContents()
+    @Override
+    public EList<EObject> getEContents()
     {
       return eContents;
     }
 
-    public void setEContents(EList eContents)
+    @Override
+    public void setEContents(EList<EObject> eContents)
     {
       this.eContents = eContents;
     }
 
-    public EList getECrossReferences()
+    @Override
+    public EList<EObject> getECrossReferences()
     {
       return eCrossReferences;
     }
 
-    public void setECrossReferences(EList eCrossReferences)
+    @Override
+    public void setECrossReferences(EList<EObject> eCrossReferences)
     {
       this.eCrossReferences = eCrossReferences;
     }
   }
 
+  @Override
   protected EPropertiesHolder eProperties()
   {
     if (eProperties == null)
@@ -142,34 +148,39 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
 
   protected URI eProxyURI;
 
+  @Override
   public boolean eIsProxy()
   {
     return eProxyURI != null;
   }
 
+  @Override
   public URI eProxyURI()
   {
     return eProxyURI;
   }
   
+  @Override
   public void eSetProxyURI(URI uri)
   {
     eProxyURI = uri;
   }
 
-  public EList eContents()
+  @Override
+  public EList<EObject> eContents()
   {
     return
       eClass() == EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY ?
-        EContentsEList.EMPTY_CONTENTS_ELIST :
+        EContentsEList.<EObject>emptyContentsEList() :
         super.eContents();
   }
 
-  public EList eCrossReferences()
+  @Override
+  public EList<EObject> eCrossReferences()
   {
     return
       eClass() == EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY ?
-        ECrossReferenceEList.EMPTY_CROSS_REFERENCE_ELIST :
+        ECrossReferenceEList.<EObject>emptyCrossReferenceEList() :
         super.eContents();
   }
 
@@ -224,6 +235,7 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -241,6 +253,7 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -260,6 +273,7 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -279,6 +293,7 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -296,6 +311,7 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -346,7 +362,7 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getKey()
+  public String getKey()
   {
     return getTypedKey();
   }
@@ -356,9 +372,9 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setKey(Object key)
+  public void setKey(String key)
   {
-    setTypedKey((String)key);
+    setTypedKey(key);
   }
 
   /**
@@ -366,7 +382,7 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getValue()
+  public String getValue()
   {
     return getTypedValue();
   }
@@ -376,10 +392,10 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object setValue(Object value)
+  public String setValue(String value)
   {
-    Object oldValue = getValue();
-    setTypedValue((String)value);
+    String oldValue = getValue();
+    setTypedValue(value);
     return oldValue;
   }
 
@@ -388,10 +404,11 @@ public class EStringToStringMapEntryImpl extends EObjectImpl implements BasicEMa
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getEMap()
+  @SuppressWarnings("unchecked")
+  public EMap<String, String> getEMap()
   {
     EObject container = eContainer();
-    return container == null ? null : (EMap)container.eGet(eContainmentFeature());
+    return container == null ? null : (EMap<String, String>)container.eGet(eContainmentFeature());
   }
 
 } //EStringToStringMapEntryImpl

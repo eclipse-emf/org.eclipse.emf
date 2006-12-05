@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSwitch.java,v 1.8 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EcoreSwitch.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -89,11 +89,11 @@ public class EcoreSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -260,8 +260,24 @@ public class EcoreSwitch
       }
       case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY:
       {
-        Map.Entry eStringToStringMapEntry = (Map.Entry)theEObject;
+        @SuppressWarnings("unchecked") Map.Entry<String, String> eStringToStringMapEntry = (Map.Entry<String, String>)theEObject;
         Object result = caseEStringToStringMapEntry(eStringToStringMapEntry);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.EGENERIC_TYPE:
+      {
+        EGenericType eGenericType = (EGenericType)theEObject;
+        Object result = caseEGenericType(eGenericType);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case EcorePackage.ETYPE_PARAMETER:
+      {
+        ETypeParameter eTypeParameter = (ETypeParameter)theEObject;
+        Object result = caseETypeParameter(eTypeParameter);
+        if (result == null) result = caseENamedElement(eTypeParameter);
+        if (result == null) result = caseEModelElement(eTypeParameter);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -430,6 +446,54 @@ public class EcoreSwitch
   }
 
   /**
+   * Returns the result of interpretting the object as an instance of '<em>EString To String Map Entry</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>EString To String Map Entry</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public Object caseEStringToStringMapEntry(Map.Entry<String, String> object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpretting the object as an instance of '<em>EGeneric Type</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>EGeneric Type</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public Object caseEGenericType(EGenericType object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpretting the object as an instance of '<em>EType Parameter</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpretting the object as an instance of '<em>EType Parameter</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public Object caseETypeParameter(ETypeParameter object)
+  {
+    return null;
+  }
+
+  /**
    * Returns the result of interpretting the object as an instance of '<em>EParameter</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null; 
@@ -537,22 +601,6 @@ public class EcoreSwitch
    * @generated
    */
   public Object caseEReference(EReference object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpretting the object as an instance of '<em>EString To String Map Entry</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpretting the object as an instance of '<em>EString To String Map Entry</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public Object caseEStringToStringMapEntry(Map.Entry object)
   {
     return null;
   }

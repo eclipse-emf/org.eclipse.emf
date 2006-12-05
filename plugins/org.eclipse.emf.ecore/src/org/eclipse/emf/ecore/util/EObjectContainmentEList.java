@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectContainmentEList.java,v 1.3 2005/11/18 19:07:37 emerks Exp $
+ * $Id: EObjectContainmentEList.java,v 1.4 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -22,27 +22,34 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 
 
-public class EObjectContainmentEList extends EObjectEList
+public class EObjectContainmentEList<E> extends EObjectEList<E>
 {
-  public static class Unsettable extends EObjectContainmentEList
+  private static final long serialVersionUID = 1L;
+
+  public static class Unsettable<E> extends EObjectContainmentEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
     protected boolean isSet;
 
-    public Unsettable(Class dataClass, InternalEObject owner, int featureID)
+    public Unsettable(Class<?> dataClass, InternalEObject owner, int featureID)
     {
       super(dataClass, owner, featureID);
     }
 
+    @Override
     protected void didChange()
     {
       isSet = true;
     }
 
+    @Override
     public boolean isSet()
     {
       return isSet;
     }
 
+    @Override
     public void unset()
     {
       super.unset();
@@ -58,58 +65,71 @@ public class EObjectContainmentEList extends EObjectEList
       }
     }
     
-    public static class Resolving extends EObjectContainmentEList.Unsettable
+    public static class Resolving<E> extends EObjectContainmentEList.Unsettable<E>
     {
-      public Resolving(Class dataClass, InternalEObject owner, int featureID)
+      private static final long serialVersionUID = 1L;
+
+      public Resolving(Class<?> dataClass, InternalEObject owner, int featureID)
       {
         super(dataClass, owner, featureID);
       }
       
+      @Override
       protected boolean hasProxies()
       {
         return true; 
       }
       
-      protected Object resolve(int index, Object object)
+      @SuppressWarnings("unchecked")
+      @Override
+      protected E resolve(int index, E object)
       {
-        return resolve(index, (EObject)object);
+        return (E)resolve(index, (EObject)object);
       }
     }
   }
   
-  public static class Resolving extends EObjectContainmentEList
+  public static class Resolving<E> extends EObjectContainmentEList<E>
   {
-    public Resolving(Class dataClass, InternalEObject owner, int featureID)
+    private static final long serialVersionUID = 1L;
+
+    public Resolving(Class<?> dataClass, InternalEObject owner, int featureID)
     {
       super(dataClass, owner, featureID);
     }
     
+    @Override
     protected boolean hasProxies()
     {
       return true; 
     }
     
-    protected Object resolve(int index, Object object)
+    @SuppressWarnings("unchecked")
+    @Override
+    protected E resolve(int index, E object)
     {
-      return resolve(index, (EObject)object);
+      return (E)resolve(index, (EObject)object);
     }
   }
 
-  public EObjectContainmentEList(Class dataClass, InternalEObject owner, int featureID)
+  public EObjectContainmentEList(Class<?> dataClass, InternalEObject owner, int featureID)
   {
     super(dataClass, owner, featureID);
   }
 
+  @Override
   protected boolean hasInverse()
   {
     return true;
   }
 
+  @Override
   protected boolean hasNavigableInverse()
   {
     return false;
   }
 
+  @Override
   protected boolean isContainment()
   {
     return true;

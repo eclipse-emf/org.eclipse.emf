@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpaceType.java,v 1.3 2005/11/08 12:59:06 emerks Exp $
+ * $Id: SpaceType.java,v 1.4 2006/12/05 20:22:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,8 +31,28 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class SpaceType extends AbstractEnumerator
+public enum SpaceType implements Enumerator
 {
+  /**
+   * The '<em><b>Default</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #DEFAULT
+   * @generated
+   * @ordered
+   */
+  DEFAULT_LITERAL(0, "default", "default"),
+
+  /**
+   * The '<em><b>Preserve</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #PRESERVE
+   * @generated
+   * @ordered
+   */
+  PRESERVE_LITERAL(1, "preserve", "preserve");
+
   /**
    * The '<em><b>Default</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -56,34 +76,6 @@ public final class SpaceType extends AbstractEnumerator
   public static final int PRESERVE = 1;
 
   /**
-   * The '<em><b>Default</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Default</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #DEFAULT
-   * @generated
-   * @ordered
-   */
-  public static final SpaceType DEFAULT_LITERAL = new SpaceType(DEFAULT, "default", "default");
-
-  /**
-   * The '<em><b>Preserve</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Preserve</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #PRESERVE
-   * @generated
-   * @ordered
-   */
-  public static final SpaceType PRESERVE_LITERAL = new SpaceType(PRESERVE, "preserve", "preserve");
-
-  /**
    * An array of all the '<em><b>Space Type</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -102,7 +94,7 @@ public final class SpaceType extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<SpaceType> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Space Type</b></em>' literal with the specified literal value.
@@ -159,6 +151,27 @@ public final class SpaceType extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -166,7 +179,51 @@ public final class SpaceType extends AbstractEnumerator
    */
   private SpaceType(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+  
 } //SpaceType

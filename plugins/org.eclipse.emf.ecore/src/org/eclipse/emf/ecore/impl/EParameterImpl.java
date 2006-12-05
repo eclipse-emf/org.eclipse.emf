@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EParameterImpl.java,v 1.11 2005/11/25 17:49:48 emerks Exp $
+ * $Id: EParameterImpl.java,v 1.12 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -56,6 +56,7 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EPARAMETER;
@@ -76,12 +77,14 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EPARAMETER__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
       case EcorePackage.EPARAMETER__EOPERATION:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
@@ -95,12 +98,15 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EPARAMETER__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EPARAMETER__EGENERIC_TYPE:
+        return basicUnsetEGenericType(msgs);
       case EcorePackage.EPARAMETER__EOPERATION:
         return eBasicSetContainer(null, EcorePackage.EPARAMETER__EOPERATION, msgs);
     }
@@ -112,6 +118,7 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -127,6 +134,7 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -150,6 +158,8 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
       case EcorePackage.EPARAMETER__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
+      case EcorePackage.EPARAMETER__EGENERIC_TYPE:
+        return getEGenericType();
       case EcorePackage.EPARAMETER__EOPERATION:
         return getEOperation();
     }
@@ -161,6 +171,7 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -182,7 +193,9 @@ public class EParameterImpl extends ETypedElementImpl implements EParameter
       case EcorePackage.EPARAMETER__REQUIRED:
         return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.EPARAMETER__ETYPE:
-        return eType != null;
+        return isSetEType();
+      case EcorePackage.EPARAMETER__EGENERIC_TYPE:
+        return isSetEGenericType();
       case EcorePackage.EPARAMETER__EOPERATION:
         return getEOperation() != null;
     }

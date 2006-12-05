@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,19 +12,20 @@
  *
  * </copyright>
  *
- * $Id: EEnumImpl.java,v 1.16 2006/08/21 15:30:00 emerks Exp $
+ * $Id: EEnumImpl.java,v 1.17 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -54,7 +55,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * @generated
    * @ordered
    */
-  protected EList eLiterals = null;
+  protected EList<EEnumLiteral> eLiterals = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -66,6 +67,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
     super();
   }
 
+  @Override
   protected void freeze()
   {
     if (eLiterals != null)
@@ -78,16 +80,19 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
     super.freeze();
   }
 
+  @Override
   protected void setDataTypeGeneratedInstanceClass(boolean isGenerated)
   {
+    // Do nothing.
   }
 
+  @Override
   public Object getDefaultValue()
   {
-    EList eLiterals = getELiterals();
+    EList<EEnumLiteral> eLiterals = getELiterals();
     if (!eLiterals.isEmpty())
     {
-      return ((EEnumLiteral)eLiterals.get(0)).getInstance();
+      return eLiterals.get(0).getInstance();
     }
     return null;
   }
@@ -95,11 +100,12 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
   /**
    * Determines if the specified Object is an instance of this.
    */
+  @Override
   public boolean isInstance(Object object)
   {
     if (object != null)
     {
-      Class instanceClass = getInstanceClass();
+      Class<?> instanceClass = getInstanceClass();
       if (instanceClass != null)
       {
         return instanceClass.isInstance(object);
@@ -117,6 +123,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EENUM;
@@ -127,11 +134,11 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getELiterals()
+  public EList<EEnumLiteral> getELiterals()
   {
     if (eLiterals == null)
     {
-      eLiterals = new EObjectContainmentWithInverseEList(EEnumLiteral.class, this, EcorePackage.EENUM__ELITERALS, EcorePackage.EENUM_LITERAL__EENUM);
+      eLiterals = new EObjectContainmentWithInverseEList<EEnumLiteral>(EEnumLiteral.class, this, EcorePackage.EENUM__ELITERALS, EcorePackage.EENUM_LITERAL__EENUM);
     }
     return eLiterals;
   }
@@ -141,6 +148,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -155,9 +163,13 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
         return getInstanceClass();
       case EcorePackage.EENUM__DEFAULT_VALUE:
         return getDefaultValue();
+      case EcorePackage.EENUM__INSTANCE_TYPE_NAME:
+        return getInstanceTypeName();
       case EcorePackage.EENUM__EPACKAGE:
         if (resolve) return getEPackage();
         return basicGetEPackage();
+      case EcorePackage.EENUM__ETYPE_PARAMETERS:
+        return getETypeParameters();
       case EcorePackage.EENUM__SERIALIZABLE:
         return isSerializable() ? Boolean.TRUE : Boolean.FALSE;
       case EcorePackage.EENUM__ELITERALS:
@@ -171,13 +183,15 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.EENUM__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.EENUM__NAME:
         setName((String)newValue);
@@ -185,12 +199,19 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
       case EcorePackage.EENUM__INSTANCE_CLASS_NAME:
         setInstanceClassName((String)newValue);
         return;
+      case EcorePackage.EENUM__INSTANCE_TYPE_NAME:
+        setInstanceTypeName((String)newValue);
+        return;
+      case EcorePackage.EENUM__ETYPE_PARAMETERS:
+        getETypeParameters().clear();
+        getETypeParameters().addAll((Collection<? extends ETypeParameter>)newValue);
+        return;
       case EcorePackage.EENUM__SERIALIZABLE:
         setSerializable(((Boolean)newValue).booleanValue());
         return;
       case EcorePackage.EENUM__ELITERALS:
         getELiterals().clear();
-        getELiterals().addAll((Collection)newValue);
+        getELiterals().addAll((Collection<? extends EEnumLiteral>)newValue);
         return;
     }
     eDynamicSet(featureID, newValue);
@@ -201,6 +222,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -212,7 +234,13 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
         setName(NAME_EDEFAULT);
         return;
       case EcorePackage.EENUM__INSTANCE_CLASS_NAME:
-        setInstanceClassName(INSTANCE_CLASS_NAME_EDEFAULT);
+        unsetInstanceClassName();
+        return;
+      case EcorePackage.EENUM__INSTANCE_TYPE_NAME:
+        unsetInstanceTypeName();
+        return;
+      case EcorePackage.EENUM__ETYPE_PARAMETERS:
+        getETypeParameters().clear();
         return;
       case EcorePackage.EENUM__SERIALIZABLE:
         setSerializable(SERIALIZABLE_EDEFAULT);
@@ -229,6 +257,7 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -238,13 +267,17 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
       case EcorePackage.EENUM__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EcorePackage.EENUM__INSTANCE_CLASS_NAME:
-        return INSTANCE_CLASS_NAME_EDEFAULT == null ? instanceClassName != null : !INSTANCE_CLASS_NAME_EDEFAULT.equals(instanceClassName);
+        return isSetInstanceClassName();
       case EcorePackage.EENUM__INSTANCE_CLASS:
-        return INSTANCE_CLASS_EDEFAULT == null ? getInstanceClass() != null : !INSTANCE_CLASS_EDEFAULT.equals(getInstanceClass());
+        return getInstanceClass() != null;
       case EcorePackage.EENUM__DEFAULT_VALUE:
         return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
+      case EcorePackage.EENUM__INSTANCE_TYPE_NAME:
+        return isSetInstanceTypeName();
       case EcorePackage.EENUM__EPACKAGE:
         return basicGetEPackage() != null;
+      case EcorePackage.EENUM__ETYPE_PARAMETERS:
+        return eTypeParameters != null && !eTypeParameters.isEmpty();
       case EcorePackage.EENUM__SERIALIZABLE:
         return ((eFlags & SERIALIZABLE_EFLAG) != 0) != SERIALIZABLE_EDEFAULT;
       case EcorePackage.EENUM__ELITERALS:
@@ -258,9 +291,8 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    */
   public EEnumLiteral getEEnumLiteral(String name)
   {
-    for (Iterator i = getELiterals().iterator(); i.hasNext(); )
+    for (EEnumLiteral eEnumLiteral : getELiterals())
     {
-      EEnumLiteral eEnumLiteral = (EEnumLiteral) i.next();
       if (eEnumLiteral.getName().equals(name))
       {
         return eEnumLiteral;
@@ -274,9 +306,8 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    */
   public EEnumLiteral getEEnumLiteral(int intValue)
   {
-    for (Iterator i = getELiterals().iterator(); i.hasNext(); )
+    for (EEnumLiteral eEnumLiteral : getELiterals())
     {
-      EEnumLiteral eEnumLiteral = (EEnumLiteral) i.next();
       if (eEnumLiteral.getValue() == intValue)
       {
         return eEnumLiteral;
@@ -290,9 +321,8 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    */
   public EEnumLiteral getEEnumLiteralByLiteral(String literal)
   {
-    for (Iterator i = getELiterals().iterator(); i.hasNext(); )
+    for (EEnumLiteral eEnumLiteral : getELiterals())
     {
-      EEnumLiteral eEnumLiteral = (EEnumLiteral) i.next();
       if (eEnumLiteral.getLiteral().equals(literal))
       {
         return eEnumLiteral;
@@ -306,18 +336,20 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EENUM__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
       case EcorePackage.EENUM__EPACKAGE:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
         return eBasicSetContainer(otherEnd, EcorePackage.EENUM__EPACKAGE, msgs);
       case EcorePackage.EENUM__ELITERALS:
-        return ((InternalEList)getELiterals()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getELiterals()).basicAdd(otherEnd, msgs);
     }
     return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
@@ -327,16 +359,19 @@ public class EEnumImpl extends EDataTypeImpl implements EEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EENUM__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
       case EcorePackage.EENUM__EPACKAGE:
         return eBasicSetContainer(null, EcorePackage.EENUM__EPACKAGE, msgs);
+      case EcorePackage.EENUM__ETYPE_PARAMETERS:
+        return ((InternalEList<?>)getETypeParameters()).basicRemove(otherEnd, msgs);
       case EcorePackage.EENUM__ELITERALS:
-        return ((InternalEList)getELiterals()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getELiterals()).basicRemove(otherEnd, msgs);
     }
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }

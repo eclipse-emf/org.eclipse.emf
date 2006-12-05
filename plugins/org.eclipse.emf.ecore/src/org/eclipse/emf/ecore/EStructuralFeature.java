@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeature.java,v 1.11 2006/08/22 18:15:05 emerks Exp $
+ * $Id: EStructuralFeature.java,v 1.12 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -267,7 +267,7 @@ public interface EStructuralFeature extends ETypedElement
    * @model kind="operation"
    * @generated
    */
-  Class getContainerClass();
+  Class<?> getContainerClass();
 
   /**
    * A representation of a value held by a feature of an object.

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,23 +12,35 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.12 2006/08/21 15:31:51 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.13 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.lang.reflect.Array;
+import java.util.AbstractSequentialList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.emf.ecore.ETypeParameter;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.DelegatingEcoreEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+// import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 
@@ -40,8 +52,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.EOperationImpl#getEContainingClass <em>EContaining Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EOperationImpl#getETypeParameters <em>EType Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EOperationImpl#getEParameters <em>EParameters</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EOperationImpl#getEExceptions <em>EExceptions</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EOperationImpl#getEGenericExceptions <em>EGeneric Exceptions</em>}</li>
  * </ul>
  * </p>
  *
@@ -50,6 +64,16 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class EOperationImpl extends ETypedElementImpl implements EOperation
 {
   /**
+   * The cached value of the '{@link #getETypeParameters() <em>EType Parameters</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getETypeParameters()
+   * @generated
+   * @ordered
+   */
+  protected EList<ETypeParameter> eTypeParameters = null;
+
+  /**
    * The cached value of the '{@link #getEParameters() <em>EParameters</em>}' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -57,7 +81,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * @generated
    * @ordered
    */
-  protected EList eParameters = null;
+  protected EList<EParameter> eParameters = null;
 
   /**
    * The cached value of the '{@link #getEExceptions() <em>EExceptions</em>}' reference list.
@@ -67,7 +91,17 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * @generated
    * @ordered
    */
-  protected EList eExceptions = null;
+  protected EList<EClassifier> eExceptions = null;
+
+  /**
+   * The cached value of the '{@link #getEGenericExceptions() <em>EGeneric Exceptions</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEGenericExceptions()
+   * @generated
+   * @ordered
+   */
+  protected EList<EGenericType> eGenericExceptions = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -79,6 +113,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
     super();
   }
 
+  @Override
   protected void freeze()
   {
     if (eParameters != null)
@@ -96,6 +131,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EOPERATION;
@@ -116,27 +152,516 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getEParameters()
+  public EList<EParameter> getEParameters()
   {
     if (eParameters == null)
     {
-      eParameters = new EObjectContainmentWithInverseEList(EParameter.class, this, EcorePackage.EOPERATION__EPARAMETERS, EcorePackage.EPARAMETER__EOPERATION);
+      eParameters = new EObjectContainmentWithInverseEList<EParameter>(EParameter.class, this, EcorePackage.EOPERATION__EPARAMETERS, EcorePackage.EPARAMETER__EOPERATION);
     }
     return eParameters;
   }
 
+  public EList<EClassifier> getEExceptions()
+  {
+    if (eExceptions == null)
+    {
+      eExceptions = 
+        new DelegatingEcoreEList<EClassifier>(this)
+        {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          protected List<EClassifier> delegateList()
+          {
+            return null;
+          }
+
+          @Override
+          protected List<EClassifier> delegateBasicList()
+          {
+            return 
+              new AbstractSequentialList<EClassifier>() 
+              {
+                @Override
+                public ListIterator<EClassifier> listIterator(int index)
+                {
+                  return basicListIterator();
+                }
+
+                @Override
+                public int size()
+                {
+                  return delegateSize();
+                }
+              };
+          }
+
+          @Override
+          protected Iterator<EClassifier> delegateIterator()
+          {
+            return iterator();
+          }
+
+          @Override
+          protected ListIterator<EClassifier> delegateListIterator()
+          {
+            return listIterator();
+          }
+
+          protected EGenericType wrap(EClassifier eClassifier)
+          {
+            EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+            eGenericType.setEClassifier(eClassifier);
+            return eGenericType;
+          }
+
+          protected EClassifier unwrap(EGenericType eGenericType)
+          {
+            EClassifier result = eGenericType.getERawType();
+            if (result  != null)
+            {
+              return result;
+            }
+            else
+            {
+              return EcorePackage.Literals.EJAVA_OBJECT;
+            }
+          }
+
+          @Override
+          protected void delegateAdd(int index, EClassifier eClassifier)
+          {
+            getEGenericExceptions().add(index, wrap(eClassifier));
+          }
+
+          @Override
+          protected void delegateClear()
+          {
+            getEGenericExceptions().clear();
+          }
+
+          @Override
+          protected void delegateAdd(EClassifier eClassifier)
+          {
+            getEGenericExceptions().add(wrap(eClassifier));
+          }
+
+          @Override
+          protected boolean delegateContains(Object object)
+          {
+            for (EClassifier eClassifier : this)
+            {
+              if (object == eClassifier)
+              {
+                return true;
+              }
+            }
+            return false;
+          }
+
+          @Override
+          protected boolean delegateContainsAll(Collection<?> collection)
+          {
+            for (Object object : collection)
+            {
+              if (!delegateContains(object))
+              {
+                return false;
+              }
+            }
+            return true;
+          }
+
+          @Override
+          protected boolean delegateEquals(Object object)
+          {
+            if (object instanceof List)
+            {
+              List<?> list = (List<?>)object;
+              if (list.size() == delegateSize())
+              {
+                for (Iterator<?> i = list.iterator(), j = iterator(); i.hasNext(); )
+                {
+                  if (i.next() != j.next())
+                  {
+                    return false;
+                  }
+                }
+                return true;
+              }
+            }
+            return false;
+          }
+
+          @Override
+          protected EClassifier delegateGet(int index)
+          {
+            EGenericType eGenericType = getEGenericExceptions().get(index);
+            return unwrap(eGenericType);
+          }
+
+          @Override
+          protected int delegateHashCode()
+          {
+            int hashCode = 1;
+            for (EGenericType eGenericType : getEGenericExceptions())
+            {
+              Object object = unwrap(eGenericType);
+              hashCode = 31 * hashCode + (object == null ? 0 : object.hashCode());
+            }
+            return hashCode;
+          }
+
+          @Override
+          protected int delegateIndexOf(Object object)
+          {
+            int index = 0;
+            for (EGenericType eGenericType : getEGenericExceptions())
+            {
+              if (object == unwrap(eGenericType))
+              {
+                return index;
+              }
+              ++index;
+            }
+            return -1;
+          }
+
+          @Override
+          protected boolean delegateIsEmpty()
+          {
+            return getEGenericExceptions().isEmpty();
+          }
+
+          @Override
+          protected int delegateLastIndexOf(Object object)
+          {
+            EList<EGenericType> eGenericExceptions = getEGenericExceptions();
+            for (int i = eGenericExceptions.size(); i > 0; --i)
+            {
+              if (eGenericExceptions.get(i) == object)
+              {
+                return i;
+              }
+            }
+            return -1;
+          }
+
+          @Override
+          protected EClassifier delegateRemove(int index)
+          {
+            EGenericType eGenericType = getEGenericExceptions().remove(index);
+            return unwrap(eGenericType);
+          }
+
+          @Override
+          protected EClassifier delegateSet(int index, EClassifier eClassifier)
+          {
+            EGenericType eGenericType = getEGenericExceptions().get(index);
+            EClassifier result = unwrap(eGenericType);
+            eGenericType.setEClassifier(eClassifier);
+            return result;
+          }
+
+          @Override
+          protected int delegateSize()
+          {
+            return getEGenericExceptions().size();
+          }
+
+          @Override
+          protected Object[] delegateToArray()
+          {
+            int size = delegateSize();
+            Object[] result = new Object[size];
+            
+            int index = 0;
+            for (EGenericType eGenericType : getEGenericExceptions())
+            {
+              result[index] = unwrap(eGenericType);
+            }
+            return result;
+          }
+
+          @Override
+          protected <T> T[] delegateToArray(T[] array)
+          {
+            int size = delegateSize();
+            if (array.length < size)
+            {
+              @SuppressWarnings("unchecked") T[] newArray = (T[])Array.newInstance(array.getClass().getComponentType(), size);
+              array = newArray;
+            }
+          
+            if (array.length > size)
+            {
+              array[size] = null;
+            }
+
+            int index = 0;
+            for (EGenericType eGenericType : getEGenericExceptions())
+            {
+              @SuppressWarnings("unchecked") T rawType = (T)unwrap(eGenericType);
+              array[index] = rawType;
+            }
+
+            return array;
+          }
+
+          @Override
+          protected String delegateToString()
+          {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("[");
+            EList<EGenericType> eGenericExceptions = getEGenericExceptions();
+            for (int i = 0, size = delegateSize(); i < size; )
+            {
+              stringBuffer.append(String.valueOf(unwrap(eGenericExceptions.get(i))));
+              if (++i < size)
+              {
+                stringBuffer.append(", ");
+              }
+            }
+            stringBuffer.append("]");
+            return stringBuffer.toString();
+          }
+
+          @Override
+          protected boolean isInstance(Object object)
+          {
+            return object instanceof EClassifier;
+          }
+
+          @Override
+          public int getFeatureID()
+          {
+            return EcorePackage.EOPERATION__EEXCEPTIONS;
+          }
+
+          @Override
+          protected boolean useEquals()
+          {
+            return true;
+          }
+
+          @Override
+          protected boolean canContainNull()
+          {
+            return false;
+          }
+
+          @Override
+          protected boolean isUnique()
+          {
+            return true;
+          }
+
+          @Override
+          protected boolean hasInverse()
+          {
+            return false;
+          }
+
+          @Override
+          protected boolean hasManyInverse()
+          {
+            return false;
+          }
+
+          @Override
+          protected boolean hasNavigableInverse()
+          {
+            return false;
+          }
+
+          @Override
+          protected boolean isEObject()
+          {
+            return true;
+          }
+
+          @Override
+          protected boolean isContainment()
+          {
+            return false;
+          }
+
+          @Override
+          protected boolean hasProxies()
+          {
+            // TODO
+            return true;
+          }
+
+          @Override
+          protected boolean hasInstanceClass()
+          {
+            return true;
+          }
+          
+          @Override
+          public boolean isSet()
+          {
+            return isSetEExceptions();
+          }
+        };
+    }
+    return eExceptions;
+  }
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getEExceptions()
+  public void unsetEExceptions()
   {
-    if (eExceptions == null)
+    if (eExceptions != null) ((InternalEList.Unsettable<?>)eExceptions).unset();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean isSetEExceptions()
+  {
+    return  eExceptions != null && !eExceptions.isEmpty() && !isSetEGenericExceptions();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public EList<EGenericType> getEGenericExceptions()
+  {
+    if (eGenericExceptions == null)
     {
-      eExceptions = new EObjectResolvingEList(EClassifier.class, this, EcorePackage.EOPERATION__EEXCEPTIONS);
+      eGenericExceptions = 
+        new EObjectContainmentEList.Unsettable<EGenericType>(EGenericType.class, this, EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS)
+        {
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          public boolean isSet()
+          {
+            for (EGenericType eGenericType : this)
+            {
+              if (eGenericType.getETypeParameter() != null || !eGenericType.getETypeArguments().isEmpty())
+              {
+                return true;
+              }
+            }
+            return false;
+          }
+          
+          protected EClassifier unwrap(EGenericType eGenericType)
+          {
+            EClassifier result = eGenericType.getERawType();
+            if (result != null)
+            {
+              return result;
+            }
+            else
+            {
+              return EcorePackage.Literals.EJAVA_OBJECT;
+            }
+          }
+
+          @Override
+          protected boolean hasShadow()
+          {
+            return true;
+          }
+          
+          @Override
+          protected NotificationChain shadowAdd(EGenericType eGenericType, NotificationChain notifications)
+          {
+            ENotificationImpl notification =
+              new ENotificationImpl
+                (owner, Notification.ADD, EcorePackage.EOPERATION__EEXCEPTIONS, null, unwrap(eGenericType), indexOf(eGenericType), false);
+            if (notifications == null)
+            {
+              notifications = notification;
+            }
+            else
+            {
+              notifications.add(notification);
+            }
+            return notifications;
+          }
+          
+          @Override
+          protected NotificationChain shadowRemove(EGenericType eGenericType, NotificationChain notifications)
+          {
+            ENotificationImpl notification =
+              new ENotificationImpl
+                (owner, Notification.REMOVE, EcorePackage.EOPERATION__EEXCEPTIONS, unwrap(eGenericType), null, indexOf(eGenericType), false);
+            if (notifications == null)
+            {
+              notifications = notification;
+            }
+            else
+            {
+              notifications.add(notification);
+            }
+            return notifications;
+          }
+          
+          @Override
+          protected NotificationChain shadowSet(EGenericType oldEGenericType, EGenericType newEGenericType, NotificationChain notifications)
+          {
+            ENotificationImpl notification =
+              new ENotificationImpl
+                (owner, 
+                 Notification.SET, 
+                 EcorePackage.EOPERATION__EEXCEPTIONS, 
+                 unwrap(oldEGenericType), 
+                 unwrap(newEGenericType), 
+                 indexOf(oldEGenericType), 
+                 false);
+            if (notifications == null)
+            {
+              notifications = notification;
+            }
+            else
+            {
+              notifications.add(notification);
+            }
+            return notifications;
+          }
+          
+          @Override
+          public EGenericType move(int targetIndex, int sourceIndex)
+          {
+            EGenericType result = super.move(targetIndex, sourceIndex);
+            if (isNotificationRequired())
+            {
+              dispatchNotification
+                (new ENotificationImpl
+                   (EOperationImpl.this,
+                    Notification.MOVE, 
+                    EcorePackage.Literals.EOPERATION__EEXCEPTIONS,
+                    new Integer(sourceIndex),
+                    unwrap(result), 
+                    targetIndex));
+            }
+            return result;
+          }
+
+          @Override
+          public void unset()
+          {
+            // Don't really unset it.
+            clear();
+          }
+        };
+
+      // Force this to be initialized as well.
+      getEExceptions();
     }
-    return eExceptions;
+    return eGenericExceptions;
   }
 
   /**
@@ -144,18 +669,54 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * <!-- end-user-doc -->
    * @generated
    */
+  public void unsetEGenericExceptions()
+  {
+    if (eGenericExceptions != null) ((InternalEList.Unsettable<?>)eGenericExceptions).unset();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetEGenericExceptions()
+  {
+    return eGenericExceptions != null && ((InternalEList.Unsettable<?>)eGenericExceptions).isSet();
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<ETypeParameter> getETypeParameters()
+  {
+    if (eTypeParameters == null)
+    {
+      eTypeParameters = new EObjectContainmentEList.Resolving<ETypeParameter>(ETypeParameter.class, this, EcorePackage.EOPERATION__ETYPE_PARAMETERS);
+    }
+    return eTypeParameters;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EOPERATION__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
       case EcorePackage.EOPERATION__ECONTAINING_CLASS:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
         return eBasicSetContainer(otherEnd, EcorePackage.EOPERATION__ECONTAINING_CLASS, msgs);
       case EcorePackage.EOPERATION__EPARAMETERS:
-        return ((InternalEList)getEParameters()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEParameters()).basicAdd(otherEnd, msgs);
     }
     return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
@@ -165,16 +726,23 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EOPERATION__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EOPERATION__EGENERIC_TYPE:
+        return basicUnsetEGenericType(msgs);
       case EcorePackage.EOPERATION__ECONTAINING_CLASS:
         return eBasicSetContainer(null, EcorePackage.EOPERATION__ECONTAINING_CLASS, msgs);
+      case EcorePackage.EOPERATION__ETYPE_PARAMETERS:
+        return ((InternalEList<?>)getETypeParameters()).basicRemove(otherEnd, msgs);
       case EcorePackage.EOPERATION__EPARAMETERS:
-        return ((InternalEList)getEParameters()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEParameters()).basicRemove(otherEnd, msgs);
+      case EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS:
+        return ((InternalEList<?>)getEGenericExceptions()).basicRemove(otherEnd, msgs);
     }
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
@@ -184,6 +752,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -199,6 +768,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -222,12 +792,18 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
       case EcorePackage.EOPERATION__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
+      case EcorePackage.EOPERATION__EGENERIC_TYPE:
+        return getEGenericType();
       case EcorePackage.EOPERATION__ECONTAINING_CLASS:
         return getEContainingClass();
+      case EcorePackage.EOPERATION__ETYPE_PARAMETERS:
+        return getETypeParameters();
       case EcorePackage.EOPERATION__EPARAMETERS:
         return getEParameters();
       case EcorePackage.EOPERATION__EEXCEPTIONS:
         return getEExceptions();
+      case EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS:
+        return getEGenericExceptions();
     }
     return eDynamicGet(featureID, resolve, coreType);
   }
@@ -237,13 +813,15 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.EOPERATION__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.EOPERATION__NAME:
         setName((String)newValue);
@@ -263,13 +841,24 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
       case EcorePackage.EOPERATION__ETYPE:
         setEType((EClassifier)newValue);
         return;
+      case EcorePackage.EOPERATION__EGENERIC_TYPE:
+        setEGenericType((EGenericType)newValue);
+        return;
+      case EcorePackage.EOPERATION__ETYPE_PARAMETERS:
+        getETypeParameters().clear();
+        getETypeParameters().addAll((Collection<? extends ETypeParameter>)newValue);
+        return;
       case EcorePackage.EOPERATION__EPARAMETERS:
         getEParameters().clear();
-        getEParameters().addAll((Collection)newValue);
+        getEParameters().addAll((Collection<? extends EParameter>)newValue);
         return;
       case EcorePackage.EOPERATION__EEXCEPTIONS:
         getEExceptions().clear();
-        getEExceptions().addAll((Collection)newValue);
+        getEExceptions().addAll((Collection<? extends EClassifier>)newValue);
+        return;
+      case EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS:
+        getEGenericExceptions().clear();
+        getEGenericExceptions().addAll((Collection<? extends EGenericType>)newValue);
         return;
     }
     eDynamicSet(featureID, newValue);
@@ -280,6 +869,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -303,13 +893,22 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
         setUpperBound(UPPER_BOUND_EDEFAULT);
         return;
       case EcorePackage.EOPERATION__ETYPE:
-        setEType((EClassifier)null);
+        unsetEType();
+        return;
+      case EcorePackage.EOPERATION__EGENERIC_TYPE:
+        unsetEGenericType();
+        return;
+      case EcorePackage.EOPERATION__ETYPE_PARAMETERS:
+        getETypeParameters().clear();
         return;
       case EcorePackage.EOPERATION__EPARAMETERS:
         getEParameters().clear();
         return;
       case EcorePackage.EOPERATION__EEXCEPTIONS:
-        getEExceptions().clear();
+        unsetEExceptions();
+        return;
+      case EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS:
+        unsetEGenericExceptions();
         return;
     }
     eDynamicUnset(featureID);
@@ -320,6 +919,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -341,13 +941,19 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
       case EcorePackage.EOPERATION__REQUIRED:
         return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.EOPERATION__ETYPE:
-        return eType != null;
+        return isSetEType();
+      case EcorePackage.EOPERATION__EGENERIC_TYPE:
+        return isSetEGenericType();
       case EcorePackage.EOPERATION__ECONTAINING_CLASS:
         return getEContainingClass() != null;
+      case EcorePackage.EOPERATION__ETYPE_PARAMETERS:
+        return eTypeParameters != null && !eTypeParameters.isEmpty();
       case EcorePackage.EOPERATION__EPARAMETERS:
         return eParameters != null && !eParameters.isEmpty();
       case EcorePackage.EOPERATION__EEXCEPTIONS:
-        return eExceptions != null && !eExceptions.isEmpty();
+        return isSetEExceptions();
+      case EcorePackage.EOPERATION__EGENERIC_EXCEPTIONS:
+        return isSetEGenericExceptions();
     }
     return eDynamicIsSet(featureID);
   }

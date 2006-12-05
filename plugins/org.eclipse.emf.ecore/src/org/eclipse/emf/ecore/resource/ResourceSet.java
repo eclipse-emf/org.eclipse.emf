@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: ResourceSet.java,v 1.2 2005/06/08 06:20:10 nickb Exp $
+ * $Id: ResourceSet.java,v 1.3 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource;
 
 
 import java.util.Map;
 
+import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -70,7 +71,7 @@ public interface ResourceSet extends Notifier
    * @return the resources.
    * @see Resource#getResourceSet
    */
-  EList getResources();
+  EList<Resource> getResources();
 
   /**
    * Returns a tree iterator that iterates over all the {@link #getResources direct resources} 
@@ -80,7 +81,7 @@ public interface ResourceSet extends Notifier
    * @see Resource#getAllContents
    * @see org.eclipse.emf.ecore.util.EcoreUtil#getAllContents
    */
-  TreeIterator getAllContents();
+  TreeIterator<Notifier> getAllContents();
 
   /**
    * Returns the list of registered {@link org.eclipse.emf.common.notify.AdapterFactory} instances.
@@ -98,7 +99,7 @@ public interface ResourceSet extends Notifier
    * @see org.eclipse.emf.ecore.util.EcoreUtil#getRegisteredAdapter(EObject, Object)
    * @see org.eclipse.emf.common.notify.AdapterFactory#adapt(Notifier, Object)
    */
-  EList getAdapterFactories();
+  EList<AdapterFactory> getAdapterFactories();
 
   /**
    * Returns the options used during demand load.
@@ -111,7 +112,7 @@ public interface ResourceSet extends Notifier
    * @return the options used during demand load.
    * @see Resource#load(Map)
    */
-  Map getLoadOptions();
+  Map<Object, Object> getLoadOptions();
 
   /**
    * Returns the object resolved by the URI.

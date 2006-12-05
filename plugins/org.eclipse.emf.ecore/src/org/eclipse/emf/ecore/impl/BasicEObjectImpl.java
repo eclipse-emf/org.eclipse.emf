@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.28 2006/09/09 13:31:04 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.29 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -64,11 +64,11 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     Resource.Internal getEResource();
     void setEResource(Resource.Internal eResource);
 
-    EList getEContents();
-    void setEContents(EList eContents);
+    EList<EObject> getEContents();
+    void setEContents(EList<EObject> eContents);
 
-    EList getECrossReferences();
-    void setECrossReferences(EList eCrossReferences);
+    EList<EObject> getECrossReferences();
+    void setECrossReferences(EList<EObject> eCrossReferences);
 
     boolean hasSettings();
     void allocateSettings(int dynamicFeatureCount);
@@ -115,22 +115,22 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       this.eResource = eResource;
     }
 
-    public EList getEContents()
+    public EList<EObject> getEContents()
     {
       throw new UnsupportedOperationException();
     }
 
-    public void setEContents(EList eContents)
+    public void setEContents(EList<EObject> eContents)
     {
       throw new UnsupportedOperationException();
     }
 
-    public EList getECrossReferences()
+    public EList<EObject> getECrossReferences()
     {
       throw new UnsupportedOperationException();
     }
 
-    public void setECrossReferences(EList eCrossReferences)
+    public void setECrossReferences(EList<EObject> eCrossReferences)
     {
       throw new UnsupportedOperationException();
     }
@@ -167,35 +167,41 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   protected static class EPropertiesHolderImpl extends EPropertiesHolderBaseImpl
   {
     protected URI eProxyURI;
-    protected EList eContents;
-    protected EList eCrossReferences;
+    protected EList<EObject> eContents;
+    protected EList<EObject> eCrossReferences;
 
+    @Override
     public URI getEProxyURI()
     {
       return eProxyURI;
     }
 
+    @Override
     public void setEProxyURI(URI eProxyURI)
     {
       this.eProxyURI = eProxyURI;
     }
 
-    public EList getEContents()
+    @Override
+    public EList<EObject> getEContents()
     {
       return eContents;
     }
 
-    public void setEContents(EList eContents)
+    @Override
+    public void setEContents(EList<EObject> eContents)
     {
       this.eContents = eContents;
     }
 
-    public EList getECrossReferences()
+    @Override
+    public EList<EObject> getECrossReferences()
     {
       return eCrossReferences;
     }
 
-    public void setECrossReferences(EList eCrossReferences)
+    @Override
+    public void setECrossReferences(EList<EObject> eCrossReferences)
     {
       this.eCrossReferences = eCrossReferences;
     }
@@ -261,11 +267,11 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   {
     if (eStructuralFeature == null)
     {
-      for (EContentsEList.FeatureIterator crossReferences = 
-             (EContentsEList.FeatureIterator)((InternalEList)eCrossReferences()).basicIterator(); 
+      for (@SuppressWarnings("unchecked") EContentsEList.FeatureIterator<EObject> crossReferences = 
+             (EContentsEList.FeatureIterator<EObject>)((InternalEList<?>)eCrossReferences()).basicIterator(); 
            crossReferences.hasNext(); )
       {
-        EObject crossReference = (EObject)crossReferences.next();
+        EObject crossReference = crossReferences.next();
         if (crossReference == eObject)
         {
           eStructuralFeature = crossReferences.feature();
@@ -291,7 +297,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     }
     else if (eStructuralFeature.isMany())
     {
-      EList eList = (EList)eGet(eStructuralFeature, false);
+      EList<?> eList = (EList<?>)eGet(eStructuralFeature, false);
       int index = eList.indexOf(eObject);
       return '@' + eStructuralFeature.getName() + '.' + index;
     }
@@ -322,7 +328,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       {
         throw new IllegalArgumentException("The feature '" + name + "' is not a valid feature");
       }
-      EList eList = (EList)eGet(eStructuralFeature, false);
+      EList<?> eList = (EList<?>)eGet(eStructuralFeature, false);
       int position = 0;
       try
       {
@@ -400,9 +406,9 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     // eContainerFeatureID = newContainerFeatureID;
   }
 
-  public EList eContents()
+  public EList<EObject> eContents()
   {
-    EList result = eProperties().getEContents();
+    EList<EObject> result = eProperties().getEContents();
     if (result == null)
     {
       eBasicProperties().setEContents(result = EContentsEList.createEContentsEList(this));
@@ -411,9 +417,9 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     return result;
   }
 
-  public EList eCrossReferences()
+  public EList<EObject> eCrossReferences()
   {
-    EList result = eProperties().getECrossReferences();
+    EList<EObject> result = eProperties().getECrossReferences();
     if (result == null)
     {
       eBasicProperties().setECrossReferences(result = ECrossReferenceEList.createECrossReferenceEList(this));
@@ -422,12 +428,15 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     return result;
   }
 
-  public TreeIterator eAllContents()
+  public TreeIterator<EObject> eAllContents()
   {
     return 
-      new AbstractTreeIterator(this, false)
+      new AbstractTreeIterator<EObject>(this, false)
       {
-        public Iterator getChildren(Object object)
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public Iterator<EObject> getChildren(Object object)
         {
           return ((EObject)object).eContents().iterator();
         }
@@ -540,7 +549,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     Resource oldResource = eDirectResource();
     if (oldResource != null)
     {
-      notifications = ((InternalEList)oldResource.getContents()).basicRemove(this, notifications);
+      notifications = ((InternalEList<?>)oldResource.getContents()).basicRemove(this, notifications);
     }
     InternalEObject oldContainer = eInternalContainer();
     if (oldContainer != null)
@@ -878,7 +887,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     {
       if (newContainer != null && !eContainmentFeature(this, newContainer, newContainerFeatureID).isResolveProxies())
       {
-        msgs = ((InternalEList)oldResource.getContents()).basicRemove(this, msgs);
+        msgs = ((InternalEList<?>)oldResource.getContents()).basicRemove(this, msgs);
         eSetDirectResource(null);
         if (newContainer != null)
         {
@@ -978,7 +987,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     return eInternalContainer().eInverseRemove(this, inverseFeature.getFeatureID(), inverseFeature.getContainerClass(), msgs);
   }
 
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs)
   {
     if (featureID >= 0)
     {
@@ -999,7 +1008,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
-  public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain msgs)
+  public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class<?> inverseClass, NotificationChain msgs)
   {
     return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
@@ -1010,7 +1019,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     return feature.getSettingDelegate().dynamicInverseAdd(this, eSettings(), featureID - eStaticFeatureCount(), otherEnd, msgs);
   }
 
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class<?> baseClass, NotificationChain msgs)
   {
     if (featureID >= 0)
     {
@@ -1027,7 +1036,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
 
-  public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain msgs)
+  public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class<?> inverseClass, NotificationChain msgs)
   {
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
@@ -1058,19 +1067,19 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     return eBasicProperties() != null && eBasicProperties().getEProxyURI() != null;
   }
 
-  public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass)
+  public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass)
   {
     return derivedFeatureID;
   }
 
-  public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass)
+  public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass)
   {
     return baseFeatureID;
   }
 
   public int eDerivedStructuralFeatureID(EStructuralFeature eStructuralFeature)
   {
-    Class containerClass = eStructuralFeature.getContainerClass();
+    Class<?> containerClass = eStructuralFeature.getContainerClass();
     return 
       containerClass == null ? 
         eClass().getFeatureID(eStructuralFeature) : 
@@ -1555,6 +1564,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
     }
   }
   
+  @Override
   public String toString()
   {
     // Should use the following code to improve debuggability. Will need to

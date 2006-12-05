@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.10 2005/11/23 18:10:02 emerks Exp $
+ * $Id: EAttributeImpl.java,v 1.11 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -20,10 +20,12 @@ package org.eclipse.emf.ecore.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 
@@ -81,6 +83,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EATTRIBUTE;
@@ -91,6 +94,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isID()
   {
     return (eFlags & ID_EFLAG) != 0;
@@ -98,6 +102,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
 
   protected byte effectiveIsMany;
 
+  @Override
   public boolean isMany()
   {
     switch (effectiveIsMany)
@@ -137,12 +142,14 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
     }
   }
 
+  @Override
   public void setUpperBound(int upperBound)
   {
     effectiveIsMany = 0;
     super.setUpperBound(upperBound);
   }
 
+  @Override
   public void setEType(EClassifier eType)
   {
     effectiveIsMany = 0;
@@ -179,7 +186,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    */
   public EDataType basicGetEAttributeType()
   {
-    return (EDataType)eType;
+    return (EDataType)basicGetEType();
   }
 
   /**
@@ -187,6 +194,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -210,6 +218,8 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
       case EcorePackage.EATTRIBUTE__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
+      case EcorePackage.EATTRIBUTE__EGENERIC_TYPE:
+        return getEGenericType();
       case EcorePackage.EATTRIBUTE__CHANGEABLE:
         return isChangeable() ? Boolean.TRUE : Boolean.FALSE;
       case EcorePackage.EATTRIBUTE__VOLATILE:
@@ -240,13 +250,15 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.EATTRIBUTE__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.EATTRIBUTE__NAME:
         setName((String)newValue);
@@ -265,6 +277,9 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
         return;
       case EcorePackage.EATTRIBUTE__ETYPE:
         setEType((EClassifier)newValue);
+        return;
+      case EcorePackage.EATTRIBUTE__EGENERIC_TYPE:
+        setEGenericType((EGenericType)newValue);
         return;
       case EcorePackage.EATTRIBUTE__CHANGEABLE:
         setChangeable(((Boolean)newValue).booleanValue());
@@ -296,6 +311,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -319,7 +335,10 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
         setUpperBound(UPPER_BOUND_EDEFAULT);
         return;
       case EcorePackage.EATTRIBUTE__ETYPE:
-        setEType((EClassifier)null);
+        unsetEType();
+        return;
+      case EcorePackage.EATTRIBUTE__EGENERIC_TYPE:
+        unsetEGenericType();
         return;
       case EcorePackage.EATTRIBUTE__CHANGEABLE:
         setChangeable(CHANGEABLE_EDEFAULT);
@@ -351,6 +370,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -372,7 +392,9 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
       case EcorePackage.EATTRIBUTE__REQUIRED:
         return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.EATTRIBUTE__ETYPE:
-        return eType != null;
+        return isSetEType();
+      case EcorePackage.EATTRIBUTE__EGENERIC_TYPE:
+        return isSetEGenericType();
       case EcorePackage.EATTRIBUTE__CHANGEABLE:
         return ((eFlags & CHANGEABLE_EFLAG) != 0) != CHANGEABLE_EDEFAULT;
       case EcorePackage.EATTRIBUTE__VOLATILE:
@@ -402,6 +424,7 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.14 2005/12/13 23:14:06 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.15 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -42,6 +43,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -210,6 +212,20 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * @generated
    */
   private EClass eStringToStringMapEntryEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass eGenericTypeEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass eTypeParameterEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -640,6 +656,26 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getEClass_EGenericSuperTypes()
+  {
+    return (EReference)eClassEClass.getEStructuralFeatures().get(14);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEClass_EAllGenericSuperTypes()
+  {
+    return (EReference)eClassEClass.getEStructuralFeatures().get(15);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getEDataType()
   {
     return eDataTypeEClass;
@@ -700,9 +736,29 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EAttribute getEClassifier_InstanceTypeName()
+  {
+    return (EAttribute)eClassifierEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EReference getEClassifier_EPackage()
   {
-    return (EReference)eClassifierEClass.getEStructuralFeatures().get(3);
+    return (EReference)eClassifierEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEClassifier_ETypeParameters()
+  {
+    return (EReference)eClassifierEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -752,7 +808,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   public EReference getEOperation_EParameters()
   {
-    return (EReference)eOperationEClass.getEStructuralFeatures().get(1);
+    return (EReference)eOperationEClass.getEStructuralFeatures().get(2);
   }
 
   /**
@@ -762,7 +818,27 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   public EReference getEOperation_EExceptions()
   {
-    return (EReference)eOperationEClass.getEStructuralFeatures().get(2);
+    return (EReference)eOperationEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEOperation_EGenericExceptions()
+  {
+    return (EReference)eOperationEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEOperation_ETypeParameters()
+  {
+    return (EReference)eOperationEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -878,6 +954,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
   /**
    * @deprecated
    */
+  @Deprecated
   public EAttribute getEStructuralFeature_Unique()
   {
     return getETypedElement_Unique();
@@ -886,6 +963,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
   /**
    * @deprecated
    */
+  @Deprecated
   public EAttribute getEStructuralFeature_LowerBound()
   {
     return getETypedElement_LowerBound();
@@ -894,6 +972,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
   /**
    * @deprecated
    */
+  @Deprecated
   public EAttribute getEStructuralFeature_UpperBound()
   {
     return getETypedElement_UpperBound();
@@ -902,6 +981,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
   /**
    * @deprecated
    */
+  @Deprecated
   public EAttribute getEStructuralFeature_Many()
   {
     return getETypedElement_Many();
@@ -910,6 +990,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
   /**
    * @deprecated
    */
+  @Deprecated
   public EAttribute getEStructuralFeature_Required()
   {
     return getETypedElement_Required();
@@ -1250,6 +1331,16 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getETypedElement_EGenericType()
+  {
+    return (EReference)eTypedElementEClass.getEStructuralFeatures().get(7);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getEStringToStringMapEntry()
   {
     return eStringToStringMapEntryEClass;
@@ -1273,6 +1364,106 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
   public EAttribute getEStringToStringMapEntry_Value()
   {
     return (EAttribute)eStringToStringMapEntryEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getEGenericType()
+  {
+    return eGenericTypeEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEGenericType_EUpperBound()
+  {
+    return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEGenericType_ETypeArguments()
+  {
+    return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEGenericType_ERawType()
+  {
+    return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEGenericType_ELowerBound()
+  {
+    return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(3);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEGenericType_ETypeParameter()
+  {
+    return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(4);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getEGenericType_EClassifier()
+  {
+    return (EReference)eGenericTypeEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EClass getETypeParameter()
+  {
+    return eTypeParameterEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getETypeParameter_EBounds()
+  {
+    return (EReference)eTypeParameterEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getETypeParameter_EGenericTypes()
+  {
+    return (EReference)eTypeParameterEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -1721,12 +1912,16 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     createEReference(eClassEClass, ECLASS__EALL_SUPER_TYPES);
     createEReference(eClassEClass, ECLASS__EID_ATTRIBUTE);
     createEReference(eClassEClass, ECLASS__ESTRUCTURAL_FEATURES);
+    createEReference(eClassEClass, ECLASS__EGENERIC_SUPER_TYPES);
+    createEReference(eClassEClass, ECLASS__EALL_GENERIC_SUPER_TYPES);
 
     eClassifierEClass = createEClass(ECLASSIFIER);
     createEAttribute(eClassifierEClass, ECLASSIFIER__INSTANCE_CLASS_NAME);
     createEAttribute(eClassifierEClass, ECLASSIFIER__INSTANCE_CLASS);
     createEAttribute(eClassifierEClass, ECLASSIFIER__DEFAULT_VALUE);
+    createEAttribute(eClassifierEClass, ECLASSIFIER__INSTANCE_TYPE_NAME);
     createEReference(eClassifierEClass, ECLASSIFIER__EPACKAGE);
+    createEReference(eClassifierEClass, ECLASSIFIER__ETYPE_PARAMETERS);
 
     eDataTypeEClass = createEClass(EDATA_TYPE);
     createEAttribute(eDataTypeEClass, EDATA_TYPE__SERIALIZABLE);
@@ -1753,8 +1948,10 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     eOperationEClass = createEClass(EOPERATION);
     createEReference(eOperationEClass, EOPERATION__ECONTAINING_CLASS);
+    createEReference(eOperationEClass, EOPERATION__ETYPE_PARAMETERS);
     createEReference(eOperationEClass, EOPERATION__EPARAMETERS);
     createEReference(eOperationEClass, EOPERATION__EEXCEPTIONS);
+    createEReference(eOperationEClass, EOPERATION__EGENERIC_EXCEPTIONS);
 
     ePackageEClass = createEClass(EPACKAGE);
     createEAttribute(ePackageEClass, EPACKAGE__NS_URI);
@@ -1792,10 +1989,23 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     createEAttribute(eTypedElementEClass, ETYPED_ELEMENT__MANY);
     createEAttribute(eTypedElementEClass, ETYPED_ELEMENT__REQUIRED);
     createEReference(eTypedElementEClass, ETYPED_ELEMENT__ETYPE);
+    createEReference(eTypedElementEClass, ETYPED_ELEMENT__EGENERIC_TYPE);
 
     eStringToStringMapEntryEClass = createEClass(ESTRING_TO_STRING_MAP_ENTRY);
     createEAttribute(eStringToStringMapEntryEClass, ESTRING_TO_STRING_MAP_ENTRY__KEY);
     createEAttribute(eStringToStringMapEntryEClass, ESTRING_TO_STRING_MAP_ENTRY__VALUE);
+
+    eGenericTypeEClass = createEClass(EGENERIC_TYPE);
+    createEReference(eGenericTypeEClass, EGENERIC_TYPE__EUPPER_BOUND);
+    createEReference(eGenericTypeEClass, EGENERIC_TYPE__ETYPE_ARGUMENTS);
+    createEReference(eGenericTypeEClass, EGENERIC_TYPE__ERAW_TYPE);
+    createEReference(eGenericTypeEClass, EGENERIC_TYPE__ELOWER_BOUND);
+    createEReference(eGenericTypeEClass, EGENERIC_TYPE__ETYPE_PARAMETER);
+    createEReference(eGenericTypeEClass, EGENERIC_TYPE__ECLASSIFIER);
+
+    eTypeParameterEClass = createEClass(ETYPE_PARAMETER);
+    createEReference(eTypeParameterEClass, ETYPE_PARAMETER__EBOUNDS);
+    createEReference(eTypeParameterEClass, ETYPE_PARAMETER__EGENERIC_TYPES);
 
     // Create data types
     eBigDecimalEDataType = createEDataType(EBIG_DECIMAL);
@@ -1856,6 +2066,13 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     setNsPrefix(eNS_PREFIX);
     setNsURI(eNS_URI);
 
+    // Create type parameters
+    addETypeParameter(eeListEDataType, "E");
+    addETypeParameter(eJavaClassEDataType, "T");
+    addETypeParameter(eTreeIteratorEDataType, "E");
+
+    // Set bounds for type parameters
+
     // Add supertypes to classes
     eAttributeEClass.getESuperTypes().add(this.getEStructuralFeature());
     eAnnotationEClass.getESuperTypes().add(this.getEModelElement());
@@ -1873,6 +2090,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     eReferenceEClass.getESuperTypes().add(this.getEStructuralFeature());
     eStructuralFeatureEClass.getESuperTypes().add(this.getETypedElement());
     eTypedElementEClass.getESuperTypes().add(this.getENamedElement());
+    eGenericTypeEClass.getESuperTypes().add(this.getEObject());
+    eTypeParameterEClass.getESuperTypes().add(this.getENamedElement());
 
     // Initialize classes and features; add operations and parameters
     initEClass(eAttributeEClass, EAttribute.class, "EAttribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1889,7 +2108,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEClass(eClassEClass, EClass.class, "EClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEClass_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, EClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getEClass_Interface(), ecorePackage.getEBoolean(), "interface", null, 0, 1, EClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getEClass_ESuperTypes(), this.getEClass(), null, "eSuperTypes", null, 0, -1, EClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEClass_ESuperTypes(), this.getEClass(), null, "eSuperTypes", null, 0, -1, EClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEClass_EOperations(), this.getEOperation(), this.getEOperation_EContainingClass(), "eOperations", null, 0, -1, EClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEClass_EAllAttributes(), this.getEAttribute(), null, "eAllAttributes", null, 0, -1, EClass.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getEClass_EAllReferences(), this.getEReference(), null, "eAllReferences", null, 0, -1, EClass.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -1901,11 +2120,13 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEReference(getEClass_EAllSuperTypes(), this.getEClass(), null, "eAllSuperTypes", null, 0, -1, EClass.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getEClass_EIDAttribute(), this.getEAttribute(), null, "eIDAttribute", null, 0, 1, EClass.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getEClass_EStructuralFeatures(), this.getEStructuralFeature(), this.getEStructuralFeature_EContainingClass(), "eStructuralFeatures", null, 0, -1, EClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEClass_EGenericSuperTypes(), this.getEGenericType(), null, "eGenericSuperTypes", null, 0, -1, EClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEClass_EAllGenericSuperTypes(), this.getEGenericType(), null, "eAllGenericSuperTypes", null, 0, -1, EClass.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
     EOperation op = addEOperation(eClassEClass, ecorePackage.getEBoolean(), "isSuperTypeOf", 0, 1);
     addEParameter(op, this.getEClass(), "someClass", 0, 1);
 
-    addEOperation(eClassEClass, ecorePackage.getEInt(), "getFeatureCount", 0, 1);
+    op = addEOperation(eClassEClass, ecorePackage.getEInt(), "getFeatureCount", 0, 1);
 
     op = addEOperation(eClassEClass, this.getEStructuralFeature(), "getEStructuralFeature", 0, 1);
     addEParameter(op, ecorePackage.getEInt(), "featureID", 0, 1);
@@ -1917,15 +2138,20 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     addEParameter(op, ecorePackage.getEString(), "featureName", 0, 1);
 
     initEClass(eClassifierEClass, EClassifier.class, "EClassifier", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getEClassifier_InstanceClassName(), ecorePackage.getEString(), "instanceClassName", null, 0, 1, EClassifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getEClassifier_InstanceClass(), this.getEJavaClass(), "instanceClass", null, 0, 1, EClassifier.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getEClassifier_InstanceClassName(), ecorePackage.getEString(), "instanceClassName", null, 0, 1, EClassifier.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    EGenericType g1 = createEGenericType(this.getEJavaClass());
+    EGenericType g2 = createEGenericType();
+    g1.getETypeArguments().add(g2);
+    initEAttribute(getEClassifier_InstanceClass(), g1, "instanceClass", null, 0, 1, EClassifier.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEAttribute(getEClassifier_DefaultValue(), this.getEJavaObject(), "defaultValue", null, 0, 1, EClassifier.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEAttribute(getEClassifier_InstanceTypeName(), ecorePackage.getEString(), "instanceTypeName", null, 0, 1, EClassifier.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEClassifier_EPackage(), this.getEPackage(), this.getEPackage_EClassifiers(), "ePackage", null, 0, 1, EClassifier.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEClassifier_ETypeParameters(), this.getETypeParameter(), null, "eTypeParameters", null, 0, -1, EClassifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     op = addEOperation(eClassifierEClass, ecorePackage.getEBoolean(), "isInstance", 0, 1);
     addEParameter(op, this.getEJavaObject(), "object", 0, 1);
 
-    addEOperation(eClassifierEClass, ecorePackage.getEInt(), "getClassifierID", 0, 1);
+    op = addEOperation(eClassifierEClass, ecorePackage.getEInt(), "getClassifierID", 0, 1);
 
     initEClass(eDataTypeEClass, EDataType.class, "EDataType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEDataType_Serializable(), ecorePackage.getEBoolean(), "serializable", "true", 0, 1, EDataType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1973,23 +2199,35 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     initEClass(eObjectEClass, EObject.class, "EObject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    addEOperation(eObjectEClass, this.getEClass(), "eClass", 0, 1);
+    op = addEOperation(eObjectEClass, this.getEClass(), "eClass", 0, 1);
 
-    addEOperation(eObjectEClass, ecorePackage.getEBoolean(), "eIsProxy", 0, 1);
+    op = addEOperation(eObjectEClass, ecorePackage.getEBoolean(), "eIsProxy", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEResource(), "eResource", 0, 1);
+    op = addEOperation(eObjectEClass, this.getEResource(), "eResource", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEObject(), "eContainer", 0, 1);
+    op = addEOperation(eObjectEClass, this.getEObject(), "eContainer", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEStructuralFeature(), "eContainingFeature", 0, 1);
+    op = addEOperation(eObjectEClass, this.getEStructuralFeature(), "eContainingFeature", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEReference(), "eContainmentFeature", 0, 1);
+    op = addEOperation(eObjectEClass, this.getEReference(), "eContainmentFeature", 0, 1);
 
-    addEOperation(eObjectEClass, this.getEEList(), "eContents", 0, 1);
+    op = addEOperation(eObjectEClass, null, "eContents", 0, 1);
+    g1 = createEGenericType(this.getEEList());
+    g2 = createEGenericType(this.getEObject());
+    g1.getETypeArguments().add(g2);
+    initEOperation(op, g1);
 
-    addEOperation(eObjectEClass, this.getETreeIterator(), "eAllContents", 0, 1);
+    op = addEOperation(eObjectEClass, null, "eAllContents", 0, 1);
+    g1 = createEGenericType(this.getETreeIterator());
+    g2 = createEGenericType(this.getEObject());
+    g1.getETypeArguments().add(g2);
+    initEOperation(op, g1);
 
-    addEOperation(eObjectEClass, this.getEEList(), "eCrossReferences", 0, 1);
+    op = addEOperation(eObjectEClass, null, "eCrossReferences", 0, 1);
+    g1 = createEGenericType(this.getEEList());
+    g2 = createEGenericType(this.getEObject());
+    g1.getETypeArguments().add(g2);
+    initEOperation(op, g1);
 
     op = addEOperation(eObjectEClass, this.getEJavaObject(), "eGet", 0, 1);
     addEParameter(op, this.getEStructuralFeature(), "feature", 0, 1);
@@ -2010,8 +2248,10 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     initEClass(eOperationEClass, EOperation.class, "EOperation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getEOperation_EContainingClass(), this.getEClass(), this.getEClass_EOperations(), "eContainingClass", null, 0, 1, EOperation.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEOperation_ETypeParameters(), this.getETypeParameter(), null, "eTypeParameters", null, 0, -1, EOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEOperation_EParameters(), this.getEParameter(), this.getEParameter_EOperation(), "eParameters", null, 0, -1, EOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getEOperation_EExceptions(), this.getEClassifier(), null, "eExceptions", null, 0, -1, EOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEOperation_EExceptions(), this.getEClassifier(), null, "eExceptions", null, 0, -1, EOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEOperation_EGenericExceptions(), this.getEGenericType(), null, "eGenericExceptions", null, 0, -1, EOperation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(ePackageEClass, EPackage.class, "EPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEPackage_NsURI(), ecorePackage.getEString(), "nsURI", null, 0, 1, EPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2044,9 +2284,13 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEAttribute(getEStructuralFeature_Derived(), ecorePackage.getEBoolean(), "derived", null, 0, 1, EStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEStructuralFeature_EContainingClass(), this.getEClass(), this.getEClass_EStructuralFeatures(), "eContainingClass", null, 0, 1, EStructuralFeature.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    addEOperation(eStructuralFeatureEClass, ecorePackage.getEInt(), "getFeatureID", 0, 1);
+    op = addEOperation(eStructuralFeatureEClass, ecorePackage.getEInt(), "getFeatureID", 0, 1);
 
-    addEOperation(eStructuralFeatureEClass, this.getEJavaClass(), "getContainerClass", 0, 1);
+    op = addEOperation(eStructuralFeatureEClass, null, "getContainerClass", 0, 1);
+    g1 = createEGenericType(this.getEJavaClass());
+    g2 = createEGenericType();
+    g1.getETypeArguments().add(g2);
+    initEOperation(op, g1);
 
     initEClass(eTypedElementEClass, ETypedElement.class, "ETypedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getETypedElement_Ordered(), ecorePackage.getEBoolean(), "ordered", "true", 0, 1, ETypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -2055,11 +2299,24 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEAttribute(getETypedElement_UpperBound(), ecorePackage.getEInt(), "upperBound", "1", 0, 1, ETypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getETypedElement_Many(), ecorePackage.getEBoolean(), "many", null, 0, 1, ETypedElement.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEAttribute(getETypedElement_Required(), ecorePackage.getEBoolean(), "required", null, 0, 1, ETypedElement.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-    initEReference(getETypedElement_EType(), this.getEClassifier(), null, "eType", null, 0, 1, ETypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getETypedElement_EType(), this.getEClassifier(), null, "eType", null, 0, 1, ETypedElement.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getETypedElement_EGenericType(), this.getEGenericType(), null, "eGenericType", null, 0, 1, ETypedElement.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(eStringToStringMapEntryEClass, Map.Entry.class, "EStringToStringMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEStringToStringMapEntry_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getEStringToStringMapEntry_Value(), ecorePackage.getEString(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(eGenericTypeEClass, EGenericType.class, "EGenericType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getEGenericType_EUpperBound(), this.getEGenericType(), null, "eUpperBound", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEGenericType_ETypeArguments(), this.getEGenericType(), null, "eTypeArguments", null, 0, -1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEGenericType_ERawType(), this.getEClassifier(), null, "eRawType", null, 1, 1, EGenericType.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEReference(getEGenericType_ELowerBound(), this.getEGenericType(), null, "eLowerBound", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEGenericType_ETypeParameter(), this.getETypeParameter(), this.getETypeParameter_EGenericTypes(), "eTypeParameter", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEGenericType_EClassifier(), this.getEClassifier(), null, "eClassifier", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(eTypeParameterEClass, ETypeParameter.class, "ETypeParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getETypeParameter_EBounds(), this.getEGenericType(), null, "eBounds", null, 0, -1, ETypeParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getETypeParameter_EGenericTypes(), this.getEGenericType(), this.getEGenericType_ETypeParameter(), "eGenericTypes", null, 0, -1, ETypeParameter.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize data types
     initEDataType(eBigDecimalEDataType, BigDecimal.class, "EBigDecimal", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -2084,7 +2341,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEDataType(eIntEDataType, int.class, "EInt", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(eIntegerObjectEDataType, Integer.class, "EIntegerObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(eJavaClassEDataType, Class.class, "EJavaClass", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
-    initEDataType(eJavaObjectEDataType, Object.class, "EJavaObject", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+    initEDataType(eJavaObjectEDataType, Object.class, "EJavaObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(eLongEDataType, long.class, "ELong", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(eLongObjectEDataType, Long.class, "ELongObject", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
     initEDataType(eMapEDataType, Map.class, "EMap", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -2107,7 +2364,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";										
     addAnnotation
       (eBigDecimalEDataType, 
        source, 

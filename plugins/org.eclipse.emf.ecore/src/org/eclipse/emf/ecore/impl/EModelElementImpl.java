@@ -12,14 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.13 2006/05/12 21:09:32 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.14 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import java.util.Collection;
-import java.util.Iterator;
-
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -60,7 +58,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * @generated
    * @ordered
    */
-  protected EList eAnnotations = null;
+  protected EList<EAnnotation> eAnnotations = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -110,6 +108,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EMODEL_ELEMENT;
@@ -120,11 +119,11 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getEAnnotations()
+  public EList<EAnnotation> getEAnnotations()
   {
     if (eAnnotations == null)
     {
-      eAnnotations = new EObjectContainmentWithInverseEList(EAnnotation.class, this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EcorePackage.EANNOTATION__EMODEL_ELEMENT);
+      eAnnotations = new EObjectContainmentWithInverseEList<EAnnotation>(EAnnotation.class, this, EcorePackage.EMODEL_ELEMENT__EANNOTATIONS, EcorePackage.EANNOTATION__EMODEL_ELEMENT);
     }
     return eAnnotations;
   }
@@ -143,7 +142,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
         int size = eAnnotations.size();
         if (size > 0)
         {
-          EAnnotation [] eAnnotationArray = (EAnnotation[])((BasicEList)eAnnotations).data();
+          EAnnotation [] eAnnotationArray = (EAnnotation[])((BasicEList<?>)eAnnotations).data();
           if (source == null)
           {
             for (int i = 0; i < size; ++i)
@@ -172,9 +171,8 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
       {
         if (source == null)
         {
-          for (Iterator i = eAnnotations.iterator(); i.hasNext(); )
+          for (EAnnotation eAnnotation : eAnnotations)
           {
-            EAnnotation eAnnotation = (EAnnotation)i.next();
             if (eAnnotation.getSource() == null)
             {
               return eAnnotation;
@@ -183,9 +181,8 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
         }
         else
         {
-          for (Iterator i = eAnnotations.iterator(); i.hasNext(); )
+          for (EAnnotation eAnnotation : eAnnotations)
           {
-            EAnnotation eAnnotation = (EAnnotation)i.next();
             if (source.equals(eAnnotation.getSource()))
             {
               return eAnnotation;
@@ -203,12 +200,14 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EMODEL_ELEMENT__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
     }
     return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
@@ -218,12 +217,13 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EMODEL_ELEMENT__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
     }
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
@@ -233,6 +233,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -248,13 +249,15 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.EMODEL_ELEMENT__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
     }
     eDynamicSet(featureID, newValue);
@@ -265,6 +268,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -281,6 +285,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -291,6 +296,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
     return eDynamicIsSet(featureID);
   }
 
+  @Override
   public String eURIFragmentSegment(EStructuralFeature eStructuralFeature, EObject eObject)
   {
     if (eObject instanceof ENamedElement)
@@ -300,9 +306,8 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
       if (name != null)
       {
         int count = 0;
-        for (Iterator i = eContents().iterator(); i.hasNext(); )
+        for (Object otherEObject : eContents())
         {
-          Object otherEObject = i.next();
           if (otherEObject == eObject)
           {
             break;
@@ -329,9 +334,8 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
       if (source != null)
       {
         int count = 0;
-        for (Iterator i = eContents().iterator(); i.hasNext(); )
+        for (Object otherEObject : eContents())
         {
-          Object otherEObject = i.next();
           if (otherEObject == eObject)
           {
             break;
@@ -361,6 +365,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
     return super.eURIFragmentSegment(eStructuralFeature, eObject);
   }
   
+  @Override
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
     if (uriFragmentSegment.length() > 0)
@@ -401,9 +406,8 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
             
             // Look for the annotation with the matching source.
             //
-            for (Iterator i = eContents().iterator(); i.hasNext(); )
+            for (Object object : eContents())
             {
-              Object object = i.next();
               if (object instanceof EAnnotation)
               {
                 EAnnotation eAnnotation = (EAnnotation)object;
@@ -438,9 +442,8 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
     
           // Look for a matching named element.
           //
-          for (Iterator i = eContents().iterator(); i.hasNext(); )
+          for (Object object : eContents())
           {
-            Object object = i.next();
             if (object instanceof ENamedElement)
             {
               ENamedElement eNamedElement = (ENamedElement)object;

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EDataTypeImpl.java,v 1.10 2005/12/02 12:16:44 emerks Exp $
+ * $Id: EDataTypeImpl.java,v 1.11 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -20,8 +20,10 @@ package org.eclipse.emf.ecore.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 
@@ -74,16 +76,20 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
   protected Object defaultValue = null;
   protected boolean defaultValueIsSet = false;
 
+  @Override
   public Object getDefaultValue()
   {
     if (!defaultValueIsSet)
     {
-      Class instanceClass = null;
+      Class<?> instanceClass = null;
       try
       {
         instanceClass = getInstanceClass();
       }
-      catch (Exception e) {}
+      catch (Exception e) 
+      {
+        // Continue with no instanceClass. 
+      }
 
       defaultValue = null;
       if (instanceClass != null && instanceClass.isPrimitive())
@@ -110,12 +116,14 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
     return defaultValue;
   }
 
-  public void setInstanceClassGen(Class instanceClass)
+  @Override
+  public void setInstanceClassGen(Class<?> instanceClass)
   {
     super.setInstanceClassGen(instanceClass);
     defaultValueIsSet = false;
   }
 
+  @Override
   public void setGeneratedInstanceClass(boolean isGenerated)
   {
     super.setGeneratedInstanceClass(isGenerated);
@@ -140,6 +148,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EDATA_TYPE;
@@ -173,6 +182,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -187,9 +197,13 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
         return getInstanceClass();
       case EcorePackage.EDATA_TYPE__DEFAULT_VALUE:
         return getDefaultValue();
+      case EcorePackage.EDATA_TYPE__INSTANCE_TYPE_NAME:
+        return getInstanceTypeName();
       case EcorePackage.EDATA_TYPE__EPACKAGE:
         if (resolve) return getEPackage();
         return basicGetEPackage();
+      case EcorePackage.EDATA_TYPE__ETYPE_PARAMETERS:
+        return getETypeParameters();
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
         return isSerializable() ? Boolean.TRUE : Boolean.FALSE;
     }
@@ -201,19 +215,28 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.EDATA_TYPE__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.EDATA_TYPE__NAME:
         setName((String)newValue);
         return;
       case EcorePackage.EDATA_TYPE__INSTANCE_CLASS_NAME:
         setInstanceClassName((String)newValue);
+        return;
+      case EcorePackage.EDATA_TYPE__INSTANCE_TYPE_NAME:
+        setInstanceTypeName((String)newValue);
+        return;
+      case EcorePackage.EDATA_TYPE__ETYPE_PARAMETERS:
+        getETypeParameters().clear();
+        getETypeParameters().addAll((Collection<? extends ETypeParameter>)newValue);
         return;
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
         setSerializable(((Boolean)newValue).booleanValue());
@@ -227,6 +250,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -238,7 +262,13 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
         setName(NAME_EDEFAULT);
         return;
       case EcorePackage.EDATA_TYPE__INSTANCE_CLASS_NAME:
-        setInstanceClassName(INSTANCE_CLASS_NAME_EDEFAULT);
+        unsetInstanceClassName();
+        return;
+      case EcorePackage.EDATA_TYPE__INSTANCE_TYPE_NAME:
+        unsetInstanceTypeName();
+        return;
+      case EcorePackage.EDATA_TYPE__ETYPE_PARAMETERS:
+        getETypeParameters().clear();
         return;
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
         setSerializable(SERIALIZABLE_EDEFAULT);
@@ -252,6 +282,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -261,13 +292,17 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
       case EcorePackage.EDATA_TYPE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EcorePackage.EDATA_TYPE__INSTANCE_CLASS_NAME:
-        return INSTANCE_CLASS_NAME_EDEFAULT == null ? instanceClassName != null : !INSTANCE_CLASS_NAME_EDEFAULT.equals(instanceClassName);
+        return isSetInstanceClassName();
       case EcorePackage.EDATA_TYPE__INSTANCE_CLASS:
-        return INSTANCE_CLASS_EDEFAULT == null ? getInstanceClass() != null : !INSTANCE_CLASS_EDEFAULT.equals(getInstanceClass());
+        return getInstanceClass() != null;
       case EcorePackage.EDATA_TYPE__DEFAULT_VALUE:
         return DEFAULT_VALUE_EDEFAULT == null ? getDefaultValue() != null : !DEFAULT_VALUE_EDEFAULT.equals(getDefaultValue());
+      case EcorePackage.EDATA_TYPE__INSTANCE_TYPE_NAME:
+        return isSetInstanceTypeName();
       case EcorePackage.EDATA_TYPE__EPACKAGE:
         return basicGetEPackage() != null;
+      case EcorePackage.EDATA_TYPE__ETYPE_PARAMETERS:
+        return eTypeParameters != null && !eTypeParameters.isEmpty();
       case EcorePackage.EDATA_TYPE__SERIALIZABLE:
         return ((eFlags & SERIALIZABLE_EFLAG) != 0) != SERIALIZABLE_EDEFAULT;
     }
@@ -279,6 +314,7 @@ public class EDataTypeImpl extends EClassifierImpl implements EDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

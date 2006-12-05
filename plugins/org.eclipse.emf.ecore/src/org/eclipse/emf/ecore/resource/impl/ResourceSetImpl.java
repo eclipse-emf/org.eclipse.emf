@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetImpl.java,v 1.8 2006/05/01 16:22:30 marcelop Exp $
+ * $Id: ResourceSetImpl.java,v 1.9 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.resource.impl;
 
@@ -27,6 +27,7 @@ import java.util.Map;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.NotifierImpl;
 import org.eclipse.emf.common.notify.impl.NotifyingListImpl;
 import org.eclipse.emf.common.util.BasicEList;
@@ -69,19 +70,19 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * The contained resources.
    * @see #getResources
    */
-  protected EList resources;
+  protected EList<Resource> resources;
 
   /**
    * The registered adapter factories.
    * @see #getAdapterFactories
    */
-  protected EList adapterFactories;
+  protected EList<AdapterFactory> adapterFactories;
 
   /**
    * The load options.
    * @see #getLoadOptions
    */
-  protected Map loadOptions;
+  protected Map<Object, Object> loadOptions;
 
   /**
    * The local resource factory registry.
@@ -105,13 +106,14 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * A map to cache the resource associated with a specific URI.
    * @see #setURIResourceMap(Map)
    */
-  protected Map uriResourceMap;
+  protected Map<URI, Resource> uriResourceMap;
 
   /**
    * Creates an empty instance.
    */
   public ResourceSetImpl()
   {
+    super();
   }
   
   /**
@@ -119,7 +121,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * @return the map used to cache the resource associated with a specific URI.
    * @see #setURIResourceMap
    */
-  public Map getURIResourceMap()
+  public Map<URI, Resource> getURIResourceMap()
   {
     return uriResourceMap;
   }
@@ -133,7 +135,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * @param uriResourceMap the new map or <code>null</code>.
    * @see #getURIResourceMap
    */
-  public void setURIResourceMap(Map uriResourceMap)
+  public void setURIResourceMap(Map<URI, Resource> uriResourceMap)
   {
     this.uriResourceMap = uriResourceMap;
   }
@@ -141,11 +143,11 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   /*
    * Javadoc copied from interface.
    */
-  public EList getResources()
+  public EList<Resource> getResources()
   {
     if (resources == null)
     {
-      resources = new ResourcesEList();
+      resources = new ResourcesEList<Resource>();
     }
     return resources;
   }
@@ -153,9 +155,9 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   /*
    * Javadoc copied from interface.
    */
-  public TreeIterator getAllContents()
+  public TreeIterator<Notifier> getAllContents()
   {
-    TreeIterator result = EcoreUtil.getAllContents(Collections.singleton(this));
+    TreeIterator<Notifier> result = EcoreUtil.getAllContents(Collections.singleton(this));
     result.next();
     return result;
   }
@@ -163,23 +165,28 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   /*
    * Javadoc copied from interface.
    */
-  public EList getAdapterFactories()
+  public EList<AdapterFactory> getAdapterFactories()
   {
     if (adapterFactories == null)
     {
       adapterFactories = 
-        new BasicEList()
+        new BasicEList<AdapterFactory>()
         {
+          private static final long serialVersionUID = 1L;
+
+          @Override
           protected boolean useEquals()
           {
             return false;
           }
 
+          @Override
           protected boolean isUnique()
           {
             return true;
           }
 
+          @Override
           protected Object [] newData(int capacity)
           {
             return new AdapterFactory [capacity];
@@ -192,11 +199,11 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   /*
    * Javadoc copied from interface.
    */
-  public Map getLoadOptions()
+  public Map<Object, Object> getLoadOptions()
   {
     if (loadOptions == null)
     {
-      loadOptions = new HashMap();
+      loadOptions = new HashMap<Object, Object>();
     }
 
     return loadOptions;
@@ -282,6 +289,8 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     final String location = resource.getURI() == null ? null : resource.getURI().toString();
     class DiagnosticWrappedException extends WrappedException implements Resource.Diagnostic
     {
+      private static final long serialVersionUID = 1L;
+
       public DiagnosticWrappedException(Exception exception)
       {
         super(exception);
@@ -301,14 +310,14 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
       {
         return 0;
       }
-    };
+    }
     
     Exception cause = exception instanceof Resource.IOWrappedException ? (Exception)exception.getCause() : exception;
-    WrappedException wrappedException = new DiagnosticWrappedException(cause);
+    DiagnosticWrappedException wrappedException = new DiagnosticWrappedException(cause);
     
     if (resource.getErrors().isEmpty())
     {
-      resource.getErrors().add(exception instanceof Resource.Diagnostic ? (Exception)exception : (Exception)wrappedException);
+      resource.getErrors().add(exception instanceof Resource.Diagnostic ? (Resource.Diagnostic)exception : wrappedException);
     }
     
     throw wrappedException;
@@ -335,10 +344,10 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    */
   public Resource getResource(URI uri, boolean loadOnDemand)
   {
-    Map map = getURIResourceMap();
+    Map<URI, Resource> map = getURIResourceMap();
     if (map != null)
     {
-      Resource resource = (Resource)map.get(uri);
+      Resource resource = map.get(uri);
       if (resource != null)
       {
         if (loadOnDemand && !resource.isLoaded())
@@ -351,9 +360,8 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
     
     URIConverter theURIConverter = getURIConverter();
     URI normalizedURI = theURIConverter.normalize(uri);
-    for (Iterator i = getResources().iterator(); i.hasNext(); )
+    for (Resource resource : getResources())
     {
-      Resource resource = (Resource)i.next();
       if (theURIConverter.normalize(resource.getURI()).equals(normalizedURI))
       {
         if (loadOnDemand && !resource.isLoaded())
@@ -427,6 +435,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
       resourceFactoryRegistry =
         new ResourceFactoryRegistryImpl()
         {
+          @Override
           public Resource.Factory delegatedGetFactory(URI uri)
           {
             return Resource.Factory.Registry.INSTANCE.getFactory(uri);
@@ -488,56 +497,67 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
   /**
    * A notifying list implementation for supporting {@link ResourceSet#getResources}.
    */
-  protected class ResourcesEList extends NotifyingListImpl implements InternalEList
+  protected class ResourcesEList<E extends Object & Resource> extends NotifyingListImpl<E> implements InternalEList<E>
   {
+    private static final long serialVersionUID = 1L;
+
+    @Override
     protected boolean isNotificationRequired()
     {
       return ResourceSetImpl.this.eNotificationRequired();
     }
 
+    @Override
     protected Object [] newData(int capacity)
     {
       return new Resource [capacity];
     }
 
+    @Override
     public Object getNotifier()
     {
       return ResourceSetImpl.this;
     }
 
+    @Override
     public int getFeatureID()
     {
       return RESOURCE_SET__RESOURCES;
     }
 
+    @Override
     protected boolean useEquals()
     {
       return false;
     }
 
+    @Override
     protected boolean hasInverse()
     {
       return true;
     }
 
+    @Override
     protected boolean isUnique()
     {
       return true;
     }
 
-    protected NotificationChain inverseAdd(Object object, NotificationChain notifications)
+    @Override
+    protected NotificationChain inverseAdd(E object, NotificationChain notifications)
     {
       Resource.Internal resource = (Resource.Internal)object;
       return resource.basicSetResourceSet(ResourceSetImpl.this, notifications);
     }
 
-    protected NotificationChain inverseRemove(Object object, NotificationChain notifications)
+    @Override
+    protected NotificationChain inverseRemove(E object, NotificationChain notifications)
     {
       Resource.Internal resource = (Resource.Internal)object;
-      Map map = getURIResourceMap();
+      Map<URI, Resource> map = getURIResourceMap();
       if (map != null)
       {
-        for (Iterator i = map.values().iterator(); i.hasNext();)
+        for (Iterator<Resource> i = map.values().iterator(); i.hasNext();)
         {
           if (resource == i.next())
           {
@@ -548,22 +568,26 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
       return resource.basicSetResourceSet(null, notifications);
     }
 
-    public Iterator basicIterator()
+    @Override
+    public Iterator<E> basicIterator()
     {
       return super.basicIterator();
     }
 
-    public ListIterator basicListIterator()
+    @Override
+    public ListIterator<E> basicListIterator()
     {
       return super.basicListIterator();
     }
   
-    public ListIterator basicListIterator(int index)
+    @Override
+    public ListIterator<E> basicListIterator(int index)
     {
       return super.basicListIterator(index);
     }
 
-    public List basicList()
+    @Override
+    public List<E> basicList()
     {
       return super.basicList();
     }
@@ -573,6 +597,7 @@ public class ResourceSetImpl extends NotifierImpl implements ResourceSet
    * Returns a standard label with the list of resources.
    * @return the string form.
    */
+  @Override
   public String toString()
   {
     return 

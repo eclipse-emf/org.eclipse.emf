@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.28 2006/08/22 20:39:40 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.29 2006/12/05 20:22:26 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -49,10 +49,11 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 public final class FeatureMapUtil
 {
-  protected static final Class VALIDATOR_CLASS = Validator.class;
+  protected static final Class<Validator> VALIDATOR_CLASS = Validator.class;
 
   private FeatureMapUtil()
   {
+    super();
   }
 
   public static void addText(FeatureMap featureMap, String text)
@@ -202,6 +203,7 @@ public final class FeatureMapUtil
       return value;
     }
 
+    @Override
     public boolean equals(Object that)
     {
       if (this == that)
@@ -221,11 +223,13 @@ public final class FeatureMapUtil
       }
     }
 
+    @Override
     public int hashCode()
     {
      return eStructuralFeature.hashCode() ^ (value == null ? 0 : value.hashCode());
     }
 
+    @Override
     public String toString()
     {
       String prefix = eStructuralFeature.getEContainingClass().getEPackage().getNsPrefix();
@@ -247,7 +251,7 @@ public final class FeatureMapUtil
     }
   }
 
-  public static abstract class BasicFeatureEIterator implements ListIterator
+  public static abstract class BasicFeatureEIterator<E> implements ListIterator<E>
   {
     protected final EStructuralFeature eStructuralFeature;
     protected final FeatureMap.Internal featureMap;
@@ -255,7 +259,7 @@ public final class FeatureMapUtil
     protected int entryCursor;
     protected int cursor;
     protected int prepared;
-    protected Object preparedResult;
+    protected E preparedResult;
     protected int expectedModCount;
     protected int lastCursor;
     protected boolean isFeatureMap;
@@ -275,9 +279,10 @@ public final class FeatureMapUtil
       return false;
     }
 
-    protected Object extractValue(FeatureMap.Entry entry)
+    @SuppressWarnings("unchecked")
+    protected E extractValue(FeatureMap.Entry entry)
     {
-      return isFeatureMap ? entry : entry.getValue();
+      return isFeatureMap ? (E)entry : (E)entry.getValue();
     }
 
     public boolean hasNext()
@@ -326,7 +331,7 @@ public final class FeatureMapUtil
     }
 */
 
-    public Object next()
+    public E next()
     {
       if (hasNext())
       {
@@ -334,7 +339,8 @@ public final class FeatureMapUtil
 
         if (resolve())
         {
-          preparedResult = featureMap.resolveProxy(eStructuralFeature, entryCursor, cursor, preparedResult);
+          @SuppressWarnings("unchecked") E newPreparedResult = (E)featureMap.resolveProxy(eStructuralFeature, entryCursor, cursor, preparedResult);
+          preparedResult = newPreparedResult;
         }
 
         lastCursor = cursor;
@@ -399,7 +405,7 @@ public final class FeatureMapUtil
     }
 */
 
-    public Object previous()
+    public E previous()
     {
       if (hasPrevious())
       {
@@ -407,7 +413,8 @@ public final class FeatureMapUtil
         lastCursor = --cursor;
         if (resolve())
         {
-          preparedResult = featureMap.resolveProxy(eStructuralFeature, entryCursor, cursor, preparedResult);
+          @SuppressWarnings("unchecked") E newPreparedResult = (E)featureMap.resolveProxy(eStructuralFeature, entryCursor, cursor, preparedResult);
+          preparedResult = newPreparedResult;
         }
         // --entryCursor;
         prepared = 0;
@@ -515,31 +522,37 @@ public final class FeatureMapUtil
     }
   }
 
-  public static class FeatureEList extends AbstractList implements InternalEList.Unsettable, EStructuralFeature.Setting
+  public static class FeatureEList<E>
+    extends AbstractList<E>
+    implements InternalEList.Unsettable<E>, EStructuralFeature.Setting
   {
-    public static class Basic extends FeatureEList
+    public static class Basic<E> extends FeatureEList<E>
     {
       public Basic(EStructuralFeature feature, FeatureMap.Internal featureMap)
       {
         super(feature, featureMap);
       }
 
-      public Iterator iterator()
+      @Override
+      public Iterator<E> iterator()
       {
         return this.basicIterator();
       }
 
-      public ListIterator listIterator()
+      @Override
+      public ListIterator<E> listIterator()
       {
         return this.basicListIterator();
       }
 
-      public ListIterator listIterator(int index)
+      @Override
+      public ListIterator<E> listIterator(int index)
       {
         return this.basicListIterator(index);
       }
 
-      public List basicList()
+      @Override
+      public List<E> basicList()
       {
         return this;
       }
@@ -554,49 +567,61 @@ public final class FeatureMapUtil
       this.featureMap = featureMap;
     }
 
+    @Override
     public int size()
     {
       return featureMap.size(getEStructuralFeature());
     }
 
+    @Override
     public boolean isEmpty()
     {
       return featureMap.isEmpty(getEStructuralFeature());
     }
 
+    @Override
     public boolean contains(Object object)
     {
       return featureMap.contains(getEStructuralFeature(), object);
     }
 
+    @Override
     public int indexOf(Object object)
     {
       return featureMap.indexOf(getEStructuralFeature(), object);
     }
 
+    @Override
     public int lastIndexOf(Object object)
     {
       return featureMap.lastIndexOf(getEStructuralFeature(), object);
     }
 
-    public boolean containsAll(Collection collection)
+    @Override
+    public boolean containsAll(Collection<?> collection)
     {
       return featureMap.containsAll(getEStructuralFeature(), collection);
     }
 
-    public Iterator iterator()
+    @SuppressWarnings("unchecked")
+    @Override
+    public Iterator<E> iterator()
     {
-      return featureMap.iterator(getEStructuralFeature());
+      return (Iterator<E>)featureMap.iterator(getEStructuralFeature());
     }
 
-    public ListIterator listIterator()
+    @SuppressWarnings("unchecked")
+    @Override
+    public ListIterator<E> listIterator()
     {
-      return featureMap.listIterator(getEStructuralFeature());
+      return (ListIterator<E>)featureMap.listIterator(getEStructuralFeature());
     }
 
-    public ListIterator listIterator(int index)
+    @SuppressWarnings("unchecked")
+    @Override
+    public ListIterator<E> listIterator(int index)
     {
-      return featureMap.listIterator(getEStructuralFeature(), index);
+      return (ListIterator<E>)featureMap.listIterator(getEStructuralFeature(), index);
     }
 
 /*
@@ -606,57 +631,68 @@ public final class FeatureMapUtil
     }
 */
 
-    public Object basicGet(int index)
+    @SuppressWarnings("unchecked")
+    public E basicGet(int index)
     {
-      return featureMap.get(getEStructuralFeature(), index, false);
+      return (E)featureMap.get(getEStructuralFeature(), index, false);
     }
 
-    public List basicList()
+    @SuppressWarnings("unchecked")
+    public List<E> basicList()
     {
-      return featureMap.basicList(getEStructuralFeature());
+      return (List<E>)featureMap.basicList(getEStructuralFeature());
     }
 
-    public Iterator basicIterator()
+    @SuppressWarnings("unchecked")
+    public Iterator<E> basicIterator()
     {
-      return featureMap.basicIterator(getEStructuralFeature());
+      return (Iterator<E>)featureMap.basicIterator(getEStructuralFeature());
     }
 
-    public ListIterator basicListIterator()
+    @SuppressWarnings("unchecked")
+    public ListIterator<E> basicListIterator()
     {
-      return featureMap.basicListIterator(getEStructuralFeature());
+      return (ListIterator<E>)featureMap.basicListIterator(getEStructuralFeature());
     }
 
-    public ListIterator basicListIterator(int index)
+    @SuppressWarnings("unchecked")
+    public ListIterator<E> basicListIterator(int index)
     {
-      return featureMap.basicListIterator(getEStructuralFeature(), index);
+      return (ListIterator<E>)featureMap.basicListIterator(getEStructuralFeature(), index);
     }
 
+    @Override
     public Object[] toArray()
     {
       return featureMap.toArray(getEStructuralFeature());
     }
 
-    public Object[] toArray(Object[] array)
+    @Override
+    public <T>  T [] toArray(T[] array)
     {
       return featureMap.toArray(getEStructuralFeature(), array);
     }
 
+    @Override
     public boolean add(Object object)
     {
       return featureMap.add(getEStructuralFeature(), object);
     }
 
+    @Override
     public void add(int index, Object object)
     {
       featureMap.add(getEStructuralFeature(), index, object);
     }
 
-    public boolean addAll(Collection collection)
+    @Override
+    public boolean addAll(Collection<? extends E> collection)
     {
       return featureMap.addAll(getEStructuralFeature(), collection);
     }
 
-    public boolean addAll(int index, Collection collection)
+    @Override
+    public boolean addAll(int index, Collection<? extends E> collection)
     {
       return featureMap.addAll(getEStructuralFeature(), index, collection);
     }
@@ -671,10 +707,11 @@ public final class FeatureMapUtil
       featureMap.addUnique(getEStructuralFeature(), index, object);
     }
     
-    public boolean addAllUnique(Collection collection)
+    @SuppressWarnings("unchecked")
+    public boolean addAllUnique(Collection<? extends E> collection)
     {
       modCount = -1;
-      return featureMap.addAllUnique(collection);
+      return featureMap.addAllUnique((Collection<? extends Entry>)collection);
     }
     
     public void addUnique(Entry.Internal entry)
@@ -686,7 +723,7 @@ public final class FeatureMapUtil
     public boolean addAllUnique(Entry.Internal [] entries, int start, int end)
     {
       modCount = -1;
-      BasicEList collection = new BasicEList();
+      BasicEList<Entry.Internal> collection = new BasicEList<Entry.Internal>();
       if (start == 0)
       {
         collection.setData(end, entries);
@@ -702,19 +739,22 @@ public final class FeatureMapUtil
       return featureMap.addAllUnique(collection);
     }
 
-    public NotificationChain basicAdd(Object object, NotificationChain notifications)
+    public NotificationChain basicAdd(E object, NotificationChain notifications)
     {
       return featureMap.basicAdd(getEStructuralFeature(), object, notifications);
     }
 
+    @Override
     public boolean remove(Object object)
     {
       return featureMap.remove(getEStructuralFeature(), object);
     }
 
-    public Object remove(int index)
+    @SuppressWarnings("unchecked")
+    @Override
+    public E remove(int index)
     {
-      return featureMap.remove(getEStructuralFeature(), index);
+      return (E)featureMap.remove(getEStructuralFeature(), index);
     }
 
     public NotificationChain basicRemove(Object object, NotificationChain notifications)
@@ -722,16 +762,19 @@ public final class FeatureMapUtil
       return featureMap.basicRemove(getEStructuralFeature(), object, notifications);
     }
 
-    public boolean removeAll(Collection collection)
+    @Override
+    public boolean removeAll(Collection<?> collection)
     {
       return featureMap.removeAll(getEStructuralFeature(), collection);
     }
 
-    public boolean retainAll(Collection collection)
+    @Override
+    public boolean retainAll(Collection<?> collection)
     {
       return featureMap.retainAll(getEStructuralFeature(), collection);
     }
 
+    @Override
     public void clear()
     {
       featureMap.clear(getEStructuralFeature());
@@ -742,24 +785,30 @@ public final class FeatureMapUtil
       featureMap.move(getEStructuralFeature(), index, object);
     }
 
-    public Object move(int targetIndex, int sourceIndex)
+    @SuppressWarnings("unchecked")
+    public E move(int targetIndex, int sourceIndex)
     {
-      return featureMap.move(getEStructuralFeature(), targetIndex, sourceIndex);
+      return (E)featureMap.move(getEStructuralFeature(), targetIndex, sourceIndex);
     }
 
-    public Object get(int index)
+    @SuppressWarnings("unchecked")
+    @Override
+    public E get(int index)
     {
-      return featureMap.get(getEStructuralFeature(), index, true);
+      return (E)featureMap.get(getEStructuralFeature(), index, true);
     }
 
-    public Object set(int index, Object object)
+    @SuppressWarnings("unchecked")
+    @Override
+    public E set(int index, E object)
     {
-      return featureMap.set(getEStructuralFeature(), index, object);
+      return (E)featureMap.set(getEStructuralFeature(), index, object);
     }
 
-    public Object setUnique(int index, Object object)
+    @SuppressWarnings("unchecked")
+    public E setUnique(int index, E object)
     {
-      return featureMap.setUnique(getEStructuralFeature(), index, object);
+      return (E)featureMap.setUnique(getEStructuralFeature(), index, object);
     }
 
     public Object get(boolean resolve)
@@ -767,10 +816,11 @@ public final class FeatureMapUtil
       return this;
     }
 
+    @SuppressWarnings("unchecked")
     public void set(Object newValue)
     {
       clear();
-      addAll((List)newValue);
+      addAll((List<? extends E>)newValue);
     }
 
     public boolean isSet()
@@ -804,11 +854,12 @@ public final class FeatureMapUtil
       return featureMap.getEObject();
     }
 
+    @Override
     public String toString()
     {
       StringBuffer stringBuffer = new StringBuffer();
       stringBuffer.append("[");
-      for (Iterator i = basicIterator(); i.hasNext(); )
+      for (Iterator<E> i = basicIterator(); i.hasNext(); )
       {
         stringBuffer.append(String.valueOf(i.next()));
         if (i.hasNext())
@@ -821,7 +872,7 @@ public final class FeatureMapUtil
     }
   }
 
-  public static class FeatureFeatureMap extends FeatureEList implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
+  public static class FeatureFeatureMap extends FeatureEList<FeatureMap.Entry> implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
   {
     protected FeatureMap.Internal.Wrapper wrapper = this;
     
@@ -830,17 +881,17 @@ public final class FeatureMapUtil
       super(feature, featureMap);
     }
     
-    public FeatureMap.ValueListIterator valueListIterator()
+    public FeatureMap.ValueListIterator<Object> valueListIterator()
     {
       return featureMap.valueListIterator();
     }
     
-    public FeatureMap.ValueListIterator valueListIterator(int index)
+    public FeatureMap.ValueListIterator<Object> valueListIterator(int index)
     {
       return featureMap.valueListIterator(index);
     }
 
-    public EList list(EStructuralFeature feature)
+    public <T> EList<T> list(EStructuralFeature feature)
     {
       return featureMap.list(feature);
     }
@@ -877,29 +928,30 @@ public final class FeatureMapUtil
       featureMap.add(feature, index, value);
     }
 
-    public boolean addAll(EStructuralFeature feature, Collection values)
+    public boolean addAll(EStructuralFeature feature, Collection<?> values)
     {
       return featureMap.addAll(feature, values);
     }
 
-    public boolean addAll(int index, EStructuralFeature feature, Collection values)
+    public boolean addAll(int index, EStructuralFeature feature, Collection<?> values)
     {
       if (isFeatureMap(feature))
       {
-        return addAll(index, values);
+        @SuppressWarnings("unchecked") Collection<? extends Entry> entryValues = (Collection<? extends Entry>)values;
+        return addAll(index, entryValues);
       }
       else
       {
-        Collection entries = new ArrayList(values.size());
-        for (Iterator i = values.iterator(); i.hasNext(); )
+        Collection<Entry> entries = new ArrayList<Entry>(values.size());
+        for (Object value : values)
         {
-          entries.add(createEntry(feature, i.next()));
+          entries.add(createEntry(feature, value));
         }
         return addAll(index, entries);
       }
     }
 
-    public boolean addAll(EStructuralFeature feature, int index, Collection values)
+    public boolean addAll(EStructuralFeature feature, int index, Collection<?> values)
     {
       return featureMap.addAll(feature, index, values);
     }
@@ -909,6 +961,7 @@ public final class FeatureMapUtil
       return featureMap.getModCount();
     }
 
+    @Override
     public EObject getEObject()
     {
       return featureMap.getEObject();
@@ -934,7 +987,7 @@ public final class FeatureMapUtil
       return featureMap.contains(feature, object);
     }
 
-    public boolean containsAll(EStructuralFeature feature, Collection collection)
+    public boolean containsAll(EStructuralFeature feature, Collection<?> collection)
     {
       return featureMap.containsAll(feature, collection);
     }
@@ -949,17 +1002,17 @@ public final class FeatureMapUtil
       return featureMap.lastIndexOf(feature, object);
     }
 
-    public Iterator iterator(EStructuralFeature feature)
+    public Iterator<Object> iterator(EStructuralFeature feature)
     {
       return featureMap.iterator(feature);
     }
 
-    public ListIterator listIterator(EStructuralFeature feature)
+    public ListIterator<Object> listIterator(EStructuralFeature feature)
     {
       return featureMap.listIterator(feature);
     }
 
-    public ListIterator listIterator(EStructuralFeature feature, int index)
+    public ListIterator<Object> listIterator(EStructuralFeature feature, int index)
     {
       return featureMap.listIterator(feature, index);
     }
@@ -971,22 +1024,22 @@ public final class FeatureMapUtil
       return featureMap.setting(feature);
     }
 
-    public List basicList(EStructuralFeature feature)
+    public List<Object> basicList(EStructuralFeature feature)
     {
       return featureMap.basicList(feature);
     }
 
-    public Iterator basicIterator(EStructuralFeature feature)
+    public Iterator<Object> basicIterator(EStructuralFeature feature)
     {
       return featureMap.basicIterator(feature);
     }
 
-    public ListIterator basicListIterator(EStructuralFeature feature)
+    public ListIterator<Object> basicListIterator(EStructuralFeature feature)
     {
       return featureMap.basicListIterator(feature);
     }
 
-    public ListIterator basicListIterator(EStructuralFeature feature, int index)
+    public ListIterator<Object> basicListIterator(EStructuralFeature feature, int index)
     {
       return featureMap.basicListIterator(feature, index);
     }
@@ -996,7 +1049,7 @@ public final class FeatureMapUtil
       return featureMap.toArray(feature);
     }
 
-    public Object[] toArray(EStructuralFeature feature, Object [] array)
+    public <T> T[] toArray(EStructuralFeature feature, T [] array)
     {
       return featureMap.toArray(feature, array);
     }
@@ -1048,7 +1101,7 @@ public final class FeatureMapUtil
       return featureMap.remove(feature, index);
     }
 
-    public boolean removeAll(EStructuralFeature feature, Collection collection)
+    public boolean removeAll(EStructuralFeature feature, Collection<?> collection)
     {
       return featureMap.removeAll(feature, collection);
     }
@@ -1058,7 +1111,7 @@ public final class FeatureMapUtil
       return featureMap.basicRemove(feature, object, notifications);
     }
 
-    public boolean retainAll(EStructuralFeature feature, Collection collection)
+    public boolean retainAll(EStructuralFeature feature, Collection<?> collection)
     {
       return featureMap.retainAll(feature, collection);
     }
@@ -1195,11 +1248,12 @@ public final class FeatureMapUtil
       super(owner, eventType, feature, oldObject, newObject, index, wasSet);
     }
     
-    public int getFeatureID(Class expectedClass)
+    @Override
+    public int getFeatureID(Class<?> expectedClass)
     {
       if (featureID == NO_FEATURE_ID && feature != null)
       {
-        Class containerClass = feature.getContainerClass();
+        Class<?> containerClass = feature.getContainerClass();
         featureID = containerClass == null ? 
           notifier.eClass().getFeatureID(feature) : 
           notifier.eDerivedStructuralFeatureID(feature.getFeatureID(), containerClass);
@@ -1207,6 +1261,7 @@ public final class FeatureMapUtil
       return notifier.eBaseStructuralFeatureID(featureID, expectedClass);
     }
 
+    @Override
     public boolean merge(Notification notification)
     {
       switch (eventType)
@@ -1237,7 +1292,7 @@ public final class FeatureMapUtil
               if (notificationNotifier == getNotifier() && getFeatureID(null) == notification.getFeatureID(null))
               {
                 eventType = Notification.ADD_MANY;
-                BasicEList addedValues = new BasicEList(2);
+                BasicEList<Object> addedValues = new BasicEList<Object>(2);
                 addedValues.add(newValue);
                 addedValues.add(notification.getNewValue());
                 newValue = addedValues;
@@ -1258,7 +1313,8 @@ public final class FeatureMapUtil
               Object notificationNotifier = notification.getNotifier();
               if (notificationNotifier == getNotifier() && getFeatureID(null) == notification.getFeatureID(null))
               {
-                ((Collection)newValue).add(notification.getNewValue());
+                @SuppressWarnings("unchecked") Collection<Object> collection = (Collection<Object>)newValue;
+                collection.add(notification.getNewValue());
                 return true;
               }
               break;
@@ -1288,7 +1344,7 @@ public final class FeatureMapUtil
               if (notificationNotifier == getNotifier() && getFeatureID(null) == notification.getFeatureID(null))
               {
                 eventType = Notification.REMOVE_MANY;
-                BasicEList removedValues = new BasicEList(2);
+                BasicEList<Object> removedValues = new BasicEList<Object>(2);
                 removedValues.add(oldValue);
                 removedValues.add(notification.getOldValue());
                 oldValue = removedValues;
@@ -1312,7 +1368,8 @@ public final class FeatureMapUtil
               Object notificationNotifier = notification.getNotifier();
               if (notificationNotifier == getNotifier() && getFeatureID(null) == notification.getFeatureID(null))
               {
-                ((Collection)oldValue).add(notification.getOldValue());
+                @SuppressWarnings("unchecked") Collection<Object> collection = ((Collection<Object>)oldValue);
+                collection.add(notification.getOldValue());
 
                 int [] positions = (int [])newValue;
                 int [] newPositions = new int [positions.length + 1];
@@ -1341,16 +1398,16 @@ public final class FeatureMapUtil
 
   public static class BasicValidator implements Validator
   {
-    protected static final List ANY_WILDCARD = Collections.singletonList("##any");
+    protected static final List<String> ANY_WILDCARD = Collections.singletonList("##any");
 
     protected EClass containingClass;
     protected EStructuralFeature eStructuralFeature;
-    protected List groupMembers;
-    protected List wildcards;
+    protected List<EStructuralFeature> groupMembers;
+    protected List<String> wildcards;
     protected String name;
     protected boolean isElement;
     
-    protected class Cache extends WeakHashMap
+    protected class Cache extends WeakHashMap<Object, Object>
     {
       public Boolean get(EStructuralFeature eStructuralFeature)
       {
@@ -1385,16 +1442,15 @@ public final class FeatureMapUtil
       else if (ExtendedMetaData.INSTANCE.getMixedFeature(containingClass) == eStructuralFeature)
       {
         isElement = true;
-        groupMembers = new ArrayList();
-        wildcards = new UniqueEList();
+        groupMembers = new ArrayList<EStructuralFeature>();
+        wildcards = new UniqueEList<String>();
         wildcards.add(XMLTypePackage.eNS_URI);
         if (ExtendedMetaData.INSTANCE.getDocumentRoot(containingClass.getEPackage()) == containingClass)
         {
           wildcards.add(ExtendedMetaData.INSTANCE.getNamespace(containingClass));
         }
-        for (Iterator i = ExtendedMetaData.INSTANCE.getAllElements(containingClass).iterator(); i.hasNext(); )
+        for (EStructuralFeature feature : ExtendedMetaData.INSTANCE.getAllElements(containingClass))
         {
-          EStructuralFeature feature = (EStructuralFeature)i.next();
           switch (ExtendedMetaData.INSTANCE.getFeatureKind(feature))
           {
             case ExtendedMetaData.ELEMENT_FEATURE:
@@ -1414,7 +1470,7 @@ public final class FeatureMapUtil
       {
         isElement = true;
         wildcards = null;
-        groupMembers = new ArrayList();
+        groupMembers = new ArrayList<EStructuralFeature>();
         for (int i = 0, size = containingClass.getFeatureCount(); i < size; ++i)
         {
           EStructuralFeature feature = containingClass.getEStructuralFeature(i);
@@ -1527,8 +1583,8 @@ public final class FeatureMapUtil
         ExtendedMetaData.INSTANCE.getName(eStructuralFeature);
         extendedMetaData = holder.getExtendedMetaData();
       }
-      Map validatorMap = extendedMetaData.getValidatorMap();
-      Validator result = (Validator)validatorMap.get(containingClass);
+      Map<EClass, Validator> validatorMap = extendedMetaData.getValidatorMap();
+      Validator result = validatorMap.get(containingClass);
       if (result == null)
       {
         validatorMap.put(containingClass, result = new BasicValidator(containingClass, eStructuralFeature));

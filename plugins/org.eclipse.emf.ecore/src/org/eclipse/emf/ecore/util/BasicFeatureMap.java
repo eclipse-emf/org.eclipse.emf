@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.22 2006/02/10 21:00:53 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.23 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -35,8 +35,12 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 
-public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
+public class BasicFeatureMap
+  extends EDataTypeEList<FeatureMap.Entry> 
+  implements FeatureMap.Internal, FeatureMap.Internal.Wrapper
 {
+  private static final long serialVersionUID = 1L;
+
   protected Wrapper wrapper = this;
   protected final FeatureMapUtil.Validator featureMapValidator;
 
@@ -69,17 +73,19 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return this;
   }
   
+  @Override
   protected Object [] newData(int capacity)
   {
     return new FeatureMap.Entry.Internal [capacity];
   }
 
-  protected Object validate(int index, Object object)
+  @Override
+  protected Entry validate(int index, Entry object)
   {
     if (modCount == 0) return object;
 
-    Object result = super.validate(index, object);
-    EStructuralFeature eStructuralFeature = ((Entry)object).getEStructuralFeature();
+    Entry result = super.validate(index, object);
+    EStructuralFeature eStructuralFeature = object.getEStructuralFeature();
     if (!eStructuralFeature.isChangeable() || !featureMapValidator.isValid(eStructuralFeature))
     {
       throw
@@ -110,11 +116,13 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return FeatureMapUtil.isMany(owner, feature);
   }
 
+  @Override
   protected boolean hasInverse()
   {
     return true;
   }
 
+  @Override
   protected boolean hasShadow()
   {
     return true;
@@ -160,7 +168,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     EObject resolved = resolveProxy((EObject)object);
     if (resolved != object)
     {
-      Object oldObject = data[entryIndex];
+      Entry oldObject = (Entry)data[entryIndex];
       Entry entry = createEntry(feature, resolved);
       assign(entryIndex, validate(entryIndex, entry));
       didSet(entryIndex, entry, oldObject);
@@ -186,6 +194,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return object;
   }
 
+  @Override
   protected EObject resolveProxy(EObject eObject)
   {
     return owner.eResolveProxy((InternalEObject)eObject);
@@ -198,20 +207,21 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
   public EStructuralFeature getEStructuralFeature(int index)
   {
-    return ((Entry)get(index)).getEStructuralFeature();
+    return get(index).getEStructuralFeature();
   }
 
   public Object getValue(int index)
   {
-    return ((Entry)get(index)).getValue();
+    return get(index).getValue();
   }
 
   public Object setValue(int index, Object value)
   {
-    return ((Entry)set(index, createEntry(getEStructuralFeature(index), value))).getValue();
+    return set(index, createEntry(getEStructuralFeature(index), value)).getValue();
   }
 
-  public NotificationChain shadowAdd(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain shadowAdd(Entry object, NotificationChain notifications)
   {
     return shadowAdd((FeatureMap.Entry.Internal)object, notifications);
   }
@@ -249,7 +259,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return notifications;
   }
 
-  public NotificationChain inverseAdd(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain inverseAdd(Entry object, NotificationChain notifications)
   {
     return inverseAdd((FeatureMap.Entry.Internal)object, notifications);
   }
@@ -259,7 +270,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return entry.inverseAdd(owner, featureID, notifications);
   }
 
-  public NotificationChain shadowRemove(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain shadowRemove(Entry object, NotificationChain notifications)
   {
     return shadowRemove((FeatureMap.Entry.Internal)object, notifications);
   }
@@ -297,7 +309,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return notifications;
   }
 
-  public NotificationChain inverseRemove(Object object, NotificationChain notifications)
+  @Override
+  public NotificationChain inverseRemove(Entry object, NotificationChain notifications)
   {
     return inverseRemove((FeatureMap.Entry.Internal)object, notifications);
   }
@@ -307,14 +320,14 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return entry.inverseRemove(owner, featureID, notifications);
   }
 
-  public NotificationChain shadowSet(Object oldObject, Object newObject, NotificationChain notifications)
+  @Override
+  public NotificationChain shadowSet(Entry oldObject, Entry newObject, NotificationChain notifications)
   {
     if (isNotificationRequired())
     {
-      Entry entry = (Entry)oldObject;
-      EStructuralFeature feature = entry.getEStructuralFeature();
-      Object oldValue = entry.getValue();
-      Object newValue = ((Entry)newObject).getValue();
+      EStructuralFeature feature = oldObject.getEStructuralFeature();
+      Object oldValue = oldObject.getValue();
+      Object newValue = newObject.getValue();
       NotificationImpl notification = 
         createNotification
           (Notification.SET,
@@ -365,7 +378,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return notifications;
   }
 
-  public Object move(int targetIndex, int sourceIndex)
+  @Override
+  public Entry move(int targetIndex, int sourceIndex)
   {
     if (!isNotificationRequired())
     {
@@ -404,7 +418,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
           }
         }
 
-        Object result = super.move(targetIndex, sourceIndex);
+        Entry result = super.move(targetIndex, sourceIndex);
         
         if (featureSourceIndex != featureTargetIndex)
         {
@@ -423,9 +437,10 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return super.move(targetIndex, sourceIndex);
   }
 
-  public Object set(int index, Object object)
+  @Override
+  public Entry set(int index, Entry object)
   {
-    Entry entry = (Entry)object;
+    Entry entry = object;
     EStructuralFeature entryFeature = entry.getEStructuralFeature();
     if (isMany(entryFeature))
     {
@@ -459,14 +474,15 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return doSet(index, object);
   }
 
-  public Object doSet(int index, Object object)
+  public Entry doSet(int index, Entry object)
   {
     return super.set(index, object);
   }
 
-  public boolean add(Object object)
+  @Override
+  public boolean add(Entry object)
   {
-    Entry entry = (Entry)object;
+    Entry entry = object;
     EStructuralFeature entryFeature = entry.getEStructuralFeature();
     if (isMany(entryFeature))
     {
@@ -500,14 +516,15 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return doAdd(object);
   }
 
-  protected boolean doAdd(Object object)
+  protected boolean doAdd(Entry object)
   {
     return super.add(object);
   }
 
-  public void add(int index, Object object)
+  @Override
+  public void add(int index, Entry object)
   {
-    Entry entry = (Entry)object;
+    Entry entry = object;
     EStructuralFeature entryFeature = entry.getEStructuralFeature();
     if (isMany(entryFeature))
     {
@@ -541,17 +558,17 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     doAdd(index, object);
   }
 
-  public void doAdd(int index, Object object)
+  public void doAdd(int index, Entry object)
   {
     super.add(index, object);
   }
 
-  public boolean addAll(Collection collection)
+  @Override
+  public boolean addAll(Collection<? extends Entry> collection)
   {
-    Collection uniqueCollection = new BasicEList(collection.size());
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    Collection<Entry> uniqueCollection = new BasicEList<Entry>(collection.size());
+    for (Entry entry : collection)
     {
-      Entry entry = (Entry)i.next();
       EStructuralFeature entryFeature = entry.getEStructuralFeature();
       if (isMany(entryFeature))
       {
@@ -585,17 +602,17 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return doAddAll(uniqueCollection);
   }
 
-  public boolean doAddAll(Collection collection)
+  public boolean doAddAll(Collection<? extends Entry> collection)
   {
     return super.addAll(collection);
   }
 
-  public boolean addAll(int index, Collection collection)
+  @Override
+  public boolean addAll(int index, Collection<? extends Entry> collection)
   {
-    Collection uniqueCollection = new BasicEList(collection.size());
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    Collection<Entry> uniqueCollection = new BasicEList<Entry>(collection.size());
+    for (Entry entry : collection)
     {
-      Entry entry = (Entry)i.next();
       EStructuralFeature entryFeature = entry.getEStructuralFeature();
       if (isMany(entryFeature))
       {
@@ -629,7 +646,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return doAddAll(index, uniqueCollection);
   }
 
-  public boolean doAddAll(int index, Collection collection)
+  public boolean doAddAll(int index, Collection<? extends Entry> collection)
   {
     return super.addAll(index, collection);
   }
@@ -706,9 +723,9 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return false;
   }
 
-  public boolean containsAll(EStructuralFeature feature, Collection collection)
+  public boolean containsAll(EStructuralFeature feature, Collection<?> collection)
   {
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    for (Iterator<?> i = collection.iterator(); i.hasNext(); )
     {
       if (!contains(feature, i.next()))
       {
@@ -828,28 +845,28 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return result;
   }
 
-  public Iterator iterator(EStructuralFeature feature)
+  public Iterator<Object> iterator(EStructuralFeature feature)
   {
     return 
       feature instanceof EReference && ((EReference)feature).isResolveProxies() ?
-        new ResolvingFeatureEIterator(feature, this) :
-        new FeatureEIterator(feature, this);
+        new ResolvingFeatureEIterator<Object>(feature, this) :
+        new FeatureEIterator<Object>(feature, this);
   }
 
-  public ListIterator listIterator(EStructuralFeature feature)
+  public ListIterator<Object> listIterator(EStructuralFeature feature)
   {
     return 
       feature instanceof EReference && ((EReference)feature).isResolveProxies() ?
-        new ResolvingFeatureEIterator(feature, this) :
-        new FeatureEIterator(feature, this);
+        new ResolvingFeatureEIterator<Object>(feature, this) :
+        new FeatureEIterator<Object>(feature, this);
   }
 
-  public ListIterator listIterator(EStructuralFeature feature, int index)
+  public ListIterator<Object> listIterator(EStructuralFeature feature, int index)
   {
-    ListIterator result =
+    ListIterator<Object> result =
       feature instanceof EReference && ((EReference)feature).isResolveProxies() ?
-        new ResolvingFeatureEIterator(feature, this) :
-        new FeatureEIterator(feature, this);
+        new ResolvingFeatureEIterator<Object>(feature, this) :
+        new FeatureEIterator<Object>(feature, this);
     for (int i = 0; i < index; ++i)
     {
       result.next();
@@ -857,17 +874,17 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return result;
   }
 
-  public ValueListIterator valueListIterator()
+  public ValueListIterator<Object> valueListIterator()
   {
-    return new ValueListIteratorImpl();
+    return new ValueListIteratorImpl<Object>();
   }
   
-  public ValueListIterator valueListIterator(int index)
+  public ValueListIterator<Object> valueListIterator(int index)
   {
-    return new ValueListIteratorImpl(index);
+    return new ValueListIteratorImpl<Object>(index);
   }
   
-  protected class ValueListIteratorImpl extends EListIterator implements ValueListIterator
+  protected class ValueListIteratorImpl<E1> extends EListIterator<E1> implements ValueListIterator<E1>
   {
     public ValueListIteratorImpl()
     {
@@ -888,24 +905,29 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       return getEStructuralFeature(lastCursor);
     }
     
-    public Object next()
+    @SuppressWarnings("unchecked")
+    @Override
+    public E1 next()
     {
-      return ((Entry)super.next()).getValue();
+      return (E1)doNext().getValue();
     }
     
-    public Object previous()
+    @SuppressWarnings("unchecked")
+    @Override
+    public E1 previous()
     {
-      return ((Entry)super.previous()).getValue();
+      return (E1)doPrevious().getValue();
     }
 
-    public void add(Object value)
+    @Override
+    public void add(E1 value)
     {
-      super.add(FeatureMapUtil.createEntry(feature(), value));
+      doAdd(FeatureMapUtil.createEntry(feature(), value));
     }
     
     public void add(EStructuralFeature eStructuralFeature, Object value)
     {
-      super.add(FeatureMapUtil.createEntry(eStructuralFeature, value));
+      doAdd(FeatureMapUtil.createEntry(eStructuralFeature, value));
     }
   }
   
@@ -916,12 +938,13 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   }
 */
 
-  public EList list(EStructuralFeature feature)
+  @SuppressWarnings("unchecked")
+  public <T> EList<T> list(EStructuralFeature feature)
   {
     return 
       FeatureMapUtil.isFeatureMap(feature) ? 
-        new FeatureMapUtil.FeatureFeatureMap(feature, this) :
-        new FeatureMapUtil.FeatureEList(feature, this);
+        (EList<T>)new FeatureMapUtil.FeatureFeatureMap(feature, this):
+        new FeatureMapUtil.FeatureEList<T>(feature, this);
   }
 
   public EStructuralFeature.Setting setting(EStructuralFeature feature)
@@ -932,24 +955,24 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         (EStructuralFeature.Setting)new FeatureMapUtil.FeatureValue(feature, this);
   }
 
-  public List basicList(final EStructuralFeature feature)
+  public List<Object> basicList(final EStructuralFeature feature)
   {
-    return new FeatureMapUtil.FeatureEList.Basic(feature, this);
+    return new FeatureMapUtil.FeatureEList.Basic<Object>(feature, this);
   }
 
-  public Iterator basicIterator(EStructuralFeature feature)
+  public Iterator<Object> basicIterator(EStructuralFeature feature)
   {
-    return new FeatureEIterator(feature, this);
+    return new FeatureEIterator<Object>(feature, this);
   }
 
-  public ListIterator basicListIterator(EStructuralFeature feature)
+  public ListIterator<Object> basicListIterator(EStructuralFeature feature)
   {
-    return new FeatureEIterator(feature, this);
+    return new FeatureEIterator<Object>(feature, this);
   }
 
-  public ListIterator basicListIterator(EStructuralFeature feature, int index)
+  public ListIterator<Object> basicListIterator(EStructuralFeature feature, int index)
   {
-    ListIterator result = new FeatureEIterator(feature, this);
+    ListIterator<Object> result = new FeatureEIterator<Object>(feature, this);
     for (int i = 0; i < index; ++i)
     {
       result.next();
@@ -959,7 +982,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
   public Object[] toArray(EStructuralFeature feature)
   {
-    List result = new BasicEList();
+    List<Object> result = new BasicEList<Object>();
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     Entry [] entries = (Entry[])data;
     if (FeatureMapUtil.isFeatureMap(feature))
@@ -987,9 +1010,9 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return result.toArray();
   }
 
-  public Object[] toArray(EStructuralFeature feature, Object [] array)
+  public <T> T[] toArray(EStructuralFeature feature, T [] array)
   {
-    List result = new BasicEList();
+    List<Object> result = new BasicEList<Object>();
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
     Entry [] entries = (Entry[])data;
     if (FeatureMapUtil.isFeatureMap(feature))
@@ -1021,9 +1044,9 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   {
     if (isMany(feature))
     {
-      List list = list(feature);
+      List<Object> list = list(feature);
       list.clear();
-      list.addAll((Collection)object);
+      list.addAll((Collection<?>)object);
     }
     else
     {
@@ -1040,7 +1063,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
           }
           else
           {
-            doSet(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
+            doSet(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : (Entry)createEntry(feature, object));
           }
           return;
         }
@@ -1158,21 +1181,23 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     doAdd(entryIndex(feature, index), isFeatureMap ? (Entry)object : createEntry(feature, object));
   }
 
-  public boolean addAll(int index, EStructuralFeature feature, Collection collection)
+  public boolean addAll(int index, EStructuralFeature feature, Collection<?> collection)
   {
     if (collection.size() == 0)
     {
       return false;
     }
     boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
-    Collection entryCollection = isFeatureMap ? collection : new BasicEList(collection.size());
+    @SuppressWarnings("unchecked") Collection<Entry> entryCollection = 
+      isFeatureMap ? 
+        (Collection<Entry>)collection : 
+        new BasicEList<Entry>(collection.size());
     if (isMany(feature))
     {
       if (feature.isUnique())
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Object object = i.next();
           if (!contains(feature, object))
           {
             Entry entry = createEntry(feature, object);
@@ -1185,9 +1210,9 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
       else if (!isFeatureMap)
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Entry entry = createEntry(feature, i.next());
+          Entry entry = createEntry(feature, object);
           entryCollection.add(entry);
         }
       }
@@ -1233,21 +1258,23 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return doAddAll(index, entryCollection);
   }
 
-  public boolean addAll(EStructuralFeature feature, Collection collection)
+  public boolean addAll(EStructuralFeature feature, Collection<?> collection)
   {
     if (collection.size() == 0)
     {
       return false;
     }
     boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
-    Collection entryCollection = isFeatureMap ? collection : new BasicEList(collection.size());
+    @SuppressWarnings("unchecked") Collection<Entry> entryCollection = 
+      isFeatureMap ? 
+        (Collection<Entry>)collection : 
+        new BasicEList<Entry>(collection.size());
     if (isMany(feature))
     {
       if (feature.isUnique())
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Object object = i.next();
           if (!contains(feature, object))
           {
             Entry entry = createEntry(feature, object);
@@ -1260,9 +1287,9 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
       else if (!isFeatureMap)
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Entry entry = createEntry(feature, i.next());
+          Entry entry = createEntry(feature, object);
           entryCollection.add(entry);
         }
       }
@@ -1287,9 +1314,9 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
           }
           else
           {
-            for (Iterator j = collection.iterator(); j.hasNext(); )
+            for (Object object : collection)
             {
-              doSet(i, isFeatureMap ? j.next() : createEntry(feature, j.next()));
+              doSet(i, isFeatureMap ? (Entry)object : createEntry(feature, object));
             }
             return true;
           }
@@ -1305,21 +1332,23 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return doAddAll(entryCollection);
   }
 
-  public boolean addAll(EStructuralFeature feature, int index, Collection collection)
+  public boolean addAll(EStructuralFeature feature, int index, Collection<?> collection)
   {
     if (collection.size() == 0)
     {
       return false;
     }
     boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
-    Collection entryCollection = isFeatureMap ? collection : new BasicEList(collection.size());
+    @SuppressWarnings("unchecked") Collection<Entry> entryCollection = 
+      isFeatureMap ? 
+        (Collection<Entry>)collection :
+        new BasicEList<Entry>(collection.size());
     if (isMany(feature))
     {
       if (feature.isUnique())
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Object object = i.next();
           if (!contains(feature, object))
           {
             Entry entry = createEntry(feature, object);
@@ -1329,9 +1358,9 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
       else if (!isFeatureMap)
       {
-        for (Iterator i = collection.iterator(); i.hasNext(); )
+        for (Object object : collection)
         {
-          Entry entry = createEntry(feature, i.next());
+          Entry entry = createEntry(feature, object);
           entryCollection.add(entry);
         }
       }
@@ -1376,7 +1405,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     addUnique(entryIndex(feature, index), createRawEntry(feature, object));
   }
 
-  public void addUnique(Object object)
+  @Override
+  public void addUnique(Entry object)
   {
     addUnique((FeatureMap.Entry.Internal)object);
   }
@@ -1418,7 +1448,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     }
   }
 
-  public boolean addAllUnique(Collection collection)
+  @Override
+  public boolean addAllUnique(Collection<? extends Entry> collection)
   {
     modCount = -1;
     return super.addAllUnique(collection);
@@ -1626,7 +1657,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     throw new IndexOutOfBoundsException("index=" + index + ", size=" + count);
   }
 
-  public boolean removeAll(EStructuralFeature feature, Collection collection)
+  public boolean removeAll(EStructuralFeature feature, Collection<?> collection)
   {
     if (FeatureMapUtil.isFeatureMap(feature))
     {
@@ -1635,7 +1666,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     else
     {
       FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-      List entryCollection = new BasicEList(collection.size());
+      List<Entry> entryCollection = new BasicEList<Entry>(collection.size());
       Entry [] entries = (Entry[])data;
       for (int i = size; --i >= 0; )
       {
@@ -1744,11 +1775,11 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     return notifications;
   }
 
-  public boolean retainAll(EStructuralFeature feature, Collection collection)
+  public boolean retainAll(EStructuralFeature feature, Collection<?> collection)
   {
     boolean isFeatureMap = FeatureMapUtil.isFeatureMap(feature);
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    List entryCollection = new BasicEList(collection.size());
+    List<Entry> entryCollection = new BasicEList<Entry>(collection.size());
     Entry [] entries = (Entry[])data;
     for (int i = size; --i >= 0; )
     {
@@ -1768,7 +1799,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   public void clear(EStructuralFeature feature)
   {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    List entryCollection = new BasicEList();
+    List<Entry> entryCollection = new BasicEList<Entry>();
     Entry [] entries = (Entry[])data;
     for (int i = size; --i >= 0; )
     {
@@ -1985,7 +2016,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         {
           if (count == index)
           {
-            return doSet(i, FeatureMapUtil.isFeatureMap(feature) ? object : createEntry(feature, object));
+            return doSet(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
           }
           ++count;
         }
@@ -2023,7 +2054,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         {
           if (count == index)
           {
-            return setUnique(i, FeatureMapUtil.isFeatureMap(feature) ? object : createEntry(feature, object));
+            return setUnique(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
           }
           ++count;
         }
@@ -2039,7 +2070,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
         Entry entry = entries[i];
         if (validator.isValid(entry.getEStructuralFeature()))
         {
-          return setUnique(i, FeatureMapUtil.isFeatureMap(feature) ? object : createEntry(feature, object));
+          return setUnique(i, FeatureMapUtil.isFeatureMap(feature) ? (Entry)object : createEntry(feature, object));
         }
       }
 
@@ -2055,7 +2086,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   public void unset(EStructuralFeature feature)
   {
     FeatureMapUtil.Validator validator = FeatureMapUtil.getValidator(owner.eClass(), feature);
-    List removals = null;
+    List<Entry> removals = null;
     Entry [] entries = (Entry[])data;
     for (int i = 0; i < size; ++i)
     {
@@ -2064,7 +2095,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       {
         if (removals == null)
         {
-          removals = new BasicEList();
+          removals = new BasicEList<Entry>();
         }
         removals.add(entry);
       }
@@ -2076,6 +2107,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     }
   }
 
+  @Override
   public NotificationChain basicRemove(Object object, NotificationChain notifications)
   {
     // This may be called directly on an EObject for the case of a containment.
@@ -2143,17 +2175,18 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   /**
    * -------------------------------------------
    */
-  public static class FeatureEIterator extends FeatureMapUtil.BasicFeatureEIterator
+  public static class FeatureEIterator<E> extends FeatureMapUtil.BasicFeatureEIterator<E>
   {
     public FeatureEIterator(EStructuralFeature eStructuralFeature, FeatureMap.Internal featureMap)
     {
       super(eStructuralFeature, featureMap);
     }
 
+    @Override
     protected boolean scanNext()
     {
       int size = featureMap.size();
-      Entry [] entries = (Entry [])((BasicEList)featureMap).data();
+      Entry [] entries = (Entry [])((BasicEList<?>)featureMap).data();
       while (entryCursor < size)
       {
         Entry entry = entries[entryCursor];
@@ -2171,9 +2204,10 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       return false;
     }
 
+    @Override
     protected boolean scanPrevious()
     {
-      Entry [] entries = (Entry [])((BasicEList)featureMap).data();
+      Entry [] entries = (Entry [])((BasicEList<?>)featureMap).data();
       while (--entryCursor >= 0)
       {
         Entry entry = entries[entryCursor];
@@ -2194,13 +2228,14 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
   /**
    * -------------------------------------------
    */
-  public static class ResolvingFeatureEIterator extends FeatureEIterator
+  public static class ResolvingFeatureEIterator<E> extends FeatureEIterator<E>
   {
     public ResolvingFeatureEIterator(EStructuralFeature eStructuralFeature, FeatureMap.Internal featureMap)
     {
       super(eStructuralFeature, featureMap);
     }
 
+    @Override
     protected boolean resolve()
     {
       return true;
@@ -2219,6 +2254,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       super();
     }
 
+    @Override
     public Object eDynamicGet(EStructuralFeature eFeature, boolean resolve)
     {
       if (eFeature instanceof EReference && ((EReference)eFeature).isContainer())
@@ -2231,6 +2267,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
     }
 
+    @Override
     public void eDynamicSet(EStructuralFeature eFeature, Object newValue)
     {
       if (eFeature instanceof EReference && ((EReference)eFeature).isContainer())
@@ -2274,6 +2311,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 */
     }
 
+    @Override
     public void eDynamicUnset(EStructuralFeature eFeature)
     {
       if (eFeature instanceof EReference && ((EReference)eFeature).isContainer())
@@ -2286,6 +2324,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
     }
 
+    @Override
     public boolean eDynamicIsSet(EStructuralFeature eFeature)
     {
       if (eFeature instanceof EReference && ((EReference)eFeature).isContainer())
@@ -2298,7 +2337,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
     }
 
-    public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain notifications)
+    @Override
+    public NotificationChain eDynamicInverseAdd(InternalEObject otherEnd, int featureID, Class<?> inverseClass, NotificationChain notifications)
     {
       EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
       if (feature.isMany())
@@ -2323,7 +2363,8 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
     }
 
-    public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class inverseClass, NotificationChain notifications)
+    @Override
+    public NotificationChain eDynamicInverseRemove(InternalEObject otherEnd, int featureID, Class<?> inverseClass, NotificationChain notifications)
     {
       EStructuralFeature.Internal feature = (EStructuralFeature.Internal)eClass().getEStructuralFeature(featureID);
       if (feature instanceof EReference && ((EReference)feature).isContainer())
@@ -2341,6 +2382,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       return featureMap;
     }
 
+    @Override
     public void eNotify(Notification notification)
     {
       if (notification.getFeatureID(null) != -1)
@@ -2349,6 +2391,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
       }
     }
 
+    @Override
     public String toString()
     {
       String result = super.toString();
@@ -2357,6 +2400,7 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
     }
   }
 
+  @Override
   public void set(Object newValue)
   {
     super.set(newValue instanceof FeatureMap ? newValue : ((FeatureMap.Internal.Wrapper)newValue).featureMap());

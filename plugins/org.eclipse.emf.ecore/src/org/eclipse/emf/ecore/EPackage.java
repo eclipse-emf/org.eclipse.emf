@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackage.java,v 1.6 2006/05/23 16:13:10 emerks Exp $
+ * $Id: EPackage.java,v 1.7 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -66,7 +66,7 @@ public interface EPackage extends ENamedElement
   /**
    * A map from {@link EPackage#getNsURI() namespace URI} to {@link EPackage}.
    */
-  public interface Registry extends Map
+  public interface Registry extends Map<String, Object>
   {
     /**
      * Looks up the value in the map, converting <code>EPackage.Descriptor</code> objects to <code>EPackage</code> objects on demand.
@@ -179,7 +179,7 @@ public interface EPackage extends ENamedElement
    * @model type="org.eclipse.emf.ecore.EClassifier" opposite="ePackage" containment="true" resolveProxies="true"
    * @generated
    */
-  EList getEClassifiers();
+  EList<EClassifier> getEClassifiers();
 
   /**
    * Returns the value of the '<em><b>ESubpackages</b></em>' containment reference list.
@@ -196,7 +196,7 @@ public interface EPackage extends ENamedElement
    * @model type="org.eclipse.emf.ecore.EPackage" opposite="eSuperPackage" containment="true" resolveProxies="true"
    * @generated
    */
-  EList getESubpackages();
+  EList<EPackage> getESubpackages();
 
   /**
    * Returns the value of the '<em><b>ESuper Package</b></em>' container reference.

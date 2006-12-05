@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.9 2005/12/13 23:14:06 emerks Exp $
+ * $Id: EcorePackage.java,v 1.10 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -348,13 +348,22 @@ public interface EcorePackage extends EPackage
   int ETYPED_ELEMENT__ETYPE = ENAMED_ELEMENT_FEATURE_COUNT + 6;
 
   /**
+   * The feature id for the '<em><b>EGeneric Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ETYPED_ELEMENT__EGENERIC_TYPE = ENAMED_ELEMENT_FEATURE_COUNT + 7;
+
+  /**
    * The number of structural features of the '<em>ETyped Element</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ETYPED_ELEMENT_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 7;
+  int ETYPED_ELEMENT_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 8;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -436,6 +445,15 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int ESTRUCTURAL_FEATURE__ETYPE = ETYPED_ELEMENT__ETYPE;
+
+  /**
+   * The feature id for the '<em><b>EGeneric Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ESTRUCTURAL_FEATURE__EGENERIC_TYPE = ETYPED_ELEMENT__EGENERIC_TYPE;
 
   /**
    * The feature id for the '<em><b>Changeable</b></em>' attribute.
@@ -598,6 +616,15 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int EATTRIBUTE__ETYPE = ESTRUCTURAL_FEATURE__ETYPE;
+
+  /**
+   * The feature id for the '<em><b>EGeneric Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EATTRIBUTE__EGENERIC_TYPE = ESTRUCTURAL_FEATURE__EGENERIC_TYPE;
 
   /**
    * The feature id for the '<em><b>Changeable</b></em>' attribute.
@@ -827,13 +854,31 @@ public interface EcorePackage extends EPackage
   int ECLASSIFIER__DEFAULT_VALUE = ENAMED_ELEMENT_FEATURE_COUNT + 2;
 
   /**
+   * The feature id for the '<em><b>Instance Type Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASSIFIER__INSTANCE_TYPE_NAME = ENAMED_ELEMENT_FEATURE_COUNT + 3;
+
+  /**
    * The feature id for the '<em><b>EPackage</b></em>' container reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ECLASSIFIER__EPACKAGE = ENAMED_ELEMENT_FEATURE_COUNT + 3;
+  int ECLASSIFIER__EPACKAGE = ENAMED_ELEMENT_FEATURE_COUNT + 4;
+
+  /**
+   * The feature id for the '<em><b>EType Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASSIFIER__ETYPE_PARAMETERS = ENAMED_ELEMENT_FEATURE_COUNT + 5;
 
   /**
    * The number of structural features of the '<em>EClassifier</em>' class.
@@ -842,7 +887,7 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int ECLASSIFIER_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 4;
+  int ECLASSIFIER_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 6;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -890,6 +935,15 @@ public interface EcorePackage extends EPackage
   int ECLASS__DEFAULT_VALUE = ECLASSIFIER__DEFAULT_VALUE;
 
   /**
+   * The feature id for the '<em><b>Instance Type Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS__INSTANCE_TYPE_NAME = ECLASSIFIER__INSTANCE_TYPE_NAME;
+
+  /**
    * The feature id for the '<em><b>EPackage</b></em>' container reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -897,6 +951,15 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int ECLASS__EPACKAGE = ECLASSIFIER__EPACKAGE;
+
+  /**
+   * The feature id for the '<em><b>EType Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS__ETYPE_PARAMETERS = ECLASSIFIER__ETYPE_PARAMETERS;
 
   /**
    * The feature id for the '<em><b>Abstract</b></em>' attribute.
@@ -1025,13 +1088,31 @@ public interface EcorePackage extends EPackage
   int ECLASS__ESTRUCTURAL_FEATURES = ECLASSIFIER_FEATURE_COUNT + 13;
 
   /**
+   * The feature id for the '<em><b>EGeneric Super Types</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS__EGENERIC_SUPER_TYPES = ECLASSIFIER_FEATURE_COUNT + 14;
+
+  /**
+   * The feature id for the '<em><b>EAll Generic Super Types</b></em>' reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ECLASS__EALL_GENERIC_SUPER_TYPES = ECLASSIFIER_FEATURE_COUNT + 15;
+
+  /**
    * The number of structural features of the '<em>EClass</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ECLASS_FEATURE_COUNT = ECLASSIFIER_FEATURE_COUNT + 14;
+  int ECLASS_FEATURE_COUNT = ECLASSIFIER_FEATURE_COUNT + 16;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1079,6 +1160,15 @@ public interface EcorePackage extends EPackage
   int EDATA_TYPE__DEFAULT_VALUE = ECLASSIFIER__DEFAULT_VALUE;
 
   /**
+   * The feature id for the '<em><b>Instance Type Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EDATA_TYPE__INSTANCE_TYPE_NAME = ECLASSIFIER__INSTANCE_TYPE_NAME;
+
+  /**
    * The feature id for the '<em><b>EPackage</b></em>' container reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1086,6 +1176,15 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int EDATA_TYPE__EPACKAGE = ECLASSIFIER__EPACKAGE;
+
+  /**
+   * The feature id for the '<em><b>EType Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EDATA_TYPE__ETYPE_PARAMETERS = ECLASSIFIER__ETYPE_PARAMETERS;
 
   /**
    * The feature id for the '<em><b>Serializable</b></em>' attribute.
@@ -1151,6 +1250,15 @@ public interface EcorePackage extends EPackage
   int EENUM__DEFAULT_VALUE = EDATA_TYPE__DEFAULT_VALUE;
 
   /**
+   * The feature id for the '<em><b>Instance Type Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM__INSTANCE_TYPE_NAME = EDATA_TYPE__INSTANCE_TYPE_NAME;
+
+  /**
    * The feature id for the '<em><b>EPackage</b></em>' container reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1158,6 +1266,15 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int EENUM__EPACKAGE = EDATA_TYPE__EPACKAGE;
+
+  /**
+   * The feature id for the '<em><b>EType Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EENUM__ETYPE_PARAMETERS = EDATA_TYPE__ETYPE_PARAMETERS;
 
   /**
    * The feature id for the '<em><b>Serializable</b></em>' attribute.
@@ -1358,6 +1475,15 @@ public interface EcorePackage extends EPackage
   int EOPERATION__ETYPE = ETYPED_ELEMENT__ETYPE;
 
   /**
+   * The feature id for the '<em><b>EGeneric Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOPERATION__EGENERIC_TYPE = ETYPED_ELEMENT__EGENERIC_TYPE;
+
+  /**
    * The feature id for the '<em><b>EContaining Class</b></em>' container reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1367,13 +1493,22 @@ public interface EcorePackage extends EPackage
   int EOPERATION__ECONTAINING_CLASS = ETYPED_ELEMENT_FEATURE_COUNT + 0;
 
   /**
+   * The feature id for the '<em><b>EType Parameters</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOPERATION__ETYPE_PARAMETERS = ETYPED_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
    * The feature id for the '<em><b>EParameters</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EOPERATION__EPARAMETERS = ETYPED_ELEMENT_FEATURE_COUNT + 1;
+  int EOPERATION__EPARAMETERS = ETYPED_ELEMENT_FEATURE_COUNT + 2;
 
   /**
    * The feature id for the '<em><b>EExceptions</b></em>' reference list.
@@ -1382,7 +1517,16 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EOPERATION__EEXCEPTIONS = ETYPED_ELEMENT_FEATURE_COUNT + 2;
+  int EOPERATION__EEXCEPTIONS = ETYPED_ELEMENT_FEATURE_COUNT + 3;
+
+  /**
+   * The feature id for the '<em><b>EGeneric Exceptions</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EOPERATION__EGENERIC_EXCEPTIONS = ETYPED_ELEMENT_FEATURE_COUNT + 4;
 
   /**
    * The number of structural features of the '<em>EOperation</em>' class.
@@ -1391,7 +1535,7 @@ public interface EcorePackage extends EPackage
    * @generated
    * @ordered
    */
-  int EOPERATION_FEATURE_COUNT = ETYPED_ELEMENT_FEATURE_COUNT + 3;
+  int EOPERATION_FEATURE_COUNT = ETYPED_ELEMENT_FEATURE_COUNT + 5;
 
   /**
    * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
@@ -1556,6 +1700,15 @@ public interface EcorePackage extends EPackage
   int EPARAMETER__ETYPE = ETYPED_ELEMENT__ETYPE;
 
   /**
+   * The feature id for the '<em><b>EGeneric Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EPARAMETER__EGENERIC_TYPE = ETYPED_ELEMENT__EGENERIC_TYPE;
+
+  /**
    * The feature id for the '<em><b>EOperation</b></em>' container reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1653,6 +1806,15 @@ public interface EcorePackage extends EPackage
    * @ordered
    */
   int EREFERENCE__ETYPE = ESTRUCTURAL_FEATURE__ETYPE;
+
+  /**
+   * The feature id for the '<em><b>EGeneric Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EREFERENCE__EGENERIC_TYPE = ESTRUCTURAL_FEATURE__EGENERIC_TYPE;
 
   /**
    * The feature id for the '<em><b>Changeable</b></em>' attribute.
@@ -1818,6 +1980,134 @@ public interface EcorePackage extends EPackage
   int ESTRING_TO_STRING_MAP_ENTRY_FEATURE_COUNT = 2;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.impl.EGenericTypeImpl <em>EGeneric Type</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.impl.EGenericTypeImpl
+   * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEGenericType()
+   * @generated
+   */
+  int EGENERIC_TYPE = 18;
+
+  /**
+   * The feature id for the '<em><b>EUpper Bound</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EGENERIC_TYPE__EUPPER_BOUND = EOBJECT_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>EType Arguments</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EGENERIC_TYPE__ETYPE_ARGUMENTS = EOBJECT_FEATURE_COUNT + 1;
+
+  /**
+   * The feature id for the '<em><b>ERaw Type</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EGENERIC_TYPE__ERAW_TYPE = EOBJECT_FEATURE_COUNT + 2;
+
+  /**
+   * The feature id for the '<em><b>ELower Bound</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EGENERIC_TYPE__ELOWER_BOUND = EOBJECT_FEATURE_COUNT + 3;
+
+  /**
+   * The feature id for the '<em><b>EType Parameter</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EGENERIC_TYPE__ETYPE_PARAMETER = EOBJECT_FEATURE_COUNT + 4;
+
+  /**
+   * The feature id for the '<em><b>EClassifier</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EGENERIC_TYPE__ECLASSIFIER = EOBJECT_FEATURE_COUNT + 5;
+
+  /**
+   * The number of structural features of the '<em>EGeneric Type</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EGENERIC_TYPE_FEATURE_COUNT = EOBJECT_FEATURE_COUNT + 6;
+
+  /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.impl.ETypeParameterImpl <em>EType Parameter</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.impl.ETypeParameterImpl
+   * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getETypeParameter()
+   * @generated
+   */
+  int ETYPE_PARAMETER = 19;
+
+  /**
+   * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ETYPE_PARAMETER__EANNOTATIONS = ENAMED_ELEMENT__EANNOTATIONS;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ETYPE_PARAMETER__NAME = ENAMED_ELEMENT__NAME;
+
+  /**
+   * The feature id for the '<em><b>EBounds</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ETYPE_PARAMETER__EBOUNDS = ENAMED_ELEMENT_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>EGeneric Types</b></em>' reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ETYPE_PARAMETER__EGENERIC_TYPES = ENAMED_ELEMENT_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>EType Parameter</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ETYPE_PARAMETER_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 2;
+
+  /**
    * The meta object id for the '<em>EBig Decimal</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1825,7 +2115,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEBigDecimal()
    * @generated
    */
-  int EBIG_DECIMAL = 18;
+  int EBIG_DECIMAL = 20;
 
   /**
    * The meta object id for the '<em>EBig Integer</em>' data type.
@@ -1835,7 +2125,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEBigInteger()
    * @generated
    */
-  int EBIG_INTEGER = 19;
+  int EBIG_INTEGER = 21;
 
   /**
    * The meta object id for the '<em>EE List</em>' data type.
@@ -1845,7 +2135,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEEList()
    * @generated
    */
-  int EE_LIST = 31;
+  int EE_LIST = 33;
 
   /**
    * The meta object id for the '<em>EResource</em>' data type.
@@ -1855,7 +2145,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEResource()
    * @generated
    */
-  int ERESOURCE = 44;
+  int ERESOURCE = 46;
 
   /**
    * The meta object id for the '<em>EResource Set</em>' data type.
@@ -1865,7 +2155,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEResourceSet()
    * @generated
    */
-  int ERESOURCE_SET = 45;
+  int ERESOURCE_SET = 47;
 
   /**
    * The meta object id for the '<em>EBoolean Object</em>' data type.
@@ -1875,7 +2165,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEBooleanObject()
    * @generated
    */
-  int EBOOLEAN_OBJECT = 21;
+  int EBOOLEAN_OBJECT = 23;
 
   /**
    * The meta object id for the '<em>ECharacter Object</em>' data type.
@@ -1885,7 +2175,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getECharacterObject()
    * @generated
    */
-  int ECHARACTER_OBJECT = 26;
+  int ECHARACTER_OBJECT = 28;
 
   /**
    * The meta object id for the '<em>EDate</em>' data type.
@@ -1895,7 +2185,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDate()
    * @generated
    */
-  int EDATE = 27;
+  int EDATE = 29;
 
   /**
    * The meta object id for the '<em>EDiagnostic Chain</em>' data type.
@@ -1905,7 +2195,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDiagnosticChain()
    * @generated
    */
-  int EDIAGNOSTIC_CHAIN = 28;
+  int EDIAGNOSTIC_CHAIN = 30;
 
   /**
    * The meta object id for the '<em>EDouble Object</em>' data type.
@@ -1915,7 +2205,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDoubleObject()
    * @generated
    */
-  int EDOUBLE_OBJECT = 30;
+  int EDOUBLE_OBJECT = 32;
 
   /**
    * The meta object id for the '<em>EFloat Object</em>' data type.
@@ -1925,7 +2215,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFloatObject()
    * @generated
    */
-  int EFLOAT_OBJECT = 36;
+  int EFLOAT_OBJECT = 38;
 
   /**
    * The meta object id for the '<em>EInteger Object</em>' data type.
@@ -1935,7 +2225,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEIntegerObject()
    * @generated
    */
-  int EINTEGER_OBJECT = 38;
+  int EINTEGER_OBJECT = 40;
 
   /**
    * The meta object id for the '<em>EBoolean</em>' data type.
@@ -1944,7 +2234,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEBoolean()
    * @generated
    */
-  int EBOOLEAN = 20;
+  int EBOOLEAN = 22;
 
   /**
    * The meta object id for the '<em>EByte Object</em>' data type.
@@ -1954,7 +2244,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEByteObject()
    * @generated
    */
-  int EBYTE_OBJECT = 24;
+  int EBYTE_OBJECT = 26;
 
   /**
    * The meta object id for the '<em>EByte</em>' data type.
@@ -1963,7 +2253,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEByte()
    * @generated
    */
-  int EBYTE = 22;
+  int EBYTE = 24;
 
   /**
    * The meta object id for the '<em>EByte Array</em>' data type.
@@ -1972,7 +2262,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEByteArray()
    * @generated
    */
-  int EBYTE_ARRAY = 23;
+  int EBYTE_ARRAY = 25;
 
   /**
    * The meta object id for the '<em>EChar</em>' data type.
@@ -1981,7 +2271,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEChar()
    * @generated
    */
-  int ECHAR = 25;
+  int ECHAR = 27;
 
   /**
    * The meta object id for the '<em>EDouble</em>' data type.
@@ -1990,7 +2280,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEDouble()
    * @generated
    */
-  int EDOUBLE = 29;
+  int EDOUBLE = 31;
 
   /**
    * The meta object id for the '<em>EFloat</em>' data type.
@@ -1999,7 +2289,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFloat()
    * @generated
    */
-  int EFLOAT = 35;
+  int EFLOAT = 37;
 
   /**
    * The meta object id for the '<em>EInt</em>' data type.
@@ -2008,7 +2298,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEInt()
    * @generated
    */
-  int EINT = 37;
+  int EINT = 39;
 
   /**
    * The meta object id for the '<em>EJava Class</em>' data type.
@@ -2018,7 +2308,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEJavaClass()
    * @generated
    */
-  int EJAVA_CLASS = 39;
+  int EJAVA_CLASS = 41;
 
   /**
    * The meta object id for the '<em>EJava Object</em>' data type.
@@ -2028,7 +2318,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEJavaObject()
    * @generated
    */
-  int EJAVA_OBJECT = 40;
+  int EJAVA_OBJECT = 42;
 
   /**
    * The meta object id for the '<em>ELong Object</em>' data type.
@@ -2038,7 +2328,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getELongObject()
    * @generated
    */
-  int ELONG_OBJECT = 42;
+  int ELONG_OBJECT = 44;
 
   /**
    * The meta object id for the '<em>EMap</em>' data type.
@@ -2048,7 +2338,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEMap()
    * @generated
    */
-  int EMAP = 43;
+  int EMAP = 45;
 
   /**
    * The meta object id for the '<em>EShort Object</em>' data type.
@@ -2058,7 +2348,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEShortObject()
    * @generated
    */
-  int ESHORT_OBJECT = 47;
+  int ESHORT_OBJECT = 49;
 
   /**
    * The meta object id for the '<em>ELong</em>' data type.
@@ -2067,7 +2357,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getELong()
    * @generated
    */
-  int ELONG = 41;
+  int ELONG = 43;
 
   /**
    * The meta object id for the '<em>EShort</em>' data type.
@@ -2076,7 +2366,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEShort()
    * @generated
    */
-  int ESHORT = 46;
+  int ESHORT = 48;
 
   /**
    * The meta object id for the '<em>ETree Iterator</em>' data type.
@@ -2086,7 +2376,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getETreeIterator()
    * @generated
    */
-  int ETREE_ITERATOR = 49;
+  int ETREE_ITERATOR = 51;
 
 
   /**
@@ -2097,7 +2387,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFeatureMapEntry()
    * @generated
    */
-  int EFEATURE_MAP_ENTRY = 34;
+  int EFEATURE_MAP_ENTRY = 36;
 
 
   /**
@@ -2108,7 +2398,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEEnumerator()
    * @generated
    */
-  int EENUMERATOR = 32;
+  int EENUMERATOR = 34;
 
 
   /**
@@ -2119,7 +2409,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEFeatureMap()
    * @generated
    */
-  int EFEATURE_MAP = 33;
+  int EFEATURE_MAP = 35;
 
   /**
    * The meta object id for the '<em>EString</em>' data type.
@@ -2129,7 +2419,7 @@ public interface EcorePackage extends EPackage
    * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEString()
    * @generated
    */
-  int ESTRING = 48;
+  int ESTRING = 50;
 
 
   /**
@@ -2394,6 +2684,28 @@ public interface EcorePackage extends EPackage
   EReference getEClass_EStructuralFeatures();
 
   /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.EClass#getEGenericSuperTypes <em>EGeneric Super Types</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>EGeneric Super Types</em>'.
+   * @see org.eclipse.emf.ecore.EClass#getEGenericSuperTypes()
+   * @see #getEClass()
+   * @generated
+   */
+  EReference getEClass_EGenericSuperTypes();
+
+  /**
+   * Returns the meta object for the reference list '{@link org.eclipse.emf.ecore.EClass#getEAllGenericSuperTypes <em>EAll Generic Super Types</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference list '<em>EAll Generic Super Types</em>'.
+   * @see org.eclipse.emf.ecore.EClass#getEAllGenericSuperTypes()
+   * @see #getEClass()
+   * @generated
+   */
+  EReference getEClass_EAllGenericSuperTypes();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EDataType <em>EData Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2554,6 +2866,17 @@ public interface EcorePackage extends EPackage
   EAttribute getEClassifier_DefaultValue();
 
   /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.EClassifier#getInstanceTypeName <em>Instance Type Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Instance Type Name</em>'.
+   * @see org.eclipse.emf.ecore.EClassifier#getInstanceTypeName()
+   * @see #getEClassifier()
+   * @generated
+   */
+  EAttribute getEClassifier_InstanceTypeName();
+
+  /**
    * Returns the meta object for the container reference '{@link org.eclipse.emf.ecore.EClassifier#getEPackage <em>EPackage</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2563,6 +2886,17 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EReference getEClassifier_EPackage();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.EClassifier#getETypeParameters <em>EType Parameters</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>EType Parameters</em>'.
+   * @see org.eclipse.emf.ecore.EClassifier#getETypeParameters()
+   * @see #getEClassifier()
+   * @generated
+   */
+  EReference getEClassifier_ETypeParameters();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EModelElement <em>EModel Element</em>}'.
@@ -2658,6 +2992,28 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EReference getEOperation_EExceptions();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.EOperation#getEGenericExceptions <em>EGeneric Exceptions</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>EGeneric Exceptions</em>'.
+   * @see org.eclipse.emf.ecore.EOperation#getEGenericExceptions()
+   * @see #getEOperation()
+   * @generated
+   */
+  EReference getEOperation_EGenericExceptions();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.EOperation#getETypeParameters <em>EType Parameters</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>EType Parameters</em>'.
+   * @see org.eclipse.emf.ecore.EOperation#getETypeParameters()
+   * @see #getEOperation()
+   * @generated
+   */
+  EReference getEOperation_ETypeParameters();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EPackage <em>EPackage</em>}'.
@@ -2923,30 +3279,35 @@ public interface EcorePackage extends EPackage
    * @deprecated
    * replaced by getETypedElement_Unique()
    */
+  @Deprecated
   EAttribute getEStructuralFeature_Unique();
 
   /**
    * @deprecated
    * replaced by getETypedElement_LowerBound()
    */
+  @Deprecated
   EAttribute getEStructuralFeature_LowerBound();
 
   /**
    * @deprecated
    * replaced by getETypedElement_UpperBound()
    */
+  @Deprecated
   EAttribute getEStructuralFeature_UpperBound();
 
   /**
    * @deprecated
    * replaced by getETypedElement_Many()
    */
+  @Deprecated
   EAttribute getEStructuralFeature_Many();
 
   /**
    * @deprecated
    * replaced by getETypedElement_Required()
    */
+  @Deprecated
   EAttribute getEStructuralFeature_Required();
 
   /**
@@ -3037,6 +3398,17 @@ public interface EcorePackage extends EPackage
   EReference getETypedElement_EType();
 
   /**
+   * Returns the meta object for the containment reference '{@link org.eclipse.emf.ecore.ETypedElement#getEGenericType <em>EGeneric Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>EGeneric Type</em>'.
+   * @see org.eclipse.emf.ecore.ETypedElement#getEGenericType()
+   * @see #getETypedElement()
+   * @generated
+   */
+  EReference getETypedElement_EGenericType();
+
+  /**
    * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To String Map Entry</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3069,6 +3441,114 @@ public interface EcorePackage extends EPackage
    * @generated
    */
   EAttribute getEStringToStringMapEntry_Value();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.ecore.EGenericType <em>EGeneric Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>EGeneric Type</em>'.
+   * @see org.eclipse.emf.ecore.EGenericType
+   * @generated
+   */
+  EClass getEGenericType();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.eclipse.emf.ecore.EGenericType#getEUpperBound <em>EUpper Bound</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>EUpper Bound</em>'.
+   * @see org.eclipse.emf.ecore.EGenericType#getEUpperBound()
+   * @see #getEGenericType()
+   * @generated
+   */
+  EReference getEGenericType_EUpperBound();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.EGenericType#getETypeArguments <em>EType Arguments</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>EType Arguments</em>'.
+   * @see org.eclipse.emf.ecore.EGenericType#getETypeArguments()
+   * @see #getEGenericType()
+   * @generated
+   */
+  EReference getEGenericType_ETypeArguments();
+
+  /**
+   * Returns the meta object for the reference '{@link org.eclipse.emf.ecore.EGenericType#getERawType <em>ERaw Type</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>ERaw Type</em>'.
+   * @see org.eclipse.emf.ecore.EGenericType#getERawType()
+   * @see #getEGenericType()
+   * @generated
+   */
+  EReference getEGenericType_ERawType();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.eclipse.emf.ecore.EGenericType#getELowerBound <em>ELower Bound</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>ELower Bound</em>'.
+   * @see org.eclipse.emf.ecore.EGenericType#getELowerBound()
+   * @see #getEGenericType()
+   * @generated
+   */
+  EReference getEGenericType_ELowerBound();
+
+  /**
+   * Returns the meta object for the reference '{@link org.eclipse.emf.ecore.EGenericType#getETypeParameter <em>EType Parameter</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>EType Parameter</em>'.
+   * @see org.eclipse.emf.ecore.EGenericType#getETypeParameter()
+   * @see #getEGenericType()
+   * @generated
+   */
+  EReference getEGenericType_ETypeParameter();
+
+  /**
+   * Returns the meta object for the reference '{@link org.eclipse.emf.ecore.EGenericType#getEClassifier <em>EClassifier</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference '<em>EClassifier</em>'.
+   * @see org.eclipse.emf.ecore.EGenericType#getEClassifier()
+   * @see #getEGenericType()
+   * @generated
+   */
+  EReference getEGenericType_EClassifier();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.ecore.ETypeParameter <em>EType Parameter</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>EType Parameter</em>'.
+   * @see org.eclipse.emf.ecore.ETypeParameter
+   * @generated
+   */
+  EClass getETypeParameter();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link org.eclipse.emf.ecore.ETypeParameter#getEBounds <em>EBounds</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>EBounds</em>'.
+   * @see org.eclipse.emf.ecore.ETypeParameter#getEBounds()
+   * @see #getETypeParameter()
+   * @generated
+   */
+  EReference getETypeParameter_EBounds();
+
+  /**
+   * Returns the meta object for the reference list '{@link org.eclipse.emf.ecore.ETypeParameter#getEGenericTypes <em>EGeneric Types</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference list '<em>EGeneric Types</em>'.
+   * @see org.eclipse.emf.ecore.ETypeParameter#getEGenericTypes()
+   * @see #getETypeParameter()
+   * @generated
+   */
+  EReference getETypeParameter_EGenericTypes();
 
   /**
    * Returns the meta object for data type '{@link java.math.BigDecimal <em>EBig Decimal</em>}'.
@@ -3314,7 +3794,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EJava Object</em>'.
    * @see java.lang.Object
-   * @model instanceClass="java.lang.Object" serializable="false"
+   * @model instanceClass="java.lang.Object"
    * @generated
    */
   EDataType getEJavaObject();
@@ -3654,6 +4134,22 @@ public interface EcorePackage extends EPackage
     EReference ECLASS__ESTRUCTURAL_FEATURES = eINSTANCE.getEClass_EStructuralFeatures();
 
     /**
+     * The meta object literal for the '<em><b>EGeneric Super Types</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EGENERIC_SUPER_TYPES = eINSTANCE.getEClass_EGenericSuperTypes();
+
+    /**
+     * The meta object literal for the '<em><b>EAll Generic Super Types</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASS__EALL_GENERIC_SUPER_TYPES = eINSTANCE.getEClass_EAllGenericSuperTypes();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EClassifierImpl <em>EClassifier</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -3688,12 +4184,28 @@ public interface EcorePackage extends EPackage
     EAttribute ECLASSIFIER__DEFAULT_VALUE = eINSTANCE.getEClassifier_DefaultValue();
 
     /**
+     * The meta object literal for the '<em><b>Instance Type Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ECLASSIFIER__INSTANCE_TYPE_NAME = eINSTANCE.getEClassifier_InstanceTypeName();
+
+    /**
      * The meta object literal for the '<em><b>EPackage</b></em>' container reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
     EReference ECLASSIFIER__EPACKAGE = eINSTANCE.getEClassifier_EPackage();
+
+    /**
+     * The meta object literal for the '<em><b>EType Parameters</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ECLASSIFIER__ETYPE_PARAMETERS = eINSTANCE.getEClassifier_ETypeParameters();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EDataTypeImpl <em>EData Type</em>}' class.
@@ -3870,6 +4382,22 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EReference EOPERATION__EEXCEPTIONS = eINSTANCE.getEOperation_EExceptions();
+
+    /**
+     * The meta object literal for the '<em><b>EGeneric Exceptions</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EOPERATION__EGENERIC_EXCEPTIONS = eINSTANCE.getEOperation_EGenericExceptions();
+
+    /**
+     * The meta object literal for the '<em><b>EType Parameters</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EOPERATION__ETYPE_PARAMETERS = eINSTANCE.getEOperation_ETypeParameters();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EPackageImpl <em>EPackage</em>}' class.
@@ -4138,6 +4666,14 @@ public interface EcorePackage extends EPackage
     EReference ETYPED_ELEMENT__ETYPE = eINSTANCE.getETypedElement_EType();
 
     /**
+     * The meta object literal for the '<em><b>EGeneric Type</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ETYPED_ELEMENT__EGENERIC_TYPE = eINSTANCE.getETypedElement_EGenericType();
+
+    /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl <em>EString To String Map Entry</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -4162,6 +4698,90 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EAttribute ESTRING_TO_STRING_MAP_ENTRY__VALUE = eINSTANCE.getEStringToStringMapEntry_Value();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EGenericTypeImpl <em>EGeneric Type</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.EGenericTypeImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getEGenericType()
+     * @generated
+     */
+    EClass EGENERIC_TYPE = eINSTANCE.getEGenericType();
+
+    /**
+     * The meta object literal for the '<em><b>EUpper Bound</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EGENERIC_TYPE__EUPPER_BOUND = eINSTANCE.getEGenericType_EUpperBound();
+
+    /**
+     * The meta object literal for the '<em><b>EType Arguments</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EGENERIC_TYPE__ETYPE_ARGUMENTS = eINSTANCE.getEGenericType_ETypeArguments();
+
+    /**
+     * The meta object literal for the '<em><b>ERaw Type</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EGENERIC_TYPE__ERAW_TYPE = eINSTANCE.getEGenericType_ERawType();
+
+    /**
+     * The meta object literal for the '<em><b>ELower Bound</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EGENERIC_TYPE__ELOWER_BOUND = eINSTANCE.getEGenericType_ELowerBound();
+
+    /**
+     * The meta object literal for the '<em><b>EType Parameter</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EGENERIC_TYPE__ETYPE_PARAMETER = eINSTANCE.getEGenericType_ETypeParameter();
+
+    /**
+     * The meta object literal for the '<em><b>EClassifier</b></em>' reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EGENERIC_TYPE__ECLASSIFIER = eINSTANCE.getEGenericType_EClassifier();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.ETypeParameterImpl <em>EType Parameter</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.impl.ETypeParameterImpl
+     * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#getETypeParameter()
+     * @generated
+     */
+    EClass ETYPE_PARAMETER = eINSTANCE.getETypeParameter();
+
+    /**
+     * The meta object literal for the '<em><b>EBounds</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ETYPE_PARAMETER__EBOUNDS = eINSTANCE.getETypeParameter_EBounds();
+
+    /**
+     * The meta object literal for the '<em><b>EGeneric Types</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference ETYPE_PARAMETER__EGENERIC_TYPES = eINSTANCE.getETypeParameter_EGenericTypes();
 
     /**
      * The meta object literal for the '<em>EBig Decimal</em>' data type.

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2005 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespaceFactoryImpl.java,v 1.9 2005/11/23 18:10:02 emerks Exp $
+ * $Id: XMLNamespaceFactoryImpl.java,v 1.10 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -78,6 +78,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -93,6 +94,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
@@ -115,6 +117,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
@@ -189,7 +192,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
     }
     try
     {
-      result = (String)createLangTypeNullFromString(XMLNamespacePackage.Literals.LANG_TYPE_NULL, initialValue);
+      result = createLangTypeNullFromString(XMLNamespacePackage.Literals.LANG_TYPE_NULL, initialValue);
       if (result != null && Diagnostician.INSTANCE.validate(eDataType, result, null, null))
       {
         return result;
@@ -221,6 +224,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
       }
       catch (Exception e)
       {
+        // Keep trying other member types until all have failed.
       }
     }
     if (XMLNamespacePackage.Literals.LANG_TYPE_NULL.isInstance(instanceValue))
@@ -232,6 +236,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
       }
       catch (Exception e)
       {
+        // Keep trying other member types until all have failed.
       }
     }
     throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+eDataType.getName());
@@ -264,7 +269,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    */
   public SpaceType createSpaceTypeObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (SpaceType)createSpaceTypeFromString(XMLNamespacePackage.Literals.SPACE_TYPE, initialValue);
+    return createSpaceTypeFromString(XMLNamespacePackage.Literals.SPACE_TYPE, initialValue);
   }
 
   /**
@@ -293,6 +298,7 @@ public class XMLNamespaceFactoryImpl extends EFactoryImpl implements XMLNamespac
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static XMLNamespacePackage getPackage()
   {
     return XMLNamespacePackage.eINSTANCE;

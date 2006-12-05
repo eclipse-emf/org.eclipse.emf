@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.8 2005/11/23 18:10:02 emerks Exp $
+ * $Id: EReferenceImpl.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -20,8 +20,10 @@ package org.eclipse.emf.ecore.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -122,6 +124,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EREFERENCE;
@@ -138,6 +141,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isContainment()
   {
     return (eFlags & CONTAINMENT_EFLAG) != 0;
@@ -161,6 +165,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated modifiable
    */
+  @Override
   public boolean isContainer()
   {
     EReference theOpposite = getEOpposite();
@@ -172,6 +177,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isResolveProxies()
   {
     return (eFlags & RESOLVE_PROXIES_EFLAG) != 0;
@@ -195,6 +201,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EReference getEOpposite()
   {
     if (eOpposite != null && eOpposite.eIsProxy())
@@ -250,7 +257,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    */
   public EClass basicGetEReferenceType()
   {
-    return (EClass)eType;
+    return (EClass)basicGetEType();
   }
 
   /**
@@ -258,6 +265,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -281,6 +289,8 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__ETYPE:
         if (resolve) return getEType();
         return basicGetEType();
+      case EcorePackage.EREFERENCE__EGENERIC_TYPE:
+        return getEGenericType();
       case EcorePackage.EREFERENCE__CHANGEABLE:
         return isChangeable() ? Boolean.TRUE : Boolean.FALSE;
       case EcorePackage.EREFERENCE__VOLATILE:
@@ -318,13 +328,15 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.EREFERENCE__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.EREFERENCE__NAME:
         setName((String)newValue);
@@ -343,6 +355,9 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
         return;
       case EcorePackage.EREFERENCE__ETYPE:
         setEType((EClassifier)newValue);
+        return;
+      case EcorePackage.EREFERENCE__EGENERIC_TYPE:
+        setEGenericType((EGenericType)newValue);
         return;
       case EcorePackage.EREFERENCE__CHANGEABLE:
         setChangeable(((Boolean)newValue).booleanValue());
@@ -380,6 +395,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -403,7 +419,10 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
         setUpperBound(UPPER_BOUND_EDEFAULT);
         return;
       case EcorePackage.EREFERENCE__ETYPE:
-        setEType((EClassifier)null);
+        unsetEType();
+        return;
+      case EcorePackage.EREFERENCE__EGENERIC_TYPE:
+        unsetEGenericType();
         return;
       case EcorePackage.EREFERENCE__CHANGEABLE:
         setChangeable(CHANGEABLE_EDEFAULT);
@@ -441,6 +460,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -462,7 +482,9 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__REQUIRED:
         return isRequired() != REQUIRED_EDEFAULT;
       case EcorePackage.EREFERENCE__ETYPE:
-        return eType != null;
+        return isSetEType();
+      case EcorePackage.EREFERENCE__EGENERIC_TYPE:
+        return isSetEGenericType();
       case EcorePackage.EREFERENCE__CHANGEABLE:
         return ((eFlags & CHANGEABLE_EFLAG) != 0) != CHANGEABLE_EDEFAULT;
       case EcorePackage.EREFERENCE__VOLATILE:
@@ -498,6 +520,7 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

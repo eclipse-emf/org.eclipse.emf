@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEMap.java,v 1.7 2006/04/13 11:43:13 emerks Exp $
+ * $Id: EcoreEMap.java,v 1.8 2006/12/05 20:22:26 emerks Exp $
  */
 package  org.eclipse.emf.ecore.util;
 
@@ -34,35 +34,44 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 
-public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, EStructuralFeature.Setting
+public class EcoreEMap<K, V> extends BasicEMap<K, V> implements InternalEList.Unsettable<Map.Entry<K, V>>, EStructuralFeature.Setting
 {
-  public static class Unsettable extends EcoreEMap
+  private static final long serialVersionUID = 1L;
+
+  public static class Unsettable<K, V> extends EcoreEMap<K, V>
   {
-    public Unsettable(EClass entryEClass, Class entryClass, InternalEObject owner, int featureID)
+    private static final long serialVersionUID = 1L;
+
+    public Unsettable(EClass entryEClass, Class<?> entryClass, InternalEObject owner, int featureID)
     {
       super(entryEClass, entryClass, null);
-      delegateEList = new UnsettableDelegateEObjectContainmentEList(entryClass, owner, featureID);
+      delegateEList = new UnsettableDelegateEObjectContainmentEList<Entry<K, V>>(entryClass, owner, featureID);
     }
     
-    protected class UnsettableDelegateEObjectContainmentEList extends DelegateEObjectContainmentEList
+    protected class UnsettableDelegateEObjectContainmentEList<E extends Object & Entry<K, V>> extends DelegateEObjectContainmentEList<E>
     {
+      private static final long serialVersionUID = 1L;
+
       protected boolean isSet;
 
-      public UnsettableDelegateEObjectContainmentEList(Class dataClass, InternalEObject owner, int featureID)
+      public UnsettableDelegateEObjectContainmentEList(Class<?> dataClass, InternalEObject owner, int featureID)
       {
         super(dataClass, owner, featureID);
       }
 
+      @Override
       protected void didChange()
       {
         isSet = true;
       }
 
+      @Override
       public boolean isSet()
       {
         return isSet;
       }
 
+      @Override
       public void unset()
       {
         super.unset();
@@ -81,65 +90,78 @@ public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, ES
   }
 
   protected EClass entryEClass;
-  protected Class entryClass;
+  protected Class<?> entryClass;
 
-  public EcoreEMap(EClass entryEClass, Class entryClass, InternalEObject owner, int featureID)
+  public EcoreEMap(EClass entryEClass, Class<?> entryClass, InternalEObject owner, int featureID)
   {
     this.entryClass = entryClass;
     this.entryEClass = entryEClass;
-    delegateEList = new DelegateEObjectContainmentEList(entryClass, owner, featureID);
+    delegateEList = new DelegateEObjectContainmentEList<Entry<K, V>>(entryClass, owner, featureID);
   }
   
-  public EcoreEMap(EClass entryEClass, Class entryClass, EList delegateEList)
+  public EcoreEMap(EClass entryEClass, Class<?> entryClass, EList<Entry<K, V>> delegateEList)
   {
     this.entryClass = entryClass;
     this.entryEClass = entryEClass;
     this.delegateEList = delegateEList;
   }
 
+  @Override
   protected void initializeDelegateEList()
   {
+    // Do nothing.
   }
 
-  protected class DelegateEObjectContainmentEList extends EObjectContainmentEList
+  protected class DelegateEObjectContainmentEList<E extends Object & Entry<K, V>> extends EObjectContainmentEList<E>
   {
-    public DelegateEObjectContainmentEList(Class entryClass, InternalEObject owner, int featureID)
+    private static final long serialVersionUID = 1L;
+
+    public DelegateEObjectContainmentEList(Class<?> entryClass, InternalEObject owner, int featureID)
     {
       super(entryClass, owner, featureID);
     }
 
-    protected void didAdd(int index, Object newObject)
+    @Override
+    protected void didAdd(int index, E newObject)
     {
-      EcoreEMap.this.doPut((Entry)newObject);
+      EcoreEMap.this.doPut(newObject);
     }
 
-    protected void didSet(int index, Object newObject, Object oldObject)
+    @Override
+    protected void didSet(int index, E newObject, E oldObject)
     {
       didRemove(index, oldObject);
       didAdd(index, newObject);
     }
 
-    protected void didRemove(int index, Object oldObject)
+    @Override
+    protected void didRemove(int index, E oldObject)
     {
-      EcoreEMap.this.doRemove((Entry)oldObject);
+      EcoreEMap.this.doRemove(oldObject);
     }
 
+    @Override
     protected void didClear(int size, Object [] oldObjects)
     {
       EcoreEMap.this.doClear();
     }
 
-    protected void didMove(int index, Object movedObject, int oldIndex)
+    @Override
+    protected void didMove(int index, E movedObject, int oldIndex)
     {
-      EcoreEMap.this.doMove((Entry)movedObject);
+      EcoreEMap.this.doMove(movedObject);
     }
   }
 
-  protected BasicEList newList()
+  @Override
+  protected BasicEList<Entry<K, V>> newList()
   {
     return
-      new BasicEList()
+      new BasicEList<Entry<K, V>>()
       {
+        private static final long serialVersionUID = 1L;
+
+        @Override
         public Object [] newData(int listCapacity)
         {
           return (Object [])Array.newInstance(entryClass, listCapacity);
@@ -147,47 +169,52 @@ public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, ES
       };
   }
 
-  protected Entry newEntry(int hash, Object key, Object value)
+  @Override
+  protected Entry<K, V> newEntry(int hash, K key, V value)
   {
-    Entry entry = (Entry)entryEClass.getEPackage().getEFactoryInstance().create(entryEClass);
+    @SuppressWarnings("unchecked") Entry<K, V> entry = (Entry<K, V>)entryEClass.getEPackage().getEFactoryInstance().create(entryEClass);
     entry.setHash(hash);
     entry.setKey(key);
     entry.setValue(value);
     return entry;
   }
 
-  public Object basicGet(int index)
+  public Entry<K, V> basicGet(int index)
   {
-    return ((InternalEList)delegateEList).basicGet(index);
+    return ((InternalEList<Entry<K, V>>)delegateEList).basicGet(index);
   }
 
-  public List basicList()
+  @SuppressWarnings("unchecked")
+  public List<Map.Entry<K, V>> basicList()
   {
-    return ((InternalEList)delegateEList).basicList();
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicList();
   }
 
   /**
    * Returns an iterator that yields unresolved values.
    */
-  public Iterator basicIterator()
+  @SuppressWarnings("unchecked")
+  public Iterator<Map.Entry<K, V>> basicIterator()
   {
-    return ((InternalEList)delegateEList).basicIterator();
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicIterator();
   }
 
   /**
    * Returns a list iterator that yields unresolved values.
    */
-  public ListIterator basicListIterator()
+  @SuppressWarnings("unchecked")
+  public ListIterator<Map.Entry<K, V>> basicListIterator()
   {
-    return ((InternalEList)delegateEList).basicListIterator();
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicListIterator();
   }
 
   /**
    * Returns a list iterator that yields unresolved values.
    */
-  public ListIterator basicListIterator(int index)
+  @SuppressWarnings("unchecked")
+  public ListIterator<Map.Entry<K, V>> basicListIterator(int index)
   {
-    return ((InternalEList)delegateEList).basicListIterator(index);
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicListIterator(index);
   }
 
   /**
@@ -195,39 +222,43 @@ public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, ES
    */
   public NotificationChain basicRemove(Object object, NotificationChain notifications)
   {
-    return ((InternalEList)delegateEList).basicRemove(object, notifications);
+    return ((InternalEList<?>)delegateEList).basicRemove(object, notifications);
   }
 
   /**
    * Add the object without updating the inverse.
    */
-  public NotificationChain basicAdd(Object object, NotificationChain notifications)
+  @SuppressWarnings("unchecked")
+  public NotificationChain basicAdd(Map.Entry<K, V> object, NotificationChain notifications)
   {
-    return ((InternalEList)delegateEList).basicAdd(object, notifications);
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).basicAdd(object, notifications);
   }
 
   /**
    * Add the object without verifying uniqueness.
    */
-  public void addUnique(Object object)
+  @SuppressWarnings("unchecked")
+  public void addUnique(Map.Entry<K, V> object)
   {
-    ((InternalEList)delegateEList).addUnique(object);
+    ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).addUnique(object);
   }
 
   /**
    * Add the object without verifying uniqueness.
    */
-  public void addUnique(int index, Object object)
+  @SuppressWarnings("unchecked")
+  public void addUnique(int index, Map.Entry<K, V> object)
   {
-    ((InternalEList)delegateEList).addUnique(index, object);
+    ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).addUnique(index, object);
   }
 
   /**
    * Set the object without verifying uniqueness.
    */
-  public Object setUnique(int index, Object object)
+  @SuppressWarnings("unchecked")
+  public Map.Entry<K, V> setUnique(int index, Map.Entry<K, V> object)
   {
-    return ((InternalEList)delegateEList).setUnique(index, object);
+    return ((InternalEList<Map.Entry<K, V>>)(InternalEList<?>)delegateEList).setUnique(index, object);
   }
 
   public EObject getEObject()
@@ -250,7 +281,8 @@ public class EcoreEMap extends BasicEMap implements InternalEList.Unsettable, ES
     if (value instanceof Map)
     {
       ((EStructuralFeature.Setting)delegateEList).unset();
-      putAll((Map)value);
+      @SuppressWarnings("unchecked") Map<? extends K, ? extends V> mapValue = (Map<? extends K, ? extends V>)value;
+      putAll(mapValue);
     }
     else
     {

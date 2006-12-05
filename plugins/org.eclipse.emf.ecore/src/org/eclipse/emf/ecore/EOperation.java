@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperation.java,v 1.5 2006/05/23 16:13:10 emerks Exp $
+ * $Id: EOperation.java,v 1.6 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -29,8 +29,10 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.EOperation#getEContainingClass <em>EContaining Class</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.EOperation#getETypeParameters <em>EType Parameters</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EOperation#getEParameters <em>EParameters</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EOperation#getEExceptions <em>EExceptions</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.EOperation#getEGenericExceptions <em>EGeneric Exceptions</em>}</li>
  * </ul>
  * </p>
  *
@@ -71,21 +73,57 @@ public interface EOperation extends ETypedElement
    * @model type="org.eclipse.emf.ecore.EParameter" opposite="eOperation" containment="true"
    * @generated
    */
-  EList getEParameters();
+  EList<EParameter> getEParameters();
 
   /**
    * Returns the value of the '<em><b>EExceptions</b></em>' reference list.
    * The list contents are of type {@link org.eclipse.emf.ecore.EClassifier}.
    * <!-- begin-user-doc -->
    * <p>
-   * It represents the exceptions thrown by this operation.
+   * It represents the exceptions thrown by this operation
+   * and is derived from the {@link #getEGenericExceptions() generic exceptions}.
    * </p>
+   * @see #getEGenericExceptions()
    * <!-- end-user-doc -->
    * @return the value of the '<em>EExceptions</em>' reference list.
    * @see org.eclipse.emf.ecore.EcorePackage#getEOperation_EExceptions()
-   * @model type="org.eclipse.emf.ecore.EClassifier"
+   * @model type="org.eclipse.emf.ecore.EClassifier" unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
    * @generated
    */
-  EList getEExceptions();
+  EList<EClassifier> getEExceptions();
+
+  /**
+   * Returns the value of the '<em><b>EGeneric Exceptions</b></em>' containment reference list.
+   * The list contents are of type {@link org.eclipse.emf.ecore.EGenericType}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * It represents the generic exceptions thrown by this operation.
+   * The {@link #getEExceptions() exceptions} list is derived from this one, i.e., it represents the {@link EGenericType#getERawType() erasure} of each generic exception.
+   * </p>
+   * @see #getEExceptions()
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>EGeneric Exceptions</em>' containment reference list.
+   * @see org.eclipse.emf.ecore.EcorePackage#getEOperation_EGenericExceptions()
+   * @model type="org.eclipse.emf.ecore.EGenericType" containment="true" unsettable="true" suppressedIsSetVisibility="true" suppressedUnsetVisibility="true"
+   * @generated
+   */
+  EList<EGenericType> getEGenericExceptions();
+
+  /**
+   * Returns the value of the '<em><b>EType Parameters</b></em>' containment reference list.
+   * The list contents are of type {@link org.eclipse.emf.ecore.ETypeParameter}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * An operation can optionally introduce type parameters.
+   * </p>
+   * @since 2.3
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>EType Parameters</em>' containment reference list.
+   * @see org.eclipse.emf.ecore.EcorePackage#getEOperation_ETypeParameters()
+   * @model type="org.eclipse.emf.ecore.ETypeParameter" containment="true" resolveProxies="true"
+   * @generated
+   */
+  EList<ETypeParameter> getETypeParameters();
 
 } //EOperation

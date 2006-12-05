@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EValidator.java,v 1.5 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EValidator.java,v 1.6 2006/12/05 20:22:25 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -54,7 +54,7 @@ public interface EValidator
   /**
    * A map from {@link org.eclipse.emf.ecore.EPackage EPackage} to {@link EValidator}.
    */
-  interface Registry extends Map
+  interface Registry extends Map<EPackage, Object>
   {
     /**
      * Looks up the package in the map.
@@ -105,9 +105,9 @@ public interface EValidator
    * @param context a place to cache information, if it's <code>null</code>, no cache is supported.
    * @return whether the object is valid.
    */
-  boolean validate(EObject eObject, DiagnosticChain diagnostics, Map context);
+  boolean validate(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context);
 
-  boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map context);
+  boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context);
 
-  boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map context);
+  boolean validate(EDataType eDataType, Object value, DiagnosticChain diagnostics, Map<Object, Object> context);
 }

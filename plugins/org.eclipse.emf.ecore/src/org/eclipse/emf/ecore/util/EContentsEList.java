@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EContentsEList.java,v 1.9 2006/05/12 21:07:22 emerks Exp $
+ * $Id: EContentsEList.java,v 1.10 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -33,26 +33,33 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 
 
-public class EContentsEList extends AbstractSequentialList implements EList, InternalEList
+public class EContentsEList<E> extends AbstractSequentialList<E> implements EList<E>, InternalEList<E>
 {
-  public static final EContentsEList EMPTY_CONTENTS_ELIST = 
-    new EContentsEList(null, (EStructuralFeature [])null)
+  public static final EContentsEList<?> EMPTY_CONTENTS_ELIST = 
+    new EContentsEList<Object>(null, (EStructuralFeature [])null)
     {
-      public List basicList()
+      @Override
+      public List<Object> basicList()
       {
         return this;
       }
     }; 
+    
+  @SuppressWarnings("unchecked")
+  public static <T> EContentsEList<T> emptyContentsEList()
+  {
+    return (EContentsEList<T>)EMPTY_CONTENTS_ELIST;
+  }
 
-  public static EContentsEList createEContentsEList(EObject eObject)
+  public static <T> EContentsEList<T> createEContentsEList(EObject eObject)
   {
     EStructuralFeature [] eStructuralFeatures = 
       ((EClassImpl.FeatureSubsetSupplier)eObject.eClass().getEAllStructuralFeatures()).containments();
     
     return 
       eStructuralFeatures == null ?
-        EMPTY_CONTENTS_ELIST:
-        new EContentsEList(eObject, eStructuralFeatures);
+        EContentsEList.<T>emptyContentsEList() :
+        new EContentsEList<T>(eObject, eStructuralFeatures);
   }
 
   protected final EObject eObject; 
@@ -65,7 +72,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       ((EClassImpl.FeatureSubsetSupplier)eObject.eClass().getEAllStructuralFeatures()).containments();
   }
 
-  public EContentsEList(EObject eObject, List eStructuralFeatures)
+  public EContentsEList(EObject eObject, List<? extends EStructuralFeature> eStructuralFeatures)
   {
     this.eObject = eObject;
     this.eStructuralFeatures = new EStructuralFeature [eStructuralFeatures.size()];
@@ -78,22 +85,22 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
     this.eStructuralFeatures = eStructuralFeatures;
   }
 
-  protected ListIterator newListIterator()
+  protected ListIterator<E> newListIterator()
   {
     return resolve() ? newResolvingListIterator() : newNonResolvingListIterator();
   }
   
-  protected ListIterator newResolvingListIterator()
+  protected ListIterator<E> newResolvingListIterator()
   {
-    return new ResolvingFeatureIteratorImpl(eObject, eStructuralFeatures);
+    return new ResolvingFeatureIteratorImpl<E>(eObject, eStructuralFeatures);
   }
   
-  protected ListIterator newNonResolvingListIterator()
+  protected ListIterator<E> newNonResolvingListIterator()
   {
-    return new FeatureIteratorImpl(eObject, eStructuralFeatures);
+    return new FeatureIteratorImpl<E>(eObject, eStructuralFeatures);
   }
 
-  protected Iterator newIterator()
+  protected Iterator<E> newIterator()
   {
     return newListIterator();
   }
@@ -118,7 +125,8 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
     return eStructuralFeature instanceof EReference && ((EReference)eStructuralFeature).isContainment();
   }
 
-  public ListIterator listIterator(int index)
+  @Override
+  public ListIterator<E> listIterator(int index)
   {
     if (eStructuralFeatures == null)
     {
@@ -127,10 +135,10 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
         throw new IndexOutOfBoundsException("index=" + index + ", size=0");
       }
 
-      return FeatureIteratorImpl.EMPTY_ITERATOR;
+      return FeatureIteratorImpl.emptyIterator();
     }
 
-    ListIterator result = newListIterator();
+    ListIterator<E> result = newListIterator();
     for (int i = 0; i < index; ++i)
     {
       result.next();
@@ -138,17 +146,19 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
     return result;
   }
 
-  public Iterator iterator()
+  @Override
+  public Iterator<E> iterator()
   {
     if (eStructuralFeatures == null)
     {
-      return FeatureIteratorImpl.EMPTY_ITERATOR;
+      return FeatureIteratorImpl.emptyIterator();
     }
 
-    Iterator result = newIterator();
+    Iterator<E> result = newIterator();
     return result;
   }
 
+  @Override
   public int size()
   {
     int result = 0;
@@ -173,7 +183,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
           }
           else if (feature.isMany())
           {
-            result += ((Collection)value).size();
+            result += ((Collection<?>)value).size();
           } 
           else if (value != null)
           {
@@ -185,6 +195,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
     return result;
   }
 
+  @Override
   public boolean isEmpty()
   {
     if (eStructuralFeatures != null)
@@ -208,7 +219,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
           }
           else if (feature.isMany())
           {
-            if (!((Collection)value).isEmpty())
+            if (!((Collection<?>)value).isEmpty())
             {
               return false;
             }
@@ -228,21 +239,22 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
     throw new UnsupportedOperationException();
   }
 
-  public Object move(int newPosition, int oldPosition)
+  public E move(int newPosition, int oldPosition)
   {
     throw new UnsupportedOperationException();
   }
 
-  public Object basicGet(int index)
+  public E basicGet(int index)
   {
     return basicList().get(index);
   }
 
-  public List basicList()
+  public List<E> basicList()
   {
     return
-      new EContentsEList(eObject, eStructuralFeatures)
+      new EContentsEList<E>(eObject, eStructuralFeatures)
       {
+        @Override
         protected boolean resolve()
         {
           return false;
@@ -250,27 +262,27 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       };
   }
 
-  public Iterator basicIterator()
+  public Iterator<E> basicIterator()
   {
     if (eStructuralFeatures == null)
     {
-      return FeatureIteratorImpl.EMPTY_ITERATOR;
+      return FeatureIteratorImpl.emptyIterator();
     }
 
     return newNonResolvingListIterator();
   }
 
-  public ListIterator basicListIterator()
+  public ListIterator<E> basicListIterator()
   {
     if (eStructuralFeatures == null)
     {
-      return FeatureIteratorImpl.EMPTY_ITERATOR;
+      return FeatureIteratorImpl.emptyIterator();
     }
 
     return newNonResolvingListIterator();
   }
 
-  public ListIterator basicListIterator(int index)
+  public ListIterator<E> basicListIterator(int index)
   {
     if (eStructuralFeatures == null)
     {
@@ -279,10 +291,10 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
         throw new IndexOutOfBoundsException("index=" + index + ", size=0");
       }
 
-      return FeatureIteratorImpl.EMPTY_ITERATOR;
+      return FeatureIteratorImpl.emptyIterator();
     }
 
-    ListIterator result = newNonResolvingListIterator();
+    ListIterator<E> result = newNonResolvingListIterator();
     for (int i = 0; i < index; ++i)
     {
       result.next();
@@ -295,7 +307,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
     throw new UnsupportedOperationException();
   }
 
-  public NotificationChain basicAdd(Object object, NotificationChain notifications)
+  public NotificationChain basicAdd(E object, NotificationChain notifications)
   {
     throw new UnsupportedOperationException();
   }
@@ -310,38 +322,39 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
     throw new UnsupportedOperationException();
   }
 
-  public Object setUnique(int index, Object object)
+  public E setUnique(int index, E object)
   {
     throw new UnsupportedOperationException();
   }
 
-  public interface FeatureIterator extends Iterator
+  public interface FeatureIterator<E> extends Iterator<E>
   {
     EStructuralFeature feature();
   }
 
-  public interface FeatureListIterator extends FeatureIterator, ListIterator
+  public interface FeatureListIterator<E> extends FeatureIterator<E>, ListIterator<E>
   {
+    // No new methods.
   }
 
-  public static class FeatureIteratorImpl implements FeatureListIterator
+  public static class FeatureIteratorImpl<E> implements FeatureListIterator<E>
   {
     protected final EObject eObject; 
     protected final EStructuralFeature [] eStructuralFeatures;
     protected int featureCursor;
     protected int cursor;
     protected int prepared;
-    protected Object preparedResult;
+    protected E preparedResult;
     protected EStructuralFeature preparedFeature;
     protected EStructuralFeature feature;
     protected boolean isHandlingFeatureMap;
-    protected ListIterator values;
-    protected InternalEList valueInternalEList;
-    protected List valueList;
+    protected ListIterator<E> values;
+    protected InternalEList<E> valueInternalEList;
+    protected List<E> valueList;
     protected int valueListSize;
     protected int valueListIndex;
 
-    public FeatureIteratorImpl(EObject eObject, List eStructuralFeatures)
+    public FeatureIteratorImpl(EObject eObject, List<? extends EStructuralFeature> eStructuralFeatures)
     {
       this.eObject = eObject;
       this.eStructuralFeatures = new EStructuralFeature [eStructuralFeatures.size()];
@@ -417,7 +430,16 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 isHandlingFeatureMap = FeatureMapUtil.isFeatureMap(feature);
                 if (isHandlingFeatureMap || feature.isMany())
                 {
-                  valueList = resolve() ? (List)value : (valueInternalEList = (InternalEList)value);
+                  if (resolve())
+                  {
+                    @SuppressWarnings("unchecked") List<E> newValueList = (List<E>)value;
+                    valueList = newValueList;
+                  }
+                  else
+                  {
+                    @SuppressWarnings("unchecked") InternalEList<E> newValueList = (InternalEList<E>)value;
+                    valueList = valueInternalEList = newValueList;
+                  }
                   if (valueList instanceof RandomAccess)
                   {
                     values = null;
@@ -433,7 +455,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                   }
                   if (values == null ? scanNext() : scanNext(values))
                   {
-                    preparedResult = 
+                    Object result = 
                        values == null ? 
                          valueInternalEList == null ? 
                            valueList.get(valueListIndex++) : 
@@ -441,12 +463,15 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                          values.next();
                     if (isHandlingFeatureMap)
                     {
-                      FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
+                      FeatureMap.Entry entry = (FeatureMap.Entry)result; 
                       preparedFeature = entry.getEStructuralFeature();
-                      preparedResult = entry.getValue();
+                      @SuppressWarnings("unchecked") E newPreparedResult = (E)entry.getValue();
+                      preparedResult = newPreparedResult;
                     }
                     else
                     {
+                      @SuppressWarnings("unchecked") E newPreparedResult = (E)result;
+                      preparedResult = newPreparedResult;
                       preparedFeature = feature;
                     }
                     prepared = 3;
@@ -457,7 +482,8 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 {
                   valueList = null;
                   values = null;
-                  preparedResult = value;
+                  @SuppressWarnings("unchecked") E newPreparedResult = (E)value;
+                  preparedResult = newPreparedResult;
                   preparedFeature = feature;
                   prepared = 2;
                   return true;
@@ -472,7 +498,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
           }
           else
           {
-            preparedResult = 
+            Object result =
               values == null ? 
                 valueInternalEList == null ? 
                   valueList.get(valueListIndex++) : 
@@ -480,9 +506,15 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 values.next();
             if (isHandlingFeatureMap)
             {
-              FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
+              FeatureMap.Entry entry = (FeatureMap.Entry)result; 
               preparedFeature = entry.getEStructuralFeature();
-              preparedResult = entry.getValue();
+              @SuppressWarnings("unchecked") E newPreparedResult = (E)entry.getValue();
+              preparedResult = newPreparedResult;
+            }
+            else
+            {
+              @SuppressWarnings("unchecked") E newPreparedResult = (E)result;
+              preparedResult = newPreparedResult;
             }
             prepared = 3;
             return true;
@@ -491,7 +523,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       }
     }
 
-    protected boolean scanNext(ListIterator values)
+    protected boolean scanNext(ListIterator<E> values)
     {
       if (isHandlingFeatureMap)
       {
@@ -538,14 +570,14 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       }
     }
 
-    public Object next()
+    public E next()
     {
       if (prepared > 1 || hasNext())
       {
         ++cursor;
         prepared = 0;
         feature = preparedFeature;
-        Object result = preparedResult;
+        E result = preparedResult;
         hasNext();
         return result;
       }
@@ -598,7 +630,16 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 isHandlingFeatureMap = FeatureMapUtil.isFeatureMap(feature);
                 if (isHandlingFeatureMap || feature.isMany())
                 {
-                  valueList = resolve() ? (List)value : (valueInternalEList = (InternalEList)value);
+                  if (resolve())
+                  {
+                    @SuppressWarnings("unchecked") List<E> newValueList = (List<E>)value;
+                    valueList = newValueList;
+                  }
+                  else
+                  {
+                    @SuppressWarnings("unchecked") InternalEList<E> newValueList = (InternalEList<E>)value;
+                    valueList = valueInternalEList = newValueList;
+                  }
                   if (valueList instanceof RandomAccess)
                   {
                     valueListSize = valueList.size();
@@ -613,7 +654,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                   }
                   if (values == null ? scanPrevious() : scanPrevious(values))
                   {
-                    preparedResult = 
+                    Object result =
                       values == null ? 
                         valueInternalEList == null ? 
                           valueList.get(--valueListIndex) : 
@@ -621,12 +662,15 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                         values.previous();
                     if (isHandlingFeatureMap)
                     {
-                      FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
+                      FeatureMap.Entry entry = (FeatureMap.Entry)result; 
                       preparedFeature = entry.getEStructuralFeature();
-                      preparedResult = entry.getValue();
+                      @SuppressWarnings("unchecked") E newPreparedResult = (E)entry.getValue();
+                      preparedResult = newPreparedResult;
                     }
                     else
                     {
+                      @SuppressWarnings("unchecked") E newPreparedResult = (E)result;
+                      preparedResult = newPreparedResult;
                       preparedFeature = feature;
                     }
                     prepared = -3;
@@ -637,7 +681,8 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 {
                   valueList = null;
                   values = null;
-                  preparedResult = value;
+                  @SuppressWarnings("unchecked") E newPreparedResult = (E)value;
+                  preparedResult = newPreparedResult;
                   preparedFeature = feature;
                   prepared = -2;
                   return true;
@@ -651,7 +696,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
           }
           else
           {
-            preparedResult = 
+            Object result =
               values == null ? 
                 valueInternalEList == null ? 
                   valueList.get(--valueListIndex) : 
@@ -659,9 +704,15 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
                 values.previous();
             if (isHandlingFeatureMap)
             {
-              FeatureMap.Entry entry = (FeatureMap.Entry)preparedResult; 
+              FeatureMap.Entry entry = (FeatureMap.Entry)result; 
               preparedFeature = entry.getEStructuralFeature();
-              preparedResult = entry.getValue();
+              @SuppressWarnings("unchecked") E newPreparedResult = (E)entry.getValue();
+              preparedResult = newPreparedResult;
+            }
+            else
+            {
+              @SuppressWarnings("unchecked") E newPreparedResult = (E)result;
+              preparedResult = newPreparedResult;
             }
             prepared = -3;
             return true;
@@ -670,7 +721,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       }
     }
 
-    protected boolean scanPrevious(ListIterator values)
+    protected boolean scanPrevious(ListIterator<E> values)
     {
       if (isHandlingFeatureMap)
       {
@@ -717,14 +768,14 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       }
     }
 
-    public Object previous()
+    public E previous()
     {
       if (prepared < -1 || hasPrevious())
       {
         --cursor;
         prepared = 0;
         feature = preparedFeature;
-        Object result = preparedResult;
+        E result = preparedResult;
         hasPrevious();
         return result;
       }
@@ -754,24 +805,32 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       throw new UnsupportedOperationException();
     }
 
-    public static final ListIterator EMPTY_ITERATOR = 
-      new FeatureIteratorImpl(null, (EStructuralFeature [] )null)
+    public static final ListIterator<?> EMPTY_ITERATOR = 
+      new FeatureIteratorImpl<Object>(null, (EStructuralFeature [] )null)
       {
+        @Override
         public boolean hasNext()
         {
           return false;
         }
 
+        @Override
         public boolean hasPrevious()
         {
           return false;
         }
       };
+     
+    @SuppressWarnings("unchecked")
+    public static <T> ListIterator<T> emptyIterator()
+    {
+      return (ListIterator<T>)EMPTY_ITERATOR;
+    }
   }
 
-  public static class ResolvingFeatureIteratorImpl extends FeatureIteratorImpl
+  public static class ResolvingFeatureIteratorImpl<E> extends FeatureIteratorImpl<E>
   {
-    public ResolvingFeatureIteratorImpl(EObject eObject, List eStructuralFeatures)
+    public ResolvingFeatureIteratorImpl(EObject eObject, List<? extends EStructuralFeature> eStructuralFeatures)
     {
       super(eObject, eStructuralFeatures);
     }
@@ -781,6 +840,7 @@ public class EContentsEList extends AbstractSequentialList implements EList, Int
       super(eObject, eStructuralFeatures);
     }
 
+    @Override
     protected boolean resolve()
     {
       return true;

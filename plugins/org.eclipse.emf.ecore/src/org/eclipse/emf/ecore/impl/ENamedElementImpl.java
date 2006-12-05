@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ENamedElementImpl.java,v 1.6 2005/11/23 18:10:01 emerks Exp $
+ * $Id: ENamedElementImpl.java,v 1.7 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -75,6 +76,7 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.ENAMED_ELEMENT;
@@ -102,6 +104,7 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -141,6 +144,7 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -158,13 +162,15 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.ENAMED_ELEMENT__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.ENAMED_ELEMENT__NAME:
         setName((String)newValue);
@@ -178,6 +184,7 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -197,6 +204,7 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)

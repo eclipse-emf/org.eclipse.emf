@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AnyTypeImpl.java,v 1.7 2005/11/25 17:49:49 emerks Exp $
+ * $Id: AnyTypeImpl.java,v 1.8 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -78,6 +78,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XMLTypePackage.Literals.ANY_TYPE;
@@ -104,7 +105,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    */
   public FeatureMap getAny()
   {
-    return (FeatureMap)((FeatureMap)getMixed()).list(XMLTypePackage.Literals.ANY_TYPE__ANY);
+    return (FeatureMap)getMixed().<FeatureMap.Entry>list(XMLTypePackage.Literals.ANY_TYPE__ANY);
   }
 
   /**
@@ -126,16 +127,17 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case XMLTypePackage.ANY_TYPE__MIXED:
-        return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getMixed()).basicRemove(otherEnd, msgs);
       case XMLTypePackage.ANY_TYPE__ANY:
-        return ((InternalEList)getAny()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getAny()).basicRemove(otherEnd, msgs);
       case XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE:
-        return ((InternalEList)getAnyAttribute()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getAnyAttribute()).basicRemove(otherEnd, msgs);
     }
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
@@ -145,6 +147,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -167,6 +170,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -189,6 +193,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -211,6 +216,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -230,6 +236,7 @@ public class AnyTypeImpl extends EObjectImpl implements AnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

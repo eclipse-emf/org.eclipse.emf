@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ESuperAdapter.java,v 1.5 2006/01/27 20:01:49 emerks Exp $
+ * $Id: ESuperAdapter.java,v 1.6 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -47,7 +47,7 @@ public class ESuperAdapter extends AdapterImpl
     return ((Holder)eClass).getESuperAdapter();
   }
 
-  protected EList subclasses;
+  protected EList<EClass> subclasses;
 
   protected static final int ATTRIBUTES_MODIFIED = 0x0001;
   protected static final int REFERENCES_MODIFIED = 0x0002;
@@ -89,11 +89,13 @@ public class ESuperAdapter extends AdapterImpl
     return modifiedState != 0;
   }
 
+  @Override
   public boolean isAdapterForType(Object type)
   {
     return type == ESuperAdapter.class;
   }
 
+  @Override
   public void notifyChanged(Notification notification)
   {
     int eventType = notification.getEventType();
@@ -119,7 +121,7 @@ public class ESuperAdapter extends AdapterImpl
               if (!holder.isFrozen())
               {
                 ESuperAdapter eSuperAdapter = holder.getESuperAdapter();
-                eSuperAdapter.getSubclasses().add(notification.getNotifier());
+                eSuperAdapter.getSubclasses().add((EClass)notification.getNotifier());
               }
             }
             break;
@@ -134,7 +136,7 @@ public class ESuperAdapter extends AdapterImpl
               if (!holder.isFrozen())
               {
                 ESuperAdapter eSuperAdapter = holder.getESuperAdapter();
-                eSuperAdapter.getSubclasses().add(notification.getNotifier());
+                eSuperAdapter.getSubclasses().add((EClass)notification.getNotifier());
               }
             }
             break;
@@ -144,13 +146,13 @@ public class ESuperAdapter extends AdapterImpl
             Object newValue = notification.getNewValue();
             if (newValue != null)
             {
-              for (Iterator i = ((Collection)newValue).iterator(); i.hasNext(); )
+              for (Iterator<?> i = ((Collection<?>)newValue).iterator(); i.hasNext(); )
               {
                 Holder holder =  (Holder)i.next();
                 if (!holder.isFrozen())
                 {
                   ESuperAdapter eSuperAdapter = holder.getESuperAdapter();
-                  eSuperAdapter.getSubclasses().add(notification.getNotifier());
+                  eSuperAdapter.getSubclasses().add((EClass)notification.getNotifier());
                 }
               }
             }
@@ -175,7 +177,7 @@ public class ESuperAdapter extends AdapterImpl
             Object oldValue = notification.getOldValue();
             if (oldValue != null)
             {
-              for (Iterator i = ((Collection)oldValue).iterator(); i.hasNext(); )
+              for (Iterator<?> i = ((Collection<?>)oldValue).iterator(); i.hasNext(); )
               {
                 Holder holder = (Holder)i.next();
                 if (!holder.isFrozen())
@@ -296,18 +298,22 @@ public class ESuperAdapter extends AdapterImpl
     }
   }
 
-  public EList getSubclasses()
+  public EList<EClass> getSubclasses()
   {
     if (subclasses == null)
     {
       subclasses = 
-        new UniqueEList()
+        new UniqueEList<EClass>()
         {
+          private static final long serialVersionUID = 1L;
+
+          @Override
           protected Object [] newData(int capacity)
           {
             return new EClass [capacity];
           }
 
+          @Override
           protected boolean useEquals()
           {
             return false;
@@ -365,7 +371,7 @@ public class ESuperAdapter extends AdapterImpl
 
     if (modifiedState != oldModifiedState && subclasses != null)
     {
-      for (Iterator i = subclasses.iterator(); i.hasNext(); )
+      for (Iterator<?> i = subclasses.iterator(); i.hasNext(); )
       {
         Holder subclass = (Holder)i.next();
         ESuperAdapter eSuperAdapter = subclass.getESuperAdapter();

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EEnumLiteralImpl.java,v 1.11 2005/11/25 17:49:48 emerks Exp $
+ * $Id: EEnumLiteralImpl.java,v 1.12 2006/12/05 20:22:26 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -22,6 +22,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.Enumerator;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
@@ -124,6 +125,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return EcorePackage.Literals.EENUM_LITERAL;
@@ -237,12 +239,14 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
       case EcorePackage.EENUM_LITERAL__EENUM:
         if (eInternalContainer() != null)
           msgs = eBasicRemoveFromContainer(msgs);
@@ -256,12 +260,13 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
-        return ((InternalEList)getEAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
       case EcorePackage.EENUM_LITERAL__EENUM:
         return eBasicSetContainer(null, EcorePackage.EENUM_LITERAL__EENUM, msgs);
     }
@@ -273,6 +278,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -288,6 +294,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -313,13 +320,15 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case EcorePackage.EENUM_LITERAL__EANNOTATIONS:
         getEAnnotations().clear();
-        getEAnnotations().addAll((Collection)newValue);
+        getEAnnotations().addAll((Collection<? extends EAnnotation>)newValue);
         return;
       case EcorePackage.EENUM_LITERAL__NAME:
         setName((String)newValue);
@@ -342,6 +351,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -370,6 +380,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -390,6 +401,7 @@ public class EEnumLiteralImpl extends ENamedElementImpl implements EEnumLiteral
     return eDynamicIsSet(featureID);
   }
 
+  @Override
   public String toString()
   {
     return getLiteral();

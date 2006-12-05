@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePlugin.java,v 1.15 2006/10/16 03:26:23 davidms Exp $
+ * $Id: EcorePlugin.java,v 1.16 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.plugin;
 
@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,9 +70,7 @@ public class EcorePlugin  extends EMFPlugin
     super(new ResourceLocator[] {});
   }
 
-  /*
-   * Javadoc copied from base class.
-   */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;
@@ -96,11 +93,11 @@ public class EcorePlugin  extends EMFPlugin
    * @return the platform resource map.
    * @see #resolvePlatformResourcePath
    */
-  public static Map getPlatformResourceMap()
+  public static Map<String, URI> getPlatformResourceMap()
   {
     if (platformResourceMap == null)
     {
-      platformResourceMap = new HashMap();
+      platformResourceMap = new HashMap<String, URI>();
     }
     return platformResourceMap;
   }
@@ -135,7 +132,7 @@ public class EcorePlugin  extends EMFPlugin
       int index = platformResourcePath.indexOf("/", 1);
       String rootContainerName = platformResourcePath.substring(1, index);
       String relativeName = platformResourcePath.substring(index + 1);
-      URI rootContainerLocation = (URI)getPlatformResourceMap().get(rootContainerName);
+      URI rootContainerLocation = getPlatformResourceMap().get(rootContainerName);
       if (rootContainerLocation != null)
       {
         return URI.createURI(relativeName).resolve(rootContainerLocation);
@@ -222,11 +219,11 @@ public class EcorePlugin  extends EMFPlugin
    * to the location of the GenModel containing a GenPackage for the package (represented as a {@link URI URI}).
    * @return a map from package namespace to GenModel location.
    */
-  public static Map getEPackageNsURIToGenModelLocationMap()
+  public static Map<String, URI> getEPackageNsURIToGenModelLocationMap()
   {
     if (ePackageNsURIToGenModelLocationMap == null)
     {
-      ePackageNsURIToGenModelLocationMap = new HashMap();
+      ePackageNsURIToGenModelLocationMap = new HashMap<String, URI>();
     }
     return ePackageNsURIToGenModelLocationMap;
   }
@@ -242,15 +239,14 @@ public class EcorePlugin  extends EMFPlugin
    * @param uris a collections of {@link URI}s.
    * @return a map from platform resource URI to platform plugin URI.
    */
-  public static Map computePlatformResourceToPlatformPluginMap(Collection uris)
+  public static Map<URI, URI> computePlatformResourceToPlatformPluginMap(Collection<URI> uris)
   {
-    Map result = new HashMap();
+    Map<URI, URI> result = new HashMap<URI, URI>();
     IWorkspaceRoot root = getWorkspaceRoot();
     if (root != null)
     {
-      for (Iterator i = uris.iterator(); i.hasNext(); )
+      for (URI uri : uris)
       {
-        URI uri = (URI)i.next();
         if (uri.isPlatformPlugin())
         {
           String pluginID = uri.segment(1);
@@ -277,9 +273,9 @@ public class EcorePlugin  extends EMFPlugin
    * @see org.eclipse.emf.ecore.resource.URIConverter#getURIMap()
    * @see URI
    */
-  public static Map computePlatformPluginToPlatformResourceMap()
+  public static Map<URI, URI> computePlatformPluginToPlatformResourceMap()
   {
-    Map result = new HashMap();
+    Map<URI, URI> result = new HashMap<URI, URI>();
     IWorkspaceRoot root = getWorkspaceRoot();
     if (root != null)
     { 
@@ -291,6 +287,8 @@ public class EcorePlugin  extends EMFPlugin
         class Handler extends DefaultHandler
         {
           public String pluginID;
+
+          @Override
           public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
           {
             if ("".equals(uri) && "plugin".equals(localName))
@@ -299,7 +297,7 @@ public class EcorePlugin  extends EMFPlugin
             }
             throw new SAXException("Done");
           }
-        };
+        }
         Handler handler = new Handler();
         
         SAXParserFactory parserFactory= SAXParserFactory.newInstance();
@@ -406,11 +404,11 @@ public class EcorePlugin  extends EMFPlugin
    * @see #computePlatformPluginToPlatformResourceMap()
    * @see #computePlatformResourceToPlatformPluginMap(Collection)
    */
-  public static Map computePlatformURIMap()
+  public static Map<URI, URI> computePlatformURIMap()
   {
-    Map result = new HashMap();
+    Map<URI, URI> result = new HashMap<URI, URI>();
     result.putAll(computePlatformPluginToPlatformResourceMap());
-    result.putAll(computePlatformResourceToPlatformPluginMap(new HashSet(EcorePlugin.getEPackageNsURIToGenModelLocationMap().values())));
+    result.putAll(computePlatformResourceToPlatformPluginMap(new HashSet<URI>(EcorePlugin.getEPackageNsURIToGenModelLocationMap().values())));
     return result;
   }
   
@@ -418,13 +416,13 @@ public class EcorePlugin  extends EMFPlugin
    * The platform resource map.
    * @see #getPlatformResourceMap
    */
-  private static Map platformResourceMap;
+  private static Map<String, URI> platformResourceMap;
   
   /**
    * The map fro
    * @see #getPlatformResourceMap
    */
-  private static Map ePackageNsURIToGenModelLocationMap;
+  private static Map<String, URI> ePackageNsURIToGenModelLocationMap;
 
   /** 
    * A plugin implementation that handles Ecore plugin registration.
@@ -498,6 +496,7 @@ public class EcorePlugin  extends EMFPlugin
      * </p>
      * @throws Exception if there is a show stopping problem.
      */
+    @Override
     public void start(BundleContext context) throws Exception
     {
       super.start(context);
@@ -515,6 +514,7 @@ public class EcorePlugin  extends EMFPlugin
       {
         IConfigurationElement previous;
 
+        @Override
         protected boolean readElement(IConfigurationElement element)
         {
           if (element.getName().equals("registry"))

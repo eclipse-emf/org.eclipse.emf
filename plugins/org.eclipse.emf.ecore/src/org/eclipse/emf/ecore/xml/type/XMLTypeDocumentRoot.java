@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRoot.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: XMLTypeDocumentRoot.java,v 1.4 2006/12/05 20:22:27 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -49,10 +49,6 @@ public interface XMLTypeDocumentRoot extends EObject
    * Returns the value of the '<em><b>Mixed</b></em>' attribute list.
    * The list contents are of type {@link org.eclipse.emf.ecore.util.FeatureMap.Entry}.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Mixed</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Mixed</em>' attribute list.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_Mixed()
@@ -67,10 +63,6 @@ public interface XMLTypeDocumentRoot extends EObject
    * The key is of type {@link java.lang.String},
    * and the value is of type {@link java.lang.String},
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>XMLNS Prefix Map</em>' map isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>XMLNS Prefix Map</em>' map.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_XMLNSPrefixMap()
@@ -78,17 +70,13 @@ public interface XMLTypeDocumentRoot extends EObject
    *        extendedMetaData="kind='attribute' name='xmlns:prefix'"
    * @generated
    */
-  EMap getXMLNSPrefixMap();
+  EMap<String, String> getXMLNSPrefixMap();
 
   /**
    * Returns the value of the '<em><b>XSI Schema Location</b></em>' map.
    * The key is of type {@link java.lang.String},
    * and the value is of type {@link java.lang.String},
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>XSI Schema Location</em>' map isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>XSI Schema Location</em>' map.
    * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_XSISchemaLocation()
@@ -96,15 +84,11 @@ public interface XMLTypeDocumentRoot extends EObject
    *        extendedMetaData="kind='attribute' name='xsi:schemaLocation'"
    * @generated
    */
-  EMap getXSISchemaLocation();
+  EMap<String, String> getXSISchemaLocation();
 
   /**
    * Returns the value of the '<em><b>Text</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Text</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Text</em>' attribute.
    * @see #setText(String)
@@ -128,10 +112,6 @@ public interface XMLTypeDocumentRoot extends EObject
   /**
    * Returns the value of the '<em><b>CDATA</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>CDATA</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>CDATA</em>' attribute.
    * @see #setCDATA(String)
@@ -155,10 +135,6 @@ public interface XMLTypeDocumentRoot extends EObject
   /**
    * Returns the value of the '<em><b>Comment</b></em>' attribute.
    * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Comment</em>' attribute list isn't clear,
-   * there really should be more of a description here...
-   * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Comment</em>' attribute.
    * @see #setComment(String)

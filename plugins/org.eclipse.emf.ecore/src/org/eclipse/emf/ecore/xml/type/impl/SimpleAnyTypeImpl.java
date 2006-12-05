@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2003-2004 IBM Corporation and others.
+ * Copyright (c) 2003-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,9 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyTypeImpl.java,v 1.6 2005/11/23 18:10:02 emerks Exp $
+ * $Id: SimpleAnyTypeImpl.java,v 1.7 2006/12/05 20:22:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
-
-import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
@@ -89,6 +87,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XMLTypePackage.Literals.SIMPLE_ANY_TYPE;
@@ -102,9 +101,8 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
   public String getRawValue()
   {
     StringBuffer value = new StringBuffer();
-    for (Iterator i = getMixed().iterator(); i.hasNext(); )
+    for (FeatureMap.Entry entry : getMixed())
     {
-      FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
       if (entry.getEStructuralFeature() == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text())
       {
         value.append(entry.getValue());
@@ -175,6 +173,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -203,6 +202,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -220,7 +220,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
         setRawValue((String)newValue);
         return;
       case XMLTypePackage.SIMPLE_ANY_TYPE__VALUE:
-        setValue((Object)newValue);
+        setValue(newValue);
         return;
       case XMLTypePackage.SIMPLE_ANY_TYPE__INSTANCE_TYPE:
         setInstanceType((EDataType)newValue);
@@ -234,6 +234,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -265,6 +266,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
