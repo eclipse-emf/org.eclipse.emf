@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProvider.java,v 1.27 2006/05/15 19:34:39 davidms Exp $
+ * $Id: GenModelItemProvider.java,v 1.28 2006/12/05 20:36:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -119,6 +119,7 @@ public class GenModelItemProvider
       addArrayAccessorsPropertyDescriptor(object);
       addSuppressUnsettablePropertyDescriptor(object);
       addFacadeHelperClassPropertyDescriptor(object);
+      addComplianceLevelPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -1205,6 +1206,29 @@ public class GenModelItemProvider
   }
 
   /**
+   * This adds a property descriptor for the Compliance Level feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addComplianceLevelPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenModel_complianceLevel_feature"),
+         getString("_UI_GenModel_complianceLevel_description"),
+         GenModelPackage.Literals.GEN_MODEL__COMPLIANCE_LEVEL,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+         getString("_UI_AllPropertyCategory"),
+         null));
+  }
+
+  /**
    * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
@@ -1316,6 +1340,7 @@ public class GenModelItemProvider
       case GenModelPackage.GEN_MODEL__ARRAY_ACCESSORS:
       case GenModelPackage.GEN_MODEL__SUPPRESS_UNSETTABLE:
       case GenModelPackage.GEN_MODEL__FACADE_HELPER_CLASS:
+      case GenModelPackage.GEN_MODEL__COMPLIANCE_LEVEL:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:

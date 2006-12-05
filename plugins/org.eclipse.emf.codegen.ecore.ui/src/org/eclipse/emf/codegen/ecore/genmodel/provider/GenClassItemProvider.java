@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.13 2006/05/15 19:34:39 davidms Exp $
+ * $Id: GenClassItemProvider.java,v 1.14 2006/12/05 20:36:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -212,6 +212,7 @@ public class GenClassItemProvider
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
+      childrenFeatures.add(GenModelPackage.Literals.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS);
       childrenFeatures.add(GenModelPackage.Literals.GEN_CLASS__GEN_FEATURES);
       childrenFeatures.add(GenModelPackage.Literals.GEN_CLASS__GEN_OPERATIONS);
     }
@@ -294,6 +295,7 @@ public class GenClassItemProvider
       case GenModelPackage.GEN_CLASS__LABEL_FEATURE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
+      case GenModelPackage.GEN_CLASS__GEN_TYPE_PARAMETERS:
       case GenModelPackage.GEN_CLASS__GEN_FEATURES:
       case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));

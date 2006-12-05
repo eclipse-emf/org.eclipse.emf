@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenOperationItemProvider.java,v 1.10 2006/05/15 19:34:39 davidms Exp $
+ * $Id: GenOperationItemProvider.java,v 1.11 2006/12/05 20:36:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -171,6 +172,7 @@ public class GenOperationItemProvider
     {
       case GenModelPackage.GEN_OPERATION__ECORE_OPERATION:
       case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
+      case GenModelPackage.GEN_OPERATION__GEN_TYPE_PARAMETERS:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
     }

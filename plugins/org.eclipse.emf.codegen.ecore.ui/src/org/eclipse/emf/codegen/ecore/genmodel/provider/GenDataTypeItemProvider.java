@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeItemProvider.java,v 1.7 2005/06/08 06:17:51 nickb Exp $
+ * $Id: GenDataTypeItemProvider.java,v 1.8 2006/12/05 20:36:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
@@ -100,6 +101,24 @@ public class GenDataTypeItemProvider
   }
 
   /**
+   * This specifies how to implement {@link #getChildren} and is used to deduce an appropriate feature for an
+   * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
+   * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Collection getChildrenFeatures(Object object)
+  {
+    if (childrenFeatures == null)
+    {
+      super.getChildrenFeatures(object);
+      childrenFeatures.add(GenModelPackage.Literals.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS);
+    }
+    return childrenFeatures;
+  }
+
+  /**
    */
   public Object getImage(Object object)
   {
@@ -133,6 +152,9 @@ public class GenDataTypeItemProvider
       case GenModelPackage.GEN_DATA_TYPE__GEN_PACKAGE:
       case GenModelPackage.GEN_DATA_TYPE__ECORE_DATA_TYPE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
+        return;
+      case GenModelPackage.GEN_DATA_TYPE__GEN_TYPE_PARAMETERS:
+        fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
         return;
     }
     super.notifyChanged(notification);

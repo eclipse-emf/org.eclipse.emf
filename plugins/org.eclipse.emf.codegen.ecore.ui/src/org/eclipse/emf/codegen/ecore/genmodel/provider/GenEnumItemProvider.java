@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumItemProvider.java,v 1.11 2006/05/15 19:34:39 davidms Exp $
+ * $Id: GenEnumItemProvider.java,v 1.12 2006/12/05 20:36:20 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -31,10 +31,9 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
+import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
-// import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 
 /**
@@ -71,9 +70,33 @@ public class GenEnumItemProvider
     {
       super.getPropertyDescriptors(object);
 
+      addTypeSafeEnumCompatiblePropertyDescriptor(object);
       addEcoreEnumPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
+  }
+
+  /**
+   * This adds a property descriptor for the Type Safe Enum Compatible feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void addTypeSafeEnumCompatiblePropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (createItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_GenEnum_typeSafeEnumCompatible_feature"),
+         getString("_UI_GenEnum_typeSafeEnumCompatible_description"),
+         GenModelPackage.Literals.GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE,
+         true,
+         false,
+         false,
+         ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE,
+         getString("_UI_ModelPropertyCategory"),
+         null));
   }
 
   /**
@@ -146,6 +169,7 @@ public class GenEnumItemProvider
 
     switch (notification.getFeatureID(GenEnum.class))
     {
+      case GenModelPackage.GEN_ENUM__TYPE_SAFE_ENUM_COMPATIBLE:
       case GenModelPackage.GEN_ENUM__ECORE_ENUM:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
