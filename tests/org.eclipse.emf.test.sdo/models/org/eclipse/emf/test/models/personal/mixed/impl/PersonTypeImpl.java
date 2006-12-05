@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: PersonTypeImpl.java,v 1.1 2005/06/01 22:28:12 elena Exp $
+ * $Id: PersonTypeImpl.java,v 1.2 2006/12/05 20:31:59 emerks Exp $
  */
 package org.eclipse.emf.test.models.personal.mixed.impl;
 
@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -260,7 +261,7 @@ public class PersonTypeImpl extends EDataObjectImpl implements PersonType
    */
   public Sequence getAny()
   {
-    return new BasicESequence((FeatureMap.Internal)((ESequence)getMixed()).featureMap().list(MixedPackage.eINSTANCE.getPersonType_Any()));
+    return new BasicESequence((FeatureMap.Internal)(EList)((ESequence)getMixed()).featureMap().list(MixedPackage.eINSTANCE.getPersonType_Any()));
   }
 
   /**

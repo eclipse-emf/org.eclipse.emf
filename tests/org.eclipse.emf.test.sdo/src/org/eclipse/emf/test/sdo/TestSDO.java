@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestSDO.java,v 1.5 2005/06/12 14:07:57 emerks Exp $
+ * $Id: TestSDO.java,v 1.6 2006/12/05 20:31:59 emerks Exp $
  */
 package org.eclipse.emf.test.sdo;
 
@@ -132,7 +132,7 @@ public class TestSDO extends TestCase
     quote.setDouble("change1", 1000);
     
     Resource quoteResource = resourceSet.createResource(URI.createURI("quote.xml"));
-    quoteResource.getContents().add(quote);
+    quoteResource.getContents().add((EObject)quote);
     
     Map options = new HashMap();
     options.put(XMLResource.OPTION_LINE_WIDTH, new Integer(10));
