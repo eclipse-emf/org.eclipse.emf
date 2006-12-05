@@ -49,6 +49,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaCore;
@@ -72,16 +73,16 @@ import org.eclipse.emf.common.util.Monitor;
  */
 public class CodeGenUtil
 {
-  private static Set javaReservedWords;
+  private static Set<String> javaReservedWords;
 
   /**
    * Returns the set of all Java's keywords and textual literals, as of Java 5.0.
    */
-  public static Set getJavaReservedWords()
+  public static Set<String> getJavaReservedWords()
   {
     if (javaReservedWords == null)
     {
-      Set result = new HashSet(100);
+      Set<String> result = new HashSet<String>(100);
       result.add("abstract");
       result.add("assert");
       result.add("boolean");
@@ -140,18 +141,17 @@ public class CodeGenUtil
     return javaReservedWords;
   }
 
-  private static Set javaDefaultTypes;
+  private static Set<String> javaDefaultTypes;
 
   /**
    * Returns the short names of the primitives and types in java.lang (i.e. those
    * that don't need qualification).
    */
-  public static Set getJavaDefaultTypes()
+  public static Set<String> getJavaDefaultTypes()
   {
     if (javaDefaultTypes == null)
     {
-      Set result = new HashSet();
-      result = new HashSet(100);
+      Set<String> result = new HashSet<String>(100);
       result.add("AbstractMethodError");
       result.add("ArithmeticException");
       result.add("ArrayIndexOutOfBoundsException");
@@ -451,6 +451,7 @@ public class CodeGenUtil
   /**
    * @deprecated In 2.2. Please use {@link #format(String, char, String, boolean, boolean)} instead.
    */
+  @Deprecated
   public static String format(String name, char separator, String prefix, boolean includePrefix)
   {
     return format(name, separator, prefix, includePrefix, false);
@@ -471,7 +472,7 @@ public class CodeGenUtil
       name = name.substring(leadingSeparators.length());
     }
 
-    List parsedName = new ArrayList();
+    List<String> parsedName = new ArrayList<String>();
     if (prefix != null && 
           name.startsWith(prefix) && 
           name.length() > prefix.length() && Character.isUpperCase(name.charAt(prefix.length())))
@@ -487,9 +488,9 @@ public class CodeGenUtil
 
     StringBuffer result = new StringBuffer();
     
-    for (Iterator nameIter = parsedName.iterator(); nameIter.hasNext(); )
+    for (Iterator<String> nameIter = parsedName.iterator(); nameIter.hasNext(); )
     {
-      String nameComponent = (String)nameIter.next();
+      String nameComponent = nameIter.next();
       result.append(nameComponent);
 
       if (nameIter.hasNext() && nameComponent.length() > 1)
@@ -508,16 +509,19 @@ public class CodeGenUtil
   private static String getLeadingSeparators(String name, char separator)
   {
     int i = 0;
-    for (int len = name.length(); i < len && name.charAt(i) == separator; i++);
+    for (int len = name.length(); i < len && name.charAt(i) == separator; i++)
+    {
+      // the for loop's condition finds the separator 
+    }
     return i != 0 ? name.substring(0, i) : null;
   }
 
   /**
    * This method breaks sourceName into words delimited by separator and/or mixed-case naming.
    */
-  public static List parseName(String sourceName, char separator)
+  public static List<String> parseName(String sourceName, char separator)
   {
-    List result = new ArrayList();
+    List<String> result = new ArrayList<String>();
     if (sourceName != null)
     {
       StringBuffer currentWord = new StringBuffer();
@@ -565,6 +569,7 @@ public class CodeGenUtil
   /**
    * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#isInJavaOutput} instead. 
    */
+  @Deprecated
   public static boolean isInJavaOutput(IResource resource)
   {
     return EclipseUtil.isInJavaOutput(resource);
@@ -574,6 +579,7 @@ public class CodeGenUtil
    * This is a progress monitor that prints the progress information to a stream.
    * @deprecated As of EMF 2.2, moved to {@link CodeGenUtil.EclipseUtil.StreamProgressMonitor EcoreUtil}.
    */
+  @Deprecated
   public static class StreamProgressMonitor extends EclipseUtil.StreamProgressMonitor
   {
     public StreamProgressMonitor(PrintStream printStream)
@@ -585,6 +591,7 @@ public class CodeGenUtil
   /**
    * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#findOrCreateContainer(IPath, boolean, IPath, IProgressMonitor)} instead. 
    */
+  @Deprecated
   public static IContainer findOrCreateContainer
     (IPath path, boolean forceRefresh, IPath localLocation, IProgressMonitor progressMonitor) throws CoreException
   {
@@ -594,6 +601,7 @@ public class CodeGenUtil
   /**
    * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#findOrCreateContainer(IPath, boolean, IProjectDescription, IProgressMonitor)} instead. 
    */
+  @Deprecated
   public static IContainer findOrCreateContainer
     (IPath path, boolean forceRefresh, IProjectDescription projectDescription, IProgressMonitor progressMonitor) throws CoreException
   {
@@ -603,6 +611,8 @@ public class CodeGenUtil
   /**
    * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#getClasspathPaths} instead. 
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   public static List getClasspathPaths(String pluginID) throws JETException
   {
     return EclipseUtil.getClasspathPaths(pluginID);
@@ -611,6 +621,8 @@ public class CodeGenUtil
   /**
    * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#addClasspathEntries(Collection, String, String)} instead. 
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws JETException
   {
     EclipseUtil.addClasspathEntries(classpathEntries, variableName, pluginID);
@@ -619,6 +631,8 @@ public class CodeGenUtil
   /**
    * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#addClasspathEntries(Collection, String)} instead. 
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   public static void addClasspathEntries(Collection classpathEntries, String pluginID) throws Exception
   {
     EclipseUtil.addClasspathEntries(classpathEntries, pluginID);
@@ -633,13 +647,15 @@ public class CodeGenUtil
    */
   public static String getPackageName(String qualifiedClassName)
   {
-    int index = qualifiedClassName != null ? 
-      qualifiedClassName.lastIndexOf('.') : 
-      -1;
-      
-    return index >= 0 ? 
-      qualifiedClassName.substring(0, index) :
-      null;
+    if (qualifiedClassName != null)
+    {
+      int index = qualifiedClassName.lastIndexOf('.');
+      if (index >= 0)
+      {
+        return qualifiedClassName.substring(0, index);
+      }
+    }
+    return null;
   }
 
   /**
@@ -651,13 +667,15 @@ public class CodeGenUtil
    */
   public static String getSimpleClassName(String qualifiedClassName)
   {
-    int index = qualifiedClassName != null ? 
-      qualifiedClassName.lastIndexOf('.') : 
-      -1;
-      
-    return index >= 0 ? 
-      qualifiedClassName.substring(index+1) :
-      qualifiedClassName;
+    if (qualifiedClassName != null)
+    {
+      int index = qualifiedClassName.lastIndexOf('.');
+      if (index >= 0)
+      {
+        return qualifiedClassName.substring(index + 1);
+      }
+    }
+    return qualifiedClassName;
   }
 
   public static Monitor createMonitor(Monitor monitor, int ticks)
@@ -692,6 +710,7 @@ public class CodeGenUtil
       FindAndReplace findAndReplaceLeadingTabs = 
         new FindAndReplace(leadingTabs)
         {
+          @Override
           public boolean handleMatch(int offset, Matcher matcher)
           {
             if (matcher.groupCount() >= 1)
@@ -716,6 +735,7 @@ public class CodeGenUtil
       FindAndReplace findAndReplaceLineWithJustABrace = 
         new FindAndReplace(braceLine)
         {
+          @Override
           public boolean handleMatch(int offset, Matcher matcher)
           {
             if (matcher.groupCount() >= 1)
@@ -854,7 +874,7 @@ public class CodeGenUtil
   {
     try
     {
-      Class cls = Class.forName(facadeHelperClass);
+      Class<?> cls = Class.forName(facadeHelperClass);
       Object object = cls.newInstance();
       if (object instanceof FacadeHelper)
       {
@@ -865,13 +885,9 @@ public class CodeGenUtil
     {
     }
       
-    if (CodeGenPlugin.IS_ECLIPSE_RUNNING)
+    if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
-      FacadeHelper facadeHelper = EclipseHelper.instantiateRegisteredFacadeHelper(facadeHelperClass);
-      if (facadeHelper != null)
-      {
-        return facadeHelper;
-      }
+      return EclipseHelper.instantiateRegisteredFacadeHelper(facadeHelperClass);
     }
     return null;
   }
@@ -887,6 +903,7 @@ public class CodeGenUtil
         this.printStream = printStream;
       }
 
+      @Override
       public void beginTask(String name, int totalWork)
       {
         if (name != null && name.length() != 0)
@@ -896,6 +913,7 @@ public class CodeGenUtil
         super.beginTask(name, totalWork);
       }
 
+      @Override
       public void setTaskName(String name)
       {
         if (name != null && name.length() != 0)
@@ -905,6 +923,7 @@ public class CodeGenUtil
         super.setTaskName(name);
       }
 
+      @Override
       public void subTask(String name)
       {
         if (name != null && name.length() != 0)
@@ -935,9 +954,9 @@ public class CodeGenUtil
       return false;
     }  
 
-    public static List getClasspathPaths(String pluginID) throws JETException
+    public static List<String> getClasspathPaths(String pluginID) throws JETException
     {
-      List result = new ArrayList();
+      List<String> result = new ArrayList<String>();
       try
       {
         Bundle bundle = Platform.getBundle(pluginID);
@@ -994,11 +1013,11 @@ public class CodeGenUtil
       return result;
     }
 
-    public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws JETException
+    public static void addClasspathEntries(Collection<IClasspathEntry> classpathEntries, String variableName, String pluginID) throws JETException
     {
-      for (ListIterator i = getClasspathPaths(pluginID).listIterator(); i.hasNext(); )
+      for (ListIterator<String> i = getClasspathPaths(pluginID).listIterator(); i.hasNext(); )
       {
-        IPath path = new Path((String)i.next());
+        IPath path = new Path(i.next());
         if (variableName == null)
         {
           classpathEntries.add(JavaCore.newLibraryEntry(path, null, null));
@@ -1019,7 +1038,7 @@ public class CodeGenUtil
       }
     }
 
-    public static void addClasspathEntries(Collection classpathEntries, String pluginID) throws JETException
+    public static void addClasspathEntries(Collection<IClasspathEntry> classpathEntries, String pluginID) throws JETException
     {
       addClasspathEntries(classpathEntries, null, pluginID);
     }
