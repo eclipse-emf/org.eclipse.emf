@@ -1,5 +1,5 @@
 /**
- * <copyright>
+* <copyright>
  *
  * Copyright (c) 2002-2005 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.13 2005/12/13 23:15:50 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.14 2006/12/05 20:32:41 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -44,6 +44,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
@@ -52,6 +53,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -90,6 +92,10 @@ public class RoseEcoreBuilder implements RoseVisitor
   protected EReference ref2 = null;
   protected RoseNode role1 = null;
   protected RoseNode role2 = null;
+  protected EGenericType eGenericType1;
+  protected EGenericType eGenericType2;
+  
+  protected Set<EAttribute> attributesToConvert = new HashSet<EAttribute>();
 
   public RoseEcoreBuilder(RoseUtil roseUtil)
   {
@@ -368,10 +374,28 @@ public class RoseEcoreBuilder implements RoseVisitor
     // Map to an EOperation.
     EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
     String operationName = roseNode.getOperationName();
+    String rawName = operationName;
     if (operationName == null || operationName.length() == 0)
     {
+      rawName = objectName;
       operationName = validName(objectName);
     }
+
+    int index = rawName.lastIndexOf(">");
+    if (index != -1)
+    {
+      if (rawName.startsWith("<"))
+      {
+        String templateParameters = rawName.substring(1, index);
+        eOperation.getETypeParameters().addAll(parseTemplateParameters(templateParameters));
+      }
+      operationName = rawName.substring(index + 1).trim();
+      if (roseNode.getOperationName() == null || roseNode.getOperationName().length() == 0)
+      {
+        operationName = validName(operationName);
+      }
+    }
+
     eOperation.setName(operationName);
     roseNode.setNode(eOperation);
     setResultType(roseNode, eOperation);
@@ -433,6 +457,10 @@ public class RoseEcoreBuilder implements RoseVisitor
         {
           literalName = validName(objectName);
         }
+        else
+        {
+          eEnumLiteral.setLiteral(objectName);
+        }
         eEnumLiteral.setName(literalName);
         roseNode.setNode(eEnumLiteral);
         if (!setEEnumLiteralProperties(roseNode, eEnumLiteral))
@@ -462,7 +490,18 @@ public class RoseEcoreBuilder implements RoseVisitor
       if ((parent instanceof EDataType || parent instanceof EClass) && "javaclass".equalsIgnoreCase(stereoTypeValue))
       {
         roseUtil.typeTable.remove(parent);
-        ((EClassifier)parent).setInstanceClassName(objectName);
+        ((EClassifier)parent).setInstanceTypeName(objectName);
+      }
+      else if ((parent instanceof EDataType || parent instanceof EClass) && "parameter".equalsIgnoreCase(stereoTypeValue))
+      {
+        String attributeName = roseNode.getAttributeName();
+        if (attributeName == null || attributeName.length() == 0)
+        {
+          attributeName = objectName;
+        }
+        ETypeParameter eTypeParameter = parseTemplateParameter(attributeName);
+        roseNode.setNode(eTypeParameter);
+        ((EClassifier)parent).getETypeParameters().add(eTypeParameter);
       }
       else if (parent instanceof EClass)
       {
@@ -472,14 +511,21 @@ public class RoseEcoreBuilder implements RoseVisitor
         {
           attributeName = validName(objectName);
         }
-
+  
         eAttribute.setName(attributeName);
         roseNode.setNode(eAttribute);
-        setEAttributeProperties(roseNode, eAttribute);
         ((EClass)parent).getEStructuralFeatures().add(eAttribute);
+        setEAttributeProperties(roseNode, eAttribute);
         if (eAttribute.getUpperBound() == 0)
         {
           eAttribute.setUpperBound(1);
+        }
+
+        // Convert to an EReference.
+        //
+        if ("reference".equals(stereoTypeValue))
+        {
+          attributesToConvert.add(eAttribute);
         }
       }
     }
@@ -500,20 +546,43 @@ public class RoseEcoreBuilder implements RoseVisitor
     EReference ref = EcoreFactory.eINSTANCE.createEReference();
     ref.setUpperBound(0);
     String referenceName = roseNode.getReferenceName();
+    String rawName = referenceName;
     if (referenceName == null || referenceName.length() == 0)
     {
+      rawName = objectName;
       referenceName = validName(objectName);
     }
+
+    EGenericType eGenericType = null;
+    int index = rawName.indexOf("<");
+    if (index != -1)
+    {
+      eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+      if (rawName.endsWith(">"))
+      {
+        String templateArguments = rawName.substring(index + 1, rawName.length() - 1);
+        eGenericType.getETypeArguments().addAll(parseTemplateArguments(templateArguments));
+      }
+      ref.setEGenericType(eGenericType);
+      referenceName = rawName.substring(0, index);
+      if (roseNode.getReferenceName() == null || roseNode.getReferenceName().length() == 0)
+      {
+        referenceName = validName(referenceName);
+      }
+    }
+
     ref.setName(referenceName);
     roseNode.setNode(ref);
     setEReferenceProperties(roseNode, ref);
     if (ref1 == null)
     {
       ref1 = ref;
+      eGenericType1 = eGenericType;
     }
     else if (ref2 == null)
     {
       ref2 = ref;
+      eGenericType2 = eGenericType;
     }
     if (role1 == null)
     {
@@ -545,14 +614,14 @@ public class RoseEcoreBuilder implements RoseVisitor
         TableObject obj = (TableObject)roseUtil.quidTable.get(ref1Quidu);
         if (obj != null)
         {
-          roseUtil.typeTable.put(ref1, obj.getName());
+          roseUtil.typeTable.put(eGenericType1 == null ? ref1 : eGenericType1, obj.getName());
         }
         else
         {
           warning(RoseImporterPlugin.INSTANCE.getString("_UI_UnresolvedTypeNameFor_message", new Object []{
             role1.getRoseSupplier(),
             ref1.getName() }));
-          roseUtil.typeTable.put(ref1, "EObject");
+          roseUtil.typeTable.put(eGenericType1 == null ? ref1 : eGenericType1, "EObject");
         }
       }
       if (ref2Navigable)
@@ -563,14 +632,14 @@ public class RoseEcoreBuilder implements RoseVisitor
         TableObject obj = (TableObject)roseUtil.quidTable.get(ref2Quidu);
         if (obj != null)
         {
-          roseUtil.typeTable.put(ref2, obj.getName());
+          roseUtil.typeTable.put(eGenericType2 == null ? ref2 : eGenericType2, obj.getName());
         }
         else
         {
           warning(RoseImporterPlugin.INSTANCE.getString("_UI_UnresolvedTypeNameFor_message", new Object []{
             role2.getRoseSupplier(),
             ref2.getName() }));
-          roseUtil.typeTable.put(ref2, "EObject");
+          roseUtil.typeTable.put(eGenericType2 == null ? ref2 : eGenericType2, "EObject");
         }
       }
     }
@@ -618,6 +687,19 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   protected void setResultType(RoseNode roseNode, EOperation eOperation)
   {
+    /*
+    String name = roseNode.getResult();
+    for (ETypeParameter eTypeParameter : eOperation.getETypeParameters())
+    {
+      if (eTypeParameter.getName().equals(name))
+      {
+        EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+        eGenericType.setETypeParameter(eTypeParameter);
+        eOperation.setEGenericType(eGenericType);
+        return;
+      }
+    }
+    */
     String quid = roseNode.getRoseRefId();
     if (quid != null && !quid.equals(""))
     {
@@ -640,7 +722,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         if (!resultValue.equals(""))
         {
-          roseUtil.typeTable.put(eOperation, resultValue);
+          eOperation.setEGenericType(parseTemplateArgument(resultValue));
         }
         else
         {
@@ -871,6 +953,13 @@ public class RoseEcoreBuilder implements RoseVisitor
         {
           exception = exception.substring(0, exception.indexOf("["));
         }
+          
+        if (exception != null && !exception.equals(""))
+        {
+          EGenericType eGenericType = parseTemplateArgument(exception);
+          eOperation.getEGenericExceptions().add(eGenericType);
+        }
+        /*
         String exceptionValue = getQualifiedTypeName(eOperation, exception);
         if (exceptionValue != null && !exceptionValue.equals(""))
         {
@@ -879,6 +968,7 @@ public class RoseEcoreBuilder implements RoseVisitor
           eAnnotation.getDetails().put("position", Integer.toString(count++));
           roseUtil.typeTable.put(eAnnotation, exceptionValue);
         }
+        */
         else
         {
           warning(RoseImporterPlugin.INSTANCE.getString("_UI_UnresolvedTypeNameFor_message", new Object []{
@@ -931,15 +1021,15 @@ public class RoseEcoreBuilder implements RoseVisitor
     }
     else
     {
-      String type = getQualifiedTypeName(eAttribute, roseNode.getType());
-      if (type != null && !type.equals(""))
-      {
-        roseUtil.typeTable.put(eAttribute, type);
-      }
-      else
+      String roseType = roseNode.getType();
+      if (roseType == null || roseType.equals(""))
       {
         roseUtil.typeTable.put(eAttribute, "String");
         warning(RoseImporterPlugin.INSTANCE.getString("_UI_AttributeDoesNotDefineItsType_message", new Object []{ eAttribute.getName() }));
+      }
+      else
+      {
+        eAttribute.setEGenericType(parseTemplateArgument(roseType));
       }
     }
 
@@ -1249,6 +1339,19 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   protected void setEParameterProperties(RoseNode roseNode, EParameter eParameter)
   {
+    /*
+    String name = roseNode.getType();
+    for (ETypeParameter eTypeParameter : eParameter.getEOperation().getETypeParameters())
+    {
+      if (eTypeParameter.getName().equals(name))
+      {
+        EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+        eGenericType.setETypeParameter(eTypeParameter);
+        eParameter.setEGenericType(eGenericType);
+        return;
+      }
+    }
+    */
     setEModelElementProperties(roseNode, eParameter);
     String quid = roseNode.getRoseRefId();
     if (quid != null && !quid.equals(""))
@@ -1273,7 +1376,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       String type = getQualifiedTypeName(eParameter, roseNode.getType());
       if (type != null && !type.equals(""))
       {
-        roseUtil.typeTable.put(eParameter, type);
+        eParameter.setEGenericType(parseTemplateArgument(type));
       }
       else
       {
@@ -1313,8 +1416,8 @@ public class RoseEcoreBuilder implements RoseVisitor
       {
         // Order first by number of features (descending) and then alphabetically (ascending)
         //
-        EClass c1 = (EClass)o1;
-        EClass c2 = (EClass)o2;
+        EClass c1 = (EClass)(o1 instanceof EGenericType ? ((EGenericType)o1).getEClassifier() : o1);
+        EClass c2 = (EClass)(o2 instanceof EGenericType ? ((EGenericType)o2).getEClassifier() : o2);
         int count1 = c1.getEAllAttributes().size() + c1.getEAllReferences().size();
         int count2 = c2.getEAllAttributes().size() + c2.getEAllReferences().size();
         if (count1 < count2)
@@ -1350,24 +1453,39 @@ public class RoseEcoreBuilder implements RoseVisitor
             if (superObject instanceof EClass)
             {
               EClass superClass = (EClass)superObject;
+              EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+              eGenericType.setEClassifier(superClass);
+              if (stereotype != null)
+              {
+                int start = stereotype.indexOf("<");
+                if (start != -1)
+                {
+                  if (stereotype.endsWith(">"))
+                  {
+                    String templateArguments = stereotype.substring(start + 1, stereotype.length() - 1);
+                    eGenericType.getETypeArguments().addAll(parseTemplateArguments(templateArguments));
+                  }
+                  stereotype = stereotype.substring(0, start);
+                }
+              }
               if (!superClass.isInterface())
               {
                 if ("extend".equals(stereotype))
                 {
-                  extend.add(superObject);
+                  extend.add(eGenericType);
                 }
                 else if ("mixin".equals(stereotype))
                 {
-                  mixin.add(superObject);
+                  mixin.add(eGenericType);
                 }
                 else
                 {
-                  unspecified.add(superObject);
+                  unspecified.add(eGenericType);
                 }
               }
               else
               {
-                nonClass.add(superObject);
+                nonClass.add(eGenericType);
               }
             }
             else
@@ -1386,10 +1504,17 @@ public class RoseEcoreBuilder implements RoseVisitor
 
         superMap.put(eClass, new List []{ extend, unspecified, mixin });
 
+        eClass.getEGenericSuperTypes().addAll(extend);
+        eClass.getEGenericSuperTypes().addAll(unspecified);
+        eClass.getEGenericSuperTypes().addAll(mixin);
+        eClass.getEGenericSuperTypes().addAll(nonClass);
+
+        /*
         eClass.getESuperTypes().addAll(extend);
         eClass.getESuperTypes().addAll(unspecified);
         eClass.getESuperTypes().addAll(mixin);
         eClass.getESuperTypes().addAll(nonClass);
+        */
       }
       else
       {
@@ -1415,13 +1540,164 @@ public class RoseEcoreBuilder implements RoseVisitor
       List combined = new UniqueEList(collections[0]);
       combined.addAll(collections[1]);
       combined.addAll(collections[2]);
-      EList eSuper = eClass.getESuperTypes();
+      EList eSuper = eClass.getEGenericSuperTypes();
       for (ListIterator ordered = combined.listIterator(); ordered.hasNext();)
       {
         Object eSuperItem = ordered.next();
         eSuper.move(ordered.previousIndex(), eSuperItem);
       }
     }
+  }
+  
+  protected List<ETypeParameter> parseTemplateParameters(String templateParameters)
+  {
+    List<ETypeParameter> result = new ArrayList<ETypeParameter>();
+    int start = 0;
+    int depth = 0;
+    for (int i = 0, length = templateParameters.length(); i < length; ++i)
+    {
+      char character = templateParameters.charAt(i);
+      switch (character)
+      {
+        case ' ':
+        {
+          if (start == i)
+          {
+            ++start;
+          }
+          break;
+        }
+        case '<':
+        {
+          ++depth;
+          break;
+        }
+        case '>':
+        {
+          --depth;
+          break;
+        }
+        case ',':
+        {
+          if (depth == 0)
+          {
+            result.add(parseTemplateParameter(templateParameters.substring(start, i).trim()));
+            start = i + 1;
+          }
+          break;
+        }
+      }
+    }
+    result.add(parseTemplateParameter(templateParameters.substring(start).trim()));
+    return result;
+  }
+
+  ETypeParameter parseTemplateParameter(String templateParameter)
+  {
+    ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
+    int index = templateParameter.indexOf(" extends ");
+    int length = templateParameter.length();
+    if (index == -1)
+    {
+      eTypeParameter.setName(templateParameter);
+    }
+    else
+    {
+      eTypeParameter.setName(templateParameter.substring(0, index).trim());
+      String bounds = templateParameter.substring(index + 9).trim();
+      for (StringTokenizer stringTokenizer = new StringTokenizer(bounds, "&"); stringTokenizer.hasMoreTokens(); )
+      {
+        String templateArgument = stringTokenizer.nextToken().trim();
+        eTypeParameter.getEBounds().add(parseTemplateArgument(templateArgument));
+      }
+    }
+    return eTypeParameter;
+  }
+
+  protected List<EGenericType> parseTemplateArguments(String templateArguments)
+  {
+    List<EGenericType> result = new ArrayList<EGenericType>();
+    int start = 0;
+    int depth = 0;
+    for (int i = 0, length = templateArguments.length(); i < length; ++i)
+    {
+      char character = templateArguments.charAt(i);
+      switch (character)
+      {
+        case ' ':
+        {
+          if (start == i)
+          {
+            ++ start;
+          }
+          break;
+        }
+        case '<':
+        {
+          ++depth;
+          break;
+        }
+        case '>':
+        {
+          --depth;
+          break;
+        }
+        case ',':
+        {
+          if (depth == 0)
+          {
+            result.add(parseTemplateArgument(templateArguments.substring(start, i).trim()));
+            start = i + 1;
+          }
+          break;
+        }
+      }
+    }
+    result.add(parseTemplateArgument(templateArguments.substring(start).trim()));
+    return result;
+  }
+  
+  EGenericType parseTemplateArgument(String templateArgument)
+  {
+    EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+    int index = 0;
+    int length = templateArgument.length();
+    if (index < length)
+    {
+      if (templateArgument.charAt(index) == '?')
+      {
+        ++index;
+        while (index < length && Character.isWhitespace(templateArgument.charAt(index)))
+        {
+          ++index;
+        }
+        if (templateArgument.indexOf("extends ") == index)
+        {
+          eGenericType.setEUpperBound(parseTemplateArgument(templateArgument.substring(index + 8).trim()));
+          
+        }
+        else if (templateArgument.indexOf("super ") == index)
+        {
+          eGenericType.setELowerBound(parseTemplateArgument(templateArgument.substring(index + 6).trim()));
+        }
+      }
+      else
+      {
+        index = templateArgument.indexOf('<', index);
+        String name;
+        if (index == -1)
+        {
+          name = templateArgument;
+        }
+        else
+        {
+          name = templateArgument.substring(0, index);
+          eGenericType.getETypeArguments().addAll(parseTemplateArguments(templateArgument.substring(index + 1, length - 1)));
+        }
+        roseUtil.typeTable.put(eGenericType, name);
+      }
+    }
+    return eGenericType;
   }
 
   public void setIDs(final EObject parent, EObject child)
@@ -1806,7 +2082,7 @@ public class RoseEcoreBuilder implements RoseVisitor
     //
     for (Iterator it = roseUtil.typeTable.keySet().iterator(); it.hasNext();)
     {
-      EModelElement element = (EModelElement)it.next();
+      EObject element = (EObject)it.next();
       String type = (String)roseUtil.typeTable.get(element);
       int position = -1;
       if (element instanceof EAnnotation)
@@ -1815,33 +2091,50 @@ public class RoseEcoreBuilder implements RoseVisitor
         element = (EModelElement)((EAnnotation)element).getReferences().get(0);
       }
       TableObject tableObj = null;
+      ETypeParameter resolvedETypeParameter = null;
       if (type.indexOf(".") == -1)
       {
         String qualifier = "";
+        LOOP:
         for (EObject parent = element.eContainer(); parent != null; parent = parent.eContainer())
         {
+          if (parent instanceof EClass || parent instanceof EOperation)
+          {
+            for (ETypeParameter eTypeParameter : 
+                   parent instanceof EClass ? ((EClass)parent).getETypeParameters() : ((EOperation)parent).getETypeParameters())
+            {
+              if (type.equals(eTypeParameter.getName()))
+              {
+                resolvedETypeParameter = eTypeParameter;
+                break LOOP;
+              }
+            }
+          }
           if (parent instanceof EPackage)
           {
             qualifier = ((EPackage)parent).getName() + "." + qualifier;
           }
         }
-        tableObj = (TableObject)roseUtil.nameTable.get(qualifier + type);
+        if (resolvedETypeParameter == null)
+        {
+          tableObj = (TableObject)roseUtil.nameTable.get(qualifier + type);
+        }
       }
 
-      if (tableObj == null)
+      if (resolvedETypeParameter == null && tableObj == null)
       {
         tableObj = (TableObject)roseUtil.nameTable.get(type);
       }
 
       EClassifier eType;
 
-      if (tableObj != null && tableObj.getObject() != null && element instanceof ETypedElement)
+      if (tableObj != null && tableObj.getObject() != null && (element instanceof ETypedElement || element instanceof EGenericType))
       {
         // Convert attributes of with EClass type to references.
         //
         eType = (EClassifier)tableObj.getObject();
       }
-      else
+      else if (resolvedETypeParameter == null)
       {
         // It was not found in the model class so check if primitive type.
         //
@@ -1849,14 +2142,40 @@ public class RoseEcoreBuilder implements RoseVisitor
 
         if (eType == null)
         {
+          EObject eNamedElement = element;
+          while (!(eNamedElement instanceof ENamedElement))
+          {
+            eNamedElement = eNamedElement.eContainer();
+          }
           warning(RoseImporterPlugin.INSTANCE.getString("_UI_UnresolvedTypeNameFor_message", new Object []{
             type,
-            ((ENamedElement)element).getName() }));
+            ((ENamedElement)eNamedElement).getName() }));
           eType = getBasicType("EString");
         }
       }
+      else
+      {
+        // TODO So what should be the eType be now?
+        //
+        eType = getBasicType("EString");
+      }
 
-      if (element instanceof EAttribute && eType instanceof EClass)
+      EGenericType eGenericType = null;
+      if (element instanceof EGenericType)
+      {
+        eGenericType = (EGenericType)element;
+        if (resolvedETypeParameter == null)
+        {
+          eGenericType.setEClassifier(eType);
+        }
+        else
+        {
+          eGenericType.setETypeParameter(resolvedETypeParameter);
+        }
+        element = element.eContainer();
+      }
+
+      if (element instanceof EAttribute && eType instanceof EClass || attributesToConvert.contains(element))
       {
         EAttribute eAttribute = (EAttribute)element;
         EReference eReference = EcoreFactory.eINSTANCE.createEReference();
@@ -1927,7 +2246,10 @@ public class RoseEcoreBuilder implements RoseVisitor
 
       if (element instanceof EDataType)
       {
-        ((EDataType)element).setInstanceClassName(eType.getInstanceClassName());
+        if (eGenericType == null)
+        {
+          ((EDataType)element).setInstanceClassName(eType.getInstanceClassName());
+        }
       }
       else if (position != -1)
       {
@@ -1944,9 +2266,19 @@ public class RoseEcoreBuilder implements RoseVisitor
           }
         }
       }
-      else
+      else if (element instanceof ETypedElement)
       {
-        ((ETypedElement)element).setEType(eType);
+        if (eGenericType != null)
+        {
+          if (!(element instanceof EOperation) || !((EOperation)element).getEGenericExceptions().contains(eGenericType))
+          {
+            ((ETypedElement)element).setEGenericType(eGenericType);
+          }
+        }
+        else
+        {
+          ((ETypedElement)element).setEType(eType);
+        }
 
         if (element instanceof EStructuralFeature)
         {
@@ -2102,7 +2434,7 @@ public class RoseEcoreBuilder implements RoseVisitor
 
     if (parent instanceof EPackage)
     {
-      ((EPackage)parent).getEClassifiers().add(eNamedElement);
+      ((EPackage)parent).getEClassifiers().add((EClassifier)eNamedElement);
     }
     else if (parent instanceof EList)
     {
@@ -2135,6 +2467,11 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   protected String getQualifiedTypeName(ETypedElement typedElement, String type)
   {
+    return getQualifiedTypeName((EModelElement)typedElement, type);
+  }
+
+  protected String getQualifiedTypeName(EModelElement eModelElement, String type)
+  {
     // try to retrieve the fully qualified name of the specified type...
     if (null == type || type.length() == 0 || "void".equals(type))
     {
@@ -2165,10 +2502,10 @@ public class RoseEcoreBuilder implements RoseVisitor
     }
 
     // qualify type name if not already qualified...
-    if (qualifiedType.indexOf('.') == -1)
+    if (qualifiedType.indexOf('.') == -1 && eModelElement != null)
     {
       String qualifier = "";
-      for (EObject parent = typedElement.eContainer(); null != parent; parent = parent.eContainer())
+      for (EObject parent = eModelElement.eContainer(); null != parent; parent = parent.eContainer())
       {
         if (parent instanceof EPackage)
         {

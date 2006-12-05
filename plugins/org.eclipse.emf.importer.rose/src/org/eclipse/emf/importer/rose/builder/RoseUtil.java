@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseUtil.java,v 1.6 2005/11/23 21:46:00 davidms Exp $
+ * $Id: RoseUtil.java,v 1.7 2006/12/05 20:32:41 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class RoseUtil
   protected Map nameTable = new HashMap();
   protected Map superTable = new HashMap();
   protected Map refTable = new HashMap();
-  protected Map typeTable = new HashMap();
+  protected Map typeTable = new LinkedHashMap();
   protected Map primitiveTable = new HashMap();
   protected Map variableToDirectoryMap = new HashMap();
   protected Map packageNameToNSNameMap = new HashMap();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseLoader.java,v 1.5 2006/10/16 03:45:07 davidms Exp $
+ * $Id: RoseLoader.java,v 1.6 2006/12/05 20:32:42 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -143,14 +143,17 @@ public class RoseLoader extends RoseComponent
     try
     {
       String line = bufferedReader.readLine();
-      currentLength += line.length();
-      if (length > 0)
+      if (line != null)
       {
-        int newValue = lower + (int)(currentLength * (upper - lower) / length);
-        if (newValue >= oldValue + progressIncrement && newValue < upper)
+        currentLength += line.length();
+        if (length > 0)
         {
-          firePropertyChange(PROGRESS, oldValue, newValue);
-          oldValue = newValue;
+          int newValue = lower + (int)(currentLength * (upper - lower) / length);
+          if (newValue >= oldValue + progressIncrement && newValue < upper)
+          {
+            firePropertyChange(PROGRESS, oldValue, newValue);
+            oldValue = newValue;
+          }
         }
       }
       return line;
