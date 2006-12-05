@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.27 2006/10/18 02:11:34 davidms Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.28 2006/12/05 20:32:49 emerks Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -351,7 +351,7 @@ public class JavaEcoreBuilder
           {
             if (eClassifier != EcorePackage.Literals.EOBJECT)
             {
-              eClass.getESuperTypes().add(eClassifier);
+              eClass.getESuperTypes().add((EClass)eClassifier);
               used(eClassifier);
             }
           }
@@ -1243,7 +1243,8 @@ public class JavaEcoreBuilder
       // The method is not a structural feature, so it's modeled as an operation.
       //
       EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
-      eClass.getEOperations().add(eTypedElement = eOperation);
+      eTypedElement = eOperation;
+      eClass.getEOperations().add(eOperation);
 
       handleETypedElement(eOperation, methodName, returnType, modelAnnotation, eClass.getName() + "." + methodName);
       
@@ -1328,7 +1329,8 @@ public class JavaEcoreBuilder
       if (opposite != null || containment != null || resolveProxies != null || mapType != null || (keyType != null && valueType != null))
       {
         EReference eReference = EcoreFactory.eINSTANCE.createEReference();
-        eClass.getEStructuralFeatures().add(eTypedElement = eStructuralFeature = eReference);
+        eTypedElement = eStructuralFeature = eReference;
+        eClass.getEStructuralFeatures().add(eReference);
 
         // Set the EReference attributes.
         //
@@ -1350,7 +1352,8 @@ public class JavaEcoreBuilder
         // It will/could become a reference if the type resolves to an EClass.
         //
         EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
-        eClass.getEStructuralFeatures().add(eTypedElement = eStructuralFeature = eAttribute);
+        eTypedElement = eStructuralFeature = eAttribute;
+        eClass.getEStructuralFeatures().add(eAttribute);
 
         // Set the EAttribute attributes.
         //
