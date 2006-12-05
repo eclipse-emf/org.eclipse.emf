@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.6 2006/11/13 16:32:20 marcelop Exp $
+ * $Id: JMerger.java,v 1.7 2006/12/05 00:22:42 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -965,7 +965,6 @@ public class JMerger
     JNode targetNode = getControlModel().getFacadeHelper().cloneNode(context, sourceNode);
     if (targetNode != null)
     {
-      map(sourceNode, targetNode);
       mapChildren(sourceNode, targetNode);
     }
     else
