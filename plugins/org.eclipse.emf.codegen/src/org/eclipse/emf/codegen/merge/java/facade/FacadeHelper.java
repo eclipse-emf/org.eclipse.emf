@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.2 2006/11/01 21:27:15 marcelop Exp $
+ * $Id: FacadeHelper.java,v 1.3 2006/12/05 06:15:21 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -105,7 +105,7 @@ public abstract class FacadeHelper
 
   /**
    * Returns the context of a node.  The context is usually
-   * an object that would be used to create a child or sibiling of the node.
+   * an object that would be used to create a child or sibling of the node.
    * @return the context of a node.
    */  
   public abstract Object getContext(JNode node);
@@ -244,11 +244,11 @@ public abstract class FacadeHelper
   }  
   
   /**
-   * Returns the sibiling of the specified node that is located 
+   * Returns the sibling of the specified node that is located 
    * in a specific position relative to the node.
    * @param node
-   * @param index position of the sibiling, relative to the node (can be a negative number)
-   * @return the sibiling, or <code>null</code> if this node has no children
+   * @param index position of the sibling, relative to the node (can be a negative number)
+   * @return the sibling, or <code>null</code> if this node has no children
    * @see #getChildren()
    */    
   public JNode getSibiling(JNode node, int pos)
@@ -270,7 +270,7 @@ public abstract class FacadeHelper
    * specified node.
    * @param node the parent of the child to be added
    * @param child the new child node
-   * @return whether the opearation was succesful.
+   * @return whether the operation was successful.
    * @see #insertSibling(JNode, JNode)
    * @see #remove(JNode)
    */
@@ -292,9 +292,9 @@ public abstract class FacadeHelper
   /**
    * Inserts the given un-parented node as a sibling of the specified node, immediately 
    * before or after it.
-   * @param node the node that will be after the new sibiling
+   * @param node the node that will be after the new sibling
    * @param newSibling the new sibling node
-   * @param before whether the sibiling should be added before the node
+   * @param before whether the sibling should be added before the node
    * @see #addChild(JNode, JNode)
    * @see #remove(JNode)
    */
@@ -338,7 +338,7 @@ public abstract class FacadeHelper
    * is removed from its host document may still be dependent on that host document 
    * until it is inserted into a different document. Removing a root node has no effect.
    * @param node the node to be removed
-   * @return whether the operation was succesful.
+   * @return whether the operation was successful.
    * @see #addChild(JNode, JNode)
    * @see #insertSibling(JNode, JNode)
    */
@@ -369,7 +369,10 @@ public abstract class FacadeHelper
    */
   public String applyFormatRules(String value)
   {
-    return CodeGenUtil.convertFormat(getControlModel().getLeadingTabReplacement(), getControlModel().convertToStandardBraceStyle(), value);
+    // do not crash when control model is not set
+    return getControlModel() == null ?
+      value :
+      CodeGenUtil.convertFormat(getControlModel().getLeadingTabReplacement(), getControlModel().convertToStandardBraceStyle(), value);
   }
   
   /**
