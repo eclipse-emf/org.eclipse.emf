@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Ecore2XSDTest.java,v 1.2 2005/06/08 06:20:41 nickb Exp $
+ * $Id: Ecore2XSDTest.java,v 1.3 2006/12/05 20:31:51 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -31,6 +31,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -158,7 +159,7 @@ public class Ecore2XSDTest extends TestCase
     Collection c = ecoreXSDBuilder.generate((EPackage)ecore.getContents().get(0));
 
     Resource schema = rs.createResource(URI.createURI("my.xsd"));
-    schema.getContents().add(c.iterator().next());
+    schema.getContents().add((EObject)c.iterator().next());
     ByteArrayOutputStream outputstream = new ByteArrayOutputStream(2064);
     schema.save(outputstream, null);
 
