@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.5 2006/11/16 20:08:23 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.6 2006/12/05 00:16:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jdt.core.JavaCore;
@@ -44,8 +45,6 @@ import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer;
 import org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer.SourceRange;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
-import org.eclipse.jdt.internal.core.dom.rewrite.ListRewriteEvent;
-import org.eclipse.jdt.internal.core.dom.rewrite.NodeRewriteEvent;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
@@ -76,17 +75,18 @@ public class ASTFacadeHelper extends FacadeHelper
      * @param childProperty
      * @param node
      */
+    @SuppressWarnings("restriction")
     public void remove(ASTNode parent, ChildListPropertyDescriptor childProperty, ASTNode node)
     {
       ListRewrite lrw = getListRewrite(parent, childProperty);
       
       if (lrw.getRewrittenList().contains(node) && !lrw.getOriginalList().contains(node))
       {
-        ListRewriteEvent listEvent = super.getRewriteEventStore().getListEvent(parent, childProperty, true);
-        int index = listEvent.getIndex(node, ListRewriteEvent.NEW);
+        org.eclipse.jdt.internal.core.dom.rewrite.ListRewriteEvent listEvent = super.getRewriteEventStore().getListEvent(parent, childProperty, true);
+        int index = listEvent.getIndex(node, org.eclipse.jdt.internal.core.dom.rewrite.ListRewriteEvent.NEW);
         if (index >= 0)
         {
-          listEvent.revertChange((NodeRewriteEvent)listEvent.getChildren()[index]);
+          listEvent.revertChange((org.eclipse.jdt.internal.core.dom.rewrite.NodeRewriteEvent)listEvent.getChildren()[index]);
         }
         else
         {
@@ -171,6 +171,7 @@ public class ASTFacadeHelper extends FacadeHelper
   /**
    * Map of options set by default from <code>JavaCore.getOptions()</code>
    */
+  @SuppressWarnings("unchecked")
   protected Map javaCoreOptions = null;
   
   /**
@@ -250,9 +251,9 @@ public class ASTFacadeHelper extends FacadeHelper
    * <code>getDefaultJavaCoreOptions()</code>.
    * 
    * @return map of options
-   * 
    * @see #getDefaultJavaCoreOptions()
    */
+  @SuppressWarnings("unchecked")
   public Map getJavaCoreOptions()
   {
     if (javaCoreOptions == null)
@@ -270,6 +271,7 @@ public class ASTFacadeHelper extends FacadeHelper
    * @see ASTRewrite#rewriteAST(org.eclipse.jface.text.IDocument, Map)
    * @see ASTParser#setCompilerOptions(Map)
    */
+  @SuppressWarnings("unchecked")
   public void setJavaCoreOptions(Map javaCoreOptions)
   {
     this.javaCoreOptions = javaCoreOptions;
@@ -284,6 +286,7 @@ public class ASTFacadeHelper extends FacadeHelper
    * @see JavaCore.getOptions()
    * @see JControlModel.getLeadingTabReplacement()
    */
+  @SuppressWarnings("unchecked")
   private Map getDefaultJavaCoreOptions()
   {
     Map javaCoreOptions = JavaCore.getOptions();
@@ -388,7 +391,10 @@ public class ASTFacadeHelper extends FacadeHelper
           {
             newFieldDeclaration.fragments().clear();
             newASTNode = ASTNode.copySubtree(contextNode.getASTNode().getAST(), originalASTNode);
-            newFieldDeclaration.fragments().add(newASTNode);
+            
+            @SuppressWarnings("unchecked")
+            List<Object> fragments = newFieldDeclaration.fragments();
+            fragments.add(newASTNode);
             astjNode = (ASTJNode)convertToNode(newASTNode);
             
             // copy javadoc as string
