@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TestUtil.java,v 1.12 2006/11/01 21:32:17 marcelop Exp $
+ * $Id: TestUtil.java,v 1.13 2006/12/05 20:34:47 emerks Exp $
  */
 package org.eclipse.emf.test.tools;
 
@@ -31,6 +31,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 public class TestUtil
 {
@@ -79,10 +80,14 @@ public class TestUtil
     {
       if (Platform.isRunning())
       {
-        File file = new File(FileLocator.toFileURL(Platform.getBundle(pluginID).getEntry("/")).getFile());
-        if (file.isDirectory())
+        Bundle bundle = Platform.getBundle(pluginID);
+        if (bundle != null)
         {
-          return file.getAbsolutePath();
+          File file = new File(FileLocator.toFileURL(bundle.getEntry("/")).getFile());
+          if (file.isDirectory())
+          {
+            return file.getAbsolutePath();
+          }
         }
       }
     }
