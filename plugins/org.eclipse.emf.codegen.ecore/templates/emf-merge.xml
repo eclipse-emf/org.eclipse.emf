@@ -42,15 +42,9 @@
     select="Member/getComment" 
     match="\s*@\s*(ordered)\s*\n"/>
 
-  <!-- Mark all members as "gen" that have @Generated annotation -->
-  <merge:dictionaryPattern
-    name="gen" 
-    select="Member/getAnnotations" 
-    match="^(?:@\s*\w+\s*(?:\(.*?\)){0,1})*?(?:@\s*Generated\s*(?:\(.*?\)){0,1})(?:@\s*\w+\s*(?:\(.*?\)){0,1})*?$"/>
-
   <!-- Only push Annotations for the Members marked by gen-->
-	<merge:push targetParentMarkup="^gen$" select="Annotation"/>
-					
+  <merge:push targetParentMarkup="^gen$" select="Annotation"/>
+
   <merge:pull 
     sourceMarkup="^modifiable$"
     sourceGet="Member/getComment"
@@ -79,7 +73,7 @@
   <merge:pull 
     sourceGet="Type/getTypeParameters"
     targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
-    targetPut="Type/setTypeParameters"/>	
+    targetPut="Type/setTypeParameters"/>
   <merge:pull 
     sourceGet="Type/getSuperclass"
     targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
@@ -99,20 +93,20 @@
   <merge:pull 
     sourceGet="EnumConstant/getArguments"
     targetMarkup="^gen$"
-    targetPut="EnumConstant/setArguments"/>				
+    targetPut="EnumConstant/setArguments"/>
   <merge:pull 
     sourceGet="EnumConstant/getBody"
     targetMarkup="^gen$"
-    targetPut="EnumConstant/setBody"/>		
+    targetPut="EnumConstant/setBody"/>
 
   <merge:pull 
     sourceGet="AnnotationTypeMember/getType"
     targetMarkup="^gen$"
-    targetPut="AnnotationTypeMember/setType"/>			
+    targetPut="AnnotationTypeMember/setType"/>
   <merge:pull 
     sourceGet="AnnotationTypeMember/getDefaultValue"
     targetMarkup="^gen$"
-    targetPut="AnnotationTypeMember/setDefaultValue"/>			
+    targetPut="AnnotationTypeMember/setDefaultValue"/>
 
   <merge:pull 
     sourceGet="Initializer/getBody"
@@ -131,7 +125,7 @@
   <merge:pull 
     sourceGet="Method/getTypeParameters"
     targetMarkup="^gen$"
-    targetPut="Method/setTypeParameters"/>			
+    targetPut="Method/setTypeParameters"/>
   <merge:pull 
     sourceGet="Method/getReturnType"
     targetMarkup="^gen$|^model$"
@@ -139,7 +133,7 @@
   <merge:pull 
     sourceGet="Method/getParameters"
     targetMarkup="^gen$"
-    targetPut="Method/setParameters"/>			
+    targetPut="Method/setParameters"/>
   <merge:pull 
     sourceGet="Method/getBody"
     targetMarkup="^gen$"
@@ -206,12 +200,12 @@
 
 <!-- Push Enum Constants only for generated Enums -->
 <!-- 
-	<merge:push targetParentMarkup="^gen$" select="EnumConstant"/>
+  <merge:push targetParentMarkup="^gen$" select="EnumConstant"/>
 -->
-	
+
 <!-- Push Annotation Type Members only for generated Annotation Types -->
 <!--
-	<merge:push targetParentMarkup="^gen$" select="AnnotationTypeMember"/>	
+  <merge:push targetParentMarkup="^gen$" select="AnnotationTypeMember"/>
 -->
 
 <!-- Sets the content of annotations if the parent is marked with gen --> 
