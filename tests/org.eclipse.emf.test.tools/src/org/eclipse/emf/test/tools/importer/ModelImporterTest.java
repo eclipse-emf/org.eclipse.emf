@@ -51,6 +51,7 @@ public class ModelImporterTest extends TestCase
   {
     class MyModelImporter extends ModelImporter
     {
+      @Override
       public String getID()
       {
         return null;
@@ -91,7 +92,7 @@ public class ModelImporterTest extends TestCase
     
     myModelImporter.makeEPackageConvertDataUnique();
     
-    Set names = new HashSet();
+    Set<String> names = new HashSet<String>();
     names.add("package.ecore");
     names.add("package1.ecore");
     names.add("package2.ecore");
