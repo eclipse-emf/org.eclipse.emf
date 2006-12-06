@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJPackage.java,v 1.2 2006/02/21 06:17:17 marcelop Exp $
+ * $Id: JDOMJPackage.java,v 1.3 2006/12/06 03:48:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 /**
  * @since 2.2.0
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMJPackage extends JDOMJNode implements JPackage
 {
   public JDOMJPackage(IDOMPackage pck)
@@ -31,8 +32,9 @@ public class JDOMJPackage extends JDOMJNode implements JPackage
     super(pck);
   }
 
-  protected IDOMPackage getIDOMPackage()
+  @Override
+  protected IDOMPackage getWrappedObject()
   {
-    return (IDOMPackage)getIDOMNode();
+    return (IDOMPackage)super.getWrappedObject();
   }
 }

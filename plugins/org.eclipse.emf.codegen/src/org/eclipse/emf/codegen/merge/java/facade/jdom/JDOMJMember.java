@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJMember.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JDOMJMember.java,v 1.2 2006/12/06 03:48:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JMember;
 /**
  * @since 2.2.0
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public abstract class JDOMJMember extends JDOMJNode implements JMember
 {
   /**
@@ -35,35 +36,39 @@ public abstract class JDOMJMember extends JDOMJNode implements JMember
     super(member);
   }
 
-  protected IDOMMember getIDOMMember()
+  @Override
+  protected IDOMMember getWrappedObject()
   {
-    return (IDOMMember)getIDOMNode();
+    return (IDOMMember)super.getWrappedObject();
   }
 
+  @Override
   public int getFlags()
   {
-    return getIDOMMember().getFlags();
+    return getWrappedObject().getFlags();
   }
   
+  @Override
   public void setFlags(int flags)
   {
-    getIDOMMember().setFlags(flags);
+    getWrappedObject().setFlags(flags);
   }
 
   public String getComment()
   {
-    return getIDOMMember().getComment();
+    return getWrappedObject().getComment();
   }
   
   public void setComment(String comment)
   {
-    getIDOMMember().setComment(comment);
+    getWrappedObject().setComment(comment);
   }
   
+  @Override
   public String getContents()
   {
     String contents = super.getContents();
-    return getIDOMNode().getNextNode() instanceof IDOMInitializer ?
+    return getWrappedObject().getNextNode() instanceof IDOMInitializer ?
       splitLastComment(contents)[0] :
       contents;    
   }
@@ -101,5 +106,11 @@ public abstract class JDOMJMember extends JDOMJNode implements JMember
       }
     }
     return split;
+  }
+  
+  public String getAnnotations()
+  {
+    // not supported in JDOM
+    return null;
   }
 }

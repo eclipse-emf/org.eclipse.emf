@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJCompilationUnit.java,v 1.3 2006/04/17 21:33:50 marcelop Exp $
+ * $Id: JDOMJCompilationUnit.java,v 1.4 2006/12/06 03:48:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 /**
  * @since 2.2.0
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMJCompilationUnit extends JDOMJNode implements JCompilationUnit
 {
   /**
@@ -35,18 +36,19 @@ public class JDOMJCompilationUnit extends JDOMJNode implements JCompilationUnit
     super(compilationUnit);
   }
 
-  protected IDOMCompilationUnit getIDOMCompilationUnit()
+  @Override
+  protected IDOMCompilationUnit getWrappedObject()
   {
-    return (IDOMCompilationUnit)getIDOMNode();
+    return (IDOMCompilationUnit)super.getWrappedObject();
   }
   
   public String getHeader()
   {
-    return getIDOMCompilationUnit().getHeader();
+    return getWrappedObject().getHeader();
   }
   
   public void setHeader(String header)
   {
-    getIDOMCompilationUnit().setHeader(header);
+    getWrappedObject().setHeader(header);
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJImport.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JDOMJImport.java,v 1.2 2006/12/06 03:48:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JImport;
 /**
  * @since 2.2.0
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMJImport extends JDOMJNode implements JImport
 {
   /**
@@ -34,23 +35,26 @@ public class JDOMJImport extends JDOMJNode implements JImport
     super(imp);
   }
 
-  protected IDOMImport getIDOMImport()
+  @Override
+  protected IDOMImport getWrappedObject()
   {
-    return (IDOMImport)getIDOMNode();
+    return (IDOMImport)super.getWrappedObject();
   }
 
   public boolean isOnDemand()
   {
-    return getIDOMImport().isOnDemand();
+    return getWrappedObject().isOnDemand();
   }
 
+  @Override
   public int getFlags()
   {
-    return getIDOMImport().getFlags();
+    return getWrappedObject().getFlags();
   }
   
+  @Override
   public void setFlags(int flags)
   {
-    getIDOMImport().setFlags(flags);
+    getWrappedObject().setFlags(flags);
   }
 }

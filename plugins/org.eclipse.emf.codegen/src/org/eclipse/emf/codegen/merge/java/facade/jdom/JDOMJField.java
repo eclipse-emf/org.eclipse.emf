@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJField.java,v 1.1 2006/01/18 20:42:15 marcelop Exp $
+ * $Id: JDOMJField.java,v 1.2 2006/12/06 03:48:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JField;
 /**
  * @since 2.2.0
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMJField extends JDOMJMember implements JField
 {
   public JDOMJField(IDOMField field)
@@ -31,28 +32,29 @@ public class JDOMJField extends JDOMJMember implements JField
     super(field);
   }
 
-  protected IDOMField getIDOMField()
+  @Override
+  protected IDOMField getWrappedObject()
   {
-    return (IDOMField)getIDOMNode();
+    return (IDOMField)super.getWrappedObject();
   }
 
   public String getInitializer()
   {
-    return getIDOMField().getInitializer();
+    return getWrappedObject().getInitializer();
   }
   
   public void setInitializer(String initializer)
   {
-    getIDOMField().setInitializer(initializer);
+    getWrappedObject().setInitializer(initializer);
   }
 
   public String getType()
   {
-    return getIDOMField().getType();
+    return getWrappedObject().getType();
   }
   
   public void setType(String typeName)
   {
-    getIDOMField().setType(typeName);
+    getWrappedObject().setType(typeName);
   }
 }

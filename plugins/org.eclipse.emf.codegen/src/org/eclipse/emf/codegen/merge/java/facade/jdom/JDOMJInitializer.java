@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJInitializer.java,v 1.2 2006/02/21 06:17:17 marcelop Exp $
+ * $Id: JDOMJInitializer.java,v 1.3 2006/12/06 03:48:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -26,6 +26,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JInitializer;
 /**
  * @since 2.2.0
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMJInitializer extends JDOMJMember implements JInitializer
 {
   /**
@@ -36,37 +37,41 @@ public class JDOMJInitializer extends JDOMJMember implements JInitializer
     super(initializer);
   }
 
-  protected IDOMInitializer getIDOMInitializer()
+  @Override
+  protected IDOMInitializer getWrappedObject()
   {
-    return (IDOMInitializer)getIDOMNode();
+    return (IDOMInitializer)super.getWrappedObject();
   }
 
   public String getBody()
   {
     String contents = getContents();
     int index = contents.indexOf("{");
-    return index >= 0 ? contents.substring(index) : getIDOMInitializer().getBody();
+    return index >= 0 ? contents.substring(index) : getWrappedObject().getBody();
   }
   
   public void setBody(String body)
   {
-    getIDOMInitializer().setBody(body);
+    getWrappedObject().setBody(body);
   }
 
+  @Override
   public String getName()
   {
     return getName(this);
   }
     
+  @Override
   protected String computeQualifiedName()
   {
     return computeQualifiedName(this);
   }
   
+  @Override
   public String getComment()
   {
     String comment = super.getComment();
-    IDOMNode previousNode = getIDOMNode().getPreviousNode();
+    IDOMNode previousNode = getWrappedObject().getPreviousNode();
     if (comment == null && previousNode instanceof IDOMMember)
     {
       String text = splitLastComment(previousNode.getContents())[1];
@@ -82,10 +87,11 @@ public class JDOMJInitializer extends JDOMJMember implements JInitializer
     return comment;
   }
   
+  @Override
   public String getContents()
   {
     String contents = super.getContents();
-    IDOMNode previousNode = getIDOMNode().getPreviousNode();
+    IDOMNode previousNode = getWrappedObject().getPreviousNode();
     if (previousNode instanceof IDOMMember)
     {
       contents = splitLastComment(previousNode.getContents())[1] + contents;

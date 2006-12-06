@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJType.java,v 1.2 2006/02/21 06:17:17 marcelop Exp $
+ * $Id: JDOMJType.java,v 1.3 2006/12/06 03:48:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -26,6 +26,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JType;
 /**
  * @since 2.2.0
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMJType extends JDOMJMember implements JType
 {
   protected JPackage jPackage;
@@ -38,45 +39,52 @@ public class JDOMJType extends JDOMJMember implements JType
     super(type);
   }
 
-  protected IDOMType getIDOMType()
+  @Override
+  protected IDOMType getWrappedObject()
   {
-    return (IDOMType)getIDOMNode();
+    return (IDOMType)super.getWrappedObject();
   }
 
   public String getSuperclass()
   {
-    return getIDOMType().getSuperclass();
+    return getWrappedObject().getSuperclass();
   }
   
   public void setSuperclass(String superclassName)
   {
-    getIDOMType().setSuperclass(superclassName);
+    getWrappedObject().setSuperclass(superclassName);
   }
 
   public String[] getSuperInterfaces()
   {
-    String[] ret = getIDOMType().getSuperInterfaces();
+    String[] ret = getWrappedObject().getSuperInterfaces();
     return ret == null ? EMPTY_STRING_ARRAY : ret;
   }
   
   public void setSuperInterfaces(String[] interfaceNames)
   {
-    getIDOMType().setSuperInterfaces(interfaceNames);
+    getWrappedObject().setSuperInterfaces(interfaceNames);
   }
   
   public void addSuperInterface(String interfaceName)
   {
-    getIDOMType().addSuperInterface(interfaceName);
+    getWrappedObject().addSuperInterface(interfaceName);
   }
 
   public String[] getTypeParameters()
   {
-    String[] ret = getIDOMType().getTypeParameters();
+    String[] ret = getWrappedObject().getTypeParameters();
     return ret == null ? EMPTY_STRING_ARRAY : ret;
   }
 
+  @Override
   protected String computeQualifiedName()
   {
     return computeQualifiedName(this);
+  }
+
+  public void setTypeParameters(String[] typeParameters)
+  {
+    // not supported in JDOM    
   }
 }

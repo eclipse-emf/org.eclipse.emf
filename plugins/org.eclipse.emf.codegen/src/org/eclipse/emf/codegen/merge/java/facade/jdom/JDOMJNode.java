@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJNode.java,v 1.2 2006/02/21 06:17:17 marcelop Exp $
+ * $Id: JDOMJNode.java,v 1.3 2006/12/06 03:48:07 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
@@ -26,28 +26,59 @@ import org.eclipse.jdt.core.jdom.IDOMNode;
 
 import org.eclipse.emf.codegen.merge.java.facade.AbstractJNode;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeFlags;
+import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 
 /**
  * @since 2.2.0
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public abstract class JDOMJNode extends AbstractJNode
 {
+  private JDOMFacadeHelper facadeHelper;
+  private IDOMNode wrappedObject;
+  
   protected JDOMJNode(IDOMNode idomNode)
   {
-    super(idomNode);
+    wrappedObject = idomNode;
+  }
+  
+  @Override
+  public void dispose()
+  {
+    facadeHelper = null;
+    wrappedObject = null;
+  }
+  
+  @Override
+  public JDOMFacadeHelper getFacadeHelper()
+  {
+    return facadeHelper;
+  }
+  
+  @Override
+  public void setFacadeHelper(FacadeHelper facadeHelper)
+  {
+    this.facadeHelper = (JDOMFacadeHelper)facadeHelper;
+  }
+  
+  @Override
+  protected IDOMNode getWrappedObject()
+  {
+    return wrappedObject;
   }
 
-  protected IDOMNode getIDOMNode()
-  {
-    return (IDOMNode)getWrappedObject();
-  }
-  
   public String getName()
   {
-    return getIDOMNode().getName();
+    return getWrappedObject().getName();
   }
   
+  public void setName(String name)
+  {
+    getWrappedObject().setName(name);
+  }
+  
+  @Override
   public int getFlags()
   {
     return FacadeFlags.DEFAULT;
@@ -60,18 +91,19 @@ public abstract class JDOMJNode extends AbstractJNode
 
   public String getContents()
   {
-    return getIDOMNode().getContents();
+    return getWrappedObject().getContents();
   }
 
   public JNode getParent()
   {
-    return getFacadeHelper().convertToNode(getIDOMNode().getParent());
+    return getFacadeHelper().convertToNode(getWrappedObject().getParent());
   }
 
+  @Override
   public List getChildren()
   {
     List children = new ArrayList();
-    for (Enumeration e = getIDOMNode().getChildren(); e.hasMoreElements();)
+    for (Enumeration e = getWrappedObject().getChildren(); e.hasMoreElements();)
     {
       IDOMNode node = (IDOMNode)e.nextElement();
       JNode jNode = getFacadeHelper().convertToNode(node);

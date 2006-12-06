@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJMethod.java,v 1.3 2006/11/01 21:24:48 marcelop Exp $
+ * $Id: JDOMJMethod.java,v 1.4 2006/12/06 03:48:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 /**
  * @since 2.2.0
  */
+@SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMJMethod extends JDOMJMember implements JMethod
 {
   /**
@@ -35,80 +36,121 @@ public class JDOMJMethod extends JDOMJMember implements JMethod
     super(method);
   }
 
-  protected IDOMMethod getIDOMMethod()
+  @Override
+  protected IDOMMethod getWrappedObject()
   {
-    return (IDOMMethod)getIDOMNode();
+    return (IDOMMethod)super.getWrappedObject();
   }
 
   public boolean isConstructor()
   {
-    return getIDOMMethod().isConstructor();
+    return getWrappedObject().isConstructor();
   }
 
   public String getBody()
   {
-    String body = getIDOMMethod().getBody();
-    return getIDOMNode().getNextNode() instanceof IDOMInitializer ?
+    String body = getWrappedObject().getBody();
+    return getWrappedObject().getNextNode() instanceof IDOMInitializer ?
       splitLastComment(body)[0] :
       body;    
   }
   
   public void setBody(String body)
   {
-    getIDOMMethod().setBody(body);
+    getWrappedObject().setBody(body);
   }
 
   public String getReturnType()
   {
-    return getIDOMMethod().getReturnType();
+    return getWrappedObject().getReturnType();
   }
   
   public void setReturnType(String type)
   {
-    getIDOMMethod().setReturnType(type);
+    getWrappedObject().setReturnType(type);
   }
 
   public String[] getParameterNames()
   {
-    String[] ret = getIDOMMethod().getParameterNames(); 
+    String[] ret = getWrappedObject().getParameterNames(); 
     return ret == null ? EMPTY_STRING_ARRAY : ret;
   }
 
   public String[] getParameterTypes()
   {
-    String[] ret = getIDOMMethod().getParameterTypes(); 
+    String[] ret = getWrappedObject().getParameterTypes(); 
     return ret == null ? EMPTY_STRING_ARRAY : ret;
   }
 
   public String[] getTypeParameters()
   {
-    String[] ret = getIDOMMethod().getTypeParameters(); 
+    String[] ret = getWrappedObject().getTypeParameters(); 
     return ret == null ? EMPTY_STRING_ARRAY : ret;
   }
   
   public void setParameterNames(String[] names) throws IllegalArgumentException
   {
-    getIDOMMethod().setParameters(getParameterTypes(), names);
+    getWrappedObject().setParameters(getParameterTypes(), names);
   }
 
   public String[] getExceptions()
   {
-    String[] ret = getIDOMMethod().getExceptions(); 
+    String[] ret = getWrappedObject().getExceptions(); 
     return ret == null ? EMPTY_STRING_ARRAY : ret;
   }
   
   public void setExceptions(String[] exceptionTypes)
   {
-    getIDOMMethod().setExceptions(exceptionTypes);
+    getWrappedObject().setExceptions(exceptionTypes);
   }
   
   public void addException(String exceptionType)
   {
-    getIDOMMethod().addException(exceptionType);
+    getWrappedObject().addException(exceptionType);
   }
   
+  @Override
   protected String computeQualifiedName()
   {
     return computeQualifiedName(this);
+  }
+
+  public void setTypeParameters(String[] typeParameters)
+  {
+    // not supported in JDOM
+  }
+  
+  public String[] getParameters()
+  {
+    String[] parameters = getParameterTypes();
+    String[] parameterNames = getParameterNames();
+    for (int i = 0; i < parameters.length && i < parameterNames.length; i++)
+    {
+      parameters[i] += " ";
+      String parameterName = parameterNames[i];
+      if (parameterName != null)
+      {
+        parameterName = parameterName.trim();
+        parameterName = parameterName.replaceAll(" ", "");
+        parameters[i] += parameterName;
+      }
+    }
+    return parameters;
+  }
+  
+  public void setParameters(String[] parameters)
+  {
+    String[] types = new String[parameters.length];
+    String[] names = new String[parameters.length];
+    for (int i = 0; i < parameters.length; i++)
+    {
+      if (parameters[i] != null)
+      {
+        int splitPosition = parameters[i].lastIndexOf(" ");
+        types[i] = parameters[i].substring(0, splitPosition);
+        names[i] = parameters[i].substring(splitPosition + 1);
+      }
+    }
+    getWrappedObject().setParameters(types, names);
   }
 }

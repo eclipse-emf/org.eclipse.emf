@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMFacadeHelper.java,v 1.4 2006/11/09 14:51:54 marcelop Exp $
+ * $Id: JDOMFacadeHelper.java,v 1.5 2006/12/06 03:48:07 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -41,12 +41,12 @@ import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
 import org.eclipse.emf.codegen.merge.java.facade.JType;
 
-
+@SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMFacadeHelper extends FacadeHelper
 {
   public static IDOMNode getIDOMNode(JNode node)
   {
-    return node instanceof JDOMJNode ? ((JDOMJNode)node).getIDOMNode() : null;
+    return node instanceof JDOMJNode ? ((JDOMJNode)node).getWrappedObject() : null;
   }
 
   protected DOMFactory jdomFactory;
@@ -57,6 +57,7 @@ public class JDOMFacadeHelper extends FacadeHelper
     setForcedSourceCompatibility(true);
   }
   
+  @Override
   public void reset()
   {
     jdomFactory = null;
@@ -89,6 +90,7 @@ public class JDOMFacadeHelper extends FacadeHelper
     JavaCore.setOptions(map);    
   }
 
+  @Override
   public JCompilationUnit createCompilationUnit(String name, String content)
   {
     String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE);
@@ -119,6 +121,7 @@ public class JDOMFacadeHelper extends FacadeHelper
     return jCompilationUnit;
   }
 
+  @Override
   protected JNode doConvertToNode(Object object)
   {
     JDOMJNode node = null;
@@ -158,11 +161,13 @@ public class JDOMFacadeHelper extends FacadeHelper
     return node;
   }
   
+  @Override
   public Object getContext(JNode node)
   {
     return null;
   }
 
+  @Override
   public JNode cloneNode(Object context, JNode node)
   {
     String content = applyFormatRules(node.getContents());
@@ -207,6 +212,7 @@ public class JDOMFacadeHelper extends FacadeHelper
     return idomNode != null ? convertToNode(idomNode) : null;
   }
   
+  @Override
   public boolean addChild(JNode node, JNode child)
   {
     if (child != null)
@@ -222,6 +228,7 @@ public class JDOMFacadeHelper extends FacadeHelper
     }
   }
   
+  @Override
   public boolean insertSibling(JNode node, JNode sibiling, boolean before)
   {
     if (sibiling != null)
@@ -241,6 +248,7 @@ public class JDOMFacadeHelper extends FacadeHelper
     }
   }
   
+  @Override
   public boolean remove(JNode node)
   {    
     IDOMNode idomNode = getIDOMNode(node);
@@ -253,24 +261,28 @@ public class JDOMFacadeHelper extends FacadeHelper
     return false; 
   }
   
+  @Override
   public JNode getFirstChild(JNode node)
   {
     IDOMNode idomNode = getIDOMNode(node);
     return convertToNode(idomNode.getFirstChild());
   }
   
+  @Override
   public JNode getPrevious(JNode node)
   {
     IDOMNode idomNode = getIDOMNode(node);
     return convertToNode(idomNode.getPreviousNode());
   }
   
+  @Override
   public JNode getNext(JNode node)
   {
     IDOMNode idomNode = getIDOMNode(node);
     return convertToNode(idomNode.getNextNode());
   }  
   
+  @Override
   public boolean fixInterfaceBrace()
   {
     return true;
