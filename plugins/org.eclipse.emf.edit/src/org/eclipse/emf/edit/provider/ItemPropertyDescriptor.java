@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.24 2006/11/09 12:09:24 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.25 2006/12/06 18:12:12 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -171,7 +171,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       if (feature instanceof EAttribute)
       {
         EDataType eDataType = ((EAttribute)feature).getEAttributeType();
-        if (eDataType.isSerializable())
+        if (eDataType.isSerializable() && (eDataType != EcorePackage.Literals.EJAVA_OBJECT || !feature.isTransient()))
         {
           if (isMany(object))
           {
