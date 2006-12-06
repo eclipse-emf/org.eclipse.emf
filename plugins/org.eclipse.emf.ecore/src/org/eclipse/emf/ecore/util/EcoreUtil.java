@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.50 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EcoreUtil.java,v 1.51 2006/12/06 00:09:13 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -3725,7 +3725,7 @@ public class EcoreUtil
   {
     if (resource.getErrors().isEmpty() && (!includeWarnings || resource.getWarnings().isEmpty()))
     {
-      return BasicDiagnostic.OK_INSTANCE;
+      return Diagnostic.OK_INSTANCE;
     }
     else
     {
