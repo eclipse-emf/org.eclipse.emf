@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.23 2006/12/05 20:22:26 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.24 2006/12/06 00:08:22 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
@@ -1078,7 +1079,7 @@ public class BasicFeatureMap
 
   protected boolean shouldUnset(EStructuralFeature feature, Object value)
   {
-    if (feature.getUpperBound() != EStructuralFeature.UNSPECIFIED_MULTIPLICITY && !feature.isUnsettable())
+    if (feature.getUpperBound() != ETypedElement.UNSPECIFIED_MULTIPLICITY && !feature.isUnsettable())
     {
       Object defaultValue = feature.getDefaultValue();
       return defaultValue == null ? value == null : defaultValue.equals(value);
