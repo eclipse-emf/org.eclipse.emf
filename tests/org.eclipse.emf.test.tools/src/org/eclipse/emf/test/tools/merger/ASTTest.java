@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTTest.java,v 1.15 2006/11/21 19:35:50 marcelop Exp $
+ * $Id: ASTTest.java,v 1.16 2006/12/06 03:51:05 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -29,7 +29,6 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ArrayCreation;
 import org.eclipse.jdt.core.dom.ArrayType;
-import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
@@ -86,7 +85,8 @@ public class ASTTest extends TestCase
    return ts;
  }
  
- protected void setUp() throws Exception
+ @Override
+protected void setUp() throws Exception
  {
    assertTrue("Source code is not available - " + CLASS_FILE.getAbsolutePath(), CLASS_FILE.isFile());
  }
@@ -119,7 +119,7 @@ public class ASTTest extends TestCase
    assertEquals("org.eclipse.emf.test.tools.merger", packageDeclaration.getName().getFullyQualifiedName());
    
    //** Imports
-   List importDeclarations = compilationUnit.imports();
+   List<?> importDeclarations = compilationUnit.imports();
    assertEquals(6, importDeclarations.size());
    assertEquals("java.util.Collections", ((ImportDeclaration)importDeclarations.get(0)).getName().getFullyQualifiedName());
    assertFalse(((ImportDeclaration)importDeclarations.get(0)).isOnDemand());
@@ -135,7 +135,7 @@ public class ASTTest extends TestCase
    assertFalse(((ImportDeclaration)importDeclarations.get(5)).isOnDemand());
    
    //** Types
-   List typeDeclarations = compilationUnit.types();
+   List<?> typeDeclarations = compilationUnit.types();
    assertEquals(2, typeDeclarations.size());
    
    //** Class Example1
@@ -146,6 +146,7 @@ public class ASTTest extends TestCase
    {
      Javadoc typeJavadoc = exampleClass.getJavadoc();
      assertEquals(4, typeJavadoc.tags().size());
+     @SuppressWarnings("unchecked")
      TagElement[] tagElements = (TagElement[])typeJavadoc.tags().toArray(new TagElement [typeJavadoc.tags().size()]);
      //Tag[0]: " This is an example to be parsed by the ASTTests.\n Not really important"
      assertNull(tagElements[0].getTagName());
@@ -179,7 +180,7 @@ public class ASTTest extends TestCase
    assertEquals(7, exampleClass.getMethods().length);
    
    // Tests the order of the contents
-   List bodyDeclarations = exampleClass.bodyDeclarations();
+   List<?> bodyDeclarations = exampleClass.bodyDeclarations();
    assertTrue(bodyDeclarations.get(0).toString(), bodyDeclarations.get(0) instanceof TypeDeclaration);
    assertTrue(bodyDeclarations.get(1).toString(), bodyDeclarations.get(1) instanceof Initializer);
    assertTrue(bodyDeclarations.get(2).toString(), bodyDeclarations.get(2) instanceof FieldDeclaration);
@@ -265,6 +266,7 @@ public class ASTTest extends TestCase
      assertEquals("String", ((SimpleType)fieldDeclarations[0].getType()).getName().getFullyQualifiedName());
      //
      assertEquals(1, fieldDeclarations[0].fragments().size());
+     @SuppressWarnings("unchecked")
      VariableDeclarationFragment[] variableDeclarationFragments = (VariableDeclarationFragment[])fieldDeclarations[0].fragments().toArray(new VariableDeclarationFragment[fieldDeclarations[0].fragments().size()]);
      assertEquals(0, variableDeclarationFragments[0].getExtraDimensions());
      assertEquals("STR_CONST", variableDeclarationFragments[0].getName().getFullyQualifiedName());
@@ -292,6 +294,7 @@ public class ASTTest extends TestCase
      assertEquals(PrimitiveType.LONG, ((PrimitiveType)fieldDeclarations[1].getType()).getPrimitiveTypeCode());
      //
      assertEquals(1, fieldDeclarations[1].fragments().size());
+     @SuppressWarnings("unchecked")
      VariableDeclarationFragment[] variableDeclarationFragments = (VariableDeclarationFragment[])fieldDeclarations[1].fragments().toArray(new VariableDeclarationFragment[fieldDeclarations[1].fragments().size()]);
      assertEquals(0, variableDeclarationFragments[0].getExtraDimensions());
      assertEquals("longStatic", variableDeclarationFragments[0].getName().getFullyQualifiedName());
@@ -310,6 +313,7 @@ public class ASTTest extends TestCase
      assertEquals("Boolean", ((SimpleType)fieldDeclarations[2].getType()).getName().getFullyQualifiedName());
      //
      assertEquals(1, fieldDeclarations[2].fragments().size());
+     @SuppressWarnings("unchecked")
      VariableDeclarationFragment[] variableDeclarationFragments = (VariableDeclarationFragment[])fieldDeclarations[2].fragments().toArray(new VariableDeclarationFragment[fieldDeclarations[2].fragments().size()]);
      assertEquals(0, variableDeclarationFragments[0].getExtraDimensions());
      assertEquals("booleanInstance", variableDeclarationFragments[0].getName().getFullyQualifiedName());
@@ -326,6 +330,7 @@ public class ASTTest extends TestCase
      assertEquals("Map.Entry", ((SimpleType)fieldDeclarations[3].getType()).getName().getFullyQualifiedName());
      //
      assertEquals(1, fieldDeclarations[3].fragments().size());
+     @SuppressWarnings("unchecked")
      VariableDeclarationFragment[] variableDeclarationFragments = (VariableDeclarationFragment[])fieldDeclarations[3].fragments().toArray(new VariableDeclarationFragment[fieldDeclarations[3].fragments().size()]);
      assertEquals(0, variableDeclarationFragments[0].getExtraDimensions());
      assertEquals("myEntry", variableDeclarationFragments[0].getName().getFullyQualifiedName());
@@ -344,6 +349,7 @@ public class ASTTest extends TestCase
      assertEquals(PrimitiveType.INT, ((PrimitiveType)((ArrayType)fieldDeclarations[4].getType()).getElementType()).getPrimitiveTypeCode());
      //
      assertEquals(1, fieldDeclarations[4].fragments().size());
+     @SuppressWarnings("unchecked")
      VariableDeclarationFragment[] variableDeclarationFragments = (VariableDeclarationFragment[])fieldDeclarations[4].fragments().toArray(new VariableDeclarationFragment[fieldDeclarations[4].fragments().size()]);
      assertEquals(0, variableDeclarationFragments[0].getExtraDimensions());
      assertEquals("myMatrix", variableDeclarationFragments[0].getName().getFullyQualifiedName());
@@ -440,7 +446,7 @@ public class ASTTest extends TestCase
        source.substring(
          sourceMethodToCopy.getStartPosition(), 
          sourceMethodToCopy.getStartPosition() + sourceMethodToCopy.getLength()),
-       TypeDeclaration.METHOD_DECLARATION);		 
+       ASTNode.METHOD_DECLARATION);		 
 		 ListRewrite lrw = rewriter.getListRewrite(targetClass, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
 		 lrw.insertFirst(targetMethodToCopy, null);	   
 	   
@@ -450,18 +456,18 @@ public class ASTTest extends TestCase
        source.substring(
          sourceMethodBodyToCopy.getStartPosition(), 
          sourceMethodBodyToCopy.getStartPosition() + sourceMethodBodyToCopy.getLength()),
-       Block.BLOCK);
+       ASTNode.BLOCK);
 		 rewriter.replace(targetClass.getMethods()[6].getBody(), targetMethodBodyToCopy, null);
 		 
 		 // setExceptions() replace all exceptions
-		 List exceptionsToSet = sourceClass.getMethods()[5].thrownExceptions();
-		 List targetExceptins = targetClass.getMethods()[6].thrownExceptions();
+		 List<?> exceptionsToSet = sourceClass.getMethods()[5].thrownExceptions();
+		 List<?> targetExceptins = targetClass.getMethods()[6].thrownExceptions();
 		 lrw = rewriter.getListRewrite(targetClass.getMethods()[6], MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY);
 		 // remove all exceptions
-		 for(Iterator it = targetExceptins.iterator(); it.hasNext();)
+		 for(Iterator<?> it = targetExceptins.iterator(); it.hasNext();)
 			 lrw.remove((ASTNode) it.next(), null);
 		 // add all exceptions
-		 for(Iterator it = exceptionsToSet.iterator(); it.hasNext();)
+		 for(Iterator<?> it = exceptionsToSet.iterator(); it.hasNext();)
 			 lrw.insertLast((ASTNode) it.next(), null);
 
 		 // copy comment
