@@ -12,10 +12,9 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.6 2006/12/05 00:14:34 marcelop Exp $
+ * $Id: JControlModel.java,v 1.7 2006/12/06 03:49:43 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
-
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -116,8 +115,8 @@ public class JControlModel extends PrefixHandler
 
   public static class DictionaryPattern extends PrefixHandler
   {
-    protected static Class<?>[] noParameterTypes = new Class[0];
-    protected static Class<?>[] stringParameterType = new Class[] { String.class };
+    protected static Class<?>[] noParameterTypes = new Class<?>[0];
+    protected static Class<?>[] stringParameterType = new Class<?>[] { String.class };
     protected String name;
     protected Feature selectorFeature;
     protected Pattern pattern;
@@ -178,14 +177,16 @@ public class JControlModel extends PrefixHandler
 
   public static class PullRule extends PrefixHandler
   {
-    protected static Class<?>[] noParameterTypes = new Class[0];
+    protected static Class<?>[] noParameterTypes = new Class<?>[0];
     protected String name;
 
     protected Pattern sourceMarkup;
+    protected Pattern sourceParentMarkup;
     protected Feature sourceGetFeature;
     protected Pattern sourceTransfer;
 
     protected Pattern targetMarkup;
+    protected Pattern targetParentMarkup;
     protected Feature targetPutFeature;
     protected Pattern targetTransfer;
     
@@ -223,9 +224,17 @@ public class JControlModel extends PrefixHandler
       {
         sourceMarkup= Pattern.compile(element.getAttribute("sourceMarkup"), Pattern.MULTILINE | Pattern.DOTALL);
       }
+      if (element.hasAttribute("sourceParentMarkup"))
+      {
+        sourceParentMarkup= Pattern.compile(element.getAttribute("sourceParentMarkup"), Pattern.MULTILINE | Pattern.DOTALL);
+      }
       if (element.hasAttribute("targetMarkup"))
       {
         targetMarkup= Pattern.compile(element.getAttribute("targetMarkup"), Pattern.MULTILINE | Pattern.DOTALL);
+      }
+      if (element.hasAttribute("targetParentMarkup"))
+      {
+        targetParentMarkup= Pattern.compile(element.getAttribute("targetParentMarkup"), Pattern.MULTILINE | Pattern.DOTALL);
       }
       if (element.hasAttribute("sourceTransfer"))
       {
@@ -325,8 +334,119 @@ public class JControlModel extends PrefixHandler
     {
       this.targetMarkup = targetMarkup;
     }
+    
+    public Pattern getSourceParentMarkup()
+    {
+      return sourceParentMarkup;
+    }
+
+    public void setSourceParentMarkup(Pattern sourceParentMarkup)
+    {
+      this.sourceParentMarkup = sourceParentMarkup;
+    }
+
+    public Pattern getTargetParentMarkup()
+    {
+      return targetParentMarkup;
+    }
+
+    public void setTargetParentMarkup(Pattern targetParentMarkup)
+    {
+      this.targetParentMarkup = targetParentMarkup;
+    }    
   }
 
+  /**
+   * <p>A push rule restricts what elements are pushed from the source to the target.
+   * By default, if there are no push rules for the specific element type (element is 
+   * not an instance of selector class of any rules), then the element is pushed.</p>
+   * 
+   * <p>If element is an instance of selector class of at least one push rule, then the 
+   * element is pushed only if the element is marked up by at least one push rule with 
+   * matching selector class.</p>
+   * 
+   * <p>If none of markup and targetParentMarkup is set in the push rule with matching 
+   * selector class, then node is marked up. If both markup and targetParentMarkup is set, 
+   * then the node is marked up only if node and its parent in the target are marked up 
+   * respectively. If markup or targetParentMarkup is set, the node is marked up if node or 
+   * its parent in the target are marked up respectively.</p>
+   */
+  public static class PushRule extends PrefixHandler
+  {
+    protected String name;
+    protected Class<?> selector;
+    protected Pattern markup;
+    protected Pattern targetParentMarkup;    
+
+    public PushRule(String classPrefix)
+    {
+      super(classPrefix);
+    }
+
+    public PushRule(String classPrefix, Element element)
+    {
+      this(classPrefix);
+      initialize(element);
+    }
+
+    public void initialize(Element element)
+    {
+      if (element.hasAttribute("select"))
+      {
+        selector = classForClassName(getClassPrefix(), element.getAttribute("select"));
+      }
+      if (element.hasAttribute("markup"))
+      {
+        markup= Pattern.compile(element.getAttribute("markup"), Pattern.MULTILINE | Pattern.DOTALL);
+      }
+      
+      if (element.hasAttribute("targetParentMarkup"))
+      {
+        targetParentMarkup= Pattern.compile(element.getAttribute("targetParentMarkup"), Pattern.MULTILINE | Pattern.DOTALL);
+      }      
+    }
+
+    public String getName()
+    {
+      return name;
+    }
+
+    public void setName(String name)
+    {
+      this.name = name;
+    }
+
+    public Class<?> getSelector()
+    {
+      return selector;
+    }
+
+    public void setSelector(Class<?> selector)
+    {
+      this.selector = selector;
+    }
+
+    public Pattern getMarkup()
+    {
+      return markup;
+    }
+
+    public void setMarkup(Pattern markup)
+    {
+      this.markup = markup;
+    }
+    
+    public Pattern getTargetParentMarkup()
+    {
+      return targetParentMarkup;
+    }
+
+    public void setTargetParentMarkup(Pattern targetParentMarkup)
+    {
+      this.targetParentMarkup = targetParentMarkup;
+    }    
+  }  
+  
   /**
    * <p>A sweep rule removes elements from the target if they are <b>NOT</b> available
    * in the source.  It can work on available Dictionary Patterns or be used to
@@ -344,6 +464,7 @@ public class JControlModel extends PrefixHandler
     protected String name;
     protected Class<?> selector;
     protected Pattern markup;
+    protected Pattern parentMarkup;
 
     public SweepRule(String classPrefix)
     {
@@ -365,6 +486,10 @@ public class JControlModel extends PrefixHandler
       if (element.hasAttribute("markup"))
       {
         markup= Pattern.compile(element.getAttribute("markup"), Pattern.MULTILINE | Pattern.DOTALL);
+      }
+      if (element.hasAttribute("parentMarkup"))
+      {
+        parentMarkup= Pattern.compile(element.getAttribute("parentMarkup"), Pattern.MULTILINE | Pattern.DOTALL);
       }
     }
 
@@ -397,14 +522,22 @@ public class JControlModel extends PrefixHandler
     {
       this.markup = markup;
     }
+    
+    public Pattern getParentMarkup()
+    {
+      return parentMarkup;
+    }
+
+    public void setParentMarkup(Pattern parentMarkup)
+    {
+      this.parentMarkup = parentMarkup;
+    }
   }
 
   /**
    * <p>The sort rule is used to ensure that the order of the attributes as declared
-   * on the source is respected  (in theory this rule could be used to sort any
-   * member, but JMerger only applies it to attributes).  As usual you need to
-   * specify a Dictionary Pattern to identify the attributes that should be
-   * treated.  Here's an example:</p>
+   * on the source is respected  As usual you need to specify a Dictionary Pattern 
+   * to identify the attributes that should be treated.  Here's an example:</p>
    * <pre>
    *   &lt;merge:sort markup=&quot;^ordered$&quot; select=&quot;Member&quot;/&gt;
    * </pre>
@@ -497,6 +630,7 @@ public class JControlModel extends PrefixHandler
   
   protected List<DictionaryPattern> dictionaryPatterns;
   protected List<PullRule> pullRules;
+  protected List<PushRule> pushRules;
   protected List<SweepRule> sweepRules;
   protected List<SortRule> sortRules;
   protected Pattern blockPattern;
@@ -517,10 +651,26 @@ public class JControlModel extends PrefixHandler
     if (this.facadeHelper != null)
     {
       this.facadeHelper.setControlModel(null);
-      dictionaryPatterns.clear();
-      pullRules.clear();
-      sweepRules.clear();
-      sortRules.clear();
+      if (dictionaryPatterns != null)
+      {
+        dictionaryPatterns.clear();
+      }
+      if (pullRules != null)
+      {
+        pullRules.clear();
+      }
+      if (pushRules != null)
+      {
+        pushRules.clear();
+      }
+      if (sweepRules != null)
+      {
+        sweepRules.clear();
+      }
+      if (sortRules != null)
+      {
+        sortRules.clear();
+      }
       blockPattern = null;
       noImportPattern = null;
       redirect = null;      
@@ -595,6 +745,15 @@ public class JControlModel extends PrefixHandler
     return pullRules;
   }
 
+  public List<PushRule> getPushRules()
+  {
+    if (pushRules == null)
+    {
+      pushRules = new ArrayList<PushRule>();
+    }
+    return pushRules;
+  }  
+  
   public List<SweepRule> getSweepRules()
   {
     if (sweepRules == null)
@@ -684,6 +843,10 @@ public class JControlModel extends PrefixHandler
           {
             getPullRules().add(createPullRule(classPrefix, elementChild));
           }
+          else if (elementChild.getLocalName().equals("push"))
+          {
+            getPushRules().add(createPushRule(classPrefix, elementChild));
+          }
           else if (elementChild.getLocalName().equals("sweep"))
           {
             getSweepRules().add(createSweepRule(classPrefix, elementChild));
@@ -707,6 +870,11 @@ public class JControlModel extends PrefixHandler
     return new PullRule(classPrefix, elementChild);
   }
   
+  protected PushRule createPushRule(String classPrefix, Element elementChild)
+  {
+    return new PushRule(classPrefix, elementChild);
+  }
+ 
   protected SweepRule createSweepRule(String classPrefix, Element elementChild)
   {
     return new SweepRule(classPrefix, elementChild);

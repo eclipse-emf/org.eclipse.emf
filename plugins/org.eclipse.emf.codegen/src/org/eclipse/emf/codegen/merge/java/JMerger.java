@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.8 2006/12/05 00:29:11 marcelop Exp $
+ * $Id: JMerger.java,v 1.9 2006/12/06 03:49:43 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -35,7 +35,12 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.codegen.merge.java.facade.FacadeVisitor;
+import org.eclipse.emf.codegen.merge.java.facade.JAbstractType;
+import org.eclipse.emf.codegen.merge.java.facade.JAnnotation;
+import org.eclipse.emf.codegen.merge.java.facade.JAnnotationTypeMember;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
+import org.eclipse.emf.codegen.merge.java.facade.JEnumConstant;
 import org.eclipse.emf.codegen.merge.java.facade.JField;
 import org.eclipse.emf.codegen.merge.java.facade.JImport;
 import org.eclipse.emf.codegen.merge.java.facade.JInitializer;
@@ -43,7 +48,6 @@ import org.eclipse.emf.codegen.merge.java.facade.JMember;
 import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
-import org.eclipse.emf.codegen.merge.java.facade.JType;
 import org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -56,19 +60,217 @@ import org.eclipse.emf.common.util.Monitor;
  */
 public class JMerger
 {
-  public static final String DEFAULT_FACADE_HELPER_CLASS = ASTFacadeHelper.class.getName(); 
+  public static final boolean DEBUG = false;
+  
+  public static final String DEFAULT_FACADE_HELPER_CLASS = ASTFacadeHelper.class.getName();
+  
+  protected static final Pattern INTERFACE_BRACE_PATTERN = 
+    Pattern.compile
+      ("(?:\\n\\r|\\r\\n|\\n|\\r)(\\s*)(?:public|private|protected|static|\\s)*(?:interface|class)\\s*[^\\{\\n\\r]*(\\{)(\\n\\r|\\r\\n|\\n|\\r)", 
+       Pattern.MULTILINE); // }}
+  
+  protected static final Object[] NO_ARGUMENTS = new Object[0];
+
+  
+  public class PullTargetVisitor extends FacadeVisitor
+  {
+    protected void doPull(JNode source, JNode target)
+    {
+      map(source, target);
+      if (source != null)
+      {
+        applyPullRules(source, target);
+      }      
+    }
+    
+    @Override
+    protected boolean visit(JAbstractType abstractType)
+    {
+      isBlocked =
+        abstractType.getParent() instanceof JCompilationUnit &&
+        getControlModel().getBlockPattern() != null && 
+        abstractType.getComment() != null &&
+        getControlModel().getBlockPattern().matcher(abstractType.getComment()).find();
+      
+      if (!isBlocked)
+      {
+        JAbstractType sourceType = sourcePatternDictionary.getAbstractTypeMap().get(abstractType.getQualifiedName());
+
+        // check if nodes can be merged
+        if (!areCompatible(sourceType, abstractType))
+        {
+          // convert the target node to a compatible node
+          JAbstractType newTargetType = convertTarget(abstractType, sourceType);
+          if (newTargetType == null)
+          {
+            // do not merge incompatible types, but still map them to avoid pushing
+            map(sourceType, abstractType);
+            return false;
+          }
+          else
+          {
+            abstractType = newTargetType;
+          }
+        }
+        
+        doPull(sourceType, abstractType);
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    
+    @Override
+    protected boolean visit(JCompilationUnit compilationUnit)
+    {
+      return true;
+    }
+    
+    @Override
+    protected boolean visit(JAnnotation annotation)
+    {
+      JAnnotation sourceAnnotation = sourcePatternDictionary.getAnnotationMap().get(annotation.getQualifiedName());      
+      doPull(sourceAnnotation, annotation);
+      return false;
+    }
+    
+    @Override
+    protected boolean visit(JAnnotationTypeMember annotationTypeMember)
+    {
+      JAnnotationTypeMember sourceannotationTypeMember = sourcePatternDictionary.getAnnotationTypeMemberMap().get(annotationTypeMember.getQualifiedName());
+      doPull(sourceannotationTypeMember, annotationTypeMember);
+      return true;
+    }
+    
+    @Override
+    protected boolean visit(JEnumConstant enumConstant)
+    {
+      JEnumConstant sourceEnumConstant = sourcePatternDictionary.getEnumConstantMap().get(enumConstant.getQualifiedName());
+      doPull(sourceEnumConstant, enumConstant);
+      return true;
+    }
+    
+    @Override
+    protected boolean visit(JField field)
+    {
+      JField sourceField = sourcePatternDictionary.getFieldMap().get(field.getQualifiedName());
+      doPull(sourceField, field);
+      return true;
+    }
+    
+    @Override
+    protected boolean visit(JImport jImport)
+    {
+      JImport sourceImport = sourcePatternDictionary.getImportMap().get(jImport.getQualifiedName());
+      doPull(sourceImport, jImport);
+      return false;
+    }
+    
+    @Override
+    protected boolean visit(JInitializer initializer)
+    {
+      JInitializer sourceInitializer = sourcePatternDictionary.getInitializerMap().get(initializer.getQualifiedName());
+      doPull(sourceInitializer, initializer);
+      return true;
+    }
+    
+    @Override
+    protected boolean visit(JMethod method)
+    {
+      String qualifiedTargetMethodName = method.getQualifiedName();
+      JMethod sourceMethod = sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
+
+      if (sourceMethod == null && 
+            getControlModel().getRedirect() != null && 
+            method.getName() != null &&
+            method.getName().endsWith(getControlModel().getRedirect()))
+      {
+        int index = qualifiedTargetMethodName.indexOf("("); //)
+        qualifiedTargetMethodName =
+          qualifiedTargetMethodName.substring(0, index - getControlModel().getRedirect().length()) + 
+            qualifiedTargetMethodName.substring(index);
+        sourceMethod = sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
+      }
+      
+      doPull(sourceMethod, method);
+      return true;
+    }
+    
+    @Override
+    protected boolean visit(JPackage jPackage)
+    {
+      JPackage sourcePackage = sourcePatternDictionary.getJPackage();
+      doPull(sourcePackage, jPackage);
+      return false;
+    }
+  } 
+  
+  public class PushSourceVisitor extends FacadeVisitor
+  {
+    @Override
+    protected boolean basicVisit(JNode node)
+    {
+      return doPush(node);
+    }
+    
+    /**
+     * Returns whether the children should be visited (ie, when the source is not in the target).
+     * @param sourceNode
+     * @return
+     */
+    protected boolean doPush(JNode sourceNode)
+    {
+      applySortRules(sourceNode);
+      if (!sourceToTargetMap.containsKey(sourceNode))
+      {
+        if (isPushMarkedUp(sourceNode))
+        {         
+          insertClone(sourceNode);
+        }
+        return false;
+      }
+      return true;
+    }
+    
+    @Override
+    protected boolean visit(JCompilationUnit compilationUnit)
+    {
+      return true;
+    }
+    
+    @Override
+    protected boolean visit(JAbstractType abstractType)
+    {
+      return 
+        super.visit(abstractType) &&
+        areCompatible(abstractType, sourceToTargetMap.get(abstractType));
+    }
+    
+    @Override
+    protected boolean visit(JImport jImport)
+    {
+      return 
+       !targetPatternDictionary.isNoImport(jImport) 
+       && super.visit(jImport);
+    }
+  }  
+  
+  protected JControlModel controlModel;
   
   protected JCompilationUnit sourceCompilationUnit;
   protected JCompilationUnit targetCompilationUnit;
   protected JPatternDictionary sourcePatternDictionary;
   protected JPatternDictionary targetPatternDictionary;
+
   protected Map<JNode, JNode> sourceToTargetMap = new HashMap<JNode, JNode>();
   protected Map<JNode, JNode> targetToSourceMap = new HashMap<JNode, JNode>();
   protected Map<JNode, List<JNode>> orderedSourceChildrenMap = new HashMap<JNode, List<JNode>>();
-  protected boolean isBlocked;
-  protected boolean fixInterfaceBrace;
-  protected JControlModel controlModel;
 
+  protected boolean fixInterfaceBrace;
+  protected boolean isBlocked;
+  
   /**
    * This creates an empty instances, an when used as a runnable.
    */
@@ -102,159 +304,6 @@ public class JMerger
     merge();
   }
 
-  public boolean isFixInterfaceBrace()
-  {
-    return fixInterfaceBrace;
-  }
-
-  public void setFixInterfaceBrace(boolean fixInterfaceBrace)
-  {
-    this.fixInterfaceBrace = fixInterfaceBrace;
-  }
-
-  public String getSourceCompilationUnitContents()
-  {
-    return sourceCompilationUnit.getContents();
-  }
-  
-  public JCompilationUnit getSourceCompilationUnit()
-  {
-    return sourceCompilationUnit;
-  }
-  
-  public JControlModel getControlModel()
-  {
-    return controlModel;
-  }
-
-  public void setSourceCompilationUnit(JCompilationUnit sourceCompilationUnit)
-  {
-    this.sourceCompilationUnit =  sourceCompilationUnit;
-    sourcePatternDictionary = new JPatternDictionary(sourceCompilationUnit, getControlModel());
-    // System.out.println("-- source --");
-    // sourcePatternDictionary.dumpMarkup();
-  }
-  
-  protected static final Pattern INTERFACE_BRACE_PATTERN = 
-    Pattern.compile
-      ("(?:\\n\\r|\\r\\n|\\n|\\r)(\\s*)(?:public|private|protected|static|\\s)*(?:interface|class)\\s*[^\\{\\n\\r]*(\\{)(\\n\\r|\\r\\n|\\n|\\r)", 
-       Pattern.MULTILINE); // }}
-
-  public String getTargetCompilationUnitContents()
-  {
-    String result = targetCompilationUnit.getContents();
-    if (fixInterfaceBrace)
-    {
-      Matcher matcher = INTERFACE_BRACE_PATTERN.matcher(result);
-      int offset = 0;
-      while (matcher.find())
-      {
-        if (getControlModel().standardBraceStyle)
-        {
-          if (result.charAt(matcher.start(2) - 1) != ' ')
-          {
-            result = 
-              result.substring(0, offset + matcher.start(2)) + 
-                " {" + result.substring(offset + matcher.end(2), result.length()); // }
-            offset += 1;
-          }
-        }
-        else
-        {
-          result = 
-            result.substring(0, offset + matcher.start(2)) + matcher.group(3) + 
-              matcher.group(1) + "{" + result.substring(offset + matcher.end(2), result.length()); // }
-          offset += matcher.group(1).length() + matcher.group(3).length();
-        }
-      }
-    }
-    return result;
-  }
-
-  public JCompilationUnit getTargetCompilationUnit()
-  {
-    return targetCompilationUnit;
-  }
-
-  public void setTargetCompilationUnit(JCompilationUnit targetCompilationUnit)
-  {
-    this.targetCompilationUnit = targetCompilationUnit;
-    targetPatternDictionary = new JPatternDictionary(targetCompilationUnit, getControlModel());
-    // System.out.println("-- target --");
-    // targetPatternDictionary.dumpMarkup();
-  }
-
-  public JPatternDictionary getSourcePatternDictionary()
-  {
-    return sourcePatternDictionary;
-  }
-
-  public void setSourcePatternDictionary(JPatternDictionary sourcePatternDictionary)
-  {
-    this.sourcePatternDictionary = sourcePatternDictionary;
-  }
-
-  public JPatternDictionary getTargetPatternDictionary()
-  {
-    return targetPatternDictionary;
-  }
-
-  public void setTargetPatternDictionary(JPatternDictionary targetPatternDictionary)
-  {
-    this.targetPatternDictionary = targetPatternDictionary;
-  }
-
-  public Map<JNode, JNode> getSourceToTargetMap()
-  {
-    return sourceToTargetMap;
-  }
-
-  public void setSourceToTargetMap(Map<JNode, JNode> sourceToTargetMap)
-  {
-    this.sourceToTargetMap = sourceToTargetMap;
-  }
-
-  /**
-   * Create a JDOM from a URI.
-   */
-  public JCompilationUnit createCompilationUnitForURI(String uri)
-  {
-    return createCompilationUnitForURI(uri, null);
-  }
-
-  /**
-   * Create a JDOM from a URI.
-   */
-  public JCompilationUnit createCompilationUnitForURI(String uri, String encoding)
-  {
-    try
-    {
-      URL url = null;
-      try
-      {
-        url = new URL(uri);
-      }
-      catch (MalformedURLException exception)
-      {
-        url = new URL("file:" + uri);
-      }
-      if (url != null)
-      {
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(url.openStream());
-        byte [] input = new byte [bufferedInputStream.available()];
-        bufferedInputStream.read(input);
-        bufferedInputStream.close();
-        return getControlModel().getFacadeHelper().createCompilationUnit(url.toString(), encoding == null ? new String(input) : new String(input, encoding));
-      }
-    }
-    catch (IOException exception)
-    {
-      // exception.printStackTrace();
-    }
-
-    return null;
-  }
-
   public JCompilationUnit createCompilationUnitForInputStream(InputStream inputStream)
   {
     return createCompilationUnitForInputStream(inputStream, null);
@@ -278,14 +327,144 @@ public class JMerger
   }
 
   /**
-   * Create a JDOM from contents.
+   * Creates a JCompilationUnit from a URI.
    */
+  public JCompilationUnit createCompilationUnitForURI(String uri)
+  {
+    return createCompilationUnitForURI(uri, null);
+  }
+
+  /**
+   * Creates a JCompilationUnit from a URI.
+   */
+  public JCompilationUnit createCompilationUnitForURI(String uri, String encoding)
+  {
+    try
+    {
+      URL url = null;
+      try
+      {
+        url = new URL(uri);
+      }
+      catch (MalformedURLException exception)
+      {
+        url = new URL("file:" + uri);
+      }
+  
+      BufferedInputStream bufferedInputStream = new BufferedInputStream(url.openStream());
+      byte [] input = new byte [bufferedInputStream.available()];
+      bufferedInputStream.read(input);
+      bufferedInputStream.close();
+      
+      return getControlModel().getFacadeHelper().createCompilationUnit(
+        url.toString(), 
+        encoding == null ? new String(input) : new String(input, encoding));
+    }
+    catch (IOException exception)
+    {
+      // exception.printStackTrace();
+    }
+  
+    return null;
+  }
+
   public JCompilationUnit createCompilationUnitForContents(String contents)
   {
     return getControlModel().getFacadeHelper().createCompilationUnit("NAME", contents);
   }
 
-/////////////////////////////////  PULL  /////////////////////////////////////
+  public JControlModel getControlModel()
+  {
+    return controlModel;
+  }
+
+  public JCompilationUnit getSourceCompilationUnit()
+  {
+    return sourceCompilationUnit;
+  }
+
+  public void setSourceCompilationUnit(JCompilationUnit sourceCompilationUnit)
+  {
+    this.sourceCompilationUnit =  sourceCompilationUnit;
+    sourcePatternDictionary = new JPatternDictionary(sourceCompilationUnit, getControlModel());
+  }
+
+  public String getSourceCompilationUnitContents()
+  {
+    return sourceCompilationUnit.getContents();
+  }
+
+  public JCompilationUnit getTargetCompilationUnit()
+  {
+    return targetCompilationUnit;
+  }
+
+  public void setTargetCompilationUnit(JCompilationUnit targetCompilationUnit)
+  {
+    this.targetCompilationUnit = targetCompilationUnit;
+    targetPatternDictionary = new JPatternDictionary(targetCompilationUnit, getControlModel());
+  }
+
+  public String getTargetCompilationUnitContents()
+  {
+    String result = targetCompilationUnit.getContents();
+    if (fixInterfaceBrace)
+    {
+      Matcher matcher = INTERFACE_BRACE_PATTERN.matcher(result);
+      int offset = 0;
+      while (matcher.find())
+      {
+        if (getControlModel().standardBraceStyle)
+        {
+          if (result.charAt(matcher.start(2) - 1) != ' ')
+          {
+            result = 
+              result.substring(0, offset + matcher.start(2)) + 
+                " {" + result.substring(offset + matcher.end(2), result.length());
+            offset += 1;
+          }
+        }
+        else
+        {
+          result = 
+            result.substring(0, offset + matcher.start(2)) + matcher.group(3) + 
+              matcher.group(1) + "{" + result.substring(offset + matcher.end(2), result.length());
+          offset += matcher.group(1).length() + matcher.group(3).length();
+        }
+      }
+    }
+    return result;
+  }
+
+  public JPatternDictionary getSourcePatternDictionary()
+  {
+    return sourcePatternDictionary;
+  }
+
+  public void setSourcePatternDictionary(JPatternDictionary sourcePatternDictionary)
+  {
+    this.sourcePatternDictionary = sourcePatternDictionary;
+  }
+
+  public JPatternDictionary getTargetPatternDictionary()
+  {
+    return targetPatternDictionary;
+  }
+
+  public void setTargetPatternDictionary(JPatternDictionary targetPatternDictionary)
+  {
+    this.targetPatternDictionary = targetPatternDictionary;
+  }
+
+  public boolean isFixInterfaceBrace()
+  {
+    return fixInterfaceBrace;
+  }
+
+  public void setFixInterfaceBrace(boolean fixInterfaceBrace)
+  {
+    this.fixInterfaceBrace = fixInterfaceBrace;
+  }
 
   protected void pullTargetCompilationUnit()
   {
@@ -298,296 +477,88 @@ public class JMerger
       map(sourceCompilationUnit, targetCompilationUnit);
       applyPullRules(sourceCompilationUnit, targetCompilationUnit);
 
-/*
-    // PULL Header 
-    //
-    String sourceHeader = sourceCompilationUnit.getHeader();
-    if (sourceHeader != null)
-    {
-      targetCompilationUnit.setHeader(sourceHeader);
+      createPullTargetVisitor().start(targetCompilationUnit);
     }
+  }
 
-*/
-      for (JNode child : targetCompilationUnit.getChildren())
+  protected FacadeVisitor createPullTargetVisitor()
+  {
+    return new PullTargetVisitor();
+  }
+
+  protected void pushSourceCompilationUnit()
+  {
+    createPushSourceVisitor().start(sourceCompilationUnit);
+  }
+
+  protected FacadeVisitor createPushSourceVisitor()
+  {
+    return new PushSourceVisitor();
+  }
+
+  protected void sortTargetCompilationUnit()
+  {
+    for (List<JNode> children : orderedSourceChildrenMap.values())
+    {
+      if (children.size() >= 2)
       {
-        if (child instanceof JPackage)
+        Iterator<JNode> i = children.iterator();
+        JNode sourceNode = i.next();
+        JNode previousTargetNode = sourceToTargetMap.get(sourceNode);
+        do
         {
-          pullTargetPackage((JPackage)child);
-        }
-        else if (child instanceof JImport)
-        {
-          pullTargetImport((JImport)child);
-        }
-        else if (child instanceof JType)
-        {
-          JType type = (JType)child;
-          isBlocked = 
-            getControlModel().getBlockPattern() != null && 
-              type.getComment() != null &&
-              getControlModel().getBlockPattern().matcher(type.getComment()).find();
-          if (!isBlocked)
-          {
-            pullTargetType(type);
-          }
-        }
-      }
-    }
-  }
-
-  protected void pullTargetPackage(JPackage targetPackage)
-  {
-    JPackage sourcePackage = sourcePatternDictionary.getJPackage();
-    map(sourcePackage, targetPackage);
-    applyPullRules(sourcePackage, targetPackage);
-
-/*
-    // PULL Name
-    //
-    targetPackage.setName(sourcePackage.getName());
-*/
-  }
-
-  protected void pullTargetImport(JImport targetImport)
-  {
-    JImport sourceImport = sourcePatternDictionary.getImportMap().get(targetImport.getQualifiedName());
-    map(sourceImport, targetImport);
-    if (sourceImport != null)
-    {
-      applyPullRules(sourceImport, targetImport);
-    }
-  }
-
-  protected void pullTargetType(JType targetType)
-  {
-    JType sourceType = sourcePatternDictionary.getTypeMap().get(targetType.getQualifiedName());
-
-    map(sourceType, targetType);
-    if (sourceType != null)
-    {
-      applyPullRules(sourceType, targetType);
-
-/*
-      // PULL: Comment
-      //
-      String sourceComment = sourceType.getComment();
-      if (sourceComment != null)
-      {
-        targetType.setComment(sourceComment);
-      }
-*/
-/*
-      // PULL: Flags
-      //
-      int sourceFlags = sourceType.getFlags();
-      targetType.setFlags(sourceFlags);
-
-      // PULL: Superclass
-      //
-      targetType.setSuperclass(sourceType.getSuperclass());
-
-      // PULL: SuperInterfaces
-      //
-      ArrayList additionalSuperInterfaces = new ArrayList();
-      String [] sourceSuperInterfaces = sourceType.getSuperInterfaces();
-      if (sourceSuperInterfaces != null)
-      {
-        additionalSuperInterfaces.addAll(Arrays.asList(sourceSuperInterfaces));
-        String [] targetTypeSuperInterfaces = targetType.getSuperInterfaces();
-        if (targetTypeSuperInterfaces != null)
-        {
-          additionalSuperInterfaces.removeAll(Arrays.asList(targetType.getSuperInterfaces()));
-        }
-      }
-      for (Iterator i = additionalSuperInterfaces.iterator(); i.hasNext(); )
-      {
-        String superInterface = (String)i.next();
-        targetType.addSuperInterface(superInterface);
-      }
-*/
-    }
-    
-    for (JNode child : targetType.getChildren())
-    {
-      if (child instanceof JInitializer)
-      {
-        pullTargetInitializer((JInitializer)child);
-      }
-      else if (child instanceof JField)
-      {
-        pullTargetField((JField)child);
-      }
-      else if (child instanceof JMethod)
-      {
-        pullTargetMethod((JMethod)child);
-      }
-      else if (child instanceof JType)
-      {
-        pullTargetType((JType)child);
-      }
-    }
-  }
-
-  protected void pullTargetInitializer(JInitializer targetInitializer)
-  {
-    JInitializer sourceInitializer = sourcePatternDictionary.getInitializerMap().get(targetInitializer.getQualifiedName());
-    map(sourceInitializer, targetInitializer);
-    if (sourceInitializer != null)
-    {
-      applyPullRules(sourceInitializer, targetInitializer);
-
-/*
-      // PULL: Comment
-      //
-      String sourceComment = sourceInitializer.getComment();
-      if (sourceComment != null)
-      {
-        targetInitializer.setComment(sourceComment);
-      }
-*/
-
-/*
-      // PULL: Body
-      //
-      String sourceBody = sourceInitializer.getBody();
-      if (sourceBody != null)
-      {
-        targetInitializer.setBody(sourceBody);
-      }
-*/
-    }
-  }
-
-  protected void pullTargetField(JField targetField)
-  {
-    JField sourceField = sourcePatternDictionary.getFieldMap().get(targetField.getQualifiedName());
-
-    map(sourceField, targetField);
-    if (sourceField != null)
-    {
-      applyPullRules(sourceField, targetField);
-
-/*
-      // PULL: Comment
-      //
-      String sourceComment = sourceField.getComment();
-      if (sourceComment != null)
-      {
-        targetField.setComment(sourceComment);
-      }
-*/
-
-/*
-      // PULL: Flags
-      //
-      int sourceFlags = sourceField.getFlags();
-      targetField.setFlags(sourceFlags);
-
-      // PULL: Type
-      //
-      String sourceFieldType = sourceField.getType();
-      if (sourceFieldType != null)
-      {
-        targetField.setType(sourceFieldType);
-      }
-
-      // PULL: Initializer
-      //
-      String sourceFieldInitializer = sourceField.getInitializer();
-      if (sourceFieldInitializer != null)
-      {
-        targetField.setInitializer(sourceFieldInitializer);
-      }
-*/
-    }
-  }
-
-  protected void pullTargetMethod(JMethod targetMethod)
-  {
-    String qualifiedTargetMethodName = targetMethod.getQualifiedName();
-    JMethod sourceMethod = sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
-
-    if (sourceMethod == null && 
-          getControlModel().getRedirect() != null && 
-          targetMethod.getName() != null &&
-          targetMethod.getName().endsWith(getControlModel().getRedirect()))
-    {
-      int index = qualifiedTargetMethodName.indexOf("("); //)
-      qualifiedTargetMethodName =
-        qualifiedTargetMethodName.substring(0, index - getControlModel().getRedirect().length()) + 
-          qualifiedTargetMethodName.substring(index);
-      sourceMethod = sourcePatternDictionary.getMethodMap().get(qualifiedTargetMethodName);
-    }
-
-    map(sourceMethod, targetMethod);
-    if (sourceMethod != null)
-    {
-      applyPullRules(sourceMethod, targetMethod);
-
-/*
-      // PULL: Comment
-      //
-      String sourceComment = sourceMethod.getComment();
-      if (sourceComment != null)
-      {
-        targetMethod.setComment(sourceComment);
-      }
-*/
-
-/*
-      // PULL: Flags
-      //
-      int sourceFlags = sourceMethod.getFlags();
-      targetMethod.setFlags(sourceFlags);
-
-      // PULL: Body
-      //
-      String sourceMethodBody = sourceMethod.getBody();
-      if (sourceMethodBody != null)
-      {
-        targetMethod.setBody(sourceMethodBody);
-      }
-
-      // PULL: ReturnType
-      //
-      String sourceMethodReturnType = sourceMethod.getReturnType();
-      if (sourceMethodReturnType != null)
-      {
-        targetMethod.setReturnType(sourceMethodReturnType);
-      }
-*/
-
-/*
-      // PULL: Exceptions
-      //
-      ArrayList additionalExceptions = new ArrayList();
-      String [] sourceMethodExceptions = sourceMethod.getExceptions();
-      if (sourceMethodExceptions != null)
-      {
-        additionalExceptions.addAll(Arrays.asList(sourceMethodExceptions));
-        String [] targetMethodExceptions = targetMethod.getExceptions();
-        if (targetMethodExceptions != null)
-        {
-          additionalExceptions.removeAll(Arrays.asList(targetMethodExceptions));
-        }
-      }
-      for (Iterator i = additionalExceptions.iterator(); i.hasNext(); )
-      {
-        String exception = (String)i.next();
-        targetMethod.addException(exception);
-      }
-*/
-    }
-  }
+          sourceNode = i.next();
+          JNode nextTargetNode = sourceToTargetMap.get(sourceNode);
   
-  protected static Object [] noArguments = new Object [0];
+          boolean reorder = true;
+          for (JNode node = getControlModel().getFacadeHelper().getPrevious(nextTargetNode); node != null; node = getControlModel().getFacadeHelper().getPrevious(node))
+          {
+            if (node == previousTargetNode)
+            {
+              reorder = false;
+              break;
+            }
+          }
+  
+          if (reorder)
+          {
+            getControlModel().getFacadeHelper().remove(nextTargetNode);
+            if (getControlModel().getFacadeHelper().getNext(previousTargetNode) == null)
+            {
+              getControlModel().getFacadeHelper().addChild(previousTargetNode.getParent(), nextTargetNode);
+            }
+            else
+            {
+              getControlModel().getFacadeHelper().insertSibling(previousTargetNode, nextTargetNode, false);
+            }
+          }
+  
+          previousTargetNode = nextTargetNode;
+        }
+        while (i.hasNext());
+      }
+    }
+  }
+
+  protected void sweepTargetCompilationUnit()
+  {
+    for (Map.Entry<JNode, JNode> entry : targetToSourceMap.entrySet())
+    {
+      if (entry.getValue() == null)
+      {
+        applySweepRules(entry.getKey());
+      }
+    }
+  }
+
   protected void applyPullRules(JNode sourceNode, JNode targetNode)
   {
     try
     {
       for (JControlModel.PullRule pullRule : getControlModel().getPullRules())
       {
-        if (sourcePatternDictionary.isMarkedUp(pullRule.getSourceMarkup(), sourceNode) && 
-              targetPatternDictionary.isMarkedUp(pullRule.getTargetMarkup(), targetNode) && 
+        if (sourcePatternDictionary.isMarkedUp(pullRule.getSourceMarkup(), pullRule.getSourceParentMarkup(), sourceNode) && 
+              (targetPatternDictionary.isMarkedUp(pullRule.getTargetMarkup(), pullRule.getTargetParentMarkup(), targetNode)) && 
               pullRule.getSourceGetFeature().getFeatureClass().isInstance(sourceNode) &&
               pullRule.getTargetPutFeature().getFeatureClass().isInstance(targetNode))
         {
@@ -596,15 +567,15 @@ public class JMerger
           if (pullRule.getEqualityFeature() != null)
           {
             Method equalityFeatureMethod = pullRule.getEqualityFeature().getFeatureMethod();
-            Object value1 = equalityFeatureMethod.invoke(sourceNode, noArguments);
-            Object value2 = equalityFeatureMethod.invoke(targetNode, noArguments);
+            Object value1 = equalityFeatureMethod.invoke(sourceNode, NO_ARGUMENTS);
+            Object value2 = equalityFeatureMethod.invoke(targetNode, NO_ARGUMENTS);
             if (value1 == null ? value2 != null : !value1.equals(value2))
             {
               continue;
             }
           }
           Method sourceGetMethod = pullRule.getSourceGetFeature().getFeatureMethod();
-          Object value = sourceGetMethod.invoke(sourceNode, noArguments);
+          Object value = sourceGetMethod.invoke(sourceNode, NO_ARGUMENTS);
           Method targetPutMethod = pullRule.getTargetPutFeature().getFeatureMethod();
           if (!sourceGetMethod.getReturnType().isArray() || 
                 targetPutMethod.getParameterTypes()[0].isAssignableFrom(sourceGetMethod.getReturnType()))
@@ -616,7 +587,7 @@ public class JMerger
               Pattern sourceTransfer = pullRule.getSourceTransfer();
               if (sourceTransfer != null)
               {
-                String oldStringValue = (String)sourceGetMethod.invoke(targetNode, noArguments);
+                String oldStringValue = (String)sourceGetMethod.invoke(targetNode, NO_ARGUMENTS);
                 if (oldStringValue != null)
                 {
                   Matcher sourceMatcher = sourceTransfer.matcher(stringValue);
@@ -658,7 +629,7 @@ public class JMerger
             {
               // Ignore if there is not substantial change.
               //
-              Object oldValue = sourceGetMethod.invoke(targetNode, noArguments);
+              Object oldValue = sourceGetMethod.invoke(targetNode, NO_ARGUMENTS);
               if (value == null ? oldValue == null : value.equals(oldValue))
               {
                 continue;
@@ -670,7 +641,7 @@ public class JMerger
                   continue;
                 }
               }
-
+  
               // The block pattern needs to prevent merging of the return type, to allow changing from the modeled data
               // type (Bugzilla 102209). 
               //
@@ -681,7 +652,7 @@ public class JMerger
               {
                 continue;
               }
-
+  
               targetPutMethod.invoke(targetNode, new Object [] { value });
               if (targetPutMethod.getName().equals("setBody") && sourceNode instanceof JMethod)
               {
@@ -701,7 +672,7 @@ public class JMerger
             {
               additionalStrings.addAll(Arrays.asList(sourceStrings));
             }
-
+  
             if (targetPutMethod.getName().equals("addSuperInterface"))
             {
               Pattern sourceTransfer = pullRule.getSourceTransfer();
@@ -725,20 +696,21 @@ public class JMerger
                   }
                 }
               }
-
-              JType type = (JType)targetNode;
+  
+              String[] oldSuperInterfaces = (String[])sourceGetMethod.invoke(targetNode);
               String[] superInterfaces = additionalStrings.toArray(new String[additionalStrings.size()]);
-              if (type.getSuperInterfaces() == null ?
+              if (oldSuperInterfaces == null ?
                    superInterfaces.length != 0 :
-                   !Arrays.equals(type.getSuperInterfaces(), superInterfaces))
+                   !Arrays.equals(oldSuperInterfaces, superInterfaces))
               {
-                type.setSuperInterfaces(additionalStrings.toArray(new String[additionalStrings.size()]));
+                Method putMethod = targetNode.getClass().getMethod("setSuperInterfaces", String [].class);
+                putMethod.invoke(targetNode, new Object []{ superInterfaces });
               }
             }
             // target method is NOT addSuperInterface
             else
             {
-              String [] oldStringValues = (String [])sourceGetMethod.invoke(targetNode, noArguments);
+              String [] oldStringValues = (String [])sourceGetMethod.invoke(targetNode, NO_ARGUMENTS);
               List<String> old = oldStringValues == null ? Collections.<String>emptyList() : Arrays.<String>asList(oldStringValues);
               for (String string : additionalStrings)
               {
@@ -751,117 +723,44 @@ public class JMerger
           }
         }
       }
-
+  
     }
     catch (InvocationTargetException exception)
     {
-      // exception.printStackTrace();
+      if (DEBUG)
+      {
+        exception.printStackTrace();
+      }
     }
     catch (IllegalAccessException exception)
     {
-      // exception.printStackTrace();
+      if (DEBUG)
+      {
+        exception.printStackTrace();
+      }
     }
-  }
-
-
-/////////////////////////////////  PUSH  /////////////////////////////////////
-
-  protected void pushSourceCompilationUnit()
-  {
-    for (JNode child : sourceCompilationUnit.getChildren())
+    catch (SecurityException e)
     {
-      if (child instanceof JPackage)
+      if (DEBUG)
       {
-        pushSourcePackage((JPackage)child);
+        e.printStackTrace();
       }
-      else if (child instanceof JImport)
+    }
+    catch (NoSuchMethodException e)
+    {
+      if (DEBUG)
       {
-        pushSourceImport((JImport)child);
-      }
-      else if (child instanceof JType)
-      {
-        pushSourceType((JType)child);
+        e.printStackTrace();
       }
     }
   }
 
-  protected void pushSourcePackage(JPackage sourcePackage)
-  {
-    if (!sourceToTargetMap.containsKey(sourcePackage))
-    {
-      insertClone(sourcePackage);
-    }
-  }
-
-  protected void pushSourceImport(JImport sourceImport)
-  {
-    if (!sourceToTargetMap.containsKey(sourceImport) && !targetPatternDictionary.isNoImport(sourceImport))
-    {
-      insertClone(sourceImport);
-    }
-  }
-
-  protected void pushSourceType(JType sourceType)
-  {
-    if (!sourceToTargetMap.containsKey(sourceType))
-    {
-      insertClone(sourceType);
-    }
-    else
-    {
-      for (JNode child : sourceType.getChildren())
-      {
-        if (child instanceof JInitializer)
-        {
-          pushSourceInitializer((JInitializer)child);
-        }
-        else if (child instanceof JField)
-        {
-          pushSourceField((JField)child);
-        }
-        else if (child instanceof JMethod)
-        {
-          pushSourceMethod((JMethod)child);
-        }
-        else if (child instanceof JType)
-        {
-          pushSourceType((JType)child);
-        }
-      }
-    }
-  }
-
-  protected void pushSourceInitializer(JInitializer sourceInitializer)
-  {
-    if (!sourceToTargetMap.containsKey(sourceInitializer))
-    {
-      insertClone(sourceInitializer);
-    }
-  }
-
-  protected void pushSourceField(JField sourceField)
-  {
-    applySortRules(sourceField);
-    if (!sourceToTargetMap.containsKey(sourceField))
-    {
-      insertClone(sourceField);
-    }
-  }
-
-  protected void pushSourceMethod(JMethod sourceMethod)
-  {
-    if (!sourceToTargetMap.containsKey(sourceMethod))
-    {
-      insertClone(sourceMethod);
-    }
-  }
-
-  public void applySortRules(JNode sourceNode)
+  protected void applySortRules(JNode sourceNode)
   {
     for (JControlModel.SortRule sortRule : getControlModel().getSortRules())
     {
       if (sourcePatternDictionary.isMarkedUp(sortRule.getMarkup(), sourceNode)  &&
-            sortRule.getSelector().isInstance(sourceNode))
+          sortRule.getSelector().isInstance(sourceNode))
       {
         JNode parent = sourceNode.getParent();
         List<JNode> children = orderedSourceChildrenMap.get(parent);
@@ -876,88 +775,53 @@ public class JMerger
     }
   }
 
-
-/////////////////////////////////  SWEEP  /////////////////////////////////////
-
-  protected void sweepTargetCompilationUnit()
-  {
-    for (Map.Entry<JNode, JNode> entry : targetToSourceMap.entrySet())
-    {
-      if (entry.getValue() == null)
-      {
-        applySweepRules(entry.getKey());
-      }
-    }
-  }
-
   protected void applySweepRules(JNode targetNode)
   {
     for (JControlModel.SweepRule sweepRule : getControlModel().getSweepRules())
     {
-      if (sweepRule.getSelector() == JImport.class && targetNode instanceof JImport)
-      {
-        if (sweepRule.getMarkup().matcher(targetNode.getName()).find())
-        {
-          getControlModel().getFacadeHelper().remove(targetNode);
-          break;
-        }
-      }
-      else if (targetPatternDictionary.isMarkedUp(sweepRule.getMarkup(), targetNode)  &&
-            sweepRule.getSelector().isInstance(targetNode))
+      boolean sweep = 
+           (sweepRule.getSelector() == JImport.class 
+              && targetNode instanceof JImport 
+              && sweepRule.getMarkup().matcher(targetNode.getName()).find())
+        || (targetPatternDictionary.isMarkedUp(sweepRule.getMarkup(), sweepRule.getParentMarkup(), targetNode)  
+              && sweepRule.getSelector().isInstance(targetNode));
+      
+      if (sweep)
       {
         getControlModel().getFacadeHelper().remove(targetNode);
-        break;
+        break;        
       }
     }
   }
 
-/////////////////////////////////  SORT  /////////////////////////////////////
-
-  protected void sortTargetCompilationUnit()
+  /**
+   * Checks if two nodes are compatible and can be merged.
+   * <p>
+   * This method must always return <code>false</code> if target node
+   * can have children that can not be added to source node. 
+   * 
+   * @param sourceNode
+   * @param targetNode
+   * @return <code>true</code> if nodes can be merged, <code>false</code> otherwise
+   */
+  protected boolean areCompatible(JNode sourceNode, JNode targetNode)
   {
-    for (List<JNode> children : orderedSourceChildrenMap.values())
-    {
-      if (children.size() >= 2)
-      {
-        Iterator<JNode> i = children.iterator();
-        JNode sourceNode = i.next();
-        JNode previousTargetNode = sourceToTargetMap.get(sourceNode);
-        do
-        {
-          sourceNode = i.next();
-          JNode nextTargetNode = sourceToTargetMap.get(sourceNode);
-
-          boolean reorder = true;
-          for (JNode domNode = getControlModel().getFacadeHelper().getPrevious(nextTargetNode); domNode != null; domNode = getControlModel().getFacadeHelper().getPrevious(domNode))
-          {
-            if (domNode == previousTargetNode)
-            {
-              reorder = false;
-              break;
-            }
-          }
-
-          if (reorder)
-          {
-            getControlModel().getFacadeHelper().remove(nextTargetNode);
-            if (getControlModel().getFacadeHelper().getNext(previousTargetNode) == null)
-            {
-              getControlModel().getFacadeHelper().addChild(previousTargetNode.getParent(), nextTargetNode);
-            }
-            else
-            {
-              getControlModel().getFacadeHelper().insertSibling(previousTargetNode, nextTargetNode, false);
-            }
-          }
-
-          previousTargetNode = nextTargetNode;
-        }
-        while (i.hasNext());
-      }
-    }
+    return targetNode != null && targetNode.getClass().isInstance(sourceNode);
   }
 
-/////////////////////////////////  CLONE AND MAP  /////////////////////////////////////
+  /**
+   * Converts target node to be compatible with the source node
+   * 
+   * @param <T> type of the source node and returned result node
+   * @param targetNode
+   * @param sourceNode
+   * @return <code>null</code> when conversion not possible, converted node otherwise
+   */
+  protected <T> T convertTarget(JNode targetNode, T sourceNode)
+  {
+    // TODO implement dispatching and create convert methods
+    return null;
+  }
 
   protected JNode insertClone(JNode sourceNode)
   {
@@ -1007,7 +871,60 @@ public class JMerger
     }
     return targetNode;
   }
+  
+  /**
+   * Checks if the node is marked up for pushing.
+   * <p>
+   * Node is considered marked up by default if there are no push rules for this node class.
+   * <p>
+   * The first push rule that matches the node makes the node marked up, and no further checking is performed.
+   * <p>
+   * If the push rule does not match the node, but the push rule is defined for the same node class,
+   * then the node will not be marked up, unless any of the following push rules will match the node.
+   * 
+   * @param node
+   * @return <code>true</code> if node should be pushed, <code>false</code> otherwise
+   */
+  protected boolean isPushMarkedUp(JNode node)
+  {
+    JNode targetParent = sourceToTargetMap.get(node.getParent());
+    assert targetParent != null; // if the parent is not in target, there is no point on checking the child
+    
+    // by default nodes are marked up
+    boolean markedUp = true;
+    for (JControlModel.PushRule rule : getControlModel().getPushRules())
+    {
+      // ignore rules for nodes of different class
+      if (rule.getSelector().isInstance(node))
+      {
+        Pattern targetParentMarkup = rule.getTargetParentMarkup();
+        Pattern sourceMarkup = rule.getMarkup();
 
+        // apply target parent pattern first
+        if (getSourcePatternDictionary().isMarkedUp(sourceMarkup, node)
+          && (getTargetPatternDictionary().isMarkedUp(targetParentMarkup, targetParent)))
+        {
+          return true;
+        }
+        else
+        {
+          // node is not marked up by now, but keep checking other rules 
+          markedUp = false;
+        }
+      }
+    }
+    return markedUp;
+  }
+  
+  protected void map(JNode sourceNode, JNode targetNode)
+  {
+    if (sourceNode != null)
+    {
+      sourceToTargetMap.put(sourceNode, targetNode);
+    }
+    targetToSourceMap.put(targetNode, sourceNode);
+  }  
+  
   protected void mapChildren(JNode sourceNode, JNode targetNode)
   {
     map(sourceNode, targetNode);
@@ -1018,16 +935,10 @@ public class JMerger
       mapChildren(sourceChild, targetChild);
     }
   }
-
-  protected void map(JNode sourceNode, JNode targetNode)
-  {
-    if (sourceNode != null)
-    {
-      sourceToTargetMap.put(sourceNode, targetNode);
-    }
-    targetToSourceMap.put(targetNode, sourceNode);
-  }
-
+  
+  
+  // Command line execution methods
+    
   /**
    * This is called with the command line arguments of a headless workbench invocation.
    */
@@ -1050,9 +961,9 @@ public class JMerger
       return new Integer(1);
     }
   }
-  
+
   /**
-   * Utilitiy for headless operations.
+   * Utility for headless operations.
    * 
    * @param mergeXML
    * @param sourceURI
@@ -1070,12 +981,12 @@ public class JMerger
     //
     controlModel =  new JControlModel();
     controlModel.initialize(CodeGenUtil.instantiateFacadeHelper(facadeHelperClass), mergeXML);
-
-    // Create the source and target JDOMs.
+  
+    // Create the source and target JCompilationUnit.
     //
     sourceCompilationUnit = createCompilationUnitForURI(sourceURI);
     targetCompilationUnit = createCompilationUnitForURI(targetURI);
-
+  
     // Create a pattern dictionary for each.
     //
     sourcePatternDictionary = new JPatternDictionary(sourceCompilationUnit, getControlModel());
