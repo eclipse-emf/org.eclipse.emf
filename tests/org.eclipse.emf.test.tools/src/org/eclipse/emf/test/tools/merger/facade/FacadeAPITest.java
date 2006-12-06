@@ -12,10 +12,10 @@
  *
  * </copyright>
  *
- * $Id: FacadeTest.java,v 1.2 2006/11/15 17:51:01 marcelop Exp $
+ * $Id: FacadeAPITest.java,v 1.1 2006/12/06 03:54:34 marcelop Exp $
  */
 
-package org.eclipse.emf.test.tools.merger;
+package org.eclipse.emf.test.tools.merger.facade;
 
 import org.eclipse.jdt.core.Flags;
 
@@ -31,19 +31,19 @@ import junit.framework.TestSuite;
 /**
  * @since 2.2.0
  */
-public class FacadeTest extends TestCase
+public class FacadeAPITest extends TestCase
 {
-  public FacadeTest(String name)
+  public FacadeAPITest(String name)
   {
     super(name);
   }
   
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("FacadeTest");
-    ts.addTest(new FacadeTest("testFacadeFlags"));
-    ts.addTest(new FacadeTest("testGenModelDefaultFacadeClass"));
-    ts.addTest(new FacadeTest("testASTFacadeHelperDebugFlag"));
+    TestSuite ts = new TestSuite("FacadeAPITest");
+    ts.addTest(new FacadeAPITest("testFacadeFlags"));
+    ts.addTest(new FacadeAPITest("testGenModelDefaultFacadeClass"));
+    ts.addTest(new FacadeAPITest("testASTFacadeHelperDebugFlag"));
     return ts;
   }
   

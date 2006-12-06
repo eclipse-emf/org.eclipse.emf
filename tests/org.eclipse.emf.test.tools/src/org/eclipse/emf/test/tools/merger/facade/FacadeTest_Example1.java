@@ -12,10 +12,10 @@
  *
  * </copyright>
  *
- * $Id: FacadeTest_Example1.java,v 1.7 2006/11/02 20:41:39 marcelop Exp $
+ * $Id: FacadeTest_Example1.java,v 1.1 2006/12/06 03:54:34 marcelop Exp $
  */
 
-package org.eclipse.emf.test.tools.merger;
+package org.eclipse.emf.test.tools.merger.facade;
 
 import java.io.File;
 import java.util.Arrays;
@@ -70,7 +70,7 @@ public class FacadeTest_Example1 extends TestCase
   
   public static Test suite()
   {
-    TestSuite ts = new TestSuite("FacadeTest_14");
+    TestSuite ts = new TestSuite("FacadeTest_Example1");
     ts.addTest(new FacadeTest_Example1("testJDOM"));
     ts.addTest(new FacadeTest_Example1("testAST"));
     return ts;
@@ -90,6 +90,7 @@ public class FacadeTest_Example1 extends TestCase
     return new File(TestUtil.getPluginDirectory() + "/data/Example1.java").getAbsoluteFile();
   }
   
+  @Override
   protected void setUp() throws Exception
   {
     File javaFile = getJavaFile();
@@ -111,6 +112,7 @@ public class FacadeTest_Example1 extends TestCase
     readTest(new ASTFacadeHelper(), getJavaFile());
   }
 
+  @Override
   protected void tearDown() throws Exception
   {
     compilationUnit = null;
@@ -193,7 +195,7 @@ public class FacadeTest_Example1 extends TestCase
     if (testContent) assertContentEquals("package org.eclipse.emf.test.tools.merger;\n\n", jPackage.getContents());
   }  
   
-  protected void readTestImports(List imports) throws Exception
+  protected void readTestImports(List<?> imports) throws Exception
   {
     assertNotNull(imports);
     assertEquals(6, imports.size());    
@@ -265,7 +267,7 @@ public class FacadeTest_Example1 extends TestCase
     }
   }
 
-  protected void readTestTypes(List types) throws Exception
+  protected void readTestTypes(List<?> types) throws Exception
   {
     assertNotNull(types);
     assertEquals(2, types.size());
@@ -345,7 +347,7 @@ public class FacadeTest_Example1 extends TestCase
     assertEquals(compilationUnit.getChildren().get(8), mainType);
   }
   
-  protected void readTestNestedTypes(List types) throws Exception
+  protected void readTestNestedTypes(List<?> types) throws Exception
   {
     assertNotNull(types);
     assertEquals(2, types.size());
@@ -400,7 +402,7 @@ public class FacadeTest_Example1 extends TestCase
     }
   }
       
-  protected void readTestFields(List fields) throws Exception
+  protected void readTestFields(List<?> fields) throws Exception
   {
     assertNotNull(fields);
     assertEquals(9, fields.size());
@@ -558,7 +560,7 @@ public class FacadeTest_Example1 extends TestCase
     }    
   }
 
-  protected void readTestMethods(List methods) throws Exception
+  protected void readTestMethods(List<?> methods) throws Exception
   {
     assertNotNull(methods);
     assertEquals(7, methods.size());
@@ -793,7 +795,7 @@ public class FacadeTest_Example1 extends TestCase
     }    
   }
   
-  protected void readTestInitializers(List initializers) throws Exception
+  protected void readTestInitializers(List<?> initializers) throws Exception
   {
     assertNotNull(initializers);
     assertEquals(3, initializers.size());
@@ -873,7 +875,7 @@ public class FacadeTest_Example1 extends TestCase
     }
   }
   
-  protected void testInstanceOf(Object object, Class cls)
+  protected void testInstanceOf(Object object, Class<?> cls)
   {
     assertTrue(object.toString(), cls.isInstance(object));
   }
