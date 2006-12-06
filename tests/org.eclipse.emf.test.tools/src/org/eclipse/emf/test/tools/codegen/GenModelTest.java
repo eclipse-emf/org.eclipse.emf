@@ -59,6 +59,7 @@ public class GenModelTest extends TestCase
     return ts;
   }
   
+  @Override
   protected void setUp() throws Exception
   {
     genModel = createGenModel();
@@ -66,7 +67,7 @@ public class GenModelTest extends TestCase
   
   protected GenModel createGenModel()
   {
-    List ePackages = new ArrayList();
+    List<EPackage> ePackages = new ArrayList<EPackage>();
     ePackages.add(createEPackage(0, true, false));
     ePackages.add(createEPackage(1, false, false));
     ePackages.add(createEPackage(2, true, true));
@@ -258,7 +259,7 @@ public class GenModelTest extends TestCase
     assertTrue(packageNames.isEmpty());    
   }
 
-  protected void modelQualifiedPackageNamesTest(List packageNames)
+  protected void modelQualifiedPackageNamesTest(List<String> packageNames)
   {
     assertTrue(packageNames.remove("org.example0.ePackage0.pub"));
     assertTrue(packageNames.remove("org.example0.ePackage0.internal"));
@@ -276,7 +277,7 @@ public class GenModelTest extends TestCase
     assertTrue(packageNames.remove("modelPluginClass"));
   }
 
-  protected void editQualifiedPackageNamesTest(List packageNames)
+  protected void editQualifiedPackageNamesTest(List<String> packageNames)
   {
     assertTrue(packageNames.remove("org.example0.ePackage0.edit"));
     assertTrue(packageNames.remove("org.example2.ePackage2.provider"));
@@ -289,7 +290,7 @@ public class GenModelTest extends TestCase
     }
   }
 
-  protected void editorQualifiedPackageNamesTest(List packageNames)
+  protected void editorQualifiedPackageNamesTest(List<String> packageNames)
   {
     assertTrue(packageNames.remove("org.example0.ePackage0.ui"));
     assertTrue(packageNames.remove("org.example2.ePackage2.presentation"));
@@ -303,7 +304,7 @@ public class GenModelTest extends TestCase
     }
   }
 
-  protected void testsQualifiedPackageNamesTest(List packageNames)
+  protected void testsQualifiedPackageNamesTest(List<String> packageNames)
   {
     assertTrue(packageNames.remove("org.example0.ePackage0.junit"));
     assertTrue(packageNames.remove("org.example2.ePackage2.tests"));
