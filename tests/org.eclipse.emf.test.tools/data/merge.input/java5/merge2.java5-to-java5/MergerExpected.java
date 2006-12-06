@@ -275,24 +275,14 @@ public class WriterImpl extends EObjectImpl implements Writer
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
    */
   @Override
   @Generated
   @SuppressWarnings
-  public boolean eIsSet(int featureID)
+  protected boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case LibraryPackage.WRITER__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case LibraryPackage.WRITER__BOOKS:
-        return books != null && !books.isEmpty();
-      case LibraryPackage.WRITER__LIBRARIES:
-        return !getLibraries().isEmpty();
-    }
-    return super.eIsSet(featureID);
-  }
+    return false;
+  } // this line comment is removed
   // this line comment is left
 
   /**
