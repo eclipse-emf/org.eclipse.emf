@@ -12,46 +12,29 @@
  *
  * </copyright>
  *
- * $Id: ASTJType.java,v 1.3 2006/11/16 20:11:38 marcelop Exp $
+ * $Id: ASTJType.java,v 1.4 2006/12/06 03:48:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import org.eclipse.emf.codegen.merge.java.facade.FacadeFlags;
-import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.codegen.merge.java.facade.JType;
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.BodyDeclaration;
-import org.eclipse.jdt.core.dom.FieldDeclaration;
-import org.eclipse.jdt.core.dom.Type;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 
 /**
  * Wraps {@link TypeDeclaration} object.
  * 
  * @since 2.2.0
  */
-public class ASTJType extends ASTJMember implements JType
+public class ASTJType extends ASTJAbstractType<TypeDeclaration> implements JType
 {
   /**
-   * @param typeDeclaration
+   * @param abstractTypeDeclaration
    */
-  public ASTJType(TypeDeclaration typeDeclaration)
+  protected ASTJType(TypeDeclaration abstractTypeDeclaration)
   {
-    super(typeDeclaration);
-  }
-  
-  /**
-   * @return type declaration wrapped by this node
-   */
-  protected TypeDeclaration getASTTypeDeclaration()
-  {
-    return (TypeDeclaration)getASTNode();
+    super(abstractTypeDeclaration);
   }
 
   /**
@@ -61,7 +44,7 @@ public class ASTJType extends ASTJMember implements JType
    */
   public String getSuperclass()
   {
-    return ASTFacadeHelper.toString(getASTTypeDeclaration().getSuperclassType());
+    return getFacadeHelper().toString(getASTNode().getSuperclassType());
   }
 
   /**
@@ -73,7 +56,7 @@ public class ASTJType extends ASTJMember implements JType
    */
   public void setSuperclass(String superclassName)
   {
-    setNodeProperty(getASTTypeDeclaration(), superclassName, TypeDeclaration.SUPERCLASS_TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
+    setNodeProperty(getASTNode(), superclassName, TypeDeclaration.SUPERCLASS_TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
   /**
@@ -81,17 +64,10 @@ public class ASTJType extends ASTJMember implements JType
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JType#getSuperInterfaces()
    */
+  @SuppressWarnings("unchecked")
   public String[] getSuperInterfaces()
   {
-    List<?> interfaces = getASTTypeDeclaration().superInterfaceTypes();
-    String[] ret = new String [interfaces.size()];
-    int j = 0;
-    for (Iterator<?> i = interfaces.iterator(); i.hasNext();)
-    {
-      Type type = (Type)i.next();
-      ret[j++] = facadeHelper.toString(type);
-    }
-    return ret;
+    return convertASTNodeListToStringArray(getASTNode().superInterfaceTypes());
   }
 
   /**
@@ -103,7 +79,7 @@ public class ASTJType extends ASTJMember implements JType
    */
   public void setSuperInterfaces(String[] interfaceNames)
   {
-    setListNodeProperty(getASTTypeDeclaration(), interfaceNames, TypeDeclaration.SUPER_INTERFACE_TYPES_PROPERTY, ASTNode.SIMPLE_TYPE);
+    setListNodeProperty(getASTNode(), interfaceNames, TypeDeclaration.SUPER_INTERFACE_TYPES_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
   /**
@@ -115,33 +91,16 @@ public class ASTJType extends ASTJMember implements JType
    */
   public void addSuperInterface(String superInterface)
   {
-    addValueToListProperty(getASTTypeDeclaration(), superInterface, TypeDeclaration.SUPER_INTERFACE_TYPES_PROPERTY, ASTNode.SIMPLE_TYPE);
+    addValueToListProperty(getASTNode(), superInterface, TypeDeclaration.SUPER_INTERFACE_TYPES_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.JType#getTypeParameters()
    */
+  @SuppressWarnings("unchecked")
   public String[] getTypeParameters()
   {
-    // TODO implement (Java 5)
-    return EMPTY_STRING_ARRAY;
-  }
-
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getName()
-   */
-  public String getName()
-  {
-    return ASTFacadeHelper.toString(getASTTypeDeclaration().getName());
-  }
-  
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.AbstractJNode#computeQualifiedName()
-   */
-  @Override
-  protected String computeQualifiedName()
-  {
-    return computeQualifiedName(this);
+    return convertASTNodeListToStringArray(getASTNode().typeParameters());
   }
   
   /**
@@ -154,143 +113,16 @@ public class ASTJType extends ASTJMember implements JType
   @Override
   public int getFlags()
   {
-    return getASTTypeDeclaration().isInterface() ? 
+    return getASTNode().isInterface() ? 
       super.getFlags() | FacadeFlags.INTERFACE :
       super.getFlags();
   }
 
-  /**
-   * Returns the list of children as a list of body declarations with each element wrapped by <code>ASTJNode</code>.
-   * 
-   * @see ASTFacadeHelper#convertToNode(Object)
-   * @see org.eclipse.emf.codegen.merge.java.facade.AbstractJNode#getChildren()
-   */
-  @Override
-  public List<JNode> getChildren()
-  {
-    List<JNode> resultChildren = new ArrayList<JNode>();
-    ListRewrite listRewrite = rewriter.getListRewrite(getASTTypeDeclaration(), TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
-    List<?> allChildren = listRewrite.getRewrittenList();
-    for (Iterator<?> i = allChildren.iterator(); i.hasNext();)
-    {
-      BodyDeclaration bodyDeclaration = (BodyDeclaration)i.next();
-      
-      // for field declarations use variable declaration fragment instead
-      if (bodyDeclaration instanceof FieldDeclaration)
-      {
-        for (Iterator<?> fragmentsIt = ((FieldDeclaration)bodyDeclaration).fragments().iterator(); fragmentsIt.hasNext();)
-        {
-          resultChildren.add(getFacadeHelper().convertToNode(fragmentsIt.next()));
-        }
-      }
-      else
-      {
-        resultChildren.add(getFacadeHelper().convertToNode(bodyDeclaration));
-      }
-    }
-    return resultChildren.isEmpty() ? Collections.<JNode>emptyList() : Collections.<JNode>unmodifiableList(resultChildren);
-  }
-  
   /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#addChild(org.eclipse.emf.codegen.merge.java.facade.JNode)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JType#setTypeParameters(java.lang.String[])
    */
-  @Override
-  public boolean addChild(JNode child)
+  public void setTypeParameters(String[] typeParameters)
   {
-    if (!(child instanceof ASTJMember) || child.getParent() != null)
-    {
-      return false;
-    }
-    BodyDeclaration astNode = ((ASTJMember)child).getASTBodyDeclaration();    
-
-    if (astNode != null)
-    {
-      insertLast(getASTTypeDeclaration(), TypeDeclaration.BODY_DECLARATIONS_PROPERTY, astNode);
-      
-      // mark the node as moved if original node is set      
-      ASTNode originalASTNode = ((ASTJMember)child).getOriginalASTNode();
-      if (originalASTNode != null)
-      {
-        nodeToBeMoved(originalASTNode);
-      }
-      
-      ((ASTJMember) child).setParent(this);
-      
-      return true;
-    }
-    return false;
-  }
-  
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#insertSibling(org.eclipse.emf.codegen.merge.java.facade.JNode, org.eclipse.emf.codegen.merge.java.facade.JNode, boolean)
-   */
-  @Override
-  public boolean insertSibling(JNode node, JNode newSibling, boolean before)
-  {
-    if (!(node instanceof ASTJMember && newSibling instanceof ASTJMember) || newSibling.getParent() != null)
-    {
-      return false;
-    }
-    ASTJMember memberNode = (ASTJMember)node;
-    ASTJMember newMemberSibling = (ASTJMember)newSibling;
-    BodyDeclaration astNode = memberNode.getASTBodyDeclaration();
-    BodyDeclaration newASTSibling = newMemberSibling.getASTBodyDeclaration();
-
-    if (astNode != null && newASTSibling != null)
-    {
-      insert(getASTTypeDeclaration(), TypeDeclaration.BODY_DECLARATIONS_PROPERTY, newASTSibling, astNode, before);
-      
-      // mark the node as moved if original node is set
-      ASTNode originalASTNode = newMemberSibling.getOriginalASTNode();
-      if (originalASTNode != null)
-      {
-        nodeToBeMoved(originalASTNode);
-      }
-      
-      newMemberSibling.setParent(this);
-      
-      return true;
-    }
-    return false;
-  }
-  
-  /**
-   * Removes the node. Node must be a child of ASTJType.
-   * <p>
-   * This implementation supports moving the nodes by calling {@link #remove(JNode)} and 
-   * then {@link #insertSibling(JNode, JNode, boolean)} or {@link #addChild(JNode)}.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#remove(org.eclipse.emf.codegen.merge.java.facade.JNode)
-   */
-  @Override
-  public boolean remove(JNode node)
-  {
-    if (node instanceof ASTJMember && node.getParent() != null)
-    {
-      ASTJMember memberNode = (ASTJMember) node;
-      BodyDeclaration astNode = memberNode.getASTBodyDeclaration();
-      if (astNode != null)
-      {
-        // if are dealing with original, not cloned node
-        if (astNode.getParent() != null && astNode.getLocationInParent() != null)
-        {
-          // mark the node to be removed
-          nodeToBeRemoved(astNode);
-          
-          // assume that the node is being moved (to allow insertion after)
-          memberNode.setOriginalASTNode(astNode);
-          
-          ASTNode moveTargetASTNode = rewriter.createMoveTarget(astNode);
-          memberNode.setASTNode(moveTargetASTNode);
-        }
-        
-        // remove the node
-        removeNodeFromListProperty(getASTNode(), astNode, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
-        memberNode.setParent(null);
-        
-        return true;
-      }
-    }
-    return false;
+    setListNodeProperty(getASTNode(), typeParameters, TypeDeclaration.TYPE_PARAMETERS_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 }

@@ -12,28 +12,21 @@
  *
  * </copyright>
  *
- * $Id: ASTJCompilationUnit.java,v 1.2 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: ASTJCompilationUnit.java,v 1.3 2006/12/06 03:48:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
-import org.eclipse.emf.codegen.merge.java.facade.JNode;
-import org.eclipse.emf.codegen.merge.java.facade.JType;
 import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ITrackedNodePosition;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
@@ -45,12 +38,17 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 
+import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
+import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
+import org.eclipse.emf.codegen.merge.java.facade.JNode;
+import org.eclipse.emf.codegen.merge.java.facade.JType;
+
 /**
  * Wraps {@link CompilationUnit} object.
  * 
  * @since 2.2.0
  */
-public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
+public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JCompilationUnit
 {
   /**
    * Name for the name property of the compilation unit.
@@ -68,7 +66,7 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
    * Map of nodes (<code>ASTNode</code>) to contents of the node (<code>String</code>).
    * This map is used during rewrite to track the nodes positions and set the exact contents of them.
    */
-  private Map<ASTNode, String> trackedContentsMap = new HashMap<ASTNode, String>();
+  private Map<ASTNode, String> allTrackedContentsMap = new HashMap<ASTNode, String>();
   
   /**
    * Header of the compilation unit to be set during rewrite.
@@ -87,14 +85,6 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
   public ASTJCompilationUnit(CompilationUnit compilationUnit)
   {
     super(compilationUnit);
-  }
-  
-  /**
-   * @return compilation unit wrapped by ASTJCompilationUnit
-   */
-  protected CompilationUnit getASTCompilationUnit()
-  {
-    return (CompilationUnit)getASTNode();
   }
   
   /**
@@ -129,9 +119,31 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
    */
   public String getName()
   {
-    JType type = facadeHelper.getMainType(this);
-    return type != null ? type.getName() + ".java" : (String)getASTCompilationUnit().getProperty(NAME_PROPERTY);
+    JType type = getFacadeHelper().getMainType(this);
+    return type != null ? type.getName() + ".java" : (String)getWrappedObject().getProperty(NAME_PROPERTY);
   }
+  
+  /**
+   * Sets the name of the main type of compilation unit.
+   * <p>
+   * In this implementation, new name will not be returned by {@link #getName()}.
+   * 
+   * @see FacadeHelper#getMainType(JCompilationUnit)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getQualifiedName()
+   */    
+  public void setName(String name)
+  {
+    JType type = getFacadeHelper().getMainType(this);
+    if (type != null)
+    {
+      type.setName(name);
+    }
+    else
+    {
+      getASTNode().setProperty(NAME_PROPERTY, name);
+    }
+  }  
   
   /**
    * Same as the <code>getName()</code>.
@@ -153,28 +165,37 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
   public List<JNode> getChildren()
   {
     List<JNode> children = new ArrayList<JNode>();
-    CompilationUnit astCompilationUnit = getASTCompilationUnit();
+    CompilationUnit astCompilationUnit = getASTNode();
     PackageDeclaration astPackage = astCompilationUnit.getPackage();
     if (astPackage != null)
     {
-      children.add(facadeHelper.convertToNode(astPackage));
-    }
-    ListRewrite importsListRewrite = rewriter.getListRewrite(astCompilationUnit, CompilationUnit.IMPORTS_PROPERTY);
-    for (Iterator<?> i = importsListRewrite.getRewrittenList().iterator(); i.hasNext();)
-    {
-      children.add(facadeHelper.convertToNode(i.next()));
-    }
-    ListRewrite typesListRewrite = rewriter.getListRewrite(astCompilationUnit, CompilationUnit.TYPES_PROPERTY);
-    for (Iterator<?> i = typesListRewrite.getRewrittenList().iterator(); i.hasNext();)
-    {
-      AbstractTypeDeclaration abstractASTType = (AbstractTypeDeclaration)i.next();
-      // TODO add Java 5 Enum and Annotation
-      if (abstractASTType instanceof TypeDeclaration)
+      JNode child = getFacadeHelper().convertToNode(astPackage);
+      if (child != null)
       {
-        children.add(facadeHelper.convertToNode(abstractASTType));
+        children.add(child);
       }
     }
-    return children.isEmpty() ? Collections.<JNode>emptyList() : Collections.<JNode>unmodifiableList(children);
+    
+    ListRewrite importsListRewrite = rewriter.getListRewrite(astCompilationUnit, CompilationUnit.IMPORTS_PROPERTY);
+    for (Object importDeclaration : importsListRewrite.getRewrittenList())
+    {
+      JNode child = getFacadeHelper().convertToNode(importDeclaration);
+      if (child != null)
+      {
+        children.add(child);
+      }
+    }
+    
+    ListRewrite typesListRewrite = rewriter.getListRewrite(astCompilationUnit, CompilationUnit.TYPES_PROPERTY);
+    for (Object type : typesListRewrite.getRewrittenList())
+    {
+      JNode child = getFacadeHelper().convertToNode(type);
+      if (child != null)
+      {
+        children.add(child);
+      }
+    }
+    return children.isEmpty() ? Collections.<JNode> emptyList() : Collections.<JNode> unmodifiableList(children);
   }
 
   /**
@@ -190,7 +211,7 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
       String headerString = matcher.group();
       if (ASTFacadeHelper.DEBUG)
       {
-        ((ASTFacadeHelper)facadeHelper).logInfo("Got header <" + headerString + ">");
+        getFacadeHelper().logInfo("Got header <" + headerString + ">");
       }
       return headerString;
     }
@@ -255,27 +276,27 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
 
     // apply changes using ASTRewrite
     IDocument targetDoc = new Document(new String(originalContents));
-    TextEdit edits = rewriter.rewriteAST(targetDoc, ((ASTFacadeHelper) facadeHelper).getJavaCoreOptions());
+    TextEdit edits = rewriter.rewriteAST(targetDoc, getFacadeHelper().getJavaCoreOptions());
     try
     {
       edits.apply(targetDoc);
       if (ASTFacadeHelper.DEBUG)
       {
-        ((ASTFacadeHelper)facadeHelper).logInfo("Document after ASTRewrite:\n<" + targetDoc.get() + ">\nEnd of document.");
+        getFacadeHelper().logInfo("Document after ASTRewrite:\n<" + targetDoc.get() + ">\nEnd of document.");
       }
     }
     catch (MalformedTreeException e)
     {
       if (ASTFacadeHelper.DEBUG)
       {
-        ((ASTFacadeHelper)facadeHelper).logError("Error applying edits: ", e);
+        getFacadeHelper().logError("Error applying edits: ", e);
       }
     }
     catch (BadLocationException e)
     {
       if (ASTFacadeHelper.DEBUG)
       {
-        ((ASTFacadeHelper)facadeHelper).logError("Error applying edits: ", e);
+        getFacadeHelper().logError("Error applying edits: ", e);
       }
     }
 
@@ -289,7 +310,7 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
     {
       if (ASTFacadeHelper.DEBUG)
       {
-        ((ASTFacadeHelper)facadeHelper).logError("Error creating and applying replace edits: ", e);
+        getFacadeHelper().logError("Error creating and applying replace edits: ", e);
       }
     }
     
@@ -306,32 +327,30 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
    * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#addChild(org.eclipse.emf.codegen.merge.java.facade.JNode)
    */
   @Override
-  public boolean addChild(JNode child)
+  public boolean addChild(ASTJNode<?> child)
   {
     if (child.getParent() != null)
     {
       return false;
     }
-    
-    CompilationUnit compilationUnit = getASTCompilationUnit();
-    ASTNode astNode = ASTFacadeHelper.getASTNode(child);
-    if (astNode instanceof ImportDeclaration)
+
+    if (child instanceof ASTJImport)
     {
-      addValueToListProperty(compilationUnit, astNode, CompilationUnit.IMPORTS_PROPERTY);
+      insertLast(child, CompilationUnit.IMPORTS_PROPERTY);
     }
-    else if (astNode instanceof AbstractTypeDeclaration)
+    else if (child instanceof ASTJAbstractType<?>)
     {
-      addValueToListProperty(compilationUnit, astNode, CompilationUnit.TYPES_PROPERTY);
+      insertLast(child, CompilationUnit.TYPES_PROPERTY);
     }
-    else if (astNode instanceof PackageDeclaration)
+    else if (child instanceof ASTJPackage)
     {
-      setNodeProperty(compilationUnit, astNode, CompilationUnit.PACKAGE_PROPERTY);
+      setNodeProperty(getASTNode(), child.getASTNode(), CompilationUnit.PACKAGE_PROPERTY);
     }
     else
     {
       return false;
     }
-    ((ASTJNode)child).setParent(this);    
+    child.setParent(this);
     return true;
   }
   
@@ -339,68 +358,60 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
    * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#insertSibling(org.eclipse.emf.codegen.merge.java.facade.JNode, org.eclipse.emf.codegen.merge.java.facade.JNode, boolean)
    */
   @Override
-  public boolean insertSibling(JNode node, JNode newSibling, boolean before)
+  public boolean insertSibling(ASTJNode<?> node, ASTJNode<?> newSibling, boolean before)
   {
     if (newSibling.getParent() != null)
     {
       return false;
     }
-    
-    CompilationUnit compilationUnit = getASTCompilationUnit();
-    ASTNode astNode = ASTFacadeHelper.getASTNode(node);
-    ASTNode newASTNode = ASTFacadeHelper.getASTNode(newSibling);
-    
-    if (newASTNode instanceof ImportDeclaration)
+
+    if (newSibling instanceof ASTJImport)
     {
-      if (astNode instanceof ImportDeclaration)
+      if (node instanceof ASTJImport)
       {
-        insert(compilationUnit, CompilationUnit.IMPORTS_PROPERTY, newASTNode, astNode, before);
+        insert(newSibling, CompilationUnit.IMPORTS_PROPERTY, node, before);
       }
-      else if (astNode instanceof PackageDeclaration)
+      else if (node instanceof ASTJPackage)
       {
-        // always insert import after package
-        insertFirst(compilationUnit, CompilationUnit.IMPORTS_PROPERTY, newASTNode);
+        insertFirst(newSibling, CompilationUnit.IMPORTS_PROPERTY);
       }
-      else if (astNode instanceof AbstractTypeDeclaration)
+      else if (node instanceof ASTJAbstractType<?>)
       {
-        // always insert import before types
-        insertLast(compilationUnit, CompilationUnit.IMPORTS_PROPERTY, newASTNode);
+        insertLast(newSibling, CompilationUnit.IMPORTS_PROPERTY);
       }
-      else 
+      else
       {
         return false;
       }
     }
-    else if (newASTNode instanceof AbstractTypeDeclaration)
+    else if (newSibling instanceof ASTJAbstractType<?>)
     {
-      if (astNode instanceof AbstractTypeDeclaration)
+      if (node instanceof ASTJAbstractType<?>)
       {
-        insert(compilationUnit, CompilationUnit.TYPES_PROPERTY, newASTNode, astNode, before);
-      }      
-      if (astNode instanceof PackageDeclaration)
-      {
-        // always insert type after package
-        insertFirst(compilationUnit, CompilationUnit.TYPES_PROPERTY, newASTNode);
+        insert(newSibling, CompilationUnit.TYPES_PROPERTY, node, before);
       }
-      else if (astNode instanceof ImportDeclaration)
+      else if (node instanceof ASTJImport)
       {
-        // always insert type after import
-        insertFirst(compilationUnit, CompilationUnit.TYPES_PROPERTY, newASTNode);        
+        insertFirst(newSibling, CompilationUnit.TYPES_PROPERTY);
       }
-      else 
+      else if (node instanceof ASTJPackage)
+      {
+        insertFirst(newSibling, CompilationUnit.TYPES_PROPERTY);
+      }
+      else
       {
         return false;
       }
     }
-    else if (newASTNode instanceof PackageDeclaration)
+    else if (newSibling instanceof ASTJPackage)
     {
-      setNodeProperty(compilationUnit, newASTNode, CompilationUnit.PACKAGE_PROPERTY);
+      setNodeProperty(getASTNode(), newSibling.getASTNode(), CompilationUnit.PACKAGE_PROPERTY);
     }
     else
     {
       return false;
     }
-    ((ASTJNode)newSibling).setParent(this);    
+    newSibling.setParent(this);
     return true;
   }
   
@@ -413,46 +424,45 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
    * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#remove(org.eclipse.emf.codegen.merge.java.facade.JNode)
    */
   @Override
-  public boolean remove(JNode node)
+  public boolean remove(ASTJNode<?> node)
   {
-    if (node.getParent() == null)
+    if (node.getParent() != this)
     {
       return false;
     }
-    
-    ASTNode astNode = ASTFacadeHelper.getASTNode(node);
-    CompilationUnit compilationUnit = getASTCompilationUnit();    
-    if (astNode instanceof ImportDeclaration)
+
+    if (node instanceof ASTJImport)
     {
-      removeNodeFromListProperty(compilationUnit, astNode, CompilationUnit.IMPORTS_PROPERTY);
+      remove(node, CompilationUnit.IMPORTS_PROPERTY);
     }
-    else if (astNode instanceof AbstractTypeDeclaration)
+    else if (node instanceof ASTJAbstractType<?>)
     {
-      removeNodeFromListProperty(compilationUnit, astNode, CompilationUnit.TYPES_PROPERTY);
+      remove(node, CompilationUnit.TYPES_PROPERTY);
     }
-    else if (astNode instanceof PackageDeclaration)
+    else if (node instanceof ASTJPackage)
     {
-      setNodeProperty(compilationUnit, null, CompilationUnit.PACKAGE_PROPERTY);
-    }    
+      setNodeProperty(getASTNode(), null, CompilationUnit.PACKAGE_PROPERTY);
+    }
     else
     {
       return false;
     }
-    ((ASTJNode)node).setParent(null);    
+    node.setParent(null);
     return true;
   }
 
   /**
-   * @return map of nodes (<code>ASTNode</code>) to contents of the node (<code>String</code>).
+   * @return map of all nodes of the compilation unit and its children (<code>ASTNode</code> to <code>String</code> contents of the node).
+   * <p>
    * This map will be used during rewrite to track the nodes and set the exact contents of them.
    */
-  protected Map<ASTNode, String> getTrackedContentsMap()
+  protected Map<ASTNode, String> getAllTrackedContentsMap()
   {
-    return trackedContentsMap;
+    return allTrackedContentsMap;
   }
-
+  
   /**
-   * Enables tracking for all nodes in tracked contents map ({@link #getTrackedContentsMap()}).
+   * Enables tracking for all nodes in tracked contents map ({@link #getAllTrackedContentsMap()}).
    * <p>
    * This method must be called before call to {@link ASTRewrite#rewriteAST()} or {@link ASTRewrite#rewriteAST(IDocument, Map)}.
    * 
@@ -462,19 +472,19 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
    */
   protected Map<ITrackedNodePosition, String> trackNodePositions()
   {
-    Map<ITrackedNodePosition, String> trackedNodePositionsMap = new HashMap<ITrackedNodePosition, String>(trackedContentsMap.keySet().size());
-    for (ASTNode node : trackedContentsMap.keySet())
+    Map<ITrackedNodePosition, String> trackedNodePositionsMap = new HashMap<ITrackedNodePosition, String>(allTrackedContentsMap.keySet().size());
+    for (ASTNode node : allTrackedContentsMap.keySet())
     {
       try
       {
         ITrackedNodePosition trackedNodePosition = rewriter.track(node);
-        trackedNodePositionsMap.put(trackedNodePosition, trackedContentsMap.get(node));
+        trackedNodePositionsMap.put(trackedNodePosition, allTrackedContentsMap.get(node));
       }
       catch (Exception e)
       {
         if (ASTFacadeHelper.DEBUG)
         {
-          ((ASTFacadeHelper)facadeHelper).logError("Enabling tracking in " + getName(), e);
+          getFacadeHelper().logError("Enabling tracking in " + getName(), e);
         }
       }
     }
@@ -495,9 +505,10 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
   protected TextEdit createReplaceContentsEdit(Map<ITrackedNodePosition, String> trackedNodePositions)
   {
     MultiTextEdit replaceContentsEdits = new MultiTextEdit();
-    for (ITrackedNodePosition position : trackedNodePositions.keySet())
+    for (Map.Entry<ITrackedNodePosition, String> entry : trackedNodePositions.entrySet())
     {
-      String contents = trackedNodePositions.get(position);
+      ITrackedNodePosition position = entry.getKey();
+      String contents = entry.getValue();
       try
       {
         ReplaceEdit replaceEdit = new ReplaceEdit(position.getStartPosition(), position.getLength(), contents);
@@ -509,7 +520,7 @@ public class ASTJCompilationUnit extends ASTJNode implements JCompilationUnit
         // log the error, ignore the change and continue
         if (ASTFacadeHelper.DEBUG)
         {
-          ((ASTFacadeHelper)facadeHelper).logError("Creating ReplaceEdit in " + getName(), e);
+          getFacadeHelper().logError("Creating ReplaceEdit for <" + contents + "> in " + getName(), e);
         }
       }
     }

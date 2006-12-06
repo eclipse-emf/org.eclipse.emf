@@ -12,20 +12,22 @@
  *
  * </copyright>
  *
- * $Id: ASTJPackage.java,v 1.5 2006/11/02 20:34:48 marcelop Exp $
+ * $Id: ASTJPackage.java,v 1.6 2006/12/06 03:48:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
+import org.eclipse.emf.codegen.merge.java.facade.jdom.JDOMJPackage;
 
 /**
  * Wraps {@link PackageDeclaration} object.
  * 
  * @since 2.2.0
  */
-public class ASTJPackage extends ASTJNode implements JPackage
+public class ASTJPackage extends ASTJNode<PackageDeclaration> implements JPackage
 {
   /**
    * @param packageDeclaration
@@ -35,22 +37,30 @@ public class ASTJPackage extends ASTJNode implements JPackage
     super(packageDeclaration);
   }
   
-  /**
-   * @return package declaration wrapped by this node
-   */
-  protected PackageDeclaration getASTPackageDeclaration()
-  {
-    return (PackageDeclaration)getASTNode();
-  }  
-  
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getName()
    */
   public String getName()
   {
-    return ASTFacadeHelper.toString(getASTPackageDeclaration().getName());
+    return ASTFacadeHelper.toString(getASTNode().getName());
   }
   
+  /**
+   * In this implementation, new name will not be returned by {@link #getName()}.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getQualifiedName()
+   */    
+  public void setName(String name)
+  {
+    setNodeProperty(getASTNode(), name, PackageDeclaration.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
+  }  
+  
+  /**
+   * Returns the contents of the package declaration without the javadoc of the package.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#getContents()
+   */
   @Override
   public String getContents()
   {
@@ -58,6 +68,16 @@ public class ASTJPackage extends ASTJNode implements JPackage
     return fixPackageContent(content);
   }
   
+  /**
+   * Fixes package contents to not include the header or the javadoc.
+   * <p>
+   * Required to have the same behaviour as {@link JDOMJPackage#getContents()}.
+   * 
+   * @see PackageDeclaration
+   * 
+   * @param content
+   * @return
+   */
   protected String fixPackageContent(String content)
   {
     String header = getFacadeHelper().getCompilationUnit(this).getHeader();
@@ -67,7 +87,7 @@ public class ASTJPackage extends ASTJNode implements JPackage
     }
     else
     {
-      String javadoc = getFacadeHelper().toString(getASTPackageDeclaration().getJavadoc());
+      String javadoc = getFacadeHelper().toString(getASTNode().getJavadoc());
       if (javadoc != null && content.startsWith(javadoc))
       {
         content = content.substring(javadoc.length());

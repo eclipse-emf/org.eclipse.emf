@@ -12,20 +12,22 @@
  *
  * </copyright>
  *
- * $Id: ASTJImport.java,v 1.2 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: ASTJImport.java,v 1.3 2006/12/06 03:48:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ImportDeclaration;
+
 import org.eclipse.emf.codegen.merge.java.facade.FacadeFlags;
 import org.eclipse.emf.codegen.merge.java.facade.JImport;
-import org.eclipse.jdt.core.dom.ImportDeclaration;
 
 /**
  * Wraps {@link ImportDeclaration} object.
  * 
  * @since 2.2.0
  */
-public class ASTJImport extends ASTJNode implements JImport
+public class ASTJImport extends ASTJNode<ImportDeclaration> implements JImport
 {
   /**
    * @param importDeclaration
@@ -35,33 +37,41 @@ public class ASTJImport extends ASTJNode implements JImport
     super(importDeclaration);
   }
   
-  /**
-   * @return import declaration wrapped by {@link ASTJImport}
-   */
-  protected ImportDeclaration getASTImportDeclaration()
-  {
-    return (ImportDeclaration)getASTNode();
-  }
-  
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.JImport#isOnDemand()
    */
   public boolean isOnDemand()
   {
-    return getASTImportDeclaration().isOnDemand();
+    return getASTNode().isOnDemand();
   }
 
-  /* (non-Javadoc)
+  /**
+   * Returns the name of the import ending with ".*" for on demand imports.
    * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getName()
    */
   public String getName()
   {
-    String name = ASTFacadeHelper.toString(getASTImportDeclaration().getName());
+    String name = ASTFacadeHelper.toString(getASTNode().getName());
     if (isOnDemand() && name.lastIndexOf('*') < 0)
     {
       name = name + ".*";
     }
     return name;
+  }
+  
+  /**
+   * Sets the name of the import to the given name and sets on demand property to false.
+   * <p>
+   * In this implementation, new name will not be returned by {@link #getName()}.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getQualifiedName()
+   */    
+  public void setName(String name)
+  {
+    setNodeProperty(getASTNode(), name, ImportDeclaration.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
+    // name already contains ".*" - unset on demand property
+    setNodeProperty(getASTNode(), false, ImportDeclaration.ON_DEMAND_PROPERTY);
   }
   
   /**
@@ -74,7 +84,7 @@ public class ASTJImport extends ASTJNode implements JImport
   @Override
   public int getFlags()
   {
-    return getASTImportDeclaration().isStatic() ? FacadeFlags.STATIC : super.getFlags();
+    return getASTNode().isStatic() ? FacadeFlags.STATIC : super.getFlags();
   }
   
   /**
@@ -93,7 +103,6 @@ public class ASTJImport extends ASTJNode implements JImport
       return;
     }
     
-    ImportDeclaration importDeclaration = getASTImportDeclaration();
-    setNodeProperty(importDeclaration, flags & FacadeFlags.STATIC, ImportDeclaration.STATIC_PROPERTY);
+    setNodeProperty(getASTNode(), (flags & FacadeFlags.STATIC) == 0 ? Boolean.FALSE : Boolean.TRUE, ImportDeclaration.STATIC_PROPERTY);
   }
 }

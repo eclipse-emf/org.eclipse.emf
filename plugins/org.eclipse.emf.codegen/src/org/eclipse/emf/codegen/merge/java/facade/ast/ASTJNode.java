@@ -12,16 +12,15 @@
  *
  * </copyright>
  *
- * $Id: ASTJNode.java,v 1.3 2006/11/16 20:10:32 marcelop Exp $
+ * $Id: ASTJNode.java,v 1.4 2006/12/06 03:48:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
-import java.util.Iterator;
-import java.util.List;
 
-import org.eclipse.emf.codegen.merge.java.facade.AbstractJNode;
-import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
-import org.eclipse.emf.codegen.merge.java.facade.JNode;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ChildListPropertyDescriptor;
 import org.eclipse.jdt.core.dom.ChildPropertyDescriptor;
@@ -31,16 +30,190 @@ import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer;
 
+import org.eclipse.emf.codegen.merge.java.facade.AbstractJNode;
+import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
+import org.eclipse.emf.codegen.merge.java.facade.JNode;
+
+
 /**
+ * Each subclass of <code>ASTJNode</code> wraps subclass of {@link ASTNode}.
+ * <p>
+ * <code>ASTJNode</code> may have reference to multiple <code>ASTNode</code> objects.
+ * <p>
+ * Wrapped <code>ASTNode</code> (returned by {@link #getWrappedObject()}) is always the node in the rewritten tree. Each object of <code>ASTJNode</code>
+ * wraps a unique <code>ASTNode</code>. After nodes are removed, wrapped <code>ASTNode</code> has reference to the move target node that allows
+ * the node to be inserted after, i.e. perform moving of the node.
+ * <p>
+ * Original ASTNode (returned by {@link #getASTNode()}) is used to make modifications to the node and its children. This node must
+ * be used by get and set methods. Using this node allows to make modifications to the nodes after
+ * they are moved.
+ * <p>
+ * Some subclasses (e.g. <code>ASTJAnnotation</code> and <code>ASTJField</code>) may need a different <code>ASTNode</code> to be used
+ * by set methods. These subclasses use <code>getASTNode()</code> only for get methods.
+ * <p>
+ * Removed ASTNode (returned by {@link #getRemovedASTNode()}) is used to keep reference to the node
+ * that was removed. This allows to notify the range computer when the removed node is inserted again.
+ * <p>
+ * 
+ * @see #getWrappedObject()
+ * @see #getASTNode()
+ * @see #getRemovedASTNode()
+ *
+ * @param <T> wrapped AST node type
+ * 
  * @since 2.2.0
  */
-public abstract class ASTJNode extends AbstractJNode
+public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
 {
+  private ASTFacadeHelper facadeHelper;
+
+  /**
+   * AST node used to read contents and make modifications to the nodes.
+   */
+  private T astNode = null;
+  
+  private ASTNode wrappedObject;
+
+  /**
+   * Flag that determines if parent property has been set 
+   * (if not, <code>ASTNode.getParent()</code> will be used to retrieve the parent).
+   */
+  private boolean isParentSet = false;
+
+  /**
+   * Current parent of ASTJNode.
+   * <p>
+   * This attribute should used instead of ASTNode parent attribute. In some situations
+   * (i.e. moving nodes by removing and inserting) ASTNode parent attribute
+   * might not be updated. In addition, for the cloned nodes ASTNode parent attribute might
+   * not be set either.
+   * <p> 
+   * When ASTJNode is deleted, parent is set to <code>null</code>.<p>
+   */
+  private ASTJNode<?> parent = null;
+
+  /**
+   * Reference to the original AST node that was removed from the tree.
+   * <p>
+   * This reference is used to notify the source range computer when the
+   * removed node is inserted again (i.e. node is moved). 
+   */
+  private ASTNode removedASTNode = null;
+
   /**
    * ASTRewrite object used to keep track of all modifications
    */
   protected ASTRewrite rewriter = null;
-  
+
+  /**
+   * Map of nodes to their contents. This map may only contain wrapped node and/or its children.
+   * This map is used to preserve the contents when node is removed and then inserted.
+   * 
+   * @see ASTJCompilationUnit#getAllTrackedContentsMap()
+   */
+  private Map<ASTNode, String> trackedContentsMap = new HashMap<ASTNode, String>(4);
+
+  /**
+   * @see AbstractJNode#AbstractJNode(Object)
+   * @param astNode to be used as wrapped object
+   */
+  protected ASTJNode(T astNode)
+  {
+    this.astNode = astNode;
+    wrappedObject = astNode;
+  }
+
+  @Override
+  public void dispose()
+  {
+    facadeHelper = null;
+    wrappedObject = null;
+  }
+
+  @Override
+  public ASTFacadeHelper getFacadeHelper()
+  {
+    return facadeHelper;
+  }
+
+  @Override
+  public void setFacadeHelper(FacadeHelper facadeHelper)
+  {
+    this.facadeHelper = (ASTFacadeHelper)facadeHelper;
+  }
+
+  /**
+   * Returns AST node used to read contents and make modifications to the nodes.
+   * <p>
+   * When the node is removed, the wrapped node returned by {@link #getWrappedObject()} will be
+   * a placeholder node, while this method will return the original node that can be modified by
+   * <code>set...</code> methods.
+   * 
+   * @return AST node
+   */
+  protected T getASTNode()
+  {
+    return astNode;
+  }
+
+  /**
+   * @param astNode the astNode to set
+   */
+  protected void setASTNode(T astNode)
+  {
+    this.astNode = astNode;
+  }
+
+  /**
+   * Returns wrapped AST node that is currently in the rewritten tree, or to be inserted into
+   * the tree. This node can be a move target node or any other temporary node. 
+   * Methods such as <code>set...</code> and <code>get...</code> should not use this node. 
+   * 
+   * @return wrapped AST node 
+   * @see #getASTNode()
+   * @see #getMainASTNode()
+   * @see #getRemovedASTNode()
+   */
+  @Override
+  protected ASTNode getWrappedObject()
+  {
+    return wrappedObject;
+  }
+
+  /**
+   * Sets the wrapped object to the given <code>ASTNode</code>. Must be 
+   * used with caution and only by subclasses.
+   * @param node
+   * @see #getWrappedObject()
+   */
+  protected void setWrappedObject(ASTNode node)
+  {
+    wrappedObject = node;
+  }
+
+  /**
+   * @return the parent of this ASTJNode, or <code>null</code> if this node has been created or removed
+   */
+  public ASTJNode<?> getParent()
+  {
+    if (parent == null && !isParentSet)
+    {
+      setParent(facadeHelper.findParent(getWrappedObject()));
+    }
+    return parent;
+  }
+
+  /**
+   * Sets the parent of this node.
+   * 
+   * @param parent the parent to set, <code>null</code> if the node does not have a parent
+   */
+  public void setParent(ASTJNode<?> parent)
+  {
+    isParentSet = true;
+    this.parent = parent;
+  }
+
   /**
    * @return the rewriter
    */
@@ -55,107 +228,203 @@ public abstract class ASTJNode extends AbstractJNode
   public void setRewriter(ASTRewrite rewriter)
   {
     this.rewriter = rewriter;
-  }    
-  
-  /**
-   * Current parent of ASTJNode.
-   * <p>
-   * This attribute should used instead of ASTNode parent attribute. In some situations
-   * (i.e. moving nodes by removing and inserting) ASTNode parent attribute
-   * might not be updated. In addition, for the cloned nodes ASTNode parent attribute might
-   * not be set either.
-   * <p> 
-   * When ASTJNode is deleted, parent is set to null.<p>
-   */
-  private ASTJNode parent = null;
-  
-  /**
-   * Flag that determines if parent property has been set 
-   * (if not, <code>ASTNode.getParent()</code> will be used to retrieve the parent).
-   */
-  private boolean isParentSet = false; 
-  
-  /**
-   * @return the parent of this ASTJNode, or <code>null</code> if this node has been created or removed
-   */
-  public ASTJNode getParent()
-  {
-    if (parent == null && !isParentSet)
-    {
-      setParent((ASTJNode)findParent());
-    }
-    return parent;
   }
 
   /**
-   * Sets the parent of this node.
-   * 
-   * @param parent the parent to set, <code>null</code> if the node does not have a parent
-   */
-  public void setParent(ASTJNode parent)
-  {
-    isParentSet = true;
-    this.parent = parent;
-  }
-
-  /**
-   * @see AbstractJNode#AbstractJNode(Object)
-   * @param astNode to be used as wrapped object
-   */
-  protected ASTJNode(ASTNode astNode)
-  {
-    super(astNode);
-  }
-  
-  /**
-   * @return ASTNode wrapped by this node
-   */
-  protected ASTNode getASTNode()
-  {
-    return (ASTNode)getWrappedObject();
-  }
-  
-  /**
-   * Sets the wrapped object to the given <code>ASTNode</code>.
+   * Adds a child to this node.
    * <p>
-   * Must be used with caution and only by subclasses.
+   * Default implementation does nothing and returns <code>false</code>.
    * 
-   * @param node
+   * @param child to add
+   * @return <code>true</code> if operation successful, <code>false</code> otherwise 
    */
-  protected void setASTNode(ASTNode node)
+  public boolean addChild(ASTJNode<?> child)
   {
-    wrappedObject = node;
+    return false;
   }  
   
   /**
-   * Default implementation does nothing.
+   * Adds <code>value</code> to the property of the node.
    * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setFlags(int)
+   * @param node
+   * @param value
+   * @param property
+   * @param noteType of the placeholder
    */
-  public void setFlags(int flags)
+  protected void addValueToListProperty(ASTNode node, ASTNode value, ChildListPropertyDescriptor property)
   {
+    if (value == null)
+    {
+      return;
+    }
+
+    if (ASTFacadeHelper.DEBUG)
+    {
+      facadeHelper.logInfo("Adding value to list property <" + value + ">");
+    }
+
+    ListRewrite listRewrite = rewriter.getListRewrite(node, property);
+    listRewrite.insertLast(value, null);
+  }
+
+  /**
+   * Adds <code>value</code> as a new string placeholder to the <code>property</code> of the <code>node</code>.
+   * <p>
+   * If <code>value</code> is <code>null</code>, no changes are made.
+   * 
+   * @param node
+   * @param value
+   * @param property
+   * @param noteType of the placeholder
+   */
+  protected void addValueToListProperty(ASTNode node, String value, ChildListPropertyDescriptor property, int nodeType)
+  {
+    if (value == null)
+    {
+      return;
+    }
+
+    if (ASTFacadeHelper.DEBUG)
+    {
+      facadeHelper.logInfo("Adding value to list property <" + value + ">");
+    }
+
+    ListRewrite listRewrite = rewriter.getListRewrite(node, property);
+    listRewrite.insertLast(rewriter.createStringPlaceholder(value, nodeType), null);
   }
   
   /**
-   * Finds the parent node based on the parent of wrapped AST node.
-   * 
-   * @return parent {@link JNode}
+   * Notifies the node that one of ancestors in the hierarchy or this node itself was inserted.
+   * This means that this node was inserted as well.
+   * <p>
+   * This implementation enables tracked contents for this node and calls itself on all of the children.
    */
-  private JNode findParent()
+  protected void ancestorInserted()
   {
-    FacadeHelper facadeHelper = getFacadeHelper();
-    ASTNode node = getASTNode();
-    JNode parent;
-    // skip nodes in hierarchy that can not be converted to JNode (i.e. VariableDeclarationFragment)
-    do
+    enableTrackAndReplace();
+
+    for (JNode node : getChildren())
     {
-      node = node.getParent();
-      parent = facadeHelper.convertToNode(node);      
-    } 
-    while (parent == null && node != null);
-    return parent;
+      ((ASTJNode<?>)node).ancestorInserted();
+    }
   }
-    
+
+  /**
+   * Notifies the node that one of ancestors in the hierarchy or this node itself will be removed.
+   * This means that this node will be removed as well.
+   * <p>
+   * This implementation disables tracked contents for this node and calls itself on all of the children.
+   */
+  protected void ancestorToBeRemoved()
+  {
+    disableTrackAndReplace();
+
+    for (JNode node : getChildren())
+    {
+      ((ASTJNode<?>)node).ancestorToBeRemoved();
+    }
+  }
+
+  /**
+   * Notifies the node that the child will be changed.
+   * <p>
+   * Parents that are interested in changes to children must override this method.
+   * Children that need to notify the parents about changes have to call this method.
+   * <p>
+   * Default implementation does nothing.
+   * 
+   * @param child that will be changed
+   */
+  protected void childToBeChanged(ASTJNode<?> child)
+  {
+    // default implementation does nothing
+  }
+
+  /**
+   * Convert a given list of nodes to an array of strings.
+   * <p>
+   * All nodes in the given array must have valid source range and belong to the original tree.
+   * 
+   * @param nodes
+   * @return string array
+   * 
+   * @see ASTFacadeHelper#toString(ASTNode)
+   */
+  protected String[] convertASTNodeListToStringArray(List< ? extends ASTNode> nodes)
+  {
+    if (nodes == null)
+    {
+      return EMPTY_STRING_ARRAY;
+    }
+
+    String[] strings = new String [nodes.size()];
+    int i = 0;
+    for (ASTNode node : nodes)
+    {
+      strings[i++] = facadeHelper.toString(node);
+    }
+    return strings;
+  }
+
+  /**
+   * Temporarily disables tracking for all AST nodes that are tracked by this <code>ASTJNode</code>.
+   * <p>
+   * Used when modified <code>ASTJNode</code>s are removed from the tree, and then possibly inserted again.
+   * 
+   * @see #enableTrackAndReplace() 
+   * @see #trackAndReplace(ASTNode, String)
+   */
+  protected void disableTrackAndReplace()
+  {
+    ASTJCompilationUnit compilationUnit = (ASTJCompilationUnit)facadeHelper.getCompilationUnit(this);
+
+    if (compilationUnit != null)
+    {
+      for (ASTNode node : trackedContentsMap.keySet())
+      {
+        compilationUnit.getAllTrackedContentsMap().remove(node);
+      }
+    }
+  }
+
+  /**
+   * Enables disabled tracking for all AST nodes that are tracked by this <code>ASTJNode</code>.
+   * <p>
+   * Used when modified <code>ASTJNode</code>s are removed from the tree, and then inserted again.
+   * 
+   * @see #disableTrackAndReplace()
+   * @see #trackAndReplace(ASTNode, String)
+   */
+  protected void enableTrackAndReplace()
+  {
+    ASTJCompilationUnit compilationUnit = (ASTJCompilationUnit)facadeHelper.getCompilationUnit(this);
+
+    if (compilationUnit != null)
+    {
+      compilationUnit.getAllTrackedContentsMap().putAll(trackedContentsMap);
+    }
+  }
+  
+  /**
+   * Wraps up inserting new node. Notifies the children and the range computer that the node is inserted.
+   * 
+   * @param newNode
+   */
+  private void finishInsert(ASTJNode<?> newNode)
+  {
+    // mark the node as moved if node has been removed      
+    ASTNode removedASTNode = newNode.getRemovedASTNode();
+    if (removedASTNode != null)
+    {
+      nodeToBeMoved(removedASTNode);
+    }
+
+    newNode.setParent(this);
+
+    newNode.ancestorInserted();
+  }
+  
+  
   /**
    * Get the original contents of the node using the source.
    * <p>
@@ -173,7 +442,72 @@ public abstract class ASTJNode extends AbstractJNode
   {
     return facadeHelper.toString(getASTNode());
   }
-  
+
+  /**
+   * @return the removedASTNode
+   */
+  protected ASTNode getRemovedASTNode()
+  {
+    return removedASTNode;
+  }
+
+  /**
+   * Inserts AST node wrapped by new node beside target node in the list defined by given property.
+   * <p>
+   * No checks are performed if the new node can be inserted nor if the target node exists. 
+   * 
+   * @param newNode
+   * @param property 
+   * @param targetNode
+   * @param before
+   */
+  protected void insert(ASTJNode<?> newNode, ChildListPropertyDescriptor property, ASTJNode<?> targetNode, boolean before)
+  {
+    ListRewrite listRewrite = rewriter.getListRewrite(getASTNode(), property);
+    if (before)
+    {
+      listRewrite.insertBefore(newNode.getWrappedObject(), targetNode.getWrappedObject(), null);
+    }
+    else
+    {
+      listRewrite.insertAfter(newNode.getWrappedObject(), targetNode.getWrappedObject(), null);
+    }
+
+    finishInsert(newNode);
+  }
+
+  /**
+   * Inserts AST node wrapped by new node at the beginning of the list of nodes defined by given property.
+   * <p>
+   * No checks are performed if the new node can be inserted nor if the target node exists. 
+   * 
+   * @param newNode
+   * @param property
+   */
+  protected void insertFirst(ASTJNode<?> newNode, ChildListPropertyDescriptor property)
+  {
+    ListRewrite listRewrite = rewriter.getListRewrite(getASTNode(), property);
+    listRewrite.insertFirst(newNode.getWrappedObject(), null);
+
+    finishInsert(newNode);
+  }
+
+  /**
+   * Inserts AST node wrapped by new node at the end of the list of nodes defined by given property.
+   * <p>
+   * No checks are performed if the new node can be inserted nor if the target node exists. 
+   * 
+   * @param newNode
+   * @param property
+   */
+  protected void insertLast(ASTJNode<?> newNode, ChildListPropertyDescriptor property)
+  {
+    ListRewrite listRewrite = rewriter.getListRewrite(getASTNode(), property);
+    listRewrite.insertLast(newNode.getWrappedObject(), null);
+
+    finishInsert(newNode);
+  }
+
   /**
    * Inserts <code>newSibling</code> as a child of this node before or after the given <code>node</code>.
    * <p>
@@ -184,9 +518,42 @@ public abstract class ASTJNode extends AbstractJNode
    * @param before <code>true</code> if <code>newSibling</code> must be before <code>node</code>, <code>false</code> if after
    * @return <code>true</code> if operation successful, <code>false</code> otherwise 
    */
-  public boolean insertSibling(JNode node, JNode newSibling, boolean before)
+  public boolean insertSibling(ASTJNode<?> node, ASTJNode<?> newSibling, boolean before)
   {
     return false;
+  }
+
+  /**
+   * Notifies the range computer of {@link ASTRewrite} that the node will be moved.
+   * 
+   * @param node to be moved
+   * 
+   * @see CommentAwareSourceRangeComputer#computeSourceRange(ASTNode) 
+   */
+  protected void nodeToBeMoved(ASTNode node)
+  {
+    TargetSourceRangeComputer sourceRangeComputer = rewriter.getExtendedSourceRangeComputer();
+    if (sourceRangeComputer instanceof CommentAwareSourceRangeComputer)
+    {
+      ((CommentAwareSourceRangeComputer)sourceRangeComputer).unmarkNodeForRemoval(node);
+    }
+  }
+
+  /**
+   * Notifies the range computer of {@link ASTRewrite} that the node will be removed.
+   * 
+   * @param node to be removed
+   * 
+   * @see CommentAwareSourceRangeComputer#computeSourceRange(ASTNode) 
+   * @param node
+   */
+  protected void nodeToBeRemoved(ASTNode node)
+  {
+    TargetSourceRangeComputer sourceRangeComputer = rewriter.getExtendedSourceRangeComputer();
+    if (sourceRangeComputer instanceof CommentAwareSourceRangeComputer)
+    {
+      ((CommentAwareSourceRangeComputer)sourceRangeComputer).markNodeForRemoval(node);
+    }
   }
 
   /**
@@ -197,59 +564,136 @@ public abstract class ASTJNode extends AbstractJNode
    * @param node must be a child of this node
    * @return <code>true</code> if operation successful, <code>false</code> otherwise 
    */
-  public boolean remove(JNode node)
+  public boolean remove(ASTJNode<?> node)
   {
     return false;
   }
 
   /**
-   * Adds a child to this node.
+   * Removes AST node wrapped by given <code>ASTJNode</code> from the given property.
    * <p>
-   * Default implementation does nothing and returns <code>false</code>.
+   * This method notifies children and source range computer that the node is removed, then creates
+   * a placeholder node that allows to insert the removed node later.
+   * <p>
+   * No checks are performed if the node is a child of this node. 
    * 
-   * @param child to add
-   * @return <code>true</code> if operation successful, <code>false</code> otherwise 
+   * @param node
+   * @param property
    */
-  public boolean addChild(JNode child)
+  protected void remove(ASTJNode<?> node, ChildListPropertyDescriptor property)
   {
-    return false;
-  }  
-  
+    node.ancestorToBeRemoved();
+
+    ASTNode astNodeToBeRemoved = node.getWrappedObject();
+
+    // if are dealing with original, not cloned node
+    if (astNodeToBeRemoved.getParent() != null && astNodeToBeRemoved.getLocationInParent() != null)
+    {
+      // mark the node to be removed
+      nodeToBeRemoved(astNodeToBeRemoved);
+
+      // assume that the node is being moved (to allow insertion after)
+      node.setRemovedASTNode(astNodeToBeRemoved);
+
+      ASTNode moveTargetASTNode = rewriter.createMoveTarget(astNodeToBeRemoved);
+      node.setWrappedObject(moveTargetASTNode);
+    }
+
+    // remove the node
+    removeNodeFromListProperty(getASTNode(), astNodeToBeRemoved, property);
+    node.setParent(null);
+  }
+
   /**
-   * Sets the property of the node. The position of the property value is tracked and value
-   * is replaced by  <code>stringValue</code> during rewrite process.
+   * Removes value from list property.
    * 
-   * @param node to set property of
-   * @param stringValue
-   * @param property must be {@link SimplePropertyDescriptor} or {@link ChildPropertyDescriptor}
-   * @param nodeType to use if value is null, and new node has to be created
+   * @param parentNode
+   * @param nodeToRemove
+   * @param property
    */
-  protected void setTrackedNodeProperty(ASTNode node, String stringValue, StructuralPropertyDescriptor property, int nodeType)
+  protected void removeNodeFromListProperty(ASTNode parentNode, ASTNode nodeToRemove, ChildListPropertyDescriptor property)
   {
     if (ASTFacadeHelper.DEBUG)
     {
-      ((ASTFacadeHelper)facadeHelper).logInfo("Setting tracked node property to string <" + stringValue + ">");
+      facadeHelper.logInfo("Removing node from list property <" + nodeToRemove + ">");
     }
+
+    // Bugzilla 164862
+    // listRewrite.remove(..) does not remove newly inserted nodes that were not a part of original tree (!!!)
+    //    ListRewrite listRewrite = getRewriter().getListRewrite(parentNode, property);
+    //    listRewrite.remove(nodeToRemove, null);
+
+    // call workaround
+    ((ASTFacadeHelper.ASTRewriteWithRemove)rewriter).remove(parentNode, property, nodeToRemove);
+  }
+
+  /**
+   * Permanently disables tracking for the given AST node. 
+   * <p>
+   * The given <code>node</code> will be modified only by {@link ASTRewrite}.
+   * 
+   * @param node to disable tracking for 
+   *
+   * @see #disableTrackAndReplace()
+   * @see #trackAndReplace(ASTNode, String)
+   */
+  protected void removeTrackAndReplace(ASTNode node)
+  {
+    trackedContentsMap.remove(node);
+
+    ASTJCompilationUnit compilationUnit = (ASTJCompilationUnit)facadeHelper.getCompilationUnit(this);
+
+    if (compilationUnit != null)
+    {
+      compilationUnit.getAllTrackedContentsMap().remove(node);
+    }
+    // TODO handle situation when ASTJNode is removed (compilationUnit is null)
+  }
+
+  /**
+   * Default implementation does nothing.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setFlags(int)
+   */
+  public void setFlags(int flags)
+  {
+    // default implementation does nothing
+  }
+
+  /**
+   * Sets the list property to the given array of values. For each string in the array,
+   * a string placeholder node is created.
+   * 
+   * @param node
+   * @param values
+   * @param property
+   * @param nodeType of the string place holders to create
+   */
+  protected void setListNodeProperty(ASTNode node, String[] values, ChildListPropertyDescriptor property, int nodeType)
+  {
+    ListRewrite listRewrite = rewriter.getListRewrite(node, property);
     
-    ASTNode nodeValue = (ASTNode)rewriter.get(node, property);
-    
-    if (stringValue == null)
+    @SuppressWarnings("unchecked")    
+    List<ASTNode> oldValues = listRewrite.getRewrittenList();
+
+    // clear old values
+    for (ASTNode oldValue : oldValues)
     {
-      disableTrackAndReplace(nodeValue);
-      rewriter.set(node, property, null, null);
+      // Bugzilla 164862
+      // listRewrite.remove(..) does not remove newly inserted nodes that were not a part of original tree (!!!)
+      //listRewrite.remove(oldValue, null);
+      
+      // call the workaround
+      ((ASTFacadeHelper.ASTRewriteWithRemove)rewriter).remove(node, property, oldValue);
     }
-    else if (nodeValue != null)
+
+    // insert new values
+    for (String value : values)
     {
-      trackAndReplace(nodeValue, stringValue);      
-    } 
-    else // stringValue not null, nodeValue is null
-    {
-      nodeValue = rewriter.createStringPlaceholder(stringValue, nodeType);
-      rewriter.set(node, property, nodeValue, null);
-      trackAndReplace(nodeValue, stringValue); 
+      listRewrite.insertLast(rewriter.createStringPlaceholder(value, nodeType), null);
     }
-  }  
-  
+  }
+
   /**
    * Sets the property of the node to the given value.
    * <p>
@@ -265,7 +709,7 @@ public abstract class ASTJNode extends AbstractJNode
   {
     if (ASTFacadeHelper.DEBUG)
     {
-      ((ASTFacadeHelper)facadeHelper).logInfo("Setting node property to <" + value + ">");
+      facadeHelper.logInfo("Setting node property <" + property + "> to <" + value + ">");
     }
     rewriter.set(node, property, value, null);
   }
@@ -286,188 +730,72 @@ public abstract class ASTJNode extends AbstractJNode
   {
     if (ASTFacadeHelper.DEBUG)
     {
-      ((ASTFacadeHelper)facadeHelper).logInfo("INFO Setting node property to <" + stringValue + ">");
+      facadeHelper.logInfo("Setting node property to <" + stringValue + ">");
     }
-    rewriter.set(node, property, rewriter.createStringPlaceholder(stringValue, nodeType), null);
-  }  
-  
-  /**
-   * Sets the list property to the given array of values. For each string in the array,
-   * a string placeholder node is created.
-   * 
-   * @param node
-   * @param values
-   * @param property
-   * @param nodeType of the string place holders to create
-   */
-  protected void setListNodeProperty(ASTNode node, String[] values, ChildListPropertyDescriptor property, int nodeType)
-  {
-    ListRewrite listRewrite = rewriter.getListRewrite(node, property);
-    List<?> oldValues = listRewrite.getRewrittenList();
-    
-    // clear old values
-    for (Iterator<?> it = oldValues.iterator(); it.hasNext();)
+    Object value = null;
+    if (stringValue != null)
     {
-      listRewrite.remove((ASTNode)it.next(), null);
+      value = rewriter.createStringPlaceholder(stringValue, nodeType);
     }
-    
-    // insert new values
-    for (int i = 0; i < values.length; i++)
-    {
-      listRewrite.insertLast(rewriter.createStringPlaceholder(values[i], nodeType), null);
-    }      
+    rewriter.set(node, property, value, null);
   }
-  
-  /**
-   * Adds <code>value</code> as a new string placeholder to the <code>property</code> of the <code>node</code>.
-   * <p>
-   * If <code>value</code> is <code>null</code>, no changes are made.
-   * 
-   * @param node
-   * @param value
-   * @param property
-   * @param noteType of the placeholder
-   */
-  protected void addValueToListProperty(ASTNode node, String value, ChildListPropertyDescriptor property, int nodeType)
-  {
-    if (value == null)
-    {
-      return;
-    }
-    
-    if (ASTFacadeHelper.DEBUG)
-    {
-      ((ASTFacadeHelper)facadeHelper).logInfo("Adding value to list property <" + value + ">");
-    }
-    
-    ListRewrite listRewrite = rewriter.getListRewrite(node, property);
-    listRewrite.insertLast(rewriter.createStringPlaceholder(value.toString(), nodeType), null);
-  }  
-  
-  /**
-   * Adds <code>value</code> to the property of the node.
-   * 
-   * @param node
-   * @param value
-   * @param property
-   * @param noteType
-   */
-  protected void addValueToListProperty(ASTNode node, ASTNode value, ChildListPropertyDescriptor property)
-  {
-    if (value == null)
-    {
-      return;
-    }
-    
-    if (ASTFacadeHelper.DEBUG)
-    {
-      ((ASTFacadeHelper)facadeHelper).logInfo("Adding value to list property <" + value + ">");
-    }
-    
-    ListRewrite listRewrite = rewriter.getListRewrite(node, property);
-    listRewrite.insertLast(value, null);
-  }   
-  
-  /**
-   * Removes value from list property.
-   * 
-   * @param parentNode
-   * @param nodeToRemove
-   * @param property
-   */
-  protected void removeNodeFromListProperty(ASTNode parentNode, ASTNode nodeToRemove, ChildListPropertyDescriptor property)
-  {
-    if (ASTFacadeHelper.DEBUG)
-    {
-      ((ASTFacadeHelper)facadeHelper).logInfo("Removing node from list property <" + nodeToRemove + ">");
-    }
-
-    // listRewrite.remove(..) does not remove newly inserted nodes that were not a part of original tree (!!!)
-//    ListRewrite listRewrite = getRewriter().getListRewrite(parentNode, property);
-//    listRewrite.remove(nodeToRemove, null);
-    
-    // call workaround
-    ((ASTFacadeHelper.ASTRewriteWithRemove)rewriter).remove(parentNode, property, nodeToRemove);
-  }    
 
   /**
-   * Inserts new node before or after target node.
-   * <p>
-   * Target node must have a valid location in parent (must exist in the tree).
-   * 
-   * @param newNode node to insert
-   * @param targetNode target node
-   * @param before 
+   * @param removedASTNode the removedASTNode to set
    */
-  protected void insert(ASTNode newNode, ASTNode targetNode, boolean before)
+  protected void setRemovedASTNode(ASTNode removedASTNode)
   {
-    StructuralPropertyDescriptor locationInParent = targetNode.getLocationInParent();
-    if (locationInParent != null && locationInParent.isChildListProperty())
-    {
-      insert(targetNode.getParent(), (ChildListPropertyDescriptor) locationInParent, newNode, targetNode, before);
-    } 
-    else if (ASTFacadeHelper.DEBUG)
-    {
-      ((ASTFacadeHelper)facadeHelper).logInfo("Unable to insert, target node <" + targetNode + "> has invalid location in parent <" + locationInParent + ">");
-    }
-  }  
-  
+    this.removedASTNode = removedASTNode;
+  }
+
   /**
-   * Inserts new child node before or after the target target node.
+   * Sets the property of the node. The position of the property value is tracked and value
+   * is replaced by  <code>stringValue</code> during rewrite process.
    * 
-   * @param parentNode parent node to insert a child for
-   * @param property property of list of children
-   * @param newNode node to insert
-   * @param targetNode
-   * @param before <code>true</code> if <code>newNode</code> must be inserted before <code>targetNode</code>, <code>false</code> otherwise
+   * @param node to set property of
+   * @param stringValue
+   * @param property must be {@link SimplePropertyDescriptor} or {@link ChildPropertyDescriptor}
+   * @param nodeType to use if value is null, and new node has to be created
    */
-  protected void insert(ASTNode parentNode, ChildListPropertyDescriptor property, ASTNode newNode, ASTNode targetNode, boolean before)
+  protected void setTrackedNodeProperty(ASTNode node, String stringValue, StructuralPropertyDescriptor property, int nodeType)
   {
-    ListRewrite listRewrite = rewriter.getListRewrite(parentNode, property);
-    if (before)
+    if (ASTFacadeHelper.DEBUG)
     {
-      listRewrite.insertBefore(newNode, targetNode, null);
+      facadeHelper.logInfo("Setting tracked node property to string <" + stringValue + ">");
+    }
+
+    ASTNode nodeValue = (ASTNode)rewriter.get(node, property);
+
+    if (stringValue == null || "".equals(stringValue))
+    {
+      removeTrackAndReplace(nodeValue);
+      rewriter.set(node, property, null, null);
+    }
+    else if (nodeValue != null)
+    {
+      trackAndReplace(nodeValue, stringValue);
     }
     else
+    // stringValue not null, nodeValue is null
     {
-      listRewrite.insertAfter(newNode, targetNode, null);
+      nodeValue = rewriter.createStringPlaceholder(stringValue, nodeType);
+      rewriter.set(node, property, nodeValue, null);
+      trackAndReplace(nodeValue, stringValue);
     }
   }
-  
-  /**
-   * Insert new node at the beginning of the list of children.
-   * 
-   * @param parentNode parent node to insert a child for
-   * @param property property of list of children
-   * @param newNode node to insert
-   */
-  protected void insertFirst(ASTNode parentNode, ChildListPropertyDescriptor property, ASTNode newNode)
-  {
-    ListRewrite listRewrite = rewriter.getListRewrite(parentNode, property);    
-    listRewrite.insertFirst(newNode, null);
-  }  
-  
-  /**
-   * Insert new node at the end of the list of children
-   * 
-   * @param parentNode parent node to insert a child for
-   * @param property property of list of children
-   * @param newNode node to insert
-   */
-  protected void insertLast(ASTNode parentNode, ChildListPropertyDescriptor property, ASTNode newNode)
-  {
-    ListRewrite listRewrite = rewriter.getListRewrite(parentNode, property);    
-    listRewrite.insertLast(newNode, null);
-  }
-  
+
   /**
    * Records that the given <code>node</code> must have the given <code>contents</code>.
    * <p> 
    * During rewrite process, the position of the <code>node</code> will be tracked, and the node
    * will replaced by the given <code>contents</code>. No changes will be made to <code>contents</code>.
    * <p>
-   * This method should be used when correction of indentation provided by {@link ASTRewrite#createStringPlaceholder(String, int)}
-   * and other methods of {@link ASTRewrite} is not desired.
+   * This method should be used to undo correction of indentation done by {@link ASTRewrite#rewriteAST(org.eclipse.jface.text.IDocument, Map)}
+   * on string placeholder nodes ({@link ASTRewrite#createStringPlaceholder(String, int)})
+   * during rewrite process.
+   * <p>
+   * Note that all the tracked nodes must exist in the rewritten tree. If some tracked nodes are removed from rewritten tree, wrong
+   * contents may be replaced. Use {@link #disableTrackAndReplace()} when <code>ASTJNode</code>s are removed.
    * 
    * @param node
    * @param contents
@@ -476,57 +804,15 @@ public abstract class ASTJNode extends AbstractJNode
   {
     if (ASTFacadeHelper.DEBUG)
     {
-      ((ASTFacadeHelper)facadeHelper).logInfo("Track and replace <" + node + "> by <" + contents + ">");
+      facadeHelper.logInfo("Track and replace <" + node + "> by <" + contents + ">");
     }
-    
-    ((ASTJCompilationUnit)facadeHelper.getCompilationUnit(this)).getTrackedContentsMap().put(node, contents);
-  }
-  
-  /**
-   * Disables tracking for the node. 
-   * <p>
-   * The given <code>node</code> will be modified only by {@link ASTRewrite}.
-   * 
-   * @param node 
-   * 
-   * @see #trackAndReplace(ASTNode, String)
-   */
-  protected void disableTrackAndReplace(ASTNode node)
-  {
-    ((ASTJCompilationUnit)facadeHelper.getCompilationUnit(this)).getTrackedContentsMap().remove(node);
-  }  
-  
-  /**
-   * Notifies the range computer of {@link ASTRewrite} that the node will be removed.
-   * 
-   * @param node to be removed
-   * 
-   * @see CommentAwareSourceRangeComputer#computeSourceRange(ASTNode) 
-   * @param node
-   */
-  protected void nodeToBeRemoved(ASTNode node)
-  {
-    TargetSourceRangeComputer sourceRangeComputer = rewriter.getExtendedSourceRangeComputer();
-    if (sourceRangeComputer instanceof CommentAwareSourceRangeComputer)
-    {
-      ((CommentAwareSourceRangeComputer)sourceRangeComputer).markNodeForRemoval(node);
-    }
-  }
 
-  /**
-   * Notifies the range computer of {@link ASTRewrite} that the node will be moved.
-   * 
-   * @param node to be moved
-   * 
-   * @see CommentAwareSourceRangeComputer#computeSourceRange(ASTNode) 
-   */
-  protected void nodeToBeMoved(ASTNode node)
-  {
-    TargetSourceRangeComputer sourceRangeComputer = rewriter.getExtendedSourceRangeComputer();
-    if (sourceRangeComputer instanceof CommentAwareSourceRangeComputer)
+    trackedContentsMap.put(node, contents);
+
+    ASTJCompilationUnit compilationUnit = ((ASTJCompilationUnit)facadeHelper.getCompilationUnit(this));
+    if (compilationUnit != null)
     {
-      ((CommentAwareSourceRangeComputer)sourceRangeComputer).unmarkNodeForRemoval(node);
+      compilationUnit.getAllTrackedContentsMap().put(node, contents);
     }
   }
-  
 }

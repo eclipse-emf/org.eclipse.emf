@@ -12,20 +12,21 @@
  *
  * </copyright>
  *
- * $Id: ASTJInitializer.java,v 1.2 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: ASTJInitializer.java,v 1.3 2006/12/06 03:48:43 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
-import org.eclipse.emf.codegen.merge.java.facade.JInitializer;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Initializer;
+
+import org.eclipse.emf.codegen.merge.java.facade.JInitializer;
 
 /**
  * Wraps {@link Initializer} object.
  * 
  * @since 2.2.0
  */
-public class ASTJInitializer extends ASTJMember implements JInitializer
+public class ASTJInitializer extends ASTJMember<Initializer> implements JInitializer
 {
   /**
    * @param initializer
@@ -35,14 +36,6 @@ public class ASTJInitializer extends ASTJMember implements JInitializer
     super(initializer);
   }
   
-  /**
-   * @return initializer wrapped by this node
-   */
-  protected Initializer getASTInitializer()
-  {
-    return (Initializer)getASTBodyDeclaration();
-  }
-
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getName()
    */
@@ -50,6 +43,16 @@ public class ASTJInitializer extends ASTJMember implements JInitializer
   {
     return getName(this);
   }
+  
+  /**
+   * This implementation does nothing. 
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
+   */
+  public void setName(String name)
+  {
+    // no op
+  }  
     
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.AbstractJNode#computeQualifiedName()
@@ -67,7 +70,7 @@ public class ASTJInitializer extends ASTJMember implements JInitializer
    */
   public String getBody()
   {
-    return facadeHelper.toString(getASTInitializer().getBody());
+    return getFacadeHelper().toString(getASTNode().getBody());
   }
 
   /**
@@ -79,6 +82,6 @@ public class ASTJInitializer extends ASTJMember implements JInitializer
    */
   public void setBody(String body)
   {
-    setTrackedNodeProperty(getASTInitializer(), body, Initializer.BODY_PROPERTY, ASTNode.BLOCK);
+    setTrackedNodeProperty(getASTNode(), body, Initializer.BODY_PROPERTY, ASTNode.BLOCK);
   }
 }

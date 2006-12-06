@@ -12,64 +12,39 @@
  *
  * </copyright>
  *
- * $Id: ASTJMember.java,v 1.2 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: ASTJMember.java,v 1.3 2006/12/06 03:48:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.codegen.merge.java.facade.JMember;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
+import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
+
+import org.eclipse.emf.codegen.merge.java.facade.JMember;
+import org.eclipse.emf.codegen.merge.java.facade.JNode;
 
 /**
  * Each <code>ASTJMember</code> has a reference to {@link BodyDeclaration} as a wrapped object.
  * 
+ * @param <T> wrapped body declaration type
+ * 
  * @since 2.2.0
  */
-public abstract class ASTJMember extends ASTJNode implements JMember
+public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> implements JMember
 {
-  /**
-   * Used to keep reference to original AST node when node is removed and then inserted
-   */
-  private ASTNode originalASTNode = null;
-  
-  /**
-   * @return original ASTNode before removal
-   */
-  protected ASTNode getOriginalASTNode()
-  {
-    return originalASTNode;
-  }
-
-  /**
-   * Sets original AST node to the given node.
-   * 
-   * @param originalASTNode
-   */
-  protected void setOriginalASTNode(ASTNode originalASTNode)
-  {
-    this.originalASTNode = originalASTNode;
-  }
-
   /**
    * @param bodyDeclaration
    */
-  public ASTJMember(BodyDeclaration bodyDeclaration)
+  public ASTJMember(T bodyDeclaration)
   {
     super(bodyDeclaration);
   }
-  
-  /**
-   * @return body declaration wrapped by {@link ASTJNode}
-   */
-  protected BodyDeclaration getASTBodyDeclaration()
-  {
-    return (BodyDeclaration)getASTNode();
-  }  
   
   /**
    * Returns original flags of the member.
@@ -79,7 +54,7 @@ public abstract class ASTJMember extends ASTJNode implements JMember
   @Override
   public int getFlags()
   {
-    return getASTBodyDeclaration().getModifiers();
+    return getASTNode().getModifiers();
   }
   
   /**
@@ -92,32 +67,33 @@ public abstract class ASTJMember extends ASTJNode implements JMember
   @Override
   public void setFlags(int flags)
   {
-    // check if changed
-    if (getFlags() == flags)
-    {
-      return;
-    }
-    
-    ListRewrite listRewrite = rewriter.getListRewrite(getASTBodyDeclaration(), getASTBodyDeclaration().getModifiersProperty());
+    BodyDeclaration bodyDeclaration = getASTNode();
+    ListRewrite listRewrite = rewriter.getListRewrite(bodyDeclaration, bodyDeclaration.getModifiersProperty());
 
-    // TODO check the order of ExtendedModifiers and Modifiers 
-    
     // remove all existing modifiers
-    for (Iterator<?> iter = listRewrite.getRewrittenList().iterator(); iter.hasNext();)
+    @SuppressWarnings("unchecked") 
+    List<IExtendedModifier> existingModifiers = listRewrite.getRewrittenList();
+    for (IExtendedModifier modifier : existingModifiers)
     {
-      IExtendedModifier modifier = (IExtendedModifier)iter.next();
       if (modifier.isModifier())
       {
-        listRewrite.remove((ASTNode)modifier, null);
+        // Bugzilla 164862
+        // listRewrite.remove(..) does not remove newly inserted nodes that were not a part of original tree (!!!)
+        
+        //listRewrite.remove((ASTNode)modifier, null);
+        
+        // call workaround
+        ((ASTFacadeHelper.ASTRewriteWithRemove)rewriter).remove(bodyDeclaration, bodyDeclaration.getModifiersProperty(), (ASTNode)modifier);        
       }
     }
     
     // create new modifiers and add to rewrite
-    List<?> newModifiersList = getASTBodyDeclaration().getAST().newModifiers(flags);
-    for (Iterator<?> iter = newModifiersList.iterator(); iter.hasNext();)
+    @SuppressWarnings("unchecked")    
+    List<Modifier> newModifiers = bodyDeclaration.getAST().newModifiers(flags);
+    for (Modifier modifier : newModifiers)
     {
-      listRewrite.insertLast((ASTNode)iter.next(), null);
-    }
+      listRewrite.insertLast(modifier, null);
+    }    
   }
   
   /**
@@ -127,7 +103,7 @@ public abstract class ASTJMember extends ASTJNode implements JMember
    */
   public String getComment()
   {
-    return facadeHelper.toString(getASTBodyDeclaration().getJavadoc());
+    return getFacadeHelper().toString(getASTNode().getJavadoc());
   }
 
   /**
@@ -139,6 +115,153 @@ public abstract class ASTJMember extends ASTJNode implements JMember
    */
   public void setComment(String comment)
   {
-    setTrackedNodeProperty(getASTBodyDeclaration(), comment, getASTBodyDeclaration().getJavadocProperty(), ASTNode.JAVADOC);
+    setTrackedNodeProperty(getASTNode(), comment, getASTNode().getJavadocProperty(), ASTNode.JAVADOC);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JMember#getAllAnnotations()
+   */
+  public String getAnnotations()
+  {
+    return getAnnotations(getASTNode());
+  }
+  
+  protected String getAnnotations(T node)
+  {
+    StringBuffer annotationStringBuffer = new StringBuffer();
+    
+    @SuppressWarnings("unchecked")    
+    List<IExtendedModifier> modifiers = node.modifiers();
+    
+    for (IExtendedModifier modifier : modifiers)
+    {
+      if (modifier.isAnnotation())
+      {
+        // TODO consider some specific format to simplify and make less error prone pattern that is used in dictionary pattern rule
+        annotationStringBuffer.append(getFacadeHelper().toString(modifier));
+      }
+    }
+    return annotationStringBuffer.toString();
+  }  
+  
+  /* (non-Javadoc)
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#remove(org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode)
+   */
+  @Override
+  public boolean remove(ASTJNode<?> node)
+  {
+    if (node.getParent() != this)
+    {
+      return false;
+    }
+    
+    if (node instanceof ASTJAnnotation)
+    {
+      remove(node, getASTNode().getModifiersProperty());
+      return true;
+    }
+    
+    return false;
+  }
+  
+  /* (non-Javadoc)
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#insertSibling(org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode, org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode, boolean)
+   */
+  @Override
+  public boolean insertSibling(ASTJNode<?> node, ASTJNode<?> newSibling, boolean before)
+  {
+    if (newSibling.getParent() != null || node.getParent() != this)
+    {
+      return false;
+    }
+    
+    if (newSibling instanceof ASTJAnnotation)
+    {
+      if (node instanceof ASTJAnnotation)
+      {
+        insert(newSibling, getASTNode().getModifiersProperty(), node, before);
+      }
+      else
+      {
+        insertLastAnnotation((ASTJAnnotation)newSibling);
+      }
+      return true;
+    }
+    
+    return false;
+  }
+  
+  /* (non-Javadoc)
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#addChild(org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode)
+   */
+  @Override
+  public boolean addChild(ASTJNode<?> child)
+  {
+    if (child.getParent() != null)
+    {
+      return false;
+    }
+    
+    if (child instanceof ASTJAnnotation)
+    {
+      insertLastAnnotation((ASTJAnnotation)child);
+      return true;
+    }
+    return false;
+  }
+  
+  /* (non-Javadoc)
+   * @see org.eclipse.emf.codegen.merge.java.facade.AbstractJNode#getChildren()
+   */
+  @Override
+  public List<JNode> getChildren()
+  {
+    List<JNode> children = new ArrayList<JNode>();
+    children.addAll(getAnnotationList());
+    return children.isEmpty() ? Collections.<JNode>emptyList() : Collections.unmodifiableList(children);
+  }
+
+  protected List<JNode> getAnnotationList()
+  {
+    List<JNode> annotations = new ArrayList<JNode>();
+    ListRewrite listRewrite = rewriter.getListRewrite(getASTNode(), getASTNode().getModifiersProperty());
+    
+    @SuppressWarnings("unchecked")
+    List<IExtendedModifier> modifiers = listRewrite.getRewrittenList();
+    
+    for (IExtendedModifier extendedModifier : modifiers)
+    {
+      if (extendedModifier.isAnnotation())
+      {
+        JNode annotation = getFacadeHelper().convertToNode(extendedModifier);
+        // specify the exact parent of annotations
+        ((ASTJNode<?>)annotation).setParent(this);
+        annotations.add(annotation);
+      }
+    }
+    return annotations;    
+  }
+  
+  /**
+   * Insert annotation after the last annotation of the given body declaration.
+   * <p>
+   * Note that modifiers and annotations can alternate in the modifiers list.
+   * This method inserts the new annotation after the last existing annotation.
+   * 
+   * @param annotation
+   * @param bodyDeclaration
+   */
+  protected void insertLastAnnotation(ASTJAnnotation annotation)
+  {
+    List<JNode> annotations = getAnnotationList();
+    if (annotations.size() > 0)
+    {
+      ASTJNode<?> lastAnnotation = (ASTJNode<?>)annotations.get(annotations.size() - 1);
+      insert(annotation, getASTNode().getModifiersProperty(), lastAnnotation, false);
+    }
+    else
+    {
+      insertFirst(annotation, getASTNode().getModifiersProperty());
+    }
   }
 }

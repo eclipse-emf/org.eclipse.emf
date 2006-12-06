@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommentAwareSourceRangeComputer.java,v 1.4 2006/12/05 00:16:37 marcelop Exp $
+ * $Id: CommentAwareSourceRangeComputer.java,v 1.5 2006/12/06 03:48:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -25,8 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
-import org.eclipse.jdt.core.dom.BodyDeclaration;
+import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.Comment;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.StructuralPropertyDescriptor;
@@ -63,6 +62,34 @@ import org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer;
 public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
 {
   /**
+   * Node types that this range computer changes range for.
+   */
+  protected static final Set<Integer> NODE_TYPES_WITH_SPECIAL_RANGE;
+  static
+  {
+    NODE_TYPES_WITH_SPECIAL_RANGE = new HashSet<Integer>();
+
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.ANNOTATION_TYPE_DECLARATION);
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION);
+
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.TYPE_DECLARATION);
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.ENUM_DECLARATION);
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.ENUM_CONSTANT_DECLARATION);
+
+    // this could be method body, for example
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.BLOCK);  
+    
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.SINGLE_MEMBER_ANNOTATION);
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.NORMAL_ANNOTATION);
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.MARKER_ANNOTATION);
+    
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.METHOD_DECLARATION);
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.FIELD_DECLARATION);
+    
+    NODE_TYPES_WITH_SPECIAL_RANGE.add(ASTNode.IMPORT_DECLARATION);
+  }
+  
+  /**
    * Array of comments from compilation unit
    */
   protected Comment[] commentArray = null;
@@ -86,39 +113,47 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
    * Map of nodes to the trailing <code>Comment</code> nodes that must be included
    * in the range for the node
    */
-  private Map<ASTNode, Comment> includeTrailingCommentMapper = new HashMap<ASTNode, Comment>();
+  protected Map<ASTNode, Comment> includeTrailingCommentMapper = new HashMap<ASTNode, Comment>();
 
   /**
    * Set of nodes that must have default range returned for them 
    */
-  private Set<ASTNode> nodesWithDefaultRange = new HashSet<ASTNode>();
+  protected Set<ASTNode> nodesWithDefaultRange = new HashSet<ASTNode>();
 
   /**
-   * @param compilationUnit to use to get a list of comments and node positions
+   * Original source used to create compilation unit
    */
-  public CommentAwareSourceRangeComputer(CompilationUnit compilationUnit)
+  protected String source = null;
+  
+  /**
+   * @param compilationUnit to use to get a list of comments and node positions
+   * @param source original source used to create compilation unit
+   */
+  public CommentAwareSourceRangeComputer(CompilationUnit compilationUnit, String source)
   {
     this.compilationUnit = compilationUnit;
+    this.source = source;
 
     List<?> commentList = compilationUnit.getCommentList();
     if (commentList != null)
     {
       this.commentArray = (Comment[])commentList.toArray();
+      this.commentStartPositions = new int [commentList.size()];
+      this.commentEndPositions = new int [commentList.size()];
+      int i = 0;
+      for (Iterator<?> iter = commentList.iterator(); iter.hasNext();)
+      {
+        Comment comment = (Comment)iter.next();
+        commentStartPositions[i] = comment.getStartPosition();
+        commentEndPositions[i] = commentStartPositions[i] + comment.getLength();
+        i++;
+      }      
     }
     else
     {
       this.commentArray = new Comment [0];
-    }
-
-    this.commentStartPositions = new int [commentList.size()];
-    this.commentEndPositions = new int [commentList.size()];
-    int i = 0;
-    for (Iterator<?> iter = commentList.iterator(); iter.hasNext();)
-    {
-      Comment comment = (Comment)iter.next();
-      commentStartPositions[i] = comment.getStartPosition();
-      commentEndPositions[i] = commentStartPositions[i] + comment.getLength();
-      i++;
+      this.commentStartPositions = new int [0];
+      this.commentEndPositions = new int [0];
     }
   }
 
@@ -153,7 +188,8 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
       rangeEndPos = nextNode.getStartPosition();
     }
 
-    return findLastCommentInRange(rangeStartPos, rangeEndPos);
+    int commentIndex = findLastCommentInRangeIndex(rangeStartPos, rangeEndPos);
+    return commentIndex == -1 ? null : commentArray[commentIndex];
   }
 
   /**
@@ -193,19 +229,20 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
 
     int rangeEndPos = compilationUnit.getExtendedStartPosition(node);
 
-    return findFirstCommentInRange(rangeStartPos, rangeEndPos);
+    int commentIndex = findFirstCommentInRangeIndex(rangeStartPos, rangeEndPos);
+    return commentIndex == -1 ? null : commentArray[commentIndex];
   }
 
   /**
-   * Finds last comment in the given range. 
+   * Finds index of the last comment in the given range. 
    * Start and end position of the resulting comment must be between <code>rangeStartPos</code>
    * and <code>rangeEndPos</code> inclusively.
    * 
    * @param rangeStartPos
    * @param rangeEndPos
-   * @return comment, <code>null</code> if not found
+   * @return comment index, <code>-1</code> if not found
    */
-  final protected Comment findLastCommentInRange(int rangeStartPos, int rangeEndPos)
+  final protected int findLastCommentInRangeIndex(int rangeStartPos, int rangeEndPos)
   {
     int commentIndex = Arrays.binarySearch(commentEndPositions, rangeEndPos);
 
@@ -222,7 +259,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
         commentIndex--;
         if (commentStartPositions[commentIndex] >= rangeStartPos)
         {
-          return commentArray[commentIndex];
+          return commentIndex;
         }
       }
     }
@@ -231,23 +268,23 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     {
       if (commentStartPositions[commentIndex] >= rangeStartPos)
       {
-        return commentArray[commentIndex];
+        return commentIndex;
       }
     }
 
-    return null;
+    return -1;
   }
 
   /**
-   * Finds first comment that is completely in the given range. 
+   * Finds index of the first comment that is completely in the given range. 
    * Start and end position of the resulting comment must be between <code>rangeStartPos</code>
    * and <code>rangeEndPos</code> inclusively.
    * 
    * @param rangeStartPos
    * @param rangeEndPos
-   * @return comment, <code>null</code> if not found
+   * @return comment index, <code>-1</code> if not found
    */
-  final protected Comment findFirstCommentInRange(int rangeStartPos, int rangeEndPos)
+  final protected int findFirstCommentInRangeIndex(int rangeStartPos, int rangeEndPos)
   {
     int commentIndex = Arrays.binarySearch(commentStartPositions, rangeStartPos);
 
@@ -262,7 +299,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
       {
         if (commentEndPositions[commentIndex] <= rangeEndPos)
         {
-          return commentArray[commentIndex];
+          return commentIndex;
         }
       }
     }
@@ -271,11 +308,11 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     {
       if (commentEndPositions[commentIndex] <= rangeEndPos)
       {
-        return commentArray[commentIndex];
+        return commentIndex;
       }
     }
 
-    return null;
+    return -1;
   }
 
   /**
@@ -319,7 +356,79 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     }
     return range;
   }
-
+  
+  /**
+   * Finds the start position of preceding comments of the given node.
+   * <p>
+   * Uses source to check if there is only whitespace between comments.
+   * <p>
+   * This method uses extended start position of the node as a starting position
+   * to look for comments.
+   * 
+   * @param node
+   * @return start position of the first preceding comment, or extended start position if there are no comments
+   */
+  protected int computeStartOfPrecedingComments(ASTNode node)
+  {
+    int nodeStartPosition = compilationUnit.getExtendedStartPosition(node);
+    
+    // find start position of furthest preceding comment
+    ASTNode prevNode = getPreviousNode(node);
+    int minStartPosition = prevNode == null ? 0 : compilationUnit.getExtendedStartPosition(prevNode) + compilationUnit.getExtendedLength(prevNode);
+    int commentIndex = findLastCommentInRangeIndex(minStartPosition, nodeStartPosition);
+    while(commentIndex >= 0)
+    {
+      int commentStartPosition = commentArray[commentIndex].getStartPosition();
+      int commentEndPosition = commentStartPosition + commentArray[commentIndex].getLength();
+      if (commentStartPosition >= minStartPosition && isWhitespace(commentEndPosition, nodeStartPosition))
+      {
+        nodeStartPosition = commentStartPosition;
+        commentIndex--;
+      }
+      else
+      {
+        break;
+      }
+    }
+    return nodeStartPosition;
+  }
+  
+  /**
+   * Finds the end position of trailing comments of the given node.
+   * <p>
+   * Uses source to check if there is only whitespace between comments.
+   * <p>
+   * This method uses extended end position of the node as a starting position
+   * to look for comments.
+   * 
+   * @param node
+   * @return end position of the last trailing comment, or extended end position if there are no comments
+   */
+  protected int computeEndOfTrailingComments(ASTNode node)
+  {
+    int nodeEndPosition = compilationUnit.getExtendedStartPosition(node) + compilationUnit.getExtendedLength(node);
+    
+    // find start position of furthest preceding comment
+    ASTNode nextNode = getNextNode(node);
+    int maxEndPosition = nextNode == null ? source.length() : compilationUnit.getExtendedStartPosition(nextNode);
+    int commentIndex = findFirstCommentInRangeIndex(nodeEndPosition, maxEndPosition);
+    while(commentIndex >= 0 && commentIndex < commentArray.length)
+    {
+      int commentStartPosition = commentArray[commentIndex].getStartPosition();
+      int commentEndPosition = commentStartPosition + commentArray[commentIndex].getLength();
+      if (commentEndPosition <= maxEndPosition && isWhitespace(nodeEndPosition, commentStartPosition))
+      {
+        nodeEndPosition = commentEndPosition;
+        commentIndex++;
+      }
+      else
+      {
+        break;
+      }
+    }
+    return nodeEndPosition;
+  }
+  
   /**
    * Finds the node that follows the given node.
    * 
@@ -336,10 +445,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     if (locationInParent != null && locationInParent.isChildListProperty())
     {
       ASTNode parent = node.getParent();
-      
-      @SuppressWarnings("unchecked")
-      List<?> siblings = (List)parent.getStructuralProperty(locationInParent);
-      
+      List<?> siblings = (List<?>)parent.getStructuralProperty(locationInParent);
       int index = siblings.indexOf(node);
       if (index >= 0 && index < siblings.size() - 1)
       {
@@ -365,10 +471,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     if (locationInParent != null && locationInParent.isChildListProperty())
     {
       ASTNode parent = node.getParent();
-      
-      @SuppressWarnings("unchecked")
-      List<?> siblings = (List)parent.getStructuralProperty(locationInParent);
-      
+      List<?> siblings = (List<?>)parent.getStructuralProperty(locationInParent);
       int index = siblings.indexOf(node);
       if (index > 0 && index < siblings.size())
       {
@@ -420,6 +523,125 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
   }
 
   /**
+   * Calculate the end of the line comment that is at the same line as <code>position</code>,
+   * and with only whitespace between <code>position</code> and the start of the line comment.
+   * <p>
+   * Uses source contents and comment arrays.
+   * <p>
+   * 
+   * @param position 
+   * @return original position if no such comment exist
+   */
+  protected int determineEndPositionOfLineComment(int position)
+  {
+    // extend to include the comment at the same line as the position 
+    // if there is nothing between the position and the comment
+    int firstTrailingCommentIndex = findFirstCommentInRangeIndex(position, Integer.MAX_VALUE);
+    if (firstTrailingCommentIndex >= 0 && commentArray[firstTrailingCommentIndex].isLineComment())
+    {
+      int commentStartPos = commentArray[firstTrailingCommentIndex].getStartPosition();
+      int commentEndPos = commentStartPos + commentArray[firstTrailingCommentIndex].getLength();
+      if (compilationUnit.getLineNumber(commentStartPos) == compilationUnit.getLineNumber(position))
+      {
+        // check if there is just whitespace between position and start of the comment
+        if (isWhitespace(position, commentStartPos))
+        {
+          return commentEndPos;
+        }
+      }
+    }
+    return position;
+  }
+  
+  /**
+   * Calculate the end of the line comment that is at the same line as <code>nodeEnd</code>,
+   * and ends before <code>nodeExtendedEnd</code>.
+   * <p>
+   * Does not use source contents.
+   * <p>
+   * 
+   * @param nodeEnd
+   * @param nodeExtendedEnd line comment must end before this position
+   * @return original position if no such comment exist
+   */
+  protected int determineEndPositionOfLineComment(int nodeEnd, int nodeExtendedEnd)
+  {
+    // extend to include the comment at the same line as the position 
+    int firstTrailingCommentIndex = findFirstCommentInRangeIndex(nodeEnd, nodeExtendedEnd);
+    if (firstTrailingCommentIndex >= 0 && commentArray[firstTrailingCommentIndex].isLineComment())
+    {
+      int commentStartPos = commentArray[firstTrailingCommentIndex].getStartPosition();
+      int commentEndPos = commentStartPos + commentArray[firstTrailingCommentIndex].getLength();
+      if (compilationUnit.getLineNumber(commentStartPos) == compilationUnit.getLineNumber(nodeEnd))
+      {
+        return commentEndPos;
+      }
+    }
+    return nodeEnd;
+  }  
+  
+  /**
+   * @param startPosition
+   * @param endPosition
+   * @return <code>true</code> if there is only whitespace between start and end position
+   */
+  protected boolean isWhitespace(int startPosition, int endPosition)
+  {
+    return source != null &&
+      source.substring(startPosition, endPosition).matches("\\s*");
+  }
+  
+  /**
+   * Specific method for enum constants. Returns
+   * range that includes preceding comments, extended range,
+   * trailing comments, and whitespace following the comments.
+   * <p>
+   * Using extended range as defined above is important to keep all the 
+   * comments when enum constants are moved (e.g. removed and then inserted). 
+   * <p>
+   * Such extended range also allows keeping right separating new line characters between constants,
+   * e.g. including trailing whitespace prevents putting constants at the end of line comments
+   * on the same line (https://bugs.eclipse.org/bugs/show_bug.cgi?id=165703).
+   * 
+   * @param node
+   * @return new extended range
+   */
+  protected SourceRange getEnumConstantSourceRange(ASTNode node)
+  {
+    // extend range backward
+    int extendedStartPosition = computeStartOfPrecedingComments(node);
+    
+    // extend range forward
+    int extendedEndPosition = computeEndOfTrailingComments(node);
+
+    // add trailing whitespace
+    extendedEndPosition = addWhitespaceAfterPosition(extendedEndPosition);
+
+    return new SourceRange(extendedStartPosition, extendedEndPosition - extendedStartPosition);
+  }
+  
+  /**
+   * If possible, extends given position to include any whitespace following the position.
+   * @param position
+   * @return
+   */
+  protected int addWhitespaceAfterPosition(int position)
+  {
+    if (source != null)
+    {
+      while(position < source.length() && Character.isWhitespace(source.charAt(position++)))
+      {
+        // increments the position to add the white spaces
+      }
+      return position - 1;
+    }
+    else
+    {
+      return position;
+    }
+  }  
+  
+  /**
    * Calculates the default range for the node.
    * <p>
    * The default range starts at an extended start position and ends at the non-extended end of the node.
@@ -433,6 +655,18 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
    */
   public SourceRange computeDefaultSourceRange(ASTNode node)
   {
+    // for all nodes but some use default extended range
+    if (!NODE_TYPES_WITH_SPECIAL_RANGE.contains(node.getNodeType()))
+    {
+      return super.computeSourceRange(node);
+    }
+
+    // for enum constants use special range
+    if (node.getNodeType() == ASTNode.ENUM_CONSTANT_DECLARATION)
+    {
+      return getEnumConstantSourceRange(node);
+    }
+    
     int nodeStartPos = node.getStartPosition();
     int nodeEndPos = nodeStartPos + node.getLength();
 
@@ -445,45 +679,42 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
     {
       extendedStartPos = nodeStartPos;
     }
-
-    int extendedLength = nodeEndPos - extendedStartPos;
     
-    // check for the line comment at the last line of a node
-    Comment firstTrailingComment = findFirstCommentInRange(nodeEndPos, extendedEndPos);
-    if (firstTrailingComment != null && firstTrailingComment.isLineComment())
-    {
-      int commentStartPos = firstTrailingComment.getStartPosition();
-      int commentEndPos = commentStartPos + firstTrailingComment.getLength();
-      if (compilationUnit.getLineNumber(commentStartPos) == compilationUnit.getLineNumber(nodeEndPos))
-      {
-        extendedLength = commentEndPos - extendedStartPos;
-      }
-    }
-
+    // line comments at the end of annotations are not a part of the range of annotation
+    // TODO is not including line comments at the end of annotations a bug?
+    extendedEndPos = node instanceof Annotation ?
+      determineEndPositionOfLineComment(nodeEndPos) :
+      determineEndPositionOfLineComment(nodeEndPos, extendedEndPos);
+    
+    // include line comments following end of the nodes into the range
+    int extendedLength = extendedEndPos - extendedStartPos;
+    
     return new SourceRange(extendedStartPos, extendedLength);
   }
 
   /**
    * Checks if the range should be extended for the given node.
    * <p>
-   * Range should be extended for a node of type {@link BodyDeclaration} or {@link AbstractTypeDeclaration}
-   * unless the node should use the default range (i.e. node removed). 
+   * Range should be extended for all nodes in {@link #nodesWithDefaultRange} except
+   * for enum constants and for nodes that should use the default range (i.e. removed nodes). 
    * 
    * @param node
-   * @return true if range should be extended, false otherwise
+   * @return <code>true</code> if range should be extended, <code>false</code> otherwise
    */
   protected boolean shouldHaveExtendedRange(ASTNode node)
   {
-    return (node instanceof BodyDeclaration || node instanceof AbstractTypeDeclaration) && !nodesWithDefaultRange.contains(node);
+    // since enum constants are separated by commas, they should always have the default range
+    // we can not extend their range or reduce it
+    return node.getNodeType() != ASTNode.ENUM_CONSTANT_DECLARATION && !nodesWithDefaultRange.contains(node);
   }
-
+  
   /**
    * Calculates the range of a node as follows:
    * <p>
    * For any node the range is at least the range returned by {@link #computeDefaultSourceRange(ASTNode)}.
    * <p>
    * If the node should have an extended range (as defined by {@link #shouldHaveExtendedRange(ASTNode)}),
-   * the range is extended to include all leading comments up to the previous node, and hanging trailing comments
+   * the range is extended to include all leading comments up to the previous node, and all hanging trailing comments
    * if the next node has been removed.
    * 
    * @see #computeDefaultSourceRange(ASTNode)
@@ -493,9 +724,16 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
   @Override
   public SourceRange computeSourceRange(ASTNode node)
   {
+    // for all nodes but some use default extended range
+    if (!NODE_TYPES_WITH_SPECIAL_RANGE.contains(node.getNodeType()))
+    {
+      return super.computeSourceRange(node);
+    }    
+    
     SourceRange sourceRange = computeDefaultSourceRange(node);
 
-    // check if given node should use the default range (i.e. node removed), or extended
+    // check if given node should use the default range (i.e. node removed),
+    // or extended range (i.e. surrounding nodes removed)
     if (shouldHaveExtendedRange(node))
     {
       // add leading comments

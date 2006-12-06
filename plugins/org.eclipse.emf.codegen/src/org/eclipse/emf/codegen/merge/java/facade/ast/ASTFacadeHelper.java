@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.6 2006/12/05 00:16:11 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.7 2006/12/06 03:48:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,17 +26,23 @@ import org.eclipse.jdt.core.compiler.IProblem;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.Annotation;
+import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
+import org.eclipse.jdt.core.dom.AnnotationTypeMemberDeclaration;
 import org.eclipse.jdt.core.dom.ArrayType;
 import org.eclipse.jdt.core.dom.ChildListPropertyDescriptor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.Initializer;
-import org.eclipse.jdt.core.dom.Javadoc;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
+import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
@@ -47,9 +54,11 @@ import org.eclipse.jdt.core.dom.rewrite.TargetSourceRangeComputer.SourceRange;
 import org.eclipse.jdt.core.formatter.DefaultCodeFormatterConstants;
 
 import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
+
 
 /**
  * @since 2.2.0
@@ -70,6 +79,8 @@ public class ASTFacadeHelper extends FacadeHelper
      * Note that {@link #remove(ASTNode, org.eclipse.text.edits.TextEditGroup)} does not remove newly created nodes that
      * have been inserted with {@link ListRewrite#insertFirst(ASTNode, org.eclipse.text.edits.TextEditGroup)} or
      * similar methods.
+     * <p>
+     * Workaround for <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=164862">https://bugs.eclipse.org/bugs/show_bug.cgi?id=164862</a>
      * 
      * @param parent
      * @param childProperty
@@ -104,19 +115,8 @@ public class ASTFacadeHelper extends FacadeHelper
   /**
    * Debug output setting
    */
-  protected final static boolean DEBUG = false;
-  
-  /**
-   * Returns the wrapped <code>ASTNode</code> object by given {@link JNode}.
-   * 
-   * @param node
-   * @return wrapped <code>ASTNode</code>, or <code>null</code> if <code>JNode</code> is not instance of <code>ASTJNode</code>
-   */
-  public static ASTNode getASTNode(JNode node)
-  {
-    return node instanceof ASTJNode ? ((ASTJNode)node).getASTNode() : null;
-  }  
-  
+  protected final static boolean DEBUG = JMerger.DEBUG;
+
   /**
    * Converts {@link Name} to string representation.
    * 
@@ -126,46 +126,79 @@ public class ASTFacadeHelper extends FacadeHelper
   public static String toString(Name name)
   {
     return name == null ? null : name.getFullyQualifiedName();
-  }    
+  }
+
+  public static String getTypeErasure(ArrayType arrayType)
+  {
+    StringBuffer sb = new StringBuffer(ASTFacadeHelper.getTypeErasure(arrayType.getElementType()));
+    for (int i = arrayType.getDimensions(); i > 0; i--)
+    {
+      sb.append("[]");
+    }
+    return sb.toString();
+  }
+
+  public static String getTypeErasure(ParameterizedType parameterizedType)
+  {
+    return getTypeErasure(parameterizedType.getType());
+  }
+
+  public static String getTypeErasure(PrimitiveType primitiveType)
+  {
+    return primitiveType.getPrimitiveTypeCode().toString();
+  }
+
+  public static String getTypeErasure(SimpleType simpleType)
+  {
+    return ASTFacadeHelper.toString(simpleType.getName());
+  }
+
+  public static String getTypeErasure(QualifiedType qualifiedType)
+  {
+    StringBuffer sb = new StringBuffer(ASTFacadeHelper.getTypeErasure(qualifiedType.getQualifier()));
+    sb.append(".");
+    sb.append(ASTFacadeHelper.toString(qualifiedType.getName()));
+    return sb.toString();
+  }
 
   /**
-   * Converts {@link Type} to string representation.
+   * Converts {@link Type} to string representation, erasing type parameters information.
+   * <p>
+   * This method is used to create a method signature, and match methods by signature.
    * 
    * @param type
    * @return string representing the type
    */
-  public static String toString(Type type)
+  public static String getTypeErasure(Type type)
   {
     if (type != null)
     {
-      String string = null;
-      String dimensions = "";
-
       if (type.isArrayType())
       {
-        for (int i = ((ArrayType)type).getDimensions(); i > 0; i--)
-        {
-          dimensions += "[]";
-        }
-        type = ((ArrayType)type).getElementType();
+        return getTypeErasure((ArrayType)type);
       }
-
-      if (type.isSimpleType())
+      else if (type.isParameterizedType())
       {
-        string = ASTFacadeHelper.toString(((SimpleType)type).getName());
+        return getTypeErasure((ParameterizedType)type);
       }
       else if (type.isPrimitiveType())
       {
-        string = ((PrimitiveType)type).getPrimitiveTypeCode().toString();
+        return getTypeErasure((PrimitiveType)type);
       }
-
-      if (dimensions.length() != 0)
+      else if (type.isQualifiedType())
       {
-        string = string + dimensions;
+        return getTypeErasure((QualifiedType)type);
       }
-      return string;
+      else if (type.isSimpleType())
+      {
+        return getTypeErasure((SimpleType)type);
+      }
+      else if (type.isWildcardType())
+      {
+        return "";
+      }
     }
-    return null;
+    return "";
   }
 
   /**
@@ -173,7 +206,7 @@ public class ASTFacadeHelper extends FacadeHelper
    */
   @SuppressWarnings("unchecked")
   protected Map javaCoreOptions = null;
-  
+
   /**
    * Map of nodes to node contents. Used for caching only.
    */
@@ -192,36 +225,46 @@ public class ASTFacadeHelper extends FacadeHelper
     astParser.setCompilerOptions(getJavaCoreOptions());
     return astParser;
   }
-  
+
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.FacadeHelper#createCompilationUnit(java.lang.String, java.lang.String)
    */
   @Override
-  public JCompilationUnit createCompilationUnit(String name, String content)
+  public ASTJCompilationUnit createCompilationUnit(String name, String content)
   {
     // set source
     char[] contentAsCharArray = content.toCharArray();
     ASTParser astParser = createASTParser();
     astParser.setSource(contentAsCharArray);
-    
+
     // parse
     CompilationUnit astCompilationUnit = (CompilationUnit)astParser.createAST(null);
 
-    // display errors
-    if (DEBUG && astCompilationUnit.getProblems().length > 0)
+    // display errors if any
+    if (astCompilationUnit.getProblems().length > 0)
     {
-      logCompilationErrors(astCompilationUnit.getProblems());
+      // TODO do a better job with reporting errors      
+      String problems = logCompilationErrors(astCompilationUnit.getProblems());
+      
+      // NAME may be passed as name - do not show it
+      if (name != null && !"".equals(name) && !"NAME".equals(name))
+      {
+        problems = name + ":" + problems;
+      }
+      
+      // stop merging and report problems
+      throw new RuntimeException(problems);
     }
-    
+
     // create rewriter to record changes
     ASTRewrite rewriter = new ASTRewriteWithRemove(astCompilationUnit.getAST());
 
     // keep comments between nodes when removing or moving nodes
-    rewriter.setTargetSourceRangeComputer(new CommentAwareSourceRangeComputer(astCompilationUnit));
-    
+    rewriter.setTargetSourceRangeComputer(new CommentAwareSourceRangeComputer(astCompilationUnit, content));
+
     // set properties
     astCompilationUnit.setProperty(ASTJCompilationUnit.NAME_PROPERTY, name);
-    
+
     // create JNode and set properties
     ASTJCompilationUnit compilationUnit = (ASTJCompilationUnit)convertToNode(astCompilationUnit);
     compilationUnit.setOriginalContents(contentAsCharArray);
@@ -229,19 +272,30 @@ public class ASTFacadeHelper extends FacadeHelper
 
     return compilationUnit;
   }
-  
+
   /**
    * Logs all compilation errors
    * <br>Currently for debugging only.
    * 
    * @param problems to display
+   * @throws Exception 
    */
-  private void logCompilationErrors(IProblem[] problems)
+  private String logCompilationErrors(IProblem[] problems)
   {
+    StringBuffer sb = new StringBuffer("Compiler Problems:");
     for (int i = 0; i < problems.length; i++)
     {
-      logError("Compiler Problem: " + problems[i]);
+      sb.append(System.getProperty("line.separator"));
+      sb.append(problems[i].getOriginatingFileName());
+      sb.append(" Line ").append(problems[i].getSourceLineNumber()).append(": ");
+      sb.append(problems[i]);
     }
+    
+    if (DEBUG)
+    {
+      logError(sb.toString());
+    }    
+    return sb.toString();
   }
 
   /**
@@ -262,20 +316,6 @@ public class ASTFacadeHelper extends FacadeHelper
     }
     return javaCoreOptions;
   }
-  
-  /**
-   * Sets the Java Core Options to use for parsing and rewriting.
-   * 
-   * @param javaCoreOptions the Java Core options to set
-   * 
-   * @see ASTRewrite#rewriteAST(org.eclipse.jface.text.IDocument, Map)
-   * @see ASTParser#setCompilerOptions(Map)
-   */
-  @SuppressWarnings("unchecked")
-  public void setJavaCoreOptions(Map javaCoreOptions)
-  {
-    this.javaCoreOptions = javaCoreOptions;
-  }
 
   /**
    * Gets JavaCore options from JavaCore and updates tab and indentation settings from ControlModel.
@@ -291,10 +331,6 @@ public class ASTFacadeHelper extends FacadeHelper
   {
     Map javaCoreOptions = JavaCore.getOptions();
 
-    // TODO add functionality to set source and compliance options
-    //javaCoreOptions.put(JavaCore.COMPILER_SOURCE, "1.5");
-    //javaCoreOptions.put(JavaCore.COMPILER_COMPLIANCE, "1.5");
-    
     if (getControlModel() != null)
     {
       String indent = getControlModel().getLeadingTabReplacement();
@@ -329,12 +365,12 @@ public class ASTFacadeHelper extends FacadeHelper
         }
       }
     }
-    
+
     if (DEBUG)
     {
-      logInfo("Tab char: " + javaCoreOptions.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR));
-      logInfo("Indent size: " + javaCoreOptions.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE));
-      logInfo("Tab size: " + javaCoreOptions.get(DefaultCodeFormatterConstants.FORMATTER_INDENTATION_SIZE));
+      logInfo("Tab char: " + javaCoreOptions.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR) + ", Indent size: "
+        + javaCoreOptions.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE) + ", Tab size: "
+        + javaCoreOptions.get(DefaultCodeFormatterConstants.FORMATTER_INDENTATION_SIZE));
     }
     
     return javaCoreOptions;
@@ -347,19 +383,23 @@ public class ASTFacadeHelper extends FacadeHelper
   public Object getContext(JNode node)
   {
     return node;
-  }  
-  
+  }
+
   /**
-   * Creates a copy of the node to be inserted in the context.
+   * Creates a copy of the node to be inserted in the tree that context node belongs to.
    * <p>
    * Note that in this implementation the original and returned cloned node can not be modified.
    * Calls to <code>get...()</code> methods on the cloned node will not return the original content. 
-   * The returned node can only be inserted in the context.
+   * The returned node can only be inserted in the same tree that context node belongs to.
+   * 
+   * @param context ASTJNode that belongs to the same tree that cloned node will be inserted to
+   * @param node node that needs to be cloned
+   * @return new node
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.FacadeHelper#cloneNode(java.lang.Object, org.eclipse.emf.codegen.merge.java.facade.JNode)
    */
   @Override
-  public JNode cloneNode(Object context, JNode node)
+  public ASTJNode<?> cloneNode(Object context, JNode node)
   {
     if (node instanceof JCompilationUnit)
     {
@@ -368,122 +408,218 @@ public class ASTFacadeHelper extends FacadeHelper
     }
     else
     {
-      ASTNode originalASTNode = getASTNode(node);
-      
-      if (originalASTNode != null)
+      ASTJNode<?> newASTJNode = null;
+      ASTNode originalASTNode = ((ASTJNode<?>)node).getASTNode();
+
+      ASTJNode<?> contextNode = (ASTJNode<?>)context;
+      ASTRewrite rewriter = contextNode.getRewriter();
+
+      // handle field declarations separately
+      if (node instanceof ASTJField)
       {
-        ASTJNode contextNode = (ASTJNode)context;        
-        ASTRewrite rewriter = contextNode.getRewriter();        
-        ASTNode newASTNode;
-        ASTJNode astjNode;
-        
-        // create new AST node
-        // handle variable declaration fragments separately
-        if (originalASTNode instanceof VariableDeclarationFragment)
-        {
-          FieldDeclaration originalFieldDeclaration = (FieldDeclaration)originalASTNode.getParent();
-          
-          FieldDeclaration newFieldDeclaration = (FieldDeclaration) ASTNode.copySubtree(contextNode.getASTNode().getAST(), originalFieldDeclaration);
-          
-          // if there are multiple declarations, use only 1 in the resulting node
-          // and copy only javadoc as string
-          if (originalFieldDeclaration.fragments().size() > 1)
-          {
-            newFieldDeclaration.fragments().clear();
-            newASTNode = ASTNode.copySubtree(contextNode.getASTNode().getAST(), originalASTNode);
-            
-            @SuppressWarnings("unchecked")
-            List<Object> fragments = newFieldDeclaration.fragments();
-            fragments.add(newASTNode);
-            astjNode = (ASTJNode)convertToNode(newASTNode);
-            
-            // copy javadoc as string
-            Javadoc originalJavadoc = originalFieldDeclaration.getJavadoc();
-            if (originalJavadoc != null)
-            {
-              String javadocString = applyFormatRules(toString(originalFieldDeclaration.getJavadoc()));
-              Javadoc javadoc = (Javadoc)rewriter.createStringPlaceholder(javadocString, originalFieldDeclaration.getJavadoc().getNodeType());
-              newFieldDeclaration.setJavadoc(javadoc);
-              contextNode.trackAndReplace(javadoc, javadocString);
-            }
-          }
-          else // else - there is only 1 declaration, replace the whole node by original contents
-          {
-            newASTNode = (ASTNode)newFieldDeclaration.fragments().get(0);
-            astjNode = (ASTJNode)convertToNode(newASTNode);
-            contextNode.trackAndReplace(newFieldDeclaration, applyFormatRules(toString(originalFieldDeclaration)));
-          }
-        }
-        else // any other node except variable declaration fragment - just copy content
-        {
-          String contents = applyFormatRules(toString(originalASTNode));
-          newASTNode = rewriter.createStringPlaceholder(contents, originalASTNode.getNodeType());
-          astjNode = (ASTJNode)convertToNode(newASTNode);
-          contextNode.trackAndReplace(newASTNode, contents);
-        }
-        
-        // set rewriter on the new node
-        astjNode.setRewriter(rewriter);
-        
-        return astjNode;
+        newASTJNode = cloneField((ASTJField)node, contextNode);
+      }
+      else
+      // create new node and replace it all by original contents
+      {
+        String contents = applyFormatRules(node.getContents());
+        // note that string placeholder adjusts indentation
+        // to correct this trackAndReplace method is used below
+        ASTNode newASTNode = rewriter.createStringPlaceholder(contents, originalASTNode.getNodeType());
+        newASTJNode = (ASTJNode<?>)convertToNode(newASTNode);
+        newASTJNode.trackAndReplace(newASTNode, contents);
+      }
+
+      // set rewriter on the new node
+      newASTJNode.setRewriter(contextNode.getRewriter());
+
+      return newASTJNode;
+    }
+  }
+
+  /**
+   * Copies the ASTJField node.
+   * <p>
+   * The copied field should <b>not</b> be modified (using set methods) nor read (using get methods), 
+   * and can <b>only</b> be inserted into the same tree that context node belongs to.
+   * <p>
+   * If the source field has only 1 variable, returned field is replaced by contents of original field declaration. 
+   * The returned field will have no internal structure.
+   * <p>
+   * If the source field has multiple variables declared in it, the returned field will
+   * contain only 1 variable. Annotations, javadoc and initializer are replaced by original contents
+   * with formatting preserved. Other parts of the declaration is not guaranteed to have formatting preserved.
+   * The copied field will have source ranges for all nodes relative to the source file, hence, get methods might return
+   * incorrect contents.
+   * 
+   * @param originalField
+   * @param contextNode
+   * @return
+   */
+  protected ASTJField cloneField(ASTJField originalField, ASTJNode<?> contextNode)
+  {
+    ASTJField newField = null;
+    FieldDeclaration originalFieldDeclaration = originalField.getOriginalFieldDeclaration();
+
+    // if there are multiple variables in the same field declaration, create declaration with only 1 variable
+    if (originalFieldDeclaration.fragments().size() > 1)
+    {
+      AST ast = contextNode.getWrappedObject().getAST();
+      
+      // note that the copied tree should not be modified by wrapped ASTJField
+      //
+      // the copied tree will have source ranges for all nodes in the source file,
+      // hence, the get methods in the new ASTJField will not return the right contents
+      FieldDeclaration newFieldDeclaration = 
+        (FieldDeclaration)ASTNode.copySubtree(ast, originalFieldDeclaration);
+
+      @SuppressWarnings("unchecked")
+      List<Object> newFragmentsList = newFieldDeclaration.fragments();
+      newFragmentsList.clear();
+      ASTNode newASTNode = ASTNode.copySubtree(ast, originalField.getWrappedVariableDeclarationFragment());
+      newFragmentsList.add(newASTNode);
+
+      newField = (ASTJField)convertToNode(newASTNode);
+
+      // rewriter is required for set methods
+      newField.setRewriter(contextNode.getRewriter());
+
+      // set comment and initializer as strings
+      newField.setComment(originalField.getComment());
+      newField.setInitializer(originalField.getInitializer());
+
+      // set annotation contents
+      Iterator<JNode> originalChildrenIterator = originalField.getChildren().iterator();
+      Iterator<JNode> childrenIterator = newField.getChildren().iterator();
+      for (; childrenIterator.hasNext() && originalChildrenIterator.hasNext();)
+      {
+        ASTJAnnotation originalAnnotation = (ASTJAnnotation)originalChildrenIterator.next();
+        ASTJAnnotation annotation = (ASTJAnnotation)childrenIterator.next();
+        annotation.setContents(applyFormatRules(originalAnnotation.getContents()));
       }
     }
-    return null;
+    else
+    // create new field and replace it all by original contents
+    {
+      String contents = applyFormatRules(originalField.getContents());
+      FieldDeclaration fieldDeclaration = (FieldDeclaration)contextNode.getRewriter().createStringPlaceholder(
+        contents,
+        ASTNode.FIELD_DECLARATION);
+      newField = (ASTJField)convertToNode(fieldDeclaration.fragments().get(0));
+      newField.trackAndReplace(fieldDeclaration, contents);
+    }
+    return newField;
+  }
+
+  /**
+   * Finds the parent node based on the parent of wrapped AST node.
+   * 
+   * @return parent {@link JNode}
+   */
+  public ASTJNode<?> findParent(ASTNode node)
+  {
+    JNode parent = null;
+    // skip nodes in hierarchy that can not be converted to JNode (i.e. VariableDeclarationFragment)
+    do
+    {
+      node = node.getParent();
+      parent = convertToNode(node);
+    }
+    while (parent == null && node != null);
+    return (ASTJNode<?>)parent;
   }
 
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.FacadeHelper#doConvertToNode(java.lang.Object)
    */
   @Override
-  protected JNode doConvertToNode(Object object)
+  protected ASTJNode<?> doConvertToNode(Object object)
   {
-    ASTJNode node = null;
-    boolean isCompilationUnit = false;
-    if (object instanceof CompilationUnit)
-    {
-      node = new ASTJCompilationUnit((CompilationUnit)object);
-      isCompilationUnit = true;
-    }
-    if (object instanceof VariableDeclarationFragment)
-    {
-      node = new ASTJField((VariableDeclarationFragment)object);
-    }
-    if (object instanceof ImportDeclaration)
-    {
-      node = new ASTJImport((ImportDeclaration)object);
-    }
-    if (object instanceof Initializer)
-    {
-      node = new ASTJInitializer((Initializer)object);
-    }
-    if (object instanceof MethodDeclaration)
-    {
-      node = new ASTJMethod((MethodDeclaration)object);
-    }
-    if (object instanceof PackageDeclaration)
-    {
-      node = new ASTJPackage((PackageDeclaration)object);
-    }
-    if (object instanceof TypeDeclaration)
-    {
-      node = new ASTJType((TypeDeclaration)object);
-    }
+    ASTJNode<?> node = null;
     
-    if (node != null)
+    if (object instanceof ASTNode)
     {
-      node.setFacadeHelper(this);
-      if (!isCompilationUnit)
+      ASTNode astNode = (ASTNode)object;
+      
+      // get rewriter
+      ASTRewrite rewriter = null;
+      ASTJCompilationUnit compilationUnit = (ASTJCompilationUnit)getCompilationUnit(findParent((ASTNode)object));
+      if (compilationUnit != null)
       {
-        JCompilationUnit jCompilationUnit = getCompilationUnit(node);
-        if (jCompilationUnit != null)
+        rewriter = compilationUnit.getRewriter();
+      }
+  
+      boolean isCompilationUnit = false;
+  
+      switch (astNode.getNodeType())
+      {
+        case ASTNode.COMPILATION_UNIT:
+          node = new ASTJCompilationUnit((CompilationUnit)object);
+          isCompilationUnit = true;
+          break;
+        case ASTNode.VARIABLE_DECLARATION_FRAGMENT:
+          node = new ASTJField((VariableDeclarationFragment)object, this, rewriter);
+          break;
+        case ASTNode.IMPORT_DECLARATION:
+          node = new ASTJImport((ImportDeclaration)object);
+          break;
+        case ASTNode.INITIALIZER:
+          node = new ASTJInitializer((Initializer)object);
+          break;
+        case ASTNode.METHOD_DECLARATION:
+          node = new ASTJMethod((MethodDeclaration)object);
+          break;
+        case ASTNode.PACKAGE_DECLARATION:
+          node = new ASTJPackage((PackageDeclaration)object);
+          break;
+        case ASTNode.TYPE_DECLARATION:
+          node = new ASTJType((TypeDeclaration)object);
+          break;
+        case ASTNode.MARKER_ANNOTATION:
+        case ASTNode.NORMAL_ANNOTATION:
+        case ASTNode.SINGLE_MEMBER_ANNOTATION:
+          node = new ASTJAnnotation((Annotation)object);
+          break;
+        case ASTNode.ANNOTATION_TYPE_DECLARATION:
+          node = new ASTJAnnotationType((AnnotationTypeDeclaration)object);
+          break;
+        case ASTNode.ANNOTATION_TYPE_MEMBER_DECLARATION:
+          node = new ASTJAnnotationTypeMember((AnnotationTypeMemberDeclaration)object);
+          break;
+        case ASTNode.ENUM_DECLARATION:
+          node = new ASTJEnum((EnumDeclaration)object);
+          break;
+        case ASTNode.ENUM_CONSTANT_DECLARATION:
+          node = new ASTJEnumConstant((EnumConstantDeclaration)object);
+      }
+      
+      if (node != null)
+      {
+        node.setFacadeHelper(this);
+        if (!isCompilationUnit)
         {
-          node.setRewriter(((ASTJCompilationUnit)jCompilationUnit).getRewriter());
+          node.setRewriter(rewriter);
         }
       }
     }
     return node;
   }
   
+  /**
+   * Updates wrapped objects to nodes map. This method must be called
+   * when wrapped ASTNode of ASTJNode is changed.
+   * 
+   * @param node
+   */
+  public void updateObjectToNodeMap(ASTJNode<?> node)
+  {
+    objectToNodeMap.put(
+      node instanceof ASTJField ? 
+        ((ASTJField)node).getWrappedVariableDeclarationFragment() :
+        node.getWrappedObject(),
+      node);
+  }
+
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.FacadeHelper#addChild(org.eclipse.emf.codegen.merge.java.facade.JNode, org.eclipse.emf.codegen.merge.java.facade.JNode)
    */
@@ -494,9 +630,9 @@ public class ASTFacadeHelper extends FacadeHelper
     {
       return false;
     }
-    return ((ASTJNode)node).addChild(child);
+    return ((ASTJNode<?>)node).addChild((ASTJNode<?>)child);
   }
-  
+
   /**
    * Removes the given node.
    * <p>
@@ -510,13 +646,14 @@ public class ASTFacadeHelper extends FacadeHelper
   {
     if (node != null)
     {
-      ASTJNode parent = (ASTJNode)node.getParent();
+      ASTJNode<?> astjNode = (ASTJNode<?>)node;
+      ASTJNode<?> parent = astjNode.getParent();
       if (parent != null)
       {
         // update the wrapped object map
-        if (parent.remove(node))
+        if (parent.remove(astjNode))
         {
-          objectToNodeMap.put(getASTNode(node), node);
+          updateObjectToNodeMap(astjNode);
         }
         return true;
       }
@@ -532,10 +669,11 @@ public class ASTFacadeHelper extends FacadeHelper
   {
     if (node != null && newSibling != null)
     {
-      ASTJNode parent = (ASTJNode)node.getParent();
+      ASTJNode<?> astjNode = (ASTJNode<?>)node;
+      ASTJNode<?> parent = astjNode.getParent();
       if (parent != null)
       {
-        return parent.insertSibling(node, newSibling, before);
+        return parent.insertSibling(astjNode, (ASTJNode<?>)newSibling, before);
       }
     }
     return false;
@@ -547,9 +685,9 @@ public class ASTFacadeHelper extends FacadeHelper
   @Override
   public String toString(Object object)
   {
-    if (object instanceof JNode)
+    if (object instanceof ASTJNode)
     {
-      object = getASTNode((JNode)object);
+      return toString(((ASTJNode<?>)object).getASTNode());
     }
     if (object instanceof ASTNode)
     {
@@ -642,5 +780,5 @@ public class ASTFacadeHelper extends FacadeHelper
   {
     CodeGenPlugin.INSTANCE.log("ERROR " + string);
     CodeGenPlugin.INSTANCE.log(e);
-  }    
+  }
 }

@@ -12,21 +12,23 @@
  *
  * </copyright>
  *
- * $Id: ASTJField.java,v 1.2 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: ASTJField.java,v 1.3 2006/12/06 03:48:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
-
+import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.codegen.merge.java.facade.JField;
 import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.BodyDeclaration;
+import org.eclipse.jdt.core.dom.Annotation;
+import org.eclipse.jdt.core.dom.ChildListPropertyDescriptor;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
-import org.eclipse.jdt.core.dom.Javadoc;
+import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
+
+import org.eclipse.emf.codegen.merge.java.facade.JField;
 
 
 /**
@@ -38,96 +40,146 @@ import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
  * can share the same {@link FieldDeclaration}.
  * <p>
  * If the field declaration referenced by <code>ASJField</code> has more than 1 variable,
- * calls to some <code>set...()</code> methods will result in a separation of the variable referenced
- * by <code>ASTJField</code> from
+ * calls to some <code>set...()</code> methods on the field and its children (e.g. annotations)
+ * will result in a separation of the variable referenced by <code>ASTJField</code> from
  * the field declaration. The new declaration is inserted before the original declaration. 
  * After the separation, calls to <code>get...()</code> methods will no longer return the correct
- * original content. 
- * <p>
- * Methods that will result in a separation of the variable are 
- * <code>setComment()</code>, <code>setType()</code>, and <code>setFlags()</code>.
+ * original content.
  * 
  * @since 2.2.0
  */
-public class ASTJField extends ASTJMember implements JField
+public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
 {
   /**
-   * Variable declaration fragment that is wrapped by ASTJField.
+   * Indicates if initializer of the field has been changed (i.e. by calling <code>setInitializer()</code>).
+   * <p>
+   * Note that change in initializer should not result in splitting variables in the field declaration.
+   * <p>
+   * If <code>setInitializer()</code> has been called, and <code>performSplit()</code> is
+   * called after, then <code>performSplit()</code> should not overwrite the initializer.
+   */
+  protected boolean isInitializerSet = false;
+
+  private FieldDeclaration originalFieldDeclaration = null;  
+  
+  /**
+   * Indicates whether the variable declaration fragment is the only fragment
+   * in the field declaration.
+   */
+  protected boolean splitPerformed = false;
+  
+  /**
+   * Variable declaration fragment that is wrapped by ASTJField and to be used by <code>set...</code>
+   * and <code>get...</code> methods. Note that when field is removed, this variable is <b>not</b> changed.
+   * On the other hand, wrappedVariableDeclarationFragment is updated to reflect current node in the tree.
    * <p>
    * Since the same {@link FieldDeclaration} can have multiple variables declared in it,
    * but {@link JField} object must be unique for 1 variable, each
    * ASTJField has reference to FieldDeclaration and {@link VariableDeclarationFragment}.
-   * <p>
-   * Wrapped object is FieldDeclaration object, while VariableDeclarationFragment is stored
-   * as an attribute of ASTJField.
    * 
    * @see org.eclipse.jdt.core.dom.VariableDeclarationFragment
    */
   protected VariableDeclarationFragment variableDeclarationFragment;
-  
-  /**
-   * Sets wrapped object to {@link VariableDeclarationFragment}
-   * 
-   * @param variableDeclarationFragment must have parent of type {@link FieldDeclaration}
-   */
-  public ASTJField(VariableDeclarationFragment variableDeclarationFragment)
-  {
-    super((FieldDeclaration)variableDeclarationFragment.getParent());
-    this.variableDeclarationFragment = variableDeclarationFragment;
-  }
 
   /**
-   * Returns {@link VariableDeclarationFragment} associated with this ASTJField
+   * Variable declaration fragment that is wrapped by ASTJField and reflects current node in the
+   * rewritten tree that is used by this field.
+   * <p>
+   * Actual wrapped object is FieldDeclaration object, while VariableDeclarationFragment is stored
+   * as an attribute of ASTJField and returned by {@link #getWrappedObject()}.
    * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#getASTNode()
+   * @see org.eclipse.jdt.core.dom.VariableDeclarationFragment
    */
-  @Override
-  protected ASTNode getASTNode()
-  {
-    return variableDeclarationFragment;
-  }
-  
+  protected VariableDeclarationFragment wrappedVariableDeclarationFragment;
+
   /**
-   * Sets wrapped object to be the given FieldDeclaration, 
-   * and sets variableDeclarationFragment attribute
-   * to be the first variable declaration fragment in the given FieldDeclaration.
+   * Sets wrapped object to {@link VariableDeclarationFragment}, and prepares variable
+   * separation if required
    * 
-   * @param node must be of type FieldDeclaration, ignored otherwise
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#setASTNode(org.eclipse.jdt.core.dom.ASTNode)
+   * @param variableDeclarationFragment must have parent of type {@link FieldDeclaration}
+   * @param getFacadeHelper() facade helper to use for this field, must not be <code>null</code>
+   * @param rewriter to use, must not be <code>null</code>
+   * @see #prepareSplit()
    */
-  @Override
-  protected void setASTNode(ASTNode node)
+  public ASTJField(VariableDeclarationFragment variableDeclarationFragment, ASTFacadeHelper facadeHelper, ASTRewrite rewriter)
   {
-    if (node instanceof FieldDeclaration)
+    super((FieldDeclaration)variableDeclarationFragment.getParent());
+    this.originalFieldDeclaration = (FieldDeclaration)variableDeclarationFragment.getParent();
+    this.variableDeclarationFragment = variableDeclarationFragment;
+    this.wrappedVariableDeclarationFragment = variableDeclarationFragment;
+    setFacadeHelper(facadeHelper);
+    this.rewriter = rewriter;
+    if (rewriter != null && getFacadeHelper() != null)
     {
-      super.setASTNode(node);
-      FieldDeclaration fieldDeclaration = (FieldDeclaration)node;
-      if (fieldDeclaration.fragments().size() > 0)
-      {
-        variableDeclarationFragment = (VariableDeclarationFragment)fieldDeclaration.fragments().get(0);
-      }
+      prepareSplit();
     }
   }
   
-  /**
-   * Returns wrapped object as BodyDeclaration object.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#getASTBodyDeclaration()
-   */
-  @Override
-  protected BodyDeclaration getASTBodyDeclaration()
+  public FieldDeclaration getOriginalFieldDeclaration()
   {
-    return (BodyDeclaration)super.getASTNode();
+    return originalFieldDeclaration;
+  }
+  
+  public VariableDeclarationFragment getWrappedVariableDeclarationFragment()
+  {
+    return wrappedVariableDeclarationFragment;
+  }
+
+  @Override
+  public boolean addChild(ASTJNode<?> child)
+  {
+    performSplit();
+    return super.addChild(child);
+  }
+
+  @Override
+  protected void childToBeChanged(ASTJNode<?> child)
+  {
+    performSplit();
+  }
+  
+  @Override
+  public String getAnnotations()
+  {
+    return getAnnotations(originalFieldDeclaration);
+  }
+  
+  @Override
+  public String getComment()
+  {
+    return getFacadeHelper().toString(originalFieldDeclaration.getJavadoc());
   }
 
   /**
-   * @return field declaration wrapped by this node
+   * Return the original declaration contents (including all variable declaration fragments in the
+   * declaration).
+   * <p>
+   * If the declaration has been split, the returned value will not be correct.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#getContents()
    */
-  protected FieldDeclaration getASTFieldDeclaration()
+  @Override
+  public String getContents()
   {
-    return (FieldDeclaration)getASTBodyDeclaration();
+    // return the whole declaration contents (not just variableDeclarationFragment)
+    return getFacadeHelper().toString(originalFieldDeclaration);
   }
+  
+  @Override
+  public int getFlags()
+  {
+    return originalFieldDeclaration.getModifiers();
+  }  
+  
+  /**
+   * Returns original initializer of variable declaration fragment.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.JField#getInitializer()
+   */
+  public String getInitializer()
+  {
+    return getFacadeHelper().toString(variableDeclarationFragment.getInitializer());
+  }  
 
   /**
    * Returns name of variable declaration fragment.
@@ -137,16 +189,250 @@ public class ASTJField extends ASTJMember implements JField
   public String getName()
   {
     return ASTFacadeHelper.toString(variableDeclarationFragment.getName());
-  }  
+  }
 
   /**
-   * Returns original initializer of variable declaration fragment.
+   * Returns original type of {@link FieldDeclaration}.
+   * <p>
+   * Note that dimensions declared after variable name are appended to the type.
    * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JField#getInitializer()
+   * @see org.eclipse.emf.codegen.merge.java.facade.JField#getType()
    */
-  public String getInitializer()
+  public String getType()
   {
-    return facadeHelper.toString(variableDeclarationFragment.getInitializer());
+    String type = getFacadeHelper().toString(originalFieldDeclaration.getType());
+
+    // append extra dimensions since they are not stored in Type object
+    for (int i = 0; i < variableDeclarationFragment.getExtraDimensions(); i++)
+    {
+      type += "[]";
+    }
+    
+    return type;
+  }
+  
+  @Override
+  public boolean insertSibling(ASTJNode<?> node, ASTJNode<?> newSibling, boolean before)
+  {
+    performSplit();
+    return super.insertSibling(node, newSibling, before);
+  }
+  
+  /**
+   * Ensures that the field wrapped by this ASTJField have only 1 variable in the declaration.
+   * <p>
+   * If required, this method creates a new field declaration, and sets rewritten AST node
+   * to it. The ASTNode of all annotations of the new field is updated to use the original node.
+   * <p>
+   * Note that the no changes are added to the rewriter or wrapped object until {@link #performSplit()} is called.
+   * <p>
+   * This method must be called when field is created to ensure that annotations are unique for each <code>ASTJField</code>.
+   * 
+   * @see #performSplit()
+   */
+  protected void prepareSplit()
+  {
+    // check number of fragments
+    ListRewrite listRewrite = rewriter.getListRewrite(originalFieldDeclaration, FieldDeclaration.FRAGMENTS_PROPERTY);
+    List<?> fragments = listRewrite.getRewrittenList();
+    if (splitPerformed || fragments.size() <= 1)
+    {
+      splitPerformed = true;
+      return;
+    }
+  
+    // create a copy of declaration
+    FieldDeclaration newDeclaration = (FieldDeclaration)ASTNode.copySubtree(originalFieldDeclaration.getAST(), originalFieldDeclaration);
+  
+    // set original node of annotations (to allow get methods to work correctly)
+    @SuppressWarnings("unchecked")
+    Iterator<IExtendedModifier> newModifiersIterator = newDeclaration.modifiers().iterator();
+    @SuppressWarnings("unchecked")
+    Iterator<IExtendedModifier> originalModifiersIterator = originalFieldDeclaration.modifiers().iterator();
+  
+    for (; newModifiersIterator.hasNext() && originalModifiersIterator.hasNext();)
+    {
+      IExtendedModifier modifier = newModifiersIterator.next();
+      IExtendedModifier originalModifier = originalModifiersIterator.next();
+      if (originalModifier.isAnnotation())
+      {
+        Annotation annotation = (Annotation)modifier;
+        Annotation originalAnnotation = (Annotation)originalModifier;
+        ASTJAnnotation astjAnnotation = (ASTJAnnotation)getFacadeHelper().convertToNode(annotation);
+        astjAnnotation.setASTNode(originalAnnotation);
+      }
+    }
+  
+    // new declaration will not have fragments until performSplit() is called
+    newDeclaration.fragments().clear();
+    setASTNode(newDeclaration);
+  }
+
+  /**
+   * Revert the changes made by <code>prepareSplit()</code>.
+   * @see #prepareSplit()
+   */
+  protected void revertPrepareSplit()
+  {
+    if (splitPerformed)
+    {
+      return;
+    }
+    
+    @SuppressWarnings("unchecked")
+    Iterator<IExtendedModifier> newModifiersIterator = getASTNode().modifiers().iterator();
+    @SuppressWarnings("unchecked")
+    Iterator<IExtendedModifier> originalModifiersIterator = originalFieldDeclaration.modifiers().iterator();
+    
+    for (; newModifiersIterator.hasNext() && originalModifiersIterator.hasNext();)
+    {
+      IExtendedModifier modifier = newModifiersIterator.next();
+      IExtendedModifier originalModifier = originalModifiersIterator.next();
+      if (originalModifier.isAnnotation())
+      {
+        Annotation annotation = (Annotation)modifier;
+        Annotation originalAnnotation = (Annotation)originalModifier;
+        ASTJAnnotation astjAnnotation = (ASTJAnnotation)getFacadeHelper().convertToNode(annotation);
+        astjAnnotation.setRewrittenASTNode(originalAnnotation);
+        astjAnnotation.setWrappedObject(originalAnnotation);
+        getFacadeHelper().updateObjectToNodeMap(astjAnnotation);
+      }
+    }
+  
+    // set rewritten node to be the original
+    setASTNode(originalFieldDeclaration);
+    splitPerformed = true;
+  }
+
+  /**
+   * If required, separates the variable declaration fragment into a new {@link FieldDeclaration}
+   * object. If this declaration does not need to be split, reverts the changes made by {@link #prepareSplit()}.
+   * <p>
+   * New field declaration will have only one variable declaration fragment. 
+   * New declaration is added to the {@link ASTRewrite}.
+   * The attributes of this ASTJField are updated to reference elements of the new declaration.
+   * Only the javadoc, variable initializer, and annotations are copied as String, all other attributes are copied
+   * using {@link ASTNode#copySubtree(org.eclipse.jdt.core.dom.AST, ASTNode)}. All
+   * formatting except for Javadoc, initializer, and annotations is lost.
+   * If field declaration wrapped by ASTJField has only one variable declaration
+   * fragment left, no changes are made.
+   * <p>
+   * Note that this method must be called after {@link #prepareSplit()} and before any
+   * changes are made to the nodes.
+   * 
+   * @see #prepareSplit()
+   */
+  protected void performSplit()
+  {
+    if (!splitPerformed && getASTNode() != originalFieldDeclaration)
+    {
+      ListRewrite listRewrite = rewriter.getListRewrite(originalFieldDeclaration, FieldDeclaration.FRAGMENTS_PROPERTY);
+      List<?> fragments = listRewrite.getRewrittenList();
+      
+      // perform split if there is more than 1 fragment
+      if (fragments.size() > 1)
+      {
+        FieldDeclaration newDeclaration = getASTNode();
+  
+        // set javadoc
+        if (originalFieldDeclaration.getJavadoc() != null)
+        {
+          String javadocString = getFacadeHelper().applyFormatRules(getFacadeHelper().toString(originalFieldDeclaration.getJavadoc()));
+          setTrackedNodeProperty(newDeclaration, javadocString, newDeclaration.getJavadocProperty(), ASTNode.JAVADOC);
+        }
+  
+        // set initializer only if it was not set already
+        if (variableDeclarationFragment.getInitializer() != null && !isInitializerSet)
+        {
+          String initializerString = getFacadeHelper().applyFormatRules(getFacadeHelper().toString(variableDeclarationFragment.getInitializer()));
+          setTrackedNodeProperty(
+            variableDeclarationFragment,
+            initializerString,
+            VariableDeclarationFragment.INITIALIZER_PROPERTY,
+            ASTNode.JAVADOC);
+        }
+  
+        // set annotations contents
+        @SuppressWarnings("unchecked")
+        Iterator<IExtendedModifier> newModifiersIterator = newDeclaration.modifiers().iterator();
+        @SuppressWarnings("unchecked")
+        Iterator<IExtendedModifier> originalModifiersIterator = originalFieldDeclaration.modifiers().iterator();        
+        
+        for (; newModifiersIterator.hasNext() && originalModifiersIterator.hasNext();)
+        {
+          IExtendedModifier modifier = newModifiersIterator.next();
+          IExtendedModifier originalModifier = originalModifiersIterator.next();
+          if (originalModifier.isAnnotation())
+          {
+            ASTJAnnotation astjAnnotation = (ASTJAnnotation)getFacadeHelper().convertToNode(modifier);
+            astjAnnotation.trackAndReplace(
+              astjAnnotation.getRewrittenASTNode(),
+              getFacadeHelper().applyFormatRules(getFacadeHelper().toString(originalModifier)));
+          }
+        }
+  
+        // insert new declaration before this one
+        listRewrite = rewriter.getListRewrite(originalFieldDeclaration.getParent(), (ChildListPropertyDescriptor)originalFieldDeclaration.getLocationInParent());
+        listRewrite.insertBefore(newDeclaration, originalFieldDeclaration, null);
+  
+        // update the wrapped object
+        setWrappedObject(newDeclaration);
+  
+        // delete variable fragment from old declaration
+        removeNodeFromListProperty(originalFieldDeclaration, variableDeclarationFragment, FieldDeclaration.FRAGMENTS_PROPERTY);
+  
+        // add variable fragment to new declaration
+        ListRewrite newListRewrite = rewriter.getListRewrite(newDeclaration, FieldDeclaration.FRAGMENTS_PROPERTY);
+        newListRewrite.insertFirst(variableDeclarationFragment, null);
+    
+        // split is performed
+        splitPerformed = true;          
+      }
+      else
+      {
+        // only 1 fragment left - revert the changes
+        revertPrepareSplit();
+      }
+    }
+  }
+
+  @Override
+  public boolean remove(ASTJNode<?> node)
+  {
+    performSplit();
+    return super.remove(node);
+  }
+
+  /**
+   * May split the declaration same way as {@link ASTJField#setType(Object)}.
+   * <p>
+   * If the declaration has been split, <code>getComment()</code> might not return the correct value.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#setComment(java.lang.String)
+   */
+  @Override
+  public void setComment(String comment)
+  {
+    // if there are multiple variables in declaration, 
+    // separate this variable fragment into a separate declaration    
+    performSplit();
+    super.setComment(comment);
+  }
+
+  /**
+   * May split the declaration same way as {@link ASTJField#setType(Object)}
+   * <p>
+   * If the declaration has been split, <code>getFlags()</code> might not return the correct value.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#setFlags(int)
+   */
+  @Override
+  public void setFlags(int flags)
+  {
+    // if there are multiple variables in declaration, 
+    // separate this variable fragment into a separate declaration
+    performSplit();
+    super.setFlags(flags);
   }
 
   /**
@@ -158,27 +444,28 @@ public class ASTJField extends ASTJMember implements JField
    */
   public void setInitializer(String initializer)
   {
-    setTrackedNodeProperty(variableDeclarationFragment, initializer, variableDeclarationFragment.getInitializerProperty(), ASTNode.INITIALIZER);
+    // indicate that initializer has been changed
+    // (required to not overwrite initializer if variables are split later)
+    isInitializerSet = true;
+    
+    setTrackedNodeProperty(
+      variableDeclarationFragment,
+      initializer,
+      variableDeclarationFragment.getInitializerProperty(),
+      ASTNode.INITIALIZER);
   }
 
   /**
-   * Returns original type of {@link FieldDeclaration}.
+   * In this implementation, new name will not be returned by {@link #getName()}.
    * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JField#getType()
-   */
-  public String getType()
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getQualifiedName()
+   */    
+  public void setName(String name)
   {
-    String type = facadeHelper.toString(getASTFieldDeclaration().getType());
-    
-    // append extra dimensions since they are not stored in Type object
-    for (int i = 0; i < variableDeclarationFragment.getExtraDimensions(); i++)
-    {
-      type += "[]";
-    }
-    
-    return type;
+    setNodeProperty(variableDeclarationFragment, name, VariableDeclarationFragment.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
   }
-  
+
   /**
    * Sets the type of {@link FieldDeclaration}.
    * <p>
@@ -200,112 +487,35 @@ public class ASTJField extends ASTJMember implements JField
   {
     // if there are multiple variables in declaration, 
     // separate this variable fragment into a separate declaration
-    separateVariableDeclarationFragment();
-    
-    FieldDeclaration fd = getASTFieldDeclaration();    
-    
+    performSplit();
+
     setNodeProperty(variableDeclarationFragment, new Integer(0), VariableDeclarationFragment.EXTRA_DIMENSIONS_PROPERTY);
-    setTrackedNodeProperty(fd, type, FieldDeclaration.TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
+    setTrackedNodeProperty(getASTNode(), type, FieldDeclaration.TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
-  
+
   /**
-   * Separates the variable declaration fragment into a new {@link FieldDeclaration}
-   * object.
+   * Sets wrapped object to be the given FieldDeclaration, 
+   * and sets wrappedVariableDeclarationFragment attribute
+   * to be the first variable declaration fragment in the given FieldDeclaration.
    * <p>
-   * New field declaration will have only one variable declaration fragment. 
-   * New declaration is added to the {@link ASTRewrite}.
-   * The attributes of this ASTJField are updated to reference elements of the new declaration.
-   * Only the {@link Javadoc} attribute is copied as String, all other attributes are copied
-   * using {@link ASTNode#copySubtree(org.eclipse.jdt.core.dom.AST, ASTNode)} and all
-   * formatting except for Javadoc is lost.
-   * If field declaration wrapped by ASTJField has only one variable declaration
-   * fragment, no changes are made.
-   * <p>
-   * Note that if field declaration has been split, 
-   * <code>getType()</code>, <code>getContents()</code>, <code>getComment()</code>,
-   * <code>getInitializer()</code> will not return
-   * the original content. 
+   * This method is mainly used by {@link #remove(ASTJNode)} to create a move target to allow
+   * insertion of the nodes later.
+   * 
+   * @param node must be of type FieldDeclaration, ignored otherwise
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#setWrappedObject(org.eclipse.jdt.core.dom.ASTNode)
    */
-  protected void separateVariableDeclarationFragment()
+  @Override
+  protected void setWrappedObject(ASTNode node)
   {
-    FieldDeclaration fd = getASTFieldDeclaration();
-    
-    // check number of fragments
-    ListRewrite listRewrite = rewriter.getListRewrite(fd, FieldDeclaration.FRAGMENTS_PROPERTY);    
-    List<?> fragments = listRewrite.getRewrittenList();
-    if (fragments.size() <= 1)
+    if (node instanceof FieldDeclaration)
     {
-      return;
+      super.setWrappedObject(node);
+      FieldDeclaration fieldDeclaration = (FieldDeclaration)node;
+      if (fieldDeclaration.fragments().size() > 0)
+      {
+        wrappedVariableDeclarationFragment = (VariableDeclarationFragment)fieldDeclaration.fragments().get(0);
+      }
     }
-    
-    // create a copy of declaration
-    FieldDeclaration newDeclaration = (FieldDeclaration)ASTNode.copySubtree(fd.getAST(), fd);
-    if (fd.getJavadoc() != null)
-    {
-      String javadocString = facadeHelper.applyFormatRules(facadeHelper.toString(fd.getJavadoc()));
-      setNodeProperty(newDeclaration, javadocString, newDeclaration.getJavadocProperty(), ASTNode.JAVADOC);
-    }
-    
-    newDeclaration.fragments().clear();
-    
-    // insert new declaration before this one
-    insert(newDeclaration, fd, true); 
-
-    // delete variable from old declaration
-    removeNodeFromListProperty(fd, variableDeclarationFragment, FieldDeclaration.FRAGMENTS_PROPERTY);
-
-    // add fragment to new declaration
-    ListRewrite newListRewrite = rewriter.getListRewrite(newDeclaration, FieldDeclaration.FRAGMENTS_PROPERTY);
-    newListRewrite.insertFirst(variableDeclarationFragment, null);
-    
-    // update declaration reference
-    wrappedObject = newDeclaration;
-  }
-
-  /**
-   * Return the original declaration contents (including all variable declaration fragments in the
-   * declaration).
-   * <p>
-   * If the declaration has been split, the returned value will not be correct.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#getContents()
-   */
-  @Override
-  public String getContents()
-  {
-    // return the whole declaration contents (not just variableDeclarationFragment)
-    return facadeHelper.toString(getASTFieldDeclaration());
-  }
-  
-  /**
-   * May split the declaration same way as {@link ASTJField#setType(Object)}
-   * <p>
-   * If the declaration has been split, <code>getFlags()</code> might not return the correct value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#setFlags(int)
-   */
-  @Override
-  public void setFlags(int flags)
-  {
-    // if there are multiple variables in declaration, 
-    // separate this variable fragment into a separate declaration
-    separateVariableDeclarationFragment();
-    super.setFlags(flags);
-  }
-  
-  /**
-   * May split the declaration same way as {@link ASTJField#setType(Object)}.
-   * <p>
-   * If the declaration has been split, <code>getComment()</code> might not return the correct value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJMember#setComment(java.lang.String)
-   */
-  @Override
-  public void setComment(String comment)
-  {
-    // if there are multiple variables in declaration, 
-    // separate this variable fragment into a separate declaration    
-    separateVariableDeclarationFragment();
-    super.setComment(comment);
   }
 }

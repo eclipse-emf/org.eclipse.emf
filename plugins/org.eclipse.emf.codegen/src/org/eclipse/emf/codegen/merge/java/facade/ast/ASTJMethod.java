@@ -12,18 +12,18 @@
  *
  * </copyright>
  *
- * $Id: ASTJMethod.java,v 1.2 2006/11/01 21:31:43 marcelop Exp $
+ * $Id: ASTJMethod.java,v 1.3 2006/12/06 03:48:44 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+
+import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 
 
 /**
@@ -31,7 +31,7 @@ import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
  * 
  * @since 2.2.0
  */
-public class ASTJMethod extends ASTJMember implements JMethod
+public class ASTJMethod extends ASTJMember<MethodDeclaration> implements JMethod
 {
   /**
    * @param methodDeclaration
@@ -41,20 +41,12 @@ public class ASTJMethod extends ASTJMember implements JMethod
     super(methodDeclaration);
   }
 
-  /**
-   * @return method declaration wrapped by this node
-   */
-  protected MethodDeclaration getASTMethodDeclaration()
-  {
-    return (MethodDeclaration)getASTBodyDeclaration();
-  }
-
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#isConstructor()
    */
   public boolean isConstructor()
   {
-    return getASTMethodDeclaration().isConstructor();
+    return getASTNode().isConstructor();
   }
 
   /* (non-Javadoc)
@@ -62,9 +54,20 @@ public class ASTJMethod extends ASTJMember implements JMethod
    */
   public String getName()
   {
-    return isConstructor() ? null : ASTFacadeHelper.toString(getASTMethodDeclaration().getName());
+    return isConstructor() ? null : ASTFacadeHelper.toString(getASTNode().getName());
   }
 
+  /**
+   * In this implementation, new name will not be returned by {@link #getName()}.
+   * 
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getQualifiedName()
+   */    
+  public void setName(String name)
+  {
+    setNodeProperty(getASTNode(), name, MethodDeclaration.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
+  }    
+  
   /**
    * Returns original return type of the method.
    * 
@@ -72,11 +75,11 @@ public class ASTJMethod extends ASTJMember implements JMethod
    */
   public String getReturnType()
   {
-    String type = facadeHelper.toString(getASTMethodDeclaration().getReturnType2());
+    String type = getFacadeHelper().toString(getASTNode().getReturnType2());
     if (type != null)
     {
       // append extra dimensions since they are not stored in Type object
-      for (int i = 0; i < getASTMethodDeclaration().getExtraDimensions(); i++)
+      for (int i = 0; i < getASTNode().getExtraDimensions(); i++)
       {
         type += "[]";
       }
@@ -93,16 +96,25 @@ public class ASTJMethod extends ASTJMember implements JMethod
    */
   public void setReturnType(String type)
   {
-    setNodeProperty(getASTMethodDeclaration(), 0, MethodDeclaration.EXTRA_DIMENSIONS_PROPERTY);
-    setTrackedNodeProperty(getASTMethodDeclaration(), type, MethodDeclaration.RETURN_TYPE2_PROPERTY, ASTNode.SIMPLE_TYPE);
+    setNodeProperty(getASTNode(), 0, MethodDeclaration.EXTRA_DIMENSIONS_PROPERTY);
+    setTrackedNodeProperty(getASTNode(), type, MethodDeclaration.RETURN_TYPE2_PROPERTY, ASTNode.SIMPLE_TYPE);
   }
 
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#getTypeParameters()
    */
+  @SuppressWarnings("unchecked")
   public String[] getTypeParameters()
   {
-    return EMPTY_STRING_ARRAY;
+    return convertASTNodeListToStringArray(getASTNode().typeParameters());
+  }
+
+  /* (non-Javadoc)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#setTypeParameters(java.lang.String[])
+   */
+  public void setTypeParameters(String[] typeParameters)
+  {
+    setListNodeProperty(getASTNode(), typeParameters, MethodDeclaration.TYPE_PARAMETERS_PROPERTY, ASTNode.TYPE_PARAMETER);
   }
 
   /**
@@ -112,31 +124,47 @@ public class ASTJMethod extends ASTJMember implements JMethod
    */
   public String[] getParameterNames()
   {
-    List<?> parameters = getASTMethodDeclaration().parameters();
+    @SuppressWarnings("unchecked")
+    List<SingleVariableDeclaration> parameters = getASTNode().parameters();
+    
     String[] ret = new String[parameters.size()];
     int j = 0;
-    for (Iterator<?> i = parameters.iterator(); i.hasNext();)
+    for (SingleVariableDeclaration parameter : parameters)
     {
-      SingleVariableDeclaration singleVariableDeclaration = (SingleVariableDeclaration)i.next();
-      ret[j++] = ASTFacadeHelper.toString(singleVariableDeclaration.getName());
+      ret[j++] = ASTFacadeHelper.toString(parameter.getName());
     }
     return ret;
   }
 
-  /* (non-Javadoc)
+  /**
+   * Returns type erasure of all the types of formal parameters.
+   * <p>
+   * This method is used to create a method signature, and match methods by signature.
+   * <p>
+   * Note that this implementation does not expand types into fully qualified names, nor
+   * does it replace type parameters defined for a class or a method.
+   * 
+   * @see ASTFacadeHelper#getTypeErasure(org.eclipse.jdt.core.dom.Type)
    * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#getParameterTypes()
    */
   public String[] getParameterTypes()
   {
-    List<?> parameters = getASTMethodDeclaration().parameters();
+    @SuppressWarnings("unchecked")
+    List<SingleVariableDeclaration> parameters = getASTNode().parameters();
+    
     String[] ret = new String[parameters.size()];
     int j = 0;
-    for (Iterator<?> iter = parameters.iterator(); iter.hasNext();)
+    for (SingleVariableDeclaration parameter : parameters)
     {
-      SingleVariableDeclaration declaration = (SingleVariableDeclaration)iter.next();
-      String type = ASTFacadeHelper.toString(declaration.getType());
+      String type = ASTFacadeHelper.getTypeErasure(parameter.getType());
       // append extra dimensions if any
-      for (int i = 0; i < declaration.getExtraDimensions(); i++)
+      for (int i = 0; i < parameter.getExtraDimensions(); i++)
+      {
+        type += "[]";
+      }
+      
+      // append [] if it is variable arity parameter (@see JLS3 8.4.1, http://java.sun.com/docs/books/jls/third_edition/html/classes.html#300870)
+      if (parameter.isVarargs())
       {
         type += "[]";
       }
@@ -154,7 +182,8 @@ public class ASTJMethod extends ASTJMember implements JMethod
    */
   public void setParameterNames(String[] names)
   {
-    List<?> parameters = getASTMethodDeclaration().parameters();
+    @SuppressWarnings("unchecked")
+    List<SingleVariableDeclaration> parameters = getASTNode().parameters();
 
     if (parameters.size() != names.length)
     {
@@ -162,9 +191,9 @@ public class ASTJMethod extends ASTJMember implements JMethod
     }
 
     int i = 0;
-    for (Iterator<?> iter = parameters.iterator(); iter.hasNext(); i++)
+    for (SingleVariableDeclaration parameter : parameters)
     {
-      setNodeProperty((ASTNode)iter.next(), names[i], SingleVariableDeclaration.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
+      setNodeProperty(parameter, names[i++], SingleVariableDeclaration.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
     }
   }
 
@@ -175,13 +204,14 @@ public class ASTJMethod extends ASTJMember implements JMethod
    */
   public String[] getExceptions()
   {
-    List<?> exceptions = getASTMethodDeclaration().thrownExceptions();
+    @SuppressWarnings("unchecked")
+    List<Name> exceptions = getASTNode().thrownExceptions();
+    
     String[] ret = new String [exceptions.size()];
     int j = 0;
-    for (Iterator<?> i = exceptions.iterator(); i.hasNext();)
+    for (Name exception : exceptions)
     {
-      Name name = (Name)i.next();
-      ret[j++] = ASTFacadeHelper.toString(name);
+      ret[j++] = ASTFacadeHelper.toString(exception);
     }
     return ret;
   }
@@ -195,7 +225,7 @@ public class ASTJMethod extends ASTJMember implements JMethod
    */
   public void setExceptions(String[] exceptionTypes)
   {
-    setListNodeProperty(getASTMethodDeclaration(), exceptionTypes, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
+    setListNodeProperty(getASTNode(), exceptionTypes, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
   }
 
   /**
@@ -207,7 +237,7 @@ public class ASTJMethod extends ASTJMember implements JMethod
    */
   public void addException(String exceptionType)
   {
-    addValueToListProperty(getASTMethodDeclaration(), exceptionType, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
+    addValueToListProperty(getASTNode(), exceptionType, MethodDeclaration.THROWN_EXCEPTIONS_PROPERTY, ASTNode.SIMPLE_NAME);
   }
 
   /**
@@ -217,7 +247,7 @@ public class ASTJMethod extends ASTJMember implements JMethod
    */
   public String getBody()
   {
-    return facadeHelper.toString(getASTMethodDeclaration().getBody());
+    return getFacadeHelper().toString(getASTNode().getBody());
   }
 
   /**
@@ -229,7 +259,7 @@ public class ASTJMethod extends ASTJMember implements JMethod
    */
   public void setBody(String body)
   {
-    setTrackedNodeProperty(getASTMethodDeclaration(), body, MethodDeclaration.BODY_PROPERTY, ASTNode.BLOCK);
+    setTrackedNodeProperty(getASTNode(), body, MethodDeclaration.BODY_PROPERTY, ASTNode.BLOCK);
   }
   
   /* (non-Javadoc)
@@ -239,5 +269,22 @@ public class ASTJMethod extends ASTJMember implements JMethod
   protected String computeQualifiedName()
   {
     return computeQualifiedName(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#getParameters()
+   */
+  @SuppressWarnings("unchecked")
+  public String[] getParameters()
+  {
+    return convertASTNodeListToStringArray(getASTNode().parameters());
+  }
+
+  /* (non-Javadoc)
+   * @see org.eclipse.emf.codegen.merge.java.facade.JMethod#setParameters(java.lang.String[])
+   */
+  public void setParameters(String[] parameters)
+  {
+    setListNodeProperty(getASTNode(), parameters, MethodDeclaration.PARAMETERS_PROPERTY, ASTNode.SINGLE_VARIABLE_DECLARATION);
   }  
 }
