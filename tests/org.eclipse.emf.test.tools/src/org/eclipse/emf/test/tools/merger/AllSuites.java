@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.3 2006/11/21 19:35:50 marcelop Exp $
+ * $Id: AllSuites.java,v 1.4 2006/12/06 03:53:11 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -30,8 +30,6 @@ public class AllSuites extends TestSuite
     ,org.eclipse.emf.test.tools.merger.JMergerJDOMTest.suite()
     ,org.eclipse.emf.test.tools.merger.JMergerASTTest.suite()
     ,org.eclipse.emf.test.tools.merger.JMergerTestSuite.suite()
-    ,org.eclipse.emf.test.tools.merger.FacadeTest.suite()
-    ,org.eclipse.emf.test.tools.merger.FacadeTest_Example1.suite()
   };
 
   public static Test suite()
