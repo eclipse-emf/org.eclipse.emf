@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierItemProvider.java,v 1.13 2006/12/05 20:26:31 emerks Exp $
+ * $Id: EClassifierItemProvider.java,v 1.14 2006/12/06 18:11:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -238,7 +238,8 @@ public class EClassifierItemProvider
 
     EClassifier eClassifier = (EClassifier)object;
     if (!(object instanceof EEnum) && 
-          eClassifier.getInstanceClassName() != null)
+          eClassifier.getInstanceClassName() == eClassifier.getInstanceTypeName() && 
+          !"org.eclipse.emf.common.util.Enumerator".equals(eClassifier.getInstanceClassName()))
     {
       newChildDescriptors.add
         (createChildParameter
