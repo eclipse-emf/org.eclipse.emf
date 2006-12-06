@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractJNode.java,v 1.3 2006/11/01 21:21:47 marcelop Exp $
+ * $Id: AbstractJNode.java,v 1.4 2006/12/06 03:49:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -26,35 +26,12 @@ public abstract class AbstractJNode implements JNode
 {
   protected static final String[] EMPTY_STRING_ARRAY = new String[0];
   
-  protected FacadeHelper facadeHelper;
-  protected Object wrappedObject;
   protected String qualifiedName;
   
-  protected AbstractJNode(Object wrappedObject)
-  {
-    this.wrappedObject = wrappedObject;
-  }
-  
-  public void dispose()
-  {
-    wrappedObject = null;
-    facadeHelper = null;
-  }
-  
-  protected Object getWrappedObject()
-  {
-    return wrappedObject;
-  }
-  
-  public void setFacadeHelper(FacadeHelper facadeHelper)
-  {
-    this.facadeHelper = facadeHelper;
-  }
-
-  public FacadeHelper getFacadeHelper()
-  {
-    return facadeHelper;
-  }
+  abstract public void dispose();  
+  abstract protected Object getWrappedObject();
+  abstract public void setFacadeHelper(FacadeHelper facadeHelper);
+  abstract public FacadeHelper getFacadeHelper();
   
   public String getQualifiedName()
   {
@@ -95,16 +72,16 @@ public abstract class AbstractJNode implements JNode
     return null;
   }  
   
-  protected String computeQualifiedName(JType type)
+  protected String computeQualifiedName(JAbstractType abstractType)
   {
-    JNode parent = type.getParent();
-    if (parent instanceof JType)
+    JNode parent = abstractType.getParent();
+    if (parent instanceof JAbstractType)
     {
-      return parent.getQualifiedName() + "." + type.getName();
+      return parent.getQualifiedName() + "." + abstractType.getName();
     }
       
     JPackage jPackage = getFacadeHelper().getPackage(this);
-    return jPackage != null ? jPackage.getName() + "." + type.getName() : type.getName();
+    return jPackage != null ? jPackage.getName() + "." + abstractType.getName() : abstractType.getName();
   }
   
   protected String computeQualifiedName(JMethod method)

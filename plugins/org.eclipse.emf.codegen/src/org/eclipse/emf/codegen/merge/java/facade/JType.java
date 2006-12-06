@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JType.java,v 1.1 2006/01/18 20:42:16 marcelop Exp $
+ * $Id: JType.java,v 1.2 2006/12/06 03:49:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -24,7 +24,7 @@ package org.eclipse.emf.codegen.merge.java.facade;
  * classes and interfaces, respectively.  
  * @since 2.2.0
  */
-public interface JType extends JMember
+public interface JType extends JAbstractType
 {  
   /**
    * Returns the name of this type's superclass. The syntax for a superclass name
@@ -118,4 +118,17 @@ public interface JType extends JMember
    * are declared
    */
   String[] getTypeParameters();  
+  
+  /**
+   * Sets the formal type parameters for this type.
+   * <p>Formal type parameters are given as they appear in the source
+   * code; for example: 
+   * <code>"X extends List&lt;String&gt; & Serializable"</code>.
+   * </p>
+   *
+   * @param typeParameters the formal type parameters of this type,
+   * in the order to appear in the source, an empty array if none
+   * @since 2.3.0
+   */
+  void setTypeParameters(String[] typeParameters);
 }

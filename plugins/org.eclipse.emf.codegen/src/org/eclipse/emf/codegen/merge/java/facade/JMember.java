@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMember.java,v 1.1 2006/01/18 20:42:16 marcelop Exp $
+ * $Id: JMember.java,v 1.2 2006/12/06 03:49:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -45,4 +45,11 @@ public interface JMember extends JNode
    *   <code>null</code> indicating this member should have no associated comment
    */
   void setComment(String comment);  
+  
+  /**
+   * Returns the content of all annotations of this <code>Member</code>.
+   * @return the contents of all annotations
+   * @since 2.3.0
+   */
+  String getAnnotations();
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMethod.java,v 1.2 2006/11/01 21:24:27 marcelop Exp $
+ * $Id: JMethod.java,v 1.3 2006/12/06 03:49:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -67,41 +67,72 @@ public interface JMethod extends JMember
   String[] getTypeParameters();  
   
   /**
+   * Sets the formal type parameters for this method.
+   * @param typeParameters in the order declared in the source, or an empty array if no type parameters
+   * are declared
+   * @since 2.3.0
+   */
+  void setTypeParameters(String[] typeParameters);
+  
+  /**
    * Returns the names of parameters in this method in the order they are declared,
-   * or <code>null</code> if no parameters are declared.
-   * The syntax for parameter names is defined by Formal Parameters (JLS2 8.4.1).
-   * 
+   * or an empty array if no parameters are declared.
+   * The parameter names are identifiers as defined by Formal Parameters (JLS2 and JLS3 8.4.1).
+   * Parameter names do not include extra dimensions.
    * @return the list of parameter names, or an empty array if no parameters
    * are declared
    */
   String[] getParameterNames();
   
   /**
-   * Returns the type names for the parameters of this method in the order they are declared,
-   * or <code>null</code> if no parameters are declared.
+   * Returns the erased type names for the parameters of this method in the order 
+   * they are declared, or an empty array if no parameters are declared.
    * The syntax for type names is defined by Formal Parameters (JLS2 8.4.1). 
    * Type names must be specified as they would appear in source code. For
    * example: <code>"File"</code>, <code>"java.io.File"</code>, or 
    * <code>"int[]"</code>.
    * 
-   * @return the list of parameter types, or an empty array if no parameters
-   * are declared
+   * @return the list of the erased types of the parameters, or an empty array if no 
+   * parameters are declared
    */
   String[] getParameterTypes();
   
   /**
-   * Sets the types and names of parameters in this method in the order they are
-   * to be declared. If both <code>types</code> and <code>names</code> are <code>null</code> 
-   * this indicates that this method has no parameters.
-   * The syntax for parameter names is defined by Formal Parameters (JLS2 8.4.1).
-   * The syntax for type names is defined by Formal Parameters (JLS2 8.4.1). 
-   * Type names must be specified as they would appear in source code. For
-   * example: <code>"File"</code>, <code>"java.io.File"</code>, or 
-   * <code>"int[]"</code>.
+   * Sets the names of parameters in this method in the order they are
+   * to be declared.
+   * The parameter names are identifiers as defined by Formal Parameters (JLS2 and JLS3 8.4.1).
+   * Parameter names do not include extra dimensions.
    * @param names the list of parameter names
    */
   void setParameterNames(String[] names) throws IllegalArgumentException;
 
+  /**
+   * Returns the parameters of this method in the order they are declared,
+   * or empty array if no parameters are declared.
+   * The syntax for the parameters is defined by Formal Parameters (JLS2 and JLS3 8.4.1). 
+   * Types and parameter names must be specified as they would appear in source code. For
+   * example: <code>"File file"</code>, <code>"java.io.File file"</code>, or 
+   * <code>"int[][] n[]"</code>, or <code>final @Annotation int[]... n</code>.
+   * 
+   * @return the list of parameters, or or an empty array if no parameters
+   * are declared
+   * @since 2.3.0
+   */
+  String[] getParameters();
+  
+  /**
+   * Sets the parameters in this method in the order they are
+   * to be declared. 
+   * The syntax for the parameters is defined by Formal Parameters (JLS2 and JLS3 8.4.1). 
+   * Types and parameter names must be specified as they would appear in source code. For
+   * example: <code>"File file"</code>, <code>"java.io.File file"</code>, or 
+   * <code>"int[][] n[]"</code>, or <code>final @Annotation int[]... n</code>.
+   * @param parameters the list of parameters, or or an empty array if no parameters
+   * are declared
+   * @since 2.3.0
+   */
+  void setParameters(String[] parameters);
+  
   /**
    * Returns the type signatures of the exceptions this method throws,
    * in the order declared in the source. Returns an empty array

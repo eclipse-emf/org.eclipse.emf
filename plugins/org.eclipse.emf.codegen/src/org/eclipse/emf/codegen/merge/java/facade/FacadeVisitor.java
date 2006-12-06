@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeVisitor.java,v 1.2 2006/11/01 21:22:02 marcelop Exp $
+ * $Id: FacadeVisitor.java,v 1.3 2006/12/06 03:49:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -53,14 +53,9 @@ public class FacadeVisitor
   }
   
   protected void afterVisitChildren(JNode node)
-  {    
+  {
   }
   
-  protected boolean defaultVisitReturn(JNode node)
-  {
-    return true;
-  }
-    
   protected boolean dispatch(JNode node)
   {
     if (node instanceof JCompilationUnit)
@@ -87,9 +82,21 @@ public class FacadeVisitor
     {
       return visit((JPackage)node);
     }
-    else if (node instanceof JType)
+    else if (node instanceof JAbstractType)
     {
-      return visit((JType)node);
+      return visit((JAbstractType)node);
+    }
+    else if (node instanceof JAnnotation)
+    {
+      return visit((JAnnotation)node);
+    }
+    else if (node instanceof JAnnotationTypeMember)
+    {
+      return visit((JAnnotationTypeMember)node);
+    }   
+    else if (node instanceof JEnumConstant)
+    {
+      return visit((JEnumConstant)node);
     }
     else
     {
@@ -105,38 +112,58 @@ public class FacadeVisitor
     }
   }
   
+  protected boolean basicVisit(JNode node)
+  {
+    return true;
+  }
+
   protected boolean visit(JCompilationUnit compilationUnit)
   {
-    return defaultVisitReturn(compilationUnit);
+    return basicVisit(compilationUnit);
   }
   
   protected boolean visit(JField field)
   {
-    return defaultVisitReturn(field);
+    return basicVisit(field);
   }  
 
   protected boolean visit(JImport jImport)
   {
-    return defaultVisitReturn(jImport);
+    return basicVisit(jImport);
   }
   
   protected boolean visit(JInitializer initializer)
   {
-    return defaultVisitReturn(initializer);
+    return basicVisit(initializer);
   }  
 
   protected boolean visit(JMethod method)
   {
-    return defaultVisitReturn(method);
+    return basicVisit(method);
   }
   
   protected boolean visit(JPackage jPackage)
   {
-    return defaultVisitReturn(jPackage);
+    return basicVisit(jPackage);
   }  
 
-  protected boolean visit(JType type)
+  protected boolean visit(JAbstractType abstractType)
   {
-    return defaultVisitReturn(type);
+    return basicVisit(abstractType);
+  }
+  
+  protected boolean visit(JAnnotation annotation)
+  {
+    return basicVisit(annotation);
   }  
+  
+  protected boolean visit(JAnnotationTypeMember annotationTypeMember)
+  {
+    return basicVisit(annotationTypeMember);
+  }   
+
+  protected boolean visit(JEnumConstant enumConstant)
+  {
+    return basicVisit(enumConstant);
+  }    
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JNode.java,v 1.2 2006/11/01 21:22:15 marcelop Exp $
+ * $Id: JNode.java,v 1.3 2006/12/06 03:49:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -39,7 +39,17 @@ public interface JNode
   String getName();
   
   /**
-   * Returns the qualified name of this node.
+   * Sets the name of this node.  If the name is used to match the nodes 
+   * to be merged, it is highly recommended not to use this method.
+   * @param name
+   * @see #getQualifiedName()
+   * @since 2.3.0
+   */
+  void setName(String name);
+
+  /**
+   * Returns the qualified name of this node.  This value is not
+   * expected to change as the node is modified.
    * @return the qualified name of this type
    */
   String getQualifiedName();  
