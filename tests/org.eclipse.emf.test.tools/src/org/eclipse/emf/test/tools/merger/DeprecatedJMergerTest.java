@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.11 2006/11/21 19:35:50 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.12 2006/12/06 03:51:25 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -24,8 +24,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.emf.codegen.jmerge.JControlModel;
-import org.eclipse.emf.codegen.jmerge.JMerger;
 import org.eclipse.emf.test.tools.TestUtil;
 import org.eclipse.jdt.core.JavaCore;
 
@@ -112,6 +110,7 @@ public class DeprecatedJMergerTest extends TestCase
     JMergerTest.verifyMerge(expected, targetContents);
   }
   
+  @SuppressWarnings({"unchecked", "deprecation"})
   protected String mergeFiles() throws Exception
   {   
     String sourceCompatibility = JavaCore.getOption(JavaCore.COMPILER_SOURCE);
@@ -126,8 +125,8 @@ public class DeprecatedJMergerTest extends TestCase
       sourceCompatibility = null;
     }
     
-    JMerger jMerger = new JMerger();
-    JControlModel controlModel = new JControlModel(mergeXML.getAbsolutePath());
+    org.eclipse.emf.codegen.jmerge.JMerger jMerger = new org.eclipse.emf.codegen.jmerge.JMerger();
+    org.eclipse.emf.codegen.jmerge.JControlModel controlModel = new org.eclipse.emf.codegen.jmerge.JControlModel(mergeXML.getAbsolutePath());
     jMerger.setControlModel(controlModel);
 
     // set source
