@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options 
+  indent="  "  
+  braceStyle="matching"  
+  redirect="Gen"
+  block="\s*@\s*generated\s*NOT\s*\n"
+  noImport="\s*//\s*import\s+([\w.*]*)\s*;\s*\n"
+  xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+
+<!-- Tabbed Standard
+
+  indent="&#x9;"  
+  braceStyle="standard"  
+
+-->
+
+  <!-- this accepts both new and old style markup. -->
+
+  <merge:dictionaryPattern
+    name="generatedUnmodifiableMembers" 
+    select="Member/getComment" 
+    match="\s*@\s*(gen)erated\s*(This field/method[^\n]*)*\n"/>
+
+  <merge:dictionaryPattern
+    name="generatedModifiableMembers" 
+    select="Member/getComment" 
+    match="\s*@\s*generated\s*(modifiable)\s*\n"/>
+
+  <merge:dictionaryPattern
+    name="orderedMembers" 
+    select="Member/getComment" 
+    match="\s*@\s*(ordered)\s*\n"/>
+
+  <merge:pull 
+    sourceMarkup="^modifiable$"
+    sourceGet="Member/getComment"
+    sourceTransfer="(\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)\n"
+    targetMarkup="^modifiable$"
+    targetPut="Member/setComment"/>
+  <merge:pull 
+    sourceMarkup="^gen$"
+    sourceGet="Member/getComment"
+    sourceTransfer="(\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)\n"
+    targetMarkup="^gen$"
+    targetPut="Member/setComment"/>
+  <merge:pull 
+    sourceGet="Member/getFlags"
+    targetMarkup="^gen$"
+    equals="Member/getName"
+    targetPut="Member/setFlags"/>
+
+  <merge:pull 
+    sourceMarkup="^gen$"
+    sourceGet="AbstractType/getComment"
+    sourceTransfer="(\s*&lt;!--\s*begin-user-doc.*?end-user-doc\s*-->\s*)\n"
+    targetMarkup="^modifiable$"
+    targetPut="AbstractType/setComment"/>
+
+  <merge:pull 
+    sourceGet="Type/getTypeParameters"
+    targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
+    targetPut="Type/setTypeParameters"/>	
+  <merge:pull 
+    sourceGet="Type/getSuperclass"
+    targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
+    targetPut="Type/setSuperclass"/>
+  <merge:pull 
+    sourceGet="Type/getSuperInterfaces"
+    sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)(?:&lt;!--|\n)"
+    targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
+    targetPut="Type/addSuperInterface"/>
+
+  <merge:pull 
+    sourceGet="Enum/getSuperInterfaces"
+    sourceTransfer="(\s*@\s*extends|\s*@\s*implements)(.*?)(?:&lt;!--|\n)"
+    targetMarkup="^lastgen$|^gen$|^modifiable$|^model$"
+    targetPut="Enum/addSuperInterface"/>
+
+  <merge:pull 
+    sourceGet="EnumConstant/getArguments"
+    targetMarkup="^gen$"
+    targetPut="EnumConstant/setArguments"/>				
+  <merge:pull 
+    sourceGet="EnumConstant/getBody"
+    targetMarkup="^gen$"
+    targetPut="EnumConstant/setBody"/>		
+
+  <merge:pull 
+    sourceGet="AnnotationTypeMember/getType"
+    targetMarkup="^gen$"
+    targetPut="AnnotationTypeMember/setType"/>			
+  <merge:pull 
+    sourceGet="AnnotationTypeMember/getDefaultValue"
+    targetMarkup="^gen$"
+    targetPut="AnnotationTypeMember/setDefaultValue"/>			
+
+  <merge:pull 
+    sourceGet="Initializer/getBody"
+    targetMarkup="^gen$"
+    targetPut="Initializer/setBody"/>
+
+  <merge:pull 
+    sourceGet="Field/getType"
+    targetMarkup="^gen$"
+    targetPut="Field/setType"/>
+  <merge:pull 
+    sourceGet="Field/getInitializer"
+    targetMarkup="^gen$"
+    targetPut="Field/setInitializer"/>
+
+  <merge:pull 
+    sourceGet="Method/getTypeParameters"
+    targetMarkup="^gen$"
+    targetPut="Method/setTypeParameters"/>			
+  <merge:pull 
+    sourceGet="Method/getReturnType"
+    targetMarkup="^gen$|^model$"
+    targetPut="Method/setReturnType"/>
+  <merge:pull 
+    sourceGet="Method/getParameters"
+    targetMarkup="^gen$"
+    targetPut="Method/setParameters"/>			
+  <merge:pull 
+    sourceGet="Method/getBody"
+    targetMarkup="^gen$"
+    targetPut="Method/setBody"/>
+  <merge:pull 
+    sourceGet="Method/getExceptions"
+    targetMarkup="^gen$"
+    targetPut="Method/addException"/>
+
+  <merge:sweep markup="^gen$" select="Member"/>
+  <merge:sweep markup="^org.eclipse.emf.ecore.EMetaObject$" select="Import"/>
+  <merge:sweep markup="^org.eclipse.emf.ecore.impl.EMetaObjectImpl$" select="Import"/>
+  <merge:sweep markup="^org.eclipse.emf.ecore.util.EObjectCompositeEList$" select="Import"/>
+  <merge:sweep markup="^org.eclipse.emf.ecore.util.EObjectCompositeWithInverseEList$" select="Import"/>
+
+  <merge:sort markup="^ordered$" select="Node"/>
+</merge:options>

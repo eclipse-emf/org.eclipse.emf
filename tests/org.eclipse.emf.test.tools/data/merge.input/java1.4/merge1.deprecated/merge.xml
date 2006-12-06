@@ -22,7 +22,7 @@
    <merge:sweep markup="^source.ClassA$" select="Import"/>;
    <merge:sweep markup="^target.foo$" select="Import"/>;
 
-   <merge:sort markup="^gen$" select="Member"/>
+   <merge:sort markup="^gen$" select="Field"/>
 
     <!-- if target is generated, transfer -->
     <!-- change to sourceMarkup if the source is the standard -->
