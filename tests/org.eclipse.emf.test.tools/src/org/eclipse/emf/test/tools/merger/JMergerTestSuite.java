@@ -1,5 +1,18 @@
 /**
+ * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: JMergerTestSuite.java,v 1.2 2006/12/06 03:53:53 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -100,6 +113,7 @@ public class JMergerTestSuite extends TestSuite
 
       if (dataDirsDirectory.isDirectory())
       {
+        TestSuite javaVersionTestSuite = new TestSuite(javaVersionDirectoryName);
         // add tests for subdirectories matching the filter      
         String[] dataDirectoriesNames = dataDirsDirectory.list(new JMergerDataDirectoryFilter());
   
@@ -108,8 +122,9 @@ public class JMergerTestSuite extends TestSuite
         for (String dataDirectoryName : dataDirectoriesNames)
         {
           File dataDirectory = new File(dataDirsDirectory, dataDirectoryName);
-          addTest(createSingleInputTestSuite(dataDirectory));
+          javaVersionTestSuite.addTest(createSingleInputTestSuite(dataDirectory));
         }
+        addTest(javaVersionTestSuite);
       }
     }
 
@@ -126,7 +141,7 @@ public class JMergerTestSuite extends TestSuite
    */
   protected TestSuite createSingleInputTestSuite(File dataDirectory)
   {
-    TestSuite ts = new TestSuite(dataDirectory.getParentFile().getName() + " - " + dataDirectory.getName());
+    TestSuite ts = new TestSuite(dataDirectory.getName());
     addTestCases(ts, dataDirectory);
     return ts;
   }
