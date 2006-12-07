@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.example.eclipse.org/Library1"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:lib1="http://www.example.eclipse.org/Library1"
+    xmlns:hr="http://www.example.eclipse.org/Library3"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+    <xsd:import namespace="http://www.example.eclipse.org/Library3" 
+                schemaLocation="libraryPart3.xsd"/>
+      
+  <xsd:complexType name="Book">
+    <xsd:sequence>
+      <xsd:element name="title" type="xsd:string"/>
+      <xsd:element name="pages" type="xsd:int"/>
+      <xsd:element name="category" type="lib1:BookCategory"/>
+      <xsd:element name="author" type="xsd:anyURI"
+          ecore:reference="lib:Writer" ecore:opposite="books"/>
+    </xsd:sequence>
+    <xsd:attribute name="uuid" type="lib1:UUID"/>
+  </xsd:complexType>
+  <xsd:complexType name="Writer">
+    <xsd:complexContent>
+	    <xsd:extension base="hr:Person">
+	      <xsd:sequence>
+	        <xsd:element maxOccurs="unbounded" minOccurs="0" name="books"
+	            type="xsd:anyURI" ecore:reference="lib:Book" ecore:opposite="author"/>
+	      </xsd:sequence>
+	    </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:simpleType name="BookCategory">
+    <xsd:restriction base="xsd:NCName">
+      <xsd:enumeration value="Mystery"/>
+      <xsd:enumeration value="ScienceFiction"/>
+      <xsd:enumeration value="Biography"/>
+      <xsd:enumeration value="IT"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="UUID">
+    <xsd:restriction base="xsd:hexBinary">
+      <xsd:length value="16"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

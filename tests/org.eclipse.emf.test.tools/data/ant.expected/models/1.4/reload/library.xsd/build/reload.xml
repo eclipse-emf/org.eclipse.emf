@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="..">
+  <dirname property="antfile.dir" file="${ant.file}"/>
+    
+  <!-- Global properties -->
+	<property name="main.directory" location="${antfile.dir}/.."/>
+	<property name="genModel" location="${main.directory}/emf/library.genmodel"/>
+	<property name="genJDKLevel" value="5.0"/>
+	
+	<target name="xsd">
+		<emf.XSD2Java
+			model="${main.directory}/model/library.xsd"
+			genModel="${genModel}"
+			reconcileGenModel="reload"
+			jdkLevel="${genJDKLevel}"
+			autoBuild="false">
+			<arg line="-packages http://www.example.eclipse.org/Library"/>
+			<arg line="-packageMap http://www.example.eclipse.org/Library org.examples.library"/>			
+		</emf.XSD2Java>
+	</target>
+</project>

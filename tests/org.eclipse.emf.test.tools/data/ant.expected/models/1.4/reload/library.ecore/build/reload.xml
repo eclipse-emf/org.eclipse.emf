@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="..">
+  <dirname property="antfile.dir" file="${ant.file}"/>
+    
+  <!-- Global properties -->
+	<property name="main.directory" location="${antfile.dir}/.."/>
+	<property name="genModel" location="${main.directory}/emf/library.genmodel"/>
+	<property name="genJDKLevel" value="5.0"/>
+	
+	<target name="ecore">
+		<emf.Ecore2Java
+			genModel="${genModel}"
+			jdkLevel="${genJDKLevel}"
+			reconcileGenModel="reload">
+			<model file="${main.directory}/model/library.ecore"/>
+			<model file="${main.directory}/model/hr.ecore"/>
+			<arg line="-package http:///library.ecore org.examples Library"/>
+			<arg line="-package hr.xmi org.examples HR"/>
+		</emf.Ecore2Java>
+	</target>
+</project>
