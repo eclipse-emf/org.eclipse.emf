@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.21 2006/06/13 14:57:06 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.22 2006/12/07 03:46:30 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -39,6 +39,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 
 import org.eclipse.emf.codegen.ecore.Generator;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
@@ -78,6 +79,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
   protected String copyright;
   protected boolean sdo = false;
   protected String modelPluginID;
+  protected GenJDKLevel genJDKLevel;
 
   protected List referencedEPackages;
   protected Map referencedGenModelURIToEPackageNSURIs;
@@ -314,6 +316,10 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     {
       templatePath = URI.createFileURI(new File(arguments[++index]).getAbsolutePath()).toString();
     }
+    else if (arguments[index].equalsIgnoreCase("-jdkLevel"))
+    {
+      genJDKLevel = GenJDKLevel.get(arguments[++index]);
+    }
     else if (arguments[index].equalsIgnoreCase("-refGenModel"))
     {
       if (referencedGenModelURIToEPackageNSURIs == null)
@@ -536,6 +542,10 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       if (sdo)
       {
         setSDODefaults(genModel);
+      }
+      if (genJDKLevel != null)
+      {
+        genModel.setComplianceLevel(genJDKLevel);
       }
     }
     finally
