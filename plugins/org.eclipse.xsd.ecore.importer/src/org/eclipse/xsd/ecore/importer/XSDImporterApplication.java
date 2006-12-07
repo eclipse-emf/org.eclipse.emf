@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterApplication.java,v 1.9 2006/05/10 20:18:33 marcelop Exp $
+ * $Id: XSDImporterApplication.java,v 1.10 2006/12/07 03:48:18 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
@@ -60,6 +60,7 @@ public class XSDImporterApplication extends ModelImporterApplication
     appendLine(result, "<TEMPLATE-PATH>   ::= -templatePath <template-directory>");
     appendLine(result, "<MODEL-PLUGIN-ID> ::= -modelPluginID <plugin-ID>");
     appendLine(result, "<COPYRIGHT>       ::= -copyright <copyright-string>");
+    appendLine(result, "<JDK-LEVEL>       ::= -jdkLevel <jdk level: 1.4 5.0 6.0>");
     appendLine(result, "<SDO>             ::= -sdo");
     appendLine(result, "<QUIET>           ::= -quiet");
     appendLine(result, "");
