@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.22 2006/07/07 17:22:37 marcelop Exp $
+ * $Id: AntTest.java,v 1.23 2006/12/07 03:51:50 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -41,8 +41,7 @@ public class AntTest extends TestCase
   public static final String TEST_TOKEN = "@TEST_TOKEN@";
     
   private static final File EXAMPLES_COPY_DIR = new File(TestUtil.getPluginDirectory() + "/ant.example.tmp");
-  private static final File EXPECTED_DIR = new File(TestUtil.getPluginDirectory() + "/data/ant.expected");
-  private static final File RELOAD_EXPECTED_DIR = new File(TestUtil.getPluginDirectory() + "/data/ant.reload/expected");
+  private static final File EXPECTED_DIR = new File(TestUtil.getPluginDirectory() + "/data/ant.expected/");
   
   
   /**
@@ -63,17 +62,25 @@ public class AntTest extends TestCase
     ts.addTest(new AntTest("testJET"));
     ts.addTest(new AntTest("testJMerger"));
     
-    ts.addTest(new AntTest("testRose"));
-    ts.addTest(new AntTest("testRoseReload"));
+    ts.addTest(new AntTest("testRose14"));
+    ts.addTest(new AntTest("testRoseReload14"));
+    ts.addTest(new AntTest("testRose50"));
+    ts.addTest(new AntTest("testRoseReload50"));
     
-    ts.addTest(new AntTest("testXSD"));
-    ts.addTest(new AntTest("testXSDReload"));
+    ts.addTest(new AntTest("testXSD14"));
+    ts.addTest(new AntTest("testXSDReload14"));
+    ts.addTest(new AntTest("testXSD50"));
+    ts.addTest(new AntTest("testXSDReload50"));
     
-    ts.addTest(new AntTest("testXSDs"));
-    ts.addTest(new AntTest("testXSDsReload"));
+    ts.addTest(new AntTest("testXSDs14"));
+    ts.addTest(new AntTest("testXSDsReload14"));
+    ts.addTest(new AntTest("testXSDs50"));
+    ts.addTest(new AntTest("testXSDsReload50"));
     
-    ts.addTest(new AntTest("testEcore"));
-    ts.addTest(new AntTest("testEcoreReload"));
+    ts.addTest(new AntTest("testEcore14"));
+    ts.addTest(new AntTest("testEcoreReload14"));
+    ts.addTest(new AntTest("testEcore50"));
+    ts.addTest(new AntTest("testEcoreReload50"));
     
     // Deletes the temp directory created during the tests to store the
     // generated artifacts
@@ -134,7 +141,8 @@ public class AntTest extends TestCase
     }
     assertNotNull(libraryDir);
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.rose"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.1.4"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.5.0"), true);
     
     // XSD and XSDs
     libraryDir = null;
@@ -153,8 +161,10 @@ public class AntTest extends TestCase
     }
     assertNotNull(libraryDir);
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsd"), true);
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.xsds"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.1.4"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.5.0"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.1.4"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.5.0"), true);
     
     // Ecore
     libraryDir = null;
@@ -173,7 +183,8 @@ public class AntTest extends TestCase
     }
     assertNotNull(libraryDir);
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
-    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "library.ecore"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.1.4"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.5.0"), true);
   }
   
   protected File getPluginSourceSubDirectory(String sourcePluginDir, String pluginID)
@@ -222,128 +233,210 @@ public class AntTest extends TestCase
     TestUtil.runAnt(antScript, "overwriteTarget");
     assertGeneratedFile(rootDir, rootExpectedDir, "Target.java", null);
   }
-
-  public void testRose() throws Exception
+  
+  protected void roseTest(String jdkLevel, String directorySegment) throws Exception
   {
-    File rootDir = new File(EXAMPLES_COPY_DIR, "library.rose");
-    File rootExpectedDir = new File(EXPECTED_DIR, "library.rose");
+    File rootDir = new File(EXAMPLES_COPY_DIR, "/library.rose." + directorySegment);
+    File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.rose");
     File antScript = new File(rootDir, "build/build.xml");
     
     String[] testTokenReplacements = new String[2];
-    testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
            
-    runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);    
   }
 
-  public void testRoseReload() throws Exception
+  public void testRose14() throws Exception
   {
-    File rootDir = new File(EXAMPLES_COPY_DIR, "library.rose");
-    File rootExpectedDir = new File(RELOAD_EXPECTED_DIR, "library.rose");
+    roseTest("1.4", "1.4");
+  }
+
+  public void testRose50() throws Exception
+  {
+    roseTest("5.0", "5.0");
+  }
+
+  protected void roseReloadTest(String jdkLevel, String directorySegment) throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "/library.rose." + directorySegment);
+    File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/reload/library.rose");
     File antScript = new File(rootDir, "build/reload.xml");
     
     TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
     String[] testTokenReplacements = new String[2];
-    testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
-    runAntAndTest(rootDir, rootExpectedDir, antScript, "rose", testTokenReplacements);
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" rose", testTokenReplacements);
   }
   
-  public void testXSD() throws Exception
+  public void testRoseReload14() throws Exception
   {
-    File rootDir = new File(EXAMPLES_COPY_DIR, "library.xsd");
-    File rootExpectedDir = new File(EXPECTED_DIR, "library.xsd");
+    roseReloadTest("1.4", "1.4");
+  }  
+
+  public void testRoseReload50() throws Exception
+  {
+    roseReloadTest("5.0", "5.0");
+  }  
+  
+  protected void xsdTest(String jdkLevel, String directorySegment) throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "/library.xsd." + directorySegment);
+    File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.xsd");
     File antScript = new File(rootDir, "build/codeGenFromXSD.xml");
 
-    String[] testTokenReplacements = new String[1];
-    testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
+    String[] testTokenReplacements = new String[2];
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
+    testTokenReplacements[1] = rootDir.getName();
            
-    runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
+  }
+
+  public void testXSD14() throws Exception
+  {
+    xsdTest("1.4", "1.4");
+  }
+
+  public void testXSD50() throws Exception
+  {
+    xsdTest("5.0", "5.0");
   }
   
-  public void testXSDReload() throws Exception
+  protected void xsdReloadTest(String jdkLevel, String directorySegment) throws Exception
   {
-    File rootDir = new File(EXAMPLES_COPY_DIR, "library.xsd");
-    File rootExpectedDir = new File(RELOAD_EXPECTED_DIR, "library.xsd");
+    File rootDir = new File(EXAMPLES_COPY_DIR, "/library.xsd." + directorySegment);
+    File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/reload/library.xsd");
     File antScript = new File(rootDir, "build/reload.xml");
     
     TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
-    String[] testTokenReplacements = new String[1];
-    testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
+    String[] testTokenReplacements = new String[2];
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
+    testTokenReplacements[1] = rootDir.getName();
         
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
-    runAntAndTest(rootDir, rootExpectedDir, antScript, "xsd", testTokenReplacements);
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" xsd", testTokenReplacements);
     
     assertFalse(ResourcesPlugin.getWorkspace().getDescription().isAutoBuilding());
   }  
 
-  public void testXSDs() throws Exception
+  public void testXSDReload14() throws Exception
   {
-    File rootDir = new File(EXAMPLES_COPY_DIR, "library.xsds");
-    File rootExpectedDir = new File(EXPECTED_DIR, "library.xsds");
+    xsdReloadTest("1.4", "1.4");
+  }
+
+  public void testXSDReload50() throws Exception
+  {
+    xsdReloadTest("5.0", "5.0");
+  }
+  
+  protected void xsdsTest(String jdkLevel, String directorySegment) throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "/library.xsds." + directorySegment);
+    File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.xsds");
     File antScript = new File(rootDir, "build/codeGenFromMultipleXSD.xml");
 
     String[] testTokenReplacements = new String[1];
-    testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
            
-    runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
   }
   
-  public void testXSDsReload() throws Exception
+  public void testXSDs14() throws Exception
   {
-    File rootDir = new File(EXAMPLES_COPY_DIR, "library.xsds");
-    File rootExpectedDir = new File(RELOAD_EXPECTED_DIR, "library.xsds");
+    xsdsTest("1.4", "1.4");
+  }
+
+  public void testXSDs50() throws Exception
+  {
+    xsdsTest("5.0", "5.0");
+  }
+    
+  protected void xsdsReloadTest(String jdkLevel, String directorySegment) throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "/library.xsds." + directorySegment);
+    File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/reload/library.xsds");
     File antScript = new File(rootDir, "build/reload.xml");
     
     TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
     String[] testTokenReplacements = new String[2];
-    testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = testTokenReplacements[0].charAt(1) == ':' ? "/" : "";
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
-    runAntAndTest(rootDir, rootExpectedDir, antScript, "xsds", testTokenReplacements);
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" xsds", testTokenReplacements);
     
     assertTrue(ResourcesPlugin.getWorkspace().getDescription().isAutoBuilding());
   }  
   
-  public void testEcore() throws Exception
+  public void testXSDsReload14() throws Exception
   {
-    File rootDir = new File(EXAMPLES_COPY_DIR, "library.ecore");
-    File rootExpectedDir = new File(EXPECTED_DIR, "library.ecore");
+    xsdsReloadTest("1.4", "1.4");
+  }
+
+  public void testXSDsReload50() throws Exception
+  {
+    xsdsReloadTest("5.0", "5.0");
+  }
+  
+  protected void ecoreTest(String jdkLevel, String directorySegment) throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "/library.ecore." + directorySegment);
+    File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/creation/library.ecore");
     File antScript = new File(rootDir, "build/build.xml");
     
     String[] testTokenReplacements = new String[2];
-    testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
            
-    runAntAndTest(rootDir, rootExpectedDir, antScript, null, testTokenReplacements);
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\"", testTokenReplacements);
   }
 
-  public void testEcoreReload() throws Exception
+  public void testEcore14() throws Exception
   {
-    File rootDir = new File(EXAMPLES_COPY_DIR, "library.ecore");
-    File rootExpectedDir = new File(RELOAD_EXPECTED_DIR, "library.ecore");
+    ecoreTest("1.4", "1.4");
+  }
+
+  public void testEcore50() throws Exception
+  {
+    ecoreTest("5.0", "5.0");
+  }
+  
+  protected void ecoreReloadTest(String jdkLevel, String directorySegment) throws Exception
+  {
+    File rootDir = new File(EXAMPLES_COPY_DIR, "/library.ecore." + directorySegment);
+    File rootExpectedDir = new File(EXPECTED_DIR, "/models/" + directorySegment + "/reload/library.ecore");
     File antScript = new File(rootDir, "build/reload.xml");
     
     TestUtil.copyFiles(new File(rootExpectedDir, "model"), new File(rootDir, "model"), true);
     TestUtil.copyFiles(new File(rootExpectedDir, "build"), new File(rootDir, "build"), true);
    
     String[] testTokenReplacements = new String[2];
-    testTokenReplacements[0] = upperCaseDriveLetter(new Path(EXAMPLES_COPY_DIR.getAbsolutePath()).toString());
+    testTokenReplacements[0] = upperCaseDriveLetter(new Path(rootDir.getAbsolutePath()).toString());
     testTokenReplacements[1] = File.separator;
            
     adjustGenModelForReload(new File(rootDir, "emf/library.genmodel"));
-    runAntAndTest(rootDir, rootExpectedDir, antScript, "ecore", testTokenReplacements);
+    runAntAndTest(rootDir, rootExpectedDir, antScript, "-DgenJDKLevel=\""+jdkLevel+"\" ecore", testTokenReplacements);
   }  
+  
+  public void testEcoreReload14() throws Exception
+  {
+    ecoreReloadTest("1.4", "1.4");
+  }
 
+  public void testEcoreReload50() throws Exception
+  {
+    ecoreReloadTest("5.0", "5.0");
+  }
+  
   private void runAntAndTest(File rootDir, File rootExpectedDir, File antScript, String antScriptArguments, String[] testTokenReplacements) throws CoreException
   {
     assertTrue(rootDir.getAbsolutePath() + " doesn't exist", rootDir.isDirectory());
