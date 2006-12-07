@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.13 2006/05/24 18:45:34 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.14 2006/12/07 03:46:59 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -28,6 +28,7 @@ import org.apache.tools.ant.types.EnumeratedAttribute;
 
 import org.eclipse.emf.ant.taskdefs.EMFTask;
 import org.eclipse.emf.codegen.ecore.Generator;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.common.util.URI;
 
 
@@ -113,6 +114,11 @@ import org.eclipse.emf.common.util.URI;
  *    <td valign="top">copyright</td>
  *    <td>The copyright text.</td>
  * </tr>
+ * <tr>
+ *    <td valign="top">jdkLevel</td>
+ *    <td>The JDK level for the generated code. &quot;1.4&quot;, &quot;5.0&quot;, and
+ *    &quot;6.0&quot; are valid values.</td>
+ * </tr>
  * </table>
  * 
  * <p>If the Ant task knows how to handle multiple model specifications,  
@@ -176,6 +182,7 @@ public abstract class GeneratorTask extends EMFTask
   protected File templatePath;
   protected String copyright;
   protected boolean sdo = false;
+  protected String jdkLevel;
 
   protected int reconcileGenModel = GENMODEL_OVERWRITE;
   protected boolean generateJavaCode = true;
@@ -277,19 +284,7 @@ public abstract class GeneratorTask extends EMFTask
 
   public void setReconcileGenModel(ReconcileGenModelType type)
   {
-    String value = type.getValue();
-    if ("overwrite".equals(value))
-    {
-      reconcileGenModel = GENMODEL_OVERWRITE;
-    }
-    else if ("keep".equals(value))
-    {
-      reconcileGenModel = GENMODEL_KEEP;
-    }
-    else if ("reload".equals(value))
-    {
-      reconcileGenModel = GENMODEL_RELOAD;
-    }
+    setReconcileGenModel(type.getValue());
   }
 
   public void setReconcileGenModel(String type)
@@ -316,6 +311,16 @@ public abstract class GeneratorTask extends EMFTask
   public void setAutoBuild(boolean autoBuild)
   {
     this.autoBuild = Boolean.valueOf(autoBuild);
+  }
+  
+  public void setJdkLevel(String jdkLevel)
+  {
+    this.jdkLevel = jdkLevel;
+  }
+  
+  protected GenJDKLevel getJDKLevel()
+  {
+    return GenJDKLevel.get(jdkLevel);
   }
 
   protected Commandline getCommandline()
@@ -447,6 +452,16 @@ public abstract class GeneratorTask extends EMFTask
     {
       getCommandline().createArgument().setValue("-copyright");
       getCommandline().createArgument().setValue(copyright);
+    }
+    
+    if (jdkLevel != null)
+    {
+      GenJDKLevel genJDKLevel = getJDKLevel();
+      if (genJDKLevel != null)
+      {
+        getCommandline().createArgument().setValue("-jdkLevel");
+        getCommandline().createArgument().setValue(genJDKLevel.getLiteral());        
+      }
     }
 
     if (sdo)
