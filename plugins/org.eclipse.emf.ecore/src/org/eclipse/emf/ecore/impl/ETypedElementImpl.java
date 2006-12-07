@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElementImpl.java,v 1.10 2006/12/05 20:22:26 emerks Exp $
+ * $Id: ETypedElementImpl.java,v 1.11 2006/12/07 14:26:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -360,8 +360,12 @@ public abstract class ETypedElementImpl extends ENamedElementImpl implements ETy
   public void setEType(EClassifier newEType)
   {
     NotificationChain msgs = setEType(newEType, null);
-    EGenericType newEGenericType = EcoreFactory.eINSTANCE.createEGenericType();
-    newEGenericType.setEClassifier(eType);
+    EGenericType newEGenericType = null;
+    if (newEType != null)
+    {
+      EcoreFactory.eINSTANCE.createEGenericType();
+      newEGenericType.setEClassifier(eType);
+    }
     msgs = setEGenericType(newEGenericType, msgs);
     if (msgs != null)
     {
