@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.24 2006/12/06 00:08:22 marcelop Exp $
+ * $Id: BasicFeatureMap.java,v 1.25 2006/12/08 16:57:57 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1409,6 +1409,10 @@ public class BasicFeatureMap
   @Override
   public void addUnique(Entry object)
   {
+    // Validate now since the call we make after will skip validating.
+    ++modCount;
+    validate(size, object);
+
     addUnique((FeatureMap.Entry.Internal)object);
   }
 
