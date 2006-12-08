@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.13 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.14 2006/12/08 19:51:07 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -666,7 +666,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public FeatureMap.Entry createEFeatureMapEntryFromString(EDataType eDataType, String initialValue)
   {
-    return (FeatureMap.Entry)super.createFromString(eDataType, initialValue);
+    return (FeatureMap.Entry)super.createFromString(initialValue);
   }
 
   /**
@@ -676,7 +676,7 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
    */
   public String convertEFeatureMapEntryToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return super.convertToString(instanceValue);
   }
 
   /**
