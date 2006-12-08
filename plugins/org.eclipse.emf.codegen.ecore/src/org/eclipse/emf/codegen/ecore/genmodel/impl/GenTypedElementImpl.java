@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.9 2006/12/05 20:30:00 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.10 2006/12/08 19:58:30 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -298,7 +298,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
       EGenericType eGenericType = getEcoreTypedElement().getEGenericType();
       if (eGenericType.getETypeParameter() != null)
       {
-        return hasEObjectBound(eGenericType.getETypeParameter());
+        return false;
       }
     }
     EClassifier type = getEcoreTypedElement().getEType();
@@ -336,8 +336,9 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   {
     for (EGenericType eBound : eTypeParameter.getEBounds())
     {
-      if (eBound.getETypeParameter() != null && hasEObjectExtensionBound(eBound.getETypeParameter()) ||
-            eBound.getEClassifier() instanceof EClass  && findGenClass((EClass)eBound.getEClassifier()).isEObjectExtension())
+      if (eBound.getETypeParameter() != null ? 
+            hasEObjectExtensionBound(eBound.getETypeParameter()) :
+            eBound.getEClassifier() instanceof EClass && findGenClass((EClass)eBound.getEClassifier()).isEObjectExtension())
       {
         return true;
       }
