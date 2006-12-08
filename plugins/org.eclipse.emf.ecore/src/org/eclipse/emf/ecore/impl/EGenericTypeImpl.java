@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeImpl.java,v 1.1 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EGenericTypeImpl.java,v 1.2 2006/12/08 19:51:47 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -343,7 +344,7 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
   public NotificationChain eBasicSetContainer(InternalEObject newContainer, int newContainerFeatureID, NotificationChain msgs)
   {
     msgs = super.eBasicSetContainer(newContainer, newContainerFeatureID, msgs);
-    if (eTypeParameter != null && newContainer instanceof EReference)
+    if (eTypeParameter != null && newContainer instanceof EStructuralFeature)
     {
       // When we attached we have to recompute the erasure of the type parameter.
       //
