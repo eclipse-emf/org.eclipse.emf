@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicFeatureMap.java,v 1.22 2006/02/10 21:00:53 emerks Exp $
+ * $Id: BasicFeatureMap.java,v 1.22.2.1 2006/12/08 16:55:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1378,6 +1378,9 @@ public class BasicFeatureMap extends EDataTypeEList implements FeatureMap.Intern
 
   public void addUnique(Object object)
   {
+    // Validate now since the call we make after will skip validating.
+    ++modCount;
+    validate(size, object);
     addUnique((FeatureMap.Entry.Internal)object);
   }
 

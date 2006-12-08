@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingFeatureMap.java,v 1.22 2006/02/10 21:00:53 emerks Exp $
+ * $Id: DelegatingFeatureMap.java,v 1.22.2.1 2006/12/08 16:55:46 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1377,7 +1377,9 @@ public abstract class DelegatingFeatureMap extends DelegatingEcoreEList implemen
 
   public void addUnique(Object object)
   {
-    modCount = -1;
+    // Validate now since the call we make after will skip validating.
+    ++modCount;
+    validate(delegateSize(), object);
     super.addUnique(object);
   }
 
