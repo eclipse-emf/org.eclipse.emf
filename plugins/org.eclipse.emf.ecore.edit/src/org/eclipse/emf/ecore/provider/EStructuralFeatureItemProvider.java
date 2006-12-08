@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureItemProvider.java,v 1.12 2006/10/23 13:27:51 emerks Exp $
+ * $Id: EStructuralFeatureItemProvider.java,v 1.13 2006/12/08 19:53:04 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -198,7 +198,7 @@ public class EStructuralFeatureItemProvider
          getString("_UI_EStructuralFeature_defaultValue_feature"),
          getString("_UI_PropertyDescriptor_description", "_UI_EStructuralFeature_defaultValue_feature", "_UI_EStructuralFeature_type"),
          EcorePackage.Literals.ESTRUCTURAL_FEATURE__DEFAULT_VALUE,
-         true,
+         false,
          false,
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
