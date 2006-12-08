@@ -226,7 +226,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/volatile"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/transient"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/defaultValueLiteral"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/defaultValue"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/defaultValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/unsettable"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/derived"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EStructuralFeature/eContainingClass"/>
