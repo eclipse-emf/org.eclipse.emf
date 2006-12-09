@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreFactoryImpl.java,v 1.14 2006/12/08 19:51:07 emerks Exp $
+ * $Id: EcoreFactoryImpl.java,v 1.15 2006/12/09 18:05:20 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.emf.ecore.util.FeatureMap;
 
 //import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 //import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -140,8 +139,6 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
         return createEDoubleFromString(eDataType, initialValue);
       case EcorePackage.EDOUBLE_OBJECT:
         return createEDoubleObjectFromString(eDataType, initialValue);
-      case EcorePackage.EFEATURE_MAP_ENTRY:
-        return createEFeatureMapEntryFromString(eDataType, initialValue);
       case EcorePackage.EFLOAT:
         return createEFloatFromString(eDataType, initialValue);
       case EcorePackage.EFLOAT_OBJECT:
@@ -203,8 +200,6 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
         return convertEDoubleToString(eDataType, instanceValue);
       case EcorePackage.EDOUBLE_OBJECT:
         return convertEDoubleObjectToString(eDataType, instanceValue);
-      case EcorePackage.EFEATURE_MAP_ENTRY:
-        return convertEFeatureMapEntryToString(eDataType, instanceValue);
       case EcorePackage.EFLOAT:
         return convertEFloatToString(eDataType, instanceValue);
       case EcorePackage.EFLOAT_OBJECT:
@@ -657,26 +652,6 @@ public class EcoreFactoryImpl extends EFactoryImpl implements EcoreFactory
   public String convertEStringToString(EDataType metaObject, Object instanceValue) 
   {
     return (String)instanceValue;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public FeatureMap.Entry createEFeatureMapEntryFromString(EDataType eDataType, String initialValue)
-  {
-    return (FeatureMap.Entry)super.createFromString(initialValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertEFeatureMapEntryToString(EDataType eDataType, Object instanceValue)
-  {
-    return super.convertToString(instanceValue);
   }
 
   /**
