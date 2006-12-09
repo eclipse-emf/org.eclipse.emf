@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactory.java,v 1.5 2006/12/05 20:22:27 emerks Exp $
+ * $Id: XMLTypeFactory.java,v 1.6 2006/12/09 18:09:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -49,6 +49,15 @@ public interface XMLTypeFactory extends EFactory
    * @generated
    */
   AnyType createAnyType();
+
+  /**
+   * Returns a new object of class '<em>Processing Instruction</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Processing Instruction</em>'.
+   * @generated
+   */
+  ProcessingInstruction createProcessingInstruction();
 
   /**
    * Returns a new object of class '<em>Simple Any Type</em>'.
