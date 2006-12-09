@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackage.java,v 1.8 2005/11/23 18:10:02 emerks Exp $
+ * $Id: XMLTypePackage.java,v 1.9 2006/12/09 18:11:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -39,7 +39,8 @@ import org.eclipse.emf.ecore.EReference;
  * @model kind="package"
  * @generated
  */
-public interface XMLTypePackage extends EPackage{
+public interface XMLTypePackage extends EPackage
+{
   /**
    * The package name.
    * <!-- begin-user-doc -->
@@ -119,6 +120,43 @@ public interface XMLTypePackage extends EPackage{
   int ANY_TYPE_FEATURE_COUNT = 3;
 
   /**
+   * The meta object id for the '{@link org.eclipse.emf.ecore.xml.type.impl.ProcessingInstructionImpl <em>Processing Instruction</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.eclipse.emf.ecore.xml.type.impl.ProcessingInstructionImpl
+   * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getProcessingInstruction()
+   * @generated
+   */
+  int PROCESSING_INSTRUCTION = 1;
+
+  /**
+   * The feature id for the '<em><b>Data</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCESSING_INSTRUCTION__DATA = 0;
+
+  /**
+   * The feature id for the '<em><b>Target</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCESSING_INSTRUCTION__TARGET = 1;
+
+  /**
+   * The number of structural features of the '<em>Processing Instruction</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int PROCESSING_INSTRUCTION_FEATURE_COUNT = 2;
+
+  /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.xml.type.impl.SimpleAnyTypeImpl <em>Simple Any Type</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -126,7 +164,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getSimpleAnyType()
    * @generated
    */
-  int SIMPLE_ANY_TYPE = 1;
+  int SIMPLE_ANY_TYPE = 2;
 
   /**
    * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -199,7 +237,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getXMLTypeDocumentRoot()
    * @generated
    */
-  int XML_TYPE_DOCUMENT_ROOT = 2;
+  int XML_TYPE_DOCUMENT_ROOT = 3;
 
   /**
    * The feature id for the '<em><b>Mixed</b></em>' attribute list.
@@ -247,13 +285,22 @@ public interface XMLTypePackage extends EPackage{
   int XML_TYPE_DOCUMENT_ROOT__COMMENT = 4;
 
   /**
+   * The feature id for the '<em><b>Processing Instruction</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION = 5;
+
+  /**
    * The feature id for the '<em><b>Text</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int XML_TYPE_DOCUMENT_ROOT__TEXT = 5;
+  int XML_TYPE_DOCUMENT_ROOT__TEXT = 6;
 
   /**
    * The number of structural features of the '<em>Document Root</em>' class.
@@ -262,7 +309,7 @@ public interface XMLTypePackage extends EPackage{
    * @generated
    * @ordered
    */
-  int XML_TYPE_DOCUMENT_ROOT_FEATURE_COUNT = 6;
+  int XML_TYPE_DOCUMENT_ROOT_FEATURE_COUNT = 7;
 
   /**
    * The meta object id for the '<em>Any Simple Type</em>' data type.
@@ -272,7 +319,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getAnySimpleType()
    * @generated
    */
-  int ANY_SIMPLE_TYPE = 3;
+  int ANY_SIMPLE_TYPE = 4;
 
   /**
    * The meta object id for the '<em>Any URI</em>' data type.
@@ -282,7 +329,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getAnyURI()
    * @generated
    */
-  int ANY_URI = 4;
+  int ANY_URI = 5;
 
   /**
    * The meta object id for the '<em>Base64 Binary</em>' data type.
@@ -291,7 +338,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getBase64Binary()
    * @generated
    */
-  int BASE64_BINARY = 5;
+  int BASE64_BINARY = 6;
 
   /**
    * The meta object id for the '<em>Boolean</em>' data type.
@@ -300,7 +347,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getBoolean()
    * @generated
    */
-  int BOOLEAN = 6;
+  int BOOLEAN = 7;
 
   /**
    * The meta object id for the '<em>Boolean Object</em>' data type.
@@ -310,7 +357,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getBooleanObject()
    * @generated
    */
-  int BOOLEAN_OBJECT = 7;
+  int BOOLEAN_OBJECT = 8;
 
   /**
    * The meta object id for the '<em>Decimal</em>' data type.
@@ -320,7 +367,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDecimal()
    * @generated
    */
-  int DECIMAL = 12;
+  int DECIMAL = 13;
 
   /**
    * The meta object id for the '<em>Integer</em>' data type.
@@ -330,7 +377,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getInteger()
    * @generated
    */
-  int INTEGER = 32;
+  int INTEGER = 33;
 
   /**
    * The meta object id for the '<em>Int Object</em>' data type.
@@ -340,7 +387,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getIntObject()
    * @generated
    */
-  int INT_OBJECT = 33;
+  int INT_OBJECT = 34;
 
   /**
    * The meta object id for the '<em>Long</em>' data type.
@@ -349,7 +396,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getLong()
    * @generated
    */
-  int LONG = 35;
+  int LONG = 36;
 
   /**
    * The meta object id for the '<em>Long Object</em>' data type.
@@ -359,7 +406,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getLongObject()
    * @generated
    */
-  int LONG_OBJECT = 36;
+  int LONG_OBJECT = 37;
 
   /**
    * The meta object id for the '<em>Int</em>' data type.
@@ -368,7 +415,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getInt()
    * @generated
    */
-  int INT = 31;
+  int INT = 32;
 
   /**
    * The meta object id for the '<em>Short</em>' data type.
@@ -377,7 +424,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getShort()
    * @generated
    */
-  int SHORT = 49;
+  int SHORT = 50;
 
   /**
    * The meta object id for the '<em>Short Object</em>' data type.
@@ -387,7 +434,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getShortObject()
    * @generated
    */
-  int SHORT_OBJECT = 50;
+  int SHORT_OBJECT = 51;
 
   /**
    * The meta object id for the '<em>Byte</em>' data type.
@@ -396,7 +443,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getByte()
    * @generated
    */
-  int BYTE = 8;
+  int BYTE = 9;
 
   /**
    * The meta object id for the '<em>Byte Object</em>' data type.
@@ -406,7 +453,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getByteObject()
    * @generated
    */
-  int BYTE_OBJECT = 9;
+  int BYTE_OBJECT = 10;
 
   /**
    * The meta object id for the '<em>Date</em>' data type.
@@ -416,7 +463,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDate()
    * @generated
    */
-  int DATE = 10;
+  int DATE = 11;
 
   /**
    * The meta object id for the '<em>Date Time</em>' data type.
@@ -426,7 +473,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDateTime()
    * @generated
    */
-  int DATE_TIME = 11;
+  int DATE_TIME = 12;
 
   /**
    * The meta object id for the '<em>String</em>' data type.
@@ -436,7 +483,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getString()
    * @generated
    */
-  int STRING = 51;
+  int STRING = 52;
 
   /**
    * The meta object id for the '<em>Double</em>' data type.
@@ -445,7 +492,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDouble()
    * @generated
    */
-  int DOUBLE = 13;
+  int DOUBLE = 14;
 
   /**
    * The meta object id for the '<em>Double Object</em>' data type.
@@ -455,7 +502,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDoubleObject()
    * @generated
    */
-  int DOUBLE_OBJECT = 14;
+  int DOUBLE_OBJECT = 15;
 
   /**
    * The meta object id for the '<em>Duration</em>' data type.
@@ -465,7 +512,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getDuration()
    * @generated
    */
-  int DURATION = 15;
+  int DURATION = 16;
 
   /**
    * The meta object id for the '<em>ENTITIES Base</em>' data type.
@@ -475,7 +522,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getENTITIESBase()
    * @generated
    */
-  int ENTITIES_BASE = 17;
+  int ENTITIES_BASE = 18;
 
   /**
    * The meta object id for the '<em>Normalized String</em>' data type.
@@ -485,7 +532,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNormalizedString()
    * @generated
    */
-  int NORMALIZED_STRING = 45;
+  int NORMALIZED_STRING = 46;
 
   /**
    * The meta object id for the '<em>Token</em>' data type.
@@ -495,7 +542,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getToken()
    * @generated
    */
-  int TOKEN = 53;
+  int TOKEN = 54;
 
   /**
    * The meta object id for the '<em>Name</em>' data type.
@@ -505,7 +552,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getName_()
    * @generated
    */
-  int NAME = 37;
+  int NAME = 38;
 
   /**
    * The meta object id for the '<em>NC Name</em>' data type.
@@ -515,7 +562,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNCName()
    * @generated
    */
-  int NC_NAME = 38;
+  int NC_NAME = 39;
 
   /**
    * The meta object id for the '<em>ENTITY</em>' data type.
@@ -525,7 +572,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getENTITY()
    * @generated
    */
-  int ENTITY = 18;
+  int ENTITY = 19;
 
   /**
    * The meta object id for the '<em>ENTITIES</em>' data type.
@@ -535,7 +582,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getENTITIES()
    * @generated
    */
-  int ENTITIES = 16;
+  int ENTITIES = 17;
 
   /**
    * The meta object id for the '<em>Float</em>' data type.
@@ -544,7 +591,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getFloat()
    * @generated
    */
-  int FLOAT = 19;
+  int FLOAT = 20;
 
   /**
    * The meta object id for the '<em>Float Object</em>' data type.
@@ -554,7 +601,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getFloatObject()
    * @generated
    */
-  int FLOAT_OBJECT = 20;
+  int FLOAT_OBJECT = 21;
 
   /**
    * The meta object id for the '<em>GDay</em>' data type.
@@ -564,7 +611,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getGDay()
    * @generated
    */
-  int GDAY = 21;
+  int GDAY = 22;
 
   /**
    * The meta object id for the '<em>GMonth</em>' data type.
@@ -574,7 +621,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getGMonth()
    * @generated
    */
-  int GMONTH = 22;
+  int GMONTH = 23;
 
   /**
    * The meta object id for the '<em>GMonth Day</em>' data type.
@@ -584,7 +631,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getGMonthDay()
    * @generated
    */
-  int GMONTH_DAY = 23;
+  int GMONTH_DAY = 24;
 
   /**
    * The meta object id for the '<em>GYear</em>' data type.
@@ -594,7 +641,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getGYear()
    * @generated
    */
-  int GYEAR = 24;
+  int GYEAR = 25;
 
   /**
    * The meta object id for the '<em>GYear Month</em>' data type.
@@ -604,7 +651,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getGYearMonth()
    * @generated
    */
-  int GYEAR_MONTH = 25;
+  int GYEAR_MONTH = 26;
 
   /**
    * The meta object id for the '<em>Hex Binary</em>' data type.
@@ -613,7 +660,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getHexBinary()
    * @generated
    */
-  int HEX_BINARY = 26;
+  int HEX_BINARY = 27;
 
   /**
    * The meta object id for the '<em>ID</em>' data type.
@@ -623,7 +670,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getID()
    * @generated
    */
-  int ID = 27;
+  int ID = 28;
 
   /**
    * The meta object id for the '<em>IDREF</em>' data type.
@@ -633,7 +680,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getIDREF()
    * @generated
    */
-  int IDREF = 28;
+  int IDREF = 29;
 
   /**
    * The meta object id for the '<em>IDREFS Base</em>' data type.
@@ -643,7 +690,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getIDREFSBase()
    * @generated
    */
-  int IDREFS_BASE = 30;
+  int IDREFS_BASE = 31;
 
   /**
    * The meta object id for the '<em>IDREFS</em>' data type.
@@ -653,7 +700,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getIDREFS()
    * @generated
    */
-  int IDREFS = 29;
+  int IDREFS = 30;
 
   /**
    * The meta object id for the '<em>Language</em>' data type.
@@ -663,7 +710,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getLanguage()
    * @generated
    */
-  int LANGUAGE = 34;
+  int LANGUAGE = 35;
 
   /**
    * The meta object id for the '<em>Non Positive Integer</em>' data type.
@@ -673,7 +720,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNonPositiveInteger()
    * @generated
    */
-  int NON_POSITIVE_INTEGER = 44;
+  int NON_POSITIVE_INTEGER = 45;
 
   /**
    * The meta object id for the '<em>Negative Integer</em>' data type.
@@ -683,7 +730,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNegativeInteger()
    * @generated
    */
-  int NEGATIVE_INTEGER = 39;
+  int NEGATIVE_INTEGER = 40;
 
   /**
    * The meta object id for the '<em>NMTOKEN</em>' data type.
@@ -693,7 +740,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNMTOKEN()
    * @generated
    */
-  int NMTOKEN = 40;
+  int NMTOKEN = 41;
 
   /**
    * The meta object id for the '<em>NMTOKENS Base</em>' data type.
@@ -703,7 +750,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNMTOKENSBase()
    * @generated
    */
-  int NMTOKENS_BASE = 42;
+  int NMTOKENS_BASE = 43;
 
   /**
    * The meta object id for the '<em>NMTOKENS</em>' data type.
@@ -713,7 +760,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNMTOKENS()
    * @generated
    */
-  int NMTOKENS = 41;
+  int NMTOKENS = 42;
 
   /**
    * The meta object id for the '<em>Non Negative Integer</em>' data type.
@@ -723,7 +770,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNonNegativeInteger()
    * @generated
    */
-  int NON_NEGATIVE_INTEGER = 43;
+  int NON_NEGATIVE_INTEGER = 44;
 
   /**
    * The meta object id for the '<em>NOTATION</em>' data type.
@@ -733,7 +780,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getNOTATION()
    * @generated
    */
-  int NOTATION = 46;
+  int NOTATION = 47;
 
   /**
    * The meta object id for the '<em>Positive Integer</em>' data type.
@@ -743,7 +790,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getPositiveInteger()
    * @generated
    */
-  int POSITIVE_INTEGER = 47;
+  int POSITIVE_INTEGER = 48;
 
   /**
    * The meta object id for the '<em>QName</em>' data type.
@@ -753,7 +800,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getQName()
    * @generated
    */
-  int QNAME = 48;
+  int QNAME = 49;
 
   /**
    * The meta object id for the '<em>Time</em>' data type.
@@ -763,7 +810,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getTime()
    * @generated
    */
-  int TIME = 52;
+  int TIME = 53;
 
   /**
    * The meta object id for the '<em>Unsigned Long</em>' data type.
@@ -773,7 +820,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedLong()
    * @generated
    */
-  int UNSIGNED_LONG = 58;
+  int UNSIGNED_LONG = 59;
 
   /**
    * The meta object id for the '<em>Unsigned Int</em>' data type.
@@ -782,7 +829,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedInt()
    * @generated
    */
-  int UNSIGNED_INT = 56;
+  int UNSIGNED_INT = 57;
 
   /**
    * The meta object id for the '<em>Unsigned Int Object</em>' data type.
@@ -792,7 +839,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedIntObject()
    * @generated
    */
-  int UNSIGNED_INT_OBJECT = 57;
+  int UNSIGNED_INT_OBJECT = 58;
 
   /**
    * The meta object id for the '<em>Unsigned Short</em>' data type.
@@ -801,7 +848,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedShort()
    * @generated
    */
-  int UNSIGNED_SHORT = 59;
+  int UNSIGNED_SHORT = 60;
 
   /**
    * The meta object id for the '<em>Unsigned Short Object</em>' data type.
@@ -811,7 +858,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedShortObject()
    * @generated
    */
-  int UNSIGNED_SHORT_OBJECT = 60;
+  int UNSIGNED_SHORT_OBJECT = 61;
 
 
   /**
@@ -821,7 +868,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedByte()
    * @generated
    */
-  int UNSIGNED_BYTE = 54;
+  int UNSIGNED_BYTE = 55;
 
 
   /**
@@ -832,7 +879,7 @@ public interface XMLTypePackage extends EPackage{
    * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getUnsignedByteObject()
    * @generated
    */
-  int UNSIGNED_BYTE_OBJECT = 55;
+  int UNSIGNED_BYTE_OBJECT = 56;
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xml.type.AnyType <em>Any Type</em>}'.
@@ -876,6 +923,38 @@ public interface XMLTypePackage extends EPackage{
    * @generated
    */
   EAttribute getAnyType_AnyAttribute();
+
+  /**
+   * Returns the meta object for class '{@link org.eclipse.emf.ecore.xml.type.ProcessingInstruction <em>Processing Instruction</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Processing Instruction</em>'.
+   * @see org.eclipse.emf.ecore.xml.type.ProcessingInstruction
+   * @generated
+   */
+  EClass getProcessingInstruction();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xml.type.ProcessingInstruction#getData <em>Data</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Data</em>'.
+   * @see org.eclipse.emf.ecore.xml.type.ProcessingInstruction#getData()
+   * @see #getProcessingInstruction()
+   * @generated
+   */
+  EAttribute getProcessingInstruction_Data();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xml.type.ProcessingInstruction#getTarget <em>Target</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Target</em>'.
+   * @see org.eclipse.emf.ecore.xml.type.ProcessingInstruction#getTarget()
+   * @see #getProcessingInstruction()
+   * @generated
+   */
+  EAttribute getProcessingInstruction_Target();
 
   /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.xml.type.SimpleAnyType <em>Simple Any Type</em>}'.
@@ -964,37 +1043,48 @@ public interface XMLTypePackage extends EPackage{
   EReference getXMLTypeDocumentRoot_XSISchemaLocation();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getCDATA <em>CDATA</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot <em>CDATA</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>CDATA</em>'.
-   * @see org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getCDATA()
+   * @see org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot
    * @see #getXMLTypeDocumentRoot()
    * @generated
    */
   EAttribute getXMLTypeDocumentRoot_CDATA();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getComment <em>Comment</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot <em>Comment</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Comment</em>'.
-   * @see org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getComment()
+   * @see org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot
    * @see #getXMLTypeDocumentRoot()
    * @generated
    */
   EAttribute getXMLTypeDocumentRoot_Comment();
 
   /**
-   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getText <em>Text</em>}'.
+   * Returns the meta object for the attribute '{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot <em>Text</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Text</em>'.
-   * @see org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getText()
+   * @see org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot
    * @see #getXMLTypeDocumentRoot()
    * @generated
    */
   EAttribute getXMLTypeDocumentRoot_Text();
+
+  /**
+   * Returns the meta object for the containment reference '{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot <em>Processing Instruction</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Processing Instruction</em>'.
+   * @see org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot
+   * @see #getXMLTypeDocumentRoot()
+   * @generated
+   */
+  EReference getXMLTypeDocumentRoot_ProcessingInstruction();
 
   /**
    * Returns the meta object for data type '{@link java.lang.Object <em>Any Simple Type</em>}'.
@@ -1701,7 +1791,7 @@ public interface XMLTypePackage extends EPackage{
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals
+  interface Literals 
   {
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xml.type.impl.AnyTypeImpl <em>Any Type</em>}' class.
@@ -1736,6 +1826,32 @@ public interface XMLTypePackage extends EPackage{
      * @generated
      */
     EAttribute ANY_TYPE__ANY_ATTRIBUTE = eINSTANCE.getAnyType_AnyAttribute();
+
+    /**
+     * The meta object literal for the '{@link org.eclipse.emf.ecore.xml.type.impl.ProcessingInstructionImpl <em>Processing Instruction</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see org.eclipse.emf.ecore.xml.type.impl.ProcessingInstructionImpl
+     * @see org.eclipse.emf.ecore.xml.type.impl.XMLTypePackageImpl#getProcessingInstruction()
+     * @generated
+     */
+    EClass PROCESSING_INSTRUCTION = eINSTANCE.getProcessingInstruction();
+
+    /**
+     * The meta object literal for the '<em><b>Data</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PROCESSING_INSTRUCTION__DATA = eINSTANCE.getProcessingInstruction_Data();
+
+    /**
+     * The meta object literal for the '<em><b>Target</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute PROCESSING_INSTRUCTION__TARGET = eINSTANCE.getProcessingInstruction_Target();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.xml.type.impl.SimpleAnyTypeImpl <em>Simple Any Type</em>}' class.
@@ -1828,6 +1944,14 @@ public interface XMLTypePackage extends EPackage{
      * @generated
      */
     EAttribute XML_TYPE_DOCUMENT_ROOT__TEXT = eINSTANCE.getXMLTypeDocumentRoot_Text();
+
+    /**
+     * The meta object literal for the '<em><b>Processing Instruction</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION = eINSTANCE.getXMLTypeDocumentRoot_ProcessingInstruction();
 
     /**
      * The meta object literal for the '<em>Any Simple Type</em>' data type.
