@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedComboBoxCellEditor.java,v 1.3 2006/05/15 19:35:35 davidms Exp $
+ * $Id: ExtendedComboBoxCellEditor.java,v 1.4 2006/12/09 19:02:05 emerks Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -25,7 +25,13 @@ import java.util.List;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 
 /**
@@ -34,61 +40,103 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 {
-  public static String [] createItems(List list, ILabelProvider labelProvider, boolean sorted)
+  private static class StringPositionPair implements Comparable
   {
-    String [] result;
+    Collator collator = Collator.getInstance();
+
+    public String key;
+
+    public int position;
+
+    StringPositionPair(String key, int position)
+    {
+      this.key = key;
+      this.position = position;
+    }
+
+    public int compareTo(Object object)
+    {
+      if (object == this)
+      {
+        return 0;
+      }
+      else
+      {
+        StringPositionPair that = (StringPositionPair)object;
+        return collator.compare(key, that.key);
+      }
+    }
+  }
+
+  public static boolean select(String filter, String labelValue)
+  {
+    if (filter != null && filter.length() > 0)
+    {
+      if (filter.length() > labelValue.length())
+      {
+        return false;
+      }
+      for (int i = 0; i < filter.length(); i++)
+      {
+        if (Character.toLowerCase(filter.charAt(i)) != Character.toLowerCase(labelValue.charAt(i)))
+        {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  public static String[] createItems(List list, ILabelProvider labelProvider, boolean sorted)
+  {
+    return createItems(list, labelProvider, null, sorted);
+  }
+
+  public static String[] createItems(List list, ILabelProvider labelProvider, String filter, boolean sorted)
+  {
+    String[] result;
+
+    if (filter != null && filter.length() > 0)
+    {
+      sorted = true;
+    }
 
     // If there are objects to populate...
     //
     if (list != null && list.size() > 0)
     {
-      // Create a new array.
-      //
-      result = new String[list.size()];
-      
       if (sorted)
       {
-        List unsortedList = new ArrayList(list);
-        list.clear();
-
-        // Create an array of label/original position pairs and sort it by label.
-        //
-        class StringPositionPair implements Comparable
+        List unsortedList = new ArrayList(list.size());
+        if (filter != null && filter.length() > 0)
         {
-          Collator collator = Collator.getInstance();
-          public String key;
-          public int position;
-          
-          StringPositionPair(String key, int position)
+          for (int i = 0; i < list.size(); i++)
           {
-            this.key = key;
-            this.position = position;
-          }
-  
-          public int compareTo(Object object)
-          {
-            if (object == this)
+            if (select(filter, labelProvider.getText(list.get(i))))
             {
-              return 0;
-            }
-            else
-            {
-              StringPositionPair that = (StringPositionPair)object;
-              return collator.compare(key, that.key);
+              unsortedList.add(list.get(i));
             }
           }
         }
+        else
+        {
+          unsortedList.addAll(list);
+        }
+        list.clear();
 
-        StringPositionPair[] pairs = new StringPositionPair[unsortedList.size()];
-  
+        StringPositionPair[] pairs = new StringPositionPair [unsortedList.size()];
+
         for (int i = 0, size = unsortedList.size(); i < size; ++i)
         {
           Object object = unsortedList.get(i);
           pairs[i] = new StringPositionPair(labelProvider.getText(object), i);
         }
-  
-        Arrays.sort(pairs); 
 
+        Arrays.sort(pairs);
+
+        // Create a new array.
+        //
+        result = new String [unsortedList.size()];
         // Fill in the result array with labels and repopulate the origina list in order.
         //
         for (int i = 0, size = unsortedList.size(); i < size; ++i)
@@ -99,6 +147,9 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
       }
       else
       {
+        // Create a new array.
+        //
+        result = new String [list.size()];
         // Fill in the array with labels.
         //
         for (int i = 0, size = list.size(); i < size; ++i)
@@ -119,7 +170,13 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
   /**
    * This keeps track of the list of model objects.
    */
+  protected List originalList;
+
   protected List list;
+
+  protected ILabelProvider labelProvider;
+
+  protected boolean sorted;
 
   public ExtendedComboBoxCellEditor(Composite composite, List list, ILabelProvider labelProvider)
   {
@@ -138,11 +195,31 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 
   public ExtendedComboBoxCellEditor(Composite composite, List list, ILabelProvider labelProvider, boolean sorted, int style)
   {
-    super(composite, createItems(sorted ? list = new ArrayList(list) : list, labelProvider, sorted), style); 
-
+    super(composite, createItems(sorted ? list = new ArrayList(list) : list, labelProvider, null, sorted), style);
+    this.originalList = list;
     this.list = list;
+    this.labelProvider = labelProvider;
+    this.sorted = sorted;
+    if ((style & SWT.READ_ONLY) != 0)
+    {
+      new FilteringAdapter(getControl());
+    }
   }
-     
+
+  protected void refreshItems(String filter)
+  {
+    CCombo combo = (CCombo)getControl();
+    if (combo != null && (!combo.isDisposed()))
+    {
+      String[] items = createItems(list = new ArrayList(originalList), labelProvider, filter, sorted);
+      combo.setItems(items);
+      if (items.length > 0)
+      {
+        combo.select(0);
+      }
+    }
+  }
+
   public Object doGetValue()
   {
     // Get the index into the list via this call to super.
@@ -159,6 +236,67 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     if (index != -1)
     {
       super.doSetValue(new Integer(list.indexOf(value)));
+    }
+  }
+
+  public class FilteringAdapter implements KeyListener, FocusListener
+  {
+
+    public FilteringAdapter(Control control)
+    {
+      control.addKeyListener(this);
+      control.addFocusListener(this);
+    }
+
+    private StringBuffer filter = new StringBuffer();
+
+    private void refreshItems()
+    {
+      ExtendedComboBoxCellEditor.this.refreshItems(filter.toString());
+    }
+
+    public void keyPressed(KeyEvent e)
+    {
+      e.doit = false;
+
+      if (e.keyCode == SWT.DEL || e.keyCode == SWT.BS)
+      {
+        if (filter.length() > 0)
+        {
+          filter = new StringBuffer(filter.substring(0, filter.length() - 1));
+        }
+      }
+      else if (e.keyCode == SWT.ARROW_UP || e.keyCode == SWT.ARROW_DOWN || e.keyCode == SWT.CR || e.keyCode == SWT.LF)
+      {
+        e.doit = true;
+      }
+      else if (e.keyCode == SWT.ESC)
+      {
+        filter = new StringBuffer();
+      }
+      else if (e.character != '\0')
+      {
+        filter.append(e.character);
+      }
+      if (!e.doit)
+      {
+        refreshItems();
+      }
+    }
+
+    public void keyReleased(KeyEvent e)
+    {
+    }
+
+    public void focusGained(FocusEvent e)
+    {
+      filter = new StringBuffer();
+    }
+
+    public void focusLost(FocusEvent e)
+    {
+      filter = new StringBuffer();
+      refreshItems();
     }
   }
 }
