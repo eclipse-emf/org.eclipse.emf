@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeFactoryImpl.java,v 1.24 2006/12/05 20:22:30 emerks Exp $
+ * $Id: XMLTypeFactoryImpl.java,v 1.25 2006/12/09 18:13:09 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -1574,6 +1574,7 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
     switch (eClass.getClassifierID())
     {
       case XMLTypePackage.ANY_TYPE: return createAnyType();
+      case XMLTypePackage.PROCESSING_INSTRUCTION: return createProcessingInstruction();
       case XMLTypePackage.SIMPLE_ANY_TYPE: return createSimpleAnyType();
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT: return createXMLTypeDocumentRoot();
       default:
@@ -1852,6 +1853,17 @@ public class XMLTypeFactoryImpl extends EFactoryImpl implements XMLTypeFactory
   {
     AnyTypeImpl anyType = new AnyTypeImpl();
     return anyType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ProcessingInstruction createProcessingInstruction()
+  {
+    ProcessingInstructionImpl processingInstruction = new ProcessingInstructionImpl();
+    return processingInstruction;
   }
 
   /**
