@@ -268,7 +268,7 @@ public class ResourceClass
     if (genPackage.getResource() == GenResourceKind.XML_LITERAL) {
     }
     stringBuffer.append(TEXT_16);
-    if (genPackage.isDataTypeConverters() && genPackage.hasDocumentRoot()) { boolean isXMLTypePackage = org.eclipse.emf.ecore.xml.type.XMLTypePackage.eNS_URI.equals(genPackage.getNSURI());
+    if (genPackage.isDataTypeConverters() && (genPackage.hasDocumentRoot() || org.eclipse.emf.ecore.xml.type.XMLTypePackage.eNS_URI.equals(genPackage.getNSURI()))) { boolean isXMLTypePackage = org.eclipse.emf.ecore.xml.type.XMLTypePackage.eNS_URI.equals(genPackage.getNSURI());
     final String _Map = genModel.useGenerics() ? "Map<?, ?>" : "Map";
     final String _MapStringBoolean = genModel.useGenerics() ? "Map<String, Boolean>" : "Map";
     final String _MapStringWildcard = genModel.useGenerics() ? "Map<String, ?>" : "Map";
