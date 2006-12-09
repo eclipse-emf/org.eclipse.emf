@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.30 2006/12/09 11:35:35 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.31 2006/12/09 18:06:01 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -44,6 +44,8 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EStructuralFeatureImpl;
 import org.eclipse.emf.ecore.util.FeatureMap.Entry;
+import org.eclipse.emf.ecore.xml.type.ProcessingInstruction;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
@@ -116,6 +118,32 @@ public final class FeatureMapUtil
     return eStructuralFeature == XMLTypeFeatures.COMMENT;
   }
 
+  public static void addProcessingInstruction(FeatureMap featureMap, String target, String data)
+  {
+    ProcessingInstruction processingInstruction = XMLTypeFactory.eINSTANCE.createProcessingInstruction();
+    processingInstruction.setTarget(target);
+    processingInstruction.setData(data);
+    featureMap.add(XMLTypeFeatures.PROCESSING_INSTRUCTION, processingInstruction);
+  }
+
+  public static void addProcessingInstruction(FeatureMap featureMap, int index, String target, String data)
+  {
+    ProcessingInstruction processingInstruction = XMLTypeFactory.eINSTANCE.createProcessingInstruction();
+    processingInstruction.setTarget(target);
+    processingInstruction.setData(data);
+    featureMap.add(index, XMLTypeFeatures.PROCESSING_INSTRUCTION, processingInstruction);
+  }
+
+  public static boolean isProcessingInstruction(FeatureMap.Entry entry)
+  {
+    return entry.getEStructuralFeature() == XMLTypeFeatures.PROCESSING_INSTRUCTION;
+  }
+
+  public static boolean isProcessingInstruction(EStructuralFeature eStructuralFeature)
+  {
+    return eStructuralFeature == XMLTypeFeatures.PROCESSING_INSTRUCTION;
+  }
+
   public static boolean isFeatureMap(EStructuralFeature eStructuralFeature)
   {
     return ((EStructuralFeatureImpl)eStructuralFeature).isFeatureMap();
@@ -139,6 +167,11 @@ public final class FeatureMapUtil
   public static FeatureMap.Entry createCommentEntry(String value)
   {
     return XMLTypeFeatures.COMMENT_PROTOTYPE.createEntry(value);
+  }
+
+  public static FeatureMap.Entry createProcessingInstructionEntry(String target, String data)
+  {
+    return createRawProcessingInstructionEntry(target, data);
   }
 
   public static FeatureMap.Entry createEntry(EStructuralFeature eStructuralFeature, Object value)
@@ -167,6 +200,14 @@ public final class FeatureMapUtil
   public static FeatureMap.Entry.Internal createRawCommentEntry(String value)
   {
     return XMLTypeFeatures.COMMENT_PROTOTYPE.createEntry(value);
+  }
+
+  public static FeatureMap.Entry.Internal createRawProcessingInstructionEntry(String target, String data)
+  {
+    ProcessingInstruction processingInstruction = XMLTypeFactory.eINSTANCE.createProcessingInstruction();
+    processingInstruction.setTarget(target);
+    processingInstruction.setData(data);
+    return XMLTypeFeatures.PROCESSING_INSTRUCTION_PROTOTYPE.createEntry(processingInstruction);
   }
 
   public static class EntryImpl implements FeatureMap.Entry
@@ -1525,7 +1566,7 @@ public final class FeatureMapUtil
         return 
           isElement ? 
             featureKind == ExtendedMetaData.ELEMENT_FEATURE && 
-              feature != XMLTypeFeatures.TEXT && feature != XMLTypeFeatures.CDATA && feature != XMLTypeFeatures.COMMENT :
+              feature != XMLTypeFeatures.TEXT && feature != XMLTypeFeatures.CDATA && feature != XMLTypeFeatures.COMMENT && feature != XMLTypeFeatures.PROCESSING_INSTRUCTION :
             featureKind == ExtendedMetaData.ATTRIBUTE_FEATURE;
       }
 
@@ -1598,7 +1639,10 @@ public final class FeatureMapUtil
     int upperBound = feature.getUpperBound();
     if (upperBound == ETypedElement.UNSPECIFIED_MULTIPLICITY)
     {
-      if (feature == XMLTypeFeatures.TEXT || feature == XMLTypeFeatures.CDATA || feature == XMLTypeFeatures.COMMENT)
+      if (feature == XMLTypeFeatures.TEXT ||
+            feature == XMLTypeFeatures.CDATA ||
+            feature == XMLTypeFeatures.COMMENT ||
+            feature == XMLTypeFeatures.PROCESSING_INSTRUCTION)
       {
         return true;
       }
@@ -1638,8 +1682,10 @@ final class XMLTypeFeatures
   public static final EStructuralFeature TEXT = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text();
   public static final EStructuralFeature CDATA = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA();
   public static final EStructuralFeature COMMENT = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment();
+  public static final EStructuralFeature PROCESSING_INSTRUCTION = XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_ProcessingInstruction();
   public static final FeatureMap.Entry.Internal TEXT_PROTOTYPE = ((EStructuralFeature.Internal)TEXT).getFeatureMapEntryPrototype();
   public static final FeatureMap.Entry.Internal CDATA_PROTOTYPE = ((EStructuralFeature.Internal)CDATA).getFeatureMapEntryPrototype();
   public static final FeatureMap.Entry.Internal COMMENT_PROTOTYPE = ((EStructuralFeature.Internal)COMMENT).getFeatureMapEntryPrototype();
+  public static final FeatureMap.Entry.Internal PROCESSING_INSTRUCTION_PROTOTYPE = ((EStructuralFeature.Internal)PROCESSING_INSTRUCTION).getFeatureMapEntryPrototype();
 }
 
