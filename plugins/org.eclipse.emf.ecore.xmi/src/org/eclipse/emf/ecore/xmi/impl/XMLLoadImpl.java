@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLLoadImpl.java,v 1.20 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLLoadImpl.java,v 1.21 2006/12/09 18:18:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -34,6 +34,7 @@ import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.ProcessingInstruction;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -560,6 +561,13 @@ public class XMLLoadImpl implements XMLLoad
           char[] chars = ((Comment)node).getData().toCharArray();
           lexicalHandler.comment(chars, 0, chars.length);
         }
+        break;
+      }
+      case Node.PROCESSING_INSTRUCTION_NODE:
+      {
+        ProcessingInstruction pi = (ProcessingInstruction) node;
+        handler.processingInstruction(pi.getTarget(), pi.getData());
+        break;
       }
     }
   }
