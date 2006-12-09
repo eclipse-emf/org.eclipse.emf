@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.39 2006/12/05 20:29:52 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.40 2006/12/09 18:02:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1280,12 +1280,13 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     ExtendedMetaData extendedMetaData = getExtendedMetaData();
     if (genClass.getMixedGenFeature() == this)
     {
-       delegated.add(findGenFeature(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment()));
-       delegated.add(findGenFeature(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text()));
+       delegated.add(findGenFeature(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT));
+       delegated.add(findGenFeature(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT));
+       delegated.add(findGenFeature(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION));
 
        if (!genClass.isDocumentRoot())
        {
-         delegated.add(findGenFeature(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA()));
+         delegated.add(findGenFeature(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA));
        }
 
        for (Iterator iter = genClass.getGenFeatures().iterator(); iter.hasNext(); )
