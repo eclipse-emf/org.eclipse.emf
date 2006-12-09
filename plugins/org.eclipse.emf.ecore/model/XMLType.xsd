@@ -12,9 +12,15 @@
   ecore:nsPrefix="xml.type"
   ecore:package="org.eclipse.emf.ecore.xml.type">
   
-  <xs:element name="text" type="xs.ecore:string"/>
-  <xs:element name="cDATA" type="xs.ecore:string"/>
-  <xs:element name="comment" type="xs.ecore:string"/>
+  <xs:element name="text" type="xs.ecore:string" ecore:suppressedGetVisibility="true"/>
+  <xs:element name="cDATA" type="xs.ecore:string" ecore:suppressedGetVisibility="true"/>
+  <xs:element name="comment" type="xs.ecore:string" ecore:suppressedGetVisibility="true"/>
+  <xs:element name="processingInstruction" ecore:suppressedGetVisibility="true">
+    <xs:complexType ecore:name="ProcessingInstruction">
+      <xs:attribute name="target" type="xs.ecore:string" use="required"/>
+      <xs:attribute name="data" type="xs.ecore:string"/>
+    </xs:complexType>
+  </xs:element>
 
   <xs:complexType name="anyType" mixed="true" id="anyType">
     <xs:sequence>

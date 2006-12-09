@@ -321,6 +321,25 @@
       <details key="minInclusive" value="1"/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProcessingInstruction">
+    <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+      <details key="name" value="processingInstruction_._type"/>
+      <details key="kind" value="empty"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="data" unique="false" eType="#//String">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="data"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="target" unique="false"
+        lowerBound="1" eType="#//String">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="attribute"/>
+        <details key="name" value="target"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="QName" instanceClassName="java.lang.Object">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
       <details key="name" value="QName"/>
@@ -469,6 +488,9 @@
         <details key="name" value="cDATA"/>
         <details key="namespace" value="##targetNamespace"/>
       </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedGetVisibility" value="true"/>
+      </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" unique="false"
         upperBound="-2" eType="#//String" volatile="true" transient="true" derived="true">
@@ -477,6 +499,21 @@
         <details key="name" value="comment"/>
         <details key="namespace" value="##targetNamespace"/>
       </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedGetVisibility" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="processingInstruction"
+        upperBound="-2" eType="#//ProcessingInstruction" volatile="true" transient="true"
+        derived="true" containment="true" resolveProxies="false">
+      <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+        <details key="kind" value="element"/>
+        <details key="name" value="processingInstruction"/>
+        <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedGetVisibility" value="true"/>
+      </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="text" unique="false" upperBound="-2"
         eType="#//String" volatile="true" transient="true" derived="true">
@@ -484,6 +521,9 @@
         <details key="kind" value="element"/>
         <details key="name" value="text"/>
         <details key="namespace" value="##targetNamespace"/>
+      </eAnnotations>
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="suppressedGetVisibility" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>

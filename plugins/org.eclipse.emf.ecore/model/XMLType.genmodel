@@ -75,6 +75,10 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute XMLType.ecore#//AnyType/any"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute XMLType.ecore#//AnyType/anyAttribute"/>
     </genClasses>
+    <genClasses ecoreClass="XMLType.ecore#//ProcessingInstruction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XMLType.ecore#//ProcessingInstruction/data"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XMLType.ecore#//ProcessingInstruction/target"/>
+    </genClasses>
     <genClasses ecoreClass="XMLType.ecore#//SimpleAnyType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XMLType.ecore#//SimpleAnyType/rawValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XMLType.ecore#//SimpleAnyType/value"/>
@@ -86,6 +90,7 @@
       <genFeatures property="None" notify="false" createChild="true" ecoreFeature="ecore:EReference XMLType.ecore#//XMLTypeDocumentRoot/xSISchemaLocation"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute XMLType.ecore#//XMLTypeDocumentRoot/cDATA"/>
       <genFeatures createChild="true" ecoreFeature="ecore:EAttribute XMLType.ecore#//XMLTypeDocumentRoot/comment"/>
+      <genFeatures property="None" createChild="true" ecoreFeature="ecore:EReference XMLType.ecore#//XMLTypeDocumentRoot/processingInstruction"/>
       <genFeatures createChild="true" ecoreFeature="ecore:EAttribute XMLType.ecore#//XMLTypeDocumentRoot/text"/>
     </genClasses>
   </genPackages>
