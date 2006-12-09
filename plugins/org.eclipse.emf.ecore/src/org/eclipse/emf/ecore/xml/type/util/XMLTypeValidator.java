@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeValidator.java,v 1.10 2006/12/05 20:22:30 emerks Exp $
+ * $Id: XMLTypeValidator.java,v 1.11 2006/12/09 18:15:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -110,6 +110,8 @@ public class XMLTypeValidator extends EObjectValidator
     {
       case XMLTypePackage.ANY_TYPE:
         return validateAnyType((AnyType)value, diagnostics, context);
+      case XMLTypePackage.PROCESSING_INSTRUCTION:
+        return validateProcessingInstruction((ProcessingInstruction)value, diagnostics, context);
       case XMLTypePackage.SIMPLE_ANY_TYPE:
         return validateSimpleAnyType((SimpleAnyType)value, diagnostics, context);
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT:
@@ -243,6 +245,16 @@ public class XMLTypeValidator extends EObjectValidator
   public boolean validateAnyType(AnyType anyType, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     return validate_EveryDefaultConstraint(anyType, diagnostics, context);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean validateProcessingInstruction(ProcessingInstruction processingInstruction, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    return validate_EveryDefaultConstraint(processingInstruction, diagnostics, context);
   }
 
   /**
