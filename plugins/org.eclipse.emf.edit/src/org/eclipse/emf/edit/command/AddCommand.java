@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommand.java,v 1.7 2005/06/08 06:17:05 nickb Exp $
+ * $Id: AddCommand.java,v 1.8 2006/12/09 18:21:13 emerks Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -268,9 +268,10 @@ public class AddCommand extends AbstractOverrideableCommand
   protected boolean isUserElement(EStructuralFeature entryFeature)
   {
     return
-      entryFeature != XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text() &&
-      entryFeature != XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA() &&
-      entryFeature != XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment();      
+      entryFeature != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT &&
+      entryFeature != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA &&
+      entryFeature != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT &&
+      entryFeature != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION;
   }
 
   protected boolean prepare()
