@@ -12,12 +12,14 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRootImpl.java,v 1.10 2006/12/05 20:22:30 emerks Exp $
+ * $Id: XMLTypeDocumentRootImpl.java,v 1.11 2006/12/09 18:12:45 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -29,6 +31,7 @@ import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xml.type.ProcessingInstruction;
 import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -45,6 +48,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl#getCDATA <em>CDATA</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl#getComment <em>Comment</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl#getProcessingInstruction <em>Processing Instruction</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.impl.XMLTypeDocumentRootImpl#getText <em>Text</em>}</li>
  * </ul>
  * </p>
@@ -82,36 +86,6 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * @ordered
    */
   protected EMap<String, String> xSISchemaLocation = null;
-
-  /**
-   * The default value of the '{@link #getCDATA() <em>CDATA</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getCDATA()
-   * @generated
-   * @ordered
-   */
-  protected static final String CDATA_EDEFAULT = null;
-
-  /**
-   * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getComment()
-   * @generated
-   * @ordered
-   */
-  protected static final String COMMENT_EDEFAULT = null;
-
-  /**
-   * The default value of the '{@link #getText() <em>Text</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getText()
-   * @generated
-   * @ordered
-   */
-  protected static final String TEXT_EDEFAULT = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -181,9 +155,9 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getText()
+  public EList<String> getText()
   {
-    return (String)getMixed().get(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT, true);
+    return getMixed().list(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT);
   }
 
   /**
@@ -191,9 +165,9 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setText(String newText)
+  public EList<ProcessingInstruction> getProcessingInstruction()
   {
-    ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT, newText);
+    return getMixed().list(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION);
   }
 
   /**
@@ -212,6 +186,8 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
         return ((InternalEList<?>)getXMLNSPrefixMap()).basicRemove(otherEnd, msgs);
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
         return ((InternalEList<?>)getXSISchemaLocation()).basicRemove(otherEnd, msgs);
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION:
+        return ((InternalEList<?>)getProcessingInstruction()).basicRemove(otherEnd, msgs);
     }
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
@@ -239,6 +215,8 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
         return getCDATA();
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
         return getComment();
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION:
+        return getProcessingInstruction();
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
         return getText();
     }
@@ -250,6 +228,7 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
@@ -265,13 +244,20 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
         ((EStructuralFeature.Setting)getXSISchemaLocation()).set(newValue);
         return;
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
-        setCDATA((String)newValue);
+        getCDATA().clear();
+        getCDATA().addAll((Collection<? extends String>)newValue);
         return;
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
-        setComment((String)newValue);
+        getComment().clear();
+        getComment().addAll((Collection<? extends String>)newValue);
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION:
+        getProcessingInstruction().clear();
+        getProcessingInstruction().addAll((Collection<? extends ProcessingInstruction>)newValue);
         return;
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
-        setText((String)newValue);
+        getText().clear();
+        getText().addAll((Collection<? extends String>)newValue);
         return;
     }
     eDynamicSet(featureID, newValue);
@@ -297,13 +283,16 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
         getXSISchemaLocation().clear();
         return;
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
-        setCDATA(CDATA_EDEFAULT);
+        getCDATA().clear();
         return;
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
-        setComment(COMMENT_EDEFAULT);
+        getComment().clear();
+        return;
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION:
+        getProcessingInstruction().clear();
         return;
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
-        setText(TEXT_EDEFAULT);
+        getText().clear();
         return;
     }
     eDynamicUnset(featureID);
@@ -326,11 +315,13 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION:
         return xSISchemaLocation != null && !xSISchemaLocation.isEmpty();
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__CDATA:
-        return CDATA_EDEFAULT == null ? getCDATA() != null : !CDATA_EDEFAULT.equals(getCDATA());
+        return !getCDATA().isEmpty();
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__COMMENT:
-        return COMMENT_EDEFAULT == null ? getComment() != null : !COMMENT_EDEFAULT.equals(getComment());
+        return !getComment().isEmpty();
+      case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION:
+        return !getProcessingInstruction().isEmpty();
       case XMLTypePackage.XML_TYPE_DOCUMENT_ROOT__TEXT:
-        return TEXT_EDEFAULT == null ? getText() != null : !TEXT_EDEFAULT.equals(getText());
+        return !getText().isEmpty();
     }
     return eDynamicIsSet(featureID);
   }
@@ -340,9 +331,9 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getCDATA()
+  public EList<String> getCDATA()
   {
-    return (String)getMixed().get(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA, true);
+    return getMixed().list(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA);
   }
 
   /**
@@ -350,29 +341,9 @@ public class XMLTypeDocumentRootImpl extends EObjectImpl implements XMLTypeDocum
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setCDATA(String newCDATA)
+  public EList<String> getComment()
   {
-    ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA, newCDATA);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String getComment()
-  {
-    return (String)getMixed().get(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT, true);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setComment(String newComment)
-  {
-    ((FeatureMap.Internal)getMixed()).set(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT, newComment);
+    return getMixed().list(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT);
   }
 
   /**
