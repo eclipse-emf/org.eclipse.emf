@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.73 2006/11/14 12:51:57 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.74 2006/12/09 14:59:08 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -765,16 +765,19 @@ public class XSDEcoreBuilder extends MapBuilder
     if (xsdComplexTypeDefinition.getContentTypeCategory() == XSDContentTypeCategory.SIMPLE_LITERAL)
     {
       extendedMetaData.setContentKind(eClass, ExtendedMetaData.SIMPLE_CONTENT);
-      EClassifier eClassifier = getEClassifier(xsdComplexTypeDefinition.getSimpleType());
-      if (eClass.getEAllStructuralFeatures().isEmpty())
+      if (!"SimpleAnyType".equals(eClass.getName()) || !XMLTypePackage.eNS_URI.equals(eClass.getEPackage().getNsURI()))
       {
-        createFeature
-          (eClass,
-           "value",
-           eClassifier,
-           null,
-           0,
-           1);
+        EClassifier eClassifier = getEClassifier(xsdComplexTypeDefinition.getSimpleType());
+        if (eClass.getEAllStructuralFeatures().isEmpty())
+        {
+          createFeature
+            (eClass,
+             "value",
+             eClassifier,
+             null,
+             0,
+             1);
+        }
       }
     }
     else 
