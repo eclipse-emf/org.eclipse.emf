@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackageImpl.java,v 1.17 2006/12/05 20:22:30 emerks Exp $
+ * $Id: XMLTypePackageImpl.java,v 1.18 2006/12/09 18:13:38 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EValidator;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.emf.ecore.xml.type.ProcessingInstruction;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
@@ -52,6 +53,13 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * @generated
    */
   private EClass anyTypeEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass processingInstructionEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -599,6 +607,36 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getProcessingInstruction()
+  {
+    return processingInstructionEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getProcessingInstruction_Data()
+  {
+    return (EAttribute)processingInstructionEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EAttribute getProcessingInstruction_Target()
+  {
+    return (EAttribute)processingInstructionEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EClass getSimpleAnyType()
   {
     return simpleAnyTypeEClass;
@@ -701,7 +739,17 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
    */
   public EAttribute getXMLTypeDocumentRoot_Text()
   {
-    return (EAttribute)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(5);
+    return (EAttribute)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(6);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EReference getXMLTypeDocumentRoot_ProcessingInstruction()
+  {
+    return (EReference)xmlTypeDocumentRootEClass.getEStructuralFeatures().get(5);
   }
 
   /**
@@ -1319,6 +1367,10 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     createEAttribute(anyTypeEClass, ANY_TYPE__ANY);
     createEAttribute(anyTypeEClass, ANY_TYPE__ANY_ATTRIBUTE);
 
+    processingInstructionEClass = createEClass(PROCESSING_INSTRUCTION);
+    createEAttribute(processingInstructionEClass, PROCESSING_INSTRUCTION__DATA);
+    createEAttribute(processingInstructionEClass, PROCESSING_INSTRUCTION__TARGET);
+
     simpleAnyTypeEClass = createEClass(SIMPLE_ANY_TYPE);
     createEAttribute(simpleAnyTypeEClass, SIMPLE_ANY_TYPE__RAW_VALUE);
     createEAttribute(simpleAnyTypeEClass, SIMPLE_ANY_TYPE__VALUE);
@@ -1330,6 +1382,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     createEReference(xmlTypeDocumentRootEClass, XML_TYPE_DOCUMENT_ROOT__XSI_SCHEMA_LOCATION);
     createEAttribute(xmlTypeDocumentRootEClass, XML_TYPE_DOCUMENT_ROOT__CDATA);
     createEAttribute(xmlTypeDocumentRootEClass, XML_TYPE_DOCUMENT_ROOT__COMMENT);
+    createEReference(xmlTypeDocumentRootEClass, XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION);
     createEAttribute(xmlTypeDocumentRootEClass, XML_TYPE_DOCUMENT_ROOT__TEXT);
 
     // Create data types
@@ -1420,6 +1473,10 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     // Obtain other dependent packages
     XMLTypePackage theXMLTypePackage_1 = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 
+    // Create type parameters
+
+    // Set bounds for type parameters
+
     // Add supertypes to classes
     simpleAnyTypeEClass.getESuperTypes().add(this.getAnyType());
 
@@ -1428,6 +1485,10 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     initEAttribute(getAnyType_Mixed(), ecorePackage.getEFeatureMapEntry(), "mixed", null, 0, -1, AnyType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getAnyType_Any(), ecorePackage.getEFeatureMapEntry(), "any", null, 0, -1, AnyType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEAttribute(getAnyType_AnyAttribute(), ecorePackage.getEFeatureMapEntry(), "anyAttribute", null, 0, -1, AnyType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(processingInstructionEClass, ProcessingInstruction.class, "ProcessingInstruction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getProcessingInstruction_Data(), this.getString(), "data", null, 0, 1, ProcessingInstruction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getProcessingInstruction_Target(), this.getString(), "target", null, 1, 1, ProcessingInstruction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(simpleAnyTypeEClass, SimpleAnyType.class, "SimpleAnyType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getSimpleAnyType_RawValue(), theXMLTypePackage_1.getString(), "rawValue", null, 0, 1, SimpleAnyType.class, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
@@ -1440,6 +1501,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
     initEReference(getXMLTypeDocumentRoot_XSISchemaLocation(), ecorePackage.getEStringToStringMapEntry(), null, "xSISchemaLocation", null, 0, -1, null, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getXMLTypeDocumentRoot_CDATA(), this.getString(), "cDATA", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEAttribute(getXMLTypeDocumentRoot_Comment(), this.getString(), "comment", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEReference(getXMLTypeDocumentRoot_ProcessingInstruction(), this.getProcessingInstruction(), null, "processingInstruction", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEAttribute(getXMLTypeDocumentRoot_Text(), this.getString(), "text", null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 
     // Initialize data types
@@ -1932,6 +1994,30 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "minInclusive", "1"
        });		
     addAnnotation
+      (processingInstructionEClass, 
+       source, 
+       new String[] 
+       {
+       "name", "processingInstruction_._type",
+       "kind", "empty"
+       });		
+    addAnnotation
+      (getProcessingInstruction_Data(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "data"
+       });		
+    addAnnotation
+      (getProcessingInstruction_Target(), 
+       source, 
+       new String[] 
+       {
+       "kind", "attribute",
+       "name", "target"
+       });		
+    addAnnotation
       (qNameEDataType, 
        source, 
        new String[] 
@@ -2114,7 +2200,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "kind", "element",
        "name", "cDATA",
        "namespace", "##targetNamespace"
-       });		
+       });			
     addAnnotation
       (getXMLTypeDocumentRoot_Comment(), 
        source, 
@@ -2123,7 +2209,16 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "kind", "element",
        "name", "comment",
        "namespace", "##targetNamespace"
-       });		
+       });			
+    addAnnotation
+      (getXMLTypeDocumentRoot_ProcessingInstruction(), 
+       source, 
+       new String[] 
+       {
+       "kind", "element",
+       "name", "processingInstruction",
+       "namespace", "##targetNamespace"
+       });			
     addAnnotation
       (getXMLTypeDocumentRoot_Text(), 
        source, 
@@ -2132,7 +2227,7 @@ public class XMLTypePackageImpl extends EPackageImpl implements XMLTypePackage
        "kind", "element",
        "name", "text",
        "namespace", "##targetNamespace"
-       });
+       });	
   }
 
   /**
