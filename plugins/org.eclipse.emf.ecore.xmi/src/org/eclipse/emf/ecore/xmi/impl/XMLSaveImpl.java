@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.65 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.66 2006/12/09 18:20:08 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -56,6 +57,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLSave;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.emf.ecore.xml.type.ProcessingInstruction;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.XMLChar;
@@ -2278,7 +2280,26 @@ public class XMLSaveImpl implements XMLSave
       FeatureMap.Entry entry = values.get(i);
       EStructuralFeature entryFeature = entry.getEStructuralFeature();
       Object value = entry.getValue();
-      if (entryFeature instanceof EReference)
+      if (entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION)
+      {
+        ProcessingInstruction pi = (ProcessingInstruction)value;
+        String target = pi.getTarget();
+        String data = pi.getData();
+        if (escape != null && data != null)
+        {
+          data = escape.convertLines(data);
+        }
+        if (!toDOM)
+        {
+          doc.addProcessingInstruction(target, data);
+        }
+        else
+        {
+          // TODO processing instructions are not sent to recordValues
+          currentNode.appendChild(document.createProcessingInstruction(target, data));
+        }
+      }
+      else if (entryFeature instanceof EReference)
       {
         if (value == null)
         {
@@ -2303,7 +2324,7 @@ public class XMLSaveImpl implements XMLSave
       }
       else
       {
-        if (entryFeature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text())
+        if (entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT)
         {
           String svalue = value.toString();
           if (escape != null)
@@ -2321,7 +2342,7 @@ public class XMLSaveImpl implements XMLSave
             handler.recordValues(text, o, f, entry);
           }
         }
-        else if (entryFeature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA())
+        else if (entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA)
         {
           String stringValue = value.toString();
           if (escape != null)
@@ -2339,7 +2360,7 @@ public class XMLSaveImpl implements XMLSave
             handler.recordValues(cdata, o, f, entry);            
           }
         }
-        else if (entryFeature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment())
+        else if (entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT)
         {
           String stringValue = value.toString();
           if (escape != null)
@@ -2724,6 +2745,12 @@ public class XMLSaveImpl implements XMLSave
                       OBJECT_ATTRIBUTE_IDREF_SINGLE;
             }
             case ExtendedMetaData.SIMPLE_FEATURE:
+            {
+              if (f == XMLTypePackage.Literals.SIMPLE_ANY_TYPE__INSTANCE_TYPE)
+              {
+                return TRANSIENT;
+              }
+            }
             case ExtendedMetaData.ELEMENT_FEATURE:
             {
               return
@@ -2751,7 +2778,7 @@ public class XMLSaveImpl implements XMLSave
       {
         // Attribute
         EDataType d = (EDataType) f.getEType();
-        if (!d.isSerializable())
+        if (!d.isSerializable() && d != EcorePackage.Literals.EFEATURE_MAP_ENTRY)
         {
           return TRANSIENT;
         }
