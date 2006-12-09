@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.10 2006/12/08 19:58:30 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.11 2006/12/09 18:03:56 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -32,8 +32,10 @@ import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -207,7 +209,13 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
 
   public boolean isListType()
   {
-    return getEcoreTypedElement().isMany() || isFeatureMapType();
+    ETypedElement eTypedElement = getEcoreTypedElement();
+    return 
+      eTypedElement.isMany() || 
+        isFeatureMapType() ||
+        eTypedElement.getUpperBound() == ETypedElement.UNSPECIFIED_MULTIPLICITY &&
+          eTypedElement instanceof EStructuralFeature && 
+          XMLTypePackage.eNS_URI.equals(getExtendedMetaData().getNamespace((EStructuralFeature)eTypedElement));
   }
   
   public String getListTemplateArguments()
