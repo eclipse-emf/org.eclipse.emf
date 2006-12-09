@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.5 2005/06/08 06:17:05 nickb Exp $
+ * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.6 2006/12/09 18:21:41 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.xml.type.ProcessingInstruction;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.edit.EMFEditPlugin;
 import org.eclipse.emf.edit.command.CommandParameter;
@@ -136,19 +137,25 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
   public String getText(Object object)
   {
     String text = null;
-    XMLTypePackage xmlPackage = XMLTypePackage.eINSTANCE;
-
-    if (getEntryFeature() == xmlPackage.getXMLTypeDocumentRoot_Text())
+    if (getEntryFeature() == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT)
     {
       text = encode(getEntryValue().toString());
     }
-    else if (getEntryFeature() == xmlPackage.getXMLTypeDocumentRoot_CDATA())
+    else if (getEntryFeature() == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA)
     {
       text = "<![CDATA[" + encode(getEntryValue().toString()) + "]]>";
     }
-    else if (getEntryFeature() == xmlPackage.getXMLTypeDocumentRoot_Comment())
+    else if (getEntryFeature() == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT)
     {
       text = "<!--" + encode(getEntryValue().toString()) + "-->";
+    }
+    else if (getEntryFeature() == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION)
+    {
+      ProcessingInstruction pi = (ProcessingInstruction)getEntryValue();
+      text = 
+        "<?" + 
+          (pi.getTarget() == null ? "" : encode(pi.getTarget())) + 
+          (pi.getData() != null && pi.getData().length() > 0 ? " " + encode(pi.getData()) + "?>" : "?>");
     }
     else if (ExtendedMetaData.INSTANCE.getFeatureKind(feature) == ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE && isEntryAttribute())
     {
@@ -186,11 +193,12 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
   public Object getImage(Object object)
   {
     Object image = null;
-    XMLTypePackage xmlPackage = XMLTypePackage.eINSTANCE;
-
-    if (getEntryFeature() == xmlPackage.getXMLTypeDocumentRoot_Text() ||
-        getEntryFeature() == xmlPackage.getXMLTypeDocumentRoot_CDATA() ||
-        getEntryFeature() == xmlPackage.getXMLTypeDocumentRoot_Comment())
+    
+    EStructuralFeature entryFeature = getEntryFeature();
+    if (entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT ||
+          entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA ||
+          entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT ||
+          entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION)
     {
       image = EMFEditPlugin.INSTANCE.getImage("full/obj16/TextValue");
     }
@@ -380,9 +388,10 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
             protected boolean needsEncoding(Object feature)
             {
               return
-                feature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text() ||
-                feature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA() ||
-                feature == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment();
+                feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT ||
+                  feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA ||
+                  feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT ||
+                  feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION;
             }
           });
       }

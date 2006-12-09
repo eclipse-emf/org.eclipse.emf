@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.16 2006/04/10 19:08:42 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.17 2006/12/09 18:21:41 emerks Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -438,12 +438,13 @@ public class ReflectiveItemProvider
 
     if (ExtendedMetaData.INSTANCE.getMixedFeature(eClass) == feature)
     {
-       delegated.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Comment());
-       delegated.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text());
+       delegated.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT);
+       delegated.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT);
+       delegated.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION);
 
        if (ExtendedMetaData.INSTANCE.getDocumentRoot(eClass.getEPackage()) != eClass)
        {
-         delegated.add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_CDATA());
+         delegated.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA);
        }
 
        for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
