@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.9 2006/12/09 11:47:00 emerks Exp $
+ * $Id: XMLString.java,v 1.10 2006/12/09 18:20:32 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -585,6 +585,49 @@ public class XMLString extends StringSegment
 
     super.add(newString);
     add("-->");
+    if (firstElementMark == null)
+    {
+      addLine();
+    }
+  }
+  
+  public void addProcessingInstruction(String target, String data)
+  {
+    if (lastElementIsStart)
+    {
+      closeStartElement();
+    }
+
+    if (firstElementMark != null && (elementNames.isEmpty() || (elementNames.size() == 1 && elementNames.get(0) == null)))
+    {
+      addLine();
+    }
+    add("<?");
+    add(target == null ? "_" : target);
+
+    if (data != null)
+    {
+      add(" ");
+      if (lineWidth != Integer.MAX_VALUE)
+      {
+        currentLineWidth += data.length();
+        LOOP: 
+        for (int i = data.length() - 1; i >= 0; --i)
+        {
+          switch (data.charAt(i))
+          {
+            case '\n':
+            case '\r':
+            {
+              currentLineWidth = data.length() - i;
+              break LOOP;
+            }
+          }
+        }
+      }
+      super.add(data);
+    }
+    add("?>");
     if (firstElementMark == null)
     {
       addLine();
