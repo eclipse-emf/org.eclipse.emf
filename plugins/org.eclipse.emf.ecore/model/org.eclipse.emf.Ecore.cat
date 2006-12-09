@@ -992,7 +992,8 @@
 		(object ClassAttribute "org.eclipse.emf.ecore.util.FeatureMap$Entry"
 		    quid       	"3F44E7C600CA"
 		    stereotype 	"javaclass"
-		    exportControl 	"Public")))
+		    exportControl 	"Public"))
+	    abstract   	TRUE)
 	(object Class "EFloat"
 	    attributes 	(list Attribute_Set
 		(object Attribute
@@ -2964,14 +2965,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"39A473E901D4"
-		    compartment 	(object Compartment
-			Parent_View 	@38
-			location   	(2107, 2278)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	1065)
 		    width      	1075
 		    height     	300
 		    annotation 	8)
@@ -2993,14 +2986,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3ACCDCE601C2"
-		    compartment 	(object Compartment
-			Parent_View 	@39
-			location   	(2550, 1752)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	487)
 		    width      	498
 		    height     	236
 		    annotation 	8)
@@ -3089,14 +3074,6 @@
 		    line_color 	8421504
 		    fill_color 	13424329
 		    quidu      	"3B65CCC600FE"
-		    compartment 	(object Compartment
-			Parent_View 	@46
-			location   	(790, 444)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	303)
 		    width      	360
 		    height     	186
 		    annotation 	8)
@@ -3128,14 +3105,6 @@
 		    line_color 	8421504
 		    fill_color 	13424329
 		    quidu      	"3903D4E40050"
-		    compartment 	(object Compartment
-			Parent_View 	@48
-			location   	(676, 103)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	887)
 		    width      	898
 		    height     	186
 		    annotation 	8)
@@ -3163,14 +3132,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3D98A1C701AB"
-		    compartment 	(object Compartment
-			Parent_View 	@50
-			location   	(38, 419)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	3
-			max_width  	675)
 		    width      	686
 		    height     	236
 		    annotation 	8)
@@ -3289,14 +3250,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3A773E540057"
-		    compartment 	(object Compartment
-			Parent_View 	@60
-			location   	(1216, 425)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	1481)
 		    width      	1492
 		    height     	286
 		    annotation 	8)
@@ -3330,14 +3283,6 @@
 		    line_color 	8421504
 		    fill_color 	13424329
 		    quidu      	"3903D4F60398"
-		    compartment 	(object Compartment
-			Parent_View 	@62
-			location   	(67, 815)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	7
-			max_width  	490)
 		    width      	504
 		    height     	436
 		    annotation 	8)
@@ -3377,14 +3322,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3905C3F7000A"
-		    compartment 	(object Compartment
-			Parent_View 	@65
-			location   	(1954, 828)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	809)
 		    width      	822
 		    height     	286
 		    annotation 	8)
@@ -3572,14 +3509,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3903D525033E"
-		    compartment 	(object Compartment
-			Parent_View 	@80
-			location   	(2297, 1467)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	559)
 		    width      	570
 		    height     	186
 		    annotation 	8)
@@ -3640,7 +3569,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	6
-			max_width  	818
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ isInstance(object : EJavaObject) : boolean"
 			    "+ getClassifierID() : int"
@@ -3835,14 +3764,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"39238479039D"
-		    compartment 	(object Compartment
-			Parent_View 	@99
-			location   	(872, 2099)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	4
-			max_width  	618)
 		    width      	630
 		    height     	286
 		    annotation 	8)
@@ -3938,14 +3859,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"39238472039D"
-		    compartment 	(object Compartment
-			Parent_View 	@106
-			location   	(882, 2508)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	2
-			max_width  	275)
 		    width      	424
 		    height     	212
 		    annotation 	8)
@@ -4206,14 +4119,6 @@
 		    line_color 	3342489
 		    fill_color 	13434879
 		    quidu      	"3903D5BF000A"
-		    compartment 	(object Compartment
-			Parent_View 	@126
-			location   	(990, 1371)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	8
-			max_width  	1231)
 		    width      	1238
 		    height     	475
 		    annotation 	8)
@@ -4993,14 +4898,6 @@
 		    line_color 	8421504
 		    fill_color 	13424329
 		    quidu      	"3903D59D0230"
-		    compartment 	(object Compartment
-			Parent_View 	@191
-			location   	(37, 2000)
-			icon_style 	"Icon"
-			fill_color 	16777215
-			anchor     	2
-			nlines     	10
-			max_width  	734)
 		    width      	744
 		    height     	593
 		    annotation 	8)
@@ -5413,6 +5310,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"39EB7E000186"
+		    compartment 	(object Compartment
+			Parent_View 	@221
+			location   	(94, 744)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	612)
 		    width      	622
 		    height     	192
 		    annotation 	8
@@ -5444,6 +5349,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"39EB7E0702AF"
+		    compartment 	(object Compartment
+			Parent_View 	@222
+			location   	(1599, 1303)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	628)
 		    width      	638
 		    height     	192
 		    annotation 	8
@@ -5475,6 +5388,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"39EB7E1202AF"
+		    compartment 	(object Compartment
+			Parent_View 	@223
+			location   	(93, 1049)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	653)
 		    width      	664
 		    height     	192
 		    annotation 	8
@@ -5506,6 +5427,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"39EB7E2600BB"
+		    compartment 	(object Compartment
+			Parent_View 	@224
+			location   	(852, 1297)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	596)
 		    width      	608
 		    height     	192
 		    annotation 	8
@@ -5537,6 +5466,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"39EB7E480148"
+		    compartment 	(object Compartment
+			Parent_View 	@225
+			location   	(1540, 1049)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	681)
 		    width      	692
 		    height     	192
 		    annotation 	8
@@ -5568,6 +5505,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3A68EBAB02DA"
+		    compartment 	(object Compartment
+			Parent_View 	@226
+			location   	(97, 1545)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	593)
 		    width      	604
 		    height     	192
 		    annotation 	8
@@ -5599,6 +5544,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3A68EBB8012A"
+		    compartment 	(object Compartment
+			Parent_View 	@227
+			location   	(94, 1297)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	631)
 		    width      	642
 		    height     	192
 		    annotation 	8
@@ -5630,6 +5583,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3D0672FE0070"
+		    compartment 	(object Compartment
+			Parent_View 	@228
+			location   	(856, 1049)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	590)
 		    width      	600
 		    height     	192
 		    annotation 	8
@@ -5661,6 +5622,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3A971C630333"
+		    compartment 	(object Compartment
+			Parent_View 	@229
+			location   	(849, 1545)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	603)
 		    width      	614
 		    height     	192
 		    annotation 	8
@@ -5691,6 +5660,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3D0672EC0024"
+		    compartment 	(object Compartment
+			Parent_View 	@230
+			location   	(100, 181)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	478)
 		    width      	490
 		    height     	192
 		    annotation 	8
@@ -5722,6 +5699,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3D06731003B5"
+		    compartment 	(object Compartment
+			Parent_View 	@231
+			location   	(1222, 181)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	415)
 		    width      	426
 		    height     	192
 		    annotation 	8
@@ -5753,6 +5738,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3D06745301D9"
+		    compartment 	(object Compartment
+			Parent_View 	@232
+			location   	(695, 181)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	415)
 		    width      	426
 		    height     	192
 		    annotation 	8
@@ -5784,6 +5777,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3D06745D0364"
+		    compartment 	(object Compartment
+			Parent_View 	@233
+			location   	(1759, 181)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	456)
 		    width      	468
 		    height     	192
 		    annotation 	8
@@ -5815,6 +5816,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3D067469025C"
+		    compartment 	(object Compartment
+			Parent_View 	@234
+			location   	(100, 429)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	412)
 		    width      	422
 		    height     	192
 		    annotation 	8
@@ -5846,6 +5855,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3D0674720115"
+		    compartment 	(object Compartment
+			Parent_View 	@235
+			location   	(699, 429)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	381)
 		    width      	392
 		    height     	192
 		    annotation 	8
@@ -5877,6 +5894,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3D06747C0390"
+		    compartment 	(object Compartment
+			Parent_View 	@236
+			location   	(1223, 429)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	412)
 		    width      	424
 		    height     	192
 		    annotation 	8
@@ -5908,6 +5933,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3D06748601FA"
+		    compartment 	(object Compartment
+			Parent_View 	@237
+			location   	(1789, 429)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	428)
 		    width      	438
 		    height     	192
 		    annotation 	8
@@ -5939,6 +5972,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3B1531690285"
+		    compartment 	(object Compartment
+			Parent_View 	@238
+			location   	(1603, 737)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	609)
 		    width      	620
 		    height     	242
 		    annotation 	8
@@ -5970,6 +6011,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3ACDF8200182"
+		    compartment 	(object Compartment
+			Parent_View 	@239
+			location   	(839, 742)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	625)
 		    width      	644
 		    height     	200
 		    annotation 	8
@@ -6002,6 +6051,14 @@
 		    line_color 	3342489
 		    fill_color 	16777088
 		    quidu      	"3FC62489001C"
+		    compartment 	(object Compartment
+			Parent_View 	@240
+			location   	(93, 1813)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	440)
 		    width      	452
 		    height     	192
 		    annotation 	8
@@ -6044,6 +6101,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3AD37E40003D"
+		    compartment 	(object Compartment
+			Parent_View 	@241
+			location   	(1416, 1937)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	953)
 		    width      	962
 		    height     	242
 		    annotation 	8
@@ -6096,6 +6161,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3C4F231001FC"
+		    compartment 	(object Compartment
+			Parent_View 	@243
+			location   	(84, 1359)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	1078)
 		    width      	1090
 		    height     	192
 		    annotation 	8
@@ -6129,6 +6202,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3D08E8A002C4"
+		    compartment 	(object Compartment
+			Parent_View 	@244
+			location   	(81, 2209)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	1062)
 		    width      	1072
 		    height     	242
 		    annotation 	8
@@ -6162,6 +6243,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3D2DB651020A"
+		    compartment 	(object Compartment
+			Parent_View 	@245
+			location   	(85, 1948)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	1068)
 		    width      	1080
 		    height     	192
 		    annotation 	8
@@ -6170,30 +6259,40 @@
 		    ShowCompartmentStereotypes 	TRUE
 		    IncludeAttribute 	TRUE
 		    IncludeOperation 	TRUE
-		    location   	(647, 1622)
+		    location   	(656, 1632)
+		    font       	(object Font
+			italics    	TRUE)
 		    label      	(object ItemLabel
 			Parent_View 	@246
-			location   	(82, 1563)
+			location   	(87, 1566)
 			fill_color 	13434879
 			nlines     	1
-			max_width  	1130
+			max_width  	1138
 			justify    	0
 			label      	"EFeatureMapEntry")
 		    stereotype 	(object ItemLabel
 			Parent_View 	@246
-			location   	(82, 1513)
+			location   	(87, 1516)
 			fill_color 	13434879
 			anchor     	10
 			nlines     	1
-			max_width  	1130
+			max_width  	1138
 			justify    	0
 			label      	"<<datatype>>")
 		    icon_style 	"Icon"
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3F44E79E02B2"
-		    width      	1148
-		    height     	242
+		    compartment 	(object Compartment
+			Parent_View 	@246
+			location   	(87, 1626)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	1128)
+		    width      	1156
+		    height     	256
 		    annotation 	8
 		    autoResize 	TRUE)
 		(object ClassView "Class" "Logical View::ecore::EBigInteger" @247
@@ -6224,6 +6323,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3FC625080137"
+		    compartment 	(object Compartment
+			Parent_View 	@247
+			location   	(833, 1080)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	703)
 		    width      	714
 		    height     	192
 		    annotation 	8
@@ -6256,6 +6363,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3FC6252D01C7"
+		    compartment 	(object Compartment
+			Parent_View 	@248
+			location   	(1665, 1080)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	728)
 		    width      	740
 		    height     	192
 		    annotation 	8
@@ -6290,6 +6405,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3FC6255C012E"
+		    compartment 	(object Compartment
+			Parent_View 	@249
+			location   	(1254, 1359)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	1140)
 		    width      	1152
 		    height     	192
 		    annotation 	8
@@ -6324,6 +6447,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3FC6258F00C3"
+		    compartment 	(object Compartment
+			Parent_View 	@250
+			location   	(1378, 1639)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	1018)
 		    width      	1030
 		    height     	192
 		    annotation 	8
@@ -6356,6 +6487,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"3FC625DC038B"
+		    compartment 	(object Compartment
+			Parent_View 	@251
+			location   	(86, 1080)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	1
+			max_width  	568)
 		    width      	580
 		    height     	192
 		    annotation 	8
@@ -6388,6 +6527,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"40916FF702ED"
+		    compartment 	(object Compartment
+			Parent_View 	@252
+			location   	(76, 2514)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	1153)
 		    width      	1168
 		    height     	238
 		    annotation 	8
@@ -6420,6 +6567,14 @@
 		    line_color 	3342489
 		    fill_color 	8963327
 		    quidu      	"4091704001A5"
+		    compartment 	(object Compartment
+			Parent_View 	@253
+			location   	(1334, 2512)
+			icon_style 	"Icon"
+			fill_color 	16777215
+			anchor     	2
+			nlines     	2
+			max_width  	562)
 		    width      	574
 		    height     	242
 		    annotation 	8
@@ -6644,7 +6799,7 @@
 			fill_color 	16777215
 			anchor     	2
 			nlines     	2
-			max_width  	550
+			max_width  	0
 			compartmentItems 	(list Compartment
 			    "+ instanceTypeName : String"))
 		    width      	612
@@ -6684,7 +6839,7 @@
 			    location   	(-886, -760)
 			    label      	(object SegLabel @273
 				Parent_View 	@272
-				location   	(816, 269)
+				location   	(817, 269)
 				anchor     	1
 				anchor_loc 	1
 				nlines     	1
