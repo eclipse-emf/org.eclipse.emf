@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.62 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLHandler.java,v 1.63 2006/12/09 18:18:18 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -52,6 +52,7 @@ import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xmi.ClassNotFoundException;
 import org.eclipse.emf.ecore.xmi.EcoreBuilder;
@@ -1306,7 +1307,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
         if (target != null)
         {
           FeatureMap otherFeatureMap = (FeatureMap)object.eGet(target);
-          for (FeatureMap.Entry entry : featureMap)
+          for (FeatureMap.Entry entry : new ArrayList<FeatureMap.Entry>(featureMap))
           {
             // Ignore a whitespace only text entry at the beginning.
             //
@@ -1437,9 +1438,16 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   @Override
   public void processingInstruction(String target, String data)
   {
-    // do nothing
-  }
+    if (mixedTargets.peek() != null)
+    {
+      if (text != null)
+      {
+        handleMixedText();
+      }
 
+      handleProcessingInstruction(target, data);
+    }
+  }
 
   protected void handleXMLNSAttribute(String attrib, String value)
   {
@@ -2877,7 +2885,14 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     featureMap.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA, text.toString());
     text = null;
   }
-  
+
+  protected void handleProcessingInstruction(String target, String data)
+  {
+    FeatureMap featureMap = mixedTargets.peek();
+    FeatureMapUtil.addProcessingInstruction(featureMap, target, data);
+    text = null;
+  }
+
   protected EcoreBuilder createEcoreBuilder(Map<?, ?> options, ExtendedMetaData extendedMetaData)
   {
     return new DefaultEcoreBuilder(extendedMetaData);
