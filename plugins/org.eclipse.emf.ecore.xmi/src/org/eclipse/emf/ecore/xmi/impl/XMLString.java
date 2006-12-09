@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.8 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLString.java,v 1.9 2006/12/09 11:47:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -561,7 +561,7 @@ public class XMLString extends StringSegment
       closeStartElement();
     }
 
-    if (firstElementMark != null && elementNames.isEmpty())
+    if (firstElementMark != null && (elementNames.isEmpty() || elementNames.size() == 1 && elementNames.get(0) == null))
     {
       addLine();
     }
