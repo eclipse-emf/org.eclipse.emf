@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SimpleAnyTypeImpl.java,v 1.7 2006/12/05 20:22:30 emerks Exp $
+ * $Id: SimpleAnyTypeImpl.java,v 1.8 2006/12/09 18:12:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.impl;
 
@@ -103,7 +103,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
     StringBuffer value = new StringBuffer();
     for (FeatureMap.Entry entry : getMixed())
     {
-      if (entry.getEStructuralFeature() == XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text())
+      if (entry.getEStructuralFeature() == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT)
       {
         value.append(entry.getValue());
       }
@@ -121,7 +121,7 @@ public class SimpleAnyTypeImpl extends AnyTypeImpl implements SimpleAnyType
     getMixed().clear();
     if (newRawValue != null)
     {
-      getMixed().add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot_Text(), newRawValue);
+      getMixed().add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT, newRawValue);
     }
   }
 
