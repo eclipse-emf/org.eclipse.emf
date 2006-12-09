@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeDocumentRoot.java,v 1.4 2006/12/05 20:22:27 emerks Exp $
+ * $Id: XMLTypeDocumentRoot.java,v 1.5 2006/12/09 18:09:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -33,14 +33,20 @@ import org.eclipse.emf.ecore.util.FeatureMap;
  *   <li>{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getMixed <em>Mixed</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getXMLNSPrefixMap <em>XMLNS Prefix Map</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getXSISchemaLocation <em>XSI Schema Location</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getCDATA <em>CDATA</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getComment <em>Comment</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getText <em>Text</em>}</li>
  * </ul>
  * </p>
  *
  * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot()
- * @model extendedMetaData="name='' kind='mixed'"
+ * @model features="cDATA comment processingInstruction text" 
+ *        cDATAType="java.lang.String" cDATAUnique="false" cDATADataType="org.eclipse.emf.ecore.xml.type.String" cDATAUpper="-2" cDATATransient="true" cDATAVolatile="true" cDATADerived="true" cDATASuppressedGetVisibility="true"
+ *        cDATAExtendedMetaData="kind='element' name='cDATA' namespace='##targetNamespace'"
+ *        commentType="java.lang.String" commentUnique="false" commentDataType="org.eclipse.emf.ecore.xml.type.String" commentUpper="-2" commentTransient="true" commentVolatile="true" commentDerived="true" commentSuppressedGetVisibility="true"
+ *        commentExtendedMetaData="kind='element' name='comment' namespace='##targetNamespace'"
+ *        processingInstructionType="org.eclipse.emf.ecore.xml.type.ProcessingInstruction" processingInstructionContainment="true" processingInstructionUpper="-2" processingInstructionTransient="true" processingInstructionVolatile="true" processingInstructionDerived="true" processingInstructionSuppressedGetVisibility="true"
+ *        processingInstructionExtendedMetaData="kind='element' name='processingInstruction' namespace='##targetNamespace'"
+ *        textType="java.lang.String" textUnique="false" textDataType="org.eclipse.emf.ecore.xml.type.String" textUpper="-2" textTransient="true" textVolatile="true" textDerived="true" textSuppressedGetVisibility="true"
+ *        textExtendedMetaData="kind='element' name='text' namespace='##targetNamespace'"
+ *        extendedMetaData="name='' kind='mixed'"
  * @generated
  */
 public interface XMLTypeDocumentRoot extends EObject
@@ -85,74 +91,5 @@ public interface XMLTypeDocumentRoot extends EObject
    * @generated
    */
   EMap<String, String> getXSISchemaLocation();
-
-  /**
-   * Returns the value of the '<em><b>Text</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Text</em>' attribute.
-   * @see #setText(String)
-   * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_Text()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" upper="-2" transient="true" volatile="true" derived="true"
-   *        extendedMetaData="kind='element' name='text' namespace='##targetNamespace'"
-   * @generated
-   */
-  String getText();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getText <em>Text</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Text</em>' attribute.
-   * @see #getText()
-   * @generated
-   */
-  void setText(String value);
-
-  /**
-   * Returns the value of the '<em><b>CDATA</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>CDATA</em>' attribute.
-   * @see #setCDATA(String)
-   * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_CDATA()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" upper="-2" transient="true" volatile="true" derived="true"
-   *        extendedMetaData="kind='element' name='cDATA' namespace='##targetNamespace'"
-   * @generated
-   */
-  String getCDATA();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getCDATA <em>CDATA</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>CDATA</em>' attribute.
-   * @see #getCDATA()
-   * @generated
-   */
-  void setCDATA(String value);
-
-  /**
-   * Returns the value of the '<em><b>Comment</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Comment</em>' attribute.
-   * @see #setComment(String)
-   * @see org.eclipse.emf.ecore.xml.type.XMLTypePackage#getXMLTypeDocumentRoot_Comment()
-   * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" upper="-2" transient="true" volatile="true" derived="true"
-   *        extendedMetaData="kind='element' name='comment' namespace='##targetNamespace'"
-   * @generated
-   */
-  String getComment();
-
-  /**
-   * Sets the value of the '{@link org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot#getComment <em>Comment</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Comment</em>' attribute.
-   * @see #getComment()
-   * @generated
-   */
-  void setComment(String value);
 
 } // DocumentRoot
