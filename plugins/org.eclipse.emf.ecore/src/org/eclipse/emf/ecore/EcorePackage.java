@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.10 2006/12/05 20:22:25 emerks Exp $
+ * $Id: EcorePackage.java,v 1.11 2006/12/09 18:04:49 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -3873,7 +3873,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @return the meta object for data type '<em>EFeature Map Entry</em>'.
    * @see org.eclipse.emf.ecore.util.FeatureMap.Entry
-   * @model instanceClass="org.eclipse.emf.ecore.util.FeatureMap$Entry"
+   * @model instanceClass="org.eclipse.emf.ecore.util.FeatureMap$Entry" serializable="false"
    * @generated
    */
   EDataType getEFeatureMapEntry();
