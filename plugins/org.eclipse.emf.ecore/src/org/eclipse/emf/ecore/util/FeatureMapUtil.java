@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.29 2006/12/05 20:22:26 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.30 2006/12/09 11:35:35 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -1598,28 +1598,31 @@ public final class FeatureMapUtil
     int upperBound = feature.getUpperBound();
     if (upperBound == ETypedElement.UNSPECIFIED_MULTIPLICITY)
     {
-      EClass eclass = owner.eClass();
-      if (eclass.getFeatureID(feature) >= 0)
-      {
-        return false;
-      }
-      else if (feature.getEContainingClass().getEPackage() == XMLTypePackage.eINSTANCE)
+      if (feature == XMLTypeFeatures.TEXT || feature == XMLTypeFeatures.CDATA || feature == XMLTypeFeatures.COMMENT)
       {
         return true;
       }
       else
       {
-        EStructuralFeature affiliation = ExtendedMetaData.INSTANCE.getAffiliation(eclass, feature);
-        if (affiliation == null)
+        EClass eClass = owner.eClass();
+        if (eClass.getFeatureID(feature) >= 0)
         {
-          return true;
+          return false;
         }
         else
         {
-          int affiliationUpperBound = affiliation.getUpperBound();
-          return 
-            (affiliationUpperBound > 1 || affiliationUpperBound == ETypedElement.UNBOUNDED_MULTIPLICITY) && 
-              ExtendedMetaData.INSTANCE.getFeatureKind(affiliation) != ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE;
+          EStructuralFeature affiliation = ExtendedMetaData.INSTANCE.getAffiliation(eClass, feature);
+          if (affiliation == null)
+          {
+            return true;
+          }
+          else
+          {
+            int affiliationUpperBound = affiliation.getUpperBound();
+            return 
+              (affiliationUpperBound > 1 || affiliationUpperBound == ETypedElement.UNBOUNDED_MULTIPLICITY) && 
+                ExtendedMetaData.INSTANCE.getFeatureKind(affiliation) != ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE;
+          }
         }
       }
     }
