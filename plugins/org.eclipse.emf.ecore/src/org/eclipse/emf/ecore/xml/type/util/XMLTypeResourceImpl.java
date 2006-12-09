@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypeResourceImpl.java,v 1.3 2006/12/05 20:22:30 emerks Exp $
+ * $Id: XMLTypeResourceImpl.java,v 1.4 2006/12/09 18:14:40 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type.util;
 
@@ -26,6 +26,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 
 import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.emf.ecore.xml.type.ProcessingInstruction;
 import org.eclipse.emf.ecore.xml.type.SimpleAnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
@@ -63,7 +64,8 @@ public class XMLTypeResourceImpl extends ResourceImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  public final static class FrameFactory {
+  public final static class FrameFactory
+  {
     /**
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -77,6 +79,13 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * @generated
      */
     protected AnyTypeStackFrame anyType;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected ProcessingInstructionStackFrame processingInstruction;
 
     /**
      * <!-- begin-user-doc -->
@@ -602,6 +611,128 @@ public class XMLTypeResourceImpl extends ResourceImpl
      * <!-- end-user-doc -->
      * @generated
      */
+    public ProcessingInstructionStackFrame pushProcessingInstruction(XMLTypeResourceImpl.StackFrame previous, Attributes attributes)
+    {
+       ProcessingInstructionStackFrame resultProcessingInstruction = processingInstruction == null ? new ProcessingInstructionStackFrame() : processingInstruction;
+       processingInstruction = null;
+       resultProcessingInstruction.pushOnto(previous);
+       resultProcessingInstruction.handleAttributes(attributes);
+       return resultProcessingInstruction;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public ProcessingInstruction popProcessingInstruction(ProcessingInstructionStackFrame processingInstruction)
+    {
+      ProcessingInstruction resultProcessingInstructionValue = processingInstruction.popProcessingInstruction();
+      this.processingInstruction = processingInstruction;
+      return resultProcessingInstructionValue;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public static class ProcessingInstructionStackFrame extends XMLTypeResourceImpl.StackFrame
+    {
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected ProcessingInstruction theProcessingInstruction;
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected XMLTypeResourceImpl.DataFrame data;
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected XMLTypeResourceImpl.DataFrame target;
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      @Override
+      public void handleAttributes(Attributes attributes)
+      {
+        String theValue = attributes.getValue("", "data");
+        if (theValue != null)
+        {
+          theProcessingInstruction.setData(XMLTypeFactory.eINSTANCE.createString(theValue));
+        }
+        theValue = attributes.getValue("", "target");
+        if (theValue != null)
+        {
+          theProcessingInstruction.setTarget(XMLTypeFactory.eINSTANCE.createString(theValue));
+        }
+      }
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      @Override
+      public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
+      {
+        return super.startElement(namespace, localName, qName, attributes);
+      }
+
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      @Override
+      public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
+      {
+        super.endElement(child);
+      }
+
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      @Override
+      public void create()
+      {
+        theProcessingInstruction = XMLTypeFactory.eINSTANCE.createProcessingInstruction();
+      }
+    
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
+      protected ProcessingInstruction popProcessingInstruction()
+      {
+        pop();
+        ProcessingInstruction resultProcessingInstructionValue = theProcessingInstruction;
+        theProcessingInstruction = null;
+        return resultProcessingInstructionValue;
+      }
+    
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public SimpleAnyTypeStackFrame pushSimpleAnyType(XMLTypeResourceImpl.StackFrame previous, Attributes attributes)
     {
        SimpleAnyTypeStackFrame resultSimpleAnyType = simpleAnyType == null ? new SimpleAnyTypeStackFrame() : simpleAnyType;
@@ -755,6 +886,13 @@ public class XMLTypeResourceImpl extends ResourceImpl
        * <!-- end-user-doc -->
        * @generated
        */
+      protected XMLTypeResourceImpl.FrameFactory.ProcessingInstructionStackFrame processingInstruction;
+
+      /**
+       * <!-- begin-user-doc -->
+       * <!-- end-user-doc -->
+       * @generated
+       */
       protected XMLTypeResourceImpl.DataFrame text;
     
       /**
@@ -771,56 +909,23 @@ public class XMLTypeResourceImpl extends ResourceImpl
       /**
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->
-       * @generated
+       * @generated NOT
        */
       @Override
       public XMLTypeResourceImpl.StackFrame startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
       {
-        if ("cDATA".equals(localName) && "http://www.eclipse.org/emf/2003/XMLType".equals(namespace))
-        {
-          return cDATA = XMLTypeResourceImpl.FrameFactory.INSTANCE.pushString(this, attributes);
-        }
-        else if ("comment".equals(localName) && "http://www.eclipse.org/emf/2003/XMLType".equals(namespace))
-        {
-          return comment = XMLTypeResourceImpl.FrameFactory.INSTANCE.pushString(this, attributes);
-        }
-        else if ("text".equals(localName) && "http://www.eclipse.org/emf/2003/XMLType".equals(namespace))
-        {
-          return text = XMLTypeResourceImpl.FrameFactory.INSTANCE.pushString(this, attributes);
-        }
-        else
-        {
-          return super.startElement(namespace, localName, qName, attributes);
-        }
+        throw new UnsupportedOperationException();
       }
 
       /**
        * <!-- begin-user-doc -->
        * <!-- end-user-doc -->
-       * @generated
+       * @generated NOT
        */
       @Override
       public void endElement(XMLTypeResourceImpl.StackFrame child) throws SAXException
       {
-        if (child == cDATA)
-        {
-          theXMLTypeDocumentRoot.setCDATA(XMLTypeResourceImpl.FrameFactory.INSTANCE.popString(cDATA));
-          cDATA = null;
-        }
-        else if (child == comment)
-        {
-          theXMLTypeDocumentRoot.setComment(XMLTypeResourceImpl.FrameFactory.INSTANCE.popString(comment));
-          comment = null;
-        }
-        else if (child == text)
-        {
-          theXMLTypeDocumentRoot.setText(XMLTypeResourceImpl.FrameFactory.INSTANCE.popString(text));
-          text = null;
-        }
-        else
-        {
-          super.endElement(child);
-        }
+        throw new UnsupportedOperationException();
       }
 
       /**
