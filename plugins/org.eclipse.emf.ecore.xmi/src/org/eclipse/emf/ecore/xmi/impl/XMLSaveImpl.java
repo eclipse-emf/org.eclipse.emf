@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLSaveImpl.java,v 1.66 2006/12/09 18:20:08 emerks Exp $
+ * $Id: XMLSaveImpl.java,v 1.67 2006/12/10 14:06:37 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -455,6 +456,14 @@ public class XMLSaveImpl implements XMLSave
           escape.setAllowControlCharacters(true);
         }
       }
+
+      resourceEntityHandler = (XMLResource.ResourceEntityHandler)options.get(XMLResource.OPTION_RESOURCE_ENTITY_HANDLER);
+      if (resourceEntityHandler instanceof XMLResource.URIHandler && !options.containsKey(XMLResource.OPTION_URI_HANDLER))
+      {
+        Map<Object, Object> newOptions = new LinkedHashMap<Object, Object>(options);
+        newOptions.put(XMLResource.OPTION_URI_HANDLER, resourceEntityHandler);
+        options = newOptions;
+      }
     }
     else
     {
@@ -530,8 +539,8 @@ public class XMLSaveImpl implements XMLSave
       //no caching
       featureTable = new Lookup(map, extendedMetaData);
     }
-
-    resourceEntityHandler = (XMLResource.ResourceEntityHandler)options.get(XMLResource.OPTION_RESOURCE_ENTITY_HANDLER);
+    
+    helper.setOptions(options);
   }
 
   public void traverse(List<? extends EObject> contents)
@@ -885,7 +894,7 @@ public class XMLSaveImpl implements XMLSave
       }
       else
       {
-        // TODO
+        // Entities aren't supported for DOM.
       }
     }
   }

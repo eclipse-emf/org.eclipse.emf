@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLString.java,v 1.10 2006/12/09 18:20:32 emerks Exp $
+ * $Id: XMLString.java,v 1.11 2006/12/10 14:06:36 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -267,6 +267,7 @@ public class XMLString extends StringSegment
         addLine();
       }
       resetToMark(docTypeMark);
+      docTypeMark = null;
     }
 
     add("<!ENTITY ");
