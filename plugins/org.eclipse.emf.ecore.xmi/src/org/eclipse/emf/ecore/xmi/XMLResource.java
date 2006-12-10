@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLResource.java,v 1.36 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLResource.java,v 1.37 2006/12/10 14:06:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi;
 
@@ -23,6 +23,7 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.ENamedElement;
@@ -32,6 +33,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.impl.ConfigurationCache;
+import org.eclipse.emf.ecore.xmi.impl.ResourceEntityHandlerImpl;
+import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -214,9 +217,12 @@ public interface XMLResource extends Resource
   String OPTION_SAVE_DOCTYPE = "SAVE_DOCTYPE";
   
   /**
-   * A {@link ResourceEntityHandler} value that will be used during load and save to encode cross document reference URIs as entities;
-   * the default value is null, in which entities will not be defined at all.
-   * TODO this is work in progress and subject to arbitrary change.
+   * A {@link ResourceEntityHandler} value that will be used during load to record entity definitions 
+   * and during save to encode cross document reference URIs as entities;
+   * the default value is null, in which case entities will not be defined at all.
+   * DOM does not support creating entities in the document type declaration, 
+   * so this option does nothing when converting directly to DOM.
+   * @see ResourceEntityHandlerImpl
    */
   String OPTION_RESOURCE_ENTITY_HANDLER = "RESOURCE_ENTITY_HANDLER";
 
@@ -224,13 +230,34 @@ public interface XMLResource extends Resource
    * An interface for a resource entity handler.
    * It is used during load to record entities 
    * and is used during save to assign entity names to values representing cross resource URI references.
-   * TODO this is work in progress and subject to arbitrary change.
+   * @see ResourceEntityHandlerImpl
    */
-  public interface ResourceEntityHandler
+  interface ResourceEntityHandler
   {
+    /**
+     * Resets the state of the entity handler when a resource is first loaded or is reloaded.
+     */
     void reset();
+    
+    /**
+     * Records the entity name to entity value mapping.
+     * @param entityName the name of the entity.
+     * @param entityValue the associated value of the entity.
+     */
     void handleEntity(String entityName, String entityValue);
+    
+    /**
+     * Returns the name associated with the entity value; 
+     * a new name will be generated if there is not yet a name assocaited with the entity value.
+     * @param entityValue the entity value for which a named entity is needed.
+     * @return the name associated with the entity value.
+     */
     String getEntityName(String entityValue);
+    
+    /**
+     * Returns the map of entity names to entity values to be recorded in the document during save.
+     * @return the map of entity names to entity values to be recorded in the document during save.
+     */
     Map<String, String> getNameToValueMap();
   }
 
@@ -331,13 +358,51 @@ public interface XMLResource extends Resource
   String OPTION_DEFER_IDREF_RESOLUTION = "DEFER_IDREF_RESOLUTION";
   
   /**
-   * Implementations can register the resource handler to receive call backs for loading from InputStream 
-   * or saving to OutputStream resources.
-   * The value of this option must be a class that extends the BasicResourceHandler class. 
+   * A {@link ResourceHandler} value that can be registered to receive call backs 
+   * for loading from an input stream or saving to an output stream.
    * @see org.eclipse.emf.ecore.xmi.XMLResource.ResourceHandler
    * @see org.eclipse.emf.ecore.xmi.impl.BasicResourceHandler
    */
   String OPTION_RESOURCE_HANDLER = "RESOURCE_HANDLER";
+
+  /**
+   * An interface for a resource handler that can be registered to receive call backs 
+   * for loading from an input stream or for saving to an output stream.
+   */
+  interface ResourceHandler
+  {
+    /**
+     * Called before loading begins.
+     * @param resource the resource being loaded.
+     * @param inputStream the stream being read.
+     * @param options the load options.
+     */
+    void preLoad(XMLResource resource, InputStream inputStream, Map<?, ?> options);
+
+    /**
+     * Called after loading is done.
+     * @param resource the resource being loaded.
+     * @param inputStream the stream being read.
+     * @param options the load options.
+     */
+    void postLoad(XMLResource resource, InputStream inputStream, Map<?, ?> options);
+
+    /**
+     * Called before saving begins.
+     * @param resource the resource being saved.
+     * @param inputStream the stream being written.
+     * @param options the save options.
+     */
+    void preSave(XMLResource resource, OutputStream outputStream, Map<?, ?> options);
+
+    /**
+     * Called before saving begins.
+     * @param resource the resource being saved.
+     * @param inputStream the stream being written.
+     * @param options the save options.
+     */
+    void postSave(XMLResource resource, OutputStream outputStream, Map<?, ?> options);
+  }
   
   /**
    * Defer adding the root object to the resource until the end of the load when the tree is complete.
@@ -345,6 +410,54 @@ public interface XMLResource extends Resource
    * It's often a good idea to set OPTION_DEFER_IDREF_RESOLUTION true Boolean.TRUE if this option is set to Boolean.TRUE.
    */
   String OPTION_DEFER_ATTACHMENT = "DEFER_ATTACHMENT";
+
+  /**
+   * A {@link URIHandler} value that will be used to control how URIs are {@link URI#resolve(URI) resolved} during load 
+   * and {@link URI#deresolve(URI) deresolved} during save.
+   * @see URI
+   * @see URIHandler
+   * @see XMLHelper#resolve(URI, URI)
+   * @see XMLHelper#deresolve(URI)
+   * @see URIHandlerImpl
+   */
+  String OPTION_URI_HANDLER = "URI_HANDLER";
+
+  /**
+   * An interface for a URI handler that is used to {@link URI#resolve(URI) resolve} and {@link URI#deresolve(URI) deresolve} URIs.
+   * Before being used by either load or save, {@link #setBaseURI(URI)} will be called with the URI of the resource being loaded or saved.
+   * During load, {@link #resolve(URI)} is called to resolve each URI against the URI of the containing resource; 
+   * this provides an opportunity to turn relative URIs into absolute URIs.
+   * During save, {@link #deresolve(URI)} is called to resolve each URI against the URI of the containing resource; 
+   * this provide an opportunity to turn absolute URIs into relative URIs
+   * It should be the case that <code>uriHandler.resolve(uriHandler.deresolve(uri)).equals(uri)</code>, 
+   * i.e., resolving the deresolved URI should yield the original URI.
+   * @see URIHandlerImpl
+   */
+  interface URIHandler
+  {
+    /**
+     * Sets base URI used by the handler.
+     * It will be called before load or save begins.
+     * @param uri the new base URI.
+     */
+    void setBaseURI(URI uri);
+
+    /**
+     * Returns the URI {@link URI#resolve(URI) resolved} against the base URI.
+     * @param uri the URI to resolve.
+     * @return the URI resolved against the base URI.
+     * @see URI#resolve(URI)
+     */
+    URI resolve(URI uri);
+
+    /**
+     * Returns the URI {@link URI#deresolve(URI) deresolved} against the base URI.
+     * @param uri the URI to resolve.
+     * @return the URI resolved against the base URI.
+     * @see URI#deresolve(URI)
+     */
+    URI deresolve(URI uri);
+  }
 
   String HREF = "href";
   String NIL = "nil";
@@ -617,14 +730,4 @@ public interface XMLResource extends Resource
      */
     void setName(String name);
   }
-
-  interface ResourceHandler
-  {
-    public void preLoad(XMLResource resource, InputStream inputStream, Map<?, ?> options);
-    public void postLoad(XMLResource resource, InputStream inputStream, Map<?, ?> options);
-
-    public void preSave(XMLResource resource, OutputStream outputStream, Map<?, ?> options);
-    public void postSave(XMLResource resource, OutputStream outputStream, Map<?, ?> options);
-  }
-
 }
