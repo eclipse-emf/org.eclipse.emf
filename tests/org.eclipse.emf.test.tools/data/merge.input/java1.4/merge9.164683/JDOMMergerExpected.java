@@ -22,7 +22,8 @@ package org.eclipse.emf.test.tools.merger;
  * <!-- end-user-doc -->
  * @generated
  */
-public class AActionBarContributor {
+public class AActionBarContributor 
+{
   /**
    * This action opens the Properties view.
    * <!-- begin-user-doc -->
