@@ -23,7 +23,8 @@ package org.eclipse.emf.test.tools.merger;
  * <!-- end-user-doc -->
  * @generated
  */
-public class Example {
+public class Example 
+{
   /**
    * Source a1
    * <!-- begin-user-doc -->
@@ -81,7 +82,8 @@ public class Example {
    * @generated
    * @ordered
    */
-  class a6 {
+  class a6 
+  {
     /**
      * Source a61
      * <!-- begin-user-doc -->

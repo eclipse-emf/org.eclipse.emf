@@ -31,7 +31,8 @@ import target.ClassA;
  * @author EMF Team (source)
  * @generated
  */
-public class MergerExample {
+public class MergerExample 
+{
   /**
    * Target javadoc 5
    * @generated

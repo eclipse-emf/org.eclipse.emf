@@ -47,7 +47,8 @@ protected abstract class EchoSoapBindingImpl implements echo.Echo, Comparable
    * target javadoc 
    * for InnerClass1
    */
-  public class InnerClass1 {
+  public class InnerClass1 
+  {
     /**
      * target javadoc line 1
      * line 2
@@ -203,5 +204,6 @@ public class AnotherClass
 /**
  * target comment for TopLevelClass2
  */
-class TopLevelClass2 {
+class TopLevelClass2 
+{
 }

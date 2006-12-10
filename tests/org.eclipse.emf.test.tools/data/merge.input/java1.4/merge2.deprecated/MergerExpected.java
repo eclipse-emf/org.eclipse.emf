@@ -19,7 +19,8 @@ package org.eclipse.emf.test.tools.merger;
  * <!-- end-user-doc -->
  * @generated
  */
-public class MergerExample {
+public class MergerExample 
+{
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
