@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.63 2006/12/09 18:18:18 emerks Exp $
+ * $Id: XMLHandler.java,v 1.64 2006/12/10 14:05:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -322,6 +322,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected boolean useConfigurationCache;
   protected boolean needsPushContext;
   protected XMLResource.ResourceEntityHandler resourceEntityHandler;
+  protected XMLResource.URIHandler uriHandler;
 
   /**
    */
@@ -455,11 +456,20 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     {
       useConfigurationCache = true;
     }
-    
+   
+    // The entity handler is the best place to resolve and deresolve URIs since it can do it there just once to produce the entity.
+    // So most often the entity handler will be a URI handler as well and when used as a URI handler will be an identity handler.
+    //
+    uriHandler = (XMLResource.URIHandler)options.get(XMLResource.OPTION_URI_HANDLER);
     resourceEntityHandler = (XMLResource.ResourceEntityHandler)options.get(XMLResource.OPTION_RESOURCE_ENTITY_HANDLER); 
     if (resourceEntityHandler != null)
     {
       resourceEntityHandler.reset();
+      if (uriHandler == null && resourceEntityHandler instanceof XMLResource.URIHandler)
+      {
+        uriHandler = (XMLResource.URIHandler)resourceEntityHandler;
+        uriHandler.setBaseURI(resourceURI);
+      }
     }
   }
 
@@ -538,10 +548,19 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       }
     }
 
+    // The entity handler is the best place to resolve and deresolve URIs since it can do it there just once to produce the entity.
+    // So most often the entity handler will be a URI handler as well and when used as a URI handler will be an identity handler.
+    //
+    uriHandler = (XMLResource.URIHandler)options.get(XMLResource.OPTION_URI_HANDLER);
     resourceEntityHandler = (XMLResource.ResourceEntityHandler)options.get(XMLResource.OPTION_RESOURCE_ENTITY_HANDLER); 
     if (resourceEntityHandler != null)
     {
       resourceEntityHandler.reset();
+      if (uriHandler == null && resourceEntityHandler instanceof XMLResource.URIHandler)
+      {
+        uriHandler = (XMLResource.URIHandler)resourceEntityHandler;
+        uriHandler.setBaseURI(resourceURI);
+      }
     }
   }
 
@@ -598,6 +617,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     locator = null;
     urisToLocations = null;
     resourceEntityHandler = null;
+    uriHandler = null;
   }
 
   //
@@ -1473,7 +1493,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
       {
         String value = stringTokenizer.nextToken();
         URI uri = URI.createURI(value);
-        if (resolve && uri.isRelative() && uri.hasRelativePath())
+        if (uriHandler != null)
+        {
+          uri = uriHandler.resolve(uri);
+        }
+        else if (resolve && uri.isRelative() && uri.hasRelativePath())
         {
           uri = helper.resolve(uri, resourceURI);
         }
@@ -1491,7 +1515,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     }
 
     URI uri = URI.createURI(noNamespaceSchemaLocation);
-    if (resolve && uri.isRelative() && uri.hasRelativePath())
+    if (uriHandler != null)
+    {
+      uri = uriHandler.resolve(uri);
+    }
+    else if (resolve && uri.isRelative() && uri.hasRelativePath())
     {
       uri = helper.resolve(uri, resourceURI);
     }
@@ -2667,7 +2695,11 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     else
     {
       URI uri = URI.createURI(uriLiteral);
-      if (resolve && 
+      if (uriHandler != null)
+      {
+        uri = uriHandler.resolve(uri);
+      }
+      else if (resolve && 
             uri.isRelative() && 
             uri.hasRelativePath() && 
             (extendedMetaData == null ?

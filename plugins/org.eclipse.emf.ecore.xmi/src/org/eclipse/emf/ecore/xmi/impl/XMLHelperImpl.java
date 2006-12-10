@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHelperImpl.java,v 1.36 2006/12/05 20:23:28 emerks Exp $
+ * $Id: XMLHelperImpl.java,v 1.37 2006/12/10 14:05:15 emerks Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -91,6 +91,7 @@ public class XMLHelperImpl implements XMLHelper
   protected List<String> allPrefixToURI;
   protected boolean checkForDuplicates;
   protected boolean mustHavePrefix;
+  protected XMLResource.URIHandler uriHandler;
   
   private EPackage previousPackage;
   private String previousNS;
@@ -191,6 +192,11 @@ public class XMLHelperImpl implements XMLHelper
   public void setOptions(Map<?, ?> options)
   {
     laxFeatureProcessing = Boolean.TRUE.equals(options.get(XMLResource.OPTION_LAX_FEATURE_PROCESSING));
+    uriHandler = (XMLResource.URIHandler)options.get(XMLResource.OPTION_URI_HANDLER);
+    if (uriHandler != null)
+    {
+      uriHandler.setBaseURI(resourceURI);
+    }
   }
 
   public void setNoNamespacePackage(EPackage pkg)
@@ -751,7 +757,11 @@ public class XMLHelperImpl implements XMLHelper
 
   public URI deresolve(URI uri)
   {
-    if (deresolve && !uri.isRelative())
+    if (uriHandler != null)
+    {
+      uri = uriHandler.deresolve(uri);
+    }
+    else if (deresolve && !uri.isRelative())
     {
       URI deresolvedURI = uri.deresolve(resourceURI, true, true, false);
       if (deresolvedURI.hasRelativePath())
@@ -1207,7 +1217,7 @@ public class XMLHelperImpl implements XMLHelper
 
   public URI resolve(URI relative, URI base) 
   {
-    return relative.resolve(base);
+    return uriHandler == null ? relative.resolve(base) : uriHandler.resolve(relative);
   }
   
   public void pushContext()
