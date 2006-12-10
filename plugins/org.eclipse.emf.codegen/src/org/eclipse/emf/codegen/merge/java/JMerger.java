@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.10 2006/12/06 04:46:40 marcelop Exp $
+ * $Id: JMerger.java,v 1.11 2006/12/10 22:56:06 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -282,6 +282,7 @@ public class JMerger
   {
     this();
     this.controlModel = controlModel;
+    setFixInterfaceBrace(getControlModel().getFacadeHelper().fixInterfaceBrace());
   }
 
   public void merge()
