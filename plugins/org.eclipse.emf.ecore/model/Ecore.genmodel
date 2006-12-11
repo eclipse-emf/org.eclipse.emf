@@ -57,7 +57,10 @@
     <genDataTypes ecoreDataType="Ecore.ecore#//EJavaObject"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//ELong"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//ELongObject"/>
-    <genDataTypes ecoreDataType="Ecore.ecore#//EMap"/>
+    <genDataTypes ecoreDataType="Ecore.ecore#//EMap">
+      <genTypeParameters ecoreTypeParameter="Ecore.ecore#//EMap/K"/>
+      <genTypeParameters ecoreTypeParameter="Ecore.ecore#//EMap/V"/>
+    </genDataTypes>
     <genDataTypes ecoreDataType="Ecore.ecore#//EResource"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EResourceSet"/>
     <genDataTypes ecoreDataType="Ecore.ecore#//EShort"/>

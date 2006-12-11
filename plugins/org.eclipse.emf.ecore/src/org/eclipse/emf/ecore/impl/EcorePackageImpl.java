@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.16 2006/12/09 18:05:32 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.17 2006/12/11 15:31:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -2069,6 +2069,8 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     // Create type parameters
     addETypeParameter(eeListEDataType, "E");
     addETypeParameter(eJavaClassEDataType, "T");
+    addETypeParameter(eMapEDataType, "K");
+    addETypeParameter(eMapEDataType, "V");
     addETypeParameter(eTreeIteratorEDataType, "E");
 
     // Set bounds for type parameters
