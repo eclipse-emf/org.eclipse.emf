@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.15 2006/10/27 17:54:10 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.16 2006/12/11 16:16:09 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -395,11 +395,8 @@ public class EcoreSchemaBuilder extends MapBuilder
           }
           else
           {
-            if (eDataType instanceof EEnum)
-            {
-              xsdSimpleTypeDefinition.setBaseTypeDefinition(xsdSchema.getSchemaForSchema().resolveSimpleTypeDefinition("string"));
-            }
-            else
+            xsdSimpleTypeDefinition.setBaseTypeDefinition(xsdSchema.getSchemaForSchema().resolveSimpleTypeDefinition("string"));
+            if (!(eDataType instanceof EEnum))
             {
               instanceClass = eDataType.getInstanceClassName();
             }
@@ -932,8 +929,17 @@ public class EcoreSchemaBuilder extends MapBuilder
     {
       if (canHaveDefault)
       {
-        xsdAttributeUse.setConstraint(XSDConstraint.DEFAULT_LITERAL);
-        xsdAttributeUse.setLexicalValue(defaultValue);
+        if (isRef)
+        {
+          xsdAttributeUse.setConstraint(XSDConstraint.DEFAULT_LITERAL);
+          xsdAttributeUse.setLexicalValue(defaultValue);
+        }
+        else
+        {
+          xsdAttributeDeclaration.setConstraint(XSDConstraint.DEFAULT_LITERAL);
+          xsdAttributeDeclaration.setLexicalValue(defaultValue);
+          
+        }
       }
       else
       {
