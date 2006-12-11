@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.28 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EClassImpl.java,v 1.29 2006/12/11 16:00:29 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -1565,7 +1565,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             int index = 0;
             for (EGenericType eGenericType : getEGenericSuperTypes())
             {
-              result[index] = unwrap(eGenericType);
+              result[index++] = unwrap(eGenericType);
             }
             return result;
           }
@@ -1589,7 +1589,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
             for (EGenericType eGenericType : getEGenericSuperTypes())
             {
               @SuppressWarnings("unchecked") T rawType = (T)unwrap(eGenericType);
-              array[index] = rawType;
+              array[index++] = rawType;
             }
 
             return array;

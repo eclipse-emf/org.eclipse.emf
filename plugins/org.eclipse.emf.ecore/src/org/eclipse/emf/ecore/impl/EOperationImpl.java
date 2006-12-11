@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationImpl.java,v 1.13 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EOperationImpl.java,v 1.14 2006/12/11 16:00:29 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -378,7 +378,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
             int index = 0;
             for (EGenericType eGenericType : getEGenericExceptions())
             {
-              result[index] = unwrap(eGenericType);
+              result[index++] = unwrap(eGenericType);
             }
             return result;
           }
@@ -402,7 +402,7 @@ public class EOperationImpl extends ETypedElementImpl implements EOperation
             for (EGenericType eGenericType : getEGenericExceptions())
             {
               @SuppressWarnings("unchecked") T rawType = (T)unwrap(eGenericType);
-              array[index] = rawType;
+              array[index++] = rawType;
             }
 
             return array;
