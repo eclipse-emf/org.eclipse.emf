@@ -349,16 +349,16 @@
     <xsd:restriction base="ecore:EByte"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="char" name="EChar">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="java.lang.Character" name="ECharacterObject">
     <xsd:restriction base="ecore:EChar"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="java.util.Date" name="EDate">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="org.eclipse.emf.common.util.DiagnosticChain" ecore:serializable="false" name="EDiagnosticChain">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType name="EDouble">
     <xsd:restriction base="xsd:double"/>
@@ -367,16 +367,16 @@
     <xsd:restriction base="ecore:EDouble"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="org.eclipse.emf.common.util.EList" ecore:serializable="false" name="EEList">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="org.eclipse.emf.common.util.Enumerator" ecore:serializable="false" name="EEnumerator">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="org.eclipse.emf.ecore.util.FeatureMap" ecore:serializable="false" name="EFeatureMap">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="org.eclipse.emf.ecore.util.FeatureMap$Entry" name="EFeatureMapEntry">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType name="EFloat">
     <xsd:restriction base="xsd:float"/>
@@ -391,10 +391,10 @@
     <xsd:restriction base="ecore:EInt"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="java.lang.Class" name="EJavaClass">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="java.lang.Object" ecore:serializable="false" name="EJavaObject">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType name="ELong">
     <xsd:restriction base="xsd:long"/>
@@ -403,13 +403,13 @@
     <xsd:restriction base="ecore:ELong"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="java.util.Map" ecore:serializable="false" name="EMap">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="org.eclipse.emf.ecore.resource.Resource" ecore:serializable="false" name="EResource">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType ecore:instanceClass="org.eclipse.emf.ecore.resource.ResourceSet" ecore:serializable="false" name="EResourceSet">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
   <xsd:simpleType name="EShort">
     <xsd:restriction base="xsd:short"/>
@@ -425,6 +425,6 @@
     <xsd:attribute name="value" type="ecore:EString"/>
   </xsd:complexType>
   <xsd:simpleType ecore:instanceClass="org.eclipse.emf.common.util.TreeIterator" ecore:serializable="false" name="ETreeIterator">
-    <xsd:restriction/>
+    <xsd:restriction base="xsd:string"/>
   </xsd:simpleType>
 </xsd:schema>
