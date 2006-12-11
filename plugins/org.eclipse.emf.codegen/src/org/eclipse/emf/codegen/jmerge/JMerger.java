@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.23 2006/11/09 14:41:37 marcelop Exp $
+ * $Id: JMerger.java,v 1.24 2006/12/11 00:41:36 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -59,6 +59,8 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
  * which is called just like main during headless workbench invocation.
  * @deprecated in 2.2.0. Use {@link org.eclipse.emf.codegen.merge.java.JMerger} instead.
  */
+@Deprecated
+@SuppressWarnings("unchecked")
 public class JMerger
 {
   protected DOMFactory jdomFactory = new DOMFactory();
@@ -924,7 +926,7 @@ public class JMerger
       JControlModel.SweepRule sweepRule = (JControlModel.SweepRule)sweepRules.next();
       if (sweepRule.getSelector() == IDOMImport.class && targetNode instanceof IDOMImport)
       {
-        if (sweepRule.getMarkup().matcher(((IDOMNode)targetNode).getName()).find())
+        if (sweepRule.getMarkup().matcher(targetNode.getName()).find())
         {
           targetNode.remove();
           break;
@@ -1162,6 +1164,7 @@ public class JMerger
   /**
    * @deprecated
    */
+  @Deprecated
   public static class PlatformRunnable extends PropertyMerger implements IPlatformRunnable 
   {
   }

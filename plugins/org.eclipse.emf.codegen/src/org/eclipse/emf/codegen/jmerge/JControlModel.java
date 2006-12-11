@@ -12,20 +12,21 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.5 2006/01/18 20:41:29 marcelop Exp $
+ * $Id: JControlModel.java,v 1.6 2006/12/11 00:41:36 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
 
 import org.w3c.dom.Element;
 
-import org.eclipse.emf.codegen.CodeGenPlugin;
+import org.eclipse.emf.common.EMFPlugin;
 
 
 /**
  *  A control model that  provides dictionaries and rules to drive a merge process.
  *  @deprecated in 2.2.0. Use {@link org.eclipse.emf.codegen.merge.java.JControlModel} instead.
  */
+@Deprecated
 public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlModel
 {
   protected final static String CLASS_PREFIX = "org.eclipse.jdt.core.jdom.IDOM";
@@ -34,8 +35,10 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
    * @deprecated in 2.2.0. 
    * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel.Feature} instead.
    */
+  @Deprecated
   public static class Feature extends org.eclipse.emf.codegen.merge.java.JControlModel.Feature
   {
+    @SuppressWarnings("unchecked")
     public Feature(String path, Class [] parameterTypes)
     {
       super(CLASS_PREFIX, path, parameterTypes);
@@ -46,6 +49,7 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
    * @deprecated in 2.2.0. 
    * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel.DictionaryPattern} instead.
    */
+  @Deprecated
   public static class DictionaryPattern extends org.eclipse.emf.codegen.merge.java.JControlModel.DictionaryPattern
   {
     public DictionaryPattern()
@@ -58,6 +62,8 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
       super(CLASS_PREFIX, element);
     }
     
+    @SuppressWarnings("unchecked")
+    @Override
     protected org.eclipse.emf.codegen.merge.java.JControlModel.Feature createFeature(String classPrefix, String path, Class [] parameterTypes)
     {
       return new Feature(path, parameterTypes);
@@ -68,6 +74,7 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
    * @deprecated in 2.2.0. 
    * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel.PullRule} instead.
    */
+  @Deprecated
   public static class PullRule extends org.eclipse.emf.codegen.merge.java.JControlModel.PullRule
   {
     public PullRule()
@@ -80,6 +87,9 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
       super(CLASS_PREFIX, element);
     }
 
+    
+    @SuppressWarnings("unchecked")
+    @Override
     protected org.eclipse.emf.codegen.merge.java.JControlModel.Feature createFeature(String classPrefix, String path, Class [] parameterTypes)
     {
       return new Feature(path, parameterTypes);
@@ -100,6 +110,7 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
    * @deprecated in 2.2.0. 
    * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel.SweepRule} instead.
    */
+  @Deprecated
   public static class SweepRule extends org.eclipse.emf.codegen.merge.java.JControlModel.SweepRule
   {
     public SweepRule()
@@ -117,6 +128,7 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
    * @deprecated in 2.2.0. 
    * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel.SortRule} instead.
    */
+  @Deprecated
   public static class SortRule extends org.eclipse.emf.codegen.merge.java.JControlModel.SortRule
   {
     public SortRule()
@@ -134,6 +146,8 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
    * @deprecated in 2.2.0. 
    * Use {@link org.eclipse.emf.codegen.merge.java.JControlModel#classForClassName(String, String)} instead.
    */  
+  @Deprecated
+  @SuppressWarnings("unchecked")
   public static Class classForClassName(String className)
   {
     return org.eclipse.emf.codegen.merge.java.JControlModel.classForClassName(CLASS_PREFIX, className);
@@ -154,26 +168,31 @@ public class JControlModel extends org.eclipse.emf.codegen.merge.java.JControlMo
     initialize(element);
   }
   
+  @Override
   public boolean canMerge()
   {
-    return CodeGenPlugin.IS_ECLIPSE_RUNNING;
+    return EMFPlugin.IS_ECLIPSE_RUNNING;
   }
 
+  @Override
   protected org.eclipse.emf.codegen.merge.java.JControlModel.DictionaryPattern createDictionaryPattern(String classPrefix, Element elementChild)
   {
     return new DictionaryPattern(elementChild);
   }
   
+  @Override
   protected org.eclipse.emf.codegen.merge.java.JControlModel.PullRule createPullRule(String classPrefix, Element elementChild)
   {
     return new PullRule(elementChild);
   }
   
+  @Override
   protected org.eclipse.emf.codegen.merge.java.JControlModel.SweepRule createSweepRule(String classPrefix, Element elementChild)
   {
     return new SweepRule(elementChild);
   }
   
+  @Override
   protected org.eclipse.emf.codegen.merge.java.JControlModel.SortRule createSortRule(String classPrefix, Element elementChild)
   {
     return new SortRule(elementChild);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.7 2006/01/18 20:41:29 marcelop Exp $
+ * $Id: PropertyMerger.java,v 1.8 2006/12/11 00:41:36 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IPlatformRunnable;
  * which is called just like main during headless workbench invocation.
  * @deprecated in 2.2.0. Use {@link org.eclipse.emf.codegen.merge.properties.PropertyMerger} instead.
  */
+@Deprecated
 public class PropertyMerger extends org.eclipse.emf.codegen.merge.properties.PropertyMerger
 {
   public static class PlatformRunnable extends PropertyMerger implements IPlatformRunnable 
