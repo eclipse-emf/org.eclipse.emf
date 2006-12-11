@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDValidateTest.java,v 1.7 2006/04/20 10:26:11 emerks Exp $
+ * $Id: XSDValidateTest.java,v 1.7.2.1 2006/12/11 16:14:31 emerks Exp $
  */
 package org.eclipse.emf.test.xml.xsdecore;
 
@@ -478,9 +478,11 @@ public class XSDValidateTest extends TestCase
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#bad' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#simpleType'; expecting restriction | union | annotation | list",
       "XSD: The value 'id:id' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
       "XSD: The value 'id:list' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
+      "XSD: The 'itemType' attribute or a contained item type must be present",
       "XSD: Type reference '#undefined' is unresolved",
       "XSD: The value 'xtension' of attribute 'final' must be of one of the members types of 'http://www.w3.org/2001/XMLSchema#simpleDerivationSet'",
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#bad' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#list_._type'; expecting annotation | simpleType | nothing",
+      "XSD: The 'itemType' attribute or a contained item type must be present",
       "XSD: Type reference '#undefined' is unresolved",
       "XSD: The 'itemType' attribute conflicts with the contained item type",
       "XSD: The value 'id:union' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
@@ -488,9 +490,13 @@ public class XSDValidateTest extends TestCase
       "XSD: The element 'http://www.w3.org/2001/XMLSchema#bad' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#union_._type'; expecting simpleType | annotation | nothing",
       "XSD: The 'memberTypes' attribute must be present or there must be contained member types",
       "XSD: The value 'id:restriction' of attribute 'id' must conform to pattern '(\\i\\c*) & ([\\i-[:]][\\c-[:]]*)' as constrained by 'http://www.w3.org/2001/XMLSchema#NCName'",
-      "XSD: The element 'http://www.w3.org/2001/XMLSchema#bad' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#restriction_._type'; expecting minInclusive | maxLength | annotation | enumeration | maxInclusive | whiteSpace | minExclusive | maxExclusive | length | simpleType | pattern | totalDigits | fractionDigits | minLength | nothing",
+      "XSD: The 'base' attribute or a contained base type must be present",
+      "XSD: The 'base' attribute or a contained base type must be present",
+      "XSD: The element 'http://www.w3.org/2001/XMLSchema#bad' is not permitted as constrained by 'http://www.w3.org/2001/XMLSchema#restriction_._type'; expecting minLength | length | simpleType | pattern | minInclusive | annotation | maxLength | minExclusive | fractionDigits | totalDigits | maxInclusive | enumeration | maxExclusive | whiteSpace | nothing",
+      "XSD: The 'base' attribute or a contained base type must be present",
       "XSD: The 'base' attribute conflicts with the contained base type",
       "XSD: The maxExclusive facet cannot be repeated",
+      "XSD: The 'itemType' attribute or a contained item type must be present",
       "XSD: Type reference '#undefined' is unresolved",
       "XSD: The item type of the list is not atomic or union",
       "XSD: The type is circularly defined",
