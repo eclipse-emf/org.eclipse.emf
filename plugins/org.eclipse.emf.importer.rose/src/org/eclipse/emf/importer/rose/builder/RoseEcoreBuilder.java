@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.14 2006/12/05 20:32:41 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.15 2006/12/12 19:13:05 emerks Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -994,7 +994,17 @@ public class RoseEcoreBuilder implements RoseVisitor
 
         eParameter = EcoreFactory.eINSTANCE.createEParameter();
         eParameter.setName("context");
-        eParameter.setEType(EcorePackage.Literals.EMAP);
+
+        EGenericType eGenericType = EcoreFactory.eINSTANCE.createEGenericType();
+        eGenericType.setEClassifier(EcorePackage.Literals.EMAP);
+        EGenericType eGenericKeyType = EcoreFactory.eINSTANCE.createEGenericType();
+        eGenericKeyType.setEClassifier(EcorePackage.Literals.EJAVA_OBJECT);
+        eGenericType.getETypeArguments().add(eGenericKeyType);
+        EGenericType eGenericValueType = EcoreFactory.eINSTANCE.createEGenericType();
+        eGenericValueType.setEClassifier(EcorePackage.Literals.EJAVA_OBJECT);
+        eGenericType.getETypeArguments().add(eGenericValueType);
+        eParameter.setEGenericType(eGenericType);
+
         eOperation.getEParameters().add(eParameter);
       }
     }
