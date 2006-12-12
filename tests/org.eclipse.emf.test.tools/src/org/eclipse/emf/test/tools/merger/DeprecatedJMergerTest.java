@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeprecatedJMergerTest.java,v 1.12 2006/12/06 03:51:25 marcelop Exp $
+ * $Id: DeprecatedJMergerTest.java,v 1.13 2006/12/12 17:20:13 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger;
 
@@ -73,8 +73,12 @@ public class DeprecatedJMergerTest extends TestCase
 
     target = new File(dir + "/MergerTarget.java").getAbsoluteFile();
 
-    expected = new File(dir + "/MergerExpected.java").getAbsoluteFile();
-    assertTrue("Merge Result file is not available - " + expected.getAbsolutePath(), expected.isFile());
+    expected = new File(dir + "/DeprecatedMergerExpected.java").getAbsoluteFile();
+    if (!expected.isFile())
+    {
+      expected = new File(dir + "/MergerExpected.java").getAbsoluteFile();
+      assertTrue("Merge Result file is not available - " + expected.getAbsolutePath(), expected.isFile());
+    }
   }
   
   public void merge0() throws Exception
