@@ -103,8 +103,29 @@ public class SwitchClass
     genModel.addImport("org.eclipse.emf.ecore.EClass");
     genModel.addImport("org.eclipse.emf.ecore.EObject");
     if (!genPackage.hasJavaLangConflict() && !genPackage.getUtilitiesPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");
-    String templateParameters = genModel.useGenerics() ? "<T>" : "";
-    String returnType = genModel.useGenerics() ? "T" : genModel.getImportedName("java.lang.Object");
+    
+String templateParameterName = null;
+if (genModel.useGenerics())
+{
+  Set usedNames = new HashSet();
+  for (Iterator i = genPackage.getGenClassifiers().iterator(); i.hasNext(); )
+  {
+    GenClassifier genClassifier = (GenClassifier)i.next();
+    for (Iterator j = genClassifier.getGenTypeParameters().iterator(); j.hasNext(); )
+    {
+      GenTypeParameter genTypeParameter = (GenTypeParameter)j.next();
+      usedNames.add(genTypeParameter.getName());
+    }
+  }
+  templateParameterName = "T";
+  for (int i = 1; usedNames.contains(templateParameterName); ++i)
+  {
+    templateParameterName = "T" + i;
+  }
+}
+
+    String templateParameters = genModel.useGenerics() ? "<" + templateParameterName + ">" : "";
+    String returnType = genModel.useGenerics() ? templateParameterName : genModel.getImportedName("java.lang.Object");
     genModel.markImportLocation(stringBuffer);
     stringBuffer.append(TEXT_6);
     stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());
