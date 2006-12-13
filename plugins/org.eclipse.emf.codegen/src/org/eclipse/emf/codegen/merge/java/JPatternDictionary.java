@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.4 2006/12/06 03:49:43 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.5 2006/12/13 20:17:14 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -247,7 +248,39 @@ public class JPatternDictionary extends FacadeVisitor
   {
     if (controlModel.getNoImportPattern() != null)
     {
-      Matcher matcher = controlModel.getNoImportPattern().matcher(compilationUnit.getContents());
+      // Optimize the performance of applying the import regular 
+      // expressions locating the last import line
+      //      
+      String contents = compilationUnit.getContents();
+      int lastIndex = contents.length() - 1;
+      int endIndex = contents.lastIndexOf("import");
+      while (endIndex >= 0)
+      {
+        int aux = endIndex + "import".length() - 1;
+        if (aux == lastIndex || !Character.isWhitespace(contents.charAt(aux+1)))
+        {
+          endIndex = contents.lastIndexOf("import", endIndex-1);
+        }
+        else
+        {
+          aux = contents.indexOf(";", aux);
+          if (aux >= 0)
+          {
+            endIndex = aux+1;
+            break;
+          }
+          else
+          {
+            endIndex -= "import".length();
+          }
+        }
+      }
+      if (endIndex != -1)
+      {
+        contents = contents.substring(0, endIndex);
+      }
+      
+      Matcher matcher = controlModel.getNoImportPattern().matcher(contents);
       while (matcher.find())
       {
         getNoImporterSet().add(matcher.group(1));
@@ -322,14 +355,31 @@ public class JPatternDictionary extends FacadeVisitor
   @Override
   protected void beforeVisit(JNode node)
   {
+    Method previousMethod = null; 
+    String previousSelection = null;    
     for (JControlModel.DictionaryPattern dictionaryPattern : controlModel.getDictionaryPatterns())
     {
-      if (dictionaryPattern.getSelectorFeature().getFeatureClass().isInstance(node))
+      JControlModel.Feature feature = dictionaryPattern.getSelectorFeature();
+      Method method = feature.getFeatureMethod();
+      String selection = null;
+      if (feature.getFeatureClass().isInstance(node))
       {
         try
         {
-          String selection = (String)dictionaryPattern.getSelectorFeature().getFeatureMethod().invoke(node, NO_ARGUMENTS);
-          selection = checkSelection(selection, dictionaryPattern, node);
+          if (method.equals(previousMethod))
+          {
+            selection = previousSelection;
+          }
+          else
+          {
+            selection = (String)method.invoke(node, NO_ARGUMENTS);
+            if (controlModel.getFacadeHelper() == null || controlModel.getFacadeHelper().canYieldWrongJavadoc())
+            {
+              selection = checkSelection(selection, dictionaryPattern, node);
+            }
+            previousMethod = method;
+            previousSelection = selection;
+          }          
           if (selection != null)
           {
             markupNode(selection, dictionaryPattern, node);
@@ -354,7 +404,8 @@ public class JPatternDictionary extends FacadeVisitor
   }
 
   /**
-   * Checks the selection to fix the problem with JDOM that assigns wrong javadoc to the node.
+   * Checks the selection to fix the problem with facade implementations that assign
+   * wrong javadoc to the node.
    * 
    * @param selection
    * @param dictionaryPattern
@@ -363,27 +414,25 @@ public class JPatternDictionary extends FacadeVisitor
    */
   protected String checkSelection(String selection, JControlModel.DictionaryPattern dictionaryPattern, JNode node)
   {
-    if (dictionaryPattern.getSelectorFeature().getFeatureMethod().getName().equals("getComment"))
+    if (selection != null 
+        && !(node instanceof JAbstractType)
+        && dictionaryPattern.getSelectorFeature().getFeatureMethod().getName().equals("getComment"))
     {
       String contents = node.getContents();
       for (int start = 0, end = contents.length(), count = 0; start < end; )
       {
-        Matcher matcher = COMMENT.matcher(contents.subSequence(start, end));
+        contents = contents.substring(start, end);
+        Matcher matcher = COMMENT.matcher(contents);
         if (matcher.find())
         {
-          // Ignore it if there are multiple comments.
-          //
           if (++count > 1)
           {
-            int braceIndex = contents.indexOf("{", start); // }
-            if (braceIndex > start + matcher.start(0))
-            {
-              return null;
-            }
-
-            break;
+            // Ignore the furthermost javadoc
+            //
+            selection = contents;
           }
           start += matcher.end(0) + 1;
+          end = contents.length();
         }
         else
         {
@@ -407,7 +456,17 @@ public class JPatternDictionary extends FacadeVisitor
    */
   protected void markupNode(String selection, JControlModel.DictionaryPattern dictionaryPattern, JNode node)
   {
-    Matcher matcher = dictionaryPattern.getPattern().matcher(selection);
+    Pattern pattern = dictionaryPattern.getPattern();
+    if (pattern.pattern().startsWith("@"))
+    {
+      int index = selection.indexOf('@');
+      if (index != -1)
+      {
+        selection = selection.substring(index, selection.length());
+      }
+    }
+    
+    Matcher matcher = pattern.matcher(selection);
     if (matcher.find())
     {
       if (matcher.groupCount() > 0)
@@ -422,6 +481,7 @@ public class JPatternDictionary extends FacadeVisitor
       {
         // if there are no groups defined or matched, but the whole pattern matches,
         // then markup nodes with pattern name
+        //
         String markup = dictionaryPattern.getName();
         if (markup != null && !"".equals(markup))
         {
