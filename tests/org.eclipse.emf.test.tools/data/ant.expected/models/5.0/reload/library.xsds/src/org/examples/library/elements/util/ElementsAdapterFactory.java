@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsAdapterFactory.java,v 1.2 2006/12/13 16:01:44 emerks Exp $
+ * $Id: ElementsAdapterFactory.java,v 1.3 2006/12/13 21:02:32 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -119,7 +119,7 @@ public class ElementsAdapterFactory extends AdapterFactoryImpl
   @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 
