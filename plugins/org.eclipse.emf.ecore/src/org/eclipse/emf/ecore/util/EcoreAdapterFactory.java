@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreAdapterFactory.java,v 1.6 2006/12/13 16:00:14 emerks Exp $
+ * $Id: EcoreAdapterFactory.java,v 1.7 2006/12/13 21:10:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -202,7 +202,7 @@ public class EcoreAdapterFactory extends AdapterFactoryImpl
   @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 
