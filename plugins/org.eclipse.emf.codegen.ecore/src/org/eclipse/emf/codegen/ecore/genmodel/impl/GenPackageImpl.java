@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.63 2006/12/05 20:29:40 emerks Exp $
+ * $Id: GenPackageImpl.java,v 1.64 2006/12/13 20:38:19 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1041,19 +1041,35 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__ECORE_PACKAGE, oldEcorePackage, ecorePackage));
   }
 
+  GenModel genModelContainer;
+  GenBase genBaseContainer;
+
   public GenModel getGenModel() 
   {
-    GenModel result = getGenModelGen();
-    if (result == null && eContainer() != null)
+    // We can't blindly cache the genModel, since we need to support moving the GenPackage to another container,
+    // but the cast is expensive, so we'd like to do it no more than absolutely necessary.
+    //
+    if (eContainerFeatureID == GenModelPackage.GEN_PACKAGE__GEN_MODEL)
     {
-      result = ((GenBase)eContainer()).getGenModel();
+      genBaseContainer = null;
+      if (eContainer != genModelContainer)
+      {
+        genModelContainer = (GenModel)eContainer;
+      }
+      return genModelContainer;
     }
-
-    return result;
+  
+    genModelContainer = null;
+    if (eContainer != genBaseContainer)
+    {
+      genBaseContainer = (GenBase)eContainer;
+    }
+    return genBaseContainer.getGenModel();
   }
 
   /**
    * <!-- begin-user-doc -->
+   * @deprecated
    * <!-- end-user-doc -->
    * @generated
    */

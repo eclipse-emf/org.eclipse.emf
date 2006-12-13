@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.72 2006/12/05 20:29:53 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.73 2006/12/13 20:38:19 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -63,6 +64,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
@@ -72,6 +74,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -88,6 +92,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
@@ -1244,6 +1249,184 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   protected GenModelImpl() 
   {
     super();
+  }
+  
+  public GenModel getGenModel()
+  {
+    return this;
+  }
+  
+  Map ePackageToGenPackageMap;
+
+  public GenPackage findGenPackage(EPackage ePackage)
+  {
+    GenPackage result;
+    if (ePackageToGenPackageMap == null)
+    {
+      ePackageToGenPackageMap = new HashMap();
+      result = null;
+    }
+    else
+    {
+      result = (GenPackage)ePackageToGenPackageMap.get(ePackage);
+      if (result != null)
+      {
+        return result;
+      }
+    }
+
+    if (ePackage == EcorePackage.eINSTANCE)
+    {
+      if (ecoreGenPackage == null)
+      {
+        GenModel ecoreGenModel = getGenModel().createGenModel();
+        ecoreGenModel.initialize(Collections.singleton(EcorePackage.eINSTANCE));
+        ecoreGenModel.setImportManager(getImportManager());
+        ecoreGenPackage = (GenPackage)ecoreGenModel.getGenPackages().get(0);
+        ecoreGenPackage.setPrefix("Ecore");
+        ecoreGenPackage.setBasePackage("org.eclipse.emf");
+      }
+      result = ecoreGenPackage;
+    }
+    else if (ePackage == XMLTypePackage.eINSTANCE)
+    {
+      if (xmlTypeGenPackage == null)
+      {
+        GenModel xmlTypeGenModel = getGenModel().createGenModel();
+        xmlTypeGenModel.initialize(Collections.singleton(XMLTypePackage.eINSTANCE));
+        xmlTypeGenModel.setImportManager(getImportManager());
+        xmlTypeGenPackage = (GenPackage)xmlTypeGenModel.getGenPackages().get(0);
+        xmlTypeGenPackage.setPrefix("XMLType");
+        xmlTypeGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
+        xmlTypeGenPackage.setDataTypeConverters(true);
+      }
+      result = xmlTypeGenPackage;
+    }
+    else if (ePackage == XMLNamespacePackage.eINSTANCE)
+    {
+      if (xmlNamespaceGenPackage == null)
+      {
+        GenModel xmlNamespaceGenModel = getGenModel().createGenModel();
+        xmlNamespaceGenModel.initialize(Collections.singleton(XMLNamespacePackage.eINSTANCE));
+        xmlNamespaceGenModel.setImportManager(getImportManager());
+        xmlNamespaceGenPackage = (GenPackage)xmlNamespaceGenModel.getGenPackages().get(0);
+        xmlNamespaceGenPackage.setPrefix("XMLNamespace");
+        xmlNamespaceGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
+      }
+      result = xmlNamespaceGenPackage;
+    }
+    else if (ePackage != null)
+    {
+      for (Iterator pIter = getAllGenPackages().iterator(); pIter.hasNext() && result == null; )
+      {
+        GenPackage genPackage = (GenPackage)pIter.next();
+        result = findGenPackageHelper(genPackage, ePackage);
+      }
+    }
+    
+    ePackageToGenPackageMap.put(ePackage, result);
+
+    return result;
+  }
+  
+  Map eClassifierToGenClassifierMap;
+  
+  protected GenClass findGenClass(EClass eClass)
+  {
+    if (eClassifierToGenClassifierMap == null)
+    {
+      eClassifierToGenClassifierMap = new HashMap();
+    }
+    else
+    {
+      GenClass result = (GenClass)eClassifierToGenClassifierMap.get(eClass);
+      if (result != null)
+      {
+        return result;
+      }
+    }
+
+    EPackage ePackage = eClass.getEPackage();
+    GenPackage genPackage = findGenPackage(ePackage);
+    if (genPackage != null)
+    {
+      EPackage targetEPackage = genPackage.getEcorePackage();
+      EClassifier targetEClassifier = targetEPackage == ePackage ? eClass : targetEPackage.getEClassifier(eClass.getName());
+      EList genClasses = genPackage.getGenClasses();
+      GenClass [] genClassesData = (GenClass[])((BasicEList)genClasses).data();
+      for (int i = 0, size = genClasses.size(); i < size; ++i)
+      {
+        GenClass genClass = genClassesData[i];
+        if (targetEClassifier == genClass.getEcoreClass())
+        {
+          eClassifierToGenClassifierMap.put(eClass, genClass);
+          return genClass;
+        }
+      }
+    }
+    return null;
+  }
+  
+  protected GenEnum findGenEnum(EEnum eEnum)
+  {
+    if (eClassifierToGenClassifierMap == null)
+    {
+      eClassifierToGenClassifierMap = new HashMap();
+    }
+    else
+    {
+      GenEnum result = (GenEnum)eClassifierToGenClassifierMap.get(eEnum);
+      if (result != null)
+      {
+        return result;
+      }
+    }
+
+    GenPackage genPackage = findGenPackage(eEnum.getEPackage());
+    if (genPackage != null)
+    {
+      for (Iterator iter = genPackage.getGenEnums().iterator(); iter.hasNext(); )
+      {
+        GenEnum genEnum = (GenEnum)iter.next();
+        if (eEnum.getName().equals(genEnum.getEcoreEnum().getName())) //FB TBD different objects for ecore model!
+        {
+          eClassifierToGenClassifierMap.put(eEnum, genEnum);
+          return genEnum;
+        }
+      }
+    }
+    return null;
+  }
+
+  protected GenDataType findGenDataType(EDataType eDataType)
+  {
+    if (eClassifierToGenClassifierMap == null)
+    {
+      eClassifierToGenClassifierMap = new HashMap();
+    }
+    else
+    {
+      GenDataType result = (GenDataType)eClassifierToGenClassifierMap.get(eDataType);
+      if (result != null)
+      {
+        return result;
+      }
+    }
+
+    GenPackage genPackage = findGenPackage(eDataType.getEPackage());
+    if (genPackage != null)
+    {
+      for (Iterator iter = genPackage.getGenDataTypes().iterator(); iter.hasNext(); )
+      {
+        GenDataType genDataType = (GenDataType)iter.next();
+        if (eDataType.getName().equals(genDataType.getEcoreDataType().getName())) //FB TBD different objects for ecore model!
+        {
+          eClassifierToGenClassifierMap.put(eDataType, genDataType);
+          return genDataType;
+        }
+      }
+    }
+    return null;
   }
 
   /**
@@ -4133,7 +4316,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public GenClass getRootImplementsInterfaceGenClass()
   {
-    if (rootImplementsInterfaceGenClass == null)
+    if (rootImplementsInterfaceGenClass == null && !isBlank(rootImplementsInterface))
     {
       for (Iterator i = getAllGenUsedAndStaticGenPackagesWithClassifiers().iterator(); i.hasNext(); )
       {
