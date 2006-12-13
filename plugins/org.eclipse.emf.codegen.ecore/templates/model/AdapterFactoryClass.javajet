@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="AdapterFactoryClass" version="$Id: AdapterFactoryClass.javajet,v 1.6 2006/12/05 20:29:18 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="AdapterFactoryClass" version="$Id: AdapterFactoryClass.javajet,v 1.7 2006/12/13 15:59:54 emerks Exp $" %>
 <%
 /**
  * <copyright>
@@ -24,6 +24,8 @@ package <%=genPackage.getUtilitiesPackageName()%>;
 <%genModel.addImport("org.eclipse.emf.common.notify.impl.AdapterFactoryImpl");%>
 <%genModel.addImport("org.eclipse.emf.ecore.EObject");%>
 <%if (!genPackage.hasJavaLangConflict() && !genPackage.getUtilitiesPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");%>
+<%String typeArgument = genModel.useGenerics() ? "<Adapter>" : "";%>
+<%String returnType = genModel.useGenerics() ? "Adapter" : genModel.getImportedName("java.lang.Object");%>
 <%genModel.markImportLocation(stringBuffer);%>
 
 /**
@@ -97,14 +99,14 @@ public class <%=genPackage.getAdapterFactoryClassName()%> extends AdapterFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genPackage.getSwitchClassName()%> modelSwitch =
-		new <%=genPackage.getSwitchClassName()%>()
+	protected <%=genPackage.getSwitchClassName()%><%=typeArgument%> modelSwitch =
+		new <%=genPackage.getSwitchClassName()%><%=typeArgument%>()
 		{
 <%for (Iterator i=genPackage.getAllSwitchGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
   <%if (genModel.useClassOverrideAnnotation()) {%>
 			@Override
   <%}%>
-			public <%=genClass.getTypeParameters()%>Object case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceTypeArguments()%> object)
+			public <%=genClass.getTypeParameters()%><%=returnType%> case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceTypeArguments()%> object)
 			{
 				return create<%=genPackage.getClassUniqueName(genClass)%>Adapter();
 			}
@@ -112,7 +114,7 @@ public class <%=genPackage.getAdapterFactoryClassName()%> extends AdapterFactory
   <%if (genModel.useClassOverrideAnnotation()) {%>
 			@Override
   <%}%>
-			public Object defaultCase(EObject object)
+			public <%=returnType%> defaultCase(EObject object)
 			{
 				return createEObjectAdapter();
 			}

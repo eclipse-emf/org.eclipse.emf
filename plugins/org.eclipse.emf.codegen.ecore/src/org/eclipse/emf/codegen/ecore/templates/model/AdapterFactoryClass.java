@@ -37,21 +37,22 @@ public class AdapterFactoryClass
   protected final String TEXT_20 = "()" + NL + "\t\t{";
   protected final String TEXT_21 = NL + "\t\t\t@Override";
   protected final String TEXT_22 = NL + "\t\t\tpublic ";
-  protected final String TEXT_23 = "Object case";
+  protected final String TEXT_23 = " case";
   protected final String TEXT_24 = "(";
   protected final String TEXT_25 = " object)" + NL + "\t\t\t{" + NL + "\t\t\t\treturn create";
   protected final String TEXT_26 = "Adapter();" + NL + "\t\t\t}";
   protected final String TEXT_27 = NL + "\t\t\t@Override";
-  protected final String TEXT_28 = NL + "\t\t\tpublic Object defaultCase(EObject object)" + NL + "\t\t\t{" + NL + "\t\t\t\treturn createEObjectAdapter();" + NL + "\t\t\t}" + NL + "\t\t};" + NL + "" + NL + "\t/**" + NL + "\t * Creates an adapter for the <code>target</code>." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @param target the object to adapt." + NL + "\t * @return the adapter for the <code>target</code>." + NL + "\t * @generated" + NL + "\t */";
-  protected final String TEXT_29 = NL + "\t@Override";
-  protected final String TEXT_30 = NL + "\tpublic Adapter createAdapter(Notifier target)" + NL + "\t{" + NL + "\t\treturn (Adapter)modelSwitch.doSwitch((EObject)target);" + NL + "\t}" + NL;
-  protected final String TEXT_31 = NL + NL + "\t/**" + NL + "\t * Creates a new adapter for an object of class '{@link ";
-  protected final String TEXT_32 = " <em>";
-  protected final String TEXT_33 = "</em>}'." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * This default implementation returns null so that we can easily ignore cases;" + NL + "\t * it's useful to ignore a case when inheritance will catch all the cases anyway." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the new adapter." + NL + "\t * @see ";
-  protected final String TEXT_34 = NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Adapter create";
-  protected final String TEXT_35 = "Adapter()" + NL + "\t{" + NL + "\t\treturn null;" + NL + "\t}";
-  protected final String TEXT_36 = NL + NL + "\t/**" + NL + "\t * Creates a new adapter for the default case." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * This default implementation returns null." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the new adapter." + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Adapter createEObjectAdapter()" + NL + "\t{" + NL + "\t\treturn null;" + NL + "\t}" + NL + "" + NL + "} //";
-  protected final String TEXT_37 = NL;
+  protected final String TEXT_28 = NL + "\t\t\tpublic ";
+  protected final String TEXT_29 = " defaultCase(EObject object)" + NL + "\t\t\t{" + NL + "\t\t\t\treturn createEObjectAdapter();" + NL + "\t\t\t}" + NL + "\t\t};" + NL + "" + NL + "\t/**" + NL + "\t * Creates an adapter for the <code>target</code>." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @param target the object to adapt." + NL + "\t * @return the adapter for the <code>target</code>." + NL + "\t * @generated" + NL + "\t */";
+  protected final String TEXT_30 = NL + "\t@Override";
+  protected final String TEXT_31 = NL + "\tpublic Adapter createAdapter(Notifier target)" + NL + "\t{" + NL + "\t\treturn (Adapter)modelSwitch.doSwitch((EObject)target);" + NL + "\t}" + NL;
+  protected final String TEXT_32 = NL + NL + "\t/**" + NL + "\t * Creates a new adapter for an object of class '{@link ";
+  protected final String TEXT_33 = " <em>";
+  protected final String TEXT_34 = "</em>}'." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * This default implementation returns null so that we can easily ignore cases;" + NL + "\t * it's useful to ignore a case when inheritance will catch all the cases anyway." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the new adapter." + NL + "\t * @see ";
+  protected final String TEXT_35 = NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Adapter create";
+  protected final String TEXT_36 = "Adapter()" + NL + "\t{" + NL + "\t\treturn null;" + NL + "\t}";
+  protected final String TEXT_37 = NL + NL + "\t/**" + NL + "\t * Creates a new adapter for the default case." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * This default implementation returns null." + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @return the new adapter." + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Adapter createEObjectAdapter()" + NL + "\t{" + NL + "\t\treturn null;" + NL + "\t}" + NL + "" + NL + "} //";
+  protected final String TEXT_38 = NL;
 
   public String generate(Object argument)
   {
@@ -86,6 +87,8 @@ public class AdapterFactoryClass
     genModel.addImport("org.eclipse.emf.common.notify.impl.AdapterFactoryImpl");
     genModel.addImport("org.eclipse.emf.ecore.EObject");
     if (!genPackage.hasJavaLangConflict() && !genPackage.getUtilitiesPackageName().equals(genPackage.getInterfacePackageName())) genModel.addImport(genPackage.getInterfacePackageName() + ".*");
+    String typeArgument = genModel.useGenerics() ? "<Adapter>" : "";
+    String returnType = genModel.useGenerics() ? "Adapter" : genModel.getImportedName("java.lang.Object");
     genModel.markImportLocation(stringBuffer);
     stringBuffer.append(TEXT_6);
     stringBuffer.append(genPackage.getQualifiedPackageInterfaceName());
@@ -113,8 +116,10 @@ public class AdapterFactoryClass
     }
     stringBuffer.append(TEXT_18);
     stringBuffer.append(genPackage.getSwitchClassName());
+    stringBuffer.append(typeArgument);
     stringBuffer.append(TEXT_19);
     stringBuffer.append(genPackage.getSwitchClassName());
+    stringBuffer.append(typeArgument);
     stringBuffer.append(TEXT_20);
     for (Iterator i=genPackage.getAllSwitchGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
     if (genModel.useClassOverrideAnnotation()) {
@@ -122,6 +127,7 @@ public class AdapterFactoryClass
     }
     stringBuffer.append(TEXT_22);
     stringBuffer.append(genClass.getTypeParameters());
+    stringBuffer.append(returnType);
     stringBuffer.append(TEXT_23);
     stringBuffer.append(genPackage.getClassUniqueName(genClass));
     stringBuffer.append(TEXT_24);
@@ -135,25 +141,27 @@ public class AdapterFactoryClass
     stringBuffer.append(TEXT_27);
     }
     stringBuffer.append(TEXT_28);
-    if (genModel.useClassOverrideAnnotation()) {
+    stringBuffer.append(returnType);
     stringBuffer.append(TEXT_29);
-    }
+    if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_30);
-    for (Iterator i=genPackage.getAllSwitchGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
-    stringBuffer.append(TEXT_31);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_32);
-    stringBuffer.append(genClass.getFormattedName());
-    stringBuffer.append(TEXT_33);
-    stringBuffer.append(genClass.getQualifiedInterfaceName());
-    stringBuffer.append(TEXT_34);
-    stringBuffer.append(genPackage.getClassUniqueName(genClass));
-    stringBuffer.append(TEXT_35);
     }
+    stringBuffer.append(TEXT_31);
+    for (Iterator i=genPackage.getAllSwitchGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
+    stringBuffer.append(TEXT_32);
+    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_33);
+    stringBuffer.append(genClass.getFormattedName());
+    stringBuffer.append(TEXT_34);
+    stringBuffer.append(genClass.getQualifiedInterfaceName());
+    stringBuffer.append(TEXT_35);
+    stringBuffer.append(genPackage.getClassUniqueName(genClass));
     stringBuffer.append(TEXT_36);
+    }
+    stringBuffer.append(TEXT_37);
     stringBuffer.append(genPackage.getAdapterFactoryClassName());
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_37);
+    stringBuffer.append(TEXT_38);
     return stringBuffer.toString();
   }
 }
