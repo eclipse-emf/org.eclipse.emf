@@ -55,4 +55,44 @@ public class AActionBarContributor
    * @generated
    */
   protected String myThirdString = new String("Foo3"); //$NON-NLS$  
+
+  /**
+   * Target javadoc of myCommentedString
+   * <!-- begin-user-doc -->
+   * Target user javadoc of myCommentedString
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  //protected String myCommentedString = new String("FooTargetCommented"); //$NON-NLS$  
+
+  /**
+   * Target javadoc of myFourthString
+   * <!-- begin-user-doc -->
+   * Target user javadoc of myFourthString
+   * <!-- end-user-doc -->
+   */
+  public String myFourthString = new String("FooTarget4"); //$NON-NLS$ 
+  
+  /**
+   * Target javadoc of myCommentedMethod
+   * <!-- begin-user-doc -->
+   * Target user javadoc of myCommentedMethod
+   * <!-- end-user-doc -->
+   * @generated
+   */
+//  public String myCommentedMethod()
+//  {
+//    return new String("myTargetCommentedMethod"); //$NON-NLS$  
+//  }  
+
+  /**
+   * Target javadoc of myMethod
+   * <!-- begin-user-doc -->
+   * Target user javadoc of myMethod
+   * <!-- end-user-doc -->
+   */
+  public String myMethod()
+  {
+    return new String("myTargetMethod"); //$NON-NLS$  
+  }  
 }

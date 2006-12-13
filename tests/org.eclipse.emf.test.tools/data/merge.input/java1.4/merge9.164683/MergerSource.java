@@ -55,4 +55,25 @@ public class AActionBarContributor
    * @generated
    */
   protected String myThirdString = new String("Foo3"); //$NON-NLS$  
+
+  /**
+   * Source javadoc of myFourthString
+   * <!-- begin-user-doc -->
+   * Source user javadoc of myFourthString
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected String myFourthString = new String("FooSource4"); //$NON-NLS$  
+
+  /**
+   * Source javadoc of myMethod
+   * <!-- begin-user-doc -->
+   * Source user javadoc of myMethod
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected String myMethod()
+  {
+    return new String("mySourceMethod"); //$NON-NLS$  
+  }
 }
