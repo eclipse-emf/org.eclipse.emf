@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.11 2006/12/10 22:56:06 marcelop Exp $
+ * $Id: JMerger.java,v 1.12 2006/12/13 20:19:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -35,6 +35,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeVisitor;
 import org.eclipse.emf.codegen.merge.java.facade.JAbstractType;
 import org.eclipse.emf.codegen.merge.java.facade.JAnnotation;
@@ -276,6 +277,7 @@ public class JMerger
    */
   public JMerger()
   {
+    super();
   }
 
   public JMerger(JControlModel controlModel)
@@ -499,11 +501,15 @@ public class JMerger
 
   protected void sortTargetCompilationUnit()
   {
-    for (List<JNode> children : orderedSourceChildrenMap.values())
+    FacadeHelper facadeHelper = getControlModel().getFacadeHelper();
+    JNode parent = null;
+    List<JNode> children = null;
+    
+    for (List<JNode> nodes : orderedSourceChildrenMap.values())
     {
-      if (children.size() >= 2)
+      if (nodes.size() >= 2)
       {
-        Iterator<JNode> i = children.iterator();
+        Iterator<JNode> i = nodes.iterator();
         JNode sourceNode = i.next();
         JNode previousTargetNode = sourceToTargetMap.get(sourceNode);
         do
@@ -512,26 +518,69 @@ public class JMerger
           JNode nextTargetNode = sourceToTargetMap.get(sourceNode);
   
           boolean reorder = true;
-          for (JNode node = getControlModel().getFacadeHelper().getPrevious(nextTargetNode); node != null; node = getControlModel().getFacadeHelper().getPrevious(node))
+
+          JNode nextTargetNodeParent = nextTargetNode.getParent();
+          if (facadeHelper.isSibilingTraversalExpensive() && parent != nextTargetNodeParent)
           {
-            if (node == previousTargetNode)
+            parent = nextTargetNodeParent;
+            children = nextTargetNodeParent == null ?
+              null
+              : new ArrayList<JNode>(nextTargetNodeParent.getChildren());
+          }
+
+          int previousTargetNodeIndex = 0;
+          int nextTargetNodeIndex = 0;
+          if (children != null)
+          {
+            previousTargetNodeIndex = children.indexOf(previousTargetNode);
+            nextTargetNodeIndex = children.indexOf(nextTargetNode);
+            reorder = previousTargetNodeIndex > nextTargetNodeIndex;
+          }
+          else
+          {
+            for (JNode node = facadeHelper.getPrevious(nextTargetNode); 
+                 node != null; 
+                 node = facadeHelper.getPrevious(node))
             {
-              reorder = false;
-              break;
+              if (node == previousTargetNode)
+              {
+                reorder = false;
+                break;
+              }
             }
           }
-  
+          
           if (reorder)
           {
-            getControlModel().getFacadeHelper().remove(nextTargetNode);
-            if (getControlModel().getFacadeHelper().getNext(previousTargetNode) == null)
+            facadeHelper.remove(nextTargetNode);
+
+            boolean addNewNode = false;            
+            if (children != null)
             {
-              getControlModel().getFacadeHelper().addChild(previousTargetNode.getParent(), nextTargetNode);
+              children.remove(nextTargetNode);
+              addNewNode = children.get(children.size()-1) == previousTargetNode; 
+              if (addNewNode)
+              {
+                children.add(nextTargetNode);
+              }
+              else
+              {
+                children.add(nextTargetNodeIndex, nextTargetNode);
+              }
             }
             else
             {
-              getControlModel().getFacadeHelper().insertSibling(previousTargetNode, nextTargetNode, false);
+              addNewNode = facadeHelper.getNext(previousTargetNode) == null; 
             }
+            
+            if (addNewNode)
+            {
+              facadeHelper.addChild(previousTargetNode.getParent(), nextTargetNode);
+            }
+            else
+            {
+              facadeHelper.insertSibling(previousTargetNode, nextTargetNode, false);
+            }            
           }
   
           previousTargetNode = nextTargetNode;
@@ -550,6 +599,23 @@ public class JMerger
         applySweepRules(entry.getKey());
       }
     }
+  }
+
+  // Method created to increase the performance of regular expressions
+  // by reducing the length of the string that is matched.
+  //
+  private int getStartIndex(String string)
+  {
+    int index = string.indexOf("<!--"); 
+    if (index > 0)
+    {
+      while (Character.isWhitespace(string.charAt(--index)) && index > 0)
+      {
+        // Back up over the whitespace.
+      }
+      return index;
+    }
+    return 0;
   }
 
   protected void applyPullRules(JNode sourceNode, JNode targetNode)
@@ -597,7 +663,16 @@ public class JMerger
                   {
                     StringBuffer result = new StringBuffer();
                     int index = 0;
-                    while (sourceMatcher.find() && targetMatcher.find())
+                    int sourceStart = 0;
+                    int targetStart = 0;
+                    if (sourceTransfer.pattern().startsWith("(\\s*<!--"))
+                    {
+                      sourceStart = getStartIndex(stringValue);
+                      targetStart = getStartIndex(oldStringValue);
+                    }
+                    for (boolean match = sourceMatcher.find(sourceStart) && targetMatcher.find(targetStart); 
+                         match; 
+                         match = sourceMatcher.find() && targetMatcher.find())
                     {
                       result.append(stringValue.substring(index, sourceMatcher.start(1)));
                       result.append(targetMatcher.group(1));
