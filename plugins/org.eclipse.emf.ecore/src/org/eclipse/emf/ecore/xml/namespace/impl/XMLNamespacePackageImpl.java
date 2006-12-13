@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLNamespacePackageImpl.java,v 1.11 2005/12/02 18:07:47 davidms Exp $
+ * $Id: XMLNamespacePackageImpl.java,v 1.12 2006/12/13 16:00:30 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace.impl;
 
@@ -354,6 +354,10 @@ public class XMLNamespacePackageImpl extends EPackageImpl implements XMLNamespac
 
     // Obtain other dependent packages
     XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
 
