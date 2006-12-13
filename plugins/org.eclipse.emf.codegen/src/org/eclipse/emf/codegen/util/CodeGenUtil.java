@@ -705,8 +705,55 @@ public class CodeGenUtil
 
   public static String convertFormat(final String tabReplacement, boolean convertToStandardBraceStyle, String value)
   {
-    if (tabReplacement != null)
+    if (tabReplacement != null && !"\t".equals(tabReplacement))
     {
+      if (true)
+      {
+      char [] text = value.toCharArray();
+      StringBuffer result = new StringBuffer(text.length + text.length / 10);
+      boolean blankLine = true;
+      int tabCount = 0;
+      int previous = 0;
+      for (int i = 0, length = text.length; i < length; ++i)
+      {
+        switch (text[i])
+        {
+          case '\t':
+          {
+            if (blankLine)
+            {
+              ++tabCount;
+            }
+            break;
+          }
+          case '\n':
+          case '\r':
+          {
+            blankLine = true;
+            break;
+          }
+          default:
+          {
+            if (tabCount > 0)
+            {
+              result.append(text, previous, i - tabCount - previous);
+              for (int j = 0; j < tabCount; ++j)
+              {
+                result.append(tabReplacement);
+              }
+              previous = i;
+              tabCount = 0;
+            }
+            blankLine = false;
+            break;
+          }
+        }
+      }
+      result.append(text, previous, text.length - previous);
+      value = result.toString();
+      }
+      else
+      {
       FindAndReplace findAndReplaceLeadingTabs = 
         new FindAndReplace(leadingTabs)
         {
@@ -728,6 +775,7 @@ public class CodeGenUtil
           }
         };
       value = findAndReplaceLeadingTabs.apply(value);
+      }
     }
 
     if (convertToStandardBraceStyle)
@@ -1127,8 +1175,8 @@ public class CodeGenUtil
     }
 
     public static boolean isValidJavaIdentifier(String name)
-    {
-      return JavaConventions.validateIdentifier(name).isOK();
+    {      
+      return JavaConventions.validateIdentifier(name, JavaCore.VERSION_1_5, JavaCore.VERSION_1_5).isOK();
     }
 
     public static FacadeHelper instantiateRegisteredFacadeHelper(String facadeHelperClass)
