@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.53 2006/12/05 20:29:50 emerks Exp $
+ * $Id: GenBaseImpl.java,v 1.54 2006/12/13 20:36:39 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -109,8 +109,6 @@ import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 
 /**
@@ -300,10 +298,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   public GenModel getGenModel()
   {
-    if (this instanceof GenModel)
-      return (GenModel)this;
-    else
-      return ((GenBase)eContainer()).getGenModel();
+    return ((GenBase)eInternalContainer()).getGenModel();
   }
 
   public abstract String getName();
@@ -816,10 +811,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected List getAllGenPackages()
   {
-    List result = new ArrayList();
-    result.addAll(getGenModel().getGenPackages());
-    result.addAll(getGenModel().getUsedGenPackages());
-    result.addAll(getGenModel().getStaticGenPackages());
+    GenModel genModel = getGenModel();
+    List genPackages =  genModel.getGenPackages();
+    List usedGenPackages =  genModel.getUsedGenPackages();
+    List staticGenPackages =  genModel.getStaticGenPackages();
+    List result = new ArrayList(genPackages.size() + usedGenPackages.size() + staticGenPackages.size());
+    result.addAll(genPackages);
+    result.addAll(usedGenPackages);
+    result.addAll(staticGenPackages);
     return result;
   }
 
@@ -854,114 +853,22 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   public GenPackage findGenPackage(EPackage ePackage)
   {
-    if (ePackage == EcorePackage.eINSTANCE)
-    {
-      if (ecoreGenPackage == null)
-      {
-        GenModel ecoreGenModel = getGenModel().createGenModel();
-        ecoreGenModel.initialize(Collections.singleton(EcorePackage.eINSTANCE));
-        ecoreGenModel.setImportManager(getImportManager());
-        ecoreGenPackage = (GenPackage)ecoreGenModel.getGenPackages().get(0);
-        ecoreGenPackage.setPrefix("Ecore");
-        ecoreGenPackage.setBasePackage("org.eclipse.emf");
-      }
-      return ecoreGenPackage;
-    }
-
-    if (ePackage == XMLTypePackage.eINSTANCE)
-    {
-      if (xmlTypeGenPackage == null)
-      {
-        GenModel xmlTypeGenModel = getGenModel().createGenModel();
-        xmlTypeGenModel.initialize(Collections.singleton(XMLTypePackage.eINSTANCE));
-        xmlTypeGenModel.setImportManager(getImportManager());
-        xmlTypeGenPackage = (GenPackage)xmlTypeGenModel.getGenPackages().get(0);
-        xmlTypeGenPackage.setPrefix("XMLType");
-        xmlTypeGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
-        xmlTypeGenPackage.setDataTypeConverters(true);
-      }
-      return xmlTypeGenPackage;
-    }
-
-    if (ePackage == XMLNamespacePackage.eINSTANCE)
-    {
-      if (xmlNamespaceGenPackage == null)
-      {
-        GenModel xmlNamespaceGenModel = getGenModel().createGenModel();
-        xmlNamespaceGenModel.initialize(Collections.singleton(XMLNamespacePackage.eINSTANCE));
-        xmlNamespaceGenModel.setImportManager(getImportManager());
-        xmlNamespaceGenPackage = (GenPackage)xmlNamespaceGenModel.getGenPackages().get(0);
-        xmlNamespaceGenPackage.setPrefix("XMLNamespace");
-        xmlNamespaceGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
-      }
-      return xmlNamespaceGenPackage;
-    }
-
-    if (ePackage != null)
-    {
-      for (Iterator pIter = getAllGenPackages().iterator(); pIter.hasNext(); )
-      {
-        GenPackage genPackage = (GenPackage)pIter.next();
-        GenPackage resultGenPackage = findGenPackageHelper(genPackage, ePackage);
-        if (resultGenPackage != null)
-        {
-          return resultGenPackage;
-        }
-      }
-    }
-
-    return null;
+    return getGenModel().findGenPackage(ePackage);
   }
 
   protected GenClass findGenClass(EClass eClass)
   {
-    GenPackage genPackage = findGenPackage(eClass.getEPackage());
-    if (genPackage != null)
-    {
-      for (Iterator iter = genPackage.getGenClasses().iterator(); iter.hasNext(); )
-      {
-        GenClass genClass = (GenClass)iter.next();
-        if (eClass.getName().equals(genClass.getEcoreClass().getName())) //FB TBD different objects for ecore model!
-        {
-          return genClass;
-        }
-      }
-    }
-    return null;
+    return ((GenModelImpl)getGenModel()).findGenClass(eClass);
   }
 
   protected GenEnum findGenEnum(EEnum eEnum)
   {
-    GenPackage genPackage = findGenPackage(eEnum.getEPackage());
-    if (genPackage != null)
-    {
-      for (Iterator iter = genPackage.getGenEnums().iterator(); iter.hasNext(); )
-      {
-        GenEnum genEnum = (GenEnum)iter.next();
-        if (eEnum.getName().equals(genEnum.getEcoreEnum().getName())) //FB TBD different objects for ecore model!
-        {
-          return genEnum;
-        }
-      }
-    }
-    return null;
+    return ((GenModelImpl)getGenModel()).findGenEnum(eEnum);
   }
 
   protected GenDataType findGenDataType(EDataType eDataType)
   {
-    GenPackage genPackage = findGenPackage(eDataType.getEPackage());
-    if (genPackage != null)
-    {
-      for (Iterator iter = genPackage.getGenDataTypes().iterator(); iter.hasNext(); )
-      {
-        GenDataType genDataType = (GenDataType)iter.next();
-        if (eDataType.getName().equals(genDataType.getEcoreDataType().getName())) //FB TBD different objects for ecore model!
-        {
-          return genDataType;
-        }
-      }
-    }
-    return null;
+    return ((GenModelImpl)getGenModel()).findGenDataType(eDataType);
   }
 
   protected GenClassifier findGenClassifier(EClassifier eClassifier)
@@ -1399,10 +1306,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    */
   protected List collectGenClasses(List eClasses, GenClassFilter filter)
   {
+    GenModelImpl genModelImpl = (GenModelImpl)getGenModel();
     List result = new ArrayList();
-    for (Iterator iter = eClasses.iterator(); iter.hasNext(); )
+    for (int i = 0, size = eClasses.size(); i < size; ++i)
     {
-      GenClass genClass = findGenClass((EClass)iter.next());
+      GenClass genClass = genModelImpl.findGenClass((EClass)eClasses.get(i));
       if (filter == null || filter.accept(genClass))
       {
         result.add(genClass);
@@ -1423,15 +1331,23 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
     if (genClasses != null)
     {
-      for (Iterator iter = genClasses.iterator(); iter.hasNext(); )
+      for (int i = 0, iSize = genClasses.size(); i < iSize; ++i)
       {
-        GenClass genClass = (GenClass)iter.next();
-        for (Iterator sIter = genClass.getGenFeatures().iterator(); sIter.hasNext(); )
+        GenClass genClass = (GenClass)genClasses.get(i);
+        List features = genClass.getGenFeatures();
+        if (filter == null)
         {
-          GenFeature genFeature = (GenFeature)sIter.next();
-          if (filter == null || filter.accept(genFeature))
+          result.addAll(features);
+        }
+        else
+        {
+          for (int j = 0, jSize = features.size(); j < jSize; ++j)
           {
-            result.add(genFeature);
+            GenFeature genFeature = (GenFeature)features.get(j);
+            if (filter.accept(genFeature))
+            {
+              result.add(genFeature);
+            }
           }
         }
       }
@@ -1439,12 +1355,19 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
     if (genFeatures != null)
     {
-      for (Iterator iter = genFeatures.iterator(); iter.hasNext(); )
+      if (filter == null)
       {
-        GenFeature genFeature = (GenFeature)iter.next();
-        if (filter == null || filter.accept(genFeature))
+        result.addAll(genFeatures);
+      }
+      else
+      {
+        for (int i = 0, size = genFeatures.size(); i < size; ++i)
         {
-          result.add(genFeature);
+          GenFeature genFeature = (GenFeature)genFeatures.get(i);
+          if (filter.accept(genFeature))
+          {
+            result.add(genFeature);
+          }
         }
       }
     }
