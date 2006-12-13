@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJCompilationUnit.java,v 1.3 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTJCompilationUnit.java,v 1.4 2006/12/13 20:21:53 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -274,53 +274,60 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
     // enable tracking for nodes that have string content
     Map<ITrackedNodePosition, String> trackedNodePositions = trackNodePositions();
 
-    // apply changes using ASTRewrite
-    IDocument targetDoc = new Document(new String(originalContents));
+    String contents = new String(originalContents);    
+    IDocument targetDoc = new Document(contents);
     TextEdit edits = rewriter.rewriteAST(targetDoc, getFacadeHelper().getJavaCoreOptions());
-    try
-    {
-      edits.apply(targetDoc);
-      if (ASTFacadeHelper.DEBUG)
-      {
-        getFacadeHelper().logInfo("Document after ASTRewrite:\n<" + targetDoc.get() + ">\nEnd of document.");
-      }
-    }
-    catch (MalformedTreeException e)
-    {
-      if (ASTFacadeHelper.DEBUG)
-      {
-        getFacadeHelper().logError("Error applying edits: ", e);
-      }
-    }
-    catch (BadLocationException e)
-    {
-      if (ASTFacadeHelper.DEBUG)
-      {
-        getFacadeHelper().logError("Error applying edits: ", e);
-      }
-    }
-
-    // replace tracked nodes by string content
-    try 
-    {
-      TextEdit replaceContentsEdits = createReplaceContentsEdit(trackedNodePositions);
-      replaceContentsEdits.apply(targetDoc);
-    }
-    catch (Exception e) 
-    {
-      if (ASTFacadeHelper.DEBUG)
-      {
-        getFacadeHelper().logError("Error creating and applying replace edits: ", e);
-      }
-    }
     
-    // apply header
-    if (headerString != null)
+    if (edits.getChildrenSize() != 0 || edits.getLength() != 0 || !trackedNodePositions.isEmpty())
     {
-      setHeader(targetDoc);
-    }      
-    
-    return targetDoc.get();
+      // apply changes using ASTRewrite
+      //
+      try
+      {
+        edits.apply(targetDoc);
+        if (ASTFacadeHelper.DEBUG)
+        {
+          getFacadeHelper().logInfo("Document after ASTRewrite:\n<" + targetDoc.get() + ">\nEnd of document.");
+        }
+      }
+      catch (MalformedTreeException e)
+      {
+        if (ASTFacadeHelper.DEBUG)
+        {
+          getFacadeHelper().logError("Error applying edits: ", e);
+        }
+      }
+      catch (BadLocationException e)
+      {
+        if (ASTFacadeHelper.DEBUG)
+        {
+          getFacadeHelper().logError("Error applying edits: ", e);
+        }
+      }
+  
+      // replace tracked nodes by string content
+      try 
+      {
+        TextEdit replaceContentsEdits = createReplaceContentsEdit(trackedNodePositions);
+        replaceContentsEdits.apply(targetDoc);
+      }
+      catch (Exception e) 
+      {
+        if (ASTFacadeHelper.DEBUG)
+        {
+          getFacadeHelper().logError("Error creating and applying replace edits: ", e);
+        }
+      }
+      
+      // apply header
+      if (headerString != null)
+      {
+        setHeader(targetDoc);
+      }      
+      
+      contents = targetDoc.get();
+    }
+    return contents;
   }
   
   /* (non-Javadoc)
