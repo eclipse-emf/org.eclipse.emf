@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.11 2006/12/09 18:03:56 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.12 2006/12/13 20:44:42 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -106,8 +106,8 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   public String getRawType()
   {
     if (isFeatureMapType()) return getEffectiveFeatureMapWrapperInterface();
-    if (isMapType()) return getEffectiveMapType(getMapEntryTypeGenClass());
-    if (isListType()) return getEffectiveListType(getEcoreTypedElement().getEType());
+    if (isMapType()) return getEffectiveMapType();
+    if (isListType()) return getEffectiveListType();
     if (isEObjectType()) return getEffectiveEObjectType();
     return getType(getEcoreTypedElement().getEType(), false);
   }
@@ -124,8 +124,8 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   public String getRawImportedType()
   {
     if (isFeatureMapType()) return getGenModel().getImportedName(getEffectiveFeatureMapWrapperInterface());
-    if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType(getMapEntryTypeGenClass()));
-    if (isListType()) return getGenModel().getImportedName(getEffectiveListType(getEcoreTypedElement().getEType()));
+    if (isMapType()) return getGenModel().getImportedName(getEffectiveMapType());
+    if (isListType()) return getGenModel().getImportedName(getEffectiveListType());
     if (isEObjectType()) return getGenModel().getImportedName(getEffectiveEObjectType());
     return getImportedType(getEcoreTypedElement().getEType(), false);
   }
