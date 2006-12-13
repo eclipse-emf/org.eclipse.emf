@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.3 2006/12/05 06:15:21 marcelop Exp $
+ * $Id: FacadeHelper.java,v 1.4 2006/12/13 20:20:45 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -251,7 +251,7 @@ public abstract class FacadeHelper
    * @return the sibling, or <code>null</code> if this node has no children
    * @see #getChildren()
    */    
-  public JNode getSibiling(JNode node, int pos)
+  protected JNode getSibiling(JNode node, int pos)
   {
     if (node != null && node.getParent() != null)
     {
@@ -387,5 +387,27 @@ public abstract class FacadeHelper
   public boolean fixInterfaceBrace()
   {
     return false;
+  }
+  
+  /**
+   * Returns whether this facade implementation may return the
+   * wrong Javadoc for a node when there are 2 or more javadoc blocks preceding 
+   * the node.
+   * @return boolean
+   */
+  public boolean canYieldWrongJavadoc()
+  {
+    return false;
+  }
+  
+  /**
+   * Returns whether using the {@link #getPrevious(JNode)} and 
+   * {@link #getNext(JNode)} methods is slower than using {@link JNode#getChildren()}
+   * directly.
+   * @return boolean
+   */
+  public boolean isSibilingTraversalExpensive()
+  {
+    return true;
   }
 }

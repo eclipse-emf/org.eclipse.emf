@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMFacadeHelper.java,v 1.5 2006/12/06 03:48:07 marcelop Exp $
+ * $Id: JDOMFacadeHelper.java,v 1.6 2006/12/13 20:20:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -286,5 +286,17 @@ public class JDOMFacadeHelper extends FacadeHelper
   public boolean fixInterfaceBrace()
   {
     return true;
+  }
+  
+  @Override
+  public boolean canYieldWrongJavadoc()
+  {
+    return true;
+  }
+  
+  @Override
+  public boolean isSibilingTraversalExpensive()
+  {
+    return false;
   }
 }
