@@ -707,75 +707,30 @@ public class CodeGenUtil
   {
     if (tabReplacement != null && !"\t".equals(tabReplacement))
     {
-      if (true)
+      boolean newLine = true;
+      StringBuilder sb = new StringBuilder(value.length() + value.length()/5);
+      sb.append(value);
+      
+      for (int i=0; i < sb.length(); i++)
       {
-      char [] text = value.toCharArray();
-      StringBuffer result = new StringBuffer(text.length + text.length / 10);
-      boolean blankLine = true;
-      int tabCount = 0;
-      int previous = 0;
-      for (int i = 0, length = text.length; i < length; ++i)
-      {
-        switch (text[i])
+        switch (sb.charAt(i))
         {
           case '\t':
-          {
-            if (blankLine)
+            if (newLine)
             {
-              ++tabCount;
+              sb.replace(i, i+1, tabReplacement);
+              i += (tabReplacement.length()-"\t".length());
             }
             break;
-          }
           case '\n':
           case '\r':
-          {
-            blankLine = true;
+            newLine = true;
             break;
-          }
           default:
-          {
-            if (tabCount > 0)
-            {
-              result.append(text, previous, i - tabCount - previous);
-              for (int j = 0; j < tabCount; ++j)
-              {
-                result.append(tabReplacement);
-              }
-              previous = i;
-              tabCount = 0;
-            }
-            blankLine = false;
-            break;
-          }
+            newLine = false;
         }
       }
-      result.append(text, previous, text.length - previous);
-      value = result.toString();
-      }
-      else
-      {
-      FindAndReplace findAndReplaceLeadingTabs = 
-        new FindAndReplace(leadingTabs)
-        {
-          @Override
-          public boolean handleMatch(int offset, Matcher matcher)
-          {
-            if (matcher.groupCount() >= 1)
-            {
-              int begin = offset + matcher.start(1);
-              int end = offset + matcher.end(1);
-              StringBuffer replacement = new StringBuffer();
-              for (int i = begin; i < end; ++i)
-              {
-                replacement.append(tabReplacement);
-              }
-              replace(begin, end, replacement.toString());
-            }
-            return true;
-          }
-        };
-      value = findAndReplaceLeadingTabs.apply(value);
-      }
+      value = sb.toString();
     }
 
     if (convertToStandardBraceStyle)
