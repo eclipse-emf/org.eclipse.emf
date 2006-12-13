@@ -19,28 +19,28 @@
   <merge:dictionaryPattern
     name="modelMembers" 
     select="Member/getComment" 
-    match="\s*@\s*(model)"/>
+    match="@\s*(model)"/>
 
   <merge:dictionaryPattern
     name="generatedUnmodifiableMembers" 
     select="Member/getComment" 
-    match="\s*@\s*(gen)erated\s*(This field/method[^\n]*)*\n"/>
+    match="@\s*(gen)erated\s*(This field/method[^\n]*)*\n"/>
 
   <merge:dictionaryPattern
     name="generatedModifiableMembers" 
     select="Member/getComment" 
-    match="\s*@\s*generated\s*(modifiable)\s*\n"/>
+    match="@\s*generated\s*(modifiable)\s*\n"/>
 
   <!-- This is like the above, but for backward compatibility -->
   <merge:dictionaryPattern
     name="generatedLastGenMembers" 
     select="Member/getComment" 
-    match="\s*@\s*(lastgen).*\n"/>
+    match="@\s*(lastgen).*\n"/>
 
   <merge:dictionaryPattern
     name="orderedMembers" 
     select="Member/getComment" 
-    match="\s*@\s*(ordered)\s*\n"/>
+    match="@\s*(ordered)\s*\n"/>
 
   <!-- Only push Annotations for the Members marked by gen-->
   <merge:push targetParentMarkup="^gen$" select="Annotation"/>
