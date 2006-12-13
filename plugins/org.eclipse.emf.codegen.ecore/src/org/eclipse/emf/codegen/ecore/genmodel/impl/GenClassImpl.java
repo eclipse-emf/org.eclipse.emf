@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.65 2006/12/05 20:29:52 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.66 2006/12/13 20:37:08 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -474,7 +474,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public GenClass getBaseGenClass()
   {
     List s = getEcoreClass().getESuperTypes();
-    return s.isEmpty() ? null : findGenClass((EClass)s.iterator().next());
+    return s.isEmpty() ? null : findGenClass((EClass)s.get(0));
   }
 
   public GenClass getClassExtendsGenClass()
@@ -1093,8 +1093,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     List allBases = getAllBaseGenClasses();
     GenClass extendedBase = getClassExtendsGenClass();
-    int i = extendedBase == null ? 0 : allBases.indexOf(extendedBase) + 1;
-    List result = new ArrayList(allBases.subList(i, allBases.size()));
+    List result = 
+      extendedBase == null ?
+        new ArrayList(allBases) :
+        new ArrayList(allBases.subList(allBases.indexOf(extendedBase) + 1, allBases.size()));
     result.add(this);
     return result;
   }
