@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: HrSwitch.java,v 1.1 2006/12/07 03:55:42 marcelop Exp $
+ * $Id: HrSwitch.java,v 1.2 2006/12/13 16:01:44 emerks Exp $
  */
 package org.examples.library.hr.util;
 
@@ -26,7 +26,7 @@ import org.examples.library.hr.*;
  * @see org.examples.library.hr.HrPackage
  * @generated
  */
-public class HrSwitch
+public class HrSwitch<T>
 {
   /**
    * <!-- begin-user-doc -->
@@ -64,7 +64,7 @@ public class HrSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -76,7 +76,7 @@ public class HrSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -99,14 +99,14 @@ public class HrSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case HrPackage.PERSON:
       {
         Person person = (Person)theEObject;
-        Object result = casePerson(person);
+        T result = casePerson(person);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -125,7 +125,7 @@ public class HrSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object casePerson(Person object)
+  public T casePerson(Person object)
   {
     return null;
   }
@@ -141,7 +141,7 @@ public class HrSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

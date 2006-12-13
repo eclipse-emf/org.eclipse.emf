@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: HrAdapterFactory.java,v 1.1 2006/12/07 03:55:43 marcelop Exp $
+ * $Id: HrAdapterFactory.java,v 1.2 2006/12/13 16:01:44 emerks Exp $
  */
 package org.examples.library.hr.util;
 
@@ -82,16 +82,16 @@ public class HrAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected HrSwitch modelSwitch =
-    new HrSwitch()
+  protected HrSwitch<Adapter> modelSwitch =
+    new HrSwitch<Adapter>()
     {
       @Override
-      public Object casePerson(Person object)
+      public Adapter casePerson(Person object)
       {
         return createPersonAdapter();
       }
       @Override
-      public Object defaultCase(EObject object)
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }

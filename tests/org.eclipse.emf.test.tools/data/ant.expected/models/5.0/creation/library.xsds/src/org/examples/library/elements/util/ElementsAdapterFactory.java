@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsAdapterFactory.java,v 1.1 2006/12/07 03:55:36 marcelop Exp $
+ * $Id: ElementsAdapterFactory.java,v 1.2 2006/12/13 16:01:44 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -82,21 +82,21 @@ public class ElementsAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ElementsSwitch modelSwitch =
-    new ElementsSwitch()
+  protected ElementsSwitch<Adapter> modelSwitch =
+    new ElementsSwitch<Adapter>()
     {
       @Override
-      public Object caseBook(Book object)
+      public Adapter caseBook(Book object)
       {
         return createBookAdapter();
       }
       @Override
-      public Object caseWriter(Writer object)
+      public Adapter caseWriter(Writer object)
       {
         return createWriterAdapter();
       }
       @Override
-      public Object defaultCase(EObject object)
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }

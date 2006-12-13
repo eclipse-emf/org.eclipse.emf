@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibrarySwitch.java,v 1.1 2006/12/07 03:55:44 marcelop Exp $
+ * $Id: LibrarySwitch.java,v 1.2 2006/12/13 16:01:44 emerks Exp $
  */
 package org.examples.library.util;
 
@@ -26,7 +26,7 @@ import org.examples.library.*;
  * @see org.examples.library.LibraryPackage
  * @generated
  */
-public class LibrarySwitch
+public class LibrarySwitch<T>
 {
   /**
    * <!-- begin-user-doc -->
@@ -64,7 +64,7 @@ public class LibrarySwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -76,7 +76,7 @@ public class LibrarySwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -99,14 +99,14 @@ public class LibrarySwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case LibraryPackage.LIBRARY:
       {
         Library library = (Library)theEObject;
-        Object result = caseLibrary(library);
+        T result = caseLibrary(library);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -125,7 +125,7 @@ public class LibrarySwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseLibrary(Library object)
+  public T caseLibrary(Library object)
   {
     return null;
   }
@@ -141,7 +141,7 @@ public class LibrarySwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

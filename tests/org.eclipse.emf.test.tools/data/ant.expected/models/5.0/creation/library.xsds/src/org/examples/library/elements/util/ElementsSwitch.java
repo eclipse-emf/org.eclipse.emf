@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ElementsSwitch.java,v 1.1 2006/12/07 03:55:36 marcelop Exp $
+ * $Id: ElementsSwitch.java,v 1.2 2006/12/13 16:01:44 emerks Exp $
  */
 package org.examples.library.elements.util;
 
@@ -26,7 +26,7 @@ import org.examples.library.elements.*;
  * @see org.examples.library.elements.ElementsPackage
  * @generated
  */
-public class ElementsSwitch
+public class ElementsSwitch<T>
 {
   /**
    * <!-- begin-user-doc -->
@@ -64,7 +64,7 @@ public class ElementsSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -76,7 +76,7 @@ public class ElementsSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -99,21 +99,21 @@ public class ElementsSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case ElementsPackage.BOOK:
       {
         Book book = (Book)theEObject;
-        Object result = caseBook(book);
+        T result = caseBook(book);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case ElementsPackage.WRITER:
       {
         Writer writer = (Writer)theEObject;
-        Object result = caseWriter(writer);
+        T result = caseWriter(writer);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -132,7 +132,7 @@ public class ElementsSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseBook(Book object)
+  public T caseBook(Book object)
   {
     return null;
   }
@@ -148,7 +148,7 @@ public class ElementsSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseWriter(Writer object)
+  public T caseWriter(Writer object)
   {
     return null;
   }
@@ -164,7 +164,7 @@ public class ElementsSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

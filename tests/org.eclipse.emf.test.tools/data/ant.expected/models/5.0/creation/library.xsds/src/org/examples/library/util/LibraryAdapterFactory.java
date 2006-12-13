@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibraryAdapterFactory.java,v 1.1 2006/12/07 03:55:36 marcelop Exp $
+ * $Id: LibraryAdapterFactory.java,v 1.2 2006/12/13 16:01:44 emerks Exp $
  */
 package org.examples.library.util;
 
@@ -82,16 +82,16 @@ public class LibraryAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected LibrarySwitch modelSwitch =
-    new LibrarySwitch()
+  protected LibrarySwitch<Adapter> modelSwitch =
+    new LibrarySwitch<Adapter>()
     {
       @Override
-      public Object caseLibrary(Library object)
+      public Adapter caseLibrary(Library object)
       {
         return createLibraryAdapter();
       }
       @Override
-      public Object defaultCase(EObject object)
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }

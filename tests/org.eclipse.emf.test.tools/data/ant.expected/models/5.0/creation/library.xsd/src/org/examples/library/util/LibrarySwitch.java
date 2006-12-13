@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: LibrarySwitch.java,v 1.1 2006/12/07 03:55:40 marcelop Exp $
+ * $Id: LibrarySwitch.java,v 1.2 2006/12/13 16:01:44 emerks Exp $
  */
 package org.examples.library.util;
 
@@ -26,7 +26,7 @@ import org.examples.library.*;
  * @see org.examples.library.LibraryPackage
  * @generated
  */
-public class LibrarySwitch
+public class LibrarySwitch<T>
 {
   /**
    * <!-- begin-user-doc -->
@@ -64,7 +64,7 @@ public class LibrarySwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -76,7 +76,7 @@ public class LibrarySwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -99,28 +99,28 @@ public class LibrarySwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case LibraryPackage.BOOK:
       {
         Book book = (Book)theEObject;
-        Object result = caseBook(book);
+        T result = caseBook(book);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case LibraryPackage.LIBRARY:
       {
         Library library = (Library)theEObject;
-        Object result = caseLibrary(library);
+        T result = caseLibrary(library);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case LibraryPackage.WRITER:
       {
         Writer writer = (Writer)theEObject;
-        Object result = caseWriter(writer);
+        T result = caseWriter(writer);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -139,7 +139,7 @@ public class LibrarySwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseBook(Book object)
+  public T caseBook(Book object)
   {
     return null;
   }
@@ -155,7 +155,7 @@ public class LibrarySwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseLibrary(Library object)
+  public T caseLibrary(Library object)
   {
     return null;
   }
@@ -171,7 +171,7 @@ public class LibrarySwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseWriter(Writer object)
+  public T caseWriter(Writer object)
   {
     return null;
   }
@@ -187,7 +187,7 @@ public class LibrarySwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }
