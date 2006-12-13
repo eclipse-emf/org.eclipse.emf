@@ -707,30 +707,38 @@ public class CodeGenUtil
   {
     if (tabReplacement != null && !"\t".equals(tabReplacement))
     {
-      boolean newLine = true;
-      StringBuilder sb = new StringBuilder(value.length() + value.length()/5);
-      sb.append(value);
-      
-      for (int i=0; i < sb.length(); i++)
+      char[] text = value.toCharArray();
+      StringBuffer result = new StringBuffer(text.length + text.length / 10);
+      boolean blankLine = true;
+      int tabCount = 0;
+      int previous = 0;
+      for (int i = 0, length = text.length; i < length; ++i)
       {
-        switch (sb.charAt(i))
+        char c = text[i];
+        if (c == '\t')
         {
-          case '\t':
-            if (newLine)
+          if (blankLine)
+          {
+            ++tabCount;
+          }          
+        }
+        else
+        {
+          if (tabCount > 0)
+          {
+            result.append(text, previous, i - tabCount - previous);
+            for (int j = 0; j < tabCount; ++j)
             {
-              sb.replace(i, i+1, tabReplacement);
-              i += (tabReplacement.length()-"\t".length());
+              result.append(tabReplacement);
             }
-            break;
-          case '\n':
-          case '\r':
-            newLine = true;
-            break;
-          default:
-            newLine = false;
+            previous = i;
+            tabCount = 0;
+          }
+          blankLine = c == '\n' || c == '\r';
         }
       }
-      value = sb.toString();
+      result.append(text, previous, text.length - previous);
+      value = result.toString();
     }
 
     if (convertToStandardBraceStyle)
