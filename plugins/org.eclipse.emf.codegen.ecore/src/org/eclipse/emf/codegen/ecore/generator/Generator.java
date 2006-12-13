@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.5 2006/11/09 20:27:03 davidms Exp $
+ * $Id: Generator.java,v 1.6 2006/12/13 20:30:16 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -258,6 +258,8 @@ public class Generator
     return options;
   }
 
+  protected Set<String> badFacadeHelpClasses = new HashSet<String>();
+
   /**
    * Returns a {@link org.eclipse.emf.codegen.merge.java.JControlModel JControlModel} that the generator's adapters can
    * use for merging. It is initialized with the {@link Options#mergerFacadeHelperClass facade helper class} and
@@ -275,9 +277,14 @@ public class Generator
     }
 
     String facadeHelperClass = options.mergerFacadeHelperClass;
-    if (jControlModel.getFacadeHelper() == null || !jControlModel.getFacadeHelper().getClass().getName().equals(facadeHelperClass))
+    if (!badFacadeHelpClasses.contains(facadeHelperClass) &&
+           (jControlModel.getFacadeHelper() == null || !jControlModel.getFacadeHelper().getClass().getName().equals(facadeHelperClass)))
     {
       FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(facadeHelperClass); 
+      if (facadeHelper == null)
+      {
+        badFacadeHelpClasses.add(facadeHelperClass);
+      }
       jControlModel.initialize(facadeHelper, options.mergeRulesURI);
     }
     return jControlModel;
