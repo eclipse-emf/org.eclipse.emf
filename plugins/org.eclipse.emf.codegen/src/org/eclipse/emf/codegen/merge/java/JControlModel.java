@@ -12,13 +12,15 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.7 2006/12/06 03:49:43 marcelop Exp $
+ * $Id: JControlModel.java,v 1.8 2006/12/13 20:15:00 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -39,6 +41,7 @@ class PrefixHandler
   
   protected PrefixHandler()
   {
+    super();
   }
 
   protected PrefixHandler(String classPrefix)
@@ -54,12 +57,6 @@ class PrefixHandler
   public String getClassPrefix()
   {
     return classPrefix;
-  }
-
-  public String computeClassName(String className)
-  {
-    return getClassPrefix() == null ?
-      className : getClassPrefix() + className;
   }
 }
 
@@ -97,18 +94,19 @@ public class JControlModel extends PrefixHandler
     public void initialize(String path, Class<?>[] parameterTypes)
     {
       int index = path.indexOf('/');
-      String className = computeClassName(path.substring(0, index));
+      String className = path.substring(0, index);
       String methodName = path.substring(index + 1);
       try
       {
-        featureClass = Class.forName(className);
-        featureMethod = featureClass.getMethod(methodName, parameterTypes);
+        featureClass = classForClassName(classPrefix, className);
+        if (featureClass != null)
+        {
+          featureMethod = featureClass.getMethod(methodName, parameterTypes);
+        }
       }
       catch (NoSuchMethodException exception)
       {
-      }
-      catch (ClassNotFoundException exception)
-      {
+        // Ignore the exception.
       }
     }
   }
@@ -188,7 +186,6 @@ public class JControlModel extends PrefixHandler
     protected Pattern targetMarkup;
     protected Pattern targetParentMarkup;
     protected Feature targetPutFeature;
-    protected Pattern targetTransfer;
     
     protected Feature equalityFeature;
 
@@ -239,10 +236,6 @@ public class JControlModel extends PrefixHandler
       if (element.hasAttribute("sourceTransfer"))
       {
         sourceTransfer= Pattern.compile(element.getAttribute("sourceTransfer"), Pattern.MULTILINE | Pattern.DOTALL);
-      }
-      if (element.hasAttribute("targetTransfer"))
-      {
-        targetTransfer= Pattern.compile(element.getAttribute("targetTransfer"), Pattern.MULTILINE | Pattern.DOTALL);
       }
       if (element.hasAttribute("equals"))
       {
@@ -303,16 +296,6 @@ public class JControlModel extends PrefixHandler
     public void setSourceTransfer(Pattern sourceTransfer)
     {
       this.sourceTransfer = sourceTransfer;
-    }
-
-    public Pattern getTargetTransfer()
-    {
-      return targetTransfer;
-    }
-
-    public void setTargetTransfer(Pattern targetTransfer)
-    {
-      this.targetTransfer = targetTransfer;
     }
 
     public Pattern getSourceMarkup()
@@ -602,6 +585,8 @@ public class JControlModel extends PrefixHandler
     }
   }
   
+  static Map<String, Class<?>> classNameToClassMap = new HashMap<String, Class<?>>();
+
   public static Class<?> classForClassName(String classPrefix, String className)
   {
     if (classPrefix != null)
@@ -609,21 +594,31 @@ public class JControlModel extends PrefixHandler
       className = classPrefix + className;
     }
     
-    try
+    Class<?> result = classNameToClassMap.get(className);
+    if (result == null)
     {
-      Class<?> result = Class.forName(className);
-      return result;
-    }
-    catch (ClassNotFoundException exception)
-    {
-      //  We expect this failure when running standalone
-      //
-      if (EMFPlugin.IS_ECLIPSE_RUNNING)
+      try
       {
-        CodeGenPlugin.INSTANCE.log(exception);
+        result = Class.forName(className);
+        classNameToClassMap.put(className, result);
+      }
+      catch (ClassNotFoundException exception)
+      {
+        //  We expect this failure when running standalone
+        //
+        if (EMFPlugin.IS_ECLIPSE_RUNNING)
+        {
+          CodeGenPlugin.INSTANCE.log(exception);
+        }
+        
+        // JControlModel.class is used with classNames that were not found
+        //
+        classNameToClassMap.put(className, JControlModel.class);
       }
     }
-    return null;
+    return result == JControlModel.class ? 
+      null : 
+      result;
   }
   
   protected FacadeHelper facadeHelper;
@@ -644,6 +639,7 @@ public class JControlModel extends PrefixHandler
 
   public JControlModel()
   {
+    super();
   }
   
   protected void setFacadeHelper(FacadeHelper facadeHelper)
