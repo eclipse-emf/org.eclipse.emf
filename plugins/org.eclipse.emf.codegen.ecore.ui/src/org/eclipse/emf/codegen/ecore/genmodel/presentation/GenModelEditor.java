@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.37 2006/10/19 04:25:05 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.38 2006/12/13 20:28:45 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -632,24 +632,32 @@ public class GenModelEditor
     generator.setInput(genModel);
     JControlModel jControlModel = generator.getJControlModel();
 
-    Map options = JavaCore.getOptions();
-    String tabSize = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
-    String braceStyle = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
-    String tabCharacter = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
-    if (JavaCore.TAB.equals(tabCharacter))
+    if (genModel.isCodeFormatting())
     {
-       jControlModel.setLeadingTabReplacement("\t");
+      jControlModel.setLeadingTabReplacement(null);
+      jControlModel.setConvertToStandardBraceStyle(false);
     }
     else
     {
-      String spaces = "";
-      for (int i = Integer.parseInt(tabSize); i > 0; --i)
+      Map options = JavaCore.getOptions();
+      String tabSize = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
+      String braceStyle = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
+      String tabCharacter = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
+      if (JavaCore.TAB.equals(tabCharacter))
       {
-        spaces += " ";
+        jControlModel.setLeadingTabReplacement("\t");
       }
-      jControlModel.setLeadingTabReplacement(spaces);
+      else
+      {
+        String spaces = "";
+        for (int i = Integer.parseInt(tabSize); i > 0; --i)
+        {
+          spaces += " ";
+        }
+        jControlModel.setLeadingTabReplacement(spaces);
+      }
+      jControlModel.setConvertToStandardBraceStyle(DefaultCodeFormatterConstants.END_OF_LINE.equals(braceStyle));
     }
-    jControlModel.setConvertToStandardBraceStyle(DefaultCodeFormatterConstants.END_OF_LINE.equals(braceStyle));
     
     updateProblemIndication = true;
   }  
