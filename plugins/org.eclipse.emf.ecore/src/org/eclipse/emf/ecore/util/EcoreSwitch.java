@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSwitch.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EcoreSwitch.java,v 1.10 2006/12/13 16:00:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.emf.ecore.EcorePackage
  * @generated
  */
-public class EcoreSwitch
+public class EcoreSwitch<T>
 {
   /**
    * The cached model package
@@ -69,7 +69,7 @@ public class EcoreSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -81,7 +81,7 @@ public class EcoreSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -104,14 +104,14 @@ public class EcoreSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case EcorePackage.EATTRIBUTE:
       {
         EAttribute eAttribute = (EAttribute)theEObject;
-        Object result = caseEAttribute(eAttribute);
+        T result = caseEAttribute(eAttribute);
         if (result == null) result = caseEStructuralFeature(eAttribute);
         if (result == null) result = caseETypedElement(eAttribute);
         if (result == null) result = caseENamedElement(eAttribute);
@@ -122,7 +122,7 @@ public class EcoreSwitch
       case EcorePackage.EANNOTATION:
       {
         EAnnotation eAnnotation = (EAnnotation)theEObject;
-        Object result = caseEAnnotation(eAnnotation);
+        T result = caseEAnnotation(eAnnotation);
         if (result == null) result = caseEModelElement(eAnnotation);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -130,7 +130,7 @@ public class EcoreSwitch
       case EcorePackage.ECLASS:
       {
         EClass eClass = (EClass)theEObject;
-        Object result = caseEClass(eClass);
+        T result = caseEClass(eClass);
         if (result == null) result = caseEClassifier(eClass);
         if (result == null) result = caseENamedElement(eClass);
         if (result == null) result = caseEModelElement(eClass);
@@ -140,7 +140,7 @@ public class EcoreSwitch
       case EcorePackage.ECLASSIFIER:
       {
         EClassifier eClassifier = (EClassifier)theEObject;
-        Object result = caseEClassifier(eClassifier);
+        T result = caseEClassifier(eClassifier);
         if (result == null) result = caseENamedElement(eClassifier);
         if (result == null) result = caseEModelElement(eClassifier);
         if (result == null) result = defaultCase(theEObject);
@@ -149,7 +149,7 @@ public class EcoreSwitch
       case EcorePackage.EDATA_TYPE:
       {
         EDataType eDataType = (EDataType)theEObject;
-        Object result = caseEDataType(eDataType);
+        T result = caseEDataType(eDataType);
         if (result == null) result = caseEClassifier(eDataType);
         if (result == null) result = caseENamedElement(eDataType);
         if (result == null) result = caseEModelElement(eDataType);
@@ -159,7 +159,7 @@ public class EcoreSwitch
       case EcorePackage.EENUM:
       {
         EEnum eEnum = (EEnum)theEObject;
-        Object result = caseEEnum(eEnum);
+        T result = caseEEnum(eEnum);
         if (result == null) result = caseEDataType(eEnum);
         if (result == null) result = caseEClassifier(eEnum);
         if (result == null) result = caseENamedElement(eEnum);
@@ -170,7 +170,7 @@ public class EcoreSwitch
       case EcorePackage.EENUM_LITERAL:
       {
         EEnumLiteral eEnumLiteral = (EEnumLiteral)theEObject;
-        Object result = caseEEnumLiteral(eEnumLiteral);
+        T result = caseEEnumLiteral(eEnumLiteral);
         if (result == null) result = caseENamedElement(eEnumLiteral);
         if (result == null) result = caseEModelElement(eEnumLiteral);
         if (result == null) result = defaultCase(theEObject);
@@ -179,7 +179,7 @@ public class EcoreSwitch
       case EcorePackage.EFACTORY:
       {
         EFactory eFactory = (EFactory)theEObject;
-        Object result = caseEFactory(eFactory);
+        T result = caseEFactory(eFactory);
         if (result == null) result = caseEModelElement(eFactory);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -187,14 +187,14 @@ public class EcoreSwitch
       case EcorePackage.EMODEL_ELEMENT:
       {
         EModelElement eModelElement = (EModelElement)theEObject;
-        Object result = caseEModelElement(eModelElement);
+        T result = caseEModelElement(eModelElement);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case EcorePackage.ENAMED_ELEMENT:
       {
         ENamedElement eNamedElement = (ENamedElement)theEObject;
-        Object result = caseENamedElement(eNamedElement);
+        T result = caseENamedElement(eNamedElement);
         if (result == null) result = caseEModelElement(eNamedElement);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -202,7 +202,7 @@ public class EcoreSwitch
       case EcorePackage.EOPERATION:
       {
         EOperation eOperation = (EOperation)theEObject;
-        Object result = caseEOperation(eOperation);
+        T result = caseEOperation(eOperation);
         if (result == null) result = caseETypedElement(eOperation);
         if (result == null) result = caseENamedElement(eOperation);
         if (result == null) result = caseEModelElement(eOperation);
@@ -212,7 +212,7 @@ public class EcoreSwitch
       case EcorePackage.EPACKAGE:
       {
         EPackage ePackage = (EPackage)theEObject;
-        Object result = caseEPackage(ePackage);
+        T result = caseEPackage(ePackage);
         if (result == null) result = caseENamedElement(ePackage);
         if (result == null) result = caseEModelElement(ePackage);
         if (result == null) result = defaultCase(theEObject);
@@ -221,7 +221,7 @@ public class EcoreSwitch
       case EcorePackage.EPARAMETER:
       {
         EParameter eParameter = (EParameter)theEObject;
-        Object result = caseEParameter(eParameter);
+        T result = caseEParameter(eParameter);
         if (result == null) result = caseETypedElement(eParameter);
         if (result == null) result = caseENamedElement(eParameter);
         if (result == null) result = caseEModelElement(eParameter);
@@ -231,7 +231,7 @@ public class EcoreSwitch
       case EcorePackage.EREFERENCE:
       {
         EReference eReference = (EReference)theEObject;
-        Object result = caseEReference(eReference);
+        T result = caseEReference(eReference);
         if (result == null) result = caseEStructuralFeature(eReference);
         if (result == null) result = caseETypedElement(eReference);
         if (result == null) result = caseENamedElement(eReference);
@@ -242,7 +242,7 @@ public class EcoreSwitch
       case EcorePackage.ESTRUCTURAL_FEATURE:
       {
         EStructuralFeature eStructuralFeature = (EStructuralFeature)theEObject;
-        Object result = caseEStructuralFeature(eStructuralFeature);
+        T result = caseEStructuralFeature(eStructuralFeature);
         if (result == null) result = caseETypedElement(eStructuralFeature);
         if (result == null) result = caseENamedElement(eStructuralFeature);
         if (result == null) result = caseEModelElement(eStructuralFeature);
@@ -252,7 +252,7 @@ public class EcoreSwitch
       case EcorePackage.ETYPED_ELEMENT:
       {
         ETypedElement eTypedElement = (ETypedElement)theEObject;
-        Object result = caseETypedElement(eTypedElement);
+        T result = caseETypedElement(eTypedElement);
         if (result == null) result = caseENamedElement(eTypedElement);
         if (result == null) result = caseEModelElement(eTypedElement);
         if (result == null) result = defaultCase(theEObject);
@@ -261,21 +261,21 @@ public class EcoreSwitch
       case EcorePackage.ESTRING_TO_STRING_MAP_ENTRY:
       {
         @SuppressWarnings("unchecked") Map.Entry<String, String> eStringToStringMapEntry = (Map.Entry<String, String>)theEObject;
-        Object result = caseEStringToStringMapEntry(eStringToStringMapEntry);
+        T result = caseEStringToStringMapEntry(eStringToStringMapEntry);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case EcorePackage.EGENERIC_TYPE:
       {
         EGenericType eGenericType = (EGenericType)theEObject;
-        Object result = caseEGenericType(eGenericType);
+        T result = caseEGenericType(eGenericType);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case EcorePackage.ETYPE_PARAMETER:
       {
         ETypeParameter eTypeParameter = (ETypeParameter)theEObject;
-        Object result = caseETypeParameter(eTypeParameter);
+        T result = caseETypeParameter(eTypeParameter);
         if (result == null) result = caseENamedElement(eTypeParameter);
         if (result == null) result = caseEModelElement(eTypeParameter);
         if (result == null) result = defaultCase(theEObject);
@@ -296,7 +296,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEModelElement(EModelElement object)
+  public T caseEModelElement(EModelElement object)
   {
     return null;
   }
@@ -312,7 +312,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEStructuralFeature(EStructuralFeature object)
+  public T caseEStructuralFeature(EStructuralFeature object)
   {
     return null;
   }
@@ -328,7 +328,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEAnnotation(EAnnotation object)
+  public T caseEAnnotation(EAnnotation object)
   {
     return null;
   }
@@ -344,7 +344,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEAttribute(EAttribute object)
+  public T caseEAttribute(EAttribute object)
   {
     return null;
   }
@@ -360,7 +360,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEClass(EClass object)
+  public T caseEClass(EClass object)
   {
     return null;
   }
@@ -376,7 +376,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEDataType(EDataType object)
+  public T caseEDataType(EDataType object)
   {
     return null;
   }
@@ -392,7 +392,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEClassifier(EClassifier object)
+  public T caseEClassifier(EClassifier object)
   {
     return null;
   }
@@ -408,7 +408,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseENamedElement(ENamedElement object)
+  public T caseENamedElement(ENamedElement object)
   {
     return null;
   }
@@ -424,7 +424,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }
@@ -440,7 +440,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseETypedElement(ETypedElement object)
+  public T caseETypedElement(ETypedElement object)
   {
     return null;
   }
@@ -456,7 +456,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEStringToStringMapEntry(Map.Entry<String, String> object)
+  public T caseEStringToStringMapEntry(Map.Entry<String, String> object)
   {
     return null;
   }
@@ -472,7 +472,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEGenericType(EGenericType object)
+  public T caseEGenericType(EGenericType object)
   {
     return null;
   }
@@ -488,7 +488,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseETypeParameter(ETypeParameter object)
+  public T caseETypeParameter(ETypeParameter object)
   {
     return null;
   }
@@ -504,7 +504,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEParameter(EParameter object)
+  public T caseEParameter(EParameter object)
   {
     return null;
   }
@@ -520,7 +520,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEOperation(EOperation object)
+  public T caseEOperation(EOperation object)
   {
     return null;
   }
@@ -536,7 +536,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEPackage(EPackage object)
+  public T caseEPackage(EPackage object)
   {
     return null;
   }
@@ -552,7 +552,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEFactory(EFactory object)
+  public T caseEFactory(EFactory object)
   {
     return null;
   }
@@ -568,7 +568,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEEnumLiteral(EEnumLiteral object)
+  public T caseEEnumLiteral(EEnumLiteral object)
   {
     return null;
   }
@@ -584,7 +584,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEEnum(EEnum object)
+  public T caseEEnum(EEnum object)
   {
     return null;
   }
@@ -600,7 +600,7 @@ public class EcoreSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseEReference(EReference object)
+  public T caseEReference(EReference object)
   {
     return null;
   }

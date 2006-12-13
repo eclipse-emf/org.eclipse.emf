@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreAdapterFactory.java,v 1.5 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EcoreAdapterFactory.java,v 1.6 2006/12/13 16:00:14 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -86,106 +86,106 @@ public class EcoreAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EcoreSwitch modelSwitch =
-    new EcoreSwitch()
+  protected EcoreSwitch<Adapter> modelSwitch =
+    new EcoreSwitch<Adapter>()
     {
       @Override
-      public Object caseEAttribute(EAttribute object)
+      public Adapter caseEAttribute(EAttribute object)
       {
         return createEAttributeAdapter();
       }
       @Override
-      public Object caseEAnnotation(EAnnotation object)
+      public Adapter caseEAnnotation(EAnnotation object)
       {
         return createEAnnotationAdapter();
       }
       @Override
-      public Object caseEClass(EClass object)
+      public Adapter caseEClass(EClass object)
       {
         return createEClassAdapter();
       }
       @Override
-      public Object caseEClassifier(EClassifier object)
+      public Adapter caseEClassifier(EClassifier object)
       {
         return createEClassifierAdapter();
       }
       @Override
-      public Object caseEDataType(EDataType object)
+      public Adapter caseEDataType(EDataType object)
       {
         return createEDataTypeAdapter();
       }
       @Override
-      public Object caseEEnum(EEnum object)
+      public Adapter caseEEnum(EEnum object)
       {
         return createEEnumAdapter();
       }
       @Override
-      public Object caseEEnumLiteral(EEnumLiteral object)
+      public Adapter caseEEnumLiteral(EEnumLiteral object)
       {
         return createEEnumLiteralAdapter();
       }
       @Override
-      public Object caseEFactory(EFactory object)
+      public Adapter caseEFactory(EFactory object)
       {
         return createEFactoryAdapter();
       }
       @Override
-      public Object caseEModelElement(EModelElement object)
+      public Adapter caseEModelElement(EModelElement object)
       {
         return createEModelElementAdapter();
       }
       @Override
-      public Object caseENamedElement(ENamedElement object)
+      public Adapter caseENamedElement(ENamedElement object)
       {
         return createENamedElementAdapter();
       }
       @Override
-      public Object caseEOperation(EOperation object)
+      public Adapter caseEOperation(EOperation object)
       {
         return createEOperationAdapter();
       }
       @Override
-      public Object caseEPackage(EPackage object)
+      public Adapter caseEPackage(EPackage object)
       {
         return createEPackageAdapter();
       }
       @Override
-      public Object caseEParameter(EParameter object)
+      public Adapter caseEParameter(EParameter object)
       {
         return createEParameterAdapter();
       }
       @Override
-      public Object caseEReference(EReference object)
+      public Adapter caseEReference(EReference object)
       {
         return createEReferenceAdapter();
       }
       @Override
-      public Object caseEStructuralFeature(EStructuralFeature object)
+      public Adapter caseEStructuralFeature(EStructuralFeature object)
       {
         return createEStructuralFeatureAdapter();
       }
       @Override
-      public Object caseETypedElement(ETypedElement object)
+      public Adapter caseETypedElement(ETypedElement object)
       {
         return createETypedElementAdapter();
       }
       @Override
-      public Object caseEStringToStringMapEntry(Map.Entry<String, String> object)
+      public Adapter caseEStringToStringMapEntry(Map.Entry<String, String> object)
       {
         return createEStringToStringMapEntryAdapter();
       }
       @Override
-      public Object caseEGenericType(EGenericType object)
+      public Adapter caseEGenericType(EGenericType object)
       {
         return createEGenericTypeAdapter();
       }
       @Override
-      public Object caseETypeParameter(ETypeParameter object)
+      public Adapter caseETypeParameter(ETypeParameter object)
       {
         return createETypeParameterAdapter();
       }
       @Override
-      public Object defaultCase(EObject object)
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
