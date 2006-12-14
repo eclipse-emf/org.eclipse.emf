@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.25 2006/12/06 18:12:12 emerks Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.26 2006/12/14 15:21:37 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -29,7 +29,7 @@ import java.util.MissingResourceException;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -210,7 +210,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
           {
             return 
               resourceLocator.getString
-                ("_UI_" + eDataType.getName() + "_" + ((AbstractEnumerator)value).getName() + "_literal");
+                ("_UI_" + eDataType.getName() + "_" + ((Enumerator)value).getName() + "_literal");
           }
           catch (MissingResourceException exception)
           {
