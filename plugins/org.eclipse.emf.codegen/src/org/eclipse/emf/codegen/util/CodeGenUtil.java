@@ -285,7 +285,7 @@ public class CodeGenUtil
     if (s == null) return null;
 
     int len = s.length();
-    StringBuffer result = new StringBuffer(len);
+    StringBuilder result = new StringBuilder(len);
     for (int i = 0; i < len; i++)
     {
       char c = s.charAt(i);
@@ -365,7 +365,7 @@ public class CodeGenUtil
       return name;
     }
 
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     if (Character.isJavaIdentifierStart(name.charAt(0)))
     {
       result.append(name.charAt(0));
@@ -486,7 +486,7 @@ public class CodeGenUtil
 
     if (name.length() != 0) parsedName.addAll(parseName(name, '_'));
 
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     
     for (Iterator<String> nameIter = parsedName.iterator(); nameIter.hasNext(); )
     {
@@ -524,7 +524,7 @@ public class CodeGenUtil
     List<String> result = new ArrayList<String>();
     if (sourceName != null)
     {
-      StringBuffer currentWord = new StringBuffer();
+      StringBuilder currentWord = new StringBuilder();
       boolean lastIsLower = false;
       for (int index = 0, length = sourceName.length(); index < length; ++index)
       {
@@ -534,7 +534,7 @@ public class CodeGenUtil
           if (lastIsLower && currentWord.length() > 1 || curChar == separator && currentWord.length() > 0)
           {
             result.add(currentWord.toString());
-            currentWord = new StringBuffer();
+            currentWord = new StringBuilder();
           }
           lastIsLower = false;
         }
@@ -548,7 +548,7 @@ public class CodeGenUtil
               char lastChar = currentWord.charAt(--currentWordLength);
               currentWord.setLength(currentWordLength);
               result.add(currentWord.toString());
-              currentWord = new StringBuffer();
+              currentWord = new StringBuilder();
               currentWord.append(lastChar);
             }
           }
@@ -686,10 +686,10 @@ public class CodeGenUtil
         monitor;
   }
 
-  protected static String lineSeparator;
+  protected static final String MATCH_LINE_SEPARATOR;
   static
   {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     String s = System.getProperty("line.separator");
     for (int i = 0, len = s.length(); i < len; i++)
     {
@@ -698,17 +698,16 @@ public class CodeGenUtil
       else if (c == '\n') result.append("\\n");
       else throw new RuntimeException("Unexpected line separator character");
     }
-    lineSeparator = result.toString();
+    MATCH_LINE_SEPARATOR = result.toString();
   }
-  protected static Pattern braceLine = Pattern.compile("(\\s*" + lineSeparator + "\\s*\\{\\s*)" + lineSeparator); // }
-  protected static Pattern leadingTabs = Pattern.compile("^((\\t)+).*$", Pattern.MULTILINE);
+  protected static final Pattern BRACE_LINE_PATTERN = Pattern.compile("(\\s*" + MATCH_LINE_SEPARATOR + "\\s*\\{\\s*)" + MATCH_LINE_SEPARATOR); // }
 
   public static String convertFormat(final String tabReplacement, boolean convertToStandardBraceStyle, String value)
   {
     if (tabReplacement != null && !"\t".equals(tabReplacement))
     {
       char[] text = value.toCharArray();
-      StringBuffer result = new StringBuffer(text.length + text.length / 10);
+      StringBuilder result = new StringBuilder(text.length + text.length / 10);
       boolean blankLine = true;
       int tabCount = 0;
       int previous = 0;
@@ -744,7 +743,7 @@ public class CodeGenUtil
     if (convertToStandardBraceStyle)
     {
       FindAndReplace findAndReplaceLineWithJustABrace = 
-        new FindAndReplace(braceLine)
+        new FindAndReplace(BRACE_LINE_PATTERN)
         {
           @Override
           public boolean handleMatch(int offset, Matcher matcher)
@@ -806,7 +805,7 @@ public class CodeGenUtil
   {
     protected Pattern pattern;
     protected String string;
-    protected StringBuffer stringBuffer;
+    protected StringBuilder stringBuilder;
     protected int current;
 
     public FindAndReplace(Pattern pattern)
@@ -818,7 +817,7 @@ public class CodeGenUtil
     {
       current = 0;
       this.string = string;
-      this.stringBuffer = new StringBuffer();
+      this.stringBuilder = new StringBuilder();
 
       for (int start = 0, end = string.length(); start < end; )
       {
@@ -837,14 +836,14 @@ public class CodeGenUtil
         }
       }
 
-      stringBuffer.append(string.substring(current));
-      return stringBuffer.toString();
+      stringBuilder.append(string.substring(current));
+      return stringBuilder.toString();
     }
 
     public void replace(int begin, int end, String replacement)
     {
-      stringBuffer.append(string.substring(current, begin));
-      stringBuffer.append(replacement);
+      stringBuilder.append(string.substring(current, begin));
+      stringBuilder.append(replacement);
       current = end;
     }
 
@@ -858,7 +857,7 @@ public class CodeGenUtil
    */
   public static String unicodeEscapeEncode(String unicode)
   {
-    StringBuffer result = new StringBuffer(unicode.length());
+    StringBuilder result = new StringBuilder(unicode.length());
     for (int i = 0, size = unicode.length(); i < size; ++i)
     {
       char character = unicode.charAt(i);

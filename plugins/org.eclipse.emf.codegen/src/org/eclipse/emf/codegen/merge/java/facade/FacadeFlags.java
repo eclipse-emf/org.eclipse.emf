@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeFlags.java,v 1.1 2006/01/18 20:42:16 marcelop Exp $
+ * $Id: FacadeFlags.java,v 1.2 2006/12/15 20:35:58 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -389,7 +389,7 @@ public final class FacadeFlags
    */
   public static String toString(int flags)
   {
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
 
     if (isPublic(flags))
       sb.append("public "); //$NON-NLS-1$

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeVisitor.java,v 1.3 2006/12/06 03:49:11 marcelop Exp $
+ * $Id: FacadeVisitor.java,v 1.4 2006/12/15 20:35:58 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -58,9 +58,13 @@ public class FacadeVisitor
   
   protected boolean dispatch(JNode node)
   {
-    if (node instanceof JCompilationUnit)
+    if (node instanceof JAnnotation)
     {
-      return visit((JCompilationUnit)node);
+      return visit((JAnnotation)node);
+    }
+    else if (node instanceof JMethod)
+    {
+      return visit((JMethod)node);
     }
     else if (node instanceof JField)
     {
@@ -70,33 +74,29 @@ public class FacadeVisitor
     {
       return visit((JImport)node);
     }
-    else if (node instanceof JInitializer)
+    else if (node instanceof JEnumConstant)
     {
-      return visit((JInitializer)node);
-    }
-    else if (node instanceof JMethod)
-    {
-      return visit((JMethod)node);
+      return visit((JEnumConstant)node);
     }
     else if (node instanceof JPackage)
     {
       return visit((JPackage)node);
     }
+    else if (node instanceof JCompilationUnit)
+    {
+      return visit((JCompilationUnit)node);
+    }
     else if (node instanceof JAbstractType)
     {
       return visit((JAbstractType)node);
-    }
-    else if (node instanceof JAnnotation)
-    {
-      return visit((JAnnotation)node);
     }
     else if (node instanceof JAnnotationTypeMember)
     {
       return visit((JAnnotationTypeMember)node);
     }   
-    else if (node instanceof JEnumConstant)
+    else if (node instanceof JInitializer)
     {
-      return visit((JEnumConstant)node);
+      return visit((JInitializer)node);
     }
     else
     {

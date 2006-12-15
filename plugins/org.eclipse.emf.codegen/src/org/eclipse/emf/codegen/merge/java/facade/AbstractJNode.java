@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractJNode.java,v 1.4 2006/12/06 03:49:11 marcelop Exp $
+ * $Id: AbstractJNode.java,v 1.5 2006/12/15 20:35:58 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -86,7 +86,7 @@ public abstract class AbstractJNode implements JNode
   
   protected String computeQualifiedName(JMethod method)
   {
-    StringBuffer result = new StringBuffer(getParent().getQualifiedName());
+    StringBuilder result = new StringBuilder(getParent().getQualifiedName());
     result.append(".");
     if (method.isConstructor())
     {
