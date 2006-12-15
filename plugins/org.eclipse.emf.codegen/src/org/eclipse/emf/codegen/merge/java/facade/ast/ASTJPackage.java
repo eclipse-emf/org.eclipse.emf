@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJPackage.java,v 1.6 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTJPackage.java,v 1.7 2006/12/15 20:26:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -37,22 +37,14 @@ public class ASTJPackage extends ASTJNode<PackageDeclaration> implements JPackag
     super(packageDeclaration);
   }
   
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getName()
-   */
   public String getName()
   {
-    return ASTFacadeHelper.toString(getASTNode().getName());
+    return name == UNITIALIZED_STRING ? name = ASTFacadeHelper.toString(getASTNode().getName()) : name;
   }
   
-  /**
-   * In this implementation, new name will not be returned by {@link #getName()}.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getQualifiedName()
-   */    
   public void setName(String name)
   {
+    this.name = name;
     setNodeProperty(getASTNode(), name, PackageDeclaration.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
   }  
   
@@ -65,7 +57,7 @@ public class ASTJPackage extends ASTJNode<PackageDeclaration> implements JPackag
   public String getContents()
   {
     String content = super.getContents();
-    return fixPackageContent(content);
+    return content != null ? fixPackageContent(content) : content;
   }
   
   /**

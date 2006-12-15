@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJAnnotation.java,v 1.1 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTJAnnotation.java,v 1.2 2006/12/15 20:26:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -59,7 +59,7 @@ public class ASTJAnnotation extends ASTJNode<Annotation> implements JAnnotation
   }
 
   /**
-   * Returns annotation name with preceding &#64; sign.
+   * Returns name of annotation type with preceding &#64; sign.
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getName()
    */
@@ -67,21 +67,36 @@ public class ASTJAnnotation extends ASTJNode<Annotation> implements JAnnotation
   {
     // adding ampersand allows distinguish annotations from other members
     // (i.e. inner class vs. annotation of a class) 
-    return "@" + ASTFacadeHelper.toString(getASTNode().getTypeName());
+    return name == UNITIALIZED_STRING ? name = "@" + ASTFacadeHelper.toString(getASTNode().getTypeName()) : name;
   }
   
   /**
-   * In this implementation, new name will not be returned by {@link #getName()}.
+   * Sets the name of annotation type. If the name starts with &#64; sign, &#64; sign is removed.
+   * 
+   * @param name name to set 
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getQualifiedName()
-   */  
+   */
   public void setName(String name)
   {
-    if (name != null && name.startsWith("@"))
+    if (name != null)
     {
-      name = name.substring(1);
+    	name = name.trim();
+     	if (name.startsWith("@"))
+    	{
+      	this.name = name;
+      	name = name.substring(1);
+	    }
+  	  else
+    	{
+      	this.name = "@" + name;
+    	}
     }
+    else
+    {
+	  	this.name = name;
+	  }
+	  
     setNodeProperty(getASTNode(), name, getASTNode().getTypeNameProperty(), ASTNode.SIMPLE_NAME);
   }  
 

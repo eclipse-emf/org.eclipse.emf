@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJImport.java,v 1.3 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTJImport.java,v 1.4 2006/12/15 20:26:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -51,24 +51,26 @@ public class ASTJImport extends ASTJNode<ImportDeclaration> implements JImport
    */
   public String getName()
   {
-    String name = ASTFacadeHelper.toString(getASTNode().getName());
-    if (isOnDemand() && name.lastIndexOf('*') < 0)
+    if (name == UNITIALIZED_STRING)
     {
-      name = name + ".*";
+      name = ASTFacadeHelper.toString(getASTNode().getName());
+      if (isOnDemand() && name.lastIndexOf('*') < 0)
+      {
+        name = name + ".*";
+      }
     }
     return name;
   }
   
   /**
-   * Sets the name of the import to the given name and sets on demand property to false.
-   * <p>
-   * In this implementation, new name will not be returned by {@link #getName()}.
+   * Sets the name of the import to the given name and sets "on demand" property to false.
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
    * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getQualifiedName()
    */    
   public void setName(String name)
   {
+    this.name = name;
     setNodeProperty(getASTNode(), name, ImportDeclaration.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
     // name already contains ".*" - unset on demand property
     setNodeProperty(getASTNode(), false, ImportDeclaration.ON_DEMAND_PROPERTY);

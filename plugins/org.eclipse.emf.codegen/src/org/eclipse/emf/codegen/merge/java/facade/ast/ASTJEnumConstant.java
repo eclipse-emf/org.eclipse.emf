@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJEnumConstant.java,v 1.1 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTJEnumConstant.java,v 1.2 2006/12/15 20:26:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -69,22 +69,14 @@ public class ASTJEnumConstant extends ASTJMember<EnumConstantDeclaration> implem
       ASTNode.ANONYMOUS_CLASS_DECLARATION);
   }
 
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getName()
-   */
   public String getName()
   {
-    return ASTFacadeHelper.toString(getASTNode().getName());
+    return name == UNITIALIZED_STRING ? name = ASTFacadeHelper.toString(getASTNode().getName()) : name;
   }
   
-  /**
-   * In this implementation, new name will not be returned by {@link #getName()}.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getQualifiedName()
-   */    
   public void setName(String name)
   {
+    this.name = name;
     setNodeProperty(getASTNode(), name, EnumConstantDeclaration.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJNode.java,v 1.4 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTJNode.java,v 1.5 2006/12/15 20:26:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -65,6 +65,21 @@ import org.eclipse.emf.codegen.merge.java.facade.JNode;
  */
 public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
 {
+  /**
+   * Default value used as default value of fields of subclasses. 
+   * Indicates that fields have not been initialized.
+   * This value should never be returned by any get...() methods.
+   */
+  protected static final String UNITIALIZED_STRING = "UNITIALIZED_STRING";
+  
+  /**
+   * Name of the node.
+   * 
+   * @see JNode#getName()
+   * @see JNode#setName(String)
+   */
+  protected String name = UNITIALIZED_STRING;
+  
   private ASTFacadeHelper facadeHelper;
 
   /**
@@ -597,6 +612,7 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
 
       ASTNode moveTargetASTNode = rewriter.createMoveTarget(astNodeToBeRemoved);
       node.setWrappedObject(moveTargetASTNode);
+      getFacadeHelper().updateObjectToNodeMap(node);
     }
 
     // remove the node

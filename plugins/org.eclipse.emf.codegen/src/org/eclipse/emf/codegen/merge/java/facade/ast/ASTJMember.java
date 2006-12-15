@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJMember.java,v 1.3 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTJMember.java,v 1.4 2006/12/15 20:26:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -38,6 +38,13 @@ import org.eclipse.emf.codegen.merge.java.facade.JNode;
  */
 public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> implements JMember
 {
+  /**
+   * New value of member comment.
+   * @see #getComment()
+   * @see #setComment(String)
+   */
+  protected String comment = UNITIALIZED_STRING;
+
   /**
    * @param bodyDeclaration
    */
@@ -96,25 +103,14 @@ public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> 
     }    
   }
   
-  /**
-   * Returns string contents of original Javadoc of the member.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMember#getComment()
-   */
   public String getComment()
   {
-    return getFacadeHelper().toString(getASTNode().getJavadoc());
+    return comment == UNITIALIZED_STRING ? (comment = getFacadeHelper().toString(getASTNode().getJavadoc())) : comment;
   }
 
-  /**
-   * Sets the Javadoc to the given string.
-   * <p>
-   * Note that <code>getComment()</code> will not return the new value.
-   * 
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMember#setComment(java.lang.String)
-   */
   public void setComment(String comment)
   {
+    this.comment = comment;
     setTrackedNodeProperty(getASTNode(), comment, getASTNode().getJavadocProperty(), ASTNode.JAVADOC);
   }
   
@@ -128,7 +124,7 @@ public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> 
   
   protected String getAnnotations(T node)
   {
-    StringBuffer annotationStringBuffer = new StringBuffer();
+    StringBuilder annotationStringBuilder = new StringBuilder();
     
     @SuppressWarnings("unchecked")    
     List<IExtendedModifier> modifiers = node.modifiers();
@@ -138,10 +134,10 @@ public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> 
       if (modifier.isAnnotation())
       {
         // TODO consider some specific format to simplify and make less error prone pattern that is used in dictionary pattern rule
-        annotationStringBuffer.append(getFacadeHelper().toString(modifier));
+        annotationStringBuilder.append(getFacadeHelper().toString(modifier));
       }
     }
-    return annotationStringBuffer.toString();
+    return annotationStringBuilder.toString();
   }  
   
   /* (non-Javadoc)

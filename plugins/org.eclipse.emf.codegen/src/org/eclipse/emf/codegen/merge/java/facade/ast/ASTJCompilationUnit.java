@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJCompilationUnit.java,v 1.4 2006/12/13 20:21:53 marcelop Exp $
+ * $Id: ASTJCompilationUnit.java,v 1.5 2006/12/15 20:26:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -125,8 +125,6 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
   
   /**
    * Sets the name of the main type of compilation unit.
-   * <p>
-   * In this implementation, new name will not be returned by {@link #getName()}.
    * 
    * @see FacadeHelper#getMainType(JCompilationUnit)
    * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)

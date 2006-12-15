@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJField.java,v 1.3 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTJField.java,v 1.4 2006/12/15 20:26:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -60,6 +60,11 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
    */
   protected boolean isInitializerSet = false;
 
+  /**
+   * New value for the type of the field.
+   */
+  protected String type = UNITIALIZED_STRING;
+  
   private FieldDeclaration originalFieldDeclaration = null;  
   
   /**
@@ -124,6 +129,11 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
   {
     return wrappedVariableDeclarationFragment;
   }
+  
+  public VariableDeclarationFragment getVariableDeclarationFragment()
+  {
+    return variableDeclarationFragment;
+  }  
 
   @Override
   public boolean addChild(ASTJNode<?> child)
@@ -147,7 +157,7 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
   @Override
   public String getComment()
   {
-    return getFacadeHelper().toString(originalFieldDeclaration.getJavadoc());
+    return comment == UNITIALIZED_STRING ? comment = getFacadeHelper().toString(originalFieldDeclaration.getJavadoc()) : comment;
   }
 
   /**
@@ -188,7 +198,7 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
    */
   public String getName()
   {
-    return ASTFacadeHelper.toString(variableDeclarationFragment.getName());
+    return name == UNITIALIZED_STRING ? name = ASTFacadeHelper.toString(variableDeclarationFragment.getName()) : name;
   }
 
   /**
@@ -200,14 +210,16 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
    */
   public String getType()
   {
-    String type = getFacadeHelper().toString(originalFieldDeclaration.getType());
-
-    // append extra dimensions since they are not stored in Type object
-    for (int i = 0; i < variableDeclarationFragment.getExtraDimensions(); i++)
+    if (type == UNITIALIZED_STRING)
     {
-      type += "[]";
-    }
-    
+      type = getFacadeHelper().toString(originalFieldDeclaration.getType());
+  
+      // append extra dimensions since they are not stored in Type object
+      for (int i = 0; i < variableDeclarationFragment.getExtraDimensions(); i++)
+      {
+        type += "[]";
+      }
+    }    
     return type;
   }
   
@@ -259,6 +271,7 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
         Annotation annotation = (Annotation)modifier;
         Annotation originalAnnotation = (Annotation)originalModifier;
         ASTJAnnotation astjAnnotation = (ASTJAnnotation)getFacadeHelper().convertToNode(annotation);
+        astjAnnotation.setRewriter(getRewriter());
         astjAnnotation.setASTNode(originalAnnotation);
       }
     }
@@ -384,9 +397,6 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
         // add variable fragment to new declaration
         ListRewrite newListRewrite = rewriter.getListRewrite(newDeclaration, FieldDeclaration.FRAGMENTS_PROPERTY);
         newListRewrite.insertFirst(variableDeclarationFragment, null);
-    
-        // split is performed
-        splitPerformed = true;          
       }
       else
       {
@@ -394,6 +404,8 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
         revertPrepareSplit();
       }
     }
+    // split is performed
+    splitPerformed = true;          
   }
 
   @Override
@@ -456,13 +468,13 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
   }
 
   /**
-   * In this implementation, new name will not be returned by {@link #getName()}.
+   * Sets name of variable declaration fragment.
    * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JNode#setName(java.lang.String)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getQualifiedName()
-   */    
+   */
   public void setName(String name)
   {
+    this.name = name;
     setNodeProperty(variableDeclarationFragment, name, VariableDeclarationFragment.NAME_PROPERTY, ASTNode.SIMPLE_NAME);
   }
 
@@ -488,7 +500,8 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
     // if there are multiple variables in declaration, 
     // separate this variable fragment into a separate declaration
     performSplit();
-
+    
+    this.type = type;
     setNodeProperty(variableDeclarationFragment, new Integer(0), VariableDeclarationFragment.EXTRA_DIMENSIONS_PROPERTY);
     setTrackedNodeProperty(getASTNode(), type, FieldDeclaration.TYPE_PROPERTY, ASTNode.SIMPLE_TYPE);
   }

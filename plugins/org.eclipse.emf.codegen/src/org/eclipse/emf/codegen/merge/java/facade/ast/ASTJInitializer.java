@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJInitializer.java,v 1.3 2006/12/06 03:48:43 marcelop Exp $
+ * $Id: ASTJInitializer.java,v 1.4 2006/12/15 20:26:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -36,7 +36,9 @@ public class ASTJInitializer extends ASTJMember<Initializer> implements JInitial
     super(initializer);
   }
   
-  /* (non-Javadoc)
+  /**
+   * Returns value from {@link #getName(JInitializer)}
+   * 
    * @see org.eclipse.emf.codegen.merge.java.facade.JNode#getName()
    */
   public String getName()
