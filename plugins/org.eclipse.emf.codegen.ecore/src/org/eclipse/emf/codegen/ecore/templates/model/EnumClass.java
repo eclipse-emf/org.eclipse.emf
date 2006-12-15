@@ -99,7 +99,7 @@ public class EnumClass
   protected final String TEXT_82 = NL + "\t\t\tcase ";
   protected final String TEXT_83 = ": return ";
   protected final String TEXT_84 = ";";
-  protected final String TEXT_85 = NL + "\t\t}" + NL + "\t\treturn null;\t" + NL + "\t}" + NL;
+  protected final String TEXT_85 = NL + "\t\t}" + NL + "\t\treturn null;" + NL + "\t}" + NL;
   protected final String TEXT_86 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate final int value;" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate final ";
   protected final String TEXT_87 = " name;" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprivate final ";
   protected final String TEXT_88 = " literal;" + NL;

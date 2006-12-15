@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.9 2006/12/05 20:29:10 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="EnumClass" version="$Id: EnumClass.javajet,v 1.10 2006/12/15 20:14:17 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -182,7 +182,7 @@ public <%if (isEnum) {%>enum<%} else {%>final class<%}%> <%=genEnum.getName()%> 
 			case <%=genEnumLiteral.getEnumLiteralValueConstantName()%>: return <%=genEnumLiteral.getEnumLiteralInstanceConstantName()%>;
 <%}%>
 		}
-		return null;	
+		return null;
 	}
 
 <%if (isEnum) {%>
