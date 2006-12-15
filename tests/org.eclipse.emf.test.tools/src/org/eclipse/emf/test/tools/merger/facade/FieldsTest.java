@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FieldsTest.java,v 1.1 2006/12/06 03:54:34 marcelop Exp $
+ * $Id: FieldsTest.java,v 1.2 2006/12/15 20:39:12 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -83,7 +83,7 @@ public class FieldsTest extends BaseFacadeTest
     
     JField field1 = (JField)type1.getChildren().get(0);
     
-    testReadField1(field1);
+    readOriginalField1(field1);
     
     modifyField(field1, "1_1");
     
@@ -91,13 +91,13 @@ public class FieldsTest extends BaseFacadeTest
     updateNoChildren(type1, field1, REMOVE, 2);
     
     modifyField(field1, "1_2");    
-    testReadField1(field1);
+    readModifiedField1(field1, "1_2");
     
     facadeHelper.addChild(enum1, field1);
     updateNoChildren(enum1, field1, ADD, 0);
     
     modifyField(field1, "1_3");
-    testReadField1(field1);     
+    readModifiedField1(field1, "1_3");     
   }
   
   /**
@@ -135,7 +135,7 @@ public class FieldsTest extends BaseFacadeTest
     field.setName("field_modified_" + modificationId);
   }
 
-  protected void testReadField1(JField field)
+  protected void readOriginalField1(JField field)
   {
     testNoChildren(field, 2);
     assertEquals("/**\n   * Javadoc for field1\n   * Another line of javadoc\n   */", field.getComment());
@@ -145,7 +145,7 @@ public class FieldsTest extends BaseFacadeTest
     assertEquals("field1", field.getName());
   }
   
-  protected void testReadField2(JField field)
+  protected void readOriginalField2(JField field)
   {
     testNoChildren(field, 2);
     assertEquals("/**\n   * Javadoc for field2\n   * Another line of javadoc\n   */", field.getComment());
@@ -153,5 +153,25 @@ public class FieldsTest extends BaseFacadeTest
     assertEquals(null, field.getInitializer());
     assertEquals("T", field.getType());
     assertEquals("field2", field.getName());
+  } 
+  
+  protected void readModifiedField1(JField field2, String modificationId)
+  {
+    testNoChildren(field2, 2);
+    assertEquals("/** Javadoc " + modificationId + " **/", field2.getComment());
+    assertEquals(PUBLIC | STATIC | TRANSIENT | VOLATILE, field2.getFlags());
+    assertEquals("new Object() {\n      // line comment\n      // line comment\n    }", field2.getInitializer());
+    assertEquals("Type_" + modificationId, field2.getType());
+    assertEquals("field_modified_" + modificationId, field2.getName());
+  }
+  
+  protected void readModifiedField2(JField field2, String modificationId)
+  {
+    testNoChildren(field2, 2);
+    assertEquals("/** Javadoc " + modificationId + " **/", field2.getComment());
+    assertEquals(PROTECTED | FINAL, field2.getFlags());
+    assertEquals(null, field2.getInitializer());
+    assertEquals("Type_" + modificationId, field2.getType());
+    assertEquals("field_modified_" + modificationId, field2.getName());
   }
 }

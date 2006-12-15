@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TypesTest.java,v 1.1 2006/12/06 03:54:34 marcelop Exp $
+ * $Id: TypesTest.java,v 1.2 2006/12/15 20:39:12 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -94,11 +94,11 @@ public class TypesTest extends BaseFacadeTest
     
     //
     // modify and remove type
-    readType(type);
+    readOriginalType(type);
     annotationsTest.testVersionAndDeprecated(type);
     modifyType(type, "1", FacadeFlags.PRIVATE | FacadeFlags.STATIC);
     
-    readType(type);
+    readType(type, "1", FacadeFlags.PRIVATE | FacadeFlags.STATIC);
 
     assertTrue(facadeHelper.remove(type));
     assertFalse(facadeHelper.remove(type));
@@ -106,12 +106,12 @@ public class TypesTest extends BaseFacadeTest
 
     //
     // modify and insert type
-    readType(type);
+    readType(type, "1", FacadeFlags.PRIVATE | FacadeFlags.STATIC);
     annotationsTest.testVersionAndDeprecated(type);
 
     modifyType(type, "2", FacadeFlags.PUBLIC);
 
-    readType(type);
+    readType(type, "2", FacadeFlags.PUBLIC);
 
     assertTrue(facadeHelper.addChild(compilationUnit, type));
     assertFalse(facadeHelper.addChild(compilationUnit, type));
@@ -119,12 +119,12 @@ public class TypesTest extends BaseFacadeTest
 
     //
     // modify and remove type second time
-    readType(type);
+    readType(type, "2", FacadeFlags.PUBLIC);
     annotationsTest.testVersionAndDeprecated(type);
 
     modifyType(type, "3", FacadeFlags.FINAL | FacadeFlags.PROTECTED);
 
-    readType(type);
+    readType(type, "3", FacadeFlags.FINAL | FacadeFlags.PROTECTED);
     
     assertTrue(facadeHelper.remove(type));
     assertFalse(facadeHelper.remove(type));
@@ -140,13 +140,13 @@ public class TypesTest extends BaseFacadeTest
     assertFalse(facadeHelper.addChild(compilationUnit, type));
     numberOfChildren = updateNoChildren(compilationUnit, type, ADD, numberOfChildren);
 
-    readType(type);
+    readType(type, "3", FacadeFlags.FINAL | FacadeFlags.PROTECTED);
     annotationsTest.testSwitchedVersionAndDeprecated(type);
 
     return type;
   }
 
-  protected void readType(JAbstractType abstractType)
+  protected void readOriginalType(JAbstractType abstractType)
   {
     JType type = (JType)abstractType;
     assertEquals("/**\n * \n * AnotherClass javadoc\n * Second line of javadoc\n */", type.getComment());
@@ -171,6 +171,17 @@ public class TypesTest extends BaseFacadeTest
     type.setTypeParameters(new String []{ "Type" + modificationId, "Type" + modificationId + "_1" });
     type.setName("TypeName" + modificationId);    
   }
+  
+  protected void readType(JAbstractType abstractType, String modificationId, int flags)
+  {
+    JType type = (JType)abstractType;
+    assertEquals("/** Javadoc " + modificationId + "_1\n// linecomment\n */", type.getComment());
+    assertEquals(FacadeFlags.DEFAULT, type.getFlags());
+    assertEquals(null, type.getSuperclass());
+    assertTrue(Arrays.equals(new String [0], type.getSuperInterfaces()));
+    assertTrue(Arrays.equals(new String [0], type.getTypeParameters()));
+    assertEquals("TypeName" + modificationId, type.getName());
+  }   
   
   protected void clearAllPropertiesOfType(JAbstractType abstractType)
   {

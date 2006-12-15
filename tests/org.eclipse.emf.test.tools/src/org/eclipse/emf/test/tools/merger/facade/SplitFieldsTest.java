@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SplitFieldsTest.java,v 1.1 2006/12/06 03:54:34 marcelop Exp $
+ * $Id: SplitFieldsTest.java,v 1.2 2006/12/15 20:39:12 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -48,8 +48,8 @@ public class SplitFieldsTest extends BaseFacadeTest
     
     // note that the order has changed - the field with changed annotation
     // is inserted before the original field
-    testReadField1(getSplitField2());
-    testReadField2(getSplitField1());    
+    readOriginalField1(getSplitField2());
+    readOriginalField2(getSplitField1());    
     
     rewriteAndCompare();
   }
@@ -64,8 +64,8 @@ public class SplitFieldsTest extends BaseFacadeTest
     insertSibling(field1.getChildren().get(0), annotation, true, 2);
     
     annotationsTest.testVersionAndDeprecated(getSplitField2());
-    testReadField1(getSplitField1());
-    testReadField2(getSplitField2());
+    readOriginalField1(getSplitField1());
+    readOriginalField2(getSplitField2());
     
     rewriteAndCompare();    
   }
@@ -83,8 +83,8 @@ public class SplitFieldsTest extends BaseFacadeTest
     
     // note that the order has changed - the field with removed annotations
     // is inserted before the original field
-    testReadField1(getSplitField2());
-    testReadField2(getSplitField1());
+    readOriginalField1(getSplitField2());
+    readOriginalField2(getSplitField1());
     
     rewriteAndCompare();      
   }
@@ -98,7 +98,7 @@ public class SplitFieldsTest extends BaseFacadeTest
     
     annotationsTest.testVersionAndDeprecated(getSplitField1());
     annotationsTest.testVersionAndDeprecated(getSplitField2());
-    testReadField2(getSplitField2());
+    readOriginalField2(getSplitField2());
     
     rewriteAndCompare();       
   }
@@ -133,9 +133,8 @@ public class SplitFieldsTest extends BaseFacadeTest
     annotationsTest.testVersionAndDeprecated(getSplitField2());
     
     // note that the order has changed - the field with changed comment
-    // is inserted before the original field    
-    testReadField2(getSplitField1());
-    testReadField1(getSplitField2());
+    // is inserted before the original field
+    readOriginalField1(getSplitField2());
     
     rewriteAndCompare();     
   }   
@@ -146,11 +145,11 @@ public class SplitFieldsTest extends BaseFacadeTest
 
     modifyFields();
     
-    readSplitFields();
+    readModifiedFields();
     
     rewriteAndCompare();    
   }
-  
+
   public void testChangeAllAndMove()
   {
     readSplitFields();
@@ -162,14 +161,14 @@ public class SplitFieldsTest extends BaseFacadeTest
     
     remove(field1, 3);
     
-    testReadField1(field1);
-    testReadField2(field2);
+    readField1(field1, "split1");
+    readField2(field2, "split2");
     
     // insert field1 at the beginning of the class
     insertSibling(facadeHelper.getFirstChild(compilationUnit.getChildren().get(0)), field1, true, 2);
     
-    testReadField1(field1);
-    testReadField2(field2);    
+    readField1(field1, "split1");
+    readField2(field2, "split2");    
     
     rewriteAndCompare();      
   }  
@@ -185,8 +184,8 @@ public class SplitFieldsTest extends BaseFacadeTest
     
     removeAllChildren(compilationUnit.getChildren().get(0), 3);
     
-    testReadField1(field1);
-    testReadField2(field2);
+    readField1(field1, "split1");
+    readField2(field2, "split2");
     
     rewriteAndCompare();      
   }   
@@ -207,11 +206,45 @@ public class SplitFieldsTest extends BaseFacadeTest
   {
     annotationsTest.testVersionAndDeprecated(getSplitField1());
     annotationsTest.testVersionAndDeprecated(getSplitField2());
-    testReadField1(getSplitField1());
-    testReadField2(getSplitField2());
+    readOriginalField1(getSplitField1());
+    readOriginalField2(getSplitField2());
   }
   
-  protected void testReadField1(JField field1)
+  private void modifyFields()
+  {
+    modifyField1("split1");
+    modifyField2("split2");
+  }  
+  
+  protected void modifyField1(String modificationId)
+  {
+    JField field1 = getSplitField1();
+    field1.setInitializer("\"\" +\n// new initializer for split1\n  \"\"");
+    field1.setComment("/** Javadoc for " + modificationId + " **/");
+    field1.setFlags(FacadeFlags.PRIVATE | FacadeFlags.TRANSIENT);
+    field1.setType("T_" + modificationId);
+    field1.setName("renamed_" + modificationId);
+  }  
+  
+  protected void modifyField2(String modificationId)
+  {
+    JField field2 = getSplitField2();
+    field2.setInitializer(null);
+    field2.setComment("/** Javadoc for " + modificationId + " **/");
+    field2.setFlags(FacadeFlags.DEFAULT);
+    field2.setType("T_" + modificationId);
+    field2.setName("renamed_" + modificationId);    
+  }    
+
+  protected void readModifiedFields()
+  {
+    annotationsTest.testVersionAndDeprecated(getSplitField1());
+    annotationsTest.testVersionAndDeprecated(getSplitField2());
+    readField1(getSplitField1(), "split1");
+    readField2(getSplitField2(), "split2");
+  }  
+  
+  protected void readOriginalField1(JField field1)
   {
     assertEquals("/**\n   * Javadoc for split1 and split2\n   * Another line of javadoc\n   */", field1.getComment());
     assertEquals(PROTECTED | FINAL, field1.getFlags());
@@ -220,7 +253,7 @@ public class SplitFieldsTest extends BaseFacadeTest
     assertEquals("split1", field1.getName());
   }
   
-  protected void testReadField2(JField field2)
+  protected void readOriginalField2(JField field2)
   {
     assertEquals("/**\n   * Javadoc for split1 and split2\n   * Another line of javadoc\n   */", field2.getComment());
     assertEquals(PROTECTED | FINAL, field2.getFlags());
@@ -229,21 +262,20 @@ public class SplitFieldsTest extends BaseFacadeTest
     assertEquals("split2", field2.getName());    
   }  
   
-  protected void modifyFields()
+  protected void readField1(JField field1, String modificationId)
   {
-    JField field1 = getSplitField1();
-    JField field2 = getSplitField2();
-
-    field1.setInitializer("\"\" +\n// new initializer for split1\n  \"\"");
-    field2.setInitializer(null);
-    
-    field1.setFlags(FacadeFlags.PRIVATE | FacadeFlags.TRANSIENT);
-    field2.setFlags(FacadeFlags.DEFAULT);
-    
-    field1.setType("Object");
-    field2.setType("List< ? >");
-    
-    field1.setName("split_renamed_1");
-    field2.setName("split_renamed_2");    
+    assertEquals("/** Javadoc for " + modificationId + " **/", field1.getComment());
+    assertEquals(PROTECTED | FINAL, field1.getFlags());
+    assertEquals(null, field1.getInitializer());
+    assertEquals("T_" + modificationId, field1.getType());
+    assertEquals("renamed_" + modificationId, field1.getName());
+  }
+  
+  protected void readField2(JField field2, String modificationId)
+  {
+    assertEquals("/** Javadoc for " + modificationId + " **/", field2.getComment());
+    assertEquals(PROTECTED | FINAL, field2.getFlags());
+    assertEquals("\"\" +\n    // line comment in initializer\n    \"\"", field2.getInitializer());
+    assertEquals("T_" + modificationId, field2.getType());
   }
 }

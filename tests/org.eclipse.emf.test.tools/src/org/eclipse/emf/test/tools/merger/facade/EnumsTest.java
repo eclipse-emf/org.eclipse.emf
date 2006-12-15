@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EnumsTest.java,v 1.1 2006/12/06 03:54:34 marcelop Exp $
+ * $Id: EnumsTest.java,v 1.2 2006/12/15 20:39:12 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -40,13 +40,23 @@ public class EnumsTest extends TypesTest
   }
   
   @Override
-  protected void readType(JAbstractType abstractType)
+  protected void readOriginalType(JAbstractType abstractType)
   {
     JEnum type = (JEnum)abstractType;
     assertEquals("/**\n * \n * OperationEnum javadoc\n * Second line of javadoc\n */", type.getComment());
     assertEquals(FacadeFlags.DEFAULT, type.getFlags());
     assertTrue(Arrays.equals(new String [0], type.getSuperInterfaces()));
     assertEquals("OperationEnum", type.getName());
+  }  
+  
+  @Override
+  protected void readType(JAbstractType abstractType, String modificationId, int flags)
+  {
+    JEnum type = (JEnum)abstractType;
+    assertEquals("/** OperationEnum javadoc " + modificationId + "_1\n// line comment\n */", type.getComment());
+    assertEquals(FacadeFlags.DEFAULT, type.getFlags());
+    assertTrue(Arrays.equals(new String [0], type.getSuperInterfaces()));
+    assertEquals("OperationEnum" + modificationId, type.getName());
   }
 
   @Override
