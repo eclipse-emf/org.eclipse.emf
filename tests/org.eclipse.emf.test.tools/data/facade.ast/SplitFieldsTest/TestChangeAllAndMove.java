@@ -1,15 +1,12 @@
 public class Source
 {
-  /**
-   * Javadoc for split1 and split2
-   * Another line of javadoc
-   */
+  /** Javadoc for split1 **/
   @Version("1.1"
 // line comment
 // line comment
   )
   @Deprecated
-  private transient Object split_renamed_1 = "" +
+  private transient T_split1 renamed_split1 = "" +
 // new initializer for split1
   "";
 
@@ -28,15 +25,12 @@ public class Source
       // line comment
     };
   
-  /**
-   * Javadoc for split1 and split2
-   * Another line of javadoc
-   */    
+  /** Javadoc for split2 **/    
   @Version("1.1"
 // line comment
 // line comment
   )
-  @Deprecated List< ? > split_renamed_2;
+  @Deprecated T_split2 renamed_split2;
 }
 
 private enum Source1

@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * <!-- begin-user-doc -->
  * A representation of the literals of the enumeration '<em><b>Book Category</b></em>',
  * and utility methods for working with them.
+ * @implements EnumeratorTarget 
  * <!-- end-user-doc -->
  * @see org.eclipse.example.library.LibraryPackage#getBookCategory()
  * @model
