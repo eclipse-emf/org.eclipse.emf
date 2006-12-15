@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommentAwareSourceRangeComputer.java,v 1.5 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: CommentAwareSourceRangeComputer.java,v 1.6 2006/12/15 20:24:45 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -372,22 +372,25 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
   {
     int nodeStartPosition = compilationUnit.getExtendedStartPosition(node);
     
-    // find start position of furthest preceding comment
-    ASTNode prevNode = getPreviousNode(node);
-    int minStartPosition = prevNode == null ? 0 : compilationUnit.getExtendedStartPosition(prevNode) + compilationUnit.getExtendedLength(prevNode);
-    int commentIndex = findLastCommentInRangeIndex(minStartPosition, nodeStartPosition);
-    while(commentIndex >= 0)
+    if (nodeStartPosition >= 0)
     {
-      int commentStartPosition = commentArray[commentIndex].getStartPosition();
-      int commentEndPosition = commentStartPosition + commentArray[commentIndex].getLength();
-      if (commentStartPosition >= minStartPosition && isWhitespace(commentEndPosition, nodeStartPosition))
+      // find start position of furthest preceding comment
+      ASTNode prevNode = getPreviousNode(node);
+      int minStartPosition = prevNode == null ? 0 : compilationUnit.getExtendedStartPosition(prevNode) + compilationUnit.getExtendedLength(prevNode);
+      int commentIndex = findLastCommentInRangeIndex(minStartPosition, nodeStartPosition);
+      while(commentIndex >= 0)
       {
-        nodeStartPosition = commentStartPosition;
-        commentIndex--;
-      }
-      else
-      {
-        break;
+        int commentStartPosition = commentArray[commentIndex].getStartPosition();
+        int commentEndPosition = commentStartPosition + commentArray[commentIndex].getLength();
+        if (commentStartPosition >= minStartPosition && isWhitespace(commentEndPosition, nodeStartPosition))
+        {
+          nodeStartPosition = commentStartPosition;
+          commentIndex--;
+        }
+        else
+        {
+          break;
+        }
       }
     }
     return nodeStartPosition;
@@ -408,22 +411,25 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
   {
     int nodeEndPosition = compilationUnit.getExtendedStartPosition(node) + compilationUnit.getExtendedLength(node);
     
-    // find start position of furthest preceding comment
-    ASTNode nextNode = getNextNode(node);
-    int maxEndPosition = nextNode == null ? source.length() : compilationUnit.getExtendedStartPosition(nextNode);
-    int commentIndex = findFirstCommentInRangeIndex(nodeEndPosition, maxEndPosition);
-    while(commentIndex >= 0 && commentIndex < commentArray.length)
+    if (nodeEndPosition >= 0)
     {
-      int commentStartPosition = commentArray[commentIndex].getStartPosition();
-      int commentEndPosition = commentStartPosition + commentArray[commentIndex].getLength();
-      if (commentEndPosition <= maxEndPosition && isWhitespace(nodeEndPosition, commentStartPosition))
+      // find start position of furthest preceding comment
+      ASTNode nextNode = getNextNode(node);
+      int maxEndPosition = nextNode == null ? source.length() : compilationUnit.getExtendedStartPosition(nextNode);
+      int commentIndex = findFirstCommentInRangeIndex(nodeEndPosition, maxEndPosition);
+      while(commentIndex >= 0 && commentIndex < commentArray.length)
       {
-        nodeEndPosition = commentEndPosition;
-        commentIndex++;
-      }
-      else
-      {
-        break;
+        int commentStartPosition = commentArray[commentIndex].getStartPosition();
+        int commentEndPosition = commentStartPosition + commentArray[commentIndex].getLength();
+        if (commentEndPosition <= maxEndPosition && isWhitespace(nodeEndPosition, commentStartPosition))
+        {
+          nodeEndPosition = commentEndPosition;
+          commentIndex++;
+        }
+        else
+        {
+          break;
+        }
       }
     }
     return nodeEndPosition;
@@ -534,19 +540,22 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
    */
   protected int determineEndPositionOfLineComment(int position)
   {
-    // extend to include the comment at the same line as the position 
-    // if there is nothing between the position and the comment
-    int firstTrailingCommentIndex = findFirstCommentInRangeIndex(position, Integer.MAX_VALUE);
-    if (firstTrailingCommentIndex >= 0 && commentArray[firstTrailingCommentIndex].isLineComment())
+    if (position >= 0)
     {
-      int commentStartPos = commentArray[firstTrailingCommentIndex].getStartPosition();
-      int commentEndPos = commentStartPos + commentArray[firstTrailingCommentIndex].getLength();
-      if (compilationUnit.getLineNumber(commentStartPos) == compilationUnit.getLineNumber(position))
+      // extend to include the comment at the same line as the position 
+      // if there is nothing between the position and the comment
+      int firstTrailingCommentIndex = findFirstCommentInRangeIndex(position, Integer.MAX_VALUE);
+      if (firstTrailingCommentIndex >= 0 && commentArray[firstTrailingCommentIndex].isLineComment())
       {
-        // check if there is just whitespace between position and start of the comment
-        if (isWhitespace(position, commentStartPos))
+        int commentStartPos = commentArray[firstTrailingCommentIndex].getStartPosition();
+        int commentEndPos = commentStartPos + commentArray[firstTrailingCommentIndex].getLength();
+        if (compilationUnit.getLineNumber(commentStartPos) == compilationUnit.getLineNumber(position))
         {
-          return commentEndPos;
+          // check if there is just whitespace between position and start of the comment
+          if (isWhitespace(position, commentStartPos))
+          {
+            return commentEndPos;
+          }
         }
       }
     }
@@ -566,6 +575,15 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
    */
   protected int determineEndPositionOfLineComment(int nodeEnd, int nodeExtendedEnd)
   {
+    if (nodeEnd < 0)
+    {
+      return nodeEnd;
+    }
+    if (nodeExtendedEnd < 0)
+    {
+      return nodeExtendedEnd;
+    }
+    
     // extend to include the comment at the same line as the position 
     int firstTrailingCommentIndex = findFirstCommentInRangeIndex(nodeEnd, nodeExtendedEnd);
     if (firstTrailingCommentIndex >= 0 && commentArray[firstTrailingCommentIndex].isLineComment())
@@ -587,8 +605,8 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
    */
   protected boolean isWhitespace(int startPosition, int endPosition)
   {
-    return source != null &&
-      source.substring(startPosition, endPosition).matches("\\s*");
+    return source != null && startPosition >= 0 && endPosition < source.length()
+      && source.substring(startPosition, endPosition).matches("\\s*");
   }
   
   /**
@@ -627,7 +645,7 @@ public class CommentAwareSourceRangeComputer extends TargetSourceRangeComputer
    */
   protected int addWhitespaceAfterPosition(int position)
   {
-    if (source != null)
+    if (source != null && position >= 0)
     {
       while(position < source.length() && Character.isWhitespace(source.charAt(position++)))
       {
