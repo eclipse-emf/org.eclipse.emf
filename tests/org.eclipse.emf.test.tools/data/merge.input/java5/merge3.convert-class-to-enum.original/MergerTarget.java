@@ -2,7 +2,6 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MergerTarget.java,v 1.1 2006/12/15 20:40:01 marcelop Exp $
  */
 package org.eclipse.example.library;
 
