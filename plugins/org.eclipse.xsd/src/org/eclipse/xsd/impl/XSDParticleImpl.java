@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleImpl.java,v 1.14 2006/04/04 10:10:22 emerks Exp $
+ * $Id: XSDParticleImpl.java,v 1.15 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -190,6 +190,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_PARTICLE;
@@ -371,6 +372,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -386,6 +388,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -407,6 +410,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -432,6 +436,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -457,6 +462,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -478,6 +484,7 @@ public class XSDParticleImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -491,6 +498,7 @@ public class XSDParticleImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = null;
@@ -503,6 +511,7 @@ public class XSDParticleImpl
     return newElement;
   }
 
+  @Override
   protected void patch()
   {
     super.patch();
@@ -534,12 +543,14 @@ public class XSDParticleImpl
     }
   }
 
+  @Override
   public boolean analyze()
   {
     xsdNFA = null;
     return super.analyze();
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -553,11 +564,13 @@ public class XSDParticleImpl
     }
   }
 
-  protected Collection getContentNodes(Element changedElement)
+  @Override
+  protected Collection<Element> getContentNodes(Element changedElement)
   {
     return Collections.singleton(getElement());
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -577,6 +590,7 @@ public class XSDParticleImpl
         }
         catch (NumberFormatException exception)
         {
+          // Ignore
         }
       }
       else if (isSetMinOccurs())
@@ -597,6 +611,7 @@ public class XSDParticleImpl
         }
         catch (NumberFormatException exception)
         {
+          // Ignore
         }
       }
       else if (isSetMaxOccurs())
@@ -612,6 +627,7 @@ public class XSDParticleImpl
     }
   }
 
+  @Override
   protected void reconcileContents(Element changedElement)
   {
     super.reconcileContents(changedElement);
@@ -622,20 +638,24 @@ public class XSDParticleImpl
 
       XSDTerm newTerm =
         (XSDTerm)
-          new XSDSwitch()
+          new XSDSwitch<Object>()
           {
+            @Override
             public Object caseXSDElementDeclaration(XSDElementDeclaration xsdElementDeclaration)
             {
               return xsdElementDeclaration.getResolvedElementDeclaration();
             }
+            @Override
             public Object caseXSDModelGroupDefinition(XSDModelGroupDefinition xsdModelGroupDefinition)
             {
               return xsdModelGroupDefinition.getResolvedModelGroupDefinition().getModelGroup();
             }
+            @Override
             public Object caseXSDWildcard(XSDWildcard xsdWildcard)
             {
               return xsdWildcard;
             }
+            @Override
             public Object caseXSDModelGroup(XSDModelGroup xsdModelGroup)
             {
               return xsdModelGroup;
@@ -649,6 +669,7 @@ public class XSDParticleImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     if (isReconciling)
@@ -677,6 +698,7 @@ public class XSDParticleImpl
     }
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
@@ -687,6 +709,7 @@ public class XSDParticleImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
@@ -701,26 +724,31 @@ public class XSDParticleImpl
   {
     public static class StateImpl implements XSDParticle.DFA.State
     {
-      protected UniqueEList transitions;
+      protected UniqueEList<XSDParticle.DFA.Transition> transitions;
       protected boolean isAccepting;
 
       public StateImpl()
       {
         transitions = 
-          new UniqueEList()
+          new UniqueEList<XSDParticle.DFA.Transition>()
           {
-            Set set = new HashSet();
+            private static final long serialVersionUID = 1L;
 
-            protected void didAdd(int index, Object newObject)
+            Set<XSDParticle.DFA.Transition> set = new HashSet<XSDParticle.DFA.Transition>();
+
+            @Override
+            protected void didAdd(int index, XSDParticle.DFA.Transition newObject)
             {
               set.add(newObject);
             }
 
-            protected void didRemove(int index, Object oldObject)
+            @Override
+            protected void didRemove(int index, XSDParticle.DFA.Transition oldObject)
             {
               set.remove(oldObject);
             }
 
+            @Override
             public boolean contains(Object object)
             {
               return set.contains(object);
@@ -728,7 +756,7 @@ public class XSDParticleImpl
           };
       }
 
-      public List getTransitions()
+      public List<XSDParticle.DFA.Transition> getTransitions()
       {
         return transitions;
       }
@@ -771,9 +799,8 @@ public class XSDParticleImpl
 
       public XSDParticle.DFA.Transition accept(String namespaceURI, String localName)
       {
-        for (Iterator transitions = getTransitions().iterator(); transitions.hasNext(); )
+        for (Transition transition : getTransitions())
         {
-          Transition transition = (Transition)transitions.next();
           XSDParticle xsdParticle = transition.getParticle();
           XSDTerm xsdTerm = xsdParticle.getTerm();
           if (xsdTerm instanceof XSDElementDeclaration)
@@ -832,12 +859,14 @@ public class XSDParticleImpl
         this.xsdParticle = xsdParticle;
       }
 
+      @Override
       public int hashCode()
       {
         return 
           (xsdParticle == null ? 0 : xsdParticle.hashCode()) ^ (state == null ? 0 : state.hashCode());
       }
 
+      @Override
       public boolean equals(Object that)
       {
         if (that instanceof TransitionImpl)
@@ -854,13 +883,13 @@ public class XSDParticleImpl
       }
     }
 
-    protected List states = new ArrayList();
+    protected List<State> states = new ArrayList<State>();
     protected StateImpl initialState;
     protected StateImpl finalState;
     protected XSDParticle xsdParticle;
     protected StateImpl currentState;
-    protected Set visitedModelGroups;
-    protected Collection diagnostics;
+    protected Set<XSDModelGroup> visitedModelGroups;
+    protected Collection<XSDDiagnostic> diagnostics;
     protected boolean isApproximate;
 
     protected XSDNFA(boolean isApproximate)
@@ -870,7 +899,7 @@ public class XSDParticleImpl
       finalState = createState(null);
     }
 
-    protected XSDNFA(Set visitedModelGroups, XSDParticle xsdParticle, XSDTerm xsdTerm, boolean isApproximate)
+    protected XSDNFA(Set<XSDModelGroup> visitedModelGroups, XSDParticle xsdParticle, XSDTerm xsdTerm, boolean isApproximate)
     {
       this.isApproximate = isApproximate;
       this.visitedModelGroups = visitedModelGroups;
@@ -883,7 +912,7 @@ public class XSDParticleImpl
       }
     }
 
-    public XSDNFA(Set visitedModelGroups, XSDParticle xsdParticle, boolean isApproximate)
+    public XSDNFA(Set<XSDModelGroup> visitedModelGroups, XSDParticle xsdParticle, boolean isApproximate)
     {
       this.isApproximate = isApproximate;
       this.visitedModelGroups = visitedModelGroups;
@@ -896,7 +925,7 @@ public class XSDParticleImpl
     public XSDNFA(XSDParticle xsdParticle, boolean isApproximate)
     {
       this.isApproximate = isApproximate;
-      this.visitedModelGroups = new HashSet();
+      this.visitedModelGroups = new HashSet<XSDModelGroup>();
       this.xsdParticle = xsdParticle;
       currentState = initialState = createState(null);
       finalState = createState(xsdParticle);
@@ -905,12 +934,10 @@ public class XSDParticleImpl
 
     protected void checkBadTransitions()
     {
-      for (Iterator i = getStates().iterator(); i.hasNext(); )
+      for (State state : getStates())
       {
-        State state = (State)i.next();
-        for (Iterator j = state.getTransitions().iterator(); j.hasNext(); )
+        for (Transition transition : state.getTransitions())
         {
-          Transition transition = (Transition)j.next();
           if (!getStates().contains(transition.getState()))
           {
             Thread.dumpStack();
@@ -922,14 +949,14 @@ public class XSDParticleImpl
     protected XSDNFA(XSDNFA original, boolean isApproximate)
     {
       this.isApproximate = isApproximate;
-      states = new ArrayList();
+      states = new ArrayList<State>();
       xsdParticle = original.getParticle();
 
-      Map stateCloneMap = new HashMap();
-      List originalStates = original.getStates();
+      Map<State, State> stateCloneMap = new HashMap<State, State>();
+      List<State> originalStates = original.getStates();
       for (int i = 0, size = originalStates.size(); i < size; ++i)
       {
-        State originalState = (State)originalStates.get(i); 
+        State originalState = originalStates.get(i); 
         StateImpl clonedState = createState(null);
         stateCloneMap.put(originalState, clonedState);
         clonedState.setAccepting(originalState.isAccepting());
@@ -940,13 +967,13 @@ public class XSDParticleImpl
 
       for (int i = 0, size = originalStates.size(); i < size; ++i)
       {
-        State originalState = (State)originalStates.get(i); 
-        List originalTransitions = originalState.getTransitions();
+        State originalState = originalStates.get(i); 
+        List<Transition> originalTransitions = originalState.getTransitions();
         for (int j = 0, transitionSize = originalTransitions.size(); j < transitionSize; ++j)
         {
-          Transition originalTransition = (Transition)originalTransitions.get(j); 
+          Transition originalTransition = originalTransitions.get(j); 
           ((StateImpl)stateCloneMap.get(originalState)).createTransition
-            (originalTransition.getParticle(), (State)stateCloneMap.get(originalTransition.getState()));
+            (originalTransition.getParticle(), stateCloneMap.get(originalTransition.getState()));
         }
       }
     }
@@ -963,9 +990,8 @@ public class XSDParticleImpl
       if (xsdComponent instanceof XSDElementDeclaration)
       {
         XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)xsdComponent;
-        for (Iterator i = xsdElementDeclaration.getSubstitutionGroup().iterator(); i.hasNext(); )
+        for (XSDElementDeclaration substititonGroupMember : xsdElementDeclaration.getSubstitutionGroup())
         {
-          XSDElementDeclaration substititonGroupMember = (XSDElementDeclaration)i.next();
           if (substititonGroupMember == xsdElementDeclaration)
           {
             initialState.createTransition(xsdParticle, finalState);
@@ -991,9 +1017,8 @@ public class XSDParticleImpl
           case XSDCompositor.SEQUENCE:
           {
             StateImpl previousState = initialState;
-            for (Iterator particles = xsdModelGroup.getParticles().iterator(); particles.hasNext(); )
+            for (XSDParticle xsdParticle : xsdModelGroup.getParticles())
             {
-              XSDParticle xsdParticle = (XSDParticle)particles.next();
               XSDNFA particleNFA = new XSDNFA(visitedModelGroups, xsdParticle, isApproximate);
               propagateStates(particleNFA);
               previousState.createTransition(null, particleNFA.getInitialState());
@@ -1008,9 +1033,8 @@ public class XSDParticleImpl
           }
           case XSDCompositor.CHOICE:
           {
-            for (Iterator particles = xsdModelGroup.getParticles().iterator(); particles.hasNext(); )
+            for (XSDParticle xsdParticle : xsdModelGroup.getParticles())
             {
-              XSDParticle xsdParticle = (XSDParticle)particles.next();
               XSDNFA particleNFA = new XSDNFA(visitedModelGroups, xsdParticle, isApproximate);
               propagateStates(particleNFA);
               initialState.createTransition(null, particleNFA.getInitialState());
@@ -1029,7 +1053,7 @@ public class XSDParticleImpl
             {
               if (diagnostics == null)
               {
-                diagnostics = new ArrayList();
+                diagnostics = new ArrayList<XSDDiagnostic>();
               }
 
               XSDDiagnostic xsdDiagnostic = XSDFactory.eINSTANCE.createXSDDiagnostic();
@@ -1051,10 +1075,9 @@ public class XSDParticleImpl
             }
             else
             {
-              List particleNFAs = new ArrayList(xsdModelGroup.getParticles().size());
-              for (Iterator particles = xsdModelGroup.getParticles().iterator(); particles.hasNext(); )
+              List<XSDNFA> particleNFAs = new ArrayList<XSDNFA>(xsdModelGroup.getParticles().size());
+              for (XSDParticle xsdParticle : xsdModelGroup.getParticles())
               {
-                XSDParticle xsdParticle = (XSDParticle)particles.next();
                 XSDNFA newParticleNFA = new XSDNFA(visitedModelGroups, xsdParticle, isApproximate);
                 particleNFAs.add(newParticleNFA);
                 if (getStates().size() > MAXIMUM_STATES)
@@ -1082,9 +1105,8 @@ public class XSDParticleImpl
 
                 // Treat it like a repeating choice.
                 //
-                for (Iterator particles = xsdModelGroup.getParticles().iterator(); particles.hasNext(); )
+                for (XSDParticle xsdParticle : xsdModelGroup.getParticles())
                 {
-                  XSDParticle xsdParticle = (XSDParticle)particles.next();
                   XSDNFA particleNFA = new XSDNFA(visitedModelGroups, xsdParticle, isApproximate);
                   propagateStates(particleNFA);
                   initialState.createTransition(null, particleNFA.getInitialState());
@@ -1098,7 +1120,7 @@ public class XSDParticleImpl
               }
               else
               {
-                XSDNFA xsdNFA = createPermutations(xsdModelGroup.getParticles(), particleNFAs, new HashMap());
+                XSDNFA xsdNFA = createPermutations(xsdModelGroup.getParticles(), particleNFAs, new HashMap<List<XSDParticle>, XSDNFA>());
 
                 propagateStates(xsdNFA);
 
@@ -1118,7 +1140,7 @@ public class XSDParticleImpl
         int count = maxOccurs == -1 || isApproximate ? minOccurs : maxOccurs;
         if (minOccurs <= count)
         {
-          List termNFAs = new ArrayList(count);
+          List<XSDNFA> termNFAs = new ArrayList<XSDNFA>(count);
           XSDNFA firstTermNFA = new XSDNFA(visitedModelGroups, xsdParticle, xsdParticle.getTerm(), isApproximate);
           propagateStates(firstTermNFA);
           termNFAs.add(firstTermNFA);
@@ -1147,7 +1169,7 @@ public class XSDParticleImpl
           {
             for (i = 1; i <= minOccurs; ++i)
             {
-              XSDNFA termNFA = (XSDNFA)termNFAs.get(i - 1);
+              XSDNFA termNFA = termNFAs.get(i - 1);
               previousState.createTransition(null, termNFA.getInitialState());
               previousState = (StateImpl)termNFA.getFinalState();
               if (getStates().size() > MAXIMUM_STATES)
@@ -1165,7 +1187,7 @@ public class XSDParticleImpl
           {
             for ( ; i <= maxOccurs; ++i)
             {
-              XSDNFA termNFA = (XSDNFA)termNFAs.get(i - 1);
+              XSDNFA termNFA = termNFAs.get(i - 1);
               previousState.createTransition(null, termNFA.getInitialState());
               ((StateImpl)termNFA.getInitialState()).createTransition(null, finalState);
               previousState = (StateImpl)termNFA.getFinalState();
@@ -1180,34 +1202,34 @@ public class XSDParticleImpl
       }
     }
 
-    protected XSDNFA createPermutations(List particles, List particleNFAs, Map particlesToNFAMap)
+    protected XSDNFA createPermutations(List<XSDParticle> particles, List<XSDNFA> particleNFAs, Map<List<XSDParticle>, XSDNFA> particlesToNFAMap)
     {
-      XSDNFA result = (XSDNFA)particlesToNFAMap.get(particles);
+      XSDNFA result = particlesToNFAMap.get(particles);
       if (result == null)
       {
         int size = particleNFAs.size();
         if (size == 1)
         {
-          result = new XSDNFA((XSDNFA)particleNFAs.get(0), isApproximate);
+          result = new XSDNFA(particleNFAs.get(0), isApproximate);
           particlesToNFAMap.put(particles, result);
         }
         else
         {
           result = new XSDNFA(isApproximate);
-          List otherParticleNFAs = new ArrayList(size - 1);
-          List otherParticles = new ArrayList(size - 1);
+          List<XSDNFA> otherParticleNFAs = new ArrayList<XSDNFA>(size - 1);
+          List<XSDParticle> otherParticles = new ArrayList<XSDParticle>(size - 1);
           for (int i = 0; i < size; ++i) 
           {
-            XSDNFA particleNFA = (XSDNFA)particleNFAs.get(i);
-            XSDParticle particle = (XSDParticle)particles.get(i);
+            XSDNFA particleNFA = particleNFAs.get(i);
+            XSDParticle particle = particles.get(i);
             otherParticleNFAs.clear();
             otherParticles.clear();
             for (int j = 0; j < size; ++j) 
             {
-              XSDParticle otherParticle = (XSDParticle)particles.get(j);
+              XSDParticle otherParticle = particles.get(j);
               if (particle != otherParticle)
               {
-                XSDNFA otherParticleNFA = (XSDNFA)particleNFAs.get(j);
+                XSDNFA otherParticleNFA = particleNFAs.get(j);
                 otherParticleNFAs.add(otherParticleNFA);
                 otherParticles.add(otherParticle);
               }
@@ -1247,7 +1269,7 @@ public class XSDParticleImpl
       return isApproximate;
     }
 
-    public List getStates()
+    public List<State> getStates()
     {
       return states;
     }
@@ -1267,13 +1289,13 @@ public class XSDParticleImpl
       return xsdParticle;
     }
 
-    public static String getComponentLabel(Collection xsdComponents)
+    public static String getComponentLabel(Collection<XSDComponent> xsdComponents)
     {
       StringBuffer result = new StringBuffer();
       result.append("{");
-      for (Iterator i = xsdComponents.iterator(); i.hasNext(); )
+      for (Iterator<XSDComponent> i = xsdComponents.iterator(); i.hasNext(); )
       {
-        XSDComponent xsdComponent = (XSDComponent)i.next();
+        XSDComponent xsdComponent = i.next();
         result.append(getComponentLabel(xsdComponent));
         if (i.hasNext())
         {
@@ -1333,7 +1355,7 @@ public class XSDParticleImpl
 
     public void dump(PrintStream out)
     {
-      List stateList = new ArrayList(getStates());
+      List<State> stateList = new ArrayList<State>(getStates());
       stateList.remove(initialState);
       stateList.add(0, initialState);
       if (finalState != null)
@@ -1346,15 +1368,13 @@ public class XSDParticleImpl
         ("Component: " + getComponentLabel(xsdParticle) + 
            " [" + stateList.indexOf(initialState) + ", " + 
            stateList.indexOf(finalState) + "]"); 
-      for (Iterator i = stateList.iterator(); i.hasNext(); )
+      for (State state : stateList)
       {
-        State state = (State)i.next();
         out.println
           ("    State: " + stateList.indexOf(state) + (state.isAccepting() ? " *" : ""));
 
-        for (Iterator j = state.getTransitions().iterator(); j.hasNext(); )
+        for (Transition transition : state.getTransitions())
         {
-          Transition transition = (Transition)j.next();
           out.println
             ("     --> : " + getComponentLabel(transition.getParticle()) +  " -> " + stateList.indexOf(transition.getState())); 
         }
@@ -1371,10 +1391,10 @@ public class XSDParticleImpl
         for (int i = 0, iSize = states.size(); i < iSize; ++i) 
         {
           StateImpl state = (StateImpl)states.get(i);
-          List stateTransitions = state.getTransitions();
+          List<Transition> stateTransitions = state.getTransitions();
           for (int j = 0, jSize = stateTransitions.size(); j < jSize; ++j)
           {
-            Transition transition = (Transition)stateTransitions.get(j);
+            Transition transition = stateTransitions.get(j);
             if (transition.getParticle() == null)
             {
               State otherState = transition.getState();
@@ -1384,10 +1404,10 @@ public class XSDParticleImpl
                 {
                   state.setAccepting(true);
                 }
-                List otherStateTransitions = otherState.getTransitions();
+                List<Transition> otherStateTransitions = otherState.getTransitions();
                 for (int k = 0, kSize = otherStateTransitions.size(); k < kSize; ++k)
                 {
-                  Transition t = (Transition)otherStateTransitions.get(k);
+                  Transition t = otherStateTransitions.get(k);
                   if (t.getParticle() != null && stateTransitions.add(t))
                   {
                     closed = false;
@@ -1403,10 +1423,10 @@ public class XSDParticleImpl
 
       for (int i = 0, iSize = states.size(); i < iSize; ++i) 
       {
-        State  state = (State)states.get(i);
-        for (Iterator j = state.getTransitions().iterator(); j.hasNext(); )
+        State  state = states.get(i);
+        for (Iterator<Transition> j = state.getTransitions().iterator(); j.hasNext(); )
         {
-          Transition transition = (Transition)j.next();
+          Transition transition = j.next();
           if (transition.getParticle() == null)
           {
             j.remove();
@@ -1439,10 +1459,10 @@ public class XSDParticleImpl
       }
       else
       {
-        List stateTransitions = s1.getTransitions();
+        List<Transition> stateTransitions = s1.getTransitions();
         for (int i = 0, iSize = stateTransitions.size(); i < iSize; ++i)
         {
-          Transition transition = (Transition)stateTransitions.get(i);
+          Transition transition = stateTransitions.get(i);
           testTransition.setParticle(transition.getParticle());
           testTransition.setState(transition.getState());
 
@@ -1458,8 +1478,8 @@ public class XSDParticleImpl
 
     public void minimize()
     {
-      State [] theStates = (State [])states.toArray(new State [states.size()]);
-      List equivalentStates = new ArrayList();
+      State [] theStates = states.toArray(new State [states.size()]);
+      List<State> equivalentStates = new ArrayList<State>();
       boolean minimal;
       do
       {
@@ -1485,12 +1505,12 @@ public class XSDParticleImpl
                 State otherState = theStates[j];
                 if (otherState != null)
                 {
-                  List theTransitions = otherState.getTransitions();
+                  List<Transition> theTransitions = otherState.getTransitions();
                   if (equivalentStates.contains(otherState))
                   {
                     for (int k = 0, kSize = theTransitions.size(); k < kSize; ++k)
                     {
-                      Transition transition = (Transition)theTransitions.get(k);
+                      Transition transition = theTransitions.get(k);
                       State outgoingState = transition.getState();
                       if (equivalentStates.contains(outgoingState))
                       {
@@ -1506,7 +1526,7 @@ public class XSDParticleImpl
                   {
                     for (int k = theTransitions.size(); --k >= 0; )
                     {
-                      Transition transition = (Transition)theTransitions.get(k);
+                      Transition transition = theTransitions.get(k);
                       State outgoingState = transition.getState();
                       if (equivalentStates.contains(outgoingState))
                       {
@@ -1542,14 +1562,14 @@ public class XSDParticleImpl
       }
       else
       {
-        List elements = new UniqueEList.FastCompare();
+        List<XSDElementDeclaration> elements = new UniqueEList.FastCompare<XSDElementDeclaration>();
         for (int i = 0, iSize = states.size(); i < iSize; ++i)
         {
-          State state = (State)states.get(i);
-          List theTransitions = state.getTransitions();
+          State state = states.get(i);
+          List<Transition> theTransitions = state.getTransitions();
           for (int j = 0, jSize = theTransitions.size(); j < jSize; ++j)
           {
-            Transition transition = (Transition)theTransitions.get(j);
+            Transition transition = theTransitions.get(j);
             XSDTerm xsdTerm = transition.getParticle().getTerm();
             if (xsdTerm instanceof XSDElementDeclaration)
             {
@@ -1569,39 +1589,38 @@ public class XSDParticleImpl
 
     public void determinize()
     {
-      Set stateSubsets = new HashSet();
+      Set<Set<State>> stateSubsets = new HashSet<Set<State>>();
       State originalInitialState = initialState;
-      Set initialStateSubset = Collections.singleton(initialState);
+      Set<State> initialStateSubset = Collections.<State>singleton(initialState);
       stateSubsets.add(initialStateSubset);
 
-      states = new ArrayList();
+      states = new ArrayList<State>();
       currentState = initialState = createState(null);
       initialState.setAccepting(originalInitialState.isAccepting());
       finalState = null;
       xsdParticle = null;
 
-      Map stateSubsetToStateMap = new HashMap();
+      Map<Set<State>, State> stateSubsetToStateMap = new HashMap<Set<State>, State>();
       stateSubsetToStateMap.put(initialStateSubset, initialState);
       do
       {
-        Iterator s = stateSubsets.iterator();
-        Set stateSubset = (Set)s.next();
+        Iterator<Set<State>> s = stateSubsets.iterator();
+        Set<State> stateSubset = s.next();
         s.remove();
 
         StateImpl newState = (StateImpl)stateSubsetToStateMap.get(stateSubset);
 
-        Set transitions = new HashSet();
-        for (Iterator i = stateSubset.iterator(); i.hasNext(); )
+        Set<Transition> transitions = new HashSet<Transition>();
+        for (State originalState : stateSubset)
         {
-          State originalState = (State)i.next();
           transitions.addAll(originalState.getTransitions());
         }
 
         while (!transitions.isEmpty())
         {
-          Set newStateSubset = new HashSet();
-          Iterator i = transitions.iterator(); 
-          Transition originalTransition = (Transition)i.next();
+          Set<State> newStateSubset = new HashSet<State>();
+          Iterator<Transition> i = transitions.iterator(); 
+          Transition originalTransition = i.next();
           XSDParticle particle = originalTransition.getParticle();
           i.remove();
           newStateSubset.add(originalTransition.getState());
@@ -1612,7 +1631,7 @@ public class XSDParticleImpl
           }
           while (i.hasNext())
           {
-            Transition otherOriginalTransition = (Transition)i.next();
+            Transition otherOriginalTransition = i.next();
             if (otherOriginalTransition.getParticle() == particle)
             {
               i.remove();
@@ -1739,18 +1758,18 @@ public class XSDParticleImpl
       {
         if (diagnostics == null)
         {
-          diagnostics = new ArrayList();
+          diagnostics = new ArrayList<XSDDiagnostic>();
         }
         diagnostics.addAll(xsdNFA.diagnostics);
       }
     }
 
-    public Collection getDiagnostics()
+    public Collection<XSDDiagnostic> getDiagnostics()
     {
       if (diagnostics == null)
       {
-        diagnostics = new ArrayList();
-        Map elementURIToTypeMap = new HashMap();
+        diagnostics = new ArrayList<XSDDiagnostic>();
+        Map<String, XSDTypeDefinition> elementURIToTypeMap = new HashMap<String, XSDTypeDefinition>();
         if (getStates().size() > MAXIMUM_STATES)
         {
           XSDDiagnostic xsdDiagnostic = XSDFactory.eINSTANCE.createXSDDiagnostic();
@@ -1766,13 +1785,12 @@ public class XSDParticleImpl
         }
         else
         {
-          for (Iterator i = getStates().iterator(); i.hasNext(); )
+          for (State state : getStates())
           {
-            State state = (State)i.next();
-            List transitions = new ArrayList(state.getTransitions());
-            for (Iterator j = transitions.iterator(); j.hasNext(); )
+            List<Transition> transitions = new ArrayList<Transition>(state.getTransitions());
+            for (Iterator<Transition> j = transitions.iterator(); j.hasNext(); )
             {
-              Transition transition = (Transition)j.next();
+              Transition transition = j.next();
               XSDTerm xsdTerm = transition.getParticle().getTerm();
               if (xsdTerm instanceof XSDElementDeclaration)
               {
@@ -1802,9 +1820,8 @@ public class XSDParticleImpl
                 }
               }
               j.remove();
-              for (Iterator k = transitions.iterator(); k.hasNext(); )
+              for (Transition otherTransition : transitions)
               {
-                Transition otherTransition = (Transition)k.next();
                 XSDDiagnostic xsdDiagnostic = checkOverlap(xsdTerm, otherTransition.getParticle().getTerm());
                 if (xsdDiagnostic != null)
                 {
@@ -1885,12 +1902,11 @@ public class XSDParticleImpl
       {
         // Clean up bad transitions.
         //
-        for (Iterator i = localNFA.getStates().iterator(); i.hasNext(); )
+        for (DFA.State state : localNFA.getStates())
         {
-          DFA.State state = (DFA.State)i.next();
-          for (Iterator j = state.getTransitions().iterator(); j.hasNext(); )
+          for (Iterator<DFA.Transition> j = state.getTransitions().iterator(); j.hasNext(); )
           {
-            DFA.Transition transition = (DFA.Transition)j.next();
+            DFA.Transition transition = j.next();
             if (transition.getParticle() == null)
             {
               j.remove();
@@ -1923,30 +1939,33 @@ public class XSDParticleImpl
       return true;
     }
 
-    final Set states = new HashSet();
-    Map map = 
-      new HashMap()
+    final Set<List<DFA.State>> states = new HashSet<List<DFA.State>>();
+    Map<DFA.State, Object> map = 
+      new HashMap<DFA.State, Object>()
       {
-        public Object put(Object key, Object value)
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public Object put(DFA.State key, Object value)
         {
-          DFA.State s1 = (DFA.State)key;
+          DFA.State s1 = key;
           DFA.State s2 = (DFA.State)value;
           if (s1.isAccepting() && !s2.isAccepting())
           {
             return null;
           }
 
-          Set set = (Set)super.get(key);
+          @SuppressWarnings("unchecked") Set<DFA.State> set = (Set<DFA.State>)super.get(key);
           if (set == null)
           {
-            set = new HashSet();
+            set = new HashSet<DFA.State>();
             super.put(key, set);
           }
-          if (set.add(value))
+          if (set.add(s2))
           {
-            List pair = new ArrayList(2);
-            pair.add(key);
-            pair.add(value);
+            List<DFA.State> pair = new ArrayList<DFA.State>(2);
+            pair.add(s1);
+            pair.add(s2);
             states.add(pair);
           }
           return set;
@@ -1956,28 +1975,26 @@ public class XSDParticleImpl
     boolean result = false;
     if (map.put(subset.getInitialState(), superSet.getInitialState()) != null)
     {
-      Map elementMap = new HashMap();
+      Map<XSDElementDeclaration, XSDElementDeclaration> elementMap = new HashMap<XSDElementDeclaration, XSDElementDeclaration>();
 
       result = true;
       LOOP: while (!states.isEmpty())
       {
-        Iterator iterator = states.iterator();
-        List pair = (List)iterator.next();
+        Iterator<List<DFA.State>> iterator = states.iterator();
+        List<DFA.State> pair = iterator.next();
         iterator.remove();
 
-        DFA.State substate = (DFA.State)pair.get(0);
-        DFA.State superState = (DFA.State)pair.get(1);
-        for (Iterator i = substate.getTransitions().iterator(); i.hasNext(); )
+        DFA.State substate = pair.get(0);
+        DFA.State superState = pair.get(1);
+        for (DFA.Transition subtransition : substate.getTransitions())
         {
-          DFA.Transition subtransition = (DFA.Transition)i.next();
           XSDTerm subXSDTerm = subtransition.getParticle().getTerm();
           boolean transitionResult = false;
           if (subXSDTerm instanceof XSDElementDeclaration)
           {
             XSDElementDeclaration subXSDElementDeclaration = (XSDElementDeclaration)subXSDTerm;
-            for (Iterator j = superState.getTransitions().iterator(); j.hasNext(); )
+            for (DFA.Transition superTransition : superState.getTransitions())
             {
-              DFA.Transition superTransition = (DFA.Transition)j.next();
               XSDTerm superXSDTerm = superTransition.getParticle().getTerm();
               if (superXSDTerm instanceof XSDElementDeclaration)
               {
@@ -2019,9 +2036,8 @@ public class XSDParticleImpl
           else
           {
             XSDWildcard subXSDWildcard = (XSDWildcard)subXSDTerm;
-            for (Iterator j = superState.getTransitions().iterator(); j.hasNext(); )
+            for (DFA.Transition superTransition : superState.getTransitions())
             {
-              DFA.Transition superTransition = (DFA.Transition)j.next();
               XSDTerm superXSDTerm = superTransition.getParticle().getTerm();
               if (superXSDTerm instanceof XSDWildcard)
               {
@@ -2053,11 +2069,10 @@ public class XSDParticleImpl
 
       if (result)
       {
-        for (Iterator i = elementMap.entrySet().iterator(); i.hasNext(); )
+        for (Map.Entry<XSDElementDeclaration, XSDElementDeclaration> entry : elementMap.entrySet())
         {
-          Map.Entry entry = (Map.Entry)i.next();
-          XSDElementDeclaration subXSDElementDeclaration = (XSDElementDeclaration)entry.getKey();
-          XSDElementDeclaration superXSDElementDeclaration = (XSDElementDeclaration)entry.getValue();
+          XSDElementDeclaration subXSDElementDeclaration = entry.getKey();
+          XSDElementDeclaration superXSDElementDeclaration = entry.getValue();
 
           if (superXSDElementDeclaration.isNillable() && !subXSDElementDeclaration.isNillable())
           {
@@ -2148,6 +2163,7 @@ public class XSDParticleImpl
     return result;
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDParticleImpl clonedParticle =

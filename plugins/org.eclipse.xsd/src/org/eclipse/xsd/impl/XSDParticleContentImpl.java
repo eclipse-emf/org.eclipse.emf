@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleContentImpl.java,v 1.5 2005/11/23 18:09:40 emerks Exp $
+ * $Id: XSDParticleContentImpl.java,v 1.6 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -81,6 +81,7 @@ public abstract class XSDParticleContentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_PARTICLE_CONTENT;

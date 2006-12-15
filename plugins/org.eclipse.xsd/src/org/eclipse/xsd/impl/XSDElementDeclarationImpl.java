@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationImpl.java,v 1.17 2006/12/05 20:32:14 emerks Exp $
+ * $Id: XSDElementDeclarationImpl.java,v 1.18 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -314,6 +314,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_ELEMENT_DECLARATION;
@@ -525,6 +526,7 @@ public class XSDElementDeclarationImpl
     return isElementDeclarationReference() ? Boolean.TRUE : Boolean.FALSE;
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.ELEMENT_ELEMENT);
@@ -539,6 +541,7 @@ public class XSDElementDeclarationImpl
     return newElement;
   }
 
+  @Override
   protected void patch()
   {
     analysisState = UNANALYZED;
@@ -577,15 +580,14 @@ public class XSDElementDeclarationImpl
       {
         //  
         //
-        List theBlock = getBlock();
+        List<XSDDisallowedSubstitutions> theBlock = getBlock();
         if (!isSetBlock())
         {
           theBlock = getSchema().getBlockDefault();
         }
-        List newDisallowedSubstitutions = new ArrayList();
-        for (Iterator values = theBlock.iterator(); values.hasNext(); )
+        List<XSDDisallowedSubstitutions> newDisallowedSubstitutions = new ArrayList<XSDDisallowedSubstitutions>();
+        for (XSDDisallowedSubstitutions value : theBlock)
         {
-          Object value = values.next();
           if (value.toString().equals("all"))
           {
             newDisallowedSubstitutions.add(XSDDisallowedSubstitutions.EXTENSION_LITERAL);
@@ -599,7 +601,7 @@ public class XSDElementDeclarationImpl
           }
         }
 
-        Collection oldDisallowedSubstitutions = new ArrayList(getDisallowedSubstitutions());
+        Collection<XSDDisallowedSubstitutions> oldDisallowedSubstitutions = new ArrayList<XSDDisallowedSubstitutions>(getDisallowedSubstitutions());
         oldDisallowedSubstitutions.removeAll(newDisallowedSubstitutions);
         if (!oldDisallowedSubstitutions.isEmpty())
         {
@@ -609,15 +611,14 @@ public class XSDElementDeclarationImpl
 
         //  
         //
-        List theLexicalFinal = getLexicalFinal();
+        List<XSDProhibitedSubstitutions> theLexicalFinal = getLexicalFinal();
         if (!isSetLexicalFinal())
         {
           theLexicalFinal = getSchema().getFinalDefault();
         }
-        List newSubstitutionGroupExclusions = new ArrayList();
-        for (Iterator values = theLexicalFinal.iterator(); values.hasNext(); )
+        List<XSDSubstitutionGroupExclusions> newSubstitutionGroupExclusions = new ArrayList<XSDSubstitutionGroupExclusions>();
+        for (Object value : theLexicalFinal)
         {
-          Object value = values.next();
           if (value.toString().equals("all"))
           {
             newSubstitutionGroupExclusions.add(XSDSubstitutionGroupExclusions.EXTENSION_LITERAL);
@@ -634,7 +635,8 @@ public class XSDElementDeclarationImpl
           }
         }
 
-        Collection oldSubstitutionGroupExclusions = new ArrayList(getSubstitutionGroupExclusions());
+        Collection<XSDSubstitutionGroupExclusions> oldSubstitutionGroupExclusions = 
+          new ArrayList<XSDSubstitutionGroupExclusions>(getSubstitutionGroupExclusions());
         oldSubstitutionGroupExclusions.removeAll(newSubstitutionGroupExclusions);
         if (!oldSubstitutionGroupExclusions.isEmpty())
         {
@@ -654,6 +656,7 @@ public class XSDElementDeclarationImpl
     }
   }
 
+  @Override
   protected boolean analyze()
   {
     switch (analysisState)
@@ -717,6 +720,7 @@ public class XSDElementDeclarationImpl
     super.analyze();
   }
 
+  @Override
   protected void patchTargetNamespaceAttribute()
   {
     if (!isElementDeclarationReference())
@@ -751,6 +755,7 @@ public class XSDElementDeclarationImpl
     }
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -1026,7 +1031,7 @@ public class XSDElementDeclarationImpl
         }
         else
         {
-          EList substitutionGroupExclusions = substitutionGroupAffiliation.getSubstitutionGroupExclusions();
+          EList<XSDSubstitutionGroupExclusions> substitutionGroupExclusions = substitutionGroupAffiliation.getSubstitutionGroupExclusions();
           XSDTypeDefinition badTypeDefinition = 
             theTypeDefinition.getBadTypeDerivation
               (substitutionGroupAffiliation.getTypeDefinition(),
@@ -1050,6 +1055,7 @@ public class XSDElementDeclarationImpl
     }
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -1161,6 +1167,7 @@ public class XSDElementDeclarationImpl
     }
   }
 
+  @Override
   protected void reconcileNameAttribute()
   {
     if (!isElementDeclarationReference())
@@ -1169,12 +1176,14 @@ public class XSDElementDeclarationImpl
     }
   }
 
+  @Override
   protected void reconcileContents(Element changedElement)
   {
     super.reconcileContents(changedElement);
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     XSDAnnotation xsdAnnotation = XSDAnnotationImpl.createAnnotation(child);
     if (xsdAnnotation != null)
@@ -1203,7 +1212,8 @@ public class XSDElementDeclarationImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     handleAnnotationReconciliation(XSDPackage.Literals.XSD_ELEMENT_DECLARATION__ANNOTATION, newContents, remainingContents);
 
@@ -1214,7 +1224,7 @@ public class XSDElementDeclarationImpl
       XSDTypeDefinition newAnonymousTypeDefinition = null;
       if (!newContents.isEmpty())
       {
-        XSDConcreteComponent newComponent = (XSDConcreteComponent)newContents.get(0);
+        XSDConcreteComponent newComponent = newContents.get(0);
         if (newComponent instanceof XSDTypeDefinition)
         {
           newTypeDefinition = newAnonymousTypeDefinition = (XSDTypeDefinition)newComponent;
@@ -1228,7 +1238,7 @@ public class XSDElementDeclarationImpl
         setAnonymousTypeDefinition(newAnonymousTypeDefinition);
       }
 
-      for (Iterator i = newContents.iterator(); i.hasNext(); )
+      for (Iterator<XSDConcreteComponent> i = newContents.iterator(); i.hasNext(); )
       {
         if (!(i.next() instanceof XSDIdentityConstraintDefinition))
         {
@@ -1243,7 +1253,8 @@ public class XSDElementDeclarationImpl
 
       if (!newContents.isEmpty())
       {
-        setListContentAndOrder(getIdentityConstraintDefinitions(), newContents);
+        @SuppressWarnings("unchecked") List<XSDIdentityConstraintDefinition> list = (List<XSDIdentityConstraintDefinition>)(List<?>)newContents;
+        setListContentAndOrder(getIdentityConstraintDefinitions(), list);
       }
 
       if (theElement.hasAttributeNS(null, XSDConstants.TYPE_ATTRIBUTE))
@@ -1258,6 +1269,7 @@ public class XSDElementDeclarationImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -1321,6 +1333,7 @@ public class XSDElementDeclarationImpl
     }
   }
 
+  @Override
   public void eNotify(Notification msg)
   {
     int eventType = msg.getEventType();
@@ -1335,12 +1348,12 @@ public class XSDElementDeclarationImpl
         case Notification.SET:
         case Notification.UNSET:
         {
-          Collection substitutionGroup = new ArrayList(getSubstitutionGroup());
+          Collection<XSDElementDeclaration> substitutionGroup = new ArrayList<XSDElementDeclaration>(getSubstitutionGroup());
           substitutionGroup.add(this);
 
           if (oldValue != null)
           {
-            Collection visited = new HashSet();
+            Collection<XSDElementDeclaration> visited = new HashSet<XSDElementDeclaration>();
             for (XSDElementDeclaration oldSubstitutionGroupAffiliation = (XSDElementDeclaration)oldValue;
                  oldSubstitutionGroupAffiliation != null;
                  oldSubstitutionGroupAffiliation = oldSubstitutionGroupAffiliation.getSubstitutionGroupAffiliation())
@@ -1357,7 +1370,7 @@ public class XSDElementDeclarationImpl
           }
           if (newValue != null)
           {
-            Collection visited = new HashSet();
+            Collection<XSDElementDeclaration> visited = new HashSet<XSDElementDeclaration>();
             for (XSDElementDeclaration newSubstitutionGroupAffiliation = (XSDElementDeclaration)newValue;
                  newSubstitutionGroupAffiliation != null;
                  newSubstitutionGroupAffiliation = newSubstitutionGroupAffiliation.getSubstitutionGroupAffiliation())
@@ -1379,6 +1392,7 @@ public class XSDElementDeclarationImpl
     super.eNotify(msg);
   }
 
+  @Override
   protected void changeReference(EReference eReference)
   {
     super.changeReference(eReference);
@@ -1450,6 +1464,7 @@ public class XSDElementDeclarationImpl
     }
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
@@ -1459,6 +1474,7 @@ public class XSDElementDeclarationImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
@@ -1486,6 +1502,7 @@ public class XSDElementDeclarationImpl
     return isCircular() ? Boolean.TRUE : Boolean.FALSE;
   }
 
+  @Override
   public String getQName()
   {
     XSDElementDeclaration resolvedElementDeclaration = getResolvedElementDeclaration();
@@ -1499,26 +1516,31 @@ public class XSDElementDeclarationImpl
     }
   }
 
+  @Override
   public boolean isNamedComponentReference()
   {
     return isElementDeclarationReference();
   }
 
+  @Override
   public XSDNamedComponent getResolvedNamedComponent()
   {
     return getResolvedElementDeclaration();
   }
 
+  @Override
   public boolean isFeatureReference()
   {
     return isElementDeclarationReference();
   }
 
+  @Override
   public XSDFeature getResolvedFeature()
   {
     return getResolvedElementDeclaration();
   }
 
+  @Override
   public XSDTypeDefinition getType()
   {
     return getTypeDefinition();
@@ -1529,9 +1551,8 @@ public class XSDElementDeclarationImpl
     if (isSetLexicalFinal())
     {
       StringBuffer result = new StringBuffer();
-      for (Iterator literals = getLexicalFinal().iterator(); literals.hasNext(); )
+      for (Object literal : getLexicalFinal())
       {
-        Object literal = literals.next();
         if (result.length() != 0)
         {
           result.append(' ');
@@ -1561,7 +1582,7 @@ public class XSDElementDeclarationImpl
     }
     else
     {
-      List newLexicalFinal = new ArrayList();
+      List<XSDProhibitedSubstitutions> newLexicalFinal = new ArrayList<XSDProhibitedSubstitutions>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(finalDefault); stringTokenizer.hasMoreTokens(); )
       {
         String token = stringTokenizer.nextToken();
@@ -1578,7 +1599,7 @@ public class XSDElementDeclarationImpl
       }
       if (!newLexicalFinal.equals(getLexicalFinal()))
       {
-        Collection oldContents = new ArrayList(getLexicalFinal());
+        Collection<XSDProhibitedSubstitutions> oldContents = new ArrayList<XSDProhibitedSubstitutions>(getLexicalFinal());
         oldContents.removeAll(newLexicalFinal);
         if (!oldContents.isEmpty())
         {
@@ -1598,9 +1619,8 @@ public class XSDElementDeclarationImpl
     if (isSetBlock())
     {
       StringBuffer result = new StringBuffer();
-      for (Iterator literals = getBlock().iterator(); literals.hasNext(); )
+      for (Object literal : getBlock())
       {
-        Object literal = literals.next();
         if (result.length() != 0)
         {
           result.append(' ');
@@ -1630,7 +1650,7 @@ public class XSDElementDeclarationImpl
     }
     else
     {
-      List newBlock = new ArrayList();
+      List<XSDDisallowedSubstitutions> newBlock = new ArrayList<XSDDisallowedSubstitutions>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(block); stringTokenizer.hasMoreTokens(); )
       {
         String token = stringTokenizer.nextToken();
@@ -1646,7 +1666,7 @@ public class XSDElementDeclarationImpl
       }
       if (!newBlock.equals(getBlock()))
       {
-        Collection oldContents = new ArrayList(getBlock());
+        Collection<XSDDisallowedSubstitutions> oldContents = new ArrayList<XSDDisallowedSubstitutions>(getBlock());
         oldContents.removeAll(newBlock);
         if (!oldContents.isEmpty())
         {
@@ -1664,9 +1684,8 @@ public class XSDElementDeclarationImpl
   public String getStringDisallowedSubstitutions()
   {
     StringBuffer result = new StringBuffer();
-    for (Iterator literals = getDisallowedSubstitutions().iterator(); literals.hasNext(); )
+    for (Object literal : getDisallowedSubstitutions())
     {
-      Object literal = literals.next();
       if (result.length() != 0)
       {
         result.append(' ');
@@ -1679,9 +1698,8 @@ public class XSDElementDeclarationImpl
   public String getStringSubstitutionGroupExclusions()
   { 
     StringBuffer result = new StringBuffer();
-    for (Iterator literals = getSubstitutionGroupExclusions().iterator(); literals.hasNext(); )
+    for (Object literal : getSubstitutionGroupExclusions())
     {
-      Object literal = literals.next();
       if (result.length() != 0)
       {
         result.append(' ');
@@ -1900,6 +1918,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -1919,6 +1938,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -1962,6 +1982,8 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -2020,6 +2042,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -2072,6 +2095,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -2115,6 +2139,7 @@ public class XSDElementDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -2136,6 +2161,7 @@ public class XSDElementDeclarationImpl
     return result.toString();
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDElementDeclarationImpl clonedElementDeclaration =

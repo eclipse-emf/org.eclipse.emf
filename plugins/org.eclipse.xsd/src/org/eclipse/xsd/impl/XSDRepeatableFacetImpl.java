@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRepeatableFacetImpl.java,v 1.9 2006/12/05 20:32:31 emerks Exp $
+ * $Id: XSDRepeatableFacetImpl.java,v 1.10 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -91,6 +91,7 @@ public abstract class XSDRepeatableFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_REPEATABLE_FACET;
@@ -115,6 +116,7 @@ public abstract class XSDRepeatableFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -130,6 +132,8 @@ public abstract class XSDRepeatableFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -147,6 +151,7 @@ public abstract class XSDRepeatableFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -163,6 +168,7 @@ public abstract class XSDRepeatableFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -173,6 +179,7 @@ public abstract class XSDRepeatableFacetImpl
     return super.eIsSet(featureID);
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -190,6 +197,7 @@ public abstract class XSDRepeatableFacetImpl
        });
   }
 
+  @Override
   protected void validateValue()
   {
     checkBuiltInTypeConstraint

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreSchemaBuilder.java,v 1.16 2006/12/11 16:16:09 emerks Exp $
+ * $Id: EcoreSchemaBuilder.java,v 1.17 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -101,13 +101,14 @@ public class EcoreSchemaBuilder extends MapBuilder
   /**
    * Store the reverse map too.
    */
-  protected Map eModelElementToXSDComponentMap = new HashMap();
+  protected Map<EModelElement, XSDComponent> eModelElementToXSDComponentMap = new HashMap<EModelElement, XSDComponent>();
 
   public EcoreSchemaBuilder(ExtendedMetaData extendedMetaData)
   {
     this.extendedMetaData = extendedMetaData;
   }
   
+  @Override
   protected void map(XSDComponent xsdComponent, EModelElement eModelElement)
   {
     super.map(xsdComponent, eModelElement);
@@ -163,7 +164,7 @@ public class EcoreSchemaBuilder extends MapBuilder
     
     // Choose the schema for schema namespace and prefix.
     //
-    Map namespaces = xsdSchema.getQNamePrefixToNamespaceMap();
+    Map<String, String> namespaces = xsdSchema.getQNamePrefixToNamespaceMap();
     xsdSchema.setSchemaForSchemaQNamePrefix(defaultXMLSchemaNamespacePrefix);
     namespaces.put(defaultXMLSchemaNamespacePrefix, defaultXMLSchemaNamespace);
 
@@ -187,9 +188,8 @@ public class EcoreSchemaBuilder extends MapBuilder
     EClass documentRootEClass = extendedMetaData.getDocumentRoot(ePackage);
     if (documentRootEClass == null)
     {
-      for (Iterator i = ePackage.getEClassifiers().iterator(); i.hasNext(); )
+      for (EClassifier eClassifier : ePackage.getEClassifiers())
       {
-        EClassifier eClassifier = (EClassifier)i.next();
         if (eClassifier instanceof EClass)
         {
           EClass eClass = (EClass)eClassifier;
@@ -219,9 +219,8 @@ public class EcoreSchemaBuilder extends MapBuilder
     
     // Generate the type definitions.
     //
-    for (Iterator i = ePackage.getEClassifiers().iterator(); i.hasNext(); )
+    for (EClassifier eClassifier : ePackage.getEClassifiers())
     {
-      EClassifier eClassifier = (EClassifier)i.next();
       if (eClassifier != documentRootEClass)
       {
         buildTypeDefinition(xsdSchema, eClassifier);
@@ -382,12 +381,11 @@ public class EcoreSchemaBuilder extends MapBuilder
         }
         else
         {
-          List memberTypes = extendedMetaData.getMemberTypes(eDataType);
+          List<EDataType> memberTypes = extendedMetaData.getMemberTypes(eDataType);
           if (!memberTypes.isEmpty())
           {
-            for (Iterator i = memberTypes.iterator(); i.hasNext(); )
+            for (EDataType memberType : memberTypes)
             {
-              EDataType memberType = (EDataType)i.next();
               XSDSimpleTypeDefinition memberTypeDefinition =  xsdSchema.resolveSimpleTypeDefinitionURI(getURI(memberType));
               handleImport(xsdSchema, memberTypeDefinition);
               xsdSimpleTypeDefinition.getMemberTypeDefinitions().add(memberTypeDefinition);
@@ -441,9 +439,9 @@ public class EcoreSchemaBuilder extends MapBuilder
       {
         EEnum eEnum = (EEnum)eDataType;
         
-        for (ListIterator literals = eEnum.getELiterals().listIterator(); literals.hasNext();)
+        for (ListIterator<EEnumLiteral> literals = eEnum.getELiterals().listIterator(); literals.hasNext();)
         {
-          EEnumLiteral literal = (EEnumLiteral)literals.next();
+          EEnumLiteral literal = literals.next();
           XSDEnumerationFacet facet = XSDFactory.eINSTANCE.createXSDEnumerationFacet();
           facet.setLexicalValue(literal.getLiteral());
           xsdSimpleTypeDefinition.getFacetContents().add(facet);
@@ -483,11 +481,11 @@ public class EcoreSchemaBuilder extends MapBuilder
       xsdComplexTypeDefinition.setAbstract(true);
     }
       
-    List superClasses = eClass.getESuperTypes();
+    List<EClass> superClasses = eClass.getESuperTypes();
     if (!superClasses.isEmpty())
     {
-      Iterator i = superClasses.iterator();
-      EClass superClass = (EClass)i.next();
+      Iterator<EClass> i = superClasses.iterator();
+      EClass superClass = i.next();
       XSDTypeDefinition baseType = xsdSchema.resolveTypeDefinitionURI(getURI(superClass));
       if (!XSDConstants.isURType(baseType))
       {
@@ -503,7 +501,7 @@ public class EcoreSchemaBuilder extends MapBuilder
         StringBuffer additionalSuperTypes = new StringBuffer();
         do
         {
-          superClass = (EClass)i.next();
+          superClass = i.next();
           baseType = xsdSchema.resolveTypeDefinitionURI(getURI(superClass));
           if (!XSDConstants.isURType(baseType))
           {
@@ -553,13 +551,13 @@ public class EcoreSchemaBuilder extends MapBuilder
       createEcoreAnnotation(xsdComplexTypeDefinition, "constraints", constraints);
     }
 
-    for (Iterator i = eClass.getEStructuralFeatures().iterator(); i.hasNext(); )
+    for (Iterator<EStructuralFeature> i = eClass.getEStructuralFeatures().iterator(); i.hasNext(); )
     {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+      EStructuralFeature eStructuralFeature = i.next();
       buildContentFeature(xsdComplexTypeDefinition, eStructuralFeature);
     }
     
-    List eOperations = eClass.getEOperations();
+    List<EOperation> eOperations = eClass.getEOperations();
     if (!eOperations.isEmpty())
     {
       XSDAnnotation xsdAnnotation = XSDFactory.eINSTANCE.createXSDAnnotation();
@@ -568,10 +566,9 @@ public class EcoreSchemaBuilder extends MapBuilder
       xsdAnnotation.getElement().appendChild(applicationInformation);
       createEcoreAnnotation(xsdSchema.getQNamePrefixToNamespaceMap(), applicationInformation, "key", "operations");
       Document document = xsdSchema.getDocument();
-      Map qNamePrefixToNamespaceMap = xsdSchema.getQNamePrefixToNamespaceMap();
-      for (Iterator i = eOperations.iterator(); i.hasNext(); )
+      Map<String, String> qNamePrefixToNamespaceMap = xsdSchema.getQNamePrefixToNamespaceMap();
+      for (EOperation eOperation : eOperations)
       {
-        EOperation eOperation = (EOperation)i.next();
         Element operation = document.createElementNS(null, "operation");
         operation.setAttributeNS(null, "name", eOperation.getName());
         applicationInformation.appendChild(operation);
@@ -591,13 +588,12 @@ public class EcoreSchemaBuilder extends MapBuilder
             operation.setAttributeNS(null, "type", prefix + ":" + returnType.getName());
           }
         }
-        List exceptions = eOperation.getEExceptions();
+        List<EClassifier> exceptions = eOperation.getEExceptions();
         if (!exceptions.isEmpty())
         {
           StringBuffer stringBuffer = new StringBuffer();
-          for (Iterator j = eOperation.getEExceptions().iterator(); j.hasNext(); )
+          for (EClassifier eClassifier : eOperation.getEExceptions())
           {
-            EClassifier eClassifier = (EClassifier)j.next();
             XSDTypeDefinition exceptionType = xsdSchema.resolveTypeDefinitionURI(getURI(eClassifier));
             handleImport(xsdSchema, exceptionType);
             String prefix = 
@@ -614,9 +610,8 @@ public class EcoreSchemaBuilder extends MapBuilder
           operation.setAttributeNS(null, "exceptions", stringBuffer.substring(0, stringBuffer.length() - 1));
         }
         
-        for (Iterator j = eOperation.getEParameters().iterator(); j.hasNext(); )
+        for (EParameter eParameter : eOperation.getEParameters())
         {
-          EParameter eParameter = (EParameter)j.next();
           Element parameter = document.createElementNS(null, "parameter");
           parameter.setAttributeNS(null, "name", eParameter.getName());
           operation.appendChild(parameter);
@@ -1419,7 +1414,7 @@ public class EcoreSchemaBuilder extends MapBuilder
     }
   }
   
-  protected void createEcoreAnnotation(Map qNamePrefixToNamespaceMap, Element element, String key, String value)
+  protected void createEcoreAnnotation(Map<String, String> qNamePrefixToNamespaceMap, Element element, String key, String value)
   {
     String ecorePrefix = handlePrefix(qNamePrefixToNamespaceMap, "ecore", EcorePackage.eNS_URI);
     element.setAttributeNS(EcorePackage.eNS_URI, ecorePrefix + ':' + key, value);
@@ -1434,7 +1429,7 @@ public class EcoreSchemaBuilder extends MapBuilder
     }
   }
 
-  protected void createAnnotation(Map qNamePrefixToNamespaceMap, Element element, String namespace, String key, String value)
+  protected void createAnnotation(Map<String, String> qNamePrefixToNamespaceMap, Element element, String namespace, String key, String value)
   {
     String prefix = handlePrefix(qNamePrefixToNamespaceMap, qualifiedPackageName(namespace), namespace);
     element.setAttributeNS(namespace, prefix + ':' + key, value);
@@ -1447,9 +1442,8 @@ public class EcoreSchemaBuilder extends MapBuilder
     if (!defaultXMLSchemaNamespace.equals(namespace) &&
          (namespace == null ? xsdSchema.getTargetNamespace() != null : !namespace.equals(xsdSchema.getTargetNamespace())))
     {
-      for (Iterator i = xsdSchema.getContents().iterator(); i.hasNext(); )
+      for (Object content : xsdSchema.getContents())
       {
-        Object content = i.next();
         if (content instanceof XSDImport)
         {
           XSDImport xsdImport = (XSDImport)content;
@@ -1479,14 +1473,14 @@ public class EcoreSchemaBuilder extends MapBuilder
     }
   }
   
-  protected String handlePrefix(Map namespaces, String preferredPrefix, String namespace)
+  protected String handlePrefix(Map<String, String> namespaces, String preferredPrefix, String namespace)
   {
     if (XMLNamespacePackage.eNS_URI.equals(namespace))
     {
       return "xml";
     }
     
-    String value = (String)namespaces.get(preferredPrefix);
+    String value = namespaces.get(preferredPrefix);
     if (namespace == null ? value == null : namespace.equals(value))
     {
       return preferredPrefix;
@@ -1496,14 +1490,13 @@ public class EcoreSchemaBuilder extends MapBuilder
     //
     if (value != null || defaultXMLSchemaNamespace.equals(namespace))
     {
-      for (Iterator i = namespaces.entrySet().iterator(); i.hasNext(); )
+      for (Map.Entry<String, String> entry : namespaces.entrySet())
       {
-        Map.Entry entry = (Map.Entry)i.next();
         if (namespace == null ? entry.getValue() == null : namespace.equals(entry.getValue()))
         {
           // Return the previously assigned prefix; it may not match the preferred one.
           //
-          return (String)entry.getKey();
+          return entry.getKey();
         }
       }
     }
@@ -1529,18 +1522,16 @@ public class EcoreSchemaBuilder extends MapBuilder
 
   protected void buildAnnotations(XSDComponent xsdComponent, EModelElement eModelElement)
   {
-    for (Iterator i = eModelElement.getEAnnotations().iterator(); i.hasNext(); )
+    for (EAnnotation eAnnotation : eModelElement.getEAnnotations())
     {
-      EAnnotation eAnnotation = (EAnnotation)i.next();
       String source = eAnnotation.getSource();
       if (!isIgnoredAnnotationSource(source))
       {
         XSDAnnotation xsdAnnotation = null;
-        for (Iterator j = eAnnotation.getDetails().entrySet().iterator(); j.hasNext(); )
+        for (Map.Entry<String, String> entry : eAnnotation.getDetails().entrySet())
         {
-          Map.Entry entry = (Map.Entry)j.next();
-          String key = (String)entry.getKey();
-          String value = (String)entry.getValue();
+          String key = entry.getKey();
+          String value = entry.getValue();
           if (key != null && value.indexOf('\n') == -1 && value.indexOf('\r') == -1)
           {
             createAnnotation(xsdComponent, source, key, value);
@@ -1660,9 +1651,8 @@ public class EcoreSchemaBuilder extends MapBuilder
   protected void buildAnnotation(EModelElement eModelElement, Element parent)
   {
     Document document = parent.getOwnerDocument();
-    for (Iterator j = eModelElement.getEAnnotations().iterator();  j.hasNext(); )
+    for (EAnnotation eAnnotation : eModelElement.getEAnnotations())
     {
-      EAnnotation eAnnotation = (EAnnotation)j.next();
       String source = eAnnotation.getSource();
       if (!isIgnoredAnnotationSource(source))
       {
@@ -1671,11 +1661,10 @@ public class EcoreSchemaBuilder extends MapBuilder
         {
           annotation.setAttributeNS(null, "source", source);
         }
-        for (Iterator k = eAnnotation.getDetails().iterator(); k.hasNext(); )
+        for (Map.Entry<String, String> entry : eAnnotation.getDetails())
         {
-          Map.Entry entry = (Map.Entry)k.next();
-          String key = (String)entry.getKey();
-          String value = (String)entry.getValue();
+          String key = entry.getKey();
+          String value = entry.getValue();
           Element detail = document.createElementNS(null, "detail");
           if (key != null)
           {

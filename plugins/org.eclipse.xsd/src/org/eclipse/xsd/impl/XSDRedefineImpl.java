@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineImpl.java,v 1.13 2006/12/05 20:32:15 emerks Exp $
+ * $Id: XSDRedefineImpl.java,v 1.14 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -114,6 +114,7 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_REDEFINE;
@@ -152,6 +153,7 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -167,6 +169,7 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -184,6 +187,8 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -205,6 +210,7 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -224,6 +230,7 @@ public class XSDRedefineImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -236,20 +243,21 @@ public class XSDRedefineImpl
     return super.eIsSet(featureID);
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.REDEFINE_ELEMENT);
     setElement(newElement);
 
-    for (Iterator contents = getContents().iterator(); contents.hasNext(); )
+    for (XSDRedefineContent xsdRedefineContent : getContents())
     {
-      XSDRedefineContent xsdRedefineContent = (XSDRedefineContent)contents.next();
       Element contentElement = ((XSDConcreteComponentImpl)xsdRedefineContent).createElement();
       newElement.appendChild(contentElement);
     }
     return newElement;
   }
 
+  @Override
   protected void patch()
   {
     if (getSchemaLocation() != null && getSchemaLocation().length() > 0)
@@ -265,11 +273,10 @@ public class XSDRedefineImpl
       super.patch();
       if (oldPendingSchemaLocation == null)
       {
-        List redefinitions = containingSchema.getSchemasToRedefine();
+        List<XSDSchemaImpl> redefinitions = containingSchema.getSchemasToRedefine();
         containingSchema.schemasToRedefine = null;
-        for (Iterator i = redefinitions.iterator(); i.hasNext(); )
+        for (XSDSchemaImpl schemaToRedefine : redefinitions)
         {
-          XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
           if (schemaToRedefine != containingSchema)
           {
             schemaToRedefine.forceResolve = true;
@@ -286,6 +293,7 @@ public class XSDRedefineImpl
     }
   }
 
+  @Override
   protected void handleResolvedSchema(XSDSchema xsdSchema)
   {
     if (xsdSchema == null)
@@ -299,6 +307,7 @@ public class XSDRedefineImpl
     }
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -344,9 +353,9 @@ public class XSDRedefineImpl
     if (theResolvedSchema == null)
     {
       boolean hasRedefinitions = false;
-      for (Iterator i = getContents().iterator(); i.hasNext(); )
+      for (XSDRedefineContent content : getContents())
       {
-        if (!(i.next() instanceof XSDAnnotation))
+        if (!(content instanceof XSDAnnotation))
         {
           hasRedefinitions = true;
           break;
@@ -394,9 +403,8 @@ public class XSDRedefineImpl
         }
         else
         {
-          for (Iterator i = getContents().iterator(); i.hasNext(); )
+          for (XSDRedefineContent xsdRedefineContent : getContents())
           {
-            XSDRedefineContent xsdRedefineContent = (XSDRedefineContent)i.next();
             if (xsdRedefineContent instanceof XSDTypeDefinition)
             {
               XSDTypeDefinition xsdTypeDefinition = (XSDTypeDefinition)xsdRedefineContent;
@@ -414,8 +422,8 @@ public class XSDRedefineImpl
             else if (xsdRedefineContent instanceof XSDModelGroupDefinition)
             {
               XSDModelGroupDefinition xsdModelGroupDefinition = (XSDModelGroupDefinition)xsdRedefineContent;
-              Collection selfReferences = new ArrayList();
-              for (Iterator j = xsdModelGroupDefinition.eAllContents(); j.hasNext(); )
+              Collection<XSDModelGroupDefinition> selfReferences = new ArrayList<XSDModelGroupDefinition>();
+              for (Iterator<?> j = xsdModelGroupDefinition.eAllContents(); j.hasNext(); )
               {
                 Object component = j.next();
                 if (component instanceof XSDModelGroupDefinition)
@@ -458,8 +466,8 @@ public class XSDRedefineImpl
               }
               else
               {
-                Iterator j = selfReferences.iterator();
-                XSDModelGroupDefinition otherXSDModelGroupDefinition = (XSDModelGroupDefinition)j.next();
+                Iterator<XSDModelGroupDefinition> j = selfReferences.iterator();
+                XSDModelGroupDefinition otherXSDModelGroupDefinition = j.next();
                 XSDParticle xsdParticle = (XSDParticle)otherXSDModelGroupDefinition.getContainer();
                 if (xsdParticle.getMinOccurs() != 1 || xsdParticle.getMaxOccurs() != 1)
                 {
@@ -480,8 +488,8 @@ public class XSDRedefineImpl
             else if (xsdRedefineContent instanceof XSDAttributeGroupDefinition)
             {
               XSDAttributeGroupDefinition xsdAttributeGroupDefinition = (XSDAttributeGroupDefinition)xsdRedefineContent;
-              Collection selfReferences = new ArrayList();
-              for (Iterator j = xsdAttributeGroupDefinition.eAllContents(); j.hasNext(); )
+              Collection<XSDAttributeGroupDefinition> selfReferences = new ArrayList<XSDAttributeGroupDefinition>();
+              for (Iterator<?> j = xsdAttributeGroupDefinition.eAllContents(); j.hasNext(); )
               {
                 Object component = j.next();
                 if (component instanceof XSDAttributeGroupDefinition)
@@ -521,7 +529,7 @@ public class XSDRedefineImpl
               }
               else
               {
-                Iterator j = selfReferences.iterator();
+                Iterator<?> j = selfReferences.iterator();
                 j.next();
                 while (j.hasNext())
                 {
@@ -538,7 +546,8 @@ public class XSDRedefineImpl
     }
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     XSDRedefineContent xsdRedefineContent = XSDRedefineContentImpl.createRedefineContent(child);
     if (xsdRedefineContent != null)
@@ -547,16 +556,19 @@ public class XSDRedefineImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     if (!remainingContents.isEmpty())
     {
       getContents().removeAll(remainingContents);
     }
 
-    setListContentAndOrder(getContents(), newContents);
+    @SuppressWarnings("unchecked") List<XSDRedefineContent> list = (List<XSDRedefineContent>)(List<?>)newContents;
+    setListContentAndOrder(getContents(), list);
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDRedefineImpl clonedRedefine =

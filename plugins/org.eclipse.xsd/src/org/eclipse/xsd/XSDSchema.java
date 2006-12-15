@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchema.java,v 1.7 2006/12/05 20:32:33 emerks Exp $
+ * $Id: XSDSchema.java,v 1.8 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -693,7 +693,7 @@ public interface XSDSchema extends XSDScope
    * @return a map from String ID to {@link XSDSimpleTypeDefinition}
    * @see #getSchemaForSchema()
    */
-  public Map getSimpleTypeIdMap();
+  public Map<String, XSDSimpleTypeDefinition> getSimpleTypeIdMap();
 
   /**
    * Returns the map defined by the xmlns attributes of the underlying XML representation.
@@ -705,7 +705,7 @@ public interface XSDSchema extends XSDScope
    * @see #getSchemaForSchemaQNamePrefix()
    * @see #getSchemaForSchemaNamespace()
    */
-  public Map getQNamePrefixToNamespaceMap();
+  public Map<String, String> getQNamePrefixToNamespaceMap();
 
   /**
    * Returns the QName prefix used to reference the {@link #getSchemaForSchemaNamespace schema for schema namespace}.

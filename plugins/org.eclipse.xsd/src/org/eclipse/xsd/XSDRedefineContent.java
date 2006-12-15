@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefineContent.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDRedefineContent.java,v 1.5 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -33,4 +33,5 @@ package org.eclipse.xsd;
  */
 public interface XSDRedefineContent extends XSDSchemaContent
 {
+  // No additional methods.
 } 

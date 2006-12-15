@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.13 2006/12/05 20:32:31 emerks Exp $
+ * $Id: XSDAttributeGroupDefinitionImpl.java,v 1.14 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -192,6 +192,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_ATTRIBUTE_GROUP_DEFINITION;
@@ -207,14 +208,14 @@ public class XSDAttributeGroupDefinitionImpl
     return isAttributeGroupDefinitionReference() ? Boolean.TRUE : Boolean.FALSE;
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.ATTRIBUTEGROUP_ELEMENT);
     setElement(newElement);
 
-    for (Iterator contents = getContents().iterator(); contents.hasNext(); )
+    for (XSDAttributeGroupContent xsdAttributeGroupContent : getContents())
     {
-      XSDAttributeGroupContent xsdAttributeGroupContent = (XSDAttributeGroupContent)contents.next();
       if (xsdAttributeGroupContent instanceof XSDAttributeGroupDefinition)
       {
         XSDAttributeGroupDefinition xsdAttributeGroupDefinition = (XSDAttributeGroupDefinition)xsdAttributeGroupContent;
@@ -232,6 +233,7 @@ public class XSDAttributeGroupDefinitionImpl
     return newElement;
   }
 
+  @Override
   protected void patch()
   {
     analysisState = UNANALYZED;
@@ -250,6 +252,7 @@ public class XSDAttributeGroupDefinitionImpl
     }
   }
 
+  @Override
   protected boolean analyze()
   {
     switch (analysisState)
@@ -286,8 +289,8 @@ public class XSDAttributeGroupDefinitionImpl
   protected XSDWildcardImpl effectiveWildcard;
   protected void handleAnalysis()
   {
-    List newAttributeUses = getAttributeUses(getContents(), Collections.EMPTY_LIST);
-    List remainingAttributeUses = new ArrayList(getAttributeUses());
+    List<XSDAttributeUse> newAttributeUses = getAttributeUses(getContents(), Collections.<XSDAttributeUse>emptyList());
+    List<XSDAttributeUse> remainingAttributeUses = new ArrayList<XSDAttributeUse>(getAttributeUses());
     remainingAttributeUses.removeAll(newAttributeUses);
     if (!remainingAttributeUses.isEmpty())
     {
@@ -315,6 +318,7 @@ public class XSDAttributeGroupDefinitionImpl
     }
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -395,10 +399,9 @@ public class XSDAttributeGroupDefinitionImpl
         }
     
         XSDAttributeDeclaration idAttribute = null;
-        Set uris = new HashSet();
-        for (Iterator i = getAttributeUses().iterator(); i.hasNext(); )
+        Set<String> uris = new HashSet<String>();
+        for (XSDAttributeUse xsdAttributeUse : getAttributeUses())
         {
-          XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)i.next();
           XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
           if (!uris.add(xsdAttributeDeclaration.getURI()))
           {
@@ -443,14 +446,14 @@ public class XSDAttributeGroupDefinitionImpl
     }
   }
 
-  public static List getAttributeUses(Collection xsdAttributeGroupContents, Collection xsdAttributeUses)
+  public static List<XSDAttributeUse> getAttributeUses
+    (Collection<XSDAttributeGroupContent> xsdAttributeGroupContents, Collection<XSDAttributeUse> xsdAttributeUses)
   {
-    List result = new ArrayList();
-    Set localAttributeUses = new HashSet();
+    List<XSDAttributeUse> result = new ArrayList<XSDAttributeUse>();
+    Set<String> localAttributeUses = new HashSet<String>();
     
-    for (Iterator attributeContents = xsdAttributeGroupContents.iterator(); attributeContents.hasNext(); )
+    for (XSDAttributeGroupContent xsdAttributeGroupContent : xsdAttributeGroupContents)
     {
-      XSDAttributeGroupContent xsdAttributeGroupContent = (XSDAttributeGroupContent)attributeContents.next();
       ((XSDConcreteComponentImpl)xsdAttributeGroupContent).analyze();
       if (xsdAttributeGroupContent instanceof XSDAttributeUse)
       {
@@ -470,9 +473,8 @@ public class XSDAttributeGroupDefinitionImpl
       }
     }
 
-    for (Iterator attributeUses = xsdAttributeUses.iterator(); attributeUses.hasNext(); )
+    for (XSDAttributeUse xsdAttributeUse : xsdAttributeUses)
     {
-      XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)attributeUses.next();
       if (!localAttributeUses.contains(xsdAttributeUse.getAttributeDeclaration().getURI()))
       {
         result.add(xsdAttributeUse);
@@ -482,11 +484,11 @@ public class XSDAttributeGroupDefinitionImpl
     return XSDAttributeUseImpl.sortAttributeUses(result);
   }
 
-  public static XSDWildcard getAttributeWildcard(XSDWildcard baseWildcard, XSDWildcard localWildcard, Collection xsdAttributeGroupContents)
+  public static XSDWildcard getAttributeWildcard
+    (XSDWildcard baseWildcard, XSDWildcard localWildcard, Collection<XSDAttributeGroupContent> xsdAttributeGroupContents)
   {
-    for (Iterator attributeContents = xsdAttributeGroupContents.iterator(); attributeContents.hasNext(); )
+    for (XSDAttributeGroupContent xsdAttributeGroupContent  : xsdAttributeGroupContents)
     {
-      XSDAttributeGroupContent xsdAttributeGroupContent = (XSDAttributeGroupContent)attributeContents.next();
       ((XSDConcreteComponentImpl)xsdAttributeGroupContent).analyze();
       if (xsdAttributeGroupContent instanceof XSDAttributeGroupDefinition)
       {
@@ -530,6 +532,7 @@ public class XSDAttributeGroupDefinitionImpl
     return localWildcard;
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -566,7 +569,8 @@ public class XSDAttributeGroupDefinitionImpl
     }
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     XSDAnnotation xsdAnnotation = XSDAnnotationImpl.createAnnotation(child);
     if (xsdAnnotation != null)
@@ -591,7 +595,8 @@ public class XSDAttributeGroupDefinitionImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     handleAnnotationReconciliation(XSDPackage.Literals.XSD_ATTRIBUTE_GROUP_DEFINITION__ANNOTATION, newContents, remainingContents);
   
@@ -628,17 +633,19 @@ public class XSDAttributeGroupDefinitionImpl
 
     if (!newContents.isEmpty())
     {
-      for (Iterator i = newContents.iterator(); i.hasNext(); )
+      for (Iterator<XSDConcreteComponent> i = newContents.iterator(); i.hasNext(); )
       {
         if (!(i.next() instanceof XSDAttributeGroupContent))
         {
           i.remove();
         }
       }
-      setListContentAndOrder(getContents(), newContents);
+      @SuppressWarnings("unchecked") List<XSDAttributeGroupContent> list = (List<XSDAttributeGroupContent>)(List<?>)newContents;
+      setListContentAndOrder(getContents(), list);
     }
   }
 
+  @Override
   protected void changeReference(EReference eReference)
   {
     if (isReconciling)
@@ -661,6 +668,7 @@ public class XSDAttributeGroupDefinitionImpl
     }
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
@@ -670,6 +678,7 @@ public class XSDAttributeGroupDefinitionImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
@@ -907,6 +916,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -928,6 +938,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -957,6 +968,8 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -993,6 +1006,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -1027,6 +1041,7 @@ public class XSDAttributeGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -1051,6 +1066,7 @@ public class XSDAttributeGroupDefinitionImpl
     return super.eIsSet(featureID);
   }
 
+  @Override
   public String getQName()
   {
     XSDAttributeGroupDefinition resolvedAttributeGroupDefinition = getResolvedAttributeGroupDefinition();
@@ -1064,21 +1080,25 @@ public class XSDAttributeGroupDefinitionImpl
     }
   }
 
+  @Override
   public boolean isNamedComponentReference()
   {
     return isAttributeGroupDefinitionReference();
   }
 
+  @Override
   public XSDNamedComponent getResolvedNamedComponent()
   {
     return getResolvedAttributeGroupDefinition();
   }
 
+  @Override
   public boolean isCircular()
   {
     return analysisState == CIRCULAR;
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDAttributeGroupDefinitionImpl clonedAttributeGroupDefinition = 

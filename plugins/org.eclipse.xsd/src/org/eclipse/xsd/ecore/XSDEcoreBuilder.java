@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEcoreBuilder.java,v 1.74 2006/12/09 14:59:08 emerks Exp $
+ * $Id: XSDEcoreBuilder.java,v 1.75 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -49,6 +48,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
@@ -77,13 +77,13 @@ import org.eclipse.xsd.util.XSDSwitch;
 public class XSDEcoreBuilder extends MapBuilder
 {
   protected XSDSchema rootSchema;
-  protected List simpleDiagnostics;
-  protected List diagnostics;
-  protected List xsdSchemas = new UniqueEList();
-  protected Map targetNamespaceToEPackageMap = new LinkedHashMap();
+  protected List<List<String>> simpleDiagnostics;
+  protected List<XSDDiagnostic> diagnostics;
+  protected List<XSDSchema> xsdSchemas = new UniqueEList<XSDSchema>();
+  protected Map<String, EPackage> targetNamespaceToEPackageMap = new LinkedHashMap<String, EPackage>();
   protected ExtendedMetaData extendedMetaData;
-  protected Map eReferenceToOppositeNameMap = new LinkedHashMap();
-  protected Map typeToTypeObjectMap = new HashMap();
+  protected Map<EReference, String> eReferenceToOppositeNameMap = new LinkedHashMap<EReference, String>();
+  protected Map<EClassifier, EClassifier> typeToTypeObjectMap = new HashMap<EClassifier, EClassifier>();
 
   public XSDEcoreBuilder()
   {
@@ -99,9 +99,8 @@ public class XSDEcoreBuilder extends MapBuilder
 
   protected void populateTypeToTypeObjectMap(EPackage ePackage)
   {
-    for (Iterator j = ePackage.getEClassifiers().iterator(); j.hasNext(); )
+    for (EClassifier eClassifier : ePackage.getEClassifiers())
     {
-      EClassifier eClassifier = (EClassifier)j.next();
       String xmlName = extendedMetaData.getName(eClassifier);
       if (xmlName != null && xmlName.endsWith(":Object"))
       {
@@ -117,10 +116,10 @@ public class XSDEcoreBuilder extends MapBuilder
 
   public void setValidate(boolean validate)
   {
-    diagnostics = validate ? new ArrayList() : null;
+    diagnostics = validate ? new ArrayList<XSDDiagnostic>() : null;
   }
 
-  public List getDiagnostics()
+  public List<XSDDiagnostic> getDiagnostics()
   {
     return diagnostics;
   }
@@ -130,12 +129,12 @@ public class XSDEcoreBuilder extends MapBuilder
     return rootSchema;
   }
 
-  public Map getTargetNamespaceToEPackageMap()
+  public Map<String, EPackage> getTargetNamespaceToEPackageMap()
   {
      return targetNamespaceToEPackageMap;
   }
 
-  public Map getXSDComponentToEModelElementMap()
+  public Map<XSDComponent, EModelElement> getXSDComponentToEModelElementMap()
   {
     return xsdComponentToEModelElementMap;
   }
@@ -154,7 +153,7 @@ public class XSDEcoreBuilder extends MapBuilder
       containingXSDSchema == null ? 
         xsdNamedComponent.getTargetNamespace() : 
         containingXSDSchema.getTargetNamespace();
-    EPackage ePackage = (EPackage)targetNamespaceToEPackageMap.get(targetNamespace);
+    EPackage ePackage = targetNamespaceToEPackageMap.get(targetNamespace);
     if (ePackage == null)
     {
       ePackage = EcoreFactory.eINSTANCE.createEPackage();
@@ -358,10 +357,9 @@ public class XSDEcoreBuilder extends MapBuilder
             else
             {
               String instanceClassName = null;
-              List memberTypes = new ArrayList();
-              for (Iterator i = xsdSimpleTypeDefinition.getMemberTypeDefinitions().iterator(); i.hasNext(); )
+              List<EDataType> memberTypes = new ArrayList<EDataType>();
+              for (XSDSimpleTypeDefinition memberTypeDefinition : xsdSimpleTypeDefinition.getMemberTypeDefinitions())
               {
-                XSDSimpleTypeDefinition memberTypeDefinition = (XSDSimpleTypeDefinition)i.next();
                 EDataType memberEDataType = getEDataType(memberTypeDefinition);
                 memberTypes.add(memberEDataType);
                 String memberInstanceClassName = memberEDataType.getInstanceClassName();
@@ -424,7 +422,7 @@ public class XSDEcoreBuilder extends MapBuilder
     return validName(xsdTypeDefinition.getAliasName(), isUpperCase);
   }
 
-  protected static final List PRIMITIVES = 
+  protected static final List<String> PRIMITIVES = 
     Arrays.asList
       (new String [] 
        {
@@ -451,7 +449,7 @@ public class XSDEcoreBuilder extends MapBuilder
      "java.lang.Short" 
     };
 
-  protected static final Map ECORE_PRIMITIVE_TYPES = new HashMap();
+  protected static final Map<String, String> ECORE_PRIMITIVE_TYPES = new HashMap<String, String>();
   static
   {
     ECORE_PRIMITIVE_TYPES.put("EBoolean", "EBooleanObject");
@@ -473,7 +471,7 @@ public class XSDEcoreBuilder extends MapBuilder
   {
     if (EcorePackage.eNS_URI.equals(xsdSimpleTypeDefinition.getTargetNamespace()))
     {
-      String wrapperType = (String)ECORE_PRIMITIVE_TYPES.get(eDataType.getName());
+      String wrapperType = ECORE_PRIMITIVE_TYPES.get(eDataType.getName());
       if (wrapperType != null)
       {
         XSDSimpleTypeDefinition wrapperTypeDefinition = xsdSimpleTypeDefinition.resolveSimpleTypeDefinition(wrapperType);
@@ -516,81 +514,92 @@ public class XSDEcoreBuilder extends MapBuilder
 
   protected void handleFacets(final XSDSimpleTypeDefinition xsdSimpleTypeDefinition, final EDataType eDataType)
   {
-    final List enumeration = new ArrayList();
-    final List pattern = new ArrayList();
-    for (Iterator i = xsdSimpleTypeDefinition.getFacetContents().iterator(); i.hasNext(); )
+    final List<String> enumeration = new ArrayList<String>();
+    final List<String> pattern = new ArrayList<String>();
+    for (final XSDFacet xsdFacet : xsdSimpleTypeDefinition.getFacetContents())
     {
-      final XSDFacet xsdFacet = (XSDFacet)i.next();
       String ignore = getEcoreAttribute(xsdFacet, "ignore");
       if (!"true".equalsIgnoreCase(ignore))
       {
-        new XSDSwitch ()
+        new XSDSwitch<Object>()
         {
+          @Override
           public Object caseXSDEnumerationFacet(XSDEnumerationFacet xsdEnumerationFacet)
           {
             enumeration.add(xsdEnumerationFacet.getLexicalValue());
             return this;
           }
 
+          @Override
           public Object caseXSDFractionDigitsFacet(XSDFractionDigitsFacet xsdFractionDigitsFacet)
           {
             extendedMetaData.setFractionDigitsFacet(eDataType, xsdFractionDigitsFacet.getValue());
             return this;
           }
 
+          @Override
           public Object caseXSDLengthFacet(XSDLengthFacet xsdLengthFacet)
           {
             extendedMetaData.setLengthFacet(eDataType, xsdLengthFacet.getValue());
             return this;
           }
+          @Override
           public Object caseXSDMaxExclusiveFacet(XSDMaxExclusiveFacet xsdMaxExclusiveFacet)
           {
             extendedMetaData.setMaxExclusiveFacet(eDataType, xsdMaxExclusiveFacet.getLexicalValue());
             return this;
           }
 
+          @Override
           public Object caseXSDMaxInclusiveFacet(XSDMaxInclusiveFacet xsdMaxInclusiveFacet)
           {
             extendedMetaData.setMaxInclusiveFacet(eDataType, xsdMaxInclusiveFacet.getLexicalValue());
             return this;
           }
 
+          @Override
           public Object caseXSDMaxLengthFacet(XSDMaxLengthFacet xsdMaxLengthFacet)
           {
             extendedMetaData.setMaxLengthFacet(eDataType, xsdMaxLengthFacet.getValue());
             return this;
           }
 
+          @Override
           public Object caseXSDMinExclusiveFacet(XSDMinExclusiveFacet xsdMinExclusiveFacet)
           {
             extendedMetaData.setMinExclusiveFacet(eDataType, xsdMinExclusiveFacet.getLexicalValue());
             return this;
           }
 
+          @Override
           public Object caseXSDMinInclusiveFacet(XSDMinInclusiveFacet xsdMinInclusiveFacet)
           {
             extendedMetaData.setMinInclusiveFacet(eDataType, xsdMinInclusiveFacet.getLexicalValue());
             return this;
           }
 
+          @Override
           public Object caseXSDMinLengthFacet(XSDMinLengthFacet xsdMinLengthFacet)
           {
             extendedMetaData.setMinLengthFacet(eDataType, xsdMinLengthFacet.getValue());
             return this;
           }
 
+          @Override
           public Object caseXSDPatternFacet(XSDPatternFacet xsdPatternFacet)
           {
             pattern.add(xsdPatternFacet.getLexicalValue());
             return this;
           }
 
+          @Override
           public Object caseXSDTotalDigitsFacet(XSDTotalDigitsFacet xsdTotalDigitsFacet)
           {
             extendedMetaData.setTotalDigitsFacet(eDataType, xsdTotalDigitsFacet.getValue());
             return this;
           }
 
+          @Override
           public Object caseXSDWhiteSpaceFacet(XSDWhiteSpaceFacet xsdWhiteSpaceFacet)
           {
             extendedMetaData.setWhiteSpaceFacet(eDataType, xsdWhiteSpaceFacet.getValue().getValue() + 1);
@@ -629,9 +638,9 @@ public class XSDEcoreBuilder extends MapBuilder
         EcoreUtil.setAnnotation(eEnum, EcorePackage.eNS_URI, "constraints", constraints);
       }
 
-      for (ListIterator i = xsdSimpleTypeDefinition.getEnumerationFacets().listIterator();  i.hasNext(); )
+      for (ListIterator<XSDEnumerationFacet> i = xsdSimpleTypeDefinition.getEnumerationFacets().listIterator();  i.hasNext(); )
       {
-        XSDEnumerationFacet xsdEnumerationFacet = (XSDEnumerationFacet)i.next();
+        XSDEnumerationFacet xsdEnumerationFacet = i.next();
         if (!"true".equalsIgnoreCase(getEcoreAttribute(xsdEnumerationFacet, "ignore")))
         {
           String literal = xsdEnumerationFacet.getLexicalValue();
@@ -746,9 +755,8 @@ public class XSDEcoreBuilder extends MapBuilder
       !eClass.getESuperTypes().isEmpty() && 
         xsdComplexTypeDefinition.getDerivationMethod() == XSDDerivationMethod.RESTRICTION_LITERAL;
 
-    for (Iterator i = getEcoreTypeQNamesAttribute(xsdComplexTypeDefinition, "implements").iterator(); i.hasNext(); )
+    for (XSDTypeDefinition mixin : getEcoreTypeQNamesAttribute(xsdComplexTypeDefinition, "implements"))
     {
-      XSDTypeDefinition mixin = (XSDTypeDefinition)i.next();
       if (!XSDConstants.isURType(mixin))
       {
         EClassifier mixinType = getEClassifier(mixin);
@@ -787,7 +795,7 @@ public class XSDEcoreBuilder extends MapBuilder
       String featureMapName = getEcoreAttribute(xsdComplexTypeDefinition, "featureMap");
       if (eClass.getESuperTypes().isEmpty() ?
             "true".equals(getEcoreAttribute(xsdComplexTypeDefinition, "mixed")) :
-            extendedMetaData.getMixedFeature((EClass)eClass.getESuperTypes().get(0)) != null)
+            extendedMetaData.getMixedFeature(eClass.getESuperTypes().get(0)) != null)
       {
         isMixed = true;
       }
@@ -840,13 +848,12 @@ public class XSDEcoreBuilder extends MapBuilder
       {
         // 51210
         // Map particleMap = new HashMap();
-        Map groups = new HashMap();
-        List particleInformation = collectParticles((XSDParticle)xsdComplexTypeDefinition.getContent());
-        for (Iterator i = particleInformation.iterator(); i.hasNext(); )
+        Map<XSDModelGroup, EStructuralFeature> groups = new HashMap<XSDModelGroup, EStructuralFeature>();
+        List<EffectiveOccurrence> particleInformation = collectParticles((XSDParticle)xsdComplexTypeDefinition.getContent());
+        for (EffectiveOccurrence effectiveOccurrence : particleInformation)
         {
-          EffectiveOccurrence effectiveOccurrence = (EffectiveOccurrence)i.next();
           XSDParticle xsdParticle = effectiveOccurrence.xsdParticle;
-          EStructuralFeature group = (EStructuralFeature)groups.get(effectiveOccurrence.xsdModelGroup);
+          EStructuralFeature group = groups.get(effectiveOccurrence.xsdModelGroup);
           XSDTerm xsdTerm = xsdParticle.getTerm();
           EStructuralFeature eStructuralFeature = null;
           String name = getEcoreAttribute(xsdParticle, "name");
@@ -892,7 +899,7 @@ public class XSDEcoreBuilder extends MapBuilder
                    xsdParticle,
                    0,
                    -1);
-              groups.put(xsdTerm, eStructuralFeature);
+              groups.put(xsdModelGroup, eStructuralFeature);
               extendedMetaData.setName(eStructuralFeature, name + ":" + eClass.getEAllStructuralFeatures().indexOf(eStructuralFeature));
             }
           }
@@ -1056,23 +1063,21 @@ public class XSDEcoreBuilder extends MapBuilder
     // }
 
     XSDWildcard baseXSDWildcard = null;
-    Collection baseAttributeUses = Collections.EMPTY_LIST;
-    Map baseAttributeURIs = new HashMap();
+    Collection<XSDAttributeUse> baseAttributeUses = Collections.emptyList();
+    Map<String, XSDAttributeUse> baseAttributeURIs = new HashMap<String, XSDAttributeUse>();
     if (baseTypeDefinition instanceof XSDComplexTypeDefinition)
     {
       XSDComplexTypeDefinition complexBaseTypeDefinition = (XSDComplexTypeDefinition)baseTypeDefinition;
       baseXSDWildcard = complexBaseTypeDefinition.getAttributeWildcard();
       baseAttributeUses = complexBaseTypeDefinition.getAttributeUses();
-      for (Iterator i = baseAttributeUses.iterator(); i.hasNext(); )
+      for (XSDAttributeUse xsdAttributeUse : baseAttributeUses)
       {
-        XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)i.next();
         baseAttributeURIs.put(xsdAttributeUse.getAttributeDeclaration().getURI(), xsdAttributeUse);
       }
     }
 
-    for (Iterator i = getAttributeUses(xsdComplexTypeDefinition).iterator(); i.hasNext(); )
+    for (XSDAttributeUse xsdAttributeUse : getAttributeUses(xsdComplexTypeDefinition))
     {
-      XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)i.next();
       XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
       if (baseAttributeURIs.remove(xsdAttributeDeclaration.getURI()) == null)
       {
@@ -1193,7 +1198,7 @@ public class XSDEcoreBuilder extends MapBuilder
       // }
       // contentParticle = restrictionParticle;
 
-      int baseContentKind = extendedMetaData.getContentKind((EClass)eClass.getESuperTypes().get(0));
+      int baseContentKind = extendedMetaData.getContentKind(eClass.getESuperTypes().get(0));
       if (baseContentKind == ExtendedMetaData.MIXED_CONTENT && 
             xsdComplexTypeDefinition.getContentTypeCategory() == XSDContentTypeCategory.SIMPLE_LITERAL)
       {
@@ -1248,16 +1253,14 @@ public class XSDEcoreBuilder extends MapBuilder
     XSDAnnotation xsdAnnotation = xsdComplexTypeDefinition.getAnnotation();
     if (xsdAnnotation != null)
     {
-      List applicationInformationList = xsdAnnotation.getApplicationInformation(EcorePackage.eNS_URI);
-      for (Iterator i = applicationInformationList.iterator(); i.hasNext(); )
+      List<Element> applicationInformationList = xsdAnnotation.getApplicationInformation(EcorePackage.eNS_URI);
+      for (Element applicationInformation : applicationInformationList)
       {
-        Element applicationInformation = (Element)i.next();
         if ("operations".equals(applicationInformation.getAttributeNS(EcorePackage.eNS_URI, "key")))
         {
-          for (Iterator j =  getElements(applicationInformation, "operation").iterator(); j.hasNext(); )
+          for (Element operation : getElements(applicationInformation, "operation"))
           {
             EOperation eOperation = EcoreFactory.eINSTANCE.createEOperation();
-            Element operation = (Element)j.next();
             String operationName = operation.getAttributeNS(null, "name");
             eOperation.setName(operationName);
             XSDTypeDefinition returnType = getEcoreTypeQNameAttribute(xsdComplexTypeDefinition, operation, null, "type");
@@ -1267,17 +1270,15 @@ public class XSDEcoreBuilder extends MapBuilder
               eOperation.setEType(returnEType);
             }
             
-            List exceptions = getEcoreTypeQNamesAttribute(xsdComplexTypeDefinition, operation, null, "exceptions");
-            for (Iterator k = exceptions.iterator(); k.hasNext(); )
+            List<XSDTypeDefinition> exceptions = getEcoreTypeQNamesAttribute(xsdComplexTypeDefinition, operation, null, "exceptions");
+            for (XSDTypeDefinition exceptionTypeDefinition : exceptions)
             {
-              XSDTypeDefinition exceptionTypeDefinition = (XSDTypeDefinition)k.next();
               eOperation.getEExceptions().add(getEClassifier(exceptionTypeDefinition));
             }
           
-            for (Iterator k = getElements(operation, "parameter").iterator(); k.hasNext(); )
+            for (Element parameter : getElements(operation, "parameter"))
             {
               EParameter eParameter = EcoreFactory.eINSTANCE.createEParameter();
-              Element parameter = (Element)k.next();
               String paramaterName = parameter.getAttributeNS(null, "name");
               XSDTypeDefinition parameterType = getEcoreTypeQNameAttribute(xsdComplexTypeDefinition, parameter, null, "type");
               EClassifier parameterEType = getEClassifier(parameterType);
@@ -1288,10 +1289,10 @@ public class XSDEcoreBuilder extends MapBuilder
               eOperation.getEParameters().add(eParameter);
             }
             
-            List body = getElements(operation, "body");
+            List<Element> body = getElements(operation, "body");
             if (!body.isEmpty())
             {
-              EcoreUtil.setAnnotation(eOperation, "http://www.eclipse.org/emf/2002/GenModel", "body", getText((Element)body.get(0)));
+              EcoreUtil.setAnnotation(eOperation, "http://www.eclipse.org/emf/2002/GenModel", "body", getText(body.get(0)));
             }
 
             populateETypedElement(eOperation, operation);
@@ -1327,17 +1328,15 @@ public class XSDEcoreBuilder extends MapBuilder
       eTypedElement.setOrdered(false);
     }
 
-    for (Iterator l = getElements(element, "annotation").iterator(); l.hasNext(); )
+    for (Element annotation  : getElements(element, "annotation"))
     {
       EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-      Element annotation = (Element)l.next();
       if (annotation.hasAttributeNS(null, "source"))
       {
         eAnnotation.setSource(annotation.getAttributeNS(null, "source"));
       }
-      for (Iterator m = getElements(annotation, "detail").iterator(); m.hasNext(); )
+      for (Element detail : getElements(annotation, "detail"))
       {
-        Element detail = (Element)m.next();
         eAnnotation.getDetails().put
           (detail.hasAttributeNS(null, "key") ? detail.getAttributeNS(null, "key") : null,
            getText(detail));
@@ -1363,9 +1362,9 @@ public class XSDEcoreBuilder extends MapBuilder
     return text.toString();
   }
 
-  private List getElements(Element element, String localName)
+  private List<Element> getElements(Element element, String localName)
   {
-    List result = new ArrayList();
+    List<Element> result = new ArrayList<Element>();
     for (Node node = element.getFirstChild(); node != null; node = node.getNextSibling())
     {
       if (node.getNodeType() == Node.ELEMENT_NODE)
@@ -1385,7 +1384,7 @@ public class XSDEcoreBuilder extends MapBuilder
     return true;
   }
 
-  protected List getAttributeUses(XSDComplexTypeDefinition xsdComplexTypeDefinition)
+  protected List<XSDAttributeUse> getAttributeUses(XSDComplexTypeDefinition xsdComplexTypeDefinition)
   {
     if (useSortedAttributes())
     {
@@ -1393,24 +1392,23 @@ public class XSDEcoreBuilder extends MapBuilder
     }
     else
     {
-      List result = new ArrayList(xsdComplexTypeDefinition.getAttributeUses());
+      List<XSDAttributeUse> result = new ArrayList<XSDAttributeUse>(xsdComplexTypeDefinition.getAttributeUses());
       reorderAttributeUses(result, xsdComplexTypeDefinition.getAttributeContents());
       return result;
     }
   }
 
-  protected void reorderAttributeUses(List attributeUses, List attributeContents)
+  protected void reorderAttributeUses(List<XSDAttributeUse> attributeUses, List<XSDAttributeGroupContent> attributeContents)
   {
-    for (Iterator i = attributeContents.iterator(); i.hasNext(); )
+    for (Object attributeContent : attributeContents)
     {
-      Object attributeContent = i.next();
       if (attributeContent instanceof XSDAttributeUse)
       {
         int index = attributeUses.indexOf(attributeContent);
         if (index != -1)
         {
           attributeUses.remove(index);
-          attributeUses.add(attributeContent);
+          attributeUses.add((XSDAttributeUse)attributeContent);
         }
       }
       else
@@ -1420,9 +1418,9 @@ public class XSDEcoreBuilder extends MapBuilder
     }
   }
 
-  protected final List ANY_NAMESPACE_WILDCARD = Arrays.asList(new String [] { "##any" });
-  protected final List NOT_NULL_WILDCARD = Arrays.asList(new String [] { "!##" });
-  protected List getWildcards(XSDWildcard xsdWildcard)
+  protected final List<String> ANY_NAMESPACE_WILDCARD = Arrays.asList(new String [] { "##any" });
+  protected final List<String> NOT_NULL_WILDCARD = Arrays.asList(new String [] { "!##" });
+  protected List<String> getWildcards(XSDWildcard xsdWildcard)
   {
     switch (xsdWildcard.getNamespaceConstraintCategory().getValue())
     {
@@ -1701,7 +1699,7 @@ public class XSDEcoreBuilder extends MapBuilder
             {
               if (!canSupportNull((EDataType)type))
               {
-                eAttribute.setEType(type = (EDataType)typeToTypeObjectMap.get(type));
+                eAttribute.setEType(type = typeToTypeObjectMap.get(type));
               }
               if (maxOccurs == 1)
               {
@@ -1758,7 +1756,7 @@ public class XSDEcoreBuilder extends MapBuilder
 
           if (xsdElementDeclaration.isNillable() && !canSupportNull((EDataType)type))
           {
-              eAttribute.setEType(type = (EDataType)typeToTypeObjectMap.get(type));
+              eAttribute.setEType(type = typeToTypeObjectMap.get(type));
             if (maxOccurs == 1)
             {
               eAttribute.setUnsettable(true);
@@ -2106,7 +2104,7 @@ public class XSDEcoreBuilder extends MapBuilder
       // Set the default to the first enumeration's value.
       //
       eAttribute.setDefaultValueLiteral
-        (((XSDEnumerationFacet)xsdSimpleTypeDefinition.
+        ((xsdSimpleTypeDefinition.
            getEffectiveEnumerationFacet().
            getSimpleTypeDefinition().
            getEnumerationFacets().
@@ -2202,14 +2200,14 @@ public class XSDEcoreBuilder extends MapBuilder
     public XSDModelGroup xsdModelGroup;
   }
 
-  public List collectParticles(XSDParticle xsdParticle)
+  public List<EffectiveOccurrence> collectParticles(XSDParticle xsdParticle)
   {
-    List result = new ArrayList();
+    List<EffectiveOccurrence> result = new ArrayList<EffectiveOccurrence>();
     collectParticlesHelper(result, xsdParticle, 1, 1, null);
     return result;
   }
 
-  public void collectParticlesHelper(List result, XSDParticle xsdParticle, int minOccurs, int maxOccurs, XSDModelGroup target)
+  public void collectParticlesHelper(List<EffectiveOccurrence> result, XSDParticle xsdParticle, int minOccurs, int maxOccurs, XSDModelGroup target)
   {
     int particleMaxOccurs = xsdParticle.getMaxOccurs();
     int effectiveMinOccurs = minOccurs * xsdParticle.getMinOccurs();
@@ -2219,7 +2217,7 @@ public class XSDEcoreBuilder extends MapBuilder
     if (xsdTerm instanceof XSDModelGroup)
     {
       XSDModelGroup xsdModelGroup = (XSDModelGroup)xsdTerm;
-      List particles = xsdModelGroup.getParticles();
+      List<XSDParticle> particles = xsdModelGroup.getParticles();
       if (particles.size() == 0)
       {
         return;
@@ -2228,7 +2226,7 @@ public class XSDEcoreBuilder extends MapBuilder
       {
         boolean isIgnored = 
           effectiveMaxOccurs == 1 || 
-          particles.size() == 1 && ((XSDParticle)particles.get(0)).getTerm() instanceof XSDModelGroup;
+          particles.size() == 1 && particles.get(0).getTerm() instanceof XSDModelGroup;
 
         String featureMapName = getEcoreAttribute(xsdParticle, "name");
         if (featureMapName == null)
@@ -2268,9 +2266,8 @@ public class XSDEcoreBuilder extends MapBuilder
         {
           effectiveMinOccurs = 0;
         }
-        for (Iterator i = ((XSDModelGroup)xsdTerm).getParticles().iterator(); i.hasNext(); )
+        for (XSDParticle childXSDParticle : ((XSDModelGroup)xsdTerm).getParticles())
         {
-          XSDParticle childXSDParticle = (XSDParticle)i.next();
           collectParticlesHelper(result, childXSDParticle, effectiveMinOccurs, effectiveMaxOccurs, target);
         }
       }
@@ -2310,12 +2307,12 @@ public class XSDEcoreBuilder extends MapBuilder
         fixXMLName(itemType);
       }
       
-      List memberTypes = extendedMetaData.getMemberTypes(eDataType);
+      List<EDataType> memberTypes = extendedMetaData.getMemberTypes(eDataType);
       if (!memberTypes.isEmpty())
       {
-        for (ListIterator i = memberTypes.listIterator(); i.hasNext(); )
+        for (ListIterator<EDataType> i = memberTypes.listIterator(); i.hasNext(); )
         {
-          EDataType memberType = (EDataType)i.next();
+          EDataType memberType = i.next();
           if (extendedMetaData.getName(memberType).endsWith("_._member_._" + i.previousIndex()))
           {
             extendedMetaData.setName(memberType, extendedMetaData.getName(eClassifier) + "_._member_._" + i.previousIndex());
@@ -2339,14 +2336,12 @@ public class XSDEcoreBuilder extends MapBuilder
 
   protected void resolveNameConflicts()
   {
-    for (Iterator i = targetNamespaceToEPackageMap.values().iterator(); i.hasNext(); )
+    for (EPackage ePackage : targetNamespaceToEPackageMap.values())
     {
-      EPackage ePackage = (EPackage)i.next();
-      Map eClassifierMap = new HashMap();
-      for (Iterator j = ePackage.getEClassifiers().iterator(); j.hasNext(); )
+      Map<String, EClassifier> eClassifierMap = new HashMap<String, EClassifier>();
+      for (EClassifier eClassifier : ePackage.getEClassifiers())
       {
-        EClassifier eClassifier = (EClassifier)j.next();
-        EClassifier otherEClassifier = (EClassifier)eClassifierMap.get(eClassifier.getName().toLowerCase());
+        EClassifier otherEClassifier = eClassifierMap.get(eClassifier.getName().toLowerCase());
         if (otherEClassifier != null)
         {
           resolveNameConflict(eClassifierMap, eClassifier, "");
@@ -2372,20 +2367,18 @@ public class XSDEcoreBuilder extends MapBuilder
 
         if (eClassifier instanceof EClass)
         {
-          Map eFeatureMap = new HashMap();
-          for (Iterator k = ((EClass)eClassifier).getEAllStructuralFeatures().iterator(); k.hasNext(); )
+          Map<String, EStructuralFeature> eFeatureMap = new HashMap<String, EStructuralFeature>();
+          for (EStructuralFeature eStructuralFeature : ((EClass)eClassifier).getEAllStructuralFeatures())
           {
-            EStructuralFeature eStructuralFeature = (EStructuralFeature)k.next();
             resolveNameConflict(eFeatureMap, eStructuralFeature, "");
             eFeatureMap.put(eStructuralFeature.getName().toLowerCase(), eStructuralFeature);
           }
         }
         else if (eClassifier instanceof EEnum)
         {
-          Map eLiteralMap = new HashMap();
-          for (Iterator k = ((EEnum)eClassifier).getELiterals().iterator(); k.hasNext(); )
+          Map<String, EEnumLiteral> eLiteralMap = new HashMap<String, EEnumLiteral>();
+          for (EEnumLiteral eEnumLiteral : ((EEnum)eClassifier).getELiterals())
           {
-            EEnumLiteral eEnumLiteral = (EEnumLiteral)k.next();
             resolveNameConflict(eLiteralMap, eEnumLiteral, "");
             eLiteralMap.put(eEnumLiteral.getName().toLowerCase(), eEnumLiteral);
           }
@@ -2394,7 +2387,7 @@ public class XSDEcoreBuilder extends MapBuilder
     }
   }
 
-  protected void resolveNameConflict(Map map, ENamedElement eNamedElement, String suffix)
+  protected void resolveNameConflict(Map<String, ? extends ENamedElement> map, ENamedElement eNamedElement, String suffix)
   {
     String name = eNamedElement.getName();
     if (!name.endsWith(suffix))
@@ -2406,6 +2399,7 @@ public class XSDEcoreBuilder extends MapBuilder
       int index = 0;
       while (map.containsKey(name.toLowerCase() + ++index))
       {
+        // Loop
       }
       eNamedElement.setName(name + index);
     }
@@ -2415,10 +2409,10 @@ public class XSDEcoreBuilder extends MapBuilder
     }
   }
 
-  protected static final Class ecoreResourceFactoryImplClass;
+  protected static final Class<?> ecoreResourceFactoryImplClass;
   static
   {
-    Class theEcoreResourceFactoryImplClass = null;
+    Class<?> theEcoreResourceFactoryImplClass = null;
     try
     {
       theEcoreResourceFactoryImplClass =
@@ -2426,6 +2420,7 @@ public class XSDEcoreBuilder extends MapBuilder
     }
     catch (Exception exception)
     {
+      // Ignore.
     }
     ecoreResourceFactoryImplClass = theEcoreResourceFactoryImplClass;
   }
@@ -2434,7 +2429,7 @@ public class XSDEcoreBuilder extends MapBuilder
   {
     ResourceSet result = new ResourceSetImpl();
     result.getLoadOptions().put(XSDResourceImpl.XSD_TRACK_LOCATION, Boolean.TRUE);
-    Map extensionToFactoryMap =  result.getResourceFactoryRegistry().getExtensionToFactoryMap();
+    Map<String, Object> extensionToFactoryMap =  result.getResourceFactoryRegistry().getExtensionToFactoryMap();
     extensionToFactoryMap.put("wsdl", new XSDResourceFactoryImpl());
     extensionToFactoryMap.put("xsd", new XSDResourceFactoryImpl());
     if (ecoreResourceFactoryImplClass != null)
@@ -2452,17 +2447,16 @@ public class XSDEcoreBuilder extends MapBuilder
     return result;
   }
 
-  public Collection generateResources(URI uri)
+  public Collection<Resource> generateResources(URI uri)
   {
     return generateResources(Collections.singleton(uri));
   }
 
-  public Collection generateResources(Collection uris)
+  public Collection<Resource> generateResources(Collection<URI> uris)
   {
     ResourceSet resourceSet = createResourceSet();
-    for (Iterator i = uris.iterator(); i.hasNext(); )
+    for (URI uri : uris)
     {
-      URI uri = (URI)i.next();
       Resource resource = resourceSet.getResource(uri, true);
       if (!resource.getContents().isEmpty() && resource.getContents().get(0) instanceof XSDSchema)
       {
@@ -2470,9 +2464,8 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
 
-    for (Iterator i = targetNamespaceToEPackageMap.values().iterator(); i.hasNext(); )
+    for (EPackage ePackage : targetNamespaceToEPackageMap.values())
     {
-      EPackage ePackage = (EPackage)i.next();
       if (ePackage.eResource() == null)
       {
         Resource ecoreResource = resourceSet.createResource(URI.createURI("*.ecore"));
@@ -2481,7 +2474,7 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
 
-    return new ArrayList(resourceSet.getResources());
+    return new ArrayList<Resource>(resourceSet.getResources());
   }
 
   public EStructuralFeature getEStructuralFeature(XSDFeature xsdFeature)
@@ -2566,7 +2559,7 @@ public class XSDEcoreBuilder extends MapBuilder
     return eStructuralFeature;
   }
 
-  public Collection generate(URI uri)
+  public Collection<EObject> generate(URI uri)
   {
     ResourceSet resourceSet = createResourceSet();
     Resource resource = resourceSet.getResource(uri, true);
@@ -2575,7 +2568,7 @@ public class XSDEcoreBuilder extends MapBuilder
       generate((XSDSchema)resource.getContents().get(0));
     }
 
-    List result = new ArrayList(targetNamespaceToEPackageMap.values());
+    List<EObject> result = new ArrayList<EObject>(targetNamespaceToEPackageMap.values());
     result.remove(XMLNamespacePackage.eINSTANCE);
     if (mapper != null)
     {
@@ -2584,19 +2577,18 @@ public class XSDEcoreBuilder extends MapBuilder
     return result;
   }
 
-  public Collection generate(Collection uris)
+  public Collection<Object> generate(Collection<URI> uris)
   {
     if (simpleDiagnostics == null)
     {
-      simpleDiagnostics = new ArrayList();
+      simpleDiagnostics = new ArrayList<List<String>>();
     }
     ResourceSet resourceSet = createResourceSet();
-    for (Iterator i = uris.iterator(); i.hasNext(); )
+    for (URI uri : uris)
     {
-      Resource resource = resourceSet.getResource((URI)i.next(), true);
-      for (Iterator j = resource.getContents().iterator(); j.hasNext(); )
+      Resource resource = resourceSet.getResource(uri, true);
+      for (Object object : resource.getContents())
       {
-        Object object = j.next();
         if (object instanceof XSDSchema)
         {
           generate((XSDSchema)object);
@@ -2604,7 +2596,7 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
 
-    List result = new ArrayList(targetNamespaceToEPackageMap.values());
+    List<Object> result = new ArrayList<Object>(targetNamespaceToEPackageMap.values());
     result.remove(XMLNamespacePackage.eINSTANCE);
     if (mapper != null)
     {
@@ -2624,54 +2616,50 @@ public class XSDEcoreBuilder extends MapBuilder
       validate(xsdSchema);
     }
 
-    Collection visitedElementDeclarations = new ArrayList();
-    Collection elementDeclarations = new ArrayList(xsdSchema.getElementDeclarations());
+    Collection<XSDElementDeclaration> visitedElementDeclarations = new ArrayList<XSDElementDeclaration>();
+    Collection<XSDElementDeclaration> elementDeclarations = new ArrayList<XSDElementDeclaration>(xsdSchema.getElementDeclarations());
 
-    Collection visitedAttributeDeclarations = new ArrayList();
-    Collection attributeDeclarations = new ArrayList(xsdSchema.getAttributeDeclarations());
+    Collection<XSDAttributeDeclaration> visitedAttributeDeclarations = new ArrayList<XSDAttributeDeclaration>();
+    Collection<XSDAttributeDeclaration> attributeDeclarations = new ArrayList<XSDAttributeDeclaration>(xsdSchema.getAttributeDeclarations());
 
-    Collection visitedTypeDefinitions = new ArrayList();
-    Collection typeDefinitions = new ArrayList(xsdSchema.getTypeDefinitions());
+    Collection<XSDTypeDefinition> visitedTypeDefinitions = new ArrayList<XSDTypeDefinition>();
+    Collection<XSDTypeDefinition> typeDefinitions = new ArrayList<XSDTypeDefinition>(xsdSchema.getTypeDefinitions());
 
     while (!elementDeclarations.isEmpty() || !attributeDeclarations.isEmpty() || !typeDefinitions.isEmpty())
     {
-      for (Iterator i = elementDeclarations.iterator(); i.hasNext(); )
+      for (XSDElementDeclaration xsdElementDeclaration : elementDeclarations)
       {
-        XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)i.next();
         getEStructuralFeature(xsdElementDeclaration);
       }
       visitedElementDeclarations.addAll(elementDeclarations);
-      elementDeclarations = new ArrayList(xsdSchema.getElementDeclarations());
+      elementDeclarations = new ArrayList<XSDElementDeclaration>(xsdSchema.getElementDeclarations());
       elementDeclarations.removeAll(visitedElementDeclarations);
 
-      for (Iterator i = attributeDeclarations.iterator(); i.hasNext(); )
+      for (XSDAttributeDeclaration xsdAttributeDeclaration : attributeDeclarations)
       {
-        XSDAttributeDeclaration xsdAttributeDeclaration = (XSDAttributeDeclaration)i.next();
         if (!XSDConstants.isSchemaInstanceNamespace(xsdAttributeDeclaration.getTargetNamespace()))
         {
           getEStructuralFeature(xsdAttributeDeclaration);
         }
       }
       visitedAttributeDeclarations.addAll(attributeDeclarations);
-      attributeDeclarations = new ArrayList(xsdSchema.getAttributeDeclarations());
+      attributeDeclarations = new ArrayList<XSDAttributeDeclaration>(xsdSchema.getAttributeDeclarations());
       attributeDeclarations.removeAll(visitedAttributeDeclarations);
 
-      for (Iterator i = typeDefinitions.iterator(); i.hasNext(); )
+      for (XSDTypeDefinition xsdTypeDefinition : typeDefinitions)
       {
-        XSDTypeDefinition xsdTypeDefinition = (XSDTypeDefinition)i.next();
         getEClassifier(xsdTypeDefinition);
       }
       visitedTypeDefinitions.addAll(typeDefinitions);
-      typeDefinitions = new ArrayList(xsdSchema.getTypeDefinitions());
+      typeDefinitions = new ArrayList<XSDTypeDefinition>(xsdSchema.getTypeDefinitions());
       typeDefinitions.removeAll(visitedTypeDefinitions);
     }
 
     resolveNameConflicts();
 
-    for (Iterator i = xsdSchemas.iterator(); i.hasNext(); )
+    for (XSDSchema generatedXSDSchema : xsdSchemas)
     {
-      XSDSchema generatedXSDSchema = (XSDSchema)i.next();
-      EPackage ePackage = (EPackage)targetNamespaceToEPackageMap.get(generatedXSDSchema.getTargetNamespace());
+      EPackage ePackage = targetNamespaceToEPackageMap.get(generatedXSDSchema.getTargetNamespace());
       if (ePackage != null)
       {
         String packageName= getEcoreAttribute(generatedXSDSchema, "package");
@@ -2687,11 +2675,10 @@ public class XSDEcoreBuilder extends MapBuilder
       }
     }
 
-    for (Iterator i = eReferenceToOppositeNameMap.entrySet().iterator(); i.hasNext(); )
+    for (Map.Entry<EReference, String> entry : eReferenceToOppositeNameMap.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      EReference eReference = (EReference)entry.getKey();
-      String opposite = (String)entry.getValue();
+      EReference eReference = entry.getKey();
+      String opposite = entry.getValue();
       EClass oppositeEClass = eReference.getEReferenceType();
       if (eReference.getEOpposite() == null)
       {
@@ -2700,9 +2687,8 @@ public class XSDEcoreBuilder extends MapBuilder
         // Match by XML name if this fails.
         if (eOppositeFeature == null)
         {
-          for (Iterator j = oppositeEClass.getEAllStructuralFeatures().iterator(); j.hasNext(); )
+          for(EStructuralFeature feature : oppositeEClass.getEAllStructuralFeatures())
           {
-            EStructuralFeature feature = (EStructuralFeature)j.next();
             if (opposite.equals(extendedMetaData.getName(feature)))
             {
               eOppositeFeature = feature;
@@ -2788,16 +2774,19 @@ public class XSDEcoreBuilder extends MapBuilder
     return null;
   }
 
-  protected List getEcoreTypeQNamesAttribute(XSDConcreteComponent xsdConcreteComponent, String attribute)
+  protected List<XSDTypeDefinition> getEcoreTypeQNamesAttribute(XSDConcreteComponent xsdConcreteComponent, String attribute)
   {
     Element element = xsdConcreteComponent.getElement();
-    return  element == null ? Collections.EMPTY_LIST : getEcoreTypeQNamesAttribute(xsdConcreteComponent, element, EcorePackage.eNS_URI, attribute);
+    return  
+      element == null ? 
+        Collections.<XSDTypeDefinition>emptyList() : 
+          getEcoreTypeQNamesAttribute(xsdConcreteComponent, element, EcorePackage.eNS_URI, attribute);
   }
 
-  protected List getEcoreTypeQNamesAttribute
+  protected List<XSDTypeDefinition> getEcoreTypeQNamesAttribute
     (XSDConcreteComponent xsdConcreteComponent, Element element, String namespace, String attribute)
   {
-    List result = new ArrayList();
+    List<XSDTypeDefinition> result = new ArrayList<XSDTypeDefinition>();
     if (element != null && element.hasAttributeNS(namespace, attribute))
     {
       for (StringTokenizer stringTokenizer = new StringTokenizer(element.getAttributeNS(namespace, attribute)); stringTokenizer.hasMoreTokens(); )
@@ -2814,14 +2803,16 @@ public class XSDEcoreBuilder extends MapBuilder
     return result;
   }
 
-  public static List sortNamedComponents(Collection eNamedElements)
+  public static <T extends ENamedElement> List<T> sortNamedComponents(Collection<T> eNamedElements)
   {
-    Object [] objects = eNamedElements.toArray();
+    ENamedElement [] objects = new ENamedElement [eNamedElements.size()];
+    eNamedElements.toArray(objects);
     Arrays.sort(objects, Comparator.INSTANCE);
-    return Arrays.asList(objects);
+    @SuppressWarnings("unchecked") List<T> result = (List<T>)Arrays.asList(objects);
+    return result;
   }
 
-  public static void addToSortedList(List eNamedElements, ENamedElement eNamedElement)
+  public static <T extends ENamedElement> void addToSortedList(List<T> eNamedElements, T eNamedElement)
   {
     int index = Collections.binarySearch(eNamedElements, eNamedElement, Comparator.INSTANCE);
     if (index < 0)
@@ -2834,7 +2825,7 @@ public class XSDEcoreBuilder extends MapBuilder
     }
   }
 
-  public static class Comparator implements java.util.Comparator
+  public static class Comparator implements java.util.Comparator<ENamedElement>
   {
     public static Comparator INSTANCE = new Comparator();
 
@@ -2842,17 +2833,19 @@ public class XSDEcoreBuilder extends MapBuilder
   
     public Comparator()
     {
+      super();
     }
   
+    @Override
     public boolean equals(Object that)
     {
       return this == that;
     }
   
-    public int compare(Object o1, Object o2)
+    public int compare(ENamedElement o1, ENamedElement o2)
     {
-      ENamedElement eNamedElement1 = (ENamedElement)o1;
-      ENamedElement eNamedElement2 = (ENamedElement)o2;
+      ENamedElement eNamedElement1 = o1;
+      ENamedElement eNamedElement2 = o2;
       String name1 = eNamedElement1.getName();
       String name2 = eNamedElement2.getName();
       if (name1 == null && name2 == null)
@@ -2899,8 +2892,8 @@ public class XSDEcoreBuilder extends MapBuilder
 
   protected void setAnnotations(EModelElement eModelElement, XSDConcreteComponent xsdComponent)
   {
-    List xsdAnnotations = new ArrayList();
-    List elements = new ArrayList();
+    List<XSDAnnotation> xsdAnnotations = new ArrayList<XSDAnnotation>();
+    List<Element> elements = new ArrayList<Element>();
     boolean append = true;
 
     if (xsdComponent instanceof XSDParticle)
@@ -2972,14 +2965,12 @@ public class XSDEcoreBuilder extends MapBuilder
     }
 
     boolean first = true;
-    for (Iterator i = xsdAnnotations.iterator(); i.hasNext(); first = false)
+    for (XSDAnnotation xsdAnnotation : xsdAnnotations)
     {
-      XSDAnnotation xsdAnnotation = (XSDAnnotation)i.next();
       if (xsdAnnotation != null && !"true".equals(getEcoreAttribute(xsdAnnotation, "ignore")))
       {
-        for (Iterator j = xsdAnnotation.getUserInformation().iterator(); j.hasNext(); )
+        for (Element element : xsdAnnotation.getUserInformation())
         {
-          Element element = (Element)j.next();
           if (!"true".equals(getEcoreAttribute(element, "ignore")) && !ignore(element))
           {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -3009,9 +3000,8 @@ public class XSDEcoreBuilder extends MapBuilder
           }
         }
 
-        for (Iterator j = xsdAnnotation.getApplicationInformation().iterator(); j.hasNext(); )
+        for (Element element : xsdAnnotation.getApplicationInformation())
         {
-          Element element = (Element)j.next();
           if (!"true".equals(getEcoreAttribute(element, "ignore")) && !ignore(element))
           {
             String sourceURI = element.hasAttributeNS(null, "source") ? element.getAttributeNS(null, "source") : null;
@@ -3062,12 +3052,12 @@ public class XSDEcoreBuilder extends MapBuilder
           }
         }
       }
+      first = false;
     }
     
     first = true;
-    for (Iterator i = elements.iterator(); i.hasNext(); first = false)
+    for (Element element : elements)
     {
-      Element element = (Element)i.next();
       if (element != null)
       {
         NamedNodeMap attributes = element.getAttributes();
@@ -3091,6 +3081,7 @@ public class XSDEcoreBuilder extends MapBuilder
           }
         }
       }
+      first = false;
     }
   }
 
@@ -3113,9 +3104,8 @@ public class XSDEcoreBuilder extends MapBuilder
 
   protected void validate(XSDSchema xsdSchema)
   {
-    for (Iterator i = xsdSchema.getContents().iterator(); i.hasNext(); )
+    for (Object content : xsdSchema.getContents())
     {
-      Object content = i.next();
       if (content instanceof XSDImport)
       {
         XSDImport xsdImport = (XSDImport)content;
@@ -3130,11 +3120,9 @@ public class XSDEcoreBuilder extends MapBuilder
       {
         if (simpleDiagnostics != null)
         {
-          for (Iterator i = xsdSchema.getAllDiagnostics().iterator(); i.hasNext(); )
+          for (XSDDiagnostic xsdDiagnostic : xsdSchema.getAllDiagnostics())
           {
-            XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
-
-            List tuple = new ArrayList();
+            List<String> tuple = new ArrayList<String>();
             tuple.add(xsdDiagnostic.getSeverity().toString());
 
             String localizedSeverity = XSDPlugin.INSTANCE.getString("_UI_XSDDiagnosticSeverity_" + xsdDiagnostic.getSeverity());

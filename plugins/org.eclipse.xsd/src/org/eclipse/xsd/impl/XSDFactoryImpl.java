@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFactoryImpl.java,v 1.7 2005/11/23 13:56:55 emerks Exp $
+ * $Id: XSDFactoryImpl.java,v 1.8 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -81,6 +81,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -130,6 +131,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
@@ -194,6 +196,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
@@ -1165,7 +1168,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    */
   public Object createValueFromString(EDataType eDataType, String initialValue) 
   {
-    return (Object)super.createFromString(eDataType, initialValue);
+    return super.createFromString(eDataType, initialValue);
   }
 
   /**
@@ -1194,6 +1197,7 @@ public class XSDFactoryImpl extends EFactoryImpl implements XSDFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static XSDPackage getPackage()
   {
     return XSDPackage.eINSTANCE;

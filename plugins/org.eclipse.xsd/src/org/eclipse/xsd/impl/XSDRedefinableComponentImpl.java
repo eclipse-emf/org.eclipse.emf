@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDRedefinableComponentImpl.java,v 1.9 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDRedefinableComponentImpl.java,v 1.10 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -64,6 +64,7 @@ public abstract class XSDRedefinableComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_REDEFINABLE_COMPONENT;
@@ -94,6 +95,7 @@ public abstract class XSDRedefinableComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -109,6 +111,7 @@ public abstract class XSDRedefinableComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMaxFacetImpl.java,v 1.9 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDMaxFacetImpl.java,v 1.10 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -110,6 +110,7 @@ public abstract class XSDMaxFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_MAX_FACET;
@@ -173,6 +174,7 @@ public abstract class XSDMaxFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -192,12 +194,13 @@ public abstract class XSDMaxFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case XSDPackage.XSD_MAX_FACET__VALUE:
-        setValue((Object)newValue);
+        setValue(newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -208,6 +211,7 @@ public abstract class XSDMaxFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -224,6 +228,7 @@ public abstract class XSDMaxFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -243,6 +248,7 @@ public abstract class XSDMaxFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -254,6 +260,7 @@ public abstract class XSDMaxFacetImpl
     return result.toString();
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -276,6 +283,7 @@ public abstract class XSDMaxFacetImpl
     }
   }
 
+  @Override
   protected void validateValue()
   {
     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)getContainer();
@@ -291,16 +299,16 @@ public abstract class XSDMaxFacetImpl
         XSDSimpleTypeDefinitionImpl.AssessmentImpl assessment =
           (XSDSimpleTypeDefinitionImpl.AssessmentImpl)baseTypeDefinition.assess(getLexicalValue());
 
-        Collection allDiagnostics = assessment.getDiagnostics();
+        Collection<XSDDiagnostic> allDiagnostics = assessment.getDiagnostics();
         if (!allDiagnostics.isEmpty())
         {
           // This is to ignores exclusive violations which should be caught via restriction validation.
           //
           if (isExclusive())
           {
-            for (Iterator i = allDiagnostics.iterator(); i.hasNext(); )
+            for (Iterator<XSDDiagnostic> i = allDiagnostics.iterator(); i.hasNext(); )
             {
-              XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
+              XSDDiagnostic xsdDiagnostic = i.next();
               XSDConcreteComponent primaryComponent = xsdDiagnostic.getPrimaryComponent();
               if (primaryComponent instanceof XSDMaxExclusiveFacet &&
                     baseTypeDefinition.equalLiterals
@@ -317,11 +325,13 @@ public abstract class XSDMaxFacetImpl
     }
   }
 
+  @Override
   protected boolean restrictionMatch(XSDFixedFacet xsdFixedFacet)
   {
     return xsdFixedFacet instanceof XSDMaxExclusiveFacet || xsdFixedFacet instanceof XSDMinExclusiveFacet;
   }
 
+  @Override
   protected void validateRestriction(XSDFixedFacet xsdFixedFacet)
   {
     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = getSimpleTypeDefinition();

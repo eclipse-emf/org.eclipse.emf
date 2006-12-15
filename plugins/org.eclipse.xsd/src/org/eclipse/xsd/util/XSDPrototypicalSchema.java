@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPrototypicalSchema.java,v 1.6 2005/06/12 12:38:14 emerks Exp $
+ * $Id: XSDPrototypicalSchema.java,v 1.7 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -34,6 +34,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Element;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -393,7 +395,7 @@ public class XSDPrototypicalSchema
     // the {@link XSDSchema#getSchemaForSchema schema for schema}'s namespace,
     // and some other imported namespace.
     //
-    Map qNamePrefixToNamespaceMap = prototypeSchema./*{@link XSDSchema#getQNamePrefixToNamespaceMap */getQNamePrefixToNamespaceMap/*}*/();
+    Map<String, String> qNamePrefixToNamespaceMap = prototypeSchema./*{@link XSDSchema#getQNamePrefixToNamespaceMap */getQNamePrefixToNamespaceMap/*}*/();
     qNamePrefixToNamespaceMap.put("PTS", prototypeSchema.getTargetNamespace());
     qNamePrefixToNamespaceMap.put(prototypeSchema.getSchemaForSchemaQNamePrefix(), /*{@link */XSDConstants/*}*/.SCHEMA_FOR_SCHEMA_URI_2001);
     qNamePrefixToNamespaceMap.put("EXT", /*{@link #*/someOtherSchemaURI/*}*/);
@@ -2274,7 +2276,7 @@ public class XSDPrototypicalSchema
 
     // Choose the prefix used for this schema's namespace and the {@link XSDSchema#getSchemaForSchema schema for schema}'s namespace.
     //
-    Map qNamePrefixToNamespaceMap = xsdSchema./*{@link XSDSchema#getQNamePrefixToNamespaceMap */getQNamePrefixToNamespaceMap/*}*/();
+    Map<String, String> qNamePrefixToNamespaceMap = xsdSchema./*{@link XSDSchema#getQNamePrefixToNamespaceMap */getQNamePrefixToNamespaceMap/*}*/();
     qNamePrefixToNamespaceMap.put("po", xsdSchema.getTargetNamespace());
     qNamePrefixToNamespaceMap.put(xsdSchema.getSchemaForSchemaQNamePrefix(), /*{@link */XSDConstants/*}*/.SCHEMA_FOR_SCHEMA_URI_2001);
 
@@ -2837,11 +2839,10 @@ public class XSDPrototypicalSchema
       // Iterate over all the resources, i.e., the main resource 
       // and those that have been included, imported, or redefined.
       //
-      for (Iterator resources = resourceSet./*{@link ResourceSet#getResources */getResources/*}*/().iterator(); resources.hasNext(); )
+      for (/*{@link */Resource/*}*/ resource : resourceSet./*{@link ResourceSet#getResources */getResources/*}*/())
       {
         // Check for schema resources.
         //
-        /*{@link */Resource/*}*/ resource = (Resource)resources.next();
         if (resource instanceof XSDResourceImpl)
         {
           XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
@@ -2862,9 +2863,8 @@ public class XSDPrototypicalSchema
 
           // Process each of the diagnostics.
           //
-          for (Iterator diagnostics = xsdSchema.getAllDiagnostics().iterator(); diagnostics.hasNext(); )
+          for (/*{@link */XSDDiagnostic/*}*/ xsdDiagnostic : xsdSchema.getAllDiagnostics())
           {
-            /*{@link */XSDDiagnostic/*}*/ xsdDiagnostic = (XSDDiagnostic)diagnostics.next();
             String localizedSeverity = 
               XSDPlugin.INSTANCE./*{@link XSDPlugin#getString(String,Object[]) */getString/*}*/("_UI_XSDDiagnosticSeverity_" + xsdDiagnostic./*{@link XSDDiagnostic#getSeverity */getSeverity/*}*/());
             System.out.println
@@ -3136,6 +3136,7 @@ public class XSDPrototypicalSchema
       /*{@link */ResourceSet/*}*/ resourceSet = 
         new /*{@link */ResourceSetImpl/*}*/()
         {
+          @Override
           public Resource getResource(/*{@link */URI/*}*/ uri, boolean loadOnDemand) 
           {
             Resource result = super./*{@link ResourceSet#getResource */getResource/*}*/(uri, true);
@@ -3157,11 +3158,10 @@ public class XSDPrototypicalSchema
       // Iterate over all the resources, i.e., the main resource 
       // and those that have been included, imported, or redefined.
       //
-      for (Iterator resources = resourceSet./*{@link ResourceSet#getResources */getResources/*}*/().iterator(); resources.hasNext(); )
+      for (/*{@link */Resource/*}*/ resource : resourceSet./*{@link ResourceSet#getResources */getResources/*}*/())
       {
         // Check for schema resources.
         //
-        /*{@link */Resource/*}*/ resource = (Resource)resources.next();
         if (resource instanceof XSDResourceImpl)
         {
           XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
@@ -3169,9 +3169,8 @@ public class XSDPrototypicalSchema
           // Iterate over the schema's content's looking for directives.
           //
           /*{@link */XSDSchema/*}*/ xsdSchema = xsdResource./*{@link XSDResourceImpl#getSchema */getSchema/*}*/();
-          for (Iterator contents = xsdSchema./*{@link XSDSchema#getContents */getContents/*}*/().iterator(); contents.hasNext(); )
+          for (/*{@link */XSDSchemaContent/*}*/ xsdSchemaContent  : xsdSchema./*{@link XSDSchema#getContents */getContents/*}*/())
           {
-            /*{@link */XSDSchemaContent/*}*/ xsdSchemaContent = (XSDSchemaContent)contents.next();
             if (xsdSchemaContent instanceof /*{@link */XSDSchemaDirective/*}*/)
             {
               // Check if the directive resolved to a schema.
@@ -3300,20 +3299,20 @@ public class XSDPrototypicalSchema
     ResourceSet resourceSet = xsdSchemaForSchema./*{@link EObject#eResource */eResource/*}*/()./*{@link Resource#getResourceSet */getResourceSet/*}*/();
 
     out.println("Show uses of the string datatype within the meta schemas themselves.");
-    Collection usages = /*{@link XSDUtil.UsageCrossReferencer */XSDUtil.UsageCrossReferencer/*}*/.find(xsdSchemaForSchema.resolveSimpleTypeDefinition("string"), resourceSet);
+    Collection<EStructuralFeature.Setting> usages = /*{@link XSDUtil.UsageCrossReferencer */XSDUtil.UsageCrossReferencer/*}*/.find(xsdSchemaForSchema.resolveSimpleTypeDefinition("string"), resourceSet);
     XSDUtil.UsageCrossReferencer.print(out, usages);
 
     out.println("Show uses of the ur-type URI");
-    Map xsdURICrossReferences = /*{@link XSDUtil.URICrossReferencer */XSDUtil.URICrossReferencer/*}*/.find(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001 + "#anyType",  resourceSet);
+    Map<EObject, Collection<EStructuralFeature.Setting>> xsdURICrossReferences = /*{@link XSDUtil.URICrossReferencer */XSDUtil.URICrossReferencer/*}*/.find(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001 + "#anyType",  resourceSet);
     XSDUtil.URICrossReferencer.print(out, xsdURICrossReferences);
 
     out.println("Show all named components and their uses in the schema of the anySimpleType.");
-    Map xsdNamedComponentUsage = 
+    Map<EObject, Collection<EStructuralFeature.Setting>> xsdNamedComponentUsage = 
       /*{@link XSDUtil.XSDNamedComponentCrossReferencer */XSDUtil.XSDNamedComponentCrossReferencer/*}*/.find(xsdSchemaForSchema.resolveSimpleTypeDefinition("anySimpleType").getSchema());
     XSDUtil.XSDNamedComponentCrossReferencer.print(out, xsdNamedComponentUsage);
 
     out.println("Test that the URI of evey object in the schema for schemas can be resolved.");
-    for (Iterator contents = xsdSchemaForSchema./*{@link EObject#eAllContents */eAllContents/*}*/(); contents.hasNext(); )
+    for (Iterator<EObject> contents = xsdSchemaForSchema./*{@link EObject#eAllContents */eAllContents/*}*/(); contents.hasNext(); )
     {
       XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)contents.next();
       URI uri = EcoreUtil./*{@link EcoreUtil#getURI */getURI/*}*/(xsdConcreteComponent);

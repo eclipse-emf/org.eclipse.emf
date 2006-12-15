@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticImpl.java,v 1.10 2006/12/05 20:32:32 emerks Exp $
+ * $Id: XSDDiagnosticImpl.java,v 1.11 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -260,6 +260,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_DIAGNOSTIC;
@@ -536,10 +537,10 @@ public class XSDDiagnosticImpl
    */
   public XSDConcreteComponent getPrimaryComponent()
   {
-    List theComponents = getComponents();
+    List<XSDConcreteComponent> theComponents = getComponents();
     return 
       theComponents.size() > 0 ?
-        (XSDConcreteComponent)theComponents.get(0) :
+        theComponents.get(0) :
         null;
   }
 
@@ -550,7 +551,7 @@ public class XSDDiagnosticImpl
    */
   public void setPrimaryComponent(XSDConcreteComponent primaryComponent)
   {
-    List theComponents = getComponents();
+    List<XSDConcreteComponent> theComponents = getComponents();
     if (primaryComponent == null)
     {
       theComponents.clear();
@@ -570,6 +571,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -605,6 +607,8 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -653,6 +657,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -699,6 +704,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -736,7 +742,7 @@ public class XSDDiagnosticImpl
    */
   public void unsetPrimaryComponent() 
   {
-    List theComponents = getComponents();
+    List<XSDConcreteComponent> theComponents = getComponents();
     theComponents.clear();
   }
 
@@ -747,7 +753,7 @@ public class XSDDiagnosticImpl
    */
   public boolean isSetPrimaryComponent() 
   {
-    List theComponents = getComponents();
+    List<XSDConcreteComponent> theComponents = getComponents();
     return !theComponents.isEmpty();
   }
 
@@ -756,6 +762,7 @@ public class XSDDiagnosticImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

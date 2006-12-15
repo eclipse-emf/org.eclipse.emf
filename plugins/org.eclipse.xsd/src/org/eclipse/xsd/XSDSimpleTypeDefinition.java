@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinition.java,v 1.6 2006/12/05 20:32:32 emerks Exp $
+ * $Id: XSDSimpleTypeDefinition.java,v 1.7 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -944,7 +944,7 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
      * Returns the diagnostics collected for this particular assessment and for any nested assessments.
      * @return the diagnostics collected for this particular assessment and for any nested assessments.
      */
-    Collection getDiagnostics();
+    Collection<XSDDiagnostic> getDiagnostics();
 
     /**
      * Returns any nested assessments that were performed.
@@ -952,13 +952,13 @@ public interface XSDSimpleTypeDefinition extends XSDTypeDefinition, XSDComplexTy
      * In the case of a list, there will be an assessment for every item in the list.
      * @return any nested assessments that were performed.
      */
-    Collection getAssessments();
+    Collection<Assessment> getAssessments();
 
     /**
      * Returns the diagnostics that are collected for just this particular assessment.
      * @return the diagnostics that are collected for just this particular assessment.
      */
-    Collection getLocalDiagnostics();
+    Collection<XSDDiagnostic> getLocalDiagnostics();
 
     /**
      * Called with a noun and a proper noun 

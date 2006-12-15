@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MapBuilder.java,v 1.3 2006/04/30 17:22:07 emerks Exp $
+ * $Id: MapBuilder.java,v 1.4 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -38,14 +38,15 @@ public class MapBuilder extends NameMangler
 
     void addOutput(EObject eObject);
 
-    void map(Collection inputs, Collection outputs);
+    void map(Collection<? extends EObject> inputs, Collection<? extends EObject> outputs);
   }
 
   protected Mapper mapper;
-  protected Map xsdComponentToEModelElementMap = new HashMap();
+  protected Map<XSDComponent, EModelElement> xsdComponentToEModelElementMap = new HashMap<XSDComponent, EModelElement>();
 
   public MapBuilder()
   {
+    super();
   }
 
   public void setMapper(Mapper mapper)

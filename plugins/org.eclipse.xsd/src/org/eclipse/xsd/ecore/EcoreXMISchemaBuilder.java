@@ -12,21 +12,23 @@
  *
  * </copyright>
  *
- * $Id: EcoreXMISchemaBuilder.java,v 1.3 2006/03/30 16:17:17 emerks Exp $
+ * $Id: EcoreXMISchemaBuilder.java,v 1.4 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.xsd.XSDAttributeDeclaration;
+import org.eclipse.xsd.XSDAttributeGroupContent;
 import org.eclipse.xsd.XSDAttributeGroupDefinition;
 import org.eclipse.xsd.XSDAttributeUse;
 import org.eclipse.xsd.XSDAttributeUseCategory;
@@ -60,7 +62,7 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     super();
   }
 
-  public Collection generate(EPackage ePackage, QNameMap qNameMap, boolean minimized, List rootList, Map options)
+  public Collection<EObject> generate(EPackage ePackage, QNameMap qNameMap, boolean minimized, List<EClass> rootList, Map<?, ?> options)
   {
     minimizedXMI = minimized;
     rootClasses = rootList;
@@ -72,20 +74,22 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
 
     if (rootList != null && !rootList.isEmpty())
     {
-      for (Iterator iter = rootList.iterator(); iter.hasNext();)
+      for (EClass root : rootList)
       {
-        EClass root = (EClass)iter.next();
-        if (!(root.getEPackage() == ePackage))
+        if (root.getEPackage() != ePackage)
+        {
           throw new IllegalArgumentException("Inappropriate root class " + root.getName());
+        }
       }
     }
 
     return generate(ePackage, qNameMap);
   }
 
-  public Collection generate(EPackage ePackage, QNameMap qNameMap)
+  @Override
+  public Collection<EObject> generate(EPackage ePackage, QNameMap qNameMap)
   {
-    List result = (List)super.generate(ePackage, qNameMap);
+    List<EObject> result = new ArrayList<EObject>(super.generate(ePackage, qNameMap));
     result.add(1, createXMISchema());
     return result;
   }
@@ -96,7 +100,7 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     xmiSchema.setTargetNamespace(XMI_URI);
     xmiSchema.setSchemaForSchemaQNamePrefix("xsd");
 
-    Map namespaces = xmiSchema.getQNamePrefixToNamespaceMap();
+    Map<String, String> namespaces = xmiSchema.getQNamePrefixToNamespaceMap();
     namespaces.put(XMI_PREFIX, XMI_URI);
     namespaces.put("xsd", XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
 
@@ -112,7 +116,7 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     // </xsd:attributeGroup>
     XSDAttributeGroupDefinition xmiIdentityAttribs = XSDFactory.eINSTANCE.createXSDAttributeGroupDefinition();
     xmiIdentityAttribs.setName("IdentityAttribs");
-    List contents = xmiIdentityAttribs.getContents();
+    List<XSDAttributeGroupContent> contents = xmiIdentityAttribs.getContents();
     contents.add(createAttributeUse(xmiSchema, "label", "string", "optional", "qualified", null));
     contents.add(createAttributeUse(xmiSchema, "uuid", "string", "optional", "qualified", null));
     xmiSchema.getContents().add(xmiIdentityAttribs);
@@ -546,6 +550,7 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     return attributeUse;
   }
 
+  @Override
   protected boolean makeClassElementDeclaration(EClass eClass)
   {
     // if rootList == null, then generate all classes
@@ -555,6 +560,7 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     return rootClasses == null || (!rootClasses.isEmpty() && rootClasses.contains(eClass));
   }
 
+  @Override
   protected XSDModelGroup createModelGroup(XSDComplexTypeDefinition xsdComplexTypeDefinition)
   {
     XSDModelGroup modelGroup = XSDFactory.eINSTANCE.createXSDModelGroup();
@@ -567,10 +573,13 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     return modelGroup;
   }
 
+  @Override
   protected void setAttributeElementMultiplicity(EAttribute attribute, XSDParticle particle)
   {
+    // Do nothing
   }
 
+  @Override
   protected void additionalProcessing(EClass eClass, XSDComplexTypeDefinition xsdComplexTypeDefinition)
   {
     if (eClass.getESuperTypes().size() == 0)
@@ -625,15 +634,19 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     }
   }
 
+  @Override
   protected void setDefaultValue(EAttribute attribute, XSDAttributeDeclaration attrDecl)
   {
+    // Do nothing
   }
 
+  @Override
   protected boolean makeReferenceElement(EReference reference)
   {
     return (reference.isContainment() && !reference.isContainer()) || !useEncodedAttributeStyle;
   }
 
+  @Override
   protected void setReferenceElementType(EReference reference, XSDElementDeclaration xsdElementDeclaration)
   {
     if (reference.getEType() != null)
@@ -647,13 +660,15 @@ public class EcoreXMISchemaBuilder extends EcoreXMLSchemaBuilder
     }
   }
 
+  @Override
   protected void setReferenceElementMultiplicity(EReference reference, XSDParticle particle)
   {
+    // Do nothing
   }
   
   protected void importXMI()
   {
-    Map namespaces = this.xsdSchema.getQNamePrefixToNamespaceMap();
+    Map<String, String> namespaces = this.xsdSchema.getQNamePrefixToNamespaceMap();
     if (namespaces.put(XMI_PREFIX, XMI_URI) == null)
     {
       XSDImport xmiImport = XSDFactory.eINSTANCE.createXSDImport();

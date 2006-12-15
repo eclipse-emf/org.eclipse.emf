@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDXPathVariety.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDXPathVariety.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -33,8 +33,32 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDXPathVariety extends AbstractEnumerator
+public enum XSDXPathVariety implements Enumerator
 {
+  /**
+   * The '<em><b>Selector</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #SELECTOR
+   * @generated
+   * @ordered
+   */
+  SELECTOR_LITERAL(0, "selector", "selector"),
+
+  /**
+   * The '<em><b>Field</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #FIELD
+   * @generated
+   * @ordered
+   */
+  FIELD_LITERAL(1, "field", "field");
+
   /**
    * The '<em><b>Selector</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -62,29 +86,6 @@ public final class XSDXPathVariety extends AbstractEnumerator
    * @ordered
    */
   public static final int FIELD = 1;
-  /**
-   * The '<em><b>Selector</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #SELECTOR
-   * @generated
-   * @ordered
-   */
-  public static final XSDXPathVariety SELECTOR_LITERAL = new XSDXPathVariety(SELECTOR, "selector", "selector");
-
-  /**
-   * The '<em><b>Field</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #FIELD
-   * @generated
-   * @ordered
-   */
-  public static final XSDXPathVariety FIELD_LITERAL = new XSDXPathVariety(FIELD, "field", "field");
 
   /**
    * An array of all the '<em><b>XPath Variety</b></em>' enumerators.
@@ -105,7 +106,7 @@ public final class XSDXPathVariety extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDXPathVariety> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>XPath Variety</b></em>' literal with the specified literal value.
@@ -162,6 +163,27 @@ public final class XSDXPathVariety extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -169,7 +191,50 @@ public final class XSDXPathVariety extends AbstractEnumerator
    */
   private XSDXPathVariety(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
 }

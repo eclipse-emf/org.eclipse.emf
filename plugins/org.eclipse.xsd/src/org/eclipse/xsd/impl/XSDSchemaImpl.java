@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaImpl.java,v 1.33 2006/12/05 20:32:31 emerks Exp $
+ * $Id: XSDSchemaImpl.java,v 1.34 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -60,6 +60,7 @@ import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeGroupDefinition;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDDiagnosticSeverity;
@@ -699,10 +700,13 @@ public class XSDSchemaImpl
     return null;
   }
 
-  protected Map qNamePrefixToNamespaceMap = 
-    new HashMap()
+  protected Map<String, String> qNamePrefixToNamespaceMap = 
+    new HashMap<String, String>()
     {
-      public Object put(Object key, Object value)
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public String put(String key, String value)
       {
         if ("".equals(key))
         {
@@ -713,7 +717,7 @@ public class XSDSchemaImpl
         {
           value = "";
         }
-        Object result = super.put(key, value);
+        String result = super.put(key, value);
         if (!isReconciling)
         {
           Element theElement = getElement();
@@ -724,21 +728,23 @@ public class XSDSchemaImpl
               {
                 xmlnsAttribute += ":" + key;
               }
-              theElement.setAttributeNS(XSDConstants.XMLNS_URI_2000, xmlnsAttribute, (String)value);
+              theElement.setAttributeNS(XSDConstants.XMLNS_URI_2000, xmlnsAttribute, value);
           }
         }
         return result;
       }
 
-      public Object get(Object key) 
+      @Override
+      public String get(Object key) 
       {
-        Object result = super.get(key);
+        String result = super.get(key);
         return "".equals(result) ? null : result;
       }
 
-      public Object remove(Object key) 
+      @Override
+      public String remove(Object key) 
       {
-        Object result = super.remove(key);
+        String result = super.remove(key);
         if (!isReconciling)
         {
           if (result != null)
@@ -778,6 +784,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_SCHEMA;
@@ -1062,11 +1069,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getElementDeclarations()
+  public EList<XSDElementDeclaration> getElementDeclarations()
   {
     if (elementDeclarations == null)
     {
-      elementDeclarations = new XSDNamedComponentImpl.XSDNamedComponentList(XSDElementDeclaration.class, this, XSDPackage.XSD_SCHEMA__ELEMENT_DECLARATIONS);
+      elementDeclarations = new XSDNamedComponentImpl.XSDNamedComponentList<XSDElementDeclaration>(XSDElementDeclaration.class, this, XSDPackage.XSD_SCHEMA__ELEMENT_DECLARATIONS);
     }
     return elementDeclarations;
   }
@@ -1076,11 +1083,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getAttributeDeclarations()
+  public EList<XSDAttributeDeclaration> getAttributeDeclarations()
   {
     if (attributeDeclarations == null)
     {
-      attributeDeclarations = new XSDNamedComponentImpl.XSDNamedComponentList(XSDAttributeDeclaration.class, this, XSDPackage.XSD_SCHEMA__ATTRIBUTE_DECLARATIONS);
+      attributeDeclarations = new XSDNamedComponentImpl.XSDNamedComponentList<XSDAttributeDeclaration>(XSDAttributeDeclaration.class, this, XSDPackage.XSD_SCHEMA__ATTRIBUTE_DECLARATIONS);
     }
     return attributeDeclarations;
   }
@@ -1090,11 +1097,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getAttributeGroupDefinitions()
+  public EList<XSDAttributeGroupDefinition> getAttributeGroupDefinitions()
   {
     if (attributeGroupDefinitions == null)
     {
-      attributeGroupDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList(XSDAttributeGroupDefinition.class, this, XSDPackage.XSD_SCHEMA__ATTRIBUTE_GROUP_DEFINITIONS);
+      attributeGroupDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList<XSDAttributeGroupDefinition>(XSDAttributeGroupDefinition.class, this, XSDPackage.XSD_SCHEMA__ATTRIBUTE_GROUP_DEFINITIONS);
     }
     return attributeGroupDefinitions;
   }
@@ -1104,11 +1111,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getTypeDefinitions()
+  public EList<XSDTypeDefinition> getTypeDefinitions()
   {
     if (typeDefinitions == null)
     {
-      typeDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList(XSDTypeDefinition.class, this, XSDPackage.XSD_SCHEMA__TYPE_DEFINITIONS);
+      typeDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList<XSDTypeDefinition>(XSDTypeDefinition.class, this, XSDPackage.XSD_SCHEMA__TYPE_DEFINITIONS);
     }
     return typeDefinitions;
   }
@@ -1118,11 +1125,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getModelGroupDefinitions()
+  public EList<XSDModelGroupDefinition> getModelGroupDefinitions()
   {
     if (modelGroupDefinitions == null)
     {
-      modelGroupDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList(XSDModelGroupDefinition.class, this, XSDPackage.XSD_SCHEMA__MODEL_GROUP_DEFINITIONS);
+      modelGroupDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList<XSDModelGroupDefinition>(XSDModelGroupDefinition.class, this, XSDPackage.XSD_SCHEMA__MODEL_GROUP_DEFINITIONS);
     }
     return modelGroupDefinitions;
   }
@@ -1132,11 +1139,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getIdentityConstraintDefinitions()
+  public EList<XSDIdentityConstraintDefinition> getIdentityConstraintDefinitions()
   {
     if (identityConstraintDefinitions == null)
     {
-      identityConstraintDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList(XSDIdentityConstraintDefinition.class, this, XSDPackage.XSD_SCHEMA__IDENTITY_CONSTRAINT_DEFINITIONS);
+      identityConstraintDefinitions = new XSDNamedComponentImpl.XSDNamedComponentList<XSDIdentityConstraintDefinition>(XSDIdentityConstraintDefinition.class, this, XSDPackage.XSD_SCHEMA__IDENTITY_CONSTRAINT_DEFINITIONS);
     }
     return identityConstraintDefinitions;
   }
@@ -1146,11 +1153,11 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getNotationDeclarations()
+  public EList<XSDNotationDeclaration> getNotationDeclarations()
   {
     if (notationDeclarations == null)
     {
-      notationDeclarations = new XSDNamedComponentImpl.XSDNamedComponentList(XSDNotationDeclaration.class, this, XSDPackage.XSD_SCHEMA__NOTATION_DECLARATIONS);
+      notationDeclarations = new XSDNamedComponentImpl.XSDNamedComponentList<XSDNotationDeclaration>(XSDNotationDeclaration.class, this, XSDPackage.XSD_SCHEMA__NOTATION_DECLARATIONS);
     }
     return notationDeclarations;
   }
@@ -1204,9 +1211,8 @@ public class XSDSchemaImpl
 
   public XSDSchema getOriginalVersion()
   {
-    for (Iterator i = getReferencingDirectives().iterator(); i.hasNext(); )
+    for (XSDSchemaDirective xsdSchemaDirective : getReferencingDirectives())
     {
-      XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
       if (xsdSchemaDirective instanceof XSDSchemaCompositor)
       {
         XSDSchemaCompositor xsdSchemaCompositor = (XSDSchemaCompositor)xsdSchemaDirective;
@@ -1268,7 +1274,7 @@ public class XSDSchemaImpl
   /**
    * This returns the map defined by the xmlns attributes of the underlying XML representation.
    */
-  public Map getQNamePrefixToNamespaceMap()
+  public Map<String, String> getQNamePrefixToNamespaceMap()
   {
     return qNamePrefixToNamespaceMap;
   }
@@ -1316,7 +1322,7 @@ public class XSDSchemaImpl
    */
   public String getSchemaForSchemaNamespace()
   {
-    return (String)getQNamePrefixToNamespaceMap().get(getSchemaForSchemaQNamePrefix());
+    return getQNamePrefixToNamespaceMap().get(getSchemaForSchemaQNamePrefix());
   }
 
   public String getStringBlockDefault()
@@ -1324,9 +1330,8 @@ public class XSDSchemaImpl
     if (isSetBlockDefault())
     {
       StringBuffer result = new StringBuffer();
-      for (Iterator literals = getBlockDefault().iterator(); literals.hasNext(); )
+      for (Object literal  : getBlockDefault())
       {
-        Object literal = literals.next();
         if (result.length() != 0)
         {
           result.append(' ');
@@ -1356,7 +1361,7 @@ public class XSDSchemaImpl
     }
     else
     {
-      List newBlockDefault = new ArrayList();
+      List<XSDDisallowedSubstitutions> newBlockDefault = new ArrayList<XSDDisallowedSubstitutions>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(blockDefault); stringTokenizer.hasMoreTokens(); )
       {
         String token = stringTokenizer.nextToken();
@@ -1372,7 +1377,7 @@ public class XSDSchemaImpl
       }
       if (!newBlockDefault.equals(getBlockDefault()))
       {
-        Collection oldContents = new ArrayList(getBlockDefault());
+        Collection<XSDDisallowedSubstitutions> oldContents = new ArrayList<XSDDisallowedSubstitutions>(getBlockDefault());
         oldContents.removeAll(newBlockDefault);
         getBlockDefault().removeAll(oldContents);
         setListContentAndOrder(getBlockDefault(), newBlockDefault);
@@ -1389,9 +1394,8 @@ public class XSDSchemaImpl
     if (isSetFinalDefault())
     {
       StringBuffer result = new StringBuffer();
-      for (Iterator literals = getFinalDefault().iterator(); literals.hasNext(); )
+      for (Object literal : getFinalDefault())
       {
-        Object literal = literals.next();
         if (result.length() != 0)
         {
           result.append(' ');
@@ -1421,7 +1425,7 @@ public class XSDSchemaImpl
     }
     else
     {
-      List newFinalDefault = new ArrayList();
+      List<XSDProhibitedSubstitutions> newFinalDefault = new ArrayList<XSDProhibitedSubstitutions>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(finalDefault); stringTokenizer.hasMoreTokens(); )
       {
         String token = stringTokenizer.nextToken();
@@ -1437,7 +1441,7 @@ public class XSDSchemaImpl
       }
       if (!newFinalDefault.equals(getFinalDefault()))
       {
-        Collection oldContents = new ArrayList(getFinalDefault());
+        Collection<XSDProhibitedSubstitutions> oldContents = new ArrayList<XSDProhibitedSubstitutions>(getFinalDefault());
         oldContents.removeAll(newFinalDefault);
         getFinalDefault().removeAll(oldContents);
         setListContentAndOrder(getFinalDefault(), newFinalDefault);
@@ -1449,6 +1453,7 @@ public class XSDSchemaImpl
     }
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.SCHEMA_ELEMENT);
@@ -1456,6 +1461,7 @@ public class XSDSchemaImpl
     return newElement;
   }
 
+  @Override
   protected void traverseToRootForPatching()
   {
     if (!isReconciling && isIncrementalUpdate)
@@ -1466,6 +1472,7 @@ public class XSDSchemaImpl
     }
   }
 
+  @Override
   protected void patch()
   {
     incorporatingSchemas = null;
@@ -1476,23 +1483,23 @@ public class XSDSchemaImpl
       if (magicSchemaForSchema != this)
       {
         XSDNamedComponentImpl.addToSortedList
-          (getTypeDefinitions(), (XSDSimpleTypeDefinition)magicSchemaForSchema.getTypeDefinitions().get(0));
+          (getTypeDefinitions(), magicSchemaForSchema.getTypeDefinitions().get(0));
       }
     }
     else
     {
-      Collection xsiSchemas = resolveSchema(XSDConstants.SCHEMA_INSTANCE_URI_2001);
+      Collection<XSDSchema> xsiSchemas = resolveSchema(XSDConstants.SCHEMA_INSTANCE_URI_2001);
       if (xsiSchemas.size() == 1)
       {
         XSDNamedComponentImpl.mergeToSortedList
           (getAttributeDeclarations(), 
-           ((XSDSchema)xsiSchemas.iterator().next()).getAttributeDeclarations());
+           xsiSchemas.iterator().next().getAttributeDeclarations());
       }
     }
 
-    for (Iterator i = getReferencingDirectives().iterator(); i.hasNext(); )
+    for (Iterator<XSDSchemaDirective> i = getReferencingDirectives().iterator(); i.hasNext(); )
     {
-      XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
+      XSDSchemaDirective xsdSchemaDirective = i.next();
       if (xsdSchemaDirective.getContainer() == null ||
             xsdSchemaDirective.getResolvedSchema() != this &&
             (!(xsdSchemaDirective instanceof XSDSchemaCompositor) ||
@@ -1504,14 +1511,13 @@ public class XSDSchemaImpl
 
     super.patch();
     
-    List schemasToPatch = new ArrayList();
+    List<XSDSchema> schemasToPatch = new ArrayList<XSDSchema>();
     schemasToPatch.add(this);
     for (int i = 0; i < schemasToPatch.size(); ++i)
     {
-      XSDSchema xsdSchema = (XSDSchema)schemasToPatch.get(i); 
-      for (Iterator j = xsdSchema.getContents().iterator(); j.hasNext(); )
+      XSDSchema xsdSchema = schemasToPatch.get(i); 
+      for (XSDSchemaContent content :  xsdSchema.getContents())
       {
-        XSDConcreteComponent content = (XSDConcreteComponent)j.next();
         if (content instanceof XSDSchemaDirective)
         {
           if (content instanceof XSDSchemaCompositor)
@@ -1547,6 +1553,7 @@ public class XSDSchemaImpl
     super.patch();
   }
 
+  @Override
   protected void traverseToRootForAnalysis()
   {
     if (!isReconciling && isIncrementalUpdate)
@@ -1557,11 +1564,13 @@ public class XSDSchemaImpl
     }
   }
 
+  @Override
   protected boolean analyze()
   {
     return super.analyze();
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -1688,15 +1697,14 @@ public class XSDSchemaImpl
     }
   }
 
-  public void validateNoDuplicates(String componentNoun, EList xsdNamedComponents)
+  public void validateNoDuplicates(String componentNoun, EList<? extends XSDNamedComponent> xsdNamedComponents)
   {
     String name = null;
     String targetNamespace = null;
 
 
-    for (Iterator i = xsdNamedComponents.iterator(); i.hasNext(); )
+    for (XSDNamedComponent xsdNamedComponent :  xsdNamedComponents)
     {
-      XSDNamedComponent xsdNamedComponent = (XSDNamedComponent)i.next();
       if (xsdNamedComponent.hasNameAndTargetNamespace(name, targetNamespace))
       {
         getDiagnosticTarget(xsdNamedComponent).createDiagnostic
@@ -1713,8 +1721,9 @@ public class XSDSchemaImpl
 
   protected void updateSortedList(XSDNamedComponent xsdNamedComponent)
   {
-    new XSDSwitch()
+    new XSDSwitch<Object>()
     {
+      @Override
       public Object caseXSDElementDeclaration(XSDElementDeclaration xsdElementDeclaration)
       {
         if (getElementDeclarations().remove(xsdElementDeclaration))
@@ -1723,6 +1732,7 @@ public class XSDSchemaImpl
         }
         return this;
       }
+      @Override
       public Object caseXSDAttributeDeclaration(XSDAttributeDeclaration xsdAttributeDeclaration)
       {
         if (getAttributeDeclarations().remove(xsdAttributeDeclaration))
@@ -1731,6 +1741,7 @@ public class XSDSchemaImpl
         }
         return this;
       }
+      @Override
       public Object caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition xsdAttributeGroupDefinition)
       {
         if (getAttributeGroupDefinitions().remove(xsdAttributeGroupDefinition))
@@ -1739,6 +1750,7 @@ public class XSDSchemaImpl
         }
         return this;
       }
+      @Override
       public Object caseXSDTypeDefinition(XSDTypeDefinition xsdTypeDefinition)
       {
         if (getTypeDefinitions().remove(xsdTypeDefinition))
@@ -1747,6 +1759,7 @@ public class XSDSchemaImpl
         }
         return this;
       }
+      @Override
       public Object caseXSDModelGroupDefinition(XSDModelGroupDefinition xsdModelGroupDefinition)
       {
         if (getModelGroupDefinitions().remove(xsdModelGroupDefinition))
@@ -1755,6 +1768,7 @@ public class XSDSchemaImpl
         }
         return this;
       }
+      @Override
       public Object caseXSDNotationDeclaration(XSDNotationDeclaration xsdNotationDeclaration)
       {
         if (getNotationDeclarations().remove(xsdNotationDeclaration))
@@ -1763,6 +1777,7 @@ public class XSDSchemaImpl
         }
         return this;
       }
+      @Override
       public Object caseXSDIdentityConstraintDefinition(XSDIdentityConstraintDefinition xsdIdentityConstraintDefinition)
       {
         if (getIdentityConstraintDefinitions().remove(xsdIdentityConstraintDefinition))
@@ -1774,43 +1789,51 @@ public class XSDSchemaImpl
     }.doSwitch(xsdNamedComponent);
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
     if (eReference == XSDPackage.Literals.XSD_SCHEMA__CONTENTS)
     {
-      new XSDSwitch()
+      new XSDSwitch<Object>()
       {
+        @Override
         public Object caseXSDElementDeclaration(XSDElementDeclaration xsdElementDeclaration)
         {
           XSDNamedComponentImpl.addToSortedList(getElementDeclarations(), xsdElementDeclaration);
           return this;
         }
+        @Override
         public Object caseXSDAttributeDeclaration(XSDAttributeDeclaration xsdAttributeDeclaration)
         {
           XSDNamedComponentImpl.addToSortedList(getAttributeDeclarations(), xsdAttributeDeclaration);
           return this;
         }
+        @Override
         public Object caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition xsdAttributeGroupDefinition)
         {
           XSDNamedComponentImpl.addToSortedList(getAttributeGroupDefinitions(), xsdAttributeGroupDefinition);
           return this;
         }
+        @Override
         public Object caseXSDTypeDefinition(XSDTypeDefinition xsdTypeDefinition)
         {
           XSDNamedComponentImpl.addToSortedList(getTypeDefinitions(), xsdTypeDefinition);
           return this;
         }
+        @Override
         public Object caseXSDModelGroupDefinition(XSDModelGroupDefinition xsdModelGroupDefinition)
         {
           XSDNamedComponentImpl.addToSortedList(getModelGroupDefinitions(), xsdModelGroupDefinition);
           return this;
         }
+        @Override
         public Object caseXSDNotationDeclaration(XSDNotationDeclaration xsdNotationDeclaration)
         {
           XSDNamedComponentImpl.addToSortedList(getNotationDeclarations(), xsdNotationDeclaration);
           return this;
         }
+        @Override
         public Object caseXSDAnnotation(XSDAnnotation xsdAnnotation)
         {
           getAnnotations().add(xsdAnnotation);
@@ -1822,43 +1845,51 @@ public class XSDSchemaImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
     if (eReference == XSDPackage.Literals.XSD_SCHEMA__CONTENTS)
     {
-      new XSDSwitch()
+      new XSDSwitch<Object>()
       {
+        @Override
         public Object caseXSDElementDeclaration(XSDElementDeclaration xsdElementDeclaration)
         {
           getElementDeclarations().remove(xsdElementDeclaration);
           return this;
         }
+        @Override
         public Object caseXSDAttributeDeclaration(XSDAttributeDeclaration xsdAttributeDeclaration)
         {
           getAttributeDeclarations().remove(xsdAttributeDeclaration);
           return this;
         }
+        @Override
         public Object caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition xsdAttributeGroupDefinition)
         {
           getAttributeGroupDefinitions().remove(xsdAttributeGroupDefinition);
           return this;
         }
+        @Override
         public Object caseXSDTypeDefinition(XSDTypeDefinition xsdTypeDefinition)
         {
           getTypeDefinitions().remove(xsdTypeDefinition);
           return this;
         }
+        @Override
         public Object caseXSDModelGroupDefinition(XSDModelGroupDefinition xsdModelGroupDefinition)
         {
           getModelGroupDefinitions().remove(xsdModelGroupDefinition);
           return this;
         }
+        @Override
         public Object caseXSDNotationDeclaration(XSDNotationDeclaration xsdNotationDeclaration)
         {
           getNotationDeclarations().remove(xsdNotationDeclaration);
           return this;
         }
+        @Override
         public Object caseXSDAnnotation(XSDAnnotation xsdAnnotation)
         {
           getAnnotations().remove(xsdAnnotation);
@@ -1870,6 +1901,7 @@ public class XSDSchemaImpl
     }
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -1945,7 +1977,7 @@ public class XSDSchemaImpl
         unsetFinalDefault();
       }
 
-      Map theQNamePrefixToNamespaceMap = getQNamePrefixToNamespaceMap();
+      Map<String, String> theQNamePrefixToNamespaceMap = getQNamePrefixToNamespaceMap();
       theQNamePrefixToNamespaceMap.clear();
       for (Element currentElement = changedElement; currentElement != null; ) 
       {
@@ -1982,7 +2014,8 @@ public class XSDSchemaImpl
     }
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     XSDSchemaContent xsdSchemaContent = XSDSchemaContentImpl.createSchemaContent(child);
     if (xsdSchemaContent != null)
@@ -1991,21 +2024,23 @@ public class XSDSchemaImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     if (!remainingContents.isEmpty())
     {
       getContents().removeAll(remainingContents);
     }
 
-    setListContentAndOrder(getContents(), newContents);
+    @SuppressWarnings("unchecked") List<XSDSchemaContent> list = (List<XSDSchemaContent>)(List<?>)newContents;
+    setListContentAndOrder(getContents(), list);
   }
 
   public XSDConcreteComponent getCorrespondingComponent(Node node)
   {
     // We consider all parents so that they can handle other contained nodes that otherwise don't correspond to a component.
     //
-    List parents = new ArrayList();
+    List<Element> parents = new ArrayList<Element>();
   
     if (node.getNodeType() == Node.ATTRIBUTE_NODE)
     {
@@ -2042,7 +2077,7 @@ public class XSDSchemaImpl
     {
       if (parent.getNodeType() == Node.ELEMENT_NODE)
       {
-        parents.add(parent);
+        parents.add((Element)parent);
       }
     }
 
@@ -2050,23 +2085,22 @@ public class XSDSchemaImpl
     return bestXSDConcreteComponent;
   }
 
-  protected Map simpleTypeIdMap;
-  public Map getSimpleTypeIdMap()
+  protected Map<String, XSDSimpleTypeDefinition> simpleTypeIdMap;
+  public Map<String, XSDSimpleTypeDefinition> getSimpleTypeIdMap()
   {
     if (simpleTypeIdMap == null)
     {
-      simpleTypeIdMap = new HashMap();
-      for (Iterator typeDefinitions = getTypeDefinitions().iterator(); typeDefinitions.hasNext(); )
+      simpleTypeIdMap = new HashMap<String, XSDSimpleTypeDefinition>();
+      for (XSDTypeDefinition xsdTypeDefinition : getTypeDefinitions())
       {
-        XSDTypeDefinition xsdTypeDefinition = (XSDTypeDefinition)typeDefinitions.next();
         if (xsdTypeDefinition  instanceof XSDSimpleTypeDefinition)
         {
           Element theElement = xsdTypeDefinition.getElement();
           if (theElement != null)
           {
-            if (theElement.hasAttributeNS(null, XSDConstants.ID_ATTRIBUTE))
+            if (theElement.hasAttributeNS(null, XSDConstants.ID_ATTRIBUTE) && xsdTypeDefinition instanceof XSDSimpleTypeDefinition)
             {
-              simpleTypeIdMap.put(theElement.getAttributeNS(null, XSDConstants.ID_ATTRIBUTE), xsdTypeDefinition);
+              simpleTypeIdMap.put(theElement.getAttributeNS(null, XSDConstants.ID_ATTRIBUTE), (XSDSimpleTypeDefinition)xsdTypeDefinition);
             }
           }
         }
@@ -2075,12 +2109,12 @@ public class XSDSchemaImpl
     return simpleTypeIdMap;
   }
 
-  protected List incorporatingSchemas;
+  protected List<XSDSchema> incorporatingSchemas;
   
   /**
    * This returns set of schemas with the given namespace as it's target namespace.
    */
-  public Collection resolveSchema(String namespace)
+  public Collection<XSDSchema> resolveSchema(String namespace)
   {
     if ("".equals(namespace))
     {
@@ -2091,16 +2125,15 @@ public class XSDSchemaImpl
     {
       if (incorporatingSchemas == null)
       {
-        List visited = new ArrayList();
+        List<XSDSchema> visited = new ArrayList<XSDSchema>();
         visited.add(this);
-        incorporatingSchemas = new ArrayList();
+        incorporatingSchemas = new ArrayList<XSDSchema>();
         incorporatingSchemas.add(this);
         for (int i = 0; i < visited.size(); ++i)
         {
           XSDSchemaImpl xsdSchema = (XSDSchemaImpl)visited.get(i);
-          for (Iterator j = xsdSchema.getReferencingDirectives().iterator(); j.hasNext(); )
+          for (XSDSchemaDirective xsdSchemaDirective : xsdSchema.getReferencingDirectives())
           {
-            XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)j.next(); 
             if (xsdSchemaDirective instanceof XSDSchemaCompositor && ((XSDSchemaCompositor)xsdSchemaDirective).getIncorporatedSchema() == xsdSchema)
             {
               XSDSchema incorporatingSchema = xsdSchemaDirective.getSchema();
@@ -2121,10 +2154,9 @@ public class XSDSchemaImpl
     }
     else
     {
-      Collection result = new ArrayList();
-      for (Iterator contents = getContents().iterator(); contents.hasNext(); )
+      Collection<XSDSchema> result = new ArrayList<XSDSchema>();
+      for (XSDSchemaContent xsdSchemaContent : getContents())
       {
-        XSDSchemaContent xsdSchemaContent = (XSDSchemaContent)contents.next();
         if (xsdSchemaContent instanceof XSDSchemaDirective)
         {
           if (xsdSchemaContent instanceof XSDImport)
@@ -2161,18 +2193,14 @@ public class XSDSchemaImpl
       namespace = null;
     }
 
-    Collection resolvedSchemas = resolveSchema(namespace);
-    for (Iterator i = resolvedSchemas.iterator(); i.hasNext(); )
+    Collection<XSDSchema> resolvedSchemas = resolveSchema(namespace);
+    for (XSDSchema resolvedSchema : resolvedSchemas)
     {
-      XSDSchema resolvedSchema = (XSDSchema)i.next();
-      XSDNamedComponent xsdNamedComponent = 
-        XSDNamedComponentImpl.findInSortedList
-          ((List)resolvedSchema.eGet(namedComponentsRefReference), namespace, localName);
+      @SuppressWarnings("unchecked") List<XSDNamedComponent> list = (List<XSDNamedComponent>)resolvedSchema.eGet(namedComponentsRefReference);
+      XSDNamedComponent xsdNamedComponent = XSDNamedComponentImpl.findInSortedList(list, namespace, localName);
       if (xsdNamedComponent == null && namespace == null && resolvedSchemas.contains(this) && resolvedSchema.getTargetNamespace() != null)
       {
-         xsdNamedComponent = 
-           XSDNamedComponentImpl.findInSortedList
-             ((List)resolvedSchema.eGet(namedComponentsRefReference), getTargetNamespace(), localName);
+        xsdNamedComponent = XSDNamedComponentImpl.findInSortedList(list, getTargetNamespace(), localName);
         
       }
       if (xsdNamedComponent != null)
@@ -2183,6 +2211,7 @@ public class XSDSchemaImpl
     return null;
   }
 
+  @Override
   public XSDAttributeDeclaration resolveAttributeDeclaration(String namespace, String localName)
   {
     XSDAttributeDeclaration result = 
@@ -2194,6 +2223,7 @@ public class XSDSchemaImpl
     return result;
   }
 
+  @Override
   public XSDAttributeGroupDefinition resolveAttributeGroupDefinition(String namespace, String localName)
   {
     XSDAttributeGroupDefinition result = 
@@ -2206,6 +2236,7 @@ public class XSDSchemaImpl
     return result;
   }
 
+  @Override
   public XSDElementDeclaration resolveElementDeclaration(String namespace, String localName)
   {
     XSDElementDeclaration result = 
@@ -2217,6 +2248,7 @@ public class XSDSchemaImpl
     return result;
   }
 
+  @Override
   public XSDTypeDefinition resolveTypeDefinition(String namespace, String localName)
   {
     XSDTypeDefinition result = 
@@ -2234,6 +2266,7 @@ public class XSDSchemaImpl
     return result;
   }
 
+  @Override
   public XSDSimpleTypeDefinition resolveSimpleTypeDefinition(String namespace, String localName)
   {
     XSDTypeDefinition xsdTypeDefinition = 
@@ -2249,7 +2282,7 @@ public class XSDSchemaImpl
           XSDSchema magicSchemaForSchema = getMagicSchemaForSchema(namespace);
           if (magicSchemaForSchema == this)
           {
-            EList typeDefinitions = magicSchemaForSchema.getTypeDefinitions();
+            EList<XSDTypeDefinition> typeDefinitions = magicSchemaForSchema.getTypeDefinitions();
             if (typeDefinitions.size() > 0)
             {
               result = (XSDSimpleTypeDefinition)typeDefinitions.get(0);
@@ -2275,6 +2308,7 @@ public class XSDSchemaImpl
     return result;
   }
 
+  @Override
   public XSDComplexTypeDefinition resolveComplexTypeDefinition(String namespace, String localName)
   {
     XSDTypeDefinition xsdTypeDefinition = 
@@ -2294,6 +2328,7 @@ public class XSDSchemaImpl
     return result;
   }
 
+  @Override
   public XSDModelGroupDefinition resolveModelGroupDefinition(String namespace, String localName)
   {
     XSDModelGroupDefinition result = 
@@ -2306,6 +2341,7 @@ public class XSDSchemaImpl
     return result;
   }
 
+  @Override
   public XSDIdentityConstraintDefinition resolveIdentityConstraintDefinition(String namespace, String localName)
   {
     XSDIdentityConstraintDefinition result = 
@@ -2317,6 +2353,7 @@ public class XSDSchemaImpl
     return result;
   }
 
+  @Override
   public XSDNotationDeclaration resolveNotationDeclaration(String namespace, String localName)
   {
     XSDNotationDeclaration result =
@@ -2328,6 +2365,7 @@ public class XSDSchemaImpl
     return result;
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     if (eAttribute == XSDPackage.Literals.XSD_SCHEMA__SCHEMA_LOCATION)
@@ -2361,9 +2399,8 @@ public class XSDSchemaImpl
           {
             if (!isReconciling && isIncrementalUpdate)
             {
-              for (Iterator i = getContents().iterator(); i.hasNext(); )
+              for (Object content : getContents())
               {
-                Object content = i.next();
                 if (content instanceof XSDNamedComponentImpl)
                 {
                   ((XSDNamedComponentImpl)content).patchTargetNamespaceAttribute();
@@ -2421,15 +2458,15 @@ public class XSDSchemaImpl
     }
   }
 
+  @Override
   protected void changeReference(EReference eReference)
   {
     super.changeReference(eReference);
     if (eReference == XSDPackage.Literals.XSD_SCHEMA__REFERENCING_DIRECTIVES)
     {
       boolean newHasRetargetedNamespace = false;
-      for (Iterator i = getReferencingDirectives().iterator(); i.hasNext(); )
+      for (XSDSchemaDirective xsdSchemaDirective : getReferencingDirectives())
       {
-        XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
         if (xsdSchemaDirective instanceof XSDSchemaCompositor)
         {
           XSDSchemaCompositor xsdSchemaCompositor = (XSDSchemaCompositor)xsdSchemaDirective;
@@ -2460,6 +2497,7 @@ public class XSDSchemaImpl
   }
 */
 
+  @Override
   public void setElement(Element element)
   {
     Element oldElement = getElement();
@@ -2494,6 +2532,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -2511,6 +2550,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -2570,6 +2610,8 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -2657,6 +2699,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -2730,6 +2773,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -2789,6 +2833,7 @@ public class XSDSchemaImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -2829,8 +2874,11 @@ public class XSDSchemaImpl
 
   private static class DummyEventListener implements EventListener, Serializable
   {
+    private static final long serialVersionUID = 1L;
+
     public void handleEvent(Event arg0)
     {
+      // Ignore.
     }
   }
 
@@ -2840,6 +2888,8 @@ public class XSDSchemaImpl
     {
       class XSDSchemaEventListener implements EventListener, Serializable
       {
+        private static final long serialVersionUID = 1L;
+
         public void handleEvent(Event event) 
         {
           if (event instanceof MutationEvent)
@@ -2885,7 +2935,7 @@ public class XSDSchemaImpl
         {
           return new DummyEventListener();
         }
-      };
+      }
       eventListener = new XSDSchemaEventListener();
     }
     return eventListener;
@@ -2925,6 +2975,7 @@ public class XSDSchemaImpl
     forceResolve = false;
   }
 
+  @Override
   public void reset()
   {
     super.reset();
@@ -2944,11 +2995,11 @@ public class XSDSchemaImpl
     forceResolve = false;
   }
 
-  protected void reset(List components)
+  protected void reset(List<? extends XSDConcreteComponent> components)
   {
-    for (Iterator i = components.iterator(); i.hasNext(); )
+    for (Iterator<? extends XSDConcreteComponent> i = components.iterator(); i.hasNext(); )
     {
-      XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)i.next();
+      XSDConcreteComponent xsdConcreteComponent = i.next();
       if (xsdConcreteComponent.getSchema() != this)
       {
         i.remove();
@@ -2962,19 +3013,19 @@ public class XSDSchemaImpl
     return pendingSchemaLocation;
   }
 
-  protected List schemasToRedefine;
-  public List getSchemasToRedefine()
+  protected List<XSDSchemaImpl> schemasToRedefine;
+  public List<XSDSchemaImpl> getSchemasToRedefine()
   {
     if (schemasToRedefine == null)
     {
-      schemasToRedefine = new UniqueEList();
+      schemasToRedefine = new UniqueEList<XSDSchemaImpl>();
       schemasToRedefine.add(this);
     }
     return schemasToRedefine;
   }
 
-  protected Map redefinitionMap = new HashMap();
-  public Map getRedefinitionMap()
+  protected Map<XSDComponent, XSDComponent> redefinitionMap = new HashMap<XSDComponent, XSDComponent>();
+  public Map<XSDComponent, XSDComponent> getRedefinitionMap()
   {
     return redefinitionMap;
   }
@@ -3016,14 +3067,13 @@ public class XSDSchemaImpl
     if (redefiningSchema != this &&
           (getTargetNamespace() == null || getTargetNamespace().equals(redefiningSchema.getTargetNamespace())))
     {
-      for (Iterator incorporatedVersions = getIncorporatedVersions().iterator(); incorporatedVersions.hasNext(); )
+      for (XSDSchema incorporatedVersion : getIncorporatedVersions())
       {
-        XSDSchema incorporatedVersion = (XSDSchema)incorporatedVersions.next();
         if (incorporatedVersion.getTargetNamespace() == null ? 
               redefiningSchema.getTargetNamespace() == null :
               incorporatedVersion.getTargetNamespace().equals(redefiningSchema.getTargetNamespace()))
         {
-          for (Iterator i = incorporatedVersion.getReferencingDirectives().iterator(); i.hasNext(); )
+          for (Iterator<?> i = incorporatedVersion.getReferencingDirectives().iterator(); i.hasNext(); )
           {
             i.next();
             // This was commented out to fix 72109, i.e., to prevent stack overflow.
@@ -3051,7 +3101,7 @@ public class XSDSchemaImpl
 
       // Change includes to redefines so that clones are created.
       //
-      for (ListIterator i = redefinedSchema.getContents().listIterator(); i.hasNext(); )
+      for (ListIterator<XSDSchemaContent> i = redefinedSchema.getContents().listIterator(); i.hasNext(); )
       {
         Object component = i.next();
         if (component instanceof XSDInclude)
@@ -3083,9 +3133,9 @@ public class XSDSchemaImpl
     {
       if (includingSchema.getTargetNamespace() != null && getTargetNamespace() == null)
       {
-        for (Iterator incorporatedVersions = getIncorporatedVersions().iterator(); incorporatedVersions.hasNext(); )
+        for (XSDSchema xsdSchema : getIncorporatedVersions())
         {
-          XSDSchemaImpl incorporatedVersion = (XSDSchemaImpl)incorporatedVersions.next();
+          XSDSchemaImpl incorporatedVersion = (XSDSchemaImpl)xsdSchema;
           if (includingSchema.getTargetNamespace().equals(incorporatedVersion.getTargetNamespace()))
           {
             if (incorporatedVersion.getReferencingDirectives().isEmpty())
@@ -3093,9 +3143,8 @@ public class XSDSchemaImpl
               incorporatedVersion.incorporate(xsdInclude);
               return incorporatedVersion;
             }
-            for (Iterator i = incorporatedVersion.getReferencingDirectives().iterator(); i.hasNext(); )
+            for (XSDSchemaDirective xsdSchemaDirective : incorporatedVersion.getReferencingDirectives())
             {
-              XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)i.next();
               if (xsdSchemaDirective instanceof XSDInclude)
               {
                 incorporatedVersion.incorporate(xsdInclude);
@@ -3133,9 +3182,8 @@ public class XSDSchemaImpl
 
     if (getPendingSchemaLocation() != null)
     {
-      for (Iterator i = getContents().iterator(); i.hasNext(); )
+      for (Object component : getContents())
       {
-        Object component = i.next();
         if (component instanceof XSDSchemaDirective)
         {
           ((XSDConcreteComponentImpl)component).patch();
@@ -3145,16 +3193,16 @@ public class XSDSchemaImpl
 
     if (xsdSchemaCompositor instanceof XSDRedefine)
     {
-      XSDSwitch xsdSwitch =
-        new XSDSwitch()
+      XSDSwitch<Object> xsdSwitch =
+        new XSDSwitch<Object>()
         {
+          @Override
           public Object caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition xsdAttributeGroupDefinition)
           {
             XSDAttributeGroupDefinition redefinedAttributeGroupDefinition = 
               resolveAttributeGroupDefinition(xsdAttributeGroupDefinition.getName());
-            for (Iterator i = getSchemasToRedefine().iterator(); i.hasNext(); )
+            for (XSDSchemaImpl schemaToRedefine : getSchemasToRedefine())
             {
-              XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
               int index = schemaToRedefine.getAttributeGroupDefinitions().indexOf(redefinedAttributeGroupDefinition);
               if (index != -1)
               {
@@ -3164,13 +3212,13 @@ public class XSDSchemaImpl
             }
             return this;
           }
+          @Override
           public Object caseXSDSimpleTypeDefinition(XSDSimpleTypeDefinition xsdSimpleTypeDefinition)
           {
             XSDSimpleTypeDefinition redefinedSimpleTypeDefinition = 
               resolveSimpleTypeDefinition(xsdSimpleTypeDefinition.getName());
-            for (Iterator i = getSchemasToRedefine().iterator(); i.hasNext(); )
+            for (XSDSchemaImpl schemaToRedefine : getSchemasToRedefine())
             {
-              XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
               int index = schemaToRedefine.getTypeDefinitions().indexOf(redefinedSimpleTypeDefinition);
               if (index != -1)
               {
@@ -3180,15 +3228,15 @@ public class XSDSchemaImpl
             }
             return this;
           }
+          @Override
           public Object caseXSDComplexTypeDefinition(XSDComplexTypeDefinition xsdComplexTypeDefinition)
           {
             XSDComplexTypeDefinition redefinedComplexTypeDefinition = 
               resolveComplexTypeDefinition(xsdComplexTypeDefinition.getName());
             if (xsdComplexTypeDefinition != redefinedComplexTypeDefinition)
             {
-              for (Iterator i = getSchemasToRedefine().iterator(); i.hasNext(); )
+              for (XSDSchemaImpl schemaToRedefine : getSchemasToRedefine())
               {
-                XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
                 int index = schemaToRedefine.getTypeDefinitions().indexOf(redefinedComplexTypeDefinition);
                 if (index != -1)
                 {
@@ -3199,13 +3247,13 @@ public class XSDSchemaImpl
             }
             return this;
           }
+          @Override
           public Object caseXSDModelGroupDefinition(XSDModelGroupDefinition xsdModelGroupDefinition)
           {
             XSDModelGroupDefinition redefinedModelGroupDefinition = 
               resolveModelGroupDefinition(xsdModelGroupDefinition.getName());
-            for (Iterator i = getSchemasToRedefine().iterator(); i.hasNext(); )
+            for (XSDSchemaImpl schemaToRedefine : getSchemasToRedefine())
             {
-              XSDSchemaImpl schemaToRedefine = (XSDSchemaImpl)i.next();
               int index = schemaToRedefine.getModelGroupDefinitions().indexOf(redefinedModelGroupDefinition);
               if (index != -1)
               {
@@ -3217,9 +3265,9 @@ public class XSDSchemaImpl
           }
         };
 
-      for (Iterator contents = ((XSDRedefine)xsdSchemaCompositor).getContents().iterator(); contents.hasNext(); )
+      for (XSDRedefineContent xsdRedefineContent : ((XSDRedefine)xsdSchemaCompositor).getContents())
       {
-        xsdSwitch.doSwitch((XSDRedefineContent)contents.next());
+        xsdSwitch.doSwitch(xsdRedefineContent);
       }
     }
 
@@ -3238,6 +3286,7 @@ public class XSDSchemaImpl
     ((XSDSchemaImpl)redefiningSchema).getRedefinitionMap().putAll(getRedefinitionMap());
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDSchemaImpl clonedSchema = (XSDSchemaImpl)getXSDFactory().createXSDSchema();

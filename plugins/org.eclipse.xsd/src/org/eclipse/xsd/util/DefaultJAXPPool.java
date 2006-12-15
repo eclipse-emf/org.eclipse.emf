@@ -39,11 +39,11 @@ import org.xml.sax.ext.LexicalHandler;
 public class DefaultJAXPPool implements JAXPPool
 {
 
-  private final List documentBuilderCache = new ArrayList();
+  private final List<DocumentBuilder> documentBuilderCache = new ArrayList<DocumentBuilder>();
 
-  private final List transformerCache = new ArrayList();
+  private final List<Transformer> transformerCache = new ArrayList<Transformer>();
 
-  private final List saxParserCache = new ArrayList();
+  private final List<SAXParser> saxParserCache = new ArrayList<SAXParser>();
 
   private final JAXPConfiguration configuration;
 
@@ -69,7 +69,7 @@ public class DefaultJAXPPool implements JAXPPool
     int size = documentBuilderCache.size();
     if (size > 0)
     {
-      return (DocumentBuilder)documentBuilderCache.remove(size - 1);
+      return documentBuilderCache.remove(size - 1);
     }
     else
     {
@@ -90,7 +90,7 @@ public class DefaultJAXPPool implements JAXPPool
     int size = saxParserCache.size();
     if (size > 0)
     {
-      return (SAXParser)saxParserCache.remove(size - 1);
+      return saxParserCache.remove(size - 1);
     }
     else
     {
@@ -111,7 +111,7 @@ public class DefaultJAXPPool implements JAXPPool
     int size = transformerCache.size();
     if (size > 0)
     {
-      return (Transformer)transformerCache.remove(size - 1);
+      return transformerCache.remove(size - 1);
     }
     else
     {

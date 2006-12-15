@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.22 2006/12/11 16:15:42 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionImpl.java,v 1.23 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -227,7 +227,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated NOT
    * @ordered
    */
-  protected EcoreEList facetContents = null;
+  protected EcoreEList<XSDConstrainingFacet> facetContents = null;
 
   /**
    * The cached value of the '{@link #getFacets() <em>Facets</em>}' reference list.
@@ -237,7 +237,7 @@ public class XSDSimpleTypeDefinitionImpl
    * @generated NOT
    * @ordered
    */
-  protected EcoreEList facets = null;
+  protected EcoreEList<XSDConstrainingFacet> facets = null;
 
   /**
    * The cached value of the '{@link #getMemberTypeDefinitions() <em>Member Type Definitions</em>}' reference list.
@@ -330,6 +330,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION;
@@ -586,6 +587,7 @@ public class XSDSimpleTypeDefinitionImpl
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_SIMPLE_TYPE_DEFINITION__ITEM_TYPE_DEFINITION, oldItemTypeDefinition, itemTypeDefinition));
   }
 
+  @Override
   public Element createElement()
   {
     XSDComplexTypeDefinition xsdComplexTypeDefinition =
@@ -635,6 +637,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
   }
 
+  @Override
   protected void patch()
   {
     super.patch();
@@ -664,9 +667,10 @@ public class XSDSimpleTypeDefinitionImpl
         }
         else
         {
-          for (ListIterator theMemberTypeDefinitions = getMemberTypeDefinitions().listIterator(); theMemberTypeDefinitions.hasNext(); )
+          for (ListIterator<XSDSimpleTypeDefinition> theMemberTypeDefinitions = getMemberTypeDefinitions().listIterator(); 
+               theMemberTypeDefinitions.hasNext(); )
           {
-            XSDSimpleTypeDefinition theMemberTypeDefinition = (XSDSimpleTypeDefinition)theMemberTypeDefinitions.next();
+            XSDSimpleTypeDefinition theMemberTypeDefinition = theMemberTypeDefinitions.next();
             if (forceResolve || theMemberTypeDefinition.getContainer() == null)
             {
               XSDSimpleTypeDefinition newMemberTypeDefinition = 
@@ -691,12 +695,11 @@ public class XSDSimpleTypeDefinitionImpl
     XSDSchema xsdSchema = getSchema();
     if (xsdSchema != null)
     {
-      List newFinal = new ArrayList();
+      List<XSDSimpleFinal> newFinal = new ArrayList<XSDSimpleFinal>();
       if (!isSetLexicalFinal())
       {
-        for (Iterator values = xsdSchema.getFinalDefault().iterator(); values.hasNext(); )
+        for (XSDProhibitedSubstitutions value : xsdSchema.getFinalDefault())
         {
-          XSDProhibitedSubstitutions value = (XSDProhibitedSubstitutions)values.next();
           switch (value.getValue())
           {
             case XSDProhibitedSubstitutions.ALL:
@@ -716,9 +719,8 @@ public class XSDSimpleTypeDefinitionImpl
       }
       else
       {
-        for (Iterator values = getLexicalFinal().iterator(); values.hasNext(); )
+        for (XSDSimpleFinal value : getLexicalFinal())
         {
-          XSDSimpleFinal value = (XSDSimpleFinal)values.next();
           switch (value.getValue())
           {
             case XSDSimpleFinal.ALL:
@@ -737,7 +739,7 @@ public class XSDSimpleTypeDefinitionImpl
         }
       }
 
-      Collection oldFinal = new ArrayList(getFinal());
+      Collection<XSDSimpleFinal> oldFinal = new ArrayList<XSDSimpleFinal>(getFinal());
       oldFinal.removeAll(newFinal);
       if (!oldFinal.isEmpty())
       {
@@ -748,6 +750,7 @@ public class XSDSimpleTypeDefinitionImpl
   }
 
   protected XSDWhiteSpaceFacet effectiveWhiteSpaceFacet;
+  @Override
   protected void handleAnalysis()
   {
     XSDSimpleTypeDefinition theBaseTypeDefinition = getBaseTypeDefinition();
@@ -772,14 +775,14 @@ public class XSDSimpleTypeDefinitionImpl
       createFundamentalFacets();
     }
 
-    List newFacets = null;
+    List<XSDConstrainingFacet> newFacets = null;
     boolean newBounded = false;
     XSDCardinality newCardinality = XSDCardinality.FINITE_LITERAL;
     boolean newNumeric = false;
     XSDOrdered newOrdered = XSDOrdered.FALSE_LITERAL;
     XSDSimpleTypeDefinition newPrimitiveTypeDefinition = null;
     XSDVariety newVariety = null;
-    EList newValidFacets = null;
+    EList<String> newValidFacets = null;
 
     if (theBaseTypeDefinition != null && theBaseTypeDefinition.getContainer() != null)
     {
@@ -812,8 +815,8 @@ public class XSDSimpleTypeDefinitionImpl
           }
           else if (XSDVariety.UNION_LITERAL == theBaseTypeDefinition.getVariety())
           {
-            List newMemberTypeDefinitions = theBaseTypeDefinition.getMemberTypeDefinitions();
-            List remainingMemberTypeDefinitions = new ArrayList(getMemberTypeDefinitions());
+            List<XSDSimpleTypeDefinition> newMemberTypeDefinitions = theBaseTypeDefinition.getMemberTypeDefinitions();
+            List<XSDSimpleTypeDefinition> remainingMemberTypeDefinitions = new ArrayList<XSDSimpleTypeDefinition>(getMemberTypeDefinitions());
             remainingMemberTypeDefinitions.removeAll(newMemberTypeDefinitions);
             if (!remainingMemberTypeDefinitions.isEmpty())
             {
@@ -827,17 +830,17 @@ public class XSDSimpleTypeDefinitionImpl
         }
         else
         {
-          newFacets = new ArrayList(getFacetContents());
+          newFacets = new ArrayList<XSDConstrainingFacet>(getFacetContents());
         }
       }
       else
       {
-        newFacets = new ArrayList(getFacetContents());
+        newFacets = new ArrayList<XSDConstrainingFacet>(getFacetContents());
       }
     }
     else
     {
-      newFacets = new ArrayList(getFacetContents());
+      newFacets = new ArrayList<XSDConstrainingFacet>(getFacetContents());
     }
 
     if (theBaseTypeDefinition == null || XSDConstants.isURType(theBaseTypeDefinition))
@@ -866,9 +869,8 @@ public class XSDSimpleTypeDefinitionImpl
         newVariety = XSDVariety.UNION_LITERAL;
         newPrimitiveTypeDefinition = null;
         newNumeric = true;
-        for (ListIterator theMemberTypeDefinitions = getMemberTypeDefinitions().listIterator(); theMemberTypeDefinitions.hasNext(); )
+        for (XSDSimpleTypeDefinition theMemberTypeDefinition : getMemberTypeDefinitions())
         {
-          XSDSimpleTypeDefinition theMemberTypeDefinition = (XSDSimpleTypeDefinition)theMemberTypeDefinitions.next();
           if (theMemberTypeDefinition.getContainer() != null)
           {
             ((XSDTypeDefinitionImpl)theMemberTypeDefinition).analyze();
@@ -942,11 +944,8 @@ public class XSDSimpleTypeDefinitionImpl
     XSDAnnotation theAnnotation = getAnnotation();
     if (theAnnotation != null)
     {
-      for (Iterator applicationInformationElements = theAnnotation.getApplicationInformation().iterator(); 
-           applicationInformationElements.hasNext(); )
+      for (Element applicationInformationElement :  theAnnotation.getApplicationInformation())
       {
-        Element applicationInformationElement = (Element)applicationInformationElements.next();
-
         for (Node child = applicationInformationElement.getFirstChild(); child != null; child = child.getNextSibling())
         {
           switch (XSDConstants.hfpNodeType(child))
@@ -958,7 +957,7 @@ public class XSDSimpleTypeDefinitionImpl
               if (firstHFP )
               {
                 firstHFP = false;
-                newValidFacets = new BasicEList();
+                newValidFacets = new BasicEList<String>();
               }
 
               newValidFacets.add(facetName);
@@ -1030,7 +1029,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
     else
     {
-      List remainingFacets = new ArrayList(getFacets());
+      List<XSDFacet> remainingFacets = new ArrayList<XSDFacet>(getFacets());
       remainingFacets.removeAll(newFacets);
       getFacets().removeAll(remainingFacets);
       if (!newFacets.isEmpty())
@@ -1048,7 +1047,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
     else
     {
-      List remainingValidFacets = new ArrayList(getValidFacets());
+      List<String> remainingValidFacets = new ArrayList<String>(getValidFacets());
       remainingValidFacets.removeAll(newValidFacets);
       getValidFacets().removeAll(remainingValidFacets);
       if (!newValidFacets.isEmpty())
@@ -1058,6 +1057,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -1456,9 +1456,8 @@ public class XSDSimpleTypeDefinitionImpl
           }
           else
           {
-            for (Iterator memberTypeDefinitions = getMemberTypeDefinitions().iterator(); memberTypeDefinitions.hasNext(); )
+            for (XSDSimpleTypeDefinition theMemberTypeDefinition : getMemberTypeDefinitions())
             {
-              XSDSimpleTypeDefinition theMemberTypeDefinition = (XSDSimpleTypeDefinition)memberTypeDefinitions.next();
               if (theMemberTypeDefinition == null)
               {
                 createDiagnostic(XSDDiagnosticSeverity.ERROR_LITERAL, "_UI_UnresolvedTypeDefinition_message", "");
@@ -1503,6 +1502,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     switch (XSDConstants.nodeType(changedElement))
@@ -1566,7 +1566,7 @@ public class XSDSimpleTypeDefinitionImpl
       }
       case XSDConstants.UNION_ELEMENT:
       {
-        List newMemberTypeDefinitions = new ArrayList();
+        List<XSDSimpleTypeDefinition> newMemberTypeDefinitions = new ArrayList<XSDSimpleTypeDefinition>();
         if (changedElement.hasAttributeNS(null, XSDConstants.MEMBERTYPES_ATTRIBUTE))
         {
           String memberTypes = changedElement.getAttributeNS(null, XSDConstants.MEMBERTYPES_ATTRIBUTE);
@@ -1584,7 +1584,7 @@ public class XSDSimpleTypeDefinitionImpl
 
         newMemberTypeDefinitions.addAll(getContents());
 
-        List remainingMemberTypeDefinitions = new ArrayList(getMemberTypeDefinitions());
+        List<XSDSimpleTypeDefinition> remainingMemberTypeDefinitions = new ArrayList<XSDSimpleTypeDefinition>(getMemberTypeDefinitions());
         remainingMemberTypeDefinitions.removeAll(newMemberTypeDefinitions);
         getMemberTypeDefinitions().removeAll(remainingMemberTypeDefinitions);
         if (!newMemberTypeDefinitions.isEmpty())
@@ -1675,6 +1675,7 @@ public class XSDSimpleTypeDefinitionImpl
     return newBaseTypeDefinition;
   }
 
+  @Override
   protected Node getAdoptionParentNode(EReference eReference)
   {
     if (eReference == XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__FACET_CONTENTS ||
@@ -1699,16 +1700,17 @@ public class XSDSimpleTypeDefinitionImpl
     return super.getAdoptionParentNode(eReference);
   }
 
-  protected Collection getContentNodes(Element changedElement)
+  @Override
+  protected Collection<Element> getContentNodes(Element changedElement)
   {
-    Collection result = new ArrayList();
+    Collection<Element> result = new ArrayList<Element>();
     for (Node child = getElement().getFirstChild(); child != null; child = child.getNextSibling())
     {
       switch (XSDConstants.nodeType(child))
       {
         case XSDConstants.ANNOTATION_ELEMENT:
         {
-          result.add(child);
+          result.add((Element)child);
           break;
         }
         case XSDConstants.EXTENSION_ELEMENT:
@@ -1720,7 +1722,7 @@ public class XSDSimpleTypeDefinitionImpl
           {
             if (grandChild.getNodeType() == Node.ELEMENT_NODE)
             {
-              result.add(grandChild);
+              result.add((Element)grandChild);
             }
           }
           break;
@@ -1730,7 +1732,8 @@ public class XSDSimpleTypeDefinitionImpl
     return result;
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     switch (XSDConstants.nodeType(child))
     {
@@ -1760,9 +1763,10 @@ public class XSDSimpleTypeDefinitionImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
-    if (!newContents.isEmpty() && ((XSDConcreteComponent)newContents.get(0)).getElement().getParentNode() == getElement())
+    if (!newContents.isEmpty() && newContents.get(0).getElement().getParentNode() == getElement())
     {
       handleAnnotationReconciliation(XSDPackage.Literals.XSD_TYPE_DEFINITION__ANNOTATION, newContents, remainingContents);
     }
@@ -1785,7 +1789,7 @@ public class XSDSimpleTypeDefinitionImpl
           XSDSimpleTypeDefinition newItemTypeDefinition = null;
           if (!newContents.isEmpty())
           {
-            XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)newContents.get(0);
+            XSDConcreteComponent xsdConcreteComponent = newContents.get(0);
             if (xsdConcreteComponent instanceof XSDSimpleTypeDefinition)
             {
               newItemTypeDefinition = (XSDSimpleTypeDefinition)xsdConcreteComponent;
@@ -1820,7 +1824,7 @@ public class XSDSimpleTypeDefinitionImpl
         case XSDConstants.UNION_ELEMENT:
         {
           Element elementChild = (Element)child;
-          List newMemberTypeDefinitions = new ArrayList();
+          List<XSDSimpleTypeDefinition> newMemberTypeDefinitions = new ArrayList<XSDSimpleTypeDefinition>();
           if (elementChild.hasAttributeNS(null, XSDConstants.MEMBERTYPES_ATTRIBUTE))
           {
             String memberTypes = elementChild.getAttributeNS(null, XSDConstants.MEMBERTYPES_ATTRIBUTE);
@@ -1836,14 +1840,15 @@ public class XSDSimpleTypeDefinitionImpl
             }
           }
 
-          List newTypeContents = new ArrayList();
-          for (ListIterator i = newContents.listIterator(); i.hasNext(); )
+          List<XSDSimpleTypeDefinition> newTypeContents = new ArrayList<XSDSimpleTypeDefinition>();
+          for (ListIterator<XSDConcreteComponent> i = newContents.listIterator(); i.hasNext(); )
           {
-            XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)i.next();
+            XSDConcreteComponent xsdConcreteComponent = i.next();
             if (xsdConcreteComponent instanceof XSDSimpleTypeDefinition)
             {
-              newTypeContents.add(xsdConcreteComponent);
-              newMemberTypeDefinitions.add(xsdConcreteComponent);
+              XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)xsdConcreteComponent;
+              newTypeContents.add(xsdSimpleTypeDefinition);
+              newMemberTypeDefinitions.add(xsdSimpleTypeDefinition);
               i.remove();
             }
             else
@@ -1858,7 +1863,7 @@ public class XSDSimpleTypeDefinitionImpl
             setListContentAndOrder(getContents(), newTypeContents);
           }
 
-          List remainingMemberTypeDefinitions = new ArrayList(getMemberTypeDefinitions());
+          List<XSDSimpleTypeDefinition> remainingMemberTypeDefinitions = new ArrayList<XSDSimpleTypeDefinition>(getMemberTypeDefinitions());
           remainingMemberTypeDefinitions.removeAll(newMemberTypeDefinitions);
           if (!remainingMemberTypeDefinitions.isEmpty())
           {
@@ -1878,10 +1883,11 @@ public class XSDSimpleTypeDefinitionImpl
           Element elementChild = (Element)child;
           if (!newContents.isEmpty())
           {
-            XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)newContents.get(0);
+            XSDConcreteComponent xsdConcreteComponent = newContents.get(0);
             if (xsdConcreteComponent instanceof XSDSimpleTypeDefinition)
             {
-              List theContents = getContents();
+              XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)xsdConcreteComponent;
+              List<XSDSimpleTypeDefinition> theContents = getContents();
               if (theContents.size() != 1 || theContents.get(0) != xsdConcreteComponent)
               {
                 if (!theContents.isEmpty())
@@ -1889,9 +1895,9 @@ public class XSDSimpleTypeDefinitionImpl
                   remainingContents.removeAll(theContents);
                   theContents.clear();
                 }
-                theContents.add(xsdConcreteComponent);
+                theContents.add(xsdSimpleTypeDefinition);
               }
-              newBaseTypeDefinition = (XSDSimpleTypeDefinition)xsdConcreteComponent;
+              newBaseTypeDefinition = xsdSimpleTypeDefinition;
               newContents.remove(0);
             }
           }
@@ -1931,20 +1937,22 @@ public class XSDSimpleTypeDefinitionImpl
 
     if (!newContents.isEmpty())
     {
-      for (Iterator i = newContents.iterator(); i.hasNext(); )
+      for (Iterator<?> i = newContents.iterator(); i.hasNext(); )
       {
         if (!(i.next() instanceof XSDFacet))
         {
           i.remove();
         }
       }
-      setListContentAndOrder(getFacetContents(), newContents);
+      @SuppressWarnings("unchecked") List<XSDConstrainingFacet> list = (List<XSDConstrainingFacet>)(List<?>)newContents;
+      setListContentAndOrder(getFacetContents(), list);
     }
 
     handleNewBaseTypeDefinition(newBaseTypeDefinition);
     handleNewComplexBaseTypeDefinition(newComplexBaseTypeDefinition);
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -1995,6 +2003,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
   }
 
+  @Override
   protected void changeReference(EReference eReference)
   {
     super.changeReference(eReference);
@@ -2070,9 +2079,8 @@ public class XSDSimpleTypeDefinitionImpl
               case XSDConstants.UNION_ELEMENT:
               {
                 StringBuffer newMemberTypeDefinitions = null;
-                for (ListIterator theMemberTypeDefinitions = getMemberTypeDefinitions().listIterator(); theMemberTypeDefinitions.hasNext(); )
+                for (XSDSimpleTypeDefinition theMemberTypeDefinition : getMemberTypeDefinitions())
                 {
-                  XSDSimpleTypeDefinition theMemberTypeDefinition = (XSDSimpleTypeDefinition)theMemberTypeDefinitions.next();
                   if (getContents().contains(theMemberTypeDefinition))
                   {
                     break;
@@ -2101,6 +2109,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
@@ -2119,6 +2128,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
@@ -2459,6 +2469,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -2480,6 +2491,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -2577,6 +2589,8 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -2638,6 +2652,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -2690,6 +2705,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -2787,6 +2803,7 @@ public class XSDSimpleTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -2838,9 +2855,9 @@ public class XSDSimpleTypeDefinitionImpl
     return null;
   }
 
-  public EList getEnumerationFacets()
+  public EList<XSDEnumerationFacet> getEnumerationFacets()
   {
-    EList result = new BasicEList();
+    EList<XSDEnumerationFacet> result = new BasicEList<XSDEnumerationFacet>();
     if (facetContents != null)
     {
       Object [] facets = facetContents.data();
@@ -2849,12 +2866,12 @@ public class XSDSimpleTypeDefinitionImpl
         Object facet = facets[i];
         if (facet instanceof XSDEnumerationFacet)
         {
-          result.add(facet);
+          result.add((XSDEnumerationFacet)facet);
         }
       }
     }
     return 
-      new EcoreEList.UnmodifiableEList.FastCompare
+      new EcoreEList.UnmodifiableEList.FastCompare<XSDEnumerationFacet>
         (this, XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__ENUMERATION_FACETS, result.size(), result.toArray());
   }
 
@@ -2875,9 +2892,9 @@ public class XSDSimpleTypeDefinitionImpl
     return null;
   }
 
-  public EList getPatternFacets()
+  public EList<XSDPatternFacet> getPatternFacets()
   {
-    EList result = new BasicEList();
+    EList<XSDPatternFacet> result = new BasicEList<XSDPatternFacet>();
     if (facetContents != null)
     {
       Object [] facets = facetContents.data();
@@ -2886,12 +2903,12 @@ public class XSDSimpleTypeDefinitionImpl
         Object facet = facets[i];
         if (facet instanceof XSDPatternFacet)
         {
-          result.add(facet);
+          result.add((XSDPatternFacet)facet);
         }
       }
     }
     return 
-      new EcoreEList.UnmodifiableEList.FastCompare
+      new EcoreEList.UnmodifiableEList.FastCompare<XSDPatternFacet>
         (this, XSDPackage.Literals.XSD_SIMPLE_TYPE_DEFINITION__PATTERN_FACETS, result.size(), result.toArray());
   }
 
@@ -2954,12 +2971,12 @@ public class XSDSimpleTypeDefinitionImpl
 
   protected void createFundamentalFacets()
   {
-    List theFundamentalFacets = getFundamentalFacets();
+    List<XSDFundamentalFacet> theFundamentalFacets = getFundamentalFacets();
     boundedFacet = getXSDFactory().createXSDBoundedFacet();
     cardinalityFacet = getXSDFactory().createXSDCardinalityFacet();
     numericFacet = getXSDFactory().createXSDNumericFacet();
     orderedFacet = getXSDFactory().createXSDOrderedFacet();
-    List list = new ArrayList(4);
+    List<XSDFundamentalFacet> list = new ArrayList<XSDFundamentalFacet>(4);
     list.add(boundedFacet);
     list.add(cardinalityFacet);
     list.add(numericFacet);
@@ -2967,12 +2984,12 @@ public class XSDSimpleTypeDefinitionImpl
     theFundamentalFacets.addAll(list);
   }
 
-  protected static EList validFacetsForList;
-  public EList getValidFacetsForList()
+  protected static EList<String> validFacetsForList;
+  public EList<String> getValidFacetsForList()
   {
     if (validFacetsForList == null)
     {
-      validFacetsForList = new BasicEList();
+      validFacetsForList = new BasicEList<String>();
       validFacetsForList.add("length");
       validFacetsForList.add("maxLength");
       validFacetsForList.add("minLength");
@@ -2983,18 +3000,19 @@ public class XSDSimpleTypeDefinitionImpl
     return validFacetsForList;
   }
 
-  protected static EList validFacetsForUnion;
-  public EList getValidFacetsForUnion()
+  protected static EList<String> validFacetsForUnion;
+  public EList<String> getValidFacetsForUnion()
   {
     if (validFacetsForUnion == null)
     {
-      validFacetsForUnion = new BasicEList();
+      validFacetsForUnion = new BasicEList<String>();
       validFacetsForUnion.add("enumeration");
       validFacetsForUnion.add("pattern");
     }
     return validFacetsForUnion;
   }
 
+  @Override
   public XSDTypeDefinition getBaseType()
   {
     XSDTypeDefinition result = getBaseTypeDefinition();
@@ -3010,6 +3028,7 @@ public class XSDSimpleTypeDefinitionImpl
     return result;
   }
 
+  @Override
   public XSDTypeDefinition getRootType()
   {
     return getRootTypeDefinition();
@@ -3030,11 +3049,13 @@ public class XSDSimpleTypeDefinitionImpl
     return result;
   }
 
+  @Override
   public XSDSimpleTypeDefinition getSimpleType()
   {
     return this;
   }
 
+  @Override
   public XSDParticle getComplexType()
   {
     return null;
@@ -3043,9 +3064,9 @@ public class XSDSimpleTypeDefinitionImpl
   protected XSDEnumerationFacetImpl effectiveEnumerationFacet;
   protected XSDPatternFacetImpl effectivePatternFacet;
 
-  protected List mergeFacets()
+  protected List<XSDConstrainingFacet> mergeFacets()
   {
-    List result = new ArrayList();
+    List<XSDConstrainingFacet> result = new ArrayList<XSDConstrainingFacet>();
 
     XSDSimpleTypeDefinition theBaseTypeDefinition = getBaseTypeDefinition();
 
@@ -3129,7 +3150,7 @@ public class XSDSimpleTypeDefinitionImpl
       result.add(minFacet);
     }
 
-    List enumerationFacets = getEnumerationFacets();
+    List<XSDEnumerationFacet> enumerationFacets = getEnumerationFacets();
     if (enumerationFacets.isEmpty())
     {
       XSDEnumerationFacet baseEnumerationFacet = theBaseTypeDefinition.getEffectiveEnumerationFacet();
@@ -3147,12 +3168,11 @@ public class XSDSimpleTypeDefinitionImpl
       }
 
       StringBuffer newLexicalValue = new StringBuffer();
-      List newValue = new ArrayList();
-      List newAnnotations = new ArrayList();
+      List<Object> newValue = new ArrayList<Object>();
+      List<XSDAnnotation> newAnnotations = new ArrayList<XSDAnnotation>();
 
-      for (Iterator facets = enumerationFacets.iterator(); facets.hasNext(); )
+      for (XSDEnumerationFacet enumerationFacet : enumerationFacets)
       {
-        XSDEnumerationFacet enumerationFacet = (XSDEnumerationFacet)facets.next();
         newValue.addAll(enumerationFacet.getValue());
 
         XSDAnnotation xsdAnnotation = enumerationFacet.getAnnotation();
@@ -3169,7 +3189,7 @@ public class XSDSimpleTypeDefinitionImpl
       }
       String newLexicalValueString = newLexicalValue.toString();
 
-      List remainingValues = new ArrayList(effectiveEnumerationFacet.getValue());
+      List<Object> remainingValues = new ArrayList<Object>(effectiveEnumerationFacet.getValue());
       remainingValues.removeAll(newValue);
       if (!remainingValues.isEmpty())
       {
@@ -3180,7 +3200,7 @@ public class XSDSimpleTypeDefinitionImpl
         setListContentAndOrder(effectiveEnumerationFacet.getValue(), newValue);
       }
 
-      List remainingAnnotations = new ArrayList(effectiveEnumerationFacet.getAnnotations());
+      List<XSDAnnotation> remainingAnnotations = new ArrayList<XSDAnnotation>(effectiveEnumerationFacet.getAnnotations());
       remainingAnnotations.removeAll(newAnnotations);
       if (!remainingAnnotations.isEmpty())
       {
@@ -3201,7 +3221,7 @@ public class XSDSimpleTypeDefinitionImpl
       result.add(effectiveEnumerationFacet);
     }
 
-    List patternFacets = getPatternFacets();
+    List<XSDPatternFacet> patternFacets = getPatternFacets();
     if (patternFacets.isEmpty())
     {
       XSDPatternFacet basePatternFacet = theBaseTypeDefinition.getEffectivePatternFacet();
@@ -3218,8 +3238,8 @@ public class XSDSimpleTypeDefinitionImpl
         getSyntheticFacets().add(effectivePatternFacet);
       }
 
-      List newValue = new ArrayList();
-      List newAnnotations = new ArrayList();
+      List<String> newValue = new ArrayList<String>();
+      List<XSDAnnotation> newAnnotations = new ArrayList<XSDAnnotation>();
       XSDPatternFacet effectiveBasePatternFacet = theBaseTypeDefinition.getEffectivePatternFacet();
       if (effectiveBasePatternFacet != null)
       {
@@ -3229,7 +3249,7 @@ public class XSDSimpleTypeDefinitionImpl
       StringBuffer combinedPattern = new StringBuffer();
       if (patternFacets.size() == 1)
       {
-        XSDPatternFacet xsdPatternFacet = (XSDPatternFacet)patternFacets.get(0);
+        XSDPatternFacet xsdPatternFacet = patternFacets.get(0);
         combinedPattern.append(xsdPatternFacet.getLexicalValue());
         XSDAnnotation xsdAnnotation = xsdPatternFacet.getAnnotation();
         if (xsdAnnotation != null)
@@ -3239,9 +3259,8 @@ public class XSDSimpleTypeDefinitionImpl
       }
       else
       {
-        for (Iterator facets = patternFacets.iterator(); facets.hasNext(); )
+        for (XSDPatternFacet xsdPatternFacet : patternFacets)
         {
-          XSDPatternFacet xsdPatternFacet = (XSDPatternFacet)facets.next();
           if (combinedPattern.length() != 0)
           {
             combinedPattern.append("|");
@@ -3258,7 +3277,7 @@ public class XSDSimpleTypeDefinitionImpl
       }
       newValue.add(combinedPattern.toString());
 
-      List remainingValues = new ArrayList(effectivePatternFacet.getValue());
+      List<String> remainingValues = new ArrayList<String>(effectivePatternFacet.getValue());
       remainingValues.removeAll(newValue);
       if (!remainingValues.isEmpty())
       {
@@ -3269,7 +3288,7 @@ public class XSDSimpleTypeDefinitionImpl
         setListContentAndOrder(effectivePatternFacet.getValue(), newValue);
       }
 
-      List remainingAnnotations = new ArrayList(effectivePatternFacet.getAnnotations());
+      List<XSDAnnotation> remainingAnnotations = new ArrayList<XSDAnnotation>(effectivePatternFacet.getAnnotations());
       remainingAnnotations.removeAll(newAnnotations);
       if (!remainingAnnotations.isEmpty())
       {
@@ -3287,9 +3306,8 @@ public class XSDSimpleTypeDefinitionImpl
       }
       else
       {
-        for (Iterator strings = newValue.iterator(); strings.hasNext(); )
+        for (String string : newValue)
         {
-          String string = (String)strings.next();
           if (newLexicalValue.length() != 0)
           {
             newLexicalValue.append(" & ");
@@ -3319,9 +3337,8 @@ public class XSDSimpleTypeDefinitionImpl
     if (isSetLexicalFinal())
     {
       StringBuffer result = new StringBuffer();
-      for (Iterator literals = getLexicalFinal().iterator(); literals.hasNext(); )
+      for (Object literal : getLexicalFinal())
       {
-        Object literal = literals.next();
         if (result.length() != 0)
         {
           result.append(' ');
@@ -3351,7 +3368,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
     else
     {
-      List newLexicalFinal = new ArrayList();
+      List<XSDSimpleFinal> newLexicalFinal = new ArrayList<XSDSimpleFinal>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(finalDefault); stringTokenizer.hasMoreTokens(); )
       {
         String token = stringTokenizer.nextToken();
@@ -3367,7 +3384,7 @@ public class XSDSimpleTypeDefinitionImpl
       }
       if (!newLexicalFinal.equals(getLexicalFinal()))
       {
-        Collection oldContents = new ArrayList(getLexicalFinal());
+        Collection<XSDSimpleFinal> oldContents = new ArrayList<XSDSimpleFinal>(getLexicalFinal());
         oldContents.removeAll(newLexicalFinal);
         if (!oldContents.isEmpty())
         {
@@ -3385,9 +3402,8 @@ public class XSDSimpleTypeDefinitionImpl
   public String getStringFinal()
   {
     StringBuffer result = new StringBuffer();
-    for (Iterator literals = getFinal().iterator(); literals.hasNext(); )
+    for (Object literal : getFinal())
     {
-      Object literal = literals.next();
       if (result.length() != 0)
       {
         result.append(' ');
@@ -3468,12 +3484,12 @@ public class XSDSimpleTypeDefinitionImpl
     /**
      * These are the diagnostics that are collected.
      */
-    public Collection diagnostics;
+    public Collection<XSDDiagnostic> diagnostics;
 
     /**
      * This records any nested assessments that were performed.
      */
-    public Collection assessments;
+    public Collection<Assessment> assessments;
 
     /**
      * This creates an empty instance;
@@ -3481,6 +3497,7 @@ public class XSDSimpleTypeDefinitionImpl
      */
     public AssessmentImpl()
     {
+      super();
     }
 
     /**
@@ -3536,24 +3553,24 @@ public class XSDSimpleTypeDefinitionImpl
       return null;
     }
 
-    public Collection getLocalDiagnostics()
+    public Collection<XSDDiagnostic> getLocalDiagnostics()
     {
-      return diagnostics == null ? Collections.EMPTY_LIST : diagnostics;
+      return diagnostics == null ? Collections.<XSDDiagnostic>emptyList() : diagnostics;
     }
 
-    public Collection getAssessments()
+    public Collection<Assessment> getAssessments()
     {
       return assessments;
     }
 
-    public Collection getDiagnostics()
+    public Collection<XSDDiagnostic> getDiagnostics()
     {
-      Collection result = new ArrayList();
+      Collection<XSDDiagnostic> result = new ArrayList<XSDDiagnostic>();
       getAllDiagnostics(result);
       return result;
     }
 
-    protected void getAllDiagnostics(Collection result)
+    protected void getAllDiagnostics(Collection<XSDDiagnostic> result)
     {
       if (diagnostics != null)
       {
@@ -3561,10 +3578,9 @@ public class XSDSimpleTypeDefinitionImpl
       }
       if (assessments != null)
       {
-        for (Iterator i = assessments.iterator(); i.hasNext(); )
+        for (Assessment assessment : assessments)
         {
-          AssessmentImpl assessment = (AssessmentImpl)i.next();
-          assessment.getAllDiagnostics(result);
+          ((AssessmentImpl)assessment).getAllDiagnostics(result);
         }
       }
     }
@@ -3573,17 +3589,15 @@ public class XSDSimpleTypeDefinitionImpl
     {
       if (diagnostics != null)
       {
-        for (Iterator i = diagnostics.iterator(); i.hasNext(); )
+        for (XSDDiagnostic xsdDiagnostic : diagnostics)
         {
-          XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
           xsdDiagnostic.setMessage(MessageFormat.format(xsdDiagnostic.getMessage(), new Object [] { noun, name }));
         }
       }
       if (assessments != null)
       {
-        for (Iterator i = assessments.iterator(); i.hasNext(); )
+        for (Assessment assessment :  assessments)
         {
-          Assessment assessment = (Assessment)i.next();
           assessment.format(noun, name);
         }
       }
@@ -3591,7 +3605,7 @@ public class XSDSimpleTypeDefinitionImpl
 
     public void assignDiagnostics(XSDConcreteComponent xsdConcreteComponent, Element element, String attributeName)
     {
-      Collection allDiagnostics = getDiagnostics();
+      Collection<XSDDiagnostic> allDiagnostics = getDiagnostics();
       if (!allDiagnostics.isEmpty())
       {
         Node theNode = element;
@@ -3601,9 +3615,8 @@ public class XSDSimpleTypeDefinitionImpl
         }
 
         Object [] substitutions = new Object [] { XSDPlugin.INSTANCE.getString("attribute_noun"), attributeName };
-        for (Iterator i = allDiagnostics.iterator(); i.hasNext(); )
+        for (XSDDiagnostic xsdDiagnostic : allDiagnostics)
         {
-          XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
           xsdDiagnostic.setMessage(MessageFormat.format(xsdDiagnostic.getMessage(), substitutions));
           xsdDiagnostic.getComponents().add(0, xsdConcreteComponent);
           xsdDiagnostic.setNode(theNode);
@@ -3636,7 +3649,7 @@ public class XSDSimpleTypeDefinitionImpl
 
         if (diagnostics == null)
         {
-          diagnostics = new ArrayList();
+          diagnostics = new ArrayList<XSDDiagnostic>();
         }
         diagnostics.add(result);
       }
@@ -3737,7 +3750,7 @@ public class XSDSimpleTypeDefinitionImpl
 
       if (diagnostics == null)
       {
-        diagnostics = new ArrayList();
+        diagnostics = new ArrayList<XSDDiagnostic>();
       }
       diagnostics.add(result);
     }
@@ -3845,9 +3858,8 @@ public class XSDSimpleTypeDefinitionImpl
         case XSDVariety.UNION:
         {
           boolean good = false;
-          for (Iterator memberTypeDefinitions = getMemberTypeDefinitions().iterator(); memberTypeDefinitions.hasNext(); )
+          for (XSDSimpleTypeDefinition memberTypeDefinition : getMemberTypeDefinitions())
           {
-            XSDSimpleTypeDefinition memberTypeDefinition = (XSDSimpleTypeDefinition)memberTypeDefinitions.next();
             AssessmentImpl nestedAssessment = new AssessmentImpl(assessment.node, assessment.yield);
             nestedAssessment.literal = nestedAssessment.normalizedLiteral = assessment.normalizedLiteral;
 
@@ -3857,7 +3869,7 @@ public class XSDSimpleTypeDefinitionImpl
             {
               if (assessment.assessments == null)
               {
-                assessment.assessments = new ArrayList();
+                assessment.assessments = new ArrayList<Assessment>();
               }
               assessment.assessments.add(nestedAssessment);
               assessment.value = nestedAssessment.value;
@@ -3878,7 +3890,7 @@ public class XSDSimpleTypeDefinitionImpl
           XSDSimpleTypeDefinition theItemTypeDefinition = getItemTypeDefinition();
           if (theItemTypeDefinition != null)
           {
-            List list = new ArrayList();
+            List<Object> list = new ArrayList<Object>();
             assessment.value = list;
             int length = 0;
             for (StringTokenizer tokens = new StringTokenizer(assessment.normalizedLiteral, " "); 
@@ -3894,7 +3906,7 @@ public class XSDSimpleTypeDefinitionImpl
               }
               if (assessment.assessments == null)
               {
-                assessment.assessments = new ArrayList();
+                assessment.assessments = new ArrayList<Assessment>();
               }
               assessment.assessments.add(nestedAssessment);
             }
@@ -3988,6 +4000,7 @@ public class XSDSimpleTypeDefinitionImpl
     return compareValues(getValue(literal1), getValue(literal2));
   }
 
+  @Override
   public XSDTypeDefinition getBadTypeDerivation(XSDTypeDefinition xsdTypeDefinition, boolean extension, boolean restriction)
   {
     if (xsdTypeDefinition == this)
@@ -4034,9 +4047,8 @@ public class XSDSimpleTypeDefinitionImpl
         XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)xsdTypeDefinition;
         if (xsdSimpleTypeDefinition.getVariety() == XSDVariety.UNION_LITERAL)
         {
-          for (Iterator i = xsdSimpleTypeDefinition.getMemberTypeDefinitions().iterator(); i.hasNext(); )
+          for (XSDSimpleTypeDefinition memberTypeDefinition : xsdSimpleTypeDefinition.getMemberTypeDefinitions())
           {
-            XSDSimpleTypeDefinition memberTypeDefinition = (XSDSimpleTypeDefinition)i.next();
             XSDTypeDefinition memberResult = getBadTypeDerivation(memberTypeDefinition, extension, restriction);
             if (memberResult == null)
             {
@@ -4054,6 +4066,7 @@ public class XSDSimpleTypeDefinitionImpl
     }
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDSimpleTypeDefinitionImpl clonedSimpleTypeDefinition =
@@ -4092,10 +4105,9 @@ public class XSDSimpleTypeDefinitionImpl
       }
       else if (!getMemberTypeDefinitions().isEmpty() && (theBaseTypeDefinition == null || XSDConstants.isURType(theBaseTypeDefinition)))
       {
-        List unresolvedMembers = new ArrayList(getMemberTypeDefinitions().size());
-        for (Iterator members = getMemberTypeDefinitions().iterator(); members.hasNext(); )
+        List<XSDSimpleTypeDefinition> unresolvedMembers = new ArrayList<XSDSimpleTypeDefinition>(getMemberTypeDefinitions().size());
+        for (XSDSimpleTypeDefinition memberTypeDefinition : getMemberTypeDefinitions())
         {
-          XSDSimpleTypeDefinition memberTypeDefinition = (XSDSimpleTypeDefinition)members.next();
           if (getContents().contains(memberTypeDefinition))
           {
             break;
@@ -4138,7 +4150,7 @@ public class XSDSimpleTypeDefinitionImpl
         clonedSimpleTypeDefinition.getContents().addAll(cloneConcreteComponents(getContents(), deep, shareDOM));
         if (getItemTypeDefinition() != null && (theBaseTypeDefinition == null || XSDConstants.isURType(theBaseTypeDefinition)))
         {
-          clonedSimpleTypeDefinition.setItemTypeDefinition((XSDSimpleTypeDefinition)clonedSimpleTypeDefinition.getContents().get(0));
+          clonedSimpleTypeDefinition.setItemTypeDefinition(clonedSimpleTypeDefinition.getContents().get(0));
         }
         else if (!getMemberTypeDefinitions().isEmpty() && (theBaseTypeDefinition == null || XSDConstants.isURType(theBaseTypeDefinition)))
         {
@@ -4146,7 +4158,7 @@ public class XSDSimpleTypeDefinitionImpl
         }
         else
         {
-          clonedSimpleTypeDefinition.setBaseTypeDefinition((XSDSimpleTypeDefinition)clonedSimpleTypeDefinition.getContents().get(0));
+          clonedSimpleTypeDefinition.setBaseTypeDefinition(clonedSimpleTypeDefinition.getContents().get(0));
         }
       }
       if (!getFacetContents().isEmpty())

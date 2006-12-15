@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDXPathDefinitionImpl.java,v 1.7 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDXPathDefinitionImpl.java,v 1.8 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -136,6 +136,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_XPATH_DEFINITION;
@@ -223,6 +224,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -255,6 +257,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -274,6 +277,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -296,6 +300,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -318,6 +323,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -337,6 +343,7 @@ public class XSDXPathDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -350,6 +357,7 @@ public class XSDXPathDefinitionImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = 
@@ -366,6 +374,7 @@ public class XSDXPathDefinitionImpl
     return newElement;
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -424,6 +433,7 @@ public class XSDXPathDefinitionImpl
        true);
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -451,6 +461,7 @@ public class XSDXPathDefinitionImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -471,6 +482,7 @@ public class XSDXPathDefinitionImpl
     }
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDXPathDefinitionImpl clonedXPathDefinition =

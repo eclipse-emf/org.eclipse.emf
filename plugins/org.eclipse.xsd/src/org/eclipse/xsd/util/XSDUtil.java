@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDUtil.java,v 1.5 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDUtil.java,v 1.6 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -52,7 +53,9 @@ public final class XSDUtil extends XSDConstants
    */
   public static class UsageCrossReferencer extends EcoreUtil.UsageCrossReferencer 
   {
-    protected Collection eObjectsOfInterest;
+    private static final long serialVersionUID = 1L;
+
+    protected Collection<?> eObjectsOfInterest;
 
     protected UsageCrossReferencer(EObject eObject)
     {
@@ -69,11 +72,12 @@ public final class XSDUtil extends XSDConstants
       super(resourceSet);
     }
 
-    protected UsageCrossReferencer(Collection emfObjects)
+    protected UsageCrossReferencer(Collection<?> emfObjects)
     {
       super(emfObjects);
     }
 
+    @Override
     protected boolean crossReference(EObject eObject, EReference eReference, EObject crossReferencedEObject)
     {
       return
@@ -82,7 +86,8 @@ public final class XSDUtil extends XSDConstants
            eObjectsOfInterest.contains(crossReferencedEObject);
     }
 
-    protected Collection findUsage(EObject eObject)
+    @Override
+    protected Collection<EStructuralFeature.Setting> findUsage(EObject eObject)
     {
       eObjectsOfInterest = Collections.singleton(eObject);
       crossReference();
@@ -91,7 +96,8 @@ public final class XSDUtil extends XSDConstants
       return getCollection(eObject);
     }
 
-    protected Map findAllUsage(Collection eObjectsOfInterest)
+    @Override
+    protected Map<EObject, Collection<EStructuralFeature.Setting>> findAllUsage(Collection<?> eObjectsOfInterest)
     {
       this.eObjectsOfInterest = eObjectsOfInterest;
       crossReference();
@@ -100,42 +106,42 @@ public final class XSDUtil extends XSDConstants
       return this;
     }
 
-    public static Collection find(EObject eObjectOfInterest, EObject eObject)
+    public static Collection<EStructuralFeature.Setting> find(EObject eObjectOfInterest, EObject eObject)
     {
       return new UsageCrossReferencer(eObject).findUsage(eObjectOfInterest);
     }
 
-    public static Collection find(EObject eObjectOfInterest, Resource resource)
+    public static Collection<EStructuralFeature.Setting> find(EObject eObjectOfInterest, Resource resource)
     {
       return new UsageCrossReferencer(resource).findUsage(eObjectOfInterest);
     }
 
-    public static Collection find(EObject eObjectOfInterest, ResourceSet resourceSet)
+    public static Collection<EStructuralFeature.Setting> find(EObject eObjectOfInterest, ResourceSet resourceSet)
     {
       return new UsageCrossReferencer(resourceSet).findUsage(eObjectOfInterest);
     }
 
-    public static Collection find(EObject eObjectOfInterest, Collection emfObjectsToSearch)
+    public static Collection<EStructuralFeature.Setting> find(EObject eObjectOfInterest, Collection<?> emfObjectsToSearch)
     {
       return new UsageCrossReferencer(emfObjectsToSearch).findUsage(eObjectOfInterest);
     }
   
-    public static Map findAll(Collection eObjectsOfInterest, EObject eObject)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> findAll(Collection<?> eObjectsOfInterest, EObject eObject)
     {
       return new UsageCrossReferencer(eObject).findAllUsage(eObjectsOfInterest);
     }
 
-    public static Map findAll(Collection eObjectsOfInterest, Resource resource)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> findAll(Collection<?> eObjectsOfInterest, Resource resource)
     {
       return new UsageCrossReferencer(resource).findAllUsage(eObjectsOfInterest);
     }
 
-    public static Map findAll(Collection eObjectsOfInterest, ResourceSet resourceSet)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> findAll(Collection<?> eObjectsOfInterest, ResourceSet resourceSet)
     {
       return new UsageCrossReferencer(resourceSet).findAllUsage(eObjectsOfInterest);
     }
 
-    public static Map findAll(Collection eObjectsOfInterest, Collection emfObjectsToSearch)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> findAll(Collection<?> eObjectsOfInterest, Collection<?> emfObjectsToSearch)
     {
       return new UsageCrossReferencer(emfObjectsToSearch).findAllUsage(eObjectsOfInterest);
     }
@@ -146,6 +152,8 @@ public final class XSDUtil extends XSDConstants
    */
   public static class XSDNamedComponentCrossReferencer extends EcoreUtil.CrossReferencer 
   {
+    private static final long serialVersionUID = 1L;
+
     protected XSDNamedComponentCrossReferencer(EObject eObject)
     {
       super(eObject);
@@ -161,11 +169,12 @@ public final class XSDUtil extends XSDConstants
       super(resourceSet);
     }
 
-    protected XSDNamedComponentCrossReferencer(Collection emfObjects)
+    protected XSDNamedComponentCrossReferencer(Collection<?> emfObjects)
     {
       super(emfObjects);
     }
 
+    @Override
     protected boolean containment(EObject eObject)
     {
       // Create an empty setting collection for any named component.
@@ -177,6 +186,7 @@ public final class XSDUtil extends XSDConstants
       return true;
     }
    
+    @Override
     protected boolean crossReference(EObject eObject, EReference eReference, EObject crossReferencedEObject)
     {
       // Add a setting for any named component in an interesting reference.
@@ -190,7 +200,7 @@ public final class XSDUtil extends XSDConstants
     /**
      * Returns a map of all XSDNamedComponent cross references in the content tree.
      */
-    public static Map find(EObject eObject)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> find(EObject eObject)
     {
       XSDNamedComponentCrossReferencer result = new XSDNamedComponentCrossReferencer(eObject);
       result.crossReference();
@@ -201,7 +211,7 @@ public final class XSDUtil extends XSDConstants
     /**
      * Returns a map of all XSDNamedComponent cross references in the content tree.
      */
-    public static Map find(Resource resource)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> find(Resource resource)
     {
       XSDNamedComponentCrossReferencer result = new XSDNamedComponentCrossReferencer(resource);
       result.crossReference();
@@ -212,7 +222,7 @@ public final class XSDUtil extends XSDConstants
     /**
      * Returns a map of all XSDNamedComponent cross references in the content tree.
      */
-    public static Map find(ResourceSet resourceSet)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> find(ResourceSet resourceSet)
     {
       XSDNamedComponentCrossReferencer result = new XSDNamedComponentCrossReferencer(resourceSet);
       result.crossReference();
@@ -226,6 +236,8 @@ public final class XSDUtil extends XSDConstants
    */
   public static class URICrossReferencer extends EcoreUtil.CrossReferencer
   {
+    private static final long serialVersionUID = 1L;
+
     protected String [] uris;
 
     protected URICrossReferencer(EObject eObject)
@@ -243,11 +255,12 @@ public final class XSDUtil extends XSDConstants
       super(resourceSet);
     }
 
-    protected URICrossReferencer(Collection emfObjects)
+    protected URICrossReferencer(Collection<?> emfObjects)
     {
       super(emfObjects);
     }
 
+    @Override
     protected boolean containment(EObject eObject)
     {
       // Create an empty setting collection for any named component.
@@ -268,6 +281,7 @@ public final class XSDUtil extends XSDConstants
       return true;
     }
    
+    @Override
     protected boolean crossReference(EObject eObject, EReference eReference, EObject crossReferencedEObject)
     {
       if (crossReferencedEObject instanceof XSDNamedComponent && 
@@ -288,7 +302,7 @@ public final class XSDUtil extends XSDConstants
       return false;
     }
 
-    protected Map findURI(String uri)
+    protected Map<EObject, Collection<EStructuralFeature.Setting>> findURI(String uri)
     {
       uris = new String [] { uri };
       crossReference();
@@ -297,51 +311,51 @@ public final class XSDUtil extends XSDConstants
       return this;
     }
 
-    protected Map findAllURI(Collection uris)
+    protected Map<EObject, Collection<EStructuralFeature.Setting>> findAllURI(Collection<String> uris)
     {
-      this.uris = (String [])uris.toArray(new String [uris.size()]);
+      this.uris = uris.toArray(new String [uris.size()]);
       crossReference();
       uris = null;
       done();
       return this;
     }
 
-    public static Map find(String uri, EObject eObject)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> find(String uri, EObject eObject)
     {
       return new URICrossReferencer(eObject).findURI(uri);
     }
 
-    public static Map find(String uri, Resource resource)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> find(String uri, Resource resource)
     {
       return new URICrossReferencer(resource).findURI(uri);
     }
 
-    public static Map find(String uri, ResourceSet resourceSet)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> find(String uri, ResourceSet resourceSet)
     {
       return new URICrossReferencer(resourceSet).findURI(uri);
     }
 
-    public static Map find(String uri, Collection emfObjectsToSearch)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> find(String uri, Collection<?> emfObjectsToSearch)
     {
       return new URICrossReferencer(emfObjectsToSearch).findURI(uri);
     }
   
-    public static Map findAll(Collection uris, EObject eObject)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> findAll(Collection<String> uris, EObject eObject)
     {
       return new URICrossReferencer(eObject).findAllURI(uris);
     }
 
-    public static Map findAll(Collection uris, Resource resource)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> findAll(Collection<String> uris, Resource resource)
     {
       return new URICrossReferencer(resource).findAllURI(uris);
     }
 
-    public static Map findAll(Collection uris, ResourceSet resourceSet)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> findAll(Collection<String> uris, ResourceSet resourceSet)
     {
       return new URICrossReferencer(resourceSet).findAllURI(uris);
     }
 
-    public static Map findAll(Collection uris, Collection emfObjectsToSearch)
+    public static Map<EObject, Collection<EStructuralFeature.Setting>> findAll(Collection<String> uris, Collection<?> emfObjectsToSearch)
     {
       return new URICrossReferencer(emfObjectsToSearch).findAllURI(uris);
     }
@@ -364,7 +378,7 @@ public final class XSDUtil extends XSDConstants
    * @param name the name to search
    * @return the matching component, if any.
    */
-  public static XSDNamedComponent findInSortedList(List xsdNamedComponents, String namespace, String name)
+  public static XSDNamedComponent findInSortedList(List<? extends XSDNamedComponent> xsdNamedComponents, String namespace, String name)
   {
     return XSDNamedComponentImpl.findInSortedList(xsdNamedComponents, namespace, name);
   }

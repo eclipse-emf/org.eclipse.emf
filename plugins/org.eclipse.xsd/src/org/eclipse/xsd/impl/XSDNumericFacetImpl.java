@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNumericFacetImpl.java,v 1.8 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDNumericFacetImpl.java,v 1.9 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -77,6 +77,7 @@ public class XSDNumericFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_NUMERIC_FACET;
@@ -110,6 +111,7 @@ public class XSDNumericFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -125,6 +127,7 @@ public class XSDNumericFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -141,6 +144,7 @@ public class XSDNumericFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -157,6 +161,7 @@ public class XSDNumericFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -172,6 +177,7 @@ public class XSDNumericFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -183,6 +189,7 @@ public class XSDNumericFacetImpl
     return result.toString();
   }
 
+  @Override
   public Object getEffectiveValue()
   {
     return isValue() ? Boolean.TRUE : Boolean.FALSE;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPackageImpl.java,v 1.8 2006/04/04 10:10:22 emerks Exp $
+ * $Id: XSDPackageImpl.java,v 1.9 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -4192,6 +4192,10 @@ public class XSDPackageImpl
     setName(eNAME);
     setNsPrefix(eNS_PREFIX);
     setNsURI(eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
     xsdAnnotationEClass.getESuperTypes().add(this.getXSDComponent());

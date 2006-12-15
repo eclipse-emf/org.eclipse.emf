@@ -36,7 +36,7 @@ import org.xml.sax.SAXParseException;
 public class DefaultErrorHandler implements ErrorHandler
 {
 
-  protected List xsdDiagnostics = new ArrayList();
+  protected List<XSDDiagnostic> xsdDiagnostics = new ArrayList<XSDDiagnostic>();
 
   protected XSDFactory xsdFactory = XSDFactory.eINSTANCE;
 
@@ -64,7 +64,7 @@ public class DefaultErrorHandler implements ErrorHandler
     xsdDiagnostics.add(xsdDiagnostic);
   }
 
-  public Collection getDiagnostics()
+  public Collection<XSDDiagnostic> getDiagnostics()
   {
     return xsdDiagnostics;
   }

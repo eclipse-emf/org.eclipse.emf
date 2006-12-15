@@ -12,7 +12,7 @@
  *
  * </copyright>
  * 
- * $Id: XSDSchemaBuildingTools.java,v 1.4 2006/07/28 12:59:09 emerks Exp $
+ * $Id: XSDSchemaBuildingTools.java,v 1.5 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -142,7 +142,7 @@ public abstract class XSDSchemaBuildingTools
    * added to the schema; null if any error occoured
    */
   public static XSDComplexTypeDefinition addComplexTypeDefinition
-    (XSDSchema schema, String localName, String type, HashMap attrs, String userInfo)
+    (XSDSchema schema, String localName, String type, HashMap<String, Object> attrs, String userInfo)
   {
     if ((null == schema) || (null == localName) || (null == type))
     {
@@ -173,10 +173,10 @@ public abstract class XSDSchemaBuildingTools
     // If asked, create a number of attributes on this type
     if (null != attrs)
     {
-      for (Iterator iter = attrs.keySet().iterator(); 
+      for (Iterator<String> iter = attrs.keySet().iterator(); 
           iter.hasNext(); /* no-op */)
       {
-        String attrName = (String)iter.next();
+        String attrName = iter.next();
         Object attrType = attrs.get(attrName);
         addAttributeDeclaration(complexType, attrName, attrType);
       }
@@ -421,7 +421,7 @@ public abstract class XSDSchemaBuildingTools
    * added to the schema; null if any error occoured
    */
   public static XSDModelGroup addModelGroupDefinition(XSDConcreteComponent component, 
-          String localName, XSDCompositor compositor, List groupTerms)
+          String localName, XSDCompositor compositor, List<? extends XSDTerm> groupTerms)
   {
     if ((null == component) || (null == localName) || (null == groupTerms))
     {
@@ -437,7 +437,7 @@ public abstract class XSDSchemaBuildingTools
 
     // Iterate through the list, creating XSDParticles and 
     //  adding them to the group itself
-    for (Iterator terms = groupTerms.iterator();
+    for (Iterator<? extends XSDTerm> terms = groupTerms.iterator();
             terms.hasNext(); 
             /*no-op */ )
     {
@@ -585,7 +585,7 @@ public abstract class XSDSchemaBuildingTools
     // Choose the prefix used for this schema's namespace,
     // and the schema for schema's namespace
     schema.setSchemaForSchemaQNamePrefix("xsd");
-    Map namespaces = schema.getQNamePrefixToNamespaceMap();
+    Map<String, String> namespaces = schema.getQNamePrefixToNamespaceMap();
     namespaces.put(targetPrefix, schema.getTargetNamespace());
     namespaces.put(schema.getSchemaForSchemaQNamePrefix(), XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001);
 

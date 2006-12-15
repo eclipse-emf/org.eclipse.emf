@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseImpl.java,v 1.8 2006/01/25 19:54:55 emerks Exp $
+ * $Id: XSDAttributeUseImpl.java,v 1.9 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -222,24 +222,26 @@ public class XSDAttributeUseImpl
     return null;
   }
 
-  public static List sortAttributeUses(Collection xsdAttributeUses)
+  public static List<XSDAttributeUse> sortAttributeUses(Collection<XSDAttributeUse> xsdAttributeUses)
   {
-    Object [] objects = xsdAttributeUses.toArray();
+    XSDAttributeUse [] objects = new XSDAttributeUse[xsdAttributeUses.size()];
+    objects = xsdAttributeUses.toArray(objects);
     Arrays.sort
       (objects,
-       new Comparator()
+       new Comparator<XSDAttributeUse>()
        {
-         Comparator collator = XSDPlugin.INSTANCE.getComparator();
+         Comparator<String> collator = XSDPlugin.INSTANCE.getComparator();
          
-         public boolean equals(Object that)
+         @Override
+        public boolean equals(Object that)
          {
            return this == that;
          }
 
-         public int compare(Object o1, Object o2)
+         public int compare(XSDAttributeUse o1, XSDAttributeUse o2)
          {
-           String name1 = ((XSDAttributeUse)o1).getContent().getResolvedAttributeDeclaration().getName();
-           String name2 = ((XSDAttributeUse)o2).getContent().getResolvedAttributeDeclaration().getName();
+           String name1 = o1.getContent().getResolvedAttributeDeclaration().getName();
+           String name2 = o2.getContent().getResolvedAttributeDeclaration().getName();
            if (name1 == null && name2 == null)
            {
              return 0;
@@ -277,6 +279,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_ATTRIBUTE_USE;
@@ -510,6 +513,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -542,6 +546,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -569,6 +574,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -577,7 +583,7 @@ public class XSDAttributeUseImpl
         setRequired(((Boolean)newValue).booleanValue());
         return;
       case XSDPackage.XSD_ATTRIBUTE_USE__VALUE:
-        setValue((Object)newValue);
+        setValue(newValue);
         return;
       case XSDPackage.XSD_ATTRIBUTE_USE__CONSTRAINT:
         setConstraint((XSDConstraint)newValue);
@@ -603,6 +609,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -637,6 +644,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -664,6 +672,7 @@ public class XSDAttributeUseImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -683,6 +692,7 @@ public class XSDAttributeUseImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = null;
@@ -695,6 +705,7 @@ public class XSDAttributeUseImpl
     return newElement;
   }
 
+  @Override
   protected void patch()
   {
     super.patch();
@@ -715,6 +726,7 @@ public class XSDAttributeUseImpl
     }
   }
 
+  @Override
   protected boolean analyze()
   {
     super.analyze();
@@ -731,6 +743,7 @@ public class XSDAttributeUseImpl
         }
         catch (RuntimeException exception)
         {
+          // Ignore.
         }
       }
     }
@@ -743,6 +756,7 @@ public class XSDAttributeUseImpl
     return true;
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -786,11 +800,13 @@ public class XSDAttributeUseImpl
     }
   }
 
-  protected Collection getContentNodes(Element changedElement)
+  @Override
+  protected Collection<Element> getContentNodes(Element changedElement)
   {
     return Collections.singleton(getElement());
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -870,6 +886,7 @@ public class XSDAttributeUseImpl
     }
   }
 
+  @Override
   protected void reconcileContents(Element changedElement) 
   {
     super.reconcileContents(changedElement);
@@ -888,6 +905,7 @@ public class XSDAttributeUseImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     if (isReconciling)
@@ -947,6 +965,7 @@ public class XSDAttributeUseImpl
     }
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
@@ -957,6 +976,7 @@ public class XSDAttributeUseImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
@@ -967,6 +987,7 @@ public class XSDAttributeUseImpl
     }
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDAttributeUseImpl clonedAttributeUse =

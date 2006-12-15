@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDQNameType.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDQNameType.java,v 1.4 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.xml.type.internal.QName;
 
 public class XSDQNameType extends XSDAnySimpleType
 {
+  @Override
   public Object getValue(String literal)
   {
     try

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnyURIType.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDAnyURIType.java,v 1.4 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.xml.type.internal.DataValue.URI;
 
 public class XSDAnyURIType extends XSDAnySimpleType
 {
+  @Override
   public Object getValue(String normalizedLiteral)
   {
     try
@@ -37,6 +38,7 @@ public class XSDAnyURIType extends XSDAnySimpleType
     }
     catch (URI.MalformedURIException exception)
     {
+      // Ignore
     }
     return null;
   }

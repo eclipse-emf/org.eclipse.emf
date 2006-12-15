@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDContentTypeCategory.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDContentTypeCategory.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -33,8 +33,55 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDContentTypeCategory extends AbstractEnumerator
+public enum XSDContentTypeCategory implements Enumerator
 {
+  /**
+   * The '<em><b>Empty</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #EMPTY
+   * @generated
+   * @ordered
+   */
+  EMPTY_LITERAL(0, "empty", "empty"),
+
+  /**
+   * The '<em><b>Simple</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #SIMPLE
+   * @generated
+   * @ordered
+   */
+  SIMPLE_LITERAL(1, "simple", "simple"),
+
+  /**
+   * The '<em><b>Mixed</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #MIXED
+   * @generated
+   * @ordered
+   */
+  MIXED_LITERAL(2, "mixed", "mixed"),
+
+  /**
+   * The '<em><b>Element Only</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #ELEMENT_ONLY
+   * @generated
+   * @ordered
+   */
+  ELEMENT_ONLY_LITERAL(3, "elementOnly", "elementOnly");
   /**
    * The '<em><b>Empty</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -90,53 +137,6 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
    * @ordered
    */
   public static final int ELEMENT_ONLY = 3;
-  /**
-   * The '<em><b>Empty</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #EMPTY
-   * @generated
-   * @ordered
-   */
-  public static final XSDContentTypeCategory EMPTY_LITERAL = new XSDContentTypeCategory(EMPTY, "empty", "empty");
-
-  /**
-   * The '<em><b>Simple</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #SIMPLE
-   * @generated
-   * @ordered
-   */
-  public static final XSDContentTypeCategory SIMPLE_LITERAL = new XSDContentTypeCategory(SIMPLE, "simple", "simple");
-
-  /**
-   * The '<em><b>Mixed</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #MIXED
-   * @generated
-   * @ordered
-   */
-  public static final XSDContentTypeCategory MIXED_LITERAL = new XSDContentTypeCategory(MIXED, "mixed", "mixed");
-
-  /**
-   * The '<em><b>Element Only</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #ELEMENT_ONLY
-   * @generated
-   * @ordered
-   */
-  public static final XSDContentTypeCategory ELEMENT_ONLY_LITERAL = new XSDContentTypeCategory(ELEMENT_ONLY, "elementOnly", "elementOnly");
 
   /**
    * An array of all the '<em><b>Content Type Category</b></em>' enumerators.
@@ -159,7 +159,7 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDContentTypeCategory> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Content Type Category</b></em>' literal with the specified literal value.
@@ -218,6 +218,27 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -225,7 +246,50 @@ public final class XSDContentTypeCategory extends AbstractEnumerator
    */
   private XSDContentTypeCategory(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
 } 

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleFinal.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDSimpleFinal.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -34,8 +34,56 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDSimpleFinal extends AbstractEnumerator
+public enum XSDSimpleFinal implements Enumerator
 {
+  /**
+   * The '<em><b>List</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #LIST
+   * @generated
+   * @ordered
+   */
+  LIST_LITERAL(0, "list", "list"),
+
+  /**
+   * The '<em><b>Restriction</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #RESTRICTION
+   * @generated
+   * @ordered
+   */
+  RESTRICTION_LITERAL(1, "restriction", "restriction"),
+
+  /**
+   * The '<em><b>Union</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #UNION
+   * @generated
+   * @ordered
+   */
+  UNION_LITERAL(2, "union", "union"),
+
+  /**
+   * The '<em><b>All</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #ALL
+   * @generated
+   * @ordered
+   */
+  ALL_LITERAL(3, "all", "all");
+
   /**
    * The '<em><b>List</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -92,53 +140,6 @@ public final class XSDSimpleFinal extends AbstractEnumerator
    * @ordered
    */
   public static final int ALL = 3;
-  /**
-   * The '<em><b>List</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #LIST
-   * @generated
-   * @ordered
-   */
-  public static final XSDSimpleFinal LIST_LITERAL = new XSDSimpleFinal(LIST, "list", "list");
-
-  /**
-   * The '<em><b>Restriction</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #RESTRICTION
-   * @generated
-   * @ordered
-   */
-  public static final XSDSimpleFinal RESTRICTION_LITERAL = new XSDSimpleFinal(RESTRICTION, "restriction", "restriction");
-
-  /**
-   * The '<em><b>Union</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #UNION
-   * @generated
-   * @ordered
-   */
-  public static final XSDSimpleFinal UNION_LITERAL = new XSDSimpleFinal(UNION, "union", "union");
-
-  /**
-   * The '<em><b>All</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #ALL
-   * @generated
-   * @ordered
-   */
-  public static final XSDSimpleFinal ALL_LITERAL = new XSDSimpleFinal(ALL, "all", "all");
 
   /**
    * An array of all the '<em><b>Simple Final</b></em>' enumerators.
@@ -161,7 +162,7 @@ public final class XSDSimpleFinal extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDSimpleFinal> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Simple Final</b></em>' literal with the specified literal value.
@@ -220,6 +221,27 @@ public final class XSDSimpleFinal extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -227,7 +249,50 @@ public final class XSDSimpleFinal extends AbstractEnumerator
    */
   private XSDSimpleFinal(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
 }

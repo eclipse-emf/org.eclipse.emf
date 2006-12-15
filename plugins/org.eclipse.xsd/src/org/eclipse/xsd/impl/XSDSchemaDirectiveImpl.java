@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaDirectiveImpl.java,v 1.14 2006/07/25 14:07:37 emerks Exp $
+ * $Id: XSDSchemaDirectiveImpl.java,v 1.15 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -99,6 +99,7 @@ public abstract class XSDSchemaDirectiveImpl
     super();
   }
 
+  @Override
   public void reset()
   {
     super.reset();
@@ -110,6 +111,7 @@ public abstract class XSDSchemaDirectiveImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_SCHEMA_DIRECTIVE;
@@ -166,6 +168,7 @@ public abstract class XSDSchemaDirectiveImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -183,6 +186,7 @@ public abstract class XSDSchemaDirectiveImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -202,6 +206,7 @@ public abstract class XSDSchemaDirectiveImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -221,6 +226,7 @@ public abstract class XSDSchemaDirectiveImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -238,6 +244,7 @@ public abstract class XSDSchemaDirectiveImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -249,6 +256,7 @@ public abstract class XSDSchemaDirectiveImpl
     return result.toString();
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -265,6 +273,7 @@ public abstract class XSDSchemaDirectiveImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     // Try to resolve again if the schema location changes and we previously failed.
@@ -294,6 +303,7 @@ public abstract class XSDSchemaDirectiveImpl
     }
   }
   
+  @Override
   protected void orphanBy(XSDSchema xsdSchema)
   {
     super.orphanBy(xsdSchema);
@@ -367,6 +377,7 @@ public abstract class XSDSchemaDirectiveImpl
                 }
                 catch (IOException exception)
                 {
+                  // Ignore.
                 }
               }
   
@@ -426,5 +437,6 @@ public abstract class XSDSchemaDirectiveImpl
 
   protected void handleResolvedSchema(XSDSchema xsdSchema)
   {
+    // Ignore
   }
 } 

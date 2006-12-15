@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFloatType.java,v 1.6 2006/04/13 18:49:30 emerks Exp $
+ * $Id: XSDFloatType.java,v 1.7 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -22,6 +22,7 @@ public class XSDFloatType extends XSDAnySimpleType
   protected static final Float NEGATIVE_INFINITY = new Float(Float.NEGATIVE_INFINITY);
   protected static final Float POSITIVE_INFINITY = new Float(Float.POSITIVE_INFINITY);
   
+  @Override
   public Object getValue(String literal)
   {
     try 
@@ -49,6 +50,7 @@ public class XSDFloatType extends XSDAnySimpleType
     }
   }
 
+  @Override
   public int compareValues(Object value1, Object value2)
   {
     return ((Float)value1).compareTo((Float)value2);

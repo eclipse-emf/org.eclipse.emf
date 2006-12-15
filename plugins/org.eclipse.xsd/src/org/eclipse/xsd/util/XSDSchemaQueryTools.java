@@ -12,14 +12,13 @@
  *
  * </copyright>
  * 
- * $Id: XSDSchemaQueryTools.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDSchemaQueryTools.java,v 1.4 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -72,24 +71,23 @@ public abstract class XSDSchemaQueryTools
    * @param localName for the type derived from
    * @return List of any XSDTypeDefinitions found
    */
-  public static List findTypesDerivedFrom(XSDSchema schema, String namespace, String localName)
+  public static List<XSDTypeDefinition> findTypesDerivedFrom(XSDSchema schema, String namespace, String localName)
   {
     if ((null == schema) || (null == localName))
     {
       throw new IllegalArgumentException("findTypesDerivedFrom called with null schema/localName");
     }
 
-    ArrayList typesDerivedFrom = new ArrayList();
+    ArrayList<XSDTypeDefinition> typesDerivedFrom = new ArrayList<XSDTypeDefinition>();
 
     // A handy convenience method quickly gets all 
     // typeDefinitions within our schema; note that 
     // whether or not this returns types in included, 
     // imported, or redefined schemas is subject to change
-    List typedefs = schema.getTypeDefinitions();
+    List<XSDTypeDefinition> typedefs = schema.getTypeDefinitions();
 
-    for (Iterator iter = typedefs.iterator(); iter.hasNext(); )
+    for (XSDTypeDefinition typedef : typedefs)
     {
-      XSDTypeDefinition typedef = (XSDTypeDefinition)iter.next();
       // Walk the baseTypes from this typedef seeing if any 
       // of them match the requested one
       if (isTypeDerivedFrom(typedef, namespace, localName))
@@ -158,25 +156,23 @@ public abstract class XSDSchemaQueryTools
    * @param localName for the type used
    * @return List of any XSDElementDeclarations found
    */
-  public static List findElementsUsingType(XSDSchema schema, String namespace, String localName)
+  public static List<XSDElementDeclaration> findElementsUsingType(XSDSchema schema, String namespace, String localName)
   {
     if ((null == schema) || (null == localName))
     {
       throw new IllegalArgumentException("findElementsUsingType called with null schema/localName");
     }
 
-    ArrayList elemsUsingType = new ArrayList();
+    ArrayList<XSDElementDeclaration> elemsUsingType = new ArrayList<XSDElementDeclaration>();
 
     // A handy convenience method quickly gets all 
     // elementDeclarations within our schema; note that 
     // whether or not this returns types in included, 
     // imported, or redefined schemas is subject to change
-    List elemDecls = schema.getElementDeclarations();
+    List<XSDElementDeclaration> elemDecls = schema.getElementDeclarations();
 
-    for (Iterator iter = elemDecls.iterator(); 
-        iter.hasNext(); /* no-op */)
+    for (XSDElementDeclaration elem : elemDecls)
     {
-      XSDElementDeclaration elem = (XSDElementDeclaration)iter.next();
       XSDTypeDefinition typedef = null;
       if (elem.getAnonymousTypeDefinition() != null)
       {
@@ -227,13 +223,13 @@ public abstract class XSDSchemaQueryTools
    * found, and values are one of 'import', 'include', 'redefine';
    * null if none found or an error occoured
    */
-  public static HashMap hasImpInclRedef(XSDSchema schema)
+  public static HashMap<String, String> hasImpInclRedef(XSDSchema schema)
   {
     if (null == schema)
     {
       throw new IllegalArgumentException("hasImpInclRedef called with null schema");
     }
-    HashMap hash = new HashMap();
+    HashMap<String, String> hash = new HashMap<String, String>();
 
     // Recurse to map all imports/includes/redefines
     mapImpInclRedef(schema, hash, 0);
@@ -260,13 +256,13 @@ public abstract class XSDSchemaQueryTools
    * found, and values are one of 'import', 'include', 'redefine';
    * null if none found or an error occoured
    */
-  public static HashMap hasImpInclRedef2(XSDSchema schema)
+  public static HashMap<String, String> hasImpInclRedef2(XSDSchema schema)
   {
     if (null == schema)
     {
       throw new IllegalArgumentException("hasImpInclRedef2 called with null schema");
     }
-    HashMap hash = new HashMap();
+    HashMap<String, String> hash = new HashMap<String, String>();
 
     // Use the Resource framework to iterate through any 
     // other resources that were loaded along with this schema 
@@ -278,19 +274,17 @@ public abstract class XSDSchemaQueryTools
 
     // Iterate over all the resources, i.e., the main resource 
     // and those that have been included, imported, or redefined.
-    for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )
+    for (Resource resource : resourceSet.getResources())
     {
       // Check for schema resources.
-      Resource resource = (Resource)resources.next();
       if (resource instanceof XSDResourceImpl)
       {
         XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
 
         // Iterate over each schema's content looking for directives.
         XSDSchema otherSchema = xsdResource.getSchema();
-        for (Iterator contents = otherSchema.getContents().iterator(); contents.hasNext(); )
+        for (XSDSchemaContent content : otherSchema.getContents())
         {
-          XSDSchemaContent content = (XSDSchemaContent)contents.next();
           if (content instanceof XSDSchemaDirective)
           {
             XSDSchemaDirective schemaDirective = (XSDSchemaDirective)content;
@@ -352,13 +346,12 @@ public abstract class XSDSchemaQueryTools
    * this object is mutated by this method
    * @param level of iteration we're on
    */
-  protected static void mapImpInclRedef(XSDSchema schema, HashMap hash, int level)
+  protected static void mapImpInclRedef(XSDSchema schema, HashMap<String, String> hash, int level)
   {
     // Iterate through this schema itself to see what 
     // other schemas it *directly* import/include/redefines
-    for (Iterator schemaContents = schema.getContents().iterator(); schemaContents.hasNext(); )
+    for (XSDSchemaContent schemaContent : schema.getContents())
     {
-      XSDSchemaContent schemaContent = (XSDSchemaContent)schemaContents.next();
       if (schemaContent instanceof XSDSchemaDirective)
       {
         XSDSchemaDirective schemaDirective = (XSDSchemaDirective)schemaContent;

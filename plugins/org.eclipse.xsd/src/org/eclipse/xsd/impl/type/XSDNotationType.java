@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationType.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDNotationType.java,v 1.5 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.xml.type.internal.QName;
 
 public class XSDNotationType extends XSDAnySimpleType
 {
+  @Override
   public Object getValue (String literal)
   {
     try

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDCompositor.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDCompositor.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -33,8 +33,44 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDCompositor extends AbstractEnumerator
+public enum XSDCompositor implements Enumerator
 {
+  /**
+   * The '<em><b>All</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #ALL
+   * @generated
+   * @ordered
+   */
+  ALL_LITERAL(0, "all", "all"),
+
+  /**
+   * The '<em><b>Choice</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #CHOICE
+   * @generated
+   * @ordered
+   */
+  CHOICE_LITERAL(1, "choice", "choice"),
+
+  /**
+   * The '<em><b>Sequence</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #SEQUENCE
+   * @generated
+   * @ordered
+   */
+  SEQUENCE_LITERAL(2, "sequence", "sequence");
+
   /**
    * The '<em><b>All</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -76,41 +112,6 @@ public final class XSDCompositor extends AbstractEnumerator
    * @ordered
    */
   public static final int SEQUENCE = 2;
-  /**
-   * The '<em><b>All</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #ALL
-   * @generated
-   * @ordered
-   */
-  public static final XSDCompositor ALL_LITERAL = new XSDCompositor(ALL, "all", "all");
-
-  /**
-   * The '<em><b>Choice</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #CHOICE
-   * @generated
-   * @ordered
-   */
-  public static final XSDCompositor CHOICE_LITERAL = new XSDCompositor(CHOICE, "choice", "choice");
-
-  /**
-   * The '<em><b>Sequence</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #SEQUENCE
-   * @generated
-   * @ordered
-   */
-  public static final XSDCompositor SEQUENCE_LITERAL = new XSDCompositor(SEQUENCE, "sequence", "sequence");
 
   /**
    * An array of all the '<em><b>Compositor</b></em>' enumerators.
@@ -132,7 +133,7 @@ public final class XSDCompositor extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDCompositor> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Compositor</b></em>' literal with the specified literal value.
@@ -190,6 +191,27 @@ public final class XSDCompositor extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -197,7 +219,50 @@ public final class XSDCompositor extends AbstractEnumerator
    */
   private XSDCompositor(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
 } 

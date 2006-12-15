@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFeatureImpl.java,v 1.10 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDFeatureImpl.java,v 1.11 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -197,6 +197,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_FEATURE;
@@ -358,6 +359,7 @@ public abstract class XSDFeatureImpl
     return isGlobal() ? Boolean.TRUE : Boolean.FALSE;
   }
 
+  @Override
   protected boolean analyze()
   {
     super.analyze();
@@ -378,6 +380,7 @@ public abstract class XSDFeatureImpl
             }
             catch (RuntimeException exception)
             {
+              // Ignore
             }
           }
         }
@@ -392,6 +395,7 @@ public abstract class XSDFeatureImpl
     return true;
   }
 
+  @Override
   protected boolean isUpdatingDOM()
   {
     return 
@@ -400,6 +404,7 @@ public abstract class XSDFeatureImpl
           ((XSDConcreteComponentImpl)getContainer()).isUpdatingDOM();
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -443,6 +448,7 @@ public abstract class XSDFeatureImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -527,6 +533,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -581,6 +588,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -612,12 +620,13 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case XSDPackage.XSD_FEATURE__VALUE:
-        setValue((Object)newValue);
+        setValue(newValue);
         return;
       case XSDPackage.XSD_FEATURE__CONSTRAINT:
         setConstraint((XSDConstraint)newValue);
@@ -637,6 +646,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -662,6 +672,7 @@ public abstract class XSDFeatureImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)

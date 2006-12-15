@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NameMangler.java,v 1.1 2006/04/30 17:21:51 emerks Exp $
+ * $Id: NameMangler.java,v 1.2 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.ecore;
 
@@ -20,7 +20,6 @@ package org.eclipse.xsd.ecore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -30,6 +29,7 @@ public class NameMangler
 {
   public NameMangler()
   {
+    super();
   }
 
   // This behaves like CodeGenUtil.uncapPrefixedName(), which isn't available here,
@@ -61,12 +61,12 @@ public class NameMangler
     }
   }
 
-  protected static final List DOMAINS = Arrays.asList(new String [] { "COM", "com", "ORG", "org" });
+  protected static final List<String> DOMAINS = Arrays.asList(new String [] { "COM", "com", "ORG", "org" });
 
   public String qualifiedPackageName(String namespace)
   {
     URI uri = URI.createURI(namespace);
-    List parsedName;
+    List<String> parsedName;
     if (uri.isHierarchical())
     {
       String host = uri.host();
@@ -78,7 +78,7 @@ public class NameMangler
       Collections.reverse(parsedName);
       if (!parsedName.isEmpty())
       {
-        parsedName.set(0, ((String)parsedName.get(0)).toLowerCase());
+        parsedName.set(0, parsedName.get(0).toLowerCase());
       }
 
       parsedName.addAll(parseName(uri.trimFileExtension().path(), '/'));
@@ -93,7 +93,7 @@ public class NameMangler
         if (parsedName.size() > 0 && DOMAINS.contains(parsedName.get(parsedName.size() - 1))) 
         {
           Collections.reverse(parsedName);
-          parsedName.set(0, ((String)parsedName.get(0)).toLowerCase());
+          parsedName.set(0, parsedName.get(0).toLowerCase());
         }
         parsedName.addAll(parseName(opaquePart.substring(index + 1), '/'));
       }
@@ -104,9 +104,8 @@ public class NameMangler
     }
 
     StringBuffer qualifiedPackageName = new StringBuffer();
-    for (Iterator i = parsedName.iterator(); i.hasNext(); )
+    for (String packageName : parsedName)
     {
-      String packageName = (String)i.next();
       if (packageName.length() > 0)
       {
         if (qualifiedPackageName.length() > 0)
@@ -135,11 +134,10 @@ public class NameMangler
 
   protected String validName(String name, int casing, String prefix)
   {
-    List parsedName = parseName(name, '_');
+    List<String> parsedName = parseName(name, '_');
     StringBuffer result = new StringBuffer();
-    for (Iterator i = parsedName.iterator(); i.hasNext(); )
+    for (String nameComponent : parsedName)
     {
-      String nameComponent = (String)i.next();
       if (nameComponent.length() > 0)
       {
         if (result.length() > 0 || casing == UPPER_CASE)
@@ -168,9 +166,9 @@ public class NameMangler
   // except it also removes invalid indentifier characters.
   // The two methods should be kept in synch. 
   //
-  protected List parseName(String sourceName, char separator)
+  protected List<String> parseName(String sourceName, char separator)
   {
-    List result = new ArrayList();
+    List<String> result = new ArrayList<String>();
     if (sourceName != null)
     {
       StringBuffer currentWord = new StringBuffer();

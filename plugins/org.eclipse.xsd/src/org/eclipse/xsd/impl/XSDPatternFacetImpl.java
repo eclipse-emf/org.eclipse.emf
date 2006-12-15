@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDPatternFacetImpl.java,v 1.12 2006/12/05 20:32:15 emerks Exp $
+ * $Id: XSDPatternFacetImpl.java,v 1.13 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -97,6 +96,7 @@ public class XSDPatternFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_PATTERN_FACET;
@@ -121,6 +121,7 @@ public class XSDPatternFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -136,6 +137,8 @@ public class XSDPatternFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -153,6 +156,7 @@ public class XSDPatternFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -169,6 +173,7 @@ public class XSDPatternFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -184,6 +189,7 @@ public class XSDPatternFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -195,6 +201,7 @@ public class XSDPatternFacetImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.PATTERN_ELEMENT);
@@ -202,13 +209,13 @@ public class XSDPatternFacetImpl
     return newElement;
   }
 
-  protected Collection patterns;
-  public Collection getPatterns(boolean withDiagnostics)
+  protected Collection<RegularExpression> patterns;
+  public Collection<RegularExpression> getPatterns(boolean withDiagnostics)
   {
     if (patterns == null || withDiagnostics)
     {
-      patterns = new ArrayList();
-      Collection theValues = getValue();
+      patterns = new ArrayList<RegularExpression>();
+      Collection<String> theValues = getValue();
       if (theValues.isEmpty())
       {
         XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)getContainer();
@@ -219,9 +226,8 @@ public class XSDPatternFacetImpl
       }
       else
       {
-        for (Iterator values = theValues.iterator(); values.hasNext(); )
+        for (String value : theValues)
         {
-          String value = (String)values.next();
           try
           {
             patterns.add(new RegularExpression(value, "X"));
@@ -239,6 +245,7 @@ public class XSDPatternFacetImpl
     return patterns;
   }
 
+  @Override
   public void validateValue()
   {
     getPatterns(true);
@@ -262,6 +269,7 @@ public class XSDPatternFacetImpl
     return result;
   }
 
+  @Override
   protected boolean analyze()
   {
     super.analyze();
@@ -282,6 +290,7 @@ public class XSDPatternFacetImpl
     return true;
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -291,11 +300,11 @@ public class XSDPatternFacetImpl
       patterns = null;
     }
   }
+  @Override
   public boolean isConstraintSatisfied(Object value)
   {
-    for (Iterator thePatterns = getPatterns(false).iterator(); thePatterns.hasNext(); )
+    for (RegularExpression pattern : getPatterns(false))
     {
-      RegularExpression pattern = (RegularExpression)thePatterns.next();
       if (!pattern.matches((String)value))
       {
         return false;
@@ -304,11 +313,13 @@ public class XSDPatternFacetImpl
     return true;
   }
 
+  @Override
   public Object getEffectiveValue()
   {
     return getValue();
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDPatternFacetImpl clonedPatternFacet =

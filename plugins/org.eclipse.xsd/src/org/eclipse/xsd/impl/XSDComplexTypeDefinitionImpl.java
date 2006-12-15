@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionImpl.java,v 1.19 2006/12/05 20:32:13 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionImpl.java,v 1.20 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -384,6 +384,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION;
@@ -787,6 +788,7 @@ public class XSDComplexTypeDefinitionImpl
     return contentType;
   }
 
+  @Override
   public XSDParticle getComplexType()
   {
     return getContentType() instanceof XSDParticle ? (XSDParticle)getContentType() : null;
@@ -904,6 +906,7 @@ public class XSDComplexTypeDefinitionImpl
     return msgs;
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.COMPLEXTYPE_ELEMENT);
@@ -951,9 +954,8 @@ public class XSDComplexTypeDefinitionImpl
       }
     }
 
-    for (Iterator attributes = getAttributeContents().iterator(); attributes.hasNext(); )
+    for (XSDAttributeGroupContent xsdAttributeGroupContent : getAttributeContents())
     {
-      XSDAttributeGroupContent xsdAttributeGroupContent = (XSDAttributeGroupContent)attributes.next();
       Element attributeElement = ((XSDConcreteComponentImpl)xsdAttributeGroupContent).createElement();
       attributeParentElement.appendChild(attributeElement);
     }
@@ -983,11 +985,13 @@ public class XSDComplexTypeDefinitionImpl
            XSDConstants.RESTRICTION_ELEMENT);
   }
 
+  @Override
   protected boolean considerAllContainsForBestConcreteComponent()
   {
     return true;
   }
 
+  @Override
   protected void patch()
   {
     super.patch();
@@ -1001,12 +1005,11 @@ public class XSDComplexTypeDefinitionImpl
     XSDSchema xsdSchema = getSchema();
     if (xsdSchema != null)
     {
-      List newFinal = new ArrayList();
+      List<XSDComplexFinal> newFinal = new ArrayList<XSDComplexFinal>();
       if (!isSetLexicalFinal())
       {
-        for (Iterator values = getSchema().getFinalDefault().iterator(); values.hasNext(); )
+        for (XSDProhibitedSubstitutions value : getSchema().getFinalDefault())
         {
-          XSDProhibitedSubstitutions value = (XSDProhibitedSubstitutions)values.next();
           switch (value.getValue())
           {
             case XSDProhibitedSubstitutions.ALL:
@@ -1030,9 +1033,8 @@ public class XSDComplexTypeDefinitionImpl
       }
       else
       {
-        for (Iterator values = getLexicalFinal().iterator(); values.hasNext(); )
+        for (XSDComplexFinal value :  getLexicalFinal())
         {
-          XSDComplexFinal value = (XSDComplexFinal)values.next();
           switch (value.getValue())
           {
             case XSDComplexFinal.ALL:
@@ -1051,7 +1053,7 @@ public class XSDComplexTypeDefinitionImpl
         }
       }
 
-      Collection oldFinal = new ArrayList(getFinal());
+      Collection<XSDComplexFinal> oldFinal = new ArrayList<XSDComplexFinal>(getFinal());
       oldFinal.removeAll(newFinal);
       if (!oldFinal.isEmpty())
       {
@@ -1059,12 +1061,11 @@ public class XSDComplexTypeDefinitionImpl
       }
       setListContentAndOrder(getFinal(), newFinal);
 
-      List newProhibitedSubstitutions = new ArrayList();
+      List<XSDProhibitedSubstitutions> newProhibitedSubstitutions = new ArrayList<XSDProhibitedSubstitutions>();
       if (!isSetBlock())
       {
-        for (Iterator values = getSchema().getBlockDefault().iterator(); values.hasNext(); )
+        for (XSDDisallowedSubstitutions value :  getSchema().getBlockDefault())
         {
-          XSDDisallowedSubstitutions value = (XSDDisallowedSubstitutions)values.next();
           switch (value.getValue())
           {
             case XSDDisallowedSubstitutions.ALL:
@@ -1088,9 +1089,8 @@ public class XSDComplexTypeDefinitionImpl
       }
       else
       {
-        for (Iterator values = getBlock().iterator(); values.hasNext(); )
+        for (XSDProhibitedSubstitutions value : getBlock())
         {
-          XSDProhibitedSubstitutions value = (XSDProhibitedSubstitutions)values.next();
           switch (value.getValue())
           {
             case XSDProhibitedSubstitutions.ALL:
@@ -1109,7 +1109,7 @@ public class XSDComplexTypeDefinitionImpl
         }
       }
 
-      Collection oldProhibitedSubstitutions = new ArrayList(getProhibitedSubstitutions());
+      Collection<XSDProhibitedSubstitutions> oldProhibitedSubstitutions = new ArrayList<XSDProhibitedSubstitutions>(getProhibitedSubstitutions());
       oldProhibitedSubstitutions.removeAll(newProhibitedSubstitutions);
       if (!oldProhibitedSubstitutions.isEmpty())
       {
@@ -1121,6 +1121,7 @@ public class XSDComplexTypeDefinitionImpl
 
   protected XSDParticle extensionParticle;
   protected XSDWildcardImpl effectiveWildcard;
+  @Override
   protected void handleAnalysis()
   {
     XSDTypeDefinition theBaseTypeDefinition = getBaseTypeDefinition();
@@ -1133,14 +1134,14 @@ public class XSDComplexTypeDefinitionImpl
       ((XSDConcreteComponentImpl)theBaseTypeDefinition).analyze();
       if (theBaseTypeDefinition != this)
       {
-        List baseAttributeUses = Collections.EMPTY_LIST;
+        List<XSDAttributeUse> baseAttributeUses = Collections.emptyList();
         if (theBaseTypeDefinition instanceof XSDComplexTypeDefinition)
         {
           baseAttributeUses = ((XSDComplexTypeDefinition)theBaseTypeDefinition).getAttributeUses();
         }
-        EList theAttributeUses = getAttributeUses();
-        List newAttributeUses = XSDAttributeGroupDefinitionImpl.getAttributeUses(getAttributeContents(), baseAttributeUses);
-        List remainingAttributeUses = new ArrayList(theAttributeUses);
+        EList<XSDAttributeUse> theAttributeUses = getAttributeUses();
+        List<XSDAttributeUse> newAttributeUses = XSDAttributeGroupDefinitionImpl.getAttributeUses(getAttributeContents(), baseAttributeUses);
+        List<XSDAttributeUse> remainingAttributeUses = new ArrayList<XSDAttributeUse>(theAttributeUses);
         remainingAttributeUses.removeAll(newAttributeUses);
         theAttributeUses.removeAll(remainingAttributeUses);
         setListContentAndOrder(theAttributeUses, newAttributeUses);
@@ -1219,13 +1220,13 @@ public class XSDComplexTypeDefinitionImpl
               }
 
               XSDModelGroup extensionGroup = (XSDModelGroup)extensionParticle.getTerm();
-              List newParticles = new ArrayList();
-              newParticles.add(baseContentType);
+              List<XSDParticle> newParticles = new ArrayList<XSDParticle>();
+              newParticles.add((XSDParticle)baseContentType);
               if (getContent() != null)
               {
-                newParticles.add(getContent());
+                newParticles.add((XSDParticle)getContent());
               }
-              List remainingParticles = new ArrayList(extensionGroup.getParticles());
+              List<XSDParticle> remainingParticles = new ArrayList<XSDParticle>(extensionGroup.getParticles());
               remainingParticles.removeAll(newParticles);
               if (!remainingParticles.isEmpty())
               {
@@ -1333,6 +1334,7 @@ public class XSDComplexTypeDefinitionImpl
     }
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -1529,7 +1531,7 @@ public class XSDComplexTypeDefinitionImpl
          true);
     }
 
-    Map prohibitedAttributeURIs = null;
+    Map<String, XSDAttributeDeclaration> prohibitedAttributeURIs = null;
 
     XSDTypeDefinition theBaseTypeDefinition = getBaseTypeDefinition();
     if (theBaseTypeDefinition == null)
@@ -1602,14 +1604,12 @@ public class XSDComplexTypeDefinitionImpl
           }
           else
           {
-            for (Iterator i = xsdComplexTypeDefinition.getAttributeUses().iterator();  i.hasNext(); )
+            for (XSDAttributeUse baseXSDAttributeUse : xsdComplexTypeDefinition.getAttributeUses())
             {
               boolean matched = false;
-              XSDAttributeUse baseXSDAttributeUse = (XSDAttributeUse)i.next();
               XSDAttributeDeclaration baseXSDAttributeDeclaration = baseXSDAttributeUse.getAttributeDeclaration();
-              for (Iterator j = getAttributeUses().iterator(); j.hasNext(); )
+              for (XSDAttributeUse xsdAttributeUse : getAttributeUses())
               {
-                XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)j.next();
                 XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
                 if (xsdAttributeDeclaration.hasSameNameAndTargetNamespace(baseXSDAttributeDeclaration))
                 {
@@ -1779,10 +1779,9 @@ public class XSDComplexTypeDefinitionImpl
 
     XSDAttributeDeclaration idAttribute = null;
 
-    Set uris = new HashSet();
-    for (Iterator i = getAttributeUses().iterator(); i.hasNext(); )
+    Set<String> uris = new HashSet<String>();
+    for (XSDAttributeUse xsdAttributeUse : getAttributeUses())
     {
-      XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)i.next();
       XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
       String uri = xsdAttributeDeclaration.getURI();
       if (prohibitedAttributeURIs != null && prohibitedAttributeURIs.containsKey(uri))
@@ -1810,9 +1809,9 @@ public class XSDComplexTypeDefinitionImpl
     }
   }
 
-  protected static Map getProhibitedAttributeURIs(XSDComplexTypeDefinition xsdComplexTypeDefinition)
+  protected static Map<String, XSDAttributeDeclaration> getProhibitedAttributeURIs(XSDComplexTypeDefinition xsdComplexTypeDefinition)
   {
-    Map result = getProhibitedAttributes(xsdComplexTypeDefinition.getAttributeContents());
+    Map<String, XSDAttributeDeclaration> result = getProhibitedAttributes(xsdComplexTypeDefinition.getAttributeContents());
     if (xsdComplexTypeDefinition.getBaseTypeDefinition() instanceof XSDComplexTypeDefinition && 
           !xsdComplexTypeDefinition.isCircular())
     {
@@ -1823,12 +1822,11 @@ public class XSDComplexTypeDefinitionImpl
     return result;
   }
 
-  protected static Map getProhibitedAttributes(Collection xsdAttributeContents)
+  protected static Map<String, XSDAttributeDeclaration> getProhibitedAttributes(Collection<XSDAttributeGroupContent> xsdAttributeContents)
   {
-    Map result = new HashMap();
-    for (Iterator i = xsdAttributeContents.iterator(); i.hasNext(); )
+    Map<String, XSDAttributeDeclaration> result = new HashMap<String, XSDAttributeDeclaration>();
+    for (XSDAttributeGroupContent xsdAttributeGroupContent :  xsdAttributeContents)
     {
-      XSDAttributeGroupContent xsdAttributeGroupContent = (XSDAttributeGroupContent)i.next();
       if (xsdAttributeGroupContent instanceof XSDAttributeGroupDefinition)
       {
         XSDAttributeGroupDefinition xsdAttributeGroupDefinition = (XSDAttributeGroupDefinition)xsdAttributeGroupContent;
@@ -1850,20 +1848,18 @@ public class XSDComplexTypeDefinitionImpl
   public static void validateAttributeGroup
     (XSDConcreteComponentImpl xsdConcreteComponent, 
      XSDWildcard containedWildcard,
-     EList baseXSDAttributeUses, 
-     EList xsdAttributeUses, 
+     EList<XSDAttributeUse> baseXSDAttributeUses, 
+     EList<XSDAttributeUse> xsdAttributeUses, 
      XSDWildcard baseXSDWildcard, 
      XSDWildcard xsdWildcard)
   {
-    List unmatchedBaseAttributeUses = new ArrayList(baseXSDAttributeUses);
-    for (Iterator i = xsdAttributeUses.iterator(); i.hasNext(); )
+    List<XSDAttributeUse> unmatchedBaseAttributeUses = new ArrayList<XSDAttributeUse>(baseXSDAttributeUses);
+    for (XSDAttributeUse xsdAttributeUse : xsdAttributeUses)
     {
-      XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)i.next();
       XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
       boolean matched = false;
-      for (Iterator j = baseXSDAttributeUses.iterator();  j.hasNext(); )
+      for (XSDAttributeUse baseXSDAttributeUse :  baseXSDAttributeUses)
       {
-        XSDAttributeUse baseXSDAttributeUse = (XSDAttributeUse)j.next();
         XSDAttributeDeclaration baseXSDAttributeDeclaration = baseXSDAttributeUse.getAttributeDeclaration();
         if (xsdAttributeDeclaration.hasSameNameAndTargetNamespace(baseXSDAttributeDeclaration))
         {
@@ -1904,9 +1900,8 @@ public class XSDComplexTypeDefinitionImpl
       }
     }
 
-    for (Iterator i = unmatchedBaseAttributeUses.iterator(); i.hasNext(); )
+    for (XSDAttributeUse baseXSDAttributeUse : unmatchedBaseAttributeUses)
     {
-      XSDAttributeUse baseXSDAttributeUse = (XSDAttributeUse)i.next();
       if (baseXSDAttributeUse.isRequired())
       {
         xsdConcreteComponent.createDiagnostic
@@ -1930,6 +1925,7 @@ public class XSDComplexTypeDefinitionImpl
     }
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -2068,6 +2064,7 @@ public class XSDComplexTypeDefinitionImpl
     return newBaseTypeDefinition;
   }
 
+  @Override
   protected Node getAdoptionParentNode(EReference eReference)
   {
     if (eReference == XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT ||
@@ -2084,16 +2081,17 @@ public class XSDComplexTypeDefinitionImpl
     return super.getAdoptionParentNode(eReference);
   }
 
-  protected Collection getContentNodes(Element changedElement)
+  @Override
+  protected Collection<Element> getContentNodes(Element changedElement)
   {
-    Collection result = new ArrayList();
+    Collection<Element> result = new ArrayList<Element>();
     for (Node child = getElement().getFirstChild(); child != null; child = child.getNextSibling())
     {
       switch (XSDConstants.nodeType(child))
       {
         case XSDConstants.SIMPLECONTENT_ELEMENT:
         {
-          result.add(child);
+          result.add((Element)child);
 
           // DROP to case
         }
@@ -2105,7 +2103,7 @@ public class XSDComplexTypeDefinitionImpl
             {
               case XSDConstants.ANNOTATION_ELEMENT:
               {
-                result.add(grandChild);
+                result.add((Element)grandChild);
                 break;
               }
               case XSDConstants.EXTENSION_ELEMENT:
@@ -2126,7 +2124,7 @@ public class XSDComplexTypeDefinitionImpl
                     case XSDConstants.ATTRIBUTEGROUP_ELEMENT:
                     case XSDConstants.ANNOTATION_ELEMENT:
                     {
-                      result.add(greatGrandChild);
+                      result.add((Element)greatGrandChild);
                       break;
                     }
                   }
@@ -2146,7 +2144,7 @@ public class XSDComplexTypeDefinitionImpl
         case XSDConstants.ATTRIBUTEGROUP_ELEMENT:
         case XSDConstants.ANNOTATION_ELEMENT:
         {
-          result.add(child);
+          result.add((Element)child);
           break;
         }
       }
@@ -2154,7 +2152,8 @@ public class XSDComplexTypeDefinitionImpl
     return result;
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     switch (XSDConstants.nodeType(child))
     {
@@ -2218,7 +2217,8 @@ public class XSDComplexTypeDefinitionImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     handleAnnotationReconciliation(XSDPackage.Literals.XSD_TYPE_DEFINITION__ANNOTATION, newContents, remainingContents);
     handleAnnotationReconciliation(XSDPackage.Literals.XSD_COMPLEX_TYPE_DEFINITION__CONTENT_ANNOTATION, newContents, remainingContents);
@@ -2269,14 +2269,15 @@ public class XSDComplexTypeDefinitionImpl
     }
     if (!newContents.isEmpty())
     {
-      for (Iterator i = newContents.iterator(); i.hasNext(); )
+      for (Iterator<XSDConcreteComponent> i = newContents.iterator(); i.hasNext(); )
       {
         if (!(i.next() instanceof XSDAttributeGroupContent))
         {
           i.remove();
         }
       }
-      setListContentAndOrder(getAttributeContents(), newContents);
+      @SuppressWarnings("unchecked") List<XSDAttributeGroupContent> list = (List<XSDAttributeGroupContent>)(List<?>)newContents;
+      setListContentAndOrder(getAttributeContents(), list);
     }
 
     XSDDerivationMethod newDerivationMethod = null;
@@ -2337,6 +2338,7 @@ public class XSDComplexTypeDefinitionImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -2410,6 +2412,7 @@ public class XSDComplexTypeDefinitionImpl
     }
   }
 
+  @Override
   protected void changeReference(EReference eReference)
   {
     super.changeReference(eReference);
@@ -2554,6 +2557,7 @@ public class XSDComplexTypeDefinitionImpl
     }
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     Node firstAdoptee = null;
@@ -2663,6 +2667,7 @@ public class XSDComplexTypeDefinitionImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     Node firstAdoptee = null;
@@ -2736,11 +2741,13 @@ public class XSDComplexTypeDefinitionImpl
     }
   }
 
+  @Override
   public XSDTypeDefinition getBaseType()
   {
     return getBaseTypeDefinition();
   }
 
+  @Override
   public XSDTypeDefinition getRootType()
   {
     return getRootTypeDefinition();
@@ -2862,6 +2869,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -2887,6 +2895,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -2938,6 +2947,8 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -3011,6 +3022,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -3078,6 +3090,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -3129,6 +3142,7 @@ public class XSDComplexTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -3154,6 +3168,7 @@ public class XSDComplexTypeDefinitionImpl
     return result.toString();
   }
 
+  @Override
   public XSDSimpleTypeDefinition getSimpleType()
   {
     return 
@@ -3167,9 +3182,8 @@ public class XSDComplexTypeDefinitionImpl
     if (isSetLexicalFinal())
     {
       StringBuffer result = new StringBuffer();
-      for (Iterator literals = getLexicalFinal().iterator(); literals.hasNext(); )
+      for (Object literal : getLexicalFinal())
       {
-        Object literal = literals.next();
         if (result.length() != 0)
         {
           result.append(' ');
@@ -3199,7 +3213,7 @@ public class XSDComplexTypeDefinitionImpl
     }
     else
     {
-      List newLexicalFinal = new ArrayList();
+      List<XSDComplexFinal> newLexicalFinal = new ArrayList<XSDComplexFinal>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(finalDefault); stringTokenizer.hasMoreTokens(); )
       {
         String token = stringTokenizer.nextToken();
@@ -3215,7 +3229,7 @@ public class XSDComplexTypeDefinitionImpl
       }
       if (!newLexicalFinal.equals(getLexicalFinal()))
       {
-        Collection oldContents = new ArrayList(getLexicalFinal());
+        Collection<XSDComplexFinal> oldContents = new ArrayList<XSDComplexFinal>(getLexicalFinal());
         oldContents.removeAll(newLexicalFinal);
         if (!oldContents.isEmpty())
         {
@@ -3233,9 +3247,8 @@ public class XSDComplexTypeDefinitionImpl
   public String getStringFinal()
   {
     StringBuffer result = new StringBuffer();
-    for (Iterator literals = getFinal().iterator(); literals.hasNext(); )
+    for (Object literal : getFinal())
     {
-      Object literal = literals.next();
       if (result.length() != 0)
       {
         result.append(' ');
@@ -3251,9 +3264,8 @@ public class XSDComplexTypeDefinitionImpl
     if (isSetBlock())
     {
       StringBuffer result = new StringBuffer();
-      for (Iterator literals = getBlock().iterator(); literals.hasNext(); )
+      for (Object literal : getBlock())
       {
-        Object literal = literals.next();
         if (result.length() != 0)
         {
           result.append(' ');
@@ -3283,7 +3295,7 @@ public class XSDComplexTypeDefinitionImpl
     }
     else
     {
-      List newBlock = new ArrayList();
+      List<XSDProhibitedSubstitutions> newBlock = new ArrayList<XSDProhibitedSubstitutions>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(block); stringTokenizer.hasMoreTokens(); )
       {
         String token = stringTokenizer.nextToken();
@@ -3299,7 +3311,7 @@ public class XSDComplexTypeDefinitionImpl
       }
       if (!newBlock.equals(getBlock()))
       {
-        Collection oldContents = new ArrayList(getBlock());
+        Collection<XSDProhibitedSubstitutions> oldContents = new ArrayList<XSDProhibitedSubstitutions>(getBlock());
         oldContents.removeAll(newBlock);
         if (!oldContents.isEmpty())
         {
@@ -3317,9 +3329,8 @@ public class XSDComplexTypeDefinitionImpl
   public String getStringProhibitedSubstitutions()
   {
     StringBuffer result = new StringBuffer();
-    for (Iterator literals = getProhibitedSubstitutions().iterator(); literals.hasNext(); )
+    for (Object literal :  getProhibitedSubstitutions())
     {
-      Object literal = literals.next();
       if (result.length() != 0)
       {
         result.append(' ');
@@ -3329,6 +3340,7 @@ public class XSDComplexTypeDefinitionImpl
     return result.toString();
   }
 
+  @Override
   public XSDTypeDefinition getBadTypeDerivation(XSDTypeDefinition xsdTypeDefinition, boolean extension, boolean restriction)
   {
     if (xsdTypeDefinition == this)
@@ -3361,6 +3373,7 @@ public class XSDComplexTypeDefinitionImpl
     }
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDComplexTypeDefinitionImpl clonedComplexTypeDefinition =

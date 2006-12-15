@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTotalDigitsFacetImpl.java,v 1.9 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDTotalDigitsFacetImpl.java,v 1.10 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -100,6 +100,7 @@ public class XSDTotalDigitsFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_TOTAL_DIGITS_FACET;
@@ -133,6 +134,7 @@ public class XSDTotalDigitsFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -148,6 +150,7 @@ public class XSDTotalDigitsFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -164,6 +167,7 @@ public class XSDTotalDigitsFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -180,6 +184,7 @@ public class XSDTotalDigitsFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -195,6 +200,7 @@ public class XSDTotalDigitsFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -206,6 +212,7 @@ public class XSDTotalDigitsFacetImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.TOTALDIGITS_ELEMENT);
@@ -213,6 +220,7 @@ public class XSDTotalDigitsFacetImpl
     return newElement;
   }
 
+  @Override
   protected void validateValue()
   {
     checkBuiltInTypeConstraint
@@ -225,6 +233,7 @@ public class XSDTotalDigitsFacetImpl
        true);
   }
 
+  @Override
   protected void validateRestriction(XSDFixedFacet xsdFixedFacet)
   {
     if (getValue() > ((XSDTotalDigitsFacet)xsdFixedFacet).getValue())
@@ -240,6 +249,7 @@ public class XSDTotalDigitsFacetImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -268,16 +278,19 @@ public class XSDTotalDigitsFacetImpl
     }
   }
 
+  @Override
   public boolean isConstraintSatisfied(Object value)
   {
     return value instanceof BigDecimal && ((BigDecimal)value).unscaledValue().abs().toString().length() <= getValue();
   }
 
+  @Override
   public Object getEffectiveValue()
   {
     return new Integer(getValue());
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDTotalDigitsFacetImpl clonedTotalDigitsFacet =

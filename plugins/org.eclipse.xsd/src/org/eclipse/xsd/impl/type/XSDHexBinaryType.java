@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDHexBinaryType.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDHexBinaryType.java,v 1.5 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.xml.type.internal.DataValue.HexBin;
 
 public class XSDHexBinaryType extends XSDAnySimpleType
 {
+  @Override
   public Object getValue(String literal)
   {
     byte[] bytes = HexBin.decode(literal);

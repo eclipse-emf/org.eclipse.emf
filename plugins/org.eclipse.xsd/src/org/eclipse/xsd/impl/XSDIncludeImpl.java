@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIncludeImpl.java,v 1.8 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDIncludeImpl.java,v 1.9 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -89,6 +89,7 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_INCLUDE;
@@ -130,6 +131,7 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -162,6 +164,7 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -177,6 +180,7 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -193,6 +197,7 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -209,6 +214,7 @@ public class XSDIncludeImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -219,6 +225,7 @@ public class XSDIncludeImpl
     return super.eIsSet(featureID);
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.INCLUDE_ELEMENT);
@@ -226,6 +233,7 @@ public class XSDIncludeImpl
     return newElement;
   }
 
+  @Override
   protected void patch()
   {
     if (getSchemaLocation() != null && getSchemaLocation().length() > 0)
@@ -235,6 +243,7 @@ public class XSDIncludeImpl
     super.patch();
   }
 
+  @Override
   protected void handleResolvedSchema(XSDSchema xsdSchema)
   {
     if (xsdSchema == null)
@@ -248,6 +257,7 @@ public class XSDIncludeImpl
     }
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -323,6 +333,7 @@ public class XSDIncludeImpl
     }
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDIncludeImpl clonedInclude =

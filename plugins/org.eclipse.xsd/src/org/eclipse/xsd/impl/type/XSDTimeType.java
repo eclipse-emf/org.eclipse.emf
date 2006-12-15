@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTimeType.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDTimeType.java,v 1.4 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 
 public class XSDTimeType extends XSDAnySimpleType
 {
+  @Override
   public Object getValue(String normalizedLiteral)
   {
     try
@@ -32,6 +33,7 @@ public class XSDTimeType extends XSDAnySimpleType
     }
   }
 
+  @Override
   public int compareValues(Object value1, Object value2)
   {
     return XMLCalendar.compare((XMLCalendar)value1, (XMLCalendar)value2); 

@@ -49,6 +49,7 @@ public class DefaultJAXPConfiguration implements JAXPConfiguration
     }
     catch (IllegalArgumentException exception)
     {
+      // Ignore
     }
 
     Transformer transformer = transformerFactory.newTransformer();

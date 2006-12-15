@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentImpl.java,v 1.18 2006/12/05 20:32:15 emerks Exp $
+ * $Id: XSDConcreteComponentImpl.java,v 1.19 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -75,7 +75,6 @@ import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTerm;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.XSDVariety;
-import org.eclipse.xsd.XSDWildcard;
 import org.eclipse.xsd.util.XSDConstants;
 
 
@@ -138,7 +137,7 @@ public abstract class XSDConcreteComponentImpl
   protected boolean updatingDOM; 
   protected boolean isReconciling; 
   protected boolean forceResolve; 
-  protected EList xsdContents;
+  protected EList<XSDConcreteComponent> xsdContents;
 
   /**
    * <!-- begin-user-doc -->
@@ -155,6 +154,7 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_CONCRETE_COMPONENT;
@@ -170,39 +170,43 @@ public abstract class XSDConcreteComponentImpl
     return (XSDPackage)eClass().getEPackage();
   }
 
-  public static class XSDContentsEList extends EContentsEList
+  public static class XSDContentsEList extends EContentsEList<XSDConcreteComponent>
   {
     XSDContentsEList(EObject eObject, EStructuralFeature [] eStructuralFeatures)
     {
       super(eObject, eStructuralFeatures);
     }
 
-    protected ListIterator newListIterator()
+    @Override
+    protected ListIterator<XSDConcreteComponent> newListIterator()
     {
       return new FeatureIteratorImpl(eObject, eStructuralFeatures);
     }
 
+    @Override
     protected boolean isIncluded(EStructuralFeature eStructuralFeature)
     {
       EReference eReference = (EReference)eStructuralFeature;
       return !eReference.isTransient();
     }
 
-    public List basicList()
+    @Override
+    public List<XSDConcreteComponent> basicList()
     {
       return new XSDContentsEList(eObject, eStructuralFeatures);
     }
 
-    public Iterator basicIterator()
+    @Override
+    public Iterator<XSDConcreteComponent> basicIterator()
     {
       return new FeatureIteratorImpl(eObject, eStructuralFeatures);
     }
 
-    public static class FeatureIteratorImpl extends EContentsEList.FeatureIteratorImpl
+    public static class FeatureIteratorImpl extends EContentsEList.FeatureIteratorImpl<XSDConcreteComponent>
     {
       public FeatureIteratorImpl(EObject eObject)
       {
-        super(eObject, (EStructuralFeature [])((BasicEList)eObject.eClass().getEAllReferences()).data());
+        super(eObject, (EStructuralFeature [])((BasicEList<?>)eObject.eClass().getEAllReferences()).data());
       }
 
       public FeatureIteratorImpl(EObject eObject, EStructuralFeature [] eStructuralFeatures)
@@ -210,6 +214,7 @@ public abstract class XSDConcreteComponentImpl
         super(eObject, eStructuralFeatures);
       }
 
+      @Override
       protected boolean isIncluded(EStructuralFeature eStructuralFeature)
       {
         EReference eReference = (EReference)eStructuralFeature;
@@ -218,24 +223,29 @@ public abstract class XSDConcreteComponentImpl
     }
   }
 
-  public EList getXSDContents()
+  public EList<XSDConcreteComponent> getXSDContents()
   {
     if (xsdContents == null)
     {
       xsdContents =
         new XSDContentsEList
           (this,
-           (EStructuralFeature [])((BasicEList)eClass().getEAllContainments()).data());
+           (EStructuralFeature [])((BasicEList<?>)eClass().getEAllContainments()).data());
     }
 
     return xsdContents;
   }
 
+  @SuppressWarnings("unchecked")
+  protected EList<XSDConcreteComponentImpl> getXSDConcreteComponentImpls()
+  {
+    return (EList<XSDConcreteComponentImpl>)(EList<?>)getXSDContents();
+  }
+
   public void reset()
   {
-    for (Iterator contents = getXSDContents().iterator(); contents.hasNext(); )
+    for (XSDConcreteComponentImpl content : getXSDConcreteComponentImpls())
     {
-      XSDConcreteComponentImpl content = (XSDConcreteComponentImpl)contents.next();
       content.reset();
     }
   }
@@ -291,11 +301,10 @@ public abstract class XSDConcreteComponentImpl
 
     if (nodeType == XSDConstants.SCHEMA_ELEMENT)
     {
-      for (Iterator entries = xsdSchema.getQNamePrefixToNamespaceMap().entrySet().iterator(); entries.hasNext(); )
+      for (Map.Entry<String, String> entry : xsdSchema.getQNamePrefixToNamespaceMap().entrySet())
       {
-        Map.Entry entry = (Map.Entry)entries.next();
-        String key = (String)entry.getKey();
-        newElement.setAttributeNS(XSDConstants.XMLNS_URI_2000, key == null ? "xmlns" : "xmlns:" + key, (String)entry.getValue());
+        String key = entry.getKey();
+        newElement.setAttributeNS(XSDConstants.XMLNS_URI_2000, key == null ? "xmlns" : "xmlns:" + key, entry.getValue());
       }
 
       String xmlnsAttribute = "xmlns";
@@ -353,16 +362,16 @@ public abstract class XSDConcreteComponentImpl
     changeAttribute(null);
     changeReference(null);
 
-    for (Iterator containments = eClass().getEAllContainments().iterator(); containments.hasNext(); )
+    for (EReference eReference : eClass().getEAllContainments())
     {
-      EReference eReference = (EReference)containments.next();
       if (!eReference.isTransient())
       {
         if (eReference.isMany())
         {
-          for (Iterator objects = ((Collection)eGet(eReference)).iterator(); objects.hasNext(); )
+          @SuppressWarnings("unchecked") 
+          Collection<XSDConcreteComponent> xsdConcreteComponents = ((Collection<XSDConcreteComponent>)eGet(eReference));
+          for (XSDConcreteComponent xsdConcreteComponent : xsdConcreteComponents)
           {
-            XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)objects.next();
             handleElementForAdopt(eReference, xsdConcreteComponent);
             xsdConcreteComponent.updateElement();
           }
@@ -518,9 +527,8 @@ public abstract class XSDConcreteComponentImpl
 
   protected void patch()
   {
-    for (Iterator contents = getXSDContents().iterator(); contents.hasNext(); )
+    for (XSDConcreteComponentImpl content : getXSDConcreteComponentImpls())
     {
-      XSDConcreteComponentImpl content = (XSDConcreteComponentImpl)contents.next();
       content.forceResolve = forceResolve;
       content.isReconciling = true;
       content.patch();
@@ -537,9 +545,8 @@ public abstract class XSDConcreteComponentImpl
   protected boolean analyze()
   {
     boolean result = true;
-    for (Iterator contents = getXSDContents().iterator(); contents.hasNext(); )
+    for (XSDConcreteComponentImpl content : getXSDConcreteComponentImpls())
     {
-      XSDConcreteComponentImpl content = (XSDConcreteComponentImpl)contents.next();
       content.isReconciling = true;
       if (!content.analyze())
       {
@@ -552,23 +559,21 @@ public abstract class XSDConcreteComponentImpl
 
   public void validate()
   {
-    for (Iterator contents = getXSDContents().iterator(); contents.hasNext(); )
+    for (XSDConcreteComponentImpl content : getXSDConcreteComponentImpls())
     {
-      XSDConcreteComponent content = (XSDConcreteComponent)contents.next();
       content.validate();
     }
   }
 
   public void clearDiagnostics()
   {
-    Collection theDiagnostics = getDiagnostics();
+    Collection<XSDDiagnostic> theDiagnostics = getDiagnostics();
     if (!theDiagnostics.isEmpty())
     {
       theDiagnostics.clear();
     }
-    for (Iterator contents = getXSDContents().iterator(); contents.hasNext(); )
+    for (XSDConcreteComponent content : getXSDContents())
     {
-      XSDConcreteComponent content = (XSDConcreteComponent)contents.next();
       content.clearDiagnostics();
     }
   }
@@ -695,9 +700,8 @@ public abstract class XSDConcreteComponentImpl
   private static String getExpected(XSDParticle.DFA.State state)
   {
     StringBuffer result = new StringBuffer();
-    for (Iterator i = state.getTransitions().iterator(); i.hasNext(); )
+    for (XSDParticle.DFA.Transition transition : state.getTransitions())
     {
-      XSDParticle.DFA.Transition transition = (XSDParticle.DFA.Transition)i.next();
       XSDParticle xsdParticle = transition.getParticle();
       XSDTerm xsdTerm = xsdParticle.getTerm();
       if (xsdTerm instanceof XSDElementDeclaration)
@@ -708,9 +712,6 @@ public abstract class XSDConcreteComponentImpl
           result.append(" | ");
         }
         result.append(xsdElementDeclaration.getName());
-      }
-      else if (xsdTerm instanceof XSDWildcard)
-      {
       }
     }
 
@@ -759,9 +760,8 @@ public abstract class XSDConcreteComponentImpl
      String attributeName, 
      boolean isRequired)
   {
-    for (Iterator i = xsdComplexTypeDefinition.getAttributeUses().iterator(); i.hasNext(); )
+    for (XSDAttributeUse xsdAttributeUse : xsdComplexTypeDefinition.getAttributeUses())
     {
-      XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)i.next();
       XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
       if (builtInAttributeName.equals(xsdAttributeDeclaration.getName()))
       {
@@ -807,12 +807,12 @@ public abstract class XSDConcreteComponentImpl
     else
     {
       XSDSimpleTypeDefinition.Assessment assessment = xsdTypeDefinition.assess(value);
-      Collection allDiagnostics = assessment.getDiagnostics();
+      Collection<XSDDiagnostic> allDiagnostics = assessment.getDiagnostics();
       if (!allDiagnostics.isEmpty())
       {
         ((XSDSimpleTypeDefinitionImpl.AssessmentImpl)assessment).assignDiagnostics(this, element, attributeName);
         getDiagnostics().addAll(allDiagnostics);
-        result = (XSDDiagnostic)allDiagnostics.iterator().next();
+        result = allDiagnostics.iterator().next();
         result.setAnnotationURI(part + "#" + anchor);
       }
     }
@@ -820,9 +820,9 @@ public abstract class XSDConcreteComponentImpl
     return result;
   }
 
-  protected Collection checkAttributes(String part, String anchor, Element element, String [] allowedAttributeNames)
+  protected Collection<XSDDiagnostic> checkAttributes(String part, String anchor, Element element, String [] allowedAttributeNames)
   {
-    Collection result = null;
+    Collection<XSDDiagnostic> result = null;
     if (element != null)
     {
       NamedNodeMap attributes = element.getAttributes();
@@ -857,7 +857,7 @@ public abstract class XSDConcreteComponentImpl
           getDiagnostics().add(xsdDiagnostic);
           if (result == null)
           {
-            result = new ArrayList();
+            result = new ArrayList<XSDDiagnostic>();
           }
           result.add(xsdDiagnostic);
         }
@@ -967,7 +967,7 @@ public abstract class XSDConcreteComponentImpl
     xsdDiagnostic.setKey(key);
     if (substitutions != null)
     {
-      List values = xsdDiagnostic.getSubstitutions();
+      List<String> values = xsdDiagnostic.getSubstitutions();
       for (int i = 0; i < substitutions.length; ++i)
       {
         Object value = substitutions[i];
@@ -989,17 +989,17 @@ public abstract class XSDConcreteComponentImpl
 
   protected void reconcileAttributes(Element changedElement)
   {
+    // Do nothing.
   }
 
-  protected Collection getContentNodes(Element changedElement)
+  protected Collection<Element> getContentNodes(Element changedElement)
   {
-    Collection result = new ArrayList();
-    //for (Node child = changedElement.getFirstChild(); child != null; child = child.getNextSibling())
+    Collection<Element> result = new ArrayList<Element>();
     for (Node child = getElement().getFirstChild(); child != null; child = child.getNextSibling())
     {
       if (child.getNodeType() == Node.ELEMENT_NODE)
       {
-        result.add(child);
+        result.add((Element)child);
       }
     }
     return result;
@@ -1008,17 +1008,17 @@ public abstract class XSDConcreteComponentImpl
   protected void reconcileContents(Element changedElement)
   {
     XSDSchemaImpl xsdSchema = (XSDSchemaImpl)getSchema();
-    List newContents = new ArrayList();
-    List remainingContents = new ArrayList(getXSDContents());
-    Collection contentNodes = getContentNodes(changedElement);
-    LOOP: for (Iterator i = contentNodes.iterator(); i.hasNext(); )
+    List<XSDConcreteComponent> newContents = new ArrayList<XSDConcreteComponent>();
+    List<XSDConcreteComponent> remainingContents = new ArrayList<XSDConcreteComponent>(getXSDContents());
+    Collection<Element> contentNodes = getContentNodes(changedElement);
+    LOOP: 
+    for (Node child : contentNodes)
     {
-      Node child = (Node)i.next();
       if (child.getNodeType() == Node.ELEMENT_NODE && (xsdSchema == null || child != xsdSchema.getDeletionNode()))
       {
-        for (Iterator contents = remainingContents.iterator(); contents.hasNext(); )
+        for (Iterator<XSDConcreteComponent> contents = remainingContents.iterator(); contents.hasNext(); )
         {
-          XSDConcreteComponent remainingConcreteComponent = (XSDConcreteComponent)contents.next();
+          XSDConcreteComponent remainingConcreteComponent = contents.next();
           if (remainingConcreteComponent.getElement() == child)
           {
             newContents.add(remainingConcreteComponent);
@@ -1029,17 +1029,13 @@ public abstract class XSDConcreteComponentImpl
 
         if (!remainingContents.isEmpty())
         {
-          XSDConcreteComponent potentialReplacement = (XSDConcreteComponent)remainingContents.get(0);
+          XSDConcreteComponent potentialReplacement = remainingContents.get(0);
           Element potentialReplacedElement = potentialReplacement.getElement();
-//System.out.println("Maybe not reusing: " + potentialReplacement);
           if (potentialReplacedElement != null &&
                 potentialReplacedElement.getParentNode() != changedElement &&
                 potentialReplacedElement.getLocalName().equals(child.getLocalName()))
           {
-            // System.out.println("reuse" + child);
             remainingContents.remove(0);
-            // System.out.println("reuse" + potentialReplacement);
-            // System.out.println("reuse? " + (potentialReplacement.getElement() == child));
             potentialReplacement.setElement((Element)child);
             newContents.add(potentialReplacement);
             continue;
@@ -1053,21 +1049,24 @@ public abstract class XSDConcreteComponentImpl
     handleReconciliation(newContents, remainingContents);
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
+    // Do nothing.
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
+    // Do nothing.
   }
 
-  protected void handleAnnotationReconciliation(EReference eReference, List newContents, List remainingContents)
+  protected void handleAnnotationReconciliation
+    (EReference eReference, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     XSDAnnotation newAnnotation = null;
     XSDAnnotation oldAnnotation = (XSDAnnotation)eGet(eReference);
     if (!newContents.isEmpty())
     {
-      XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)newContents.get(0);
+      XSDConcreteComponent xsdConcreteComponent = newContents.get(0);
       if (xsdConcreteComponent instanceof XSDAnnotation)
       {
         newAnnotation = (XSDAnnotation)xsdConcreteComponent;
@@ -1086,6 +1085,7 @@ public abstract class XSDConcreteComponentImpl
     }
   }
 
+  @Override
   public void eNotify(Notification msg)
   {
     int eventType = msg.getEventType();
@@ -1106,9 +1106,9 @@ public abstract class XSDConcreteComponentImpl
           }
           case Notification.ADD_MANY:
           {
-            for (Iterator newValues = ((Collection)newValue).iterator();  newValues.hasNext(); )
+            @SuppressWarnings("unchecked") Collection<XSDDiagnostic> xsdDiagnostics = ((Collection<XSDDiagnostic>)newValue);
+            for (XSDDiagnostic xsdDiagnostic : xsdDiagnostics)
             {
-              XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)newValues.next();
               adoptDiagnostic(xsdDiagnostic);
             }
             break;
@@ -1123,9 +1123,9 @@ public abstract class XSDConcreteComponentImpl
           }
           case Notification.REMOVE_MANY:
           {
-            for (Iterator oldValues = ((Collection)oldValue).iterator();  oldValues.hasNext(); )
+            @SuppressWarnings("unchecked") Collection<XSDDiagnostic> xsdDiagnostics = ((Collection<XSDDiagnostic>)oldValue);
+            for (XSDDiagnostic xsdDiagnostic : xsdDiagnostics)
             {
-              XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)oldValues.next();
               orphanDiagnostic(xsdDiagnostic);
             }
             break;
@@ -1162,9 +1162,9 @@ public abstract class XSDConcreteComponentImpl
           }
           case Notification.ADD_MANY:
           {
-            for (Iterator newValues = ((Collection)newValue).iterator();  newValues.hasNext(); )
+            @SuppressWarnings("unchecked") Collection<XSDConcreteComponent> xsdConcreteComponents = ((Collection<XSDConcreteComponent>)newValue);
+            for (XSDConcreteComponent xsdConcreteComponent : xsdConcreteComponents)
             {
-              XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)newValues.next();
               adoptContent(eReference, xsdConcreteComponent);
             }
             break;
@@ -1179,9 +1179,9 @@ public abstract class XSDConcreteComponentImpl
           }
           case Notification.REMOVE_MANY:
           {
-            for (Iterator oldValues = ((Collection)oldValue).iterator();  oldValues.hasNext(); )
+            @SuppressWarnings("unchecked") Collection<XSDConcreteComponent> xsdConcreteComponents = ((Collection<XSDConcreteComponent>)oldValue);
+            for (XSDConcreteComponent xsdConcreteComponent : xsdConcreteComponents)
             {
-              XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)oldValues.next();
               orphanContent(eReference, xsdConcreteComponent);
             }
             break;
@@ -1277,9 +1277,7 @@ public abstract class XSDConcreteComponentImpl
 
   protected void changeReference(EReference eReference)
   {
-    if (eReference == XSDPackage.Literals.XSD_CONCRETE_COMPONENT__DIAGNOSTICS)
-    {
-    }
+    // Do nothing.
   }
 
   protected Node getAdoptionParentNode(EReference eReference)
@@ -1292,13 +1290,13 @@ public abstract class XSDConcreteComponentImpl
     Node adoptionParent = getAdoptionParentNode(eReference);
     Element childElement = xsdConcreteComponent.getElement();
     Element referencedElement = null;
-    for (Iterator contents = getXSDContents().iterator(); contents.hasNext(); )
+    for (Iterator<XSDConcreteComponent> contents = getXSDContents().iterator(); contents.hasNext(); )
     {
       if (contents.next() == xsdConcreteComponent)
       {
         if (contents.hasNext())
         {
-          referencedElement = ((XSDConcreteComponent)contents.next()).getElement();
+          referencedElement = contents.next().getElement();
           while (referencedElement != null)
           {
             Node parent = referencedElement.getParentNode(); 
@@ -1406,15 +1404,14 @@ public abstract class XSDConcreteComponentImpl
 
   protected void adoptBy(XSDSchema xsdSchema)
   {
-    List theDiagnostics = getDiagnostics();
+    List<XSDDiagnostic> theDiagnostics = getDiagnostics();
     if (!theDiagnostics.isEmpty())
     {
       xsdSchema.getDiagnostics().addAll(theDiagnostics);
     }
 
-    for (Iterator components = getXSDContents().iterator(); components.hasNext(); )
+    for (XSDConcreteComponentImpl childXSDConcreteComponent : getXSDConcreteComponentImpls())
     {
-      XSDConcreteComponentImpl childXSDConcreteComponent = (XSDConcreteComponentImpl)components.next();
       childXSDConcreteComponent.adoptBy(xsdSchema);
     }
   }
@@ -1464,14 +1461,13 @@ public abstract class XSDConcreteComponentImpl
 
   protected void orphanBy(XSDSchema xsdSchema)
   {
-    List theDiagnostics = getDiagnostics();
+    List<XSDDiagnostic> theDiagnostics = getDiagnostics();
     if (!theDiagnostics.isEmpty())
     {
       xsdSchema.getDiagnostics().removeAll(theDiagnostics);
     }
-    for (Iterator components = getXSDContents().iterator(); components.hasNext(); )
+    for (XSDConcreteComponentImpl childXSDConcreteComponent : getXSDConcreteComponentImpls())
     {
-      XSDConcreteComponentImpl childXSDConcreteComponent = (XSDConcreteComponentImpl)components.next();
       childXSDConcreteComponent.orphanBy(xsdSchema);
     }
   }
@@ -1500,7 +1496,7 @@ public abstract class XSDConcreteComponentImpl
       Element child = xsdConcreteComponent.getElement();
       if (child != null)
       {
-        List contents = getXSDContents();
+        List<XSDConcreteComponent> contents = getXSDContents();
         int index = contents.indexOf(xsdConcreteComponent);
         niceRemoveChild(parent, child);
         niceInsertBefore
@@ -1508,7 +1504,7 @@ public abstract class XSDConcreteComponentImpl
             child, 
             ++index == contents.size() ?  
               null : 
-              ((XSDConcreteComponent)contents.get(index)).getElement());
+              contents.get(index).getElement());
       }
     }
     //System.out.println("moved " + xsdConcreteComponent);
@@ -1969,6 +1965,7 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -1984,6 +1981,7 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -2007,6 +2005,8 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -2027,6 +2027,7 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -2046,6 +2047,7 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -2069,6 +2071,7 @@ public abstract class XSDConcreteComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -2080,12 +2083,11 @@ public abstract class XSDConcreteComponentImpl
     return result.toString();
   }
 
-  public XSDConcreteComponent getBestConcreteComponent(List elementPath)
+  public XSDConcreteComponent getBestConcreteComponent(List<Element> elementPath)
   {
     XSDConcreteComponent result = this;
-    for (Iterator components = getXSDContents().iterator(); components.hasNext(); )
+    for (XSDConcreteComponentImpl childXSDConcreteComponent : getXSDConcreteComponentImpls())
     {
-      XSDConcreteComponentImpl childXSDConcreteComponent = (XSDConcreteComponentImpl)components.next();
       if (elementPath.contains(childXSDConcreteComponent.getElement()))
       {
         result = childXSDConcreteComponent;
@@ -2110,11 +2112,11 @@ public abstract class XSDConcreteComponentImpl
     return false;
   }
 
-  public static void setListContentAndOrder(EList targetList, List prototypeList)
+  public static <T> void setListContentAndOrder(EList<T> targetList, List<? extends T> prototypeList)
   {
     for (int index = 0, size = prototypeList.size(); index < size; ++index)
     {
-      Object prototypeObject = prototypeList.get(index);
+      T prototypeObject = prototypeList.get(index);
       if (targetList.size() <= index)
       {
         targetList.add(prototypeObject);
@@ -2142,6 +2144,7 @@ public abstract class XSDConcreteComponentImpl
     return null;
   }
 
+  @Override
   public String eURIFragmentSegment(EStructuralFeature eStructuralFeature, EObject eObject)
   {
     StringBuffer result = new StringBuffer();
@@ -2150,9 +2153,9 @@ public abstract class XSDConcreteComponentImpl
     int sortCount = 0;
     int labelCount = 0;
     String uriReferenceLabel = ((XSDConcreteComponentImpl)xsdConcreteComponent).getURIReferenceLabel();
-    for (Iterator contents = eContents().iterator(); contents.hasNext(); )
+    @SuppressWarnings("unchecked") EList<XSDConcreteComponentImpl> eContents = (EList<XSDConcreteComponentImpl>)(EList<?>)eContents();
+    for (XSDConcreteComponentImpl sibling : eContents)
     {
-      XSDConcreteComponentImpl sibling = (XSDConcreteComponentImpl)contents.next();
       if (sibling == eObject)
       {
         break;
@@ -2188,6 +2191,7 @@ public abstract class XSDConcreteComponentImpl
     return result.toString();
   }
 
+  @Override
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
     EObject  result = null;
@@ -2210,11 +2214,12 @@ public abstract class XSDConcreteComponentImpl
         }
         catch (NumberFormatException exception)
         {
+          // Ignore.
         }
-        List theDiagnostics = ((XSDConcreteComponent)result).getDiagnostics();
+        List<XSDDiagnostic> theDiagnostics = ((XSDConcreteComponent)result).getDiagnostics();
         if (theDiagnostics.size() > diagnosticIndex)
         {
-          result = (XSDDiagnostic)theDiagnostics.get(diagnosticIndex);
+          result = theDiagnostics.get(diagnosticIndex);
         }
       }
       else
@@ -2240,6 +2245,7 @@ public abstract class XSDConcreteComponentImpl
           }
           catch (NumberFormatException exception)
           {
+            // Ignore.
           }
           prefix = stringTokenizer.hasMoreTokens() ? stringTokenizer.nextToken() : "";
         }
@@ -2261,22 +2267,23 @@ public abstract class XSDConcreteComponentImpl
               }
               catch (NumberFormatException exception)
               {
+                // Ignore.
               }
             }
           }
         }
 
-        Collection collection =
+        @SuppressWarnings("unchecked")
+        Collection<XSDConcreteComponentImpl> collection =
           eReference == null ?
-            eContents() :
+            (Collection<XSDConcreteComponentImpl>)(Collection<?>)eContents() :
             eReference.isMany() ?
-              (Collection)eGet(eReference) :
-              Collections.singleton(eGet(eReference));
+              (Collection<XSDConcreteComponentImpl>)eGet(eReference) :
+              Collections.singleton((XSDConcreteComponentImpl)eGet(eReference));
 
         EObject candidate = null;
-        for (Iterator contents = collection.iterator(); contents.hasNext(); )
+        for (XSDConcreteComponentImpl child : collection)
         {
-          XSDConcreteComponentImpl child = (XSDConcreteComponentImpl)contents.next();
           if (sortCount >= 0 && child.eClass().getName().equals(sort))
           {
             --sortCount;
@@ -2797,25 +2804,24 @@ public abstract class XSDConcreteComponentImpl
     return xsdNotationDeclaration;
   }
 
-  public Collection getComponentsWithApplicationInformation(String sourceURI)
+  public Collection<XSDConcreteComponent> getComponentsWithApplicationInformation(String sourceURI)
   {
-    Collection result = new HashSet();
+    Collection<XSDConcreteComponent> result = new HashSet<XSDConcreteComponent>();
     getComponentsWithInformation(result, XSDConstants.APPINFO_ELEMENT, sourceURI);
     return result;
   }
 
-  public Collection getComponentsWithUserInformation(String sourceURI)
+  public Collection<XSDConcreteComponent> getComponentsWithUserInformation(String sourceURI)
   {
-    Collection result = new HashSet();
+    Collection<XSDConcreteComponent> result = new HashSet<XSDConcreteComponent>();
     getComponentsWithInformation(result, XSDConstants.DOCUMENTATION_ELEMENT, sourceURI);
     return result;
   }
 
-  protected void getComponentsWithInformation(Collection result, int nodeType, String sourceURI)
+  protected void getComponentsWithInformation(Collection<XSDConcreteComponent> result, int nodeType, String sourceURI)
   {
-    for (Iterator contents = getXSDContents().iterator(); contents.hasNext(); )
+    for (XSDConcreteComponentImpl xsdConcreteComponent : getXSDConcreteComponentImpls())
     {
-      XSDConcreteComponentImpl xsdConcreteComponent = (XSDConcreteComponentImpl)contents.next();
       xsdConcreteComponent.getComponentsWithInformation(result, nodeType, sourceURI);
     }
   }
@@ -2863,9 +2869,8 @@ public abstract class XSDConcreteComponentImpl
     {
       isReconciling = true;
       setElementGen(null);
-      for (Iterator contents = getXSDContents().iterator(); contents.hasNext(); )
+      for (XSDConcreteComponentImpl content : getXSDConcreteComponentImpls())
       {
-        XSDConcreteComponentImpl content = (XSDConcreteComponentImpl)contents.next();
         content.setElement(null);
       }
       isReconciling = false;
@@ -2883,15 +2888,15 @@ public abstract class XSDConcreteComponentImpl
     throw new RuntimeException("Unimplemented: XSDConcreteComponent.cloneConcreteComponent(boolean deep, boolean shareDOM)");
   }
 
-  protected static List cloneConcreteComponents(List xsdConcreteComponents, boolean deep, boolean shareDOM)
+  protected static <T extends XSDConcreteComponent> List<T> cloneConcreteComponents(List<T> xsdConcreteComponents, boolean deep, boolean shareDOM)
   {
-    List result = new ArrayList(xsdConcreteComponents.size());
-    for (Iterator components = xsdConcreteComponents.iterator(); components.hasNext(); )
+    List<T> result = new ArrayList<T>(xsdConcreteComponents.size());
+    for (XSDConcreteComponent xsdConcreteComponent : xsdConcreteComponents)
     {
-      XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)components.next();
       try
       {
-        XSDConcreteComponent clonedConcreteComponent = xsdConcreteComponent.cloneConcreteComponent(deep, shareDOM);
+        @SuppressWarnings("unchecked") 
+        T clonedConcreteComponent = (T)xsdConcreteComponent.cloneConcreteComponent(deep, shareDOM);
         result.add(clonedConcreteComponent);
       }
       catch (Exception exception)
@@ -2902,6 +2907,7 @@ public abstract class XSDConcreteComponentImpl
     return result;
   }
 
+  @Override
   public boolean eNotificationRequired()
   {
     return true;

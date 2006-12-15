@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotation.java,v 1.4 2006/12/05 20:32:34 emerks Exp $
+ * $Id: XSDAnnotation.java,v 1.5 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -122,7 +122,7 @@ public interface XSDAnnotation extends XSDComponent, XSDRedefineContent
    * @param sourceURI the source URI to match.
    * @return the elements with the given sourceURI.
    */
-  EList getApplicationInformation(String sourceURI);
+  EList<Element> getApplicationInformation(String sourceURI);
 
   /**
    * Returns only those elements returned by {@link #getUserInformation()} with the given sourceURI;
@@ -130,17 +130,17 @@ public interface XSDAnnotation extends XSDComponent, XSDRedefineContent
    * @param sourceURI the source URI to match.
    * @return the elements with the given sourceURI.
    */
-  EList getUserInformation(String sourceURI);
+  EList<Element> getUserInformation(String sourceURI);
 
   /**
    * Returns the set of source attribute values of all the appinfo elements.
    * @return the set of source attribute values of all the appinfo elements.
    */
-  Set getApplicationInformationSources();
+  Set<String> getApplicationInformationSources();
 
   /**
    * Returns the set of source attribute values of all the documentation elements.
    * @return the set of source attribute values of all the documentation elements.
    */
-  Set getUserInformationSources();
+  Set<String> getUserInformationSources();
 }

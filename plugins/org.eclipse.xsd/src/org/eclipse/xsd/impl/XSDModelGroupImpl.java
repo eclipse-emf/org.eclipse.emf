@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupImpl.java,v 1.8 2006/12/05 20:32:14 emerks Exp $
+ * $Id: XSDModelGroupImpl.java,v 1.9 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -166,6 +165,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_MODEL_GROUP;
@@ -275,6 +275,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -292,6 +293,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -313,6 +315,8 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -340,6 +344,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -365,6 +370,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -386,6 +392,7 @@ public class XSDModelGroupImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -397,6 +404,7 @@ public class XSDModelGroupImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     XSDCompositor theCompositor = getCompositor();
@@ -409,24 +417,24 @@ public class XSDModelGroupImpl
              XSDConstants.SEQUENCE_ELEMENT);
 
     setElement(newElement);
-    for (Iterator contents = getContents().iterator(); contents.hasNext(); )
+    for (XSDParticle xsdParticle : getContents())
     {
-      XSDParticle xsdParticle = (XSDParticle)contents.next();
       Element newParticleElement = ((XSDConcreteComponentImpl)xsdParticle).createElement();
       newElement.appendChild(newParticleElement);
     }
     return newElement;
   }
 
+  @Override
   protected void patch()
   {
     super.patch();
 
-    List newParticles = new ArrayList(getContents());
-    Collection remainingParticles = new ArrayList(getParticles());
-    for (ListIterator particles = newParticles.listIterator(); particles.hasNext(); )
+    List<XSDParticle> newParticles = new ArrayList<XSDParticle>(getContents());
+    Collection<XSDParticle> remainingParticles = new ArrayList<XSDParticle>(getParticles());
+    for (ListIterator<XSDParticle> particles = newParticles.listIterator(); particles.hasNext(); )
     {
-      XSDParticle xsdParticle = (XSDParticle)particles.next();
+      XSDParticle xsdParticle = particles.next();
       if (xsdParticle.getMaxOccurs() == 0)
       {
         particles.remove();
@@ -446,6 +454,7 @@ public class XSDModelGroupImpl
     setListContentAndOrder(getParticles(), newParticles);
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -460,9 +469,8 @@ public class XSDModelGroupImpl
         anchor = "element-all";
         contentType = "all";
 
-        for (Iterator i = getContents().iterator(); i.hasNext(); )
+        for (XSDParticle xsdParticle : getContents())
         {
-          XSDParticle xsdParticle = (XSDParticle)i.next();
           switch (xsdParticle.getMaxOccurs())
           {
             case 0:
@@ -561,12 +569,11 @@ public class XSDModelGroupImpl
     }
 
     XSDParticleImpl.XSDNFA dfa = (XSDParticleImpl.XSDNFA)xsdParticle.getDFA();
-    Collection diagnostics = dfa.getDiagnostics();
+    Collection<XSDDiagnostic> diagnostics = dfa.getDiagnostics();
     if (!diagnostics.isEmpty())
     {
-      for (Iterator i = diagnostics.iterator(); i.hasNext(); )
+      for (XSDDiagnostic xsdDiagnostic : diagnostics)
       {
-        XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
         xsdDiagnostic.setPrimaryComponent(diagnosticTarget);
         xsdDiagnostic.setNode(diagnosticTarget.getElement());
       }
@@ -574,6 +581,7 @@ public class XSDModelGroupImpl
     }
   }
 
+  @Override
   protected boolean isUpdatingDOM()
   {
     return
@@ -582,7 +590,8 @@ public class XSDModelGroupImpl
           ((XSDConcreteComponentImpl)getContainer()).isUpdatingDOM();
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     XSDParticle xsdParticle = XSDParticleImpl.createParticle(child);
     if (xsdParticle != null)
@@ -602,7 +611,8 @@ public class XSDModelGroupImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     handleAnnotationReconciliation(XSDPackage.Literals.XSD_MODEL_GROUP__ANNOTATION, newContents, remainingContents);
 
@@ -613,10 +623,12 @@ public class XSDModelGroupImpl
 
     if (!newContents.isEmpty())
     {
-      setListContentAndOrder(getContents(), newContents);
+      @SuppressWarnings("unchecked") List<XSDParticle> list = (List<XSDParticle>)(List<?>)newContents;
+      setListContentAndOrder(getContents(), list);
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -647,6 +659,7 @@ public class XSDModelGroupImpl
     }
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
@@ -656,6 +669,7 @@ public class XSDModelGroupImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
@@ -665,6 +679,7 @@ public class XSDModelGroupImpl
     }
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDModelGroupImpl clonedModelGroup =

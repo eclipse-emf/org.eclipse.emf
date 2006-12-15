@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XSDFixedFacetImpl.java,v 1.9 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDFixedFacetImpl.java,v 1.10 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
-
-import java.util.Iterator;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -146,6 +144,7 @@ public abstract class XSDFixedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_FIXED_FACET;
@@ -206,6 +205,7 @@ public abstract class XSDFixedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -221,6 +221,7 @@ public abstract class XSDFixedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -237,6 +238,7 @@ public abstract class XSDFixedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -253,6 +255,7 @@ public abstract class XSDFixedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -268,6 +271,7 @@ public abstract class XSDFixedFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -279,6 +283,7 @@ public abstract class XSDFixedFacetImpl
     return result.toString();
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -306,9 +311,8 @@ public abstract class XSDFixedFacetImpl
        });
 
     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = getSimpleTypeDefinition();
-    for (Iterator facets = xsdSimpleTypeDefinition.getFacetContents().iterator(); facets.hasNext(); )
+    for (XSDFacet xsdFacet : xsdSimpleTypeDefinition.getFacetContents())
     {
-      XSDFacet xsdFacet = (XSDFacet)facets.next();
       if (xsdFacet == this)
       {
         break;
@@ -330,10 +334,8 @@ public abstract class XSDFixedFacetImpl
     XSDSimpleTypeDefinition baseTypeDefinition = xsdSimpleTypeDefinition.getBaseTypeDefinition();
     if (baseTypeDefinition != null)
     {
-      for (Iterator facets = baseTypeDefinition.getFacets().iterator(); facets.hasNext(); )
+      for (XSDConstrainingFacet xsdConstrainingFacet : baseTypeDefinition.getFacets())
       {
-        XSDConstrainingFacet xsdConstrainingFacet = (XSDConstrainingFacet)facets.next();
-
         if (xsdConstrainingFacet instanceof XSDFixedFacet)
         {
           XSDFixedFacet xsdFixedFacet = (XSDFixedFacet)xsdConstrainingFacet;
@@ -369,6 +371,7 @@ public abstract class XSDFixedFacetImpl
     }
   }
 
+  @Override
   protected void validateValue()
   {
     checkBuiltInTypeConstraint
@@ -388,8 +391,10 @@ public abstract class XSDFixedFacetImpl
 
   protected void validateRestriction(XSDFixedFacet xsdFixedFacet)
   {
+    // Do nothing.
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -411,6 +416,7 @@ public abstract class XSDFixedFacetImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);

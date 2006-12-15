@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDurationType.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDDurationType.java,v 1.4 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.xml.type.internal.XMLDuration;
 public class XSDDurationType extends XSDAnySimpleType
 {
 
+  @Override
   public Object getValue(String normalizedLiteral)
   {
     try
@@ -34,6 +35,7 @@ public class XSDDurationType extends XSDAnySimpleType
     }
   }
 
+  @Override
   public int compareValues(Object value1, Object value2)
   {
     return XMLDuration.compare((XMLDuration)value1, (XMLDuration)value2);

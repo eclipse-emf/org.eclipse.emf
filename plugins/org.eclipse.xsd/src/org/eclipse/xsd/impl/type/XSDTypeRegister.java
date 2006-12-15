@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTypeRegister.java,v 1.2 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDTypeRegister.java,v 1.3 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -23,13 +23,13 @@ import java.util.Map;
 
 public class XSDTypeRegister 
 {
-  protected static Map map;
+  protected static Map<String, XSDAnySimpleType> map;
 
-  public static Map getMap()
+  public static Map<String, XSDAnySimpleType> getMap()
   {
     if (map == null)
     {
-      map = new HashMap();
+      map = new HashMap<String, XSDAnySimpleType>();
       map.put("anySimpleType", new XSDAnySimpleType());
       map.put("anyURI", new XSDAnyURIType());
       map.put("duration", new XSDDurationType());
@@ -55,10 +55,10 @@ public class XSDTypeRegister
 
   public static XSDAnySimpleType getTypeImplementer(String primitiveTypeName)
   {
-    XSDAnySimpleType xsdAnyType = (XSDAnySimpleType)getMap().get(primitiveTypeName);
+    XSDAnySimpleType xsdAnyType = getMap().get(primitiveTypeName);
     if (xsdAnyType == null)
     {
-      xsdAnyType = (XSDAnySimpleType)map.get("anySimpleType");
+      xsdAnyType = map.get("anySimpleType");
     }
     return xsdAnyType;
   }

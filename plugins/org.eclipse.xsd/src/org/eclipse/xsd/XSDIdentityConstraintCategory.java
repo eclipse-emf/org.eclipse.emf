@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintCategory.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDIdentityConstraintCategory.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -33,8 +33,44 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDIdentityConstraintCategory extends AbstractEnumerator
+public enum XSDIdentityConstraintCategory implements Enumerator
 {
+  /**
+   * The '<em><b>Key</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #KEY
+   * @generated
+   * @ordered
+   */
+  KEY_LITERAL(0, "key", "key"),
+
+  /**
+   * The '<em><b>Keyref</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #KEYREF
+   * @generated
+   * @ordered
+   */
+  KEYREF_LITERAL(1, "keyref", "keyref"),
+
+  /**
+   * The '<em><b>Unique</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #UNIQUE
+   * @generated
+   * @ordered
+   */
+  UNIQUE_LITERAL(2, "unique", "unique");
+
   /**
    * The '<em><b>Key</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -79,41 +115,6 @@ public final class XSDIdentityConstraintCategory extends AbstractEnumerator
    * @ordered
    */
   public static final int UNIQUE = 2;
-  /**
-   * The '<em><b>Key</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #KEY
-   * @generated
-   * @ordered
-   */
-  public static final XSDIdentityConstraintCategory KEY_LITERAL = new XSDIdentityConstraintCategory(KEY, "key", "key");
-
-  /**
-   * The '<em><b>Keyref</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #KEYREF
-   * @generated
-   * @ordered
-   */
-  public static final XSDIdentityConstraintCategory KEYREF_LITERAL = new XSDIdentityConstraintCategory(KEYREF, "keyref", "keyref");
-
-  /**
-   * The '<em><b>Unique</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #UNIQUE
-   * @generated
-   * @ordered
-   */
-  public static final XSDIdentityConstraintCategory UNIQUE_LITERAL = new XSDIdentityConstraintCategory(UNIQUE, "unique", "unique");
 
   /**
    * An array of all the '<em><b>Identity Constraint Category</b></em>' enumerators.
@@ -135,7 +136,7 @@ public final class XSDIdentityConstraintCategory extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDIdentityConstraintCategory> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Identity Constraint Category</b></em>' literal with the specified literal value.
@@ -193,6 +194,27 @@ public final class XSDIdentityConstraintCategory extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -200,7 +222,50 @@ public final class XSDIdentityConstraintCategory extends AbstractEnumerator
    */
   private XSDIdentityConstraintCategory(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
 }

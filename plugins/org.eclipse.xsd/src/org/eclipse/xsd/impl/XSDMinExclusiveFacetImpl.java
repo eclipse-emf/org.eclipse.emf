@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinExclusiveFacetImpl.java,v 1.7 2005/11/24 19:06:02 emerks Exp $
+ * $Id: XSDMinExclusiveFacetImpl.java,v 1.8 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -72,11 +72,13 @@ public class XSDMinExclusiveFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_MIN_EXCLUSIVE_FACET;
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.MINEXCLUSIVE_ELEMENT);
@@ -84,6 +86,7 @@ public class XSDMinExclusiveFacetImpl
     return newElement;
   }
 
+  @Override
   protected boolean analyze()
   {
     super.analyze();
@@ -100,6 +103,7 @@ public class XSDMinExclusiveFacetImpl
         }
         catch (RuntimeException exception)
         {
+          // Ignore
         }
       }
     }
@@ -112,6 +116,7 @@ public class XSDMinExclusiveFacetImpl
     return true;
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -121,6 +126,7 @@ public class XSDMinExclusiveFacetImpl
     }
   }
 
+  @Override
   public boolean isConstraintSatisfied(Object value)
   {
     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)getContainer();
@@ -132,16 +138,19 @@ public class XSDMinExclusiveFacetImpl
     return false;
   }
 
+  @Override
   public Object getEffectiveValue()
   {
     return getValue();
   }
 
+  @Override
   public boolean isExclusive()
   {
     return true;
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDMinExclusiveFacetImpl clonedMinExclusiveFacet =

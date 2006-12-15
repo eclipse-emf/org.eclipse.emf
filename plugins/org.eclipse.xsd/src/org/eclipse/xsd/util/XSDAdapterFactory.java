@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAdapterFactory.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDAdapterFactory.java,v 1.4 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -66,6 +66,7 @@ public class XSDAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -85,238 +86,296 @@ public class XSDAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected XSDSwitch modelSwitch =
-    new XSDSwitch()
+  protected XSDSwitch<Adapter> modelSwitch =
+    new XSDSwitch<Adapter>()
     {
-      public Object caseXSDAnnotation(XSDAnnotation object)
+      @Override
+      public Adapter caseXSDAnnotation(XSDAnnotation object)
       {
         return createXSDAnnotationAdapter();
       }
-      public Object caseXSDAttributeDeclaration(XSDAttributeDeclaration object)
+      @Override
+      public Adapter caseXSDAttributeDeclaration(XSDAttributeDeclaration object)
       {
         return createXSDAttributeDeclarationAdapter();
       }
-      public Object caseXSDAttributeGroupContent(XSDAttributeGroupContent object)
+      @Override
+      public Adapter caseXSDAttributeGroupContent(XSDAttributeGroupContent object)
       {
         return createXSDAttributeGroupContentAdapter();
       }
-      public Object caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition object)
+      @Override
+      public Adapter caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition object)
       {
         return createXSDAttributeGroupDefinitionAdapter();
       }
-      public Object caseXSDAttributeUse(XSDAttributeUse object)
+      @Override
+      public Adapter caseXSDAttributeUse(XSDAttributeUse object)
       {
         return createXSDAttributeUseAdapter();
       }
-      public Object caseXSDBoundedFacet(XSDBoundedFacet object)
+      @Override
+      public Adapter caseXSDBoundedFacet(XSDBoundedFacet object)
       {
         return createXSDBoundedFacetAdapter();
       }
-      public Object caseXSDCardinalityFacet(XSDCardinalityFacet object)
+      @Override
+      public Adapter caseXSDCardinalityFacet(XSDCardinalityFacet object)
       {
         return createXSDCardinalityFacetAdapter();
       }
-      public Object caseXSDComplexTypeContent(XSDComplexTypeContent object)
+      @Override
+      public Adapter caseXSDComplexTypeContent(XSDComplexTypeContent object)
       {
         return createXSDComplexTypeContentAdapter();
       }
-      public Object caseXSDComplexTypeDefinition(XSDComplexTypeDefinition object)
+      @Override
+      public Adapter caseXSDComplexTypeDefinition(XSDComplexTypeDefinition object)
       {
         return createXSDComplexTypeDefinitionAdapter();
       }
-      public Object caseXSDComponent(XSDComponent object)
+      @Override
+      public Adapter caseXSDComponent(XSDComponent object)
       {
         return createXSDComponentAdapter();
       }
-      public Object caseXSDConcreteComponent(XSDConcreteComponent object)
+      @Override
+      public Adapter caseXSDConcreteComponent(XSDConcreteComponent object)
       {
         return createXSDConcreteComponentAdapter();
       }
-      public Object caseXSDConstrainingFacet(XSDConstrainingFacet object)
+      @Override
+      public Adapter caseXSDConstrainingFacet(XSDConstrainingFacet object)
       {
         return createXSDConstrainingFacetAdapter();
       }
-      public Object caseXSDDiagnostic(XSDDiagnostic object)
+      @Override
+      public Adapter caseXSDDiagnostic(XSDDiagnostic object)
       {
         return createXSDDiagnosticAdapter();
       }
-      public Object caseXSDElementDeclaration(XSDElementDeclaration object)
+      @Override
+      public Adapter caseXSDElementDeclaration(XSDElementDeclaration object)
       {
         return createXSDElementDeclarationAdapter();
       }
-      public Object caseXSDEnumerationFacet(XSDEnumerationFacet object)
+      @Override
+      public Adapter caseXSDEnumerationFacet(XSDEnumerationFacet object)
       {
         return createXSDEnumerationFacetAdapter();
       }
-      public Object caseXSDFacet(XSDFacet object)
+      @Override
+      public Adapter caseXSDFacet(XSDFacet object)
       {
         return createXSDFacetAdapter();
       }
-      public Object caseXSDFeature(XSDFeature object)
+      @Override
+      public Adapter caseXSDFeature(XSDFeature object)
       {
         return createXSDFeatureAdapter();
       }
-      public Object caseXSDFixedFacet(XSDFixedFacet object)
+      @Override
+      public Adapter caseXSDFixedFacet(XSDFixedFacet object)
       {
         return createXSDFixedFacetAdapter();
       }
-      public Object caseXSDFractionDigitsFacet(XSDFractionDigitsFacet object)
+      @Override
+      public Adapter caseXSDFractionDigitsFacet(XSDFractionDigitsFacet object)
       {
         return createXSDFractionDigitsFacetAdapter();
       }
-      public Object caseXSDFundamentalFacet(XSDFundamentalFacet object)
+      @Override
+      public Adapter caseXSDFundamentalFacet(XSDFundamentalFacet object)
       {
         return createXSDFundamentalFacetAdapter();
       }
-      public Object caseXSDIdentityConstraintDefinition(XSDIdentityConstraintDefinition object)
+      @Override
+      public Adapter caseXSDIdentityConstraintDefinition(XSDIdentityConstraintDefinition object)
       {
         return createXSDIdentityConstraintDefinitionAdapter();
       }
-      public Object caseXSDImport(XSDImport object)
+      @Override
+      public Adapter caseXSDImport(XSDImport object)
       {
         return createXSDImportAdapter();
       }
-      public Object caseXSDInclude(XSDInclude object)
+      @Override
+      public Adapter caseXSDInclude(XSDInclude object)
       {
         return createXSDIncludeAdapter();
       }
-      public Object caseXSDLengthFacet(XSDLengthFacet object)
+      @Override
+      public Adapter caseXSDLengthFacet(XSDLengthFacet object)
       {
         return createXSDLengthFacetAdapter();
       }
-      public Object caseXSDMaxExclusiveFacet(XSDMaxExclusiveFacet object)
+      @Override
+      public Adapter caseXSDMaxExclusiveFacet(XSDMaxExclusiveFacet object)
       {
         return createXSDMaxExclusiveFacetAdapter();
       }
-      public Object caseXSDMaxFacet(XSDMaxFacet object)
+      @Override
+      public Adapter caseXSDMaxFacet(XSDMaxFacet object)
       {
         return createXSDMaxFacetAdapter();
       }
-      public Object caseXSDMaxInclusiveFacet(XSDMaxInclusiveFacet object)
+      @Override
+      public Adapter caseXSDMaxInclusiveFacet(XSDMaxInclusiveFacet object)
       {
         return createXSDMaxInclusiveFacetAdapter();
       }
-      public Object caseXSDMaxLengthFacet(XSDMaxLengthFacet object)
+      @Override
+      public Adapter caseXSDMaxLengthFacet(XSDMaxLengthFacet object)
       {
         return createXSDMaxLengthFacetAdapter();
       }
-      public Object caseXSDMinExclusiveFacet(XSDMinExclusiveFacet object)
+      @Override
+      public Adapter caseXSDMinExclusiveFacet(XSDMinExclusiveFacet object)
       {
         return createXSDMinExclusiveFacetAdapter();
       }
-      public Object caseXSDMinFacet(XSDMinFacet object)
+      @Override
+      public Adapter caseXSDMinFacet(XSDMinFacet object)
       {
         return createXSDMinFacetAdapter();
       }
-      public Object caseXSDMinInclusiveFacet(XSDMinInclusiveFacet object)
+      @Override
+      public Adapter caseXSDMinInclusiveFacet(XSDMinInclusiveFacet object)
       {
         return createXSDMinInclusiveFacetAdapter();
       }
-      public Object caseXSDMinLengthFacet(XSDMinLengthFacet object)
+      @Override
+      public Adapter caseXSDMinLengthFacet(XSDMinLengthFacet object)
       {
         return createXSDMinLengthFacetAdapter();
       }
-      public Object caseXSDModelGroup(XSDModelGroup object)
+      @Override
+      public Adapter caseXSDModelGroup(XSDModelGroup object)
       {
         return createXSDModelGroupAdapter();
       }
-      public Object caseXSDModelGroupDefinition(XSDModelGroupDefinition object)
+      @Override
+      public Adapter caseXSDModelGroupDefinition(XSDModelGroupDefinition object)
       {
         return createXSDModelGroupDefinitionAdapter();
       }
-      public Object caseXSDNamedComponent(XSDNamedComponent object)
+      @Override
+      public Adapter caseXSDNamedComponent(XSDNamedComponent object)
       {
         return createXSDNamedComponentAdapter();
       }
-      public Object caseXSDNotationDeclaration(XSDNotationDeclaration object)
+      @Override
+      public Adapter caseXSDNotationDeclaration(XSDNotationDeclaration object)
       {
         return createXSDNotationDeclarationAdapter();
       }
-      public Object caseXSDNumericFacet(XSDNumericFacet object)
+      @Override
+      public Adapter caseXSDNumericFacet(XSDNumericFacet object)
       {
         return createXSDNumericFacetAdapter();
       }
-      public Object caseXSDOrderedFacet(XSDOrderedFacet object)
+      @Override
+      public Adapter caseXSDOrderedFacet(XSDOrderedFacet object)
       {
         return createXSDOrderedFacetAdapter();
       }
-      public Object caseXSDParticle(XSDParticle object)
+      @Override
+      public Adapter caseXSDParticle(XSDParticle object)
       {
         return createXSDParticleAdapter();
       }
-      public Object caseXSDParticleContent(XSDParticleContent object)
+      @Override
+      public Adapter caseXSDParticleContent(XSDParticleContent object)
       {
         return createXSDParticleContentAdapter();
       }
-      public Object caseXSDPatternFacet(XSDPatternFacet object)
+      @Override
+      public Adapter caseXSDPatternFacet(XSDPatternFacet object)
       {
         return createXSDPatternFacetAdapter();
       }
-      public Object caseXSDRedefinableComponent(XSDRedefinableComponent object)
+      @Override
+      public Adapter caseXSDRedefinableComponent(XSDRedefinableComponent object)
       {
         return createXSDRedefinableComponentAdapter();
       }
-      public Object caseXSDRedefineContent(XSDRedefineContent object)
+      @Override
+      public Adapter caseXSDRedefineContent(XSDRedefineContent object)
       {
         return createXSDRedefineContentAdapter();
       }
-      public Object caseXSDRedefine(XSDRedefine object)
+      @Override
+      public Adapter caseXSDRedefine(XSDRedefine object)
       {
         return createXSDRedefineAdapter();
       }
-      public Object caseXSDRepeatableFacet(XSDRepeatableFacet object)
+      @Override
+      public Adapter caseXSDRepeatableFacet(XSDRepeatableFacet object)
       {
         return createXSDRepeatableFacetAdapter();
       }
-      public Object caseXSDSchema(XSDSchema object)
+      @Override
+      public Adapter caseXSDSchema(XSDSchema object)
       {
         return createXSDSchemaAdapter();
       }
-      public Object caseXSDSchemaCompositor(XSDSchemaCompositor object)
+      @Override
+      public Adapter caseXSDSchemaCompositor(XSDSchemaCompositor object)
       {
         return createXSDSchemaCompositorAdapter();
       }
-      public Object caseXSDSchemaContent(XSDSchemaContent object)
+      @Override
+      public Adapter caseXSDSchemaContent(XSDSchemaContent object)
       {
         return createXSDSchemaContentAdapter();
       }
-      public Object caseXSDSchemaDirective(XSDSchemaDirective object)
+      @Override
+      public Adapter caseXSDSchemaDirective(XSDSchemaDirective object)
       {
         return createXSDSchemaDirectiveAdapter();
       }
-      public Object caseXSDScope(XSDScope object)
+      @Override
+      public Adapter caseXSDScope(XSDScope object)
       {
         return createXSDScopeAdapter();
       }
-      public Object caseXSDSimpleTypeDefinition(XSDSimpleTypeDefinition object)
+      @Override
+      public Adapter caseXSDSimpleTypeDefinition(XSDSimpleTypeDefinition object)
       {
         return createXSDSimpleTypeDefinitionAdapter();
       }
-      public Object caseXSDTerm(XSDTerm object)
+      @Override
+      public Adapter caseXSDTerm(XSDTerm object)
       {
         return createXSDTermAdapter();
       }
-      public Object caseXSDTotalDigitsFacet(XSDTotalDigitsFacet object)
+      @Override
+      public Adapter caseXSDTotalDigitsFacet(XSDTotalDigitsFacet object)
       {
         return createXSDTotalDigitsFacetAdapter();
       }
-      public Object caseXSDTypeDefinition(XSDTypeDefinition object)
+      @Override
+      public Adapter caseXSDTypeDefinition(XSDTypeDefinition object)
       {
         return createXSDTypeDefinitionAdapter();
       }
-      public Object caseXSDWhiteSpaceFacet(XSDWhiteSpaceFacet object)
+      @Override
+      public Adapter caseXSDWhiteSpaceFacet(XSDWhiteSpaceFacet object)
       {
         return createXSDWhiteSpaceFacetAdapter();
       }
-      public Object caseXSDWildcard(XSDWildcard object)
+      @Override
+      public Adapter caseXSDWildcard(XSDWildcard object)
       {
         return createXSDWildcardAdapter();
       }
-      public Object caseXSDXPathDefinition(XSDXPathDefinition object)
+      @Override
+      public Adapter caseXSDXPathDefinition(XSDXPathDefinition object)
       {
         return createXSDXPathDefinitionAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -330,9 +389,10 @@ public class XSDAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

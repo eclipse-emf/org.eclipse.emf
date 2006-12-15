@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDoubleType.java,v 1.6 2006/04/13 18:49:30 emerks Exp $
+ * $Id: XSDDoubleType.java,v 1.7 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -22,6 +22,7 @@ public class XSDDoubleType extends XSDAnySimpleType
   protected static final Double NEGATIVE_INFINITY = new Double(Double.NEGATIVE_INFINITY);
   protected static final Double POSITIVE_INFINITY = new Double(Double.POSITIVE_INFINITY);
 
+  @Override
   public Object getValue(String literal)
   {
     try 
@@ -49,6 +50,7 @@ public class XSDDoubleType extends XSDAnySimpleType
     }
   }
 
+  @Override
   public int compareValues(Object value1, Object value2)
   {
     return ((Double)value1).compareTo((Double)value2);

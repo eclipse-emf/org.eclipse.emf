@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSwitch.java,v 1.6 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDSwitch.java,v 1.7 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -38,7 +38,7 @@ import org.eclipse.xsd.*;
  * @see org.eclipse.xsd.XSDPackage
  * @generated
  */
-public class XSDSwitch
+public class XSDSwitch<T>
 {
   /**
    * The cached model package
@@ -69,7 +69,7 @@ public class XSDSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -81,7 +81,7 @@ public class XSDSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -89,11 +89,11 @@ public class XSDSwitch
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -104,14 +104,14 @@ public class XSDSwitch
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case XSDPackage.XSD_ANNOTATION:
       {
         XSDAnnotation xsdAnnotation = (XSDAnnotation)theEObject;
-        Object result = caseXSDAnnotation(xsdAnnotation);
+        T result = caseXSDAnnotation(xsdAnnotation);
         if (result == null) result = caseXSDComponent(xsdAnnotation);
         if (result == null) result = caseXSDRedefineContent(xsdAnnotation);
         if (result == null) result = caseXSDConcreteComponent(xsdAnnotation);
@@ -122,7 +122,7 @@ public class XSDSwitch
       case XSDPackage.XSD_ATTRIBUTE_DECLARATION:
       {
         XSDAttributeDeclaration xsdAttributeDeclaration = (XSDAttributeDeclaration)theEObject;
-        Object result = caseXSDAttributeDeclaration(xsdAttributeDeclaration);
+        T result = caseXSDAttributeDeclaration(xsdAttributeDeclaration);
         if (result == null) result = caseXSDFeature(xsdAttributeDeclaration);
         if (result == null) result = caseXSDSchemaContent(xsdAttributeDeclaration);
         if (result == null) result = caseXSDNamedComponent(xsdAttributeDeclaration);
@@ -134,7 +134,7 @@ public class XSDSwitch
       case XSDPackage.XSD_ATTRIBUTE_GROUP_CONTENT:
       {
         XSDAttributeGroupContent xsdAttributeGroupContent = (XSDAttributeGroupContent)theEObject;
-        Object result = caseXSDAttributeGroupContent(xsdAttributeGroupContent);
+        T result = caseXSDAttributeGroupContent(xsdAttributeGroupContent);
         if (result == null) result = caseXSDConcreteComponent(xsdAttributeGroupContent);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -142,7 +142,7 @@ public class XSDSwitch
       case XSDPackage.XSD_ATTRIBUTE_GROUP_DEFINITION:
       {
         XSDAttributeGroupDefinition xsdAttributeGroupDefinition = (XSDAttributeGroupDefinition)theEObject;
-        Object result = caseXSDAttributeGroupDefinition(xsdAttributeGroupDefinition);
+        T result = caseXSDAttributeGroupDefinition(xsdAttributeGroupDefinition);
         if (result == null) result = caseXSDRedefinableComponent(xsdAttributeGroupDefinition);
         if (result == null) result = caseXSDAttributeGroupContent(xsdAttributeGroupDefinition);
         if (result == null) result = caseXSDRedefineContent(xsdAttributeGroupDefinition);
@@ -156,7 +156,7 @@ public class XSDSwitch
       case XSDPackage.XSD_ATTRIBUTE_USE:
       {
         XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)theEObject;
-        Object result = caseXSDAttributeUse(xsdAttributeUse);
+        T result = caseXSDAttributeUse(xsdAttributeUse);
         if (result == null) result = caseXSDComponent(xsdAttributeUse);
         if (result == null) result = caseXSDAttributeGroupContent(xsdAttributeUse);
         if (result == null) result = caseXSDConcreteComponent(xsdAttributeUse);
@@ -166,7 +166,7 @@ public class XSDSwitch
       case XSDPackage.XSD_BOUNDED_FACET:
       {
         XSDBoundedFacet xsdBoundedFacet = (XSDBoundedFacet)theEObject;
-        Object result = caseXSDBoundedFacet(xsdBoundedFacet);
+        T result = caseXSDBoundedFacet(xsdBoundedFacet);
         if (result == null) result = caseXSDFundamentalFacet(xsdBoundedFacet);
         if (result == null) result = caseXSDFacet(xsdBoundedFacet);
         if (result == null) result = caseXSDComponent(xsdBoundedFacet);
@@ -177,7 +177,7 @@ public class XSDSwitch
       case XSDPackage.XSD_CARDINALITY_FACET:
       {
         XSDCardinalityFacet xsdCardinalityFacet = (XSDCardinalityFacet)theEObject;
-        Object result = caseXSDCardinalityFacet(xsdCardinalityFacet);
+        T result = caseXSDCardinalityFacet(xsdCardinalityFacet);
         if (result == null) result = caseXSDFundamentalFacet(xsdCardinalityFacet);
         if (result == null) result = caseXSDFacet(xsdCardinalityFacet);
         if (result == null) result = caseXSDComponent(xsdCardinalityFacet);
@@ -188,7 +188,7 @@ public class XSDSwitch
       case XSDPackage.XSD_COMPLEX_TYPE_CONTENT:
       {
         XSDComplexTypeContent xsdComplexTypeContent = (XSDComplexTypeContent)theEObject;
-        Object result = caseXSDComplexTypeContent(xsdComplexTypeContent);
+        T result = caseXSDComplexTypeContent(xsdComplexTypeContent);
         if (result == null) result = caseXSDComponent(xsdComplexTypeContent);
         if (result == null) result = caseXSDConcreteComponent(xsdComplexTypeContent);
         if (result == null) result = defaultCase(theEObject);
@@ -197,7 +197,7 @@ public class XSDSwitch
       case XSDPackage.XSD_COMPLEX_TYPE_DEFINITION:
       {
         XSDComplexTypeDefinition xsdComplexTypeDefinition = (XSDComplexTypeDefinition)theEObject;
-        Object result = caseXSDComplexTypeDefinition(xsdComplexTypeDefinition);
+        T result = caseXSDComplexTypeDefinition(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDTypeDefinition(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDScope(xsdComplexTypeDefinition);
         if (result == null) result = caseXSDRedefinableComponent(xsdComplexTypeDefinition);
@@ -212,7 +212,7 @@ public class XSDSwitch
       case XSDPackage.XSD_COMPONENT:
       {
         XSDComponent xsdComponent = (XSDComponent)theEObject;
-        Object result = caseXSDComponent(xsdComponent);
+        T result = caseXSDComponent(xsdComponent);
         if (result == null) result = caseXSDConcreteComponent(xsdComponent);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -220,14 +220,14 @@ public class XSDSwitch
       case XSDPackage.XSD_CONCRETE_COMPONENT:
       {
         XSDConcreteComponent xsdConcreteComponent = (XSDConcreteComponent)theEObject;
-        Object result = caseXSDConcreteComponent(xsdConcreteComponent);
+        T result = caseXSDConcreteComponent(xsdConcreteComponent);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case XSDPackage.XSD_CONSTRAINING_FACET:
       {
         XSDConstrainingFacet xsdConstrainingFacet = (XSDConstrainingFacet)theEObject;
-        Object result = caseXSDConstrainingFacet(xsdConstrainingFacet);
+        T result = caseXSDConstrainingFacet(xsdConstrainingFacet);
         if (result == null) result = caseXSDFacet(xsdConstrainingFacet);
         if (result == null) result = caseXSDComponent(xsdConstrainingFacet);
         if (result == null) result = caseXSDConcreteComponent(xsdConstrainingFacet);
@@ -237,7 +237,7 @@ public class XSDSwitch
       case XSDPackage.XSD_DIAGNOSTIC:
       {
         XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)theEObject;
-        Object result = caseXSDDiagnostic(xsdDiagnostic);
+        T result = caseXSDDiagnostic(xsdDiagnostic);
         if (result == null) result = caseXSDConcreteComponent(xsdDiagnostic);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -245,7 +245,7 @@ public class XSDSwitch
       case XSDPackage.XSD_ELEMENT_DECLARATION:
       {
         XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)theEObject;
-        Object result = caseXSDElementDeclaration(xsdElementDeclaration);
+        T result = caseXSDElementDeclaration(xsdElementDeclaration);
         if (result == null) result = caseXSDFeature(xsdElementDeclaration);
         if (result == null) result = caseXSDSchemaContent(xsdElementDeclaration);
         if (result == null) result = caseXSDTerm(xsdElementDeclaration);
@@ -259,7 +259,7 @@ public class XSDSwitch
       case XSDPackage.XSD_ENUMERATION_FACET:
       {
         XSDEnumerationFacet xsdEnumerationFacet = (XSDEnumerationFacet)theEObject;
-        Object result = caseXSDEnumerationFacet(xsdEnumerationFacet);
+        T result = caseXSDEnumerationFacet(xsdEnumerationFacet);
         if (result == null) result = caseXSDRepeatableFacet(xsdEnumerationFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdEnumerationFacet);
         if (result == null) result = caseXSDFacet(xsdEnumerationFacet);
@@ -271,7 +271,7 @@ public class XSDSwitch
       case XSDPackage.XSD_FACET:
       {
         XSDFacet xsdFacet = (XSDFacet)theEObject;
-        Object result = caseXSDFacet(xsdFacet);
+        T result = caseXSDFacet(xsdFacet);
         if (result == null) result = caseXSDComponent(xsdFacet);
         if (result == null) result = caseXSDConcreteComponent(xsdFacet);
         if (result == null) result = defaultCase(theEObject);
@@ -280,7 +280,7 @@ public class XSDSwitch
       case XSDPackage.XSD_FEATURE:
       {
         XSDFeature xsdFeature = (XSDFeature)theEObject;
-        Object result = caseXSDFeature(xsdFeature);
+        T result = caseXSDFeature(xsdFeature);
         if (result == null) result = caseXSDNamedComponent(xsdFeature);
         if (result == null) result = caseXSDComponent(xsdFeature);
         if (result == null) result = caseXSDConcreteComponent(xsdFeature);
@@ -290,7 +290,7 @@ public class XSDSwitch
       case XSDPackage.XSD_FIXED_FACET:
       {
         XSDFixedFacet xsdFixedFacet = (XSDFixedFacet)theEObject;
-        Object result = caseXSDFixedFacet(xsdFixedFacet);
+        T result = caseXSDFixedFacet(xsdFixedFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdFixedFacet);
         if (result == null) result = caseXSDFacet(xsdFixedFacet);
         if (result == null) result = caseXSDComponent(xsdFixedFacet);
@@ -301,7 +301,7 @@ public class XSDSwitch
       case XSDPackage.XSD_FRACTION_DIGITS_FACET:
       {
         XSDFractionDigitsFacet xsdFractionDigitsFacet = (XSDFractionDigitsFacet)theEObject;
-        Object result = caseXSDFractionDigitsFacet(xsdFractionDigitsFacet);
+        T result = caseXSDFractionDigitsFacet(xsdFractionDigitsFacet);
         if (result == null) result = caseXSDFixedFacet(xsdFractionDigitsFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdFractionDigitsFacet);
         if (result == null) result = caseXSDFacet(xsdFractionDigitsFacet);
@@ -313,7 +313,7 @@ public class XSDSwitch
       case XSDPackage.XSD_FUNDAMENTAL_FACET:
       {
         XSDFundamentalFacet xsdFundamentalFacet = (XSDFundamentalFacet)theEObject;
-        Object result = caseXSDFundamentalFacet(xsdFundamentalFacet);
+        T result = caseXSDFundamentalFacet(xsdFundamentalFacet);
         if (result == null) result = caseXSDFacet(xsdFundamentalFacet);
         if (result == null) result = caseXSDComponent(xsdFundamentalFacet);
         if (result == null) result = caseXSDConcreteComponent(xsdFundamentalFacet);
@@ -323,7 +323,7 @@ public class XSDSwitch
       case XSDPackage.XSD_IDENTITY_CONSTRAINT_DEFINITION:
       {
         XSDIdentityConstraintDefinition xsdIdentityConstraintDefinition = (XSDIdentityConstraintDefinition)theEObject;
-        Object result = caseXSDIdentityConstraintDefinition(xsdIdentityConstraintDefinition);
+        T result = caseXSDIdentityConstraintDefinition(xsdIdentityConstraintDefinition);
         if (result == null) result = caseXSDNamedComponent(xsdIdentityConstraintDefinition);
         if (result == null) result = caseXSDComponent(xsdIdentityConstraintDefinition);
         if (result == null) result = caseXSDConcreteComponent(xsdIdentityConstraintDefinition);
@@ -333,7 +333,7 @@ public class XSDSwitch
       case XSDPackage.XSD_IMPORT:
       {
         XSDImport xsdImport = (XSDImport)theEObject;
-        Object result = caseXSDImport(xsdImport);
+        T result = caseXSDImport(xsdImport);
         if (result == null) result = caseXSDSchemaDirective(xsdImport);
         if (result == null) result = caseXSDSchemaContent(xsdImport);
         if (result == null) result = caseXSDConcreteComponent(xsdImport);
@@ -343,7 +343,7 @@ public class XSDSwitch
       case XSDPackage.XSD_INCLUDE:
       {
         XSDInclude xsdInclude = (XSDInclude)theEObject;
-        Object result = caseXSDInclude(xsdInclude);
+        T result = caseXSDInclude(xsdInclude);
         if (result == null) result = caseXSDSchemaCompositor(xsdInclude);
         if (result == null) result = caseXSDSchemaDirective(xsdInclude);
         if (result == null) result = caseXSDSchemaContent(xsdInclude);
@@ -354,7 +354,7 @@ public class XSDSwitch
       case XSDPackage.XSD_LENGTH_FACET:
       {
         XSDLengthFacet xsdLengthFacet = (XSDLengthFacet)theEObject;
-        Object result = caseXSDLengthFacet(xsdLengthFacet);
+        T result = caseXSDLengthFacet(xsdLengthFacet);
         if (result == null) result = caseXSDFixedFacet(xsdLengthFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdLengthFacet);
         if (result == null) result = caseXSDFacet(xsdLengthFacet);
@@ -366,7 +366,7 @@ public class XSDSwitch
       case XSDPackage.XSD_MAX_EXCLUSIVE_FACET:
       {
         XSDMaxExclusiveFacet xsdMaxExclusiveFacet = (XSDMaxExclusiveFacet)theEObject;
-        Object result = caseXSDMaxExclusiveFacet(xsdMaxExclusiveFacet);
+        T result = caseXSDMaxExclusiveFacet(xsdMaxExclusiveFacet);
         if (result == null) result = caseXSDMaxFacet(xsdMaxExclusiveFacet);
         if (result == null) result = caseXSDFixedFacet(xsdMaxExclusiveFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdMaxExclusiveFacet);
@@ -379,7 +379,7 @@ public class XSDSwitch
       case XSDPackage.XSD_MAX_FACET:
       {
         XSDMaxFacet xsdMaxFacet = (XSDMaxFacet)theEObject;
-        Object result = caseXSDMaxFacet(xsdMaxFacet);
+        T result = caseXSDMaxFacet(xsdMaxFacet);
         if (result == null) result = caseXSDFixedFacet(xsdMaxFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdMaxFacet);
         if (result == null) result = caseXSDFacet(xsdMaxFacet);
@@ -391,7 +391,7 @@ public class XSDSwitch
       case XSDPackage.XSD_MAX_INCLUSIVE_FACET:
       {
         XSDMaxInclusiveFacet xsdMaxInclusiveFacet = (XSDMaxInclusiveFacet)theEObject;
-        Object result = caseXSDMaxInclusiveFacet(xsdMaxInclusiveFacet);
+        T result = caseXSDMaxInclusiveFacet(xsdMaxInclusiveFacet);
         if (result == null) result = caseXSDMaxFacet(xsdMaxInclusiveFacet);
         if (result == null) result = caseXSDFixedFacet(xsdMaxInclusiveFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdMaxInclusiveFacet);
@@ -404,7 +404,7 @@ public class XSDSwitch
       case XSDPackage.XSD_MAX_LENGTH_FACET:
       {
         XSDMaxLengthFacet xsdMaxLengthFacet = (XSDMaxLengthFacet)theEObject;
-        Object result = caseXSDMaxLengthFacet(xsdMaxLengthFacet);
+        T result = caseXSDMaxLengthFacet(xsdMaxLengthFacet);
         if (result == null) result = caseXSDFixedFacet(xsdMaxLengthFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdMaxLengthFacet);
         if (result == null) result = caseXSDFacet(xsdMaxLengthFacet);
@@ -416,7 +416,7 @@ public class XSDSwitch
       case XSDPackage.XSD_MIN_EXCLUSIVE_FACET:
       {
         XSDMinExclusiveFacet xsdMinExclusiveFacet = (XSDMinExclusiveFacet)theEObject;
-        Object result = caseXSDMinExclusiveFacet(xsdMinExclusiveFacet);
+        T result = caseXSDMinExclusiveFacet(xsdMinExclusiveFacet);
         if (result == null) result = caseXSDMinFacet(xsdMinExclusiveFacet);
         if (result == null) result = caseXSDFixedFacet(xsdMinExclusiveFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdMinExclusiveFacet);
@@ -429,7 +429,7 @@ public class XSDSwitch
       case XSDPackage.XSD_MIN_FACET:
       {
         XSDMinFacet xsdMinFacet = (XSDMinFacet)theEObject;
-        Object result = caseXSDMinFacet(xsdMinFacet);
+        T result = caseXSDMinFacet(xsdMinFacet);
         if (result == null) result = caseXSDFixedFacet(xsdMinFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdMinFacet);
         if (result == null) result = caseXSDFacet(xsdMinFacet);
@@ -441,7 +441,7 @@ public class XSDSwitch
       case XSDPackage.XSD_MIN_INCLUSIVE_FACET:
       {
         XSDMinInclusiveFacet xsdMinInclusiveFacet = (XSDMinInclusiveFacet)theEObject;
-        Object result = caseXSDMinInclusiveFacet(xsdMinInclusiveFacet);
+        T result = caseXSDMinInclusiveFacet(xsdMinInclusiveFacet);
         if (result == null) result = caseXSDMinFacet(xsdMinInclusiveFacet);
         if (result == null) result = caseXSDFixedFacet(xsdMinInclusiveFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdMinInclusiveFacet);
@@ -454,7 +454,7 @@ public class XSDSwitch
       case XSDPackage.XSD_MIN_LENGTH_FACET:
       {
         XSDMinLengthFacet xsdMinLengthFacet = (XSDMinLengthFacet)theEObject;
-        Object result = caseXSDMinLengthFacet(xsdMinLengthFacet);
+        T result = caseXSDMinLengthFacet(xsdMinLengthFacet);
         if (result == null) result = caseXSDFixedFacet(xsdMinLengthFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdMinLengthFacet);
         if (result == null) result = caseXSDFacet(xsdMinLengthFacet);
@@ -466,7 +466,7 @@ public class XSDSwitch
       case XSDPackage.XSD_MODEL_GROUP:
       {
         XSDModelGroup xsdModelGroup = (XSDModelGroup)theEObject;
-        Object result = caseXSDModelGroup(xsdModelGroup);
+        T result = caseXSDModelGroup(xsdModelGroup);
         if (result == null) result = caseXSDTerm(xsdModelGroup);
         if (result == null) result = caseXSDComponent(xsdModelGroup);
         if (result == null) result = caseXSDParticleContent(xsdModelGroup);
@@ -477,7 +477,7 @@ public class XSDSwitch
       case XSDPackage.XSD_MODEL_GROUP_DEFINITION:
       {
         XSDModelGroupDefinition xsdModelGroupDefinition = (XSDModelGroupDefinition)theEObject;
-        Object result = caseXSDModelGroupDefinition(xsdModelGroupDefinition);
+        T result = caseXSDModelGroupDefinition(xsdModelGroupDefinition);
         if (result == null) result = caseXSDRedefinableComponent(xsdModelGroupDefinition);
         if (result == null) result = caseXSDParticleContent(xsdModelGroupDefinition);
         if (result == null) result = caseXSDRedefineContent(xsdModelGroupDefinition);
@@ -491,7 +491,7 @@ public class XSDSwitch
       case XSDPackage.XSD_NAMED_COMPONENT:
       {
         XSDNamedComponent xsdNamedComponent = (XSDNamedComponent)theEObject;
-        Object result = caseXSDNamedComponent(xsdNamedComponent);
+        T result = caseXSDNamedComponent(xsdNamedComponent);
         if (result == null) result = caseXSDComponent(xsdNamedComponent);
         if (result == null) result = caseXSDConcreteComponent(xsdNamedComponent);
         if (result == null) result = defaultCase(theEObject);
@@ -500,7 +500,7 @@ public class XSDSwitch
       case XSDPackage.XSD_NOTATION_DECLARATION:
       {
         XSDNotationDeclaration xsdNotationDeclaration = (XSDNotationDeclaration)theEObject;
-        Object result = caseXSDNotationDeclaration(xsdNotationDeclaration);
+        T result = caseXSDNotationDeclaration(xsdNotationDeclaration);
         if (result == null) result = caseXSDNamedComponent(xsdNotationDeclaration);
         if (result == null) result = caseXSDSchemaContent(xsdNotationDeclaration);
         if (result == null) result = caseXSDComponent(xsdNotationDeclaration);
@@ -511,7 +511,7 @@ public class XSDSwitch
       case XSDPackage.XSD_NUMERIC_FACET:
       {
         XSDNumericFacet xsdNumericFacet = (XSDNumericFacet)theEObject;
-        Object result = caseXSDNumericFacet(xsdNumericFacet);
+        T result = caseXSDNumericFacet(xsdNumericFacet);
         if (result == null) result = caseXSDFundamentalFacet(xsdNumericFacet);
         if (result == null) result = caseXSDFacet(xsdNumericFacet);
         if (result == null) result = caseXSDComponent(xsdNumericFacet);
@@ -522,7 +522,7 @@ public class XSDSwitch
       case XSDPackage.XSD_ORDERED_FACET:
       {
         XSDOrderedFacet xsdOrderedFacet = (XSDOrderedFacet)theEObject;
-        Object result = caseXSDOrderedFacet(xsdOrderedFacet);
+        T result = caseXSDOrderedFacet(xsdOrderedFacet);
         if (result == null) result = caseXSDFundamentalFacet(xsdOrderedFacet);
         if (result == null) result = caseXSDFacet(xsdOrderedFacet);
         if (result == null) result = caseXSDComponent(xsdOrderedFacet);
@@ -533,7 +533,7 @@ public class XSDSwitch
       case XSDPackage.XSD_PARTICLE:
       {
         XSDParticle xsdParticle = (XSDParticle)theEObject;
-        Object result = caseXSDParticle(xsdParticle);
+        T result = caseXSDParticle(xsdParticle);
         if (result == null) result = caseXSDComplexTypeContent(xsdParticle);
         if (result == null) result = caseXSDComponent(xsdParticle);
         if (result == null) result = caseXSDConcreteComponent(xsdParticle);
@@ -543,7 +543,7 @@ public class XSDSwitch
       case XSDPackage.XSD_PARTICLE_CONTENT:
       {
         XSDParticleContent xsdParticleContent = (XSDParticleContent)theEObject;
-        Object result = caseXSDParticleContent(xsdParticleContent);
+        T result = caseXSDParticleContent(xsdParticleContent);
         if (result == null) result = caseXSDConcreteComponent(xsdParticleContent);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -551,7 +551,7 @@ public class XSDSwitch
       case XSDPackage.XSD_PATTERN_FACET:
       {
         XSDPatternFacet xsdPatternFacet = (XSDPatternFacet)theEObject;
-        Object result = caseXSDPatternFacet(xsdPatternFacet);
+        T result = caseXSDPatternFacet(xsdPatternFacet);
         if (result == null) result = caseXSDRepeatableFacet(xsdPatternFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdPatternFacet);
         if (result == null) result = caseXSDFacet(xsdPatternFacet);
@@ -563,7 +563,7 @@ public class XSDSwitch
       case XSDPackage.XSD_REDEFINABLE_COMPONENT:
       {
         XSDRedefinableComponent xsdRedefinableComponent = (XSDRedefinableComponent)theEObject;
-        Object result = caseXSDRedefinableComponent(xsdRedefinableComponent);
+        T result = caseXSDRedefinableComponent(xsdRedefinableComponent);
         if (result == null) result = caseXSDNamedComponent(xsdRedefinableComponent);
         if (result == null) result = caseXSDRedefineContent(xsdRedefinableComponent);
         if (result == null) result = caseXSDComponent(xsdRedefinableComponent);
@@ -575,7 +575,7 @@ public class XSDSwitch
       case XSDPackage.XSD_REDEFINE_CONTENT:
       {
         XSDRedefineContent xsdRedefineContent = (XSDRedefineContent)theEObject;
-        Object result = caseXSDRedefineContent(xsdRedefineContent);
+        T result = caseXSDRedefineContent(xsdRedefineContent);
         if (result == null) result = caseXSDSchemaContent(xsdRedefineContent);
         if (result == null) result = caseXSDConcreteComponent(xsdRedefineContent);
         if (result == null) result = defaultCase(theEObject);
@@ -584,7 +584,7 @@ public class XSDSwitch
       case XSDPackage.XSD_REDEFINE:
       {
         XSDRedefine xsdRedefine = (XSDRedefine)theEObject;
-        Object result = caseXSDRedefine(xsdRedefine);
+        T result = caseXSDRedefine(xsdRedefine);
         if (result == null) result = caseXSDSchemaCompositor(xsdRedefine);
         if (result == null) result = caseXSDSchemaDirective(xsdRedefine);
         if (result == null) result = caseXSDSchemaContent(xsdRedefine);
@@ -595,7 +595,7 @@ public class XSDSwitch
       case XSDPackage.XSD_REPEATABLE_FACET:
       {
         XSDRepeatableFacet xsdRepeatableFacet = (XSDRepeatableFacet)theEObject;
-        Object result = caseXSDRepeatableFacet(xsdRepeatableFacet);
+        T result = caseXSDRepeatableFacet(xsdRepeatableFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdRepeatableFacet);
         if (result == null) result = caseXSDFacet(xsdRepeatableFacet);
         if (result == null) result = caseXSDComponent(xsdRepeatableFacet);
@@ -606,7 +606,7 @@ public class XSDSwitch
       case XSDPackage.XSD_SCHEMA:
       {
         XSDSchema xsdSchema = (XSDSchema)theEObject;
-        Object result = caseXSDSchema(xsdSchema);
+        T result = caseXSDSchema(xsdSchema);
         if (result == null) result = caseXSDScope(xsdSchema);
         if (result == null) result = caseXSDComponent(xsdSchema);
         if (result == null) result = caseXSDConcreteComponent(xsdSchema);
@@ -616,7 +616,7 @@ public class XSDSwitch
       case XSDPackage.XSD_SCHEMA_COMPOSITOR:
       {
         XSDSchemaCompositor xsdSchemaCompositor = (XSDSchemaCompositor)theEObject;
-        Object result = caseXSDSchemaCompositor(xsdSchemaCompositor);
+        T result = caseXSDSchemaCompositor(xsdSchemaCompositor);
         if (result == null) result = caseXSDSchemaDirective(xsdSchemaCompositor);
         if (result == null) result = caseXSDSchemaContent(xsdSchemaCompositor);
         if (result == null) result = caseXSDConcreteComponent(xsdSchemaCompositor);
@@ -626,7 +626,7 @@ public class XSDSwitch
       case XSDPackage.XSD_SCHEMA_CONTENT:
       {
         XSDSchemaContent xsdSchemaContent = (XSDSchemaContent)theEObject;
-        Object result = caseXSDSchemaContent(xsdSchemaContent);
+        T result = caseXSDSchemaContent(xsdSchemaContent);
         if (result == null) result = caseXSDConcreteComponent(xsdSchemaContent);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -634,7 +634,7 @@ public class XSDSwitch
       case XSDPackage.XSD_SCHEMA_DIRECTIVE:
       {
         XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)theEObject;
-        Object result = caseXSDSchemaDirective(xsdSchemaDirective);
+        T result = caseXSDSchemaDirective(xsdSchemaDirective);
         if (result == null) result = caseXSDSchemaContent(xsdSchemaDirective);
         if (result == null) result = caseXSDConcreteComponent(xsdSchemaDirective);
         if (result == null) result = defaultCase(theEObject);
@@ -643,7 +643,7 @@ public class XSDSwitch
       case XSDPackage.XSD_SCOPE:
       {
         XSDScope xsdScope = (XSDScope)theEObject;
-        Object result = caseXSDScope(xsdScope);
+        T result = caseXSDScope(xsdScope);
         if (result == null) result = caseXSDComponent(xsdScope);
         if (result == null) result = caseXSDConcreteComponent(xsdScope);
         if (result == null) result = defaultCase(theEObject);
@@ -652,7 +652,7 @@ public class XSDSwitch
       case XSDPackage.XSD_SIMPLE_TYPE_DEFINITION:
       {
         XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)theEObject;
-        Object result = caseXSDSimpleTypeDefinition(xsdSimpleTypeDefinition);
+        T result = caseXSDSimpleTypeDefinition(xsdSimpleTypeDefinition);
         if (result == null) result = caseXSDTypeDefinition(xsdSimpleTypeDefinition);
         if (result == null) result = caseXSDComplexTypeContent(xsdSimpleTypeDefinition);
         if (result == null) result = caseXSDRedefinableComponent(xsdSimpleTypeDefinition);
@@ -667,7 +667,7 @@ public class XSDSwitch
       case XSDPackage.XSD_TERM:
       {
         XSDTerm xsdTerm = (XSDTerm)theEObject;
-        Object result = caseXSDTerm(xsdTerm);
+        T result = caseXSDTerm(xsdTerm);
         if (result == null) result = caseXSDComponent(xsdTerm);
         if (result == null) result = caseXSDParticleContent(xsdTerm);
         if (result == null) result = caseXSDConcreteComponent(xsdTerm);
@@ -677,7 +677,7 @@ public class XSDSwitch
       case XSDPackage.XSD_TOTAL_DIGITS_FACET:
       {
         XSDTotalDigitsFacet xsdTotalDigitsFacet = (XSDTotalDigitsFacet)theEObject;
-        Object result = caseXSDTotalDigitsFacet(xsdTotalDigitsFacet);
+        T result = caseXSDTotalDigitsFacet(xsdTotalDigitsFacet);
         if (result == null) result = caseXSDFixedFacet(xsdTotalDigitsFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdTotalDigitsFacet);
         if (result == null) result = caseXSDFacet(xsdTotalDigitsFacet);
@@ -689,7 +689,7 @@ public class XSDSwitch
       case XSDPackage.XSD_TYPE_DEFINITION:
       {
         XSDTypeDefinition xsdTypeDefinition = (XSDTypeDefinition)theEObject;
-        Object result = caseXSDTypeDefinition(xsdTypeDefinition);
+        T result = caseXSDTypeDefinition(xsdTypeDefinition);
         if (result == null) result = caseXSDRedefinableComponent(xsdTypeDefinition);
         if (result == null) result = caseXSDRedefineContent(xsdTypeDefinition);
         if (result == null) result = caseXSDNamedComponent(xsdTypeDefinition);
@@ -702,7 +702,7 @@ public class XSDSwitch
       case XSDPackage.XSD_WHITE_SPACE_FACET:
       {
         XSDWhiteSpaceFacet xsdWhiteSpaceFacet = (XSDWhiteSpaceFacet)theEObject;
-        Object result = caseXSDWhiteSpaceFacet(xsdWhiteSpaceFacet);
+        T result = caseXSDWhiteSpaceFacet(xsdWhiteSpaceFacet);
         if (result == null) result = caseXSDFixedFacet(xsdWhiteSpaceFacet);
         if (result == null) result = caseXSDConstrainingFacet(xsdWhiteSpaceFacet);
         if (result == null) result = caseXSDFacet(xsdWhiteSpaceFacet);
@@ -714,7 +714,7 @@ public class XSDSwitch
       case XSDPackage.XSD_WILDCARD:
       {
         XSDWildcard xsdWildcard = (XSDWildcard)theEObject;
-        Object result = caseXSDWildcard(xsdWildcard);
+        T result = caseXSDWildcard(xsdWildcard);
         if (result == null) result = caseXSDTerm(xsdWildcard);
         if (result == null) result = caseXSDComponent(xsdWildcard);
         if (result == null) result = caseXSDParticleContent(xsdWildcard);
@@ -725,7 +725,7 @@ public class XSDSwitch
       case XSDPackage.XSD_XPATH_DEFINITION:
       {
         XSDXPathDefinition xsdxPathDefinition = (XSDXPathDefinition)theEObject;
-        Object result = caseXSDXPathDefinition(xsdxPathDefinition);
+        T result = caseXSDXPathDefinition(xsdxPathDefinition);
         if (result == null) result = caseXSDComponent(xsdxPathDefinition);
         if (result == null) result = caseXSDConcreteComponent(xsdxPathDefinition);
         if (result == null) result = defaultCase(theEObject);
@@ -746,7 +746,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDAnnotation(XSDAnnotation object)
+  public T caseXSDAnnotation(XSDAnnotation object)
   {
     return null;
   }
@@ -762,7 +762,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDAttributeDeclaration(XSDAttributeDeclaration object)
+  public T caseXSDAttributeDeclaration(XSDAttributeDeclaration object)
   {
     return null;
   }
@@ -778,7 +778,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDAttributeGroupContent(XSDAttributeGroupContent object)
+  public T caseXSDAttributeGroupContent(XSDAttributeGroupContent object)
   {
     return null;
   }
@@ -794,7 +794,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition object)
+  public T caseXSDAttributeGroupDefinition(XSDAttributeGroupDefinition object)
   {
     return null;
   }
@@ -810,7 +810,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDAttributeUse(XSDAttributeUse object)
+  public T caseXSDAttributeUse(XSDAttributeUse object)
   {
     return null;
   }
@@ -826,7 +826,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDBoundedFacet(XSDBoundedFacet object)
+  public T caseXSDBoundedFacet(XSDBoundedFacet object)
   {
     return null;
   }
@@ -842,7 +842,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDCardinalityFacet(XSDCardinalityFacet object)
+  public T caseXSDCardinalityFacet(XSDCardinalityFacet object)
   {
     return null;
   }
@@ -858,7 +858,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDComplexTypeContent(XSDComplexTypeContent object)
+  public T caseXSDComplexTypeContent(XSDComplexTypeContent object)
   {
     return null;
   }
@@ -874,7 +874,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDComplexTypeDefinition(XSDComplexTypeDefinition object)
+  public T caseXSDComplexTypeDefinition(XSDComplexTypeDefinition object)
   {
     return null;
   }
@@ -890,7 +890,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDComponent(XSDComponent object)
+  public T caseXSDComponent(XSDComponent object)
   {
     return null;
   }
@@ -906,7 +906,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDConcreteComponent(XSDConcreteComponent object)
+  public T caseXSDConcreteComponent(XSDConcreteComponent object)
   {
     return null;
   }
@@ -922,7 +922,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDConstrainingFacet(XSDConstrainingFacet object)
+  public T caseXSDConstrainingFacet(XSDConstrainingFacet object)
   {
     return null;
   }
@@ -938,7 +938,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDDiagnostic(XSDDiagnostic object)
+  public T caseXSDDiagnostic(XSDDiagnostic object)
   {
     return null;
   }
@@ -954,7 +954,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDElementDeclaration(XSDElementDeclaration object)
+  public T caseXSDElementDeclaration(XSDElementDeclaration object)
   {
     return null;
   }
@@ -970,7 +970,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDEnumerationFacet(XSDEnumerationFacet object)
+  public T caseXSDEnumerationFacet(XSDEnumerationFacet object)
   {
     return null;
   }
@@ -986,7 +986,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDFacet(XSDFacet object)
+  public T caseXSDFacet(XSDFacet object)
   {
     return null;
   }
@@ -1002,7 +1002,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDFeature(XSDFeature object)
+  public T caseXSDFeature(XSDFeature object)
   {
     return null;
   }
@@ -1018,7 +1018,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDFixedFacet(XSDFixedFacet object)
+  public T caseXSDFixedFacet(XSDFixedFacet object)
   {
     return null;
   }
@@ -1034,7 +1034,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDFractionDigitsFacet(XSDFractionDigitsFacet object)
+  public T caseXSDFractionDigitsFacet(XSDFractionDigitsFacet object)
   {
     return null;
   }
@@ -1050,7 +1050,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDFundamentalFacet(XSDFundamentalFacet object)
+  public T caseXSDFundamentalFacet(XSDFundamentalFacet object)
   {
     return null;
   }
@@ -1066,7 +1066,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDIdentityConstraintDefinition(XSDIdentityConstraintDefinition object)
+  public T caseXSDIdentityConstraintDefinition(XSDIdentityConstraintDefinition object)
   {
     return null;
   }
@@ -1082,7 +1082,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDImport(XSDImport object)
+  public T caseXSDImport(XSDImport object)
   {
     return null;
   }
@@ -1098,7 +1098,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDInclude(XSDInclude object)
+  public T caseXSDInclude(XSDInclude object)
   {
     return null;
   }
@@ -1114,7 +1114,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDLengthFacet(XSDLengthFacet object)
+  public T caseXSDLengthFacet(XSDLengthFacet object)
   {
     return null;
   }
@@ -1130,7 +1130,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMaxExclusiveFacet(XSDMaxExclusiveFacet object)
+  public T caseXSDMaxExclusiveFacet(XSDMaxExclusiveFacet object)
   {
     return null;
   }
@@ -1146,7 +1146,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMaxFacet(XSDMaxFacet object)
+  public T caseXSDMaxFacet(XSDMaxFacet object)
   {
     return null;
   }
@@ -1162,7 +1162,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMaxInclusiveFacet(XSDMaxInclusiveFacet object)
+  public T caseXSDMaxInclusiveFacet(XSDMaxInclusiveFacet object)
   {
     return null;
   }
@@ -1178,7 +1178,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMaxLengthFacet(XSDMaxLengthFacet object)
+  public T caseXSDMaxLengthFacet(XSDMaxLengthFacet object)
   {
     return null;
   }
@@ -1194,7 +1194,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMinExclusiveFacet(XSDMinExclusiveFacet object)
+  public T caseXSDMinExclusiveFacet(XSDMinExclusiveFacet object)
   {
     return null;
   }
@@ -1210,7 +1210,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMinFacet(XSDMinFacet object)
+  public T caseXSDMinFacet(XSDMinFacet object)
   {
     return null;
   }
@@ -1226,7 +1226,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMinInclusiveFacet(XSDMinInclusiveFacet object)
+  public T caseXSDMinInclusiveFacet(XSDMinInclusiveFacet object)
   {
     return null;
   }
@@ -1242,7 +1242,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDMinLengthFacet(XSDMinLengthFacet object)
+  public T caseXSDMinLengthFacet(XSDMinLengthFacet object)
   {
     return null;
   }
@@ -1258,7 +1258,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDModelGroup(XSDModelGroup object)
+  public T caseXSDModelGroup(XSDModelGroup object)
   {
     return null;
   }
@@ -1274,7 +1274,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDModelGroupDefinition(XSDModelGroupDefinition object)
+  public T caseXSDModelGroupDefinition(XSDModelGroupDefinition object)
   {
     return null;
   }
@@ -1290,7 +1290,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDNamedComponent(XSDNamedComponent object)
+  public T caseXSDNamedComponent(XSDNamedComponent object)
   {
     return null;
   }
@@ -1306,7 +1306,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDNotationDeclaration(XSDNotationDeclaration object)
+  public T caseXSDNotationDeclaration(XSDNotationDeclaration object)
   {
     return null;
   }
@@ -1322,7 +1322,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDNumericFacet(XSDNumericFacet object)
+  public T caseXSDNumericFacet(XSDNumericFacet object)
   {
     return null;
   }
@@ -1338,7 +1338,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDOrderedFacet(XSDOrderedFacet object)
+  public T caseXSDOrderedFacet(XSDOrderedFacet object)
   {
     return null;
   }
@@ -1354,7 +1354,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDParticle(XSDParticle object)
+  public T caseXSDParticle(XSDParticle object)
   {
     return null;
   }
@@ -1370,7 +1370,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDParticleContent(XSDParticleContent object)
+  public T caseXSDParticleContent(XSDParticleContent object)
   {
     return null;
   }
@@ -1386,7 +1386,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDPatternFacet(XSDPatternFacet object)
+  public T caseXSDPatternFacet(XSDPatternFacet object)
   {
     return null;
   }
@@ -1402,7 +1402,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDRedefinableComponent(XSDRedefinableComponent object)
+  public T caseXSDRedefinableComponent(XSDRedefinableComponent object)
   {
     return null;
   }
@@ -1418,7 +1418,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDRedefineContent(XSDRedefineContent object)
+  public T caseXSDRedefineContent(XSDRedefineContent object)
   {
     return null;
   }
@@ -1434,7 +1434,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDRedefine(XSDRedefine object)
+  public T caseXSDRedefine(XSDRedefine object)
   {
     return null;
   }
@@ -1450,7 +1450,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDRepeatableFacet(XSDRepeatableFacet object)
+  public T caseXSDRepeatableFacet(XSDRepeatableFacet object)
   {
     return null;
   }
@@ -1466,7 +1466,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDSchema(XSDSchema object)
+  public T caseXSDSchema(XSDSchema object)
   {
     return null;
   }
@@ -1482,7 +1482,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDSchemaCompositor(XSDSchemaCompositor object)
+  public T caseXSDSchemaCompositor(XSDSchemaCompositor object)
   {
     return null;
   }
@@ -1498,7 +1498,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDSchemaContent(XSDSchemaContent object)
+  public T caseXSDSchemaContent(XSDSchemaContent object)
   {
     return null;
   }
@@ -1514,7 +1514,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDSchemaDirective(XSDSchemaDirective object)
+  public T caseXSDSchemaDirective(XSDSchemaDirective object)
   {
     return null;
   }
@@ -1530,7 +1530,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDScope(XSDScope object)
+  public T caseXSDScope(XSDScope object)
   {
     return null;
   }
@@ -1546,7 +1546,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDSimpleTypeDefinition(XSDSimpleTypeDefinition object)
+  public T caseXSDSimpleTypeDefinition(XSDSimpleTypeDefinition object)
   {
     return null;
   }
@@ -1562,7 +1562,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDTerm(XSDTerm object)
+  public T caseXSDTerm(XSDTerm object)
   {
     return null;
   }
@@ -1578,7 +1578,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDTotalDigitsFacet(XSDTotalDigitsFacet object)
+  public T caseXSDTotalDigitsFacet(XSDTotalDigitsFacet object)
   {
     return null;
   }
@@ -1594,7 +1594,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDTypeDefinition(XSDTypeDefinition object)
+  public T caseXSDTypeDefinition(XSDTypeDefinition object)
   {
     return null;
   }
@@ -1610,7 +1610,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDWhiteSpaceFacet(XSDWhiteSpaceFacet object)
+  public T caseXSDWhiteSpaceFacet(XSDWhiteSpaceFacet object)
   {
     return null;
   }
@@ -1626,7 +1626,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDWildcard(XSDWildcard object)
+  public T caseXSDWildcard(XSDWildcard object)
   {
     return null;
   }
@@ -1642,7 +1642,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseXSDXPathDefinition(XSDXPathDefinition object)
+  public T caseXSDXPathDefinition(XSDXPathDefinition object)
   {
     return null;
   }
@@ -1658,7 +1658,7 @@ public class XSDSwitch
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

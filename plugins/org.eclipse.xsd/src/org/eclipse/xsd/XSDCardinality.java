@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDCardinality.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDCardinality.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -33,8 +33,32 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDCardinality extends AbstractEnumerator
+public enum XSDCardinality implements Enumerator
 {
+  /**
+   * The '<em><b>Finite</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #FINITE
+   * @generated
+   * @ordered
+   */
+  FINITE_LITERAL(0, "finite", "finite"),
+
+  /**
+   * The '<em><b>Countably Infinite</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #COUNTABLY_INFINITE
+   * @generated
+   * @ordered
+   */
+  COUNTABLY_INFINITE_LITERAL(1, "countablyInfinite", "countablyInfinite");
+
   /**
    * The '<em><b>Finite</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -62,29 +86,6 @@ public final class XSDCardinality extends AbstractEnumerator
    * @ordered
    */
   public static final int COUNTABLY_INFINITE = 1;
-  /**
-   * The '<em><b>Finite</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #FINITE
-   * @generated
-   * @ordered
-   */
-  public static final XSDCardinality FINITE_LITERAL = new XSDCardinality(FINITE, "finite", "finite");
-
-  /**
-   * The '<em><b>Countably Infinite</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #COUNTABLY_INFINITE
-   * @generated
-   * @ordered
-   */
-  public static final XSDCardinality COUNTABLY_INFINITE_LITERAL = new XSDCardinality(COUNTABLY_INFINITE, "countablyInfinite", "countablyInfinite");
 
   /**
    * An array of all the '<em><b>Cardinality</b></em>' enumerators.
@@ -105,7 +106,7 @@ public final class XSDCardinality extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDCardinality> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Cardinality</b></em>' literal with the specified literal value.
@@ -162,6 +163,27 @@ public final class XSDCardinality extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -169,7 +191,50 @@ public final class XSDCardinality extends AbstractEnumerator
    */
   private XSDCardinality(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParser.java,v 1.10 2006/10/18 14:27:30 emerks Exp $
+ * $Id: XSDParser.java,v 1.11 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -66,7 +66,7 @@ import org.eclipse.xsd.impl.XSDSchemaImpl;
  */
 public class XSDParser extends DefaultHandler implements LexicalHandler
 {
-  protected static final Map userDataMap = Collections.synchronizedMap(new WeakHashMap());
+  protected static final Map<Node, Map<Object, Object>> userDataMap = Collections.synchronizedMap(new WeakHashMap<Node, Map<Object, Object>>());
 
   /**
    * Returns the user data associated with the node.
@@ -74,12 +74,12 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
    * @param node the node to query.
    * @return the user data associated with the node.
    */
-  public static Map getUserData(Node node)
+  public static Map<Object, Object> getUserData(Node node)
   {
-    Map result = (Map)userDataMap.get(node);
+    Map<Object, Object> result = userDataMap.get(node);
     if (result == null)
     {
-      result = new HashMap();
+      result = new HashMap<Object, Object>();
       userDataMap.put(node, result);
     }
     return result;
@@ -132,11 +132,11 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
   protected XSDFactory xsdFactory = XSDFactory.eINSTANCE;
   protected XSDSchema xsdSchema;
-  protected List xsdDiagnostics = new ArrayList();
+  protected List<XSDDiagnostic> xsdDiagnostics = new ArrayList<XSDDiagnostic>();
   protected SAXParser saxParser;
   protected JAXPPool jaxpPool;
   protected Document document;
-  protected Stack stack = new Stack();
+  protected Stack<Element> stack = new Stack<Element>();
   protected Element element;
   protected Locator locator;
   protected int line;
@@ -147,6 +147,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
    * @deprecated since 2.2
    *
    */
+  @Deprecated
   public XSDParser()
   {
     try 
@@ -173,7 +174,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     }
   }
   
-  public XSDParser(Map options)
+  public XSDParser(Map<?, ?> options)
   {
     JAXPConfiguration config = null;
     if (options != null)
@@ -301,7 +302,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
         Method getEncodingMethod = locator.getClass().getMethod("getEncoding", new Class[]{});
         if (getEncodingMethod != null)
         {
-          encoding = (String)getEncodingMethod.invoke(locator, null);
+          encoding = (String)getEncodingMethod.invoke(locator);
         }
       }
       catch (Exception e) 
@@ -349,11 +350,12 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     return xsdSchema;
   }
   
-  public Collection getDiagnostics()
+  public Collection<XSDDiagnostic> getDiagnostics()
   {
     return xsdDiagnostics;
   }
 
+  @Override
   public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException
   {
     Element newElement = document.createElementNS(uri, qName);
@@ -385,30 +387,33 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     stack.push(element);
     element = newElement;
 
-    Map extendedAttributes = getUserData(element);
+    Map<Object, Object> extendedAttributes = getUserData(element);
     extendedAttributes.put("startLine", new Integer(line));
     extendedAttributes.put("startColumn", new Integer(column));
 
     saveLocation();
   }
 
+  @Override
   public void endElement(String uri, String localName, String qName) throws SAXException
   {
     saveLocation();
 
-    Map extendedAttributes = getUserData(element);
+    Map<Object, Object> extendedAttributes = getUserData(element);
     extendedAttributes.put("endLine", new Integer(line));
     extendedAttributes.put("endColumn", new Integer(column));
 
-    element = (Element)stack.pop();
+    element = stack.pop();
   }
 
+  @Override
   public void setDocumentLocator(Locator locator)
   {
     this.locator = locator;
     super.setDocumentLocator(locator);
   }
 
+  @Override
   public void startDocument()
   {
     saveLocation();
@@ -436,6 +441,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     }
   }
 
+  @Override
   public void endDocument()
   {
     element = null;
@@ -443,6 +449,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     this.locator = null;
   }
 
+  @Override
   public void characters(char [] characters, int start, int length) throws SAXException
   {
     Text textNode = document.createTextNode(new String(characters, start, length));
@@ -466,28 +473,35 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
 
   public void startCDATA() 
   {
+    // Ignore
   }
 
   public void endCDATA() 
   {
+    // Ignore
   }
 
   public void startDTD(String name, String publicId, String systemId) 
   {
+    // Ignore
   }
 
   public void endDTD() 
   {
+    // Ignore
   }
 
   public void startEntity(String name) 
   {
+    // Ignore
   }
 
   public void endEntity(String name) 
   {
+    // Ignore
   }
 
+  @Override
   public void processingInstruction(String target, String data) 
   {
     Node processingInstruction = document.createProcessingInstruction(target, data);
@@ -525,6 +539,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     xsdDiagnostics.add(xsdDiagnostic);
   }
 
+  @Override
   public void fatalError(SAXParseException exception)
   {
     XSDDiagnostic xsdDiagnostic = xsdFactory.createXSDDiagnostic();
@@ -535,6 +550,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     xsdDiagnostics.add(xsdDiagnostic);
   }
 
+  @Override
   public void error(SAXParseException exception)
   {
     XSDDiagnostic xsdDiagnostic = xsdFactory.createXSDDiagnostic();
@@ -545,6 +561,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     xsdDiagnostics.add(xsdDiagnostic);
   }
 
+  @Override
   public void warning(SAXParseException exception)
   {
     XSDDiagnostic xsdDiagnostic = xsdFactory.createXSDDiagnostic();
@@ -570,6 +587,7 @@ public class XSDParser extends DefaultHandler implements LexicalHandler
     }
   }
 
+  @Override
   public InputSource resolveEntity(String publicId, String systemId) throws SAXException
   {
     InputSource inputSource;

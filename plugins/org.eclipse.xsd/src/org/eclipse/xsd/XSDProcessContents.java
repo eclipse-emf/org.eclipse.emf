@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDProcessContents.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDProcessContents.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -33,8 +33,44 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDProcessContents extends AbstractEnumerator
+public enum XSDProcessContents implements Enumerator
 {
+  /**
+   * The '<em><b>Strict</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #STRICT
+   * @generated
+   * @ordered
+   */
+  STRICT_LITERAL(0, "strict", "strict"),
+
+  /**
+   * The '<em><b>Lax</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #LAX
+   * @generated
+   * @ordered
+   */
+  LAX_LITERAL(1, "lax", "lax"),
+
+  /**
+   * The '<em><b>Skip</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #SKIP
+   * @generated
+   * @ordered
+   */
+  SKIP_LITERAL(2, "skip", "skip");
+
   /**
    * The '<em><b>Strict</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -76,41 +112,6 @@ public final class XSDProcessContents extends AbstractEnumerator
    * @ordered
    */
   public static final int SKIP = 2;
-  /**
-   * The '<em><b>Strict</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #STRICT
-   * @generated
-   * @ordered
-   */
-  public static final XSDProcessContents STRICT_LITERAL = new XSDProcessContents(STRICT, "strict", "strict");
-
-  /**
-   * The '<em><b>Lax</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #LAX
-   * @generated
-   * @ordered
-   */
-  public static final XSDProcessContents LAX_LITERAL = new XSDProcessContents(LAX, "lax", "lax");
-
-  /**
-   * The '<em><b>Skip</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #SKIP
-   * @generated
-   * @ordered
-   */
-  public static final XSDProcessContents SKIP_LITERAL = new XSDProcessContents(SKIP, "skip", "skip");
 
   /**
    * An array of all the '<em><b>Process Contents</b></em>' enumerators.
@@ -132,7 +133,7 @@ public final class XSDProcessContents extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDProcessContents> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Process Contents</b></em>' literal with the specified literal value.
@@ -190,6 +191,27 @@ public final class XSDProcessContents extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -197,7 +219,50 @@ public final class XSDProcessContents extends AbstractEnumerator
    */
   private XSDProcessContents(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
 }

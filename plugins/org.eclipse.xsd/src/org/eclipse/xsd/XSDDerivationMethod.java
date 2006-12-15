@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDerivationMethod.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDDerivationMethod.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -33,8 +33,32 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDDerivationMethod extends AbstractEnumerator
+public enum XSDDerivationMethod implements Enumerator
 {
+  /**
+   * The '<em><b>Extension</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #EXTENSION
+   * @generated
+   * @ordered
+   */
+  EXTENSION_LITERAL(0, "extension", "extension"),
+
+  /**
+   * The '<em><b>Restriction</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #RESTRICTION
+   * @generated
+   * @ordered
+   */
+  RESTRICTION_LITERAL(1, "restriction", "restriction");
+
   /**
    * The '<em><b>Extension</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -62,29 +86,6 @@ public final class XSDDerivationMethod extends AbstractEnumerator
    * @ordered
    */
   public static final int RESTRICTION = 1;
-  /**
-   * The '<em><b>Extension</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #EXTENSION
-   * @generated
-   * @ordered
-   */
-  public static final XSDDerivationMethod EXTENSION_LITERAL = new XSDDerivationMethod(EXTENSION, "extension", "extension");
-
-  /**
-   * The '<em><b>Restriction</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #RESTRICTION
-   * @generated
-   * @ordered
-   */
-  public static final XSDDerivationMethod RESTRICTION_LITERAL = new XSDDerivationMethod(RESTRICTION, "restriction", "restriction");
 
   /**
    * An array of all the '<em><b>Derivation Method</b></em>' enumerators.
@@ -105,7 +106,7 @@ public final class XSDDerivationMethod extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDDerivationMethod> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Derivation Method</b></em>' literal with the specified literal value.
@@ -162,6 +163,27 @@ public final class XSDDerivationMethod extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -169,7 +191,50 @@ public final class XSDDerivationMethod extends AbstractEnumerator
    */
   private XSDDerivationMethod(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
 }

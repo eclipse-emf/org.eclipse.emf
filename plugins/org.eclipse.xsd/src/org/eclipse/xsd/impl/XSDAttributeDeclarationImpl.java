@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeDeclarationImpl.java,v 1.13 2006/07/15 12:33:14 emerks Exp $
+ * $Id: XSDAttributeDeclarationImpl.java,v 1.14 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -146,6 +146,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_ATTRIBUTE_DECLARATION;
@@ -161,6 +162,7 @@ public class XSDAttributeDeclarationImpl
     return isAttributeDeclarationReference() ? Boolean.TRUE : Boolean.FALSE;
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.ATTRIBUTE_ELEMENT);
@@ -176,6 +178,7 @@ public class XSDAttributeDeclarationImpl
     return newElement;
   }
 
+  @Override
   protected void patch()
   {
     super.patch();
@@ -204,6 +207,7 @@ public class XSDAttributeDeclarationImpl
     }
   }
 
+  @Override
   protected void patchTargetNamespaceAttribute()
   {
     if (!isAttributeDeclarationReference())
@@ -238,6 +242,7 @@ public class XSDAttributeDeclarationImpl
   }
 
   protected boolean isTypeExplicit = false;
+  @Override
   protected boolean analyze()
   {
     if (!isAttributeDeclarationReference())
@@ -258,6 +263,7 @@ public class XSDAttributeDeclarationImpl
     return super.analyze();
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -439,6 +445,7 @@ public class XSDAttributeDeclarationImpl
     }
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -506,6 +513,7 @@ public class XSDAttributeDeclarationImpl
     }
   }
 
+  @Override
   protected void reconcileNameAttribute()
   {
     if (!isAttributeDeclarationReference())
@@ -514,7 +522,8 @@ public class XSDAttributeDeclarationImpl
     }
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     XSDAnnotation xsdAnnotation = XSDAnnotationImpl.createAnnotation(child);
     if (xsdAnnotation != null)
@@ -534,7 +543,8 @@ public class XSDAttributeDeclarationImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     handleAnnotationReconciliation(XSDPackage.Literals.XSD_ATTRIBUTE_DECLARATION__ANNOTATION, newContents, remainingContents);
     if (!isAttributeDeclarationReference())
@@ -571,6 +581,7 @@ public class XSDAttributeDeclarationImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -594,6 +605,7 @@ public class XSDAttributeDeclarationImpl
     }
   }
 
+  @Override
   protected void changeReference(EReference eReference)
   {
     super.changeReference(eReference);
@@ -654,6 +666,7 @@ public class XSDAttributeDeclarationImpl
     }
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
@@ -663,6 +676,7 @@ public class XSDAttributeDeclarationImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
@@ -833,6 +847,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -850,6 +865,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -873,6 +889,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -898,6 +915,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -923,6 +941,7 @@ public class XSDAttributeDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -941,6 +960,7 @@ public class XSDAttributeDeclarationImpl
     return super.eIsSet(featureID);
   }
 
+  @Override
   public String getQName()
   {
     XSDAttributeDeclaration resolvedAttributeDeclaration = getResolvedAttributeDeclaration();
@@ -954,31 +974,37 @@ public class XSDAttributeDeclarationImpl
     }
   }
 
+  @Override
   public boolean isNamedComponentReference()
   {
     return isAttributeDeclarationReference();
   }
 
+  @Override
   public XSDNamedComponent getResolvedNamedComponent()
   {
     return getResolvedAttributeDeclaration();
   }
 
+  @Override
   public boolean isFeatureReference()
   {
     return isAttributeDeclarationReference();
   }
 
+  @Override
   public XSDFeature getResolvedFeature()
   {
     return getResolvedAttributeDeclaration();
   }
 
+  @Override
   public XSDTypeDefinition getType()
   {
     return getTypeDefinition();
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDAttributeDeclarationImpl clonedAttributeDeclaration = 

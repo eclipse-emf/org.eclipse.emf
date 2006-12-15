@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticSeverity.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDDiagnosticSeverity.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -33,8 +33,56 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDDiagnosticSeverity extends AbstractEnumerator
+public enum XSDDiagnosticSeverity implements Enumerator
 {
+  /**
+   * The '<em><b>Fatal</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #FATAL
+   * @generated
+   * @ordered
+   */
+  FATAL_LITERAL(0, "fatal", "fatal"),
+
+  /**
+   * The '<em><b>Error</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #ERROR
+   * @generated
+   * @ordered
+   */
+  ERROR_LITERAL(1, "error", "error"),
+
+  /**
+   * The '<em><b>Warning</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #WARNING
+   * @generated
+   * @ordered
+   */
+  WARNING_LITERAL(2, "warning", "warning"),
+
+  /**
+   * The '<em><b>Information</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #INFORMATION
+   * @generated
+   * @ordered
+   */
+  INFORMATION_LITERAL(3, "information", "information");
+
   /**
    * The '<em><b>Fatal</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -90,53 +138,6 @@ public final class XSDDiagnosticSeverity extends AbstractEnumerator
    * @ordered
    */
   public static final int INFORMATION = 3;
-  /**
-   * The '<em><b>Fatal</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #FATAL
-   * @generated
-   * @ordered
-   */
-  public static final XSDDiagnosticSeverity FATAL_LITERAL = new XSDDiagnosticSeverity(FATAL, "fatal", "fatal");
-
-  /**
-   * The '<em><b>Error</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #ERROR
-   * @generated
-   * @ordered
-   */
-  public static final XSDDiagnosticSeverity ERROR_LITERAL = new XSDDiagnosticSeverity(ERROR, "error", "error");
-
-  /**
-   * The '<em><b>Warning</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #WARNING
-   * @generated
-   * @ordered
-   */
-  public static final XSDDiagnosticSeverity WARNING_LITERAL = new XSDDiagnosticSeverity(WARNING, "warning", "warning");
-
-  /**
-   * The '<em><b>Information</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #INFORMATION
-   * @generated
-   * @ordered
-   */
-  public static final XSDDiagnosticSeverity INFORMATION_LITERAL = new XSDDiagnosticSeverity(INFORMATION, "information", "information");
 
   /**
    * An array of all the '<em><b>Diagnostic Severity</b></em>' enumerators.
@@ -159,7 +160,7 @@ public final class XSDDiagnosticSeverity extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDDiagnosticSeverity> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Diagnostic Severity</b></em>' literal with the specified literal value.
@@ -218,6 +219,27 @@ public final class XSDDiagnosticSeverity extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -225,7 +247,50 @@ public final class XSDDiagnosticSeverity extends AbstractEnumerator
    */
   private XSDDiagnosticSeverity(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
 }

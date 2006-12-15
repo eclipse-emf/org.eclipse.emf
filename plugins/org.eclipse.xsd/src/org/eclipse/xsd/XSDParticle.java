@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticle.java,v 1.3 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDParticle.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -239,7 +239,7 @@ public interface XSDParticle extends XSDComplexTypeContent
        * Returns the list of transitions that leave this state.
        * @return the list of transitions that leave this state.
        */
-      List getTransitions();
+      List<Transition> getTransitions();
 
       /**
        * Return the transition applicable for the given input.
@@ -279,7 +279,7 @@ public interface XSDParticle extends XSDComplexTypeContent
      * Returns the list of states in this automaton.
      * @return the list of states in this automaton.
      */
-    List getStates();
+    List<State> getStates();
 
     /**
      * Returns the initial state of this automaton.

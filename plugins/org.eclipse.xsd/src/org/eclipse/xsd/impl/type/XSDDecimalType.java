@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDecimalType.java,v 1.4 2005/06/22 17:56:35 nickb Exp $
+ * $Id: XSDDecimalType.java,v 1.5 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 
 public class XSDDecimalType extends XSDAnySimpleType
 {
+  @Override
   public Object getValue(String literal)
   {
     try
@@ -33,10 +34,12 @@ public class XSDDecimalType extends XSDAnySimpleType
     }
     catch (RuntimeException e)
     {
+      // Ignore
     }
     return null;
   }
   
+  @Override
   public int compareValues(Object value1, Object value2)
   {
     return ((BigDecimal)value1).compareTo((BigDecimal)value2);

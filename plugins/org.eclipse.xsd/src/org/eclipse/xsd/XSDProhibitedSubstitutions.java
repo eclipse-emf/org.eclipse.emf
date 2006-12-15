@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDProhibitedSubstitutions.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDProhibitedSubstitutions.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -36,8 +36,44 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDProhibitedSubstitutions extends AbstractEnumerator
+public enum XSDProhibitedSubstitutions implements Enumerator
 {
+  /**
+   * The '<em><b>Extension</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #EXTENSION
+   * @generated
+   * @ordered
+   */
+  EXTENSION_LITERAL(0, "extension", "extension"),
+
+  /**
+   * The '<em><b>Restriction</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #RESTRICTION
+   * @generated
+   * @ordered
+   */
+  RESTRICTION_LITERAL(1, "restriction", "restriction"),
+
+  /**
+   * The '<em><b>All</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #ALL
+   * @generated
+   * @ordered
+   */
+  ALL_LITERAL(2, "all", "all");
+
   /**
    * The '<em><b>Extension</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -80,41 +116,6 @@ public final class XSDProhibitedSubstitutions extends AbstractEnumerator
    * @ordered
    */
   public static final int ALL = 2;
-  /**
-   * The '<em><b>Extension</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #EXTENSION
-   * @generated
-   * @ordered
-   */
-  public static final XSDProhibitedSubstitutions EXTENSION_LITERAL = new XSDProhibitedSubstitutions(EXTENSION, "extension", "extension");
-
-  /**
-   * The '<em><b>Restriction</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #RESTRICTION
-   * @generated
-   * @ordered
-   */
-  public static final XSDProhibitedSubstitutions RESTRICTION_LITERAL = new XSDProhibitedSubstitutions(RESTRICTION, "restriction", "restriction");
-
-  /**
-   * The '<em><b>All</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #ALL
-   * @generated
-   * @ordered
-   */
-  public static final XSDProhibitedSubstitutions ALL_LITERAL = new XSDProhibitedSubstitutions(ALL, "all", "all");
 
   /**
    * An array of all the '<em><b>Prohibited Substitutions</b></em>' enumerators.
@@ -136,7 +137,7 @@ public final class XSDProhibitedSubstitutions extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDProhibitedSubstitutions> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Prohibited Substitutions</b></em>' literal with the specified literal value.
@@ -194,6 +195,27 @@ public final class XSDProhibitedSubstitutions extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -201,7 +223,50 @@ public final class XSDProhibitedSubstitutions extends AbstractEnumerator
    */
   private XSDProhibitedSubstitutions(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
 }

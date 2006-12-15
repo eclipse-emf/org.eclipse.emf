@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFacetImpl.java,v 1.8 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDFacetImpl.java,v 1.9 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -121,6 +121,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_FACET;
@@ -149,6 +150,7 @@ public abstract class XSDFacetImpl
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_FACET__LEXICAL_VALUE, oldLexicalValue, lexicalValue));
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -163,8 +165,10 @@ public abstract class XSDFacetImpl
 
   protected void validateValue()
   {
+    // Do nothing.
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -183,7 +187,8 @@ public abstract class XSDFacetImpl
     }
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     if (XSDConstants.nodeType(child) == XSDConstants.ANNOTATION_ELEMENT)
     {
@@ -192,11 +197,13 @@ public abstract class XSDFacetImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     handleAnnotationReconciliation(XSDPackage.Literals.XSD_FACET__ANNOTATION, newContents, remainingContents);
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     if (isReconciling)
@@ -289,6 +296,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -304,6 +312,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -327,6 +336,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -346,6 +356,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -365,6 +376,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -388,6 +400,7 @@ public abstract class XSDFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();

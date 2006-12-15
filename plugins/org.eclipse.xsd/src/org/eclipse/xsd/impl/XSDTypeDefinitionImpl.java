@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDTypeDefinitionImpl.java,v 1.9 2006/12/05 20:32:13 emerks Exp $
+ * $Id: XSDTypeDefinitionImpl.java,v 1.10 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -124,6 +124,7 @@ public abstract class XSDTypeDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_TYPE_DEFINITION;
@@ -239,12 +240,14 @@ public abstract class XSDTypeDefinitionImpl
     return annotations;
   }
 
+  @Override
   protected void patch()
   {
     analysisState = UNANALYZED;
     super.patch();
   }
 
+  @Override
   protected boolean analyze()
   {
     switch (analysisState)
@@ -283,65 +286,36 @@ public abstract class XSDTypeDefinitionImpl
     super.analyze();
   }
 
-  public static XSDTypeDefinition getLowestCommonAncestor(Collection xsdTypeDefinitions)
+  public static XSDTypeDefinition getLowestCommonAncestor(Collection<? extends XSDTypeDefinition> xsdTypeDefinitions)
   {
     XSDTypeDefinition result = null;
 
     if (!xsdTypeDefinitions.isEmpty())
     {
-      List listOfLists = new ArrayList();
-      for (Iterator typeDefinitions = xsdTypeDefinitions.iterator(); typeDefinitions.hasNext(); )
+      List<List<XSDTypeDefinition>> listOfLists = new ArrayList<List<XSDTypeDefinition>>();
+      for (XSDTypeDefinition xsdTypeDefinition : xsdTypeDefinitions)
       {
-        List list = new ArrayList();
+        List<XSDTypeDefinition> list = new ArrayList<XSDTypeDefinition>();
         listOfLists.add(list);
 
-        for (XSDTypeDefinition xsdTypeDefinition = (XSDTypeDefinition)typeDefinitions.next();  
-             xsdTypeDefinition != null; 
-             xsdTypeDefinition = xsdTypeDefinition.getBaseType())
+        while (xsdTypeDefinition != null)
         {
           if (list.contains(xsdTypeDefinition))
           {
             break;
           }
           list.add(0, xsdTypeDefinition);
+          xsdTypeDefinition = xsdTypeDefinition.getBaseType();
         }
-/*
-System.out.println("========");
-for (Iterator i = list.iterator(); i.hasNext(); )
-{
-  XSDTypeDefinition t = (XSDTypeDefinition)i.next();
-  if (t.getName() != null)
-  {
-    System.out.println("  : " + t.getName());
-  }
-  else 
-  {
-    for (org.eclipse.xsd.XSDConcreteComponent xsdConcreteComponent = t.getContainer(); 
-         xsdConcreteComponent != null; 
-         xsdConcreteComponent = xsdConcreteComponent.getContainer())
-    {
-      if (xsdConcreteComponent instanceof XSDNamedComponent)
-      {
-        System.out.println("  * " + ((XSDNamedComponent)xsdConcreteComponent).getName());
-        break;
-      }
-    }
-  }
-  if (t.getSchema() == null)
-  {
-    System.out.println("!!!!");
-  }
-}
-*/
       }
   
-      List firstList = (List)listOfLists.get(0);
+      List<XSDTypeDefinition> firstList = listOfLists.get(0);
       LOOP: for (int index = 0, size = firstList.size(); index < size; ++index)
       {
         Object candidate = firstList.get(index);
-        for (Iterator lists = listOfLists.listIterator(1); lists.hasNext(); )
+        for (Iterator<List<XSDTypeDefinition>> lists = listOfLists.listIterator(1); lists.hasNext(); )
         {
-          List list = (List)lists.next();
+          List<XSDTypeDefinition> list = lists.next();
           if (list.size() <= index || list.get(index) != candidate)
           {
             break LOOP;
@@ -384,6 +358,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -401,6 +376,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -428,6 +404,8 @@ for (Iterator i = list.iterator(); i.hasNext(); )
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -451,6 +429,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -473,6 +452,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -495,6 +475,7 @@ for (Iterator i = list.iterator(); i.hasNext(); )
     return super.eIsSet(featureID);
   }
 
+  @Override
   public boolean isCircular()
   {
     return analysisState == CIRCULAR;

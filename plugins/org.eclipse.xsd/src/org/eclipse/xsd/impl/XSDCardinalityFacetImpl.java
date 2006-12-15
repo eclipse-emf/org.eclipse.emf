@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDCardinalityFacetImpl.java,v 1.8 2005/11/25 13:13:59 emerks Exp $
+ * $Id: XSDCardinalityFacetImpl.java,v 1.9 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -78,6 +78,7 @@ public class XSDCardinalityFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_CARDINALITY_FACET;
@@ -111,6 +112,7 @@ public class XSDCardinalityFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -126,6 +128,7 @@ public class XSDCardinalityFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -142,6 +145,7 @@ public class XSDCardinalityFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -158,6 +162,7 @@ public class XSDCardinalityFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -173,6 +178,7 @@ public class XSDCardinalityFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -184,6 +190,7 @@ public class XSDCardinalityFacetImpl
     return result.toString();
   }
 
+  @Override
   public Object getEffectiveValue()
   {
     return getValue();

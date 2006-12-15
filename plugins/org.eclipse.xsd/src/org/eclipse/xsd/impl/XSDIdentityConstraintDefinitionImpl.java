@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.10 2006/12/05 20:32:15 emerks Exp $
+ * $Id: XSDIdentityConstraintDefinitionImpl.java,v 1.11 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -162,6 +162,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_IDENTITY_CONSTRAINT_DEFINITION;
@@ -328,6 +329,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -347,6 +349,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -370,6 +373,8 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -399,6 +404,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -427,6 +433,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -450,6 +457,7 @@ public class XSDIdentityConstraintDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -461,6 +469,7 @@ public class XSDIdentityConstraintDefinitionImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = 
@@ -474,6 +483,7 @@ public class XSDIdentityConstraintDefinitionImpl
     return newElement;
   }
 
+  @Override
   protected void patch()
   {
     super.patch();
@@ -489,6 +499,7 @@ public class XSDIdentityConstraintDefinitionImpl
     }
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -577,6 +588,7 @@ public class XSDIdentityConstraintDefinitionImpl
        true);
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -606,7 +618,8 @@ public class XSDIdentityConstraintDefinitionImpl
     }
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     XSDXPathDefinition xsdXPathDefinition = XSDXPathDefinitionImpl.createXPathDefinition(child);
     if (xsdXPathDefinition != null)
@@ -623,7 +636,8 @@ public class XSDIdentityConstraintDefinitionImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     handleAnnotationReconciliation(XSDPackage.Literals.XSD_IDENTITY_CONSTRAINT_DEFINITION__ANNOTATION, newContents, remainingContents);
 
@@ -654,10 +668,12 @@ public class XSDIdentityConstraintDefinitionImpl
 
     if (!newContents.isEmpty())
     {
-      setListContentAndOrder(getFields(), newContents);
+      @SuppressWarnings("unchecked") List<XSDXPathDefinition> list = (List<XSDXPathDefinition>)(List<?>)newContents;
+      setListContentAndOrder(getFields(), list);
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -680,6 +696,7 @@ public class XSDIdentityConstraintDefinitionImpl
     }
   }
 
+  @Override
   protected void adoptBy(XSDSchema xsdSchema)
   {
     super.adoptBy(xsdSchema);
@@ -689,12 +706,14 @@ public class XSDIdentityConstraintDefinitionImpl
     }
   }
 
+  @Override
   protected void orphanBy(XSDSchema xsdSchema)
   {
     xsdSchema.getIdentityConstraintDefinitions().remove(this);
     super.orphanBy(xsdSchema);
   }
 
+  @Override
   protected void changeReference(EReference eReference)
   {
     super.changeReference(eReference);
@@ -712,6 +731,7 @@ public class XSDIdentityConstraintDefinitionImpl
     }
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDIdentityConstraintDefinitionImpl clonedIdentityConstraintDefinition =

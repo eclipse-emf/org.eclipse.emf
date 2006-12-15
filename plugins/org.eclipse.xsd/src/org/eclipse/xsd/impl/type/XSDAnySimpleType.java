@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnySimpleType.java,v 1.4 2005/06/08 06:23:01 nickb Exp $
+ * $Id: XSDAnySimpleType.java,v 1.5 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl.type;
 
@@ -45,6 +45,7 @@ public class XSDAnySimpleType
       return bytes;
     }
 
+    @Override
     public boolean equals(Object that)
     {
       if (that == this)
@@ -61,6 +62,7 @@ public class XSDAnySimpleType
       }
     }
 
+    @Override
     public int hashCode()
     {
       int hashCode = 1;
@@ -72,6 +74,7 @@ public class XSDAnySimpleType
       return hashCode;
     }
 
+    @Override
     public String toString()
     {
       if (canonical == null)
@@ -88,6 +91,7 @@ public class XSDAnySimpleType
     {
       super(xsdAnySimpleType, bytes);
     }
+    @Override
     public String toString()
     {
       if (canonical == null)

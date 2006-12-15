@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDWildcardImpl.java,v 1.12 2006/12/05 20:32:14 emerks Exp $
+ * $Id: XSDWildcardImpl.java,v 1.13 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -192,6 +191,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_WILDCARD;
@@ -385,6 +385,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -400,6 +401,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -425,6 +427,8 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -459,6 +463,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -490,6 +495,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -515,6 +521,7 @@ public class XSDWildcardImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -532,6 +539,7 @@ public class XSDWildcardImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = 
@@ -540,12 +548,12 @@ public class XSDWildcardImpl
     return newElement;
   }
 
+  @Override
   public void patch()
   {
     super.patch();
-    for (Iterator strings = getLexicalNamespaceConstraint().iterator(); strings.hasNext(); )
+    for (String string : getLexicalNamespaceConstraint())
     {
-      String string = (String)strings.next();
       if (!string.startsWith("##"))
       {
         ((XSDSchemaImpl)getSchema()).resolveSchema(string);
@@ -553,17 +561,17 @@ public class XSDWildcardImpl
     }
   }
 
+  @Override
   protected boolean analyze()
   {
     super.analyze();
 
     XSDSchema xsdSchema = getSchema();
     XSDNamespaceConstraintCategory newNamespaceConstraintCategory = XSDNamespaceConstraintCategory.ANY_LITERAL;
-    List newNamespaceConstraint = new ArrayList();
+    List<String> newNamespaceConstraint = new ArrayList<String>();
 
-    for (Iterator strings = getLexicalNamespaceConstraint().iterator(); strings.hasNext(); )
+    for (String string : getLexicalNamespaceConstraint())
     {
-      String string = (String)strings.next();
       if (string.equals("##any"))
       {
         break;
@@ -598,8 +606,8 @@ public class XSDWildcardImpl
       setNamespaceConstraintCategory(newNamespaceConstraintCategory);
     }
 
-    EList theNamespaceConstraint = getNamespaceConstraint();
-    List remainingNamespaceConstraint = new ArrayList(theNamespaceConstraint);
+    EList<String> theNamespaceConstraint = getNamespaceConstraint();
+    List<String> remainingNamespaceConstraint = new ArrayList<String>(theNamespaceConstraint);
     remainingNamespaceConstraint.removeAll(newNamespaceConstraint);
     if (!remainingNamespaceConstraint.isEmpty())
     {
@@ -613,6 +621,7 @@ public class XSDWildcardImpl
     return true;
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -705,6 +714,7 @@ public class XSDWildcardImpl
     }
   }
 
+  @Override
   protected boolean isUpdatingDOM()
   {
     // EATM I think this is needed.
@@ -714,6 +724,7 @@ public class XSDWildcardImpl
           ((XSDConcreteComponentImpl)getContainer()).isUpdatingDOM();
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -749,7 +760,8 @@ public class XSDWildcardImpl
     }
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     if (XSDConstants.nodeType(child) == XSDConstants.ANNOTATION_ELEMENT)
     {
@@ -758,11 +770,13 @@ public class XSDWildcardImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     handleAnnotationReconciliation(XSDPackage.Literals.XSD_WILDCARD__ANNOTATION, newContents, remainingContents);
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     if (isReconciling)
@@ -782,15 +796,15 @@ public class XSDWildcardImpl
         }
         else
         {
-          List theLexicalNamespaceConstraint = getLexicalNamespaceConstraint();
+          List<String> theLexicalNamespaceConstraint = getLexicalNamespaceConstraint();
           StringBuffer result = new StringBuffer();
-          for (Iterator values = theLexicalNamespaceConstraint.iterator(); values.hasNext(); )
+          for (String value : theLexicalNamespaceConstraint)
           {
             if (result.length() != 0)
             {
               result.append(' ');
             }
-            result.append((String)values.next());
+            result.append(value);
           }
   
           niceSetAttribute(theElement, XSDConstants.NAMESPACE_ATTRIBUTE, result.toString());
@@ -809,6 +823,7 @@ public class XSDWildcardImpl
     }
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
@@ -818,6 +833,7 @@ public class XSDWildcardImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
@@ -834,13 +850,12 @@ public class XSDWildcardImpl
   public String getStringNamespaceConstraint()
   {
     StringBuffer result = new StringBuffer();
-    for (Iterator values = getNamespaceConstraint().iterator(); values.hasNext(); )
+    for (String value : getNamespaceConstraint())
     {
       if (result.length() != 0)
       {
         result.append(' ');
       }
-      String value = (String)values.next();
       if (value == null || value.length() == 0)
       {
         result.append("'absent'");
@@ -859,13 +874,13 @@ public class XSDWildcardImpl
     if (isSetLexicalNamespaceConstraint())
     {
       StringBuffer result = new StringBuffer();
-      for (Iterator values = getLexicalNamespaceConstraint().iterator(); values.hasNext(); )
+      for (String value : getLexicalNamespaceConstraint())
       {
         if (result.length() != 0)
         {
           result.append(' ');
         }
-        result.append((String)values.next());
+        result.append(value);
       }
   
       return result.toString();
@@ -884,7 +899,7 @@ public class XSDWildcardImpl
     }
     else
     {
-      List newLexicalNamespaceConstraint = new ArrayList();
+      List<String> newLexicalNamespaceConstraint = new ArrayList<String>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(lexicalNamespaceConstraint); stringTokenizer.hasMoreTokens(); )
       {
         String token = stringTokenizer.nextToken();
@@ -892,7 +907,7 @@ public class XSDWildcardImpl
       }
       if (!newLexicalNamespaceConstraint.equals(getLexicalNamespaceConstraint()))
       {
-        Collection oldContents = new ArrayList(getLexicalNamespaceConstraint());
+        Collection<String> oldContents = new ArrayList<String>(getLexicalNamespaceConstraint());
         oldContents.removeAll(newLexicalNamespaceConstraint);
         if (!oldContents.isEmpty())
         {
@@ -975,10 +990,9 @@ public class XSDWildcardImpl
         result.setProcessContents(getProcessContents());
       }
       result.setNamespaceConstraintCategory(XSDNamespaceConstraintCategory.SET_LITERAL);
-      List newNamespaceConstraint = new ArrayList(getNamespaceConstraint());
-      for (Iterator values = otherWildcard.getNamespaceConstraint().iterator(); values.hasNext(); )
+      List<String> newNamespaceConstraint = new ArrayList<String>(getNamespaceConstraint());
+      for (String value : otherWildcard.getNamespaceConstraint())
       {
-        Object value = values.next();
         if (!newNamespaceConstraint.contains(value))
         {
           newNamespaceConstraint.add(value);
@@ -1094,7 +1108,7 @@ public class XSDWildcardImpl
           result.setProcessContents(getProcessContents());
         }
         result.setNamespaceConstraintCategory(XSDNamespaceConstraintCategory.SET_LITERAL);
-        List newNamespaceConstraint = new ArrayList(getNamespaceConstraint());
+        List<String> newNamespaceConstraint = new ArrayList<String>(getNamespaceConstraint());
         newNamespaceConstraint.remove(otherWildcard.getNamespaceConstraint());
         result.getNamespaceConstraint().addAll(newNamespaceConstraint);
         return result;
@@ -1121,7 +1135,7 @@ public class XSDWildcardImpl
           result.setProcessContents(getProcessContents());
         }
         result.setNamespaceConstraintCategory(XSDNamespaceConstraintCategory.SET_LITERAL);
-        List newNamespaceConstraint = new ArrayList(otherWildcard.getNamespaceConstraint());
+        List<String> newNamespaceConstraint = new ArrayList<String>(otherWildcard.getNamespaceConstraint());
         newNamespaceConstraint.remove(getNamespaceConstraint());
         result.getNamespaceConstraint().addAll(newNamespaceConstraint);
         return result;
@@ -1144,7 +1158,7 @@ public class XSDWildcardImpl
         result.setProcessContents(getProcessContents());
       }
       result.setNamespaceConstraintCategory(XSDNamespaceConstraintCategory.SET_LITERAL);
-      List newNamespaceConstraint = new ArrayList(getNamespaceConstraint());
+      List<String> newNamespaceConstraint = new ArrayList<String>(getNamespaceConstraint());
       newNamespaceConstraint.retainAll(otherWildcard.getNamespaceConstraint());
       result.getNamespaceConstraint().addAll(newNamespaceConstraint);
       return result;
@@ -1180,12 +1194,12 @@ public class XSDWildcardImpl
       setNamespaceConstraintCategory(xsdWildcard.getNamespaceConstraintCategory());
     }
 
-    EList theNamespaceConstraint = getNamespaceConstraint();
-    EList newNamespaceConstraint = xsdWildcard.getNamespaceConstraint();
+    EList<String> theNamespaceConstraint = getNamespaceConstraint();
+    EList<String> newNamespaceConstraint = xsdWildcard.getNamespaceConstraint();
     if (!theNamespaceConstraint.containsAll(newNamespaceConstraint) ||
           !newNamespaceConstraint.containsAll(theNamespaceConstraint))
     {
-      List remainingNamespaceConstraint = new ArrayList(theNamespaceConstraint);
+      List<String> remainingNamespaceConstraint = new ArrayList<String>(theNamespaceConstraint);
       remainingNamespaceConstraint.removeAll(newNamespaceConstraint);
       if (!remainingNamespaceConstraint.isEmpty())
       {
@@ -1233,6 +1247,7 @@ public class XSDWildcardImpl
     }
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDWildcardImpl clonedWildcard =

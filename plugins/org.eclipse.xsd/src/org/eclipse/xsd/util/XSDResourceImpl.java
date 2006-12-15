@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDResourceImpl.java,v 1.17 2006/08/14 13:01:10 emerks Exp $
+ * $Id: XSDResourceImpl.java,v 1.18 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -103,7 +103,7 @@ public class XSDResourceImpl extends ResourceImpl
         Resource resource = xsdSchema.eResource();
         if (resource != null)
         {
-          for (Iterator i = resource.getContents().iterator(); i.hasNext(); )
+          for (Iterator<?> i = resource.getContents().iterator(); i.hasNext(); )
           {
             XSDSchema otherSchema = (XSDSchema)i.next();
             if (namespaceURI == null ? otherSchema.getTargetNamespace() == null : namespaceURI.equals(otherSchema.getTargetNamespace()))
@@ -116,6 +116,7 @@ public class XSDResourceImpl extends ResourceImpl
       return  null;
     }
 
+    @Override
     public boolean isAdapterForType(Object type)
     {
       return type == XSDSchemaLocator.class;
@@ -187,12 +188,13 @@ public class XSDResourceImpl extends ResourceImpl
    * @see #doSerialize(OutputStream, Document, Map)
    * @throws IOException
    */
+  @Deprecated
   protected static void doSerialize(OutputStream outputStream, Document document) throws IOException
   {
     doSerialize(outputStream, document, Collections.EMPTY_MAP);
   }
   
-  protected static void doSerialize(OutputStream outputStream, Document document, Map options) throws IOException
+  protected static void doSerialize(OutputStream outputStream, Document document, Map<?, ?> options) throws IOException
   {
     JAXPPool jaxpPool = null;
     JAXPConfiguration config = null;
@@ -254,6 +256,7 @@ public class XSDResourceImpl extends ResourceImpl
    * @param encoding
    * @throws IOException
    */
+  @Deprecated
   protected static void doSerialize(OutputStream outputStream, Document document, String encoding) throws IOException
   {
     try
@@ -270,7 +273,7 @@ public class XSDResourceImpl extends ResourceImpl
     }
   }
   
-  protected static void doSerialize(Writer writer, Document document, Map options) throws IOException
+  protected static void doSerialize(Writer writer, Document document, Map<?, ?> options) throws IOException
   {
     JAXPPool jaxpPool = null;
     JAXPConfiguration config = null;
@@ -327,6 +330,7 @@ public class XSDResourceImpl extends ResourceImpl
    * @param errorHandler the handled used by the parser.
    * @return a document.
    */
+  @Deprecated
   protected static Document getDocument(InputSource inputSource, ErrorHandler errorHandler)  throws IOException
   {
     try
@@ -355,7 +359,7 @@ public class XSDResourceImpl extends ResourceImpl
    * @return document DOM document
    * @throws IOException
    */
-  protected static Document getDocument(InputSource inputSource, ErrorHandler errorHandler, Map options) throws IOException
+  protected static Document getDocument(InputSource inputSource, ErrorHandler errorHandler, Map<?, ?> options) throws IOException
   {
     JAXPPool jaxpPool = null;
     JAXPConfiguration config = null;
@@ -421,6 +425,7 @@ public class XSDResourceImpl extends ResourceImpl
    * @param errorHandler the handled used by the parser.
    * @return a document.
    */
+  @Deprecated
   protected static Document getDocument(InputStream inputStream, ErrorHandler errorHandler)  throws IOException
   {
     return getDocument(new InputSource(inputStream), errorHandler);
@@ -439,6 +444,7 @@ public class XSDResourceImpl extends ResourceImpl
     EntityResolver entityResolver = 
       new DefaultHandler()
       {
+        @Override
         public InputSource resolveEntity(String publicId, String systemId) throws SAXException
         {
           InputSource inputSource;
@@ -480,14 +486,13 @@ public class XSDResourceImpl extends ResourceImpl
    * @param xsdSchema the schema.
    * @param xsdDiagnostics the {@link XSDDiagnostic}s.
    */
-  protected static void assignDiagnostics(XSDSchema xsdSchema, Collection xsdDiagnostics)
+  protected static void assignDiagnostics(XSDSchema xsdSchema, Collection<XSDDiagnostic> xsdDiagnostics)
   {
     if (!xsdDiagnostics.isEmpty())
     {
       xsdSchema.getDiagnostics().addAll(xsdDiagnostics);
-      for (Iterator i = xsdDiagnostics.iterator(); i.hasNext(); )
+      for (XSDDiagnostic xsdDiagnostic : xsdDiagnostics)
       {
-        XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
         xsdDiagnostic.getComponents().add(xsdSchema);
         if (xsdSchema.getElement() != null)
         {
@@ -497,7 +502,7 @@ public class XSDResourceImpl extends ResourceImpl
     }
   }
 
-  protected Collection attachedSchemas;
+  protected Collection<XSDSchema> attachedSchemas;
 
   public XSDResourceImpl()
   {
@@ -509,7 +514,8 @@ public class XSDResourceImpl extends ResourceImpl
     super(uri);
   }
 
-  protected void doSave(OutputStream os, Map options) throws IOException
+  @Override
+  protected void doSave(OutputStream os, Map<?, ?> options) throws IOException
   {
     if (os instanceof URIConverter.WriteableOutputStream)
     {
@@ -542,7 +548,7 @@ public class XSDResourceImpl extends ResourceImpl
    * @param writer the writer
    * @param options the save options.
    */
-  public final void save(Writer writer, Map options) throws IOException
+  public final void save(Writer writer, Map<?, ?> options) throws IOException
   {
     if (defaultSaveOptions == null || defaultSaveOptions.isEmpty())
     {
@@ -554,7 +560,7 @@ public class XSDResourceImpl extends ResourceImpl
     }
     else
     {
-      Map mergedOptions = new HashMap(defaultSaveOptions);
+      Map<Object, Object> mergedOptions = new HashMap<Object, Object>(defaultSaveOptions);
       mergedOptions.putAll(options);
       doSave(writer, mergedOptions);
     }
@@ -562,7 +568,7 @@ public class XSDResourceImpl extends ResourceImpl
   }
 
   
-  protected void doSave(Writer writer, Map options) throws IOException
+  protected void doSave(Writer writer, Map<?, ?> options) throws IOException
   {
     XSDSchema xsdSchema = getSchema();
     if (xsdSchema != null)
@@ -593,7 +599,7 @@ public class XSDResourceImpl extends ResourceImpl
         null;
   }
   
-  public final void load(InputSource inputSource, Map options) throws IOException
+  public final void load(InputSource inputSource, Map<?, ?> options) throws IOException
   {
     if (!isLoaded)
     {
@@ -622,7 +628,7 @@ public class XSDResourceImpl extends ResourceImpl
         }
         else
         {
-          Map mergedOptions = new HashMap(defaultLoadOptions);
+          Map<Object, Object> mergedOptions = new HashMap<Object, Object>(defaultLoadOptions);
           mergedOptions.putAll(options);
   
           doLoad(inputSource, mergedOptions);
@@ -642,9 +648,9 @@ public class XSDResourceImpl extends ResourceImpl
     }
   }
   
-  protected void doLoad(InputSource inputSource, Map options) throws IOException
+  protected void doLoad(InputSource inputSource, Map<?, ?> options) throws IOException
   {
-    attachedSchemas = new ArrayList();
+    attachedSchemas = new ArrayList<XSDSchema>();
 
     // This pattern avoids loading the IProgressMonitor class when there is no progress monitor.
     // This is important for stand-alone execution to work correctly.
@@ -658,7 +664,7 @@ public class XSDResourceImpl extends ResourceImpl
       progressMonitor.subTask(getURI().toString());
     }
 
-    Collection errors = null;
+    Collection<XSDDiagnostic> errors = null;
     try
     {
       Document document;
@@ -715,14 +721,13 @@ public class XSDResourceImpl extends ResourceImpl
 
     if (errors != null)
     {
-      for (Iterator i = getContents().iterator(); i.hasNext();)
+      for (Iterator<?> i = getContents().iterator(); i.hasNext();)
       {
         XSDSchema xsdSchema = (XSDSchema)i.next();
         assignDiagnostics(xsdSchema, errors);
   
-        for (Iterator diagnostics = errors.iterator(); diagnostics.hasNext();)
+        for (XSDDiagnostic xsdDiagnostic : errors)
         {
-          XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)diagnostics.next();
           switch (xsdDiagnostic.getSeverity().getValue())
           {
             case XSDDiagnosticSeverity.FATAL:
@@ -748,11 +753,10 @@ public class XSDResourceImpl extends ResourceImpl
     }
 
     String schemaLocation = getURI().toString();
-    Collection previouslyAttachedSchemas = attachedSchemas;
+    Collection<XSDSchema> previouslyAttachedSchemas = attachedSchemas;
     attachedSchemas = null;
-    for (Iterator i = previouslyAttachedSchemas.iterator(); i.hasNext();)
+    for (XSDSchema xsdSchema : previouslyAttachedSchemas)
     {
-      XSDSchema xsdSchema = (XSDSchema)i.next();
       xsdSchema.setSchemaLocation(schemaLocation);
     }
 
@@ -768,7 +772,8 @@ public class XSDResourceImpl extends ResourceImpl
    * @param options any options to influence loading behavior.
    * @return a new XSDResourceImpl.
    */
-  protected void doLoad(InputStream inputStream, Map options) throws IOException
+  @Override
+  protected void doLoad(InputStream inputStream, Map<?, ?> options) throws IOException
   {
     InputSource inputSource = 
       inputStream instanceof URIConverter.ReadableInputStream ? 
@@ -827,6 +832,7 @@ public class XSDResourceImpl extends ResourceImpl
     getContents().add(xsdSchema);
   }
 
+  @Override
   public void attached(EObject eObject)
   {
     super.attached(eObject);
@@ -835,7 +841,7 @@ public class XSDResourceImpl extends ResourceImpl
     {
       if (attachedSchemas != null)
       {
-        attachedSchemas.add(eObject);
+        attachedSchemas.add((XSDSchema)eObject);
       }
       else if (!(eObject instanceof XSDSchemaImpl) || ((XSDSchemaImpl)eObject).getPendingSchemaLocation() == null)
       {
@@ -844,6 +850,7 @@ public class XSDResourceImpl extends ResourceImpl
     }
   }
 
+  @Override
   public String getURIFragment(EObject eObject)
   {
     if (eObject instanceof XSDConcreteComponent)
@@ -861,6 +868,7 @@ public class XSDResourceImpl extends ResourceImpl
     return super.getURIFragment(eObject);
   }
 
+  @Override
   public EObject getEObject(String uriFragment)
   {
     // Do ID-based lookup.
@@ -873,12 +881,12 @@ public class XSDResourceImpl extends ResourceImpl
         // Navigate out through the elements.
         //
         Element resultElement =  theElement.getOwnerDocument().getElementById(uriFragment);
-        List parents = new ArrayList();
+        List<Element> parents = new ArrayList<Element>();
         for (Node parent = resultElement; parent != null; parent = parent.getParentNode())
         {
           if (parent.getNodeType() == Node.ELEMENT_NODE)
           {
-            parents.add(parent);
+            parents.add((Element)parent);
           }
         }
         return ((org.eclipse.xsd.impl.XSDSchemaImpl)getSchema()).getBestConcreteComponent(parents);
@@ -888,26 +896,27 @@ public class XSDResourceImpl extends ResourceImpl
     return super.getEObject(uriFragment); 
   }
 
-  public Map getDefaultSaveOptions()
+  public Map<Object, Object> getDefaultSaveOptions()
   {
     if (defaultSaveOptions == null)
     {
-      defaultSaveOptions = new HashMap();
+      defaultSaveOptions = new HashMap<Object, Object>();
     }
 
     return defaultSaveOptions;
   }
 
-  public Map getLoadSaveOptions()
+  public Map<Object, Object> getLoadSaveOptions()
   {
     if (defaultLoadOptions == null)
     {
-      defaultLoadOptions = new HashMap();
+      defaultLoadOptions = new HashMap<Object, Object>();
     }
 
     return defaultLoadOptions;
   }
 
+  @Override
   public void setModified(boolean isModified)
   {
     // Avoid generating touch notification.

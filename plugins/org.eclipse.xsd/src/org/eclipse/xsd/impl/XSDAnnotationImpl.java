@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotationImpl.java,v 1.9 2006/12/05 20:32:13 emerks Exp $
+ * $Id: XSDAnnotationImpl.java,v 1.10 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -20,7 +20,6 @@ package org.eclipse.xsd.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -117,6 +116,7 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_ANNOTATION;
@@ -169,6 +169,7 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -188,6 +189,8 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -213,6 +216,7 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -235,6 +239,7 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -254,6 +259,7 @@ public class XSDAnnotationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -269,6 +275,7 @@ public class XSDAnnotationImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.ANNOTATION_ELEMENT);
@@ -283,6 +290,7 @@ public class XSDAnnotationImpl
   }
 */
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -294,6 +302,7 @@ public class XSDAnnotationImpl
     }
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -302,7 +311,7 @@ public class XSDAnnotationImpl
     if (changedElement == theElement || changedElement.getParentNode() == theElement)
     {
       XSDConcreteComponent container = getContainer();
-      List newAttributes = new ArrayList();
+      List<Attr> newAttributes = new ArrayList<Attr>();
       for (Node theNode = theElement; theNode != null; theNode = theNode.getParentNode())
       {
         NamedNodeMap attributes = theNode.getAttributes();
@@ -322,8 +331,8 @@ public class XSDAnnotationImpl
         }
       }
 
-      EList theAttributes = getAttributes();
-      List remainingAttributes = new ArrayList(theAttributes);
+      EList<Attr> theAttributes = getAttributes();
+      List<Attr> remainingAttributes = new ArrayList<Attr>(theAttributes);
       remainingAttributes.removeAll(newAttributes);
       if (!remainingAttributes.isEmpty())
       {
@@ -333,32 +342,33 @@ public class XSDAnnotationImpl
     }
   }
 
+  @Override
   protected void reconcileContents(Element changedElement)
   {
     Element theElement = getElement();
     if (changedElement == theElement || changedElement.getParentNode() == theElement)
     {
-      List newApplicationInformation = new ArrayList();
-      List newUserInformation = new ArrayList();
+      List<Element> newApplicationInformation = new ArrayList<Element>();
+      List<Element> newUserInformation = new ArrayList<Element>();
       for (Node child = theElement.getFirstChild(); child != null; child = child.getNextSibling())
       {
         switch (XSDConstants.nodeType(child))
         {
           case XSDConstants.APPINFO_ELEMENT:
           {
-            newApplicationInformation.add(child);
+            newApplicationInformation.add((Element)child);
             break;
           }
           case XSDConstants.DOCUMENTATION_ELEMENT:
           {
-            newUserInformation.add(child);
+            newUserInformation.add((Element)child);
             break;
           }
         }
       }
 
-      EList theApplicationInformation = getApplicationInformation();
-      List remainingApplicationInformation = new ArrayList(theApplicationInformation);
+      EList<Element> theApplicationInformation = getApplicationInformation();
+      List<Element> remainingApplicationInformation = new ArrayList<Element>(theApplicationInformation);
       remainingApplicationInformation.removeAll(newApplicationInformation);
       if (!remainingApplicationInformation.isEmpty())
       {
@@ -366,8 +376,8 @@ public class XSDAnnotationImpl
       }
       setListContentAndOrder(theApplicationInformation, newApplicationInformation);
 
-      EList theUserInformation = getUserInformation();
-      List remainingUserInformation = new ArrayList(theUserInformation);
+      EList<Element> theUserInformation = getUserInformation();
+      List<Element> remainingUserInformation = new ArrayList<Element>(theUserInformation);
       remainingUserInformation.removeAll(newUserInformation);
       if (!remainingUserInformation.isEmpty())
       {
@@ -408,12 +418,11 @@ public class XSDAnnotationImpl
     return result;
   }
 
-  public EList getApplicationInformation(String sourceURI)
+  public EList<Element> getApplicationInformation(String sourceURI)
   {
-    EList result = new BasicEList();
-    for (Iterator applicationInformation = getApplicationInformation().iterator(); applicationInformation.hasNext(); )
+    EList<Element> result = new BasicEList<Element>();
+    for (Element appinfo : getApplicationInformation())
     {
-      Element appinfo = (Element)applicationInformation.next();
       if (sourceURI == null ? 
             !appinfo.hasAttributeNS(null, XSDConstants.SOURCE_ATTRIBUTE) : 
             appinfo.getAttributeNS(null, XSDConstants.SOURCE_ATTRIBUTE).equals(sourceURI))
@@ -424,12 +433,11 @@ public class XSDAnnotationImpl
     return result;
   }
 
-  public EList getUserInformation(String sourceURI)
+  public EList<Element> getUserInformation(String sourceURI)
   {
-    EList result = new BasicEList();
-    for (Iterator userInformation = getUserInformation().iterator(); userInformation.hasNext(); )
+    EList<Element> result = new BasicEList<Element>();
+    for (Element documentation : getUserInformation())
     {
-      Element documentation = (Element)userInformation.next();
       if (sourceURI == null ? 
             !documentation.hasAttributeNS(null, XSDConstants.SOURCE_ATTRIBUTE) : 
             documentation.getAttributeNS(null, XSDConstants.SOURCE_ATTRIBUTE).equals(sourceURI))
@@ -440,24 +448,22 @@ public class XSDAnnotationImpl
     return result;
   }
 
-  public Set getApplicationInformationSources()
+  public Set<String> getApplicationInformationSources()
   {
-    Set result = new HashSet();
-    for (Iterator applicationInformation = getApplicationInformation().iterator(); applicationInformation.hasNext(); )
+    Set<String> result = new HashSet<String>();
+    for (Element appinfo : getApplicationInformation())
     {
-      Element appinfo = (Element)applicationInformation.next();
       result.add
         (appinfo.hasAttributeNS(null, XSDConstants.SOURCE_ATTRIBUTE) ? appinfo.getAttributeNS(null, XSDConstants.SOURCE_ATTRIBUTE) : null);
     }
     return result;
   }
 
-  public Set getUserInformationSources()
+  public Set<String> getUserInformationSources()
   {
-    Set result = new HashSet();
-    for (Iterator userInformation = getUserInformation().iterator(); userInformation.hasNext(); )
+    Set<String> result = new HashSet<String>();
+    for (Element documentation : getUserInformation())
     {
-      Element documentation = (Element)userInformation.next();
       result.add
         (documentation.hasAttributeNS(null, XSDConstants.SOURCE_ATTRIBUTE) ? 
           documentation.getAttributeNS(null, XSDConstants.SOURCE_ATTRIBUTE) : null);
@@ -465,12 +471,11 @@ public class XSDAnnotationImpl
     return result;
   }
 
-  protected void getComponentsWithInformation(Collection result, int nodeType, String sourceURI)
+  @Override
+  protected void getComponentsWithInformation(Collection<XSDConcreteComponent> result, int nodeType, String sourceURI)
   {
-    for (Iterator elements = (nodeType == XSDConstants.APPINFO_ELEMENT ? getApplicationInformation() : getUserInformation()).iterator(); 
-         elements.hasNext(); )
+    for (Element childElement : nodeType == XSDConstants.APPINFO_ELEMENT ? getApplicationInformation() : getUserInformation())
     {
-      Element childElement = (Element)elements.next();
       if (sourceURI == null ? 
             !childElement.hasAttributeNS(null, XSDConstants.SOURCE_ATTRIBUTE) : 
             childElement.getAttributeNS(null, XSDConstants.SOURCE_ATTRIBUTE).equals(sourceURI))
@@ -481,6 +486,7 @@ public class XSDAnnotationImpl
     }
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDAnnotationImpl clonedAnnotation = (XSDAnnotationImpl)getXSDFactory().createXSDAnnotation();

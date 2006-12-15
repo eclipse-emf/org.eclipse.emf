@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEnumerationFacetImpl.java,v 1.11 2006/12/05 20:32:31 emerks Exp $
+ * $Id: XSDEnumerationFacetImpl.java,v 1.12 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -90,6 +90,7 @@ public class XSDEnumerationFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_ENUMERATION_FACET;
@@ -114,6 +115,7 @@ public class XSDEnumerationFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -129,6 +131,8 @@ public class XSDEnumerationFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -146,6 +150,7 @@ public class XSDEnumerationFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -162,6 +167,7 @@ public class XSDEnumerationFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -177,6 +183,7 @@ public class XSDEnumerationFacetImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -188,6 +195,7 @@ public class XSDEnumerationFacetImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.ENUMERATION_ELEMENT);
@@ -195,6 +203,7 @@ public class XSDEnumerationFacetImpl
     return newElement;
   }
 
+  @Override
   public void validateValue()
   {
     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = (XSDSimpleTypeDefinition)getContainer();
@@ -215,6 +224,7 @@ public class XSDEnumerationFacetImpl
     }
   }
 
+  @Override
   protected boolean analyze()
   {
     super.analyze();
@@ -231,6 +241,7 @@ public class XSDEnumerationFacetImpl
         }
         catch (RuntimeException exception)
         {
+          // Ignore.
         }
       }
     }
@@ -246,6 +257,7 @@ public class XSDEnumerationFacetImpl
     return true;
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);
@@ -255,9 +267,10 @@ public class XSDEnumerationFacetImpl
     }
   }
 
+  @Override
   public boolean isConstraintSatisfied(Object value)
   {
-    EList values = getValue();
+    EList<Object> values = getValue();
     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = getSimpleTypeDefinition();
     for (int i = 0, size = values.size(); i < size; ++i)
     {
@@ -271,11 +284,13 @@ public class XSDEnumerationFacetImpl
     return false;
   }
 
+  @Override
   public Object getEffectiveValue()
   {
     return getValue();
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDEnumerationFacetImpl clonedEnumerationFacet =

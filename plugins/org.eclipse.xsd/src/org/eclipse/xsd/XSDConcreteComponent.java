@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponent.java,v 1.6 2006/12/05 20:32:32 emerks Exp $
+ * $Id: XSDConcreteComponent.java,v 1.7 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -536,7 +536,7 @@ public interface XSDConcreteComponent extends EObject
    * @param sourceURI the source URI to match.
    * @return the collection of matching components.
    */
-  Collection getComponentsWithApplicationInformation(String sourceURI);
+  Collection<XSDConcreteComponent> getComponentsWithApplicationInformation(String sourceURI);
 
   /**
    * Returns the collection of components that have an {@link org.eclipse.xsd.XSDAnnotation annotation} 
@@ -545,7 +545,7 @@ public interface XSDConcreteComponent extends EObject
    * @param sourceURI the source URI to match.
    * @return the collection of matching components.
    */
-  Collection getComponentsWithUserInformation(String sourceURI);
+  Collection<XSDConcreteComponent> getComponentsWithUserInformation(String sourceURI);
 
   /**
    * Validates whether this component conforms to the constraints defined in the XML Schema standard.

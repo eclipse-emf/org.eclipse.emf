@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNamedComponentImpl.java,v 1.12 2006/08/17 19:55:16 emerks Exp $
+ * $Id: XSDNamedComponentImpl.java,v 1.13 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -31,7 +31,6 @@ import org.w3c.dom.Element;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectEList;
 
@@ -148,15 +147,16 @@ public abstract class XSDNamedComponentImpl
    */
   protected static final String QNAME_EDEFAULT = null;
 
-  public static List sortNamedComponents(Collection xsdNamedComponents)
+  public static List<XSDNamedComponent> sortNamedComponents(Collection<XSDNamedComponent> xsdNamedComponents)
   {
-    Object [] objects = xsdNamedComponents.toArray();
+    XSDNamedComponent [] objects = new XSDNamedComponent[xsdNamedComponents.size()];
+    xsdNamedComponents.toArray(objects);
     Arrays.sort(objects, Comparator.getInstance());
 
     return Arrays.asList(objects);
   }
 
-  public static void addToSortedList(List xsdNamedComponents, XSDNamedComponent xsdNamedComponent)
+  public static <T extends XSDNamedComponent> void addToSortedList(List<T> xsdNamedComponents, T xsdNamedComponent)
   {
     int index = Collections.binarySearch(xsdNamedComponents, xsdNamedComponent, Comparator.getInstance());
     if (index < 0)
@@ -169,14 +169,16 @@ public abstract class XSDNamedComponentImpl
     }
   }
 
-  public static class XSDNamedComponentList extends EObjectEList
+  public static class XSDNamedComponentList<E extends Object & XSDNamedComponent> extends EObjectEList<E>
   {
-    protected Map map;
+    private static final long serialVersionUID = 1L;
+
+    protected Map<String, XSDNamedComponent> map;
     protected XSDSchemaImpl xsdSchema;
 
-    public XSDNamedComponentList(Class dataClass, XSDSchemaImpl owner, int featureID)
+    public XSDNamedComponentList(Class<?> dataClass, XSDSchemaImpl owner, int featureID)
     {
-      super(dataClass, (InternalEObject)owner, featureID);
+      super(dataClass, owner, featureID);
       xsdSchema = owner;
     }
     
@@ -186,6 +188,7 @@ public abstract class XSDNamedComponentImpl
       return targetNamespace == null ? xsdSchema.getTargetNamespace() == null : targetNamespace.equals(xsdSchema.getTargetNamespace());
     }
 
+    @Override
     protected void didAdd(int index, Object newObject)
     {
       XSDNamedComponent xsdNamedComponent = (XSDNamedComponent)newObject;
@@ -193,17 +196,19 @@ public abstract class XSDNamedComponentImpl
       {
         if (map == null)
         {
-          map = new HashMap();
+          map = new HashMap<String, XSDNamedComponent>();
         }
         map.put(xsdNamedComponent.getName(), xsdNamedComponent);
       }
     }
 
+    @Override
     protected void didClear(int size, Object[] oldObjects)
     {
       map = null;
     }
 
+    @Override
     protected void didRemove(int index, Object oldObject)
     {
       if (map != null)
@@ -216,6 +221,7 @@ public abstract class XSDNamedComponentImpl
       }
     }
 
+    @Override
     protected void didSet(int index, Object newObject, Object oldObject)
     {
       didRemove(index, oldObject);
@@ -241,7 +247,7 @@ public abstract class XSDNamedComponentImpl
         {
           return null;
         }
-        XSDNamedComponent result = (XSDNamedComponent)map.get(localName);
+        XSDNamedComponent result = map.get(localName);
         return result;
       }
 
@@ -253,16 +259,16 @@ public abstract class XSDNamedComponentImpl
       }
       else 
       {
-        return (XSDNamedComponent)this.get(index);
+        return this.get(index);
       }
     }
   }
 
-  public static XSDNamedComponent findInSortedList(List xsdNamedComponents, String targetNamespace, String localName)
+  public static XSDNamedComponent findInSortedList(List<? extends XSDNamedComponent> xsdNamedComponents, String targetNamespace, String localName)
   {
     if (xsdNamedComponents instanceof XSDNamedComponentList)
     {
-      return ((XSDNamedComponentList)xsdNamedComponents).get(targetNamespace, localName);
+      return ((XSDNamedComponentList<? extends XSDNamedComponent>)xsdNamedComponents).get(targetNamespace, localName);
     }
     int index = 
       Collections.binarySearch(xsdNamedComponents, new String [] { targetNamespace, localName}, StringPairComparator.getInstance());
@@ -272,22 +278,23 @@ public abstract class XSDNamedComponentImpl
     }
     else 
     {
-      return (XSDNamedComponent)xsdNamedComponents.get(index);
+      return xsdNamedComponents.get(index);
     }
   }
   
-  public static void mergeToSortedList(List xsdNamedComponentsTarget, List xsdNamedComponentsSource)
+  public static <T extends XSDNamedComponent> void mergeToSortedList(List<T> xsdNamedComponentsTarget, List<T> xsdNamedComponentsSource)
   {
-    Iterator sourceComponents = xsdNamedComponentsSource.iterator();
+    Iterator<T> sourceComponents = xsdNamedComponentsSource.iterator();
     if (sourceComponents.hasNext())
     {
       Comparator comparator = Comparator.getInstance();
-      Object sourceComponent = sourceComponents.next();
-      for (ListIterator targetComponents = xsdNamedComponentsTarget.listIterator(); targetComponents.hasNext(); )
+      T sourceComponent = sourceComponents.next();
+      for (ListIterator<T> targetComponents = xsdNamedComponentsTarget.listIterator(); targetComponents.hasNext(); )
       {
-        Object targetComponent = targetComponents.next();
+        T targetComponent = targetComponents.next();
         if (targetComponent == sourceComponent)
         {
+          // Do nothing.
         }
         else if (comparator.compare(sourceComponent, targetComponent) < 0)
         {
@@ -322,7 +329,7 @@ public abstract class XSDNamedComponentImpl
     }
   }
 
-  public static class Comparator implements java.util.Comparator
+  public static class Comparator implements java.util.Comparator<XSDNamedComponent>
   {
     protected static Comparator instance = new Comparator();
 
@@ -339,17 +346,17 @@ public abstract class XSDNamedComponentImpl
   
     public Comparator()
     {
+      super();
     }
   
+    @Override
     public boolean equals(Object that)
     {
       return this == that;
     }
   
-    public int compare(Object o1, Object o2)
+    public int compare(XSDNamedComponent xsdNamedComponent1, XSDNamedComponent xsdNamedComponent2)
     {
-      XSDNamedComponent xsdNamedComponent1 = (XSDNamedComponent)o1;
-      XSDNamedComponent xsdNamedComponent2 = (XSDNamedComponent)o2;
       String name1 = xsdNamedComponent1.getName();
       String name2 = xsdNamedComponent2.getName();
       if (name1 == null && name2 == null)
@@ -401,7 +408,7 @@ public abstract class XSDNamedComponentImpl
     }
   }
 
-  public static class StringPairComparator implements java.util.Comparator
+  public static class StringPairComparator implements java.util.Comparator<Object>
   {
     protected static StringPairComparator instance = new StringPairComparator();
 
@@ -418,8 +425,10 @@ public abstract class XSDNamedComponentImpl
   
     public StringPairComparator()
     {
+      super();
     }
   
+    @Override
     public boolean equals(Object that)
     {
       return this == that;
@@ -490,6 +499,7 @@ public abstract class XSDNamedComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_NAMED_COMPONENT;
@@ -541,6 +551,7 @@ public abstract class XSDNamedComponentImpl
       eNotify(new ENotificationImpl(this, Notification.SET, XSDPackage.XSD_NAMED_COMPONENT__TARGET_NAMESPACE, oldTargetNamespace, targetNamespace));
   }
 
+  @Override
   protected String getURIReferenceLabel()
   {
     return getName();
@@ -660,6 +671,7 @@ public abstract class XSDNamedComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -685,6 +697,7 @@ public abstract class XSDNamedComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -704,6 +717,7 @@ public abstract class XSDNamedComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -723,6 +737,7 @@ public abstract class XSDNamedComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -748,6 +763,7 @@ public abstract class XSDNamedComponentImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -761,6 +777,7 @@ public abstract class XSDNamedComponentImpl
     return result.toString();
   }
 
+  @Override
   protected void patch()
   {
     patchTargetNamespaceAttribute();
@@ -780,6 +797,7 @@ public abstract class XSDNamedComponentImpl
     }
   }
 
+  @Override
   protected void adoptBy(XSDSchema xsdSchema)
   {
     String newTargetNamespace = xsdSchema.getTargetNamespace();
@@ -791,6 +809,7 @@ public abstract class XSDNamedComponentImpl
     super.adoptBy(xsdSchema);
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -817,6 +836,7 @@ public abstract class XSDNamedComponentImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     super.changeAttribute(eAttribute);

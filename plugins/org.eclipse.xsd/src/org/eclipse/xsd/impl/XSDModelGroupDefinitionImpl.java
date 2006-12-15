@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupDefinitionImpl.java,v 1.12 2006/07/15 12:33:14 emerks Exp $
+ * $Id: XSDModelGroupDefinitionImpl.java,v 1.13 2006/12/15 18:59:56 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -133,6 +133,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_MODEL_GROUP_DEFINITION;
@@ -148,6 +149,7 @@ public class XSDModelGroupDefinitionImpl
     return isModelGroupDefinitionReference() ? Boolean.TRUE : Boolean.FALSE;
   }
 
+  @Override
   protected boolean isUpdatingDOM()
   {
     return
@@ -156,6 +158,7 @@ public class XSDModelGroupDefinitionImpl
           ((XSDConcreteComponentImpl)getContainer()).isUpdatingDOM();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.GROUP_ELEMENT);
@@ -171,6 +174,7 @@ public class XSDModelGroupDefinitionImpl
     return newElement;
   }
 
+  @Override
   protected void patch()
   {
     analysisState = UNANALYZED;
@@ -188,6 +192,7 @@ public class XSDModelGroupDefinitionImpl
     }
   }
 
+  @Override
   protected boolean analyze()
   {
     switch (analysisState)
@@ -230,6 +235,7 @@ public class XSDModelGroupDefinitionImpl
     }
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -330,6 +336,7 @@ public class XSDModelGroupDefinitionImpl
     }
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -370,7 +377,8 @@ public class XSDModelGroupDefinitionImpl
     }
   }
 
-  protected void handleUnreconciledElement(Element child, List newContents, List remainingContents)
+  @Override
+  protected void handleUnreconciledElement(Element child, List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     XSDAnnotation xsdAnnotation = XSDAnnotationImpl.createAnnotation(child);
     if (xsdAnnotation != null)
@@ -390,7 +398,8 @@ public class XSDModelGroupDefinitionImpl
     }
   }
 
-  protected void handleReconciliation(List newContents, List remainingContents)
+  @Override
+  protected void handleReconciliation(List<XSDConcreteComponent> newContents, List<XSDConcreteComponent> remainingContents)
   {
     handleAnnotationReconciliation(XSDPackage.Literals.XSD_MODEL_GROUP_DEFINITION__ANNOTATION, newContents, remainingContents);
 
@@ -405,6 +414,7 @@ public class XSDModelGroupDefinitionImpl
     }
   }
 
+  @Override
   protected void changeReference(EReference eReference)
   {
     super.changeReference(eReference);
@@ -427,6 +437,7 @@ public class XSDModelGroupDefinitionImpl
     }
   }
 
+  @Override
   protected void adoptContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.adoptContent(eReference, xsdConcreteComponent);
@@ -436,6 +447,7 @@ public class XSDModelGroupDefinitionImpl
     }
   }
 
+  @Override
   protected void orphanContent(EReference eReference, XSDConcreteComponent xsdConcreteComponent)
   {
     super.orphanContent(eReference, xsdConcreteComponent);
@@ -574,6 +586,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -591,6 +604,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -612,6 +626,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -634,6 +649,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -656,6 +672,7 @@ public class XSDModelGroupDefinitionImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -672,6 +689,7 @@ public class XSDModelGroupDefinitionImpl
     return super.eIsSet(featureID);
   }
 
+  @Override
   public String getQName()
   {
     XSDModelGroupDefinition resolvedModelGroupDefinition = getResolvedModelGroupDefinition();
@@ -685,21 +703,25 @@ public class XSDModelGroupDefinitionImpl
     }
   }
 
+  @Override
   public boolean isNamedComponentReference()
   {
     return isModelGroupDefinitionReference();
   }
 
+  @Override
   public XSDNamedComponent getResolvedNamedComponent()
   {
     return getResolvedModelGroupDefinition();
   }
 
+  @Override
   public boolean isCircular()
   {
     return analysisState == CIRCULAR;
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDModelGroupDefinitionImpl clonedModelGroupDefinition =

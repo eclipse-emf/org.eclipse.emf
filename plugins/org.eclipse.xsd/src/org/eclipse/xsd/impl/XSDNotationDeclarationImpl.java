@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDNotationDeclarationImpl.java,v 1.8 2005/11/25 13:14:00 emerks Exp $
+ * $Id: XSDNotationDeclarationImpl.java,v 1.9 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd.impl;
 
@@ -130,6 +130,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return XSDPackage.Literals.XSD_NOTATION_DECLARATION;
@@ -217,6 +218,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -249,6 +251,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -268,6 +271,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -290,6 +294,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -312,6 +317,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -331,6 +337,7 @@ public class XSDNotationDeclarationImpl
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -344,6 +351,7 @@ public class XSDNotationDeclarationImpl
     return result.toString();
   }
 
+  @Override
   public Element createElement()
   {
     Element newElement = createElement(XSDConstants.NOTATION_ELEMENT);
@@ -351,6 +359,7 @@ public class XSDNotationDeclarationImpl
     return newElement;
   }
 
+  @Override
   public void validate()
   {
     super.validate();
@@ -410,6 +419,7 @@ public class XSDNotationDeclarationImpl
        false);
   }
 
+  @Override
   protected void reconcileAttributes(Element changedElement)
   {
     super.reconcileAttributes(changedElement);
@@ -443,6 +453,7 @@ public class XSDNotationDeclarationImpl
     }
   }
 
+  @Override
   protected void changeAttribute(EAttribute eAttribute)
   {
     if (isReconciling)
@@ -469,6 +480,7 @@ public class XSDNotationDeclarationImpl
     }
   }
 
+  @Override
   public XSDConcreteComponent cloneConcreteComponent(boolean deep, boolean shareDOM)
   {
     XSDNotationDeclarationImpl clonedNotationDeclaration =

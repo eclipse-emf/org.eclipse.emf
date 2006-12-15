@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseCategory.java,v 1.3 2005/11/08 13:52:50 emerks Exp $
+ * $Id: XSDAttributeUseCategory.java,v 1.4 2006/12/15 18:59:55 emerks Exp $
  */
 package org.eclipse.xsd;
 
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 
 /**
@@ -33,8 +33,44 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class XSDAttributeUseCategory extends AbstractEnumerator
+public enum XSDAttributeUseCategory implements Enumerator
 {
+  /**
+   * The '<em><b>Optional</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #OPTIONAL
+   * @generated
+   * @ordered
+   */
+  OPTIONAL_LITERAL(0, "optional", "optional"),
+
+  /**
+   * The '<em><b>Prohibited</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #PROHIBITED
+   * @generated
+   * @ordered
+   */
+  PROHIBITED_LITERAL(1, "prohibited", "prohibited"),
+
+  /**
+   * The '<em><b>Required</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #REQUIRED
+   * @generated
+   * @ordered
+   */
+  REQUIRED_LITERAL(2, "required", "required");
+
   /**
    * The '<em><b>Optional</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -47,6 +83,7 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
    * @generated
    * @ordered
    */
+
   public static final int OPTIONAL = 0;
 
   /**
@@ -79,42 +116,6 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
   public static final int REQUIRED = 2;
 
   /**
-   * The '<em><b>Optional</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #OPTIONAL
-   * @generated
-   * @ordered
-   */
-  public static final XSDAttributeUseCategory OPTIONAL_LITERAL = new XSDAttributeUseCategory(OPTIONAL, "optional", "optional");
-
-  /**
-   * The '<em><b>Prohibited</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #PROHIBITED
-   * @generated
-   * @ordered
-   */
-  public static final XSDAttributeUseCategory PROHIBITED_LITERAL = new XSDAttributeUseCategory(PROHIBITED, "prohibited", "prohibited");
-
-  /**
-   * The '<em><b>Required</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #REQUIRED
-   * @generated
-   * @ordered
-   */
-  public static final XSDAttributeUseCategory REQUIRED_LITERAL = new XSDAttributeUseCategory(REQUIRED, "required", "required");
-
-  /**
    * An array of all the '<em><b>Attribute Use Category</b></em>' enumerators.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
@@ -134,7 +135,7 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<XSDAttributeUseCategory> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Attribute Use Category</b></em>' literal with the specified literal value.
@@ -192,6 +193,27 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
+
+  /**
    * Only this class can construct instances.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -199,7 +221,50 @@ public final class XSDAttributeUseCategory extends AbstractEnumerator
    */
   private XSDAttributeUseCategory(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //XSDAttributeUseCategory
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}
