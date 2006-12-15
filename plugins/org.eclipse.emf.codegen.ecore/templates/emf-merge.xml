@@ -148,6 +148,7 @@
   <merge:sweep markup="^org.eclipse.emf.ecore.impl.EMetaObjectImpl$" select="Import"/>
   <merge:sweep markup="^org.eclipse.emf.ecore.util.EObjectCompositeEList$" select="Import"/>
   <merge:sweep markup="^org.eclipse.emf.ecore.util.EObjectCompositeWithInverseEList$" select="Import"/>
+  <merge:sweep markup="^org.eclipse.emf.common.util.AbstractEnumerator$" select="Import"/>
 
   <merge:sort markup="^ordered$" select="Field"/>
   <merge:sort markup="^ordered$" select="EnumConstant"/>
