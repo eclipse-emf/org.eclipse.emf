@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDPrototypicalSchema.java,v 1.7 2006/12/15 18:59:56 emerks Exp $
+ * $Id: XSDPrototypicalSchema.java,v 1.8 2006/12/15 19:49:48 marcelop Exp $
  */
 package org.eclipse.xsd.util;
 
@@ -3300,16 +3300,16 @@ public class XSDPrototypicalSchema
 
     out.println("Show uses of the string datatype within the meta schemas themselves.");
     Collection<EStructuralFeature.Setting> usages = /*{@link XSDUtil.UsageCrossReferencer */XSDUtil.UsageCrossReferencer/*}*/.find(xsdSchemaForSchema.resolveSimpleTypeDefinition("string"), resourceSet);
-    XSDUtil.UsageCrossReferencer.print(out, usages);
+    EcoreUtil.CrossReferencer.print(out, usages);
 
     out.println("Show uses of the ur-type URI");
     Map<EObject, Collection<EStructuralFeature.Setting>> xsdURICrossReferences = /*{@link XSDUtil.URICrossReferencer */XSDUtil.URICrossReferencer/*}*/.find(XSDConstants.SCHEMA_FOR_SCHEMA_URI_2001 + "#anyType",  resourceSet);
-    XSDUtil.URICrossReferencer.print(out, xsdURICrossReferences);
+    EcoreUtil.CrossReferencer.print(out, xsdURICrossReferences);
 
     out.println("Show all named components and their uses in the schema of the anySimpleType.");
     Map<EObject, Collection<EStructuralFeature.Setting>> xsdNamedComponentUsage = 
       /*{@link XSDUtil.XSDNamedComponentCrossReferencer */XSDUtil.XSDNamedComponentCrossReferencer/*}*/.find(xsdSchemaForSchema.resolveSimpleTypeDefinition("anySimpleType").getSchema());
-    XSDUtil.XSDNamedComponentCrossReferencer.print(out, xsdNamedComponentUsage);
+    EcoreUtil.CrossReferencer.print(out, xsdNamedComponentUsage);
 
     out.println("Test that the URI of evey object in the schema for schemas can be resolved.");
     for (Iterator<EObject> contents = xsdSchemaForSchema./*{@link EObject#eAllContents */eAllContents/*}*/(); contents.hasNext(); )
