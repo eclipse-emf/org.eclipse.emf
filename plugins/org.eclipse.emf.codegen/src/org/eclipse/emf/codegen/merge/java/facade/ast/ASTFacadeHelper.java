@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.7 2006/12/06 03:48:44 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.8 2006/12/15 20:23:13 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -130,7 +130,7 @@ public class ASTFacadeHelper extends FacadeHelper
 
   public static String getTypeErasure(ArrayType arrayType)
   {
-    StringBuffer sb = new StringBuffer(ASTFacadeHelper.getTypeErasure(arrayType.getElementType()));
+    StringBuilder sb = new StringBuilder(ASTFacadeHelper.getTypeErasure(arrayType.getElementType()));
     for (int i = arrayType.getDimensions(); i > 0; i--)
     {
       sb.append("[]");
@@ -155,7 +155,7 @@ public class ASTFacadeHelper extends FacadeHelper
 
   public static String getTypeErasure(QualifiedType qualifiedType)
   {
-    StringBuffer sb = new StringBuffer(ASTFacadeHelper.getTypeErasure(qualifiedType.getQualifier()));
+    StringBuilder sb = new StringBuilder(ASTFacadeHelper.getTypeErasure(qualifiedType.getQualifier()));
     sb.append(".");
     sb.append(ASTFacadeHelper.toString(qualifiedType.getName()));
     return sb.toString();
@@ -201,6 +201,8 @@ public class ASTFacadeHelper extends FacadeHelper
     return "";
   }
 
+  protected ASTNodeConverter nodeConverter = null;
+  
   /**
    * Map of options set by default from <code>JavaCore.getOptions()</code>
    */
@@ -282,7 +284,7 @@ public class ASTFacadeHelper extends FacadeHelper
    */
   private String logCompilationErrors(IProblem[] problems)
   {
-    StringBuffer sb = new StringBuffer("Compiler Problems:");
+    StringBuilder sb = new StringBuilder("Compiler Problems:");
     for (int i = 0; i < problems.length; i++)
     {
       sb.append(System.getProperty("line.separator"));
@@ -372,9 +374,31 @@ public class ASTFacadeHelper extends FacadeHelper
         + javaCoreOptions.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE) + ", Tab size: "
         + javaCoreOptions.get(DefaultCodeFormatterConstants.FORMATTER_INDENTATION_SIZE));
     }
+
+    // TODO get all java core options from somewhere else - do not hard code our style
+    
+    //
+    javaCoreOptions.put(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_ENUM_DECLARATION, DefaultCodeFormatterConstants.NEXT_LINE);
+    javaCoreOptions.put(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION, DefaultCodeFormatterConstants.NEXT_LINE);
+    
+    // separate fields with an empty line
+    javaCoreOptions.put(DefaultCodeFormatterConstants.FORMATTER_BLANK_LINES_BEFORE_FIELD, "1");
+    
+    // make all enum constants to be on separate lines
+    javaCoreOptions.put(DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_ENUM_CONSTANTS, DefaultCodeFormatterConstants.createAlignmentValue(true, DefaultCodeFormatterConstants.WRAP_ONE_PER_LINE, DefaultCodeFormatterConstants.INDENT_DEFAULT));
     
     return javaCoreOptions;
-  }  
+  }
+  
+  @Override
+  public ASTNodeConverter getNodeConverter()
+  {
+    if (nodeConverter == null)
+    {
+      nodeConverter = new ASTNodeConverter(this);
+    }
+    return nodeConverter;
+  }
   
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.FacadeHelper#getContext(org.eclipse.emf.codegen.merge.java.facade.JNode)
@@ -726,7 +750,13 @@ public class ASTFacadeHelper extends FacadeHelper
       return nodeContents.get(node);
     }
     
-    ASTJCompilationUnit compilationUnit = (ASTJCompilationUnit)convertToNode(node.getRoot());
+    JNode root = convertToNode(node.getRoot());
+    if (root == null || !(root instanceof ASTJCompilationUnit))
+    {
+      root = getCompilationUnit(convertToNode(node));
+    }
+
+    ASTJCompilationUnit compilationUnit = (ASTJCompilationUnit)root;
     if (compilationUnit != null)
     {
       char[] originalContents = compilationUnit.getOriginalContents();
@@ -740,7 +770,12 @@ public class ASTFacadeHelper extends FacadeHelper
         SourceRange sourceRange = ((CommentAwareSourceRangeComputer)rangeComputer).computeDefaultSourceRange(node);
         length = (sourceRange.getStartPosition() + sourceRange.getLength()) - start;
       }
-      String resultString = new String(originalContents, start, length);      
+      String resultString = null;
+      
+      if (start >= 0 && start + length <= originalContents.length)
+      {
+        resultString = new String(originalContents, start, length);
+      }
       
       nodeContents.put(node, resultString);
       return resultString;      
