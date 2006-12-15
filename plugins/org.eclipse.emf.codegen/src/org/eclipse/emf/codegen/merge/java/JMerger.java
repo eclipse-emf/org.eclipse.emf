@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.12 2006/12/13 20:19:11 marcelop Exp $
+ * $Id: JMerger.java,v 1.13 2006/12/15 20:18:21 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -38,17 +38,13 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
 import org.eclipse.emf.codegen.merge.java.facade.FacadeVisitor;
 import org.eclipse.emf.codegen.merge.java.facade.JAbstractType;
-import org.eclipse.emf.codegen.merge.java.facade.JAnnotation;
-import org.eclipse.emf.codegen.merge.java.facade.JAnnotationTypeMember;
 import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
-import org.eclipse.emf.codegen.merge.java.facade.JEnumConstant;
-import org.eclipse.emf.codegen.merge.java.facade.JField;
 import org.eclipse.emf.codegen.merge.java.facade.JImport;
-import org.eclipse.emf.codegen.merge.java.facade.JInitializer;
 import org.eclipse.emf.codegen.merge.java.facade.JMember;
 import org.eclipse.emf.codegen.merge.java.facade.JMethod;
 import org.eclipse.emf.codegen.merge.java.facade.JNode;
 import org.eclipse.emf.codegen.merge.java.facade.JPackage;
+import org.eclipse.emf.codegen.merge.java.facade.NodeConverter;
 import org.eclipse.emf.codegen.merge.java.facade.ast.ASTFacadeHelper;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -63,15 +59,10 @@ public class JMerger
 {
   public static final boolean DEBUG = false;
   
-  public static final String DEFAULT_FACADE_HELPER_CLASS = ASTFacadeHelper.class.getName();
-  
-  protected static final Pattern INTERFACE_BRACE_PATTERN = 
-    Pattern.compile
-      ("(?:\\n\\r|\\r\\n|\\n|\\r)(\\s*)(?:public|private|protected|static|\\s)*(?:interface|class)\\s*[^\\{\\n\\r]*(\\{)(\\n\\r|\\r\\n|\\n|\\r)", 
-       Pattern.MULTILINE); // }}
-  
+  public static final String DEFAULT_FACADE_HELPER_CLASS = ASTFacadeHelper.class.getName();  
   protected static final Object[] NO_ARGUMENTS = new Object[0];
 
+  protected static Pattern interfaceBracePattern = null;
   
   public class PullTargetVisitor extends FacadeVisitor
   {
@@ -81,99 +72,65 @@ public class JMerger
       if (source != null)
       {
         applyPullRules(source, target);
-      }      
+      }
     }
     
     @Override
-    protected boolean visit(JAbstractType abstractType)
+    protected void visit(JNode target)
     {
-      isBlocked =
-        abstractType.getParent() instanceof JCompilationUnit &&
-        getControlModel().getBlockPattern() != null && 
-        abstractType.getComment() != null &&
-        getControlModel().getBlockPattern().matcher(abstractType.getComment()).find();
+      // retrieve source node corresponding to target
+      //
+      if (target instanceof JAbstractType)
+      {
+        JAbstractType targetAbstractType = (JAbstractType)target;
+        String comment = targetAbstractType.getComment();
+        
+        isBlocked =
+          targetAbstractType.getParent() instanceof JCompilationUnit &&
+          getControlModel().getBlockPattern() != null && 
+          comment != null &&
+          getControlModel().getBlockPattern().matcher(comment).find();    
+        
+        JAbstractType sourceAbstractType = sourcePatternDictionary.getAbstractTypeMap().get(targetAbstractType.getQualifiedName());
+        
+        // convert the target node to a compatible node
+        //
+        if (sourceAbstractType != null && !areCompatible(sourceAbstractType, targetAbstractType))
+        {
+          JNode newTarget = convertTarget(targetAbstractType, sourceAbstractType.getClass());
+          if (newTarget != null)
+          {
+            // use new node from now on
+            target = newTarget;
+            
+            // redo the markup since nodes changed now
+            targetPatternDictionary.start(target);
+          }
+          else if (!isBlocked)
+          {
+            map(sourceAbstractType, target);
+          }
+        }
+      }
       
       if (!isBlocked)
       {
-        JAbstractType sourceType = sourcePatternDictionary.getAbstractTypeMap().get(abstractType.getQualifiedName());
-
-        // check if nodes can be merged
-        if (!areCompatible(sourceType, abstractType))
-        {
-          // convert the target node to a compatible node
-          JAbstractType newTargetType = convertTarget(abstractType, sourceType);
-          if (newTargetType == null)
-          {
-            // do not merge incompatible types, but still map them to avoid pushing
-            map(sourceType, abstractType);
-            return false;
-          }
-          else
-          {
-            abstractType = newTargetType;
-          }
-        }
-        
-        doPull(sourceType, abstractType);
-        return true;
+        // super is called on converted node
+        super.visit(target);
       }
-      else
-      {
-        return false;
-      }
+    }
+    
+    @Override
+    protected boolean basicVisit(JNode node)
+    {
+      JNode sourceNode = sourcePatternDictionary.getNodeMap(node).get(node.getQualifiedName());
+      doPull(sourceNode, node);
+      return true;
     }
     
     @Override
     protected boolean visit(JCompilationUnit compilationUnit)
     {
-      return true;
-    }
-    
-    @Override
-    protected boolean visit(JAnnotation annotation)
-    {
-      JAnnotation sourceAnnotation = sourcePatternDictionary.getAnnotationMap().get(annotation.getQualifiedName());      
-      doPull(sourceAnnotation, annotation);
-      return false;
-    }
-    
-    @Override
-    protected boolean visit(JAnnotationTypeMember annotationTypeMember)
-    {
-      JAnnotationTypeMember sourceannotationTypeMember = sourcePatternDictionary.getAnnotationTypeMemberMap().get(annotationTypeMember.getQualifiedName());
-      doPull(sourceannotationTypeMember, annotationTypeMember);
-      return true;
-    }
-    
-    @Override
-    protected boolean visit(JEnumConstant enumConstant)
-    {
-      JEnumConstant sourceEnumConstant = sourcePatternDictionary.getEnumConstantMap().get(enumConstant.getQualifiedName());
-      doPull(sourceEnumConstant, enumConstant);
-      return true;
-    }
-    
-    @Override
-    protected boolean visit(JField field)
-    {
-      JField sourceField = sourcePatternDictionary.getFieldMap().get(field.getQualifiedName());
-      doPull(sourceField, field);
-      return true;
-    }
-    
-    @Override
-    protected boolean visit(JImport jImport)
-    {
-      JImport sourceImport = sourcePatternDictionary.getImportMap().get(jImport.getQualifiedName());
-      doPull(sourceImport, jImport);
-      return false;
-    }
-    
-    @Override
-    protected boolean visit(JInitializer initializer)
-    {
-      JInitializer sourceInitializer = sourcePatternDictionary.getInitializerMap().get(initializer.getQualifiedName());
-      doPull(sourceInitializer, initializer);
       return true;
     }
     
@@ -210,12 +167,6 @@ public class JMerger
   
   public class PushSourceVisitor extends FacadeVisitor
   {
-    @Override
-    protected boolean basicVisit(JNode node)
-    {
-      return doPush(node);
-    }
-    
     /**
      * Returns whether the children should be visited (ie, when the source is not in the target).
      * @param sourceNode
@@ -233,6 +184,12 @@ public class JMerger
         return false;
       }
       return true;
+    }
+    
+    @Override
+    protected boolean basicVisit(JNode node)
+    {
+      return doPush(node);
     }
     
     @Override
@@ -413,7 +370,13 @@ public class JMerger
     String result = targetCompilationUnit.getContents();
     if (fixInterfaceBrace)
     {
-      Matcher matcher = INTERFACE_BRACE_PATTERN.matcher(result);
+      if (interfaceBracePattern == null)
+      {
+        interfaceBracePattern = Pattern.compile
+          ("(?:\\n\\r|\\r\\n|\\n|\\r)(\\s*)(?:public|private|protected|static|\\s)*(?:interface|class)\\s*[^\\{\\n\\r]*(\\{)(\\n\\r|\\r\\n|\\n|\\r)", 
+          Pattern.MULTILINE);
+      }
+      Matcher matcher = interfaceBracePattern.matcher(result);
       int offset = 0;
       while (matcher.find())
       {
@@ -624,10 +587,10 @@ public class JMerger
     {
       for (JControlModel.PullRule pullRule : getControlModel().getPullRules())
       {
-        if (sourcePatternDictionary.isMarkedUp(pullRule.getSourceMarkup(), pullRule.getSourceParentMarkup(), sourceNode) && 
-              targetPatternDictionary.isMarkedUp(pullRule.getTargetMarkup(), pullRule.getTargetParentMarkup(), targetNode) && 
-              pullRule.getSourceGetFeature().getFeatureClass().isInstance(sourceNode) &&
-              pullRule.getTargetPutFeature().getFeatureClass().isInstance(targetNode))
+        if (pullRule.getSourceGetFeature().getFeatureClass().isInstance(sourceNode) &&
+            pullRule.getTargetPutFeature().getFeatureClass().isInstance(targetNode) &&
+            sourcePatternDictionary.isMarkedUp(pullRule.getSourceMarkup(), pullRule.getSourceParentMarkup(), sourceNode) && 
+            targetPatternDictionary.isMarkedUp(pullRule.getTargetMarkup(), pullRule.getTargetParentMarkup(), targetNode))
         {
           // Skip if there's an equality filter and the values aren't equal.
           //
@@ -661,7 +624,7 @@ public class JMerger
                   Matcher targetMatcher = sourceTransfer.matcher(oldStringValue);
                   if (sourceMatcher.groupCount() >= 1 && targetMatcher.groupCount() >= 1)
                   {
-                    StringBuffer result = new StringBuffer();
+                    StringBuilder result = new StringBuilder();
                     int index = 0;
                     int sourceStart = 0;
                     int targetStart = 0;
@@ -698,10 +661,11 @@ public class JMerger
               }
               value = stringValue;
             }
+            
             if (value != null || 
-                  targetPutMethod.getName().equals("setInitializer") ||
-                  targetPutMethod.getName().equals("setSuperclass") ||
-                  targetPutMethod.getName().equals("setExceptions"))
+                targetPutMethod.getName().equals("setInitializer") ||
+                targetPutMethod.getName().equals("setSuperclass") ||
+                targetPutMethod.getName().equals("setExceptions"))
             {
               // Ignore if there is not substantial change.
               //
@@ -886,17 +850,16 @@ public class JMerger
   }
 
   /**
-   * Converts target node to be compatible with the source node
+   * Converts the target abstract type to be compatible with the given source node class
    * 
-   * @param <T> type of the source node and returned result node
-   * @param targetNode
-   * @param sourceNode
+   * @param targetAbstractType
+   * @param sourceClass, or class to convert node to
    * @return <code>null</code> when conversion not possible, converted node otherwise
    */
-  protected <T> T convertTarget(JNode targetNode, T sourceNode)
+  protected JNode convertTarget(JAbstractType targetAbstractType, Class<? extends JAbstractType> sourceClass)
   {
-    // TODO implement dispatching and create convert methods
-    return null;
+    NodeConverter converter = getControlModel().getFacadeHelper().getNodeConverter();
+    return converter != null ? converter.convert(targetAbstractType, sourceClass) : null;
   }
 
   protected JNode insertClone(JNode sourceNode)
