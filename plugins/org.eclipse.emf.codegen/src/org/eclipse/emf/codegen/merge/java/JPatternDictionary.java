@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPatternDictionary.java,v 1.5 2006/12/13 20:17:14 marcelop Exp $
+ * $Id: JPatternDictionary.java,v 1.6 2006/12/15 20:19:43 marcelop Exp $
  */
 
 package org.eclipse.emf.codegen.merge.java;
@@ -21,6 +21,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -57,13 +58,13 @@ public class JPatternDictionary extends FacadeVisitor
   protected Map<String, JAnnotation> annotationMap;
   protected Map<String, JAnnotationTypeMember> annotationTypeMemberMap;
   protected Map<String, JEnumConstant> enumConstantMap;
-
   protected Map<String, JImport> importMap;
   protected Map<String, JAbstractType> abstractTypeMap;
   protected Map<String, JInitializer> initializerMap;
   protected Map<String, JField> fieldMap;
   protected Map<String, JMethod> methodMap;
-  protected Map<String, Collection<JNode>> markupMap;  
+  
+  protected Map<String, Collection<JNode>> markupMap;
   protected Set<String> noImportSet;
   
   public JPatternDictionary(JCompilationUnit compilationUnit, JControlModel controlModel)
@@ -81,6 +82,19 @@ public class JPatternDictionary extends FacadeVisitor
   public JPackage getJPackage()
   {
     return jPackage;
+  }
+  
+  public Map<String, ? extends JNode> getNodeMap(JNode node)
+  {
+    if (node instanceof JAnnotation) return getAnnotationMap();
+    if (node instanceof JMethod) return getMethodMap();
+    if (node instanceof JField) return getFieldMap();
+    if (node instanceof JImport) return getImportMap();
+    if (node instanceof JEnumConstant) return getEnumConstantMap();
+    if (node instanceof JAbstractType) return getAbstractTypeMap();
+    if (node instanceof JAnnotationTypeMember) return getAnnotationTypeMemberMap();
+    if (node instanceof JInitializer) return getInitializerMap();
+    return Collections.emptyMap();
   }
   
   public Map<String, JImport> getImportMap()
@@ -155,7 +169,7 @@ public class JPatternDictionary extends FacadeVisitor
     return enumConstantMap;
   }  
   
-	public Map<String, Collection<JNode>> getMarkupMap()
+  public Map<String, Collection<JNode>> getMarkupMap()
   {
     if (markupMap == null)
     {
@@ -419,24 +433,27 @@ public class JPatternDictionary extends FacadeVisitor
         && dictionaryPattern.getSelectorFeature().getFeatureMethod().getName().equals("getComment"))
     {
       String contents = node.getContents();
-      for (int start = 0, end = contents.length(), count = 0; start < end; )
+      if (contents != null)
       {
-        contents = contents.substring(start, end);
-        Matcher matcher = COMMENT.matcher(contents);
-        if (matcher.find())
+        for (int start = 0, end = contents.length(), count = 0; start < end; )
         {
-          if (++count > 1)
+          contents = contents.substring(start, end);
+          Matcher matcher = COMMENT.matcher(contents);
+          if (matcher.find())
           {
-            // Ignore the furthermost javadoc
-            //
-            selection = contents;
+            if (++count > 1)
+            {
+              // Ignore the furthermost javadoc
+              //
+              selection = contents;
+            }
+            start += matcher.end(0) + 1;
+            end = contents.length();
           }
-          start += matcher.end(0) + 1;
-          end = contents.length();
-        }
-        else
-        {
-          break;
+          else
+          {
+            break;
+          }
         }
       }
     }
@@ -564,7 +581,7 @@ public class JPatternDictionary extends FacadeVisitor
     int columnWidth = 10;
     if (map != null)
     {
-      StringBuffer sb = new StringBuffer("\n");
+      StringBuilder sb = new StringBuilder("\n");
       for (Map.Entry<K, V> entry : map.entrySet())
       {
         K key = entry.getKey();
