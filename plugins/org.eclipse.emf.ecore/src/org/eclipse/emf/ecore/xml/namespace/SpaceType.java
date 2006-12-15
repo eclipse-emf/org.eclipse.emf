@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: SpaceType.java,v 1.4 2006/12/05 20:22:30 emerks Exp $
+ * $Id: SpaceType.java,v 1.5 2006/12/15 20:51:56 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xml.namespace;
 
@@ -147,7 +147,7 @@ public enum SpaceType implements Enumerator
       case DEFAULT: return DEFAULT_LITERAL;
       case PRESERVE: return PRESERVE_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**
