@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookCategory.java,v 1.1 2006/12/07 03:55:37 marcelop Exp $
+ * $Id: BookCategory.java,v 1.2 2006/12/15 20:15:29 marcelop Exp $
  */
 package org.examples.library;
 
@@ -179,7 +179,7 @@ public enum BookCategory implements Enumerator
       case SCIENCE_FICTION_VALUE: return SCIENCE_FICTION;
       case BIOGRAPHY_VALUE: return BIOGRAPHY;
     }
-    return null;	
+    return null;
   }
 
   /**

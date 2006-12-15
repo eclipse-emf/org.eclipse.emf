@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookCategory.java,v 1.1 2006/12/07 03:55:42 marcelop Exp $
+ * $Id: BookCategory.java,v 1.2 2006/12/15 20:15:29 marcelop Exp $
  */
 package org.examples.library.elements;
 
@@ -204,7 +204,7 @@ public enum BookCategory implements Enumerator
       case BIOGRAPHY_VALUE: return BIOGRAPHY;
       case IT_VALUE: return IT;
     }
-    return null;	
+    return null;
   }
 
   /**

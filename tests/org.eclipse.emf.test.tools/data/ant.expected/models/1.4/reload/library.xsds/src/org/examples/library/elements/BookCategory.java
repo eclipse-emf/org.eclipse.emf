@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BookCategory.java,v 1.1 2006/12/07 03:55:33 marcelop Exp $
+ * $Id: BookCategory.java,v 1.2 2006/12/15 20:15:29 marcelop Exp $
  */
 package org.examples.library.elements;
 
@@ -206,7 +206,7 @@ public final class BookCategory extends AbstractEnumerator
       case BIOGRAPHY: return BIOGRAPHY_LITERAL;
       case IT: return IT_LITERAL;
     }
-    return null;	
+    return null;
   }
 
   /**
