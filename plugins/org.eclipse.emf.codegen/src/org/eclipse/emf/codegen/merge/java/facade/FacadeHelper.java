@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.4 2006/12/13 20:20:45 marcelop Exp $
+ * $Id: FacadeHelper.java,v 1.5 2006/12/15 20:21:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -114,6 +114,14 @@ public abstract class FacadeHelper
   protected abstract JNode doConvertToNode(Object object);
 
   /**
+   * @return converter that can be used to convert nodes, or <code>null</code> if none
+   */
+  public NodeConverter getNodeConverter()
+  {
+    return null;
+  }
+  
+  /**
    * Returns the compilation unit of the specified node.
    * @param node
    * @return the {@link JCompilationUnit} of a {@link JNode} or 
@@ -186,8 +194,9 @@ public abstract class FacadeHelper
   {
     if (node != null && cls != null)
     {
-      List<T> children = new ArrayList<T>();
-      for (JNode child : node.getChildren())
+      List<JNode> allChildren = node.getChildren();
+      List<T> children = new ArrayList<T>(allChildren.size());
+      for (JNode child : allChildren)
       {
         if (cls.isInstance(child))
         {
