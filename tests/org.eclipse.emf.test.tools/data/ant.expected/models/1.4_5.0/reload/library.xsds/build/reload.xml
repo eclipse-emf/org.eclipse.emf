@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="..">
+  <dirname property="antfile.dir" file="${ant.file}"/>
+    
+    <!-- Global properties -->
+	<property name="main.directory" location="${antfile.dir}/.."/>
+	<property name="genModel" location="${main.directory}/emf/library.genmodel"/>
+	
+	<target name="xsds">
+		<emf.XSD2Java
+			genModel="${genModel}"
+			reconcileGenModel="reload"
+			autoBuild="true">
+			<model file="${main.directory}/model/libraryPart1.xsd"/>
+			<model file="${main.directory}/model/libraryPart2.xsd"/>
+			<model file="${main.directory}/model/libraryPart3.xsd"/>
+			<arg line="-packages http://www.example.eclipse.org/Library1"/>
+			<arg line="-packages http://www.example.eclipse.org/Library2"/>
+			<arg line="-packages http://www.example.eclipse.org/Library3"/>
+			<arg line="-packageMap http://www.example.eclipse.org/Library1 org.examples.library.elements"/>
+			<arg line="-packageMap http://www.example.eclipse.org/Library2 org.examples.library"/>
+			<arg line="-packageMap http://www.example.eclipse.org/Library3 org.examples.library.hr"/>
+		</emf.XSD2Java>
+	</target>
+</project>

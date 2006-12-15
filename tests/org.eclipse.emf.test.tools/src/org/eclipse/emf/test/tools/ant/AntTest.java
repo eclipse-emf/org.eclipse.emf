@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.23 2006/12/07 03:51:50 marcelop Exp $
+ * $Id: AntTest.java,v 1.24 2006/12/15 20:41:38 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -27,6 +27,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -66,21 +67,29 @@ public class AntTest extends TestCase
     ts.addTest(new AntTest("testRoseReload14"));
     ts.addTest(new AntTest("testRose50"));
     ts.addTest(new AntTest("testRoseReload50"));
+    ts.addTest(new AntTest("testRose1450"));
+    ts.addTest(new AntTest("testRoseReload1450"));
     
     ts.addTest(new AntTest("testXSD14"));
     ts.addTest(new AntTest("testXSDReload14"));
     ts.addTest(new AntTest("testXSD50"));
     ts.addTest(new AntTest("testXSDReload50"));
+    ts.addTest(new AntTest("testXSD1450"));
+    ts.addTest(new AntTest("testXSDReload1450"));
     
     ts.addTest(new AntTest("testXSDs14"));
     ts.addTest(new AntTest("testXSDsReload14"));
     ts.addTest(new AntTest("testXSDs50"));
     ts.addTest(new AntTest("testXSDsReload50"));
+    ts.addTest(new AntTest("testXSDs1450"));
+    ts.addTest(new AntTest("testXSDsReload1450"));
     
     ts.addTest(new AntTest("testEcore14"));
     ts.addTest(new AntTest("testEcoreReload14"));
     ts.addTest(new AntTest("testEcore50"));
     ts.addTest(new AntTest("testEcoreReload50"));
+    ts.addTest(new AntTest("testEcore1450"));
+    ts.addTest(new AntTest("testEcoreReload1450"));
     
     // Deletes the temp directory created during the tests to store the
     // generated artifacts
@@ -143,6 +152,7 @@ public class AntTest extends TestCase
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.1.4"), true);
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.5.0"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.rose.1.4_5.0"), true);
     
     // XSD and XSDs
     libraryDir = null;
@@ -163,8 +173,10 @@ public class AntTest extends TestCase
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.1.4"), true);
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.5.0"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsd.1.4_5.0"), true);
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.1.4"), true);
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.5.0"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.xsds.1.4_5.0"), true);
     
     // Ecore
     libraryDir = null;
@@ -185,6 +197,7 @@ public class AntTest extends TestCase
     assertTrue(libraryDir.getAbsolutePath() + " doesn't exist", libraryDir.isDirectory());
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.1.4"), true);
     TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.5.0"), true);
+    TestUtil.copyFiles(libraryDir, new File(EXAMPLES_COPY_DIR, "/library.ecore.1.4_5.0"), true);
   }
   
   protected File getPluginSourceSubDirectory(String sourcePluginDir, String pluginID)
@@ -257,6 +270,11 @@ public class AntTest extends TestCase
     roseTest("5.0", "5.0");
   }
 
+  public void testRose1450() throws Exception
+  {
+    roseTest("1.4", "1.4_5.0");
+  }
+  
   protected void roseReloadTest(String jdkLevel, String directorySegment) throws Exception
   {
     File rootDir = new File(EXAMPLES_COPY_DIR, "/library.rose." + directorySegment);
@@ -282,8 +300,13 @@ public class AntTest extends TestCase
   public void testRoseReload50() throws Exception
   {
     roseReloadTest("5.0", "5.0");
-  }  
+  } 
   
+  public void testRoseReload1450() throws Exception
+  {
+    genJDKLevel = GenJDKLevel.JDK50_LITERAL;
+    roseReloadTest("5.0", "1.4_5.0");
+  }  
   protected void xsdTest(String jdkLevel, String directorySegment) throws Exception
   {
     File rootDir = new File(EXAMPLES_COPY_DIR, "/library.xsd." + directorySegment);
@@ -305,6 +328,11 @@ public class AntTest extends TestCase
   public void testXSD50() throws Exception
   {
     xsdTest("5.0", "5.0");
+  }
+  
+  public void testXSD1450() throws Exception
+  {
+    xsdTest("1.4", "1.4_5.0");
   }
   
   protected void xsdReloadTest(String jdkLevel, String directorySegment) throws Exception
@@ -358,6 +386,17 @@ public class AntTest extends TestCase
     xsdsTest("5.0", "5.0");
   }
     
+  public void testXSDs1450() throws Exception
+  {
+    xsdsTest("1.4", "1.4_5.0");
+  }
+  
+  public void testXSDReload1450() throws Exception
+  {
+    genJDKLevel = GenJDKLevel.JDK50_LITERAL;
+    xsdReloadTest("5.0", "1.4_5.0");
+  }
+  
   protected void xsdsReloadTest(String jdkLevel, String directorySegment) throws Exception
   {
     File rootDir = new File(EXAMPLES_COPY_DIR, "/library.xsds." + directorySegment);
@@ -387,6 +426,12 @@ public class AntTest extends TestCase
     xsdsReloadTest("5.0", "5.0");
   }
   
+  public void testXSDsReload1450() throws Exception
+  {
+    genJDKLevel = GenJDKLevel.JDK50_LITERAL;
+    xsdsReloadTest("5.0", "1.4_5.0");
+  }
+  
   protected void ecoreTest(String jdkLevel, String directorySegment) throws Exception
   {
     File rootDir = new File(EXAMPLES_COPY_DIR, "/library.ecore." + directorySegment);
@@ -408,6 +453,11 @@ public class AntTest extends TestCase
   public void testEcore50() throws Exception
   {
     ecoreTest("5.0", "5.0");
+  }
+  
+  public void testEcore1450() throws Exception
+  {
+    ecoreTest("1.4", "1.4_5.0");
   }
   
   protected void ecoreReloadTest(String jdkLevel, String directorySegment) throws Exception
@@ -435,6 +485,12 @@ public class AntTest extends TestCase
   public void testEcoreReload50() throws Exception
   {
     ecoreReloadTest("5.0", "5.0");
+  }
+  
+  public void testEcoreReload1450() throws Exception
+  {
+    genJDKLevel = GenJDKLevel.JDK50_LITERAL;
+    ecoreReloadTest("5.0", "1.4_5.0");
   }
   
   private void runAntAndTest(File rootDir, File rootExpectedDir, File antScript, String antScriptArguments, String[] testTokenReplacements) throws CoreException
@@ -555,11 +611,16 @@ public class AntTest extends TestCase
     }
   }
   
+  protected GenJDKLevel genJDKLevel = null;
   protected void adjustGenModelForReload(GenModel genModel)
   {
     if (genModel != null)
     {
       genModel.setNonNLSMarkers(true);
+      if (genJDKLevel != null)
+      {
+        genModel.setComplianceLevel(genJDKLevel);
+      }
     }
   }  
 }
