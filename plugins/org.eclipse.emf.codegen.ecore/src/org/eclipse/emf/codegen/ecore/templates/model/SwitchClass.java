@@ -108,10 +108,10 @@ String templateParameterName = null;
 if (genModel.useGenerics())
 {
   Set usedNames = new HashSet();
-  for (Iterator i = genPackage.getGenClassifiers().iterator(); i.hasNext(); )
+  for (Iterator i = genPackage.getGenClasses().iterator(); i.hasNext(); )
   {
-    GenClassifier genClassifier = (GenClassifier)i.next();
-    for (Iterator j = genClassifier.getGenTypeParameters().iterator(); j.hasNext(); )
+    GenClass genClass = (GenClass)i.next();
+    for (Iterator j = genClass.getGenTypeParameters().iterator(); j.hasNext(); )
     {
       GenTypeParameter genTypeParameter = (GenTypeParameter)j.next();
       usedNames.add(genTypeParameter.getName());
