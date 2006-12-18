@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EReferenceImpl.java,v 1.10 2006/12/18 21:57:39 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -20,13 +20,16 @@ package org.eclipse.emf.ecore.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 
 /**
@@ -41,6 +44,7 @@ import org.eclipse.emf.ecore.InternalEObject;
  *   <li>{@link org.eclipse.emf.ecore.impl.EReferenceImpl#isResolveProxies <em>Resolve Proxies</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EReferenceImpl#getEOpposite <em>EOpposite</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.impl.EReferenceImpl#getEReferenceType <em>EReference Type</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.impl.EReferenceImpl#getEKeys <em>EKeys</em>}</li>
  * </ul>
  * </p>
  *
@@ -107,6 +111,16 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
    * @ordered
    */
   protected EReference eOpposite = null;
+
+  /**
+   * The cached value of the '{@link #getEKeys() <em>EKeys</em>}' reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getEKeys()
+   * @generated
+   * @ordered
+   */
+  protected EList<EAttribute> eKeys = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -240,24 +254,48 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EREFERENCE__EOPPOSITE, oldEOpposite, eOpposite));
   }
 
+  protected EClass eReferenceType;
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated modifiable
+   * @generated NOT
    */
   public EClass getEReferenceType()
   {
-    return (EClass)getEType();
+    if (eReferenceType == null || !isFrozen() && eReferenceType.eIsProxy())
+    {
+      eReferenceType =(EClass)getEType();
+    }
+    return eReferenceType;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated modifiable
+   * @generated NOT
    */
   public EClass basicGetEReferenceType()
   {
-    return (EClass)basicGetEType();
+    if (eReferenceType == null)
+    {
+      eReferenceType =(EClass)basicGetEType();
+    }
+    return eReferenceType;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public EList<EAttribute> getEKeys()
+  {
+    if (eKeys == null)
+    {
+      eKeys = new EObjectResolvingEList<EAttribute>(EAttribute.class, this, EcorePackage.EREFERENCE__EKEYS);
+    }
+    return eKeys;
   }
 
   /**
@@ -319,6 +357,8 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__EREFERENCE_TYPE:
         if (resolve) return getEReferenceType();
         return basicGetEReferenceType();
+      case EcorePackage.EREFERENCE__EKEYS:
+        return getEKeys();
     }
     return eDynamicGet(featureID, resolve, coreType);
   }
@@ -386,6 +426,10 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__EOPPOSITE:
         setEOpposite((EReference)newValue);
         return;
+      case EcorePackage.EREFERENCE__EKEYS:
+        getEKeys().clear();
+        getEKeys().addAll((Collection<? extends EAttribute>)newValue);
+        return;
     }
     eDynamicSet(featureID, newValue);
   }
@@ -451,6 +495,9 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
       case EcorePackage.EREFERENCE__EOPPOSITE:
         setEOpposite((EReference)null);
         return;
+      case EcorePackage.EREFERENCE__EKEYS:
+        getEKeys().clear();
+        return;
     }
     eDynamicUnset(featureID);
   }
@@ -511,6 +558,8 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
         return eOpposite != null;
       case EcorePackage.EREFERENCE__EREFERENCE_TYPE:
         return basicGetEReferenceType() != null;
+      case EcorePackage.EREFERENCE__EKEYS:
+        return eKeys != null && !eKeys.isEmpty();
     }
     return eDynamicIsSet(featureID);
   }

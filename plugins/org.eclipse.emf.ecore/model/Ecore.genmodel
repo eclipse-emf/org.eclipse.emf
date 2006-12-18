@@ -223,6 +223,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EReference/resolveProxies"/>
       <genFeatures createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Ecore.ecore#//EReference/eOpposite"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EReference Ecore.ecore#//EReference/eReferenceType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference Ecore.ecore#//EReference/eKeys"/>
     </genClasses>
     <genClasses image="false" ecoreClass="Ecore.ecore#//EStructuralFeature">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute Ecore.ecore#//EStructuralFeature/changeable"/>

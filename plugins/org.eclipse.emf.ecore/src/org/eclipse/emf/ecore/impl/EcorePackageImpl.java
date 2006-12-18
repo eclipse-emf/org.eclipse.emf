@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.17 2006/12/11 15:31:43 emerks Exp $
+ * $Id: EcorePackageImpl.java,v 1.18 2006/12/18 21:57:39 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -1151,6 +1151,16 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EReference getEReference_EKeys()
+  {
+    return (EReference)eReferenceEClass.getEStructuralFeatures().get(5);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EDataType getEEList()
   {
     return eeListEDataType;
@@ -1970,6 +1980,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     createEAttribute(eReferenceEClass, EREFERENCE__RESOLVE_PROXIES);
     createEReference(eReferenceEClass, EREFERENCE__EOPPOSITE);
     createEReference(eReferenceEClass, EREFERENCE__EREFERENCE_TYPE);
+    createEReference(eReferenceEClass, EREFERENCE__EKEYS);
 
     eStructuralFeatureEClass = createEClass(ESTRUCTURAL_FEATURE);
     createEAttribute(eStructuralFeatureEClass, ESTRUCTURAL_FEATURE__CHANGEABLE);
@@ -2275,6 +2286,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEAttribute(getEReference_ResolveProxies(), ecorePackage.getEBoolean(), "resolveProxies", "true", 0, 1, EReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEReference_EOpposite(), this.getEReference(), null, "eOpposite", null, 0, 1, EReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEReference_EReferenceType(), this.getEClass(), null, "eReferenceType", null, 1, 1, EReference.class, IS_TRANSIENT, IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+    initEReference(getEReference_EKeys(), this.getEAttribute(), null, "eKeys", null, 0, -1, EReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(eStructuralFeatureEClass, EStructuralFeature.class, "EStructuralFeature", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEStructuralFeature_Changeable(), ecorePackage.getEBoolean(), "changeable", "true", 0, 1, EStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
