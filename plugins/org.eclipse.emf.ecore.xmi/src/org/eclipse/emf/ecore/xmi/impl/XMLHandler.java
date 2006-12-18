@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLHandler.java,v 1.64 2006/12/10 14:05:15 emerks Exp $
+ * $Id: XMLHandler.java,v 1.65 2006/12/18 22:04:23 marcelop Exp $
  */
 package org.eclipse.emf.ecore.xmi.impl;
 
@@ -919,7 +919,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     else
     {
       handleNamespaceAttribs();
-      int index = name.indexOf(":");
+      int index = name.indexOf(':', 0);
       localName = name;
       if (index != -1)
       {
@@ -1472,7 +1472,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   protected void handleXMLNSAttribute(String attrib, String value)
   {
     // Handle namespaces
-    int index = attrib.indexOf(":");
+    int index = attrib.indexOf(':', 0);
     String prefix = index == -1 ? "" : attrib.substring(index + 1);
     helper.addPrefix(prefix, value);
     prefixesToFactories.remove(prefix);
@@ -1888,7 +1888,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
   {
     String typeName = null;
     String prefix = "";
-    int index = typeQName.indexOf(":");
+    int index = typeQName.indexOf(':', 0);
     if (index > 0)
     {
       prefix = typeQName.substring(0, index);
@@ -2528,7 +2528,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
    */
   protected void setAttribValue(EObject object, String name, String value)
   {
-    int index = name.indexOf(":");
+    int index = name.indexOf(':', 0);
 
     // We use null here instead of "" because an attribute without a prefix is considered to have the null target namespace...
     String prefix = null;
@@ -2576,7 +2576,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     while (st.hasMoreTokens())
     {
       String id = st.nextToken();
-      int index = id.indexOf("#");
+      int index = id.indexOf('#', 0);
       if (index != -1)
       {
         if (index == 0)
@@ -2607,7 +2607,7 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
           continue;
         }
       }
-      else if (id.indexOf(":") != -1)
+      else if (id.indexOf(':', 0) != -1)
       {
         qName = id;
         continue;
@@ -2884,16 +2884,16 @@ public abstract class XMLHandler extends DefaultHandler implements XMLDefaultHan
     if ((encodingIndex == -1) || (encodingIndex > endOfXMLPI))
       return "UTF-8";
 
-    int firstQuoteIndex = header.indexOf("\"", encodingIndex);
+    int firstQuoteIndex = header.indexOf('"', encodingIndex);
     int lastQuoteIndex;
 
     if ((firstQuoteIndex == -1) || (firstQuoteIndex > endOfXMLPI))
     {
-      firstQuoteIndex = header.indexOf("'", encodingIndex);
-      lastQuoteIndex = header.indexOf("'", firstQuoteIndex + 1);
+      firstQuoteIndex = header.indexOf('\'', encodingIndex);
+      lastQuoteIndex = header.indexOf('\'', firstQuoteIndex + 1);
     }
     else
-      lastQuoteIndex = header.indexOf("\"", firstQuoteIndex + 1);
+      lastQuoteIndex = header.indexOf('"', firstQuoteIndex + 1);
 
     return header.substring(firstQuoteIndex + 1, lastQuoteIndex);
   }
