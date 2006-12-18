@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge:options 
+  indent="  "  
+  braceStyle="matching"  
+  xmlns:merge="http://www.eclipse.org/org/eclipse/emf/codegen/jmerge/Options">
+
+	<merge:dictionaryPattern
+    name="remove" 
+    select="Member/getComment" 
+    match="\s*@\s*(rem)ove\s*\n"/>
+
+  <merge:dictionaryPattern
+    name="comment" 
+    select="Member/getComment" 
+    match="\s*@\s*(com)ment\s*\n"/>
+
+  <merge:dictionaryPattern
+    name="comAll" 
+    select="Member/getComment" 
+    match="\s*@\s*commentAll\s*\n"/>
+
+  <merge:dictionaryPattern
+    name="rename" 
+    select="Member/getComment" 
+    match="\s*@\s*(ren)ame\s*\n"/>
+
+  <merge:sweep markup="^rem$" select="Node"/>
+  <merge:sweep markup="^com$" select="Node" action="comment"/>
+  <merge:sweep parentMarkup="^comAll$" select="Node" action="comment"/>  
+  <merge:sweep markup="^ren$" select="Node" action="rename" newName="Deleted_{0}"/>
+</merge:options>
