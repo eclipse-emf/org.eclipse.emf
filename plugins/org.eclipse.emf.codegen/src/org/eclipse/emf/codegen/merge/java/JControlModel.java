@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JControlModel.java,v 1.8 2006/12/13 20:15:00 marcelop Exp $
+ * $Id: JControlModel.java,v 1.9 2006/12/18 21:16:21 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -441,13 +441,29 @@ public class JControlModel extends PrefixHandler
    * <p>The first line removes all &quot;members&quot; (attribute, method, ...) that matches
    * the expression defined by the &quot;^gen$&quot; Dictionary Pattern.  The second
    * removes the &quot;org.eclipse.emf.ecore.EMetaObject&quot; import.</p>
+   * <p>The <code>action</code> attribute defines what the sweep rule does with the 
+   * node to be sweep.  Besides removing the node (which is the default action), you can use this
+   * attribute to also rename the node or comment it out.  The &quot;rename&quot; action
+   * requires the <code>newName</code> attribute to be set. This attribute is the name that
+   * the node is renamed to and can be expressed as <code>&quot;deleted_{0}&quot;</code>, where 
+   * <code>{0}</code> is presents the current name.</p> 
    */
   public static class SweepRule extends PrefixHandler
   {
+    public static enum Action
+    {
+      REMOVE,
+      RENAME,
+      COMMENT;
+    }
+    
     protected String name;
     protected Class<?> selector;
     protected Pattern markup;
     protected Pattern parentMarkup;
+    
+    protected SweepRule.Action action = Action.REMOVE;
+    protected String newName;    
 
     public SweepRule(String classPrefix)
     {
@@ -474,6 +490,14 @@ public class JControlModel extends PrefixHandler
       {
         parentMarkup= Pattern.compile(element.getAttribute("parentMarkup"), Pattern.MULTILINE | Pattern.DOTALL);
       }
+      if (element.hasAttribute("action"))
+      {
+        action = Action.valueOf(element.getAttribute("action").toUpperCase());
+        if (action == Action.RENAME && element.hasAttribute("newName"))
+        {
+          newName = element.getAttribute("newName");
+        }
+      }      
     }
 
     public String getName()
@@ -515,6 +539,26 @@ public class JControlModel extends PrefixHandler
     {
       this.parentMarkup = parentMarkup;
     }
+    
+    public SweepRule.Action getAction()
+    {
+      return action;
+    }
+    
+    public void setAction(SweepRule.Action action)
+    {
+      this.action = action;
+    }
+    
+    public String getNewName()
+    {
+      return newName;
+    }
+    
+    public void setNewName(String newName)
+    {
+      this.newName = newName;
+    }    
   }
 
   /**
