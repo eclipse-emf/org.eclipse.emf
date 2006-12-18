@@ -12,23 +12,28 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.29 2006/12/05 20:22:26 emerks Exp $
+ * $Id: BasicEObjectImpl.java,v 1.30 2006/12/18 22:03:41 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.impl.BasicNotifierImpl;
 import org.eclipse.emf.common.util.AbstractTreeIterator;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -278,6 +283,10 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
         }
       }
     }
+    
+    StringBuilder result = new StringBuilder();
+    result.append('@');
+    result.append(eStructuralFeature.getName());
 
     if (eStructuralFeature instanceof EAttribute)
     {
@@ -289,69 +298,423 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
           EStructuralFeature entryFeature = featureMap.getEStructuralFeature(i);
           if (entryFeature instanceof EReference && ((EReference)entryFeature).isContainment())
           {
-            return '@' + eStructuralFeature.getName() + '.' + i;
+            result.append('.');
+            result.append(i);
+            return result.toString();
           }
         }
       }
-      return '@' + eStructuralFeature.getName() + ".-1";
+      result.append(".-1");
     }
     else if (eStructuralFeature.isMany())
     {
-      EList<?> eList = (EList<?>)eGet(eStructuralFeature, false);
-      int index = eList.indexOf(eObject);
-      return '@' + eStructuralFeature.getName() + '.' + index;
+      EList<EAttribute> eKeys = ((EReference)eStructuralFeature).getEKeys();
+      if (eKeys.isEmpty())
+      {
+        EList<?> eList = (EList<?>)eGet(eStructuralFeature, false);
+        int index = eList.indexOf(eObject);
+        result.append('.');
+        result.append(index);
+      }
+      else 
+      {
+        EAttribute [] eAttributes = (EAttribute[])((BasicEList<?>)eKeys).data();
+        result.append('[');
+        for (int i = 0, size = eAttributes.length; i < size; ++i)
+        {
+          EAttribute eAttribute = eAttributes[i];
+          if (eAttribute == null)
+          {
+            break;
+          }
+          else 
+          {
+            if (i != 0)
+            {
+              result.append(',');
+            }
+            result.append(eAttribute.getName());
+            result.append('=');
+            EDataType eDataType = eAttribute.getEAttributeType();
+            EFactory eFactory = eDataType.getEPackage().getEFactoryInstance();
+            if (eAttribute.isMany())
+            {
+              List<?> values = (List<?>)eObject.eGet(eAttribute);
+              result.append('[');
+              if (!values.isEmpty())
+              {
+                Iterator<?> j = values.iterator();
+                eEncodeValue(result, eFactory, eDataType, j.next());
+                while (j.hasNext())
+                {
+                  result.append(',');
+                  eEncodeValue(result, eFactory, eDataType, j.next());
+                }
+              }
+              result.append(']');
+            }
+            else
+            {
+              eEncodeValue(result, eFactory, eDataType, eObject.eGet(eAttribute));
+            }
+          }
+        }
+        result.append(']');
+      }
+    }
+    
+    return result.toString();
+  }
+  
+  private static final String [] ESCAPE =
+   {
+     "%00",
+     "%01",
+     "%02",
+     "%03",
+     "%04",
+     "%05",
+     "%06",
+     "%07",
+     "%08",
+     "%09",
+     "%0A",
+     "%0B",
+     "%0C",
+     "%0D",
+     "%0E",
+     "%0F",
+     "%10",
+     "%11",
+     "%12",
+     "%13",
+     "%14",
+     "%15",
+     "%16",
+     "%17",
+     "%18",
+     "%19",
+     "%1A",
+     "%1B",
+     "%1C",
+     "%1D",
+     "%1E",
+     "%1F",
+     "%20",
+     null,
+     "%22",
+     "%23",
+     null,
+     "%25",
+     "%26",
+     "%27",
+     null,
+     null,
+     null,
+     null,
+     "%2C",
+     null,
+     null,
+     "%2F",
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     null,
+     "%3A",
+     null,
+     "%3C",
+     null,
+     "%3E",
+     null,
+   };
+  
+  private static void eEncodeValue(StringBuilder result, EFactory eFactory, EDataType eDataType, Object value)
+  {
+    String stringValue = eFactory.convertToString(eDataType, value);
+    if (stringValue == null)
+    {
+      result.append("null");
     }
     else
     {
-      return '@' + eStructuralFeature.getName();
+      int length = stringValue.length();
+      result.ensureCapacity(result.length() + length + 2);
+      result.append('\'');
+      for (int i = 0; i < length; ++i)
+      {
+        char character = stringValue.charAt(i);
+        if (character < ESCAPE.length)
+        {
+          String escape = ESCAPE[character];
+          if (escape != null)
+          {
+            result.append(escape);
+            continue;
+          }
+        }
+        result.append(character);
+      }
+      result.append('\'');
     }
   }
 
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
-    int dotIndex = uriFragmentSegment.indexOf(".");
-    if (dotIndex == -1)
-    {
-      String name = uriFragmentSegment.substring(1);
-      EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(name);
-      if (eStructuralFeature == null)
+    int lastIndex = uriFragmentSegment.length() - 1;
+    char lastChar = uriFragmentSegment.charAt(lastIndex);
+    if (lastChar == ']')
+    {      
+      int index = uriFragmentSegment.indexOf('[');
+      if (index >= 0)
       {
-        throw new IllegalArgumentException("The feature '" + name + "' is not a valid feature");
+        EReference eReference = eReference(uriFragmentSegment.substring(1, index));
+        String predicate = uriFragmentSegment.substring(index + 1, lastIndex);
+        return eObjectForURIFragmentPredicate(predicate, eReference);
       }
-      return (EObject)eGet(eStructuralFeature, false);
     }
     else
     {
-      String name = uriFragmentSegment.substring(1, dotIndex);
-      EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(name);
-      if (eStructuralFeature == null)
+      int dotIndex = -1;
+      if (Character.isDigit(lastChar))
       {
-        throw new IllegalArgumentException("The feature '" + name + "' is not a valid feature");
-      }
-      EList<?> eList = (EList<?>)eGet(eStructuralFeature, false);
-      int position = 0;
-      try
-      {
-        position = Integer.parseInt(uriFragmentSegment.substring(dotIndex + 1));
-      }
-      catch (NumberFormatException exception)
-      {
-        throw new WrappedException(exception);
-      }
-      if (position < eList.size())
-      {
-        Object result = eList.get(position);
-        if (result instanceof FeatureMap.Entry)
+        dotIndex = uriFragmentSegment.lastIndexOf('.', lastIndex - 1);
+        if (dotIndex >= 0)
         {
-          result = ((FeatureMap.Entry)result).getValue();
+          EList<?> eList = (EList<?>)eGet(eStructuralFeature(uriFragmentSegment.substring(1, dotIndex)), false);
+          int position = 0;
+          try
+          {
+            position = Integer.parseInt(uriFragmentSegment.substring(dotIndex + 1));
+          }
+          catch (NumberFormatException exception)
+          {
+            throw new WrappedException(exception);
+          }
+          if (position < eList.size())
+          {
+            Object result = eList.get(position);
+            if (result instanceof FeatureMap.Entry)
+            {
+              result = ((FeatureMap.Entry)result).getValue();
+            }
+            return (EObject)result;
+          }
         }
-        return (EObject)result;
+      }
+
+      if (dotIndex < 0)
+      {
+        return (EObject)eGet(eStructuralFeature(uriFragmentSegment.substring(1)), false);      
+      }
+    }
+
+    return null;
+  }
+
+  private EObject eObjectForURIFragmentPredicate(String predicate, EReference eReference)
+  {
+    ArrayList<FeatureMap.Entry> featureMapEntries = new ArrayList<FeatureMap.Entry>();
+    int length = predicate.length();
+    EClass eReferenceType = eReference.getEReferenceType();
+    for (int i = 0; i < length; ++i)
+    {
+      int index = predicate.indexOf('=', i);
+      EAttribute eAttribute = eAttribute(eReferenceType, predicate.substring(i, index));
+      EDataType eDataType = eAttribute.getEAttributeType();
+      EFactory eFactory = eDataType.getEPackage().getEFactoryInstance();
+      switch (predicate.charAt(++index))
+      {
+        case '\'':
+        {
+          int end = predicate.indexOf('\'', ++index);
+          addEntry(featureMapEntries, eAttribute, eDecodeValue(predicate.substring(index, end), eFactory, eDataType));
+          i = end + 1;
+          break;
+        }
+        case '"':
+        {
+          int end = predicate.indexOf('"', ++index);
+          addEntry(featureMapEntries, eAttribute, eDecodeValue(predicate.substring(index, end), eFactory, eDataType));
+          i = end + 1;
+          break;
+        }
+        case '[':
+        {
+          ArrayList<Object> values = new ArrayList<Object>();
+          addEntry(featureMapEntries, eAttribute, values);
+          LOOP:
+          for (;;)
+          {
+            switch (predicate.charAt(++index))
+            {
+              case '\'':
+              {
+                int end = predicate.indexOf('\'', ++index);
+                values.add(eDecodeValue(predicate.substring(index, end), eFactory, eDataType));
+                index = end + 1;
+                break;
+              }
+              case '"':
+              {
+                int end = predicate.indexOf('"', ++index);
+                values.add(eDecodeValue(predicate.substring(index, end), eFactory, eDataType));
+                index = end + 1;
+                break;
+              }
+              case 'n':
+              {
+                ++index;
+                if (predicate.indexOf("ull", index) == index)
+                {
+                  values.add(null);
+                }
+                else
+                {
+                  throw new RuntimeException("Expecting null");
+                }
+                index += 3;
+                break;
+              }
+            }
+            
+            if (index < length)
+            {
+              switch (predicate.charAt(index))
+              {
+                case ',':
+                {
+                  break;
+                }
+                case ']':
+                {
+                  break LOOP;
+                }
+                default:
+                {
+                  throw new RuntimeException("Expecting , or ]");
+                }
+              }
+            }
+            else
+            {
+              break;
+            }
+          }
+          i = index + 1;
+          break;
+        }
+        case 'n':
+        {
+          ++index;
+          if (predicate.indexOf("ull", index) == index)
+          {
+            addEntry(featureMapEntries, eAttribute, null);
+          }
+          else
+          {
+            throw new RuntimeException("Expecting null");
+          }
+          i = index + 3;
+          break;
+        }
+      }
+      if (i < length)
+      {
+        if (predicate.charAt(i) != ',')
+        {
+          throw new RuntimeException("Expecting ,");
+        }
       }
       else
       {
-        return null;
+        break;
       }
     }
+    
+    return eObjectForURIFragmentPredicate(featureMapEntries, eReference);
+  }
+  
+  private static final void addEntry(List<FeatureMap.Entry> featureMapEntries, final EAttribute eAttribute, final Object value)
+  {
+    featureMapEntries.add
+      (new FeatureMap.Entry()
+       {
+         public EStructuralFeature getEStructuralFeature()
+         {
+           return eAttribute;
+         }
+ 
+         public Object getValue()
+         {
+           return value;
+         }
+       });
+  }
+
+  private static Object eDecodeValue(String encodedValue, EFactory eFactory, EDataType eDataType)
+  {
+    String literal = URI.decode(encodedValue);
+    Object value = eFactory.createFromString(eDataType, literal);
+    return value;
+  }
+  
+  private EObject eObjectForURIFragmentPredicate(List<FeatureMap.Entry> predicate, EReference eReference)
+  {
+    int size = predicate.size();
+    @SuppressWarnings("unchecked") EList<EObject> list = ((EList<EObject>)eGet(eReference, false));
+    LOOP:
+    for (EObject eObject : list)
+    {
+      for (int i = 0; i < size; ++i)
+      {
+        FeatureMap.Entry entry = predicate.get(i);
+        Object entryValue = entry.getValue();
+        EStructuralFeature entryFeature = entry.getEStructuralFeature();
+        Object actualValue = eObject.eGet(entryFeature, false);
+        if (entryValue == null ? actualValue != null : !entryValue.equals(actualValue))
+        {
+          continue LOOP;
+        }
+      }
+      return eObject;
+    }
+    return null;
+  }
+  
+  private EStructuralFeature eStructuralFeature(String name) throws IllegalArgumentException
+  {
+    EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(name);
+    if (eStructuralFeature == null)
+    {
+      throw new IllegalArgumentException("The feature '" + name + "' is not a valid feature");
+    }
+    return eStructuralFeature;
+  }
+
+  private EReference eReference(String name) throws IllegalArgumentException
+  {
+    EStructuralFeature eStructuralFeature = eClass().getEStructuralFeature(name);
+    if (eStructuralFeature instanceof EReference)
+    {
+      return (EReference)eStructuralFeature;
+    }
+    throw new IllegalArgumentException("The feature '" + name + "' is not a valid reference");
+  }
+  
+  private EAttribute eAttribute(EClass eClass, String name) throws IllegalArgumentException
+  {
+    EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(name);
+    if (eStructuralFeature instanceof EAttribute)
+    {
+      return (EAttribute)eStructuralFeature;
+    }
+    throw new IllegalArgumentException("The feature '" + name + "' is not a valid attribute");
   }
 
   public boolean eContains(EObject eObject)
@@ -1567,10 +1930,7 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
   @Override
   public String toString()
   {
-    // Should use the following code to improve debuggability. Will need to
-    // update testcase baselogs before this change can be made.
-
-    StringBuffer result = new StringBuffer(getClass().getName());
+    StringBuilder result = new StringBuilder(getClass().getName());
     result.append('@');
     result.append(Integer.toHexString(hashCode()));
 
