@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.40 2006/12/09 18:02:26 emerks Exp $
+ * $Id: GenFeatureImpl.java,v 1.41 2006/12/18 22:00:10 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1134,6 +1134,24 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       }
     }
     return null;
+  }
+
+  public List getKeys()
+  {
+    List result = new ArrayList();
+    for (EAttribute eAttribute : ((EReference)getEcoreFeature()).getEKeys())
+    {
+      GenClass genClass = getTypeGenClass();
+      for (Iterator iter = genClass.getGenFeatures().iterator(); iter.hasNext(); )
+      {
+        GenFeature genFeature = (GenFeature)iter.next();
+        if (genFeature.getEcoreFeature() == eAttribute)
+        {
+          result.add(genFeature);
+        }
+      }
+    }
+    return result;
   }
 
   public String getContainerClass()

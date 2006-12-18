@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.19 2006/12/05 20:30:24 emerks Exp $
+ * $Id: GenFeature.java,v 1.20 2006/12/18 22:00:10 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -396,6 +396,8 @@ public interface GenFeature extends GenTypedElement
   boolean isEffectiveContains();
   boolean isBidirectional();
   GenFeature getReverse();
+  
+  List getKeys();
 
   String getContainerClass();
 
