@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapUtil.java,v 1.31 2006/12/09 18:06:01 emerks Exp $
+ * $Id: FeatureMapUtil.java,v 1.32 2006/12/18 22:04:17 marcelop Exp $
  */
 
 package org.eclipse.emf.ecore.util;
@@ -1636,8 +1636,11 @@ public final class FeatureMapUtil
 
   public static boolean isMany(EObject owner, EStructuralFeature feature)
   {
-    int upperBound = feature.getUpperBound();
-    if (upperBound == ETypedElement.UNSPECIFIED_MULTIPLICITY)
+    if (feature.isMany())
+    {
+      return true;
+    }
+    else if (feature.getUpperBound() == ETypedElement.UNSPECIFIED_MULTIPLICITY)
     {
       if (feature == XMLTypeFeatures.TEXT ||
             feature == XMLTypeFeatures.CDATA ||
@@ -1672,7 +1675,7 @@ public final class FeatureMapUtil
     }
     else
     {
-      return upperBound == ETypedElement.UNBOUNDED_MULTIPLICITY || upperBound > 1 || FeatureMapUtil.isFeatureMap(feature);
+      return false;
     }
   }
 }

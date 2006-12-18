@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.11 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EAttributeImpl.java,v 1.12 2006/12/18 22:04:17 marcelop Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -20,6 +20,7 @@ package org.eclipse.emf.ecore.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -150,10 +151,11 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
   }
 
   @Override
-  public void setEType(EClassifier eType)
+  public NotificationChain setEType(EClassifier newEType, NotificationChain msgs)
   {
     effectiveIsMany = 0;
-    super.setEType(eType);
+    eAttributeType = null;
+    return super.setEType(newEType, msgs);
   }
 
   /**
@@ -169,6 +171,8 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
       eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EATTRIBUTE__ID, oldID, newID));
   }
 
+  protected EDataType eAttributeType;
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -176,7 +180,11 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    */
   public EDataType getEAttributeType()
   {
-    return (EDataType)getEType();
+    if (eAttributeType == null || !isFrozen() && eAttributeType.eIsProxy())
+    {
+      eAttributeType =(EDataType)getEType();
+    }
+    return eAttributeType;
   }
 
   /**
@@ -186,7 +194,11 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
    */
   public EDataType basicGetEAttributeType()
   {
-    return (EDataType)basicGetEType();
+    if (eAttributeType == null)
+    {
+      eAttributeType =(EDataType)basicGetEType();
+    }
+    return eAttributeType;
   }
 
   /**
