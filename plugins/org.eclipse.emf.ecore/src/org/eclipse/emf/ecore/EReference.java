@@ -12,11 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EReference.java,v 1.4 2005/11/07 21:58:06 davidms Exp $
+ * $Id: EReference.java,v 1.5 2006/12/18 22:01:16 marcelop Exp $
  */
 package org.eclipse.emf.ecore;
 
 
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,6 +33,7 @@ package org.eclipse.emf.ecore;
  *   <li>{@link org.eclipse.emf.ecore.EReference#isResolveProxies <em>Resolve Proxies</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EReference#getEOpposite <em>EOpposite</em>}</li>
  *   <li>{@link org.eclipse.emf.ecore.EReference#getEReferenceType <em>EReference Type</em>}</li>
+ *   <li>{@link org.eclipse.emf.ecore.EReference#getEKeys <em>EKeys</em>}</li>
  * </ul>
  * </p>
  *
@@ -141,5 +144,21 @@ public interface EReference extends EStructuralFeature
    * @generated
    */
   EClass getEReferenceType();
+
+  /**
+   * Returns the value of the '<em><b>EKeys</b></em>' reference list.
+   * The list contents are of type {@link org.eclipse.emf.ecore.EAttribute}.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>EKeys</em>' reference list isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>EKeys</em>' reference list.
+   * @see org.eclipse.emf.ecore.EcorePackage#getEReference_EKeys()
+   * @model type="org.eclipse.emf.ecore.EAttribute"
+   * @generated
+   */
+  EList<EAttribute> getEKeys();
 
 }

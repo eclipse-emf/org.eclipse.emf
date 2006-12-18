@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.11 2006/12/09 18:04:49 emerks Exp $
+ * $Id: EcorePackage.java,v 1.12 2006/12/18 22:01:16 marcelop Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -1934,13 +1934,22 @@ public interface EcorePackage extends EPackage
   int EREFERENCE__EREFERENCE_TYPE = ESTRUCTURAL_FEATURE_FEATURE_COUNT + 4;
 
   /**
+   * The feature id for the '<em><b>EKeys</b></em>' reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EREFERENCE__EKEYS = ESTRUCTURAL_FEATURE_FEATURE_COUNT + 5;
+
+  /**
    * The number of structural features of the '<em>EReference</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EREFERENCE_FEATURE_COUNT = ESTRUCTURAL_FEATURE_FEATURE_COUNT + 5;
+  int EREFERENCE_FEATURE_COUNT = ESTRUCTURAL_FEATURE_FEATURE_COUNT + 6;
 
   /**
    * The meta object id for the '{@link org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl <em>EString To String Map Entry</em>}' class.
@@ -3178,6 +3187,17 @@ public interface EcorePackage extends EPackage
   EReference getEReference_EReferenceType();
 
   /**
+   * Returns the meta object for the reference list '{@link org.eclipse.emf.ecore.EReference#getEKeys <em>EKeys</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the reference list '<em>EKeys</em>'.
+   * @see org.eclipse.emf.ecore.EReference#getEKeys()
+   * @see #getEReference()
+   * @generated
+   */
+  EReference getEReference_EKeys();
+
+  /**
    * Returns the meta object for class '{@link org.eclipse.emf.ecore.EStructuralFeature <em>EStructural Feature</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -3933,7 +3953,7 @@ public interface EcorePackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  interface Literals
+  interface Literals 
   {
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EAttributeImpl <em>EAttribute</em>}' class.
@@ -4524,6 +4544,14 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EReference EREFERENCE__EREFERENCE_TYPE = eINSTANCE.getEReference_EReferenceType();
+
+    /**
+     * The meta object literal for the '<em><b>EKeys</b></em>' reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference EREFERENCE__EKEYS = eINSTANCE.getEReference_EKeys();
 
     /**
      * The meta object literal for the '{@link org.eclipse.emf.ecore.impl.EStructuralFeatureImpl <em>EStructural Feature</em>}' class.
