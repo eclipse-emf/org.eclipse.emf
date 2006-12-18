@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.14 2006/12/05 20:26:32 emerks Exp $
+ * $Id: EReferenceItemProvider.java,v 1.15 2006/12/18 21:59:04 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -86,6 +86,7 @@ public class EReferenceItemProvider
       addResolveProxiesPropertyDescriptor(object);
       addEOppositePropertyDescriptor(object);
       addEReferenceTypePropertyDescriptor(object);
+      addEKeysPropertyDescriptor(object);
     }
     return itemPropertyDescriptors;
   }
@@ -289,6 +290,42 @@ public class EReferenceItemProvider
          null,
          null,
          null));
+  }
+
+  /**
+   * This adds a property descriptor for the Keys feature.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  protected void addEKeysPropertyDescriptor(Object object)
+  {
+    itemPropertyDescriptors.add
+      (new ItemPropertyDescriptor
+        (((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+         getResourceLocator(),
+         getString("_UI_EReference_eKeys_feature"),
+         getString("_UI_PropertyDescriptor_description", "_UI_EReference_eKeys_feature", "_UI_EReference_type"),
+         EcorePackage.Literals.EREFERENCE__EKEYS,
+         true,
+         false,
+         false,
+         null,
+         null,
+         null)
+      {
+        @Override
+        public Collection getChoiceOfValues(Object object)
+        {
+          EReference eReference = (EReference)object;
+          List result = new ArrayList();
+          if (eReference.getEType() instanceof EClass)
+          {
+            result.addAll(eReference.getEReferenceType().getEAllAttributes());
+          }
+          return result;
+        }
+      });
   }
 
   /**
