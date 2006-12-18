@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaImporterWizard.java,v 1.4 2005/12/14 07:52:52 marcelop Exp $
+ * $Id: JavaImporterWizard.java,v 1.5 2006/12/18 21:32:14 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
@@ -26,14 +26,16 @@ import org.eclipse.emf.converter.ModelConverter;
  */
 public class JavaImporterWizard extends ModelImporterWizard
 {
+  @Override
   protected ModelConverter createModelConverter()
   {
     return new JavaImporter();
   }
 
+  @Override
   public void addPages()
   {
-    JavaPackagePage packagePage = new JavaPackagePage(getModelImporter(), "RosePackages");
+    JavaPackagePage packagePage = new JavaPackagePage(getModelImporter(), "JavaPackages");
     addPage(packagePage);
   }
 }

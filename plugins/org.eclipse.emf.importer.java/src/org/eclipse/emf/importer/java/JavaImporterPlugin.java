@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaImporterPlugin.java,v 1.4 2006/06/01 13:24:29 davidms Exp $
+ * $Id: JavaImporterPlugin.java,v 1.5 2006/12/18 21:32:13 marcelop Exp $
  */
 package org.eclipse.emf.importer.java;
 
@@ -48,6 +48,7 @@ public final class JavaImporterPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaPackagePage.java,v 1.9 2005/12/14 07:52:52 marcelop Exp $
+ * $Id: JavaPackagePage.java,v 1.10 2006/12/18 21:32:14 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.ui;
 
@@ -47,6 +47,7 @@ public class JavaPackagePage extends ModelImporterPackagePage
     return (JavaImporter)getModelImporter();
   }
 
+  @Override
   protected void pageActivated(final boolean firstTime, int cause)
   {
     if (getJavaImporter().canImport())
@@ -73,6 +74,7 @@ public class JavaPackagePage extends ModelImporterPackagePage
   {
     WorkspaceModifyOperation initializeOperation = new WorkspaceModifyOperation()
       {
+        @Override
         protected void execute(IProgressMonitor progressMonitor) throws CoreException
         {
           Monitor monitor = BasicMonitor.toMonitor(progressMonitor);

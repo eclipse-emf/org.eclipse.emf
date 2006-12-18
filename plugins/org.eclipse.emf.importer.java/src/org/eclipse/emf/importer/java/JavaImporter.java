@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaImporter.java,v 1.4 2006/01/18 20:16:34 emerks Exp $
+ * $Id: JavaImporter.java,v 1.5 2006/12/18 21:32:13 marcelop Exp $
  */
 package org.eclipse.emf.importer.java;
 
@@ -35,6 +35,7 @@ import org.eclipse.emf.importer.java.builder.JavaEcoreBuilder;
  */
 public class JavaImporter extends ModelImporter
 {
+  @Override
   public String getID()
   {
     return "org.eclipse.emf.importer.java";
@@ -68,11 +69,13 @@ public class JavaImporter extends ModelImporter
     return null;
   }
   
+  @Override
   public EPackage getReferredEPackage(GenPackage genPackage)
   {
     return genPackage.getEcorePackage();
   }
 
+  @Override
   protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
     monitor.beginTask("", 2);
@@ -85,6 +88,7 @@ public class JavaImporter extends ModelImporter
     return javaEcoreBuilder.getDiagnostic();
   }
   
+  @Override
   protected void adjustGenModel(Monitor monitor)
   {
     super.adjustGenModel(monitor);
