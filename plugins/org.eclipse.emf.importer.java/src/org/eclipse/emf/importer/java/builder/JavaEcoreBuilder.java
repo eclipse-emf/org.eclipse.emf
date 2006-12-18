@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.28 2006/12/05 20:32:49 emerks Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.29 2006/12/18 21:33:29 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -36,6 +36,9 @@ import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.Constants;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -48,19 +51,20 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.jdom.DOMFactory;
-import org.eclipse.jdt.core.jdom.IDOMCompilationUnit;
-import org.eclipse.jdt.core.jdom.IDOMField;
-import org.eclipse.jdt.core.jdom.IDOMImport;
-import org.eclipse.jdt.core.jdom.IDOMMethod;
-import org.eclipse.jdt.core.jdom.IDOMNode;
-import org.eclipse.jdt.core.jdom.IDOMPackage;
-import org.eclipse.jdt.core.jdom.IDOMType;
 import org.eclipse.osgi.util.ManifestElement;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.merge.java.JMerger;
+import org.eclipse.emf.codegen.merge.java.facade.FacadeHelper;
+import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
+import org.eclipse.emf.codegen.merge.java.facade.JField;
+import org.eclipse.emf.codegen.merge.java.facade.JImport;
+import org.eclipse.emf.codegen.merge.java.facade.JMethod;
+import org.eclipse.emf.codegen.merge.java.facade.JNode;
+import org.eclipse.emf.codegen.merge.java.facade.JPackage;
+import org.eclipse.emf.codegen.merge.java.facade.JType;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicMonitor;
@@ -98,8 +102,6 @@ import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.emf.importer.ModelImporter;
 import org.eclipse.emf.importer.java.JavaImporterPlugin;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.Constants;
 
 
 public class JavaEcoreBuilder
@@ -107,7 +109,7 @@ public class JavaEcoreBuilder
   /**
    * The factory used to create JDOM.
    */
-  protected static DOMFactory jdomFactory = new DOMFactory();
+  protected static FacadeHelper facadeHelper = CodeGenUtil.instantiateFacadeHelper(JMerger.DEFAULT_FACADE_HELPER_CLASS);
 
   /**
    * The file being generated.
@@ -123,38 +125,38 @@ public class JavaEcoreBuilder
    * The map from a package name to the corresponding package.
    * These are populated from the GenModels of required projects.
    */
-  protected Map externalPackageNameToEPackageMap = new LinkedHashMap();
+  protected Map<String, EPackage> externalPackageNameToEPackageMap = new LinkedHashMap<String, EPackage>();
 
   /**
    * The map from a package name to the corresponding package.
    * These are populated on demand during traversal as modeled class and enums are discovered.
    */
-  protected Map packageNameToEPackageMap = new LinkedHashMap();
+  protected Map<String, EPackage> packageNameToEPackageMap = new LinkedHashMap<String, EPackage>();
 
   /**
    * The map from package to the map of ordering constants.
    * These are populated as the package interface is traversed.
    */
-  protected Map ePackageToOrderingMap = new LinkedHashMap();
+  protected Map<EPackage, Map<Object, Integer>> ePackageToOrderingMap = new LinkedHashMap<EPackage, Map<Object, Integer>>();
 
   /**
    * The map from package to the it's prefix.
    * These are populated as the package interfaces are traversed.
    */
-  protected Map ePackageToPrefixMap = new LinkedHashMap();
+  protected Map<EPackage, String> ePackageToPrefixMap = new LinkedHashMap<EPackage, String>();
 
   /**
    * The map from a model element to the corresponding JDOM node.
    * These are populated during traversal as each model element is created.
    */
-  protected Map eModelElementToIDOMNodeMap = new LinkedHashMap();
+  protected Map<EModelElement, JNode> eModelElementToJNodeMap = new LinkedHashMap<EModelElement, JNode>();
 
   /**
    * The map from a typed element to its type name.
    * These are populated during traversal as each typed element is created.
    * They must be patched after traversal is completed.
    */
-  protected Map eTypedElementToTypeNameMap = new LinkedHashMap();
+  protected Map<ETypedElement, String> eTypedElementToTypeNameMap = new LinkedHashMap<ETypedElement, String>();
 
   /**
    * The map from a typed element to its datatype's instance type name.
@@ -162,26 +164,26 @@ public class JavaEcoreBuilder
    * They must be patched after traversal is completed.
    * They are only needed if the instance must be determined bottom up.
    */
-  protected Map eTypedElementToInstanceTypeNameMap = new LinkedHashMap();
+  protected Map<ETypedElement, String> eTypedElementToInstanceTypeNameMap = new LinkedHashMap<ETypedElement, String>();
 
   /**
    * The set of data types that were created without setting the instance class.
    */
-  protected Set demandCreatedEDataTypes = new HashSet();
+  protected Set<EDataType> demandCreatedEDataTypes = new HashSet<EDataType>();
 
   /**
    * The map from a class to its base class names.
    * These are populated during traversal as each class is created.
    * They must be patched after traversal is completed.
    */
-  protected Map eClassToSuperTypeNamesMap = new LinkedHashMap();
+  protected Map<EClass, String[]> eClassToSuperTypeNamesMap = new LinkedHashMap<EClass, String[]>();
 
   /**
    * The map from an operation to its exception type names.
    * These are populated during traversal as each operation is created.
    * They must be patched after traversal is completed.
    */
-  protected Map eOperationToExceptionTypeNamesMap = new LinkedHashMap();
+  protected Map<EOperation, String[]> eOperationToExceptionTypeNamesMap = new LinkedHashMap<EOperation, String[]>();
 
   /**
    * The map from a reference to the name it's opposite.
@@ -189,17 +191,17 @@ public class JavaEcoreBuilder
    * They must be patched after traversal and patching of typed elements is completed.
    * The opposite found as a feature of the type.
    */
-  protected Map eReferenceToOppositeNameMap = new LinkedHashMap();
+  protected Map<EReference, String> eReferenceToOppositeNameMap = new LinkedHashMap<EReference, String>();
 
   /**
    * All the external GenModels from all required projects.
    */
-  protected Collection externalGenModels = new UniqueEList();
+  protected Collection<GenModel> externalGenModels = new UniqueEList<GenModel>();
 
   /**
    * All the used GenPackages.
    */
-  protected Collection usedGenPackages = new ArrayList();
+  protected Collection<GenPackage> usedGenPackages = new ArrayList<GenPackage>();
 
   protected BasicDiagnostic basicDiagnostic;
 
@@ -249,7 +251,7 @@ public class JavaEcoreBuilder
     //
     IJavaProject javaProject = JavaCore.create(project);
     IPackageFragmentRoot[] packageFragmentRoots = javaProject.getPackageFragmentRoots();
-    Set visited = new HashSet();
+    Set<IResource> visited = new HashSet<IResource>();
     for (int i = 0; i < packageFragmentRoots.length; ++i)
     {
       if (packageFragmentRoots[i].getKind() == IPackageFragmentRoot.K_SOURCE)
@@ -260,11 +262,10 @@ public class JavaEcoreBuilder
 
     // Fix all the typed elements that have names which need resolving.
     //
-    for (Iterator i = eTypedElementToTypeNameMap.entrySet().iterator(); i.hasNext();)
+    for (Map.Entry<ETypedElement, String> entry : eTypedElementToTypeNameMap.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      ETypedElement eTypedElement = (ETypedElement)entry.getKey();
-      String typeName = (String)entry.getValue();
+      ETypedElement eTypedElement = entry.getKey();
+      String typeName = entry.getValue();
       EClassifier eClassifier = resolve(eTypedElement, typeName);
 
       // If we have resolved to an EClass but we have an EAttribute, we can change it to be an EReference.
@@ -302,7 +303,7 @@ public class JavaEcoreBuilder
         eReferenceToOppositeNameMap.remove(eReference);
       }
 
-      String instanceClassName = (String)eTypedElementToInstanceTypeNameMap.get(eTypedElement);
+      String instanceClassName = eTypedElementToInstanceTypeNameMap.get(eTypedElement);
       if (instanceClassName != null && demandCreatedEDataTypes.contains(eClassifier))
       {
         demandCreatedEDataTypes.remove(eClassifier);
@@ -325,11 +326,10 @@ public class JavaEcoreBuilder
 
     // Fix all the classes that have supers that need resolving.
     //
-    for (Iterator i = eClassToSuperTypeNamesMap.entrySet().iterator(); i.hasNext();)
+    for (Map.Entry<EClass, String[]> entry : eClassToSuperTypeNamesMap.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      EClass eClass = (EClass)entry.getKey();
-      String[] superTypeNames = (String[])entry.getValue();
+      EClass eClass = entry.getKey();
+      String[] superTypeNames = entry.getValue();
       if (superTypeNames != null)
       {
         for (int j = 0; j < superTypeNames.length; ++j)
@@ -367,11 +367,10 @@ public class JavaEcoreBuilder
 
     // Fix all the operations that have exceptions that need resolving.
     //
-    for (Iterator i = eOperationToExceptionTypeNamesMap.entrySet().iterator(); i.hasNext();)
+    for (Map.Entry<EOperation, String[]> entry : eOperationToExceptionTypeNamesMap.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      EOperation eOperation = (EOperation)entry.getKey();
-      String[] exceptionTypeNames = (String[])entry.getValue();
+      EOperation eOperation = entry.getKey();
+      String[] exceptionTypeNames = entry.getValue();
       if (exceptionTypeNames != null)
       {
         for (int j = 0; j < exceptionTypeNames.length; ++j)
@@ -403,11 +402,10 @@ public class JavaEcoreBuilder
 
     // Now we need to hook up opposites by finding the named feature in the type.
     //
-    for (Iterator i = eReferenceToOppositeNameMap.entrySet().iterator(); i.hasNext();)
+    for (Map.Entry<EReference, String> entry : eReferenceToOppositeNameMap.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      EReference eReference = (EReference)entry.getKey();
-      String oppositeName = (String)entry.getValue();
+      EReference eReference = entry.getKey();
+      String oppositeName = entry.getValue();
       EClass eClass = (EClass)eReference.getEType();
       EReference eOpposite = (EReference)eClass.getEStructuralFeature(oppositeName);
       if (eOpposite == null)
@@ -441,16 +439,14 @@ public class JavaEcoreBuilder
 
     // Now we should sort.
     //
-    for (Iterator i = ePackageToOrderingMap.entrySet().iterator(); i.hasNext();)
+    for (Map.Entry<EPackage, Map<Object, Integer>> entry : ePackageToOrderingMap.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      EPackage ePackage = (EPackage)entry.getKey();
-      Map nameToIDMap = (Map)entry.getValue();
+      EPackage ePackage = entry.getKey();
+      Map<Object, Integer> nameToIDMap = entry.getValue();
 
       sort(ePackage.getEClassifiers(), nameToIDMap);
-      for (Iterator j = ePackage.getEClassifiers().iterator(); j.hasNext();)
+      for (EClassifier eClassifier : ePackage.getEClassifiers())
       {
-        EClassifier eClassifier = (EClassifier)j.next();
         if (eClassifier instanceof EClass)
         {
           EClass eClass = (EClass)eClassifier;
@@ -483,19 +479,18 @@ public class JavaEcoreBuilder
     IProject project = genModelFile.getProject();
     project.open(BasicMonitor.toIProgressMonitor(monitor));
     
-    Collection allGenModelFiles = new ArrayList();
-    Collection allReferencedProjects = new ArrayList();
+    Collection<IFile> allGenModelFiles = new ArrayList<IFile>();
+    Collection<IProject> allReferencedProjects = new ArrayList<IProject>();
     getAllReferencedProjects(allReferencedProjects, project.getDescription().getReferencedProjects());
     getAllReferencedProjects(allReferencedProjects, project.getDescription().getDynamicReferences());
-    for (Iterator i = allReferencedProjects.iterator(); i.hasNext();)
+    for (IProject referencedProject : allReferencedProjects)
     {
-      getAllGenModelFiles(allGenModelFiles, (IProject)i.next());
+      getAllGenModelFiles(allGenModelFiles, referencedProject);
     }
     
     ResourceSet resourceSet = modelImporter.createResourceSet();
-    for (Iterator i = allGenModelFiles.iterator(); i.hasNext();)
+    for (IFile file : allGenModelFiles)
     {
-      IFile file = (IFile)i.next();
       Resource resource = resourceSet.getResource(modelImporter.createFileURI(file.getFullPath().toString()), true);
       GenModel genModel = (GenModel)resource.getContents().get(0);
       externalGenModels.add(genModel);
@@ -508,11 +503,10 @@ public class JavaEcoreBuilder
     
     // Iterate over all projects to look at the manifests.
     //
-    List allReferencedPluginIDs = new UniqueEList();
+    List<String> allReferencedPluginIDs = new UniqueEList<String>();
     allReferencedProjects.add(project);
-    for (Iterator i = allReferencedProjects.iterator(); i.hasNext();)
+    for (IProject referencedProject : allReferencedProjects)
     {
-      IProject referencedProject = (IProject)i.next();
       try
       {
         // Determine the required plugins.
@@ -548,7 +542,7 @@ public class JavaEcoreBuilder
     {
       // Determine the required plugins.
       //
-      String pluginID = (String)allReferencedPluginIDs.get(i);
+      String pluginID = allReferencedPluginIDs.get(i);
       Bundle bundle = Platform.getBundle(pluginID);
       if (bundle != null)
       {
@@ -573,38 +567,36 @@ public class JavaEcoreBuilder
 
     // Determine the inverse map from plugin IDs to their registered GenModel locations.
     //
-    Map allPluginsWithGenModels = new HashMap();
-    for (Iterator i = EcorePlugin.getEPackageNsURIToGenModelLocationMap().entrySet().iterator(); i.hasNext(); )
+    Map<String, List<URI>> allPluginsWithGenModels = new HashMap<String, List<URI>>();
+    for (Map.Entry<String, URI> entry : EcorePlugin.getEPackageNsURIToGenModelLocationMap().entrySet())
     {
       // If it's a platform plugin URI, include it in the map.
       //
-      Map.Entry entry = (Map.Entry)i.next();
-      URI genModelLocation = (URI)entry.getValue();
+      URI genModelLocation = entry.getValue();
       if (genModelLocation.isPlatformPlugin())
       {
-        List list = (List)allPluginsWithGenModels.get(genModelLocation.segment(1));
-        if (list == null)
+        List<URI> uris = allPluginsWithGenModels.get(genModelLocation.segment(1));
+        if (uris == null)
         {
-          list = new UniqueEList();
+          uris = new UniqueEList<URI>();
         }
-        list.add(genModelLocation);
-        allPluginsWithGenModels.put(genModelLocation.segment(1), list);
+        uris.add(genModelLocation);
+        allPluginsWithGenModels.put(genModelLocation.segment(1), uris);
       }
     }
 
     // Keep only the plugins that have GenModels for consideration.
     //
     allReferencedPluginIDs.retainAll(allPluginsWithGenModels.keySet());
-    for (Iterator i = allReferencedPluginIDs.iterator(); i.hasNext(); )
+    for (String pluginID : allReferencedPluginIDs)
     {
       // Consider each GenModel location URI for each required plugin.
       //
-      String pluginID = (String)i.next();
-      for (Iterator j = ((List)allPluginsWithGenModels.get(pluginID)).iterator(); j.hasNext(); )
+      for (URI uri : allPluginsWithGenModels.get(pluginID))
       {
         // Load the model and if it's not one already considered, e.g., a local version in the workspace, process its GenPackages.
         //
-        Resource resource = resourceSet.getResource((URI)j.next(), true);
+        Resource resource = resourceSet.getResource(uri, true);
         GenModel genModel = (GenModel)resource.getContents().get(0);
         if (externalGenModels.add(genModel))
         {
@@ -625,19 +617,17 @@ public class JavaEcoreBuilder
       error(JavaImporterPlugin.INSTANCE.getString(foundJava ? "_UI_NoModelElementsInJava_message" : "_UI_NoModelElements_message"));
     }
 
-    for (Iterator i = packageNameToEPackageMap.values().iterator(); i.hasNext();)
+    for (EPackage ePackage : packageNameToEPackageMap.values())
     {
-      EPackage ePackage = (EPackage)i.next();
       modelImporter.getEPackages().add(ePackage);
 
       ModelImporter.EPackageImportInfo ePackageInfo = modelImporter.getEPackageImportInfo(ePackage);
-      ePackageInfo.setPrefix((String)ePackageToPrefixMap.get(ePackage));
-      for (Iterator entries = packageNameToEPackageMap.entrySet().iterator(); entries.hasNext();)
+      ePackageInfo.setPrefix(ePackageToPrefixMap.get(ePackage));
+      for (Map.Entry<String, EPackage> entry : packageNameToEPackageMap.entrySet())
       {
-        Map.Entry entry = (Map.Entry)entries.next();
         if (entry.getValue() == ePackage)
         {
-          String qualifiedPackageName = (String)entry.getKey();
+          String qualifiedPackageName = entry.getKey();
           int index = qualifiedPackageName == null ? -1 : qualifiedPackageName.lastIndexOf(".");
           if (index != -1)
           {
@@ -654,9 +644,8 @@ public class JavaEcoreBuilder
     EPackage ePackage = (EPackage)EcoreUtil.getRootContainer(modelElement);
     if (ePackage != EcorePackage.eINSTANCE)
     {
-      for (Iterator i = externalGenModels.iterator(); i.hasNext();)
+      for (GenModel genModel : externalGenModels)
       {
-        GenModel genModel = (GenModel)i.next();
         GenPackage genPackage = genModel.findGenPackage(ePackage);
         if (genPackage != null)
         {
@@ -666,12 +655,11 @@ public class JavaEcoreBuilder
 
             // Compute the closure.
             //
-            for (Iterator j = ePackage.eAllContents(); j.hasNext();)
+            for (Iterator<EObject> j = ePackage.eAllContents(); j.hasNext();)
             {
-              EObject eObject = (EObject)j.next();
-              for (Iterator k = eObject.eCrossReferences().iterator(); k.hasNext();)
+              for (Iterator<EObject> k = j.next().eCrossReferences().iterator(); k.hasNext();)
               {
-                Object o = k.next();
+                EObject o = k.next();
                 if (o instanceof EModelElement)
                 {
                   used((EModelElement)o);
@@ -707,7 +695,7 @@ public class JavaEcoreBuilder
   /**
    * Walks the projects recursively.
    */
-  public void getAllReferencedProjects(Collection result, IProject[] projects) throws CoreException
+  public void getAllReferencedProjects(Collection<IProject> result, IProject[] projects) throws CoreException
   {
     for (int i = 0; i < projects.length; ++i)
     {
@@ -724,7 +712,7 @@ public class JavaEcoreBuilder
   /**
    * Walks the container recursively.
    */
-  public void getAllGenModelFiles(Collection result, IContainer container) throws CoreException
+  public void getAllGenModelFiles(Collection<IFile> result, IContainer container) throws CoreException
   {
     IResource[] contents = container.members();
     for (int i = 0; i < contents.length; ++i)
@@ -744,7 +732,7 @@ public class JavaEcoreBuilder
   /**
    * Walks the container recursively.
    */
-  public void getAllGenModelFiles(Collection result, IFile file) throws CoreException
+  public void getAllGenModelFiles(Collection<IFile> result, IFile file) throws CoreException
   {
     if (file.getName().endsWith(".genmodel"))
     {
@@ -769,7 +757,7 @@ public class JavaEcoreBuilder
   /**
    * Walks the container recursively.
    */
-  public void traverse(IContainer container, Set visited) throws CoreException
+  public void traverse(IContainer container, Set<IResource> visited) throws CoreException
   {
     IResource[] contents = container.members();
     for (int i = 0; i < contents.length; ++i)
@@ -819,8 +807,8 @@ public class JavaEcoreBuilder
           // use no encoding
         }
         String contents = encoding == null ? new String(input) : new String(input, encoding);
-        IDOMCompilationUnit jCompilationUnit = jdomFactory.createCompilationUnit(contents, "NAME");
-        analyzeCompilationUnit(jCompilationUnit);
+        JCompilationUnit compilationUnit = facadeHelper.createCompilationUnit("NAME", contents);
+        analyzeCompilationUnit(compilationUnit);
       }
       catch (IOException exception)
       {
@@ -828,34 +816,29 @@ public class JavaEcoreBuilder
       }
     }
   }
-
+  
   /**
    * Walks the compilation unit to analyze the type.
    */
-  protected void analyzeCompilationUnit(IDOMCompilationUnit compilationUnit)
+  protected void analyzeCompilationUnit(JCompilationUnit compilationUnit)
   {
     foundJava = true;
-    for (IDOMNode child = compilationUnit.getFirstChild(); child != null; child = child.getNextNode())
+    for (JType type : facadeHelper.getChildren(compilationUnit, JType.class))
     {
-      if (child.getNodeType() == IDOMNode.TYPE)
-      {
-        analyzeType((IDOMType)child);
-        break;
-      }
+      analyzeType(type);
+      break;
     }
   }
 
   /**
    * Walks the type either as an EClass or an ENum to analyze either the methods or the fields.
    */
-  protected void analyzeType(IDOMType type)
+  protected void analyzeType(JType type)
   {
-    IDOMCompilationUnit compilationUnit = (IDOMCompilationUnit)type.getParent();
-    String qualifiedPackageName = null;
-    if (compilationUnit.getFirstChild() instanceof IDOMPackage)
-    {
-      qualifiedPackageName = ((IDOMPackage)compilationUnit.getFirstChild()).getName();
-    }
+    JPackage jPackage = facadeHelper.getPackage(type);  
+    String qualifiedPackageName = jPackage != null ?
+      jPackage.getQualifiedName()
+      : null;
 
     // Check whether this has @model annotation contents.
     // If not, it might be a package interface, for backwards compatibility.
@@ -874,7 +857,7 @@ public class JavaEcoreBuilder
     {
       // Get the package name and see if there's an EPackage for it.
       //
-      EPackage ePackage = (EPackage)packageNameToEPackageMap.get(qualifiedPackageName);
+      EPackage ePackage = packageNameToEPackageMap.get(qualifiedPackageName);
       if (ePackage == null)
       {
         // Create the EPackage on demand.
@@ -899,7 +882,7 @@ public class JavaEcoreBuilder
       if ((type.getFlags() & Flags.AccInterface) != 0 || "class".equals(kind))
       {
         EClass eClass = EcoreFactory.eINSTANCE.createEClass();
-        eModelElementToIDOMNodeMap.put(eClass, type);
+        eModelElementToJNodeMap.put(eClass, type);
         eClass.setName(type.getName());
         ePackage.getEClassifiers().add(eClass);
         eClass.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
@@ -909,7 +892,7 @@ public class JavaEcoreBuilder
         String extend = getExtendsAnnotation(type.getComment());
         if (extend != null && superInterfaces != null)
         {
-          List superInterfaceList = new ArrayList(Arrays.asList(superInterfaces));
+          List<String> superInterfaceList = new ArrayList<String>(Arrays.asList(superInterfaces));
           for (StringTokenizer stringTokenizer = new StringTokenizer(extend, " ,\t\n\r\f"); stringTokenizer.hasMoreTokens();)
           {
             superInterfaceList.remove(stringTokenizer.nextToken());
@@ -927,12 +910,9 @@ public class JavaEcoreBuilder
 
         // Walk the methods.
         //
-        for (IDOMNode child = type.getFirstChild(); child != null; child = child.getNextNode())
+        for (JMethod method : facadeHelper.getChildren(type, JMethod.class))
         {
-          if (child.getNodeType() == IDOMNode.METHOD)
-          {
-            analyzeMethod(eClass, (IDOMMethod)child);
-          }
+          analyzeMethod(eClass, method);
         }
 
         // Additional attributes and references may be defined directly on the interface in order to allow the
@@ -967,7 +947,7 @@ public class JavaEcoreBuilder
       else
       {
         EEnum eEnum = EcoreFactory.eINSTANCE.createEEnum();
-        eModelElementToIDOMNodeMap.put(eEnum, type);
+        eModelElementToJNodeMap.put(eEnum, type);
         eEnum.setName(type.getName());
         ePackage.getEClassifiers().add(eEnum);
         eEnum.getEAnnotations().addAll(extractEAnnotations(modelAnnotation));
@@ -975,12 +955,9 @@ public class JavaEcoreBuilder
 
         // Walk the fields.
         //
-        for (IDOMNode child = type.getFirstChild(); child != null; child = child.getNextNode())
+        for (JField field : facadeHelper.getChildren(type, JField.class))
         {
-          if (child.getNodeType() == IDOMNode.FIELD)
-          {
-            analyzeField(eEnum, (IDOMField)child);
-          }
+          analyzeField(eEnum, field);
         }
       }
     }
@@ -1005,38 +982,38 @@ public class JavaEcoreBuilder
         String nsURI = "http:///" + (qualifiedPackageName == null ? "null" : qualifiedPackageName.replace('.', '/')) + ".ecore";
         String nsPrefix = qualifiedPackageName == null ? "null" : qualifiedPackageName;
 
-        List eClasses = new ArrayList();
-        List eDataTypes = new ArrayList();
-        Map ordering = new HashMap();
+        List<EClass> eClasses = new ArrayList<EClass>();
+        List<EDataType> eDataTypes = new ArrayList<EDataType>();
+        Map<Object, Integer> ordering = new HashMap<Object, Integer>();
 
         // It's definitely a package if expected constants eNAME, eNS_PREFIX, or eNS_URI appear.
         //
-        for (IDOMNode child = type.getFirstChild(); child != null; child = child.getNextNode())
+        for (JNode node : type.getChildren())
         {
-          if (child.getNodeType() == IDOMNode.FIELD)
+          if (node instanceof JField)
           {
-            IDOMField field = (IDOMField)child;
-            String childName = child.getName();
-            String childType = field.getType();
-            if ("eNAME".equals(childName))
+            JField field = (JField)node;
+            String fieldName = field.getName();
+            String fieldType = field.getType();
+            if ("eNAME".equals(fieldName))
             {
               isEPackage = true;
               name = field.getInitializer();
               name = name.substring(2, name.length() - 1);
             }
-            else if ("eNS_URI".equals(childName))
+            else if ("eNS_URI".equals(fieldName))
             {
               isEPackage = true;
               nsURI = field.getInitializer();
               nsURI = nsURI.substring(2, nsURI.length() - 1);
             }
-            else if ("eNS_PREFIX".equals(childName))
+            else if ("eNS_PREFIX".equals(fieldName))
             {
               isEPackage = true;
               nsPrefix = field.getInitializer();
               nsPrefix = nsPrefix.substring(2, nsPrefix.length() - 1);
             }
-            else if ("int".equals(childType) && !childName.endsWith("FEATURE_COUNT"))
+            else if ("int".equals(fieldType) && !fieldName.endsWith("FEATURE_COUNT"))
             {
               try
               {
@@ -1048,7 +1025,7 @@ public class JavaEcoreBuilder
                 }
                 initializer = initializer.trim();
                 int value = Integer.parseInt(initializer);
-                ordering.put(childName, new Integer(value));
+                ordering.put(fieldName, value);
               }
               catch (NumberFormatException exception)
               {
@@ -1056,9 +1033,9 @@ public class JavaEcoreBuilder
               }
             }
           }
-          else if (child.getNodeType() == IDOMNode.METHOD)
+          else if (node instanceof JMethod)
           {
-            IDOMMethod method = (IDOMMethod)child;
+            JMethod method = (JMethod)node;
             String methodAnnotation = getModelAnnotation(method.getComment());
             if (methodAnnotation != null)
             {
@@ -1139,7 +1116,7 @@ public class JavaEcoreBuilder
         {
           EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
           ePackageToOrderingMap.put(ePackage, ordering);
-          eModelElementToIDOMNodeMap.put(ePackage, type);
+          eModelElementToJNodeMap.put(ePackage, type);
           ePackage.setNsURI(nsURI);
           ePackage.setNsPrefix(nsPrefix);
           ePackage.setName(name);
@@ -1153,7 +1130,7 @@ public class JavaEcoreBuilder
 
           ePackageToPrefixMap.put(ePackage, packagePrefix);
 
-          EPackage existingEPackage = (EPackage)packageNameToEPackageMap.get(qualifiedPackageName);
+          EPackage existingEPackage = packageNameToEPackageMap.get(qualifiedPackageName);
           if (existingEPackage != null)
           {
             ePackage.getEClassifiers().addAll(existingEPackage.getEClassifiers());
@@ -1168,7 +1145,7 @@ public class JavaEcoreBuilder
   /**
    * Creates an EOperation, EAttribute, or EReference as appropriate.
    */
-  protected void analyzeMethod(EClass eClass, IDOMMethod method)
+  protected void analyzeMethod(EClass eClass, JMethod method)
   {
     // Check whether this has @model annotation contents.
     //
@@ -1187,14 +1164,13 @@ public class JavaEcoreBuilder
         EcoreUtil.setDocumentation(eTypedElement, getModelDocumentation(method.getComment()));
       }
 
-      eModelElementToIDOMNodeMap.put(eTypedElement, method);
+      eModelElementToJNodeMap.put(eTypedElement, method);
       if (eTypedElement instanceof EOperation)
       {
         EOperation eOperation = (EOperation)eTypedElement;
-        for (Iterator i = eOperation.getEParameters().iterator(); i.hasNext();)
+        for (EParameter eParameter : eOperation.getEParameters())
         {
-          EParameter eParameter = (EParameter)i.next();
-          eModelElementToIDOMNodeMap.put(eParameter, method);
+          eModelElementToJNodeMap.put(eParameter, method);
         }
       }
     }
@@ -1224,14 +1200,14 @@ public class JavaEcoreBuilder
 
     // Check whether there are parameters; the special attribute and reference rules only apply for the case of no arguments.
     //
-    if (parameterNames == null && !declaredEOperation && methodName.startsWith("get") && methodName.length() > 3 &&
+    if (parameterNames.length == 0 && !declaredEOperation && methodName.startsWith("get") && methodName.length() > 3 &&
         Character.isUpperCase(methodName.charAt(3)) && !"boolean".equals(returnType) && !"void".equals(returnType))
     {
       // The feature name is extracted lower cased.
       //
       featureName = CodeGenUtil.uncapName(methodName.substring(3));
     }
-    else if (parameterNames == null && !declaredEOperation && methodName.startsWith("is") && methodName.length() > 2 &&
+    else if (parameterNames.length == 0 && !declaredEOperation && methodName.startsWith("is") && methodName.length() > 2 &&
              Character.isUpperCase(methodName.charAt(2)) && "boolean".equals(returnType))
     {
       // The name is extracted and lower cased.
@@ -1248,7 +1224,7 @@ public class JavaEcoreBuilder
 
       handleETypedElement(eOperation, methodName, returnType, modelAnnotation, eClass.getName() + "." + methodName);
       
-      if (parameterTypes != null)
+      if (parameterTypes.length > 0)
       {
         // Each token in parameters will specify a dataType for the corresponding parameter, but can be overridden by a
         // parameter-name-prefixed dataType property.
@@ -1267,15 +1243,15 @@ public class JavaEcoreBuilder
             String dataType = stringTokenizer.nextToken();
             if (!"-".equals(dataType))
             {
-              StringBuffer buffer = new StringBuffer(parameterModelAnnotation);
-              buffer.append("dataType=\"");
-              buffer.append(dataType);
-              buffer.append("\" ");
-              parameterModelAnnotation = buffer.toString();
+              StringBuilder sb = new StringBuilder(parameterModelAnnotation);
+              sb.append("dataType=\"");
+              sb.append(dataType);
+              sb.append("\" ");
+              parameterModelAnnotation = sb.toString();
             }
           }
 
-          StringBuffer identifierName = new StringBuffer(eClass.getName());
+          StringBuilder identifierName = new StringBuilder(eClass.getName());
           identifierName.append('.');
           identifierName.append(methodName);
           identifierName.append('(');
@@ -1286,7 +1262,7 @@ public class JavaEcoreBuilder
         }
       }
 
-      if (exceptionTypes != null)
+      if (exceptionTypes.length > 0)
       {
         // Each token in exceptions will specify a data type for the corresponding exception.
         //
@@ -1534,7 +1510,7 @@ public class JavaEcoreBuilder
   /**
    * Creates EEnumLiteral as appropriate.
    */
-  protected void analyzeField(EEnum eEnum, IDOMField field)
+  protected void analyzeField(EEnum eEnum, JField field)
   {
     String modelAnnotation = getModelAnnotation(field.getComment());
     if (modelAnnotation != null)
@@ -1564,7 +1540,7 @@ public class JavaEcoreBuilder
       // Create one and set the name and value.
       //
       EEnumLiteral eEnumLiteral = EcoreFactory.eINSTANCE.createEEnumLiteral();
-      eModelElementToIDOMNodeMap.put(eEnumLiteral, field);
+      eModelElementToJNodeMap.put(eEnumLiteral, field);
       eEnumLiteral.setName(name);
       if (literal != null)
       {
@@ -1661,7 +1637,7 @@ public class JavaEcoreBuilder
   {
     if (comment != null)
     {
-      StringBuffer result = new StringBuffer();
+      StringBuilder result = new StringBuilder();
       Matcher extendsMatcher = extendsAnnotationExpression.matcher(comment);
       while (extendsMatcher.find())
       {
@@ -1706,7 +1682,7 @@ public class JavaEcoreBuilder
    */
   protected String getModelAnnotationAttributes(String modelAnnotation, String attributeName)
   {
-    StringBuffer result = null;
+    StringBuilder result = null;
     Pattern modelAnnotationAttributeExpressionDoubleQuote = Pattern.compile(
       "\\b" + attributeName + "\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\1",
       Pattern.MULTILINE);
@@ -1714,7 +1690,7 @@ public class JavaEcoreBuilder
     {
       if (result == null)
       {
-        result = new StringBuffer();
+        result = new StringBuilder();
       }
       else
       {
@@ -1730,9 +1706,9 @@ public class JavaEcoreBuilder
 
   protected static Pattern eAnnotationDetailExpression = Pattern.compile("\\s+((?>\\\\.|\\S)+)\\s*+=\\s*((['\"])((?>\\\\.|.)*?)\\3)");
 
-  protected List extractEAnnotations(String modelAnnotation)
+  protected List<EAnnotation> extractEAnnotations(String modelAnnotation)
   {
-    List result = Collections.EMPTY_LIST;
+    List<EAnnotation> result = Collections.emptyList();
     String annotations = getModelAnnotationAttributes(modelAnnotation, "annotation");
     if (annotations != null)
     {
@@ -1740,12 +1716,12 @@ public class JavaEcoreBuilder
       {
         if (result == Collections.EMPTY_LIST)
         {
-          result = new ArrayList();
+          result = new ArrayList<EAnnotation>();
         }
         EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
         result.add(eAnnotation);
         eAnnotation.setSource(parseString(matcher.group(1)));
-        EMap details = eAnnotation.getDetails();
+        EMap<String, String> details = eAnnotation.getDetails();
         for (Matcher detailMatcher = eAnnotationDetailExpression.matcher(matcher.group(2)); detailMatcher.find();)
         {
           details.put(parseString(detailMatcher.group(1)), parseString(detailMatcher.group(4)));
@@ -1758,12 +1734,12 @@ public class JavaEcoreBuilder
     {
       if (result == Collections.EMPTY_LIST)
       {
-        result = new ArrayList();
+        result = new ArrayList<EAnnotation>();
       }
       EAnnotation eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
       result.add(eAnnotation);
       eAnnotation.setSource(ExtendedMetaData.ANNOTATION_URI);
-      EMap details = eAnnotation.getDetails();
+      EMap<String, String> details = eAnnotation.getDetails();
       for (Matcher detailMatcher = eAnnotationDetailExpression.matcher(" " + extendedMetaDataAnnotations); detailMatcher.find();)
       {
         details.put(parseString(detailMatcher.group(1)), parseString(detailMatcher.group(4)));
@@ -1783,7 +1759,7 @@ public class JavaEcoreBuilder
    */
   protected String getFilteredModelAnnotations(String modelAnnotation, String filter)
   {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     Pattern modelAnnotationAttributeExpressionDoubleQuote = Pattern.compile("\\b" + filter
       + "([A-Z]\\w*\\s*=\\s*([\"'])((?>\\\\.|.)*?)\\2)", Pattern.MULTILINE);
     int start = 0;
@@ -1882,42 +1858,38 @@ public class JavaEcoreBuilder
     {
       // Look through the imports of the containing compilation unit.
       //
-      for (IDOMNode node = (IDOMNode)eModelElementToIDOMNodeMap.get(eModelElement); node != null; node = node.getParent())
+      for (JNode node = eModelElementToJNodeMap.get(eModelElement); node != null; node = node.getParent())
       {
-        if (node.getNodeType() == IDOMNode.COMPILATION_UNIT)
+        if (node instanceof JCompilationUnit)
         {
           // Find an explicit import or the first wildcard import.
           //
           boolean firstWildcard = true;
-          for (IDOMNode child = ((IDOMCompilationUnit)node).getFirstChild(); child != null; child = child.getNextNode())
+          for (JImport jImport : facadeHelper.getChildren(node, JImport.class))
           {
-            if (child.getNodeType() == IDOMNode.IMPORT)
+            String importName = jImport.getName();
+            if (importName.endsWith("." + baseName))
             {
-              IDOMImport jImport = (IDOMImport)child;
-              String importName = jImport.getName();
-              if (importName.endsWith("." + baseName))
-              {
-                int importIndex = importName.lastIndexOf(".");
-                packageName = importName.substring(0, importIndex);
-                typeName = packageName + "." + baseName;
-                break;
-              }
-              else if (firstWildcard && importName.endsWith(".*"))
-              {
-                int importIndex = importName.lastIndexOf(".");
-                packageName = importName.substring(0, importIndex);
-                typeName = packageName + "." + baseName;
-                firstWildcard = false;
-              }
+              int importIndex = importName.lastIndexOf(".");
+              packageName = importName.substring(0, importIndex);
+              typeName = packageName + "." + baseName;
+              break;
+            }
+            else if (firstWildcard && importName.endsWith(".*"))
+            {
+              int importIndex = importName.lastIndexOf(".");
+              packageName = importName.substring(0, importIndex);
+              typeName = packageName + "." + baseName;
+              firstWildcard = false;
             }
           }
 
           // Find the modeled package for the import and look up the name there.
           //
-          EPackage otherEPackage = (EPackage)packageNameToEPackageMap.get(packageName);
+          EPackage otherEPackage = packageNameToEPackageMap.get(packageName);
           if (otherEPackage == null)
           {
-            otherEPackage = (EPackage)externalPackageNameToEPackageMap.get(packageName);
+            otherEPackage = externalPackageNameToEPackageMap.get(packageName);
           }
           if (otherEPackage != null)
           {
@@ -1939,10 +1911,10 @@ public class JavaEcoreBuilder
       //
       packageName = typeName.substring(0, index);
       baseName = typeName.substring(index + 1);
-      EPackage otherEPackage = (EPackage)packageNameToEPackageMap.get(packageName);
+      EPackage otherEPackage = packageNameToEPackageMap.get(packageName);
       if (otherEPackage == null)
       {
-        otherEPackage = (EPackage)externalPackageNameToEPackageMap.get(packageName);
+        otherEPackage = externalPackageNameToEPackageMap.get(packageName);
         if (otherEPackage == null)
         {
           if ("org.eclipse.emf.ecore".equals(packageName))
@@ -1971,9 +1943,8 @@ public class JavaEcoreBuilder
     {
       // See if we already have the EDataType.
       //
-      for (Iterator j = ePackage.getEClassifiers().iterator(); j.hasNext();)
+      for (EClassifier ePackageClassifier : ePackage.getEClassifiers())
       {
-        EClassifier ePackageClassifier = (EClassifier)j.next();
         String name = ePackageClassifier.getInstanceClassName();
         if (name != null && name.replace('$', '.').equals(typeName.replace('$', '.')))
         {
@@ -2003,9 +1974,8 @@ public class JavaEcoreBuilder
     if (eClassifier == null
       && (packageName.length() == 0 || packageName.equals("java.lang") || packageName.equals("java.math") || packageName.equals("java.util")))
     {
-      for (Iterator j = EcorePackage.eINSTANCE.getEClassifiers().iterator(); j.hasNext();)
+      for (EClassifier ecoreEClassifier : EcorePackage.eINSTANCE.getEClassifiers())
       {
-        EClassifier ecoreEClassifier = (EClassifier)j.next();
         if (ecoreEClassifier instanceof EDataType)
         {
           String instanceClassName = ecoreEClassifier.getInstanceClassName();
@@ -2089,9 +2059,8 @@ public class JavaEcoreBuilder
 
   protected EClass resolveMapEntry(EPackage ePackage, EClassifier keyEClassifier, EClassifier valueEClassifier)
   {
-    for (Iterator j = ePackage.getEClassifiers().iterator(); j.hasNext();)
+    for (EClassifier ePackageClassifier : ePackage.getEClassifiers())
     {
-      EClassifier ePackageClassifier = (EClassifier)j.next();
       if (ePackageClassifier instanceof EClass
         && ("java.util.Map.Entry".equals(ePackageClassifier.getInstanceClassName()) || "java.util.Map$Entry".equals(ePackageClassifier.getInstanceClassName())))
       {
@@ -2116,7 +2085,7 @@ public class JavaEcoreBuilder
     EClassifier type = eTypedElement.getEType();
     if (type == null)
     {
-      String typeName = (String)eTypedElementToTypeNameMap.get(eTypedElement);
+      String typeName = eTypedElementToTypeNameMap.get(eTypedElement);
       if (typeName != null)
       {
         type = resolve(eTypedElement, typeName);
@@ -2125,50 +2094,51 @@ public class JavaEcoreBuilder
     return type;
   }
 
-  protected void sort(EList eList, final Map nameToIDMap)
+  protected <T extends ENamedElement> void sort(EList<T> namedElements, final Map<Object, Integer> nameToIDMap)
   {
-    Collection ordered = new TreeSet(new Comparator()
+    Collection<T> ordered = new TreeSet<T>(new Comparator<T>()
       {
+        @Override
         public boolean equals(Object object)
         {
           return object == this;
         }
 
-        public int compare(Object firstObject, Object secondObject)
+        public int compare(T firstObject, T secondObject)
         {
-          int firstValue = getOrderingValue((ENamedElement)firstObject, nameToIDMap);
-          int secondValue = getOrderingValue((ENamedElement)secondObject, nameToIDMap);
+          int firstValue = getOrderingValue(firstObject, nameToIDMap);
+          int secondValue = getOrderingValue(secondObject, nameToIDMap);
           return firstValue - secondValue;
         }
       });
-    ordered.addAll(eList);
+    ordered.addAll(namedElements);
     int index = 0;
-    for (Iterator i = ordered.iterator(); i.hasNext(); ++index)
+    for (T eNamedElement : ordered)
     {
-      eList.move(index, i.next());
+      namedElements.move(index++, eNamedElement);
     }
   }
 
-  protected int getOrderingValue(ENamedElement eNamedElement, Map nameToIDMap)
+  protected int getOrderingValue(ENamedElement eNamedElement, Map<Object, Integer> nameToIDMap)
   {
-    Integer result = (Integer)nameToIDMap.get(eNamedElement);
+    Integer result = nameToIDMap.get(eNamedElement);
     if (result == null)
     {
       if (eNamedElement instanceof EClassifier)
       {
-        String prefix = (String)ePackageToPrefixMap.get(eNamedElement.eContainer());
+        String prefix = ePackageToPrefixMap.get(eNamedElement.eContainer());
         String name = eNamedElement.getName();
         String id = CodeGenUtil.format(name, '_', prefix, true, true).toUpperCase();
-        result = (Integer)nameToIDMap.get(id);
+        result = nameToIDMap.get(id);
       }
       else
       {
-        String prefix = (String)ePackageToPrefixMap.get(eNamedElement.eContainer().eContainer());
+        String prefix = ePackageToPrefixMap.get(eNamedElement.eContainer().eContainer());
         String eClassName = ((ENamedElement)eNamedElement.eContainer()).getName();
         String eFeatureName = eNamedElement.getName();
         String id = CodeGenUtil.format(eClassName, '_', prefix, true, true).toUpperCase() + "__"
           + CodeGenUtil.format(eFeatureName, '_', prefix, true, false).toUpperCase();
-        result = (Integer)nameToIDMap.get(id);
+        result = nameToIDMap.get(id);
       }
       if (result != null)
       {
@@ -2206,7 +2176,7 @@ public class JavaEcoreBuilder
    * Returns the list of used GenPackages.
    * @return the list of used GenPackages.
    */
-  public Collection getUsedGenPackages()
+  public Collection<GenPackage> getUsedGenPackages()
   {
     return usedGenPackages;
   }
