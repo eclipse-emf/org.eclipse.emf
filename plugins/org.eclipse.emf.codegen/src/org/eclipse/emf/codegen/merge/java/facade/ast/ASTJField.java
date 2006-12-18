@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJField.java,v 1.4 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJField.java,v 1.5 2006/12/18 21:15:01 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -530,5 +530,12 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
         wrappedVariableDeclarationFragment = (VariableDeclarationFragment)fieldDeclaration.fragments().get(0);
       }
     }
+  }
+
+  @Override
+  public void commentOut()
+  {
+    performSplit();
+    super.commentOut();
   }
 }

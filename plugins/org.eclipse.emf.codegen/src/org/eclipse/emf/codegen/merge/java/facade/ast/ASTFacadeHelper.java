@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.8 2006/12/15 20:23:13 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.9 2006/12/18 21:15:01 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -685,6 +685,13 @@ public class ASTFacadeHelper extends FacadeHelper
     return false;
   }
   
+  @Override
+  public void commentOut(JNode node)
+  {
+    ASTJNode<?> astjNode = (ASTJNode<?>)node;
+    astjNode.commentOut();
+  }
+
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.FacadeHelper#insertSibling(org.eclipse.emf.codegen.merge.java.facade.JNode, org.eclipse.emf.codegen.merge.java.facade.JNode, boolean)
    */

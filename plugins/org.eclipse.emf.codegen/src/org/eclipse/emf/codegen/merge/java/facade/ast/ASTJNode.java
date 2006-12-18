@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJNode.java,v 1.5 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJNode.java,v 1.6 2006/12/18 21:15:01 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -79,6 +79,12 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
    * @see JNode#setName(String)
    */
   protected String name = UNITIALIZED_STRING;
+    
+  /**
+   * <code>true</code> if the node is commented out, <code>false</code> otherwise
+   * @see #commentOut()
+   */
+  protected boolean isCommentedOut = false;
   
   private ASTFacadeHelper facadeHelper;
 
@@ -399,6 +405,12 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
       {
         compilationUnit.getAllTrackedContentsMap().remove(node);
       }
+
+      // disable commenting out
+      if (isCommentedOut)
+      {
+        compilationUnit.getCommentedOutNodes().remove(getASTNode());
+      }
     }
   }
 
@@ -417,6 +429,12 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
     if (compilationUnit != null)
     {
       compilationUnit.getAllTrackedContentsMap().putAll(trackedContentsMap);
+      
+      // enable commenting out
+      if (isCommentedOut)
+      {
+        compilationUnit.getCommentedOutNodes().add(getASTNode());
+      }
     }
   }
   
@@ -829,6 +847,19 @@ public abstract class ASTJNode<T extends ASTNode> extends AbstractJNode
     if (compilationUnit != null)
     {
       compilationUnit.getAllTrackedContentsMap().put(node, contents);
+    }
+  }
+
+  /**
+   * Comments out this node. Node is not removed from the tree, and is still returned by getChildren().
+   */
+  public void commentOut()
+  {
+    isCommentedOut = true;
+    ASTJCompilationUnit compilationUnit = ((ASTJCompilationUnit)facadeHelper.getCompilationUnit(this));
+    if (compilationUnit != null)
+    {
+      compilationUnit.getCommentedOutNodes().add(this.getASTNode());
     }
   }
 }
