@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.5 2006/12/15 20:21:38 marcelop Exp $
+ * $Id: FacadeHelper.java,v 1.6 2006/12/18 21:13:50 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -370,6 +370,16 @@ public abstract class FacadeHelper
     return false;
   }
  
+  /**
+   * Comment out the node and its children.  The node may still be returned by 
+   * {@link JNode#getChildren()}
+   * @param node
+   */
+  public void commentOut(JNode node)
+  {
+    throw new UnsupportedOperationException("This facade implementation cannot comment out nodes.");
+  }
+  
   /**
    * Formats the specified string using the 
    * {@link CodeGenUtil#convertFormat(String, boolean, String)} method. 
