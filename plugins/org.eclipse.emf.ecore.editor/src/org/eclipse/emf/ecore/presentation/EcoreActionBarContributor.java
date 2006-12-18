@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.10 2006/05/15 22:00:25 emerks Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.11 2006/12/18 21:27:53 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
@@ -42,7 +43,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -54,27 +54,32 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
+import org.eclipse.emf.common.ui.action.ViewerFilterAction;
+import org.eclipse.emf.common.ui.viewer.IViewerProvider;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.ETypeParameter;
+import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.emf.edit.ui.action.ControlAction;
-import org.eclipse.emf.common.ui.viewer.IViewerProvider;
-import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.common.util.URI;
-
-import org.eclipse.jface.action.Action;
 import org.eclipse.emf.edit.ui.action.CreateChildAction;
 import org.eclipse.emf.edit.ui.action.CreateSiblingAction;
 import org.eclipse.emf.edit.ui.action.EditingDomainActionBarContributor;
@@ -324,6 +329,30 @@ public class EcoreActionBarContributor
    */
   protected IMenuManager createSiblingMenuManager;
 
+  protected SelectionChangedEvent lastSelectionChangedEvent;
+  
+  protected ViewerFilterAction showGenericsAction = 
+    new ViewerFilterAction(EcoreEditorPlugin.INSTANCE.getString("_UI_ShowGenerics_menu_item"), IAction.AS_CHECK_BOX)
+    {
+      @Override
+      protected void refreshViewers()
+      {
+        super.refreshViewers();
+        if (lastSelectionChangedEvent != null && activeEditorPart instanceof EcoreEditor)
+        {
+          selectionChanged(lastSelectionChangedEvent); 
+        }
+      }
+      
+      @Override
+      public boolean select(Viewer viewer, Object parentElement, Object element)
+      {
+        return isChecked() ||
+         !(element instanceof ETypeParameter || 
+           element instanceof EGenericType);
+      }    
+    };
+  
   /**
    * This creates an instance of the contributor.
    * <!-- begin-user-doc -->
@@ -336,6 +365,18 @@ public class EcoreActionBarContributor
     loadResourceAction = new ExtendedLoadResourceAction();
     validateAction = new ValidateAction();
     controlAction = new ControlAction();
+    
+    showGenericsAction.setChecked(
+      Boolean.valueOf(EcoreEditorPlugin.getPlugin().getDialogSettings().get("showGenericsAction")).booleanValue());    
+  }
+  
+  @Override
+  public void dispose()
+  {
+    EcoreEditorPlugin.getPlugin().getDialogSettings().put(
+      "showGenericsAction", Boolean.toString(showGenericsAction.isChecked()));
+    
+    super.dispose();
   }
 
   /**
@@ -357,6 +398,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public void contributeToMenu(IMenuManager menuManager)
   {
     super.contributeToMenu(menuManager);
@@ -391,6 +433,7 @@ public class EcoreActionBarContributor
        });
 
     addGlobalActions(submenuManager);
+    submenuManager.insertBefore("additions-end", showGenericsAction);
   }
 
   protected IMenuManager createSubmenuManager()
@@ -404,7 +447,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setActiveEditor(IEditorPart part)
+  public void setActiveEditorGen(IEditorPart part)
   {
     super.setActiveEditor(part);
     activeEditorPart = part;
@@ -432,6 +475,22 @@ public class EcoreActionBarContributor
       }
     }
   }
+  
+  @Override
+  public void setActiveEditor(IEditorPart part)
+  {
+    setActiveEditorGen(part);
+    
+    if (part instanceof EcoreEditor)
+    {
+      showGenericsAction.addViewer(((EcoreEditor)part).getViewer());
+      showGenericsAction.setEnabled(true);
+    }
+    else
+    {
+      showGenericsAction.setEnabled(false);
+    }    
+  }
 
   /**
    * This implements {@link org.eclipse.jface.viewers.ISelectionChangedListener},
@@ -441,7 +500,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  public void selectionChanged(SelectionChangedEvent event)
+  public void selectionChangedGen(SelectionChangedEvent event)
   {
     // Remove any menu items for old selection.
     //
@@ -486,13 +545,19 @@ public class EcoreActionBarContributor
       createSiblingMenuManager.update(true);
     }
   }
+  
+  public void selectionChanged(SelectionChangedEvent event)
+  {
+    lastSelectionChangedEvent = event;
+    selectionChangedGen(event);
+  }
 
   /**
    * This generates a {@link org.eclipse.emf.edit.ui.action.CreateChildAction} for each object in <code>descriptors</code>,
    * and returns the collection of these actions.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected Collection generateCreateChildActions(Collection descriptors, ISelection selection)
   {
@@ -501,7 +566,16 @@ public class EcoreActionBarContributor
     {
       for (Iterator i = descriptors.iterator(); i.hasNext(); )
       {
-        actions.add(new CreateChildAction(activeEditorPart, selection, i.next()));
+        Object descriptor =  i.next();
+        if (!showGenericsAction.isChecked() && descriptor instanceof CommandParameter)
+        {
+          Object feature = ((CommandParameter)descriptor).getFeature();
+          if (isGenericFeature(feature))
+          {
+            continue;
+          }
+        }
+        actions.add(new CreateChildAction(activeEditorPart, selection, descriptor));
       }
     }
     return actions;
@@ -512,7 +586,7 @@ public class EcoreActionBarContributor
    * and returns the collection of these actions.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   protected Collection generateCreateSiblingActions(Collection descriptors, ISelection selection)
   {
@@ -521,10 +595,28 @@ public class EcoreActionBarContributor
     {
       for (Iterator i = descriptors.iterator(); i.hasNext(); )
       {
-        actions.add(new CreateSiblingAction(activeEditorPart, selection, i.next()));
+        Object descriptor =  i.next();
+        if (!showGenericsAction.isChecked() && descriptor instanceof CommandParameter)
+        {
+          Object feature = ((CommandParameter)descriptor).getFeature();
+          if (isGenericFeature(feature))
+          {
+            continue;
+          }
+        }
+        actions.add(new CreateSiblingAction(activeEditorPart, selection, descriptor));
       }
     }
     return actions;
+  }
+
+  protected boolean isGenericFeature(Object feature)
+  {
+    return feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ||
+      feature == EcorePackage.Literals.ECLASSIFIER__ETYPE_PARAMETERS ||
+      feature == EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS || 
+      feature == EcorePackage.Literals.EOPERATION__ETYPE_PARAMETERS ||
+      feature == EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE;
   }
 
   /**
