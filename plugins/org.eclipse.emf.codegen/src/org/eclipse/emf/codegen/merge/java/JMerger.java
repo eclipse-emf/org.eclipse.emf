@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.13 2006/12/15 20:18:21 marcelop Exp $
+ * $Id: JMerger.java,v 1.14 2006/12/18 21:19:40 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -28,9 +28,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -168,7 +171,8 @@ public class JMerger
   public class PushSourceVisitor extends FacadeVisitor
   {
     /**
-     * Returns whether the children should be visited (ie, when the source is not in the target).
+     * Returns whether the children should be visited (ie, when the source 
+     * is not in the target).
      * @param sourceNode
      * @return
      */
@@ -222,8 +226,8 @@ public class JMerger
   protected JPatternDictionary sourcePatternDictionary;
   protected JPatternDictionary targetPatternDictionary;
 
-  protected Map<JNode, JNode> sourceToTargetMap = new HashMap<JNode, JNode>();
-  protected Map<JNode, JNode> targetToSourceMap = new HashMap<JNode, JNode>();
+  protected Map<JNode, JNode> sourceToTargetMap = new LinkedHashMap<JNode, JNode>();
+  protected Map<JNode, JNode> targetToSourceMap = new LinkedHashMap<JNode, JNode>();
   protected Map<JNode, List<JNode>> orderedSourceChildrenMap = new HashMap<JNode, List<JNode>>();
 
   protected boolean fixInterfaceBrace;
@@ -555,11 +559,23 @@ public class JMerger
 
   protected void sweepTargetCompilationUnit()
   {
+    Set<JNode> sweptNodes = new HashSet<JNode>(targetToSourceMap.size());
     for (Map.Entry<JNode, JNode> entry : targetToSourceMap.entrySet())
     {
       if (entry.getValue() == null)
       {
-        applySweepRules(entry.getKey());
+        JNode node = entry.getKey();
+        JNode parent = node.getParent();        
+        if (parent != null && sweptNodes.contains(parent))
+        {
+          sweptNodes.add(node);
+          continue;
+        }
+        
+        if (applySweepRules(node))
+        {
+          sweptNodes.add(node);
+        }
       }
     }
   }
@@ -815,7 +831,7 @@ public class JMerger
     }
   }
 
-  protected void applySweepRules(JNode targetNode)
+  protected boolean applySweepRules(JNode targetNode)
   {
     for (JControlModel.SweepRule sweepRule : getControlModel().getSweepRules())
     {
@@ -823,15 +839,40 @@ public class JMerger
            (sweepRule.getSelector() == JImport.class 
               && targetNode instanceof JImport 
               && sweepRule.getMarkup().matcher(targetNode.getName()).find())
-        || (targetPatternDictionary.isMarkedUp(sweepRule.getMarkup(), sweepRule.getParentMarkup(), targetNode)  
-              && sweepRule.getSelector().isInstance(targetNode));
+        || (sweepRule.getSelector().isInstance(targetNode)  
+              && targetPatternDictionary.isMarkedUp(sweepRule.getMarkup(), sweepRule.getParentMarkup(), targetNode));
       
       if (sweep)
       {
-        getControlModel().getFacadeHelper().remove(targetNode);
-        break;        
+        switch (sweepRule.getAction())
+        {
+          case REMOVE:
+          {
+            getControlModel().getFacadeHelper().remove(targetNode);
+            return true;
+          }
+          case RENAME:
+          {
+            String newName = sweepRule.getNewName();
+            int index = newName.indexOf("{0}");
+            if (index >= 0)
+            {
+              String name = targetNode.getName();
+              newName = newName.substring(0, index) + name + newName.substring(index + "{0}".length());
+            }            
+            targetNode.setName(newName);
+            return true;
+          }
+          case COMMENT:
+          {
+            getControlModel().getFacadeHelper().commentOut(targetNode);
+            return true;
+          }
+        }
+        break;
       }
     }
+    return false;
   }
 
   /**
@@ -864,48 +905,79 @@ public class JMerger
 
   protected JNode insertClone(JNode sourceNode)
   {
-    Object context = targetCompilationUnit != null ? getControlModel().getFacadeHelper().getContext(targetCompilationUnit) : null; 
-    JNode targetNode = getControlModel().getFacadeHelper().cloneNode(context, sourceNode);
+    FacadeHelper facadeHelper = getControlModel().getFacadeHelper();
+    Object context = targetCompilationUnit != null ? facadeHelper.getContext(targetCompilationUnit) : null; 
+    JNode targetNode = facadeHelper.cloneNode(context, sourceNode);
     if (targetNode != null)
     {
       mapChildren(sourceNode, targetNode);
-    }
-    else
-    {
-      // System.err.println("Warning: Cannot clone '" + sourceNode.getContents() + "'");
-    }
-        
-    for (JNode previousNode = getControlModel().getFacadeHelper().getPrevious(sourceNode); previousNode != null; previousNode = getControlModel().getFacadeHelper().getPrevious(previousNode))
-    {
-      JNode targetSibling = sourceToTargetMap.get(previousNode);
-      if (targetSibling != null)
-      {
-        JNode targetNextSibling = getControlModel().getFacadeHelper().getNext(targetSibling);
-        if (targetNextSibling == null)
-        {
-          getControlModel().getFacadeHelper().addChild(targetSibling.getParent(), targetNode);
-        }
-        else
-        {
-          getControlModel().getFacadeHelper().insertSibling(targetNextSibling, targetNode, true);
-        }
-
-        return targetNode;
-      }
     }
     
     JNode sourceParent = sourceNode.getParent();
     if (sourceParent != null)
     {
       JNode targetParent = sourceToTargetMap.get(sourceParent);
-      JNode targetSibling = getControlModel().getFacadeHelper().getFirstChild(targetParent);
-      if (targetSibling == null)
+      if (targetParent != null)
       {
-        getControlModel().getFacadeHelper().addChild(targetParent, targetNode);
-      }
-      else
-      {
-        getControlModel().getFacadeHelper().insertSibling(targetSibling, targetNode, true);
+        JNode targetParentFirstChild = null;
+        if (facadeHelper.isSibilingTraversalExpensive())
+        { 
+          List<JNode> sourceChildren = sourceParent.getChildren();
+          List<JNode> targetChildren = targetParent.getChildren();
+          
+          for (int i = sourceChildren.indexOf(sourceNode); i >= 0; i--)
+          {
+            if (i > 0)
+            {
+              JNode previousNode = sourceChildren.get(i-1);
+              JNode targetSibling = sourceToTargetMap.get(previousNode);
+              if (targetSibling != null)
+              {
+                int targetSibilingIndex = targetChildren.indexOf(targetSibling);
+                if (targetSibilingIndex == targetChildren.size()-1)
+                {
+                  facadeHelper.addChild(targetSibling.getParent(), targetNode);
+                }
+                else
+                {
+                  facadeHelper.insertSibling(targetChildren.get(targetSibilingIndex+1), targetNode, true);
+                }
+                return targetNode;
+              }
+            }            
+          }
+          targetParentFirstChild = targetChildren.isEmpty() ? null : targetChildren.get(0);
+        }
+        else
+        {
+          for (JNode previousNode = facadeHelper.getPrevious(sourceNode); previousNode != null; previousNode = facadeHelper.getPrevious(previousNode))
+          {
+            JNode targetSibling = sourceToTargetMap.get(previousNode);
+            if (targetSibling != null)
+            {
+              JNode targetNextSibling = facadeHelper.getNext(targetSibling);
+              if (targetNextSibling == null)
+              {
+                facadeHelper.addChild(targetSibling.getParent(), targetNode);
+              }
+              else
+              {
+                facadeHelper.insertSibling(targetNextSibling, targetNode, true);
+              }
+              return targetNode;
+            }
+          }
+          targetParentFirstChild = facadeHelper.getFirstChild(targetParent);
+        }
+        
+        if (targetParentFirstChild == null)
+        {
+          facadeHelper.addChild(targetParent, targetNode);
+        }
+        else
+        {
+          facadeHelper.insertSibling(targetParentFirstChild, targetNode, true);
+        }
       }
     }
     return targetNode;
@@ -955,6 +1027,11 @@ public class JMerger
     return markedUp;
   }
   
+  /**
+   * Maps the specified source and target nodes.
+   * @param sourceNode
+   * @param targetNode
+   */
   protected void map(JNode sourceNode, JNode targetNode)
   {
     if (sourceNode != null)
@@ -967,11 +1044,39 @@ public class JMerger
   protected void mapChildren(JNode sourceNode, JNode targetNode)
   {
     map(sourceNode, targetNode);
-    for (JNode sourceChild = getControlModel().getFacadeHelper().getFirstChild(sourceNode), targetChild = getControlModel().getFacadeHelper().getFirstChild(targetNode); 
-         sourceChild != null;
-         sourceChild = getControlModel().getFacadeHelper().getNext(sourceChild), targetChild = getControlModel().getFacadeHelper().getNext(targetChild))
+    
+    FacadeHelper facadeHelper = getControlModel().getFacadeHelper();
+    if (facadeHelper.isSibilingTraversalExpensive())
     {
-      mapChildren(sourceChild, targetChild);
+      if (sourceNode != null)
+      {
+        List<JNode> sourceChildren = sourceNode.getChildren();
+        if (targetNode == null)
+        {
+          for (int i = 0, size = sourceChildren.size(); i < size; i++)
+          {
+            mapChildren(sourceChildren.get(i), null);
+          }           
+        }
+        else
+        {
+          List<JNode> targetChildren = targetNode.getChildren();
+          int targetChildrenSize = targetChildren.size();
+          for (int i = 0, size = sourceChildren.size(); i < size; i++)
+          {
+            mapChildren(sourceChildren.get(i), targetChildrenSize > i ? targetChildren.get(i) : null);
+          }   
+        }
+      }      
+    }
+    else
+    {
+      for (JNode sourceChild = facadeHelper.getFirstChild(sourceNode), targetChild = facadeHelper.getFirstChild(targetNode); 
+           sourceChild != null;
+           sourceChild = facadeHelper.getNext(sourceChild), targetChild = facadeHelper.getNext(targetChild))
+      {
+        mapChildren(sourceChild, targetChild);
+      }
     }
   }
   
