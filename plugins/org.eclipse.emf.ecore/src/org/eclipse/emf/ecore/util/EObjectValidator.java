@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.16 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EObjectValidator.java,v 1.17 2006/12/19 18:45:19 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -28,6 +28,7 @@ import java.util.Map;
 import java.math.BigDecimal;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
 import org.eclipse.emf.common.util.ResourceLocator;
@@ -37,10 +38,12 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
@@ -71,6 +74,7 @@ public class EObjectValidator implements EValidator
   public static final int DATA_VALUE__TOTAL_DIGITS_IN_RANGE = 10;
   public static final int DATA_VALUE__FRACTION_DIGITS_IN_RANGE = 11;
   public static final int EOBJECT__UNIQUE_ID = 12;
+  public static final int EOBJECT__EVERY_KEY_UNIQUE = 13;
 
   /**
    * @since 2.1.0
@@ -194,6 +198,10 @@ public class EObjectValidator implements EValidator
     if (result || theDiagnostics != null)
     {
       result &= validate_UniqueID(object, theDiagnostics, context);
+    }
+    if (result || theDiagnostics != null)
+    {
+      result &= validate_EveryKeyUnique(object, theDiagnostics, context);
     }
     return result;
   }
@@ -1121,7 +1129,97 @@ public class EObjectValidator implements EValidator
     }
     return result;
   }
+
+  /**
+   * @since 2.3
+   */  
+  public boolean validate_EveryKeyUnique(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = true;
+    EClass eClass = eObject.eClass();
+    for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
+    {
+      EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+      if (eStructuralFeature instanceof EReference)
+      {
+        EReference eReference = (EReference)eStructuralFeature;
+        if (eReference.isMany() && !eReference.getEKeys().isEmpty())
+        {
+          result &= validate_KeyUnique(eObject, eReference, diagnostics, context);
+          if (!result && diagnostics == null)
+          {
+            return false;
+          }
+        }
+      }
+    }
+    return result;
+  }
   
+  /**
+   * @since 2.3
+   */
+  protected boolean validate_KeyUnique
+    (EObject eObject, EReference eReference, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = true;
+    Map<List<Object>, EObject> keys = new HashMap<List<Object>, EObject>();
+    EAttribute [] eAttributes = (EAttribute[])((BasicEList<?>)eReference.getEKeys()).data();
+    @SuppressWarnings("unchecked")
+    List<EObject> values = (List<EObject>)eObject.eGet(eReference);
+    for (EObject value : values)
+    {
+      ArrayList<Object> key = new ArrayList<Object>(); 
+      for (int i = 0, size = eAttributes.length; i < size; ++i)
+      {
+        EAttribute eAttribute = eAttributes[i];
+        if (eAttribute == null)
+        {
+          break;
+        }
+        else 
+        {
+          key.add(value.eGet(eAttribute));
+        }
+      }
+      EObject otherValue = keys.put(key, value);
+      if (otherValue != null)
+      {
+        result = false;
+        if (diagnostics == null)
+        {
+          break;
+        }
+        else
+        {
+          String uriFragmentSegment = ((InternalEObject)eObject).eURIFragmentSegment(eReference, value);
+          int index = uriFragmentSegment.indexOf('[', 0);
+          if (index != -1)
+          {
+            uriFragmentSegment = uriFragmentSegment.substring(index);
+          }
+          diagnostics.add
+            (new BasicDiagnostic
+              (Diagnostic.ERROR,
+               DIAGNOSTIC_SOURCE,
+               EOBJECT__EVERY_KEY_UNIQUE,
+               getEcoreResourceLocator().getString
+                 ("_UI_DuplicateKey_diagnostic",
+                  new Object []
+                    {
+                      getFeatureLabel(eReference, context),
+                      uriFragmentSegment,
+                      getObjectLabel(value, context),
+                      getObjectLabel(otherValue, context)
+                    }),
+               new Object [] { eObject, eReference, value, otherValue }));
+        }
+      }
+    }
+
+    return result;
+  }
+
   /**
    * @since 2.2
    */
