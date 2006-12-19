@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.8 2006/12/11 00:41:36 marcelop Exp $
+ * $Id: PropertyMerger.java,v 1.9 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jmerge;
 
@@ -30,5 +30,6 @@ public class PropertyMerger extends org.eclipse.emf.codegen.merge.properties.Pro
 {
   public static class PlatformRunnable extends PropertyMerger implements IPlatformRunnable 
   {
+    // Empty
   }
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETParser.java,v 1.6 2005/06/12 13:19:04 emerks Exp $
+ * $Id: JETParser.java,v 1.7 2006/12/19 01:49:57 marcelop Exp $
  *
  * The Apache Software License, Version 1.1
  *
@@ -126,20 +126,20 @@ public class JETParser
       delegate.endPageProcessing();
     }
 
-    public void handleDirective(String directive, JETMark start, JETMark stop, Map attrs)
+    public void handleDirective(String directive, JETMark start, JETMark stop, Map<String, String> attrs)
         throws JETException
     {
       doAction();
       delegate.handleDirective(directive, start, stop, attrs);
     }
 
-    public void handleScriptlet(JETMark start, JETMark stop, Map attrs) throws JETException 
+    public void handleScriptlet(JETMark start, JETMark stop, Map<String, String> attrs) throws JETException 
     {
       doAction();
       delegate.handleScriptlet(start, stop, attrs);
     }
 
-    public void handleExpression(JETMark start, JETMark stop, Map attrs) throws JETException 
+    public void handleExpression(JETMark start, JETMark stop, Map<String, String> attrs) throws JETException 
     {
       doAction();
       delegate.handleExpression(start, stop, attrs);
@@ -166,7 +166,7 @@ public class JETParser
    */
   protected CharArrayWriter writer;
 
-  protected List coreElements = new ArrayList();
+  protected List<JETCoreElement> coreElements = new ArrayList<JETCoreElement>();
 
   protected String openDirective  = "<%@";
   protected String closeDirective = "%>";
@@ -284,7 +284,7 @@ public class JETParser
     public boolean accept(JETParseEventListener listener, JETReader reader, JETParser parser) throws JETException
     {
       String close, open, end_open = null;
-      Map attrs = null;
+      Map<String, String> attrs = null;
 
       if (reader.matches(parser.getOpenScriptlet())) 
       {
@@ -327,7 +327,7 @@ public class JETParser
     public boolean accept(JETParseEventListener listener, JETReader reader, JETParser parser) throws JETException
     {
       String close, open;
-      Map attrs = null;
+      Map<String, String> attrs = null;
 
       if (reader.matches(parser.getOpenExpr())) 
       {
@@ -400,7 +400,7 @@ public class JETParser
 
   public static class Directive implements JETCoreElement
   {
-    protected Collection directives = new ArrayList();
+    protected Collection<String> directives = new ArrayList<String>();
 
     public boolean accept(JETParseEventListener listener, JETReader reader, JETParser parser) throws JETException
     {
@@ -414,9 +414,8 @@ public class JETParser
         //
         String match = null;
 
-        for (Iterator i = directives.iterator(); i.hasNext(); )
+        for (String directive : directives)
         {
-          String directive = (String)i.next();
           if (reader.matches(directive))
           {
             match = directive;
@@ -439,7 +438,7 @@ public class JETParser
 
         // Parse the attr-val pairs.
         //
-        Map attrs = reader.parseTagAttributes();
+        Map<String, String> attrs = reader.parseTagAttributes();
 
         // Match close.
         reader.skipSpaces();
@@ -465,7 +464,7 @@ public class JETParser
       }
     }
 
-    public Collection getDirectives()
+    public Collection<String> getDirectives()
     {
       return directives;
     }
@@ -491,7 +490,7 @@ public class JETParser
     parse(until, null);
   }
 
-  public void parse(String until, Class[] accept) throws JETException 
+  public void parse(String until, Class<?> [] accept) throws JETException 
   {
     while (reader.hasMoreInput()) 
     {
@@ -500,14 +499,14 @@ public class JETParser
         return;
       }
 
-      Iterator e = coreElements.iterator();
+      Iterator<JETCoreElement> e = coreElements.iterator();
 
       if (accept != null) 
       {
-        List v = new ArrayList();
+        List<JETCoreElement> v = new ArrayList<JETCoreElement>();
         while (e.hasNext()) 
         {
-          JETCoreElement c = (JETCoreElement) e.next();
+          JETCoreElement c =  e.next();
           for(int i = 0; i < accept.length; i++)
           {
             if (c.getClass().equals(accept[i]))
@@ -522,7 +521,7 @@ public class JETParser
       boolean accepted = false;
       while (e.hasNext()) 
       {
-        JETCoreElement c = (JETCoreElement) e.next();
+        JETCoreElement c =  e.next();
         reader.mark();
         if (c.accept(listener, reader, this)) 
         {

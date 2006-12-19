@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGen.java,v 1.10 2006/05/01 10:16:32 davidms Exp $
+ * $Id: CodeGen.java,v 1.11 2006/12/19 01:49:58 marcelop Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -44,6 +44,7 @@ import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.jdt.core.IClasspathEntry;
 
 
 /**
@@ -57,6 +58,7 @@ public class CodeGen
    * This is a progress monitor that prints the progress information to a stream.
    * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil.StreamProgressMonitor CodeGenUtil}.
    */
+  @Deprecated
   public static class StreamProgressMonitor extends CodeGenUtil.EclipseUtil.StreamProgressMonitor
   {
     public StreamProgressMonitor(PrintStream printStream)
@@ -68,6 +70,7 @@ public class CodeGen
   /**
    * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil#findOrCreateContainer(IPath, boolean, IPath, IProgressMonitor) CodeGenUtil}.
    */
+  @Deprecated
   public static IContainer findOrCreateContainer
     (IPath path, boolean forceRefresh, IPath localLocation, IProgressMonitor progressMonitor) throws CoreException
   {
@@ -77,6 +80,7 @@ public class CodeGen
   /**
    * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil#findOrCreateContainer(IPath, boolean, IProjectDescription, IProgressMonitor) CodeGenUtil}.
    */
+  @Deprecated
   public static IContainer findOrCreateContainer
     (IPath path, boolean forceRefresh, IProjectDescription projectDescription, IProgressMonitor progressMonitor) throws CoreException
   {
@@ -86,7 +90,8 @@ public class CodeGen
   /**
    * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil#getClasspathPaths CodeGenUtil}.
    */
-  public static List getClasspathPaths(String pluginID) throws JETException
+  @Deprecated
+  public static List<String> getClasspathPaths(String pluginID) throws JETException
   {
     return CodeGenUtil.getClasspathPaths(pluginID);
   }
@@ -94,7 +99,8 @@ public class CodeGen
   /**
    * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil#addClasspathEntries(Collection, String, String) CodeGenUtil}.
    */
-  public static void addClasspathEntries(Collection classpathEntries, String variableName, String pluginID) throws JETException
+  @Deprecated
+  public static void addClasspathEntries(Collection<IClasspathEntry> classpathEntries, String variableName, String pluginID) throws JETException
   {
     CodeGenUtil.addClasspathEntries(classpathEntries, variableName, pluginID);
   }
@@ -102,7 +108,8 @@ public class CodeGen
   /**
    * @deprecated As of EMF 2.1.0, moved to {@link CodeGenUtil#addClasspathEntries(Collection, String) CodeGenUtil}.
    */
-  public static void addClasspathEntries(Collection classpathEntries, String pluginID) throws Exception
+  @Deprecated
+  public static void addClasspathEntries(Collection<IClasspathEntry> classpathEntries, String pluginID) throws Exception
   {
     CodeGenUtil.addClasspathEntries(classpathEntries, pluginID);
   }  

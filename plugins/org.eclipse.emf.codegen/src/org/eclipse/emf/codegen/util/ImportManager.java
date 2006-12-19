@@ -37,18 +37,18 @@ import org.eclipse.jdt.core.dom.ImportDeclaration;
 
 public class ImportManager
 {
-  protected SortedSet imports = new TreeSet();
-  protected HashMap shortNameToImportMap = new HashMap();
-  protected HashSet javaLangImports = null;
-  protected HashSet importedPackages;
+  protected SortedSet<String> imports = new TreeSet<String>();
+  protected HashMap<String, String> shortNameToImportMap = new HashMap<String, String>();
+  protected HashSet<String> javaLangImports = null;
+  protected HashSet<String> importedPackages;
 
   public ImportManager(String compilationUnitPackage)
   {
-    importedPackages = new HashSet();
+    importedPackages = new HashSet<String>();
     importedPackages.add(compilationUnitPackage);
   }
   
-  public Collection getImports()
+  public Collection<String> getImports()
   {
     return imports;
   }
@@ -72,7 +72,7 @@ public class ImportManager
       shortName = shortName.substring(0, firstDollar);
     }
 
-    String registeredName = (String)shortNameToImportMap.get(shortName);
+    String registeredName = shortNameToImportMap.get(shortName);
     if (registeredName == null)
     {
       registeredName = "java.lang." + shortName;
@@ -139,11 +139,11 @@ public class ImportManager
     shortNameToImportMap.put(shortName, packageName + "." + shortName);
   }
 
-  public void addJavaLangImports(List javaLangClassNames)
+  public void addJavaLangImports(List<String> javaLangClassNames)
   {
     if (!javaLangClassNames.isEmpty())
     {
-      javaLangImports = new HashSet();
+      javaLangImports = new HashSet<String>();
       javaLangImports.addAll(javaLangClassNames);
     }
   }
@@ -183,12 +183,13 @@ public class ImportManager
   
   private static class EclipseHelper
   {
-    public static void addCompilationUnitImports(Set importedPackages, Map shortNameToImportMap, String compilationUnitContents)
+    public static void addCompilationUnitImports
+      (Set<String> importedPackages, Map<String, String> shortNameToImportMap, String compilationUnitContents)
     {   
       ASTParser parser = ASTParser.newParser(AST.JLS3);
       parser.setSource(compilationUnitContents.toCharArray());
       CompilationUnit compilationUnit = (CompilationUnit)parser.createAST(new NullProgressMonitor());
-      for (Iterator i = compilationUnit.imports().iterator(); i.hasNext();)
+      for (Iterator<?> i = compilationUnit.imports().iterator(); i.hasNext();)
       {
         ImportDeclaration importDeclaration = (ImportDeclaration)i.next();
         String qualifiedName = importDeclaration.getName().getFullyQualifiedName();
@@ -246,9 +247,8 @@ public class ImportManager
     StringBuffer imports = new StringBuffer();
 
     String previousPackageName = null;
-    for (Iterator iter = getImports().iterator(); iter.hasNext(); )
+    for (String importName : getImports())
     {
-      String importName = (String)iter.next();
       int index = importName.lastIndexOf(".");
       if (index != -1)
       {

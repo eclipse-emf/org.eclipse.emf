@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETSkeleton.java,v 1.7 2006/03/02 20:40:32 emerks Exp $
+ * $Id: JETSkeleton.java,v 1.8 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -31,6 +31,7 @@ import org.eclipse.jdt.core.jdom.IDOMNode;
 
 /**
  */
+@SuppressWarnings("deprecation")
 public class JETSkeleton 
 {
   protected final String NL = System.getProperties().getProperty("line.separator");
@@ -112,7 +113,7 @@ public class JETSkeleton
     compilationUnit.getFirstChild().insertSibling(jdomFactory.createPackage("package " + packageName + ";" + NL + NL));
   }
 
-  public void setConstants(List constants)
+  public void setConstants(List<String> constants)
   {
     for (IDOMNode node = compilationUnit.getFirstChild(); node != null; node = node.getNextNode())
     {
@@ -128,9 +129,9 @@ public class JETSkeleton
                   CREATE_METHOD_DECLARATION_MIDDLE2 + name + 
                   CREATE_METHOD_DECLARATION_TAIL));
         insertionNode.insertSibling(jdomFactory.createField(NL_DECLARATION + getNLString() + NL_DECLARATION_TAIL));
-        for (Iterator i = constants.iterator(); i.hasNext(); )
+        for (Iterator<String> i = constants.iterator(); i.hasNext(); )
         {
-          String constant = "  " + (String)i.next() + NL;
+          String constant = "  " + i.next() + NL;
           if (!i.hasNext())
           {
             constant += NL;
@@ -141,7 +142,7 @@ public class JETSkeleton
       }
     }
   }
-  public void setBody(List lines)
+  public void setBody(List<String> lines)
   {
     IDOMMethod method = getLastMethod();
     if (method != null)
@@ -149,9 +150,8 @@ public class JETSkeleton
       StringBuffer body = new StringBuffer();
       body.append(NL + "  {" + NL);
       body.append(STRING_BUFFER_DECLARATION);
-      for (Iterator i = lines.iterator(); i.hasNext(); )
+      for (String line : lines)
       {
-        String line = (String)i.next();
         body.append("    ");
         body.append(convertLineFeed(line));
         body.append(NL);

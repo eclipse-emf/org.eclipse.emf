@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.6 2006/12/18 21:13:50 marcelop Exp $
+ * $Id: FacadeHelper.java,v 1.7 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -293,6 +293,7 @@ public abstract class FacadeHelper
       }
       catch(UnsupportedOperationException e)
       {
+        // Ignore
       }
     }
     return false;
@@ -335,6 +336,7 @@ public abstract class FacadeHelper
          }
          catch(UnsupportedOperationException e)
          {
+           // Ignore
          }
        }
      }
@@ -364,6 +366,7 @@ public abstract class FacadeHelper
         }
         catch(UnsupportedOperationException e)
         {          
+          // Ignore
         }
       }
     }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETMark.java,v 1.4 2005/06/08 06:15:56 nickb Exp $
+ * $Id: JETMark.java,v 1.5 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -65,7 +65,7 @@ public final class JETMark
   /**
    * This is the stack of inclusions.
    */
-  protected Stack includeStack = null;  
+  protected Stack<IncludeState> includeStack = null;  
 
   /**
    * This is the encoding of the stream.
@@ -121,7 +121,7 @@ public final class JETMark
     this.fileid = fileid;
     this.baseDir = inBaseDir;
     this.encoding = inEncoding;
-    this.includeStack = new Stack();
+    this.includeStack = new Stack<IncludeState>();
   }
 
   JETMark(JETMark other) 
@@ -137,7 +137,7 @@ public final class JETMark
 
     // clone includeStack without cloning contents
     //
-    includeStack = new Stack();
+    includeStack = new Stack<IncludeState>();
     for (int i = 0; i < other.includeStack.size(); ++i) 
     {
       includeStack.addElement(other.includeStack.elementAt(i));
@@ -183,7 +183,7 @@ public final class JETMark
 
     // Get previous state in stack.
     //
-    IncludeState state = (IncludeState) includeStack.pop( );
+    IncludeState state = includeStack.pop( );
 
     // Set the new variables.
     //
@@ -234,6 +234,7 @@ public final class JETMark
     return "(" + line + "," + col + ")";
   }
 
+  @Override
   public String toString() 
   {
     return getLocalFile() + "(" + line + "," + col + ")";
@@ -253,6 +254,7 @@ public final class JETMark
          });
   }
 
+  @Override
   public boolean equals(Object other) 
   {
     if (other instanceof JETMark) 

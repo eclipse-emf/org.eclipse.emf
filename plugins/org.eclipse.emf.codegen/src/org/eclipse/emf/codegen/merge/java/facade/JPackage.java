@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JPackage.java,v 1.1 2006/01/18 20:42:16 marcelop Exp $
+ * $Id: JPackage.java,v 1.2 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -23,4 +23,5 @@ package org.eclipse.emf.codegen.merge.java.facade;
  */
 public interface JPackage extends JNode
 {
+  // Empty
 }

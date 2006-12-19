@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.2 2006/11/01 21:25:08 marcelop Exp $
+ * $Id: PropertyMerger.java,v 1.3 2006/12/19 01:49:58 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.properties;
 
@@ -42,6 +42,7 @@ public class PropertyMerger
    */
   public PropertyMerger()
   {
+    super();
   }
 
   public String getSourceProperties()
@@ -96,6 +97,7 @@ public class PropertyMerger
     }
     catch (IOException exception)
     {
+      // Ignore
     }
 
     return null;
@@ -113,6 +115,7 @@ public class PropertyMerger
     }
     catch (IOException exception)
     {
+      // Ignore
     }
     return null;
   }
@@ -257,5 +260,6 @@ public class PropertyMerger
 
   public static class PlatformRunnable extends PropertyMerger implements org.eclipse.core.runtime.IPlatformRunnable 
   {
+    // Empty
   }
 }

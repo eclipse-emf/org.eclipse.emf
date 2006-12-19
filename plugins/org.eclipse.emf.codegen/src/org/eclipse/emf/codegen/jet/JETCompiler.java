@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompiler.java,v 1.16 2006/08/31 15:39:45 emerks Exp $
+ * $Id: JETCompiler.java,v 1.17 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -27,7 +27,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -53,11 +52,11 @@ public class JETCompiler implements JETParseEventListener
 
   protected PrintWriter writer;
 
-  protected List generators = new ArrayList(100);
+  protected List<JETGenerator> generators = new ArrayList<JETGenerator>(100);
 
-  protected List constants = new ArrayList(100);
+  protected List<JETConstantDataGenerator> constants = new ArrayList<JETConstantDataGenerator>(100);
 
-  protected Map constantDictionary = new HashMap(100, 100);
+  protected Map<char[], JETConstantDataGenerator> constantDictionary = new HashMap<char[], JETConstantDataGenerator>(100, 100);
 
   protected long constantCount = 0;
 
@@ -90,7 +89,7 @@ public class JETCompiler implements JETParseEventListener
   /**
    * A stack of sections and whether to start skipping, one from each include with alternative encountered.
    */
-  protected Stack skipSections = new Stack();
+  protected Stack<SkipSection> skipSections = new Stack<SkipSection>();
 
   /**
    * A skip section entry, records the depth of the section and whether to start skipping there. 
@@ -147,11 +146,11 @@ public class JETCompiler implements JETParseEventListener
     return reader.getFile(0);
   }
 
-  public void handleDirective(String directive, JETMark start, JETMark stop, Map attributes) throws JETException
+  public void handleDirective(String directive, JETMark start, JETMark stop, Map<String, String> attributes) throws JETException
   {
     if (directive.equals("include"))
     {
-      String fileURI = (String)attributes.get("file");
+      String fileURI = attributes.get("file");
       if (fileURI != null)
       {
         String currentURI = start.getFile();
@@ -204,7 +203,7 @@ public class JETCompiler implements JETParseEventListener
         {
           // The include failed, so if there is an alternative, we don't skip it.
           //
-          String failType = (String)attributes.get("fail");
+          String failType = attributes.get("fail");
           if ("alternative".equals(failType))
           {
             skipSections.push(new SkipSection(sectionDepth + 1, false));
@@ -262,7 +261,7 @@ public class JETCompiler implements JETParseEventListener
 
       // This pop is safe because a section couldn't have been started without an include that pushed.
       //
-      if (((SkipSection)skipSections.pop()).skip)
+      if (skipSections.pop().skip)
       {
         skipping = false;
       }
@@ -278,7 +277,7 @@ public class JETCompiler implements JETParseEventListener
         skeleton = new JETSkeleton();
         // Process this first.
         //
-        String skeletonURI = (String)attributes.get("skeleton");
+        String skeletonURI = attributes.get("skeleton");
         if (skeletonURI != null)
         {
           try
@@ -296,38 +295,37 @@ public class JETCompiler implements JETParseEventListener
           }
         }
 
-        for (Iterator entries = attributes.entrySet().iterator(); entries.hasNext();)
+        for (Map.Entry<String, String> entry : attributes.entrySet())
         {
-          Map.Entry entry = (Map.Entry)entries.next();
-
           // Ignore this now
           //
           if (entry.getKey().equals("skeleton"))
           {
+            // Ignore
           }
           else if (entry.getKey().equals("package"))
           {
-            skeleton.setPackageName((String)entry.getValue());
+            skeleton.setPackageName(entry.getValue());
           }
           else if (entry.getKey().equals("imports"))
           {
-            skeleton.addImports((String)entry.getValue());
+            skeleton.addImports(entry.getValue());
           }
           else if (entry.getKey().equals("class"))
           {
-            skeleton.setClassName((String)entry.getValue());
+            skeleton.setClassName(entry.getValue());
           }
           else if (entry.getKey().equals("nlString"))
           {
-            skeleton.setNLString((String)entry.getValue());
+            skeleton.setNLString(entry.getValue());
           }
           else if (entry.getKey().equals("startTag"))
           {
-            parser.setStartTag((String)entry.getValue());
+            parser.setStartTag(entry.getValue());
           }
           else if (entry.getKey().equals("endTag"))
           {
-            parser.setEndTag((String)entry.getValue());
+            parser.setEndTag(entry.getValue());
           }
           else if (entry.getKey().equals("version"))
           {
@@ -380,9 +378,10 @@ public class JETCompiler implements JETParseEventListener
 
   protected void handleNewSkeleton()
   {
+    // Do nothing
   }
 
-  public void handleExpression(JETMark start, JETMark stop, Map attributes) throws JETException
+  public void handleExpression(JETMark start, JETMark stop, Map<String, String> attributes) throws JETException
   {
     if (skipping) return;
 
@@ -390,7 +389,7 @@ public class JETCompiler implements JETParseEventListener
     addGenerator(gen);
   }
 
-  public void handleScriptlet(JETMark start, JETMark stop, Map attributes) throws JETException
+  public void handleScriptlet(JETMark start, JETMark stop, Map<String, String> attributes) throws JETException
   {
     if (skipping) return;
 
@@ -503,7 +502,7 @@ public class JETCompiler implements JETParseEventListener
   {
     if (fUseStaticFinalConstants)
     {
-      JETConstantDataGenerator gen = (JETConstantDataGenerator)constantDictionary.get(chars);
+      JETConstantDataGenerator gen = constantDictionary.get(chars);
       if (gen == null)
       {
         if (constantCount == 0)
@@ -571,6 +570,7 @@ public class JETCompiler implements JETParseEventListener
 
   public void beginPageProcessing()
   {
+    // Do nothing
   }
 
   public void endPageProcessing() throws JETException
@@ -600,17 +600,17 @@ public class JETCompiler implements JETParseEventListener
       addCharDataGenerator(fSavedLine);
     }
 
-    List generatedConstants = new ArrayList(constants.size());
-    for (Iterator i = constants.iterator(); i.hasNext();)
+    List<String> generatedConstants = new ArrayList<String>(constants.size());
+    for (JETConstantDataGenerator jetConstantDataGenerator : constants)
     {
-      generatedConstants.add(((JETConstantDataGenerator)(i.next())).generateConstant());
+      generatedConstants.add(jetConstantDataGenerator.generateConstant());
     }
     skeleton.setConstants(generatedConstants);
 
-    List generatedBody = new ArrayList(generators.size());
-    for (Iterator i = generators.iterator(); i.hasNext();)
+    List<String> generatedBody = new ArrayList<String>(generators.size());
+    for (JETGenerator jetGenerator : generators)
     {
-      generatedBody.add(((JETGenerator)(i.next())).generate());
+      generatedBody.add(jetGenerator.generate());
     }
     skeleton.setBody(generatedBody);
 
@@ -635,7 +635,7 @@ public class JETCompiler implements JETParseEventListener
         new JETParser.Scriptlet()
       };
 
-    Class[] accept = 
+    Class<?> [] accept = 
       { 
         JETParser.Directive.class, 
         JETParser.QuoteEscape.class, 
@@ -646,7 +646,7 @@ public class JETCompiler implements JETParseEventListener
     parse(coreElements, accept);
   }
 
-  protected void parse(JETCoreElement[] coreElements, Class[] accept) throws JETException
+  protected void parse(JETCoreElement[] coreElements, Class<?> [] accept) throws JETException
   {
     parser = new JETParser(reader, this, coreElements);
     beginPageProcessing();
@@ -688,6 +688,7 @@ public class JETCompiler implements JETParseEventListener
     }
     catch (MalformedURLException exception)
     {
+      // Ignore
     }
 
     if (uri.isRelative() && uri.hasRelativePath())

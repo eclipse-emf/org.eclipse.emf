@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETConstantDataGenerator.java,v 1.2 2005/06/08 06:15:56 nickb Exp $
+ * $Id: JETConstantDataGenerator.java,v 1.3 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -36,6 +36,7 @@ public class JETConstantDataGenerator
     this.label = label;
   }
 
+  @Override
   public String generate() 
   {
     StringBuffer stringBuffer = new StringBuffer(FUNCTION_CALL_BEGIN);

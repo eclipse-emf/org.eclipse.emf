@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGenPlugin.java,v 1.5 2006/01/18 20:48:24 marcelop Exp $
+ * $Id: CodeGenPlugin.java,v 1.6 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -61,6 +61,7 @@ public final class CodeGenPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

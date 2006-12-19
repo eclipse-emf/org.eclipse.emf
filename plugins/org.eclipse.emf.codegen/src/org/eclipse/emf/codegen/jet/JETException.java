@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETException.java,v 1.5 2006/05/01 21:08:48 davidms Exp $
+ * $Id: JETException.java,v 1.6 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -31,6 +31,8 @@ import org.eclipse.emf.common.util.DiagnosticException;
  */
 public class JETException extends DiagnosticException 
 {
+  private static final long serialVersionUID = 1L;
+
   public JETException(String reason) 
   {
     super(new BasicDiagnostic(Diagnostic.ERROR, CodeGenPlugin.INSTANCE.getSymbolicName(), 0, reason, null));

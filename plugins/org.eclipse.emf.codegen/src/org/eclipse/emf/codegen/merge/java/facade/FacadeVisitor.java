@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeVisitor.java,v 1.4 2006/12/15 20:35:58 marcelop Exp $
+ * $Id: FacadeVisitor.java,v 1.5 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -46,14 +46,17 @@ public class FacadeVisitor
   
   protected void beforeVisit(JNode node)
   {    
+    // Subclasses may override this method
   }
 
   protected void afterVisit(JNode node)
   {    
+    // Subclasses may override this method
   }
   
   protected void afterVisitChildren(JNode node)
   {
+    // Subclasses may override this method
   }
   
   protected boolean dispatch(JNode node)

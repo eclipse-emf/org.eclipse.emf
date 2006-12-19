@@ -611,9 +611,8 @@ public class CodeGenUtil
   /**
    * @deprecated in 2.2. Please use {@link CodeGenUtil.EclipseUtil#getClasspathPaths} instead. 
    */
-  @SuppressWarnings("unchecked")
   @Deprecated
-  public static List getClasspathPaths(String pluginID) throws JETException
+  public static List<String> getClasspathPaths(String pluginID) throws JETException
   {
     return EclipseUtil.getClasspathPaths(pluginID);
   }
@@ -893,6 +892,7 @@ public class CodeGenUtil
     }
     catch (Exception e)
     {
+      // Ignore
     }
       
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -1159,6 +1159,7 @@ public class CodeGenUtil
           }
           catch (CoreException e)
           {
+            // Ignore
           }
         }
       }

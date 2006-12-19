@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETReader.java,v 1.7 2005/06/12 13:19:04 emerks Exp $
+ * $Id: JETReader.java,v 1.8 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -41,8 +41,8 @@ public class JETReader
   protected char endTagFinalChar = '>';
   protected JETMark current  = null;
   protected String master = null;
-  protected List sourceFiles = new ArrayList();
-  protected List baseURIs = new ArrayList();
+  protected List<String> sourceFiles = new ArrayList<String>();
+  protected List<String> baseURIs = new ArrayList<String>();
   protected int size = 0;
   protected boolean trimExtraNewLine = true;
 
@@ -58,12 +58,12 @@ public class JETReader
 
   public String getFile(int fileid) 
   {
-    return (String) sourceFiles.get(fileid);
+    return sourceFiles.get(fileid);
   }
   
   public String getBaseURI(int fileid) 
   {
-    return (String) baseURIs.get(fileid);
+    return baseURIs.get(fileid);
   }
 
   public void stackStream(String locationURI, InputStream iStream, String encoding) throws JETException
@@ -504,7 +504,7 @@ public class JETReader
    * lower case version.
    * @param into The HashMap instance to save the result to.
    */
-  protected void parseAttributeValue(HashMap into) throws JETException
+  protected void parseAttributeValue(HashMap<String, String> into) throws JETException
   {
     // Get the attribute name:
     //
@@ -544,9 +544,9 @@ public class JETReader
    * @return A HashMap mapping String instances (variable names) into
    * String instances (variable values).
    */
-  public HashMap parseTagAttributesBean() throws JETException
+  public HashMap<String, String> parseTagAttributesBean() throws JETException
   {
-    HashMap values = new HashMap(11);
+    HashMap<String, String> values = new HashMap<String, String>(11);
     while (true) 
     {
       skipSpaces();
@@ -604,10 +604,10 @@ public class JETReader
    * @return A HashMap mapping String instances (variable names) into
    * String instances (variable values).
    */
-  public HashMap parseTagAttributes()
+  public HashMap<String, String> parseTagAttributes()
       throws JETException
   {
-    HashMap values = new HashMap(11);
+    HashMap<String, String> values = new HashMap<String, String>(11);
     while (true) 
     {
       skipSpaces();

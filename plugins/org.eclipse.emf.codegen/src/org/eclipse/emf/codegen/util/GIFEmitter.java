@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GIFEmitter.java,v 1.1 2006/05/01 10:18:53 davidms Exp $
+ * $Id: GIFEmitter.java,v 1.2 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.util;
 
@@ -162,12 +162,12 @@ public class GIFEmitter
         entries.add(entry);
         instance.fixFactor();
       }
-      return (GIFEmitter.ColorInformation)entries.get(index);
+      return entries.get(index);
     }
 
     protected static GIFEmitter.ColorInformation instance = new ColorInformation();
 
-    protected static List entries = new ArrayList(1000);
+    protected static List<GIFEmitter.ColorInformation> entries = new ArrayList<GIFEmitter.ColorInformation>(1000);
 
     public int red = 192;
     public int green = 64;

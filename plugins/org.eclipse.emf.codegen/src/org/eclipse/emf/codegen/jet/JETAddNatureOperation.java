@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: JETAddNatureOperation.java,v 1.2 2005/06/08 06:15:56 nickb Exp $
+ * $Id: JETAddNatureOperation.java,v 1.3 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -34,21 +33,20 @@ import org.eclipse.emf.codegen.CodeGenPlugin;
 
 public class JETAddNatureOperation implements IWorkspaceRunnable 
 {
-  protected List projects;
+  protected List<IProject> projects;
 
   /**
    * Creates an instance from the given collection of projects.
    */
-  public JETAddNatureOperation(Collection objects) 
+  public JETAddNatureOperation(Collection<?> objects) 
   {
     super();
-    projects = new ArrayList();
-    for (Iterator i = objects.iterator(); i.hasNext(); )
+    projects = new ArrayList<IProject>();
+    for (Object object : objects)
     {
-      Object object = i.next();
       if (object instanceof IProject)
       {
-        projects.add(object);
+        projects.add((IProject)object);
       }
     }
   }
@@ -63,10 +61,8 @@ public class JETAddNatureOperation implements IWorkspaceRunnable
       monitor.beginTask("", projects.size());
       monitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_AddJETNature_message"));
 
-      for (Iterator i = projects.iterator(); i.hasNext(); )
+      for (IProject project : projects)
       {
-        IProject project = (IProject)i.next();
-
         monitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_AddJETNatureTo_message", new Object [] { project.getName() }));
         IProjectDescription description = project.getDescription();
         String[] natures = description.getNatureIds();

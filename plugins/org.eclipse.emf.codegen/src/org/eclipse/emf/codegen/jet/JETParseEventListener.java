@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETParseEventListener.java,v 1.2 2005/06/08 06:15:56 nickb Exp $
+ * $Id: JETParseEventListener.java,v 1.3 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -27,13 +27,13 @@ public interface JETParseEventListener
 {
   void beginPageProcessing() throws JETException;
 
-  void handleDirective(String directive, JETMark start, JETMark stop, Map attributes) throws JETException;
+  void handleDirective(String directive, JETMark start, JETMark stop, Map<String, String> attributes) throws JETException;
 
-  void handleExpression(JETMark start, JETMark stop, Map attributes) throws JETException;
+  void handleExpression(JETMark start, JETMark stop, Map<String, String> attributes) throws JETException;
 
   void handleCharData(char[] chars) throws JETException;
 
   void endPageProcessing() throws JETException;
 
-  void handleScriptlet(JETMark start, JETMark stop, Map attributes) throws JETException;
+  void handleScriptlet(JETMark start, JETMark stop, Map<String, String> attributes) throws JETException;
 }

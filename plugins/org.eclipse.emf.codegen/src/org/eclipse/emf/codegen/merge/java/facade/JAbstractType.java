@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JAbstractType.java,v 1.1 2006/12/06 03:49:11 marcelop Exp $
+ * $Id: JAbstractType.java,v 1.2 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -22,5 +22,5 @@ package org.eclipse.emf.codegen.merge.java.facade;
  */
 public interface JAbstractType extends JMember
 {
-
+  // Empty
 }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETNature.java,v 1.5 2005/06/08 06:15:57 nickb Exp $
+ * $Id: JETNature.java,v 1.6 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -26,7 +26,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -92,8 +91,8 @@ public class JETNature implements IJETNature
   protected static final String JET_SETTINGS_NODE = "jet-settings";
 
   protected IProject jetProject;
-  protected List jetTemplateContainers;
-  protected List jetTemplateSourceContainers;
+  protected List<Object> jetTemplateContainers;
+  protected List<Object> jetTemplateSourceContainers;
   protected IContainer jetJavaSourceContainer;
 
   /**
@@ -104,7 +103,7 @@ public class JETNature implements IJETNature
     super();
   }
 
-  public List getTemplateContainers() 
+  public List<Object> getTemplateContainers() 
   {
     if (jetTemplateContainers == null) 
     {
@@ -113,7 +112,7 @@ public class JETNature implements IJETNature
     return jetTemplateContainers;
   }
   
-  public List getTemplateSourceContainers() 
+  public List<Object> getTemplateSourceContainers() 
   {
     if (jetTemplateSourceContainers == null) 
     {
@@ -131,12 +130,12 @@ public class JETNature implements IJETNature
     return jetJavaSourceContainer;
   }
 
-  public void setTemplateContainers(List templateContainers) 
+  public void setTemplateContainers(List<Object> templateContainers) 
   {
     setTemplateContainers(templateContainers, templateContainers);
   }
   
-  public void setTemplateContainers(List templateContainers, List templateSourceContainers) 
+  public void setTemplateContainers(List<Object> templateContainers, List<Object> templateSourceContainers) 
   {
     jetTemplateContainers = templateContainers;
     jetTemplateSourceContainers = templateSourceContainers;
@@ -199,6 +198,7 @@ public class JETNature implements IJETNature
 
   public void deconfigure() throws CoreException 
   {
+    // Do nothing
   }
 
   public IProject getProject() 
@@ -223,9 +223,9 @@ public class JETNature implements IJETNature
       ((IFolder) templateFolder).create(true, true, monitor);
     }
 
-    jetTemplateContainers = new ArrayList();
+    jetTemplateContainers = new ArrayList<Object>();
     jetTemplateContainers.add(templateFolder);
-    jetTemplateSourceContainers = new ArrayList();
+    jetTemplateSourceContainers = new ArrayList<Object>();
     jetTemplateSourceContainers.add(templateFolder);
   }
 
@@ -283,9 +283,9 @@ public class JETNature implements IJETNature
   /**
    * Returns the template path from the .jetproperties file.
    */
-  public List getTemplateContainersFromFile() 
+  public List<Object> getTemplateContainersFromFile() 
   {
-    List result = Collections.EMPTY_LIST;
+    List<Object> result = Collections.emptyList();
 
     try 
     {
@@ -319,9 +319,9 @@ public class JETNature implements IJETNature
   /**
    * Returns the template source path from the .jetproperties file.
    */
-  protected List getTemplateSourceContainersFromFile() 
+  protected List<Object> getTemplateSourceContainersFromFile() 
   {
-    List result = Collections.EMPTY_LIST;
+    List<Object> result = Collections.emptyList();
 
     try 
     {
@@ -433,7 +433,7 @@ public class JETNature implements IJETNature
   /**
    * Returns the containers defined from the base Element passed in.
    */
-  protected List getContainerValues(Element element, String localName) 
+  protected List<Object> getContainerValues(Element element, String localName) 
   {
     return getContainerValues(element, localName, false);
   }
@@ -441,9 +441,9 @@ public class JETNature implements IJETNature
   /**
    * Returns the containers defined from the base Element passed in with entries starting with @ filtered out.
    */
-  protected List getContainerValues(Element element, String localName, boolean filter) 
+  protected List<Object> getContainerValues(Element element, String localName, boolean filter) 
   {
-    List result = new ArrayList();
+    List<Object> result = new ArrayList<Object>();
     Element childElement = getChildWithLocalName(element, localName);
     for (Node node = childElement.getFirstChild(); node != null; node = node.getNextSibling())
     {
@@ -486,7 +486,7 @@ public class JETNature implements IJETNature
     return result;
   }
 
-  protected void setContainerValues(List containers, Element element, String localName) 
+  protected void setContainerValues(List<Object> containers, Element element, String localName) 
   {
     setContainerValues(containers, containers, element, localName);
   }
@@ -494,7 +494,7 @@ public class JETNature implements IJETNature
   /**
    * Sets the template container locations in the settings file
    */
-  protected void setContainerValues(List containers, List sourceContainers, Element element, String localName) 
+  protected void setContainerValues(List<Object> containers, List<Object> sourceContainers, Element element, String localName) 
   {
     Element childElement = getChildWithLocalName(element, localName);
     Text text = null;
@@ -612,7 +612,7 @@ public class JETNature implements IJETNature
     }
   }
 
-  public void setTemplateContainersToFile(List templateContainers) throws CoreException 
+  public void setTemplateContainersToFile(List<Object> templateContainers) throws CoreException 
   {
     setTemplateContainersToFile(templateContainers, templateContainers);
   }
@@ -620,7 +620,7 @@ public class JETNature implements IJETNature
   /**
    * Writes the Template Container Location to a file
    */
-  public void setTemplateContainersToFile(List templateContainers, List templateSourceContainers) throws CoreException 
+  public void setTemplateContainersToFile(List<Object> templateContainers, List<Object> templateSourceContainers) throws CoreException 
   {
     Document document;
     try 
@@ -685,7 +685,7 @@ public class JETNature implements IJETNature
     }
   }
 
-  protected void createDefaultJETSettingsFile(List templateContainers, IContainer sourceContainer) 
+  protected void createDefaultJETSettingsFile(List<Object> templateContainers, IContainer sourceContainer) 
     throws CoreException, IOException 
   {
     createDefaultJETSettingsFile(templateContainers, templateContainers, sourceContainer);
@@ -694,7 +694,7 @@ public class JETNature implements IJETNature
   /**
    * Writes the default file 
    */
-  protected void createDefaultJETSettingsFile(List templateContainers, List templateSourceContainers, IContainer sourceContainer) 
+  protected void createDefaultJETSettingsFile(List<Object> templateContainers, List<Object> templateSourceContainers, IContainer sourceContainer) 
     throws CoreException, IOException 
   {
     StringWriter writer = new StringWriter();
@@ -802,14 +802,14 @@ public class JETNature implements IJETNature
     return getContainer(project, new Path(path));
   }
 
-  public static List getContainers(IProject project, String paths) 
+  public static List<Object> getContainers(IProject project, String paths) 
   {
     return getContainers(project, paths, false); 
   }
   
-  public static List getContainers(IProject project, String paths, boolean filter) 
+  public static List<Object> getContainers(IProject project, String paths, boolean filter) 
   {
-    List result = new ArrayList();
+    List<Object> result = new ArrayList<Object>();
     for (StringTokenizer stringTokenizer = new StringTokenizer(paths, " ;"); stringTokenizer.hasMoreTokens(); )
     {
       String path = stringTokenizer.nextToken();
@@ -835,17 +835,16 @@ public class JETNature implements IJETNature
     return result;
   }
 
-  public static String getContainers(IProject project, List containers)
+  public static String getContainers(IProject project, List<Object> containers)
   {
     return getContainers(project, containers, containers); 
   }
   
-  public static String getContainers(IProject project, List containers, List sourceContainers)
+  public static String getContainers(IProject project, List<Object> containers, List<Object> sourceContainers)
   {
     StringBuffer result = new StringBuffer();
-    for (Iterator i = containers.iterator(); i.hasNext(); )
+    for (Object container : containers)
     {
-      Object container = i.next();
       if (result.length() != 0)
       {
         result.append(";");

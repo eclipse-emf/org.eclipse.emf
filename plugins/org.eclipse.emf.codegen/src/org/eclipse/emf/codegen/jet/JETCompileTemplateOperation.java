@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETCompileTemplateOperation.java,v 1.9 2006/11/06 18:36:52 emerks Exp $
+ * $Id: JETCompileTemplateOperation.java,v 1.10 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
@@ -59,20 +58,19 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
   protected static final String JET_EXTENSION = "jet";
 
   protected IProject project;
-  protected Collection containers;
-  protected List files = new ArrayList();
+  protected Collection<?> containers;
+  protected List<Object> files = new ArrayList<Object>();
   protected boolean inBuild;
 
   /**
    * Creates an instance given the collection of resources.
    */
-  public JETCompileTemplateOperation(IProject project, Collection containers) throws CoreException
+  public JETCompileTemplateOperation(IProject project, Collection<?> containers) throws CoreException
   {
     this.project = project;
     this.containers = containers;
-    for (Iterator i = containers.iterator(); i.hasNext(); )
+    for (Object container : containers)
     {
-      Object container = i.next();
       if (container instanceof IContainer)
       {
         consider((IContainer)container);
@@ -87,15 +85,14 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
   /**
    * Creates an instance given the collection of resources.
    */
-  public JETCompileTemplateOperation(IProject project, Collection containers, Collection resources) throws CoreException
+  public JETCompileTemplateOperation(IProject project, Collection<?> containers, Collection<?> resources) throws CoreException
   {
     super();
 
     this.project = project;
     this.containers = containers;
-    for (Iterator i = resources.iterator(); i.hasNext(); )
+    for (Object object : resources)
     {
-      Object object = i.next();
       if (object instanceof IFile)
       {
         IFile file = (IFile)object;
@@ -208,12 +205,11 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
       progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_JETCompilingTemplates_message"));
 
       IWorkspaceRoot workspaceRoot =  ResourcesPlugin.getWorkspace().getRoot();
-      Collection jetProjects = new HashSet();
+      Collection<IProject> jetProjects = new HashSet<IProject>();
 
-      HashSet visitedRelativePaths = new HashSet();
-      for (Iterator i = files.iterator(); i.hasNext(); )
+      HashSet<String> visitedRelativePaths = new HashSet<String>();
+      for (Object file : files)
       {
-        Object file = i.next();
         String fileName = file instanceof IFile ? ((IFile)file).getName() : file.toString();
 
         progressMonitor.subTask(CodeGenPlugin.getPlugin().getString("_UI_JETCompile_message", new Object [] { fileName }));
@@ -227,11 +223,11 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
         }
 
         IPath filePath = file instanceof IFile ? ((IFile)file).getFullPath() : new Path(file.toString());
-        List templateContainers = nature.getTemplateContainers();
-        List templateSourceContainers = nature.getTemplateSourceContainers();
+        List<Object> templateContainers = nature.getTemplateContainers();
+        List<Object> templateSourceContainers = nature.getTemplateSourceContainers();
 
         String [] containerLocations = new String [templateContainers.size()];
-        for (ListIterator j = templateContainers.listIterator(); j.hasNext(); )
+        for (ListIterator<Object> j = templateContainers.listIterator(); j.hasNext(); )
         {
           Object container = j.next();
           if (container instanceof IContainer)
@@ -244,9 +240,8 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
           }
         }
 
-        for (Iterator j = templateSourceContainers.iterator(); j.hasNext(); )
+        for (Object container : templateSourceContainers)
         {
-          Object container = j.next();
           IPath containerPath = container instanceof IContainer ? ((IContainer)container).getFullPath() : new Path(container.toString());
           if (containerPath.isPrefixOf(filePath))
           {
@@ -307,6 +302,7 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
                 }
                 catch (IOException exception) 
                 {
+                  // Ignore
                 }
   
                 if (changed)
@@ -339,9 +335,8 @@ public class JETCompileTemplateOperation implements IWorkspaceRunnable
       //
       if (!isInBuild()) 
       {
-        for (Iterator projects = jetProjects.iterator(); projects.hasNext(); ) 
+        for (IProject project : jetProjects)
         {
-          IProject project = (IProject) projects.next();
           progressMonitor.subTask
             (CodeGenPlugin.getPlugin().getString("_UI_JETJavaCompileProject_message", new Object [] { project.getFullPath() }));
           project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new SubProgressMonitor(progressMonitor, 1));

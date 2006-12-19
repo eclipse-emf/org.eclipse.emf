@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETEmitter.java,v 1.18 2006/11/08 20:26:31 davidms Exp $
+ * $Id: JETEmitter.java,v 1.19 2006/12/19 01:49:57 marcelop Exp $
  */
 package org.eclipse.emf.codegen.jet;
 
@@ -85,7 +85,7 @@ public class JETEmitter
   protected String templateURI;
   protected ClassLoader classLoader;
   protected String encoding;
-  protected List classpathEntries = new ArrayList();
+  protected List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
 
   /**
    * Creates an instance with the specified template URI.
@@ -178,7 +178,7 @@ public class JETEmitter
    * are called.
    * @return a list of classpath entries.
    */
-  public List getClasspathEntries()
+  public List<IClasspathEntry> getClasspathEntries()
   {
     return classpathEntries;
   }
@@ -262,6 +262,7 @@ public class JETEmitter
       this.classLoader = classLoader;
     }
 
+    @Override
     protected void handleNewSkeleton()
     {
       String packageName = skeleton.getPackageName();
@@ -272,7 +273,7 @@ public class JETEmitter
       {
         try
         {
-          Class theClass = classLoader.loadClass(qualifiedSkeletonClassName);
+          Class<?> theClass = classLoader.loadClass(qualifiedSkeletonClassName);
           if (theClass != null)
           {
             skeleton.setClassName(skeletonClassName += "_");
@@ -280,6 +281,7 @@ public class JETEmitter
         }
         catch (Exception exception)
         {
+          // Ignore
         }
       }
     }
@@ -464,10 +466,10 @@ public class JETEmitter
         // Get the existing classpath and remove the project root if necessary.
         // Any new non-duplicate entries will be added to this.
         //
-        List classpath = new UniqueEList(Arrays.asList(javaProject.getRawClasspath()));
+        List<IClasspathEntry> classpath = new UniqueEList<IClasspathEntry>(Arrays.asList(javaProject.getRawClasspath()));
         for (int i = 0, len = classpath.size(); i < len; i++)
         {
-          IClasspathEntry entry = (IClasspathEntry)classpath.get(i);
+          IClasspathEntry entry = classpath.get(i);
           if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE && ("/" + project.getName()).equals(entry.getPath().toString()))
           {
             classpath.remove(i);
@@ -498,9 +500,7 @@ public class JETEmitter
           runtimeFolder.create(false, true, new SubProgressMonitor(progressMonitor, 1));
         }
   
-        javaProject.setRawClasspath
-          ((IClasspathEntry[])classpath.toArray(new IClasspathEntry[classpath.size()]),
-           new SubProgressMonitor(progressMonitor, 1));
+        javaProject.setRawClasspath(classpath.toArray(new IClasspathEntry[classpath.size()]), new SubProgressMonitor(progressMonitor, 1));
   
         javaProject.setOutputLocation(new Path("/" + project.getName() + "/runtime"), new SubProgressMonitor(progressMonitor, 1));
   
@@ -585,7 +585,7 @@ public class JETEmitter
           //
           URL url = new File(project.getLocation() + "/" + javaProject.getOutputLocation().removeFirstSegments(1) + "/").toURL();
           URLClassLoader theClassLoader = new URLClassLoader(new URL [] { url }, jetEmitter.classLoader);
-          Class theClass = 
+          Class<?> theClass = 
             theClassLoader.loadClass
               ((packageName.length() == 0 ? "" : packageName + ".") + jetCompiler.getSkeleton().getClassName());
           String methodName = jetCompiler.getSkeleton().getMethodName();
