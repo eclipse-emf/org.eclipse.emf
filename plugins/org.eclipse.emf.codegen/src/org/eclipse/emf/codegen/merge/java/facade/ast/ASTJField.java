@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJField.java,v 1.5 2006/12/18 21:15:01 marcelop Exp $
+ * $Id: ASTJField.java,v 1.6 2006/12/19 18:53:06 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -146,12 +146,6 @@ public class ASTJField extends ASTJMember<FieldDeclaration> implements JField
   protected void childToBeChanged(ASTJNode<?> child)
   {
     performSplit();
-  }
-  
-  @Override
-  public String getAnnotations()
-  {
-    return getAnnotations(originalFieldDeclaration);
   }
   
   @Override

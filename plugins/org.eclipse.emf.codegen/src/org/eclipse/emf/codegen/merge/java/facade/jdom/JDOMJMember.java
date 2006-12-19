@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJMember.java,v 1.2 2006/12/06 03:48:07 marcelop Exp $
+ * $Id: JDOMJMember.java,v 1.3 2006/12/19 18:53:06 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -106,11 +106,5 @@ public abstract class JDOMJMember extends JDOMJNode implements JMember
       }
     }
     return split;
-  }
-  
-  public String getAnnotations()
-  {
-    // not supported in JDOM
-    return null;
   }
 }

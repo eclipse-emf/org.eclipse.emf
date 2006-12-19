@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJMember.java,v 1.4 2006/12/15 20:26:12 marcelop Exp $
+ * $Id: ASTJMember.java,v 1.5 2006/12/19 18:53:06 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -113,32 +113,6 @@ public abstract class ASTJMember<T extends BodyDeclaration> extends ASTJNode<T> 
     this.comment = comment;
     setTrackedNodeProperty(getASTNode(), comment, getASTNode().getJavadocProperty(), ASTNode.JAVADOC);
   }
-  
-  /* (non-Javadoc)
-   * @see org.eclipse.emf.codegen.merge.java.facade.JMember#getAllAnnotations()
-   */
-  public String getAnnotations()
-  {
-    return getAnnotations(getASTNode());
-  }
-  
-  protected String getAnnotations(T node)
-  {
-    StringBuilder annotationStringBuilder = new StringBuilder();
-    
-    @SuppressWarnings("unchecked")    
-    List<IExtendedModifier> modifiers = node.modifiers();
-    
-    for (IExtendedModifier modifier : modifiers)
-    {
-      if (modifier.isAnnotation())
-      {
-        // TODO consider some specific format to simplify and make less error prone pattern that is used in dictionary pattern rule
-        annotationStringBuilder.append(getFacadeHelper().toString(modifier));
-      }
-    }
-    return annotationStringBuilder.toString();
-  }  
   
   /* (non-Javadoc)
    * @see org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode#remove(org.eclipse.emf.codegen.merge.java.facade.ast.ASTJNode)
