@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: KeyTest.java,v 1.1 2006/12/18 22:02:03 marcelop Exp $
+ * $Id: KeyTest.java,v 1.2 2006/12/19 18:45:20 marcelop Exp $
  */
 package org.eclipse.emf.test.core.ecore;
 
@@ -26,6 +26,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -39,6 +40,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
@@ -63,6 +65,7 @@ public class KeyTest  extends TestCase
     TestSuite ts = new TestSuite("KeyTest");
     ts.addTest(new KeyTest("testModel"));
     ts.addTest(new KeyTest("testSaveAndLoad"));
+    ts.addTest(new KeyTest("testConstraint"));
     return ts;
   }
     
@@ -86,37 +89,36 @@ public class KeyTest  extends TestCase
     root.getItems().add(itemAXY);
     
     {
-    Item x = KeyFactory.eINSTANCE.createItem();
-    x.setName("a b");
-    x.getSignature().add("\'\"#, % {} []/ org.eclipse.example.X");
-    x.getSignature().add("org.eclipse.example.Y");
-    x.getRelatedItems().add(x);
-    root.getItems().add(x);
+      Item x = KeyFactory.eINSTANCE.createItem();
+      x.setName("a b");
+      x.getSignature().add("\'\"#, % {} []/ org.eclipse.example.X");
+      x.getSignature().add("org.eclipse.example.Y");
+      x.getRelatedItems().add(x);
+      root.getItems().add(x);
     }
     
     {
-    Item x = KeyFactory.eINSTANCE.createItem();
-    x.getRelatedItems().add(x);
-    root.getItems().add(x);
+      Item x = KeyFactory.eINSTANCE.createItem();
+      x.getRelatedItems().add(x);
+      root.getItems().add(x);
     }
 
     {
-    Item x = KeyFactory.eINSTANCE.createItem();
-    x.getRelatedItems().add(x);
-    x.getSignature().add("org.eclipse.example.Y");
-    root.getItems().add(x);
+      Item x = KeyFactory.eINSTANCE.createItem();
+      x.getRelatedItems().add(x);
+      x.getSignature().add("org.eclipse.example.Y");
+      root.getItems().add(x);
     }
     
     {
-    Item x = KeyFactory.eINSTANCE.createItem();
-    x.getRelatedItems().add(x);
-    x.getSignature().add(null);
-    x.getSignature().add("");
-    x.getSignature().add(null);
-    root.getItems().add(x);
+      Item x = KeyFactory.eINSTANCE.createItem();
+      x.getRelatedItems().add(x);
+      x.getSignature().add(null);
+      x.getSignature().add("");
+      x.getSignature().add(null);
+      root.getItems().add(x);
     }
     
-    if (SYSOUT) System.out.println("%%%" + resource1.getContents());
     resource1.getContents().add(root);
     if (SYSOUT) resource1.save(System.out, null);
     StringWriter out1 = new StringWriter();
@@ -346,5 +348,65 @@ public class KeyTest  extends TestCase
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     resource.save(outputStream, Collections.EMPTY_MAP);
     return new String(outputStream.toByteArray());
+  }
+  
+  public void testConstraint()
+  {
+    ResourceSet resourceSet = new ResourceSetImpl();
+    
+    resourceSet.getPackageRegistry().put(KeyPackage.eNS_URI, KeyPackage.eINSTANCE);
+    resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put
+      (Resource.Factory.Registry.DEFAULT_EXTENSION, new XMLResourceFactoryImpl());
+    
+    Resource resource = resourceSet.createResource(URI.createURI("http:///My.key"));
+    
+    Root root = KeyFactory.eINSTANCE.createRoot();
+
+    {
+      Item item = KeyFactory.eINSTANCE.createItem();
+      root.getItems().add(item);
+    }
+
+    {
+      Item itemA = KeyFactory.eINSTANCE.createItem();
+      itemA.setName("a");
+      root.getItems().add(itemA);
+    }
+
+    {
+      Item itemAXY = KeyFactory.eINSTANCE.createItem();
+      itemAXY.setName("a");
+      itemAXY.getSignature().add("org.eclipse.example.X");
+      itemAXY.getSignature().add("org.eclipse.example.Y");
+      itemAXY.getRelatedItems().add(itemAXY);
+      root.getItems().add(itemAXY);
+    }
+
+    {
+      Item itemAX = KeyFactory.eINSTANCE.createItem();
+      itemAX.setName("a");
+      itemAX.getSignature().add("org.eclipse.example.X");
+      itemAX.getRelatedItems().add(itemAX);
+      root.getItems().add(itemAX);
+    }
+
+    {
+      Item itemANull = KeyFactory.eINSTANCE.createItem();
+      itemANull.setName("a");
+      itemANull.getSignature().add(null);
+      root.getItems().add(itemANull);
+    }
+
+    {
+      Item itemA = KeyFactory.eINSTANCE.createItem();
+      itemA.setName("a");
+      root.getItems().add(itemA);
+    }
+    
+    resource.getContents().add(root);
+    Diagnostic diagnostic = Diagnostician.INSTANCE.validate(root);
+    assertEquals(diagnostic.getSeverity(), Diagnostic.ERROR);
+    assertEquals(diagnostic.getChildren().size(), 1);
+    if (SYSOUT) System.err.println(diagnostic.getChildren().get(0));
   }
 }
