@@ -43,14 +43,13 @@ import target.ClassB;
 public class MergerExample<T> extends ArrayList<A, B> implements Comparable
 {
   /**
-   * Source comment for aa, bb, cc
+   * Target comment for bb
    * <!-- begin-user-doc -->
    * Target user comment for bb
    * <!-- end-user-doc -->
    */
   @Generated
   @FieldAnnotation(comment = "target annotation for bb")
-  @SourceFieldAnnotation(comment = "source sourceannotation for aa,bb,cc")
   @AnotherFieldAnnotation("target")
   int bb;
   
@@ -83,24 +82,23 @@ public class MergerExample<T> extends ArrayList<A, B> implements Comparable
   /**
    * This method uses Generated annotation.
    * 
-   * Source javadoc 1
-   * Source javadoc 2
+   * Target javadoc 1
+   * Target javadoc 2
    * <!-- begin-user-doc -->
    * Target user javadoc 3
    * Target user javadoc 4
    * <!-- end-user-doc -->
    */
   @Generated
-  @MethodAnnotationToPush
   @MethodAnnotation (comment = "target annotation method1")
   @MethodAnnotationToBeSwept
-  public <S> void method1(final int[] a[], @ParameterAnnoation  final  long b)
+  public void method1(int[][] atarget, long btarget)
   {
     // begin-user-code
-    System.out.println("Source user code 1");
+    System.out.println("Target user code 1");
     // end-user-code    
-    System.out.println("Source code 2");
-    return id == "source";
+    System.out.println("Target code 2");
+    return id == "target";
   }
   
   /**
@@ -149,7 +147,7 @@ public class MergerExample<T> extends ArrayList<A, B> implements Comparable
   public enum Operation
   {
     @Generated 
-    PLUS("source - plus"),
+    PLUS,
     
     @Generated 
     @AnnotationToBeSwept
@@ -158,12 +156,10 @@ public class MergerExample<T> extends ArrayList<A, B> implements Comparable
     TARGET_ENUM_CONST,
     
     @Generated 
-    TIMES("source - multiply"),
+    TIMES,
     
     POWER_SOURCE, @Generated 
-    DIVIDE("source - divide") {
-      /* source divide const body */
-    };
+    DIVIDE;
     
     String s1 = "source"; //$NON-NLS-1$
     
@@ -188,10 +184,8 @@ public class MergerExample<T> extends ArrayList<A, B> implements Comparable
           return x * y;
         case DIVIDE:
           return x / y;
-        case POWER_SOURCE:
-          return Math.pow(x, y);
       }
-      throw new AssertionError("Unknown source op: " + this);
+      throw new AssertionError("Unknown op: " + this);
     }
     
     /**
@@ -243,37 +237,6 @@ public class MergerExample<T> extends ArrayList<A, B> implements Comparable
        */
     ) int b; // line comment
     
-    @Generated
-    @SourceAnnotationForCAndD(
-      // source comment
-        // source comment
-      "string value"
-    )
-    @MyAnnotation (
-      a = 
-        1,
-        // line comment
-      b = 
-        3
-    )
-    private int c = "source " +
-        "string for c" /* comment for initializer of c */;
-
-    @Generated
-    @SourceAnnotationForCAndD(
-      // source comment
-        // source comment
-      "string value"
-    )
-    @MyAnnotation (
-      a = 
-        1,
-        // line comment
-      b = 
-        3
-    )
-    private int d;
-
     /**
      * Source Javadoc
      * Default constructor
@@ -292,6 +255,21 @@ public class MergerExample<T> extends ArrayList<A, B> implements Comparable
     {
       this.description = description;
     }
+
+    @Generated
+    @MyAnnotation (
+      a = 
+        1,
+        // line comment
+      b = 
+        3
+    )
+    protected static int c = 
+      "c"
+      // target line comment in initializer for c
+      + "c", d = "d" +
+      // target line comment in initializer for d
+      "d", e; // line comment
   }  
   
   /**
@@ -312,7 +290,18 @@ public class MergerExample<T> extends ArrayList<A, B> implements Comparable
        */
       String synopsis();
       @Generated
-      String engineer() default "[unassigned - source]"; 
+      String engineer() default "[target - default]"; 
       String date()    default "[target - unimplemented - not generated]"; 
+  }  
+  
+  /**
+   * Generated, must be swept
+   * 
+   * target javadoc
+   */
+  @Generated
+  private int methodA()
+  {
+    
   }  
 }

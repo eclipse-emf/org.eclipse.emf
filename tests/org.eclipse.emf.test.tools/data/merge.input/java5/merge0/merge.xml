@@ -42,12 +42,6 @@
     select="Member/getComment" 
     match="\s*@\s*(ordered)\s*\n"/>
 
-  <!-- Mark all members as "gen" that have @Generated annotation -->
-  <merge:dictionaryPattern
-    name="gen" 
-    select="Member/getAnnotations" 
-    match="^(?:@\s*\w+\s*(?:\(.*?\)){0,1})*?(?:@\s*Generated\s*(?:\(.*?\)){0,1})(?:@\s*\w+\s*(?:\(.*?\)){0,1})*?$"/>
-
   <!-- Only push Annotations for the Members marked by gen-->
   <merge:push targetParentMarkup="^gen$" select="Annotation"/>
 
