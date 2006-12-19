@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveVersionTask.java,v 1.4 2006/02/24 00:26:45 marcelop Exp $
+ * $Id: RemoveVersionTask.java,v 1.5 2006/12/19 01:45:08 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs;
 
@@ -68,6 +68,7 @@ public class RemoveVersionTask extends Task
     assertTrue("You must have read and write access to " + parentDir.getAbsolutePath() + ".", parentDir.canRead() && parentDir.canWrite());
   }
 
+  @Override
   public void execute() throws BuildException
   {
     checkAttributes();

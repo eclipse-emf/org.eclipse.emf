@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFTask.java,v 1.4 2006/11/28 13:26:55 emerks Exp $
+ * $Id: EMFTask.java,v 1.5 2006/12/19 01:45:08 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs;
 
@@ -61,10 +61,12 @@ public abstract class EMFTask extends Task
     }
     catch (Exception e)
     {
+      // Ignore
     }
     return new NullProgressMonitor();
   }
 
+  @Override
   public final void execute() throws BuildException
   {
     checkAttributes();
@@ -92,6 +94,7 @@ public abstract class EMFTask extends Task
    */
   protected void checkAttributes() throws BuildException
   {
+    // Subclasses may override this method
   }
 
   /**

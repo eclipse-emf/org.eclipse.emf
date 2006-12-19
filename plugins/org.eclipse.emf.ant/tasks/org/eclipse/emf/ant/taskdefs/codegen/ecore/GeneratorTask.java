@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.14 2006/12/07 03:46:59 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.15 2006/12/19 01:45:07 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
@@ -162,6 +161,7 @@ public abstract class GeneratorTask extends EMFTask
   
   public static class ReconcileGenModelType extends EnumeratedAttribute
   {
+    @Override
     public String[] getValues()
     {
       return new String []{ "overwrite", "keep", "reload" };
@@ -173,7 +173,7 @@ public abstract class GeneratorTask extends EMFTask
   protected static final int GENMODEL_RELOAD = 2;
 
   protected File model;
-  private List modelLocations;
+  private List<ModelLocation> modelLocations;
   
   protected File genModel;
   protected File modelProject;
@@ -211,7 +211,7 @@ public abstract class GeneratorTask extends EMFTask
       ModelLocation modelLocation = new ModelLocation();
       if (modelLocations == null)
       {
-        modelLocations = new ArrayList();
+        modelLocations = new ArrayList<ModelLocation>();
         modelLocations.add(modelLocation);
       }
       else
@@ -332,6 +332,7 @@ public abstract class GeneratorTask extends EMFTask
     return commandline;
   }
 
+  @Override
   protected void checkAttributes() throws BuildException
   {
     if (modelLocations == null)
@@ -340,9 +341,8 @@ public abstract class GeneratorTask extends EMFTask
     }
     else
     {
-      for (Iterator i = modelLocations.iterator(); i.hasNext();)
+      for (ModelLocation modelLocation : modelLocations)
       {
-        ModelLocation modelLocation = (ModelLocation)i.next();
         assertTrue("Either the 'file' or the 'uri' attributes of a 'model' element must be specified.", 
           modelLocation.getFile() != null || modelLocation.getUri() != null);
       }      
@@ -352,6 +352,7 @@ public abstract class GeneratorTask extends EMFTask
     assertTrue("The specifed 'templatePath' attribute is not a valid directory.", templatePath == null || templatePath.isDirectory());
   }
 
+  @Override
   protected void doExecute() throws Exception
   {
     switch (reconcileGenModel)
@@ -372,8 +373,8 @@ public abstract class GeneratorTask extends EMFTask
 
     if (generateJavaCode)
     {
-      List arguments = getGeneratorArguments();
-      generateCodeFromGenModel((String[])arguments.toArray(new String [arguments.size()]));
+      List<String> arguments = getGeneratorArguments();
+      generateCodeFromGenModel(arguments.toArray(new String [arguments.size()]));
     }
   }
 
@@ -400,9 +401,8 @@ public abstract class GeneratorTask extends EMFTask
     
     if (modelLocations != null)
     {
-      for (Iterator i = modelLocations.iterator(); i.hasNext();)
+      for (ModelLocation modelLocation : modelLocations)
       {
-        ModelLocation modelLocation = (ModelLocation)i.next();
         String argument = modelLocation.getUri();
         if (argument == null)
         {
@@ -478,9 +478,9 @@ public abstract class GeneratorTask extends EMFTask
     generateEditorProject &= arguments.indexOf("-editorProject") >= 0;
   }
 
-  protected List getGeneratorArguments()
+  protected List<String> getGeneratorArguments()
   {
-    List arguments = new ArrayList();
+    List<String> arguments = new ArrayList<String>();
 
     if (generateModelProject)  arguments.add("-model");
     if (generateEditProject)   arguments.add("-edit");

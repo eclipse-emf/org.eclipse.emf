@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMergerTask.java,v 1.5 2006/01/18 20:25:16 marcelop Exp $
+ * $Id: JMergerTask.java,v 1.6 2006/12/19 01:45:08 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen;
 
@@ -122,6 +122,7 @@ public class JMergerTask extends EMFTask
     this.facadeHelperClass = facadeHelperClass;
   }
 
+  @Override
   protected void checkAttributes() throws BuildException
   {
     assertTrue("Either 'mergeXMLURI' or 'mergeXMLFile' must be specified.", mergeXMLURI != null || mergeXMLFile != null);
@@ -129,6 +130,7 @@ public class JMergerTask extends EMFTask
     assertTrue("Either 'targetURI' or 'targetFile' must be specified.", targetURI != null || targetFile != null);
   }
 
+  @Override
   protected void doExecute() throws Exception
   {
     invokeMerger(createJMerger());

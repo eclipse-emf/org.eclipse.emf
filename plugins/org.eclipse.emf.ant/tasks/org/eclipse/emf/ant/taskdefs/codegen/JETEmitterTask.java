@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: JETEmitterTask.java,v 1.4 2005/06/08 06:17:17 nickb Exp $
+ * $Id: JETEmitterTask.java,v 1.5 2006/12/19 01:45:07 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
@@ -104,9 +103,9 @@ public class JETEmitterTask extends EMFTask
   private File templateFile;
   private File newFile;
   private String project;
-  private List variables;
+  private List<Variable> variables;
   private Object argument;
-  private Class argumentClass;
+  private Class<?> argumentClass;
 
   public void setTemplateFile(File templateFile)
   {
@@ -133,7 +132,7 @@ public class JETEmitterTask extends EMFTask
     Variable variable = new Variable();
     if (variables == null)
     {
-      variables = new ArrayList();
+      variables = new ArrayList<Variable>();
     }
     variables.add(variable);
     return variable;
@@ -144,7 +143,7 @@ public class JETEmitterTask extends EMFTask
     this.argument = argument;
   }
 
-  public void setArgumentClass(Class argumentClass)
+  public void setArgumentClass(Class<?> argumentClass)
   {
     this.argumentClass = argumentClass;
   }
@@ -163,6 +162,7 @@ public class JETEmitterTask extends EMFTask
       }
       catch (IOException e)
       {
+        // Ignore
       }
       URI uri = templateFile.isFile() ? URI.createFileURI(templateFile.toString()) : URI.createURI(templateFile.toString());
       return uri.toString();
@@ -173,12 +173,14 @@ public class JETEmitterTask extends EMFTask
     }
   }
 
+  @Override
   protected void checkAttributes() throws BuildException
   {
     assertTrue("Either 'templateURI' or 'templateFile' must be specified.", templateURI != null || templateFile != null);
     assertTrue("The 'newFile' attribute must be specified.", newFile != null);
   }
 
+  @Override
   protected void doExecute() throws Exception
   {
     invokeEmitter(createJETEmitter());
@@ -195,9 +197,8 @@ public class JETEmitterTask extends EMFTask
 
     if (variables != null)
     {
-      for (Iterator i = variables.iterator(); i.hasNext();)
+      for (Variable variable : variables)
       {
-        Variable variable = (Variable)i.next();
         emitter.addVariable(variable.getName(), variable.getPluginID());
       }
     }
