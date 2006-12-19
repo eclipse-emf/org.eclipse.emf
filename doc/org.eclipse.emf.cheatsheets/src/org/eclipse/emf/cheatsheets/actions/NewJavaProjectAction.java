@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: NewJavaProjectAction.java,v 1.1 2006/06/15 23:33:43 marcelop Exp $
+ * $Id: NewJavaProjectAction.java,v 1.2 2006/12/19 01:45:57 marcelop Exp $
  */
 package org.eclipse.emf.cheatsheets.actions;
 
@@ -45,6 +45,7 @@ public class NewJavaProjectAction extends NewProjectAction
    * @param monitor Monitoring the action
    * @return Java project
    */
+  @Override
   protected IProject createProject(String projectName, IProgressMonitor monitor) throws CoreException
   {
     monitor.beginTask(CheatSheetsPlugin.INSTANCE.getString("_UI_CreateJavaProject_message", new String []{ projectName }), 5);

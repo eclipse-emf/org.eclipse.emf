@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CopyFileFromPluginAction.java,v 1.2 2006/06/19 02:53:05 marcelop Exp $
+ * $Id: CopyFileFromPluginAction.java,v 1.3 2006/12/19 01:45:57 marcelop Exp $
  */
 package org.eclipse.emf.cheatsheets.actions;
 
@@ -76,10 +76,12 @@ public class CopyFileFromPluginAction extends Action implements ICheatSheetActio
   /**
    * Run the action
    */
+  @Override
   public void run()
   {
     WorkspaceModifyOperation operation = new WorkspaceModifyOperation()
       {
+        @Override
         protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException
         {
           if (!isNullString(projectName))

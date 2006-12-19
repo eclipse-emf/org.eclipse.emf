@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CheatSheetsPlugin.java,v 1.1 2006/06/15 23:33:43 marcelop Exp $
+ * $Id: CheatSheetsPlugin.java,v 1.2 2006/12/19 01:45:57 marcelop Exp $
  */
 package org.eclipse.emf.cheatsheets;
 
@@ -47,6 +47,7 @@ public final class CheatSheetsPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

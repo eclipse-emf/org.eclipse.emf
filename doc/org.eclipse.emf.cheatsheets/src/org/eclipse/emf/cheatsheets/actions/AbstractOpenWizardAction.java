@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractOpenWizardAction.java,v 1.1 2006/06/15 23:33:43 marcelop Exp $
+ * $Id: AbstractOpenWizardAction.java,v 1.2 2006/12/19 01:45:57 marcelop Exp $
  */
 
 package org.eclipse.emf.cheatsheets.actions;
@@ -34,6 +34,7 @@ import org.eclipse.emf.cheatsheets.CheatSheetsPlugin;
 
 public abstract class AbstractOpenWizardAction extends Action
 {
+  @Override
   public void run()
   {
     Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();

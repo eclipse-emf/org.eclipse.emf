@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OpenEmptyEMFProjectWizardAction.java,v 1.1 2006/06/15 23:33:43 marcelop Exp $
+ * $Id: OpenEmptyEMFProjectWizardAction.java,v 1.2 2006/12/19 01:45:57 marcelop Exp $
  */
 package org.eclipse.emf.cheatsheets.actions;
 
@@ -47,6 +47,7 @@ public class OpenEmptyEMFProjectWizardAction extends AbstractOpenWizardAction im
    * Create a new wizard
    * @exception CoreException
    */
+  @Override
   protected final INewWizard createWizard() throws CoreException
   {
     EmptyProjectWizard wizard = new EmptyProjectWizard();
