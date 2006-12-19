@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyMerger.java,v 1.3 2006/12/19 01:49:58 marcelop Exp $
+ * $Id: PropertyMerger.java,v 1.4 2006/12/19 19:50:52 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.properties;
 
@@ -258,6 +258,7 @@ public class PropertyMerger
   
 /////////////////////////////////  HEADLESS INVOCATION  /////////////////////////////////////
 
+  @Deprecated
   public static class PlatformRunnable extends PropertyMerger implements org.eclipse.core.runtime.IPlatformRunnable 
   {
     // Empty
