@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTJCompilationUnit.java,v 1.6 2006/12/18 21:15:01 marcelop Exp $
+ * $Id: ASTJCompilationUnit.java,v 1.7 2006/12/20 16:12:47 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -28,6 +28,8 @@ import java.util.regex.Pattern;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ITrackedNodePosition;
@@ -540,7 +542,7 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
 
   protected class NodeContentsReplacer extends AbstractRewriter
   {
-    Map<ITrackedNodePosition, String> trackedNodePositionsMap;
+    protected Map<ITrackedNodePosition, String> trackedNodePositionsMap;
 
     /**
      * Enables tracking for all nodes in tracked contents map ({@link #getAllTrackedContentsMap()}).
@@ -620,13 +622,34 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
     protected Map<ASTNode, ITrackedNodePosition> commentedOutPositions = new HashMap<ASTNode, ITrackedNodePosition>();
 
     /**
+     * Responsible for inserting line breaks at the beginning and the end of the commented out nodes
+     */
+    protected LineBreakInserter lineBreakInserter;
+    
+    /**
+     * Map of insert offsets to InsertEdit objects created.
+     * Used to prevent adding different InsertEdit objects at the same offset.
+     */
+    protected Map<Integer, InsertEdit> addedInsertEdits = new HashMap<Integer, InsertEdit>();
+    
+    /**
+     * List of currently added text edits that have to be reverted (removed) in case of an exception.
+     */
+    protected List<TextEdit> textEditsToRevert = new ArrayList<TextEdit>();
+    
+    /**
+     * Document after call to {@link ASTRewrite#rewriteAST()} or {@link ASTRewrite#rewriteAST(IDocument, Map)}.
+     */
+    protected IDocument doc;
+    
+    /**
      * Enables tracking for all commented out nodes.
      * <p>
      * This constructor must be called before call to {@link ASTRewrite#rewriteAST()} or {@link ASTRewrite#rewriteAST(IDocument, Map)}.
      * 
      * @see ASTRewrite#track(ASTNode)
      */    
-    protected NodeCommenter()
+    public NodeCommenter()
     {
       for (ASTNode node : getCommentedOutNodes())
       {
@@ -656,72 +679,28 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
     @Override
     protected TextEdit addEdits(TextEdit existingEdits, IDocument doc)
     {
-      LineBreakInserter lineBreakInserter = new LineBreakInserter(doc);
-      
-      // TODO reconsider having this map
-      // map of positions of added InsertEdit objects
-      // used to not create InsertEdit at the same position
-      HashMap<Integer, InsertEdit> addedInsertEdits = new HashMap<Integer, InsertEdit>();
-      
+      this.doc = doc;
+      lineBreakInserter = new LineBreakInserter();      
+
+      // loop for all commented out nodes
       for (Map.Entry<ASTNode, ITrackedNodePosition> entry : commentedOutPositions.entrySet())
       {
         ASTNode node = entry.getKey();
         ITrackedNodePosition nodePosition = entry.getValue();
-        
-        // used to revert changes made to this node in case of exception
-        ArrayList<TextEdit> textEditsToRevert = new ArrayList<TextEdit>();
-        
-        int startPos = nodePosition.getStartPosition();
-        int endPos = startPos + nodePosition.getLength();
-        
         try
         {
-          int firstLine = doc.getLineOfOffset(startPos);
-          int lastLine = doc.getLineOfOffset(endPos);
+          // insert line break and comment out the first line if needed
+          // note that first line might move backward beyond node start (e.g. if a comma of the previous enum constant has been commented out)
+          int firstLine = addLineBreakBeforeNode(existingEdits, nodePosition, node);
 
-          IRegion lineInfo = doc.getLineInformation(firstLine);
-
-          // insert line break at the first line if there is something before the node start and the beginning of the line
-          InsertEdit lineBreakEdit = lineBreakInserter.createFirstLineBreak(lineInfo, nodePosition, node);
-          if (lineBreakEdit != null)
-          {
-            // replace existing InsertEdit at this position
-            // (case when previous node ends at the same position that current starts at)
-            InsertEdit existingEdit = addedInsertEdits.get(lineBreakEdit.getOffset());
-            if (existingEdit != null)
-            {
-              existingEdits.removeChild(existingEdit);
-              addedInsertEdits.remove(existingEdit);
-            }
-            existingEdits.addChild(lineBreakEdit);
-            textEditsToRevert.add(lineBreakEdit);
-            addedInsertEdits.put(lineBreakEdit.getOffset(), lineBreakEdit);
-            // first line is processed
-            firstLine++;
-          }
-
-          // add "//" on each line of the node
-          for (int i = firstLine; i <= lastLine; i++)
-          {
-            lineInfo = doc.getLineInformation(i);
-            InsertEdit edit = new InsertEdit(lineInfo.getOffset(), LINE_COMMENT_STRING);
-            existingEdits.addChild(edit);
-            textEditsToRevert.add(edit);
-            addedInsertEdits.put(edit.getOffset(), edit);
-          }
+          // comment out all lines of the node itself, from firstLine to last line
+          commentOutLines(existingEdits, firstLine, doc.getLineOfOffset(nodePosition.getStartPosition() + nodePosition.getLength()));
 
           // if there is anything after the node on the same line, insert line break
-          lineBreakEdit = lineBreakInserter.createLastLineBreak(lineInfo, nodePosition, node);
-          if (lineBreakEdit != null)
-          {
-            InsertEdit existingEdit = addedInsertEdits.get(lineBreakEdit.getOffset());
-            if (existingEdit == null)
-            {
-              existingEdits.addChild(lineBreakEdit);
-              textEditsToRevert.add(lineBreakEdit);
-              addedInsertEdits.put(lineBreakEdit.getOffset(), lineBreakEdit);
-            }
-          }          
+          addLineBreakAfterNode(existingEdits, nodePosition, node);
+          
+          // reset text edits; since this node is processed successfully, there is no need to revert these changes
+          textEditsToRevert.clear();
         }
         catch (Exception e)
         {
@@ -730,13 +709,23 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
           {
             existingEdits.removeChild(edit);
           }
+          textEditsToRevert.clear();
 
           // log the error, ignore the change and continue
           if (ASTFacadeHelper.DEBUG)
           {
-            getFacadeHelper().logError(
-              "Unable to comment out <" + doc.get().substring(startPos, endPos - startPos) + "> in " + getName() + " : " + e.toString()
-                + ". There should be no tracked changes to commented out nodes.");
+            try
+            {
+              getFacadeHelper().logError(
+                "Unable to comment out <" + doc.get().substring(nodePosition.getStartPosition(), nodePosition.getLength()) + "> in "
+                  + getName() + " : " + e.toString() + ". There should be no tracked changes to commented out nodes.");
+            }
+            catch (Exception innerException)
+            {
+              getFacadeHelper().logError(
+                "Unable to comment out node in " + getName() + " : " + e.toString() + ". Unable to get contents of the node either : "
+                  + innerException.toString() + ". There should be no tracked changes to commented out nodes.");
+            }
           }
         }
       }
@@ -744,43 +733,146 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
     }
 
     /**
-     * Class that inserts extra line breaks between nodes to separate them when nodes are being commented out.
+     * Add line break before the node if needed. If there was a line break added at this position (e.g. after the previous node), replace it.
+     * Added line break will contain the marker to comment out the first line of the node.
+     * If <code>InsertEdit</code> has been created, the returned line number is the line after the line break, i.e. the next
+     * line that has to be commented out.
+     * If no changes are made, returned line number is the first line of the node.
      * 
-     * @see #createFirstLineBreak(IRegion, ITrackedNodePosition, ASTNode)
-     * @see #createLastLineBreak(IRegion, ITrackedNodePosition, ASTNode)
+     * @param existingEdits
+     * @param nodePosition
+     * @param node
+     * @return line number of the next line that has to be commented out
+     * @throws BadLocationException
+     * 
+     * @see {@link LineBreakInserter#createLineBreakBeforeNode(ITrackedNodePosition, ASTNode)}
+     */
+    protected int addLineBreakBeforeNode(TextEdit existingEdits, ITrackedNodePosition nodePosition, ASTNode node) throws BadLocationException
+    {
+      // insert line break at the first line if there is something before the node start and the beginning of the line
+      InsertEdit lineBreakEdit = lineBreakInserter.createLineBreakBeforeNode(nodePosition, node);
+      if (lineBreakEdit != null)
+      {
+        // replace existing InsertEdit at this position
+        // (case when previous node ends at the same position that current node starts at)
+        InsertEdit existingEdit = addedInsertEdits.get(lineBreakEdit.getOffset());
+        if (existingEdit != null)
+        {
+          existingEdits.removeChild(existingEdit);
+          addedInsertEdits.remove(existingEdit);
+        }
+        existingEdits.addChild(lineBreakEdit);
+        textEditsToRevert.add(lineBreakEdit);
+        addedInsertEdits.put(lineBreakEdit.getOffset(), lineBreakEdit);
+        
+        // this line has been commented out, return next line number
+        return doc.getLineOfOffset(lineBreakEdit.getOffset()) + 1;
+      }
+      else
+      {
+        // return the line number of the start of the node
+        return doc.getLineOfOffset(nodePosition.getStartPosition());
+      }
+    }
+    
+    /**
+     * Create and add <code>InsertEdit</code>s that comment out all lines between <code>firstLine</code> and
+     * <code>lastLine</code> inclusively.
+     * 
+     * @param existingEdits
+     * @param firstLine
+     * @param lastLine
+     * @throws BadLocationException
+     */
+    protected void commentOutLines(TextEdit existingEdits, int firstLine, int lastLine) throws BadLocationException
+    {
+      for (int i = firstLine; i <= lastLine; i++)
+      {
+        InsertEdit edit = new InsertEdit(doc.getLineOffset(i), LINE_COMMENT_STRING);
+        existingEdits.addChild(edit);
+        textEditsToRevert.add(edit);
+        addedInsertEdits.put(edit.getOffset(), edit);
+      }
+    }
+
+    /**
+     * If there is anything after the node, inserts the line break to prevent commenting
+     * out extra content.
+     * 
+     * @param existingEdits
+     * @param nodePosition
+     * @param node
+     * @throws BadLocationException
+     * 
+     * @see {@link LineBreakInserter#createLineBreakAfterNode(ITrackedNodePosition, ASTNode)}
+     */
+    protected void addLineBreakAfterNode(TextEdit existingEdits, ITrackedNodePosition nodePosition, ASTNode node) throws BadLocationException
+    {
+      InsertEdit lineBreakEdit = lineBreakInserter.createLineBreakAfterNode(nodePosition, node);
+      if (lineBreakEdit != null)
+      {
+        // do not add a new line if there is one
+        InsertEdit existingEdit = addedInsertEdits.get(lineBreakEdit.getOffset());
+        if (existingEdit == null)
+        {
+          existingEdits.addChild(lineBreakEdit);
+          textEditsToRevert.add(lineBreakEdit);
+          addedInsertEdits.put(lineBreakEdit.getOffset(), lineBreakEdit);
+        }
+      }
+    }    
+    
+    /**
+     * Class that inserts extra line breaks between nodes when nodes are being commented out.
+     * 
+     * @see #createLineBreakBeforeNode(ITrackedNodePosition, ASTNode)
+     * @see #createLineBreakAfterNode(ITrackedNodePosition, ASTNode)
      */
     protected class LineBreakInserter
     {
       protected char[] charContent;
     
-      protected IDocument doc;
-    
-      protected LineBreakInserter(IDocument doc)
+      protected LineBreakInserter()
       {
-        this.charContent = doc.get().toCharArray();
-        this.doc = doc;
+        this.charContent = getDocument().get().toCharArray();
       }
     
       /**
+       * @return document to be used to lookup line numbers and line information
+       */
+      protected IDocument getDocument()
+      {
+        return doc;
+      }
+      
+      /**
        * Creates line break at the beginning of the node when there is another node declared at the same line.
        * The returned edit also contains "//" after the line break - the first line of the node becomes already commented out.
-       * 
-       * @param lineInfo
        * @param nodePosition
        * @param node
-       * @return
+       * 
+       * @return <code>InsertEdit</code> or <code>null</code> if none required
        * @throws BadLocationException
        */
-      protected InsertEdit createFirstLineBreak(IRegion lineInfo, ITrackedNodePosition nodePosition, ASTNode node) throws BadLocationException
+      protected InsertEdit createLineBreakBeforeNode(ITrackedNodePosition nodePosition, ASTNode node) throws BadLocationException
       {
         int startPos = nodePosition.getStartPosition();
-        int firstLine = doc.getLineOfOffset(startPos);
-        String indent = getIndent(charContent, lineInfo.getOffset());
+        IRegion lineInfo = getDocument().getLineInformationOfOffset(startPos);
         
-        // TODO comment out a comma of the previous enum constant
-        if (!isWhitespace(charContent, lineInfo.getOffset(), startPos))
+        // if needed, comment out a comma of the previous enum constant
+        if (node.getNodeType() == ASTNode.ENUM_CONSTANT_DECLARATION)
         {
-          return new InsertEdit(startPos, doc.getLineDelimiter(firstLine) + LINE_COMMENT_STRING + indent);
+          InsertEdit insertEdit = commentOutEnumConstantSeparator((EnumConstantDeclaration)node, lineInfo, nodePosition);
+          if (insertEdit != null)
+          {
+            return insertEdit;
+          }
+        }
+        
+        // if there is anything before the node on the same line, create line break and comment out the first line of the node
+        if (!isWhitespace(lineInfo.getOffset(), startPos))
+        {
+          return new InsertEdit(startPos, createLineBreakString(lineInfo.getOffset(), true));
         }
         else
         {
@@ -791,26 +883,27 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
     
       /**
        * Creates line break at the end of the node when there is another node declared at the same line.
-       * 
-       * @param lineInfo
        * @param nodePosition
        * @param node
-       * @return
+       * 
+       * @return <code>InsertEdit</code> or <code>null</code> if none required
        * @throws BadLocationException
        */
-      protected InsertEdit createLastLineBreak(IRegion lineInfo, ITrackedNodePosition nodePosition, ASTNode node) throws BadLocationException
+      protected InsertEdit createLineBreakAfterNode(ITrackedNodePosition nodePosition, ASTNode node) throws BadLocationException
       {
-        int endPos = nodePosition.getStartPosition() + nodePosition.getLength();
+        int endPos = nodePosition.getStartPosition() + nodePosition.getLength();        
+        IRegion lineInfo = getDocument().getLineInformationOfOffset(endPos);
     
-        // for enum constants, insert line break after the comma if there is anything after the comma 
+        // for enum constants, insert line break after the comma if there is anything after the comma
         if (node.getNodeType() == ASTNode.ENUM_CONSTANT_DECLARATION)
         {
           return createLineBreakAfterEnumConstant(node, lineInfo, nodePosition);
         }
-        else if (!isWhitespace(charContent, endPos, lineInfo.getOffset() + lineInfo.getLength()))
+        
+        // if there is any content after the node on the same line, insert line break (to prevent commenting out extra content)
+        else if (!isWhitespace(endPos, lineInfo.getOffset() + lineInfo.getLength()))
         {
-          String indent = getIndent(charContent, lineInfo.getOffset());
-          return new InsertEdit(endPos, doc.getLineDelimiter(doc.getLineOfOffset(endPos)) + indent);
+          return new InsertEdit(endPos, createLineBreakString(lineInfo.getOffset(), false));
         }
         else
         {
@@ -820,41 +913,39 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
       }
       
       /**
-       * @param content
        * @param lineStart the first character of the line excluding <code>CR</code> or <code>LF</code> characters.
-       * @return indent of the line starting at <code>lineStart</code>, empty string if no indent, or <code>lineStart</code> is invalid position
+       * @return indent of the line starting at <code>lineStart</code>, empty string if there is no indent or <code>lineStart</code> is invalid position
+       * @see IndentManipulation#isIndentChar(char)
        */
-      protected String getIndent(char[] content, int lineStart)
+      protected String getIndent(int lineStart)
       {
-        if (lineStart >= 0 && lineStart < content.length)
+        if (lineStart >= 0 && lineStart < charContent.length)
         {
           int i = lineStart;
-          while (i < content.length && IndentManipulation.isIndentChar(content[i]))
+          while (i < charContent.length && IndentManipulation.isIndentChar(charContent[i]))
           {
             i++;
           }
-          return new String(content, lineStart, i - lineStart);
+          return new String(charContent, lineStart, i - lineStart);
         }
         return EMPTY_STRING;
       }
     
       /**
        * Determines if there are only whitespace characters in the given range in char array.
-       * 
-       * @param content
        * @param start
        * @param end
        * @return <code>true</code> if only whitespace characters are between <code>start</code> and <code>end</code>
        * 
        * @see Character#isWhitespace(char)
        */
-      protected boolean isWhitespace(char[] content, int start, int end)
+      protected boolean isWhitespace(int start, int end)
       {
-        if (content != null && start >= 0 && end < content.length && start <= end)
+        if (start >= 0 && end < charContent.length && start <= end)
         {
           for (int i = start; i < end; i++)
           {
-            if (!Character.isWhitespace(content[i]))
+            if (!Character.isWhitespace(charContent[i]))
             {
               return false;
             }
@@ -862,14 +953,112 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
         }
         return true;
       }
+      
+      /**
+       * Creates line break string containing line delimiter, line comment string if <code>isCommentedOut</code> is <code>true</code>,
+       * and same indent string as the line that break is inserted at. 
+       * @param startOfLineOffset
+       * @param isCommentedOut
+       * @return line break string
+       * @throws BadLocationException
+       */
+      protected String createLineBreakString(int startOfLineOffset, boolean isCommentedOut) throws BadLocationException
+      {
+        return createLineBreakString(getDocument().getLineDelimiter(getDocument().getLineOfOffset(startOfLineOffset)), startOfLineOffset, isCommentedOut);
+      }
+      
+      /**
+       * Creates line break string containing line delimiter, line comment string if <code>isCommentedOut</code> is <code>true</code>,
+       * and indent string that is the same as of the line that break is inserted at. 
+       * 
+       * @param lineDelimiter
+       * @param startOfLineOffset
+       * @param isCommentedOut
+       * @return line break string
+       */
+      protected String createLineBreakString(String lineDelimiter, int startOfLineOffset, boolean isCommentedOut)
+      {
+        String indent = getIndent(startOfLineOffset);
+        StringBuilder sb = new StringBuilder(indent.length() + 10);
+        sb.append(lineDelimiter);
+        if (isCommentedOut)
+        {
+          sb.append(LINE_COMMENT_STRING);
+        }
+        sb.append(indent);
+        return sb.toString();
+      }
 
       /**
-       * If needed, create a line break after enum constant.
+       * Creates an InsertEdit that comments out separator after the previous enum constant.
+       * <p>
+       * Separator of the previous constant needs to be commented out when all following constants are commented out.
+       * <p>
+       * For example, if there are constants <code>C1, C2, C3;</code> and constants C2 and C3 are commented out, comma after C1 should be commented out as well.
+       * When this method is called on the first line of C2, the returned edit will comment out a comma after C1. Calling this method on C3 will return <code>null</code> since C2 and C3 are both
+       * commented out.
+       * <p>
+       * Returned edit (if any) may or may not contain a line break depending whether there is any content before the comma on the same line.
+       * 
+       * @param enumConstant
+       * @param lineInfo
+       * @param nodePosition
+       * @return <code>InsertEdit</code> or <code>null</code> if none required
+       * @throws BadLocationException
+       */
+      private InsertEdit commentOutEnumConstantSeparator(EnumConstantDeclaration enumConstant, IRegion lineInfo, ITrackedNodePosition nodePosition) throws BadLocationException
+      {
+        // if previous node is not commented out, but all the following nodes are, comment out a comma (constant separator)
+        ASTJNode<?> astjNode = (ASTJNode<?>)getFacadeHelper().convertToNode(enumConstant);
+        if (astjNode != null)
+        {
+          ASTNode parent = astjNode.getParent().getASTNode();
+          List<?> enumConstants = rewriter.getListRewrite(parent, EnumDeclaration.ENUM_CONSTANTS_PROPERTY).getRewrittenList();
+          int constantIndex = enumConstants.indexOf(enumConstant);
+          if (constantIndex > 0 && constantIndex < enumConstants.size())
+          {
+            ASTNode previousNode = (ASTNode)enumConstants.get(constantIndex - 1);
+            List<?> followingConstants = enumConstants.subList(constantIndex, enumConstants.size());
+            // if previous node is not commented out, but all following are
+            if (!commentedOutPositions.containsKey(previousNode) && commentedOutPositions.keySet().containsAll(followingConstants))
+            {
+              // insert new line at the end of previous constant
+              int commaPosition = nodePosition.getStartPosition() - 1;
+              while (commaPosition >=0 && Character.isWhitespace(charContent[commaPosition]))
+              {
+                commaPosition--;
+              }
+              
+              // we should be able to find the comma because the range for enum constants includes all preceding comments up to the previous constant
+              // if TargetSourceRangeComputer of ASTRewrite changes, this logic should change to skip comments
+              // see org.eclipse.emf.codegen.merge.java.facade.ast.CommentAwareSourceRangeComputer#getEnumConstantSourceRange(ASTNode)
+              if (commaPosition >=0 && charContent[commaPosition] == ',')
+              {
+                // if comma is on a line by itself, comment it out but do not insert the line break
+                int line = getDocument().getLineOfOffset(commaPosition);
+                int startOfLineOffset = getDocument().getLineOffset(line);
+                if (isWhitespace(startOfLineOffset, commaPosition))
+                {
+                  return new InsertEdit(startOfLineOffset, LINE_COMMENT_STRING);
+                }
+                else
+                {
+                  return new InsertEdit(commaPosition, createLineBreakString(getDocument().getLineDelimiter(line), startOfLineOffset, true));
+                }
+              }
+            }
+          }
+        }
+        return null;
+      }
+
+      /**
+       * If needed, creates a line break after enum constant.
        * 
        * @param node
        * @param lineInfo
        * @param nodePosition
-       * @return
+       * @return <code>InsertEdit</code> or <code>null</code> if none required
        * @throws BadLocationException
        */
       private InsertEdit createLineBreakAfterEnumConstant(ASTNode node, IRegion lineInfo, ITrackedNodePosition nodePosition) throws BadLocationException
@@ -877,29 +1066,33 @@ public class ASTJCompilationUnit extends ASTJNode<CompilationUnit> implements JC
         int nodeEndPos = nodePosition.getStartPosition() + nodePosition.getLength();
         int endOfLine = lineInfo.getOffset() + lineInfo.getLength();
         int i = nodeEndPos;
-        
-        // skip whitespace until end of line
+
+        // skip whitespace, up to the end of the line
         while (i <= endOfLine && Character.isWhitespace(charContent[i]))
         {
           i++;
         }
-        
+
         // insert line break if there is non-whitespace before end of the line
         if (i < endOfLine)
         {
           // if current char is comma, insert line break after it
+          //
+          // we should be able to find the comma because the range for enum constants includes all trailing comments up to the separator
+          // if TargetSourceRangeComputer of ASTRewrite changes, this logic should change to skip comments
+          // see org.eclipse.emf.codegen.merge.java.facade.ast.CommentAwareSourceRangeComputer#getEnumConstantSourceRange(ASTNode)
           if (charContent[i] == ',')
           {
             // do not insert line break if there is only whitespace after comma
-            if (!isWhitespace(charContent, i + 1, endOfLine))
+            if (!isWhitespace(i + 1, endOfLine))
             {
-              return new InsertEdit(i + 1, doc.getLineDelimiter(doc.getLineOfOffset(nodeEndPos)) + getIndent(charContent, lineInfo.getOffset()));
+              return new InsertEdit(i + 1, createLineBreakString(lineInfo.getOffset(), false));
             }
           }
           else
           {
-            // there is anything else but comma after constant - 
-            return new InsertEdit(i, doc.getLineDelimiter(doc.getLineOfOffset(nodeEndPos)) + getIndent(charContent, lineInfo.getOffset()));
+            // there is anything else but comma after constant - insert line break
+            return new InsertEdit(i, createLineBreakString(lineInfo.getOffset(), false));
           }
         }
         // there is only whitespace after enum constant on the same line - do not add line breaks
