@@ -59,8 +59,8 @@ public class Example
      /**
      * @rename
      */
-    Deleted_C4(","),
-//    /**
+    Deleted_C4(",")
+//    ,/**
 //     * @comment
 //     */ C5(";", ",")
      ;}    
