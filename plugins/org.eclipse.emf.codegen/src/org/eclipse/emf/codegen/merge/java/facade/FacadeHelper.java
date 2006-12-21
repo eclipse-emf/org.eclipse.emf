@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FacadeHelper.java,v 1.7 2006/12/19 01:49:57 marcelop Exp $
+ * $Id: FacadeHelper.java,v 1.8 2006/12/21 17:49:13 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade;
 
@@ -113,6 +113,17 @@ public abstract class FacadeHelper
   public abstract JCompilationUnit createCompilationUnit(String name, String content);
   protected abstract JNode doConvertToNode(Object object);
 
+  /**
+   * Returns the original, unmodified, content of the compilation unit.
+   * Not all facade implementation may be able to provide this information.
+   * @param compilationUnit
+   * @return the original contents or null
+   */
+  public String getOriginalContents(JCompilationUnit compilationUnit)
+  {
+    return null;
+  }
+  
   /**
    * @return converter that can be used to convert nodes, or <code>null</code> if none
    */

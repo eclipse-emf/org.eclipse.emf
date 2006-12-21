@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JMerger.java,v 1.14 2006/12/18 21:19:40 marcelop Exp $
+ * $Id: JMerger.java,v 1.15 2006/12/21 17:49:26 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java;
 
@@ -232,6 +232,8 @@ public class JMerger
 
   protected boolean fixInterfaceBrace;
   protected boolean isBlocked;
+  protected boolean targetCompilationUnitExists;
+  protected boolean targetCompilationChanged;
   
   /**
    * This creates an empty instances, an when used as a runnable.
@@ -250,8 +252,11 @@ public class JMerger
 
   public void merge()
   {
+    targetCompilationChanged = false;
+    targetCompilationUnitExists = targetCompilationUnit != null;
+    
     pullTargetCompilationUnit();
-    if (!isBlocked)
+    if (!isBlocked && targetCompilationUnitExists)
     {
       pushSourceCompilationUnit();
       sweepTargetCompilationUnit();
@@ -371,7 +376,16 @@ public class JMerger
 
   public String getTargetCompilationUnitContents()
   {
-    String result = targetCompilationUnit.getContents();
+    String result = null;
+    if (!targetCompilationUnitExists || !targetCompilationChanged)
+    {
+      result = getControlModel().getFacadeHelper().getOriginalContents(targetCompilationUnit);
+    }
+    if (result == null)
+    {
+      result = targetCompilationUnit.getContents();
+    }
+    
     if (fixInterfaceBrace)
     {
       if (interfaceBracePattern == null)
@@ -438,7 +452,7 @@ public class JMerger
 
   protected void pullTargetCompilationUnit()
   {
-    if (targetCompilationUnit == null)
+    if (!targetCompilationUnitExists)
     {
       setTargetCompilationUnit((JCompilationUnit)insertClone(sourceCompilationUnit));
     }
@@ -519,6 +533,7 @@ public class JMerger
           
           if (reorder)
           {
+            targetCompilationChanged = true;
             facadeHelper.remove(nextTargetNode);
 
             boolean addNewNode = false;            
@@ -547,7 +562,7 @@ public class JMerger
             else
             {
               facadeHelper.insertSibling(previousTargetNode, nextTargetNode, false);
-            }            
+            }
           }
   
           previousTargetNode = nextTargetNode;
@@ -574,6 +589,7 @@ public class JMerger
         
         if (applySweepRules(node))
         {
+          targetCompilationChanged = true;
           sweptNodes.add(node);
         }
       }
@@ -690,6 +706,10 @@ public class JMerger
               {
                 continue;
               }
+              else if (value instanceof Object[] && oldValue instanceof Object[] && Arrays.equals((Object[])value, (Object[])oldValue))
+              {
+                continue;
+              }
               else if (targetPutMethod.getName().equals("setSuperclass"))
               {
                 if (oldValue != null && value != null && ((String)oldValue).trim().equals(((String)value).trim()))
@@ -710,6 +730,7 @@ public class JMerger
               }
   
               targetPutMethod.invoke(targetNode, new Object [] { value });
+              targetCompilationChanged = true;
               if (targetPutMethod.getName().equals("setBody") && sourceNode instanceof JMethod)
               {
                 JMethod sourceMethod = (JMethod)sourceNode;
@@ -761,6 +782,7 @@ public class JMerger
               {
                 Method putMethod = targetNode.getClass().getMethod("setSuperInterfaces", String [].class);
                 putMethod.invoke(targetNode, new Object []{ superInterfaces });
+                targetCompilationChanged = true;
               }
             }
             // target method is NOT addSuperInterface
@@ -773,6 +795,7 @@ public class JMerger
                 if (!old.contains(string))
                 {
                   targetPutMethod.invoke(targetNode, new Object [] { string });
+                  targetCompilationChanged = true;
                 }
               }
             }
@@ -906,6 +929,15 @@ public class JMerger
   protected JNode insertClone(JNode sourceNode)
   {
     FacadeHelper facadeHelper = getControlModel().getFacadeHelper();
+    if (sourceNode == sourceCompilationUnit && !targetCompilationUnitExists)
+    {
+      String originalContents = facadeHelper.getOriginalContents(sourceCompilationUnit);
+      if (originalContents != null)
+      {
+        return createCompilationUnitForContents(facadeHelper.applyFormatRules(originalContents));
+      }
+    }
+    
     Object context = targetCompilationUnit != null ? facadeHelper.getContext(targetCompilationUnit) : null; 
     JNode targetNode = facadeHelper.cloneNode(context, sourceNode);
     if (targetNode != null)
@@ -919,6 +951,7 @@ public class JMerger
       JNode targetParent = sourceToTargetMap.get(sourceParent);
       if (targetParent != null)
       {
+        targetCompilationChanged = true;
         JNode targetParentFirstChild = null;
         if (facadeHelper.isSibilingTraversalExpensive())
         { 

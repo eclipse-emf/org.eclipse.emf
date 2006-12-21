@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMFacadeHelper.java,v 1.6 2006/12/13 20:20:47 marcelop Exp $
+ * $Id: JDOMFacadeHelper.java,v 1.7 2006/12/21 17:49:26 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -111,14 +111,21 @@ public class JDOMFacadeHelper extends FacadeHelper
       sourceCompatibility = null;
     }
     
-    JCompilationUnit jCompilationUnit = (JCompilationUnit)convertToNode(getJDOMFactory().createCompilationUnit(content, name));
+    JDOMJCompilationUnit compilationUnit = (JDOMJCompilationUnit)convertToNode(getJDOMFactory().createCompilationUnit(content, name));
+    compilationUnit.setOriginalContent(content);
     
     if (sourceCompatibility != null)
     {
       adjustSourceCompatibility(sourceCompatibility);
     }
     
-    return jCompilationUnit;
+    return compilationUnit;
+  }
+  
+  @Override
+  public String getOriginalContents(JCompilationUnit compilationUnit)
+  {
+    return ((JDOMJCompilationUnit)compilationUnit).getOriginalContent();
   }
 
   @Override

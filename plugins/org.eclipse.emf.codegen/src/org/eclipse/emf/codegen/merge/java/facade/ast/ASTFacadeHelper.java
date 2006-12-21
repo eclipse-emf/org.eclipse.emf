@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ASTFacadeHelper.java,v 1.9 2006/12/18 21:15:01 marcelop Exp $
+ * $Id: ASTFacadeHelper.java,v 1.10 2006/12/21 17:49:26 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.ast;
 
@@ -273,6 +273,12 @@ public class ASTFacadeHelper extends FacadeHelper
     compilationUnit.setRewriter(rewriter);
 
     return compilationUnit;
+  }
+  
+  @Override
+  public String getOriginalContents(JCompilationUnit compilationUnit)
+  {
+    return new String(((ASTJCompilationUnit)compilationUnit).getOriginalContents());
   }
 
   /**

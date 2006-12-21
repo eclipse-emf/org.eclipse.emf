@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JDOMJCompilationUnit.java,v 1.4 2006/12/06 03:48:07 marcelop Exp $
+ * $Id: JDOMJCompilationUnit.java,v 1.5 2006/12/21 17:49:25 marcelop Exp $
  */
 package org.eclipse.emf.codegen.merge.java.facade.jdom;
 
@@ -28,6 +28,8 @@ import org.eclipse.emf.codegen.merge.java.facade.JCompilationUnit;
 @SuppressWarnings({"deprecation", "unchecked"})
 public class JDOMJCompilationUnit extends JDOMJNode implements JCompilationUnit
 {
+  protected String originalContent;
+  
   /**
    * @param node
    */
@@ -50,5 +52,15 @@ public class JDOMJCompilationUnit extends JDOMJNode implements JCompilationUnit
   public void setHeader(String header)
   {
     getWrappedObject().setHeader(header);
+  }
+  
+  public void setOriginalContent(String originalContent)
+  {
+    this.originalContent = originalContent;
+  }
+  
+  public String getOriginalContent()
+  {
+    return originalContent;
   }
 }
