@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.64 2006/08/08 19:52:57 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.64.2.1 2006/12/21 16:14:24 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2215,7 +2215,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         "EveryMultiplicityConforms", 
         "EveryDataValueConforms", 
         "EveryReferenceIsContained", 
-        "EveryProxyResolves"
+        "EveryProxyResolves",
+        "UniqueID"
        });
 
   public List getAllGenConstraints()
