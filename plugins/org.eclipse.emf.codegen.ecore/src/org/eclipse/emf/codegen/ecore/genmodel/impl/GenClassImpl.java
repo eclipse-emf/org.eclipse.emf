@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.66 2006/12/13 20:37:08 marcelop Exp $
+ * $Id: GenClassImpl.java,v 1.67 2006/12/21 16:18:26 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -786,6 +786,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   public String getInterfaceTypeArguments()
   {
     return getTypeArguments(true, false);
+  }
+  
+  public String getImportedWildcardInstanceClassName()
+  {
+    String result = getImportedInstanceClassName();
+    if (isMapEntry() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
+    {
+      result += "<?, ?>";
+      
+    }
+    return result;
   }
 
   public String getInterfaceWildTypeArguments()
@@ -2432,7 +2443,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         "EveryMultiplicityConforms", 
         "EveryDataValueConforms", 
         "EveryReferenceIsContained", 
-        "EveryProxyResolves"
+        "EveryProxyResolves",
+        "UniqueID",
+        "EveryKeyUnique"
        });
 
   public List getAllGenConstraints()
