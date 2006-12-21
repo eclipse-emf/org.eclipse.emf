@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeDescriptionImpl.java,v 1.15 2006/06/14 14:22:41 marcelop Exp $
+ * $Id: ChangeDescriptionImpl.java,v 1.15.2.1 2006/12/21 16:20:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.change.impl;
 
@@ -508,7 +508,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
   {
     if (oldContainmentInformation == null)
     {
-      oldContainmentInformation = new HashMap();
+      HashMap containmentInformation = new HashMap();
       for (Iterator i = getObjectChanges().iterator(); i.hasNext(); )
       {
         Map.Entry entry = (Map.Entry)i.next();
@@ -527,7 +527,7 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
                 EObject eObject = (EObject)k.next();
                 if (eObject.eContainer() != container || eObject.eContainmentFeature() != feature)
                 {
-                  oldContainmentInformation.put(eObject, new OldContainmentInformation(container, (EReference)feature));
+                  containmentInformation.put(eObject, new OldContainmentInformation(container, (EReference)feature));
                 }
               }
             }
@@ -536,18 +536,19 @@ public class ChangeDescriptionImpl extends EObjectImpl implements ChangeDescript
               EObject eObject = (EObject)featureChange.getValue();
               if (eObject != null && (eObject.eContainer() != container || eObject.eContainmentFeature() != feature))
               {
-                oldContainmentInformation.put(eObject, new OldContainmentInformation(container, (EReference)feature));
+                containmentInformation.put(eObject, new OldContainmentInformation(container, (EReference)feature));
               }
             }
           }
         }
       }
-    }
 
-    for (Iterator i= getObjectsToDetach().iterator(); i.hasNext(); )
-    {
-      EObject eObject = (EObject)i.next();
-      oldContainmentInformation.put(eObject, new OldContainmentInformation(null, null));
+      for (Iterator i= getObjectsToDetach().iterator(); i.hasNext(); )
+      {
+        EObject eObject = (EObject)i.next();
+        containmentInformation.put(eObject, new OldContainmentInformation(null, null));
+      }
+      oldContainmentInformation = containmentInformation;
     }
 
     return oldContainmentInformation;
