@@ -12,18 +12,24 @@
  *
  * </copyright>
  *
- * $Id: ENamedElementImpl.java,v 1.7 2006/12/05 20:22:26 emerks Exp $
+ * $Id: ENamedElementImpl.java,v 1.8 2006/12/21 16:42:22 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import java.util.Collection;
+import java.util.ListIterator;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.util.EContentsEList;
+import org.eclipse.emf.ecore.util.ECrossReferenceEList;
 
 
 /**
@@ -215,6 +221,109 @@ public abstract class ENamedElementImpl extends EModelElementImpl implements ENa
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
     }
     return eDynamicIsSet(featureID);
+  }
+
+  @Override
+  public EList<EObject> eContents()
+  {
+    if (eContents == null)
+    {
+      EStructuralFeature [] eStructuralFeatures = 
+        ((EClassImpl.FeatureSubsetSupplier)eClass().getEAllStructuralFeatures()).containments();
+      
+      eContents = 
+        eStructuralFeatures == null ?
+          EContentsEList.<EObject>emptyContentsEList() :
+          new EContentsEList<EObject>(this, eStructuralFeatures)
+          {
+            @Override
+            protected boolean useIsSet()
+            {
+              return false;
+            }
+
+            @Override
+            protected ListIterator<EObject> newResolvingListIterator()
+            {
+              return 
+                new ResolvingFeatureIteratorImpl<EObject>(eObject, eStructuralFeatures)
+                {
+                  @Override
+                  protected boolean useIsSet()
+                  {
+                    return false;
+                  }
+                };
+            }
+
+            @Override
+            protected ListIterator<EObject> newNonResolvingListIterator()
+            {
+              return 
+                new FeatureIteratorImpl<EObject>(eObject, eStructuralFeatures)
+                {
+                  @Override
+                  protected boolean useIsSet()
+                  {
+                    return false;
+                  }
+                };
+            }
+
+          };
+    }
+    return eContents;
+  }
+
+  @Override
+  public EList<EObject> eCrossReferences()
+  {
+    if (eCrossReferences == null)
+    {
+      EStructuralFeature [] eStructuralFeatures = 
+        ((EClassImpl.FeatureSubsetSupplier)eClass().getEAllStructuralFeatures()).crossReferences();
+
+      eCrossReferences =
+        eStructuralFeatures == null ?
+          ECrossReferenceEList.<EObject>emptyCrossReferenceEList() :
+          new ECrossReferenceEList<EObject>(this, eStructuralFeatures)
+          {
+            @Override
+            protected boolean useIsSet()
+            {
+              return false;
+            }
+
+            @Override
+            protected ListIterator<EObject> newResolvingListIterator()
+            {
+              return 
+                new ResolvingFeatureIteratorImpl<EObject>(eObject, eStructuralFeatures)
+                {
+                  @Override
+                  protected boolean useIsSet()
+                  {
+                    return false;
+                  }
+                };
+            }
+
+            @Override
+            protected ListIterator<EObject> newNonResolvingListIterator()
+            {
+              return 
+                new FeatureIteratorImpl<EObject>(eObject, eStructuralFeatures)
+                {
+                  @Override
+                  protected boolean useIsSet()
+                  {
+                    return false;
+                  }
+                };
+            }
+          };
+    }
+    return eCrossReferences;
   }
 
 }
