@@ -159,7 +159,13 @@ private class EchoSoapBindingImpl extends echo.EchoBindingImpl   implements echo
    */
   public void hello(java.lang.Source sourceName1, final int[][][] sourceTripleArrayWithSourceName,  
       String paramOnNewLine) throws 
-    java.rmi.RemoteException, BadAttributeValueExpException, NullPointerException, IllegalArgumentException, TestS
+    java.rmi.RemoteException,
+    BadAttributeValueExpException,
+//  begin-user-code  
+    NullPointerException,
+    IllegalArgumentException,
+//  end-user-code  
+    TestS
     
   {
     // begin-user-code
