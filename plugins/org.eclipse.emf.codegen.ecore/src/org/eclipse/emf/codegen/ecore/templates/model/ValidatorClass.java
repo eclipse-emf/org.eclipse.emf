@@ -632,7 +632,7 @@ public class ValidatorClass
     stringBuffer.append(TEXT_53);
     stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_54);
-    stringBuffer.append(genClass.getImportedInterfaceName());
+    stringBuffer.append(genClass.getImportedWildcardInstanceClassName());
     stringBuffer.append(TEXT_55);
     }
     }
