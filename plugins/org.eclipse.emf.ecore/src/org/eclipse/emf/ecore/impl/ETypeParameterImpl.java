@@ -12,11 +12,16 @@
  *
  * </copyright>
  *
- * $Id: ETypeParameterImpl.java,v 1.1 2006/12/05 20:22:26 emerks Exp $
+ * $Id: ETypeParameterImpl.java,v 1.2 2006/12/26 19:12:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
+import java.util.AbstractSet;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -30,7 +35,6 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -41,7 +45,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.impl.ETypeParameterImpl#getEBounds <em>EBounds</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.impl.ETypeParameterImpl#getEGenericTypes <em>EGeneric Types</em>}</li>
  * </ul>
  * </p>
  *
@@ -60,14 +63,11 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
   protected EList<EGenericType> eBounds = null;
 
   /**
-   * The cached value of the '{@link #getEGenericTypes() <em>EGeneric Types</em>}' reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getEGenericTypes()
-   * @generated
-   * @ordered
+   * The cached set of all generic types that reference this type parameter.
+   * It is populated as the type parameter is {@link EGenericType#setETypeParameter(ETypeParameter)set} on the generic type.
+   * @see EGenericTypeImpl#setETypeParameter(ETypeParameter)
    */
-  protected EList<EGenericType> eGenericTypes = null;
+  protected Set<EGenericType> eGenericTypes;
 
   /**
    * <!-- begin-user-doc -->
@@ -108,10 +108,14 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
           public NotificationChain inverseAdd(EGenericType object, NotificationChain notifications)
           {
             notifications =  super.inverseAdd(object, notifications);
-            @SuppressWarnings("unchecked") EList<EGenericTypeImpl> eGenericTypes = (EList<EGenericTypeImpl>)(EList<?>)getEGenericTypes();
-            for (EGenericTypeImpl eGenericType : eGenericTypes)
+            synchronized (ETypeParameterImpl.this)
             {
-              notifications = eGenericType.setERawType(eGenericType.getErasure(ETypeParameterImpl.this), notifications);
+              @SuppressWarnings("unchecked") 
+              Set<EGenericTypeImpl> eGenericTypes = (Set<EGenericTypeImpl>)(Set<?>)getEGenericTypes();
+              for (EGenericTypeImpl eGenericType : eGenericTypes)
+              {
+                notifications = eGenericType.setERawType(eGenericType.getErasure(ETypeParameterImpl.this), notifications);
+              }
             }
             return notifications;
           }
@@ -120,11 +124,14 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
           public NotificationChain inverseRemove(EGenericType object, NotificationChain notifications)
           {
             notifications = super.inverseRemove(object, notifications);
-            @SuppressWarnings("unchecked") EList<EGenericTypeImpl> eGenericTypes = (EList<EGenericTypeImpl>)(EList<?>)getEGenericTypes();
-            for (EGenericTypeImpl eGenericType : eGenericTypes)
+            synchronized (ETypeParameterImpl.this)
             {
-              notifications = eGenericType.setERawType(eGenericType.getErasure(ETypeParameterImpl.this), notifications);
-            }
+              @SuppressWarnings("unchecked") Set<EGenericTypeImpl> eGenericTypes = (Set<EGenericTypeImpl>)(Set<?>)getEGenericTypes();
+              for (EGenericTypeImpl eGenericType : eGenericTypes)
+              {
+                notifications = eGenericType.setERawType(eGenericType.getErasure(ETypeParameterImpl.this), notifications);
+              }
+            } 
             return notifications;
           }
         };
@@ -133,36 +140,107 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
   }
 
   /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
    */
-  public EList<EGenericType> getEGenericTypes()
+  protected Set<EGenericType> getEGenericTypes()
   {
     if (eGenericTypes == null)
     {
-      eGenericTypes = new EObjectWithInverseEList<EGenericType>(EGenericType.class, this, EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES, EcorePackage.EGENERIC_TYPE__ETYPE_PARAMETER);
+      eGenericTypes = 
+        new WeakHashMap<EGenericType, Object>()
+        {
+          private WeakHashMap<EGenericType, Object> map()
+          {
+            return this;
+          }
+          
+          @Override
+          public Set<EGenericType> keySet()
+          {
+            // Create a key set that supports add.
+            //
+            return 
+              new AbstractSet<EGenericType>() 
+              {
+                @Override
+                public Iterator<EGenericType> iterator() 
+                {
+                  final Iterator<Map.Entry<EGenericType, Object>> delegateIterator = map().entrySet().iterator();
+                  return 
+                    new Iterator<EGenericType>()
+                    {
+                      public boolean hasNext()
+                      {
+                        return delegateIterator.hasNext();
+                      }
+
+                      public EGenericType next()
+                      {
+                        return delegateIterator.next().getKey();
+                      }
+
+                      public void remove()
+                      {
+                        delegateIterator.remove();
+                      }
+                    };
+                }
+   
+                @Override
+                public int size() 
+                {
+                  return map().size();
+                }
+   
+                @Override
+                public boolean contains(Object object) 
+                {
+                  return containsKey(object);
+                }
+   
+                @Override
+                public boolean add(EGenericType eGenericType)
+                {
+                  return map().put(eGenericType, "") == null;
+                }
+                
+                @Override
+                public boolean addAll(Collection<? extends EGenericType> eGenericTypes)
+                {
+                  boolean result = false;
+                  for (EGenericType eGenericType : eGenericTypes)
+                  {
+                    if (map().put(eGenericType, "") == null)
+                    {
+                      result = true;
+                    }
+                  }
+                  return result;
+                }
+
+                @Override
+                public boolean remove(Object object) 
+                {
+                  if (containsKey(object)) 
+                  {
+                     map().remove(object);
+                     return true;
+                  }
+                  else
+                  {
+                    return false;
+                  }
+                }
+  
+                @Override
+                public void clear() 
+                {
+                  map().clear();
+                }
+             };
+          }
+        }.keySet();
     }
     return eGenericTypes;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-  {
-    switch (featureID)
-    {
-      case EcorePackage.ETYPE_PARAMETER__EANNOTATIONS:
-        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEAnnotations()).basicAdd(otherEnd, msgs);
-      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
-        return ((InternalEList<InternalEObject>)(InternalEList<?>)getEGenericTypes()).basicAdd(otherEnd, msgs);
-    }
-    return eDynamicInverseAdd(otherEnd, featureID, msgs);
   }
 
   /**
@@ -179,8 +257,6 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
         return ((InternalEList<?>)getEAnnotations()).basicRemove(otherEnd, msgs);
       case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
         return ((InternalEList<?>)getEBounds()).basicRemove(otherEnd, msgs);
-      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
-        return ((InternalEList<?>)getEGenericTypes()).basicRemove(otherEnd, msgs);
     }
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
@@ -201,8 +277,6 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
         return getName();
       case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
         return getEBounds();
-      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
-        return getEGenericTypes();
     }
     return eDynamicGet(featureID, resolve, coreType);
   }
@@ -229,10 +303,6 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
         getEBounds().clear();
         getEBounds().addAll((Collection<? extends EGenericType>)newValue);
         return;
-      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
-        getEGenericTypes().clear();
-        getEGenericTypes().addAll((Collection<? extends EGenericType>)newValue);
-        return;
     }
     eDynamicSet(featureID, newValue);
   }
@@ -256,9 +326,6 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
       case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
         getEBounds().clear();
         return;
-      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
-        getEGenericTypes().clear();
-        return;
     }
     eDynamicUnset(featureID);
   }
@@ -279,8 +346,6 @@ public class ETypeParameterImpl extends ENamedElementImpl implements ETypeParame
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
       case EcorePackage.ETYPE_PARAMETER__EBOUNDS:
         return eBounds != null && !eBounds.isEmpty();
-      case EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES:
-        return eGenericTypes != null && !eGenericTypes.isEmpty();
     }
     return eDynamicIsSet(featureID);
   }
