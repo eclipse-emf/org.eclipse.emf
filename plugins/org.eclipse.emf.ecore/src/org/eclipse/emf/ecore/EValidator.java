@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EValidator.java,v 1.6 2006/12/05 20:22:25 emerks Exp $
+ * $Id: EValidator.java,v 1.7 2006/12/26 19:04:56 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -33,11 +33,28 @@ public interface EValidator
   String MARKER = "org.eclipse.emf.ecore.diagnostic";
 
   /**
-   * This is the name of the marker attribute to hold the String reprsentation of the 
+   * This is the name of the marker attribute to hold the String representation of the 
    * {@link org.eclipse.emf.ecore.util.EcoreUtil#getURI URI} of the object that is the target of the marker.
    * @see org.eclipse.emf.ecore.util.EcoreUtil#getURI
    */
   String URI_ATTRIBUTE = "uri";
+
+  /**
+   * This is the name of the marker attribute to hold a space separated sequence 
+   * of {@link org.eclipse.emf.common.util.URI#encodeFragment(String, boolean)encoded} Strings 
+   * where each string is the {@link org.eclipse.emf.ecore.util.EcoreUtil#getURI URI} of an object related to the target of the marker.
+   * The vale of this attribute should be processed as follows:
+   *<pre>
+   *  for (String relatedURI : relatedURIs.split(" "))
+   *  {
+   *    URI uri = URI.createURI(URI.decode(relatedURI));
+   *    // ...
+   *  }
+   *</pre>
+   * @see org.eclipse.emf.ecore.util.EcoreUtil#getURI
+   * @see org.eclipse.emf.common.util.URI#decode(String)
+   */
+  String RELATED_URIS_ATTRIBUTE = "relatedURIs";
 
   /**
    * An <code>EValidator</code> wrapper that is used by the {@link EValidator.Registry}.
