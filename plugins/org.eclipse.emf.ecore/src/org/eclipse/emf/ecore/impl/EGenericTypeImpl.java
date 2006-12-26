@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EGenericTypeImpl.java,v 1.2 2006/12/08 19:51:47 emerks Exp $
+ * $Id: EGenericTypeImpl.java,v 1.3 2006/12/26 19:11:00 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 import java.util.Collection;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -80,14 +81,24 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
   protected EList<EGenericType> eTypeArguments = null;
 
   /**
+   * The cached default value for the {@link #eRawType eRawType} field.
+   * It needs to be set to {@link org.eclipse.emf.ecore.EcorePackage.Literals#EJAVA_OBJECT
+   * but due to bootstrap delays initializing that field, 
+   * it needs to be set after the Ecore package has been initialized.
+   * @see org.eclipse.emf.ecore.impl.EcorePackageImpl#internalBootstrap()
+   * @see #eRawType
+   */
+  static EDataType eJavaObject;
+
+  /**
    * The cached value of the '{@link #getERawType() <em>ERaw Type</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getERawType()
-   * @generated
+   * @generated NOT
    * @ordered
    */
-  protected EClassifier eRawType = null;
+  protected EClassifier eRawType = eJavaObject;
 
   /**
    * The cached value of the '{@link #getELowerBound() <em>ELower Bound</em>}' containment reference.
@@ -235,6 +246,10 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
   public NotificationChain setERawType(EClassifier newERawType, NotificationChain msgs)
   {
     EClassifier oldERawType = eRawType;
+    if (newERawType == null)
+    {
+      newERawType = eJavaObject; 
+    }
     eRawType = newERawType;
     if (eNotificationRequired())
     {
@@ -330,16 +345,21 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
       else if (eContainer instanceof ETypeParameter)
       {
         ETypeParameter eTypeParameter = (ETypeParameter)eContainer;
-        @SuppressWarnings("unchecked") EList<EGenericTypeImpl> eGenericTypes = (EList<EGenericTypeImpl>)(EList<?>)eTypeParameter.getEGenericTypes();
-        for (EGenericTypeImpl eGenericType : eGenericTypes)
+        synchronized (eTypeParameter)
         {
-          msgs = eGenericType.setERawType(eGenericType.getErasure(eTypeParameter), msgs);
+          @SuppressWarnings("unchecked") 
+          Set<EGenericTypeImpl> eGenericTypes = (Set<EGenericTypeImpl>)(Set<?>)((ETypeParameterImpl)eTypeParameter).getEGenericTypes();
+          for (EGenericTypeImpl eGenericType : eGenericTypes)
+          {
+            msgs = eGenericType.setERawType(eGenericType.getErasure(eTypeParameter), msgs);
+          }
         }
       }
     }
     return msgs;
   }
   
+
   @Override
   public NotificationChain eBasicSetContainer(InternalEObject newContainer, int newContainerFeatureID, NotificationChain msgs)
   {
@@ -446,24 +466,40 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void setETypeParameter(ETypeParameter newETypeParameter)
   {
     if (newETypeParameter != eTypeParameter)
     {
-      NotificationChain msgs = null;
+      // Maintain a (weak hash) set on the type parameter of all referencing generic types.
+      //
       if (eTypeParameter != null)
-        msgs = ((InternalEObject)eTypeParameter).eInverseRemove(this, EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES, ETypeParameter.class, msgs);
+      {
+        synchronized (eTypeParameter)
+        {
+          ((ETypeParameterImpl)eTypeParameter).getEGenericTypes().remove(this);
+        }
+      }
       if (newETypeParameter != null)
-        msgs = ((InternalEObject)newETypeParameter).eInverseAdd(this, EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES, ETypeParameter.class, msgs);
-      msgs = basicSetETypeParameter(newETypeParameter, msgs);
-      if (msgs != null) msgs.dispatch();
+      {
+        synchronized (newETypeParameter)
+        {
+          ((ETypeParameterImpl)newETypeParameter).getEGenericTypes().add(this);
+        }
+      }
+      NotificationChain msgs = basicSetETypeParameter(newETypeParameter, null);
+      if (msgs != null) 
+      {
+        msgs.dispatch();
+      }
     }
     else if (eNotificationRequired())
+    {
       eNotify(new ENotificationImpl(this, Notification.SET, EcorePackage.EGENERIC_TYPE__ETYPE_PARAMETER, newETypeParameter, newETypeParameter));
+    }
   }
-  
+
   protected EClassifier getErasure(ETypeParameter eTypeParameter)
   {
     if (eTypeParameter == null)
@@ -561,24 +597,6 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
    * @generated
    */
   @Override
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-  {
-    switch (featureID)
-    {
-      case EcorePackage.EGENERIC_TYPE__ETYPE_PARAMETER:
-        if (eTypeParameter != null)
-          msgs = ((InternalEObject)eTypeParameter).eInverseRemove(this, EcorePackage.ETYPE_PARAMETER__EGENERIC_TYPES, ETypeParameter.class, msgs);
-        return basicSetETypeParameter((ETypeParameter)otherEnd, msgs);
-    }
-    return eDynamicInverseAdd(otherEnd, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -589,8 +607,6 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
         return ((InternalEList<?>)getETypeArguments()).basicRemove(otherEnd, msgs);
       case EcorePackage.EGENERIC_TYPE__ELOWER_BOUND:
         return basicSetELowerBound(null, msgs);
-      case EcorePackage.EGENERIC_TYPE__ETYPE_PARAMETER:
-        return basicSetETypeParameter(null, msgs);
     }
     return eDynamicInverseRemove(otherEnd, featureID, msgs);
   }
@@ -707,6 +723,72 @@ public class EGenericTypeImpl extends EObjectImpl implements EGenericType
         return eClassifier != null;
     }
     return eDynamicIsSet(featureID);
+  }
+
+  @Override
+  public String toString()
+  {
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (expression: ");
+    toString(result);
+    result.append(')');
+    return result.toString();
+  }
+  
+  protected void toString(StringBuilder result)
+  {
+    if (eClassifier != null)
+    {
+      String label = eClassifier.getName();
+      if (label != null)
+      {
+        result.append(label);
+      }
+      
+      if (eTypeArguments != null && !eTypeArguments.isEmpty())
+      {
+        boolean first = true;
+        result.append('<');
+        for (EGenericType eTypeArgument : eTypeArguments)
+        {
+          if (first)
+          {
+            first = false;
+          }
+          else
+          {
+            result.append(", ");
+          }
+          ((EGenericTypeImpl)eTypeArgument).toString(result);
+        }
+        result.append('>');
+      }
+    }
+    else if (eTypeParameter != null)
+    {
+      String label = eTypeParameter.getName();
+      if (label != null)
+      {
+        result.append(label);
+      }
+    }
+    else
+    {
+      result.append('?');
+      if (eLowerBound != null)
+      {
+        result.append(" super ");
+        ((EGenericTypeImpl)eLowerBound).toString(result);
+      }
+      else
+      {
+        if (eUpperBound != null)
+        {
+          result.append(" extends ");
+          ((EGenericTypeImpl)eUpperBound).toString(result);
+        }
+      }
+    }
   }
 
 } //EGenericTypeImpl
