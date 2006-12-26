@@ -12,13 +12,14 @@
  *
  * </copyright>
  *
- * $Id: EcorePackageImpl.java,v 1.18 2006/12/18 21:57:39 marcelop Exp $
+ * $Id: EcorePackageImpl.java,v 1.19 2006/12/26 19:09:50 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
@@ -45,10 +46,12 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.util.FeatureMap;
 
 
@@ -488,7 +491,28 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     // Initialize created meta-data
     theEcorePackage.initializePackageContents();
 
+    // Register package validator
+    EValidator.Registry.INSTANCE.put
+      (theEcorePackage, 
+       new EValidator.Descriptor()
+       {
+         public EValidator getEValidator()
+         {
+           return EcoreValidator.INSTANCE;
+         }
+       });
+
     return theEcorePackage;
+  }
+  
+  private static ArrayList<EGenericTypeImpl> eGenericTypes = new ArrayList<EGenericTypeImpl>();
+
+  @Override
+  protected EGenericType createEGenericType()
+  {
+    EGenericTypeImpl eGenericType = (EGenericTypeImpl)super.createEGenericType();
+    eGenericTypes.add(eGenericType);
+    return eGenericType;
   }
 
   public static boolean internalBootstrap()
@@ -498,6 +522,16 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     ((EcorePackageImpl)EcorePackage.eINSTANCE).createExtendedMetaDataAnnotations();
 
     ((EPackageImpl)EcorePackage.eINSTANCE).freeze();
+
+    // This is needed for internal bootstrapping of EGenericType's default value for eRawType.
+    // It's simply not available before Ecore is constructed so we make it available and then patch what's missing.
+    //
+    EGenericTypeImpl.eJavaObject = EcorePackage.Literals.EJAVA_OBJECT;
+    for (EGenericTypeImpl eGenericType : eGenericTypes)
+    {
+      eGenericType.setERawType(EcorePackage.Literals.EJAVA_OBJECT, null);
+    }
+
     return true;
   }
 
@@ -1471,16 +1505,6 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EReference getETypeParameter_EGenericTypes()
-  {
-    return (EReference)eTypeParameterEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
   public EDataType getEBigDecimal()
   {
     return eBigDecimalEDataType;
@@ -2016,7 +2040,6 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
 
     eTypeParameterEClass = createEClass(ETYPE_PARAMETER);
     createEReference(eTypeParameterEClass, ETYPE_PARAMETER__EBOUNDS);
-    createEReference(eTypeParameterEClass, ETYPE_PARAMETER__EGENERIC_TYPES);
 
     // Create data types
     eBigDecimalEDataType = createEDataType(EBIG_DECIMAL);
@@ -2325,12 +2348,11 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
     initEReference(getEGenericType_ETypeArguments(), this.getEGenericType(), null, "eTypeArguments", null, 0, -1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEGenericType_ERawType(), this.getEClassifier(), null, "eRawType", null, 1, 1, EGenericType.class, IS_TRANSIENT, !IS_VOLATILE, !IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
     initEReference(getEGenericType_ELowerBound(), this.getEGenericType(), null, "eLowerBound", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getEGenericType_ETypeParameter(), this.getETypeParameter(), this.getETypeParameter_EGenericTypes(), "eTypeParameter", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEGenericType_ETypeParameter(), this.getETypeParameter(), null, "eTypeParameter", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEGenericType_EClassifier(), this.getEClassifier(), null, "eClassifier", null, 0, 1, EGenericType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(eTypeParameterEClass, ETypeParameter.class, "ETypeParameter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getETypeParameter_EBounds(), this.getEGenericType(), null, "eBounds", null, 0, -1, ETypeParameter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getETypeParameter_EGenericTypes(), this.getEGenericType(), this.getEGenericType_ETypeParameter(), "eGenericTypes", null, 0, -1, ETypeParameter.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize data types
     initEDataType(eBigDecimalEDataType, BigDecimal.class, "EBigDecimal", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -2371,6 +2393,94 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
   }
 
   /**
+   * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected void createEcoreAnnotations()
+  {
+    String source = "http://www.eclipse.org/emf/2002/Ecore";		
+    addAnnotation
+      (eAttributeEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "ConsistentTransient"
+       });		
+    addAnnotation
+      (eAnnotationEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "WellFormedSourceURI"
+       });		
+    addAnnotation
+      (eClassEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes"
+       });				
+    addAnnotation
+      (eClassifierEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "WellFormedInstanceTypeName UniqueTypeParameterNames"
+       });				
+    addAnnotation
+      (eEnumEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "UniqueEnumeratorNames UniqueEnumeratorLiterals"
+       });		
+    addAnnotation
+      (eNamedElementEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "WellFormedName"
+       });		
+    addAnnotation
+      (eOperationEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid"
+       });				
+    addAnnotation
+      (ePackageEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "WellFormedNsURI WellFormedNsPrefix UniqueSubpackageNames UniqueClassifierNames UniqueNsURIs"
+       });		
+    addAnnotation
+      (eReferenceEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "ConsistentOpposite SingleContainer ConsistentKeys"
+       });		
+    addAnnotation
+      (eTypedElementEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "ValidLowerBound ValidUpperBound ConsistentBounds ValidType"
+       });																							
+    addAnnotation
+      (eGenericTypeEClass, 
+       source, 
+       new String[] 
+       {
+       "constraints", "ConsistentType ConsistentBounds ConsistentArguments"
+       });
+  }
+
+  /**
    * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2378,7 +2488,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
    */
   protected void createExtendedMetaDataAnnotations()
   {
-    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";										
+    String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";																				
     addAnnotation
       (eBigDecimalEDataType, 
        source, 
@@ -2519,7 +2629,7 @@ public class EcorePackageImpl extends EPackageImpl implements EcorePackage
        new String[] 
        {
        "baseType", "http://www.w3.org/2001/XMLSchema#string"
-       });
+       });	
   }
 
   /**
