@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttributeImpl.java,v 1.12 2006/12/18 22:04:17 marcelop Exp $
+ * $Id: EAttributeImpl.java,v 1.13 2006/12/26 19:07:06 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -182,7 +182,11 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
   {
     if (eAttributeType == null || !isFrozen() && eAttributeType.eIsProxy())
     {
-      eAttributeType =(EDataType)getEType();
+      EClassifier eType = getEType();
+      if (eType instanceof EDataType)
+      {
+        eAttributeType =(EDataType)eType;
+      }
     }
     return eAttributeType;
   }
@@ -196,7 +200,11 @@ public class EAttributeImpl extends EStructuralFeatureImpl implements EAttribute
   {
     if (eAttributeType == null)
     {
-      eAttributeType =(EDataType)basicGetEType();
+      EClassifier eType = basicGetEType();
+      if (eType instanceof EDataType)
+      {
+        eAttributeType =(EDataType)eType;
+      }
     }
     return eAttributeType;
   }
