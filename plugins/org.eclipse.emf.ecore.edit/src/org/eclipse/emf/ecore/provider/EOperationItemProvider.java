@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationItemProvider.java,v 1.12 2006/12/05 20:26:51 emerks Exp $
+ * $Id: EOperationItemProvider.java,v 1.13 2006/12/26 18:57:48 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -187,13 +187,20 @@ public class EOperationItemProvider
         return eObject.eContainingFeature();
       }
     }
-    if (eOperation.getEGenericType() == null)
+    if (child instanceof EGenericType)
     {
-      return EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE;
+      if (eOperation.getEGenericType() == null)
+      {
+        return EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE;
+      }
+      else
+      {
+        return EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS;
+      }
     }
     else
     {
-      return EcorePackage.Literals.EOPERATION__EGENERIC_EXCEPTIONS;
+      return super.getChildFeature(object, child);
     }
   }
 
