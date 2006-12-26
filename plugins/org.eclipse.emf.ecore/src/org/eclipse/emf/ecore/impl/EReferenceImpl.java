@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceImpl.java,v 1.10 2006/12/18 21:57:39 marcelop Exp $
+ * $Id: EReferenceImpl.java,v 1.11 2006/12/26 19:07:23 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -265,7 +265,11 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
   {
     if (eReferenceType == null || !isFrozen() && eReferenceType.eIsProxy())
     {
-      eReferenceType =(EClass)getEType();
+      EClassifier eType = getEType();
+      if (eType instanceof EClass)
+      {
+        eReferenceType =(EClass)getEType();
+      }
     }
     return eReferenceType;
   }
@@ -279,7 +283,11 @@ public class EReferenceImpl extends EStructuralFeatureImpl implements EReference
   {
     if (eReferenceType == null)
     {
-      eReferenceType =(EClass)basicGetEType();
+      EClassifier eType = basicGetEType();
+      if (eType instanceof EClass)
+      {
+        eReferenceType =(EClass)getEType();
+      }
     }
     return eReferenceType;
   }
