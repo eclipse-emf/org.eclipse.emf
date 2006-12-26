@@ -12,10 +12,12 @@
  *
  * </copyright>
  *
- * $Id: EditUIMarkerHelper.java,v 1.9 2006/09/12 14:52:42 marcelop Exp $
+ * $Id: EditUIMarkerHelper.java,v 1.10 2006/12/26 18:56:00 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,8 +29,11 @@ import org.eclipse.emf.common.ui.MarkerHelper;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 /**
@@ -167,4 +172,45 @@ public class EditUIMarkerHelper extends MarkerHelper
 
     super.deleteMarkers(object, includeSubtypes, depth);
   }  
+
+  /**
+   * @since 2.3
+   */
+  @Override
+  public List<?> getTargetObjects(Object object, IMarker marker)
+  {
+    if (object instanceof AdapterFactoryEditingDomain)
+    {
+      ArrayList<Object> result = new ArrayList<Object>();
+      AdapterFactoryEditingDomain editingDomain = (AdapterFactoryEditingDomain)object;
+      String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE, null);
+      if (uriAttribute != null)
+      {
+        URI uri = URI.createURI(uriAttribute);
+        EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
+        if (eObject != null)
+        {
+          result.add(editingDomain.getWrapper(eObject));
+        }
+      }
+      String relatedURIsAttribute = marker.getAttribute(EValidator.RELATED_URIS_ATTRIBUTE, null);
+      if (relatedURIsAttribute != null)
+      {
+        for (String relatedURI : relatedURIsAttribute.split(" "))
+        {
+          URI uri = URI.createURI(URI.decode(relatedURI));
+          EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
+          if (eObject != null)
+          {
+            result.add(editingDomain.getWrapper(eObject));
+          }
+        }
+      }
+      return result;
+    }
+    else
+    {
+      return super.getTargetObjects(object, marker);
+    }
+  }
 }
