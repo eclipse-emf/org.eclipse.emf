@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMLTypePackage.java,v 1.9 2006/12/09 18:11:29 emerks Exp $
+ * $Id: XMLTypePackage.java,v 1.10 2006/12/26 19:02:01 emerks Exp $
  */
 package org.eclipse.emf.ecore.xml.type;
 
@@ -63,7 +63,7 @@ public interface XMLTypePackage extends EPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  String eNS_PREFIX = "xml.type";
+  String eNS_PREFIX = "ecore.xml.type";
 
   /**
    * The singleton instance of the package.

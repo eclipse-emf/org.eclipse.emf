@@ -9,7 +9,7 @@
   xmlns:xs.ecore="http://www.eclipse.org/emf/2003/XMLType"
   xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
   ecore:documentRoot="XMLTypeDocumentRoot"
-  ecore:nsPrefix="xml.type"
+  ecore:nsPrefix="ecore.xml.type"
   ecore:package="org.eclipse.emf.ecore.xml.type">
   
   <xs:element name="text" type="xs.ecore:string" ecore:suppressedGetVisibility="true"/>
