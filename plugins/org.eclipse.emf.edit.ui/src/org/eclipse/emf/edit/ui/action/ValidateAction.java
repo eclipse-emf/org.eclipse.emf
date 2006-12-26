@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.18 2006/05/01 15:57:37 marcelop Exp $
+ * $Id: ValidateAction.java,v 1.19 2006/12/26 18:56:17 emerks Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -49,6 +49,7 @@ import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
@@ -106,17 +107,36 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     protected void adjustMarker(IMarker marker, Diagnostic diagnostic, Diagnostic parentDiagnostic) throws CoreException
     {
       List data = diagnostic.getData();
-      if (!data.isEmpty())
+      StringBuilder relatedURIs = new StringBuilder();
+      boolean first = true;
+      for (Object object : data)
       {
-        Object target = data.get(0);
-        if (target instanceof EObject)
+        if (object instanceof EObject)
         {
-          marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI((EObject)target).toString());
+          EObject eObject = (EObject)object;
+          if (first)
+          {
+            first = false;
+            marker.setAttribute(EValidator.URI_ATTRIBUTE, EcoreUtil.getURI(eObject).toString());
+          }
+          else
+          {
+            if (relatedURIs.length() != 0)
+            {
+              relatedURIs.append(' ');
+            }
+            relatedURIs.append(URI.encodeFragment(EcoreUtil.getURI(eObject).toString(), false));
+          }
         }
       }
 
+      if (relatedURIs.length() > 0)
+      {
+        marker.setAttribute(EValidator.RELATED_URIS_ATTRIBUTE, relatedURIs.toString());
+      }
+
       super.adjustMarker(marker, diagnostic, parentDiagnostic);      
-    }    
+    }
   }
   
   protected ISelectionProvider selectionProvider;
