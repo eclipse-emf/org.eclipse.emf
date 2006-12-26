@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcorePackage.java,v 1.12 2006/12/18 22:01:16 marcelop Exp $
+ * $Id: EcorePackage.java,v 1.13 2006/12/26 19:06:11 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -2099,22 +2099,13 @@ public interface EcorePackage extends EPackage
   int ETYPE_PARAMETER__EBOUNDS = ENAMED_ELEMENT_FEATURE_COUNT + 0;
 
   /**
-   * The feature id for the '<em><b>EGeneric Types</b></em>' reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ETYPE_PARAMETER__EGENERIC_TYPES = ENAMED_ELEMENT_FEATURE_COUNT + 1;
-
-  /**
    * The number of structural features of the '<em>EType Parameter</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ETYPE_PARAMETER_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 2;
+  int ETYPE_PARAMETER_FEATURE_COUNT = ENAMED_ELEMENT_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '<em>EBig Decimal</em>' data type.
@@ -3560,17 +3551,6 @@ public interface EcorePackage extends EPackage
   EReference getETypeParameter_EBounds();
 
   /**
-   * Returns the meta object for the reference list '{@link org.eclipse.emf.ecore.ETypeParameter#getEGenericTypes <em>EGeneric Types</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the reference list '<em>EGeneric Types</em>'.
-   * @see org.eclipse.emf.ecore.ETypeParameter#getEGenericTypes()
-   * @see #getETypeParameter()
-   * @generated
-   */
-  EReference getETypeParameter_EGenericTypes();
-
-  /**
    * Returns the meta object for data type '{@link java.math.BigDecimal <em>EBig Decimal</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -4802,14 +4782,6 @@ public interface EcorePackage extends EPackage
      * @generated
      */
     EReference ETYPE_PARAMETER__EBOUNDS = eINSTANCE.getETypeParameter_EBounds();
-
-    /**
-     * The meta object literal for the '<em><b>EGeneric Types</b></em>' reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference ETYPE_PARAMETER__EGENERIC_TYPES = eINSTANCE.getETypeParameter_EGenericTypes();
 
     /**
      * The meta object literal for the '<em>EBig Decimal</em>' data type.
