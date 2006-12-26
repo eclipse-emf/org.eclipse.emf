@@ -12,10 +12,11 @@
  *
  * </copyright>
  *
- * $Id: MarkerHelper.java,v 1.6 2006/10/16 03:46:10 davidms Exp $
+ * $Id: MarkerHelper.java,v 1.7 2006/12/26 18:55:52 emerks Exp $
  */
 package org.eclipse.emf.common.ui;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -245,5 +246,13 @@ public class MarkerHelper
     {
       return null;
     }
+  }
+
+  /**
+   * @since 2.3
+   */
+  public List<?> getTargetObjects(Object object, IMarker marker)
+  {
+    return Collections.EMPTY_LIST;
   }
 }
