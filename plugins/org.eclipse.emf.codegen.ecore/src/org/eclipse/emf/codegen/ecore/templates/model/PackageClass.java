@@ -1227,7 +1227,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(TEXT_253);
     for (Iterator c=genPackage.getGenClassifiers().iterator(); c.hasNext();) { GenClassifier genClassifier = (GenClassifier)c.next();
     for (Iterator t=genClassifier.getGenTypeParameters().iterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = (GenTypeParameter)t.next();
-    if (!genTypeParameter.getEcoreTypeParameter().getEBounds().isEmpty() || !genTypeParameter.getEcoreTypeParameter().getEGenericTypes().isEmpty()) {
+    if (!genTypeParameter.getEcoreTypeParameter().getEBounds().isEmpty() || genTypeParameter.isUsed()) {
     stringBuffer.append(TEXT_254);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.ETypeParameter"));
     stringBuffer.append(TEXT_255);
@@ -1504,7 +1504,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(genModel.getNonNLS());
     }
     if (genModel.useGenerics()) {
-    for (ListIterator t=genOperation.getGenTypeParameters().listIterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = (GenTypeParameter)t.next(); String typeParameterVariable = ""; if (!genTypeParameter.getEcoreTypeParameter().getEBounds().isEmpty() || !genTypeParameter.getEcoreTypeParameter().getEGenericTypes().isEmpty()) { if (maxTypeParameterAssignment <= t.previousIndex()) { ++maxTypeParameterAssignment; typeParameterVariable = genModel.getImportedName("org.eclipse.emf.ecore.ETypeParameter") + " t" + t.nextIndex() + " = "; } else { typeParameterVariable = "t" + t.nextIndex() + " = "; }} 
+    for (ListIterator t=genOperation.getGenTypeParameters().listIterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = (GenTypeParameter)t.next(); String typeParameterVariable = ""; if (!genTypeParameter.getEcoreTypeParameter().getEBounds().isEmpty() || genTypeParameter.isUsed()) { if (maxTypeParameterAssignment <= t.previousIndex()) { ++maxTypeParameterAssignment; typeParameterVariable = genModel.getImportedName("org.eclipse.emf.ecore.ETypeParameter") + " t" + t.nextIndex() + " = "; } else { typeParameterVariable = "t" + t.nextIndex() + " = "; }} 
     stringBuffer.append(TEXT_369);
     stringBuffer.append(typeParameterVariable);
     stringBuffer.append(TEXT_370);
