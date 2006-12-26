@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifierImpl.java,v 1.21 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EClassifierImpl.java,v 1.22 2006/12/26 19:07:58 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -22,7 +22,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -395,9 +394,9 @@ public abstract class EClassifierImpl extends ENamedElementImpl implements EClas
       {
         Class<?> primitiveClass = getPrimitiveOrArrayClass();
         if (primitiveClass != null)
+        {
           setInstanceClassGen(primitiveClass);
-        else
-          throw new WrappedException(e);
+        }
       }
     }
     return getInstanceClassGen();
