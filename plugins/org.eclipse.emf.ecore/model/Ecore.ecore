@@ -4,11 +4,17 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ecore"
     nsURI="http://www.eclipse.org/emf/2002/Ecore" nsPrefix="ecore">
   <eClassifiers xsi:type="ecore:EClass" name="EAttribute" eSuperTypes="#//EStructuralFeature">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ConsistentTransient"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="iD" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eAttributeType" lowerBound="1"
         eType="#//EDataType" changeable="false" volatile="true" transient="true" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EAnnotation" eSuperTypes="#//EModelElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="WellFormedSourceURI"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="details" upperBound="-1"
         eType="#//EStringToStringMapEntry" containment="true" resolveProxies="false"/>
@@ -20,6 +26,9 @@
         eType="#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EClass" eSuperTypes="#//EClassifier">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes"/>
+    </eAnnotations>
     <eOperations name="isSuperTypeOf" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="someClass" eType="#//EClass"/>
     </eOperations>
@@ -83,6 +92,9 @@
         transient="true" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EClassifier" abstract="true" eSuperTypes="#//ENamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="WellFormedInstanceTypeName UniqueTypeParameterNames"/>
+    </eAnnotations>
     <eOperations name="isInstance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eParameters name="object" eType="#//EJavaObject"/>
     </eOperations>
@@ -119,6 +131,9 @@
         defaultValueLiteral="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EEnum" eSuperTypes="#//EDataType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="UniqueEnumeratorNames UniqueEnumeratorLiterals"/>
+    </eAnnotations>
     <eOperations name="getEEnumLiteral" eType="#//EEnumLiteral">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
@@ -162,6 +177,9 @@
         eType="#//EAnnotation" containment="true" resolveProxies="false" eOpposite="#//EAnnotation/eModelElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ENamedElement" abstract="true" eSuperTypes="#//EModelElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="WellFormedName"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EObject">
@@ -205,6 +223,9 @@
     </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EOperation" eSuperTypes="#//ETypedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eContainingClass" eType="#//EClass"
         changeable="false" transient="true" resolveProxies="false" eOpposite="#//EClass/eOperations"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eTypeParameters" upperBound="-1"
@@ -227,6 +248,9 @@
     </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EPackage" eSuperTypes="#//ENamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="WellFormedNsURI WellFormedNsPrefix UniqueSubpackageNames UniqueClassifierNames UniqueNsURIs"/>
+    </eAnnotations>
     <eOperations name="getEClassifier" eType="#//EClassifier">
       <eParameters name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
@@ -246,6 +270,9 @@
         changeable="false" transient="true" resolveProxies="false" eOpposite="#//EOperation/eParameters"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EReference" eSuperTypes="#//EStructuralFeature">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ConsistentOpposite SingleContainer ConsistentKeys"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="containment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="container" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         changeable="false" volatile="true" transient="true" derived="true"/>
@@ -278,6 +305,9 @@
         changeable="false" transient="true" resolveProxies="false" eOpposite="#//EClass/eStructuralFeatures"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ETypedElement" abstract="true" eSuperTypes="#//ENamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ValidLowerBound ValidUpperBound ConsistentBounds ValidType"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ordered" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
@@ -443,6 +473,9 @@
     <eTypeParameters name="E"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EGenericType" eSuperTypes="#//EObject">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+      <details key="constraints" value="ConsistentType ConsistentBounds ConsistentArguments"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eUpperBound" eType="#//EGenericType"
         containment="true" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eTypeArguments" upperBound="-1"
@@ -452,13 +485,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="eLowerBound" eType="#//EGenericType"
         containment="true" resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eTypeParameter" eType="#//ETypeParameter"
-        resolveProxies="false" eOpposite="#//ETypeParameter/eGenericTypes"/>
+        resolveProxies="false"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="eClassifier" eType="#//EClassifier"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ETypeParameter" eSuperTypes="#//ENamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="eBounds" upperBound="-1"
         eType="#//EGenericType" containment="true" resolveProxies="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="eGenericTypes" upperBound="-1"
-        eType="#//EGenericType" transient="true" resolveProxies="false" eOpposite="#//EGenericType/eTypeParameter"/>
   </eClassifiers>
 </ecore:EPackage>
