@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.73 2006/12/13 20:38:19 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.74 2006/12/26 19:01:06 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -79,6 +79,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -86,10 +87,12 @@ import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreValidator;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
@@ -2399,6 +2402,42 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
                  ("_UI_ThePackageHasTheSameNamespaceURI", 
                   new Object [] { EcoreUtil.getURI(ePackage), ePackage.getNsURI(), EcoreUtil.getURI(genPackage.getEcorePackage()) }),
                null));
+        }
+      }
+
+      for (Iterator i = getAllGenPackages().iterator(); i.hasNext(); )
+      {
+        EPackage ePackage = ((GenPackage)i.next()).getEcorePackage();
+        if (ePackage != null)
+        {
+          Diagnostician diagnostician = 
+            new Diagnostician(EValidator.Registry.INSTANCE)
+            {
+              @Override
+              public String getObjectLabel(EObject object)
+              {
+                return EcoreUtil.getURI(object).toString();
+              }
+            };
+          Diagnostic diagnostic = diagnostician.validate(ePackage);
+          if (diagnostic.getSeverity() == Diagnostic.ERROR)
+          {
+            status.addAll(diagnostic);
+          }
+          else if (diagnostic.getSeverity() == Diagnostic.WARNING)
+          {
+            // If there are any warnings other than raw type warnings, include all the warnings.
+            //
+            for (Diagnostic child : diagnostic.getChildren())
+            {
+              if (!EcoreValidator.DIAGNOSTIC_SOURCE.equals(child.getSource()) ||
+                    child.getCode() != EcoreValidator.CONSISTENT_ARGUMENTS_NONE)
+              {
+                status.addAll(diagnostic);
+                break;
+              }
+            }
+          }
         }
       }
     }
