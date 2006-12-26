@@ -1,0 +1,806 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bad"
+    nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore" nsPrefix="bad">
+  <eSubpackages name="annotation" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//annotation"
+      nsPrefix="bad.annotation">
+    <eAnnotations source="">
+      <details key="A source URI that is the empty string is not well formed" value="''"/>
+    </eAnnotations>
+    <eAnnotations source="A source URI with spaces is not well formed"/>
+    <eAnnotations source="AnUnencoded%IsNotWellFormed"/>
+    <eAnnotations source="AnnotationWithDetailsContainingDuplicateMapEntries">
+      <details/>
+      <details/>
+    </eAnnotations>
+  </eSubpackages>
+  <eSubpackages name="name" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//name"
+      nsPrefix="bad.name">
+    <eClassifiers xsi:type="ecore:EClass"/>
+    <eClassifiers xsi:type="ecore:EClass" name="invalid.dot.qualified.name"/>
+    <eClassifiers xsi:type="ecore:EClass" name="1"/>
+    <eClassifiers xsi:type="ecore:EClass" name="name with spaces"/>
+  </eSubpackages>
+  <eSubpackages name="instanceTypeName" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//instanceTypeName"
+      nsPrefix="bad.instance.type.name">
+    <eClassifiers xsi:type="ecore:EClass" name="EmptyString" instanceClassName=""/>
+    <eClassifiers xsi:type="ecore:EClass" name="BalancedBrackets" instanceClassName="T["/>
+    <eClassifiers xsi:type="ecore:EClass" name="EmptyArguments" instanceTypeName="T&lt;>"/>
+    <eClassifiers xsi:type="ecore:EClass" name="UnbalancedArguments" instanceTypeName="T&lt;"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NonJavaIdentifierStart" instanceClassName=".name"/>
+    <eClassifiers xsi:type="ecore:EClass" name="NonSeparatingDot" instanceClassName="name..name"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EndsWithDot" instanceClassName="name."/>
+    <eClassifiers xsi:type="ecore:EClass" name="ArrayAndTypeArguments" instanceTypeName="T[]&lt;X>"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TypeArgumentsAndArray" instanceTypeName="T&lt;X>[]"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TypeArgumentsWithoutComma" instanceTypeName="T&lt;X Y>"/>
+  </eSubpackages>
+  <eSubpackages name="class" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//class"
+      nsPrefix="bad.class">
+    <eClassifiers xsi:type="ecore:EClass" name="NonAbstractInterface" interface="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TwoIDAttributes">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="A">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="B">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          iD="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TwoInheritedIDAttributes" eSuperTypes="#//class/A #//class/B"/>
+    <eClassifiers xsi:type="ecore:EClass" name="TwoAttributesWithSameNames">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ThreeAttributesWithMatchingNames">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="A" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="A_" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TwoOperationsWithMatchingSignatures">
+      <eOperations name="f">
+        <eParameters name="x" eType="ecore:EDataType ../../../plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//HexBinary"/>
+      </eOperations>
+      <eOperations name="f">
+        <eParameters name="x" eType="ecore:EDataType ../../../plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//Base64Binary"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="C">
+      <eOperations name="f">
+        <eParameters name="x" eType="ecore:EDataType ../../../plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//HexBinary"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="D">
+      <eOperations name="f">
+        <eParameters name="x" eType="ecore:EDataType ../../../plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//Base64Binary"/>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TwoInheritedOperationsWithMatchingSignatures"
+        eSuperTypes="#//class/C #//class/D"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SelfCircular" eSuperTypes="#//class/SelfCircular"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CircularA" eSuperTypes="#//class/CircularB"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CircularB" eSuperTypes="#//class/CircularA"/>
+    <eClassifiers xsi:type="ecore:EClass" name="MapEntryWithoutKeyOrValueFeature"
+        instanceClassName="java.util.Map$Entry"/>
+  </eSubpackages>
+  <eSubpackages name="enum" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//enum"
+      nsPrefix="bad.enum">
+    <eClassifiers xsi:type="ecore:EEnum" name="TwoEnumeratorsWithSameNames">
+      <eLiterals name="A"/>
+      <eLiterals name="A" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="ThreeEnumeratorsWithMatchingNames">
+      <eLiterals name="a"/>
+      <eLiterals name="A" value="1"/>
+      <eLiterals name="A_" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="TwoEnumeratorsWithSameLiterals">
+      <eLiterals name="A" literal="x"/>
+      <eLiterals name="B" literal="x"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="parameter" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//parameter"
+      nsPrefix="bad.parameter">
+    <eClassifiers xsi:type="ecore:EClass" name="DuplicateParameterNames">
+      <eOperations name="f">
+        <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eOperations>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="typeParameter" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//typeParameter"
+      nsPrefix="bad.type.parameter">
+    <eClassifiers xsi:type="ecore:EClass" name="DuplicateTypeParameterNames">
+      <eTypeParameters name="T"/>
+      <eTypeParameters name="T"/>
+      <eOperations name="f">
+        <eTypeParameters name="A"/>
+        <eTypeParameters name="A"/>
+      </eOperations>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="operation" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//operation"
+      nsPrefix="bad.operation">
+    <eClassifiers xsi:type="ecore:EClass" name="RepeatingVoidOperation">
+      <eOperations name="f" upperBound="-1"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="package" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package"
+      nsPrefix="bad.package">
+    <eSubpackages name="noNsURI" nsPrefix="bad.package.no.ns.uri"/>
+    <eSubpackages name="blankNsURI" nsURI="" nsPrefix="bad.package.blank.ns.uri"/>
+    <eSubpackages name="nsURIWithSpace" nsURI="NSUI With Space" nsPrefix="bad.package.ns.uri.with.space"/>
+    <eSubpackages name="nsURIWithUnencodedPercent" nsURI="NsURIWithUnencoded%" nsPrefix="bad.package.ns.uri.with.unecoded.percent"/>
+    <eSubpackages name="blankPrefix" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/blankPrefix"
+        nsPrefix=""/>
+    <eSubpackages name="xmlPrefix" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/xmlPrefix"
+        nsPrefix="xml.prefix"/>
+    <eSubpackages name="nonNCNamePrefix" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/nonNCNamePrefix"
+        nsPrefix="bad.package:nonNSNamePrefix"/>
+    <eSubpackages name="duplicateName" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/duplicateName"
+        nsPrefix="bad.package.duplicate.name"/>
+    <eSubpackages name="duplicateName" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/duplicateName.1"
+        nsPrefix="bad.package.duplicate.name"/>
+    <eSubpackages name="duplicateClassifiers" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/duplicateClassifiers"
+        nsPrefix="bad.package.duplicate.classifiers">
+      <eClassifiers xsi:type="ecore:EClass" name="a"/>
+      <eClassifiers xsi:type="ecore:EClass" name="a"/>
+      <eClassifiers xsi:type="ecore:EClass" name="A_"/>
+    </eSubpackages>
+    <eSubpackages name="duplicateNsURIs" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/duplicateNsURIs"
+        nsPrefix="bad.package.duplicate.ns.uris">
+      <eSubpackages name="a1" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/duplicateNsURIs/a1"
+          nsPrefix="bad.package.duplicate.ns.uris.a1"/>
+      <eSubpackages name="a2" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//package/duplicateNsURIs/a1"
+          nsPrefix="bad.package.duplicate.ns.uris.a2"/>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="opposite" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//opposite"
+      nsPrefix="bad.opposite">
+    <eSubpackages name="oppositeNotMatched" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//oppositeNotMatched"
+        nsPrefix="bad.opposite.not.matched">
+      <eClassifiers xsi:type="ecore:EClass" name="AA">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="b" eType="#//opposite/oppositeNotMatched/BB"
+            eOpposite="#//opposite/oppositeNotMatched/BB/a"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BB">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="a" eType="#//opposite/oppositeNotMatched/AA"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="oppositeNotFeatureOfType" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//oppositeNotFeatureOfType"
+        nsPrefix="bad.opposite.not.feature.of.type">
+      <eClassifiers xsi:type="ecore:EClass" name="AA">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="b" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+            eOpposite="#//opposite/oppositeNotFeatureOfType/BB/a"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BB">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="a" eType="#//opposite/oppositeNotFeatureOfType/AA"
+            eOpposite="#//opposite/oppositeNotFeatureOfType/AA/b"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="oppositeInconsistentTransient" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//oppositeInconsistentTransient"
+        nsPrefix="bad.opposite.inconsistent.transient">
+      <eClassifiers xsi:type="ecore:EClass" name="AA">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="b" eType="#//opposite/oppositeInconsistentTransient/BB"
+            transient="true" eOpposite="#//opposite/oppositeInconsistentTransient/BB/a"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BB">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="a" eType="#//opposite/oppositeInconsistentTransient/AA"
+            eOpposite="#//opposite/oppositeInconsistentTransient/AA/b"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="oppositeMultipleContainers" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//oppositeMultipleContainers"
+        nsPrefix="bad.opposite.multiple.containers">
+      <eClassifiers xsi:type="ecore:EClass" name="AA">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="b" eType="#//opposite/oppositeMultipleContainers/BB"
+            containment="true" eOpposite="#//opposite/oppositeMultipleContainers/BB/a"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BB">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="a" upperBound="2" eType="#//opposite/oppositeMultipleContainers/AA"
+            eOpposite="#//opposite/oppositeMultipleContainers/AA/b"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="oppositeBothContainment" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//oppositeBothContainment"
+        nsPrefix="bad.opposite.both.containment">
+      <eClassifiers xsi:type="ecore:EClass" name="AA">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="b" eType="#//opposite/oppositeBothContainment/BB"
+            containment="true" eOpposite="#//opposite/oppositeBothContainment/BB/a"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BB">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="a" eType="#//opposite/oppositeBothContainment/AA"
+            containment="true" eOpposite="#//opposite/oppositeBothContainment/AA/b"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="typedElementBounds" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//typedElementBounds"
+      nsPrefix="bad.typed.element.bounds">
+    <eClassifiers xsi:type="ecore:EClass" name="LowerBoundLessThanZero">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" lowerBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BadUpperBounds">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" upperBound="0" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" upperBound="-3" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="UpperBoundLessThanLowerBound">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" lowerBound="2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="genericType" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//genericType"
+      nsPrefix="bad.generic.type">
+    <eClassifiers xsi:type="ecore:EClass" name="AttributeClassType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ReferenceDataType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="r" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BadWildcard">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GenericTypeWithClassifierAndTypeParameter">
+      <eTypeParameters name="T"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a">
+        <eGenericType eTypeParameter="#//genericType/GenericTypeWithClassifierAndTypeParameter/T"
+            eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NonClassGenericSuperType">
+      <eGenericSuperTypes eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TypeParameterGenericSuperType">
+      <eTypeParameters name="T"/>
+      <eGenericSuperTypes eTypeParameter="#//genericType/TypeParameterGenericSuperType/T"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BaseClass">
+      <eTypeParameters name="T"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DerivedClass">
+      <eTypeParameters name="T"/>
+      <eGenericSuperTypes eClassifier="#//genericType/BaseClass">
+        <eTypeArguments eTypeParameter="#//genericType/DerivedClass/T"/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DuplicateGenericSuperTypes">
+      <eGenericSuperTypes eClassifier="#//genericType/BaseClass">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      </eGenericSuperTypes>
+      <eGenericSuperTypes eClassifier="#//genericType/BaseClass">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GenericTypeWithWildCardArgument">
+      <eGenericSuperTypes eClassifier="#//genericType/BaseClass">
+        <eTypeArguments/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GenericTypeWithLowerAndUpperBound">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+          <eTypeArguments>
+            <eUpperBound eClassifier="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+            <eLowerBound eClassifier="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+          </eTypeArguments>
+        </eGenericType>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BadBounds">
+      <eTypeParameters name="T"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a">
+        <eGenericType eTypeParameter="#//genericType/BadBounds/T">
+          <eUpperBound eTypeParameter="#//genericType/BadBounds/T"/>
+        </eGenericType>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BadBoundAndClassifier">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+          <eTypeArguments eClassifier="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject">
+            <eUpperBound eClassifier="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+          </eTypeArguments>
+        </eGenericType>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GenericTypeWithArgumentsButNoClassifier">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+          <eTypeArguments>
+            <eTypeArguments/>
+          </eTypeArguments>
+        </eGenericType>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RawTypeWarning">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TooManyTypeArguments">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a">
+        <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaClass">
+          <eTypeArguments/>
+          <eTypeArguments/>
+        </eGenericType>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OutOfScopeTypeParameter">
+      <eOperations name="f">
+        <eTypeParameters name="T"/>
+        <eParameters name="t">
+          <eGenericType eTypeParameter="#//genericType/OutOfScopeTypeParameter/f/T"/>
+        </eParameters>
+      </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a">
+        <eGenericType eTypeParameter="#//genericType/OutOfScopeTypeParameter/f/T"/>
+      </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InconsistentInstantiation">
+      <eGenericSuperTypes eClassifier="#//genericType/BaseClass">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eGenericSuperTypes>
+      <eGenericSuperTypes eClassifier="#//genericType/DerivedClass">
+        <eTypeArguments eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject"/>
+      </eGenericSuperTypes>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ForwardTypeParameterReference">
+      <eTypeParameters name="T">
+        <eBounds eTypeParameter="#//genericType/ForwardTypeParameterReference/U"/>
+      </eTypeParameters>
+      <eTypeParameters name="U">
+        <eBounds eTypeParameter="#//genericType/ForwardTypeParameterReference/U"/>
+      </eTypeParameters>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="key" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//key"
+      nsPrefix="bad.key">
+    <eClassifiers xsi:type="ecore:EClass" name="ReferenceWithKeyNotFromReferenceType">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="r" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"
+          eKeys="#//key/ReferenceWithKeyNotFromReferenceType/a"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="a" eType="ecore:EDataType ../../../plugin/org.eclipse.emf.ecore/model/XMLType.ecore#//String"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="substitution" nsURI="platform:/plugin/org.eclipse.emf.test.core/models/Bad.ecore#//substitution"
+      nsPrefix="bad.substitution">
+    <eClassifiers xsi:type="ecore:EDataType" name="A" instanceClassName="example.A">
+      <eTypeParameters name="T"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EDataType" name="B" instanceClassName="example.B">
+      <eTypeParameters name="T"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Container">
+      <eTypeParameters name="T"/>
+      <eTypeParameters name="U">
+        <eBounds eTypeParameter="#//substitution/Container/T"/>
+      </eTypeParameters>
+      <eTypeParameters name="V">
+        <eBounds eClassifier="#//substitution/A">
+          <eTypeArguments eTypeParameter="#//substitution/Container/T"/>
+        </eBounds>
+      </eTypeParameters>
+      <eOperations name="f">
+        <eTypeParameters name="T1"/>
+        <eTypeParameters name="U1">
+          <eBounds eTypeParameter="#//substitution/Container/f/T1"/>
+        </eTypeParameters>
+        <eTypeParameters name="V1">
+          <eBounds eClassifier="#//substitution/A">
+            <eTypeArguments eTypeParameter="#//substitution/Container/f/T1"/>
+          </eBounds>
+        </eTypeParameters>
+        <eParameters name="a">
+          <eGenericType eClassifier="#//substitution/Container">
+            <eTypeArguments/>
+            <eTypeArguments/>
+            <eTypeArguments/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="b">
+          <eGenericType eClassifier="#//substitution/Container">
+            <eTypeArguments/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container/f/T1"/>
+            </eTypeArguments>
+            <eTypeArguments/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="c">
+          <eGenericType eClassifier="#//substitution/Container">
+            <eTypeArguments eTypeParameter="#//substitution/Container/f/T1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container/f/U1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container/f/V1"/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="d">
+          <eGenericType eClassifier="#//substitution/Container">
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container/f/T1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container/f/U1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container/f/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="e">
+          <eGenericType eClassifier="#//substitution/Container">
+            <eTypeArguments eTypeParameter="#//substitution/Container/f/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container/f/U1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container/f/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="f">
+          <eGenericType eClassifier="#//substitution/Container">
+            <eTypeArguments eTypeParameter="#//substitution/Container/f/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container/f/U1"/>
+            </eTypeArguments>
+            <eTypeArguments eClassifier="#//substitution/A">
+              <eTypeArguments eTypeParameter="#//substitution/Container/T"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="g">
+          <eGenericType eClassifier="#//substitution/Container">
+            <eTypeArguments eTypeParameter="#//substitution/Container/f/T1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container/f/U1"/>
+            <eTypeArguments eClassifier="#//substitution/A">
+              <eTypeArguments eTypeParameter="#//substitution/Container/f/U1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Container2">
+      <eTypeParameters name="T"/>
+      <eTypeParameters name="U">
+        <eBounds eTypeParameter="#//substitution/Container2/T"/>
+      </eTypeParameters>
+      <eTypeParameters name="V">
+        <eBounds eClassifier="#//substitution/A">
+          <eTypeArguments>
+            <eUpperBound eTypeParameter="#//substitution/Container2/T"/>
+          </eTypeArguments>
+        </eBounds>
+      </eTypeParameters>
+      <eOperations name="g">
+        <eTypeParameters name="T1"/>
+        <eTypeParameters name="U1">
+          <eBounds eTypeParameter="#//substitution/Container2/g/T1"/>
+        </eTypeParameters>
+        <eTypeParameters name="V1">
+          <eBounds eClassifier="#//substitution/A">
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container2/g/T1"/>
+            </eTypeArguments>
+          </eBounds>
+        </eTypeParameters>
+        <eParameters name="a">
+          <eGenericType eClassifier="#//substitution/Container2">
+            <eTypeArguments/>
+            <eTypeArguments/>
+            <eTypeArguments/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="b">
+          <eGenericType eClassifier="#//substitution/Container2">
+            <eTypeArguments/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container2/g/T1"/>
+            </eTypeArguments>
+            <eTypeArguments/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="c">
+          <eGenericType eClassifier="#//substitution/Container2">
+            <eTypeArguments eTypeParameter="#//substitution/Container2/g/T1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container2/g/U1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container2/g/V1"/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="d">
+          <eGenericType eClassifier="#//substitution/Container2">
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container2/g/T1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container2/g/U1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container2/g/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="e">
+          <eGenericType eClassifier="#//substitution/Container2">
+            <eTypeArguments eTypeParameter="#//substitution/Container2/g/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container2/g/U1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container2/g/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="f">
+          <eGenericType eClassifier="#//substitution/Container2">
+            <eTypeArguments eTypeParameter="#//substitution/Container2/g/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container2/g/U1"/>
+            </eTypeArguments>
+            <eTypeArguments eClassifier="#//substitution/A">
+              <eTypeArguments eTypeParameter="#//substitution/Container2/T"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="g">
+          <eGenericType eClassifier="#//substitution/Container2">
+            <eTypeArguments eTypeParameter="#//substitution/Container2/g/T1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container2/g/U1"/>
+            <eTypeArguments eClassifier="#//substitution/A">
+              <eTypeArguments eTypeParameter="#//substitution/Container2/g/U1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="h">
+          <eGenericType eClassifier="#//substitution/Container2">
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container2/g/T1"/>
+            </eTypeArguments>
+            <eTypeArguments eTypeParameter="#//substitution/Container2/g/U1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container2/g/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Container3">
+      <eTypeParameters name="T"/>
+      <eTypeParameters name="U">
+        <eBounds eTypeParameter="#//substitution/Container3/T"/>
+      </eTypeParameters>
+      <eTypeParameters name="V">
+        <eBounds eClassifier="#//substitution/A">
+          <eTypeArguments>
+            <eLowerBound eTypeParameter="#//substitution/Container3/T"/>
+          </eTypeArguments>
+        </eBounds>
+      </eTypeParameters>
+      <eOperations name="g">
+        <eTypeParameters name="T1"/>
+        <eTypeParameters name="U1">
+          <eBounds eTypeParameter="#//substitution/Container3/g/T1"/>
+        </eTypeParameters>
+        <eTypeParameters name="V1">
+          <eBounds eClassifier="#//substitution/A">
+            <eTypeArguments>
+              <eLowerBound eTypeParameter="#//substitution/Container3/g/T1"/>
+            </eTypeArguments>
+          </eBounds>
+        </eTypeParameters>
+        <eParameters name="a">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments/>
+            <eTypeArguments/>
+            <eTypeArguments/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="b">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/T1"/>
+            </eTypeArguments>
+            <eTypeArguments/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="c">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/g/T1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container3/g/U1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container3/g/V1"/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="d">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/T1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/U1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="e">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/g/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/U1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="f">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/g/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/U1"/>
+            </eTypeArguments>
+            <eTypeArguments eClassifier="#//substitution/A">
+              <eTypeArguments eTypeParameter="#//substitution/Container3/T"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="g">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/g/T1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container3/g/U1"/>
+            <eTypeArguments eClassifier="#//substitution/A">
+              <eTypeArguments eTypeParameter="#//substitution/Container3/g/U1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="h">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/T1"/>
+            </eTypeArguments>
+            <eTypeArguments eTypeParameter="#//substitution/Container3/g/U1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="i">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/g/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/U1"/>
+            </eTypeArguments>
+            <eTypeArguments eClassifier="#//substitution/A">
+              <eTypeArguments>
+                <eLowerBound eTypeParameter="#//substitution/Container3/T"/>
+              </eTypeArguments>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="j">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/g/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/g/U1"/>
+            </eTypeArguments>
+            <eTypeArguments eClassifier="#//substitution/A"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+      <eOperations name="h">
+        <eTypeParameters name="T1"/>
+        <eTypeParameters name="U1">
+          <eBounds eTypeParameter="#//substitution/Container3/h/T1"/>
+        </eTypeParameters>
+        <eTypeParameters name="V1">
+          <eBounds eClassifier="#//substitution/B">
+            <eTypeArguments>
+              <eLowerBound eTypeParameter="#//substitution/Container3/h/T1"/>
+            </eTypeArguments>
+          </eBounds>
+        </eTypeParameters>
+        <eParameters name="a">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments/>
+            <eTypeArguments/>
+            <eTypeArguments/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="b">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/T1"/>
+            </eTypeArguments>
+            <eTypeArguments/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="c">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/h/T1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container3/h/U1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container3/h/V1"/>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="d">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/T1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/U1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="e">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/h/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/U1"/>
+            </eTypeArguments>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="f">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/h/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/U1"/>
+            </eTypeArguments>
+            <eTypeArguments eClassifier="#//substitution/B">
+              <eTypeArguments eTypeParameter="#//substitution/Container3/T"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="g">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/h/T1"/>
+            <eTypeArguments eTypeParameter="#//substitution/Container3/h/U1"/>
+            <eTypeArguments eClassifier="#//substitution/B">
+              <eTypeArguments eTypeParameter="#//substitution/Container3/h/U1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="h">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/T1"/>
+            </eTypeArguments>
+            <eTypeArguments eTypeParameter="#//substitution/Container3/h/U1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/V1"/>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="i">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/h/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/U1"/>
+            </eTypeArguments>
+            <eTypeArguments eClassifier="#//substitution/B">
+              <eTypeArguments>
+                <eLowerBound eTypeParameter="#//substitution/Container3/T"/>
+              </eTypeArguments>
+            </eTypeArguments>
+          </eGenericType>
+        </eParameters>
+        <eParameters name="j">
+          <eGenericType eClassifier="#//substitution/Container3">
+            <eTypeArguments eTypeParameter="#//substitution/Container3/h/T1"/>
+            <eTypeArguments>
+              <eUpperBound eTypeParameter="#//substitution/Container3/h/U1"/>
+            </eTypeArguments>
+            <eTypeArguments eClassifier="#//substitution/B"/>
+          </eGenericType>
+        </eParameters>
+      </eOperations>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>
