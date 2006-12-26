@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReference.java,v 1.5 2006/12/18 22:01:16 marcelop Exp $
+ * $Id: EReference.java,v 1.6 2006/12/26 19:06:33 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -38,7 +38,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEReference()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ConsistentOpposite SingleContainer ConsistentKeys'"
  * @generated
  */
 public interface EReference extends EStructuralFeature

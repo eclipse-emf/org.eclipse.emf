@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassifier.java,v 1.6 2006/12/05 20:22:25 emerks Exp $
+ * $Id: EClassifier.java,v 1.7 2006/12/26 19:06:33 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -38,6 +38,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEClassifier()
  * @model abstract="true"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='WellFormedInstanceTypeName UniqueTypeParameterNames'"
  * @generated
  */
 public interface EClassifier extends ENamedElement

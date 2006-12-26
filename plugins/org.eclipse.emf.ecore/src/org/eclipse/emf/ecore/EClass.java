@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClass.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EClass.java,v 1.10 2006/12/26 19:06:33 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -48,7 +48,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEClass()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes'"
  * @generated
  */
 public interface EClass extends EClassifier

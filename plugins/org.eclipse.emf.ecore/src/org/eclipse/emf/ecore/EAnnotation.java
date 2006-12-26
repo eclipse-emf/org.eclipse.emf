@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotation.java,v 1.6 2006/12/05 20:22:25 emerks Exp $
+ * $Id: EAnnotation.java,v 1.7 2006/12/26 19:06:33 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -36,7 +36,7 @@ import org.eclipse.emf.common.util.EMap;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEAnnotation()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='WellFormedSourceURI'"
  * @generated
  */
 public interface EAnnotation extends EModelElement

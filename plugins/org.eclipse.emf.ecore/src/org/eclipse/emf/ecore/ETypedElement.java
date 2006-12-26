@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypedElement.java,v 1.5 2006/12/05 20:22:25 emerks Exp $
+ * $Id: ETypedElement.java,v 1.6 2006/12/26 19:06:33 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -39,6 +39,7 @@ package org.eclipse.emf.ecore;
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getETypedElement()
  * @model abstract="true"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ValidLowerBound ValidUpperBound ConsistentBounds ValidType'"
  * @generated
  */
 public interface ETypedElement extends ENamedElement

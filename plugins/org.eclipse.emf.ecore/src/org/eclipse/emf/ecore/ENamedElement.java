@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ENamedElement.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: ENamedElement.java,v 1.4 2006/12/26 19:06:33 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -31,6 +31,7 @@ package org.eclipse.emf.ecore;
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getENamedElement()
  * @model abstract="true"
+ *        annotation="http://www.eclipse.org/emf/2002/Ecore constraints='WellFormedName'"
  * @generated
  */
 public interface ENamedElement extends EModelElement

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperation.java,v 1.6 2006/12/05 20:22:25 emerks Exp $
+ * $Id: EOperation.java,v 1.7 2006/12/26 19:06:33 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -37,7 +37,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEOperation()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid'"
  * @generated
  */
 public interface EOperation extends ETypedElement

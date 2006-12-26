@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EGenericType.java,v 1.1 2006/12/05 20:22:25 emerks Exp $
+ * $Id: EGenericType.java,v 1.2 2006/12/26 19:06:29 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -41,7 +41,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEGenericType()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ConsistentType ConsistentBounds ConsistentArguments'"
  * @generated
  */
 public interface EGenericType extends EObject
@@ -131,7 +131,6 @@ public interface EGenericType extends EObject
 
   /**
    * Returns the value of the '<em><b>EType Parameter</b></em>' reference.
-   * It is bidirectional and its opposite is '{@link org.eclipse.emf.ecore.ETypeParameter#getEGenericTypes <em>EGeneric Types</em>}'.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>EType Parameter</em>' reference isn't clear,
@@ -141,8 +140,7 @@ public interface EGenericType extends EObject
    * @return the value of the '<em>EType Parameter</em>' reference.
    * @see #setETypeParameter(ETypeParameter)
    * @see org.eclipse.emf.ecore.EcorePackage#getEGenericType_ETypeParameter()
-   * @see org.eclipse.emf.ecore.ETypeParameter#getEGenericTypes
-   * @model opposite="eGenericTypes" resolveProxies="false"
+   * @model resolveProxies="false"
    * @generated
    */
   ETypeParameter getETypeParameter();

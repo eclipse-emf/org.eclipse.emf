@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAttribute.java,v 1.3 2005/06/08 06:20:10 nickb Exp $
+ * $Id: EAttribute.java,v 1.4 2006/12/26 19:06:33 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -32,7 +32,7 @@ package org.eclipse.emf.ecore;
  * </p>
  *
  * @see org.eclipse.emf.ecore.EcorePackage#getEAttribute()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='ConsistentTransient'"
  * @generated
  */
 public interface EAttribute extends EStructuralFeature
