@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypeParameter.java,v 1.1 2006/12/05 20:30:23 emerks Exp $
+ * $Id: GenTypeParameter.java,v 1.2 2006/12/26 18:58:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -68,5 +68,7 @@ public interface GenTypeParameter extends GenBase
   void initialize(ETypeParameter eTypeParameter);
 
   boolean reconcile(GenTypeParameter oldGenTypeParameterVersion);
+  
+  boolean isUsed();
 
 } // GenTypeParameter

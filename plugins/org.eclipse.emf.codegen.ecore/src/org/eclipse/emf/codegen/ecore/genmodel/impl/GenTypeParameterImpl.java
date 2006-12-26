@@ -12,9 +12,11 @@
  *
  * </copyright>
  *
- * $Id: GenTypeParameterImpl.java,v 1.1 2006/12/05 20:30:02 emerks Exp $
+ * $Id: GenTypeParameterImpl.java,v 1.2 2006/12/26 18:58:52 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
+
+import java.util.Iterator;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
@@ -22,6 +24,8 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -210,6 +214,19 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
     {
       return true;
     }
+  }
+
+  public boolean isUsed()
+  {
+    for (Iterator<EObject> i = getEcoreTypeParameter().eContainer().eAllContents(); i.hasNext(); )
+    {
+      EObject eObject = i.next();
+      if (eObject instanceof EGenericType && ((EGenericType)eObject).getETypeParameter() == ecoreTypeParameter)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
 } //GenTypeParameterImpl
