@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.40 2006/10/18 03:27:36 davidms Exp $
+ * $Id: EcoreEditor.java,v 1.41 2006/12/26 18:56:56 emerks Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -1551,10 +1551,12 @@ public class EcoreEditor
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void gotoMarker(IMarker marker)
   {
+    // TODO we should generate this.
+    if (false)
     try
     {
       if (marker.getType().equals(EValidator.MARKER))
@@ -1575,6 +1577,7 @@ public class EcoreEditor
     {
       EcoreEditorPlugin.INSTANCE.log(exception);
     }
+    setSelectionToViewer(markerHelper.getTargetObjects(editingDomain, marker));
   }
 
   /**
