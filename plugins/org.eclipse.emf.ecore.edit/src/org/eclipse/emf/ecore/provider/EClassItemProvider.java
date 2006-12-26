@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.14 2006/12/05 20:26:32 emerks Exp $
+ * $Id: EClassItemProvider.java,v 1.15 2006/12/26 18:57:25 emerks Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -307,10 +307,10 @@ public class EClassItemProvider
         }
       }
     }
-    if (eClass.getInstanceClassName() != null)
+    if (eClass.getInstanceTypeName() != null)
     {
       result.append(" [");
-      result.append(eClass.getInstanceClassName());
+      result.append(eClass.getInstanceTypeName());
       result.append("]");
     }
 
