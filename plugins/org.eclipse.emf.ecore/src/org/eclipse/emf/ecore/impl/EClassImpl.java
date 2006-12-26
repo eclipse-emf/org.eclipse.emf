@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassImpl.java,v 1.29 2006/12/11 16:00:29 emerks Exp $
+ * $Id: EClassImpl.java,v 1.30 2006/12/26 19:08:45 emerks Exp $
  */
 
 package org.eclipse.emf.ecore.impl;
@@ -22,10 +22,12 @@ import java.lang.reflect.Array;
 import java.util.AbstractSequentialList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -126,6 +128,7 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     getEAllOperations();
     getEAllStructuralFeatures();
     getEAllSuperTypes();
+    getEAllGenericSuperTypes();
 
     getESuperAdapter().getSubclasses().clear();
     
@@ -340,6 +343,16 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     return eGenericSuperTypes != null && ((InternalEList.Unsettable<?>)eGenericSuperTypes).isSet();
   }
 
+  private static final ThreadLocal<Set<EClass>> COMPUTATION_IN_PROGRESS = 
+    new ThreadLocal<Set<EClass>>()
+    {
+      @Override
+      protected java.util.Set<EClass> initialValue() 
+      {
+        return new HashSet<EClass>(); 
+      }
+    };
+      
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -349,54 +362,132 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
   {
     if (eAllGenericSuperTypes == null)
     {
-      BasicEList<EGenericType> result = 
-        new UniqueEList<EGenericType>()
-        {
-          private static final long serialVersionUID = 1L;
-
-          @Override
-          protected Object [] newData(int capacity)
-          {
-            return new EGenericType [capacity];
-          }
-
-          @Override
-          protected boolean useEquals()
-          {
-            return false;
-          }
-        };
-
-      for (EGenericType eGenericSuperType : getEGenericSuperTypes())
+      class EGenericSuperTypeEList extends UniqueEList<EGenericType>
       {
-        EClassifier eSuperType = eGenericSuperType.getERawType();
-        if (eSuperType instanceof EClass)
+        private static final long serialVersionUID = 1L;
+ 
+        @Override
+        protected Object [] newData(int capacity)
         {
-          EList<EGenericType> higherSupers = ((EClass)eSuperType).getEAllGenericSuperTypes();
-          result.addAll(higherSupers);
+          return new EGenericType [capacity];
         }
-        result.add(eGenericSuperType);
+ 
+        @Override
+        protected boolean useEquals()
+        {
+          return false;
+        }
+
+        public void eliminateEquivalentDuplicates()
+        {
+          EGenericType [] eGenericTypes  = (EGenericType[])data;
+          for (int i = size - 1; i >= 0; --i)
+          {
+            EGenericType eGenericType = eGenericTypes[i];
+            for (int j = 0; j < i; ++j)
+            {
+              EGenericType otherEGenericType = eGenericTypes[j];
+              if (equivalent(eGenericType, otherEGenericType))
+              {
+                remove(i);
+                break;
+              }
+            }
+          }
+        }
+
+        public boolean equivalent(EGenericType eGenericType, EGenericType otherEGenericType)
+        {
+          if (eGenericType == otherEGenericType)
+          {
+            return true;
+          }
+          else
+          {
+            eGenericType = resolve(eGenericType);
+            otherEGenericType = resolve(otherEGenericType);
+            EClassifier eClassifier = eGenericType.getEClassifier();
+            if (eClassifier != null)
+            {
+              EClassifier otherEClassifier = otherEGenericType.getEClassifier();
+              if (otherEClassifier != eClassifier)
+              {
+                String instanceTypeName = eClassifier.getInstanceTypeName();
+                String otherInstanceTypeName = otherEClassifier.getInstanceTypeName();
+                return instanceTypeName == otherInstanceTypeName && instanceTypeName != null;
+              }
+              else
+              {
+                EList<EGenericType> eTypeArguments = eGenericType.getETypeArguments();
+                int eTypeArgumentSize = eTypeArguments.size();
+                EList<EGenericType> otherETypeArguments = otherEGenericType.getETypeArguments();
+                if (eTypeArgumentSize == otherETypeArguments.size())
+                {
+                  for (int j = 0; j < eTypeArgumentSize; ++j)
+                  {
+                    EGenericType eTypeArgument = eTypeArguments.get(j);
+                    EGenericType otherETypeArgument = otherETypeArguments.get(j);
+                    if (!equivalent(eTypeArgument, otherETypeArgument))
+                    {
+                      return false;
+                    }
+                  }
+                }
+                return true;
+              }
+            }
+            else
+            {
+              ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+              ETypeParameter otherETypeParameter = otherEGenericType.getETypeParameter();
+              return eTypeParameter == otherETypeParameter;
+            }
+          }
+        }
+ 
+        public EGenericType resolve(EGenericType eGenericType)
+        {
+          ETypeParameter eTypeParameter = eGenericType.getETypeParameter();
+          if (eTypeParameter != null)
+          {
+            EObject eContainer = eTypeParameter.eContainer();
+            EGenericType [] eGenericTypes  = (EGenericType[])data;
+            for (int i = 0; i < size; ++i)
+            {
+              EGenericType otherEGenericType = eGenericTypes[i];
+              if (otherEGenericType.getEClassifier() == eContainer)
+              {
+                EList<EGenericType> eTypeArguments = otherEGenericType.getETypeArguments();
+                int index = ((List<?>)eContainer.eGet(eTypeParameter.eContainmentFeature())).indexOf(eTypeParameter);
+                if (index < eTypeArguments.size())
+                {
+                  return resolve(eTypeArguments.get(index));
+                }
+              }
+            }
+          }
+          return eGenericType;
+        }
       }
+      EGenericSuperTypeEList  result = new EGenericSuperTypeEList();
+
+      Set<EClass> computationInProgress = COMPUTATION_IN_PROGRESS.get();
+      if (computationInProgress.add(this))
+      {
+        for (EGenericType eGenericSuperType : getEGenericSuperTypes())
+        {
+          EClassifier eSuperType = eGenericSuperType.getERawType();
+          if (eSuperType instanceof EClass)
+          {
+            result.addAll(((EClass)eSuperType).getEAllGenericSuperTypes());
+          }
+          result.add(eGenericSuperType);
+        }
+        computationInProgress.remove(this);
+      }
+
+      result.eliminateEquivalentDuplicates();
       
-      int resultSize = result.size();
-      int eAllSuperTypesSize = getEAllSuperTypes().size();
-      if (resultSize > eAllSuperTypesSize)
-      {
-        for (int i = 0; i < eAllSuperTypesSize; ++i)
-        {
-          EClass eClass = eAllSuperTypes.get(i);
-          while (result.get(i).getERawType() != eClass)
-          {
-            result.remove(i);
-            --resultSize;
-          }
-        }
-        while (resultSize > eAllSuperTypesSize)
-        {
-          result.remove(--resultSize);
-        }
-      }
-
       result.shrink();
       eAllGenericSuperTypes = 
         new EcoreEList.UnmodifiableEList.FastCompare<EGenericType>
@@ -458,9 +549,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           }
         };
 
-      for (EClass eSuperType : getESuperTypes())
+      Set<EClass> computationInProgress = COMPUTATION_IN_PROGRESS.get();
+      if (computationInProgress.add(this))
       {
-        result.addAll(eSuperType.getEAllAttributes());
+        for (EClass eSuperType : getESuperTypes())
+        {
+          result.addAll(eSuperType.getEAllAttributes());
+        }
+        computationInProgress.remove(this);
       }
       for (EStructuralFeature eStructuralFeature : getEStructuralFeatures())
       {
@@ -531,9 +627,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
       BasicEList<EReference> result = new ReferenceList();
       BasicEList<EReference> references = new ReferenceList();
 
-      for (EClass eSuperType : getESuperTypes())
+      Set<EClass> computationInProgress = COMPUTATION_IN_PROGRESS.get();
+      if (computationInProgress.add(this))
       {
-        result.addAll(eSuperType.getEAllReferences());
+        for (EClass eSuperType : getESuperTypes())
+        {
+          result.addAll(eSuperType.getEAllReferences());
+        }
+        computationInProgress.remove(this);
       }
       for (EStructuralFeature eStructuralFeature : getEStructuralFeatures())
       {
@@ -633,9 +734,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
 
       BasicEList<EStructuralFeature> result = new EStructuralFeatureUniqueEList();
 
-      for (EClass eSuperType : getESuperTypes())
+      Set<EClass> computationInProgress = COMPUTATION_IN_PROGRESS.get();
+      if (computationInProgress.add(this))
       {
-        result.addAll(eSuperType.getEAllStructuralFeatures());
+        for (EClass eSuperType : getESuperTypes())
+        {
+          result.addAll(eSuperType.getEAllStructuralFeatures());
+        }
+        computationInProgress.remove(this);
       }
       int featureID = result.size();
       for (Iterator<EStructuralFeature> i = getEStructuralFeatures().iterator(); i.hasNext(); ++featureID)
@@ -785,9 +891,14 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           }
         };
 
-      for (EClass eSuperType : getESuperTypes())
+      Set<EClass> computationInProgress = COMPUTATION_IN_PROGRESS.get();
+      if (computationInProgress.add(this))
       {
-        result.addAll(eSuperType.getEAllOperations());
+        for (EClass eSuperType : getESuperTypes())
+        {
+          result.addAll(eSuperType.getEAllOperations());
+        }
+        computationInProgress.remove(this);
       }
       result.addAll(getEOperations());
       result.shrink();
@@ -1766,11 +1877,16 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
           }
         };
 
-      for (EClass eSuperType : getESuperTypes())
+      Set<EClass> computationInProgress = COMPUTATION_IN_PROGRESS.get();
+      if (computationInProgress.add(this))
       {
-        EList<EClass> higherSupers = eSuperType.getEAllSuperTypes();
-        result.addAll(higherSupers);
-        result.add(eSuperType);
+        for (EClass eSuperType : getESuperTypes())
+        {
+          EList<EClass> higherSupers = eSuperType.getEAllSuperTypes();
+          result.addAll(higherSupers);
+          result.add(eSuperType);
+        }
+        computationInProgress.remove(this);
       }
 
       result.shrink();
@@ -1855,4 +1971,5 @@ public class EClassImpl extends EClassifierImpl implements EClass, ESuperAdapter
     EObject result = eAllStructuralFeaturesData == null ? null : getEStructuralFeature(uriFragmentSegment);
     return result != null ? result : super.eObjectForURIFragmentSegment(uriFragmentSegment);
   }
+
 }
