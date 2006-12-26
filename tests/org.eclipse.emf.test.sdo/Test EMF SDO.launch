@@ -15,8 +15,8 @@
 <stringAttribute key="bootstrap" value=""/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
 <booleanAttribute key="clearws" value="true"/>
-<booleanAttribute key="useProduct" value="false"/>
 <booleanAttribute key="includeOptional" value="true"/>
+<booleanAttribute key="useProduct" value="false"/>
 <stringAttribute key="checked" value="[NONE]"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/org.eclipse.emf.test.sdo"/>
@@ -28,10 +28,10 @@
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
 </listAttribute>
 <booleanAttribute key="useDefaultConfig" value="true"/>
+<stringAttribute key="pde.version" value="3.3"/>
 <booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
-<stringAttribute key="pde.version" value="3.2a"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-consolelog"/>
 <stringAttribute key="configLocation" value="${workspace_loc}/.metadata/.plugins/org.eclipse.pde.core/pde-junit"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-consolelog"/>
 <stringAttribute key="application" value="org.eclipse.pde.junit.runtime.coretestapplication"/>
 <booleanAttribute key="useDefaultConfigArea" value="false"/>
 <booleanAttribute key="tracing" value="false"/>
