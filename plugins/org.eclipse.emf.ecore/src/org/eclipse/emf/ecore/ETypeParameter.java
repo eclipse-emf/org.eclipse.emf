@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ETypeParameter.java,v 1.1 2006/12/05 20:22:25 emerks Exp $
+ * $Id: ETypeParameter.java,v 1.2 2006/12/26 19:05:26 emerks Exp $
  */
 package org.eclipse.emf.ecore;
 
@@ -28,7 +28,6 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.emf.ecore.ETypeParameter#getEBounds <em>EBounds</em>}</li>
- *   <li>{@link org.eclipse.emf.ecore.ETypeParameter#getEGenericTypes <em>EGeneric Types</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,22 +51,5 @@ public interface ETypeParameter extends ENamedElement
    * @generated
    */
   EList<EGenericType> getEBounds();
-
-  /**
-   * Returns the value of the '<em><b>EGeneric Types</b></em>' reference list.
-   * The list contents are of type {@link org.eclipse.emf.ecore.EGenericType}.
-   * It is bidirectional and its opposite is '{@link org.eclipse.emf.ecore.EGenericType#getETypeParameter <em>EType Parameter</em>}'.
-   * <!-- begin-user-doc -->
-   * <p>
-   * It represents all the generic types that refer to this type parameter.
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>EGeneric Types</em>' reference list.
-   * @see org.eclipse.emf.ecore.EcorePackage#getETypeParameter_EGenericTypes()
-   * @see org.eclipse.emf.ecore.EGenericType#getETypeParameter
-   * @model type="org.eclipse.emf.ecore.EGenericType" opposite="eTypeParameter" resolveProxies="false" transient="true"
-   * @generated
-   */
-  EList<EGenericType> getEGenericTypes();
 
 } // ETypeParameter
