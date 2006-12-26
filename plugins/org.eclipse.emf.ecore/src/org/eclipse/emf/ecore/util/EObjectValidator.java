@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EObjectValidator.java,v 1.17 2006/12/19 18:45:19 marcelop Exp $
+ * $Id: EObjectValidator.java,v 1.18 2006/12/26 19:02:59 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticChain;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.ResourceLocator;
 
 import org.eclipse.emf.ecore.EValidator;
@@ -75,6 +76,9 @@ public class EObjectValidator implements EValidator
   public static final int DATA_VALUE__FRACTION_DIGITS_IN_RANGE = 11;
   public static final int EOBJECT__UNIQUE_ID = 12;
   public static final int EOBJECT__EVERY_KEY_UNIQUE = 13;
+  public static final int EOBJECT__EVERY_MAP_ENTRY_UNIQUE = 14;
+  
+  static final int EOBJECT_DIAGNOSTIC_CODE_COUNT = EOBJECT__EVERY_MAP_ENTRY_UNIQUE;
 
   /**
    * @since 2.1.0
@@ -202,6 +206,10 @@ public class EObjectValidator implements EValidator
     if (result || theDiagnostics != null)
     {
       result &= validate_EveryKeyUnique(object, theDiagnostics, context);
+    }
+    if (result || theDiagnostics != null)
+    {
+      result &= validate_EveryMapEntryUnique(object, theDiagnostics, context);
     }
     return result;
   }
@@ -369,32 +377,35 @@ public class EObjectValidator implements EValidator
   public boolean validate_EveryReferenceIsContained(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
-    for (EContentsEList.FeatureIterator<EObject> i = (EContentsEList.FeatureIterator<EObject>)eObject.eCrossReferences().iterator(); i.hasNext(); )
+    if (eObject.eResource() != null)
     {
-      EObject eCrossReferenceObject = i.next();
-      if (eCrossReferenceObject.eResource() == null && !eCrossReferenceObject.eIsProxy() && !i.feature().isTransient())
+      for (EContentsEList.FeatureIterator<EObject> i = (EContentsEList.FeatureIterator<EObject>)eObject.eCrossReferences().iterator(); i.hasNext(); )
       {
-        result = false;
-        if (diagnostics != null)
+        EObject eCrossReferenceObject = i.next();
+        if (eCrossReferenceObject.eResource() == null && !eCrossReferenceObject.eIsProxy() && !i.feature().isTransient())
         {
-          diagnostics.add
-            (new BasicDiagnostic
-              (Diagnostic.ERROR,
-               DIAGNOSTIC_SOURCE,
-               EOBJECT__EVERY_REFERENCE_IS_CONTAINED,
-               getEcoreResourceLocator().getString
-                 ("_UI_DanglingReference_diagnostic",
-                  new Object []
-                    {
-                      getFeatureLabel(i.feature(), context),
-                      getObjectLabel(eObject, context),
-                      getObjectLabel(eCrossReferenceObject, context)
-                    }),
-               new Object [] { eObject, i.feature(), eCrossReferenceObject }));
-        }
-        else
-        {
-          break;
+          result = false;
+          if (diagnostics != null)
+          {
+            diagnostics.add
+              (new BasicDiagnostic
+                (Diagnostic.ERROR,
+                 DIAGNOSTIC_SOURCE,
+                 EOBJECT__EVERY_REFERENCE_IS_CONTAINED,
+                 getEcoreResourceLocator().getString
+                   ("_UI_DanglingReference_diagnostic",
+                    new Object []
+                      {
+                        getFeatureLabel(i.feature(), context),
+                        getObjectLabel(eObject, context),
+                        getObjectLabel(eCrossReferenceObject, context)
+                      }),
+                 new Object [] { eObject, i.feature(), eCrossReferenceObject }));
+          }
+          else
+          {
+            break;
+          }
         }
       }
     }
@@ -1132,7 +1143,11 @@ public class EObjectValidator implements EValidator
 
   /**
    * @since 2.3
-   */  
+   * @param eObject
+   * @param diagnostics
+   * @param context
+   * @return
+   */
   public boolean validate_EveryKeyUnique(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
   {
     boolean result = true;
@@ -1158,6 +1173,11 @@ public class EObjectValidator implements EValidator
   
   /**
    * @since 2.3
+   * @param eObject
+   * @param eReference
+   * @param diagnostics
+   * @param context
+   * @return
    */
   protected boolean validate_KeyUnique
     (EObject eObject, EReference eReference, DiagnosticChain diagnostics, Map<Object, Object> context)
@@ -1213,6 +1233,85 @@ public class EObjectValidator implements EValidator
                       getObjectLabel(otherValue, context)
                     }),
                new Object [] { eObject, eReference, value, otherValue }));
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * @since 2.3
+   * @param eObject
+   * @param diagnostics
+   * @param context
+   * @return
+   */
+  public boolean validate_EveryMapEntryUnique(EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = true;
+    EClass eClass = eObject.eClass();
+    for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
+    {
+      EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+      if (eStructuralFeature.getEType().getInstanceClassName() == "java.util.Map$Entry" && eStructuralFeature instanceof EReference)
+      {
+        EReference eReference = (EReference)eStructuralFeature;
+        result &= validate_MapEntryUnique(eObject, eReference, diagnostics, context);
+        if (!result && diagnostics == null)
+        {
+          return false;
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * @since 2.3
+   * @param eObject
+   * @param eReference
+   * @param diagnostics
+   * @param context
+   * @return
+   */
+  protected boolean validate_MapEntryUnique
+    (EObject eObject, EReference eReference, DiagnosticChain diagnostics, Map<Object, Object> context)
+  {
+    boolean result = true;
+    Object value = eObject.eGet(eReference);
+    if (value instanceof EMap)
+    {
+      EMap<?, ?> eMap = (EMap<?, ?>)value;
+      for (int i = 0, size = eMap.size(); i < size; ++i)
+      {
+        Map.Entry<?, ?> entry = eMap.get(i);
+        Object key = entry.getKey();
+        int index =  eMap.indexOfKey(key);
+        if (index != i)
+        {
+          result = false;
+          if (diagnostics == null)
+          {
+            break;
+          }
+          else
+          {
+            diagnostics.add
+              (new BasicDiagnostic
+                (Diagnostic.ERROR,
+                 DIAGNOSTIC_SOURCE,
+                 EOBJECT__EVERY_MAP_ENTRY_UNIQUE,
+                 getEcoreResourceLocator().getString
+                   ("_UI_DuplicateMapEntry_diagnostic",
+                    new Object []
+                      {
+                        getFeatureLabel(eReference, context),
+                        i,
+                        index
+                      }),
+                 new Object [] { eObject, eReference, entry, eMap.get(index) }));
+          }
         }
       }
     }
