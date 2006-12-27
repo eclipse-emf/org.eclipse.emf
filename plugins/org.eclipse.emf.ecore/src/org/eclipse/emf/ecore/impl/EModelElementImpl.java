@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EModelElementImpl.java,v 1.15 2006/12/26 19:11:38 emerks Exp $
+ * $Id: EModelElementImpl.java,v 1.16 2006/12/27 17:42:33 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -321,7 +321,7 @@ public abstract class EModelElementImpl extends FlatEObjectImpl implements EMode
             }
           }
         }
-        name = URI.encodeSegment(name, false);
+        name = eEncodeValue(name);
         return 
           count > 0 ?
             name + "." + count : 
