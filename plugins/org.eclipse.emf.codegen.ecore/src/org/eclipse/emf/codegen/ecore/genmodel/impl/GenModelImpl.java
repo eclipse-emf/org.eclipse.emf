@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.74 2006/12/26 19:01:06 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.75 2006/12/27 11:14:04 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -2405,6 +2405,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         }
       }
 
+      // TODO reporting problems makes command line utilities abort.
+      //
+      if (false)
       for (Iterator i = getAllGenPackages().iterator(); i.hasNext(); )
       {
         EPackage ePackage = ((GenPackage)i.next()).getEcorePackage();
