@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BasicEObjectImpl.java,v 1.30 2006/12/18 22:03:41 marcelop Exp $
+ * $Id: BasicEObjectImpl.java,v 1.31 2006/12/27 17:43:02 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -462,6 +462,41 @@ public class BasicEObjectImpl extends BasicNotifierImpl implements EObject, Inte
       }
       result.append('\'');
     }
+  }
+  
+  /**
+   * Returns the encoded value or the original, if no encoding was needed.
+   * @see EModelElementImpl#eURIFragmentSegment(EStructuralFeature, EObject)
+   * @param value the value to be encoded.
+   * @return the encoded value or the original, if no encoding was needed.
+   */
+  static String eEncodeValue(String value)
+  {
+    int length = value.length();
+    StringBuilder result = null;
+    for (int i = 0; i < length; ++i)
+    {
+      char character = value.charAt(i);
+      if (character < ESCAPE.length)
+      {
+        String escape = ESCAPE[character];
+        if (escape != null)
+        {
+          if (result == null)
+          {
+            result = new StringBuilder(length + 2);
+            result.append(value, 0, i);
+          }
+          result.append(escape);
+          continue;
+        }
+      }
+      if (result != null)
+      {
+        result.append(character);
+      }
+    }
+    return result == null ? value : result.toString();
   }
 
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
