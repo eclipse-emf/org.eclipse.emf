@@ -248,7 +248,7 @@
     </genClasses>
     <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenClassifier">
       <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenClassifier/genPackage"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenClassifier/genTypeParameters"/>
+      <genFeatures property="None" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenClassifier/genTypeParameters"/>
     </genClasses>
     <genClasses image="false" ecoreClass="GenModel.ecore#//GenDataType">
       <genFeatures property="Readonly" createChild="false" propertyCategory="Ecore"
@@ -274,7 +274,7 @@
       <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference GenModel.ecore#//GenAnnotation/references"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenAnnotation/contents"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="GenModel.ecore#//GenTypeParameter">
+    <genClasses provider="None" image="false" ecoreClass="GenModel.ecore#//GenTypeParameter">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference GenModel.ecore#//GenTypeParameter/ecoreTypeParameter"/>
     </genClasses>
   </genPackages>
