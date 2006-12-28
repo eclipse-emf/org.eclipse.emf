@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractOverrideableCommand.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: AbstractOverrideableCommand.java,v 1.3 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -96,6 +96,7 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
     this.overrideCommand = overrideCommand;
   }
 
+  @Override
   public final boolean canExecute() 
   {
     if (domain != null && !isPrepared)
@@ -131,6 +132,7 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
 
   public abstract void doExecute();
 
+  @Override
   public final boolean canUndo() 
   {
     boolean result = 
@@ -146,6 +148,7 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
     return super.canUndo();
   }
 
+  @Override
   public final void undo() 
   {
     if (overrideCommand != null)
@@ -174,7 +177,8 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
 
   public abstract void doRedo();
 
-  public final Collection getResult()
+  @Override
+  public final Collection<?> getResult()
   {
     return 
       overrideCommand != null ?
@@ -182,12 +186,13 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
         doGetResult();
   }
 
-  public Collection doGetResult()
+  public Collection<?> doGetResult()
   {
     return super.getResult();
   }
 
-  public final Collection getAffectedObjects()
+  @Override
+  public final Collection<?> getAffectedObjects()
   {
     return 
       overrideCommand != null ?
@@ -195,11 +200,12 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
         doGetAffectedObjects();
   }
 
-  public Collection doGetAffectedObjects()
+  public Collection<?> doGetAffectedObjects()
   {
     return super.getAffectedObjects();
   }
 
+  @Override
   public final String getLabel()
   {
     return 
@@ -213,6 +219,7 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
     return super.getLabel();
   }
 
+  @Override
   public final String getDescription()
   {
     return 
@@ -226,6 +233,7 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
     return super.getDescription();
   }
 
+  @Override
   public final void dispose()
   {
     if (overrideCommand != null)
@@ -243,9 +251,9 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
     super.dispose();
   }
 
-  public final Collection getChildrenToCopy()
+  public final Collection<?> getChildrenToCopy()
   {
-    Collection result =
+    Collection<?> result =
       overrideCommand instanceof ChildrenToCopyProvider ?
         ((ChildrenToCopyProvider)overrideCommand).getChildrenToCopy() :
         doGetChildrenToCopy();
@@ -253,16 +261,17 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
     return result;
   }
 
-  public Collection doGetChildrenToCopy()
+  public Collection<?> doGetChildrenToCopy()
   {
     return Collections.EMPTY_LIST;
   }
 
-  public static EList getOwnerList(EObject owner, EStructuralFeature feature)
+  @SuppressWarnings("unchecked")
+  public static EList<Object> getOwnerList(EObject owner, EStructuralFeature feature)
   {
     return 
       owner.eClass().getEAllStructuralFeatures().contains(feature) && feature.isMany() ?
-        (EList)owner.eGet(feature) :
+        (EList<Object>)owner.eGet(feature) :
         null;
   }
 
@@ -270,6 +279,7 @@ public abstract class AbstractOverrideableCommand extends AbstractCommand implem
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

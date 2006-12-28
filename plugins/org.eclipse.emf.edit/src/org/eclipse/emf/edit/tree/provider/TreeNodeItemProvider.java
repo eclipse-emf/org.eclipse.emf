@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,20 +12,21 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeItemProvider.java,v 1.4 2005/06/08 06:17:06 nickb Exp $
+ * $Id: TreeNodeItemProvider.java,v 1.5 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.tree.provider;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IChangeNotifier;
@@ -71,6 +72,7 @@ public class TreeNodeItemProvider
     itemDelegator = new AdapterFactoryItemDelegator(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory());
   }
 
+  @Override
   public void setTarget(Notifier target)
   {
     super.setTarget(target);
@@ -95,14 +97,13 @@ public class TreeNodeItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     TreeNode treeNode = (TreeNode)object;
-    itemPropertyDescriptors = new ArrayList();
-    for (Iterator propertyDescriptors = itemDelegator.getPropertyDescriptors(treeNode.getData()).iterator(); 
-         propertyDescriptors.hasNext(); )
+    itemPropertyDescriptors = new ArrayList<IItemPropertyDescriptor>();
+    for (IItemPropertyDescriptor itemPropertyDescriptor : itemDelegator.getPropertyDescriptors(treeNode.getData()))
     {
-      IItemPropertyDescriptor itemPropertyDescriptor = (IItemPropertyDescriptor)propertyDescriptors.next();
       itemPropertyDescriptors.add(new ItemPropertyDescriptorDecorator(treeNode.getData(), itemPropertyDescriptor));
     }
     return itemPropertyDescriptors;
@@ -115,7 +116,8 @@ public class TreeNodeItemProvider
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -128,17 +130,20 @@ public class TreeNodeItemProvider
   /**
    * This returns the parent of the TreeNode.
    */
+  @Override
   public Object getParent(Object object)
   {
     return ((EObject)object).eContainer();
   }
 
+  @Override
   public Object getImage(Object object)
   {
     TreeNode treeNode = ((TreeNode)object);
     return itemDelegator.getImage(treeNode.getData());
   }
 
+  @Override
   public String getText(Object object)
   {
     TreeNode treeNode = ((TreeNode)object);
@@ -151,6 +156,7 @@ public class TreeNodeItemProvider
    * the listener method is hooked up in {@link #setTarget setTarget}. Notifications are wrapped to look like they originate from
    * the target.
    */
+  @Override
   public void notifyChanged(final Notification notification)
   {
     fireNotifyChanged(ViewerNotification.wrapNotification(notification, target));
@@ -161,13 +167,15 @@ public class TreeNodeItemProvider
    * describing all of the children that can be created under this object.
    * @generated NOT
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
 /*
     super.collectNewChildDescriptors(newChildDescriptors, object);
 */
   }
 
+  @Override
   public void dispose()
   {
     super.dispose();

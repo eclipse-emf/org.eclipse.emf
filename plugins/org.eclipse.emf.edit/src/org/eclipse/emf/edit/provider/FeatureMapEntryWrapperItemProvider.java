@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.6 2006/12/09 18:21:41 emerks Exp $
+ * $Id: FeatureMapEntryWrapperItemProvider.java,v 1.7 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -85,6 +85,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    * @deprecated As of EMF 2.0.1, replaced by {@link #FeatureMapEntryWrapperItemProvider(FeatureMap.Entry, EObject, EAttribute, int index, AdapterFactory, ResourceLocator)
    * this form}.
    */
+  @Deprecated
   public FeatureMapEntryWrapperItemProvider(
       FeatureMap.Entry entry,
       EObject owner,
@@ -123,6 +124,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    * If the entry's feature is a reference, returns its value as the value from which to obtain and which to pass to a
    * delegate item provider. If the entry's feature is an attribute, null is returned.
    */
+  @Override
   protected Object getDelegateValue()
   {
     return isEntryAttribute() ? null : getEntryValue();
@@ -134,6 +136,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    * name is prepended to the text returned by the item provider decorator, for a reference value, or the factory
    * method, for an attribute value.
    */
+  @Override
   public String getText(Object object)
   {
     String text = null;
@@ -190,6 +193,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    * property icon for an attribute value; the generic item icon for a null reference value; or the icon returned by
    * the delegate item provider for a non-null reference value.
    */
+  @Override
   public Object getImage(Object object)
   {
     Object image = null;
@@ -345,15 +349,17 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    * Uses the delegate item provider for a reference value or creates a single property descriptor for an attribute
    * value.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (isEntryAttribute())
     {
       if (propertyDescriptors == null)
       {
-        propertyDescriptors = Collections.singletonList(
+        propertyDescriptors = Collections.<IItemPropertyDescriptor>singletonList(
           new WrapperItemPropertyDescriptor(resourceLocator, getEntryFeature())
           {
+            @Override
             protected Object getValue(EObject object, EStructuralFeature feature)
             {
               // When the value is changed, the property sheet page doesn't update the property sheet viewer input
@@ -367,6 +373,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
               return needsEncoding(feature) ? encode((String)result) : result;
             }
             
+            @Override
             protected void setValue(EObject object, EStructuralFeature feature, Object value)
             {
               if (needsEncoding(feature))
@@ -376,6 +383,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
               ((FeatureMap)((EObject)owner).eGet(FeatureMapEntryWrapperItemProvider.this.feature)).setValue(index, value);
             }
 
+            @Override
             protected Command createSetCommand(EditingDomain domain, Object owner, Object feature, Object value)
             {
               if (needsEncoding(feature))
@@ -406,6 +414,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
   /**
    * Uses the delegate item provider for a reference value or returns the attribute value itself.
    */
+  @Override
   public Object getEditableValue(Object object)
   {
     return isEntryAttribute() ? getEntryValue() : super.getEditableValue(object);
@@ -414,6 +423,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
   /**
    * Returns whether the entry attribute is changeable.
    */
+  @Override
   protected boolean isPropertySettable()
   {
     return getEntryFeature().isChangeable();
@@ -423,6 +433,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    * Calls {@link WrapperItemProvider#getPropertyImage(Class) getPropertyImage} to obtain the property image for the
    * entry attribute's type.
    */
+  @Override
   protected Object getPropertyImage()
   {
     return getPropertyImage(getEntryFeature().getEType().getInstanceClass());
@@ -431,7 +442,8 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
   /**
    * Uses the delegate item provider or the base wrapper implementation to create a command.
    */
-  public Command createCommand(Object object, EditingDomain domain, Class commandClass, CommandParameter commandParameter)
+  @Override
+  public Command createCommand(Object object, EditingDomain domain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     if (getDelegateValue() == null)
     {
@@ -446,17 +458,20 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    * the base implementation is used. This method is only called for non-null reference values to wrap a command
    * returned by the delegate item provider.
    */
-  protected Command wrapCommand(Command command, Class commandClass)
+  @Override
+  protected Command wrapCommand(Command command, Class<? extends Command> commandClass)
   {
     if (commandClass == CopyCommand.class)
     {
       return new WrappingCopyCommand(command)
       {
+        @Override
         public IWrapperItemProvider copy()
         {
-          Iterator i = getCommand().getResult().iterator();
-          return new FeatureMapEntryWrapperItemProvider(
-            FeatureMapUtil.createEntry(getEntryFeature(), i.next()), (EObject)owner, (EAttribute)feature, index, adapterFactory);
+          Iterator<?> i = getCommand().getResult().iterator();
+          return 
+            new FeatureMapEntryWrapperItemProvider
+              (FeatureMapUtil.createEntry(getEntryFeature(), i.next()), (EObject)owner, (EAttribute)feature, index, adapterFactory, resourceLocator);
         }
       };
     }
@@ -467,6 +482,7 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    * Returns a wrapped set command that returns as its affected object the replacement wrapper for the value.
    * A feature map entry is also created for the value, and used as the value of the set command.
    */
+  @Override
   protected Command createSetCommand(EditingDomain domain, Object owner, Object feature, Object value, int index) 
   {
     // Check that the value is type compatible with the entry feature.
@@ -483,10 +499,12 @@ public class FeatureMapEntryWrapperItemProvider extends DelegatingWrapperItemPro
    * This is only called for null or attribute values; it returns a {@link
    * WrapperItemProvider.SimpleCopyCommand} that copies the wrapper.
    */
+  @Override
   protected Command createCopyCommand(EditingDomain domain, Object owner, CopyCommand.Helper helper)
   {
     return new SimpleCopyCommand(domain)
     {
+      @Override
       public IWrapperItemProvider copy()
       {
         Object entryValueCopy = null;

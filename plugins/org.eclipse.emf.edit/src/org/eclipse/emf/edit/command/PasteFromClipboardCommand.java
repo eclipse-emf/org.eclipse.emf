@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PasteFromClipboardCommand.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: PasteFromClipboardCommand.java,v 1.3 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -52,7 +52,7 @@ public class PasteFromClipboardCommand extends AbstractOverrideableCommand
     else
     {
       Command command = 
-        domain.createCommand(PasteFromClipboardCommand.class, new CommandParameter(owner, feature, Collections.EMPTY_LIST, index));
+        domain.createCommand(PasteFromClipboardCommand.class, new CommandParameter(owner, feature, Collections.emptyList(), index));
       return command;
     }
   }
@@ -126,6 +126,7 @@ public class PasteFromClipboardCommand extends AbstractOverrideableCommand
     return index;
   }
 
+  @Override
   protected boolean prepare()
   {
     // Create a strict compound command to do a copy and then add the result
@@ -142,7 +143,8 @@ public class PasteFromClipboardCommand extends AbstractOverrideableCommand
     command.append
       (new CommandWrapper()
        {
-         protected Command createCommand()
+         @Override
+        protected Command createCommand()
          {
            Command addCommand = AddCommand.create(domain, owner, feature, copyCommand.getResult(), index);
            return addCommand;
@@ -177,6 +179,7 @@ public class PasteFromClipboardCommand extends AbstractOverrideableCommand
     return result;
   }
 
+  @Override
   public void doExecute()
   {
     // We need to check canExecute() here in case prepare() went down the "optimize" path.
@@ -191,26 +194,31 @@ public class PasteFromClipboardCommand extends AbstractOverrideableCommand
     }
   }
 
+  @Override
   public void doUndo()
   {
     command.undo();
   }
 
+  @Override
   public void doRedo()
   {
     command.redo();
   }
 
-  public Collection doGetResult()
+  @Override
+  public Collection<?> doGetResult()
   {
     return command.getResult();
   }
 
-  public Collection doGetAffectedObjects()
+  @Override
+  public Collection<?> doGetAffectedObjects()
   {
     return command.getAffectedObjects();
   }
 
+  @Override
   public void doDispose()
   {
     if (command != null) command.dispose();
@@ -220,6 +228,7 @@ public class PasteFromClipboardCommand extends AbstractOverrideableCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

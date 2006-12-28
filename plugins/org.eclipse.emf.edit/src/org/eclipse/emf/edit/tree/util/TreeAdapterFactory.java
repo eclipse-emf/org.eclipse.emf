@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeAdapterFactory.java,v 1.3 2005/06/08 06:17:06 nickb Exp $
+ * $Id: TreeAdapterFactory.java,v 1.4 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.tree.util;
 
@@ -65,6 +65,7 @@ public class TreeAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -84,14 +85,16 @@ public class TreeAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected TreeSwitch modelSwitch =
-    new TreeSwitch()
+  protected TreeSwitch<Adapter> modelSwitch =
+    new TreeSwitch<Adapter>()
     {
-      public Object caseTreeNode(TreeNode object)
+      @Override
+      public Adapter caseTreeNode(TreeNode object)
       {
         return createTreeNodeAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -105,9 +108,10 @@ public class TreeAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

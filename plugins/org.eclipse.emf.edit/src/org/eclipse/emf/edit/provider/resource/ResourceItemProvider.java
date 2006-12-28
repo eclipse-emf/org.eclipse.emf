@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProvider.java,v 1.8 2006/02/07 21:21:20 davidms Exp $
+ * $Id: ResourceItemProvider.java,v 1.9 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -20,20 +20,23 @@ package org.eclipse.emf.edit.provider.resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.EMFEditPlugin;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -67,20 +70,21 @@ public class ResourceItemProvider
    * This returns the property descriptors for the adapted class.
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     return super.getPropertyDescriptors(object);
   }
 
-  public Collection getChildren(Object object)
+  @Override
+  public Collection<?> getChildren(Object object)
   {
     // Don't include controlled children here, they'll show up under their container.
     //
-    List contents = ((Resource)object).getContents();
-    Collection result = new ArrayList(contents.size());
-    for (Iterator i = contents.iterator(); i.hasNext(); )
+    List<EObject> contents = ((Resource)object).getContents();
+    Collection<Object> result = new ArrayList<Object>(contents.size());
+    for (Object o : contents)
     {
-      Object o = i.next();
       if (!AdapterFactoryEditingDomain.isControlled(o))
       {
         result.add(o);
@@ -97,7 +101,8 @@ public class ResourceItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -112,6 +117,7 @@ public class ResourceItemProvider
    * This returns the parent of the Resource.
    * @generated
    */
+  @Override
   public Object getParent(Object object)
   {
     return ((Resource)object).getResourceSet();
@@ -121,6 +127,7 @@ public class ResourceItemProvider
    * This returns Resource.gif.
    * @generated
    */
+  @Override
   public Object getImage(Object object)
   {
     Resource resource = (Resource)object;
@@ -128,11 +135,11 @@ public class ResourceItemProvider
 
     // Overlay if the resource is the target for any controlled objects. 
     //
-    for (Iterator i = resource.getContents().iterator(); i.hasNext(); )
+    for (Object o : resource.getContents())
     {
-      if (AdapterFactoryEditingDomain.isControlled(i.next()))
+      if (AdapterFactoryEditingDomain.isControlled(o))
       {
-        List images = new ArrayList(2);
+        List<Object> images = new ArrayList<Object>(2);
         images.add(image);
         images.add(getImage("full/ovr16/ControlledObjectTarget"));
         image = new ComposedImage(images);
@@ -146,6 +153,7 @@ public class ResourceItemProvider
    * This returns the label text for the adapted class.
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     Resource resource = (Resource)object;
@@ -156,6 +164,7 @@ public class ResourceItemProvider
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    * @generated NOT
    */
+  @Override
   public void notifyChanged(Notification notification) 
   {
     switch (notification.getFeatureID(Resource.class))
@@ -181,9 +190,10 @@ public class ResourceItemProvider
     super.notifyChanged(notification);
   }
 
-  public Collection getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  @Override
+  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /**
@@ -191,7 +201,8 @@ public class ResourceItemProvider
    * describing all of the children that can be created under this object.
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 /*
@@ -208,6 +219,7 @@ public class ResourceItemProvider
    * Return the resource locator for this item provider's resources.
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EMFEditPlugin.INSTANCE;

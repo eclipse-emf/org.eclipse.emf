@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeNodeImpl.java,v 1.8 2006/05/03 20:18:59 davidms Exp $
+ * $Id: TreeNodeImpl.java,v 1.9 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.tree.impl;
 
@@ -59,7 +59,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * @generated
    * @ordered
    */
-  protected EList children = null;
+  protected EList<TreeNode> children = null;
 
   /**
    * The cached value of the '{@link #getData() <em>Data</em>}' reference.
@@ -86,6 +86,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return TreePackage.Literals.TREE_NODE;
@@ -141,11 +142,11 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getChildren()
+  public EList<TreeNode> getChildren()
   {
     if (children == null)
     {
-      children = new EObjectContainmentWithInverseEList(TreeNode.class, this, TreePackage.TREE_NODE__CHILDREN, TreePackage.TREE_NODE__PARENT);
+      children = new EObjectContainmentWithInverseEList<TreeNode>(TreeNode.class, this, TreePackage.TREE_NODE__CHILDREN, TreePackage.TREE_NODE__PARENT);
     }
     return children;
   }
@@ -198,6 +199,8 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -207,7 +210,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
           msgs = eBasicRemoveFromContainer(msgs);
         return basicSetParent((TreeNode)otherEnd, msgs);
       case TreePackage.TREE_NODE__CHILDREN:
-        return ((InternalEList)getChildren()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getChildren()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -217,6 +220,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -224,7 +228,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
       case TreePackage.TREE_NODE__PARENT:
         return basicSetParent(null, msgs);
       case TreePackage.TREE_NODE__CHILDREN:
-        return ((InternalEList)getChildren()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getChildren()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -234,6 +238,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -249,6 +254,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -269,6 +275,8 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -278,7 +286,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
         return;
       case TreePackage.TREE_NODE__CHILDREN:
         getChildren().clear();
-        getChildren().addAll((Collection)newValue);
+        getChildren().addAll((Collection<? extends TreeNode>)newValue);
         return;
       case TreePackage.TREE_NODE__DATA:
         setData((EObject)newValue);
@@ -292,6 +300,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -314,6 +323,7 @@ public class TreeNodeImpl extends EObjectImpl implements TreeNode
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)

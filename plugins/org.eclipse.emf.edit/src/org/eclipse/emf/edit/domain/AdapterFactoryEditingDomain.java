@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryEditingDomain.java,v 1.18 2006/10/16 03:29:47 davidms Exp $
+ * $Id: AdapterFactoryEditingDomain.java,v 1.19 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -87,6 +87,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
       return editingDomain;
     }
 
+    @Override
     public boolean isAdapterForType(Object type)
     {
       return type == IEditingDomainProvider.class;
@@ -251,7 +252,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   /**
    * This is the current clipboard.
    */
-  protected Collection clipboard;
+  protected Collection<Object> clipboard;
 
   /**
    * This controls whether or not copy command optimizations are safe in this domain.
@@ -261,7 +262,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   /**
    * This controls whether the domain is read only.
    */
-  protected Map resourceToReadOnlyMap;
+  protected Map<Resource, Boolean> resourceToReadOnlyMap;
 
   /**
    * Create an instance from the adapter factory, and the specialized command stack.
@@ -276,7 +277,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   /**
    * Create an instance from the adapter factory, the specialized command stack, and the map used to maintain read only state.
    */
-  public AdapterFactoryEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack, Map resourceToReadOnlyMap)
+  public AdapterFactoryEditingDomain(AdapterFactory adapterFactory, CommandStack commandStack, Map<Resource, Boolean> resourceToReadOnlyMap)
   {
     this.adapterFactory = adapterFactory;
     this.commandStack = commandStack;
@@ -360,7 +361,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
    * This delegates to 
    * {@link org.eclipse.emf.edit.provider.IEditingDomainItemProvider#createCommand IEditingDomainItemProvider.createCommand}.
    */
-  public Command createCommand(Class commandClass, CommandParameter commandParameter)
+  public Command createCommand(Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     // If the owner parameter is set, we delegate to the owner's adapter
     //
@@ -406,12 +407,12 @@ public class AdapterFactoryEditingDomain implements EditingDomain
         //
         CompoundCommand removeCommand = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
 
-        List objects = new ArrayList(commandParameter.getCollection());
+        List<Object> objects = new ArrayList<Object>(commandParameter.getCollection());
         while (!objects.isEmpty())
         {
           // We will iterate over the whole collection, removing some as we go.
           //
-          ListIterator remainingObjects = objects.listIterator();
+          ListIterator<Object> remainingObjects = objects.listIterator();
 
           // Take the first object, and remove it.
           //
@@ -427,7 +428,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
             // Now we want to find all the other objects with this same parent.
             // So we can collection siblings together and give the parent control over their removal.
             //
-            List siblings = new ArrayList();
+            List<Object> siblings = new ArrayList<Object>();
             siblings.add(object);
 
             while (remainingObjects.hasNext())
@@ -469,7 +470,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
       else if (commandClass == CreateChildCommand.class)
       {
         // For CreateChildCommand, we will find the owner by calling EditingDomain.getParent() on the first selected object
-        Collection sel = commandParameter.getCollection();
+        Collection<?> sel = commandParameter.getCollection();
         Object parent = sel == null ? null : getParent(sel.iterator().next());
         if (parent == null)
         {
@@ -481,21 +482,25 @@ public class AdapterFactoryEditingDomain implements EditingDomain
 
     try
     {
-      Constructor constructor = commandClass.getConstructor(new Class [] { EditingDomain.class, CommandParameter.class });
-      Object command = constructor.newInstance(new Object [] { this, commandParameter });
-      return (Command)command;
+      Constructor<? extends Command> constructor = commandClass.getConstructor(EditingDomain.class, CommandParameter.class);
+      Command command = constructor.newInstance(new Object [] { this, commandParameter });
+      return command;
     }
     catch (IllegalAccessException exception)
     {
+      // Ignore.
     }
     catch (InstantiationException exception)
     {
+      // Ignore.
     }
     catch (NoSuchMethodException exception)
     {
+      // Ignore.
     }
     catch (InvocationTargetException exception)
     {
+      // Ignore.
     }
 
     return UnexecutableCommand.INSTANCE;
@@ -521,7 +526,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
    * This delegates to 
    * {@link org.eclipse.emf.edit.provider.IEditingDomainItemProvider#getChildren IEditingDomainItemProvider.getChildren}.
    */
-  public Collection getChildren(Object object)
+  public Collection<?> getChildren(Object object)
   {
     // If there is an adapter of the correct type...
     //
@@ -532,7 +537,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     return
       editingDomainItemProvider != null ?
         editingDomainItemProvider.getChildren(object) :
-        Collections.EMPTY_LIST;
+        Collections.emptyList();
   }
 
   /**
@@ -567,7 +572,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   {
     if (object != null)
     {
-      for (Iterator i = treeIterator(getRoot(object)); i.hasNext(); )
+      for (Iterator<?> i = treeIterator(getRoot(object)); i.hasNext(); )
       {
         Object element = i.next();
         Object elementValue = element; 
@@ -609,7 +614,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
    * This delegates to 
    * {@link org.eclipse.emf.edit.provider.IEditingDomainItemProvider#getNewChildDescriptors IEditingDomainItemProvider.getNewChildDescriptors}.
    */
-  public Collection getNewChildDescriptors(Object object, Object sibling)
+  public Collection<CommandParameter> getNewChildDescriptors(Object object, Object sibling)
   {
     // If no object is specified, but an existing sibling is, the object is
     // its parent.
@@ -628,13 +633,13 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     return
       editingDomainItemProvider != null ?
         editingDomainItemProvider.getNewChildDescriptors(object, this, sibling) :
-        Collections.EMPTY_LIST;
+        Collections.<CommandParameter>emptyList();
   }
 
   /**
    * This returns the clipboard of the editing domain.
    */
-  public Collection getClipboard()
+  public Collection<Object> getClipboard()
   {
     return clipboard;
   }
@@ -642,7 +647,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   /**
    * This sets the clipboard of the editing domain.
    */
-  public void setClipboard(Collection clipboard)
+  public void setClipboard(Collection<Object> clipboard)
   {
     this.clipboard = clipboard;
   }
@@ -666,7 +671,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   /**
    * Returns the map of resource to a Boolean value indicating whether the resource is read only.
    */
-  public Map getResourceToReadOnlyMap()
+  public Map<Resource, Boolean> getResourceToReadOnlyMap()
   {
     return resourceToReadOnlyMap;
   }
@@ -674,7 +679,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   /**
    * Set the map of resource to a Boolean value indicating whether the resource is read only.
    */
-  public void setResourceToReadOnlyMap(Map resourceToReadOnlyMap)
+  public void setResourceToReadOnlyMap(Map<Resource, Boolean> resourceToReadOnlyMap)
   {
     this.resourceToReadOnlyMap = resourceToReadOnlyMap;
   }
@@ -690,7 +695,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     }
     else
     {
-      Object result = resourceToReadOnlyMap.get(resource);
+      Boolean result = resourceToReadOnlyMap.get(resource);
       if (result == null && resource != null)
       {
         URI uri = (resource.getResourceSet() == null ? resourceSet : resource.getResourceSet()).getURIConverter().normalize(resource.getURI());
@@ -733,8 +738,10 @@ public class AdapterFactoryEditingDomain implements EditingDomain
   /**
    * This implements an tree iterator that iterates over an object, it's domain children, their domain children, and so on.
    */
-  public static class DomainTreeIterator extends AbstractTreeIterator
+  public static class DomainTreeIterator<E> extends AbstractTreeIterator<E>
   {
+    private static final long serialVersionUID = 1L;
+
     /**
      * This is the domain that defines the tree structured.
      */
@@ -743,7 +750,7 @@ public class AdapterFactoryEditingDomain implements EditingDomain
     /**
      * This constructs tree iterator that iterates over an object, it's domain children, their domain children, and so on.
      */
-    public DomainTreeIterator(EditingDomain domain, Object object)
+    public DomainTreeIterator(EditingDomain domain, E object)
     {
       super(object);
       this.domain = domain;
@@ -759,26 +766,28 @@ public class AdapterFactoryEditingDomain implements EditingDomain
       this.domain = domain;
     }
 
-    protected Iterator getChildren(Object o)
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Iterator<E> getChildren(Object o)
     {
-      return domain.getChildren(o).iterator();
+      return (Iterator<E>)domain.getChildren(o).iterator();
     }
   }
 
   /**
    * This returns a tree iterator that will yield the object, the children of the object, their children, and so on.
    */
-  public TreeIterator treeIterator(Object object)
+  public TreeIterator<?> treeIterator(Object object)
   {
-    return new DomainTreeIterator(this, object);
+    return new DomainTreeIterator<Object>(this, object);
   }
 
   /**
    * This returns a path list from the root object to the given object in the tree.
    */
-  public List getTreePath(Object object)
+  public List<?> getTreePath(Object object)
   {
-    LinkedList result = new LinkedList();
+    LinkedList<Object> result = new LinkedList<Object>();
     result.addFirst(object);
     while ((object = getParent(object)) != null)
     {

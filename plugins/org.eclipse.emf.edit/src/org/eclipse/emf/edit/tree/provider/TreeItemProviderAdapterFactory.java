@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeItemProviderAdapterFactory.java,v 1.2 2005/06/08 06:17:06 nickb Exp $
+ * $Id: TreeItemProviderAdapterFactory.java,v 1.3 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.tree.provider;
 
@@ -74,7 +74,7 @@ public class TreeItemProviderAdapterFactory
   /**
    * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -92,6 +92,7 @@ public class TreeItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.emf.edit.tree.TreeNode}.
    */
+  @Override
   public Adapter createTreeNodeAdapter()
   {
     return new TreeNodeItemProvider(this);
@@ -116,6 +117,7 @@ public class TreeItemProviderAdapterFactory
   /**
    * This also check if the type is one of the supported types.
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return super.isFactoryForType(type) || supportedTypes.contains(type);
@@ -124,11 +126,13 @@ public class TreeItemProviderAdapterFactory
   /**
    * This implementation substitutes the factory itself as the key for the adapter.
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
   }
 
+  @Override
   public Object adapt(Object object, Object type)
   {
     // This is a kludge to deal with enumerators, which crash the doSwitch.
@@ -141,7 +145,7 @@ public class TreeItemProviderAdapterFactory
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
@@ -153,6 +157,7 @@ public class TreeItemProviderAdapterFactory
   /**
    * This records adapters for subsequent disposable.
    */
+  @Override
   public Adapter adaptNew(Notifier object, Object type)
   {
     Adapter result = super.adaptNew(object, type);

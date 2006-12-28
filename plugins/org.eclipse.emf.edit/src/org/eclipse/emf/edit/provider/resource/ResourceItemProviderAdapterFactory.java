@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceItemProviderAdapterFactory.java,v 1.3 2005/06/08 06:17:06 nickb Exp $
+ * $Id: ResourceItemProviderAdapterFactory.java,v 1.4 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -71,7 +71,7 @@ public class ResourceItemProviderAdapterFactory
    * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
    * @generated
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This is used to implement {@link org.eclipse.emf.edit.provider.IDisposable}.
@@ -92,6 +92,7 @@ public class ResourceItemProviderAdapterFactory
     supportedTypes.add(ITableItemLabelProvider.class);
   }
 
+  @Override
   public Adapter createAdapter(Notifier target)
   {
     if (target instanceof Resource)
@@ -148,6 +149,7 @@ public class ResourceItemProviderAdapterFactory
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return type == resourcePackage || type instanceof Resource || type instanceof ResourceSet || supportedTypes.contains(type);
@@ -157,6 +159,7 @@ public class ResourceItemProviderAdapterFactory
    * This implementation substitutes the factory itself as the key for the adapter.
    * @generated
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
@@ -165,6 +168,7 @@ public class ResourceItemProviderAdapterFactory
   /**
    * @generated
    */
+  @Override
   public Object adapt(Object object, Object type)
   {
     // This is a kludge to deal with enumerators, which crash the doSwitch.
@@ -177,7 +181,7 @@ public class ResourceItemProviderAdapterFactory
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
@@ -218,10 +222,11 @@ public class ResourceItemProviderAdapterFactory
     }
   }
 
+  @Override
   protected void associate(Adapter adapter, Notifier target)
   {
     super.associate(adapter, target);
-    if (adapter != null)
+    if (adapter instanceof IDisposable)
     {
       disposable.add(adapter);
     }

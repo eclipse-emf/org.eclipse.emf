@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: InitializeCopyCommand.java,v 1.4 2005/06/08 06:17:05 nickb Exp $
+ * $Id: InitializeCopyCommand.java,v 1.5 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
@@ -109,18 +108,20 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
     return copyHelper;
   }
 
+  @Override
   protected boolean prepare()
   {
     return owner.eClass().isInstance(copy);
   }
 
+  @Override
   public void doExecute()
   {
     copyAttributes();
     copyReferences();
   }
 
-  protected Collection getAttributesToCopy()
+  protected Collection<? extends EAttribute> getAttributesToCopy()
   {
     return owner.eClass().getEAllAttributes();
   }
@@ -130,10 +131,9 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
    * accordingly in the copy.
    */
   protected void copyAttributes()
+  {
+    for (EAttribute attribute : getAttributesToCopy())
     {
-    for (Iterator attributes = getAttributesToCopy().iterator(); attributes.hasNext(); )
-    {
-      EAttribute attribute = (EAttribute) attributes.next();
       if (attribute.isChangeable() && !attribute.isDerived() && (attribute.isMany() || owner.eIsSet(attribute)))
       {
         Object value = owner.eGet(attribute);
@@ -143,14 +143,14 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
         }
         else
         {
-          List list = (List)copy.eGet(attribute);
+          @SuppressWarnings("unchecked")
+          List<Object> list = (List<Object>)copy.eGet(attribute);
           if (FeatureMapUtil.isFeatureMap(attribute))
           {
-            FeatureMap featureMap = (FeatureMap)list;
+            FeatureMap featureMap = (FeatureMap)(List<?>)list;
             LOOP:
-            for (Iterator i = ((List)value).iterator(); i.hasNext(); )
+            for (FeatureMap.Entry entry : (FeatureMap)value)
             {
-              FeatureMap.Entry entry = (FeatureMap.Entry)i.next();
               EStructuralFeature entryFeature = entry.getEStructuralFeature();
               if (entryFeature instanceof EAttribute)
               {
@@ -167,9 +167,8 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
                 {
                   if (reverseReference != null)
                   {
-                    for (Iterator j = featureMap.iterator(); j.hasNext(); )
+                    for (FeatureMap.Entry copyEntry : featureMap)
                     {
-                      FeatureMap.Entry copyEntry = (FeatureMap.Entry)j.next();
                       if (copyEntry.getEStructuralFeature() == reference && copyEntry.getValue() == target)
                       {
                         featureMap.move(featureMap.size() - 1, copyEntry);
@@ -184,7 +183,7 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
           }
           else
           {
-            list.addAll((List)value);
+            list.addAll((List<?>)value);
           }
         }
       }
@@ -192,7 +191,7 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
   }
 
 
-  protected Collection getReferencesToCopy()
+  protected Collection<? extends EReference> getReferencesToCopy()
   {
     return owner.eClass().getEAllReferences();
   }
@@ -203,9 +202,8 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
    */
   protected void copyReferences()
   {
-    for (Iterator references = getReferencesToCopy().iterator(); references.hasNext(); ) 
+    for (EReference reference : getReferencesToCopy())
     {
-      EReference reference = (EReference) references.next();
       if (!reference.isChangeable() || reference.isDerived())
       {
         continue;
@@ -223,14 +221,16 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
       boolean copiedTargetRequired = reverseReference != null || reference.isContainment();
       if (reference.isMany())
       {
-        List valueList = (List) value;
+        @SuppressWarnings("unchecked")
+        List<EObject> valueList = (List<EObject>)value;
         if (!valueList.isEmpty())
         {
-          EList copyList = (EList) copy.eGet(reference);
+          @SuppressWarnings("unchecked")
+          EList<EObject> copyList = (EList<EObject>)copy.eGet(reference);
           int index = 0;
-          for (Iterator valueIter = valueList.iterator(); valueIter.hasNext(); ++index)
+          for (EObject item : valueList)
           {
-            EObject target = copyHelper.getCopyTarget((EObject) valueIter.next(), copiedTargetRequired);
+            EObject target = copyHelper.getCopyTarget(item, copiedTargetRequired);
             if (target == null) break; // if one is null, they'll all be null
             if (reverseReference != null)
             {
@@ -262,22 +262,26 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
     }
   }
 
+  @Override
   public void doUndo() 
   {
     // no-op
   }
 
+  @Override
   public void doRedo()
   {
     // no-op
   }
 
-  public Collection doGetResult()
+  @Override
+  public Collection<?> doGetResult()
   {
     return Collections.singleton(copy);
   }
 
-  public Collection doGetAffectedObjects()
+  @Override
+  public Collection<?> doGetAffectedObjects()
   {
     return Collections.singleton(copy);
   }
@@ -286,6 +290,7 @@ public class InitializeCopyCommand extends AbstractOverrideableCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString() + ")");

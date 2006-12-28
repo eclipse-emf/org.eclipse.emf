@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: WrapperItemProvider.java,v 1.9 2006/05/15 19:39:42 davidms Exp $
+ * $Id: WrapperItemProvider.java,v 1.10 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
@@ -98,6 +97,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
    */
   public void dispose()
   {
+    // Do nothing.
   }
 
   /**
@@ -146,7 +146,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
    * {@link IStructuredItemContentProvider#getElements IStructuredItemContentProvider.getElements} is implemented by
    * forwarding the call to {@link #getChildren getChildren}.
    */
-  public Collection getElements(Object object)
+  public Collection<?> getElements(Object object)
   {
     return getChildren(object);
   }
@@ -155,9 +155,9 @@ public class WrapperItemProvider implements IWrapperItemProvider
    * {@link ITreeItemContentProvider#getChildren ITreeItemContentProvider.getChildren} is implemented to return an
    * empty list. Subclasses may override it to return something else.
    */
-  public Collection getChildren(Object object)
+  public Collection<?> getChildren(Object object)
   {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /**
@@ -209,9 +209,9 @@ public class WrapperItemProvider implements IWrapperItemProvider
    * {@link IItemPropertySource#getPropertyDescriptors IItemPropertySource.getPropertyDescriptors} is implemented to
    * return an empty list. Subclasses may override it to return something else.
    */
-  public List getPropertyDescriptors(Object object)
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /**
@@ -221,9 +221,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
    */
   public IItemPropertyDescriptor getPropertyDescriptor(Object object, Object propertyId)
   {
-    for (Iterator i = getPropertyDescriptors(object).iterator(); i.hasNext(); )
+    for (IItemPropertyDescriptor descriptor : getPropertyDescriptors(object))
     {
-      IItemPropertyDescriptor descriptor = (IItemPropertyDescriptor)i.next();
       if (propertyId.equals(descriptor.getId(object)))
       {
         return descriptor;
@@ -303,7 +302,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
    * Returns the property image for the specified type. Implementations of {@link #getPropertyImage getPropertyImage}
    * typically call this method.
    */
-  protected Object getPropertyImage(Class typeClass)
+  protected Object getPropertyImage(Class<?> typeClass)
   {
     if (typeClass == Boolean.TYPE || typeClass == Boolean.class)
     {
@@ -352,16 +351,16 @@ public class WrapperItemProvider implements IWrapperItemProvider
    * {@link IEditingDomainItemProvider#getNewChildDescriptors IEditingDomainItemProvider.getNewChildDescriptors} is
    * implemented to return an empty list. Subclasses may override it to return something else.
    */
-  public Collection getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /**
    * {IEditingDomainItemProvider#createCommand IEditingDomainItemProvider.createCommand} is implemented via {@link
    * #baseCreateCommand baseCreateCommand} to create set, copy, and drag-and-drop commands, only.
    */
-  public Command createCommand(Object object, EditingDomain domain, Class commandClass, CommandParameter commandParameter)
+  public Command createCommand(Object object, EditingDomain domain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     return baseCreateCommand(object, domain, commandClass, commandParameter);
   }
@@ -371,11 +370,13 @@ public class WrapperItemProvider implements IWrapperItemProvider
    * createSetCommand}, {@link #createCopyCommand createCopyCommand}, or {@link #createDragAndDropCommand
    * createDragAndDropCommand}.
    */
-  public Command baseCreateCommand(Object object, EditingDomain domain, Class commandClass, CommandParameter commandParameter)
+  public Command baseCreateCommand(Object object, EditingDomain domain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     if (commandClass == SetCommand.class)
     {
-      return createSetCommand(domain, commandParameter.getOwner(), commandParameter.getFeature(), commandParameter.getValue(), commandParameter.getIndex());
+      return 
+        createSetCommand
+          (domain, commandParameter.getOwner(), commandParameter.getFeature(), commandParameter.getValue(), commandParameter.getIndex());
     }
     else if (commandClass == CopyCommand.class)
     {
@@ -384,7 +385,9 @@ public class WrapperItemProvider implements IWrapperItemProvider
     else if (commandClass == DragAndDropCommand.class)
     {
       DragAndDropCommand.Detail detail = (DragAndDropCommand.Detail)commandParameter.getFeature();
-      return createDragAndDropCommand(domain, commandParameter.getOwner(), detail.location, detail.operations, detail.operation, commandParameter.getCollection());
+      return 
+        createDragAndDropCommand
+          (domain, commandParameter.getOwner(), detail.location, detail.operations, detail.operation, commandParameter.getCollection());
     }
     else
     {
@@ -415,7 +418,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
   /**
    * Creates a {@link org.eclipse.emf.edit.command.DragAndDropCommand}.
    */
-  protected Command createDragAndDropCommand(EditingDomain domain, Object owner, float location, int operations, int operation, Collection collection)
+  protected Command createDragAndDropCommand
+    (EditingDomain domain, Object owner, float location, int operations, int operation, Collection<?> collection)
   {
     return new DragAndDropCommand(domain, owner, location, operations, operation, collection);
   }
@@ -437,8 +441,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
    */
   protected abstract class SimpleCopyCommand extends AbstractOverrideableCommand
   {
-    protected Collection result = Collections.EMPTY_LIST;
-    protected Collection affectedObjects;
+    protected Collection<?> result = Collections.EMPTY_LIST;
+    protected Collection<?> affectedObjects;
 
     /**
      * Creates an instance for the given domain.
@@ -451,6 +455,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * Returns true; this command can requires now preparation and can always be executed.
      */
+    @Override
     protected boolean prepare()
     {
       return true;
@@ -461,6 +466,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
      * be the result of the command. Since the copy has not been created within the viewed model, it should never do
      * any kind of notification, which is why it is immediately disposed.
      */
+    @Override
     public void doExecute()
     {
       IWrapperItemProvider copy = copy();
@@ -476,6 +482,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * Does nothing.
      */
+    @Override
     public void doUndo()
     {
       // no-op
@@ -484,6 +491,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * Does nothing.
      */
+    @Override
     public void doRedo()
     {
       // no-op
@@ -492,7 +500,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * If the command has executed, returns a list containing only the copy of the wrapper.
      */
-    public Collection doGetResult()
+    @Override
+    public Collection<?> doGetResult()
     {
       return result;
     }
@@ -500,7 +509,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * Returns a list containing only the original wrapper itself.
      */
-    public Collection doGetAffectedObjects()
+    @Override
+    public Collection<?> doGetAffectedObjects()
     {
       if (affectedObjects == null)
       {
@@ -518,8 +528,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
    */
   protected abstract class WrappingCopyCommand extends CommandWrapper
   {
-    protected Collection result = Collections.EMPTY_LIST;
-    protected Collection affectedObjects;
+    protected Collection<?> result = Collections.EMPTY_LIST;
+    protected Collection<?> affectedObjects;
 
     /**
      * Creates an instance where some adaptable value is copied by the given command.
@@ -535,6 +545,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
      * command. Since the copy has not been created within the viewed model, it should never do any kind of
      * notification, which is why it is immediately disposed.
      */
+    @Override
     public void execute()
     {
       super.execute();
@@ -552,7 +563,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * If the command has executed, returns a list containing only the copy of the wrapper.
      */
-    public Collection getResult()
+    @Override
+    public Collection<?> getResult()
     {
       return result;
     }
@@ -560,7 +572,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * Returns a list containing only the original wrapper itself.
      */
-    public Collection getAffectedObjects()
+    @Override
+    public Collection<?> getAffectedObjects()
     {
       if (affectedObjects == null)
       {
@@ -609,6 +622,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
      * Substitutes the wrapper owner for the selected object and invokes the base implementation. The actual value
      * returned depends on the implementation of {@link #getValue getValue}.
      */
+    @Override
     public Object getPropertyValue(Object object)
     {
       return super.getPropertyValue(owner);
@@ -617,6 +631,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * Substitutes the wrapper owner for the selected object and invokes the base implementation.
      */
+    @Override
     public boolean canSetProperty(Object object)
     {
       return super.canSetProperty(owner);
@@ -625,6 +640,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * Returns <code>true</code>, as the property of a value wrapper is always considered to be set. 
      */
+    @Override
     public boolean isPropertySet(Object object)
     {
       return true;
@@ -633,14 +649,17 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * Does nothing, as resetting the property of a value wrapper is not meaningful.
      */
+    @Override
     public void resetPropertyValue(Object object)
     {
+      // Do nothing
     }
 
     /**
      * Sets the property value. If an editing domain can be obtained, the command returned by {@link #createSetCommand
      * createSetcommand} is executed; otherwise, {@link #setValue setValue} is called to set the value.
      */
+    @Override
     public void setPropertyValue(Object object, Object value)
     {
       EObject eObject = (EObject)owner;
@@ -660,6 +679,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
      * Returns a value from a model object. If the feature is multi-valued, only the single value that the wrapper
      * represents is returned.
      */
+    @Override
     protected Object getValue(EObject object, EStructuralFeature feature)
     {
       // When the value is changed, the property sheet page doesn't update the property sheet viewer input
@@ -674,7 +694,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
         // If the last object was deleted and the selection was in the property sheet view, the obsolete wrapper will
         // reference past the end of the list.
         //
-        List list = (List)result;
+        List<?> list = (List<?>)result;
         result = index >= 0 && index < list.size() ? list.get(index) : value;
       }
       return result;
@@ -688,7 +708,9 @@ public class WrapperItemProvider implements IWrapperItemProvider
     {
       if (feature.isMany())
       {
-        ((List)object.eGet(feature)).set(index, value);
+        @SuppressWarnings("unchecked")
+        List<Object> list = ((List<Object>)object.eGet(feature));
+        list.set(index, value);
       }
       else
       {
@@ -708,6 +730,7 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * Returns <code>false</code>, as the property only represents a single value, even if the feature is multi-valued.
      */
+    @Override
     public boolean isMany(Object object)
     {
       return false;
@@ -716,7 +739,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
     /**
      * Substitutes the wrapper owner for the selected object and invokes the base implementation.
      */
-    public Collection getChoiceOfValues(Object object)
+    @Override
+    public Collection<?> getChoiceOfValues(Object object)
     {
       return super.getChoiceOfValues(owner);
     }
@@ -738,9 +762,10 @@ public class WrapperItemProvider implements IWrapperItemProvider
      * Obtains the children of the wrapper's owner, and returns a collection containing the first wrapper whose feature
      * and index match this one's. 
      */
-    public Collection getAffectedObjects()
+    @Override
+    public Collection<?> getAffectedObjects()
     {
-      Collection children = Collections.EMPTY_LIST;
+      Collection<?> children = Collections.EMPTY_LIST;
 
       // Either the IEditingDomainItemProvider or ITreeItemContentProvider item provider interface can give us
       // the children.
@@ -759,9 +784,8 @@ public class WrapperItemProvider implements IWrapperItemProvider
         }
       }
 
-      for (Iterator i = children.iterator(); i.hasNext(); )
+      for (Object child : children)
       {
-        Object child = i.next();
         if (child instanceof IWrapperItemProvider)
         {
           IWrapperItemProvider wrapper = (IWrapperItemProvider)child;

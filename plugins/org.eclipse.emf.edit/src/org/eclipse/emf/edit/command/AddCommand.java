@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AddCommand.java,v 1.8 2006/12/09 18:21:13 emerks Exp $
+ * $Id: AddCommand.java,v 1.9 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.edit.command;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.emf.common.command.Command;
@@ -85,7 +84,7 @@ public class AddCommand extends AbstractOverrideableCommand
    * This creates a command to add a collection of values to the specified feature of the owner.
    * The feature will often be null because the domain will deduce it.
    */
-  public static Command create(EditingDomain domain, Object owner, Object feature, Collection collection)
+  public static Command create(EditingDomain domain, Object owner, Object feature, Collection<?> collection)
   {
     return domain.createCommand(AddCommand.class, new CommandParameter(owner, feature, collection, CommandParameter.NO_INDEX));
   }
@@ -94,7 +93,7 @@ public class AddCommand extends AbstractOverrideableCommand
    * This creates a command to insert a collection of values at a particular index in the specified feature of the owner.
    * The feature will often be null because the domain will deduce it.
    */
-  public static Command create(EditingDomain domain, Object owner, Object feature, Collection collection, int index)
+  public static Command create(EditingDomain domain, Object owner, Object feature, Collection<?> collection, int index)
   {
     return domain.createCommand(AddCommand.class, new CommandParameter(owner, feature, collection, index));
   }
@@ -129,12 +128,12 @@ public class AddCommand extends AbstractOverrideableCommand
   /**
    * This is the list to which the command will add the collection.
    */
-  protected EList ownerList;
+  protected EList<Object> ownerList;
 
   /**
    * This is the collection of objects being added to the owner list.
    */
-  protected Collection collection;
+  protected Collection<?> collection;
 
   /**
    * This is the position at which the objects will be inserted.
@@ -145,7 +144,7 @@ public class AddCommand extends AbstractOverrideableCommand
    * This is the value returned by {@link Command#getAffectedObjects}. 
    * The affected objects are different after an execute than after an undo, so we record it.
    */
-  protected Collection affectedObjects;
+  protected Collection<?> affectedObjects;
 
   /**
    * This constructs a primitive command to add a particular value to the specified many-valued feature of the owner.
@@ -166,7 +165,7 @@ public class AddCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to add a collection of values to the specified many-valued feature of the owner.
    */
-  public AddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection collection)
+  public AddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection<?> collection)
   {
     this(domain, owner, feature, collection, CommandParameter.NO_INDEX);
   }
@@ -174,7 +173,7 @@ public class AddCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to insert a collection of values into the specified many-valued feature of the owner.
    */
-  public AddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection collection, int index)
+  public AddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection<?> collection, int index)
   {
     super(domain, LABEL, DESCRIPTION);
 
@@ -189,7 +188,7 @@ public class AddCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to add a particular value into the specified extent.
    */
-  public AddCommand(EditingDomain domain, EList list, Object value)
+  public AddCommand(EditingDomain domain, EList<?> list, Object value)
   {
     this(domain, list, Collections.singleton(value), CommandParameter.NO_INDEX);
   }
@@ -197,7 +196,7 @@ public class AddCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to insert particular value into the specified extent.
    */
-  public AddCommand(EditingDomain domain, EList list, Object value, int index)
+  public AddCommand(EditingDomain domain, EList<?> list, Object value, int index)
   {
     this(domain, list, Collections.singleton(value), index);
   }
@@ -205,7 +204,7 @@ public class AddCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to insert a collection of values into the specified extent.
    */
-  public AddCommand(EditingDomain domain, EList list, Collection collection)
+  public AddCommand(EditingDomain domain, EList<?> list, Collection<?> collection)
   {
     this(domain, list, collection, CommandParameter.NO_INDEX);
   }
@@ -213,14 +212,16 @@ public class AddCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to insert a collection of values into the specified extent.
    */
-  public AddCommand(EditingDomain domain, EList list, Collection collection, int index)
+  public AddCommand(EditingDomain domain, EList<?> list, Collection<?> collection, int index)
   {
     super(domain, LABEL, DESCRIPTION_FOR_LIST);
 
     this.collection = collection;
     this.index = index;
 
-    ownerList = list;
+    @SuppressWarnings("unchecked")
+    EList<Object> untypedList = (EList<Object>)list;
+    ownerList = untypedList;
   }
 
   /**
@@ -244,7 +245,7 @@ public class AddCommand extends AbstractOverrideableCommand
   /**
    * This returns the list to which the command will add.
    */
-  public EList getOwnerList()
+  public EList<?> getOwnerList()
   {
     return ownerList;
   }
@@ -252,7 +253,7 @@ public class AddCommand extends AbstractOverrideableCommand
   /**
    * This returns the collection of objects being added.
    */
-  public Collection getCollection()
+  public Collection<?> getCollection()
   {
     return collection;
   }
@@ -274,6 +275,7 @@ public class AddCommand extends AbstractOverrideableCommand
       entryFeature != XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__PROCESSING_INSTRUCTION;
   }
 
+  @Override
   protected boolean prepare()
   {
     // If there is no list to add to, no collection or an empty collection from which to add, or the index is out of range...
@@ -292,7 +294,7 @@ public class AddCommand extends AbstractOverrideableCommand
       //
       FeatureMapUtil.Validator validator = null;
       boolean documentRoot = false;
-      Set entryFeatures = null;
+      Set<EStructuralFeature> entryFeatures = null;
 
       if (FeatureMapUtil.isFeatureMap(feature))
       {
@@ -304,10 +306,10 @@ public class AddCommand extends AbstractOverrideableCommand
         //
         documentRoot = ExtendedMetaData.INSTANCE.getDocumentRoot(eClass.getEPackage()) == eClass;
         boolean mixed = documentRoot || ExtendedMetaData.INSTANCE.getContentKind(eClass) == ExtendedMetaData.MIXED_CONTENT;
-        entryFeatures = new HashSet();
-        for (Iterator i = ownerList.iterator(); i.hasNext(); )
+        entryFeatures = new HashSet<EStructuralFeature>();
+        for (Object entry : ownerList)
         {
-          EStructuralFeature entryFeature = ((FeatureMap.Entry)i.next()).getEStructuralFeature();
+          EStructuralFeature entryFeature = ((FeatureMap.Entry)entry).getEStructuralFeature();
           if (!mixed || isUserElement(entryFeature))
           {
             entryFeatures.add(entryFeature);
@@ -317,9 +319,8 @@ public class AddCommand extends AbstractOverrideableCommand
 
       // Check each object... 
       //
-      for (Iterator objects = collection.iterator(); objects.hasNext(); )
+      for (Object object : collection)
       {
-        Object object = objects.next();
         boolean containment = false;
 
         // Check type of object.
@@ -392,6 +393,7 @@ public class AddCommand extends AbstractOverrideableCommand
     return true;
   }
 
+  @Override
   public void doExecute() 
   {
     // Simply add the collection to the list.
@@ -410,6 +412,7 @@ public class AddCommand extends AbstractOverrideableCommand
     affectedObjects = collection;
   }
 
+  @Override
   public void doUndo() 
   {
     // Remove the collection from the list by index.
@@ -422,6 +425,7 @@ public class AddCommand extends AbstractOverrideableCommand
     affectedObjects = owner == null ? Collections.EMPTY_SET : Collections.singleton(owner);
   }
 
+  @Override
   public void doRedo()
   {
     // Simply add the collection to the list.
@@ -440,12 +444,14 @@ public class AddCommand extends AbstractOverrideableCommand
     affectedObjects = collection;
   }
 
-  public Collection doGetResult()
+  @Override
+  public Collection<?> doGetResult()
   {
     return collection;
   }
 
-  public Collection doGetAffectedObjects()
+  @Override
+  public Collection<?> doGetAffectedObjects()
   {
     return affectedObjects;
   }
@@ -454,6 +460,7 @@ public class AddCommand extends AbstractOverrideableCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: CreateChildCommand.java,v 1.7 2005/06/08 06:17:05 nickb Exp $
+ * $Id: CreateChildCommand.java,v 1.8 2006/12/28 06:48:55 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -59,11 +60,12 @@ public class CreateChildCommand extends CommandWrapper
    */
   public static Command create(EditingDomain domain, Object owner,
                                Object newChildDescriptor,
-                               Collection selection)
+                               Collection<?> selection)
   {
-    return domain.createCommand(
-      CreateChildCommand.class,
-      new CommandParameter(owner, null, newChildDescriptor, selection));
+    return 
+      domain.createCommand
+        (CreateChildCommand.class, 
+         new CommandParameter(owner, null, newChildDescriptor, new ArrayList<Object>(selection)));
   }
 
   /**
@@ -72,6 +74,7 @@ public class CreateChildCommand extends CommandWrapper
    * @deprecated As of EMF 2.0, use {@link CommandParameter#NO_INDEX}, whose
    * value is equal to this, instead.
    */
+  @Deprecated
   protected static final int NO_INDEX = CommandParameter.NO_INDEX;
 
   /**
@@ -110,13 +113,13 @@ public class CreateChildCommand extends CommandWrapper
    * The affected objects are different after an execute or redo from after
    * an undo, so we record them.
    */
-  protected Collection affectedObjects;
+  protected Collection<?> affectedObjects;
 
   /**
    * This is the collection of objects that were selected when this command
    * was created.  After an undo, these are considered the affected objects.
    */
-  protected Collection selection;
+  protected Collection<?> selection;
 
   /**
    * This constructor initializes an instance that adds the specified
@@ -135,7 +138,7 @@ public class CreateChildCommand extends CommandWrapper
                             EObject owner,
                             EStructuralFeature feature,
                             Object child,
-                            Collection selection)
+                            Collection<?> selection)
   {
     this(domain, owner, feature, child, CommandParameter.NO_INDEX, selection, null);
   }
@@ -150,7 +153,7 @@ public class CreateChildCommand extends CommandWrapper
                             EObject owner,
                             EStructuralFeature feature,
                             Object child,
-                            Collection selection,
+                            Collection<?> selection,
                             CreateChildCommand.Helper helper)
   {
     this(domain, owner, feature, child, CommandParameter.NO_INDEX, selection, helper);
@@ -174,7 +177,7 @@ public class CreateChildCommand extends CommandWrapper
                             EStructuralFeature feature,
                             Object child,
                             int index,
-                            Collection selection)
+                            Collection<?> selection)
   {
     this(domain, owner, feature, child, index, selection, null);
   }
@@ -190,7 +193,7 @@ public class CreateChildCommand extends CommandWrapper
                             EStructuralFeature feature,
                             Object child,
                             int index,
-                            Collection selection,
+                            Collection<?> selection,
                             CreateChildCommand.Helper helper)
   {
     super();
@@ -228,6 +231,7 @@ public class CreateChildCommand extends CommandWrapper
    * already been set to an object, {@link UnexecutableCommand#INSTANCE}
    * will be returned.
    */
+  @Override
   protected Command createCommand()
   {
     if (owner == null || feature == null || child == null)
@@ -253,6 +257,7 @@ public class CreateChildCommand extends CommandWrapper
    * This executes the wrapped command and sets the affected objects to the
    * collection returned by <code>helper.getCreateChildResult()</code>.
    */
+  @Override
   public void execute()
   {
     super.execute();
@@ -263,6 +268,7 @@ public class CreateChildCommand extends CommandWrapper
    * This undoes the wrapped command and sets the affected objects to
    * the original selection.
    */
+  @Override
   public void undo()
   {
     super.undo();
@@ -273,6 +279,7 @@ public class CreateChildCommand extends CommandWrapper
    * This redoes the wrapped command and sets the affected objects to the
    * collection returned by <code>helper.getCreateChildResult()</code>.
    */
+  @Override
   public void redo()
   {
     super.redo();
@@ -282,7 +289,8 @@ public class CreateChildCommand extends CommandWrapper
   /**
    * This returns the affected objects.
    */
-  public Collection getAffectedObjects()
+  @Override
+  public Collection<?> getAffectedObjects()
   {
     return affectedObjects == null ?
       Collections.EMPTY_LIST : affectedObjects;
@@ -292,9 +300,10 @@ public class CreateChildCommand extends CommandWrapper
    * This returns the result of this command by delegating to
    * <code>helper.getCreateChildResult()</code>.
    */
-  public Collection getResult()
+  @Override
+  public Collection<?> getResult()
   {
-    Collection result = helper.getCreateChildResult(child);
+    Collection<?> result = helper.getCreateChildResult(child);
     return result == null ? Collections.EMPTY_LIST : result;
   }
 
@@ -311,6 +320,7 @@ public class CreateChildCommand extends CommandWrapper
    * This returns the description by delegating to
    * <code>helper.getCreateChildDescription()</code>.
    */
+  @Override
   public String getDescription()
   {
     return helper.getCreateChildDescription(owner, feature, child, selection);
@@ -344,7 +354,7 @@ public class CreateChildCommand extends CommandWrapper
      * For a given child object, this returns the complete collection of
      * objects to be presented as the command's result.
      */
-    public Collection getCreateChildResult(Object child);
+    public Collection<?> getCreateChildResult(Object child);
     
     /**
      * This returns the text for the action of creating the specified
@@ -354,7 +364,7 @@ public class CreateChildCommand extends CommandWrapper
      * is being added as a child or a sibling, if it wishes.
      */
     public String getCreateChildText(Object owner, Object feature,
-                                     Object child, Collection selection);
+                                     Object child, Collection<?> selection);
 
     /**
      * This returns the description of the action of creating the specified
@@ -366,7 +376,7 @@ public class CreateChildCommand extends CommandWrapper
     public String getCreateChildDescription(Object owner,
                                             Object feature,
                                             Object child,
-                                            Collection selection);
+                                            Collection<?> selection);
 
     /**
      * This returns the tool tip text for the action of creating the
@@ -378,7 +388,7 @@ public class CreateChildCommand extends CommandWrapper
     public String getCreateChildToolTipText(Object owner,
                                             Object feature,
                                             Object child,
-                                            Collection selection);
+                                            Collection<?> selection);
 
     /**
      * This returns the icon for the action of creating the specified
@@ -388,7 +398,7 @@ public class CreateChildCommand extends CommandWrapper
      * is being added as a child or a sibling, if it wishes.
      */
     public Object getCreateChildImage(Object owner, Object feature,
-                                      Object child, Collection selection);
+                                      Object child, Collection<?> selection);
   }
 
   /**
@@ -398,13 +408,13 @@ public class CreateChildCommand extends CommandWrapper
    */
   private static final Helper defaultHelper = new Helper()
   {
-    public Collection getCreateChildResult(Object child)
+    public Collection<?> getCreateChildResult(Object child)
     {
       return Collections.singletonList(child);
     }
 
     public String getCreateChildText(Object owner, Object feature,
-                                     Object child, Collection selection)
+                                     Object child, Collection<?> selection)
     {
       return EMFEditPlugin.INSTANCE.getString(
         "_UI_CreateChild_text",
@@ -416,14 +426,14 @@ public class CreateChildCommand extends CommandWrapper
     }
     
     public String getCreateChildDescription(Object owner, Object feature,
-                                            Object child, Collection selection)
+                                            Object child, Collection<?> selection)
     {
       return EMFEditPlugin.INSTANCE.getString(
         "_UI_CreateChildCommand_description");
     }
 
     public String getCreateChildToolTipText(Object owner, Object feature,
-                                            Object child, Collection selection)
+                                            Object child, Collection<?> selection)
     {
       return EMFEditPlugin.INSTANCE.getString(
         "_UI_CreateChild_tooltip",
@@ -435,7 +445,7 @@ public class CreateChildCommand extends CommandWrapper
     }
 
     public Object getCreateChildImage(Object owner, Object feature,
-                                      Object child, Collection selection)
+                                      Object child, Collection<?> selection)
     {
       return null;
     }
@@ -446,6 +456,7 @@ public class CreateChildCommand extends CommandWrapper
    * without package qualification, followed by a space-separated list of
    * <code>field:value</code> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeCommand.java,v 1.1 2006/04/12 15:25:01 marcelop Exp $
+ * $Id: ChangeCommand.java,v 1.2 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -42,7 +42,7 @@ abstract public class ChangeCommand extends AbstractCommand
 
   // Possible scope for the ChangeRecorder
   protected Notifier notifier;
-  protected Collection notifiers;
+  protected Collection<Notifier> notifiers;
   protected ChangeRecorder changeRecorder;
   
   protected ChangeCommand(ChangeRecorder changeRecorder)
@@ -65,17 +65,18 @@ abstract public class ChangeCommand extends AbstractCommand
     this.notifier = notifier;
   }
 
-  public ChangeCommand(ChangeRecorder changeRecorder, Collection notifiers)
+  public ChangeCommand(ChangeRecorder changeRecorder, Collection<Notifier> notifiers)
   {
     this(changeRecorder);    
     this.notifiers = notifiers;
   }
 
-  public ChangeCommand(Collection notifiers)
+  public ChangeCommand(Collection<Notifier> notifiers)
   {
     this.notifiers = notifiers;
   }
   
+  @Override
   public void dispose()
   {
     changeRecorder = null;
@@ -112,11 +113,13 @@ abstract public class ChangeCommand extends AbstractCommand
     this.changeDescription = changeDescription;
   }
       
+  @Override
   protected boolean prepare()
   {
     return getChangeDescription() == null;
   }
   
+  @Override
   public boolean canUndo()
   {
     return getChangeDescription() != null;
@@ -163,6 +166,7 @@ abstract public class ChangeCommand extends AbstractCommand
     }
   }
   
+  @Override
   public void undo()
   {    
     getChangeDescription().applyAndReverse();

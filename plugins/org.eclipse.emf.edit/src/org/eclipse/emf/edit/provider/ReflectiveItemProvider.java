@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ReflectiveItemProvider.java,v 1.17 2006/12/09 18:21:41 emerks Exp $
+ * $Id: ReflectiveItemProvider.java,v 1.18 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -45,6 +46,7 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.emf.edit.command.CommandParameter;
 
 
 /**
@@ -69,15 +71,15 @@ public class ReflectiveItemProvider
 
   /**
    */
-  public List getPropertyDescriptors(Object object) 
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) 
   {
     // if (itemPropertyDescriptors == null)
     {
-      itemPropertyDescriptors = new ArrayList();
+      itemPropertyDescriptors = new ArrayList<IItemPropertyDescriptor>();
 
-      for (Iterator i = ((EObject)object).eClass().getEAllStructuralFeatures().iterator(); i.hasNext(); )
+      for (EStructuralFeature eFeature : ((EObject)object).eClass().getEAllStructuralFeatures())
       {
-        EStructuralFeature eFeature = (EStructuralFeature)i.next();
         if (!(eFeature instanceof EReference) || !((EReference)eFeature).isContainment())
         {
           itemPropertyDescriptors.add
@@ -95,9 +97,9 @@ public class ReflectiveItemProvider
     return itemPropertyDescriptors;
   }
 
-  protected List allRoots;
-  protected List allEPackages;
-  protected List allEClasses;
+  protected List<EObject> allRoots;
+  protected List<EPackage> allEPackages;
+  protected List<EClass> allEClasses;
 
   protected void gatherAllMetaData(EObject eObject)
   {
@@ -109,10 +111,11 @@ public class ReflectiveItemProvider
     EStructuralFeature xmlnsPrefixMapFeature = extendedMetaData.getXMLNSPrefixMapFeature(root.eClass());
     if (xmlnsPrefixMapFeature != null)
     {
-      for (Iterator i = ((List)root.eGet(xmlnsPrefixMapFeature)).iterator(); i.hasNext(); )
+      @SuppressWarnings("unchecked")
+      EMap<String, String> map = ((EMap<String, String>)root.eGet(xmlnsPrefixMapFeature));
+      for (Map.Entry<String, String> entry : map)
       {
-        Map.Entry entry = (Map.Entry)i.next();
-        EPackage ePackage = extendedMetaData.getPackage((String)entry.getValue());
+        EPackage ePackage = extendedMetaData.getPackage(entry.getValue());
         if (ePackage != null)
         {
           gatherMetaData((EModelElement)EcoreUtil.getRootContainer(ePackage));
@@ -123,13 +126,13 @@ public class ReflectiveItemProvider
     gatherMetaData(eObject.eClass());
   }
   
-  protected List getAllEClasses(EClass eClass)
+  protected List<EClass> getAllEClasses(EClass eClass)
   {
     gatherMetaData(eClass);
     return allEClasses;
   }
   
-  protected List getAllEPackages(EClass eClass)
+  protected List<EPackage> getAllEPackages(EClass eClass)
   {
     gatherMetaData(eClass);
     return allEPackages;
@@ -139,12 +142,12 @@ public class ReflectiveItemProvider
   {
     if (allRoots == null)
     {
-      allRoots = new ArrayList();
-      allEClasses = new ArrayList();
-      allEPackages = new ArrayList();
+      allRoots = new ArrayList<EObject>();
+      allEClasses = new ArrayList<EClass>();
+      allEPackages = new ArrayList<EPackage>();
     }
     
-    Set roots = new HashSet();
+    Set<EObject> roots = new HashSet<EObject>();
     EObject root = EcoreUtil.getRootContainer(eModelElement);
     for (;;)
     {
@@ -157,18 +160,18 @@ public class ReflectiveItemProvider
               new BasicExtendedMetaData(root.eResource().getResourceSet().getPackageRegistry());
         if (root instanceof EPackage)
         {
-          allEPackages.add(root);
+          allEPackages.add((EPackage)root);
         }
-        for (Iterator i = root.eAllContents(); i.hasNext(); )
+        for (Iterator<EObject> i = root.eAllContents(); i.hasNext(); )
         {
-          EObject eObject = (EObject)i.next();
+          EObject eObject = i.next();
           
           if (eObject instanceof EClassifier)
           {
             extendedMetaData.getName((EClassifier)eObject);
             if (eObject instanceof EClass)
             {
-              allEClasses.add(eObject);
+              allEClasses.add((EClass)eObject);
             }
           }
           else if (eObject instanceof EStructuralFeature)
@@ -177,19 +180,19 @@ public class ReflectiveItemProvider
           }
           else if (eObject instanceof EPackage)
           {
-            allEPackages.add(eObject);
+            allEPackages.add((EPackage)eObject);
           }
           
-          for (Iterator j = eObject.eClass().getEAllReferences().iterator(); j.hasNext(); )
+          for (EReference eReference : eObject.eClass().getEAllReferences())
           {
-            EReference eReference = (EReference)j.next();
             if (!eReference.isDerived() && !eReference.isContainer() && !eReference.isContainment())
             {
               if (eReference.isMany())
               {
-                for (Iterator k = ((List)eObject.eGet(eReference)).iterator(); k.hasNext(); )
+                @SuppressWarnings("unchecked")
+                List<EObject> eObjects = ((List<EObject>)eObject.eGet(eReference));
+                for (EObject crossReference : eObjects)
                 {
-                  EObject crossReference = (EObject)k.next();
                   if (crossReference != null)
                   {
                     EObject otherRoot = EcoreUtil.getRootContainer(crossReference);
@@ -223,21 +226,20 @@ public class ReflectiveItemProvider
       }
       else
       {
-        Iterator i = roots.iterator();
-        root = (EObject)i.next();
+        Iterator<EObject> i = roots.iterator();
+        root = i.next();
         i.remove();
       }
     }
   }
 
-  protected List getAllConcreteSubclasses(EClass eClass)
+  protected List<EClass> getAllConcreteSubclasses(EClass eClass)
   {
-    List result = new ArrayList();
+    List<EClass> result = new ArrayList<EClass>();
     if (eClass == EcorePackage.eINSTANCE.getEObject())
     {
-      for (Iterator i = getAllEClasses(eClass).iterator(); i.hasNext(); )
+      for (EClass otherEClass : getAllEClasses(eClass))
       {
-        EClass otherEClass = (EClass)i.next();
         if (!otherEClass.isAbstract() && !ExtendedMetaData.INSTANCE.isAnonymous(otherEClass))
         {
           result.add(otherEClass);
@@ -250,9 +252,8 @@ public class ReflectiveItemProvider
     }
     else
     {
-      for (Iterator i = getAllEClasses(eClass).iterator(); i.hasNext(); )
+      for (EClass otherEClass : getAllEClasses(eClass))
       {
-        EClass otherEClass = (EClass)i.next();
         if (!otherEClass.isAbstract() && eClass.isSuperTypeOf(otherEClass) && !ExtendedMetaData.INSTANCE.isAnonymous(otherEClass))
         {
           result.add(otherEClass);
@@ -264,27 +265,26 @@ public class ReflectiveItemProvider
 
   /**
    */
-  protected Collection getChildrenFeatures(Object object)
+  @Override
+  protected Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     // if (childrenFeatures == null)
     {
-      childrenFeatures = new ArrayList();
+      childrenFeatures = new ArrayList<EStructuralFeature>();
       EObject eObject = (EObject)object;
       EClass eClass = eObject.eClass();
       if (ExtendedMetaData.INSTANCE.getContentKind(eClass) != ExtendedMetaData.MIXED_CONTENT)
       {
-        for (Iterator i = eClass.getEAllReferences().iterator(); i.hasNext(); )
+        for (EReference eReference : eClass.getEAllReferences())
         {
-          EReference eReference = (EReference)i.next();
           if (eReference.isContainment() && ExtendedMetaData.INSTANCE.getGroup(eReference) == null)
           {
             childrenFeatures.add(eReference);
           }
         }
       }
-      for (Iterator i = eClass.getEAllAttributes().iterator(); i.hasNext(); )
+      for (EAttribute eAttribute : eClass.getEAllAttributes())
       {
-        EAttribute eAttribute = (EAttribute)i.next();
         if (ExtendedMetaData.INSTANCE.getGroup(eAttribute) == null && 
               eAttribute.getEType().getInstanceClass() == FeatureMap.Entry.class &&
               !eAttribute.isDerived())
@@ -298,6 +298,7 @@ public class ReflectiveItemProvider
 
   /**
    */
+  @Override
   public Object getImage(Object object)
   {
     EObject eObject = (EObject)object;
@@ -307,6 +308,7 @@ public class ReflectiveItemProvider
 
   /**
    */
+  @Override
   public String getText(Object object)
   {
     EObject eObject = (EObject)object;
@@ -330,9 +332,8 @@ public class ReflectiveItemProvider
   protected EStructuralFeature getLabelFeature(EClass eClass)
   {
     EAttribute result = null;
-    for (Iterator i = eClass.getEAllAttributes().iterator(); i.hasNext(); )
+    for (EAttribute eAttribute : eClass.getEAllAttributes())
     {
-      EAttribute eAttribute = (EAttribute)i.next();
       if (!eAttribute.isMany() && eAttribute.getEType().getInstanceClass() != FeatureMap.Entry.class)
       {
         if ("name".equalsIgnoreCase(eAttribute.getName()))
@@ -367,9 +368,9 @@ public class ReflectiveItemProvider
   {
     StringBuffer result = new StringBuffer();
 
-    for (Iterator i = parseName(name, '_').iterator(); i.hasNext(); )
+    for (Iterator<String> i = parseName(name, '_').iterator(); i.hasNext(); )
     {
-      String component = (String)i.next();
+      String component = i.next();
       result.append(component);
       if (i.hasNext() && component.length() > 1)
       {
@@ -381,9 +382,9 @@ public class ReflectiveItemProvider
 
   /**
    */
-  protected List parseName(String sourceName, char sourceSeparator)
+  protected List<String> parseName(String sourceName, char sourceSeparator)
   {
-    List result = new ArrayList();
+    List<String> result = new ArrayList<String>();
     StringBuffer currentWord = new StringBuffer();
 
     int length = sourceName.length();
@@ -429,12 +430,12 @@ public class ReflectiveItemProvider
 
   /**
    */  
-  protected List getAllDelegatedFeatures(EStructuralFeature feature)
+  protected List<? extends EStructuralFeature> getAllDelegatedFeatures(EStructuralFeature feature)
   {
-    if (!FeatureMapUtil.isFeatureMap(feature)) return Collections.EMPTY_LIST;
+    if (!FeatureMapUtil.isFeatureMap(feature)) return Collections.emptyList();
 
     EClass eClass = feature.getEContainingClass();
-    List delegated = new ArrayList();
+    List<EStructuralFeature> delegated = new ArrayList<EStructuralFeature>();
 
     if (ExtendedMetaData.INSTANCE.getMixedFeature(eClass) == feature)
     {
@@ -447,9 +448,8 @@ public class ReflectiveItemProvider
          delegated.add(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA);
        }
 
-       for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+       for (EStructuralFeature otherFeature : eClass.getEAllStructuralFeatures())
        {
-         EStructuralFeature otherFeature = (EStructuralFeature)i.next();
          if (otherFeature != feature && otherFeature.isDerived() && otherFeature.isChangeable() &&
              ExtendedMetaData.INSTANCE.getGroup(otherFeature) == null)
          {
@@ -463,11 +463,10 @@ public class ReflectiveItemProvider
       {
         case ExtendedMetaData.GROUP_FEATURE:
         {
-          Set allDelegated = new HashSet();
-          Set qNames = new HashSet();
-          for (Iterator i = eClass.getEStructuralFeatures().iterator(); i.hasNext(); )
+          Set<EStructuralFeature> allDelegated = new HashSet<EStructuralFeature>();
+          Set<String> qNames = new HashSet<String>();
+          for (EStructuralFeature otherFeature : eClass.getEStructuralFeatures())
           {
-            EStructuralFeature otherFeature = (EStructuralFeature)i.next();
             if (otherFeature != feature && otherFeature.isDerived() && 
                 ExtendedMetaData.INSTANCE.getGroup(otherFeature) == feature)
             { 
@@ -482,15 +481,13 @@ public class ReflectiveItemProvider
             }
           }
           
-          for (Iterator i = getAllEPackages(eClass).iterator(); i.hasNext(); )
+          for (EPackage ePackage : getAllEPackages(eClass))
           {
-            EPackage ePackage = (EPackage)i.next();
             EClass documentRootEClass = ExtendedMetaData.INSTANCE.getDocumentRoot(ePackage);
             if (documentRootEClass != null)
             {
-              for (Iterator j = documentRootEClass.getEAllStructuralFeatures().iterator(); j.hasNext(); )
+              for (EStructuralFeature otherFeature : documentRootEClass.getEAllStructuralFeatures())
               {
-                EStructuralFeature otherFeature = (EStructuralFeature)j.next();
                 if (otherFeature != feature && 
                       otherFeature.isChangeable() &&
                       otherFeature.isDerived() &&
@@ -510,15 +507,13 @@ public class ReflectiveItemProvider
         case ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE:
         case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
         {
-          for (Iterator i = getAllEPackages(eClass).iterator(); i.hasNext(); )
+          for (EPackage ePackage : getAllEPackages(eClass))
           {
-            EPackage ePackage = (EPackage)i.next();
             EClass documentRootEClass = ExtendedMetaData.INSTANCE.getDocumentRoot(ePackage);
             if (documentRootEClass != null)
             {
-              for (Iterator j = documentRootEClass.getEAllStructuralFeatures().iterator(); j.hasNext(); )
+              for (EStructuralFeature otherFeature : documentRootEClass.getEAllStructuralFeatures())
               {
-                EStructuralFeature otherFeature = (EStructuralFeature)j.next();
                 if (otherFeature != feature && 
                       otherFeature.isDerived() && 
                       otherFeature.isChangeable() &&
@@ -534,10 +529,9 @@ public class ReflectiveItemProvider
       }
     }
 
-    List result = new ArrayList();
-    for (Iterator iter = delegated.iterator(); iter.hasNext(); )
+    List<EStructuralFeature> result = new ArrayList<EStructuralFeature>();
+    for (EStructuralFeature delegatedFeature : delegated)
     {
-      EStructuralFeature delegatedFeature = (EStructuralFeature)iter.next();
       if (FeatureMapUtil.isFeatureMap(delegatedFeature))
       {
         result.addAll(getAllDelegatedFeatures(delegatedFeature));
@@ -552,22 +546,19 @@ public class ReflectiveItemProvider
 
   /**
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)    
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)    
   {
     // This ensure that this package itself is traversed even if the reference type is EObject...
     //
     gatherAllMetaData((EObject)object);
 
-    for (Iterator i = getChildrenFeatures(object).iterator(); i.hasNext(); )
+    for (EStructuralFeature feature : getChildrenFeatures(object))
     {
-      EStructuralFeature feature = (EStructuralFeature)i.next();
-
       if (FeatureMapUtil.isFeatureMap(feature))
       {
-        for (Iterator j = getAllDelegatedFeatures(feature).iterator(); j.hasNext(); )
+        for (EStructuralFeature delegatedFeature : getAllDelegatedFeatures(feature))
         {
-          EStructuralFeature delegatedFeature = (EStructuralFeature)j.next();
-
           if (delegatedFeature instanceof EAttribute)
           {
             EDataType type = ((EAttribute)delegatedFeature).getEAttributeType();
@@ -575,7 +566,7 @@ public class ReflectiveItemProvider
 
             if (value == null)
             {
-              Class instanceClass = type.getInstanceClass();
+              Class<?> instanceClass = type.getInstanceClass();
 
               if (instanceClass == String.class)
               {
@@ -596,7 +587,10 @@ public class ReflectiveItemProvider
                 {
                   value = EcoreUtil.createFromString(type, literal);
                 }
-                catch (Exception e) {}
+                catch (Exception e) 
+                {
+                  // Ignore
+                }
               }
             }
 
@@ -607,9 +601,9 @@ public class ReflectiveItemProvider
           }
           else if (delegatedFeature instanceof EReference)
           {
-            for (Iterator k = getAllConcreteSubclasses((EClass)delegatedFeature.getEType()).iterator(); k.hasNext(); )
+            for (EClass eClass : getAllConcreteSubclasses((EClass)delegatedFeature.getEType()))
             {
-              FeatureMap.Entry entry = FeatureMapUtil.createEntry(delegatedFeature, EcoreUtil.create((EClass)k.next()));
+              FeatureMap.Entry entry = FeatureMapUtil.createEntry(delegatedFeature, EcoreUtil.create(eClass));
               newChildDescriptors.add(createChildParameter(feature, entry));
             }
           }
@@ -617,15 +611,16 @@ public class ReflectiveItemProvider
       }
       else if (feature instanceof EReference && feature.isChangeable())
       {
-        for (Iterator j = getAllConcreteSubclasses((EClass)feature.getEType()).iterator(); j.hasNext(); )
+        for (EClass eClass : getAllConcreteSubclasses((EClass)feature.getEType()))
         {
-          newChildDescriptors.add(createChildParameter(feature, EcoreUtil.create((EClass)j.next())));
+          newChildDescriptors.add(createChildParameter(feature, EcoreUtil.create(eClass)));
         }        
       }
     }
   }
 
-  public String getCreateChildText(Object owner, Object feature, Object child, Collection selection)
+  @Override
+  public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection)
   {
     if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
     {
@@ -644,7 +639,8 @@ public class ReflectiveItemProvider
 
   /**
    */
-  public Object getCreateChildImage(Object owner, Object feature, Object child, Collection selection)
+  @Override
+  public Object getCreateChildImage(Object owner, Object feature, Object child, Collection<?> selection)
   {
     if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
     {
@@ -669,6 +665,7 @@ public class ReflectiveItemProvider
 
   /**
    */
+  @Override
   protected String getTypeText(Object object)
   {
     String text = object instanceof EObject ? ((EObject)object).eClass().getName() : getString("_UI_Unknown_type");
@@ -677,6 +674,7 @@ public class ReflectiveItemProvider
 
   /**
    */
+  @Override
   protected String getTypeText(EAttribute attribute)
   {
     return format(capName(attribute.getEAttributeType().getName()), ' ');
@@ -684,6 +682,7 @@ public class ReflectiveItemProvider
 
   /**
    */
+  @Override
   protected String getFeatureText(Object feature)
   {
     String text = feature instanceof EStructuralFeature ?
@@ -693,6 +692,7 @@ public class ReflectiveItemProvider
 
   /**
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -723,6 +723,7 @@ public class ReflectiveItemProvider
     fireNotifyChanged(new ViewerNotification(notification, object, child, !child || (child && label)));
   }
   
+  @Override
   protected boolean isWrappingNeeded(Object object)
   {
     wrappingNeeded = null;

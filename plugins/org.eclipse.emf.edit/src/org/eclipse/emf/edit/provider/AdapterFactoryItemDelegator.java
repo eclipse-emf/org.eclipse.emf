@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryItemDelegator.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: AdapterFactoryItemDelegator.java,v 1.3 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
@@ -67,9 +66,8 @@ public class AdapterFactoryItemDelegator
     if (object instanceof EList)
     {
       StringBuffer result = new StringBuffer();
-      for (Iterator i = ((List)object).iterator(); i.hasNext(); )
+      for (Object child : ((List<?>)object))
       {
-        Object child = i.next();
         if (result.length() != 0)
         {
           result.append(", ");
@@ -100,9 +98,8 @@ public class AdapterFactoryItemDelegator
   {
     if (object instanceof EList)
     {
-      for (Iterator i = ((List)object).iterator(); i.hasNext(); )
+      for (Object child  : (List<?>)object)
       {
-        Object child = i.next();
         return getImage(child);
       }
 
@@ -199,7 +196,7 @@ public class AdapterFactoryItemDelegator
   }
 
 
-  public List getPropertyDescriptors(Object object)
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     //
     IItemPropertySource itemPropertySource = (IItemPropertySource)adapterFactory.adapt(object, IItemPropertySource.class);
@@ -235,7 +232,7 @@ public class AdapterFactoryItemDelegator
   /**
    * This does the same thing as IStructuredContentProvider.getElements.
    */
-  public Collection getElements(Object object)
+  public Collection<?> getElements(Object object)
   {
     // Get the adapter from the factory.
     //
@@ -247,14 +244,14 @@ public class AdapterFactoryItemDelegator
     return
       structuredItemContentProvider != null ?
         structuredItemContentProvider.getElements(object) :
-        Collections.EMPTY_LIST;
+        Collections.emptyList();
   }
 
 
   /**
    * This does the same thing as ITreeContentProvider.getChildren.
    */
-  public Collection getChildren(Object object)
+  public Collection<?> getChildren(Object object)
   {
     // Get the adapter from the factory.
     //
@@ -266,7 +263,7 @@ public class AdapterFactoryItemDelegator
     return
       treeItemContentProvider != null ?
         treeItemContentProvider.getChildren(object) :
-        Collections.EMPTY_LIST;
+        Collections.emptyList();
   }
 
   /**
@@ -325,7 +322,7 @@ public class AdapterFactoryItemDelegator
    * can be added under the specified object in the editing domain,
    * following the specified sibling as closely as possible (if non-null).
    */
-  public Collection getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
     // Get the adapter from the factory.
     //
@@ -337,14 +334,14 @@ public class AdapterFactoryItemDelegator
     return
       editingDomainItemProvider != null ?
         editingDomainItemProvider.getNewChildDescriptors(object, editingDomain, sibling) :
-        Collections.EMPTY_LIST;
+        Collections.<CommandParameter>emptyList();
   }
 
   /**
    * This does the same thing as {@link org.eclipse.emf.edit.domain.EditingDomain#createCommand EditingDomain.createCommand},
    * i.e., it creates commands for a domain's model objects.
    */
-  public Command createCommand(Object object, EditingDomain editingDomain, Class commandClass, CommandParameter commandParameter)
+  public Command createCommand(Object object, EditingDomain editingDomain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     // Get the adapter from the factory.
     //

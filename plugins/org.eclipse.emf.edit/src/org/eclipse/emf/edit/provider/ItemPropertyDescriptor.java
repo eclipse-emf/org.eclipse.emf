@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptor.java,v 1.26 2006/12/14 15:21:37 marcelop Exp $
+ * $Id: ItemPropertyDescriptor.java,v 1.27 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -166,6 +166,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       this.resourceLocator = resourceLocator;
     }
 
+    @Override
     public String getText(Object object)
     {
       if (feature instanceof EAttribute)
@@ -178,7 +179,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
             if (object instanceof List)
             {
               StringBuffer result = new StringBuffer();
-              for (Iterator i = ((List)object).iterator(); i.hasNext(); )
+              for (Iterator<?> i = ((List<?>)object).iterator(); i.hasNext(); )
               {
                 Object value = i.next();
                 result.append(convert(eDataType, value));
@@ -214,6 +215,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
           }
           catch (MissingResourceException exception)
           {
+            // Ignore
           }
         }
         else if (value instanceof Boolean)
@@ -226,6 +228,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
           }
           catch (MissingResourceException exception)
           {
+            // Ignore
           }
         } 
       }
@@ -250,6 +253,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       return text;
     }
 
+    @Override
     public Object getImage(Object object)
     {
       return staticImage == null ? super.getImage(object) : staticImage;
@@ -755,13 +759,13 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    * The label provider will be used to determine the labels for the objects this returns.
    * This default implementation uses {@link #getReachableObjectsOfType getReachableObjectsOfType}.
    */
-  protected Collection getComboBoxObjects(Object object)
+  protected Collection<?> getComboBoxObjects(Object object)
   {
     if (object instanceof EObject)
     {
       if (parentReferences != null)
       {
-        Collection result = new UniqueEList();
+        Collection<Object> result = new UniqueEList<Object>();
         for (int i = 0; i < parentReferences.length; ++i)
         {
           result.addAll(getReachableObjectsOfType((EObject)object, parentReferences[i].getEType()));
@@ -772,7 +776,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       {
         if (feature instanceof EReference)
         {
-          Collection result = getReachableObjectsOfType((EObject)object, feature.getEType());
+          Collection<EObject> result = getReachableObjectsOfType((EObject)object, feature.getEType());
           if (!feature.isMany() && !result.contains(null))
           {
             result.add(null);
@@ -782,23 +786,23 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
         else if (feature.getEType() instanceof EEnum)
         {
           EEnum eEnum = (EEnum)feature.getEType();
-          List enumerators = new ArrayList();
-          for (Iterator iter = eEnum.getELiterals().iterator(); iter.hasNext(); )
+          List<Enumerator> enumerators = new ArrayList<Enumerator>();
+          for (EEnumLiteral eEnumLiteral :  eEnum.getELiterals())
           {
-            enumerators.add(((EEnumLiteral)iter.next()).getInstance());
+            enumerators.add(eEnumLiteral.getInstance());
           }
           return enumerators;
         }
         else 
         {
           EDataType eDataType = (EDataType)feature.getEType();
-          List enumeration = ExtendedMetaData.INSTANCE.getEnumerationFacet(eDataType);
+          List<String> enumeration = ExtendedMetaData.INSTANCE.getEnumerationFacet(eDataType);
           if (!enumeration.isEmpty())
           {
-            List enumerators = new ArrayList();
-            for (Iterator i = enumeration.iterator(); i.hasNext();)
+            List<Object> enumerators = new ArrayList<Object>();
+            for (String enumerator : enumeration)
             {
-              enumerators.add(EcoreUtil.createFromString(eDataType, (String)i.next()));
+              enumerators.add(EcoreUtil.createFromString(eDataType, enumerator));
             }
             return enumerators;
           }
@@ -812,18 +816,18 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
   /**
    * This yields all reachable references from object with a meta object which indicates that it is a subtype of type.
    */
-  static public Collection getReachableObjectsOfType(EObject object, EClassifier type)
+  static public Collection<EObject> getReachableObjectsOfType(EObject object, EClassifier type)
   {
-    LinkedList itemQueue = new LinkedList();
-    Collection visited  = new HashSet();
-    Collection result = new ArrayList();
+    LinkedList<EObject> itemQueue = new LinkedList<EObject>();
+    Collection<EObject> visited  = new HashSet<EObject>();
+    Collection<EObject> result = new ArrayList<EObject>();
     Resource resource = object.eResource();
     if (resource != null)
     {
       ResourceSet resourceSet = resource.getResourceSet();
       if (resourceSet != null)
       {
-        for (TreeIterator i = resourceSet.getAllContents(); i.hasNext(); )
+        for (TreeIterator<?> i = resourceSet.getAllContents(); i.hasNext(); )
         {
           Object child = i.next();
           if (child instanceof EObject)
@@ -835,9 +839,9 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       }
       else
       {
-        for (Iterator i = resource.getContents().iterator(); i.hasNext(); )
+        for (EObject eObject : resource.getContents())
         {
-          collectReachableObjectsOfType(visited, itemQueue, result, (EObject)i.next(), type);
+          collectReachableObjectsOfType(visited, itemQueue, result, eObject, type);
         }
       }
     }
@@ -848,7 +852,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
 
     while (!itemQueue.isEmpty()) 
     {
-      EObject nextItem = (EObject)itemQueue.removeFirst();
+      EObject nextItem = itemQueue.removeFirst();
       collectReachableObjectsOfType(visited, itemQueue, result, nextItem, type);
     } 
 
@@ -859,13 +863,13 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    * This will visit all reachable references from object except those in visited;
    * it updates visited and adds to result any object with a meta object that indicates that it is a subtype of type.
    */
-  static public void collectReachableObjectsOfType(Collection visited, Collection result, EObject object, EClassifier type)
+  static public void collectReachableObjectsOfType(Collection<EObject> visited, Collection<EObject> result, EObject object, EClassifier type)
   {
-    LinkedList itemQueue = new LinkedList();
+    LinkedList<EObject> itemQueue = new LinkedList<EObject>();
     collectReachableObjectsOfType(visited, itemQueue, result, object, type);
     while (!itemQueue.isEmpty()) 
     {
-      EObject nextItem = (EObject)itemQueue.removeFirst();
+      EObject nextItem = itemQueue.removeFirst();
       collectReachableObjectsOfType(visited, itemQueue, result, nextItem, type);
     } 
   }
@@ -875,7 +879,8 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
    * The queue is processed outside this recursive traversal to avoid stack overflows.
    * It updates visited and adds to result any object with a meta object that indicates that it is a subtype of type.
    */
-  static private void collectReachableObjectsOfType(Collection visited,  LinkedList itemQueue, Collection result,  EObject object,  EClassifier type)
+  static private void collectReachableObjectsOfType
+    (Collection<EObject> visited,  LinkedList<EObject> itemQueue, Collection<EObject> result,  EObject object,  EClassifier type)
   {
     if (visited.add(object))
     {
@@ -885,9 +890,8 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       }
 
       EClass eClass = object.eClass();
-      for (Iterator i = eClass.getEAllStructuralFeatures().iterator(); i.hasNext(); )
+      for (EStructuralFeature eStructuralFeature : eClass.getEAllStructuralFeatures())
       {
-        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
         if (!eStructuralFeature.isDerived())
         {
           if (eStructuralFeature instanceof EReference)
@@ -895,32 +899,26 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
             EReference eReference = (EReference)eStructuralFeature;
             if (eReference.isMany())
             {
-              for (Iterator referencedObjects = ((List)object.eGet(eReference)).iterator(); referencedObjects.hasNext(); )
-              {
-                Object referencedObject = referencedObjects.next();
-                if (referencedObject instanceof EObject)
-                {
-                  itemQueue.addLast(referencedObject);
-                }
-              }
+              @SuppressWarnings("unchecked")
+              List<EObject> list = ((List<EObject>)object.eGet(eReference));
+              itemQueue.addAll(list);
             }
             else
             {
-              Object referencedObject = object.eGet(eReference);
-              if (referencedObject instanceof EObject)
+              EObject eObject = (EObject)object.eGet(eReference);
+              if (eObject != null)
               {
-                itemQueue.addLast(referencedObject);
+                itemQueue.addLast(eObject);
               }
             }
           }
           else if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
           {
-            for (Iterator j = ((List)object.eGet(eStructuralFeature)).iterator(); j.hasNext(); )
+            for (FeatureMap.Entry entry : (FeatureMap)object.eGet(eStructuralFeature))
             {
-              FeatureMap.Entry entry = (FeatureMap.Entry)j.next();
               if (entry.getEStructuralFeature() instanceof EReference && entry.getValue() != null)
               {
-                itemQueue.addLast(entry.getValue());
+                itemQueue.addLast((EObject)entry.getValue());
               }
             }
           }
@@ -990,23 +988,22 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
       return itemDelegator.getImage(propertyValue);
     }
 
-    public List getPropertyDescriptors(Object thisObject)
+    public List<IItemPropertyDescriptor> getPropertyDescriptors(Object thisObject)
     {
       // This guards the switch.
       //
-      List list = itemDelegator.getPropertyDescriptors(nestedPropertySource);
+      List<IItemPropertyDescriptor> list = itemDelegator.getPropertyDescriptors(nestedPropertySource);
       if (list != null)
       {
-        List result = new ArrayList(list.size());
-        for (Iterator i = list.iterator(); i.hasNext(); )
+        List<IItemPropertyDescriptor> result = new ArrayList<IItemPropertyDescriptor>(list.size());
+        for (IItemPropertyDescriptor itemPropertyDescriptor : list)
         {
-          IItemPropertyDescriptor itemPropertyDescriptor = (IItemPropertyDescriptor)i.next();
           result.add(createPropertyDescriptorDecorator(nestedPropertySource, itemPropertyDescriptor));
         }
         return result;
       }
   
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
 
     public IItemPropertyDescriptor getPropertyDescriptor(Object thisObject, Object propertyId)
@@ -1085,15 +1082,15 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
     }
     else if (eType instanceof EEnum)
     {
-      return ((EEnumLiteral)((EEnum)eType).getELiterals().get(0)).getInstance();
+      return (((EEnum)eType).getELiterals().get(0)).getInstance();
     }
     else if (eType instanceof EDataType)
     {
       EDataType eDataType = (EDataType)eType;
-      List enumeration = ExtendedMetaData.INSTANCE.getEnumerationFacet(eDataType);
+      List<String> enumeration = ExtendedMetaData.INSTANCE.getEnumerationFacet(eDataType);
       if (!enumeration.isEmpty())
       {
-        return EcoreUtil.createFromString(eDataType, (String)enumeration.get(0));
+        return EcoreUtil.createFromString(eDataType, enumeration.get(0));
       }
     }
 
@@ -1187,7 +1184,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
         return 
           feature instanceof EAttribute ? 
             feature.isMany() ?
-              !((List)eObject.eGet(feature)).isEmpty() : 
+              !((List<?>)eObject.eGet(feature)).isEmpty() : 
               eObject.eIsSet(feature) : 
             eObject.eGet(feature) != null;
       }
@@ -1430,7 +1427,7 @@ public class ItemPropertyDescriptor implements IItemPropertyDescriptor, Override
     return parentReferences == null && feature != null && feature.isMany();
   }
 
-  public Collection getChoiceOfValues(Object object)
+  public Collection<?> getChoiceOfValues(Object object)
   {
     return getComboBoxObjects(object);
   }

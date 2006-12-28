@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ChangeNotifier.java,v 1.3 2006/11/04 16:00:12 emerks Exp $
+ * $Id: ChangeNotifier.java,v 1.4 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -25,10 +25,13 @@ import org.eclipse.emf.common.notify.Notification;
 /**
  * This is a simple and obvious implementation of {@link IChangeNotifier} as an extension of an ArrayList, for flexibility.
  */
-public class ChangeNotifier extends ArrayList implements IChangeNotifier
+public class ChangeNotifier extends ArrayList<INotifyChangedListener> implements IChangeNotifier
 {
+  private static final long serialVersionUID = 1L;
+
   public ChangeNotifier()
   {
+    super();
   }
 
   /**

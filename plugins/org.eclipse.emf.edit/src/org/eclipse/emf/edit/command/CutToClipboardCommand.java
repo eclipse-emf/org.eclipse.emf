@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: CutToClipboardCommand.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: CutToClipboardCommand.java,v 1.3 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -68,7 +69,7 @@ public class CutToClipboardCommand extends CommandWrapper
    * This creates a command to remove multiple objects
    * and set it to the clipboard.
    */
-  public static Command create(EditingDomain domain, Collection collection) 
+  public static Command create(EditingDomain domain, Collection<?> collection) 
   {
     if (domain == null)
     {
@@ -84,7 +85,7 @@ public class CutToClipboardCommand extends CommandWrapper
    * This creates a command to remove a collection of values from the specified feature of the owner
    * and set it to the clipboard.
    */
-  public static Command create(EditingDomain domain, Object owner, Object feature, Collection collection)
+  public static Command create(EditingDomain domain, Object owner, Object feature, Collection<?> collection)
   {
     if (domain == null)
     {
@@ -114,7 +115,7 @@ public class CutToClipboardCommand extends CommandWrapper
   /**
    * This is the original clipboard value before execute.
    */
-  protected Collection oldClipboard;
+  protected Collection<Object> oldClipboard;
 
   /**
    * This constructs an instance that ields the result of the given command as its clipboard.
@@ -126,6 +127,7 @@ public class CutToClipboardCommand extends CommandWrapper
     this.domain = domain;
   }
 
+  @Override
   public void execute()
   {
     super.execute();
@@ -133,10 +135,11 @@ public class CutToClipboardCommand extends CommandWrapper
     if (domain != null)
     {
       oldClipboard = domain.getClipboard();
-      domain.setClipboard(command.getResult());
+      domain.setClipboard(new ArrayList<Object>(command.getResult()));
     }
   }
 
+  @Override
   public void undo()
   {
     super.undo();
@@ -147,6 +150,7 @@ public class CutToClipboardCommand extends CommandWrapper
     }
   }
 
+  @Override
   public void redo()
   {
     super.redo();
@@ -154,7 +158,7 @@ public class CutToClipboardCommand extends CommandWrapper
     if (domain != null)
     {
       oldClipboard = domain.getClipboard();
-      domain.setClipboard(command.getResult());
+      domain.setClipboard(new ArrayList<Object>(command.getResult()));
     }
   }
 
@@ -162,6 +166,7 @@ public class CutToClipboardCommand extends CommandWrapper
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

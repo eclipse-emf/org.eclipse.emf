@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,12 @@
  *
  * </copyright>
  *
- * $Id: CopyToClipboardCommand.java,v 1.3 2005/06/08 06:17:05 nickb Exp $
+ * $Id: CopyToClipboardCommand.java,v 1.4 2006/12/28 06:48:55 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -35,7 +36,7 @@ public class CopyToClipboardCommand extends AbstractOverrideableCommand implemen
   /**
    * This creates a command that copies the given collection of objects to the clipboard.
    */
-  public static Command create(EditingDomain domain, final Collection collection)
+  public static Command create(EditingDomain domain, final Collection<?> collection)
   {
     if (domain == null)
     {
@@ -62,7 +63,7 @@ public class CopyToClipboardCommand extends AbstractOverrideableCommand implemen
   /**
    * This constructs a command that copies the given collection of objects to the clipboard.
    */
-  public CopyToClipboardCommand(EditingDomain domain, Collection collection)
+  public CopyToClipboardCommand(EditingDomain domain, Collection<?> collection)
   {
     super (domain, LABEL, DESCRIPTION);
 
@@ -72,12 +73,12 @@ public class CopyToClipboardCommand extends AbstractOverrideableCommand implemen
   /**
    * This is the collection of objects to be copied to the clipboard.
    */
-  protected Collection sourceObjects;
+  protected Collection<?> sourceObjects;
 
   /**
    * This is the original clipboard value before execute.
    */
-  protected Collection oldClipboard;
+  protected Collection<Object> oldClipboard;
 
   /**
    * This is the command that does the actual copying.
@@ -95,25 +96,28 @@ public class CopyToClipboardCommand extends AbstractOverrideableCommand implemen
   /**
    * This returns the collection of objects to be copied to the clipboard.
    */
-  public Collection getSourceObjects()
+  public Collection<?> getSourceObjects()
   {
     return sourceObjects;
   }
 
+  @Override
   protected boolean prepare()
   {
     copyCommand = CopyCommand.create(domain, sourceObjects);
     return copyCommand.canExecute();
   }
 
+  @Override
   public void doExecute()
   {
     copyCommand.execute();
 
     oldClipboard = domain.getClipboard();
-    domain.setClipboard(copyCommand.getResult());
+    domain.setClipboard(new ArrayList<Object>(copyCommand.getResult()));
   }
 
+  @Override
   public void doUndo()
   {
     copyCommand.undo();
@@ -121,24 +125,28 @@ public class CopyToClipboardCommand extends AbstractOverrideableCommand implemen
     domain.setClipboard(oldClipboard);
   }
 
+  @Override
   public void doRedo()
   {
     copyCommand.redo();
 
     oldClipboard = domain.getClipboard();
-    domain.setClipboard(copyCommand.getResult());
+    domain.setClipboard(new ArrayList<Object>(copyCommand.getResult()));
   }
 
-  public Collection doGetResult()
+  @Override
+  public Collection<?> doGetResult()
   {
     return copyCommand.getResult();
   }
 
-  public Collection doGetAffectedObjects()
+  @Override
+  public Collection<?> doGetAffectedObjects()
   {
     return copyCommand.getAffectedObjects();
   }
 
+  @Override
   public void doDispose()
   {
     if (copyCommand != null) copyCommand.dispose();
@@ -148,6 +156,7 @@ public class CopyToClipboardCommand extends AbstractOverrideableCommand implemen
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

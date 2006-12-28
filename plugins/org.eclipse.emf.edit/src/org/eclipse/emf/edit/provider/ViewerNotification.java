@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerNotification.java,v 1.5 2006/01/23 20:47:29 davidms Exp $
+ * $Id: ViewerNotification.java,v 1.6 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -119,6 +119,7 @@ public class ViewerNotification extends NotificationWrapper implements IViewerNo
     return labelUpdate;
   }
 
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

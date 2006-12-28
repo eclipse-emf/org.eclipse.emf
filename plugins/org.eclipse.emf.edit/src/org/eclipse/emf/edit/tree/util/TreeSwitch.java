@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: TreeSwitch.java,v 1.5 2005/06/08 06:17:06 nickb Exp $
+ * $Id: TreeSwitch.java,v 1.6 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.tree.util;
 
@@ -37,7 +37,7 @@ import org.eclipse.emf.edit.tree.*;
  * @see org.eclipse.emf.edit.tree.TreePackage
  * @generated
  */
-public class TreeSwitch {
+public class TreeSwitch<T> {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -67,7 +67,7 @@ public class TreeSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -79,7 +79,7 @@ public class TreeSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -87,11 +87,11 @@ public class TreeSwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -102,14 +102,14 @@ public class TreeSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case TreePackage.TREE_NODE:
       {
         TreeNode treeNode = (TreeNode)theEObject;
-        Object result = caseTreeNode(treeNode);
+        T result = caseTreeNode(treeNode);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -128,7 +128,7 @@ public class TreeSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseTreeNode(TreeNode object)
+  public T caseTreeNode(TreeNode object)
   {
     return null;
   }
@@ -144,7 +144,7 @@ public class TreeSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

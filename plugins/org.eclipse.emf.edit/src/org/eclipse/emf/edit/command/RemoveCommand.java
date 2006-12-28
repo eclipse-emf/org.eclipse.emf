@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RemoveCommand.java,v 1.6 2005/11/07 13:35:45 emerks Exp $
+ * $Id: RemoveCommand.java,v 1.7 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -85,7 +85,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
   /**
    * This creates a command to remove multiple objects.
    */
-  public static Command create(final EditingDomain domain, final Collection collection) 
+  public static Command create(final EditingDomain domain, final Collection<?> collection) 
   {
     return create(domain, null, null, collection);
   }
@@ -93,7 +93,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
   /**
    * This creates a command to remove a collection of values from the specified feature of the owner.
    */
-  public static Command create(final EditingDomain domain, final Object owner, final Object feature, final Collection collection)
+  public static Command create(final EditingDomain domain, final Object owner, final Object feature, final Collection<?> collection)
   {
     return domain.createCommand(RemoveCommand.class, new CommandParameter(owner, feature, collection));
   }
@@ -128,12 +128,12 @@ public class RemoveCommand extends AbstractOverrideableCommand
   /**
    * This is the list from which the command will remove.
    */
-  protected EList ownerList;
+  protected EList<Object> ownerList;
 
   /**
    * This is the collection of objects being removed.
    */
-  protected Collection collection;
+  protected Collection<Object> collection;
 
   /**
    * These are the indices at which to reinsert the removed objects during an undo so as to achieve the original list order.
@@ -144,7 +144,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
    * The is the value returned by {@link Command#getAffectedObjects}.
    * The affected objects are different after an execute than after an undo, so we record it.
    */
-  protected Collection affectedObjects;
+  protected Collection<?> affectedObjects;
 
   /**
    * This constructs a primitive command to remove a particular value from the specified feature of the owner.
@@ -157,7 +157,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to remove a collection of values from the specified feature of the owner.
    */
-  public RemoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection collection)
+  public RemoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection<?> collection)
   {
     super(domain, LABEL, DESCRIPTION);
 
@@ -165,7 +165,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
     //
     this.owner = owner;
     this.feature = feature;
-    this.collection = collection == null ? null : new ArrayList(collection);
+    this.collection = collection == null ? null : new ArrayList<Object>(collection);
 
     ownerList = getOwnerList(this.owner, feature);
   }
@@ -173,7 +173,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to remove a particular value from the specified extent.
    */
-  public RemoveCommand(EditingDomain domain, EList list, Object value) 
+  public RemoveCommand(EditingDomain domain, EList<?> list, Object value) 
   {
     this(domain, list, Collections.singleton(value));
   }
@@ -181,15 +181,17 @@ public class RemoveCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to remove a collection of values from the specified extent.
    */
-  public RemoveCommand(EditingDomain domain, EList list, Collection collection)
+  public RemoveCommand(EditingDomain domain, EList<?> list, Collection<?> collection)
   {
     super(domain, LABEL, DESCRIPTION_FOR_LIST);
 
     // Initialize all the fields from the command parameter.
     //
-    this.collection = collection == null ? null : new ArrayList(collection);
+    this.collection = collection == null ? null : new ArrayList<Object>(collection);
 
-    ownerList = list;
+    @SuppressWarnings("unchecked")
+    EList<Object> untypedList = (EList<Object>)list;
+    ownerList = untypedList;
   }
 
   /**
@@ -213,7 +215,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
   /**
    * This returns the list from which the command will remove.
    */
-  public EList getOwnerList()
+  public EList<Object> getOwnerList()
   {
     return ownerList;
   }
@@ -221,7 +223,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
   /**
    * This returns the collection of objects being removed.
    */
-  public Collection getCollection()
+  public Collection<?> getCollection()
   {
     return collection;
   }
@@ -234,6 +236,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
     return indices;
   }
 
+  @Override
   protected boolean prepare() 
   {
     // This can execute if there is an owner list and a collection and the owner list contains all the objects of the collection.
@@ -247,6 +250,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
     return result;
   }
 
+  @Override
   public void doExecute() 
   {
     // Iterate over the owner list twice, first matching objects from the collection by identity (==), then matching
@@ -256,12 +260,12 @@ public class RemoveCommand extends AbstractOverrideableCommand
     // Also, this yields exactly one object removed for each object in the collection, with preference given to
     // identity over value equality.
     //
-    List identity = new ArrayList(collection.size());
+    List<Object> identity = new ArrayList<Object>(collection.size());
     int[] identityIndices = new int[collection.size()];
 
     int i = 0;
 
-    for (ListIterator ownedObjects = ownerList.listIterator(); ownedObjects.hasNext(); )
+    for (ListIterator<Object> ownedObjects = ownerList.listIterator(); ownedObjects.hasNext(); )
     {
       Object ownedObject = ownedObjects.next();
 
@@ -287,11 +291,11 @@ public class RemoveCommand extends AbstractOverrideableCommand
 
     // Second pass: match by value equality.
     //
-    List equality = new ArrayList(collection.size());
+    List<Object> equality = new ArrayList<Object>(collection.size());
     int[] equalityIndices = new int[collection.size()];
     i = 0;
 
-    for (ListIterator ownedObjects = ownerList.listIterator(); ownedObjects.hasNext(); )
+    for (ListIterator<Object> ownedObjects = ownerList.listIterator(); ownedObjects.hasNext(); )
     {
       Object ownedObject = ownedObjects.next();
       int index = ownedObjects.previousIndex();
@@ -330,11 +334,11 @@ public class RemoveCommand extends AbstractOverrideableCommand
   /**
    * Returns whether the given collection contains the given target object itself (according to ==, not .equals()).
    */
-  protected boolean containsExact(Collection collection, Object target)
+  protected boolean containsExact(Collection<?> collection, Object target)
   {
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    for (Object object : collection)
     {
-      if (i.next() == target) return true;
+      if (object == target) return true;
     }
     return false;
   }
@@ -354,9 +358,9 @@ public class RemoveCommand extends AbstractOverrideableCommand
   /**
    * Removes the first occurence of the given target object, itself, from the collection.
    */
-  protected boolean removeExact(Collection collection, Object target)
+  protected boolean removeExact(Collection<?> collection, Object target)
   {
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    for (Iterator<?> i = collection.iterator(); i.hasNext(); )
     {
       if (i.next() == target)
       {
@@ -372,7 +376,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
    * are stored as the {@link #collection} and {@link #indices}. The two input sets must already be in increasing index
    * order, with the corresponding object-index pairs in the same positions.
    */
-  protected void merge(List objects1, int[] indices1, List objects2, int[] indices2)
+  protected void merge(List<Object> objects1, int[] indices1, List<Object> objects2, int[] indices2)
   {
     // If either list is empty, the result is simply the other.
     //
@@ -393,7 +397,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
     // Allocate list and array for objects and indices.
     //
     int size = objects1.size() + objects2.size();
-    collection = new ArrayList(size);
+    collection = new ArrayList<Object>(size);
     indices = new int[size];
 
     // Index counters into indices1, indices2, and indices. 
@@ -404,8 +408,8 @@ public class RemoveCommand extends AbstractOverrideableCommand
 
     // Object iterators.
     //
-    Iterator iter1 = objects1.iterator();
-    Iterator iter2 = objects2.iterator();
+    Iterator<Object> iter1 = objects1.iterator();
+    Iterator<Object> iter2 = objects2.iterator();
 
     Object o1 = iter1.hasNext() ? iter1.next() : null;
     Object o2 = iter2.hasNext() ? iter2.next() : null;
@@ -445,6 +449,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
     }
   }
 
+  @Override
   public void doUndo() 
   {
     // Note that the way they are sorted, the values of index[i++] always increase,
@@ -456,9 +461,9 @@ public class RemoveCommand extends AbstractOverrideableCommand
     // so that a single grouped notification would result.
     //
     int i = 0;
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      ownerList.add(indices[i++], objects.next());
+      ownerList.add(indices[i++], object);
     }
   
     // We'd like the collection of things added to be selected after this command completes.
@@ -466,6 +471,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
     affectedObjects = collection;
   }
   
+  @Override
   public void doRedo()
   {
     // Remove objects from the owner list by index, starting from the end.
@@ -477,15 +483,17 @@ public class RemoveCommand extends AbstractOverrideableCommand
 
     // We'd like the owner selected after this remove completes.
     //
-    affectedObjects = owner == null ? (Collection)Collections.EMPTY_SET : Collections.singleton(owner);
+    affectedObjects = owner == null ? Collections.EMPTY_SET : Collections.singleton(owner);
   }
 
-  public Collection doGetResult()
+  @Override
+  public Collection<?> doGetResult()
   {
     return collection;
   }
 
-  public Collection doGetAffectedObjects()
+  @Override
+  public Collection<?> doGetAffectedObjects()
   {
     return affectedObjects;
   }
@@ -494,6 +502,7 @@ public class RemoveCommand extends AbstractOverrideableCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

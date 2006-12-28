@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: SetCommand.java,v 1.10 2005/12/08 17:55:06 emerks Exp $
+ * $Id: SetCommand.java,v 1.11 2006/12/28 06:48:55 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -107,8 +106,8 @@ public class SetCommand extends AbstractOverrideableCommand
         // values, move the values that remain, and insert the new values.  If all old values are removed, we'll still
         // set it to an empty list, or unset it, as appropriate. 
         //
-        List values = value == UNSET_VALUE ? Collections.EMPTY_LIST : (List)value;
-        List oldValues = (List)((EObject)owner).eGet(eReference);
+        List<?> values = value == UNSET_VALUE ? Collections.EMPTY_LIST : (List<?>)value;
+        List<?> oldValues = (List<?>)((EObject)owner).eGet(eReference);
 
         // If we're unsetting the list or setting to be empty, and it is currently not empty, we'll need a strict
         // compound command so that the list is empty when the final set command tests for executability. 
@@ -119,7 +118,8 @@ public class SetCommand extends AbstractOverrideableCommand
           compound =
             new PessimisticStrictCompoundCommand(LABEL, DESCRIPTION)
             {
-              public Collection getAffectedObjects()
+              @Override
+              public Collection<?> getAffectedObjects()
               {
                 return Collections.singleton(owner);
               }         
@@ -130,7 +130,8 @@ public class SetCommand extends AbstractOverrideableCommand
           compound = 
             new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL, LABEL, DESCRIPTION)
             {
-              public Collection getAffectedObjects()
+              @Override
+              public Collection<?> getAffectedObjects()
               {
                 return Collections.singleton(owner);
               }
@@ -141,7 +142,7 @@ public class SetCommand extends AbstractOverrideableCommand
         {
           if (!values.isEmpty())
           {
-            List removedValues = new BasicEList.FastCompare(oldValues);
+            List<Object> removedValues = new BasicEList.FastCompare<Object>(oldValues);
             removedValues.removeAll(values);
             
             // If we aren't simply removing all the old values...
@@ -152,17 +153,16 @@ public class SetCommand extends AbstractOverrideableCommand
               //
               if (!removedValues.isEmpty())
               {
-                compound.append(RemoveCommand.create(domain, owner, feature, new BasicEList(removedValues)));
+                compound.append(RemoveCommand.create(domain, owner, feature, new BasicEList<Object>(removedValues)));
               }
               
               // Determine the values that will remain and move them into the right order, if necessary.
               //
-              List remainingValues = new BasicEList.FastCompare(oldValues);
+              List<Object> remainingValues = new BasicEList.FastCompare<Object>(oldValues);
               remainingValues.removeAll(removedValues);
               int count = -1;
-              for (Iterator i = values.iterator(); i.hasNext(); )
+              for (Object object : values)
               {
-                Object object = i.next();
                 int position = remainingValues.indexOf(object);
                 if (position != -1 && position != ++count)
                 {
@@ -172,9 +172,9 @@ public class SetCommand extends AbstractOverrideableCommand
               
               // Determine the values to be added and add them at the right position.
               //
-              List addedValues = new BasicEList.FastCompare(values);
+              List<Object> addedValues = new BasicEList.FastCompare<Object>(values);
               addedValues.removeAll(remainingValues);
-              for (ListIterator i = values.listIterator(); i.hasNext(); )
+              for (ListIterator<?> i = values.listIterator(); i.hasNext(); )
               {
                 Object object = i.next();
                 if (addedValues.contains(object))
@@ -191,7 +191,7 @@ public class SetCommand extends AbstractOverrideableCommand
             }
           }
 
-          compound.append(RemoveCommand.create(domain, owner, feature, new BasicEList(oldValues)));
+          compound.append(RemoveCommand.create(domain, owner, feature, new BasicEList<Object>(oldValues)));
         }
 
         if (!values.isEmpty())
@@ -216,17 +216,18 @@ public class SetCommand extends AbstractOverrideableCommand
             // not, we create an undoable compound command that removes from the opposite end and then inserts the new
             // value.
             //
-            EList list = (EList)((EObject)owner).eGet(eReference);
+            EList<?> list = (EList<?>)((EObject)owner).eGet(eReference);
             if (index == list.size() - 1)
             {
               EObject oldValue = (EObject)list.get(index);
-              EList oppositeList = (EList)oldValue.eGet(eOtherEnd);
+              EList<?> oppositeList = (EList<?>)oldValue.eGet(eOtherEnd);
               if (oppositeList.get(oppositeList.size() - 1) != owner)
               {
                 CompoundCommand compound = 
                   new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL, LABEL, DESCRIPTION)
                   {
-                    public Collection getAffectedObjects()
+                    @Override
+                    public Collection<?> getAffectedObjects()
                     {
                       return Collections.singleton(owner);
                     }
@@ -277,7 +278,8 @@ public class SetCommand extends AbstractOverrideableCommand
               Command addCommand = 
                 new CommandWrapper(AddCommand.create(domain, value, eOtherEnd, Collections.singleton(owner)))
                 {
-                  public Collection getAffectedObjects()
+                  @Override
+                  public Collection<?> getAffectedObjects()
                   {
                     return Collections.singleton(owner);
                   }
@@ -310,11 +312,13 @@ public class SetCommand extends AbstractOverrideableCommand
             return 
               new CommandWrapper(SetCommand.create(domain, value, eOtherEnd, owner))
               {
-                public Collection getResult()
+                @Override
+                public Collection<?> getResult()
                 {
                   return Collections.singleton(owner);
                 }
-                public Collection getAffectedObjects()
+                @Override
+                public Collection<?> getAffectedObjects()
                 {
                   return Collections.singleton(owner);
                 }
@@ -332,6 +336,7 @@ public class SetCommand extends AbstractOverrideableCommand
             CompoundCommand compound = 
               new CompoundCommand(CompoundCommand.LAST_COMMAND_ALL)
               {
+                @Override
                 public boolean canUndo()
                 {
                   return true;
@@ -383,7 +388,7 @@ public class SetCommand extends AbstractOverrideableCommand
    * If non-null, this is the list in which the command will set a value.
    * If null, feature is single-valued or no index was specified.
    */
-  protected EList ownerList;
+  protected EList<Object> ownerList;
 
   /**
    * This is the value to be set.
@@ -459,7 +464,7 @@ public class SetCommand extends AbstractOverrideableCommand
   /**
    * If the command will set a single value in a list, this returns the list in which it will set; null otherwise.
    */
-  public EList getOwnerList()
+  public EList<Object> getOwnerList()
   {
     return ownerList;
   }
@@ -490,6 +495,7 @@ public class SetCommand extends AbstractOverrideableCommand
 
   protected static final EcorePackage ecorePackage = EcorePackage.eINSTANCE;
 
+  @Override
   protected boolean prepare() 
   {
     boolean result = false;
@@ -534,7 +540,7 @@ public class SetCommand extends AbstractOverrideableCommand
           //
           if (owner.eIsSet(eAttribute))
           {
-            oldValue = new BasicEList((EList)owner.eGet(feature));
+            oldValue = new BasicEList<Object>((EList<?>)owner.eGet(feature));
           }
           else
           {
@@ -547,11 +553,11 @@ public class SetCommand extends AbstractOverrideableCommand
           }
           else if (value instanceof Collection)
           {
-            Collection collection = (Collection)value;
+            Collection<?> collection = (Collection<?>)value;
             result = true;
-            for (Iterator objects = collection.iterator(); objects.hasNext(); )
+            for (Object object : collection)
             {
-              if (!eType.isInstance(objects.next()))
+              if (!eType.isInstance(object))
               {
                 result = false;
                 break;
@@ -599,14 +605,14 @@ public class SetCommand extends AbstractOverrideableCommand
         {
           // If the list is unset or set to empty, and we can set it to empty or unset it.
           //
-          if (value == UNSET_VALUE || (value instanceof Collection && ((List)value).isEmpty()))
+          if (value == UNSET_VALUE || (value instanceof Collection && ((List<?>)value).isEmpty()))
           {
             if (!owner.eIsSet(eReference))
             {
               result = true;
               oldValue = UNSET_VALUE;
             }
-            else if (((EList)owner.eGet(feature)).isEmpty())
+            else if (((EList<?>)owner.eGet(feature)).isEmpty())
             {
               result = true;
               oldValue = Collections.EMPTY_LIST;
@@ -657,7 +663,7 @@ public class SetCommand extends AbstractOverrideableCommand
             //
             if (oldValue != null)
             {
-              EList oppositeList = (EList)((EObject)oldValue).eGet(eOtherEnd);
+              EList<?> oppositeList = (EList<?>)((EObject)oldValue).eGet(eOtherEnd);
               canUndo = oppositeList.get(oppositeList.size() - 1) == owner;
             }
           }
@@ -676,6 +682,7 @@ public class SetCommand extends AbstractOverrideableCommand
     return result;
   }
 
+  @Override
   public void doExecute() 
   {
     // Either set or unset the feature.
@@ -694,11 +701,13 @@ public class SetCommand extends AbstractOverrideableCommand
     }
   }
 
+  @Override
   public boolean doCanUndo()
   {
     return canUndo;
   }
 
+  @Override
   public void doUndo() 
   {
     // Either set or unset the old value.
@@ -717,6 +726,7 @@ public class SetCommand extends AbstractOverrideableCommand
     }
   }
 
+  @Override
   public void doRedo() 
   {
     // Either set or unset the feature.
@@ -735,12 +745,14 @@ public class SetCommand extends AbstractOverrideableCommand
     }
   }
 
-  public Collection doGetResult()
+  @Override
+  public Collection<?> doGetResult()
   {
     return Collections.singleton(owner);
   }
 
-  public Collection doGetAffectedObjects()
+  @Override
+  public Collection<?> doGetAffectedObjects()
   {
     return Collections.singleton(owner);
   }
@@ -749,6 +761,7 @@ public class SetCommand extends AbstractOverrideableCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

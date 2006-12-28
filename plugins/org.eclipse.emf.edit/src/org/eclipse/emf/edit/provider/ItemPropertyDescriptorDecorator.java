@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemPropertyDescriptorDecorator.java,v 1.4 2006/05/15 19:39:42 davidms Exp $
+ * $Id: ItemPropertyDescriptorDecorator.java,v 1.5 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -145,7 +145,7 @@ public class ItemPropertyDescriptorDecorator implements IItemPropertyDescriptor
 
   }
 
-  public Collection getChoiceOfValues(Object thisObject)
+  public Collection<?> getChoiceOfValues(Object thisObject)
   {
     return itemPropertyDescriptor.getChoiceOfValues(object);
   }

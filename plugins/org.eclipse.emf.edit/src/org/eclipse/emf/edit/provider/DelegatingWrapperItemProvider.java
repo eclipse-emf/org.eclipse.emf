@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DelegatingWrapperItemProvider.java,v 1.6 2005/06/08 06:17:05 nickb Exp $
+ * $Id: DelegatingWrapperItemProvider.java,v 1.7 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -65,17 +64,17 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   /**
    * The wrapped children are cached here, keyed by the children returned by the delegate item provider.
    */
-  protected Map childrenMap;
+  protected Map<Object, IWrapperItemProvider> childrenMap;
 
   /**
    * The collection of children last returned by the delegate item provider is cached here.
    */
-  protected Collection delegateChildren;
+  protected Collection<?> delegateChildren;
 
   /**
    * The decorated property descriptors are cached here.
    */
-  protected List propertyDescriptors;
+  protected List<IItemPropertyDescriptor> propertyDescriptors;
 
   /**
    * Records any listeners for this wrapper and fires notifications to them.
@@ -117,6 +116,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
    * @deprecated As of EMF 2.0.1, replaced by {@link #DelegatingWrapperItemProvider(Object, org.eclipse.emf.ecore.EObject, EStructuralFeature, int, AdapterFactory)
    * this form}. This constructor will be removed as public API, but remain available as a protected method.
    */
+  @Deprecated
   public DelegatingWrapperItemProvider(Object value, Object owner, AdapterFactory adapterFactory)
   {
     this(value, owner, null, CommandParameter.NO_INDEX, adapterFactory);
@@ -125,6 +125,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   /**
    * Deactivates notification repeating and disposes any wrappers it is maintaining for its children.
    */
+  @Override
   public void dispose()
   {
     if (delegateItemProvider instanceof IChangeNotifier)
@@ -134,9 +135,9 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
 
     if (childrenMap != null)
     {
-      for (Iterator i = childrenMap.values().iterator(); i.hasNext();)
+      for (IDisposable object : childrenMap.values())
       {
-        ((IDisposable)i.next()).dispose();
+        object.dispose();
       }
     }
   }
@@ -154,11 +155,12 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   /**
    * Uses the delegate item provider to return the delegate value's elements.
    */
-  public Collection getElements(Object object)
+  @Override
+  public Collection<?> getElements(Object object)
   {
     return delegateItemProvider instanceof IStructuredItemContentProvider ?
       ((IStructuredItemContentProvider)delegateItemProvider).getElements(getDelegateValue()) :
-      Collections.EMPTY_LIST;
+      Collections.emptyList();
   }
 
   /**
@@ -166,14 +168,15 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
    * this wrapper is considered their parent. Each child is replaced by the corresponding wrapper from {@link
    * #childrenMap}, after updating it by calling {@link #updateChildren updateChildren}.
    */
-  public Collection getChildren(Object object)
+  @Override
+  public Collection<?> getChildren(Object object)
   {
     updateChildren();
 
-    Collection result = new ArrayList(delegateChildren.size());
-    for (Iterator i = delegateChildren.iterator(); i.hasNext(); )
+    Collection<Object> result = new ArrayList<Object>(delegateChildren.size());
+    for (Object delegateChild : delegateChildren)
     {
-      result.add(childrenMap.get(i.next()));
+      result.add(childrenMap.get(delegateChild));
     }
     return result;
   }
@@ -188,19 +191,18 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
     if (delegateItemProvider instanceof ITreeItemContentProvider)
     {
       boolean changed = false;
-      Set oldDelegateChildren = delegateChildren != null ? new HashSet(delegateChildren) : Collections.EMPTY_SET;
+      Set<Object> oldDelegateChildren = delegateChildren != null ? new HashSet<Object>(delegateChildren) : Collections.emptySet();
       delegateChildren = ((ITreeItemContentProvider)delegateItemProvider).getChildren(getDelegateValue());
 
       if (childrenMap == null && !delegateChildren.isEmpty())
       {
-        childrenMap = new HashMap();
+        childrenMap = new HashMap<Object, IWrapperItemProvider>();
       }
       
       // Wrap any new children and add them to the map. Remove each current child from the set of old children.
       //
-      for (Iterator i = delegateChildren.iterator(); i.hasNext(); )
+      for (Object child : delegateChildren)
       {
-        Object child = i.next();
         
         if (!childrenMap.containsKey(child))
         {
@@ -217,11 +219,9 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
       {
         changed = true;
 
-        for (Iterator i = oldDelegateChildren.iterator(); i.hasNext(); )
+        for (Object child : oldDelegateChildren)
         {
-          Object child = i.next();
-
-          IWrapperItemProvider wrapper = (IWrapperItemProvider)childrenMap.remove(child);
+          IWrapperItemProvider wrapper = childrenMap.remove(child);
           if (wrapper != null)
           {
             wrapper.dispose();
@@ -233,15 +233,15 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
       if (changed)
       {
         int index = 0;
-        for (Iterator i = delegateChildren.iterator(); i.hasNext(); index++)
+        for (Object delegateChild : delegateChildren)
         {
-          ((IWrapperItemProvider)childrenMap.get(i.next())).setIndex(index);
+          childrenMap.get(delegateChild).setIndex(index);
         }
       }
     }
     else
     {
-      delegateChildren = Collections.EMPTY_LIST;
+      delegateChildren = Collections.emptyList();
     }
   }
 
@@ -256,6 +256,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   /**
    * Uses the delegate item provider to test whether the delegate vlaue has children.
    */
+  @Override
   public boolean hasChildren(Object object)
   {
     return delegateItemProvider instanceof ITreeItemContentProvider ?
@@ -266,6 +267,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   /**
    * Uses the delegate item provider to return the delegate value's text.
    */
+  @Override
   public String getText(Object object)
   {
     return delegateItemProvider instanceof IItemLabelProvider ?
@@ -276,6 +278,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   /**
    * Uses the delegate item provider to return the delegate value's image.
    */
+  @Override
   public Object getImage(Object object)
   {
     return delegateItemProvider instanceof IItemLabelProvider ?
@@ -286,24 +289,24 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   /**
    * Wraps the property descriptors returned by the delegate item provider, caching and returning them.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (propertyDescriptors == null)
     {
       if (delegateItemProvider instanceof IItemPropertySource)
       {
-        List l = ((IItemPropertySource)delegateItemProvider).getPropertyDescriptors(getDelegateValue());
-        propertyDescriptors = new ArrayList(l.size());
+        List<IItemPropertyDescriptor> l = ((IItemPropertySource)delegateItemProvider).getPropertyDescriptors(getDelegateValue());
+        propertyDescriptors = new ArrayList<IItemPropertyDescriptor>(l.size());
 
-        for (Iterator i = l.iterator(); i.hasNext(); )
+        for (IItemPropertyDescriptor desc : l)
         {
-          IItemPropertyDescriptor desc = (IItemPropertyDescriptor)i.next();
           propertyDescriptors.add(new DelegatingWrapperItemPropertyDescriptor(getDelegateValue(), desc));
         }
       }
       else
       {
-        propertyDescriptors = Collections.EMPTY_LIST;
+        propertyDescriptors = Collections.emptyList();
       }
     }
     return propertyDescriptors;
@@ -312,6 +315,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   /**
    * Uses the delegate item provider to return an editable value.
    */
+  @Override
   public Object getEditableValue(Object object)
   {
     return delegateItemProvider instanceof IItemPropertySource ?
@@ -322,11 +326,12 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
   /**
    * Uses the delegate item provider to return the delegate value's new child descriptors.
    */
-  public Collection getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  @Override
+  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
     return delegateItemProvider instanceof IEditingDomainItemProvider ?
       ((IEditingDomainItemProvider)delegateItemProvider).getNewChildDescriptors(getDelegateValue(), editingDomain, sibling) :
-      Collections.EMPTY_LIST;
+      Collections.<CommandParameter>emptyList();
   }
 
   /**
@@ -334,7 +339,8 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
    * wrapCommand} to return an appropriate wrapper-substituting command wrapper for it. Drag and drop commands are
    * created directly by calling {@link WrapperItemProvider#createDragAndDropCommand createDragAndDropCommand}.
    */
-  public Command createCommand(Object object, EditingDomain domain, Class commandClass, CommandParameter commandParameter)
+  @Override
+  public Command createCommand(Object object, EditingDomain domain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     if (commandClass == DragAndDropCommand.class)
     {
@@ -378,7 +384,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
    * returns an {@link AffectedObjectsWrappingCommand} or an {@link AffectedObjectsWrappingCommandActionDelegate},
    * depending on whether the given command implements {@link CommandActionDelegate}.
    */
-  protected Command wrapCommand(Command command, Class commandClass)
+  protected Command wrapCommand(Command command, Class<? extends Command> commandClass)
   {
     return command instanceof CommandActionDelegate ?
       new AffectedObjectsWrappingCommandActionDelegate((CommandActionDelegate)command) :
@@ -396,12 +402,13 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
       super(command);
     }
 
-    public Collection getAffectedObjects()
+    @Override
+    public Collection<?> getAffectedObjects()
     {
-      List result = new ArrayList(super.getAffectedObjects());
+      List<Object> result = new ArrayList<Object>(super.getAffectedObjects());
       updateChildren();
 
-      for (ListIterator i = result.listIterator(); i.hasNext(); )
+      for (ListIterator<Object> i = result.listIterator(); i.hasNext(); )
       {
         Object object = i.next();
 
@@ -443,6 +450,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
       commandActionDelegate = command;
     }
 
+    @Override
     public boolean canExecute()
     {
       return commandActionDelegate.canExecute();
@@ -458,6 +466,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
       return commandActionDelegate.getText();
     }
 
+    @Override
     public String getDescription()
     {
       return commandActionDelegate.getDescription();
@@ -586,6 +595,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
     /**
      * Updates the decorated descriptor's command owner and invokes <code>resetPropertyValue</code> on it.
      */
+    @Override
     public void resetPropertyValue(Object thisObject)
     {
       boolean hasCommandOwner = commandOwner != null;
@@ -604,6 +614,7 @@ public class DelegatingWrapperItemProvider extends WrapperItemProvider
      * Updates the decorated descriptor's command owner and invokes <code>setPropertyValue</code> on it.
 
      */
+    @Override
     public void setPropertyValue(Object thisObject, Object value)
     {
       boolean hasCommandOwner = commandOwner != null;

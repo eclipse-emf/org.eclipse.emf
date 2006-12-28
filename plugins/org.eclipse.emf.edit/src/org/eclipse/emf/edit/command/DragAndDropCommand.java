@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: DragAndDropCommand.java,v 1.8 2006/05/30 11:40:51 emerks Exp $
+ * $Id: DragAndDropCommand.java,v 1.9 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -69,7 +68,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
    * This creates a command to perform a drag and drop operation upon the owner.
    * See {@link DragAndDropCommand DragAndDropCommand} for a description of the arguments.
    */
-  public static Command create(EditingDomain domain, Object owner, float location, int operations, int operation, Collection collection)
+  public static Command create(EditingDomain domain, Object owner, float location, int operations, int operation, Collection<?> collection)
   {
     return 
       domain.createCommand
@@ -129,7 +128,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
   /**
    * This keeps track of the collection of dragged sources.
    */
-  protected Collection collection;
+  protected Collection<?> collection;
 
   /**
    * This keeps track of the command that implements the drag side of the operation.
@@ -165,13 +164,13 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
    * The operation is the desired operation as specified by a DROP_* value.
    * And the collection contains the source objects being dragged.
    */
-  public DragAndDropCommand(EditingDomain domain, Object owner, float location, int operations, int operation, Collection collection)
+  public DragAndDropCommand(EditingDomain domain, Object owner, float location, int operations, int operation, Collection<?> collection)
   {
     this(domain, owner, location, operations, operation, collection, domain == null ? false : domain.getOptimizeCopy());
   }
   
   public DragAndDropCommand
-    (EditingDomain domain, Object owner, float location, int operations, int operation, Collection collection, boolean optimize)
+    (EditingDomain domain, Object owner, float location, int operations, int operation, Collection<?> collection, boolean optimize)
   {
     super(LABEL, DESCRIPTION);
 
@@ -204,9 +203,9 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     }
     else if (command instanceof CompoundCommand) 
     {
-      for (Iterator i = ((CompoundCommand)command).getCommandList().iterator(); i.hasNext(); )
+      for (Command childCommand : ((CompoundCommand)command).getCommandList())
       {
-        if (analyzeForNonContainment((Command)i.next()))
+        if (analyzeForNonContainment(childCommand))
         {
           return true;          
         }
@@ -236,7 +235,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     return operations;
   }
 
-  public Collection getCollection()
+  public Collection<?> getCollection()
   {
     return collection;
   }
@@ -245,6 +244,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
    * This implementation of prepare is called again to implement {@link #validate validate}.
    * The method {@link #reset} will have been called before doing so.
    */
+  @Override
   protected boolean prepare()
   {
     // We'll default to this.
@@ -356,7 +356,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
   /**
    * This can be overriden to determine the children of an object; this implementation uses {@link EditingDomain#getChildren}.
    */
-  protected Collection getChildren(Object object)
+  protected Collection<?> getChildren(Object object)
   {
     return domain.getChildren(object);
   }
@@ -387,18 +387,17 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     {
       // Iterate over the children to find the owner.
       //
-      Collection children = getChildren(parent);
+      Collection<?> children = getChildren(parent);
       int i = 0;
-      for (Iterator iterator = children.iterator(); iterator.hasNext(); ++i)
+      for (Object child : children)
       {
-        Object child = iterator.next();
-
         // When we match the owner, we're done.
         //
         if (child == owner)
         {
           break;
         }
+        ++i;
       }
   
       // If the location indicates after, add one more.
@@ -469,7 +468,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
   /**
    * This attempts to prepare a drop move insert operation.
    */
-  protected boolean prepareDropMoveInsert(Object parent, Collection children, int index)
+  protected boolean prepareDropMoveInsert(Object parent, Collection<?> children, int index)
   {
     // We don't want to move insert an object before or after itself...
     //
@@ -487,13 +486,12 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
       // Create move commands for all the objects in the collection.
       //
       CompoundCommand compoundCommand = new CompoundCommand();
-      List before = new ArrayList();
-      List after = new ArrayList();
+      List<Object> before = new ArrayList<Object>();
+      List<Object> after = new ArrayList<Object>();
 
       int j = 0;
-      for (Iterator objects = children.iterator(); objects.hasNext(); ++j)
+      for (Object object : children)
       {
-        Object object = objects.next();
         if (collection.contains(object))
         {
           if (j < index)
@@ -505,15 +503,15 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
             after.add(object);
           }
         }
+        ++j;
       }
 
-      for (Iterator objects = before.iterator(); objects.hasNext(); )
+      for (Object object : before)
       {
-        Object object = objects.next();
         compoundCommand.append(MoveCommand.create(domain, parent, null, object, index - 1));
       }
 
-      for (ListIterator objects = after.listIterator(after.size()); objects.hasPrevious(); )
+      for (ListIterator<Object> objects = after.listIterator(after.size()); objects.hasPrevious(); )
       {
         Object object = objects.previous();
         compoundCommand.append(MoveCommand.create(domain, parent, null, object, index));
@@ -549,9 +547,9 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
 
   protected boolean isCrossDomain()
   {
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    for (Object item : collection)
     {
-      EditingDomain itemDomain = AdapterFactoryEditingDomain.getEditingDomainFor(i.next());
+      EditingDomain itemDomain = AdapterFactoryEditingDomain.getEditingDomainFor(item);
       if (itemDomain != null && itemDomain != domain)
       {
         return true;
@@ -563,7 +561,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
   /**
    * This attempts to prepare a drop copy insert operation.
    */
-  protected boolean prepareDropCopyInsert(final Object parent, Collection children, final int index)
+  protected boolean prepareDropCopyInsert(final Object parent, Collection<?> children, final int index)
   {
     boolean result;
     
@@ -602,7 +600,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
           if (analyzeForNonContainment(dropCommand))
           {
             dropCommand.dispose();
-            dropCommand = UnexecutableCommand.INSTANCE;;
+            dropCommand = UnexecutableCommand.INSTANCE;
 
             dragCommand.undo();
             dragCommand.dispose();
@@ -625,7 +623,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
   /**
    * This attempts to prepare a drop link insert operation.
    */
-  protected boolean prepareDropLinkInsert(Object parent, Collection children, int index)
+  protected boolean prepareDropLinkInsert(Object parent, Collection<?> children, int index)
   {
     boolean result;
     
@@ -647,7 +645,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
       if (!analyzeForNonContainment(dropCommand))
       {
         dropCommand.dispose();
-        dropCommand = UnexecutableCommand.INSTANCE;;
+        dropCommand = UnexecutableCommand.INSTANCE;
       }
       result = dropCommand.canExecute();
     }
@@ -772,7 +770,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
         if (analyzeForNonContainment(dropCommand))
         {
           dropCommand.dispose();
-          dropCommand = UnexecutableCommand.INSTANCE;;
+          dropCommand = UnexecutableCommand.INSTANCE;
 
           dragCommand.undo();
           dragCommand.dispose();
@@ -868,7 +866,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
   /**
    * This is called by EditingDomainViewerDropAdapter to determine if the drag and drop operation is still enabled.
    */
-  public boolean validate(Object owner, float location, int operations, int operation, Collection collection)
+  public boolean validate(Object owner, float location, int operations, int operation, Collection<?> collection)
   {
     // If the operation has changed significantly...
     //
@@ -952,6 +950,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     }
   }
 
+  @Override
   public void undo()
   {
     if (dropCommand != null)
@@ -978,6 +977,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     }
   }
 
+  @Override
   public void dispose()
   {
     if (dragCommand != null)
@@ -990,7 +990,8 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
     }
   }
 
-  public Collection getResult()
+  @Override
+  public Collection<?> getResult()
   {
     return
       dropCommand != null ?
@@ -998,7 +999,8 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
         super.getResult();
   }
 
-  public Collection getAffectedObjects()
+  @Override
+  public Collection<?> getAffectedObjects()
   {
     return 
       dropCommand != null ?
@@ -1010,6 +1012,7 @@ public class DragAndDropCommand extends AbstractCommand implements DragAndDropFe
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

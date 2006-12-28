@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: ComposedImage.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: ComposedImage.java,v 1.3 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -40,48 +39,49 @@ public class ComposedImage
     public int height;
   }
 
-  protected List images;
-  protected List imageSizes;
+  protected List<Object> images;
+  protected List<Size> imageSizes;
 
   /**
    * This creates an empty instance.
    */
-  public ComposedImage(Collection images)
+  public ComposedImage(Collection<?> images)
   {
-    this.images = new ArrayList(images);
+    this.images = new ArrayList<Object>(images);
   }
 
+  @Override
   public boolean equals(Object that)
   {
     return that instanceof ComposedImage && ((ComposedImage)that).getImages().equals(images);
   }
 
+  @Override
   public int hashCode()
   {
     return images.hashCode();
   }
 
-  public List getImages()
+  public List<Object> getImages()
   {
     return images;
   }
 
-  public Size getSize(Collection imageSizes)
+  public Size getSize(Collection<? extends Size> imageSizes)
   {
-    this.imageSizes = new ArrayList(imageSizes);
+    this.imageSizes = new ArrayList<Size>(imageSizes);
     Size result = new Size();
-    for (Iterator sizes = imageSizes.iterator(); sizes.hasNext(); )
+    for (Size size : imageSizes)
     {
-      Size size = (Size)sizes.next();
       result.width = Math.max(result.width, size.width);
       result.height = Math.max(result.height, size.height);
     }
     return result;
   }
 
-  public List getDrawPoints(Size size)
+  public List<Point> getDrawPoints(Size size)
   {
-    List results = new ArrayList();
+    List<Point> results = new ArrayList<Point>();
     for (int i = imageSizes.size(); i > 0; --i)
     {
       Point result = new Point();

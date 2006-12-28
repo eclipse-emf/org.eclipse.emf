@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteCommand.java,v 1.5 2006/11/09 12:04:22 emerks Exp $
+ * $Id: DeleteCommand.java,v 1.6 2006/12/28 06:48:55 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -52,7 +52,7 @@ public class DeleteCommand extends CompoundCommand
   /**
    * This creates a command that deletes the objects in the given collection.
    */
-  public static Command create(EditingDomain domain, final Collection collection)
+  public static Command create(EditingDomain domain, final Collection<?> collection)
   {
     return domain.createCommand(DeleteCommand.class, new CommandParameter(null, null, collection));
   }
@@ -70,7 +70,7 @@ public class DeleteCommand extends CompoundCommand
   /**
    * This constructs a command that deletes the objects in the given collection.
    */
-  public DeleteCommand(EditingDomain domain, Collection collection)
+  public DeleteCommand(EditingDomain domain, Collection<?> collection)
   {
     super(0, LABEL, DESCRIPTION);
     this.domain = domain;
@@ -85,16 +85,17 @@ public class DeleteCommand extends CompoundCommand
   /**
    * This is the collection of objects to be deleted.
    */
-  protected Collection collection;
+  protected Collection<?> collection;
 
   /**
    * This returns the collection of objects to be deleted.
    */
-  public Collection getCollection()
+  public Collection<?> getCollection()
   {
     return collection;
   }
 
+  @Override
   protected boolean prepare()
   {
     prepareCommand();
@@ -106,41 +107,40 @@ public class DeleteCommand extends CompoundCommand
     append(RemoveCommand.create(domain, collection));
   }
 
+  @Override
   public void execute()
   {
-    Collection eObjects = new UniqueEList();
-    for (Iterator i = collection.iterator(); i.hasNext(); )
+    Collection<EObject> eObjects = new UniqueEList<EObject>();
+    for (Object wrappedObject : collection)
     {
-      Object object = AdapterFactoryEditingDomain.unwrap(i.next());
+      Object object = AdapterFactoryEditingDomain.unwrap(wrappedObject);
       if (object instanceof EObject)
       {
-        eObjects.add(object);
-        for (Iterator j = ((EObject)object).eAllContents(); j.hasNext(); )
+        eObjects.add((EObject)object);
+        for (Iterator<EObject> j = ((EObject)object).eAllContents(); j.hasNext(); )
         {
           eObjects.add(j.next());
         }
       }
       else if (object instanceof Resource)
       {
-        for (Iterator j = ((Resource)object).getAllContents(); j.hasNext(); )
+        for (Iterator<EObject> j = ((Resource)object).getAllContents(); j.hasNext(); )
         {
           eObjects.add(j.next());
         }
       }
     }
     
-    Map usages = EcoreUtil.UsageCrossReferencer.findAll(eObjects, domain.getResourceSet());
+    Map<EObject, Collection<EStructuralFeature.Setting>> usages = EcoreUtil.UsageCrossReferencer.findAll(eObjects, domain.getResourceSet());
     
     super.execute();
 
-    for (Iterator i = usages.entrySet().iterator(); i.hasNext(); )
+    for (Map.Entry<EObject, Collection<EStructuralFeature.Setting>> entry : usages.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      EObject eObject = (EObject)entry.getKey();
-      Collection settings = (Collection)entry.getValue();
-      for (Iterator j = settings.iterator(); j.hasNext(); )
+      EObject eObject = entry.getKey();
+      Collection<EStructuralFeature.Setting> settings = entry.getValue();
+      for (EStructuralFeature.Setting setting : settings)
       {
-        EStructuralFeature.Setting setting = (EStructuralFeature.Setting)j.next();
         EObject referencingEObject = setting.getEObject();
         if (!eObjects.contains(referencingEObject))
         {

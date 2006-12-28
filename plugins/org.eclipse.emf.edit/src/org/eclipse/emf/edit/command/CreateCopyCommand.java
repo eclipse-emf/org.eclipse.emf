@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateCopyCommand.java,v 1.3 2005/06/08 06:17:05 nickb Exp $
+ * $Id: CreateCopyCommand.java,v 1.4 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -20,7 +20,6 @@ package org.eclipse.emf.edit.command;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.ecore.EClass;
@@ -100,11 +99,13 @@ public class CreateCopyCommand extends AbstractOverrideableCommand implements Ch
     return copyHelper;
   }
 
+  @Override
   protected boolean prepare()
   {
     return true;
   }
 
+  @Override
   public void doExecute() 
   {
     // Create the copy
@@ -116,30 +117,30 @@ public class CreateCopyCommand extends AbstractOverrideableCommand implements Ch
     copyHelper.put(owner, copy);
   }
 
+  @Override
   public void doUndo() 
   {
     copyHelper.remove(owner);
   }
 
+  @Override
   public void doRedo()
   {
     copyHelper.put(owner, copy);
   }
 
-  public Collection doGetResult()
+  @Override
+  public Collection<?> doGetResult()
   {
     return Collections.singleton(copy);
   }
 
-  public Collection doGetChildrenToCopy()
+  @Override
+  public Collection<?> doGetChildrenToCopy()
   {
     // Create commands to create copies of the children.
     //
-    HashSet result = new HashSet();
-    for (Iterator i = owner.eContents().iterator(); i.hasNext(); )
-    {
-      result.add(i.next());
-    }
+    HashSet<Object> result = new HashSet<Object>(owner.eContents());
     return result;
   }
 
@@ -147,6 +148,7 @@ public class CreateCopyCommand extends AbstractOverrideableCommand implements Ch
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

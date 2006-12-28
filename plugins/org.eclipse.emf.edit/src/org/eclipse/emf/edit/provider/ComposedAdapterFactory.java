@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ComposedAdapterFactory.java,v 1.5 2006/10/23 17:19:17 emerks Exp $
+ * $Id: ComposedAdapterFactory.java,v 1.6 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -33,7 +32,6 @@ import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.edit.EMFEditPlugin;
 
 
 /**
@@ -76,13 +74,15 @@ public class ComposedAdapterFactory
        * @param  a collections of keys, typically a pair consisting of an EPackage or java.lang.Package, and a java.lang.Class.
        * @return a descriptor that can create a factory for the types.
        */
-      Descriptor getDescriptor(Collection types);
+      Descriptor getDescriptor(Collection<?> types);
       
       /**
        *  A simple registry implementation that supports delegation.
        */
-      class Impl extends HashMap implements Registry
+      class Impl extends HashMap<Collection<?>, Object> implements Registry
       {
+        private static final long serialVersionUID = 1L;
+
         /**
          * The delegate registry should lookup fail locally.
          */
@@ -97,7 +97,7 @@ public class ComposedAdapterFactory
           this.delegateRegistry = delegateRegistry;
         }
         
-        public Descriptor getDescriptor(Collection types)
+        public Descriptor getDescriptor(Collection<?> types)
         {
           Descriptor descriptor = (Descriptor)get(types);
           return descriptor == null ?  delegatedGetDescriptor(types) : descriptor;
@@ -106,7 +106,7 @@ public class ComposedAdapterFactory
         /**
          * This is called when local lookup fails.
          */
-        protected Descriptor delegatedGetDescriptor(Collection types)
+        protected Descriptor delegatedGetDescriptor(Collection<?> types)
         {
           if (delegateRegistry != null)
           {
@@ -122,7 +122,7 @@ public class ComposedAdapterFactory
   /**
    * This keeps track of all the {@link org.eclipse.emf.common.notify.AdapterFactory} delegates.
    */
-  protected List adapterFactories = new ArrayList();
+  protected List<AdapterFactory> adapterFactories = new ArrayList<AdapterFactory>();
 
   /**
    * This is used to implement the {@link ComposeableAdapterFactory} interface.
@@ -141,6 +141,7 @@ public class ComposedAdapterFactory
 
   public ComposedAdapterFactory()
   {
+    super();
   }
   
   /**
@@ -165,19 +166,18 @@ public class ComposedAdapterFactory
     }
   }
 
-  public ComposedAdapterFactory(Collection adapterFactories)
+  public ComposedAdapterFactory(Collection<? extends AdapterFactory> adapterFactories)
   {
-    for (Iterator factories = adapterFactories.iterator(); factories.hasNext(); )
+    for (AdapterFactory adapterFactory : adapterFactories)
     {
-      addAdapterFactory((AdapterFactory)factories.next());
+      addAdapterFactory(adapterFactory);
     }
   }
 
   public boolean isFactoryForType(Object type)
   {
-    for (Iterator factories = adapterFactories.iterator(); factories.hasNext(); )
+    for (AdapterFactory adapterFactory : adapterFactories)
     {
-      AdapterFactory adapterFactory = (AdapterFactory)factories.next();
       if (adapterFactory.isFactoryForType(type))
       {
         return true;
@@ -192,11 +192,11 @@ public class ComposedAdapterFactory
     return getFactoryForTypes(Collections.singleton(type));
   }
 
-  public AdapterFactory getFactoryForTypes(Collection types)
+  public AdapterFactory getFactoryForTypes(Collection<?> types)
   {
-    FactoryLoop : for (Iterator factories = adapterFactories.iterator(); factories.hasNext(); )
+    FactoryLoop: 
+    for (AdapterFactory factory : adapterFactories)
     {
-      AdapterFactory factory = (AdapterFactory)factories.next();
       if (factory instanceof ComposedAdapterFactory)
       {
         factory = ((ComposedAdapterFactory)factory).getFactoryForTypes(types);
@@ -207,9 +207,9 @@ public class ComposedAdapterFactory
       }
       else 
       {
-        for (Iterator i = types.iterator(); i.hasNext(); )
+        for (Object type : types)
         {
-          if (!factory.isFactoryForType(i.next()))
+          if (!factory.isFactoryForType(type))
           {
             continue FactoryLoop;
           }
@@ -232,7 +232,7 @@ public class ComposedAdapterFactory
     return delegatedGetFactoryForTypes(types);
   }
   
-  protected AdapterFactory delegatedGetFactoryForTypes(Collection types)
+  protected AdapterFactory delegatedGetFactoryForTypes(Collection<?> types)
   {
     return  null;
   }
@@ -245,7 +245,7 @@ public class ComposedAdapterFactory
       adapter = adapt((Notifier)target, type);
     }
 
-    if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+    if (!(type instanceof Class) || ((Class<?>)type).isInstance(adapter))
     {
       return adapter;
     }
@@ -269,7 +269,7 @@ public class ComposedAdapterFactory
       if (eClass != null)
       {
         EPackage ePackage = eClass.getEPackage();
-        Collection types = new ArrayList();
+        Collection<Object> types = new ArrayList<Object>();
         types.add(ePackage);
         if (type != null)
         {
@@ -283,16 +283,16 @@ public class ComposedAdapterFactory
 
         if (result == null)
         {
-          Collection failedPackageSet = new HashSet();
+          Collection<EPackage> failedPackageSet = new HashSet<EPackage>();
           failedPackageSet.add(ePackage);
-          List allSuperTypes = new UniqueEList.FastCompare(eClass.getESuperTypes());
+          List<EClass> allSuperTypes = new UniqueEList.FastCompare<EClass>(eClass.getESuperTypes());
           for (int i = 0; i < allSuperTypes.size(); ++i)
           {
-            EClass eSuperType = (EClass)allSuperTypes.get(i);
+            EClass eSuperType = allSuperTypes.get(i);
             EPackage eSupertypePackage = eSuperType.getEPackage();
             if (failedPackageSet.add(eSupertypePackage))
             {
-              Collection superTypes = new ArrayList();
+              Collection<Object> superTypes = new ArrayList<Object>();
               superTypes.add(eSupertypePackage);
               if (type != null)
               {
@@ -315,25 +315,28 @@ public class ComposedAdapterFactory
     }
     else
     {
-      result = isNew ? adapt(target, type, new HashSet(), target.getClass(), true): adapt(target, type, new HashSet(), target.getClass());
+      result = 
+        isNew ? 
+          adapt(target, type, new HashSet<Object>(), target.getClass(), true): 
+          adapt(target, type, new HashSet<Object>(), target.getClass());
     }
 
     return result;    
   }
 
-  protected Adapter adapt(Notifier target, Object type, Collection failedPackages, Class javaClass)
+  protected Adapter adapt(Notifier target, Object type, Collection<Object> failedPackages, Class<?> javaClass)
   {
     return adapt(target, type, failedPackages, javaClass, false);
   }
   
-  protected Adapter adapt(Notifier target, Object type, Collection failedPackages, Class javaClass, boolean isNew)
+  protected Adapter adapt(Notifier target, Object type, Collection<Object> failedPackages, Class<?> javaClass, boolean isNew)
   {
     Adapter result = null;
 
     Package javaPackage = javaClass.getPackage();
     if (failedPackages.add(javaPackage))
     {
-      Collection types = new ArrayList();
+      Collection<Object> types = new ArrayList<Object>();
       types.add(javaPackage);
       if (type != null)
       {
@@ -348,14 +351,14 @@ public class ComposedAdapterFactory
 
     if (result == null)
     {
-      Class superclass = javaClass.getSuperclass();
+      Class<?> superclass = javaClass.getSuperclass();
       if (superclass != null)
       {
         result = adapt(target, type, failedPackages, javaClass.getSuperclass(), isNew);
       }
       if (result == null)
       {
-        Class [] interfaces = javaClass.getInterfaces();
+        Class<?> [] interfaces = javaClass.getInterfaces();
         for (int i = 0; i < interfaces.length; ++i)
         {
           result = adapt(target, type, failedPackages, interfaces[i], isNew);
@@ -377,9 +380,8 @@ public class ComposedAdapterFactory
 
   public void adaptAllNew(Notifier target)
   {
-    for (Iterator factories = adapterFactories.iterator(); factories.hasNext(); )
+    for (AdapterFactory adapterFactory : adapterFactories)
     {
-      AdapterFactory adapterFactory = (AdapterFactory)factories.next();
       if (adapterFactory.isFactoryForType(target))
       {
         adapterFactory.adaptAllNew(target);
@@ -461,9 +463,8 @@ public class ComposedAdapterFactory
 
   public void dispose()
   {
-    for (Iterator factories = adapterFactories.iterator(); factories.hasNext(); )
+    for (Object factory : adapterFactories)
     {
-      Object factory = factories.next();
       if (factory instanceof IDisposable)
       {
         ((IDisposable)factory).dispose();

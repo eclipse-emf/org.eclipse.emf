@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProvider.java,v 1.4 2006/04/20 20:54:08 emerks Exp $
+ * $Id: ItemProvider.java,v 1.5 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -272,7 +272,7 @@ public class ItemProvider
   /**
    * This is the children returned by {@link ITreeItemContentProvider#getChildren getChildren(Object)}.
    */
-  protected ItemProviderNotifyingArrayList children;
+  protected ItemProviderNotifyingArrayList<Object> children;
 
   /**
    * This is the optional adapter factory that is used to get adapters for parent or child objects.
@@ -299,11 +299,13 @@ public class ItemProvider
       super(eventType, oldValue, newValue, position, wasSet);
     }
 
+    @Override
     public Object getNotifier()
     {
       return ItemProvider.this;
     }
 
+    @Override
     public void dispatch()
     {
       Object notifier = getNotifier();
@@ -324,13 +326,16 @@ public class ItemProvider
    * and it overrides the "inverse basic" methods to maintain referential integrity 
    * by calling {@link IUpdateableItemParent#setParent IUpdateableItemParent.setParent}.
    */
-  public class ItemProviderNotifyingArrayList extends NotifyingListImpl 
+  public class ItemProviderNotifyingArrayList<E> extends NotifyingListImpl<E>
   {
+    private static final long serialVersionUID = 1L;
+
     /**
      * This constructs an empty instance.
      */
     public ItemProviderNotifyingArrayList()
     {
+      super();
     }
 
     /**
@@ -344,6 +349,7 @@ public class ItemProvider
     /**
      * This always notifies.
      */
+    @Override
     protected boolean isNotificationRequired()
     {
       return true;
@@ -352,6 +358,7 @@ public class ItemProvider
     /**
      * This has an inverse
      */
+    @Override
     protected boolean hasInverse()
     {
       return true;
@@ -364,7 +371,7 @@ public class ItemProvider
      * but you can make sure the domain notifier is null during this constructor invocation to change that behaviour.
      * All the basic item provider constructors ensure that no domain events are fired.
      */
-    public ItemProviderNotifyingArrayList(Collection collection)
+    public ItemProviderNotifyingArrayList(Collection<? extends E> collection)
     {
       super();
       addAll(collection);
@@ -373,6 +380,7 @@ public class ItemProvider
     /**
      * This implementation directs the notification the containing item provider.
      */
+    @Override
     protected void dispatchNotification(Notification notification)
     {
       ((IChangeNotifier)notification.getNotifier()).fireNotifyChanged(notification);
@@ -381,16 +389,21 @@ public class ItemProvider
     /**
      * This implementation creates an {@link ItemProvider.ItemProviderNotification}.
      */
+    @Override
     protected NotificationImpl createNotification(int eventType, Object oldObject, Object newObject, int index, boolean wasSet)
     {
       return new ItemProviderNotification(eventType, oldObject, newObject, index, wasSet);
     }
     
+    @Override
     protected NotificationChain createNotificationChain(int capacity)
     {
       return 
         new NotificationChainImpl(capacity)
         {
+          private static final long serialVersionUID = 1L;
+
+          @Override
           protected void dispatch(Notification notification)
           {
             ItemProviderNotifyingArrayList.this.dispatchNotification(notification);
@@ -401,6 +414,7 @@ public class ItemProvider
     /**
      * This implementation will call {@link IUpdateableItemParent#setParent IUpdateableItemParent.setParent}, if appropriate.
      */
+    @Override
     protected NotificationChain inverseAdd(Object object, NotificationChain notifications)
     {
       Object adapter = object;
@@ -420,6 +434,7 @@ public class ItemProvider
     /**
      * This implementation will call {@link IUpdateableItemParent#setParent IUpdateableItemParent.setParent}, if appropriate.
      */
+    @Override
     protected NotificationChain inverseRemove(Object object, NotificationChain notifications)
     {
       Object adapter = object;
@@ -443,16 +458,16 @@ public class ItemProvider
   public ItemProvider()
   {
     this.text =  "";
-    this.children = new ItemProviderNotifyingArrayList();
+    this.children = new ItemProviderNotifyingArrayList<Object>();
   }
 
   /**
    * This creates an instance with an empty text that yields the given children.
    */
-  public ItemProvider(Collection children)
+  public ItemProvider(Collection<?> children)
   {
     this.text =  "";
-    this.children = new ItemProviderNotifyingArrayList(children);
+    this.children = new ItemProviderNotifyingArrayList<Object>(children);
   }
 
   /**
@@ -461,16 +476,16 @@ public class ItemProvider
   public ItemProvider(String text)
   {
     this.text = text;
-    this.children = new ItemProviderNotifyingArrayList();
+    this.children = new ItemProviderNotifyingArrayList<Object>();
   }
 
   /**
    * This creates an instance with the given text that yields the given children.
    */
-  public ItemProvider(String text, Collection children)
+  public ItemProvider(String text, Collection<?> children)
   {
     this.text = text;
-    this.children = new ItemProviderNotifyingArrayList(children);
+    this.children = new ItemProviderNotifyingArrayList<Object>(children);
   }
 
   /**
@@ -480,17 +495,17 @@ public class ItemProvider
   {
     this.text = text;
     this.image = image;
-    this.children = new ItemProviderNotifyingArrayList();
+    this.children = new ItemProviderNotifyingArrayList<Object>();
   }
 
   /**
    * This creates an instance with the given text and image that yields the given children.
    */
-  public ItemProvider(String text, Object image, Collection children)
+  public ItemProvider(String text, Object image, Collection<?> children)
   {
     this.text = text;
     this.image = image;
-    this.children = new ItemProviderNotifyingArrayList(children);
+    this.children = new ItemProviderNotifyingArrayList<Object>(children);
   }
 
   /**
@@ -501,18 +516,18 @@ public class ItemProvider
     this.text = text;
     this.image = image;
     this.parent = parent;
-    this.children = new ItemProviderNotifyingArrayList();
+    this.children = new ItemProviderNotifyingArrayList<Object>();
   }
 
   /**
    * This creates an instance with the given text, image, and parent that yields the given children.
    */
-  public ItemProvider(String text, Object image, Object parent, Collection children)
+  public ItemProvider(String text, Object image, Object parent, Collection<?> children)
   {
     this.text = text;
     this.image = image;
     this.parent = parent;
-    this.children = new ItemProviderNotifyingArrayList(children);
+    this.children = new ItemProviderNotifyingArrayList<Object>(children);
   }
 
   /**
@@ -522,7 +537,7 @@ public class ItemProvider
   {
     this.adapterFactory = adapterFactory;
     this.text =  "";
-    this.children = new ItemProviderNotifyingArrayList();
+    this.children = new ItemProviderNotifyingArrayList<Object>();
   }
 
   /**
@@ -532,7 +547,7 @@ public class ItemProvider
   {
     this.adapterFactory = adapterFactory;
     this.text = text;
-    this.children = new ItemProviderNotifyingArrayList();
+    this.children = new ItemProviderNotifyingArrayList<Object>();
   }
 
   /**
@@ -543,7 +558,7 @@ public class ItemProvider
     this.adapterFactory = adapterFactory;
     this.text = text;
     this.image = image;
-    this.children = new ItemProviderNotifyingArrayList();
+    this.children = new ItemProviderNotifyingArrayList<Object>();
   }
 
   /**
@@ -555,39 +570,39 @@ public class ItemProvider
     this.text = text;
     this.image = image;
     this.parent = parent;
-    this.children = new ItemProviderNotifyingArrayList();
+    this.children = new ItemProviderNotifyingArrayList<Object>();
   }
 
   /**
    * This creates an instance with the given adapter factory that yields the given children.
    */
-  public ItemProvider(AdapterFactory adapterFactory, Collection children)
+  public ItemProvider(AdapterFactory adapterFactory, Collection<?> children)
   {
     this.adapterFactory = adapterFactory;
     this.text =  "";
-    this.children = new ItemProviderNotifyingArrayList(children);
+    this.children = new ItemProviderNotifyingArrayList<Object>(children);
   }
 
   /**
    * This creates an instance with the given adapter factory and text that yields the given children.
    */
-  public ItemProvider(AdapterFactory adapterFactory, String text, Collection children)
+  public ItemProvider(AdapterFactory adapterFactory, String text, Collection<?> children)
   {
     this.adapterFactory = adapterFactory;
     this.text = text;
-    this.children = new ItemProviderNotifyingArrayList(children);
+    this.children = new ItemProviderNotifyingArrayList<Object>(children);
   }
 
   /**
    * This creates an instance with the given adapter factory, text and image that yields the given children.
    */
   public ItemProvider
-    (AdapterFactory adapterFactory, String text, Object image, Collection children)
+    (AdapterFactory adapterFactory, String text, Object image, Collection<?> children)
   {
     this.adapterFactory = adapterFactory;
     this.text = text;
     this.image = image;
-    this.children = new ItemProviderNotifyingArrayList(children);
+    this.children = new ItemProviderNotifyingArrayList<Object>(children);
   }
 
   /**
@@ -599,13 +614,13 @@ public class ItemProvider
      String text, 
      Object image, 
      Object parent, 
-     Collection children)
+     Collection<?> children)
   {
     this.adapterFactory = adapterFactory;
     this.text = text;
     this.image = image;
     this.parent = parent;
-    this.children = new ItemProviderNotifyingArrayList(children);
+    this.children = new ItemProviderNotifyingArrayList<Object>(children);
   }
 
   /**
@@ -659,7 +674,7 @@ public class ItemProvider
    * by returning {@link #getChildren(Object)}.
    * It seems that you almost always want getElements and getChildren to return the same thing, so this makes that easy.
    */
-  public Collection getElements(Object object)
+  public Collection<?> getElements(Object object)
   {
     return getChildren(object);
   }
@@ -668,7 +683,7 @@ public class ItemProvider
    * This returns {@link #getChildren()}.
    * It seems that you almost always want getElements and getChildren to return the same thing, so this makes that easy.
    */
-  public EList getElements()
+  public EList<Object> getElements()
   {
     return getChildren();
   }
@@ -680,7 +695,7 @@ public class ItemProvider
    * In this case, you must implement notification is some other way yourself,
    * and you should override {@link #hasChildren(Object)} appropriately.
    */
-  public Collection getChildren(Object object)
+  public Collection<?> getChildren(Object object)
   {
     return children;
   }
@@ -688,7 +703,7 @@ public class ItemProvider
   /**
    * This returns {@link #getChildren() getChildren(this)}.
    */
-  public EList getChildren()
+  public EList<Object> getChildren()
   {
     return children;
   }
@@ -830,6 +845,7 @@ public class ItemProvider
   /**
    * This returns the super result with the {@link #text} appended to it.
    */
+  @Override
   public String toString()
   {
     return super.toString() + "[text=\"" + text + "\"]";
@@ -837,6 +853,7 @@ public class ItemProvider
 
   public void dispose()
   {
+    // Ignore
   }
 
   /**
@@ -844,9 +861,9 @@ public class ItemProvider
    * IEditingDomainItemProvider.getNewChildDescriptors}, returning an empty
    * list.
    */
-  public Collection getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /**
@@ -854,7 +871,7 @@ public class ItemProvider
    * IEditingDomainItemProvider.createCommand()}, returning the unexecutable
    * command.
    */
-  public Command createCommand(Object object, EditingDomain editingDomain, Class commandClass, CommandParameter commandParameter)
+  public Command createCommand(Object object, EditingDomain editingDomain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     return UnexecutableCommand.INSTANCE;
   }

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: ReplaceCommand.java,v 1.4 2005/06/08 06:17:05 nickb Exp $
+ * $Id: ReplaceCommand.java,v 1.5 2006/12/28 06:48:55 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.EList;
@@ -63,7 +62,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
   /**
    * This creates a command to replace an object with a collection of replacements.
    */
-  public static Command create(EditingDomain domain, Object value, Collection collection) 
+  public static Command create(EditingDomain domain, Object value, Collection<?> collection) 
   {
     return create(domain, null, null, value, collection);
   }
@@ -71,7 +70,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
   /**
    * This creates a command to replace a particular value in the specified feature of the owner with a collection replacements objects.
    */
-  public static Command create(EditingDomain domain, Object owner, Object feature, Object value, Collection collection) 
+  public static Command create(EditingDomain domain, Object owner, Object feature, Object value, Collection<?> collection) 
   {
     return domain.createCommand(ReplaceCommand.class, new CommandParameter(owner, feature, value, collection));
   }
@@ -101,7 +100,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
   /**
    * This is the list from which the command will replace.
    */
-  protected EList ownerList;
+  protected EList<Object> ownerList;
 
   /**
    * This is value that is being replaced.
@@ -111,7 +110,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
   /**
    * This is the collection of replacements.
    */
-  protected Collection collection;
+  protected Collection<?> collection;
 
   /**
    * This is the index at which to reinsert the replaced object during an undo so as to achieve the original list order.
@@ -122,7 +121,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
    * The is the value returned by {@link Command#getAffectedObjects}.
    * The affected objects are different after an execute than after an undo, so we record it.
    */
-  protected Collection affectedObjects;
+  protected Collection<?> affectedObjects;
 
   /**
    * This constructs a primitive command to replace a particular value in the specified feature of the owner 
@@ -137,7 +136,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
    * This constructs a primitive command to replace a particular value in the specified feature of the owner
    * with the specified collection of replacements.
    */
-  public ReplaceCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, Collection collection)
+  public ReplaceCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, Collection<?> collection)
   {
     super(domain, LABEL, DESCRIPTION);
 
@@ -154,7 +153,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to replace a particular value in the specified extent with the given replacement.
    */
-  public ReplaceCommand(EditingDomain domain, EList list, Object value, Object replacement) 
+  public ReplaceCommand(EditingDomain domain, EList<?> list, Object value, Object replacement) 
   {
     this(domain, list, value, Collections.singleton(replacement));
   }
@@ -162,7 +161,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to replace a particular value in the specified extent with the given collection of replacements.
    */
-  public ReplaceCommand(EditingDomain domain, EList list, Object value, Collection collection)
+  public ReplaceCommand(EditingDomain domain, EList<?> list, Object value, Collection<?> collection)
   {
     super(domain, LABEL, DESCRIPTION);
 
@@ -171,7 +170,9 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     this.value = value;
     this.collection = collection;
 
-    ownerList = list;
+    @SuppressWarnings("unchecked")
+    EList<Object> untypedList = (EList<Object>)list;
+    ownerList = untypedList;
   }
 
   /**
@@ -195,7 +196,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
   /**
    * This returns the list in which the command will replace.
    */
-  public EList getOwnerList()
+  public EList<Object> getOwnerList()
   {
     return ownerList;
   }
@@ -211,7 +212,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
   /**
    * This returns the collection of replacement objects.
    */
-  public Collection getCollection()
+  public Collection<?> getCollection()
   {
     return collection;
   }
@@ -224,6 +225,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     return index;
   }
 
+  @Override
   protected boolean prepare() 
   {
     // This can't execute if there is no owner list 
@@ -248,9 +250,8 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     {
       // Make sure each object conforms to the type of the feature.
       //
-      for (Iterator replacements = collection.iterator(); replacements.hasNext(); )
+      for (Object replacement : collection)
       {
-        Object replacement = replacements.next();
         if (!feature.getEType().isInstance(replacement))
         {
           return false;
@@ -261,6 +262,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     }
   }
 
+  @Override
   public void doExecute() 
   {
     // Record the position of the value in the onwer list.
@@ -280,6 +282,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     affectedObjects = collection;
   }
 
+  @Override
   public void doUndo() 
   {
     // Remove the collection of replacements.
@@ -295,6 +298,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     affectedObjects = Collections.singleton(value);
   }
   
+  @Override
   public void doRedo()
   {
     // Simply remove the object from the owner list.
@@ -310,12 +314,14 @@ public class ReplaceCommand extends AbstractOverrideableCommand
     affectedObjects = collection;
   }
 
-  public Collection doGetResult()
+  @Override
+  public Collection<?> doGetResult()
   {
     return collection;
   }
 
-  public Collection doGetAffectedObjects()
+  @Override
+  public Collection<?> doGetAffectedObjects()
   {
     return affectedObjects;
   }
@@ -324,6 +330,7 @@ public class ReplaceCommand extends AbstractOverrideableCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

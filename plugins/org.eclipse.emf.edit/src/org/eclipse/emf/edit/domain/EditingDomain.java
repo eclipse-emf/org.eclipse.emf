@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomain.java,v 1.4 2006/01/23 20:45:26 davidms Exp $
+ * $Id: EditingDomain.java,v 1.5 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.domain;
 
@@ -65,7 +65,7 @@ public interface EditingDomain
    * This creates a command of the type of the specified by the command class 
    * and acting upon the information specified in the given command parameter.
    */
-  Command createCommand(Class commandClass, CommandParameter commandParameter);
+  Command createCommand(Class<? extends Command> commandClass, CommandParameter commandParameter);
 
   /**
    * This creates an override for the given command.
@@ -80,7 +80,7 @@ public interface EditingDomain
   /**
    * This returns the children of the object.
    */
-  Collection getChildren(Object object);
+  Collection<?> getChildren(Object object);
 
   /**
    * This returns the parent of the object.
@@ -98,28 +98,28 @@ public interface EditingDomain
    * specified (non-null), the children should be as close to immediately
    * following that sibling as possible.
    */
-  Collection getNewChildDescriptors(Object object, Object sibling);
+  Collection<CommandParameter> getNewChildDescriptors(Object object, Object sibling);
 
   /**
    * This returns a tree iterator that will yield the object, the children of the object, their children, and so on.
    */
-  TreeIterator treeIterator(Object object);
+  TreeIterator<?> treeIterator(Object object);
 
   /**
    * This returns a path from the root object to the given object in the tree.
    */
-  List getTreePath(Object object);
+  List<?> getTreePath(Object object);
 
 
   /**
    * This returns the clipboard of the editing domain.
    */
-  Collection getClipboard();
+  Collection<Object> getClipboard();
 
   /**
    * This sets the clipboard of the editing domain.
    */
-  void setClipboard(Collection clipboard);
+  void setClipboard(Collection<Object> clipboard);
 
   /**
    * This returns whether or not copy command optimizations are safe in this domain.

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceSetItemProvider.java,v 1.4 2005/06/12 13:32:37 emerks Exp $
+ * $Id: ResourceSetItemProvider.java,v 1.5 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider.resource;
 
@@ -24,11 +24,14 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.EMFEditPlugin;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -61,7 +64,8 @@ public class ResourceSetItemProvider
    * This returns the property descriptors for the adapted class.
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -70,7 +74,8 @@ public class ResourceSetItemProvider
     return itemPropertyDescriptors;
   }
 
-  public Collection getChildren(Object object)
+  @Override
+  public Collection<?> getChildren(Object object)
   {
     ResourceSet resourceSet = (ResourceSet)object;
     return resourceSet.getResources();
@@ -84,7 +89,8 @@ public class ResourceSetItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -101,6 +107,7 @@ public class ResourceSetItemProvider
    * This returns the parent of the ResourceSet.
    * @generated
    */
+  @Override
   public Object getParent(Object object)
   {
     return null;
@@ -110,6 +117,7 @@ public class ResourceSetItemProvider
    * This returns ResourceSet.gif.
    * @generated
    */
+  @Override
   public Object getImage(Object object)
   {
     return getResourceLocator().getImage("full/obj16/ResourceSet");
@@ -119,6 +127,7 @@ public class ResourceSetItemProvider
    * This returns the label text for the adapted class.
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     return EMFEditPlugin.INSTANCE.getString("_UI_ResourceSet_label");
@@ -128,6 +137,7 @@ public class ResourceSetItemProvider
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification) 
   {
     switch (notification.getFeatureID(ResourceSet.class))
@@ -141,9 +151,10 @@ public class ResourceSetItemProvider
     super.notifyChanged(notification);
   }
 
-  public Collection getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  @Override
+  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /**
@@ -151,7 +162,8 @@ public class ResourceSetItemProvider
    * describing all of the children that can be created under this object.
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 /*
@@ -168,6 +180,7 @@ public class ResourceSetItemProvider
    * Return the resource locator for this item provider's resources.
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EMFEditPlugin.INSTANCE;

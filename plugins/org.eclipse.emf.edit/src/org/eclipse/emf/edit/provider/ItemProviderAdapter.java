@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ItemProviderAdapter.java,v 1.25 2006/06/02 22:01:02 davidms Exp $
+ * $Id: ItemProviderAdapter.java,v 1.26 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -93,19 +93,20 @@ public class ItemProviderAdapter
    * This is used to store all the property descriptors.
    * Derived classes should add descriptors to this vector.
    */
-  protected List itemPropertyDescriptors;
+  protected List<IItemPropertyDescriptor> itemPropertyDescriptors;
 
   /**
    * This is used to store all the children features. Derived classes should add features to this vector.
    */
-  protected List childrenFeatures;
+  protected List<EStructuralFeature> childrenFeatures;
 
   /**
    * This stored the children references, but attributes may now contribute children, too. It is still present to
    * support existing subclasses.
    * @deprecated As of EMF 2.0, replaced by {@link #childrenFeatures}.
    */
-  protected List childrenReferences;
+  @Deprecated
+  protected List<EReference> childrenReferences;
 
   /**
    * This is used to implement {@link IChangeNotifier}.
@@ -115,14 +116,14 @@ public class ItemProviderAdapter
   /**
    * This keeps track of all the targets to which this adapter is set.
    */
-  protected List targets;
+  protected List<Notifier> targets;
 
   /**
    * When {@link ChildrenStore}s are to be used to cache children (typically to hold wrappers for non-EObject
    * children), this maps adapted objects to their corresponding stores. Stores should be accessed and created
    * via {@link #getChildrenStore getChildrenStore} and {@link #createChildrenStore createChildrenStore}.
    */
-  protected Map childrenStoreMap;
+  protected Map<Object, ChildrenStore> childrenStoreMap;
 
   /**
    * This holds children wrappers that are {@link #wrap created} by this item provider, so that they can be {@link
@@ -149,6 +150,7 @@ public class ItemProviderAdapter
    * The adapter factory is used as the type key.
    * This returns true, only if this adapter was created by the given factory.
    */
+  @Override
   public boolean isAdapterForType(Object type)
   {
     return type == adapterFactory;
@@ -236,11 +238,11 @@ public class ItemProviderAdapter
    * You'll probably want to call super.getPropertyDescriptors if you do this, 
    * since you may have one adapter derive from another.
    */
-  public List getPropertyDescriptors(Object object) 
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object) 
   {
     if (itemPropertyDescriptors == null)
     {
-      itemPropertyDescriptors = new ArrayList();
+      itemPropertyDescriptors = new ArrayList<IItemPropertyDescriptor>();
     }
     return itemPropertyDescriptors;
   }
@@ -250,9 +252,8 @@ public class ItemProviderAdapter
    */
   public IItemPropertyDescriptor getPropertyDescriptor(Object object, Object propertyId)
   {
-    for (Iterator i = getPropertyDescriptors(object).iterator(); i.hasNext(); )
+    for (IItemPropertyDescriptor itemPropertyDescriptor : getPropertyDescriptors(object))
     {
-      IItemPropertyDescriptor itemPropertyDescriptor = (IItemPropertyDescriptor)i.next();
       if (propertyId.equals(itemPropertyDescriptor.getId(object)))
       {
         return itemPropertyDescriptor;
@@ -303,7 +304,7 @@ public class ItemProviderAdapter
    * by forwarding the call to {@link #getChildren getChildren}.
    * It seems that you almost always want getElements and getChildren to return the same thing, so this makes that easy.
    */
-  public Collection getElements(Object object)
+  public Collection<?> getElements(Object object)
   {
     return getChildren(object);
   }
@@ -317,7 +318,7 @@ public class ItemProviderAdapter
    * {@link #wrap wrapped} before being cached and returned. Subclasses may override {@link #createWrapper
    * createWrapper} to specify when and with what to wrap children.
    */
-  public Collection getChildren(Object object)
+  public Collection<?> getChildren(Object object)
   {
     ChildrenStore store = getChildrenStore(object);
     if (store != null)
@@ -326,19 +327,18 @@ public class ItemProviderAdapter
     }
 
     store = createChildrenStore(object);
-    List result = store != null ? null : new ArrayList();
+    List<Object> result = store != null ? null : new ArrayList<Object>();
     EObject eObject = (EObject)object;
 
-    for (Iterator i = getAnyChildrenFeatures(object).iterator(); i.hasNext();)
+    for (EStructuralFeature feature : getAnyChildrenFeatures(object))
     {
-      EStructuralFeature feature = (EStructuralFeature)i.next();
       if (feature.isMany())
       {
-        List children = (List)eObject.eGet(feature);
+        List<?> children = (List<?>)eObject.eGet(feature);
         int index = 0;
-        for (Iterator ci = children.iterator(); ci.hasNext(); index++)
+        for (Object unwrappedChild : children)
         {
-          Object child = wrap(eObject, feature, ci.next(), index);
+          Object child = wrap(eObject, feature, unwrappedChild, index);
           if (store != null)
           {
             store.getList(feature).add(child);
@@ -347,6 +347,7 @@ public class ItemProviderAdapter
           {
             result.add(child);
           }
+          index++;
         }
       }
       else
@@ -387,11 +388,11 @@ public class ItemProviderAdapter
    * <code>MoveCommand</code> in {@link #createCommand createCommand}. If you override those methods, then you don't
    * need to implement this.
    */
-  protected Collection getChildrenFeatures(Object object)
+  protected Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
-      childrenFeatures = new ArrayList();
+      childrenFeatures = new ArrayList<EStructuralFeature>();
     }
     return childrenFeatures;
   }
@@ -402,11 +403,12 @@ public class ItemProviderAdapter
    * provide backwards compatibility.
    * @deprecated As of EMF 2.0, replaced by {@link #getChildrenFeatures getChildrenFeatures}.
    */
-  protected Collection getChildrenReferences(Object object)
+  @Deprecated
+  protected Collection<? extends EReference> getChildrenReferences(Object object)
   {
     if (childrenReferences == null)
     {
-      childrenReferences = new ArrayList();
+      childrenReferences = new ArrayList<EReference>();
     }
     return childrenReferences;
   }
@@ -417,9 +419,9 @@ public class ItemProviderAdapter
    * {@link #getChildrenReferences getChildrenReferences} method. It is used, instead of just the new method,
    * throughout this class.
    */
-  private Collection getAnyChildrenFeatures(Object object)
+  private Collection<? extends EStructuralFeature> getAnyChildrenFeatures(Object object)
   {
-    Collection result = getChildrenFeatures(object);
+    Collection<? extends EStructuralFeature> result = getChildrenFeatures(object);
     return result.isEmpty() ? getChildrenReferences(object) : result;
   }
 
@@ -447,6 +449,7 @@ public class ItemProviderAdapter
    * compatibility.
    * @deprecated As of EMF 2.0, replaced by {@link #getFeatureValue getFeatureValue}.
    */
+  @Deprecated
   protected Object getReferenceValue(EObject object, EReference reference)
   {
     return object.eGet(reference);
@@ -467,9 +470,8 @@ public class ItemProviderAdapter
     EStructuralFeature oldFeature = getChildReference(object, child);
     if (oldFeature != null) return oldFeature;
     
-    for (Iterator features = getAnyChildrenFeatures(object).iterator(); features.hasNext(); )
+    for (EStructuralFeature feature : getAnyChildrenFeatures(object))
     {
-      EStructuralFeature feature = (EStructuralFeature)features.next();
       if (feature.getEType().isInstance(child))
       {
         return feature;
@@ -483,6 +485,7 @@ public class ItemProviderAdapter
    * contribute children, too. The replacement first tries calling this method, for backwards compatibility.
    * @deprecated As of EMF 2.0, replaced by {@link #getChildFeature getChildFeature}.
    */
+  @Deprecated
   protected EReference getChildReference(Object object, Object child)
   {
     if (child instanceof EObject)
@@ -491,9 +494,8 @@ public class ItemProviderAdapter
 
       // Iterate over all the child references to factor each child to the right reference.
       //
-      for (Iterator childrenReferences = getChildrenReferences(object).iterator(); childrenReferences.hasNext(); )
+      for (EReference eReference : getChildrenReferences(object))
       {
-        EReference eReference = (EReference)childrenReferences.next();
         EClassifier eType = eReference.getEType();
 
         // If this object is compatible with this reference...
@@ -513,9 +515,9 @@ public class ItemProviderAdapter
    * and to deduce the EMF feature in the SetCommand {@link #createCommand createCommand}.
    * If you override those, then you don't need to implement this.
    */
-  protected Collection getSetFeatures(Object object)
+  protected Collection<? extends EStructuralFeature> getSetFeatures(Object object)
   {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /**
@@ -528,9 +530,8 @@ public class ItemProviderAdapter
   {
     // Iterate over all the set feature to factor each child to the right reference.
     //
-    for (Iterator setFeatures = getSetFeatures(object).iterator(); setFeatures.hasNext(); )
+    for (EStructuralFeature eStructuralFeature : getSetFeatures(object))
     {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)setFeatures.next();
       EClassifier eType = eStructuralFeature.getEType();
       if (eType.isInstance(value))
       {
@@ -576,7 +577,7 @@ public class ItemProviderAdapter
   {
     if (AdapterFactoryEditingDomain.isControlled(object))
     {
-      List images = new ArrayList(2);
+      List<Object> images = new ArrayList<Object>(2);
       images.add(image);
       images.add(EMFEditPlugin.INSTANCE.getImage("full/ovr16/ControlledObject"));
       image = new ComposedImage(images);
@@ -635,13 +636,13 @@ public class ItemProviderAdapter
    * <p>If <code>sibling</code> is non-null, an <code>index</code> is added to each <code>CommandParameter</code> with
    * a multi-valued <code>feature</code>, to ensure that the new child object gets added in the right position.
    */
-  public Collection getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
+  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain editingDomain, Object sibling)
   {
     EObject eObject = (EObject)object;
 
     // Build the collection of new child descriptors.
     //
-    Collection newChildDescriptors = new ArrayList();
+    Collection<CommandParameter> newChildDescriptors = new ArrayList<CommandParameter>();
     collectNewChildDescriptors(newChildDescriptors, object);
 
     // If a sibling has been specified, add the best index possible to each CommandParameter.
@@ -653,20 +654,18 @@ public class ItemProviderAdapter
       // Find the index of a feature containing the sibling, or an equivalent value, in the collection of children
       // features.
       //
-      Collection childrenFeatures = getAnyChildrenFeatures(object);
+      Collection<? extends EStructuralFeature> childrenFeatures = getAnyChildrenFeatures(object);
       int siblingFeatureIndex = -1;
       int i = 0;
 
       FEATURES_LOOP:
-      for (Iterator features = childrenFeatures.iterator(); features.hasNext(); i++)
+      for (EStructuralFeature feature : childrenFeatures)
       {
-        EStructuralFeature feature = (EStructuralFeature)features.next();
         Object featureValue = eObject.eGet(feature);
         if (feature.isMany())
         {
-          for (Iterator values = ((Collection)featureValue).iterator(); values.hasNext(); )
+          for (Object value : (Collection<?>)featureValue)
           {
-            Object value = values.next();
             if (isEquivalentValue(sibling, value))
             {
               siblingFeatureIndex = i;
@@ -679,58 +678,53 @@ public class ItemProviderAdapter
           siblingFeatureIndex = i;
           break FEATURES_LOOP;
         }
+        ++i;
       }
 
       // For each CommandParameter with a non-null, multi-valued structural feature...
       //
       DESCRIPTORS_LOOP:
-      for (Iterator descriptors = newChildDescriptors.iterator(); descriptors.hasNext(); )
+      for (CommandParameter parameter : newChildDescriptors)
       {
-        Object d = descriptors.next();
-        if (d instanceof CommandParameter)
+        EStructuralFeature childFeature = parameter.getEStructuralFeature();
+        if (childFeature == null || !childFeature.isMany())
         {
-          CommandParameter parameter = (CommandParameter)d;
-          EStructuralFeature childFeature = parameter.getEStructuralFeature();
-          if (childFeature == null || !childFeature.isMany())
+          continue DESCRIPTORS_LOOP;
+        }
+
+        // Look for the sibling value or an equivalent in the new child's feature. If it is found, the child should
+        // immediately follow it.
+        //
+        i = 0;
+        for (Object v  : (Collection<?>)eObject.eGet(childFeature))
+        {
+          if (isEquivalentValue(sibling, v))
           {
+            parameter.index = i + 1;
             continue DESCRIPTORS_LOOP;
           }
+          ++i;
+        }
 
-          // Look for the sibling value or an equivalent in the new child's feature. If it is found, the child should
-          // immediately follow it.
-          //
+        // Otherwise, if a sibling feature was found, iterate through the children features to find the index of
+        // the child feature... 
+        //
+        if (siblingFeatureIndex != -1)
+        {
           i = 0;
-          for (Iterator values = ((Collection)eObject.eGet(childFeature)).iterator(); values.hasNext(); i++)
+          for (EStructuralFeature feature : childrenFeatures)
           {
-            Object v = values.next();
-            if (isEquivalentValue(sibling, v))
+            if (feature == childFeature)
             {
-              parameter.index = i + 1;
+              // If the child feature follows the sibling feature, the child should be first in its feature.
+              //
+              if (i > siblingFeatureIndex)
+              {
+                parameter.index = 0;
+              }
               continue DESCRIPTORS_LOOP;
             }
-          }
-
-          // Otherwise, if a sibling feature was found, iterate through the children features to find the index of
-          // the child feature... 
-          //
-          if (siblingFeatureIndex != -1)
-          {
-            i = 0;
-            for (Iterator features = childrenFeatures.iterator(); features.hasNext(); i++)
-            {
-              EStructuralFeature feature = (EStructuralFeature)features.next();
-            
-              if (feature == childFeature)
-              {
-                // If the child feature follows the sibling feature, the child should be first in its feature.
-                //
-                if (i > siblingFeatureIndex)
-                {
-                  parameter.index = 0;
-                }
-                continue DESCRIPTORS_LOOP;
-              }
-            }
+            ++i;
           }
         }
       }
@@ -770,7 +764,7 @@ public class ItemProviderAdapter
    * should override this method, invoking the superclass implementation and
    * then adding to the collection.
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)    
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)    
   {
     return;
   }
@@ -778,7 +772,7 @@ public class ItemProviderAdapter
   /**
    * This implements delegated command creation for the given object.
    */
-  public Command createCommand(Object object, EditingDomain domain, Class commandClass, CommandParameter commandParameter)
+  public Command createCommand(Object object, EditingDomain domain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     // Commands should operate on the values, not their wrappers.  If the command's values needed to be unwrapped,
     // we'll back get a new CommandParameter.
@@ -940,7 +934,7 @@ public class ItemProviderAdapter
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.RemoveCommand}.
    */
-  protected Command createRemoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection collection) 
+  protected Command createRemoveCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection<?> collection) 
   {
     if (feature instanceof EReference)
     {
@@ -956,7 +950,8 @@ public class ItemProviderAdapter
    * @deprecated As of EMF 2.0, replaced by {@link #createRemoveCommand(EditingDomain, EObject, EStructuralFeature, Collection)
    * createRemoveCommand}.
    */
-  protected Command createRemoveCommand(EditingDomain domain, EObject owner, EReference feature, Collection collection) 
+  @Deprecated
+  protected Command createRemoveCommand(EditingDomain domain, EObject owner, EReference feature, Collection<?> collection) 
   {
     return new RemoveCommand(domain, owner, feature, collection);
   }
@@ -964,7 +959,7 @@ public class ItemProviderAdapter
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.ReplaceCommand}.
    */
-  protected Command createReplaceCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, EObject value, Collection collection) 
+  protected Command createReplaceCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, EObject value, Collection<?> collection) 
   {
     if (feature instanceof EReference)
     {
@@ -980,7 +975,8 @@ public class ItemProviderAdapter
    * @deprecated As of EMF 2.0, replaced by {@link #createReplaceCommand(EditingDomain, EObject, EStructuralFeature, EObject, Collection)
    * createReplaceCommand}.
    */
-  protected Command createReplaceCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, Collection collection) 
+  @Deprecated
+  protected Command createReplaceCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, Collection<?> collection) 
   {
     return new ReplaceCommand(domain, owner, feature, value, collection);
   }
@@ -988,7 +984,7 @@ public class ItemProviderAdapter
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.AddCommand}.
    */
-  protected Command createAddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection collection, int index) 
+  protected Command createAddCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Collection<?> collection, int index) 
   {
     if (feature instanceof EReference)
     {
@@ -1004,7 +1000,8 @@ public class ItemProviderAdapter
    * @deprecated As of EMF 2.0, replaced by {@link #createAddCommand(EditingDomain, EObject, EStructuralFeature, Collection, int)
    * createAddCommand}.
    */
-  protected Command createAddCommand(EditingDomain domain, EObject owner, EReference feature, Collection collection, int index) 
+  @Deprecated
+  protected Command createAddCommand(EditingDomain domain, EObject owner, EReference feature, Collection<?> collection, int index) 
   {
     return new AddCommand(domain, owner, feature, collection, index);
   }
@@ -1028,6 +1025,7 @@ public class ItemProviderAdapter
    * @deprecated As of EMF 2.0, replaced by {@link #createMoveCommand(EditingDomain, EObject, EStructuralFeature, Object, int)
    * createMoveCommand}.
    */
+  @Deprecated
   protected Command createMoveCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, int index) 
   {
     return new MoveCommand(domain, owner, feature, value, index);
@@ -1037,7 +1035,7 @@ public class ItemProviderAdapter
    * This creates a primitive {@link org.eclipse.emf.edit.command.DragAndDropCommand}.
    */
   protected Command createDragAndDropCommand
-    (EditingDomain domain, Object owner, float location, int operations, int operation, Collection collection)
+    (EditingDomain domain, Object owner, float location, int operations, int operation, Collection<?> collection)
   {
     return new DragAndDropCommand(domain, owner, location, operations, operation, collection);
   }
@@ -1045,7 +1043,8 @@ public class ItemProviderAdapter
   /**
    * This creates a primitive {@link org.eclipse.emf.edit.command.CreateChildCommand}.
    */
-  protected Command createCreateChildCommand(EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, int index, Collection collection)
+  protected Command createCreateChildCommand
+    (EditingDomain domain, EObject owner, EStructuralFeature feature, Object value, int index, Collection<?> collection)
   {
     if (feature instanceof EReference && value instanceof EObject)
     {
@@ -1061,7 +1060,9 @@ public class ItemProviderAdapter
    * @deprecated As of EMF 2.0, replaced by {@link #createCreateChildCommand(EditingDomain, EObject, EStructuralFeature, Object, int, Collection)
    * createCreateChildCommand}.
    */
-  protected Command createCreateChildCommand(EditingDomain domain, EObject owner, EReference feature, EObject value, int index, Collection collection)
+  @Deprecated
+  protected Command createCreateChildCommand
+    (EditingDomain domain, EObject owner, EReference feature, EObject value, int index, Collection<?> collection)
   {
     return new CreateChildCommand(domain, owner, feature, value, index, collection, this);
   }
@@ -1079,26 +1080,24 @@ public class ItemProviderAdapter
     }
 
     final EObject eObject = commandParameter.getEOwner();
-    final List list = new ArrayList(commandParameter.getCollection());
+    final List<Object> list = new ArrayList<Object>(commandParameter.getCollection());
 
     CompoundCommand removeCommand = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
       
     // Iterator over all the child references to factor each child to the right reference.
     //
-    for (Iterator childrenFeatures = getAnyChildrenFeatures(eObject).iterator(); childrenFeatures.hasNext(); )
+    for (EStructuralFeature feature : getAnyChildrenFeatures(eObject))
     {
-      EStructuralFeature feature = (EStructuralFeature)childrenFeatures.next();
-
       // If it is a list type value...
       // 
       if (feature.isMany())
       {
-        List value = (List)getFeatureValue(eObject, feature);
+        List<?> value = (List<?>)getFeatureValue(eObject, feature);
 
         // These will be the children beloging to this feature.
         //
-        Collection childrenOfThisFeature = new ArrayList();
-        for (ListIterator objects = list.listIterator(); objects.hasNext(); )
+        Collection<Object> childrenOfThisFeature = new ArrayList<Object>();
+        for (ListIterator<Object> objects = list.listIterator(); objects.hasNext(); )
         {
           Object o = objects.next();
 
@@ -1125,7 +1124,7 @@ public class ItemProviderAdapter
         // It's just a single value
         //
         final Object value = getFeatureValue(eObject, feature);
-        for (ListIterator objects = list.listIterator(); objects.hasNext(); )
+        for (ListIterator<Object> objects = list.listIterator(); objects.hasNext(); )
         {
           Object o = objects.next();
 
@@ -1139,32 +1138,37 @@ public class ItemProviderAdapter
             removeCommand.append
               (new CommandWrapper(setCommand)
                {
-                 protected Collection affected;
+                 protected Collection<?> affected;
 
+                 @Override
                  public void execute()
                  {
                    super.execute();
                    affected = Collections.singleton(eObject);
                  }
 
+                 @Override
                  public void undo()
                  {
                    super.undo();
                    affected = Collections.singleton(value);
                  }
 
+                 @Override
                  public void redo()
                  {
                    super.redo();
                    affected = Collections.singleton(eObject);
                  }
 
-                 public Collection getResult()
+                 @Override
+                 public Collection<?> getResult()
                  {
                    return Collections.singleton(value);
                  }
 
-                 public Collection getAffectedObjects()
+                 @Override
+                 public Collection<?> getAffectedObjects()
                  {
                    return affected;
                  }
@@ -1202,14 +1206,14 @@ public class ItemProviderAdapter
     }
 
     final EObject eObject = commandParameter.getEOwner();
-    final List list = new ArrayList(commandParameter.getCollection());
+    final List<Object> list = new ArrayList<Object>(commandParameter.getCollection());
     int index = commandParameter.getIndex();
 
     CompoundCommand addCommand = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
       
     while (!list.isEmpty())
     {
-      Iterator children = list.listIterator();
+      Iterator<Object> children = list.listIterator();
       final Object firstChild = children.next();
       EStructuralFeature childFeature = getChildFeature(eObject, firstChild);
 
@@ -1225,9 +1229,8 @@ public class ItemProviderAdapter
         //
         if (index != CommandParameter.NO_INDEX)
         {
-          for (Iterator childrenFeatures = getAnyChildrenFeatures(eObject).iterator(); childrenFeatures.hasNext(); )
+          for (EStructuralFeature feature : getAnyChildrenFeatures(eObject))
           {
-            EStructuralFeature feature = (EStructuralFeature)childrenFeatures.next();
             if (feature == childFeature)
             {
               break;
@@ -1235,7 +1238,7 @@ public class ItemProviderAdapter
 
             if (feature.isMany())
             {
-              index -= ((List)(eObject).eGet(feature)).size();
+              index -= ((List<?>)(eObject).eGet(feature)).size();
             }
             else if (eObject.eGet(feature) != null)
             {
@@ -1250,7 +1253,7 @@ public class ItemProviderAdapter
 
         // These will be the children belonging to this feature.
         //
-        Collection childrenOfThisFeature = new ArrayList();
+        Collection<Object> childrenOfThisFeature = new ArrayList<Object>();
         childrenOfThisFeature.add(firstChild);
         children.remove();
 
@@ -1290,32 +1293,37 @@ public class ItemProviderAdapter
         addCommand.append
           (new CommandWrapper(setCommand)
            {
-             protected Collection affected;
+             protected Collection<?> affected;
 
+             @Override
              public void execute()
              {
                super.execute();
                affected = Collections.singleton(firstChild);
              }
 
+             @Override
              public void undo()
              {
                super.undo();
                affected = Collections.singleton(eObject);
              }
 
+             @Override
              public void redo()
              {
                super.redo();
                affected = Collections.singleton(firstChild);
              }
 
-             public Collection getResult()
+             @Override
+             public Collection<?> getResult()
              {
                return Collections.singleton(firstChild);
              }
 
-             public Collection getAffectedObjects()
+             @Override
+             public Collection<?> getAffectedObjects()
              {
                return affected;
              }
@@ -1356,9 +1364,8 @@ public class ItemProviderAdapter
     {
       // Compute the relative index as best as possible.
       //
-      for (Iterator i = getAnyChildrenFeatures(eObject).iterator(); i.hasNext(); )
+      for (EStructuralFeature feature : getAnyChildrenFeatures(eObject))
       {
-        EStructuralFeature feature = (EStructuralFeature)i.next();
         if (feature == childFeature)
         {
           break;
@@ -1366,7 +1373,7 @@ public class ItemProviderAdapter
 
         if (feature.isMany())
         {
-          index -= ((List)(eObject).eGet(feature)).size();
+          index -= ((List<?>)(eObject).eGet(feature)).size();
         }
         else if (eObject.eGet(feature) != null)
         {
@@ -1384,6 +1391,7 @@ public class ItemProviderAdapter
     }
   }
 
+  @Override
   public void setTarget(Notifier target)
   {
     // All this logic is so that we only create a list if the adapter is set to more than one target.
@@ -1394,7 +1402,7 @@ public class ItemProviderAdapter
       {
         if (targets == null)
         {
-          targets = new ArrayList();
+          targets = new ArrayList<Notifier>();
         }
         targets.add(this.target);
         super.setTarget(target);
@@ -1406,6 +1414,7 @@ public class ItemProviderAdapter
     }
   }
 
+  @Override
   public void unsetTarget(Notifier target)
   {
     if (target == this.target)
@@ -1416,7 +1425,7 @@ public class ItemProviderAdapter
       }
       else
       {
-        super.setTarget((Notifier)targets.remove(targets.size() - 1));
+        super.setTarget(targets.remove(targets.size() - 1));
       }
     }
     else if (targets != null)
@@ -1426,12 +1435,11 @@ public class ItemProviderAdapter
 
     if (childrenStoreMap != null)
     {
-      ChildrenStore store = (ChildrenStore)childrenStoreMap.remove(target);
+      ChildrenStore store = childrenStoreMap.remove(target);
       if (store != null && wrappers != null)
       {
-        for (Iterator i = store.getChildren().iterator(); i.hasNext(); )
+        for (Object child : store.getChildren())
         {
-          Object child = i.next();
           if (wrappers.remove(child))
           {
             ((IDisposable)child).dispose();
@@ -1450,7 +1458,7 @@ public class ItemProviderAdapter
     Notifier oldTarget = target;
     target = null;
 
-    List oldTargets = targets;
+    List<Notifier> oldTargets = targets;
     targets = null;
 
     if (oldTarget != null)
@@ -1460,9 +1468,8 @@ public class ItemProviderAdapter
 
     if (oldTargets != null)
     {
-      for (Iterator i = oldTargets.iterator(); i.hasNext(); )
+      for (Notifier otherTarget : oldTargets)
       {
-        Notifier otherTarget = (Notifier)i.next();
         otherTarget.eAdapters().remove(this);
       }
     }
@@ -1487,7 +1494,7 @@ public class ItemProviderAdapter
   /**
    * This returns the result collection for {@link CreateChildCommand}.
    */
-  public Collection getCreateChildResult(Object child)
+  public Collection<?> getCreateChildResult(Object child)
   {
     return Collections.singletonList(child);
   }
@@ -1495,7 +1502,7 @@ public class ItemProviderAdapter
   /**
    * This returns the label for {@link CreateChildCommand}.
    */
-  public String getCreateChildText(Object owner, Object feature, Object child, Collection selection)
+  public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection)
   {
     if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
     {
@@ -1529,7 +1536,7 @@ public class ItemProviderAdapter
   /**
    * This returns the description for {@link CreateChildCommand}.
    */
-  public String getCreateChildDescription(Object owner, Object feature, Object child, Collection selection)
+  public String getCreateChildDescription(Object owner, Object feature, Object child, Collection<?> selection)
   {
     if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
     {
@@ -1569,7 +1576,7 @@ public class ItemProviderAdapter
   /**
    * This returns the tool tip text for {@link CreateChildCommand}.
    */
-  public String getCreateChildToolTipText(Object owner, Object feature, Object child, Collection selection)
+  public String getCreateChildToolTipText(Object owner, Object feature, Object child, Collection<?> selection)
   {
     if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
     {
@@ -1588,7 +1595,7 @@ public class ItemProviderAdapter
   /**
    * This returns the icon image for {@link org.eclipse.emf.edit.command.CreateChildCommand}.
    */
-  public Object getCreateChildImage(Object owner, Object feature, Object child, Collection selection)
+  public Object getCreateChildImage(Object owner, Object feature, Object child, Collection<?> selection)
   {
     if (feature instanceof EStructuralFeature && FeatureMapUtil.isFeatureMap((EStructuralFeature)feature))
     {
@@ -1613,7 +1620,7 @@ public class ItemProviderAdapter
       }
       catch (Exception e)
       {
-        List images = new ArrayList();
+        List<Object> images = new ArrayList<Object>();
         IItemLabelProvider itemLabelProvider = 
           (IItemLabelProvider)((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory().adapt(child, IItemLabelProvider.class);
         images.add(itemLabelProvider.getImage(child));
@@ -1621,10 +1628,11 @@ public class ItemProviderAdapter
         return 
           new ComposedImage(images)
           {
-            public List getDrawPoints(Size size)
+            @Override
+            public List<Point> getDrawPoints(Size size)
             {
-              List result = super.getDrawPoints(size);
-              ((Point)result.get(1)).x = size.width - 7;
+              List<Point> result = super.getDrawPoints(size);
+              result.get(1).x = size.width - 7;
               return result;
             }
           };
@@ -1666,6 +1674,7 @@ public class ItemProviderAdapter
     }
     catch (MissingResourceException e)
     {
+      // Ignore
     }
     return getString("_UI_Unknown_datatype");
   }
@@ -1844,9 +1853,8 @@ public class ItemProviderAdapter
     {
       wrappingNeeded = Boolean.FALSE;
       
-      for (Iterator i = getAnyChildrenFeatures(object).iterator(); i.hasNext(); )
+      for (EStructuralFeature f : getAnyChildrenFeatures(object))
       {
-        EStructuralFeature f = (EStructuralFeature)i.next();
         if (f instanceof EAttribute)
         {
           wrappingNeeded = Boolean.TRUE;
@@ -1877,7 +1885,7 @@ public class ItemProviderAdapter
     {
       if (childrenStoreMap == null)
       {
-        childrenStoreMap = new HashMap();
+        childrenStoreMap = new HashMap<Object, ChildrenStore>();
       }
       store = new ChildrenStore(getAnyChildrenFeatures(object));
       childrenStoreMap.put(object, store);
@@ -1904,7 +1912,7 @@ public class ItemProviderAdapter
     protected static class Entry
     {
       public EStructuralFeature feature;
-      public EList list;
+      public EList<Object> list;
 
       public Entry(EStructuralFeature feature)
       {
@@ -1917,13 +1925,13 @@ public class ItemProviderAdapter
     /**
      * Creates a store for the children of the given features.
      */
-    public ChildrenStore(Collection features)
+    public ChildrenStore(Collection<? extends EStructuralFeature> features)
     {
       entries = new Entry[features.size()];
       int i = 0;
-      for (Iterator iter = features.iterator(); iter.hasNext(); )
+      for (EStructuralFeature eStructuralFeature : features)
       {
-        entries[i++] = new Entry((EStructuralFeature)iter.next());
+        entries[i++] = new Entry(eStructuralFeature);
       }
     }
 
@@ -1941,11 +1949,12 @@ public class ItemProviderAdapter
      * on the multiplicity of the feature. Before accessing an entry's list, the store should always check if it is
      * null and if so, allocate it using this method.
      */
-    protected EList createList(EStructuralFeature feature)
+    protected EList<Object> createList(EStructuralFeature feature)
     {
-      return feature.isMany() ?
-        (EList)(new BasicEList()) :
-        (EList)(new ModifiableSingletonEList());
+      return 
+        feature.isMany() ?
+          new BasicEList<Object>() :
+          new ModifiableSingletonEList<Object>();
     }
 
     /**
@@ -1959,7 +1968,7 @@ public class ItemProviderAdapter
     /**
      * Returns the list view of the specified feature, or null if the store does not handle the feature.
      */
-    public EList getList(EStructuralFeature feature)
+    public EList<Object> getList(EStructuralFeature feature)
     {
       Entry entry = getEntry(feature);
       if (entry == null) return null;
@@ -2015,7 +2024,7 @@ public class ItemProviderAdapter
         if (feature.isMany())
         {
           entry.list.clear();
-          if (value != null) entry.list.addAll((Collection)value);
+          if (value != null) entry.list.addAll((Collection<?>)value);
         }
         else
         {
@@ -2031,7 +2040,7 @@ public class ItemProviderAdapter
     public Object get(EStructuralFeature feature, int index)
     {
       if (index == -1) return getValue(feature);
-      EList list = getList(feature);
+      EList<Object> list = getList(feature);
       return list != null ? list.get(index) : null;
     }
 
@@ -2041,7 +2050,7 @@ public class ItemProviderAdapter
     public boolean set(EStructuralFeature feature, int index, Object object)
     {
       if (index == -1) return setValue(feature, object);
-      EList list = getList(feature);
+      EList<Object> list = getList(feature);
 
       if (list != null)
       {
@@ -2055,7 +2064,7 @@ public class ItemProviderAdapter
      * Returns a list containing all children of all features in the store. Null, single-valued features are excluded.
      * The list can be freely modified without affecting the store.
      */
-    public List getChildren()
+    public List<Object> getChildren()
     {
       int size = 0;
       for (int i = 0; i < entries.length; i++)
@@ -2067,7 +2076,7 @@ public class ItemProviderAdapter
             entries[i].list.get(0) != null ? 1 : 0;
         }
       }
-      List result = new ArrayList(size);
+      List<Object> result = new ArrayList<Object>(size);
       for (int i = 0; i < entries.length; i++)
       {
         if (entries[i].list != null)
@@ -2130,27 +2139,28 @@ public class ItemProviderAdapter
    * A single-element implementation of {@link org.eclipse.emf.common.util.EList}. The element can be modified, but
    * the size of the list may not be changed.
    */
-  protected static class ModifiableSingletonEList extends AbstractList
-  implements EList
+  protected static class ModifiableSingletonEList<E> extends AbstractList<E> implements EList<E>
   {
-    private Object singleElement;
+    private E singleElement;
 
     ModifiableSingletonEList()
     {
       singleElement = null;
     }
 
-    ModifiableSingletonEList(Object element)
+    ModifiableSingletonEList(E element)
     {
       singleElement = element;
     }
 
+    @Override
     public int size()
     {
       return 1;
     }
 
-    public Object get(int index)
+    @Override
+    public E get(int index)
     {
       if (index != 0)
       {
@@ -2159,23 +2169,25 @@ public class ItemProviderAdapter
       return singleElement;
     }
 
-    public Object set(int index, Object element)
+    @Override
+    public E set(int index, E element)
     {
       if (index != 0)
       {
         throw new IndexOutOfBoundsException("index=" + index + ", size=1");
       }
-      Object oldElement = singleElement;
+      E oldElement = singleElement;
       singleElement = element;
       return oldElement;
     }
 
+    @Override
     public boolean contains(Object o)
     {
       return o == null ? singleElement == null : o.equals(singleElement);
     }
 
-    public void move(int index, Object o)
+    public void move(int index, E o)
     {
       if (index != 0 || !contains(o))
       {
@@ -2183,7 +2195,7 @@ public class ItemProviderAdapter
       }
     }
 
-    public Object move(int targetIndex, int sourceIndex)
+    public E move(int targetIndex, int sourceIndex)
     {
       if (targetIndex != 0)
       {
@@ -2298,11 +2310,11 @@ public class ItemProviderAdapter
    * Each element of the given list that implements {@link IWrapperItemProvider} is disposed by calling
    * IWrapperItemProvider#dispose dispose} and is removed from {@link #wrappers}.
    */
-  protected void disposeWrappers(List objects)
+  protected void disposeWrappers(List<?> objects)
   {
-    for (Iterator i = objects.iterator(); i.hasNext(); )
+    for (Object object : objects)
     {
-      disposeWrapper(i.next());
+      disposeWrapper(object);
     }
   }
 
@@ -2328,9 +2340,9 @@ public class ItemProviderAdapter
    * For each element of the given list, starting at <code>from</code>, that implements {@link IWrapperItemProvider}
    * and specifies an index, that index is adjusted by the given increment.
    */
-  protected void adjustWrapperIndices(List objects, int from, int increment)
+  protected void adjustWrapperIndices(List<Object> objects, int from, int increment)
   {
-    for (Iterator i = objects.listIterator(from); i.hasNext(); )
+    for (Iterator<Object> i = objects.listIterator(from); i.hasNext(); )
     {
       adjustWrapperIndex(i.next(), increment);
     }
@@ -2340,9 +2352,9 @@ public class ItemProviderAdapter
    * For each element of the given list, between <code>from</code> and <code>to</code>, that implements {@link
    * IWrapperItemProvider} and specifies an index, that index is adjusted by the given increment.
    */
-  protected void adjustWrapperIndices(List objects, int from, int to, int increment)
+  protected void adjustWrapperIndices(List<Object> objects, int from, int to, int increment)
   {
-    for (Iterator i = objects.listIterator(from); from < to && i.hasNext(); from++)
+    for (Iterator<Object> i = objects.listIterator(from); from < to && i.hasNext(); from++)
     {
       adjustWrapperIndex(i.next(), increment);
     }
@@ -2368,7 +2380,7 @@ public class ItemProviderAdapter
     if (childrenStore != null)
     {
       EStructuralFeature feature = (EStructuralFeature)notification.getFeature();
-      EList children = childrenStore.getList(feature);
+      EList<Object> children = childrenStore.getList(feature);
       if (children != null)
       {
         int index = notification.getPosition();
@@ -2395,7 +2407,7 @@ public class ItemProviderAdapter
             {
               if (feature.isMany() && index == Notification.NO_INDEX)
               {
-                disposeWrappers((List)oldChild);
+                disposeWrappers((List<?>)oldChild);
               }
               else
               {
@@ -2409,7 +2421,7 @@ public class ItemProviderAdapter
           }
           case Notification.ADD:
           {
-            EList values = (EList)object.eGet(feature);
+            EList<?> values = (EList<?>)object.eGet(feature);
 
             if (children.size() != values.size())
             {
@@ -2421,7 +2433,7 @@ public class ItemProviderAdapter
           }
           case Notification.REMOVE:
           {
-            EList values = (EList)object.eGet(feature);
+            EList<?> values = (EList<?>)object.eGet(feature);
 
             if (children.size() != values.size())
             {
@@ -2432,7 +2444,7 @@ public class ItemProviderAdapter
           }
           case Notification.ADD_MANY:
           {
-            EList values = (EList)object.eGet(feature);
+            EList<?> values = (EList<?>)object.eGet(feature);
 
             if (children.size() != values.size())
             {
@@ -2440,12 +2452,12 @@ public class ItemProviderAdapter
               {
                 throw new IllegalArgumentException("No old value expected");
               }
-              List newValues = (List)notification.getNewValue();
-              List newChildren = new ArrayList(newValues.size());
+              List<?> newValues = (List<?>)notification.getNewValue();
+              List<Object> newChildren = new ArrayList<Object>(newValues.size());
               int offset = 0;
-              for (Iterator i = newValues.iterator(); i.hasNext(); offset++)
+              for (Object newValue : newValues)
               {
-                newChildren.add(wrap(object, feature, i.next(), index+offset));
+                newChildren.add(wrap(object, feature, newValue, index + offset++));
               }
               adjustWrapperIndices(children, index, offset);
               children.addAll(index, newChildren);
@@ -2457,7 +2469,7 @@ public class ItemProviderAdapter
             // No index specified when removing all elements.
             //
             if (index == Notification.NO_INDEX) index = 0;
-            EList values = (EList)object.eGet(feature);
+            EList<?> values = (EList<?>)object.eGet(feature);
 
             if (children.size() != values.size())
             {
@@ -2472,8 +2484,8 @@ public class ItemProviderAdapter
               }
               else
               {
-                int len = ((List)notification.getOldValue()).size();
-                List sl = children.subList(index, index + len);
+                int len = ((List<?>)notification.getOldValue()).size();
+                List<?> sl = children.subList(index, index + len);
                 disposeWrappers(sl);
                 sl.clear();
                 adjustWrapperIndices(children, index, -len);
@@ -2484,7 +2496,7 @@ public class ItemProviderAdapter
           case Notification.MOVE:
           {
             int oldIndex = ((Integer)notification.getOldValue()).intValue();
-            EList values = (EList)object.eGet(feature);
+            EList<?> values = (EList<?>)object.eGet(feature);
             boolean didMove = true;
 
             for (int i = Math.min(oldIndex, index), end = Math.max(oldIndex, index); didMove && i <= end; i++)
@@ -2521,7 +2533,7 @@ public class ItemProviderAdapter
    * IWrapperItemProvider} will be {@link #unwrap unwrapped}. {@link org.eclipse.emf.edit.command.DragAndDropCommand}
    * is never unwrapped. 
    */
-  protected CommandParameter unwrapCommandValues(CommandParameter commandParameter, Class commandClass)
+  protected CommandParameter unwrapCommandValues(CommandParameter commandParameter, Class<? extends Command> commandClass)
   {
     // We need the wrapper, not the item provider, to handle a DragAndDropCommand; the move, add, remove, etc. commands
     // that implement it will have their values unwrapped as usual.
@@ -2531,16 +2543,15 @@ public class ItemProviderAdapter
       return commandParameter;
     }
     
-    ArrayList newCollection = null;
-    Collection oldCollection = commandParameter.getCollection();
+    ArrayList<Object> newCollection = null;
+    Collection<?> oldCollection = commandParameter.getCollection();
     
     // Unwrap collection.
     //
     if (oldCollection != null)
     {
-      for (Iterator i = oldCollection.iterator(); i.hasNext(); )
+      for (Object oldValue : oldCollection)
       {
-        Object oldValue = i.next();
         Object newValue = unwrap(oldValue);
 
         // If the first wrapped value is found...
@@ -2549,10 +2560,9 @@ public class ItemProviderAdapter
         {
           // Allocate the new collection, and populate it up to this point.
           //
-          newCollection = new ArrayList(oldCollection.size());
-          for (Iterator j = oldCollection.iterator(); j.hasNext(); )
+          newCollection = new ArrayList<Object>(oldCollection.size());
+          for (Object o  : oldCollection)
           {
-            Object o = j.next();
             if (o == oldValue) break;
             newCollection.add(o);
           }
@@ -2590,14 +2600,22 @@ public class ItemProviderAdapter
    * them as the command's result or affected objects. This is only done if {@link #isWrappingNeeded isWrappingNeeded}
    * returns <code>true</code>, and never for a {@link org.eclipse.emf.edit.command.DragAndDropCommand}.
    */
-  protected Command wrapCommand(Command command, Object object, Class commandClass, CommandParameter commandParameter, CommandParameter oldCommandParameter) 
+  protected Command wrapCommand
+    (Command command, Object object, Class<? extends Command> commandClass, CommandParameter commandParameter, CommandParameter oldCommandParameter) 
   {
     if (isWrappingNeeded(object) && commandClass != DragAndDropCommand.class)
     {
       // Wrappers from the old command parameter must be considered in order for cut and paste to work.
       //
-      Collection oldWrappers = commandParameter != oldCommandParameter ?
-        getWrappedValues(oldCommandParameter) : Collections.EMPTY_LIST;
+      Collection<? extends IWrapperItemProvider> oldWrappers;
+      if (commandParameter != oldCommandParameter)
+      {
+        oldWrappers = getWrappedValues(oldCommandParameter);
+      }
+      else
+      {
+        oldWrappers = Collections.emptyList();
+      }
 
       command = command instanceof CommandActionDelegate ?
         new ResultAndAffectedObjectsWrappingCommandActionDelegate((CommandActionDelegate)command, oldWrappers) :
@@ -2611,35 +2629,34 @@ public class ItemProviderAdapter
    * org.eclipse.emf.edit.command.CommandParameter#getCollection collection} and {@link
    * org.eclipse.emf.edit.command.CommandParameter#getValue value}, that implement {@link IWrapperItemProvider}.
    */
-  protected Collection getWrappedValues(CommandParameter commandParameter)
+  protected Collection<? extends IWrapperItemProvider> getWrappedValues(CommandParameter commandParameter)
   {
-    Collection collection = commandParameter.getCollection();
+    Collection<?> collection = commandParameter.getCollection();
     Object value = commandParameter.getValue();
 
     if (collection != null)
     {
-      List result = new ArrayList(collection.size() + 1);
-      for (Iterator i = collection.iterator(); i.hasNext(); )
+      List<IWrapperItemProvider> result = new ArrayList<IWrapperItemProvider>(collection.size() + 1);
+      for (Object o : collection)
       {
-        Object o = i.next();
         if (o instanceof IWrapperItemProvider)
         {
-          result.add(o);
+          result.add((IWrapperItemProvider)o);
         }
       }
 
       if (value instanceof IWrapperItemProvider)
       {
-        result.add(value);
+        result.add((IWrapperItemProvider)value);
       }
 
       return result;
     } 
     else if (value instanceof IWrapperItemProvider)
     {
-      return Collections.singletonList(value);
+      return Collections.singletonList((IWrapperItemProvider)value);
     }
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /**
@@ -2719,34 +2736,36 @@ public class ItemProviderAdapter
    */
   public class ResultAndAffectedObjectsWrappingCommand extends CommandWrapper
   {
-    protected List owners;
-    protected Collection additionalWrappers;
+    protected List<Object> owners;
+    protected Collection<? extends IWrapperItemProvider> additionalWrappers;
 
     public ResultAndAffectedObjectsWrappingCommand(Command command)
     {
       super(command);
     }
 
-    public ResultAndAffectedObjectsWrappingCommand(Command command, Collection additionalResultWrappers)
+    public ResultAndAffectedObjectsWrappingCommand(Command command, Collection<? extends IWrapperItemProvider> additionalResultWrappers)
     {
       super(command);
       additionalWrappers = additionalResultWrappers;
     }
 
-    public Collection getResult()
+    @Override
+    public Collection<?> getResult()
     {
       return wrapValues(super.getResult(), true);
     }
 
-    public Collection getAffectedObjects()
+    @Override
+    public Collection<?> getAffectedObjects()
     {
       return wrapValues(super.getAffectedObjects(), false);
     }
 
-    protected Collection wrapValues(Collection unwrappedValues, boolean useAdditionalWrappers)
+    protected Collection<? extends IWrapperItemProvider> wrapValues(Collection<?> unwrappedValues, boolean useAdditionalWrappers)
     {
-      List result = new ArrayList(unwrappedValues);
-      List wrappers = new ArrayList();
+      List<Object> result = new ArrayList<Object>(unwrappedValues);
+      List<IWrapperItemProvider> wrappers = new ArrayList<IWrapperItemProvider>();
 
       // If the adapter factory is composeable, we'll adapt using the root.
       //
@@ -2756,10 +2775,9 @@ public class ItemProviderAdapter
 
       // Build list of wrapped children from the appropriate adapters.
       //
-      for (Iterator i = getOwners().iterator(); i.hasNext(); )
+      for (Object owner : getOwners())
       {
-        Object owner = i.next();
-        Collection children = Collections.EMPTY_LIST;
+        Collection<?> children = Collections.EMPTY_LIST;
 
         // Either the IEditingDomainItemProvider or ITreeItemContentProvider item provider interface can give us
         // the children.
@@ -2778,12 +2796,11 @@ public class ItemProviderAdapter
           }
         }
 
-        for (Iterator j = children.iterator(); j.hasNext(); )
+        for (Object child : children)
         {
-          Object child = j.next();
           if (child instanceof IWrapperItemProvider)
           {
-            wrappers.add(child);
+            wrappers.add((IWrapperItemProvider)child);
           }
         }
       }
@@ -2797,15 +2814,12 @@ public class ItemProviderAdapter
 
       // Look for each unwrapped object as a value of a wrapper, replacing it with the first one found.
       //
-      for (ListIterator i = result.listIterator(); i.hasNext(); )
+      for (ListIterator<Object> i = result.listIterator(); i.hasNext(); )
       {
         Object resultObject = i.next();
-
-        Iterator j = wrappers.iterator();
-        while (j.hasNext())
+        
+        for (IWrapperItemProvider wrapper : wrappers)
         {
-          IWrapperItemProvider wrapper = (IWrapperItemProvider)j.next();
-
           if (isEquivalentValue(unwrap(wrapper), resultObject))
           {
             i.set(wrapper);
@@ -2813,18 +2827,20 @@ public class ItemProviderAdapter
           }
         }
       }
-      return result;
+      @SuppressWarnings("unchecked")
+      Collection<IWrapperItemProvider> collection = (Collection<IWrapperItemProvider>)(Collection<?>)result;
+      return collection;
     }
 
     /**
      * Returns any owners from the wrapped command. If it is a compound command, or a wrapped compound command, it may
      * have multiple owners. This returns and caches a list of them.
      */
-    public List getOwners()
+    public List<Object> getOwners()
     {
       if (owners == null)
       {
-        owners = new UniqueEList();
+        owners = new UniqueEList<Object>();
         addOwners(getCommand());
       }
       return owners;
@@ -2842,14 +2858,14 @@ public class ItemProviderAdapter
       else if (command instanceof CompoundCommand)
       {
         CompoundCommand compoundCommand = (CompoundCommand)command;
-        List commandList = compoundCommand.getCommandList();
+        List<Command> commandList = compoundCommand.getCommandList();
         int resultIndex = compoundCommand.getResultIndex();
 
         if (resultIndex == CompoundCommand.MERGE_COMMAND_ALL)
         {
-          for (Iterator i = commandList.iterator(); i.hasNext(); )
+          for (Command childCommand : commandList)
           {
-            addOwners((Command)i.next());
+            addOwners(childCommand);
           }
         }
         else
@@ -2861,7 +2877,7 @@ public class ItemProviderAdapter
         
           if (resultIndex >= 0)
           {
-            addOwners((Command)commandList.get(resultIndex));
+            addOwners(commandList.get(resultIndex));
           }
         }
       }
@@ -2923,7 +2939,8 @@ public class ItemProviderAdapter
      * of additional wrappers.
      * @exception ClassCastException If the specified command does not implement {@link org.eclipse.emf.common.command.Command}.
      */
-    public ResultAndAffectedObjectsWrappingCommandActionDelegate(CommandActionDelegate command, Collection additionalWrappers)
+    public ResultAndAffectedObjectsWrappingCommandActionDelegate
+      (CommandActionDelegate command, Collection<? extends IWrapperItemProvider> additionalWrappers)
     {
       super((Command)command, additionalWrappers);
       commandActionDelegate = command;
@@ -2939,6 +2956,7 @@ public class ItemProviderAdapter
       return commandActionDelegate.getText();
     }
 
+    @Override
     public String getDescription()
     {
       return commandActionDelegate.getDescription();

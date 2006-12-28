@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IItemPropertySource.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: IItemPropertySource.java,v 1.3 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -31,7 +31,7 @@ public interface IItemPropertySource
    * This does the same thing as 
    * IPropertySource.getPropertyDescriptors.
    */
-  List getPropertyDescriptors(Object object);
+  List<IItemPropertyDescriptor> getPropertyDescriptors(Object object);
 
   /**
    * This returns the property descriptor with the given ID.

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AttributeValueWrapperItemProvider.java,v 1.3 2005/06/08 06:17:05 nickb Exp $
+ * $Id: AttributeValueWrapperItemProvider.java,v 1.4 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -52,7 +52,7 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
   /**
    * The single property descriptor for the value is cached here as a singleton list.
    */
-  protected List propertyDescriptors;
+  protected List<IItemPropertyDescriptor> propertyDescriptors;
 
   /**
    * Creates an instance for a single-valued attribute.
@@ -79,6 +79,7 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
    * @deprecated As of EMF 2.0.1, replaced by {@link #AttributeValueWrapperItemProvider(Object, EObject, EAttribute, AdapterFactory, ResourceLocator)
    * this form}.
    */
+  @Deprecated
   public AttributeValueWrapperItemProvider(Object value, EObject owner, EAttribute attribute, AdapterFactory adapterFactory)
   {
     this(value, owner, attribute, adapterFactory, null);
@@ -91,6 +92,7 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
    * @deprecated As of EMF 2.0.1, replaced by {@link #AttributeValueWrapperItemProvider(Object, EObject, EAttribute, int, AdapterFactory, ResourceLocator)
    * this form}.
    */
+  @Deprecated
   public AttributeValueWrapperItemProvider(Object value, EObject owner, EAttribute attribute, int index, AdapterFactory adapterFactory)
   {
     this(value, owner, attribute, index, adapterFactory, null);
@@ -99,6 +101,7 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
   /**
    * If non-null, the value is converted to a string, using the type of its attribute and the appropriate factory.
    */
+  @Override
   public String getText(Object object)
   {
     return value != null ? EcoreUtil.convertToString(((EAttribute)feature).getEAttributeType(), value) : "null";
@@ -107,11 +110,12 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
   /**
    * Creates, caches and returns an item property descriptor for the value.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (propertyDescriptors == null)
     {
-      propertyDescriptors = Collections.singletonList(new WrapperItemPropertyDescriptor(resourceLocator, feature));
+      propertyDescriptors = Collections.<IItemPropertyDescriptor>singletonList(new WrapperItemPropertyDescriptor(resourceLocator, feature));
     }
     return propertyDescriptors;
   }
@@ -119,6 +123,7 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
   /**
    * Returns a wrapped set command that returns as its affected object the replacement wrapper for the value.
    */
+  @Override
   protected Command createSetCommand(EditingDomain domain, Object owner, Object feature, Object value, int index) 
   {
     return new ReplacementAffectedObjectCommand(SetCommand.create(domain, this.owner, this.feature, value, this.index));
@@ -128,10 +133,12 @@ public class AttributeValueWrapperItemProvider extends WrapperItemProvider
    * Returns a {@link WrapperItemProvider.SimpleCopyCommand} that copies the value by converting it into a string and
    * back, using the factory methods.
    */
+  @Override
   protected Command createCopyCommand(EditingDomain domain, Object owner, CopyCommand.Helper helper)
   {
     return new SimpleCopyCommand(domain)
     {
+      @Override
       public IWrapperItemProvider copy()
       {
         Object valueCopy = null;

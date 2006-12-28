@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommandParameter.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: CommandParameter.java,v 1.3 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -53,7 +53,7 @@ public class CommandParameter
   /**
    * This is the collection of values involved in the command.
    */
-  public Collection collection;
+  public Collection<?> collection;
 
   /**
    * This is the single value involved in the command.
@@ -98,7 +98,7 @@ public class CommandParameter
   /**
    * This creates an instance specifying an owner, a feature, and a collection of values.
    */
-  public CommandParameter(Object owner, Object feature, Collection collection)
+  public CommandParameter(Object owner, Object feature, Collection<?> collection)
   {
     this.owner = owner;
     this.feature = feature;
@@ -109,7 +109,7 @@ public class CommandParameter
   /**
    * This creates an instance specifying an owner, a feature, a collection of values, and an index.
    */
-  public CommandParameter(Object owner, Object feature, Collection collection, int index)
+  public CommandParameter(Object owner, Object feature, Collection<?> collection, int index)
   {
     this.owner = owner;
     this.feature = feature;
@@ -120,7 +120,7 @@ public class CommandParameter
   /**
    * This creates an instance specifying an owner, a feature, and a value, and a collection.
    */
-  public CommandParameter(Object owner, Object feature, Object value, Collection collection)
+  public CommandParameter(Object owner, Object feature, Object value, Collection<?> collection)
   {
     this.owner = owner;
     this.feature = feature;
@@ -132,7 +132,7 @@ public class CommandParameter
   /**
    * This creates an instance specifying an owner, a feature, a value, a collection, and an index.
    */
-  public CommandParameter(Object owner, Object feature, Object value, Collection collection, int index)
+  public CommandParameter(Object owner, Object feature, Object value, Collection<?> collection, int index)
   {
     this.owner = owner;
     this.feature = feature;
@@ -205,7 +205,7 @@ public class CommandParameter
    * <p>
    * It works as an excellent guard for poorly formed parameters.
    */
-  public EList getOwnerList()
+  public EList<?> getOwnerList()
   {
     if (owner instanceof EObject)
     {
@@ -215,13 +215,13 @@ public class CommandParameter
         EStructuralFeature eStructuralFeature = (EStructuralFeature)feature;
         if (eStructuralFeature.isMany())
         {
-          return (EList)eOwner.eGet(eStructuralFeature);
+          return (EList<?>)eOwner.eGet(eStructuralFeature);
         }
       }
     }
     else if (owner instanceof EList)
     {
-      return (EList)owner;
+      return (EList<?>)owner;
     }
 
     return null;
@@ -230,7 +230,7 @@ public class CommandParameter
   /**
    * This returns the specified collection.
    */
-  public Collection getCollection()
+  public Collection<?> getCollection()
   {
     return collection;
   }
@@ -239,14 +239,14 @@ public class CommandParameter
    * This returns the specified collection as a list.
    * If the collection isn't a list, a new copy is created.
    */
-  public List getList()
+  public List<?> getList()
   {
     return 
       collection == null ? 
         null : 
         collection instanceof List ? 
-          (List)collection : 
-          new ArrayList(collection);
+          (List<?>)collection : 
+          new ArrayList<Object>(collection);
   }
 
   /**
@@ -276,9 +276,9 @@ public class CommandParameter
   /**
    * This yields an encoding of the owner-child relation.
    */
-  public Collection /* of String */ getParameters() 
+  public Collection<String> getParameters() 
   {
-    Collection parameters = new ArrayList();
+    Collection<String> parameters = new ArrayList<String>();
 
     EObject eObject = getEOwner();
     EStructuralFeature eStructuralFeature = getEStructuralFeature();
@@ -291,7 +291,7 @@ public class CommandParameter
     return parameters;
   }
  
-  public static String collectionToString(Collection collection)
+  public static String collectionToString(Collection<?> collection)
   {
     if (collection == null)
     {
@@ -303,7 +303,7 @@ public class CommandParameter
 
       result.append("{ ");
 
-      for (Iterator objects = collection.iterator(); objects.hasNext(); )
+      for (Iterator<?> objects = collection.iterator(); objects.hasNext(); )
       {
         result.append(objects.next());
         if (objects.hasNext())
@@ -318,6 +318,7 @@ public class CommandParameter
     }
   }
 
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer();

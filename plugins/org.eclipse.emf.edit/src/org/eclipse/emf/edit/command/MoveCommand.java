@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: MoveCommand.java,v 1.3 2005/06/08 06:17:05 nickb Exp $
+ * $Id: MoveCommand.java,v 1.4 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -96,7 +96,7 @@ public class MoveCommand extends AbstractOverrideableCommand
   /**
    * This is the list in which the command will move an object.
    */
-  protected EList ownerList;
+  protected EList<Object> ownerList;
 
   /**
    * This is the value being moved within the owner list.
@@ -132,14 +132,16 @@ public class MoveCommand extends AbstractOverrideableCommand
   /**
    * This constructs a primitive command to move a particular value to a particular index of the specified extent.
    */
-  public MoveCommand(EditingDomain domain, EList list, Object value, int index)
+  public MoveCommand(EditingDomain domain, EList<?> list, Object value, int index)
   {
     super(domain, LABEL, DESCRIPTION_FOR_LIST);
 
     this.value = value;
     this.index = index;
 
-    ownerList = list;
+    @SuppressWarnings("unchecked")
+    EList<Object> untypedList = (EList<Object>)list;
+    ownerList = untypedList;
   }
 
   /**
@@ -163,7 +165,7 @@ public class MoveCommand extends AbstractOverrideableCommand
   /**
    * This returns the list in which the command will move an object.
    */
-  public EList getOwnerList()
+  public EList<Object> getOwnerList()
   {
     return ownerList;
   }
@@ -192,6 +194,7 @@ public class MoveCommand extends AbstractOverrideableCommand
     return oldIndex;
   }
 
+  @Override
   protected boolean prepare()
   {
     // Return whether there is a list, the value is in the list, and index is in range...
@@ -206,28 +209,33 @@ public class MoveCommand extends AbstractOverrideableCommand
     return result;
   }
 
+  @Override
   public void doExecute() 
   {
     oldIndex = ownerList.indexOf(value);
     ownerList.move(index, value);
   }
 
+  @Override
   public void doUndo() 
   {
     ownerList.move(oldIndex, value);
   }
 
+  @Override
   public void doRedo()
   {
     ownerList.move(index, value);
   }
 
-  public Collection doGetResult()
+  @Override
+  public Collection<?> doGetResult()
   {
     return Collections.singleton(value);
   }
 
-  public Collection doGetAffectedObjects()
+  @Override
+  public Collection<?> doGetAffectedObjects()
   {
     return Collections.singleton(value);
   }
@@ -236,6 +244,7 @@ public class MoveCommand extends AbstractOverrideableCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: DecoratorAdapterFactory.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: DecoratorAdapterFactory.java,v 1.3 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
 
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -38,7 +37,7 @@ public abstract class DecoratorAdapterFactory
     IChangeNotifier,
     IDisposable
 {
-  protected HashMap itemProviderDecorators = new HashMap();
+  protected HashMap<Object, IItemProviderDecorator> itemProviderDecorators = new HashMap<Object, IItemProviderDecorator>();
 
   /**
    * This keeps the {@link org.eclipse.emf.common.notify.AdapterFactory} being decorated.
@@ -102,7 +101,7 @@ public abstract class DecoratorAdapterFactory
     Object adapter = decoratedAdapterFactory.adapt(target, type);
     if (adapter instanceof IChangeNotifier)
     {
-      IItemProviderDecorator itemProviderDecorator = (IItemProviderDecorator)itemProviderDecorators.get(adapter);
+      IItemProviderDecorator itemProviderDecorator = itemProviderDecorators.get(adapter);
       if (itemProviderDecorator == null)
       {
         itemProviderDecorator = createItemProviderDecorator(target, type);
@@ -181,9 +180,8 @@ public abstract class DecoratorAdapterFactory
 
   public void dispose()
   {
-    for (Iterator objects = itemProviderDecorators.values().iterator(); objects.hasNext(); )
+    for (Object object : itemProviderDecorators.values())
     {
-      Object object = objects.next();
       if (object instanceof IDisposable)
       {
         ((IDisposable)object).dispose();

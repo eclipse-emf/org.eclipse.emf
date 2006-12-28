@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CopyCommand.java,v 1.5 2005/06/08 06:17:05 nickb Exp $
+ * $Id: CopyCommand.java,v 1.6 2006/12/28 06:48:54 marcelop Exp $
  */
 package org.eclipse.emf.edit.command;
 
@@ -55,7 +55,7 @@ public class CopyCommand extends StrictCompoundCommand
    * This creates a command that copies the given collection of objects. If the collection contains more than one object,
    * then a compound command will be created containing individual copy commands for each object.
    */
-  public static Command create(final EditingDomain domain, final Collection collection)
+  public static Command create(final EditingDomain domain, final Collection<?> collection)
   {
     if (collection == null || collection.isEmpty()) 
     {
@@ -64,9 +64,9 @@ public class CopyCommand extends StrictCompoundCommand
 
     Helper copyHelper = new Helper();
     CompoundCommand copyCommand = new CompoundCommand(CompoundCommand.MERGE_COMMAND_ALL);
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      copyCommand.append(domain.createCommand(CopyCommand.class, new CommandParameter(objects.next(), null, copyHelper)));
+      copyCommand.append(domain.createCommand(CopyCommand.class, new CommandParameter(object, null, copyHelper)));
     }
 
     return copyCommand.unwrap();
@@ -126,6 +126,7 @@ public class CopyCommand extends StrictCompoundCommand
     copyHelper.incrementDeferredInitializationCount();
   }
 
+  @Override
   protected boolean prepare()
   {
     if (owner == null)
@@ -147,11 +148,12 @@ public class CopyCommand extends StrictCompoundCommand
       Command initializeCommand = 
         new CompoundCommand()
         {
+          @Override
           public boolean prepare()
           {
-            for (Iterator copiedObjects = copyHelper.initializationIterator(); copiedObjects.hasNext(); )
+            for (Iterator<EObject> copiedObjects = copyHelper.initializationIterator(); copiedObjects.hasNext(); )
             {
-              EObject object = (EObject)copiedObjects.next();
+              EObject object = copiedObjects.next();
               Command initializeCopyCommand = InitializeCopyCommand.create(domain, object, copyHelper);
   
               // Record it for execution.
@@ -177,6 +179,7 @@ public class CopyCommand extends StrictCompoundCommand
     return result;
   }
 
+  @Override
   public boolean canExecute()
   {
     boolean result;
@@ -196,6 +199,7 @@ public class CopyCommand extends StrictCompoundCommand
     return result;
   }
 
+  @Override
   public void execute()
   {
     // We need to check canExecute() in case optimize is true.
@@ -219,18 +223,18 @@ public class CopyCommand extends StrictCompoundCommand
 
     if (createCopyCommand instanceof ChildrenToCopyProvider && createCopyCommand.canExecute())
     {
-      for (Iterator children = ((ChildrenToCopyProvider)createCopyCommand).getChildrenToCopy().iterator(); children.hasNext(); )
+      for (Object child :  ((ChildrenToCopyProvider)createCopyCommand).getChildrenToCopy())
       {
-        addCreateCopyCommands(compoundCommand, (EObject)children.next());
+        addCreateCopyCommands(compoundCommand, (EObject)child);
       }
     }
     else
     {
       // Create commands to create copies of the children.
       //
-      for (Iterator children = object.eContents().iterator(); children.hasNext(); )
+      for (EObject child : object.eContents())
       {
-        addCreateCopyCommands(compoundCommand, (EObject)children.next());
+        addCreateCopyCommands(compoundCommand, child);
       }
     }
   }
@@ -239,6 +243,7 @@ public class CopyCommand extends StrictCompoundCommand
    * This gives an abbreviated name using this object's own class' name, without package qualification,
    * followed by a space separated list of <tt>field:value</tt> pairs.
    */
+  @Override
   public String toString()
   {
     StringBuffer result = new StringBuffer(super.toString());
@@ -251,9 +256,11 @@ public class CopyCommand extends StrictCompoundCommand
   /**
    * This helper class is used to keep track of copied objects and their associated copies.
    */
-  public static class Helper extends HashMap
+  public static class Helper extends HashMap<EObject, EObject>
   {
-    protected ArrayList initializationList = new ArrayList();
+    private static final long serialVersionUID = 1L;
+
+    protected ArrayList<EObject> initializationList = new ArrayList<EObject>();
     protected int deferredInitializationCount;
 
     /**
@@ -261,7 +268,7 @@ public class CopyCommand extends StrictCompoundCommand
      */
     public EObject getCopy(EObject object)
     {
-      return (EObject) get(object);
+      return get(object);
     }
 
     /**
@@ -277,19 +284,21 @@ public class CopyCommand extends StrictCompoundCommand
       return copied;
     }
 
-    public Object put(Object key, Object value)
+    @Override
+    public EObject put(EObject key, EObject value)
     {
       initializationList.add(key);
       return super.put(key, value);
     }
 
-    public Object remove(Object key)
+    @Override
+    public EObject remove(Object key)
     {
       initializationList.remove(key);
       return super.remove(key);
     }
 
-    public Iterator initializationIterator() 
+    public Iterator<EObject> initializationIterator() 
     {
       return initializationList.iterator();
     }

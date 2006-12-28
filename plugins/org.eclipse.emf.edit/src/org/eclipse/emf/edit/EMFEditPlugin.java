@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: EMFEditPlugin.java,v 1.5 2005/06/08 06:17:06 nickb Exp $
+ * $Id: EMFEditPlugin.java,v 1.6 2006/12/28 06:48:57 marcelop Exp $
  */
 package org.eclipse.emf.edit;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -68,6 +67,7 @@ public final class EMFEditPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;
@@ -82,12 +82,14 @@ public final class EMFEditPlugin extends EMFPlugin
     final ComposedAdapterFactory.Descriptor.Registry.Impl result =  
       new ComposedAdapterFactory.Descriptor.Registry.Impl(null)
       {
-        public ComposedAdapterFactory.Descriptor delegatedGetDescriptor(Collection types)
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public ComposedAdapterFactory.Descriptor delegatedGetDescriptor(Collection<?> types)
         {
-          List stringTypes = new ArrayList(types.size());
-          for (Iterator i = types.iterator(); i.hasNext(); )
+          List<Object> stringTypes = new ArrayList<Object>(types.size());
+          for (Object key : types)
           {
-            Object key = i.next();
             if (key instanceof EPackage)
             {
               stringTypes.add(((EPackage)key).getNsURI());
@@ -98,7 +100,7 @@ public final class EMFEditPlugin extends EMFPlugin
             }
             else if (key instanceof Class)
             {
-              stringTypes.add(((Class)key).getName());
+              stringTypes.add(((Class<?>)key).getName());
             }
             else
             {
@@ -120,7 +122,8 @@ public final class EMFEditPlugin extends EMFPlugin
       RegistryReader registryReader = 
          new RegistryReader(Platform.getExtensionRegistry(), INSTANCE.getSymbolicName(), "itemProviderAdapterFactories")
          {
-           protected boolean readElement(IConfigurationElement element)
+           @Override
+          protected boolean readElement(IConfigurationElement element)
            {
              if (element.getName().equals("factory"))
              {
@@ -156,7 +159,7 @@ public final class EMFEditPlugin extends EMFPlugin
                for (StringTokenizer stringTokenizer = new StringTokenizer(supportedTypes); stringTokenizer.hasMoreTokens(); )
                {
                  String supportedType = stringTokenizer.nextToken();
-                 List key = new ArrayList();
+                 List<Object> key = new ArrayList<Object>();
                  key.add(packageURI);
                  key.add(supportedType);
                  result.put(key, new PluginAdapterFactoryDescriptor(element, "class"));

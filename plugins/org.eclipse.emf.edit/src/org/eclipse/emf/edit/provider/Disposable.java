@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,32 +12,34 @@
  *
  * </copyright>
  *
- * $Id: Disposable.java,v 1.2 2005/06/08 06:17:05 nickb Exp $
+ * $Id: Disposable.java,v 1.3 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 
 
 /**
  * This implements {@link IDisposable} as a set IDisposables that can in turn be disposed.
  */
-public class Disposable extends HashSet implements IDisposable
+public class Disposable extends HashSet<Object> implements IDisposable
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * This creates an empty instance.
    */
   public Disposable()
   {
+    super();
   }
 
   /**
    * This creates an instance with containing all the given disposables.
    */
-  public Disposable(Collection disposables)
+  public Disposable(Collection<?> disposables)
   {
     super(disposables);
   }
@@ -47,14 +49,15 @@ public class Disposable extends HashSet implements IDisposable
    */
   public void dispose()
   {
-    for (Iterator disposables = iterator(); disposables.hasNext(); )
+    for (Object object : this)
     {
-      IDisposable disposable = (IDisposable)disposables.next();
+      IDisposable disposable = (IDisposable)object;
       disposable.dispose(); 
     }
     clear();
   }
 
+  @Override
   public boolean add(Object object)
   {
     if (object instanceof IDisposable)
@@ -67,12 +70,12 @@ public class Disposable extends HashSet implements IDisposable
     }
   }
 
-  public boolean addAll(Collection collection)
+  @Override
+  public boolean addAll(Collection<?> collection)
   {
     boolean result = false;
-    for (Iterator objects = collection.iterator(); objects.hasNext(); )
+    for (Object object : collection)
     {
-      Object object = objects.next();
       if (add(object))
       {
         result = true;

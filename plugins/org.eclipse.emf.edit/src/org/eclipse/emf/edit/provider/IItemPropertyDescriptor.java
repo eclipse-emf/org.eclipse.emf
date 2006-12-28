@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: IItemPropertyDescriptor.java,v 1.5 2006/07/19 17:42:58 davidms Exp $
+ * $Id: IItemPropertyDescriptor.java,v 1.6 2006/12/28 06:48:53 marcelop Exp $
  */
 package org.eclipse.emf.edit.provider;
 
@@ -105,7 +105,10 @@ public interface IItemPropertyDescriptor
    */
   public boolean isMany(Object object);
 
-  public Collection getChoiceOfValues(Object object);
+  /**
+   * Returns the choices of all the values that this propery may take one.
+   */
+  public Collection<?> getChoiceOfValues(Object object);
   
   /**
    * Returns whether this property's value will consist of multi-line text.
