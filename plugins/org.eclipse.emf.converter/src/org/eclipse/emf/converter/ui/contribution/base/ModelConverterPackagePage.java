@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.9 2006/12/28 06:43:30 marcelop Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.10 2006/12/28 16:51:02 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -598,7 +598,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
             genModelItemProvider = new GenModelItemProvider(this)
               {
                 @Override
-                public Collection<?> getChildrenFeatures(Object object)
+                public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
                 {
                   return Collections.singleton(GenModelPackage.Literals.GEN_MODEL__GEN_PACKAGES);
                 }
