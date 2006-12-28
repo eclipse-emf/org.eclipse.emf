@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AllSuites.java,v 1.5 2005/06/27 18:05:41 marcelop Exp $
+ * $Id: AllSuites.java,v 1.6 2006/12/28 06:58:13 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -40,7 +40,7 @@ public class AllSuites extends TestSuite
     populateSuite();
   }
 
-  public AllSuites(Class theClass)
+  public AllSuites(Class<?> theClass)
   {
     super(theClass);
     populateSuite();

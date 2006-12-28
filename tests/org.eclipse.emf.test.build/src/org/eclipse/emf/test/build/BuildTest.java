@@ -1,3 +1,19 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: BuildTest.java,v 1.11 2006/12/28 06:58:13 marcelop Exp $
+ */
 package org.eclipse.emf.test.build;
 
 import java.io.File;
@@ -38,7 +54,7 @@ public class BuildTest extends TestCase
   protected File featuresDir;
   protected File pluginsDir;
   
-  protected Set brandingPluginNames;
+  protected Set<String> brandingPluginNames;
   
   public BuildTest(String name)
   {
@@ -53,6 +69,7 @@ public class BuildTest extends TestCase
     return ts;
   }
   
+  @Override
   protected void setUp() throws Exception
   {
     String directory = TestUtil.getPluginDirectory();
@@ -108,7 +125,7 @@ public class BuildTest extends TestCase
         {
           if (brandingPluginNames == null)
           {
-            brandingPluginNames = new HashSet();
+            brandingPluginNames = new HashSet<String>();
           }
           brandingPluginNames.add(name);
         }
@@ -237,10 +254,10 @@ public class BuildTest extends TestCase
   
   protected String getMissingFiles(JarFile jar, String[] requiredFiles)
   {
-    Set requiredFilesSet = new HashSet(Arrays.asList(requiredFiles));
-    for (Enumeration e = jar.entries(); e.hasMoreElements();)
+    Set<String> requiredFilesSet = new HashSet<String>(Arrays.asList(requiredFiles));
+    for (Enumeration<JarEntry> e = jar.entries(); e.hasMoreElements();)
     {
-      JarEntry  entry = (JarEntry)e.nextElement();
+      JarEntry  entry = e.nextElement();
       String name = entry.getName();
       requiredFilesSet.remove(name);
     }
@@ -251,9 +268,9 @@ public class BuildTest extends TestCase
     else
     {
       StringBuffer result = new StringBuffer();
-      for (Iterator i = requiredFilesSet.iterator(); i.hasNext();)
+      for (Iterator<String> i = requiredFilesSet.iterator(); i.hasNext();)
       {
-        result.append(",").append(jar.getName()).append("-").append((String)i.next());
+        result.append(",").append(jar.getName()).append("-").append(i.next());
       }
       return result.deleteCharAt(0).toString();
     }
@@ -278,9 +295,9 @@ public class BuildTest extends TestCase
     return brandingPluginNames.contains(name);
   }
 
-  protected Set retrieveBrandingPluginNames()
+  protected Set<String> retrieveBrandingPluginNames()
   {
-    Set brandingPluginNames = new HashSet();
+    Set<String> brandingPluginNames = new HashSet<String>();
     brandingPluginNames.add("org.eclipse.emf.doc");
     brandingPluginNames.add("org.eclipse.emf.ecore.sdo.doc");
     brandingPluginNames.add("org.eclipse.emf.ecore.sdo.source");
@@ -297,9 +314,9 @@ public class BuildTest extends TestCase
   {
     boolean hasJavadocGif = false;
     ZipFile docZip = new ZipFile(new File(pluginDir, "doc.zip"));
-    for (Enumeration entries=docZip.entries(); entries.hasMoreElements();)
+    for (Enumeration<? extends ZipEntry> entries=docZip.entries(); entries.hasMoreElements();)
     {
-      ZipEntry entry = (ZipEntry)entries.nextElement();
+      ZipEntry entry = entries.nextElement();
       String name = entry.getName();
       if(name.matches("references\\/javadoc\\/.*\\/doc-files/.*\\.gif$"))
       {

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FileTool.java,v 1.2 2005/06/08 06:21:21 nickb Exp $
+ * $Id: FileTool.java,v 1.3 2006/12/28 06:58:13 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -152,6 +152,7 @@ public class FileTool
         }
         catch (IOException e)
         {
+          // Ignore
         }
       }
       if (is1 != null)
@@ -162,6 +163,7 @@ public class FileTool
         }
         catch (IOException e)
         {
+          // Ignore
         }
       }
     }
@@ -272,7 +274,7 @@ public class FileTool
    */
   public static File[] getFiles(File dir, String[] include, String[] exclude)
   {
-    List list = new ArrayList();
+    List<File> list = new ArrayList<File>();
     String[] children = dir.list();
     if (children == null)
     {
@@ -322,7 +324,7 @@ public class FileTool
         }
       }
     }
-    return (File[])list.toArray(new File [0]);
+    return list.toArray(new File [0]);
   }
 
   /**
@@ -349,13 +351,13 @@ public class FileTool
    */
   public static String[] getSegments(String s, char separator)
   {
-    List result = new ArrayList();
+    List<String> result = new ArrayList<String>();
     StringTokenizer tokenizer = new StringTokenizer(s, "" + separator);
     while (tokenizer.hasMoreTokens())
     {
       result.add(tokenizer.nextToken());
     }
-    return (String[])result.toArray(new String [0]);
+    return result.toArray(new String [0]);
   }
 
   /**
@@ -369,13 +371,13 @@ public class FileTool
    */
   public static File[] parsePaths(String paths)
   {
-    List result = new ArrayList();
+    List<File> result = new ArrayList<File>();
     StringTokenizer tokenizer = new StringTokenizer(paths, ";");
     while (tokenizer.hasMoreTokens())
     {
       result.add(new File(tokenizer.nextToken()));
     }
-    return (File[])result.toArray(new File [0]);
+    return result.toArray(new File [0]);
   }
 
   /**
@@ -407,6 +409,7 @@ public class FileTool
         }
         catch (IOException e)
         {
+          // Ignore
         }
       }
       if (is != null)
@@ -417,6 +420,7 @@ public class FileTool
         }
         catch (IOException e)
         {
+          // Ignore
         }
       }
     }
@@ -462,12 +466,12 @@ public class FileTool
 
   private static void unzip(IZipFilter filter, ZipFile zipFile, File rootDstDir, File dstDir, int depth) throws IOException
   {
-    Enumeration entries = zipFile.entries();
+    Enumeration<? extends ZipEntry> entries = zipFile.entries();
     try
     {
       while (entries.hasMoreElements())
       {
-        ZipEntry entry = (ZipEntry)entries.nextElement();
+        ZipEntry entry = entries.nextElement();
         if (entry.isDirectory())
         {
           continue;
@@ -499,6 +503,7 @@ public class FileTool
             }
             catch (IOException e)
             {
+              // Ignore
             }
           }
           if (src != null)
@@ -509,6 +514,7 @@ public class FileTool
             }
             catch (IOException e)
             {
+              // Ignore
             }
           }
         }
@@ -535,6 +541,7 @@ public class FileTool
               }
               catch (IOException e2)
               {
+                // Ignore
               }
             }
             System.out.println("Could not unzip: " + fileName + ". InnerZip = " + innerZipFile.getName() + ". Lenght: "
@@ -552,6 +559,7 @@ public class FileTool
       }
       catch (IOException e)
       {
+        // Ignore
       }
     }
   }
@@ -586,6 +594,7 @@ public class FileTool
           }
           catch (IOException e)
           {
+            // Ignore
           }
         }
       }
@@ -597,6 +606,7 @@ public class FileTool
         }
         catch (IOException e)
         {
+          // Ignore
         }
       }
     }
@@ -659,6 +669,7 @@ public class FileTool
           }
           catch (IOException e)
           {
+            // Ignore
           }
         }
       }

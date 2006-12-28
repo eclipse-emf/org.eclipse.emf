@@ -1,3 +1,19 @@
+/**
+ * <copyright>
+ *
+ * Copyright (c) 2002-2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
+ * </copyright>
+ *
+ * $Id: StandaloneZipTest.java,v 1.4 2006/12/28 06:58:13 marcelop Exp $
+ */
 package org.eclipse.emf.test.build;
 
 import java.io.File;
@@ -41,6 +57,7 @@ public class StandaloneZipTest extends TestCase
     return ts;
   }
   
+  @Override
   protected void setUp() throws Exception
   {
     File testBuildDir = new File(TestUtil.getPluginDirectory()).getAbsoluteFile();
@@ -73,18 +90,18 @@ public class StandaloneZipTest extends TestCase
 
   public void testContent() throws Exception
   {    
-    Set jarNames = new HashSet(Arrays.asList(STANDALONE_JARS));
-    Set otherFiles = new HashSet(Arrays.asList(OTHER_FILES));
+    Set<String> jarNames = new HashSet<String>(Arrays.asList(STANDALONE_JARS));
+    Set<String> otherFiles = new HashSet<String>(Arrays.asList(OTHER_FILES));
     
-    for (Enumeration e = new ZipFile(standaloneZipFile).entries(); e.hasMoreElements(); )
+    for (Enumeration<? extends ZipEntry> e = new ZipFile(standaloneZipFile).entries(); e.hasMoreElements(); )
     {
-      ZipEntry entry = (ZipEntry)e.nextElement();
+      ZipEntry entry = e.nextElement();
       String entryName = entry.getName();     
       if (entryName.endsWith(".jar"))
       {
-        for (Iterator i = jarNames.iterator(); i.hasNext();)
+        for (Iterator<String> i = jarNames.iterator(); i.hasNext();)
         {
-          String jarName = (String)i.next();
+          String jarName = i.next();
           if(entryName.startsWith(JARS_DIR + "/" + jarName + "_"))
           {
             i.remove();
@@ -100,9 +117,8 @@ public class StandaloneZipTest extends TestCase
     if (!jarNames.isEmpty())
     {
       StringBuffer missingJars = new StringBuffer();
-      for (Iterator i = jarNames.iterator(); i.hasNext();)
+      for ( String jarName : jarNames)
       {
-        String jarName = (String)i.next();
         missingJars.append(" ,").append(jarName);
       }
       missingJars.deleteCharAt(1).insert(0, "Missing jars:");
@@ -112,9 +128,8 @@ public class StandaloneZipTest extends TestCase
     if (!otherFiles.isEmpty())
     {
       StringBuffer missingFiles = new StringBuffer();
-      for (Iterator i = otherFiles.iterator(); i.hasNext();)
+      for ( String jarName : otherFiles)
       {
-        String jarName = (String)i.next();
         missingFiles.append(" ,").append(jarName);
       }
       missingFiles.deleteCharAt(1).insert(0, "Missing files:");

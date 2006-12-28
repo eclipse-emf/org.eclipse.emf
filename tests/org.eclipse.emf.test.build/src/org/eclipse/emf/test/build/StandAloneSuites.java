@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: StandAloneSuites.java,v 1.3 2005/06/08 06:21:21 nickb Exp $
+ * $Id: StandAloneSuites.java,v 1.4 2006/12/28 06:58:13 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 import junit.framework.Test;
@@ -38,7 +38,7 @@ public class StandAloneSuites extends TestSuite
     populateSuite();
   }
 
-  public StandAloneSuites(Class theClass)
+  public StandAloneSuites(Class<?> theClass)
   {
     super(theClass);
     populateSuite();

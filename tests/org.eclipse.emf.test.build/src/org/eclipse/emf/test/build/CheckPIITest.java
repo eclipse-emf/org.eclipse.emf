@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CheckPIITest.java,v 1.2 2005/06/20 18:02:50 marcelop Exp $
+ * $Id: CheckPIITest.java,v 1.3 2006/12/28 06:58:13 marcelop Exp $
  */
 package org.eclipse.emf.test.build;
 
@@ -159,6 +159,7 @@ public class CheckPIITest extends TestCase
       BufferedReader aBufferedReader = new BufferedReader(new InputStreamReader(aProcess.getInputStream()));
       while (aBufferedReader.readLine() != null)
       {
+        // ReadLine
       }
       aProcess.waitFor();
       Thread.sleep(1000);
@@ -221,10 +222,11 @@ public class CheckPIITest extends TestCase
     }
     catch (IOException e)
     {
+      // Ignore
     }
     File aFile = new File(installDir);
 
-    List zipFiles = new ArrayList();
+    List<String> zipFiles = new ArrayList<String>();
     File[] files = aFile.listFiles();
     for (int i = 0; i < files.length; i++)
     {
@@ -247,7 +249,7 @@ public class CheckPIITest extends TestCase
       }
     }
     if (DEBUG) { System.out.println("zipFiles.size() = "+zipFiles.size()); }
-    return (String[])zipFiles.toArray(new String [zipFiles.size()]);
+    return zipFiles.toArray(new String [zipFiles.size()]);
   }
 
   /**
@@ -435,6 +437,7 @@ public class CheckPIITest extends TestCase
   /**
    * @see TestCase#setUp()
    */
+  @Override
   protected void setUp() throws Exception
   {
     assertNotNull(getExec());
@@ -449,6 +452,7 @@ public class CheckPIITest extends TestCase
     }
     catch (IOException e)
     {
+      // Ignore
     }
 
     System.setProperty("PLUGIN_PATH", adjustPath(Platform.getInstallLocation().getURL().getPath()) + "plugins");
