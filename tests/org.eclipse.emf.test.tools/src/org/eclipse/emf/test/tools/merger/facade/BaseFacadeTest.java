@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: BaseFacadeTest.java,v 1.1 2006/12/06 03:54:34 marcelop Exp $
+ * $Id: BaseFacadeTest.java,v 1.2 2006/12/28 07:00:46 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.merger.facade;
 
@@ -60,6 +60,7 @@ public class BaseFacadeTest extends TestCase
   
   public BaseFacadeTest()
   {
+    super();
   }
   
   @Override

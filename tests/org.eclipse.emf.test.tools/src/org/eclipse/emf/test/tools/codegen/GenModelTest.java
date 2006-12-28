@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -82,7 +82,7 @@ public class GenModelTest extends TestCase
     genModel.setTestSuiteClass("testSuiteClass.TC");
     
     {
-      GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(0);
+      GenPackage genPackage = genModel.getGenPackages().get(0);
       assertEquals("ePackage0", genPackage.getEcorePackage().getName());
       genPackage.setPrefix("P0");
       genPackage.setBasePackage("org.example0");
@@ -94,7 +94,7 @@ public class GenModelTest extends TestCase
       genPackage.setTestsPackageSuffix("junit");
     }
     {
-      GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(1);
+      GenPackage genPackage = genModel.getGenPackages().get(1);
       assertEquals("ePackage1", genPackage.getEcorePackage().getName());
       genPackage.setPrefix("P1");
       genPackage.setBasePackage("org.example1");
@@ -106,21 +106,21 @@ public class GenModelTest extends TestCase
       genPackage.setTestsPackageSuffix("junit1");
     }
     {
-      GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(2);
+      GenPackage genPackage = genModel.getGenPackages().get(2);
       assertEquals("ePackage2", genPackage.getEcorePackage().getName());
       genPackage.setPrefix("P2");
       genPackage.setBasePackage("org.example2");
-      GenPackage subPackage = (GenPackage)genPackage.getNestedGenPackages().get(0);
+      GenPackage subPackage = genPackage.getNestedGenPackages().get(0);
       assertEquals("subEPackage2", subPackage.getEcorePackage().getName());
       subPackage.setPrefix("S2");
       subPackage.setBasePackage("org.exampleS2");
     }
     {
-      GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(3);
+      GenPackage genPackage = genModel.getGenPackages().get(3);
       assertEquals("ePackage3", genPackage.getEcorePackage().getName());
       genPackage.setPrefix("P3");
       genPackage.setInterfacePackageSuffix("pub3");
-      GenPackage subPackage = (GenPackage)genPackage.getNestedGenPackages().get(0);
+      GenPackage subPackage = genPackage.getNestedGenPackages().get(0);
       assertEquals("subEPackage3", subPackage.getEcorePackage().getName());
       subPackage.setPrefix("S3");
     }
@@ -162,7 +162,7 @@ public class GenModelTest extends TestCase
    */
   public void testGetModelQualifiedPackageNames() throws Exception
   {
-    List packageNames = genModel.getModelQualifiedPackageNames();
+    List<String> packageNames = genModel.getModelQualifiedPackageNames();
     modelQualifiedPackageNamesTest(packageNames);
     assertTrue(packageNames.isEmpty());
     
@@ -178,7 +178,7 @@ public class GenModelTest extends TestCase
    */
   public void testGetEditQualifiedPackageNames() throws Exception
   {
-    List packageNames = genModel.getEditQualifiedPackageNames();
+    List<String> packageNames = genModel.getEditQualifiedPackageNames();
     editQualifiedPackageNamesTest(packageNames);
     assertTrue(packageNames.isEmpty());
     
@@ -210,7 +210,7 @@ public class GenModelTest extends TestCase
    */
   public void testGetEditorQualifiedPackageNames() throws Exception
   {
-    List packageNames = genModel.getEditorQualifiedPackageNames();
+    List<String> packageNames = genModel.getEditorQualifiedPackageNames();
     editorQualifiedPackageNamesTest(packageNames);
     assertTrue(packageNames.isEmpty());
     
@@ -358,7 +358,7 @@ public class GenModelTest extends TestCase
   {
     assertEquals(1, genModel.getGenAnnotations().size());
     
-    GenAnnotation genAnnotation = (GenAnnotation)genModel.getGenAnnotations().get(0);
+    GenAnnotation genAnnotation = genModel.getGenAnnotations().get(0);
     assertEquals("1s", genAnnotation.getSource());
     assertEquals(2, genAnnotation.getDetails().size());
     assertEquals("one", genAnnotation.getDetails().get("1"));
@@ -370,7 +370,7 @@ public class GenModelTest extends TestCase
     
     assertEquals(1, genAnnotation.getGenAnnotations().size());
     
-    GenAnnotation nestedGenAnnotation = (GenAnnotation)genAnnotation.getGenAnnotations().get(0);
+    GenAnnotation nestedGenAnnotation = genAnnotation.getGenAnnotations().get(0);
     assertEquals("1.1s", nestedGenAnnotation.getSource());
     assertEquals(2, nestedGenAnnotation.getDetails().size());
     assertEquals("one.one", nestedGenAnnotation.getDetails().get("1.1"));

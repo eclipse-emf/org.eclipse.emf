@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AntTest.java,v 1.24 2006/12/15 20:41:38 marcelop Exp $
+ * $Id: AntTest.java,v 1.25 2006/12/28 07:00:46 marcelop Exp $
  */
 package org.eclipse.emf.test.tools.ant;
 
@@ -605,6 +605,7 @@ public class AntTest extends TestCase
           }
           catch (IOException e)
           {
+            // Ignore
           }
         }
       }
