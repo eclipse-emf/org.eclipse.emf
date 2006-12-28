@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.30 2006/12/28 12:36:25 emerks Exp $
+ * $Id: Generator.java,v 1.31 2006/12/28 16:47:12 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -527,7 +527,18 @@ public class Generator extends CodeGen
   {
     return EclipseHelper.createEMFProject(javaSource, projectLocationPath, referencedProjects, progressMonitor, style, pluginVariables);
   }
-  
+
+  public static IProject createEMFProject
+    (IPath javaSource,
+     URI projectLocationURI,
+     List<IProject> referencedProjects,
+     Monitor progressMonitor,
+     int style,
+     List<?> pluginVariables)
+  {
+    return EclipseHelper.createEMFProject(javaSource, projectLocationURI, referencedProjects, progressMonitor, style, pluginVariables);
+  }
+
   public void printStatus(String prefix, IStatus status)
   {
     System.err.print(prefix);
@@ -623,6 +634,17 @@ public class Generator extends CodeGen
        int style,
        List<?> pluginVariables)
     {
+      return createEMFProject(javaSource, projectLocationPath == null ? null : URI.createFileURI(projectLocationPath.toOSString()), referencedProjects, monitor, style, pluginVariables);
+    }
+
+    public static IProject createEMFProject
+      (IPath javaSource,
+       URI projectLocationURI,
+       List<IProject> referencedProjects,
+       Monitor monitor,
+       int style,
+       List<?> pluginVariables)
+    {
       IProgressMonitor progressMonitor = BasicMonitor.toIProgressMonitor(monitor);
       String projectName = javaSource.segment(0);
       IProject project = null;
@@ -631,7 +653,10 @@ public class Generator extends CodeGen
         List<IClasspathEntry> classpathEntries = new UniqueEList<IClasspathEntry>();
   
         progressMonitor.beginTask("", 10);
-        progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_CreatingEMFProject_message", new Object [] { projectName, projectLocationPath != null ? projectLocationPath.toOSString() : projectName }));
+        progressMonitor.subTask
+          (CodeGenEcorePlugin.INSTANCE.getString
+             ("_UI_CreatingEMFProject_message", 
+              new Object [] { projectName, projectLocationURI != null ? projectLocationURI.toString() : projectName }));
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         project = workspace.getRoot().getProject(projectName);
   
@@ -639,12 +664,12 @@ public class Generator extends CodeGen
         //
         if (!project.exists())
         {
-          IPath location = projectLocationPath;
+          URI location = projectLocationURI;
           if (location == null)
           {
-            location = workspace.getRoot().getLocation().append(projectName);
+            location = URI.createFileURI(workspace.getRoot().getLocation().append(projectName).toOSString());
           }
-          location = location.append(".project");
+          location = location.appendSegment(".project");
           File projectFile = new File(location.toString());
           if (projectFile.exists())
           {
@@ -657,7 +682,10 @@ public class Generator extends CodeGen
         if (!project.exists())
         {
           projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
-          projectDescription.setLocation(projectLocationPath);
+          if (projectLocationURI != null)
+          {
+            projectDescription.setLocationURI(new java.net.URI(projectLocationURI.toString()));
+          }
           project.create(projectDescription, new SubProgressMonitor(progressMonitor, 1));
         }
         else 
