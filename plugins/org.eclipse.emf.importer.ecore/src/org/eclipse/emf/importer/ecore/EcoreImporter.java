@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,10 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporter.java,v 1.9 2006/05/26 20:08:48 marcelop Exp $
+ * $Id: EcoreImporter.java,v 1.10 2006/12/28 06:53:55 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -36,16 +35,18 @@ import org.eclipse.emf.importer.ModelImporter;
 
 public class EcoreImporter extends ModelImporter
 {
+  @Override
   public String getID()
   {
     return "org.eclipse.emf.importer.ecore";
   }
 
+  @Override
   protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
     Diagnostic diagnostic = Diagnostic.OK_INSTANCE;
 
-    List locationURIs = getModelLocationURIs();
+    List<URI> locationURIs = getModelLocationURIs();
     if (locationURIs.isEmpty())
     {
       diagnostic = new BasicDiagnostic(
@@ -61,22 +62,21 @@ public class EcoreImporter extends ModelImporter
       monitor.subTask(EcoreImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ locationURIs }));
 
       ResourceSet ecoreResourceSet = createResourceSet();
-      for (Iterator i = locationURIs.iterator(); i.hasNext(); )
+      for (URI ecoreModelLocation : locationURIs)
       {
-        URI ecoreModelLocation = (URI)i.next();
         ecoreResourceSet.getResource(ecoreModelLocation, true);
       }
       EcoreUtil.resolveAll(ecoreResourceSet);
 
-      for (Iterator i = ecoreResourceSet.getResources().iterator(); i.hasNext(); )
+      for (Resource resource : ecoreResourceSet.getResources())
       {
-        Resource resource = (Resource)i.next();
-        getEPackages().addAll(EcoreUtil.getObjectsByType(resource.getContents(), EcorePackage.Literals.EPACKAGE));
+        getEPackages().addAll(EcoreUtil.<EPackage>getObjectsByType(resource.getContents(), EcorePackage.Literals.EPACKAGE));
       }
     }
     return diagnostic;
   }
   
+  @Override
   public void addToResource(EPackage ePackage, ResourceSet resourceSet)
   {
     if (ePackage.eResource() != null && getGenModel().eResource() != null)
@@ -92,24 +92,25 @@ public class EcoreImporter extends ModelImporter
     super.addToResource(ePackage, resourceSet);
   }
 
+  @Override
   protected void adjustGenModel(Monitor monitor)
   {
     super.adjustGenModel(monitor);
 
     URI genModelURI = createFileURI(getGenModelPath().toString());
-    for (Iterator i = getModelLocationURIs().iterator(); i.hasNext();)
+    for (URI uri : getModelLocationURIs())
     {
-      getGenModel().getForeignModel().add(makeRelative((URI)i.next(), genModelURI).toString());
+      getGenModel().getForeignModel().add(makeRelative(uri, genModelURI).toString());
     }
   }
 
+  @Override
   protected void handleOriginalGenModel() throws DiagnosticException
   {
     URI genModelURI = getOriginalGenModel().eResource().getURI();
     StringBuffer text = new StringBuffer();
-    for (Iterator i = getOriginalGenModel().getForeignModel().iterator(); i.hasNext();)
+    for (String value : getOriginalGenModel().getForeignModel())
     {
-      String value = (String)i.next();
       if (value.endsWith(".ecore") || value.endsWith(".emof"))
       {
         text.append(makeAbsolute(URI.createURI(value), genModelURI).toString());
@@ -119,10 +120,9 @@ public class EcoreImporter extends ModelImporter
     
     if (text.length() == 0)
     {
-      List locations = new UniqueEList();
-      for (Iterator i = getOriginalGenModel().getGenPackages().iterator(); i.hasNext();)
+      List<URI> locations = new UniqueEList<URI>();
+      for (GenPackage genPackage : getOriginalGenModel().getGenPackages())
       {
-        GenPackage genPackage = (GenPackage)i.next();
         URI ecoreURI = genPackage.getEcorePackage().eResource().getURI();
         if (locations.add(ecoreURI))
         {

@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporterApplication.java,v 1.2 2006/12/07 03:47:31 marcelop Exp $
+ * $Id: EcoreImporterApplication.java,v 1.3 2006/12/28 06:53:55 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,18 +36,20 @@ public class EcoreImporterApplication extends ModelImporterApplication
     public String prefix;
   }
 
-  protected Map nameToPackageInfo;
+  protected Map<String, PackageInfo> nameToPackageInfo;
 
   public EcoreImporter getEcoreImporter()
   {
     return (EcoreImporter)getModelImporter();
   }
 
+  @Override
   protected ModelImporter createModelImporter()
   {
     return new EcoreImporter();
   }
 
+  @Override
   protected StringBuffer getUsage()
   {
     StringBuffer result = new StringBuffer();
@@ -85,19 +86,21 @@ public class EcoreImporterApplication extends ModelImporterApplication
     return result;
   }
   
+  @Override
   protected void processArguments(String[] arguments, int index)
   {
     index = processModelAndGenModelLocationArguments(arguments, index);
     super.processArguments(arguments, index);
   }
 
+  @Override
   protected int processArgument(String[] arguments, int index)
   {
     if (arguments[index].equalsIgnoreCase("-package"))
     {
       if (nameToPackageInfo == null)
       {
-        nameToPackageInfo = new HashMap();
+        nameToPackageInfo = new HashMap<String, PackageInfo>();
       }
       index = processPackageInformation(arguments, index, nameToPackageInfo);
     }
@@ -108,7 +111,7 @@ public class EcoreImporterApplication extends ModelImporterApplication
     return index + 1;
   }
 
-  protected int processPackageInformation(String[] arguments, int index, Map nsURIToPackageInfo)
+  protected int processPackageInformation(String[] arguments, int index, Map<String, PackageInfo> nsURIToPackageInfo)
   {
     int start = index;
     PackageInfo packageInfo = new PackageInfo();
@@ -140,6 +143,7 @@ public class EcoreImporterApplication extends ModelImporterApplication
     }
   }
 
+  @Override
   protected void adjustEPackages(Monitor monitor)
   {
     try
@@ -147,7 +151,7 @@ public class EcoreImporterApplication extends ModelImporterApplication
       monitor.beginTask("", 2);
       super.adjustEPackages(CodeGenUtil.createMonitor(monitor, 1));
       
-      List ePackages = getEcoreImporter().getEPackages();
+      List<EPackage> ePackages = getEcoreImporter().getEPackages();
       traverseEPackages(ePackages);
       getEcoreImporter().adjustEPackages(CodeGenUtil.createMonitor(monitor, 1));
     }
@@ -157,14 +161,13 @@ public class EcoreImporterApplication extends ModelImporterApplication
     }
   }
   
-  protected void traverseEPackages(List ePackages)
+  protected void traverseEPackages(List<EPackage> ePackages)
   {
-    for (Iterator i = ePackages.iterator(); i.hasNext();)
+    for (EPackage ePackage : ePackages)
     {
-      EPackage ePackage = (EPackage)i.next();
       if (nameToPackageInfo != null)
       {
-        PackageInfo packageInfo = (PackageInfo)nameToPackageInfo.get(ePackage.getNsURI());
+        PackageInfo packageInfo = nameToPackageInfo.get(ePackage.getNsURI());
         if (packageInfo != null)
         {
           handleEPackage(ePackage, true);

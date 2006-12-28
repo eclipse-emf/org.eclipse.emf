@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreGeneratorTask.java,v 1.1 2006/05/10 20:19:27 marcelop Exp $
+ * $Id: EcoreGeneratorTask.java,v 1.2 2006/12/28 06:53:55 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore.taskdefs;
 
@@ -68,6 +68,7 @@ import org.eclipse.emf.importer.ecore.EcoreImporterApplication;
  */
 public class EcoreGeneratorTask extends GeneratorTask
 {
+  @Override
   protected void createGenModel(String[] arguments) throws Exception
   {
     new EcoreImporterApplication().run(getProgressMonitor(), arguments);
