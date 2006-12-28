@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.23 2006/12/28 06:53:13 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.24 2006/12/28 08:12:12 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -45,6 +45,7 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.CodeGenUtil.EclipseUtil.StreamProgressMonitor;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.DiagnosticException;
+import org.eclipse.emf.common.util.EclipseApplication;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -58,7 +59,7 @@ import org.eclipse.emf.importer.util.ImporterUtil;
 /**
  * @since 2.1.0
  */
-public abstract class ModelImporterApplication implements org.eclipse.core.runtime.IPlatformRunnable
+public abstract class ModelImporterApplication extends EclipseApplication
 {
   protected ModelImporter modelImporter;
 
@@ -96,6 +97,7 @@ public abstract class ModelImporterApplication implements org.eclipse.core.runti
 
   protected abstract ModelImporter createModelImporter();
 
+  @Override
   public Object run(final Object args) throws Exception
   {
     try
