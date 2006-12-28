@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.52 2006/12/28 06:45:14 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.53 2006/12/28 12:42:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1625,7 +1625,6 @@ public class EcoreUtil
       }
     }
 
-    @SuppressWarnings("deprecation")
     protected EContentsEList.FeatureIterator<EObject> getCrossReferences(EObject eObject)
     {
       return 
