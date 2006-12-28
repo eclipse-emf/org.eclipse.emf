@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreImporterApplication.java,v 1.3 2006/12/28 06:53:55 marcelop Exp $
+ * $Id: EcoreImporterApplication.java,v 1.4 2006/12/28 08:41:28 marcelop Exp $
  */
 package org.eclipse.emf.importer.ecore;
 
@@ -70,6 +70,7 @@ public class EcoreImporterApplication extends ModelImporterApplication
     appendLine(result, "<MODEL-PLUGIN-ID> ::= -modelPluginID <plugin-ID>");    
     appendLine(result, "<COPYRIGHT>       ::= -copyright <copyright-string>");
     appendLine(result, "<JDK-LEVEL>       ::= -jdkLevel <jdk level: 1.4 5.0 6.0>");    
+    appendLine(result, "<VALIDATE-MODEL>  ::= -validateModel <true|false>");
     appendLine(result, "<SDO>             ::= -sdo");
     appendLine(result, "<QUIET>           ::= -quiet");
     appendLine(result, "");
