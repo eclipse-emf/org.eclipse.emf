@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JavaEcoreBuilder.java,v 1.29 2006/12/18 21:33:29 marcelop Exp $
+ * $Id: JavaEcoreBuilder.java,v 1.30 2006/12/28 06:55:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.java.builder;
 
@@ -494,9 +494,8 @@ public class JavaEcoreBuilder
       Resource resource = resourceSet.getResource(modelImporter.createFileURI(file.getFullPath().toString()), true);
       GenModel genModel = (GenModel)resource.getContents().get(0);
       externalGenModels.add(genModel);
-      for (Iterator j = genModel.getGenPackages().iterator(); j.hasNext();)
+      for (GenPackage genPackage : genModel.getGenPackages())
       {
-        GenPackage genPackage = (GenPackage)j.next();
         determineExternalPackages(genPackage, modelImporter);
       }
     }
@@ -532,6 +531,7 @@ public class JavaEcoreBuilder
       }
       catch (IOException exception)
       {
+        // Ignore
       }
     }
 
@@ -600,9 +600,8 @@ public class JavaEcoreBuilder
         GenModel genModel = (GenModel)resource.getContents().get(0);
         if (externalGenModels.add(genModel))
         {
-          for (Iterator k = genModel.getGenPackages().iterator(); k.hasNext();)
+          for (GenPackage genPackage : genModel.getGenPackages())
           {
-            GenPackage genPackage = (GenPackage)k.next();
             determineExternalPackages(genPackage, modelImporter);
           }
         }
@@ -686,9 +685,9 @@ public class JavaEcoreBuilder
     }
     EPackage ePackage = genPackage.getEcorePackage();
     externalPackageNameToEPackageMap.put(genPackage.getInterfacePackageName(), ePackage);
-    for (Iterator i = genPackage.getNestedGenPackages().iterator(); i.hasNext();)
+    for (GenPackage nestedGenPackage : genPackage.getNestedGenPackages())
     {
-      determineExternalPackages((GenPackage)i.next());
+      determineExternalPackages(nestedGenPackage);
     }
   }
 
