@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OpenEditorAction.java,v 1.2 2005/06/08 06:17:55 nickb Exp $
+ * $Id: OpenEditorAction.java,v 1.3 2006/12/28 06:47:17 marcelop Exp $
  */
 package org.eclipse.emf.ecore.action;
 
@@ -42,8 +42,10 @@ public class OpenEditorAction extends ActionDelegate
 
   public OpenEditorAction()
   {
+    super();
   }
 
+  @Override
   public void run(IAction action)
   {
     IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
@@ -65,6 +67,7 @@ public class OpenEditorAction extends ActionDelegate
     }
   }
 
+  @Override
   public void selectionChanged(IAction action, ISelection selection) 
   {
     if (selection instanceof IStructuredSelection)

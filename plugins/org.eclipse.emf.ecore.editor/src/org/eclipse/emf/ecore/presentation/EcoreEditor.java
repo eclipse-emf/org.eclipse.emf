@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreEditor.java,v 1.41 2006/12/26 18:56:56 emerks Exp $
+ * $Id: EcoreEditor.java,v 1.42 2006/12/28 06:47:17 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -186,7 +186,7 @@ public class EcoreEditor
       {
         editingDomain.getResourceSet().getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new GenericXMLResourceFactoryImpl());
 
-        Class theItemProviderClass = CommonPlugin.loadClass("org.eclipse.xsd.edit", "org.eclipse.xsd.provider.XSDItemProviderAdapterFactory");
+        Class<?> theItemProviderClass = CommonPlugin.loadClass("org.eclipse.xsd.edit", "org.eclipse.xsd.provider.XSDItemProviderAdapterFactory");
         AdapterFactory xsdItemProviderAdapterFactory = (AdapterFactory)theItemProviderClass.newInstance();
         adapterFactory.insertAdapterFactory(xsdItemProviderAdapterFactory);
       }
@@ -196,6 +196,7 @@ public class EcoreEditor
       }
     }
     
+    @Override
     public void createModel()
     {
       super.createModel();
@@ -205,10 +206,10 @@ public class EcoreEditor
       ResourceSet resourceSet = editingDomain.getResourceSet();
       if (!resourceSet.getResources().isEmpty())
       {
-        Resource resource = (Resource)resourceSet.getResources().get(0);
+        Resource resource = resourceSet.getResources().get(0);
         if (!resource.getContents().isEmpty())
         {
-          EObject rootObject = (EObject)resource.getContents().get(0);
+          EObject rootObject = resource.getContents().get(0);
           Resource metaDataResource =  rootObject.eClass().eResource();
           if (metaDataResource != null && metaDataResource.getResourceSet() != null)
           {
@@ -298,7 +299,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection selectionChangedListeners = new ArrayList();
+  protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
   /**
    * This keeps track of the selection of the editor as a whole.
@@ -352,15 +353,19 @@ public class EcoreEditor
       }
       public void partBroughtToTop(IWorkbenchPart p)
       {
+        // Ignore.
       }
       public void partClosed(IWorkbenchPart p)
       {
+        // Ignore.
       }
       public void partDeactivated(IWorkbenchPart p)
       {
+        // Ignore.
       }
       public void partOpened(IWorkbenchPart p)
       {
+        // Ignore.
       }
     };
 
@@ -370,7 +375,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection removedResources = new ArrayList();
+  protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
   /**
    * Resources that have been changed since last activation.
@@ -378,7 +383,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection changedResources = new ArrayList();
+  protected Collection<Resource> changedResources = new ArrayList<Resource>();
 
   /**
    * Resources that have been saved.
@@ -386,7 +391,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection savedResources = new ArrayList();
+  protected Collection<Resource> savedResources = new ArrayList<Resource>();
 
   /**
    * Map to store the diagnostic associated with a resource.
@@ -394,7 +399,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Map resourceToDiagnosticMap = new LinkedHashMap();
+  protected Map<Resource, Diagnostic> resourceToDiagnosticMap = new LinkedHashMap<Resource, Diagnostic>();
 
   /**
    * Controls whether the problem indication should be updated.
@@ -413,6 +418,7 @@ public class EcoreEditor
   protected EContentAdapter problemIndicationAdapter = 
     new EContentAdapter()
     {
+      @Override
       public void notifyChanged(Notification notification)
       {
         if (notification.getNotifier() instanceof Resource)
@@ -445,6 +451,7 @@ public class EcoreEditor
                      }
                    });
               }
+              break;
             }
           }
         }
@@ -454,11 +461,13 @@ public class EcoreEditor
         }
       }
 
+      @Override
       protected void setTarget(Resource target)
       {
         basicSetTarget(target);
       }
 
+      @Override
       protected void unsetTarget(Resource target)
       {
         basicUnsetTarget(target);
@@ -485,8 +494,8 @@ public class EcoreEditor
             class ResourceDeltaVisitor implements IResourceDeltaVisitor
             {
               protected ResourceSet resourceSet = editingDomain.getResourceSet();
-              protected Collection changedResources = new ArrayList();
-              protected Collection removedResources = new ArrayList();
+              protected Collection<Resource> changedResources = new ArrayList<Resource>();
+              protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
               public boolean visit(IResourceDelta delta)
               {
@@ -513,12 +522,12 @@ public class EcoreEditor
                 return true;
               }
 
-              public Collection getChangedResources()
+              public Collection<Resource> getChangedResources()
               {
                 return changedResources;
               }
 
-              public Collection getRemovedResources()
+              public Collection<Resource> getRemovedResources()
               {
                 return removedResources;
               }
@@ -623,9 +632,8 @@ public class EcoreEditor
       editingDomain.getCommandStack().flush();
 
       updateProblemIndication = false;
-      for (Iterator i = changedResources.iterator(); i.hasNext(); )
+      for (Resource resource : changedResources)
       {
-        Resource resource = (Resource)i.next();
         if (resource.isLoaded())
         {
           resource.unload();
@@ -664,9 +672,8 @@ public class EcoreEditor
            0,
            null,
            new Object [] { editingDomain.getResourceSet() });
-      for (Iterator i = resourceToDiagnosticMap.values().iterator(); i.hasNext(); )
+      for (Diagnostic childDiagnostic : resourceToDiagnosticMap.values())
       {
-        Diagnostic childDiagnostic = (Diagnostic)i.next();
         if (childDiagnostic.getSeverity() != Diagnostic.OK)
         {
           diagnostic.add(childDiagnostic);
@@ -745,7 +752,7 @@ public class EcoreEditor
 
     // Create an adapter factory that yields item providers.
     //
-    List factories = new ArrayList();
+    List<AdapterFactory> factories = new ArrayList<AdapterFactory>();
     factories.add(new ResourceItemProviderAdapterFactory());
     factories.add(new EcoreItemProviderAdapterFactory());
     factories.add(new ReflectiveItemProviderAdapterFactory());
@@ -788,7 +795,7 @@ public class EcoreEditor
 
     // Create the editing domain with a special command stack.
     //
-    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap());
+    editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new HashMap<Resource, Boolean>());
   }
 
   /**
@@ -797,6 +804,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected void firePropertyChange(int action)
   {
     super.firePropertyChange(action);
@@ -808,9 +816,9 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setSelectionToViewer(Collection collection)
+  public void setSelectionToViewer(Collection<?> collection)
   {
-    final Collection theSelection = collection;
+    final Collection<?> theSelection = collection;
     // Make sure it's okay.
     //
     if (theSelection != null && !theSelection.isEmpty())
@@ -862,24 +870,28 @@ public class EcoreEditor
       super(adapterFactory);
     }
 
+    @Override
     public Object [] getElements(Object object)
     {
       Object parent = super.getParent(object);
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    @Override
     public Object [] getChildren(Object object)
     {
       Object parent = super.getParent(object);
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    @Override
     public boolean hasChildren(Object object)
     {
       Object parent = super.getParent(object);
       return parent != null;
     }
 
+    @Override
     public Object getParent(Object object)
     {
       return null;
@@ -979,6 +991,7 @@ public class EcoreEditor
     viewer.getControl().addMouseListener
      (new MouseAdapter()
       {
+        @Override
         public void mouseDoubleClick(MouseEvent event) 
         {
           if (event.button == 1)
@@ -1007,7 +1020,7 @@ public class EcoreEditor
     // Assumes that the input is a file object.
     //
     IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);;
+    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);
     Exception exception = null;
     Resource resource = null;
     try
@@ -1107,6 +1120,7 @@ public class EcoreEditor
    * @generated NOT
    * <p>This is not generated to preserve setting the selection until that goes into the template. 
    */
+  @Override
   public void createPages()
   {
     // Creates the model from the editor input
@@ -1116,7 +1130,7 @@ public class EcoreEditor
     // Only creates the other pages if there is something that can be edited
     //
     if (!getEditingDomain().getResourceSet().getResources().isEmpty() &&
-        !((Resource)getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
+        !(getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
     {
       // Create a page for the selection tree view.
       //
@@ -1145,6 +1159,7 @@ public class EcoreEditor
       (new ControlAdapter()
        {
         boolean guard = false;
+        @Override
         public void controlResized(ControlEvent event)
         {
           if (!guard)
@@ -1207,6 +1222,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected void pageChange(int pageIndex)
   {
     super.pageChange(pageIndex);
@@ -1223,6 +1239,8 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public Object getAdapter(Class key)
   {
     if (key.equals(IContentOutlinePage.class))
@@ -1257,6 +1275,7 @@ public class EcoreEditor
       //
       class MyContentOutlinePage extends ContentOutlinePage
       {
+        @Override
         public void createControl(Composite parent)
         {
           super.createControl(parent);
@@ -1281,12 +1300,14 @@ public class EcoreEditor
           }
         }
 
+        @Override
         public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
         {
           super.makeContributions(menuManager, toolBarManager, statusLineManager);
           contentOutlineStatusLineManager = statusLineManager;
         }
 
+        @Override
         public void setActionBars(IActionBars actionBars)
         {
           super.setActionBars(actionBars);
@@ -1326,12 +1347,14 @@ public class EcoreEditor
       propertySheetPage =
         new ExtendedPropertySheetPage(editingDomain)
         {
-          public void setSelectionToViewer(List selection)
+          @Override
+          public void setSelectionToViewer(List<?> selection)
           {
             EcoreEditor.this.setSelectionToViewer(selection);
             EcoreEditor.this.setFocus();
           }
 
+          @Override
           public void setActionBars(IActionBars actionBars)
           {
             super.setActionBars(actionBars);
@@ -1354,14 +1377,14 @@ public class EcoreEditor
   {
     if (selectionViewer != null && !selection.isEmpty() && selection instanceof IStructuredSelection)
     {
-      Iterator selectedElements = ((IStructuredSelection)selection).iterator();
+      Iterator<?> selectedElements = ((IStructuredSelection)selection).iterator();
       if (selectedElements.hasNext())
       {
         // Get the first selected element.
         //
         Object selectedElement = selectedElements.next();
 
-        ArrayList selectionList = new ArrayList();
+        ArrayList<Object> selectionList = new ArrayList<Object>();
         selectionList.add(selectedElement);
         while (selectedElements.hasNext())
         {
@@ -1381,6 +1404,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isDirty()
   {
     return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
@@ -1392,6 +1416,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void doSave(IProgressMonitor progressMonitor)
   {
     // Do the work within an operation because this is a long running activity that modifies the workbench.
@@ -1401,14 +1426,14 @@ public class EcoreEditor
       {
         // This is the method that gets invoked when the operation runs.
         //
+        @Override
         public void execute(IProgressMonitor monitor)
         {
           // Save the resources to the file system.
           //
           boolean first = true;
-          for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
+          for (Resource resource : editingDomain.getResourceSet().getResources())
           {
-            Resource resource = (Resource)i.next();
             if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
             {
               try
@@ -1469,6 +1494,7 @@ public class EcoreEditor
     }
     catch (IOException e)
     {
+      // Ignore
     }
     return result;
   }
@@ -1479,6 +1505,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSaveAsAllowed()
   {
     return true;
@@ -1493,6 +1520,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public void doSaveAs()
   {
     SaveAsDialog saveAsDialog= new SaveAsDialog(getSite().getShell());
@@ -1504,7 +1532,7 @@ public class EcoreEditor
       if (file != null)
       {
         ResourceSet resourceSet = editingDomain.getResourceSet();
-        Resource currentResource = (Resource)resourceSet.getResources().get(0);
+        Resource currentResource = resourceSet.getResources().get(0);
         String currentExtension = currentResource.getURI().fileExtension();
 
         URI newURI = URI.createPlatformResourceURI(file.getFullPath().toString(), true);
@@ -1538,7 +1566,7 @@ public class EcoreEditor
    */
   protected void doSaveAs(URI uri, IEditorInput editorInput)
   {
-    ((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
+    (editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
     setInputWithNotify(editorInput);
     setPartName(editorInput.getName());
     IProgressMonitor progressMonitor =
@@ -1586,6 +1614,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void init(IEditorSite site, IEditorInput editorInput)
   {
     setSite(site);
@@ -1601,6 +1630,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFocus()
   {
     getControl(getActivePage()).setFocus();
@@ -1650,9 +1680,8 @@ public class EcoreEditor
   {
     editorSelection = selection;
 
-    for (Iterator listeners = selectionChangedListeners.iterator(); listeners.hasNext(); )
+    for (ISelectionChangedListener listener : selectionChangedListeners)
     {
-      ISelectionChangedListener listener = (ISelectionChangedListener)listeners.next();
       listener.selectionChanged(new SelectionChangedEvent(this, selection));
     }
     setStatusLineManager(selection);
@@ -1672,7 +1701,7 @@ public class EcoreEditor
     {
       if (selection instanceof IStructuredSelection)
       {
-        Collection collection = ((IStructuredSelection)selection).toList();
+        Collection<?> collection = ((IStructuredSelection)selection).toList();
         switch (collection.size())
         {
           case 0:
@@ -1768,6 +1797,7 @@ public class EcoreEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void dispose()
   {
     updateProblemIndication = false;

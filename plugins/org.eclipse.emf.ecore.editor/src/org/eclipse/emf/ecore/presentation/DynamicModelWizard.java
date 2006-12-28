@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DynamicModelWizard.java,v 1.6 2006/10/16 03:27:28 davidms Exp $
+ * $Id: DynamicModelWizard.java,v 1.7 2006/12/28 06:47:17 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -112,6 +112,7 @@ public class DynamicModelWizard extends Wizard implements INewWizard
   /**
    * Do the work after everything is specified.
    */
+  @Override
   public boolean performFinish()
   {
     try
@@ -125,6 +126,7 @@ public class DynamicModelWizard extends Wizard implements INewWizard
       WorkspaceModifyOperation operation =
         new WorkspaceModifyOperation()
         {
+          @Override
           protected void execute(IProgressMonitor progressMonitor)
           {
             try
@@ -152,7 +154,7 @@ public class DynamicModelWizard extends Wizard implements INewWizard
 
               // Save the contents of the resource to the file system.
               //
-              Map options = new HashMap();
+              Map<Object, Object> options = new HashMap<Object, Object>();
               options.put("SCHEMA_LOCATION", Boolean.TRUE);
               options.put("LINE_WIDTH", new Integer(80));
               resource.save(options);
@@ -235,6 +237,7 @@ public class DynamicModelWizard extends Wizard implements INewWizard
     /**
      * The framework calls this to see if the file is correct.
      */
+    @Override
     protected boolean validatePage()
     {
       if (super.validatePage())
@@ -282,6 +285,7 @@ public class DynamicModelWizard extends Wizard implements INewWizard
   /**
    * The framework calls this to create the contents of the wizard.
    */
+  @Override
   public void addPages()
   {
     // Create a page, set the title, and the initial model file name.

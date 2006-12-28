@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2004-2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: EcoreEditorPlugin.java,v 1.4 2005/08/19 16:48:09 davidms Exp $
+ * $Id: EcoreEditorPlugin.java,v 1.5 2006/12/28 06:47:17 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -46,8 +56,8 @@ public final class EcoreEditorPlugin extends EMFPlugin
   {
     super
       (new ResourceLocator [] 
-       {
-       });
+      {
+      });
   }
 
   /**
@@ -57,6 +67,7 @@ public final class EcoreEditorPlugin extends EMFPlugin
    * @return the singleton instance.
    * @generated
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;
@@ -91,7 +102,7 @@ public final class EcoreEditorPlugin extends EMFPlugin
     public Implementation()
     {
       super();
-
+  
       // Remember the static instance.
       //
       plugin = this;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreActionBarContributor.java,v 1.11 2006/12/18 21:27:53 marcelop Exp $
+ * $Id: EcoreActionBarContributor.java,v 1.12 2006/12/28 06:47:17 marcelop Exp $
  */
 package org.eclipse.emf.ecore.presentation;
 
@@ -62,13 +62,10 @@ import org.eclipse.emf.common.ui.action.ViewerFilterAction;
 import org.eclipse.emf.common.ui.viewer.IViewerProvider;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
-import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.provider.EcoreEditPlugin;
@@ -102,8 +99,10 @@ public class EcoreActionBarContributor
   {
     public Reflective()
     {
+      super();
     }
 
+    @Override
     protected IMenuManager createSubmenuManager()
     {
       return new MenuManager(EcoreEditorPlugin.getPlugin().getString("_UI_ReflectiveEditor_menu"), "org.eclipse.emf.ecoreMenuID");
@@ -112,6 +111,7 @@ public class EcoreActionBarContributor
   
   public static class ExtendedLoadResourceAction extends LoadResourceAction
   {
+    @Override
     public void run()
     {
       ExtendedLoadResourceDialog loadResourceDialog =
@@ -128,6 +128,7 @@ public class EcoreActionBarContributor
         super(parent, domain);
       }
 
+      @Override
       protected Control createDialogArea(Composite parent)
       {
         Composite composite = (Composite)super.createDialogArea(parent);
@@ -149,36 +150,39 @@ public class EcoreActionBarContributor
         browseRegisteredPackagesButton.addSelectionListener
           (new SelectionAdapter()
            {
-             public void widgetSelected(SelectionEvent event)
+             @Override
+            public void widgetSelected(SelectionEvent event)
              {
                RegisteredPackageDialog registeredPackageDialog = new RegisteredPackageDialog(getShell());
                registeredPackageDialog.open();
                Object [] result = registeredPackageDialog.getResult();
                if (result != null)
                {
-                 List nsURIs = Arrays.asList(result);
+                 List<?> nsURIs = Arrays.asList(result);
                  ResourceSet resourceSet = new ResourceSetImpl();
                  resourceSet.getURIConverter().getURIMap().putAll(EcorePlugin.computePlatformURIMap());
                  StringBuffer uris = new StringBuffer();
-                 Map ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
+                 Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
                  for (int i = 0, length = result.length; i < length; i++)
                  {
-                   URI location = (URI)ePackageNsURItoGenModelLocationMap.get(result[i]);
+                   URI location = ePackageNsURItoGenModelLocationMap.get(result[i]);
                    Resource resource = resourceSet.getResource(location, true);
                    EcoreUtil.resolveAll(resource);
                  }
-                 for (Iterator i = resourceSet.getResources().iterator(); i.hasNext(); )
+                 for (Resource resource : resourceSet.getResources())
                  {
-                   Resource resource = (Resource)i.next();
-                   for (TreeIterator j = 
-                          new EcoreUtil.ContentTreeIterator(resource.getContents())
+                   for (TreeIterator<?> j = 
+                          new EcoreUtil.ContentTreeIterator<Object>(resource.getContents())
                           {
-                            protected Iterator getEObjectChildren(EObject eObject)
+                            private static final long serialVersionUID = 1L;
+
+                            @Override
+                            protected Iterator<? extends EObject> getEObjectChildren(EObject eObject)
                             {
                               return 
                                 eObject instanceof EPackage ? 
                                   ((EPackage)eObject).getESubpackages().iterator() : 
-                                    Collections.EMPTY_LIST.iterator();
+                                    Collections.<EObject>emptyList().iterator();
                             }
                           };
                         j.hasNext(); )
@@ -211,7 +215,8 @@ public class EcoreActionBarContributor
           (parent, 
            new LabelProvider()
            {
-             public Image getImage(Object element)
+             @Override
+            public Image getImage(Object element)
              {
                return ExtendedImageRegistry.getInstance().getImage(EcoreEditPlugin.INSTANCE.getImage("full/obj16/EPackage"));
              }
@@ -220,7 +225,7 @@ public class EcoreActionBarContributor
         setMultipleSelection(true);
         setMessage(EcoreEditorPlugin.INSTANCE.getString("_UI_SelectRegisteredPackageURI"));
         setFilter("*");
-        Map ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
+        Map<String, URI> ePackageNsURItoGenModelLocationMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
         Object [] result = ePackageNsURItoGenModelLocationMap.keySet().toArray(new Object[ePackageNsURItoGenModelLocationMap.size()]);
         Arrays.sort(result);
         setElements(result);
@@ -254,6 +259,7 @@ public class EcoreActionBarContributor
   protected IAction showPropertiesViewAction =
     new Action(EcoreEditorPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
     {
+      @Override
       public void run()
       {
         try
@@ -277,11 +283,13 @@ public class EcoreActionBarContributor
   protected IAction refreshViewerAction =
     new Action(EcoreEditorPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
     {
+      @Override
       public boolean isEnabled()
       {
         return activeEditorPart instanceof IViewerProvider;
       }
 
+      @Override
       public void run()
       {
         if (activeEditorPart instanceof IViewerProvider)
@@ -302,7 +310,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection createChildActions;
+  protected Collection<IAction> createChildActions;
 
   /**
    * This is the menu manager into which menu contribution items should be added for CreateChild actions.
@@ -319,7 +327,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection createSiblingActions;
+  protected Collection<IAction> createSiblingActions;
 
   /**
    * This is the menu manager into which menu contribution items should be added for CreateSibling actions.
@@ -385,6 +393,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
     toolBarManager.add(new Separator("ecore-settings"));
@@ -515,8 +524,8 @@ public class EcoreActionBarContributor
 
     // Query the new selection for appropriate new child/sibling descriptors
     //
-    Collection newChildDescriptors = null;
-    Collection newSiblingDescriptors = null;
+    Collection<CommandParameter> newChildDescriptors = null;
+    Collection<CommandParameter> newSiblingDescriptors = null;
 
     ISelection selection = event.getSelection();
     if (selection instanceof IStructuredSelection && ((IStructuredSelection)selection).size() == 1)
@@ -559,17 +568,16 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected Collection generateCreateChildActions(Collection descriptors, ISelection selection)
+  protected Collection<IAction> generateCreateChildActions(Collection<? extends CommandParameter> descriptors, ISelection selection)
   {
-    Collection actions = new ArrayList();
+    Collection<IAction> actions = new ArrayList<IAction>();
     if (descriptors != null)
     {
-      for (Iterator i = descriptors.iterator(); i.hasNext(); )
+      for (CommandParameter descriptor : descriptors)
       {
-        Object descriptor =  i.next();
-        if (!showGenericsAction.isChecked() && descriptor instanceof CommandParameter)
+        if (!showGenericsAction.isChecked())
         {
-          Object feature = ((CommandParameter)descriptor).getFeature();
+          Object feature = descriptor.getFeature();
           if (isGenericFeature(feature))
           {
             continue;
@@ -588,17 +596,16 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected Collection generateCreateSiblingActions(Collection descriptors, ISelection selection)
+  protected Collection<IAction> generateCreateSiblingActions(Collection<? extends CommandParameter> descriptors, ISelection selection)
   {
-    Collection actions = new ArrayList();
+    Collection<IAction> actions = new ArrayList<IAction>();
     if (descriptors != null)
     {
-      for (Iterator i = descriptors.iterator(); i.hasNext(); )
+      for (CommandParameter descriptor : descriptors)
       {
-        Object descriptor =  i.next();
-        if (!showGenericsAction.isChecked() && descriptor instanceof CommandParameter)
+        if (!showGenericsAction.isChecked())
         {
-          Object feature = ((CommandParameter)descriptor).getFeature();
+          Object feature = descriptor.getFeature();
           if (isGenericFeature(feature))
           {
             continue;
@@ -628,13 +635,12 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void populateManager(IContributionManager manager, Collection actions, String contributionID)
+  protected void populateManager(IContributionManager manager, Collection<? extends IAction> actions, String contributionID)
   {
     if (actions != null)
     {
-      for (Iterator i = actions.iterator(); i.hasNext(); )
+      for (IAction action : actions)
       {
-        IAction action = (IAction)i.next();
         if (contributionID != null)
         {
           manager.insertBefore(contributionID, action);
@@ -654,7 +660,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void depopulateManager(IContributionManager manager, Collection actions)
+  protected void depopulateManager(IContributionManager manager, Collection<? extends IAction> actions)
   {
     if (actions != null)
     {
@@ -689,6 +695,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void menuAboutToShow(IMenuManager menuManager)
   {
     super.menuAboutToShow(menuManager);
@@ -709,6 +716,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected void addGlobalActions(IMenuManager menuManager)
   {
     menuManager.insertAfter("additions-end", new Separator("ui-actions"));
@@ -726,6 +734,7 @@ public class EcoreActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected boolean removeAllReferencesOnDelete()
   {
     return true;
