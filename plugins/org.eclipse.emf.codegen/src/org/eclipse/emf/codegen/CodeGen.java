@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGen.java,v 1.12 2006/12/28 08:12:11 marcelop Exp $
+ * $Id: CodeGen.java,v 1.13 2006/12/28 12:35:19 emerks Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -44,7 +44,8 @@ import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.DiagnosticException;
-import org.eclipse.emf.common.util.EclipseApplication;
+import org.eclipse.equinox.app.IApplication;
+import org.eclipse.equinox.app.IApplicationContext;
 
 
 /**
@@ -122,17 +123,27 @@ public class CodeGen
     return PlatformRunnable.runHelper(object);
   }
 
-  public static class PlatformRunnable extends EclipseApplication
+  public static class PlatformRunnable implements IApplication, DeprecatedPlatformRunnable
   {
     /**
      * This is called with the command line arguments of a headless workbench invocation.
      */
-    @Override
     public Object run(Object object) 
     {
       return runHelper(object);
     }
-    
+
+    public Object start(IApplicationContext context) throws Exception
+    {
+      String [] args = (String[])context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
+      return run(args == null ? new String [0] : args);
+    }
+
+    public void stop()
+    {
+      // Subclasses may override
+    }
+
     public static Object runHelper(Object object) 
     {
       try
@@ -236,4 +247,10 @@ public class CodeGen
       }
     }
   }
+}
+
+@SuppressWarnings("deprecation")
+interface DeprecatedPlatformRunnable extends org.eclipse.core.runtime.IPlatformRunnable
+{
+  // Empty extension to limit the effect of suppressing the deprecation warning.
 }
