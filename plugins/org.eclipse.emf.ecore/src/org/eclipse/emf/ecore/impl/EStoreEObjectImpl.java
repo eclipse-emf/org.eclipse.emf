@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStoreEObjectImpl.java,v 1.9 2006/12/05 20:22:26 emerks Exp $
+ * $Id: EStoreEObjectImpl.java,v 1.10 2006/12/28 12:55:43 emerks Exp $
  */
 package org.eclipse.emf.ecore.impl;
 
@@ -758,7 +758,7 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
     // protected static final EStructuralFeature CONTAINING_FEATURE = new EReferenceImpl();
     // protected static final EStructuralFeature CONTAINER = new EReferenceImpl();
 
-    protected Map<Entry, EList<Object>> map = new HashMap<Entry, EList<Object>>();
+    protected Map<Entry, Object> map = new HashMap<Entry, Object>();
 
     public static class Entry
     {
@@ -794,7 +794,8 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
 
     protected EList<Object> getList(Entry entry)
     {
-      EList<Object> result = map.get(entry);
+      @SuppressWarnings("unchecked")
+      EList<Object> result = (EList<Object>)map.get(entry);
       if (result == null)
       {
         result = new BasicEList<Object>();
@@ -829,12 +830,11 @@ public class EStoreEObjectImpl extends EObjectImpl implements EStructuralFeature
       Entry entry = new Entry(eObject, feature);
       if (index == NO_INDEX)
       {
-        @SuppressWarnings("unchecked") EList<Object> listValue = (EList<Object>)value;
-        return map.put(entry, listValue);
+        return map.put(entry, value);
       }
       else
       {
-        List<Object> list = map.get(entry);
+        List<Object> list = getList(entry);
         return list.set(index, value);
       }
     }
