@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +13,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterPackagePage.java,v 1.2 2005/12/20 05:40:10 marcelop Exp $
+ * $Id: ModelExporterPackagePage.java,v 1.3 2006/12/28 06:50:54 marcelop Exp $
  */
 
 package org.eclipse.emf.exporter.ui.contribution.base;
@@ -65,6 +65,7 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
       super(tree);
     }
     
+    @Override
     public void handleEvent(Event event)
     {
       if (event.widget instanceof CCombo)
@@ -86,7 +87,7 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
       
       boolean validate = true;
       Object[] itemData = (Object[])combo.getData(text);
-      if (itemData instanceof Object[])
+      if (itemData != null)
       {
         String exporterID = (String)itemData[0];
         URI artifactURI = (URI)itemData[1];
@@ -109,6 +110,7 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
       }
     }
     
+    @Override
     protected Control createEditorControl(Widget item)
     {
       TreeItem treeItem = (TreeItem)item;
@@ -136,9 +138,8 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
     {
       combo.setData(genPackage);
       String exporterID = getModelExporter().getID();
-      for (Iterator i = getModelExporter().getArtifactURIs(genPackage).iterator(); i.hasNext();)
+      for (URI uri : getModelExporter().getArtifactURIs(genPackage))
       {
-        URI uri = (URI)i.next();
         String item = getArtifactText(exporterID, uri);
         combo.setData(item, new Object[]{exporterID, uri});
         combo.add(item);
@@ -163,12 +164,14 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
     return (ModelExporter)getModelConverter();
   }
 
+  @Override
   protected void adjustEPackagesTableViewer(CheckboxTableViewer ePackagesTableViewer)
   {
     super.adjustEPackagesTableViewer(ePackagesTableViewer);
     createEPackageDataColumnTableEditor();
   }
 
+  @Override
   protected boolean validateEPackageData(EPackage ePackage, String data)
   {
     Diagnostic diagnostic = getModelExporter().checkEPackageArtifactLocation(data, getLabel(ePackage));
@@ -176,22 +179,26 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
     return diagnostic.getSeverity() == Diagnostic.OK;    
   }
   
+  @Override
   protected void setEPackageData(EPackage ePackage, String data)
   {
     ModelExporter.EPackageExportInfo ePackageInfo = getModelExporter().getEPackageExportInfo(ePackage);
     ePackageInfo.setArtifactLocation(data);
   }
   
+  @Override
   protected String getEPackageData(EPackage ePackage)
   {
     return getModelExporter().getEPackageExportInfo(ePackage).getArtifactLocation();
   }
   
+  @Override
   protected String getEPackageDataColumnLabel()
   {
     return ExporterPlugin.INSTANCE.getString("_UI_ArtifactName_label");
   }
 
+  @Override
   protected void addReferencedGenModelsTreeColumns(CheckboxTreeViewer referencedGenModelsTreeViewer)
   {
     Tree tree = referencedGenModelsTreeViewer.getTree();
@@ -211,10 +218,12 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
     treeEditorHelper.setColumn(1);
   }
   
+  @Override
   protected void addReferencedGenModelsTreeCheckStateManager(Tree tree)
   {
     new ConverterUIUtil.TreeCheckStateManager(tree)
     {
+      @Override
       protected void setCheck(TreeItem item, boolean check)
       {
         Object data = item.getData();
@@ -227,6 +236,7 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
     };
   }
 
+  @Override
   protected void referencedGenModelsCheckboxTreeViewerCheckStateChanged(CheckStateChangedEvent event)
   {
     if (event != null && event.getChecked())
@@ -246,15 +256,18 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
     super.referencedGenModelsCheckboxTreeViewerCheckStateChanged(event);
   }
   
+  @Override
   protected boolean supportsNestedPackages()
   {
     return true;
   }
 
+  @Override
   protected ILabelProvider getReferencedGenModelsTreeViewerLabelProvider(AdapterFactory adapterFactory)
   {
     return new AdapterFactoryLabelProvider(adapterFactory)
       {
+        @Override
         public String getColumnText(Object object, int columnIndex)
         {
           if (columnIndex == 0)
@@ -280,6 +293,7 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
           }
         }
 
+        @Override
         public Image getColumnImage(Object object, int columnIndex)
         {
           return columnIndex == 0 ? super.getColumnImage(object, columnIndex) : null;
@@ -308,26 +322,25 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
     }
   }
   
+  @Override
   protected void validate()
   {
     super.validate();
     
     if (getErrorMessage() == null)
     {
-      List tableCheckedEPackages = getCheckedEPackages();
-      for (Iterator i = tableCheckedEPackages.iterator(); i.hasNext();)
+      List<EPackage> tableCheckedEPackages = getCheckedEPackages();
+      for (EPackage ePackage : tableCheckedEPackages)
       {
-        EPackage ePackage = (EPackage)i.next();
         if ( !validateEPackageData(ePackage, getModelExporter().getEPackageExportInfo(ePackage).getArtifactLocation()))
         {
           return;
         }
       }
             
-      List tableCheckedGenPackages = getCheckedReferencedGenPackages();
-      for (Iterator i = tableCheckedGenPackages.iterator(); i.hasNext();)
+      List<GenPackage> tableCheckedGenPackages = getCheckedReferencedGenPackages();
+      for (GenPackage genPackage : tableCheckedGenPackages)
       {
-        GenPackage genPackage = (GenPackage)i.next();
         if (getModelExporter().getReferencedGenPackageExportInfo(genPackage).getArtifactURI() == null)
         {
           setErrorMessage(ExporterPlugin.INSTANCE.getString("_UI_ReferencedGenPackageNoArtifact_error"));
@@ -337,13 +350,14 @@ public class ModelExporterPackagePage extends ModelConverterPackagePage implemen
     }
   }
   
-  protected List getReferencedGenPackagesToCheck(List genPackages, boolean reloadReferencedGenPackagesTable)
+  @Override
+  protected List<GenPackage> getReferencedGenPackagesToCheck(List<GenPackage> genPackages, boolean reloadReferencedGenPackagesTable)
   {
     if (reloadReferencedGenPackagesTable)
     {
-      for (Iterator i = genPackages.iterator(); i.hasNext();)
+      for (Iterator<GenPackage> i = genPackages.iterator(); i.hasNext();)
       {
-        GenPackage genPackage = (GenPackage)i.next();
+        GenPackage genPackage = i.next();
         if (getModelExporter().getReferencedGenPackageExportInfo(genPackage).getArtifactURI() == null)
         {
           i.remove();

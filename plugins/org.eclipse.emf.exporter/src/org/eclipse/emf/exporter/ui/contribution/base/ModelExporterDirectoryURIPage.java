@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterDirectoryURIPage.java,v 1.2 2006/10/16 03:31:49 davidms Exp $
+ * $Id: ModelExporterDirectoryURIPage.java,v 1.3 2006/12/28 06:50:54 marcelop Exp $
  */
 
 package org.eclipse.emf.exporter.ui.contribution.base;
@@ -50,23 +50,27 @@ public class ModelExporterDirectoryURIPage extends ModelConverterURIPage impleme
     return (ModelExporter)getModelConverter();
   }
   
+  @Override
   public boolean isPageComplete()
   {
     return super.isPageComplete()
       && getModelExporter().getDirectoryURI()!= null;
   }
   
+  @Override
   protected String getURITextLabel()
   {
     return ExporterPlugin.INSTANCE.getString("_UI_ArtifactDirectoryURI_label");
   }
   
+  @Override
   protected String getURITextInitialValue()
   {
     URI uri = getModelExporter().getDirectoryURI();
     return uri == null ? super.getURITextInitialValue() : uri.toString();
   }
   
+  @Override
   protected void uriTextModified(String text)
   {
     if (text.length() == 0)
@@ -95,6 +99,7 @@ public class ModelExporterDirectoryURIPage extends ModelConverterURIPage impleme
     }
   }
   
+  @Override
   protected boolean browseFileSystem()
   {
     DirectoryDialog directoryDialog = new DirectoryDialog(getShell(), SWT.NONE);
@@ -114,6 +119,7 @@ public class ModelExporterDirectoryURIPage extends ModelConverterURIPage impleme
     return false;    
   }
   
+  @Override
   protected boolean browseWorkspace()
   {
     IResource initialFolderResource = null;

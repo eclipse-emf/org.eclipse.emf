@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExporterPlugin.java,v 1.2 2006/06/01 13:24:21 davidms Exp $
+ * $Id: ExporterPlugin.java,v 1.3 2006/12/28 06:50:54 marcelop Exp $
  */
 package org.eclipse.emf.exporter;
 
@@ -54,6 +54,7 @@ public final class ExporterPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

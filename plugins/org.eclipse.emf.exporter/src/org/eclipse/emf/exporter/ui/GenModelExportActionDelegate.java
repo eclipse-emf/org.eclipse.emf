@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelExportActionDelegate.java,v 1.1 2005/12/14 08:06:32 marcelop Exp $
+ * $Id: GenModelExportActionDelegate.java,v 1.2 2006/12/28 06:50:54 marcelop Exp $
  */
 package org.eclipse.emf.exporter.ui;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.converter.ui.OpenWizardActionDelegate;
  */
 public class GenModelExportActionDelegate extends OpenWizardActionDelegate
 {
+  @Override
   protected IWizard createWizard(IWorkbench workbench, Shell shell, IFile file)
   {
     EMFExportWizard wizard = new EMFExportWizard(file);

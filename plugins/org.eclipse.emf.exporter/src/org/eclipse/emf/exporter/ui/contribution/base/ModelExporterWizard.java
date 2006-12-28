@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelExporterWizard.java,v 1.3 2006/04/10 19:34:47 marcelop Exp $
+ * $Id: ModelExporterWizard.java,v 1.4 2006/12/28 06:50:54 marcelop Exp $
  */
 package org.eclipse.emf.exporter.ui.contribution.base;
 
@@ -47,6 +47,7 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
     return (ModelExporter)getModelConverter();
   }
   
+  @Override
   public void init(IWorkbench workbench, IStructuredSelection selection)
   {
     super.init(workbench, selection);
@@ -107,6 +108,7 @@ public abstract class ModelExporterWizard extends ModelConverterWizard
     ExporterPlugin.getPlugin().savePluginPreferences();
   }
 
+  @Override
   protected Diagnostic doPerformFinish(Monitor monitor) throws Exception
   {
     Diagnostic diagnostic = getModelExporter().export(monitor);

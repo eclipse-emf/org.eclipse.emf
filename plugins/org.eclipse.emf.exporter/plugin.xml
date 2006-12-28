@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-  <extension-point id="modelExporterDescriptors" name="%_UI_ModelExporterDescriptors_extensionpoint" schema="schema/modelExorterDescriptors.exsd" />
+  <extension-point id="modelExporterDescriptors" name="%_UI_ModelExporterDescriptors_extensionpoint" schema="schema/modelExporterDescriptors.exsd" />
   
   <extension point="org.eclipse.ui.popupMenus">
     <objectContribution id="org.eclipse.emf.exporter.genModelObjectContribution" objectClass="org.eclipse.core.resources.IFile" nameFilter="*.genmodel">

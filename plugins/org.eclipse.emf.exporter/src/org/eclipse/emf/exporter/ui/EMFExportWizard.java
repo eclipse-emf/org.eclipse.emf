@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFExportWizard.java,v 1.2 2005/12/14 21:59:06 marcelop Exp $
+ * $Id: EMFExportWizard.java,v 1.3 2006/12/28 06:50:54 marcelop Exp $
  */
 package org.eclipse.emf.exporter.ui;
 
@@ -45,11 +45,13 @@ public class EMFExportWizard extends Wizard implements IWorkbenchWizard
       super(pageId, ModelExporterManager.INSTANCE, workbench, selection);
     }
     
+    @Override
     protected Object[] getTableInput()
     {
       return getModelExporterDescriptors().toArray();
     }
     
+    @Override
     protected String getSelectModelConverterLabel()
     {
       return ExporterPlugin.INSTANCE.getString("_UI_SelectModelExporters_label");
@@ -65,11 +67,13 @@ public class EMFExportWizard extends Wizard implements IWorkbenchWizard
       return (ModelExporterDescriptor)getModelConverterDescriptor();
     }
     
+    @Override
     protected void adjustModelConverterWizard(IWizard modelConverterWizard)
     {
       adjustModelExporterWizard((IWorkbenchWizard)modelConverterWizard, getModelExporterDescriptor());
     }
     
+    @Override
     protected String getNoModelConverterMessage()
     {
       return ExporterPlugin.INSTANCE.getString("_UI_NoModelExporters_error");
@@ -94,6 +98,7 @@ public class EMFExportWizard extends Wizard implements IWorkbenchWizard
     this.modelFile = modelFile;
   }
 
+  @Override
   public void dispose()
   {
     selection = null;
@@ -113,6 +118,7 @@ public class EMFExportWizard extends Wizard implements IWorkbenchWizard
     return ExtendedImageRegistry.INSTANCE.getImageDescriptor(ExporterPlugin.INSTANCE.getImage("ExportModel"));
   }
 
+  @Override
   public void addPages()
   {
     selectionPage = new SelectionPage("ModelExporterDescriptorSelectionPage", workbench, selection);
@@ -133,20 +139,23 @@ public class EMFExportWizard extends Wizard implements IWorkbenchWizard
     setDefaultPageImageDescriptor(getDefaultImageDescriptor());
   }
   
-  protected List getModelExporterDescriptors()
+  protected List<ModelExporterDescriptor> getModelExporterDescriptors()
   {
     return ModelExporterManager.INSTANCE.getModelConverterDescriptors();
   }
   
   protected void adjustModelExporterWizard(IWorkbenchWizard workbenchWizard, ModelExporterDescriptor modelExporterDescriptor)
   {
+    // Subclasses may override
   }
 
+  @Override
   public boolean canFinish()
   {
     return false;
   }
 
+  @Override
   public boolean performFinish()
   {
     selectionPage.performFinish();
