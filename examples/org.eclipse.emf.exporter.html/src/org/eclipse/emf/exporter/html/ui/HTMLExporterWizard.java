@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporterWizard.java,v 1.3 2006/03/18 17:04:58 marcelop Exp $
+ * $Id: HTMLExporterWizard.java,v 1.4 2006/12/28 06:51:47 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html.ui;
 
@@ -29,11 +29,13 @@ import org.eclipse.emf.exporter.ui.contribution.base.ModelExporterWizard;
  */
 public class HTMLExporterWizard extends ModelExporterWizard
 {
+  @Override
   protected ModelConverter createModelConverter()
   {
     return new HTMLExporter();
   }
   
+  @Override
   public void addPages()
   {
     ModelExporterDirectoryURIPage directoryURIPage = new ModelExporterDirectoryURIPage(getModelExporter(), "HTMLExporterBaseLocationPage");

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporter.java,v 1.4 2006/04/10 19:35:33 marcelop Exp $
+ * $Id: HTMLExporter.java,v 1.5 2006/12/28 06:51:47 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html;
 
@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -50,21 +49,24 @@ import org.eclipse.emf.exporter.ModelExporter;
 public class HTMLExporter extends ModelExporter
 {
   private ModelExporter.ExportData exportData;
-  private Map ePackageToGenPackage;
+  private Map<EPackage, GenPackage> ePackageToGenPackage;
   
   private GenPackage currentGenPackage;
   private URI currentArtifactURI;
   
+  @Override
   public String getID()
   {
     return "org.eclipse.emf.exporter.html";
   }
   
+  @Override
   protected String getDefaultArtifactLocation(EPackage ePackage)
   {
     return getDefaultArtifactFileName(ePackage) + ".html";
   }
   
+  @Override
   protected String doCheckEPackageArtifactLocation(String location, String packageName)
   {
     if (!location.endsWith(".html"))
@@ -74,23 +76,22 @@ public class HTMLExporter extends ModelExporter
     return super.doCheckEPackageArtifactLocation(location, packageName);
   }
   
+  @Override
   protected Diagnostic doExport(Monitor monitor, ModelExporter.ExportData exportData) throws Exception
   {
     this.exportData = exportData;
-    List entries = new ArrayList(exportData.genPackageToArtifactURI.keySet());
+    List<GenPackage> entries = new ArrayList<GenPackage>(exportData.genPackageToArtifactURI.keySet());
     entries.addAll(exportData.referencedGenPackagesToArtifactURI.keySet());
-    ePackageToGenPackage = new HashMap();
-    for (Iterator i = entries.iterator(); i.hasNext();)
+    ePackageToGenPackage = new HashMap<EPackage, GenPackage>();
+    for (GenPackage genPackage : entries)
     {
-      GenPackage genPackage = (GenPackage)i.next();
       ePackageToGenPackage.put(genPackage.getEcorePackage(), genPackage);
     }
     
-    for (Iterator i = exportData.genPackageToArtifactURI.entrySet().iterator(); i.hasNext();)
+    for (Map.Entry<GenPackage, URI> entry : exportData.genPackageToArtifactURI.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();      
-      currentGenPackage = (GenPackage)entry.getKey();
-      currentArtifactURI = (URI)entry.getValue();
+      currentGenPackage = entry.getKey();
+      currentArtifactURI = entry.getValue();
       
       String content = new PackageHTML().generate(this);
       save(content);
@@ -129,13 +130,13 @@ public class HTMLExporter extends ModelExporter
           .toString(); 
       }
       
-      GenPackage eClassifierGenPackage = (GenPackage)ePackageToGenPackage.get(eClassifierEPackage);
+      GenPackage eClassifierGenPackage = ePackageToGenPackage.get(eClassifierEPackage);
       if (eClassifierGenPackage != null)
       {
-        URI artifactURI = (URI)exportData.genPackageToArtifactURI.get(eClassifierGenPackage);
+        URI artifactURI = exportData.genPackageToArtifactURI.get(eClassifierGenPackage);
         if (artifactURI == null)
         {
-          artifactURI = (URI)exportData.referencedGenPackagesToArtifactURI.get(eClassifierGenPackage);
+          artifactURI = exportData.referencedGenPackagesToArtifactURI.get(eClassifierGenPackage);
         }
         
         if (artifactURI != null)

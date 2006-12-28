@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: HTMLExporterPlugin.java,v 1.3 2006/06/01 14:35:31 marcelop Exp $
+ * $Id: HTMLExporterPlugin.java,v 1.4 2006/12/28 06:51:47 marcelop Exp $
  */
 package org.eclipse.emf.exporter.html;
 
@@ -48,6 +48,7 @@ public final class HTMLExporterPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

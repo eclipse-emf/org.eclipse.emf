@@ -109,10 +109,10 @@ public class PackageHTML
     stringBuffer.append(TEXT_4);
     stringBuffer.append(genPackage.getGenModel().eResource().getURI().toString());
     stringBuffer.append(TEXT_5);
-    Collection eClasses = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.ECLASS);
+    Collection<EClass> eClasses = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.ECLASS);
     if (!eClasses.isEmpty()) {
     stringBuffer.append(TEXT_6);
-    for (Iterator eClassIterator = eClasses.iterator(); eClassIterator.hasNext();) { EClass eClass = (EClass)eClassIterator.next();
+    for (EClass eClass : eClasses) { 
     stringBuffer.append(TEXT_7);
     stringBuffer.append(eClass.getName());
     stringBuffer.append(TEXT_8);
@@ -124,7 +124,7 @@ public class PackageHTML
     stringBuffer.append(TEXT_11);
     if (!eClass.getESuperTypes().isEmpty()) {
     stringBuffer.append(TEXT_12);
-    for (Iterator eSuperClassIterator = eClass.getESuperTypes().iterator(); eSuperClassIterator.hasNext();) { EClass eSuperClass = (EClass)eSuperClassIterator.next();
+    for (EClass eSuperClass : eClass.getESuperTypes()) {
     stringBuffer.append(TEXT_13);
     stringBuffer.append(htmlExporter.computeClassifierLabel(eSuperClass));
     stringBuffer.append(TEXT_14);
@@ -134,7 +134,7 @@ public class PackageHTML
     stringBuffer.append(TEXT_16);
     if (!eClass.getEAttributes().isEmpty()) {
     stringBuffer.append(TEXT_17);
-    for (Iterator eAttributeIterator = eClass.getEAttributes().iterator(); eAttributeIterator.hasNext();) { EAttribute eAttribute = (EAttribute)eAttributeIterator.next();
+    for (EAttribute eAttribute : eClass.getEAttributes()) {
     stringBuffer.append(TEXT_18);
     stringBuffer.append(htmlExporter.computeClassifierLabel(eAttribute.getEType()));
     if (eAttribute.isMany()){
@@ -149,7 +149,7 @@ public class PackageHTML
     stringBuffer.append(TEXT_23);
     if (!eClass.getEOperations().isEmpty()) {
     stringBuffer.append(TEXT_24);
-    for (Iterator eOperationIterator = eClass.getEOperations().iterator(); eOperationIterator.hasNext();) { EOperation eOperation = (EOperation)eOperationIterator.next();
+    for (EOperation eOperation : eClass.getEOperations()) {
     stringBuffer.append(TEXT_25);
     stringBuffer.append(htmlExporter.computeClassifierLabel(eOperation.getEType(), "void"));
     if (eOperation.isMany()){
@@ -158,7 +158,7 @@ public class PackageHTML
     stringBuffer.append(TEXT_27);
     stringBuffer.append(eOperation.getName());
     stringBuffer.append(TEXT_28);
-    for (Iterator eParameterIterator = eOperation.getEParameters().iterator(); eParameterIterator.hasNext();) { EParameter eParameter = (EParameter)eParameterIterator.next();
+    for (Iterator<EParameter> eParameterIterator = eOperation.getEParameters().iterator(); eParameterIterator.hasNext(); ) { EParameter eParameter = eParameterIterator.next(); 
     stringBuffer.append(TEXT_29);
     stringBuffer.append(htmlExporter.computeClassifierLabel(eParameter.getEType()));
     if (eParameter.isMany()){
@@ -175,7 +175,7 @@ public class PackageHTML
     stringBuffer.append(TEXT_35);
     if (!eClass.getEReferences().isEmpty()) {
     stringBuffer.append(TEXT_36);
-    for (Iterator eReferenceIterator = eClass.getEReferences().iterator(); eReferenceIterator.hasNext();) { EReference eReference = (EReference)eReferenceIterator.next();
+    for (EReference eReference : eClass.getEReferences()) {
     stringBuffer.append(TEXT_37);
     stringBuffer.append(htmlExporter.computeClassifierLabel(eReference.getEType()));
     if (eReference.isMany()){
@@ -191,10 +191,10 @@ public class PackageHTML
     }
     }
     stringBuffer.append(TEXT_43);
-    Collection eEnums = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.EENUM);
+    Collection<EEnum> eEnums = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.EENUM);
     if (!eEnums.isEmpty()) {
     stringBuffer.append(TEXT_44);
-    for (Iterator eEnumIterator = eEnums.iterator(); eEnumIterator.hasNext();) { EEnum eEnum = (EEnum)eEnumIterator.next();
+    for (EEnum eEnum : eEnums) {
     stringBuffer.append(TEXT_45);
     stringBuffer.append(eEnum.getName());
     stringBuffer.append(TEXT_46);
@@ -202,7 +202,7 @@ public class PackageHTML
     stringBuffer.append(TEXT_47);
     if (!eEnum.getELiterals().isEmpty()) {
     stringBuffer.append(TEXT_48);
-    for (Iterator eEnumLiteralIterator = eEnum.getELiterals().iterator(); eEnumLiteralIterator.hasNext();) { EEnumLiteral eEnumLiteral = (EEnumLiteral)eEnumLiteralIterator.next();
+    for (EEnumLiteral eEnumLiteral : eEnum.getELiterals()) {
     stringBuffer.append(TEXT_49);
     stringBuffer.append(eEnumLiteral.getName());
     stringBuffer.append(TEXT_50);
@@ -212,10 +212,10 @@ public class PackageHTML
     }
     }
     stringBuffer.append(TEXT_52);
-    Collection eDataTypes = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.EDATA_TYPE); eDataTypes.removeAll(eEnums);
+    Collection<EDataType> eDataTypes = EcoreUtil.getObjectsByType(ePackage.getEClassifiers(), EcorePackage.Literals.EDATA_TYPE); eDataTypes.removeAll(eEnums);
     if (!eDataTypes.isEmpty()) {
     stringBuffer.append(TEXT_53);
-    for (Iterator eDataTypeIterator = eDataTypes.iterator(); eDataTypeIterator.hasNext();) { EDataType eDataType = (EDataType)eDataTypeIterator.next();
+    for (EDataType eDataType : eDataTypes) {
     stringBuffer.append(TEXT_54);
     stringBuffer.append(eDataType.getName());
     stringBuffer.append(TEXT_55);
