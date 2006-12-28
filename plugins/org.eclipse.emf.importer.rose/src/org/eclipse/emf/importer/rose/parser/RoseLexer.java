@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseLexer.java,v 1.2 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseLexer.java,v 1.3 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
 public class RoseLexer
 {
   protected RoseLoader roseLoader;
-  protected List tokens = new ArrayList();
+  protected List<RoseToken> tokens = new ArrayList<RoseToken>();
   protected int currentElement = 0;
   protected boolean isList = false;
   protected int lineCounter = 0;
@@ -42,7 +42,7 @@ public class RoseLexer
     RoseToken roseToken = null;
     if (tokens.size() > currentElement)
     {
-      roseToken = (RoseToken)tokens.get(currentElement);
+      roseToken = tokens.get(currentElement);
     }
     tokens.clear();
     if (roseToken != null)
@@ -62,7 +62,7 @@ public class RoseLexer
     }
     if (currentElement < tokens.size())
     {
-      RoseToken roseToken = (RoseToken)tokens.get(currentElement);
+      RoseToken roseToken = tokens.get(currentElement);
       currentElement++;
       return roseToken;
     }
@@ -80,7 +80,7 @@ public class RoseLexer
     }
     if (currentElement < tokens.size())
     {
-      return (RoseToken)tokens.get(currentElement);
+      return tokens.get(currentElement);
     }
     else
     {
@@ -97,7 +97,7 @@ public class RoseLexer
     }
     for (int i = currentElement - count; i <= currentElement; i++)
     {
-      RoseToken tok = (RoseToken)tokens.get(i);
+      RoseToken tok = tokens.get(i);
       System.out.println(tok.getToken());
     }
   }

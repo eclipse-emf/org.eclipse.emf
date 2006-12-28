@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: RoseComponent.java,v 1.2 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseComponent.java,v 1.3 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -28,7 +27,7 @@ import java.util.List;
  */
 public class RoseComponent
 {
-  protected List listeners = new ArrayList();
+  protected List<PropertyChangeListener> listeners = new ArrayList<PropertyChangeListener>();
 
   public void addPropertyChangeListener(PropertyChangeListener l)
   {
@@ -37,9 +36,8 @@ public class RoseComponent
 
   public void firePropertyChange(String propertyName, int oldValue, int newValue)
   {
-    for (Iterator i = listeners.iterator(); i.hasNext();)
+    for (PropertyChangeListener propertyChangeListener : listeners)
     {
-      PropertyChangeListener propertyChangeListener = (PropertyChangeListener)i.next();
       Integer oldInt = new Integer(oldValue);
       Integer newInt = new Integer(newValue);
       PropertyChangeEvent propertyChangeEvent = new PropertyChangeEvent(this, propertyName, oldInt, newInt);

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseParser.java,v 1.3 2005/06/12 13:36:38 emerks Exp $
+ * $Id: RoseParser.java,v 1.4 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -50,7 +50,7 @@ public class RoseParser
   protected RoseNode versionTree;
   protected RoseNode modelTree;
   protected String baseId = "";
-  protected Stack idStack = new Stack();
+  protected Stack<Integer> idStack = new Stack<Integer>();
   protected boolean isTreeOnly = false;
   protected boolean isAllowed = true;
   protected boolean isRoot = true;
@@ -95,7 +95,7 @@ public class RoseParser
     modelTree = parseExpr("");
   }
 
-  public void traverseTree(List path)
+  public void traverseTree(List<Integer> path)
   {
     RoseNode node = modelTree;
     if (node == null)
@@ -109,12 +109,12 @@ public class RoseParser
       {
         return;
       }
-      List nodes = node.getNodes();
-      Integer integ = (Integer)path.get(i);
+      List<RoseNode> nodes = node.getNodes();
+      Integer integ = path.get(i);
       int j = integ.intValue();
       if (j < 1 || j > nodes.size())
         break;
-      node = (RoseNode)nodes.get(j - 1);
+      node = nodes.get(j - 1);
     }
 
     String id = node.getId();
@@ -149,11 +149,11 @@ public class RoseParser
       t1 = "(VALUE)";
     }
     System.out.println(t1 + "\t" + node.getKey() + " --- " + node.getValue() + " - " + id + " - " + atId);
-    List nodes = node.getNodes();
+    List<RoseNode> nodes = node.getNodes();
     int count = 1;
     for (int i = 0; i < nodes.size(); i++)
     {
-      RoseNode n = (RoseNode)nodes.get(i);
+      RoseNode n = nodes.get(i);
       String t = "";
       if (n.getRoseNodeType() == RoseNode.STRING)
       {
@@ -182,7 +182,7 @@ public class RoseParser
 
   private RoseNode parseObject(String key)
   {
-    Integer topInt = (Integer)idStack.pop();
+    Integer topInt = idStack.pop();
     int top = topInt.intValue();
     idStack.push(new Integer(++top));
     idStack.push(new Integer(0));
@@ -263,7 +263,7 @@ public class RoseParser
 
   private RoseNode parseValue(String key)
   {
-    Integer topInt = (Integer)idStack.pop();
+    Integer topInt = idStack.pop();
     int top = topInt.intValue();
     //    top++;
     idStack.push(new Integer(++top));

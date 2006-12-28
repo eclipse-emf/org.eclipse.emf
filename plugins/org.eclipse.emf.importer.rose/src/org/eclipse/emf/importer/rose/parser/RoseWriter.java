@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseWriter.java,v 1.3 2005/06/12 13:36:38 emerks Exp $
+ * $Id: RoseWriter.java,v 1.4 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
@@ -118,10 +118,10 @@ public class RoseWriter extends RoseComponent
       }
       else if (tree.getRoseNodeType() == RoseNode.STRING_SEQ)
       {
-        List nodes = tree.getNodes();
+        List<RoseNode> nodes = tree.getNodes();
         for (int i = 0; i < nodes.size(); i++)
         {
-          RoseNode node = (RoseNode)nodes.get(i);
+          RoseNode node = nodes.get(i);
           buffWriter.newLine();
           buffWriter.write('|');
           buffWriter.write(node.getValue());
@@ -161,11 +161,11 @@ public class RoseWriter extends RoseComponent
         buffWriter.write("(list ");
         buffWriter.write(tree.getValue());
       }
-      List nodes = tree.getNodes();
+      List<RoseNode> nodes = tree.getNodes();
 
       for (int j = 0; j < nodes.size(); j++)
       {
-        RoseNode node = (RoseNode)nodes.get(j);
+        RoseNode node = nodes.get(j);
         buffWriter.newLine();
         for (int i = 0; i < justIndex; i++)
         {
@@ -206,10 +206,10 @@ public class RoseWriter extends RoseComponent
       buffWriter.write("(object ");
       buffWriter.write(tree.getValue());
 
-      List nodes = tree.getNodes();
+      List<RoseNode> nodes = tree.getNodes();
       for (int i = 0; i < nodes.size(); i++)
       {
-        RoseNode node = (RoseNode)nodes.get(i);
+        RoseNode node = nodes.get(i);
         writePair(node);
       }
       buffWriter.write(')');
@@ -231,10 +231,10 @@ public class RoseWriter extends RoseComponent
       buffWriter.write("(value ");
       buffWriter.write(tree.getValue());
 
-      List nodes = tree.getNodes();
+      List<RoseNode>nodes = tree.getNodes();
       for (int i = 0; i < nodes.size(); i++)
       {
-        RoseNode node = (RoseNode)nodes.get(i);
+        RoseNode node = nodes.get(i);
         writeExpr(node);
       }
       buffWriter.write(')');

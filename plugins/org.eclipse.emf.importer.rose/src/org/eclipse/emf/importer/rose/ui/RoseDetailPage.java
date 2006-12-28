@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseDetailPage.java,v 1.13 2005/12/14 07:56:02 marcelop Exp $
+ * $Id: RoseDetailPage.java,v 1.14 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.ui;
 
@@ -75,6 +75,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
       "_UI_RoseModelImportNewProject_description" : "_UI_RoseModelImportFile_description"));
   }
 
+  @Override
   public void dispose()
   {
     if (loadPathMapSymbolsButton != null)
@@ -100,6 +101,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
     super.dispose();
   }
   
+  @Override
   protected boolean supportMultipleURIs()
   {
     return false;
@@ -110,6 +112,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
     return (RoseImporter)getModelImporter();
   }
 
+  @Override
   protected void addDetailControl(Composite parent)
   {
     Group pathMapGroup = new Group(parent, SWT.SHADOW_ETCHED_IN);
@@ -172,6 +175,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
 
     new ExtendedTableEditor(pathMapTable)
     {
+      @Override
       protected void editItem(final TableItem tableItem, final int column)
       {
         switch (column)
@@ -189,6 +193,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
  
             text.addFocusListener(new FocusAdapter()
               {
+                @Override
                 public void focusLost(FocusEvent event)
                 {
                   modify(tableItem, column, text);
@@ -197,6 +202,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
  
             text.addKeyListener(new KeyAdapter()
               {
+                @Override
                 public void keyPressed(KeyEvent event)
                 {
                   if (event.character == '\r' || event.character == '\n')
@@ -244,6 +250,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
     pathMapTableViewer.setContentProvider(new AdapterFactoryContentProvider(adapterFactory));
     pathMapTableViewer.setLabelProvider(new AdapterFactoryLabelProvider(adapterFactory)
       {
+        @Override
         public Image getColumnImage(Object o, int columnIndex)
         {
           switch (columnIndex)
@@ -254,6 +261,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
           }
         }
 
+        @Override
         public String getColumnText(Object o, int columnIndex)
         {
           switch (columnIndex)
@@ -263,7 +271,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
             }
             default:
             case 1: {
-              String result = (String)getRoseImporter().getPathMap().get(o);
+              String result = getRoseImporter().getPathMap().get(o);
               return result == null ? "" : result;
             }
           }
@@ -271,6 +279,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
       });
   }
 
+  @Override
   protected void doHandleEvent(Event event)
   {
     if (event.type == SWT.Selection && event.widget == loadPathMapSymbolsButton)
@@ -281,7 +290,7 @@ public class RoseDetailPage extends ModelImporterDetailPage
           {
             public void run()
             {
-              loadPathMapSymbols();;
+              loadPathMapSymbols();
             }
           });
       }
@@ -316,17 +325,20 @@ public class RoseDetailPage extends ModelImporterDetailPage
     getContainer().updateButtons();
   }
   
+  @Override
   public boolean isPageComplete()
   {
     return !isCellEditing && super.isPageComplete();
   }
   
+  @Override
   protected void adjustLoadButton()
   {
     super.adjustLoadButton();
     loadPathMapSymbolsButton.setEnabled(loadButton.isEnabled()); 
   }
   
+  @Override
   protected void refreshModel()
   {
     super.refreshModel();

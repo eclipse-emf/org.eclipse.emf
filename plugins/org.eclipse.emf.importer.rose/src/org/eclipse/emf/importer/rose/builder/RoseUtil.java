@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseUtil.java,v 1.7 2006/12/05 20:32:41 emerks Exp $
+ * $Id: RoseUtil.java,v 1.8 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -30,6 +30,8 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
@@ -46,16 +48,15 @@ import org.eclipse.emf.importer.rose.parser.Util;
  */
 public class RoseUtil
 {
-  protected Map quidTable = new HashMap();
-  protected Map nameTable = new HashMap();
-  protected Map superTable = new HashMap();
-  protected Map refTable = new HashMap();
-  protected Map typeTable = new LinkedHashMap();
-  protected Map primitiveTable = new HashMap();
-  protected Map variableToDirectoryMap = new HashMap();
-  protected Map packageNameToNSNameMap = new HashMap();
-  protected Map packageNameToNSURIMap = new HashMap();
-  protected Map ePackageToInformationMap = new HashMap();
+  protected Map<String, Object> quidTable = new HashMap<String, Object>();
+  protected Map<String, Object> nameTable = new HashMap<String, Object>();
+  protected Map<Object, List<String>> superTable = new HashMap<Object, List<String>>();
+  protected Map<EReference, String> refTable = new HashMap<EReference, String>();
+  protected Map<EObject, String> typeTable = new LinkedHashMap<EObject, String>();
+  protected Map<String, String> variableToDirectoryMap = new HashMap<String, String>();
+  protected Map<String, String> packageNameToNSNameMap = new HashMap<String, String>();
+  protected Map<String, String> packageNameToNSURIMap = new HashMap<String, String>();
+  protected Map<EPackage, List<String>> ePackageToInformationMap = new HashMap<EPackage, List<String>>();
   protected URIConverter uriConverter;
   
   public RoseUtil(URIConverter uriConverter)
@@ -208,7 +209,7 @@ public class RoseUtil
     if (quidTable.size() > 0)
     {
       System.out.println("=========== Class Info ============");
-      Iterator it = quidTable.keySet().iterator();
+      Iterator<String> it = quidTable.keySet().iterator();
       while (it.hasNext())
       {
         Object key = it.next();
@@ -220,12 +221,12 @@ public class RoseUtil
 
   protected void traverseOut(UnitTreeNode tree, int index)
   {
-    List nodes = tree.getNodes();
+    List<UnitTreeNode> nodes = tree.getNodes();
     if (nodes.size() > 0)
     {
       for (int i = 0; i < nodes.size(); i++)
       {
-        UnitTreeNode node = (UnitTreeNode)nodes.get(i);
+        UnitTreeNode node = nodes.get(i);
         System.out.println("[" + index + "]: " + node.getName() + ",  " + node.getQUID() + ", " + node.getEcoreFileName());
         traverseOut(node, index + 1);
       }
@@ -259,10 +260,10 @@ public class RoseUtil
 
   public boolean checkFileName(UnitTreeNode unitTree, String name)
   {
-    List nodes = unitTree.getNodes();
+    List<UnitTreeNode> nodes = unitTree.getNodes();
     for (int i = 0; i < nodes.size(); i++)
     {
-      UnitTreeNode node = (UnitTreeNode)nodes.get(i);
+      UnitTreeNode node = nodes.get(i);
       if (node.getEcoreFileName().equals(name) || checkFileName(node, name))
       {
         return true;
@@ -274,12 +275,12 @@ public class RoseUtil
 
   public void createExtent(UnitTreeNode unitTree)
   {
-    EList ext = new BasicEList();
+    EList<EObject> ext = new BasicEList<EObject>();
     unitTree.setExtent(ext);
-    List nodes = unitTree.getNodes();
+    List<UnitTreeNode> nodes = unitTree.getNodes();
     for (int i = 0; i < nodes.size(); i++)
     {
-      createExtent((UnitTreeNode)nodes.get(i));
+      createExtent(nodes.get(i));
     }
   }
 
@@ -311,16 +312,16 @@ public class RoseUtil
 
   protected void setIDs(UnitTreeNode node) throws Exception
   {
-    for (Iterator i = node.getExtent().iterator(); i.hasNext();)
+    for (EObject eObject : node.getExtent())
     {
-      roseEcoreBuilder.setIDs(null, (EObject)i.next());
+      roseEcoreBuilder.setIDs(null, eObject);
     }
 
     // Process the children of the UnitTreeNode recursively.
     //
-    for (Iterator i = node.getNodes().iterator(); i.hasNext();)
+    for (UnitTreeNode subNode : node.getNodes())
     {
-      setIDs((UnitTreeNode)i.next());
+      setIDs(subNode);
     }
   }
 
@@ -328,16 +329,16 @@ public class RoseUtil
   {
     // Process the contents of the extent
     //
-    for (Iterator i = node.getExtent().iterator(); i.hasNext();)
+    for (EObject eObject : node.getExtent())
     {
-      roseEcoreBuilder.validate((EObject)i.next());
+      roseEcoreBuilder.validate(eObject);
     }
 
     // Process the children of the UnitTreeNode recursively.
     //
-    for (Iterator i = node.getNodes().iterator(); i.hasNext();)
+    for (UnitTreeNode subNode : node.getNodes())
     {
-      validate((UnitTreeNode)i.next());
+      validate(subNode);
     }
   }
 
@@ -379,25 +380,23 @@ public class RoseUtil
 
     // Process the children of the UnitTreeNode recursively.
     //
-    for (Iterator i = node.getNodes().iterator(); i.hasNext();)
+    for (UnitTreeNode subNode : node.getNodes())
     {
-      UnitTreeNode subNode = (UnitTreeNode)i.next();
       loadTree(containingNode, subNode);
     }
   }
 
   public void saveEcoreFiles(ResourceSet resourceSet) throws Exception
   {
-    for (Iterator it = resourceSet.getResources().iterator(); it.hasNext();)
+    for (Resource resource : resourceSet.getResources())
     {
-      Resource resource = (Resource)it.next();
       resource.save(Collections.EMPTY_MAP);
     }
   }
 
   public void createResource(UnitTreeNode tree, ResourceSet resourceSet)
   {
-    EList ext = tree.getExtent();
+    EList<EObject> ext = tree.getExtent();
     if (ext.size() > 0)
     {
       String ecoreFileName = tree.getEcoreFileName();
@@ -406,10 +405,10 @@ public class RoseUtil
       res.getContents().addAll(tree.getExtent());
       resourceSet.getResources().add(res);
     }
-    List nodes = tree.getNodes();
+    List<UnitTreeNode> nodes = tree.getNodes();
     for (int i = 0; i < nodes.size(); i++)
     {
-      createResource((UnitTreeNode)nodes.get(i), resourceSet);
+      createResource(nodes.get(i), resourceSet);
     }
   }
 
@@ -428,7 +427,7 @@ public class RoseUtil
       if (directoryName.startsWith("$")) //directoryName.length() > 0 && directoryName.charAt(0) == '$') 
       {
         String variableName = directoryName.substring(1);
-        directoryName = (String)variableToDirectoryMap.get(variableName);
+        directoryName = variableToDirectoryMap.get(variableName);
         if (directoryName == null)
         {
           variableToDirectoryMap.put(variableName, null);
@@ -441,7 +440,7 @@ public class RoseUtil
     result += name;
     if (result.indexOf(":") == -1 && !result.startsWith(File.separator))
     {
-      String baseName = (String)variableToDirectoryMap.get(null);
+      String baseName = variableToDirectoryMap.get(null);
       if (baseName != null)
       {
         result = baseName + result;
@@ -450,22 +449,22 @@ public class RoseUtil
     return result;
   }
 
-  public Map getVariableToDirectoryMap()
+  public Map<String, String> getVariableToDirectoryMap()
   {
     return variableToDirectoryMap;
   }
 
-  public Map getPackageNameToNSNameMap()
+  public Map<String, String> getPackageNameToNSNameMap()
   {
     return packageNameToNSNameMap;
   }
 
-  public Map getPackageNameToNSURIMap()
+  public Map<String, String> getPackageNameToNSURIMap()
   {
     return packageNameToNSURIMap;
   }
 
-  public Map getEPackageToInformationMap()
+  public Map<EPackage, List<String>> getEPackageToInformationMap()
   {
     return ePackageToInformationMap;
   }

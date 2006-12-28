@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporterPlugin.java,v 1.4 2006/06/01 13:24:25 davidms Exp $
+ * $Id: RoseImporterPlugin.java,v 1.5 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -48,6 +48,7 @@ public final class RoseImporterPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

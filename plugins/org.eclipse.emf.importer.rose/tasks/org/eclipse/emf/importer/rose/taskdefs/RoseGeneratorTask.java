@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseGeneratorTask.java,v 1.3 2006/05/10 20:17:46 marcelop Exp $
+ * $Id: RoseGeneratorTask.java,v 1.4 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.taskdefs;
 
@@ -60,17 +60,20 @@ import org.eclipse.emf.importer.rose.RoseImporterApplication;
  */
 public class RoseGeneratorTask extends GeneratorTask
 {
+  @Override
   protected boolean supportMultipleURIs()
   {
     return false;
   }
   
+  @Override
   protected void addGenModelArguments()
   {
     super.addGenModelArguments();
     getCommandline().createArgument().setValue("-noQualify");
   }
 
+  @Override
   protected void createGenModel(String[] arguments) throws Exception
   {
     new RoseImporterApplication().run(getProgressMonitor(), arguments);

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: RoseNode.java,v 1.4 2005/09/06 16:24:48 emerks Exp $
+ * $Id: RoseNode.java,v 1.5 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.parser;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -40,7 +39,7 @@ public class RoseNode
   protected String key;
   protected String value;
   protected RoseNode parent;
-  protected List nodes = new ArrayList();
+  protected List<RoseNode> nodes = new ArrayList<RoseNode>();
   protected int type;
   protected String id;
   protected boolean commit = true;
@@ -95,7 +94,7 @@ public class RoseNode
       StringBuffer temp = new StringBuffer();
       for (int i = 0; i < nodes.size(); i++)
       {
-        RoseNode n = (RoseNode)nodes.get(i);
+        RoseNode n = nodes.get(i);
         temp.append(n.getValue());
         if (preserveSpace && i < nodes.size() - 1)
         {
@@ -117,7 +116,7 @@ public class RoseNode
       StringBuffer temp = new StringBuffer();
       for (int i = 0; i < nodes.size(); i++)
       {
-        RoseNode n = (RoseNode)nodes.get(i);
+        RoseNode n = nodes.get(i);
         if (i == 0 && Util.getWord(n.getValue(), 1).equals(filter))
         {
           continue;
@@ -173,7 +172,7 @@ public class RoseNode
     return type;
   }
 
-  public List getNodes()
+  public List<RoseNode> getNodes()
   {
     return nodes;
   }
@@ -196,7 +195,7 @@ public class RoseNode
   {
     for (int i = 0; i < nodes.size(); i++)
     {
-      RoseNode node = (RoseNode)nodes.get(i);
+      RoseNode node = nodes.get(i);
       if (key.equals(node.getKey()))
       {
         return node;
@@ -209,7 +208,7 @@ public class RoseNode
   {
     for (int i = 0; i < nodes.size(); i++)
     {
-      RoseNode node = (RoseNode)nodes.get(i);
+      RoseNode node = nodes.get(i);
       if (value.equals(node.getValue()))
       {
         return node;
@@ -222,7 +221,7 @@ public class RoseNode
   {
     for (int i = 0; i < nodes.size(); i++)
     {
-      RoseNode node = (RoseNode)nodes.get(i);
+      RoseNode node = nodes.get(i);
       String value = node.getValue();
       StringTokenizer st = new StringTokenizer(value);
       while (st.hasMoreTokens())
@@ -351,9 +350,8 @@ public class RoseNode
 
   protected String getAttributeValue(String key)
   {
-    for (Iterator i = getNodes().iterator(); i.hasNext();)
+    for (RoseNode roseNode : getNodes())
     {
-      RoseNode roseNode = (RoseNode)i.next();
       if (roseNode.getRoseNodeType() == RoseNode.STRING)
       {
         String nodeKey = roseNode.getKey();
@@ -367,11 +365,10 @@ public class RoseNode
       else if (roseNode.getRoseNodeType() == RoseNode.STRING_SEQ && roseNode.getKey().equals(key))
       {
         String separator = System.getProperty("line.separator");
-        List subNodes = roseNode.getNodes();
+        List<RoseNode> subNodes = roseNode.getNodes();
         StringBuffer result = new StringBuffer();
-        for (Iterator j = subNodes.iterator(); j.hasNext();)
+        for (RoseNode subNode : subNodes)
         {
-          RoseNode subNode = (RoseNode)j.next();
           if (subNode.getRoseNodeType() == RoseNode.STRING)
           {
             if (subNode.getValue().equals(""))
@@ -616,21 +613,19 @@ public class RoseNode
   {
     if (attributeListNode != null)
     {
-      List attributeNodes = attributeListNode.getNodes();
+      List<RoseNode> attributeNodes = attributeListNode.getNodes();
       if (attributeNodes != null)
       {
-        for (Iterator i = attributeNodes.iterator(); i.hasNext();)
+        for (RoseNode attributeNode : attributeNodes)
         {
-          RoseNode attributeNode = (RoseNode)i.next();
-          List nodes = attributeNode.getNodes();
+          List<RoseNode> nodes = attributeNode.getNodes();
           if (nodes != null)
           {
             String setName = "";
             String tagName = "";
             String valueName = "";
-            for (Iterator j = nodes.iterator(); j.hasNext();)
+            for (RoseNode node : nodes)
             {
-              RoseNode node = (RoseNode)j.next();
               if (node.getRoseNodeType() == RoseNode.STRING)
               {
                 String stringV = dequote(node.getValue());
@@ -649,11 +644,10 @@ public class RoseNode
               }
               else if (node.getRoseNodeType() == RoseNode.STRING_SEQ)
               {
-                List subSubNodes = node.getNodes();
+                List<RoseNode> subSubNodes = node.getNodes();
                 String stringV = "";
-                for (Iterator k = subSubNodes.iterator(); k.hasNext();)
+                for (RoseNode subSubNode : subSubNodes)
                 {
-                  RoseNode subSubNode = (RoseNode)k.next();
                   if (subSubNode.getRoseNodeType() == RoseNode.STRING)
                   {
                     if (stringV.length() > 0)
@@ -678,10 +672,10 @@ public class RoseNode
               }
               else if (node.getRoseNodeType() == RoseNode.VALUE)
               {
-                List stringNodes = node.getNodes();
+                List<RoseNode> stringNodes = node.getNodes();
                 if (stringNodes != null && stringNodes.size() == 1)
                 {
-                  RoseNode stringNode = (RoseNode)stringNodes.get(0);
+                  RoseNode stringNode = stringNodes.get(0);
                   String stringV = "";
                   if (stringNode.getRoseNodeType() == RoseNode.STRING)
                   {
@@ -689,9 +683,8 @@ public class RoseNode
                   }
                   else if (stringNode.getRoseNodeType() == RoseNode.STRING_SEQ)
                   {
-                    for (Iterator k = stringNode.getNodes().iterator(); k.hasNext();)
+                    for (RoseNode subSubNode : stringNode.getNodes())
                     {
-                      RoseNode subSubNode = (RoseNode)k.next();
                       if (subSubNode.getRoseNodeType() == RoseNode.STRING)
                       {
                         if (stringV.length() > 0)
@@ -745,9 +738,8 @@ public class RoseNode
         RoseNode attributes = defaultProperties.findNodeWithKey(RoseStrings.ATTRIBUTES);
         if (attributes != null)
         {
-          for (Iterator i = attributes.getNodes().iterator(); i.hasNext();)
+          for (RoseNode attribute : attributes.getNodes())
           {
-            RoseNode attribute = (RoseNode)i.next();
             RoseNode toolNode = attribute.findNodeWithKey(RoseStrings.TOOL);
             if (toolNode != null && Util.trimQuotes(toolNode.getValue()).equals(tool))
             {
@@ -788,22 +780,22 @@ public class RoseNode
 
   public String getRoleMultiplicity()
   {
-    List nodes = getNodes();
+    List<RoseNode> nodes = getNodes();
     for (int i = 0; i < nodes.size(); i++)
     {
-      RoseNode node = (RoseNode)nodes.get(i);
+      RoseNode node = nodes.get(i);
       if (node.getRoseNodeType() == RoseNode.VALUE)
       {
         String objKey = node.getKey();
         String objType = Util.getType(node.getValue());
         if (objKey.equals(RoseStrings.CLIENT_CARDINALITY) && objType.equals(RoseStrings.CARDINALITY))
         {
-          List subNodes = node.getNodes();
+          List<RoseNode> subNodes = node.getNodes();
           String value = "";
           for (int j = 0; j < subNodes.size(); j++)
           {
             // size should be 1
-            RoseNode subNode = (RoseNode)subNodes.get(j);
+            RoseNode subNode = subNodes.get(j);
             if (subNode.getRoseNodeType() == RoseNode.STRING)
             {
               value = subNode.getValue();
@@ -812,10 +804,10 @@ public class RoseNode
             else if (subNode.getRoseNodeType() == RoseNode.STRING_SEQ)
             {
               // could this happen?
-              List subSubNodes = subNode.getNodes();
+              List<RoseNode> subSubNodes = subNode.getNodes();
               for (int k = 0; k < subSubNodes.size(); k++)
               {
-                RoseNode subSubNode = (RoseNode)subSubNodes.get(k);
+                RoseNode subSubNode = subSubNodes.get(k);
                 if (subSubNode.getRoseNodeType() == RoseNode.STRING)
                   value = subSubNode.getValue() + "|#" + value;
               }

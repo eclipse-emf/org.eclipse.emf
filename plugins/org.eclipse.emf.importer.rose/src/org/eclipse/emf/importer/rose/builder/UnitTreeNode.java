@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: UnitTreeNode.java,v 1.2 2005/06/08 06:20:36 nickb Exp $
+ * $Id: UnitTreeNode.java,v 1.3 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.importer.rose.parser.RoseNode;
 
 
@@ -29,8 +30,8 @@ public class UnitTreeNode
   protected String quid;
   protected String roseFileName;
   protected String ecoreFileName;
-  protected List nodes;
-  protected EList extent;
+  protected List<UnitTreeNode> nodes;
+  protected EList<EObject> extent;
   protected RoseNode roseNode;
 
   public UnitTreeNode(String name, String quid, String fileName)
@@ -48,7 +49,7 @@ public class UnitTreeNode
       ecoreFileName = roseFileName + ".ecore";
     }
 
-    nodes = new ArrayList();
+    nodes = new ArrayList<UnitTreeNode>();
   }
 
   public RoseNode getRoseNode()
@@ -106,17 +107,17 @@ public class UnitTreeNode
     nodes.add(node);
   }
 
-  public List getNodes()
+  public List<UnitTreeNode> getNodes()
   {
     return nodes;
   }
 
-  public void setExtent(EList extent)
+  public void setExtent(EList<EObject> extent)
   {
     this.extent = extent;
   }
 
-  public EList getExtent()
+  public EList<EObject> getExtent()
   {
     return extent;
   }

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseImporter.java,v 1.13 2006/05/26 20:09:25 marcelop Exp $
+ * $Id: RoseImporter.java,v 1.14 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose;
 
@@ -45,15 +45,16 @@ import org.eclipse.emf.converter.util.ConverterUtil;
  */
 public class RoseImporter extends ModelImporter
 {
-  protected Map pathMap;
+  protected Map<String, String> pathMap;
   protected boolean noQualify = false;
   protected boolean unsettablePrimitive = false;
   
   protected RoseUtil roseUtil;
   protected UnitTreeNode unitTreeNode;
   
-  protected Map roseEPackageInformationMap;
+  protected Map<EPackage, List<String>> roseEPackageInformationMap;
 
+  @Override
   public void dispose()
   {
     if (pathMap != null)
@@ -70,20 +71,22 @@ public class RoseImporter extends ModelImporter
     super.dispose();
   }
 
+  @Override
   public String getID()
   {
     return "org.eclipse.emf.importer.rose";
   }
 
-  public Map getPathMap()
+  public Map<String, String> getPathMap()
   {
     if (pathMap == null)
     {
-      pathMap = new HashMap();
+      pathMap = new HashMap<String, String>();
     }
     return pathMap;
   }
   
+  @Override
   public void setModelLocation(String location)
   {
     boolean isEqual = location == null ? 
@@ -130,6 +133,7 @@ public class RoseImporter extends ModelImporter
     return null;
   }
   
+  @Override
   public void clearEPackagesCollections()
   {
     super.clearEPackagesCollections();
@@ -156,7 +160,7 @@ public class RoseImporter extends ModelImporter
       monitor.beginTask("", 2);
       monitor.subTask(RoseImporterPlugin.INSTANCE.getString("_UI_Loading_message", new Object []{ roseModelAbsolutePath }));
 
-      Map pathMap = getPathMap();
+      Map<String, String> pathMap = getPathMap();
       for (;;)
       {
         roseUtil = createRoseUtil();
@@ -186,7 +190,7 @@ public class RoseImporter extends ModelImporter
           if (getGenModelFileName() == null)
           {
             String fileName = unitTreeNode.getNodes().size() != 1
-              ? roseModelFile.getName() : ((UnitTreeNode)unitTreeNode.getNodes().get(0)).getRoseFileName();
+              ? roseModelFile.getName() : unitTreeNode.getNodes().get(0).getRoseFileName();
 
             int index = fileName.lastIndexOf(File.separatorChar);
             if (index >= 0)
@@ -211,18 +215,17 @@ public class RoseImporter extends ModelImporter
   protected boolean adjustPathMap(RoseUtil roseUtil)
   {
     boolean hasSymbolWithoutValue = false;
-    Map currentPathMap = getPathMap();
-    Map pathMap = new HashMap();
-    for (Iterator i = roseUtil.getVariableToDirectoryMap().entrySet().iterator(); i.hasNext();)
+    Map<String, String> currentPathMap = getPathMap();
+    Map<String, String> pathMap = new HashMap<String, String>();
+    for (Map.Entry<String, String> entry : roseUtil.getVariableToDirectoryMap().entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      String symbol = (String)entry.getKey();
+      String symbol = entry.getKey();
       if (symbol != null)
       {
-        String value = (String)entry.getValue();
+        String value = entry.getValue();
         if (value == null)
         {
-          value = (String)currentPathMap.get(symbol);
+          value = currentPathMap.get(symbol);
         }
         pathMap.put(symbol, value);
         hasSymbolWithoutValue = hasSymbolWithoutValue || (value == null);
@@ -250,6 +253,7 @@ public class RoseImporter extends ModelImporter
     return roseEPackageInformationMap != null && roseEPackageInformationMap.get(ePackage) != null;
   }
 
+  @Override
   protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
     monitor.beginTask("", 2);
@@ -269,15 +273,14 @@ public class RoseImporter extends ModelImporter
         roseEPackageInformationMap = roseUtil.getEPackageToInformationMap();
         diagnostic = ConverterUtil.createDiagnostic(roseUtil.getDiagnostic(), ConverterPlugin.ID, ConverterUtil.ACTION_MESSAGE_NONE);
         
-        for (Iterator i = roseUtil.getEPackageToInformationMap().entrySet().iterator(); i.hasNext();)
+        for (Map.Entry<EPackage, List<String>> entry : roseUtil.getEPackageToInformationMap().entrySet())
         {
-          Map.Entry entry = (Map.Entry)i.next();
-          List information = (List)entry.getValue();
+          List<String> information = entry.getValue();
           if (information != null)
           {
-            EPackageImportInfo ePackageInfo = getEPackageImportInfo((EPackage)entry.getKey());
-            ePackageInfo.setBasePackage((String)information.get(0));
-            ePackageInfo.setPrefix((String)information.get(1));
+            EPackageImportInfo ePackageInfo = getEPackageImportInfo(entry.getKey());
+            ePackageInfo.setBasePackage(information.get(0));
+            ePackageInfo.setPrefix(information.get(1));
           }
         }
   
@@ -290,11 +293,12 @@ public class RoseImporter extends ModelImporter
 
   protected void traverseEPackages(UnitTreeNode subNode)
   {
-    getEPackages().addAll(subNode.getExtent());
-
-    for (Iterator i = subNode.getExtent().iterator(); i.hasNext();)
+    @SuppressWarnings("unchecked")
+    List<EPackage> ePackagesList = (List)subNode.getExtent();
+    
+    getEPackages().addAll(ePackagesList);
+    for (EPackage ePackage : ePackagesList)
     {
-      EPackage ePackage = (EPackage)i.next();
       EPackageImportInfo ePackageInfo = getEPackageImportInfo(ePackage);
 
       String ecoreFileName = null;
@@ -328,13 +332,13 @@ public class RoseImporter extends ModelImporter
       ePackageInfo.setEcoreFileName(ecoreFileName);
     }
 
-    for (Iterator i = subNode.getNodes().iterator(); i.hasNext();)
+    for (UnitTreeNode childTree : subNode.getNodes())
     {
-      UnitTreeNode childTree = (UnitTreeNode)i.next();
       traverseEPackages(childTree);
     }
   }
   
+  @Override
   protected void adjustGenModel(Monitor monitor)
   {
     super.adjustGenModel(monitor);
@@ -342,7 +346,7 @@ public class RoseImporter extends ModelImporter
     GenModel genModel = getGenModel();
     String projectName = getModelProjectName();
     IPath genModelPath = getGenModelPath();
-    URI modelURI = (URI)getModelLocationURIs().get(0);
+    URI modelURI = getModelLocationURIs().get(0);
     URI genModelURI = getGenModel().eResource().getURI();
 
     genModel.getForeignModel().add(makeRelative(modelURI, genModelURI).toFileString());
@@ -356,10 +360,9 @@ public class RoseImporter extends ModelImporter
       projectLocation = getGenModelProjectLocation();
     }
 
-    for (Iterator i = getPathMap().entrySet().iterator(); i.hasNext();)
+    for (Map.Entry<String, String> entry : getPathMap().entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      String value = (String)entry.getValue();
+      String value = entry.getValue();
       if (value != null)
       {
         genModel.getForeignModel().add(entry.getKey());
@@ -380,15 +383,16 @@ public class RoseImporter extends ModelImporter
     }
   }
 
+  @Override
   protected void handleOriginalGenModel() throws DiagnosticException
   {
     try
     {
-      Iterator values = getOriginalGenModel().getForeignModel().iterator();
+      Iterator<String> values = getOriginalGenModel().getForeignModel().iterator();
       if (values.hasNext())
       {
         URI modelURI = null;
-        String modelFile = (String)values.next();
+        String modelFile = values.next();
         modelFile = modelFile.replace('\\', '/');
         if (modelFile.endsWith(".mdl"))
         {
@@ -398,8 +402,8 @@ public class RoseImporter extends ModelImporter
           
           while (values.hasNext())
           {
-            String variable = (String)values.next();            
-            String value = (String)values.next();
+            String variable = values.next();            
+            String value = values.next();
             getPathMap().put(variable, value);
           }
         }

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseWalker.java,v 1.2 2005/06/08 06:20:36 nickb Exp $
+ * $Id: RoseWalker.java,v 1.3 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -54,10 +54,10 @@ public class RoseWalker
 
   private void traverse(RoseNode roseNode)
   {
-    List nodes = roseNode.getNodes();
+    List<RoseNode> nodes = roseNode.getNodes();
     for (int i = 0; i < nodes.size(); i++)
     {
-      RoseNode node = (RoseNode)nodes.get(i);
+      RoseNode node = nodes.get(i);
       if (node.getRoseNodeType() == RoseNode.OBJECT)
       {
         traverseObject(node);

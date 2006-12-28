@@ -1,7 +1,7 @@
 /**
 * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RoseEcoreBuilder.java,v 1.15 2006/12/12 19:13:05 emerks Exp $
+ * $Id: RoseEcoreBuilder.java,v 1.16 2006/12/28 06:56:06 marcelop Exp $
  */
 package org.eclipse.emf.importer.rose.builder;
 
@@ -74,19 +74,13 @@ public class RoseEcoreBuilder implements RoseVisitor
   public boolean unsettablePrimitive = "true".equals(System.getProperty("EMF_UNSETTABLE_PRIMITIVE"));
 
   protected RoseUtil roseUtil;
-  protected Set bounded = new HashSet();
+  protected Set<EModelElement> bounded = new HashSet<EModelElement>();
 
-  protected Map eStructuralFeatureToXMLNamespaceMap = new HashMap();
+  protected Map<EStructuralFeature, String> eStructuralFeatureToXMLNamespaceMap = new HashMap<EStructuralFeature, String>();
 
-  protected List eStructuralFeatures = new BasicEList()
-    {
-      protected boolean useEquals()
-      {
-        return false;
-      }
-    };
-  protected Map eEnums = new HashMap();
-  protected Map idToParentMap = new HashMap();
+  protected List<EStructuralFeature> eStructuralFeatures =  new BasicEList.FastCompare<EStructuralFeature>();
+  protected Map<EEnum, String> eEnums = new HashMap<EEnum, String>();
+  protected Map<String, Object> idToParentMap = new HashMap<String, Object>();
 
   protected EReference ref1 = null;
   protected EReference ref2 = null;
@@ -105,6 +99,7 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   public void visitList(RoseNode roseNode)
   {
+    // Nothing to do
   }
 
   public void visitObject(RoseNode roseNode)
@@ -185,7 +180,9 @@ public class RoseEcoreBuilder implements RoseVisitor
       }
       else if (parent instanceof EList)
       {
-        ((EList)parent).add(ePackage);
+        @SuppressWarnings("unchecked")
+        EList<Object> list = (EList<Object>)parent;
+        list.add(ePackage);
       }
       setEPackageProperties(roseNode, ePackage, objectName.toLowerCase());
     }
@@ -432,10 +429,10 @@ public class RoseEcoreBuilder implements RoseVisitor
     {
       quidu = quidu.substring(1, quidu.length() - 1);
     }
-    List superList = (List)roseUtil.superTable.get(parent);
+    List<String> superList = roseUtil.superTable.get(parent);
     if (superList == null)
     {
-      superList = new ArrayList();
+      superList = new ArrayList<String>();
       roseUtil.superTable.put(parent, superList);
     }
     superList.add(quidu);
@@ -650,7 +647,7 @@ public class RoseEcoreBuilder implements RoseVisitor
     }
   }
 
-  protected EList getExtentFromTableObject(RoseNode roseNode)
+  protected EList<EObject> getExtentFromTableObject(RoseNode roseNode)
   {
     String quid = roseNode.getRoseId();
     if (quid != null)
@@ -764,7 +761,7 @@ public class RoseEcoreBuilder implements RoseVisitor
     String constraints = roseNode.getEcoreConstraints();
     if (constraints != null)
     {
-      List constraintList = new ArrayList();
+      List<String> constraintList = new ArrayList<String>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(constraints); stringTokenizer.hasMoreTokens();)
       {
         String constraint = stringTokenizer.nextToken();
@@ -828,7 +825,7 @@ public class RoseEcoreBuilder implements RoseVisitor
 
     if (prefix != null || basePackage != null)
     {
-      List information = new ArrayList();
+      List<String> information = new ArrayList<String>();
       information.add(basePackage);
       information.add(prefix);
       roseUtil.getEPackageToInformationMap().put(ePackage, information);
@@ -881,7 +878,7 @@ public class RoseEcoreBuilder implements RoseVisitor
   {
     // process documentation info and create eEnumLiteral for each line
     //
-    List eLiterals = eEnum.getELiterals();
+    List<EEnumLiteral> eLiterals = eEnum.getELiterals();
     for (StringTokenizer stringTokenizer = new StringTokenizer(documentation, ", \n\r\t"); stringTokenizer.hasMoreTokens();)
     {
       String literalV = stringTokenizer.nextToken();
@@ -900,7 +897,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       }
       else if (!eLiterals.isEmpty())
       {
-        numberValue = ((EEnumLiteral)eLiterals.get(eLiterals.size() - 1)).getValue() + 1;
+        numberValue = eLiterals.get(eLiterals.size() - 1).getValue() + 1;
       }
 
       if (!name.equals(""))
@@ -942,7 +939,6 @@ public class RoseEcoreBuilder implements RoseVisitor
     String exceptions = roseNode.getExceptions();
     if (exceptions != null)
     {
-      int count = 0;
       for (StringTokenizer stringTokenizer = new StringTokenizer(exceptions.trim(), ","); stringTokenizer.hasMoreTokens();)
       {
         // This handles Rose 2003 format, e.g.,
@@ -1409,18 +1405,17 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   public void setEEnums()
   {
-    for (Iterator i = eEnums.entrySet().iterator(); i.hasNext();)
+    for (Map.Entry<EEnum, String> entry : eEnums.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      EEnum eEnum = (EEnum)entry.getKey();
+      EEnum eEnum = entry.getKey();
       if (eEnum.getELiterals().isEmpty())
       {
-        populateEEnumFromDocumentation(eEnum, (String)entry.getValue());
+        populateEEnumFromDocumentation(eEnum, entry.getValue());
       }
     }
   }
 
-  protected static Comparator eClassComparator = new Comparator()
+  protected static Comparator<Object> eClassComparator = new Comparator<Object>()
     {
       public int compare(Object o1, Object o2)
       {
@@ -1440,22 +1435,21 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   public void setSuper()
   {
-    Map superMap = new HashMap();
-
-    for (Iterator i = roseUtil.superTable.keySet().iterator(); i.hasNext();)
+    Map<EClass, List<EGenericType>[]> superMap = new HashMap<EClass, List<EGenericType>[]>();
+    for (Iterator<Object> i = roseUtil.superTable.keySet().iterator(); i.hasNext();)
     {
       Object subObject = i.next();
       if (subObject instanceof EClass)
       {
         EClass eClass = (EClass)subObject;
-        List extend = new ArrayList();
-        List unspecified = new ArrayList();
-        List mixin = new ArrayList();
-        List nonClass = new ArrayList();
-        for (Iterator j = ((List)roseUtil.superTable.get(eClass)).iterator(); j.hasNext();)
+        List<EGenericType> extend = new ArrayList<EGenericType>();
+        List<EGenericType> unspecified = new ArrayList<EGenericType>();
+        List<EGenericType> mixin = new ArrayList<EGenericType>();
+        List<EGenericType> nonClass = new ArrayList<EGenericType>();
+        for (Iterator<String> j = roseUtil.superTable.get(eClass).iterator(); j.hasNext();)
         {
-          String quid = (String)j.next();
-          String stereotype = (String)j.next();
+          String quid = j.next();
+          String stereotype = j.next();
           TableObject tableObject = (TableObject)roseUtil.quidTable.get(quid);
           if (tableObject != null)
           {
@@ -1512,7 +1506,9 @@ public class RoseEcoreBuilder implements RoseVisitor
           warning(RoseImporterPlugin.INSTANCE.getString("_UI_CannotSpecifyMoreThanOneExtendFor_message", new Object []{ eClass.getName() }));
         }
 
-        superMap.put(eClass, new List []{ extend, unspecified, mixin });
+        @SuppressWarnings("unchecked")
+        List<EGenericType>[] lists = new List[]{extend, unspecified, mixin};
+        superMap.put(eClass, lists);
 
         eClass.getEGenericSuperTypes().addAll(extend);
         eClass.getEGenericSuperTypes().addAll(unspecified);
@@ -1537,23 +1533,22 @@ public class RoseEcoreBuilder implements RoseVisitor
     sortSuper(superMap);
   }
 
-  protected void sortSuper(Map superMap)
+  protected void sortSuper(Map<EClass, List<EGenericType>[]> superMap)
   {
-    for (Iterator entries = superMap.entrySet().iterator(); entries.hasNext();)
+    for (Map.Entry<EClass, List<EGenericType>[]> entry : superMap.entrySet())
     {
-      Map.Entry entry = (Map.Entry)entries.next();
-      EClass eClass = (EClass)entry.getKey();
-      List[] collections = (List[])entry.getValue();
+      EClass eClass = entry.getKey();
+      List<EGenericType>[] collections = entry.getValue();
       Collections.sort(collections[0], eClassComparator);
       Collections.sort(collections[1], eClassComparator);
       Collections.sort(collections[2], eClassComparator);
-      List combined = new UniqueEList(collections[0]);
+      List<EGenericType> combined = new UniqueEList<EGenericType>(collections[0]);
       combined.addAll(collections[1]);
       combined.addAll(collections[2]);
-      EList eSuper = eClass.getEGenericSuperTypes();
-      for (ListIterator ordered = combined.listIterator(); ordered.hasNext();)
+      EList<EGenericType> eSuper = eClass.getEGenericSuperTypes();
+      for (ListIterator<EGenericType> ordered = combined.listIterator(); ordered.hasNext();)
       {
-        Object eSuperItem = ordered.next();
+        EGenericType eSuperItem = ordered.next();
         eSuper.move(ordered.previousIndex(), eSuperItem);
       }
     }
@@ -1606,7 +1601,6 @@ public class RoseEcoreBuilder implements RoseVisitor
   {
     ETypeParameter eTypeParameter = EcoreFactory.eINSTANCE.createETypeParameter();
     int index = templateParameter.indexOf(" extends ");
-    int length = templateParameter.length();
     if (index == -1)
     {
       eTypeParameter.setName(templateParameter);
@@ -1712,43 +1706,50 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   public void setIDs(final EObject parent, EObject child)
   {
-    new EcoreSwitch()
+    new EcoreSwitch<Object>()
       {
+        @Override
         public Object caseEPackage(EPackage ePackage)
         {
           return null;
         }
 
+        @Override
         public Object caseEClassifier(EClassifier eClassifier)
         {
           return null;
         }
 
+        @Override
         public Object caseEOperation(EOperation eOperation)
         {
           return null;
         }
 
+        @Override
         public Object caseEParameter(EParameter eParameter)
         {
           return null;
         }
 
+        @Override
         public Object caseEStructuralFeature(EStructuralFeature eStructuralFeature)
         {
           return null;
         }
 
+        @Override
         public Object caseEEnumLiteral(EEnumLiteral eEnumLiteral)
         {
           return null;
         }
 
+        @Override
         public Object defaultCase(EObject eObject)
         {
-          for (Iterator i = eObject.eContents().iterator(); i.hasNext();)
+          for (EObject child : eObject.eContents())
           {
-            setIDs(eObject, (EObject)i.next());
+            setIDs(eObject, child);
           }
           return this;
         }
@@ -1757,28 +1758,32 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   public void validate(EObject object)
   {
-    new EcoreSwitch()
+    new EcoreSwitch<Object>()
       {
+        @Override
         public Object caseEDataType(EDataType eDataType)
         {
           return validateEDataType(eDataType);
         }
 
+        @Override
         public Object caseEEnum(EEnum eEnum)
         {
           return validateEEnum(eEnum);
         }
 
+        @Override
         public Object caseEClass(EClass eClass)
         {
           return validateEClass(eClass);
         }
 
+        @Override
         public Object defaultCase(EObject eObject)
         {
-          for (Iterator i = eObject.eContents().iterator(); i.hasNext();)
+          for (EObject child : eObject.eContents())
           {
-            validate((EObject)i.next());
+            validate(child);
           }
           return this;
         }
@@ -1797,12 +1802,11 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   protected Object validateEEnum(EEnum eEnum)
   {
-    for (Iterator literals = eEnum.getELiterals().iterator(); literals.hasNext();)
+    for (Iterator<EEnumLiteral> literals = eEnum.getELiterals().iterator(); literals.hasNext();)
     {
-      EEnumLiteral eEnumLiteral = (EEnumLiteral)literals.next();
-      for (Iterator allLiterals = eEnum.getELiterals().iterator(); allLiterals.hasNext();)
+      EEnumLiteral eEnumLiteral = literals.next();
+      for (EEnumLiteral otherLiteral : eEnum.getELiterals())
       {
-        EEnumLiteral otherLiteral = (EEnumLiteral)allLiterals.next();
         if (eEnumLiteral == otherLiteral)
         {
           break;
@@ -1820,10 +1824,10 @@ public class RoseEcoreBuilder implements RoseVisitor
 
   protected Object validateEClass(EClass eClass)
   {
-    List oppositesToRemove = new ArrayList();
-    for (Iterator features = eClass.getEStructuralFeatures().iterator(); features.hasNext();)
+    List<EReference> oppositesToRemove = new ArrayList<EReference>();
+    for (Iterator<EStructuralFeature> features = eClass.getEStructuralFeatures().iterator(); features.hasNext();)
     {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)features.next();
+      EStructuralFeature eStructuralFeature = features.next();
       if (eStructuralFeature instanceof EAttribute)
       {
         EAttribute eAttribute = (EAttribute)eStructuralFeature;
@@ -1842,12 +1846,12 @@ public class RoseEcoreBuilder implements RoseVisitor
           }
           catch (Exception e)
           {
+            // Ignore
           }
         }
 
-        for (Iterator allFeatures = eClass.getEAllStructuralFeatures().iterator(); allFeatures.hasNext();)
+        for (EStructuralFeature otherFeature : eClass.getEAllStructuralFeatures())
         {
-          EStructuralFeature otherFeature = (EStructuralFeature)allFeatures.next();
           if (eAttribute == otherFeature)
           {
             break;
@@ -1911,9 +1915,8 @@ public class RoseEcoreBuilder implements RoseVisitor
             eReference.getName() }));
         }
 
-        for (Iterator allFeatures = eClass.getEAllStructuralFeatures().iterator(); allFeatures.hasNext();)
+        for (EStructuralFeature otherFeature : eClass.getEAllStructuralFeatures())
         {
-          EStructuralFeature otherFeature = (EStructuralFeature)allFeatures.next();
           if (eReference == otherFeature)
           {
             break;
@@ -1946,9 +1949,8 @@ public class RoseEcoreBuilder implements RoseVisitor
       }
     }
 
-    for (Iterator opposites = oppositesToRemove.iterator(); opposites.hasNext();)
+    for (EReference opposite : oppositesToRemove)
     {
-      EReference opposite = (EReference)opposites.next();
       EClass oppositeEClass = opposite.getEContainingClass();
       if (oppositeEClass != null)
       {
@@ -1956,11 +1958,9 @@ public class RoseEcoreBuilder implements RoseVisitor
       }
     }
 
-    for (Iterator operations = eClass.getEOperations().iterator(); operations.hasNext();)
+    for (EOperation eOperation : eClass.getEOperations())
     {
-      EOperation eOperation = (EOperation)operations.next();
       EClassifier opType = eOperation.getEType();
-
       if (opType instanceof EClass && "java.util.Map$Entry".equals(opType.getInstanceClassName()))
       {
         if (!eOperation.isMany())
@@ -1972,11 +1972,9 @@ public class RoseEcoreBuilder implements RoseVisitor
         }
       }
 
-      for (Iterator paramters = eOperation.getEParameters().iterator(); paramters.hasNext();)
+      for (EParameter eParameter : eOperation.getEParameters())
       {
-        EParameter eParameter = (EParameter)paramters.next();
         EClassifier paramType = eParameter.getEType();
-
         if (paramType instanceof EClass && "java.util.Map$Entry".equals(paramType.getInstanceClassName()))
         {
           if (!eParameter.isMany())
@@ -1992,17 +1990,16 @@ public class RoseEcoreBuilder implements RoseVisitor
 
     if (eClass.getESuperTypes().size() > 1)
     {
-      Iterator superTypes = eClass.getESuperTypes().iterator();
+      Iterator<EClass> superTypes = eClass.getESuperTypes().iterator();
       superTypes.next();
       while (superTypes.hasNext())
       {
-        EClass superType = (EClass)superTypes.next();
-        superFeatureLoop: for (Iterator superFeatures = superType.getEAllStructuralFeatures().iterator(); superFeatures.hasNext();)
+        EClass superType = superTypes.next();
+        superFeatureLoop: for (Iterator<EStructuralFeature> superFeatures = superType.getEAllStructuralFeatures().iterator(); superFeatures.hasNext();)
         {
-          EStructuralFeature superFeature = (EStructuralFeature)superFeatures.next();
-          for (Iterator allFeatures = eClass.getEAllStructuralFeatures().iterator(); allFeatures.hasNext();)
+          EStructuralFeature superFeature = superFeatures.next();
+          for (EStructuralFeature otherFeature : eClass.getEAllStructuralFeatures())
           {
-            EStructuralFeature otherFeature = (EStructuralFeature)allFeatures.next();
             if (superFeature == otherFeature)
             {
               break;
@@ -2040,9 +2037,9 @@ public class RoseEcoreBuilder implements RoseVisitor
     return this;
   }
 
-  protected Comparator eStructuralFeatureComparator = new Comparator()
+  protected Comparator<EStructuralFeature> eStructuralFeatureComparator = new Comparator<EStructuralFeature>()
     {
-      public int compare(Object o1, Object o2)
+      public int compare(EStructuralFeature o1, EStructuralFeature o2)
       {
         return eStructuralFeatures.indexOf(o1) - eStructuralFeatures.indexOf(o2);
       }
@@ -2052,10 +2049,9 @@ public class RoseEcoreBuilder implements RoseVisitor
   {
     // process eStructuralFeatures for association end(Role)
     //
-    for (Iterator i = roseUtil.refTable.keySet().iterator(); i.hasNext();)
+    for (EReference eReference : roseUtil.refTable.keySet())
     {
-      EReference eReference = (EReference)i.next();
-      String quid = (String)roseUtil.refTable.get(eReference);
+      String quid = roseUtil.refTable.get(eReference);
       TableObject tableObject = (TableObject)roseUtil.quidTable.get(quid);
       if (tableObject != null)
       {
@@ -2075,13 +2071,12 @@ public class RoseEcoreBuilder implements RoseVisitor
       }
     }
 
-    for (Iterator i = eStructuralFeatureToXMLNamespaceMap.entrySet().iterator(); i.hasNext();)
+    for (Map.Entry<EStructuralFeature, String> entry : eStructuralFeatureToXMLNamespaceMap.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)entry.getKey();
+      EStructuralFeature eStructuralFeature = entry.getKey();
       if (eStructuralFeature.eContainer() != null)
       {
-        ExtendedMetaData.INSTANCE.setNamespace((EStructuralFeature)entry.getKey(), (String)entry.getValue());
+        ExtendedMetaData.INSTANCE.setNamespace(entry.getKey(), entry.getValue());
       }
     }
   }
@@ -2090,15 +2085,14 @@ public class RoseEcoreBuilder implements RoseVisitor
   {
     // setup attribute and parameter type
     //
-    for (Iterator it = roseUtil.typeTable.keySet().iterator(); it.hasNext();)
+    for (EObject element : roseUtil.typeTable.keySet())
     {
-      EObject element = (EObject)it.next();
-      String type = (String)roseUtil.typeTable.get(element);
+      String type = roseUtil.typeTable.get(element);
       int position = -1;
       if (element instanceof EAnnotation)
       {
-        position = Integer.parseInt((String)((EAnnotation)element).getDetails().get("position"));
-        element = (EModelElement)((EAnnotation)element).getReferences().get(0);
+        position = Integer.parseInt(((EAnnotation)element).getDetails().get("position"));
+        element = ((EAnnotation)element).getReferences().get(0);
       }
       TableObject tableObj = null;
       ETypeParameter resolvedETypeParameter = null;
@@ -2263,7 +2257,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       }
       else if (position != -1)
       {
-        List exceptions = ((EOperation)element).getEExceptions();
+        List<EClassifier> exceptions = ((EOperation)element).getEExceptions();
         if (!exceptions.contains(eType))
         {
           if (position < exceptions.size())
@@ -2402,15 +2396,14 @@ public class RoseEcoreBuilder implements RoseVisitor
     }
   }
 
-  public void createEPackageForRootClasses(EList extent, RoseNode roseNode, String packageName)
+  public void createEPackageForRootClasses(EList<EObject> extent, RoseNode roseNode, String packageName)
   {
-    ArrayList list = new ArrayList();
-    for (Iterator i = extent.iterator(); i.hasNext();)
+    ArrayList<EObject> list = new ArrayList<EObject>();
+    for (EObject eObject : extent)
     {
-      Object object = i.next();
-      if (!(object instanceof EPackage))
+      if (!(eObject instanceof EPackage))
       {
-        list.add(object);
+        list.add(eObject);
       }
     }
 
@@ -2420,7 +2413,7 @@ public class RoseEcoreBuilder implements RoseVisitor
       setEPackageProperties(roseNode, ePackage, packageName.toLowerCase());
 
       extent.add(ePackage);
-      for (Iterator i = list.iterator(); i.hasNext();)
+      for (Iterator<EObject> i = list.iterator(); i.hasNext();)
       {
         EClassifier eClassifier = (EClassifier)i.next();
         ePackage.getEClassifiers().add(eClassifier);
@@ -2448,7 +2441,9 @@ public class RoseEcoreBuilder implements RoseVisitor
     }
     else if (parent instanceof EList)
     {
-      ((EList)parent).add(eNamedElement);
+      @SuppressWarnings("unchecked")
+      EList<ENamedElement> namedElements = (EList<ENamedElement>)parent;
+      namedElements.add(eNamedElement);
     }
   }
 
