@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.40 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenModel.java,v 1.41 2006/12/28 08:40:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -2142,4 +2142,14 @@ public interface GenModel extends GenBase
    * @since 2.3
    */
   boolean useGenerics();
+  
+  /**
+   * @since 2.3
+   */
+  boolean isValidateModel();
+
+  /**
+   * @since 2.3
+   */
+  void setValidateModel(boolean validateModel);
 }

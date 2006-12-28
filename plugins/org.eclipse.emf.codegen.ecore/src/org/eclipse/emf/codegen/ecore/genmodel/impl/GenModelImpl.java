@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.76 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenModelImpl.java,v 1.77 2006/12/28 08:40:32 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1243,6 +1243,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @ordered
    */
   protected EList<GenPackage> usedGenPackages = null;
+  
+  protected boolean validateModel = false;
 
   /**
    * <!-- begin-user-doc -->
@@ -2358,6 +2360,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     return BasicDiagnostic.toIStatus(diagnose());
   }
+  
+  public boolean isValidateModel()
+  {
+    return validateModel;
+  }
+  
+  public void setValidateModel(boolean validateModel)
+  {
+    this.validateModel = validateModel;
+  }
 
   public Diagnostic diagnose()
   {
@@ -2462,39 +2474,39 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         }
       }
 
-      // TODO reporting problems makes command line utilities abort.
-      //
-      if (false)
-      for (GenPackage genPackage : getAllGenPackages())
+      if (isValidateModel())
       {
-        EPackage ePackage = genPackage.getEcorePackage();
-        if (ePackage != null)
+        for (GenPackage genPackage : getAllGenPackages())
         {
-          Diagnostician diagnostician = 
-            new Diagnostician(EValidator.Registry.INSTANCE)
-            {
-              @Override
-              public String getObjectLabel(EObject object)
-              {
-                return EcoreUtil.getURI(object).toString();
-              }
-            };
-          Diagnostic diagnostic = diagnostician.validate(ePackage);
-          if (diagnostic.getSeverity() == Diagnostic.ERROR)
+          EPackage ePackage = genPackage.getEcorePackage();
+          if (ePackage != null)
           {
-            status.addAll(diagnostic);
-          }
-          else if (diagnostic.getSeverity() == Diagnostic.WARNING)
-          {
-            // If there are any warnings other than raw type warnings, include all the warnings.
-            //
-            for (Diagnostic child : diagnostic.getChildren())
-            {
-              if (!EcoreValidator.DIAGNOSTIC_SOURCE.equals(child.getSource()) ||
-                    child.getCode() != EcoreValidator.CONSISTENT_ARGUMENTS_NONE)
+            Diagnostician diagnostician = 
+              new Diagnostician(EValidator.Registry.INSTANCE)
               {
-                status.addAll(diagnostic);
-                break;
+                @Override
+                public String getObjectLabel(EObject object)
+                {
+                  return EcoreUtil.getURI(object).toString();
+                }
+              };
+            Diagnostic diagnostic = diagnostician.validate(ePackage);
+            if (diagnostic.getSeverity() == Diagnostic.ERROR)
+            {
+              status.addAll(diagnostic);
+            }
+            else if (diagnostic.getSeverity() == Diagnostic.WARNING)
+            {
+              // If there are any warnings other than raw type warnings, include all the warnings.
+              //
+              for (Diagnostic child : diagnostic.getChildren())
+              {
+                if (!EcoreValidator.DIAGNOSTIC_SOURCE.equals(child.getSource()) ||
+                      child.getCode() != EcoreValidator.CONSISTENT_ARGUMENTS_NONE)
+                {
+                  status.addAll(diagnostic);
+                  break;
+                }
               }
             }
           }
