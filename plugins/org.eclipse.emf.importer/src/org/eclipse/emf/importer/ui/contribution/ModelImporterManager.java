@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,31 +12,29 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterManager.java,v 1.1 2005/12/14 07:48:48 marcelop Exp $
+ * $Id: ModelImporterManager.java,v 1.2 2006/12/28 06:53:13 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.contribution;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.jface.wizard.IWizard;
 
-import org.eclipse.emf.importer.ImporterPlugin;
-import org.eclipse.emf.converter.ui.contribution.ModelConverterDescriptor;
 import org.eclipse.emf.converter.ui.contribution.ModelConverterManager;
+import org.eclipse.emf.importer.ImporterPlugin;
 
 /**
  * @since 2.2.0
  */
-public class ModelImporterManager extends ModelConverterManager
+public class ModelImporterManager extends ModelConverterManager<ModelImporterDescriptor>
 {
   public final static ModelImporterManager INSTANCE = new ModelImporterManager();
   
   public static class ModelImporterDescriptorImpl extends ModelConverterDescriptorImpl implements ModelImporterDescriptor
   {
-    protected List extensions;
+    protected List<String> extensions;
     protected int types = ModelImporterDescriptor.TYPE_DEFAULT;
     
     public IModelImporterWizard createWizard()
@@ -55,11 +53,11 @@ public class ModelImporterManager extends ModelConverterManager
       this.types = types;
     }
 
-    public List getExtensions()
+    public List<String> getExtensions()
     {
       if (extensions == null)
       {
-        extensions = new ArrayList();
+        extensions = new ArrayList<String>();
       }
       return extensions;
     }    
@@ -72,43 +70,50 @@ public class ModelImporterManager extends ModelConverterManager
       super(descriptor);
     }
     
+    @Override
     protected IWizard createWizard()
     {
       return ((ModelImporterDescriptor)descriptor).createWizard();
     }
   }
   
+  @Override
   protected String getPluginId()
   {
     return ImporterPlugin.ID;
   }
   
+  @Override
   protected String getExtensionPointId()
   {
     return "modelImporterDescriptors";
   }
 
+  @Override
   protected String getElementName()
   {
     return "modelImporterDescriptor";
   }
 
-  protected ModelConverterDescriptorImpl createModelConverterDescriptorImpl()
+  @Override
+  protected ModelImporterDescriptorImpl createModelConverterDescriptorImpl()
   {
     return new ModelImporterDescriptorImpl();
   }
 
-  protected ModelConverterDescriptorWizardNode createModelConverterDescriptorWizardNode(ModelConverterDescriptor descriptor)
+  @Override
+  protected ModelImporterDescriptorWizardNode createModelConverterDescriptorWizardNode(ModelImporterDescriptor descriptor)
   {
-    return new ModelImporterDescriptorWizardNode((ModelImporterDescriptor)descriptor);
+    return new ModelImporterDescriptorWizardNode(descriptor);
   }
 
   public ModelImporterDescriptor getModelImporterDescriptor(String id)
   {
-    return (ModelImporterDescriptor)getModelConverterDescriptor(id);
+    return getModelConverterDescriptor(id);
   }
   
-  public ModelConverterDescriptor createFromContribution(IConfigurationElement configurationElement)
+  @Override
+  public ModelImporterDescriptor createFromContribution(IConfigurationElement configurationElement)
   {
     ModelImporterDescriptorImpl descriptorImpl = (ModelImporterDescriptorImpl)super.createFromContribution(configurationElement);
     if (descriptorImpl != null)
@@ -149,12 +154,11 @@ public class ModelImporterManager extends ModelConverterManager
     return descriptorImpl;
   }
   
-  public List filterModelImporterDescriptors(int type)
+  public List<ModelImporterDescriptor> filterModelImporterDescriptors(int type)
   {
-    List descriptors = new ArrayList();
-    for (Iterator i = getModelConverterDescriptors().iterator(); i.hasNext();)
+    List<ModelImporterDescriptor> descriptors = new ArrayList<ModelImporterDescriptor>();
+    for (ModelImporterDescriptor descriptor : getModelConverterDescriptors())
     {
-      ModelImporterDescriptor descriptor = (ModelImporterDescriptor)i.next();
       if ((descriptor.getTypes() & type) == type)
       {
         descriptors.add(descriptor);
@@ -163,12 +167,11 @@ public class ModelImporterManager extends ModelConverterManager
     return descriptors;
   }
 
-  public List filterModelImporterDescriptors(String extension)
+  public List<ModelImporterDescriptor> filterModelImporterDescriptors(String extension)
   {
-    List descriptors = new ArrayList();
-    for (Iterator i = getModelConverterDescriptors().iterator(); i.hasNext();)
+    List<ModelImporterDescriptor> descriptors = new ArrayList<ModelImporterDescriptor>();
+    for (ModelImporterDescriptor descriptor : getModelConverterDescriptors())
     {
-      ModelImporterDescriptor descriptor = (ModelImporterDescriptor)i.next();
       if (descriptor.getExtensions().contains(extension))
       {
         descriptors.add(descriptor);

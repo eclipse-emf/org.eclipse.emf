@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelReloadActionDelegate.java,v 1.4 2005/12/14 07:48:49 marcelop Exp $
+ * $Id: GenModelReloadActionDelegate.java,v 1.5 2006/12/28 06:53:13 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -31,6 +31,7 @@ import org.eclipse.emf.converter.ui.OpenWizardActionDelegate;
  */
 public class GenModelReloadActionDelegate extends OpenWizardActionDelegate
 {
+  @Override
   protected IWizard createWizard(IWorkbench workbench, Shell shell, IFile file)
   {
     EMFModelWizard wizard = new EMFModelWizard(file);

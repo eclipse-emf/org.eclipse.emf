@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFModelWizard.java,v 1.14 2006/10/16 03:32:34 davidms Exp $
+ * $Id: EMFModelWizard.java,v 1.15 2006/12/28 06:53:13 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -63,6 +63,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
     /**
      * The framework calls this to see if the file is correct.
      */
+    @Override
     protected boolean validatePage()
     {
       if (super.validatePage())
@@ -86,6 +87,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
       }
     }
 
+    @Override
     public void setVisible(boolean visible)
     {
       super.setVisible(visible);
@@ -107,6 +109,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
       }
     }
 
+    @Override
     public void setFileName(String value)
     {
       super.setFileName(value);
@@ -121,11 +124,13 @@ public class EMFModelWizard extends Wizard implements INewWizard
       super(pageId, ModelImporterManager.INSTANCE, workbench, selection);
     }
     
+    @Override
     protected Object[] getTableInput()
     {
       return getModelImporterDescriptors().toArray();
     }
     
+    @Override
     protected String getSelectModelConverterLabel()
     {
       return ImporterPlugin.INSTANCE.getString("_UI_SelectModelImporters_label");
@@ -141,11 +146,13 @@ public class EMFModelWizard extends Wizard implements INewWizard
       return (ModelImporterDescriptor)getModelConverterDescriptor();
     }
     
+    @Override
     protected String getNoModelConverterMessage()
     {
       return ImporterPlugin.INSTANCE.getString("_UI_NoModelImporters_error");
     }    
     
+    @Override
     protected void adjustModelConverterWizard(IWizard modelConverterWizard)
     {
       adjustModelImporterWizard((ModelImporterWizard)modelConverterWizard, getModelImporterDescriptor());
@@ -177,6 +184,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
     this.reloadFile = reloadFile;
   }
 
+  @Override
   public void dispose()
   {
     selection = null;
@@ -193,6 +201,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
     return ExtendedImageRegistry.INSTANCE.getImageDescriptor(ImporterPlugin.INSTANCE.getImage("full/wizban/NewGenModel"));
   }
 
+  @Override
   public void addPages()
   {
     if (reloadFile == null)
@@ -245,7 +254,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
       defaultPath.removeFirstSegments(defaultPath.segmentCount()-1).toString();
   }
 
-  protected List getModelImporterDescriptors()
+  protected List<ModelImporterDescriptor> getModelImporterDescriptors()
   {
     return ModelImporterManager.INSTANCE.filterModelImporterDescriptors(ModelImporterDescriptor.TYPE_FILE);
   }
@@ -289,7 +298,7 @@ public class EMFModelWizard extends Wizard implements INewWizard
           }
           else if (!genModel.getForeignModel().isEmpty())
           {
-            String foreignModel = (String)genModel.getForeignModel().get(0);
+            String foreignModel = genModel.getForeignModel().get(0);
             if (foreignModel.endsWith(".mdl"))
             {
               descriptor = ModelImporterManager.INSTANCE.getModelImporterDescriptor("org.eclipse.emf.importer.rose");
@@ -322,10 +331,10 @@ public class EMFModelWizard extends Wizard implements INewWizard
           descriptor = ModelImporterManager.INSTANCE.getModelImporterDescriptor(selectionPage.getLastModelConverterDescriptorId());
           if (descriptor == null || !descriptor.getExtensions().contains(fileExtension))
           {
-            List descriptors = ModelImporterManager.INSTANCE.filterModelImporterDescriptors(fileExtension);
+            List<ModelImporterDescriptor> descriptors = ModelImporterManager.INSTANCE.filterModelImporterDescriptors(fileExtension);
             if (!descriptors.isEmpty())
             {
-              descriptor = (ModelImporterDescriptor)descriptors.get(0);
+              descriptor = descriptors.get(0);
             }
           }
           if (descriptor != null)
@@ -369,11 +378,13 @@ public class EMFModelWizard extends Wizard implements INewWizard
     modelImporterWizard.getFileExtensions().addAll(modelImporterDescriptor.getExtensions());
   }
 
+  @Override
   public boolean canFinish()
   {
     return false;
   }
 
+  @Override
   public boolean performFinish()
   {
     selectionPage.performFinish();

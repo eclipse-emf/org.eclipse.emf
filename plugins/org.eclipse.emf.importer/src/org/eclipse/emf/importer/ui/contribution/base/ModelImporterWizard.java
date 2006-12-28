@@ -52,7 +52,7 @@ public abstract class ModelImporterWizard extends ModelConverterWizard implement
     return (ModelImporter)getModelConverter();
   }
 
-  public List getFileExtensions()
+  public List<String> getFileExtensions()
   {
     return getModelImporter().getFileExtensions();
   }
@@ -144,6 +144,7 @@ public abstract class ModelImporterWizard extends ModelConverterWizard implement
     return projectPath;
   }
   
+  @Override
   protected Diagnostic doPerformFinish(Monitor monitor) throws Exception
   {
     getModelImporter().prepareGenModelAndEPackages(monitor);
@@ -151,6 +152,7 @@ public abstract class ModelImporterWizard extends ModelConverterWizard implement
     return Diagnostic.OK_INSTANCE;
   }
   
+  @Override
   public boolean performFinish()
   {
     if (super.performFinish())

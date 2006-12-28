@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.22 2006/12/07 03:46:30 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.23 2006/12/28 06:53:13 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -31,7 +31,6 @@ import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IPlatformRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -59,7 +58,7 @@ import org.eclipse.emf.importer.util.ImporterUtil;
 /**
  * @since 2.1.0
  */
-public abstract class ModelImporterApplication implements IPlatformRunnable
+public abstract class ModelImporterApplication implements org.eclipse.core.runtime.IPlatformRunnable
 {
   protected ModelImporter modelImporter;
 
@@ -81,8 +80,8 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
   protected String modelPluginID;
   protected GenJDKLevel genJDKLevel;
 
-  protected List referencedEPackages;
-  protected Map referencedGenModelURIToEPackageNSURIs;
+  protected List<EPackage> referencedEPackages;
+  protected Map<URI, Set<String>> referencedGenModelURIToEPackageNSURIs;
 
   protected boolean quiet = false;
 
@@ -324,14 +323,14 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
     {
       if (referencedGenModelURIToEPackageNSURIs == null)
       {
-        referencedGenModelURIToEPackageNSURIs = new HashMap();
+        referencedGenModelURIToEPackageNSURIs = new HashMap<URI, Set<String>>();
       }
 
       URI genModelURI = URI.createURI(arguments[++index]);
-      Set ePackageNSURIs = (Set)referencedGenModelURIToEPackageNSURIs.get(genModelURI);
+      Set<String> ePackageNSURIs = referencedGenModelURIToEPackageNSURIs.get(genModelURI);
       if (ePackageNSURIs == null)
       {
-        ePackageNSURIs = new HashSet();
+        ePackageNSURIs = new HashSet<String>();
         referencedGenModelURIToEPackageNSURIs.put(genModelURI, ePackageNSURIs);
       }
 
@@ -445,11 +444,10 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       if (referencedGenModelURIToEPackageNSURIs != null)
       {
         ResourceSet resourceSet = getModelImporter().createResourceSet();
-        for (Iterator i = referencedGenModelURIToEPackageNSURIs.entrySet().iterator(); i.hasNext();)
+        for (Map.Entry<URI, Set<String>> entry : referencedGenModelURIToEPackageNSURIs.entrySet())
         {
-          Map.Entry entry = (Map.Entry)i.next();
-          URI genModelURI = (URI)entry.getKey();
-          Set ePackageNSURIs = (Set)entry.getValue();
+          URI genModelURI = entry.getKey();
+          Set<String> ePackageNSURIs = entry.getValue();
           
           File genModelFile = new File(genModelURI.toString());
           if (genModelFile.isFile())
@@ -460,9 +458,8 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
           
           Resource resource = resourceSet.getResource(genModelURI, true);
           GenModel referencedGenModel = (GenModel)resource.getContents().get(0);
-          for (Iterator j = referencedGenModel.getGenPackages().iterator(); j.hasNext();)
+          for (GenPackage genPackage : referencedGenModel.getGenPackages())
           {
-            GenPackage genPackage = (GenPackage)j.next();
             if (ePackageNSURIs.contains(genPackage.getEcorePackage().getNsURI()))
             {
               getModelImporter().getReferencedGenPackages().add(genPackage);
@@ -498,9 +495,8 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       // is referenced by an existing GenPackage, it doesn't need to be added to
       // referencedEPackages.
       
-      for (Iterator i = getModelImporter().getReferencedGenPackages().iterator(); i.hasNext();)
+      for (GenPackage genPackage : getModelImporter().getReferencedGenPackages())
       {
-        GenPackage genPackage = (GenPackage)i.next();
         if (genPackage.getEcorePackage() == ePackage || (genPackage.getNSURI() != null && genPackage.getNSURI().equals(ePackage.getNsURI())))
         {
           return;
@@ -509,7 +505,7 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       
       if (referencedEPackages == null)
       {
-        referencedEPackages = new ArrayList();
+        referencedEPackages = new ArrayList<EPackage>();
       }
       referencedEPackages.add(ePackage);
     }
@@ -594,9 +590,9 @@ public abstract class ModelImporterApplication implements IPlatformRunnable
       referencedGenModel.getForeignModel().addAll(genModel.getForeignModel());
       modelImporter.traverseGenPackages(referencedGenModel.getGenPackages());
 
-      for (Iterator i = referencedGenModel.getGenPackages().iterator(); i.hasNext();)
+      for (Iterator<GenPackage> i = referencedGenModel.getGenPackages().iterator(); i.hasNext();)
       {
-        GenPackage genPackage = (GenPackage)i.next();
+        GenPackage genPackage = i.next();
         EPackage ePackage = genPackage.getEcorePackage();
         if (ePackage.eResource() == null)
         {

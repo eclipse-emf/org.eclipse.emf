@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -34,7 +34,7 @@ public interface ModelImporterDescriptor extends ModelConverterDescriptor
   int TYPE_FILE = 2;
   int TYPE_DEFAULT = TYPE_PROJECT | TYPE_FILE;
 
-  List getExtensions();
+  List<String> getExtensions();
 
   int getTypes();
 

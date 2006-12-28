@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -64,23 +64,22 @@ public class ImporterUtil
    * @param genPackages
    * @param genPackagesToAdd
    */
-  public static void addUniqueGenPackages(List genPackages, List genPackagesToAdd)
+  public static void addUniqueGenPackages(List<GenPackage> genPackages, List<GenPackage> genPackagesToAdd)
   {
     if (!genPackagesToAdd.isEmpty())
     {      
       if (!genPackages.isEmpty())
       {
-        Set nsURIs = new HashSet();
-        for (Iterator i = genPackagesToAdd.iterator(); i.hasNext();)
+        Set<String> nsURIs = new HashSet<String>();
+        for (GenPackage genPackage : genPackagesToAdd)
         {
-          GenPackage genPackage = (GenPackage)i.next();
           String nsURI = genPackage.getNSURI();
           nsURIs.add(nsURI);
         }
         
-        for (Iterator i = genPackages.iterator(); i.hasNext();)
+        for (Iterator<GenPackage> i = genPackages.iterator(); i.hasNext();)
         {
-          GenPackage genPackage = (GenPackage)i.next();
+          GenPackage genPackage = i.next();
           if (nsURIs.contains(genPackage.getNSURI()) && !genPackagesToAdd.contains(genPackage))
           {
             i.remove();

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterDetailPage.java,v 1.4 2006/10/16 03:32:34 davidms Exp $
+ * $Id: ModelImporterDetailPage.java,v 1.5 2006/12/28 06:53:13 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
@@ -74,6 +74,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     return (ModelImporter)getModelConverter();
   }
 
+  @Override
   public void dispose()
   {
     if (loadButton != null)
@@ -94,6 +95,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     return showGenModel;
   }
 
+  @Override
   protected void pageActivated(boolean firstTime, int cause)
   {
     if (firstTime)
@@ -116,6 +118,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     refreshModel();
   }
 
+  @Override
   protected void addControl(Composite parent)
   {
     addDetailControl(parent);
@@ -128,14 +131,17 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
   
   protected void addDetailControl(Composite parent)
   { 
+    // Subclasses may override
   }
   
+  @Override
   protected String getURITextInitialValue()
   {
     String uri = getModelImporter().getModelLocation();
     return uri != null ? uri : super.getURITextInitialValue();
   }
 
+  @Override
   protected void addURIControl(Composite parent)
   {
     loadButton = new Button(parent, SWT.PUSH);
@@ -155,6 +161,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     genModelNameText.addListener(SWT.Modify, this);
   }
 
+  @Override
   protected void doHandleEvent(Event event)
   {
     if (event.type == SWT.Selection && event.widget == loadButton)
@@ -176,6 +183,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     }
   }
   
+  @Override
   protected void uriTextModified(String text)
   {
     super.uriTextModified(text);
@@ -193,6 +201,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     }    
   }
 
+  @Override
   protected String getURITextLabel()
   {
     return supportMultipleURIs() ?
@@ -205,6 +214,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     return ImporterPlugin.INSTANCE.getString("_UI_SelectModel_label");
   }
 
+  @Override
   protected boolean supportMultipleURIs()
   {
     return true;
@@ -214,14 +224,14 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
   {
     if (filterExtensions == null)
     {
-      List fileExtensions = getModelImporter().getFileExtensions();
+      List<String> fileExtensions = getModelImporter().getFileExtensions();
       if (fileExtensions.isEmpty())
       {
         filterExtensions = new String []{ "*.*" };
       }
       else if (fileExtensions.size() == 1)
       {
-        filterExtensions = new String[]{"*." + (String)fileExtensions.get(0)};
+        filterExtensions = new String[]{"*." + fileExtensions.get(0)};
       }
       else
       {
@@ -229,7 +239,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
         String[] extensions = new String [fileExtensions.size() + 1];
         for (int i = 1, lenght=extensions.length; i < lenght; i++)
         {
-          extensions[i] = "*." + (String)fileExtensions.get(i-1);
+          extensions[i] = "*." + fileExtensions.get(i-1);
           allFilterExtensions.append(";").append(extensions[i]);
         }
         allFilterExtensions.deleteCharAt(0);
@@ -260,6 +270,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     return false;
   }
 
+  @Override
   protected boolean browseFileSystem()
   {
     FileDialog fileDialog = new FileDialog(getShell(), SWT.OPEN | (supportMultipleURIs() ? SWT.MULTI : SWT.SINGLE));
@@ -288,6 +299,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     return false;
   }
 
+  @Override
   protected boolean browseWorkspace()
   {
     ViewerFilter extensionFilter = null;
@@ -295,6 +307,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     {
       extensionFilter = new ViewerFilter()
       {
+        @Override
         public boolean select(Viewer viewer, Object parentElement, Object element)
         {
           return !(element instanceof IFile) || getModelImporter().getFileExtensions().contains(((IFile)element).getFileExtension());
@@ -325,6 +338,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
   {
     WorkspaceModifyOperation initializeOperation = new WorkspaceModifyOperation()
       {
+        @Override
         protected void execute(IProgressMonitor progressMonitor) throws CoreException
         {
           Diagnostic errorDiagnostic = null;
@@ -376,6 +390,7 @@ public class ModelImporterDetailPage extends ModelConverterURIPage implements IM
     }
   }
   
+  @Override
   public boolean isPageComplete()
   {
     return super.isPageComplete() 

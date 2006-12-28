@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EMFProjectWizard.java,v 1.8 2006/06/01 21:40:22 marcelop Exp $
+ * $Id: EMFProjectWizard.java,v 1.9 2006/12/28 06:53:13 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui;
 
@@ -44,15 +44,18 @@ public class EMFProjectWizard extends EMFModelWizard
     setWindowTitle(ImporterPlugin.INSTANCE.getString("_UI_EMFProjectWizard_title"));
   }
   
+  @Override
   protected ImageDescriptor getDefaultImageDescriptor()
   {
     return ExtendedImageRegistry.INSTANCE.getImageDescriptor(ImporterPlugin.INSTANCE.getImage("full/wizban/NewEMFProject"));
   }
 
+  @Override
   public void addPages()
   {
     WizardNewProjectCreationPage page = new WizardNewProjectCreationPage("NewProjectCreationPage")
       {
+        @Override
         protected boolean validatePage()
         {
           if (super.validatePage())
@@ -82,11 +85,13 @@ public class EMFProjectWizard extends EMFModelWizard
     addSelectionPage();
   }
 
-  protected List getModelImporterDescriptors()
+  @Override
+  protected List<ModelImporterDescriptor> getModelImporterDescriptors()
   {
     return ModelImporterManager.INSTANCE.filterModelImporterDescriptors(ModelImporterDescriptor.TYPE_PROJECT);
   }
   
+  @Override
   protected void adjustModelImporterWizard(IModelImporterWizard modelImporterWizard, ModelImporterDescriptor modelImporterDescriptor)
   {
     super.adjustModelImporterWizard(modelImporterWizard, modelImporterDescriptor);

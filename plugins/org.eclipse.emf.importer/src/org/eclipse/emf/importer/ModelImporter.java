@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporter.java,v 1.31 2006/11/01 16:08:30 emerks Exp $
+ * $Id: ModelImporter.java,v 1.32 2006/12/28 06:53:13 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -101,7 +101,7 @@ public abstract class ModelImporter extends ModelConverter
     }
   }
   
-  protected List fileExtensions;
+  protected List<String> fileExtensions;
 
   protected IPath originalGenModelPath;
   protected GenModel originalGenModel;
@@ -111,7 +111,7 @@ public abstract class ModelImporter extends ModelConverter
   protected String genModelFileName;
   protected IPath genModelPath;
 
-  protected List modelLocationURIs;
+  protected List<URI> modelLocationURIs;
   protected String modelLocation;
 
   protected String modelPluginID;
@@ -121,6 +121,7 @@ public abstract class ModelImporter extends ModelConverter
   protected boolean usePlatformURI = true;
   protected IWorkspaceRoot workspaceRoot;
   
+  @Override
   public void dispose()
   {
     originalGenModel = null;
@@ -129,16 +130,17 @@ public abstract class ModelImporter extends ModelConverter
     super.dispose();
   }
   
+  @Override
   protected String getConverterGenAnnotationSource()
   {
     return GENANNOTATION_SOURCE_PREFIX + getID();
   }
   
-  public List getFileExtensions()
+  public List<String> getFileExtensions()
   {
     if (fileExtensions == null)
     {
-      fileExtensions = new ArrayList();
+      fileExtensions = new ArrayList<String>();
     }
     return fileExtensions;
   }
@@ -171,21 +173,19 @@ public abstract class ModelImporter extends ModelConverter
     return originalGenModelPath;
   }
 
-  protected List computeEPackagesBeingReloaded()
+  protected List<EPackage> computeEPackagesBeingReloaded()
   {
     if (getOriginalGenModel() != null)
     {
-      List ePackages = new ConverterUtil.EPackageList();
-      for (Iterator i = getOriginalGenModel().getGenPackages().iterator(); i.hasNext();)
+      List<EPackage> ePackages = new ConverterUtil.EPackageList();
+      for (GenPackage genPackage : getOriginalGenModel().getGenPackages())
       {
-        GenPackage genPackage = (GenPackage)i.next();
         EPackage originalEPackage = genPackage.getEcorePackage();
         String nsURI = originalEPackage.getNsURI();
         if (nsURI != null)
         {
-          for (Iterator j = getEPackages().iterator(); j.hasNext();)
+          for (EPackage ePackage : getEPackages())
           {
-            EPackage ePackage = (EPackage)j.next();
             if (nsURI.equals(ePackage.getNsURI()))
             {
               ePackages.add(ePackage);
@@ -198,7 +198,7 @@ public abstract class ModelImporter extends ModelConverter
     }
     else
     {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
   }
 
@@ -215,10 +215,10 @@ public abstract class ModelImporter extends ModelConverter
   
   public String computeDefaultGenModelFileName()
   {
-    List modelLocationURIs = getModelLocationURIs();
+    List<URI> modelLocationURIs = getModelLocationURIs();
     if (!modelLocationURIs.isEmpty())
     {
-      URI modelURI = (URI)modelLocationURIs.get(0);
+      URI modelURI = modelLocationURIs.get(0);
       String name = URI.decode(modelURI.lastSegment());
       if (name != null)
       {
@@ -318,6 +318,7 @@ public abstract class ModelImporter extends ModelConverter
     return genModelPath;
   }
 
+  @Override
   public GenModel getGenModel()
   {
     if (genModel == null)
@@ -373,6 +374,7 @@ public abstract class ModelImporter extends ModelConverter
     return (EPackageImportInfo)getEPackageConvertInfo(ePackage);
   }
   
+  @Override
   protected EPackageConvertInfo createEPackageInfo(EPackage ePackage)
   {
     return new EPackageImportInfo();
@@ -382,9 +384,8 @@ public abstract class ModelImporter extends ModelConverter
   {
     if (getOriginalGenModel() != null && !getOriginalGenModel().getGenPackages().isEmpty())
     {
-      for (Iterator i = getOriginalGenModel().getGenPackages().iterator(); i.hasNext();)
+      for (GenPackage referencedGenPackage : getOriginalGenModel().getGenPackages())
       {
-        GenPackage referencedGenPackage = (GenPackage)i.next();
         if (referencedGenPackage.getEcorePackage() != null && referencedGenPackage.getEcorePackage().getNsURI().equals(ePackage.getNsURI()))
         {
           return referencedGenPackage;
@@ -405,15 +406,15 @@ public abstract class ModelImporter extends ModelConverter
     return modelLocation;
   }
 
-  public List getModelLocationURIs()
+  public List<URI> getModelLocationURIs()
   {
     if (getModelLocation() == null)
     {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
     else if (modelLocationURIs == null)
     {
-      modelLocationURIs = new ArrayList();
+      modelLocationURIs = new ArrayList<URI>();
       for (StringTokenizer stringTokenizer = new StringTokenizer(getModelLocation()); stringTokenizer.hasMoreTokens();)
       {
         String uri = stringTokenizer.nextToken();
@@ -425,10 +426,10 @@ public abstract class ModelImporter extends ModelConverter
   
   public URI getFirstModelLocationURI(boolean resolve)
   {
-    List modelLocationURIs = getModelLocationURIs();
+    List<URI> modelLocationURIs = getModelLocationURIs();
     if (!modelLocationURIs.isEmpty())
     {
-      URI modelLocationURI = (URI)modelLocationURIs.get(0);
+      URI modelLocationURI = modelLocationURIs.get(0);
       return resolve ? CommonPlugin.resolve(modelLocationURI) : modelLocationURI;
     }
     return null;
@@ -447,6 +448,7 @@ public abstract class ModelImporter extends ModelConverter
     }
   }
     
+  @Override
   protected ResourceSet createExternalGenModelResourceSet()
   {
     return getOriginalGenModel() != null ? 
@@ -478,9 +480,8 @@ public abstract class ModelImporter extends ModelConverter
       genModelPath = getOriginalGenModelPath();
 
       getOriginalGenModel().reconcile();
-      for (Iterator i = getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext();)
+      for (GenPackage referencedGenPackage : getOriginalGenModel().getUsedGenPackages())
       {
-        GenPackage referencedGenPackage = (GenPackage)i.next();
         if (!referencedGenPackage.eIsProxy())
         {
           getReferencedGenPackages().add(referencedGenPackage);
@@ -515,6 +516,7 @@ public abstract class ModelImporter extends ModelConverter
    */
   protected void handleOriginalGenModel() throws DiagnosticException
   {
+    // Subclasses may override
   }
 
   public Diagnostic computeEPackages(Monitor monitor) throws Exception
@@ -530,14 +532,14 @@ public abstract class ModelImporter extends ModelConverter
     int size = getEPackages().size(); 
     if (size == 1)
     {
-      getEPackageImportInfo((EPackage)getEPackages().get(0)).setConvert(true);
+      getEPackageImportInfo(getEPackages().get(0)).setConvert(true);
     }
     else if (size > 1)
     {
-      List ePackagesBeingReloaded = computeEPackagesBeingReloaded();
-      for (Iterator i = ePackagesBeingReloaded.iterator(); i.hasNext();)
+      List<EPackage> ePackagesBeingReloaded = computeEPackagesBeingReloaded();
+      for (EPackage ePackage : ePackagesBeingReloaded)
       {
-        getEPackageImportInfo((EPackage)i.next()).setConvert(true);
+        getEPackageImportInfo(ePackage).setConvert(true);
       }
     }    
   }
@@ -549,19 +551,24 @@ public abstract class ModelImporter extends ModelConverter
 
   public void adjustEPackages(Monitor monitor)
   {
-    TreeIterator ePackagesIterator = new AbstractTreeIterator(getEPackages(), false)
-    {
-      protected Iterator getChildren(Object object)
+    TreeIterator<EPackage> ePackagesIterator = 
+      new AbstractTreeIterator<EPackage>(getEPackages(), false)
       {
-        return object instanceof Collection ? 
-          ((Collection)object).iterator() :
-          ((EPackage)object).getESubpackages().iterator();  
-      }
-    };
+        private static final long serialVersionUID = 1L;
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Iterator<EPackage> getChildren(Object object)
+        {
+          return object instanceof Collection ? 
+            ((Collection<EPackage>)object).iterator() :
+            ((EPackage)object).getESubpackages().iterator();  
+        }
+      };
     
     while (ePackagesIterator.hasNext())
     {
-      EPackage ePackage = (EPackage)ePackagesIterator.next();
+      EPackage ePackage = ePackagesIterator.next();
       adjustEPackage(monitor, ePackage);
     }
     
@@ -643,21 +650,19 @@ public abstract class ModelImporter extends ModelConverter
 
     // Create resources for all the root EPackages.
     //
-    List ePackages = computeEPackagesToConvert();
-    for (Iterator i = ePackages.iterator(); i.hasNext();)
+    List<EPackage> ePackages = computeEPackagesToConvert();
+    for (EPackage ePackage : ePackages)
     {
-      EPackage ePackage = (EPackage)i.next();
       addToResource(ePackage, resourceSet);
     }
 
-    List referencedGenPackages = computeValidReferencedGenPackages(); 
+    List<GenPackage> referencedGenPackages = computeValidReferencedGenPackages(); 
       
     // Create resources for all the referenced EPackages
     // The referencedEPackage is a "local" instance of the realEPackage.  We 
     // will add the former o a resource that has the same URI of the later.
-    for (Iterator i = referencedGenPackages.iterator(); i.hasNext();)
+    for (GenPackage genPackage : referencedGenPackages)
     {
-      GenPackage genPackage = (GenPackage)i.next();
       EPackage realEPackage = genPackage.getEcorePackage();
       EPackage referredEPackage = getReferredEPackage(genPackage);
       if (referredEPackage != null && referredEPackage != realEPackage)
@@ -708,45 +713,41 @@ public abstract class ModelImporter extends ModelConverter
     IProject project = getWorkspaceRoot().getProject(projectName);
     if (!project.exists())
     {
-      Set referencedGenModels = new HashSet();
-      for (Iterator i = getGenModel().getUsedGenPackages().iterator(); i.hasNext();)
+      Set<GenModel> referencedGenModels = new HashSet<GenModel>();
+      for (GenPackage genPackage : getGenModel().getUsedGenPackages())
       {
-        GenPackage genPackage = (GenPackage)i.next();
         referencedGenModels.add(genPackage.getGenModel());
       }
       createProject(monitor, project, referencedGenModels);
     }
 
-    List resources = computeResourcesToBeSaved();    
+    List<Resource> resources = computeResourcesToBeSaved();    
     String readOnlyFiles = ConverterUtil.WorkspaceResourceValidator.validate(resources);
     if (readOnlyFiles != null)
     {
       throw new Exception(ImporterPlugin.INSTANCE.getString("_UI_ReadOnlyFiles_error", new String[]{readOnlyFiles})); 
     }
     
-    for (Iterator i = resources.iterator(); i.hasNext();)
+    for (Resource resource : resources)
     {
-      Resource resource = (Resource)i.next();
       resource.save(getGenmodelSaveOptions());
     }
   }
   
-  protected List computeResourcesToBeSaved()
+  protected List<Resource> computeResourcesToBeSaved()
   {
-    List resources = new UniqueEList.FastCompare();
+    List<Resource> resources = new UniqueEList.FastCompare<Resource>();
     Resource genModelResource = getGenModel().eResource();
     resources.add(genModelResource);
-    for (Iterator i = getGenModel().getGenPackages().iterator(); i.hasNext();)
+    for (GenPackage genPackage : getGenModel().getGenPackages())
     {
-      GenPackage genPackage = (GenPackage)i.next();
       resources.add(genPackage.getEcorePackage().eResource());
     }
     
     // Handle application genmodel stub
     //
-    for (Iterator i = getGenModel().getUsedGenPackages().iterator(); i.hasNext();)
+    for (GenPackage genPackage : getGenModel().getUsedGenPackages())
     {
-      GenPackage genPackage = (GenPackage)i.next();
       if (genPackage.eResource() == genModelResource)
       {
         resources.add(genPackage.getEcorePackage().eResource());
@@ -756,17 +757,16 @@ public abstract class ModelImporter extends ModelConverter
     return resources;
   }
   
-  protected void createProject(Monitor monitor, IProject project, Collection referencedGenModels)
+  protected void createProject(Monitor monitor, IProject project, Collection<GenModel> referencedGenModels)
   {
     IWorkspaceRoot workspaceRoot = getWorkspaceRoot();
 
     // Determine which projects will need to be referenced.
     //
-    List referencedModelProjects = new ArrayList();
-    List referencedEditProjects = new ArrayList();
-    for (Iterator i = referencedGenModels.iterator(); i.hasNext();)
+    List<IProject> referencedModelProjects = new ArrayList<IProject>();
+    List<IProject> referencedEditProjects = new ArrayList<IProject>();
+    for (GenModel referencedGenModel : referencedGenModels)
     {
-      GenModel referencedGenModel = (GenModel)i.next();
       String modelDirectory = referencedGenModel.getModelDirectory();
       if (modelDirectory != null)
       {
@@ -794,7 +794,7 @@ public abstract class ModelImporter extends ModelConverter
 
     // Create the model project.
     //
-    List referencedProjects = new ArrayList(referencedModelProjects);
+    List<IProject> referencedProjects = new ArrayList<IProject>(referencedModelProjects);
     Generator.createEMFProject
       (new Path(path),
        getGenModelProjectLocation(),
@@ -825,21 +825,19 @@ public abstract class ModelImporter extends ModelConverter
     if (getOriginalGenModel() != null && !getOriginalGenModel().getUsedGenPackages().isEmpty())
     {
       GenModel genModel = getGenModel();
-      List usedGenPackages = new ArrayList(genModel.getUsedGenPackages());
+      List<GenPackage> usedGenPackages = new ArrayList<GenPackage>(genModel.getUsedGenPackages());
       usedGenPackages.removeAll(getOriginalGenModel().getUsedGenPackages());
       if (!usedGenPackages.isEmpty())
       {
-        Map nsURIOriginalUsedGenPackageMap = new HashMap();
-        for (Iterator i = getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext();)
+        Map<String, GenPackage> nsURIOriginalUsedGenPackageMap = new HashMap<String, GenPackage>();
+        for (GenPackage genPackage : getOriginalGenModel().getUsedGenPackages())
         {
-          GenPackage genPackage = (GenPackage)i.next();
           nsURIOriginalUsedGenPackageMap.put(genPackage.getNSURI(), genPackage);
         }
         
-        for (Iterator i = usedGenPackages.iterator(); i.hasNext();)
+        for (GenPackage genPackage : usedGenPackages)
         {
-          GenPackage genPackage = (GenPackage)i.next();
-          GenPackage originalUsedGenPackage = (GenPackage)nsURIOriginalUsedGenPackageMap.get(genPackage.getNSURI());
+          GenPackage originalUsedGenPackage = nsURIOriginalUsedGenPackageMap.get(genPackage.getNSURI());
           if (originalUsedGenPackage != null)
           {
             genModel.getUsedGenPackages().remove(originalUsedGenPackage);
@@ -849,16 +847,16 @@ public abstract class ModelImporter extends ModelConverter
     }
   }
 
+  @Override
   protected boolean canConvert(EPackage ePackage)
   {
     return super.canConvert(ePackage) && getEPackageImportInfo(ePackage).getEcoreFileName() != null;
   }
 
-  public void traverseGenPackages(List genPackages)
+  public void traverseGenPackages(List<GenPackage> genPackages)
   {
-    for (Iterator i = genPackages.iterator(); i.hasNext();)
+    for (GenPackage genPackage : genPackages)
     {
-      GenPackage genPackage = (GenPackage)i.next();
       EPackage ePackage = genPackage.getEcorePackage();
       EPackageImportInfo ePackageInfo = getEPackageImportInfo(ePackage);
 
@@ -872,7 +870,7 @@ public abstract class ModelImporter extends ModelConverter
 
   protected void adjustGenPackageDuringTraverse(GenPackage genPackage)
   {
-
+    // Subclasses may override
   }
 
   protected URI makeRelative(URI uri, URI relativeTo)
@@ -973,8 +971,8 @@ public abstract class ModelImporter extends ModelConverter
     return null;
   }
       
-  protected Map getEcoreSaveOptions()
+  protected Map<?, ?> getEcoreSaveOptions()
   {
-    return Collections.EMPTY_MAP;
+    return Collections.emptyMap();
   }
 }

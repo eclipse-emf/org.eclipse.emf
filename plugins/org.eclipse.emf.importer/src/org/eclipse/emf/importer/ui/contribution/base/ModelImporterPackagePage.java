@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterPackagePage.java,v 1.4 2006/08/28 20:11:51 marcelop Exp $
+ * $Id: ModelImporterPackagePage.java,v 1.5 2006/12/28 06:53:13 marcelop Exp $
  */
 package org.eclipse.emf.importer.ui.contribution.base;
 
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -52,28 +51,33 @@ public class ModelImporterPackagePage extends ModelConverterPackagePage implemen
     return (ModelImporter)getModelConverter();
   }
 
+  @Override
   protected void adjustEPackagesTableViewer(CheckboxTableViewer ePackagesTableViewer)
   {
     super.adjustEPackagesTableViewer(ePackagesTableViewer);
     createEPackageDataColumnTableEditor();
   }
 
+  @Override
   protected boolean validateEPackageData(EPackage ePackage, String data)
   {
     return validateEcoreModelFileName(data, null);
   }
   
+  @Override
   protected void setEPackageData(EPackage ePackage, String data)
   {
     ModelImporter.EPackageImportInfo ePackageInfo = getModelImporter().getEPackageImportInfo(ePackage);
     ePackageInfo.setEcoreFileName(data);
   }
   
+  @Override
   protected String getEPackageData(EPackage ePackage)
   {
     return getModelImporter().getEPackageImportInfo(ePackage).getEcoreFileName();
   }
 
+  @Override
   protected String getLabel(EPackage ePackage)
   {
     String result = super.getLabel(ePackage);
@@ -85,21 +89,22 @@ public class ModelImporterPackagePage extends ModelConverterPackagePage implemen
     return result;
   }
 
+  @Override
   protected String getEPackageDataColumnLabel()
   {
     return ImporterPlugin.INSTANCE.getString("_UI_EcoreFileName_label");
   }
 
+  @Override
   protected void validate()
   {
     super.validate();
     
     if (getErrorMessage() == null)
     {
-      List tableCheckedEPackages = getCheckedEPackages();
-      for (Iterator i = tableCheckedEPackages.iterator(); i.hasNext();)
+      List<EPackage> tableCheckedEPackages = getCheckedEPackages();
+      for (EPackage ePackage : tableCheckedEPackages)
       {
-        EPackage ePackage = (EPackage)i.next();
         String fileName = getModelImporter().getEPackageImportInfo(ePackage).getEcoreFileName();
         if (!validateEcoreModelFileName(fileName, ePackage.getName()))
         {
@@ -111,6 +116,7 @@ public class ModelImporterPackagePage extends ModelConverterPackagePage implemen
     }
   }
   
+  @Override
   protected String getPackagesLabel()
   {
     return ImporterPlugin.INSTANCE.getString("_UI_RootPackages_label");
@@ -130,7 +136,7 @@ public class ModelImporterPackagePage extends ModelConverterPackagePage implemen
    */
   protected String checkEcoreFileNames()
   {
-    Set fileNames = new HashSet();
+    Set<String> fileNames = new HashSet<String>();
     int checkedCount = 0;
     Table table = ePackagesCheckboxTableViewer.getTable();
     TableItem[] tableItems = table.getItems();
@@ -145,21 +151,21 @@ public class ModelImporterPackagePage extends ModelConverterPackagePage implemen
     return fileNames.size() < checkedCount ? ImporterPlugin.INSTANCE.getString("_UI_DuplicateEcoreNames_message") : null;
   }
 
-  protected void addReferencedGenModels(List genModels)
+  @Override
+  protected void addReferencedGenModels(List<GenModel> genModels)
   {
     super.addReferencedGenModels(genModels);
     if (getModelImporter().getOriginalGenModel() != null)
     {
       LOOP:
-      for (Iterator i = getModelImporter().getOriginalGenModel().getUsedGenPackages().iterator(); i.hasNext(); )
+      for (GenPackage genPackage : getModelImporter().getOriginalGenModel().getUsedGenPackages())
       {
-        GenModel genModel = ((GenPackage)i.next()).getGenModel();
+        GenModel genModel = genPackage.getGenModel();
         if (genModel != null)
         {
           URI genModelURI = genModel.eResource().getURI();
-          for (Iterator k = genModels.iterator(); k.hasNext(); )
+          for (GenModel otherGenModel : genModels)
           {
-            GenModel otherGenModel = (GenModel)k.next();
             if (genModelURI.equals(otherGenModel.eResource().getURI()))
             {
               continue LOOP;
