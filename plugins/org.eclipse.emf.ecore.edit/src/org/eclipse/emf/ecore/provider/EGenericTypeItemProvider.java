@@ -1,8 +1,18 @@
 /**
  * <copyright>
+ *
+ * Copyright (c) 2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   IBM - Initial API and implementation
+ *
  * </copyright>
  *
- * $Id: EGenericTypeItemProvider.java,v 1.1 2006/12/05 20:26:52 emerks Exp $
+ * $Id: EGenericTypeItemProvider.java,v 1.2 2006/12/28 06:46:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -35,12 +45,14 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CreateChildCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -79,7 +91,8 @@ public class EGenericTypeItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -144,9 +157,9 @@ public class EGenericTypeItemProvider
          }
          
          @Override
-         public Collection getChoiceOfValues(Object object)
+         public Collection<?> getChoiceOfValues(Object object)
          {
-           Collection result = new ArrayList();
+           Collection<Object> result = new ArrayList<Object>();
            result.add(null);
            for (EObject eObject = (EObject)object; eObject != null; eObject = eObject.eContainer())
            {
@@ -221,16 +234,15 @@ public class EGenericTypeItemProvider
          null)
        {
          @Override
-         public Collection getChoiceOfValues(Object object)
+         public Collection<?> getChoiceOfValues(Object object)
          {
            EGenericType eGenericType = (EGenericType)object;
            // Filter out types that aren't permitted.
            //
-           Collection result = super.getChoiceOfValues(object);
+           Collection<Object> result = new ArrayList<Object>(super.getChoiceOfValues(object));
 
-           for (Iterator i = EcorePackage.eINSTANCE.getEClassifiers().iterator(); i.hasNext(); )
+           for (EClassifier classifier : EcorePackage.eINSTANCE.getEClassifiers())
            {
-             Object classifier = i.next();
              if (classifier instanceof EClass)
              {
                result.remove(classifier);
@@ -245,7 +257,7 @@ public class EGenericTypeItemProvider
            EObject container = eGenericType.eContainer();
            if (container instanceof EAttribute)
            {
-             for (Iterator i = result.iterator(); i.hasNext(); )
+             for (Iterator<Object> i = result.iterator(); i.hasNext(); )
              {
                if (i.next() instanceof EClass)
                {
@@ -255,7 +267,7 @@ public class EGenericTypeItemProvider
            }
            else if (container instanceof EReference)
            {
-             for (Iterator i = result.iterator(); i.hasNext(); )
+             for (Iterator<Object> i = result.iterator(); i.hasNext(); )
              {
                if (i.next() instanceof EDataType)
                {
@@ -265,7 +277,7 @@ public class EGenericTypeItemProvider
            }
            else if (container instanceof EClass)
            {
-             for (Iterator i = result.iterator(); i.hasNext(); )
+             for (Iterator<Object> i = result.iterator(); i.hasNext(); )
              {
                Object choice = i.next();
                if (choice instanceof EDataType ||  choice == container || choice != null && ((EClass)choice).getEAllSuperTypes().contains(container))
@@ -329,7 +341,7 @@ public class EGenericTypeItemProvider
              // Ensure that there are enough type arguments to match the number of type parameters.
              //
              int typeParameterCount = value == null ? 0 : ((EClassifier)value).getETypeParameters().size();
-             List typeArguments = new ArrayList(((EGenericType)object).getETypeArguments());
+             List<EGenericType> typeArguments = new ArrayList<EGenericType>(((EGenericType)object).getETypeArguments());
              while (typeArguments.size() > typeParameterCount)
              {
                typeArguments.remove(typeParameterCount);
@@ -361,7 +373,8 @@ public class EGenericTypeItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -378,6 +391,7 @@ public class EGenericTypeItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     EGenericType eGenericType = (EGenericType)object;
@@ -431,6 +445,7 @@ public class EGenericTypeItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public Object getImage(Object object)
   {
     EGenericType eGenericType = (EGenericType)object;
@@ -456,6 +471,7 @@ public class EGenericTypeItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public String getText(Object object)
   {
     EGenericType eGenericType = (EGenericType)object;
@@ -532,6 +548,7 @@ public class EGenericTypeItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -579,7 +596,8 @@ public class EGenericTypeItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 
@@ -614,7 +632,8 @@ public class EGenericTypeItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String getCreateChildText(Object owner, Object feature, Object child, Collection selection)
+  @Override
+  public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection)
   {
     return
       feature == EcorePackage.Literals.EGENERIC_TYPE__ETYPE_ARGUMENTS ? 
@@ -633,7 +652,7 @@ public class EGenericTypeItemProvider
     EStructuralFeature feature,
     Object value,
     int index,
-    Collection collection)
+    Collection<?> collection)
   {
     return 
       new CreateChildCommand(domain, owner, feature, value, index, collection, this)
@@ -661,6 +680,7 @@ public class EGenericTypeItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EcoreEditPlugin.INSTANCE;

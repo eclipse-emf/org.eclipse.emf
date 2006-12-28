@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreItemProviderAdapterFactory.java,v 1.6 2006/12/05 20:26:32 emerks Exp $
+ * $Id: EcoreItemProviderAdapterFactory.java,v 1.7 2006/12/28 06:46:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -71,7 +71,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -85,7 +85,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
-    supportedTypes.add(IItemPropertySource.class);		
+    supportedTypes.add(IItemPropertySource.class);
   }
 
   /**
@@ -102,6 +102,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEAttributeAdapter()
   {
     if (eAttributeItemProvider == null)
@@ -126,6 +127,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEAnnotationAdapter()
   {
     if (eAnnotationItemProvider == null)
@@ -150,6 +152,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEClassAdapter()
   {
     if (eClassItemProvider == null)
@@ -174,6 +177,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEDataTypeAdapter()
   {
     if (eDataTypeItemProvider == null)
@@ -198,6 +202,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEEnumAdapter()
   {
     if (eEnumItemProvider == null)
@@ -222,6 +227,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEEnumLiteralAdapter()
   {
     if (eEnumLiteralItemProvider == null)
@@ -246,6 +252,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEFactoryAdapter()
   {
     if (eFactoryItemProvider == null)
@@ -270,6 +277,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public Adapter createEObjectAdapter()
   {
     if (eObjectItemProvider == null)
@@ -294,6 +302,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEOperationAdapter()
   {
     if (eOperationItemProvider == null)
@@ -318,6 +327,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEPackageAdapter()
   {
     if (ePackageItemProvider == null)
@@ -342,6 +352,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEParameterAdapter()
   {
     if (eParameterItemProvider == null)
@@ -366,6 +377,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEReferenceAdapter()
   {
     if (eReferenceItemProvider == null)
@@ -390,6 +402,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEStringToStringMapEntryAdapter()
   {
     if (eStringToStringMapEntryItemProvider == null)
@@ -414,6 +427,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createEGenericTypeAdapter()
   {
     if (eGenericTypeItemProvider == null)
@@ -438,6 +452,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createETypeParameterAdapter()
   {
     if (eTypeParameterItemProvider == null)
@@ -475,6 +490,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return supportedTypes.contains(type) || type == modelPackage;
@@ -486,6 +502,7 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
@@ -496,12 +513,13 @@ public class EcoreItemProviderAdapterFactory extends EcoreAdapterFactory impleme
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object adapt(Object object, Object type)
   {
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }

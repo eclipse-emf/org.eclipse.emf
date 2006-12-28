@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ENamedElementItemProvider.java,v 1.11 2006/03/13 14:17:33 emerks Exp $
+ * $Id: ENamedElementItemProvider.java,v 1.12 2006/12/28 06:46:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -25,9 +25,11 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -63,7 +65,8 @@ public class ENamedElementItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -94,7 +97,8 @@ public class ENamedElementItemProvider
          null,
          null)
        {
-         public void setPropertyValue(Object object, Object value)
+         @Override
+        public void setPropertyValue(Object object, Object value)
          {
            super.setPropertyValue(object, stripToNull((String)value));
          }
@@ -107,6 +111,7 @@ public class ENamedElementItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     String label = ((ENamedElement)object).getName();
@@ -122,6 +127,7 @@ public class ENamedElementItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -142,7 +148,8 @@ public class ENamedElementItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
   }
@@ -153,6 +160,7 @@ public class ENamedElementItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EcoreEditPlugin.INSTANCE;

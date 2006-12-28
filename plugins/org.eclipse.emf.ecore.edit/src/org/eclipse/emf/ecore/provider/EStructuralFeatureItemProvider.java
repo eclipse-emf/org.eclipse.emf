@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStructuralFeatureItemProvider.java,v 1.13 2006/12/08 19:53:04 emerks Exp $
+ * $Id: EStructuralFeatureItemProvider.java,v 1.14 2006/12/28 06:46:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -27,10 +27,12 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -67,7 +69,8 @@ public class EStructuralFeatureItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -176,6 +179,7 @@ public class EStructuralFeatureItemProvider
          null,
          null)
       {
+        @Override
         public boolean canSetProperty(Object object)
         {
           return !(object instanceof EReference);
@@ -281,6 +285,7 @@ public class EStructuralFeatureItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     String label = ((EStructuralFeature)object).getName();
@@ -292,7 +297,7 @@ public class EStructuralFeatureItemProvider
   public Object getComposedImage(Object object, Object imageToCompose)
   {
     EStructuralFeature eStructuralFeature = (EStructuralFeature)object;
-    Collection images = new ArrayList();
+    Collection<Object> images = new ArrayList<Object>();
     images.add(imageToCompose);
     String imageName = "full/obj16/EOccurrence";
     int minOccurs = eStructuralFeature.getLowerBound();
@@ -357,12 +362,13 @@ public class EStructuralFeatureItemProvider
     return 
       new ComposedImage(images)
       {
-        public List getDrawPoints(Size size)
+        @Override
+        public List<ComposedImage.Point> getDrawPoints(Size size)
         {
-          List result = super.getDrawPoints(size);
+          List<ComposedImage.Point> result = super.getDrawPoints(size);
           if (result.size() > 1)
           {
-            ((Point)result.get(0)).y = -2;
+            result.get(0).y = -2;
           }
           return result;
         }
@@ -377,6 +383,7 @@ public class EStructuralFeatureItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -404,7 +411,8 @@ public class EStructuralFeatureItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
   }
@@ -415,6 +423,7 @@ public class EStructuralFeatureItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EcoreEditPlugin.INSTANCE;

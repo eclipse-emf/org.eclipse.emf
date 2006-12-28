@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EOperationItemProvider.java,v 1.13 2006/12/26 18:57:48 emerks Exp $
+ * $Id: EOperationItemProvider.java,v 1.14 2006/12/28 06:46:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -25,7 +25,6 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
@@ -35,11 +34,13 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -75,7 +76,8 @@ public class EOperationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -119,9 +121,11 @@ public class EOperationItemProvider
            else 
            {
              EOperation eOperation = (EOperation)object;
-             List eGenericTypes = new ArrayList();
+             List<EGenericType> eGenericTypes = new ArrayList<EGenericType>();
+             @SuppressWarnings("unchecked")
+             List<EClassifier> list = (List<EClassifier>)value;
              LOOP:
-             for (EClassifier eException : (List<EClassifier>)value)
+             for (EClassifier eException : list)
              {
                for (EGenericType eGenericException : eOperation.getEGenericExceptions())
                {
@@ -154,7 +158,8 @@ public class EOperationItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -171,6 +176,7 @@ public class EOperationItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     // Check the type of the specified child object and return the proper feature to use for
@@ -210,6 +216,7 @@ public class EOperationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getImage(Object object)
   {
     return overlayImage(object, getResourceLocator().getImage("full/obj16/EOperation"));
@@ -221,6 +228,7 @@ public class EOperationItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public String getText(Object object)
   {
     EOperation eOperation = (EOperation)object;
@@ -241,9 +249,9 @@ public class EOperationItemProvider
       
     }
     result.append("("); //)
-    for (Iterator i = eOperation.getEParameters().iterator(); i.hasNext(); )
+    for (Iterator<EParameter> i = eOperation.getEParameters().iterator(); i.hasNext(); )
     {
-      EParameter eParameter = (EParameter)i.next();
+      EParameter eParameter = i.next();
       if (eParameter.getEGenericType() != null)
       {
         result.append(EGenericTypeItemProvider.getText(eParameter.getEGenericType()));
@@ -264,9 +272,9 @@ public class EOperationItemProvider
     if (!eOperation.getEGenericExceptions().isEmpty())
     {
       result.append(" throws ");
-      for (Iterator i = eOperation.getEGenericExceptions().iterator(); i.hasNext(); )
+      for (Iterator<EGenericType> i = eOperation.getEGenericExceptions().iterator(); i.hasNext(); )
       {
-        EGenericType eException = (EGenericType)i.next();
+        EGenericType eException = i.next();
         result.append(EGenericTypeItemProvider.getText(eException));
         if (i.hasNext())
         {
@@ -284,6 +292,7 @@ public class EOperationItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -309,7 +318,8 @@ public class EOperationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 
@@ -335,7 +345,8 @@ public class EOperationItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String getCreateChildText(Object owner, Object feature, Object child, Collection selection)
+  @Override
+  public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection)
   {
     return
       feature == EcorePackage.Literals.ETYPED_ELEMENT__EGENERIC_TYPE ?
@@ -351,6 +362,7 @@ public class EOperationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EcoreEditPlugin.INSTANCE;

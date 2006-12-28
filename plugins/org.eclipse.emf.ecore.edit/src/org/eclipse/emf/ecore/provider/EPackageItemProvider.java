@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EPackageItemProvider.java,v 1.11 2006/05/15 21:02:45 davidms Exp $
+ * $Id: EPackageItemProvider.java,v 1.12 2006/12/28 06:46:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -27,9 +27,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -66,7 +68,8 @@ public class EPackageItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -156,7 +159,8 @@ public class EPackageItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -172,6 +176,7 @@ public class EPackageItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     // Check the type of the specified child object and return the proper feature to use for
@@ -186,6 +191,7 @@ public class EPackageItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getImage(Object object)
   {
     return overlayImage(object, getResourceLocator().getImage("full/obj16/EPackage"));
@@ -197,6 +203,7 @@ public class EPackageItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public String getText(Object object)
   {
     EPackage ePackage = (EPackage)object;
@@ -212,6 +219,7 @@ public class EPackageItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -238,7 +246,8 @@ public class EPackageItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 
@@ -269,6 +278,7 @@ public class EPackageItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EcoreEditPlugin.INSTANCE;

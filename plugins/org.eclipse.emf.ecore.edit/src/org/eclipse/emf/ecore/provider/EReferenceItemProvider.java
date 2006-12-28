@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EReferenceItemProvider.java,v 1.15 2006/12/18 21:59:04 marcelop Exp $
+ * $Id: EReferenceItemProvider.java,v 1.16 2006/12/28 06:46:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.InitializeCopyCommand;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.command.CopyCommand.Helper;
@@ -39,6 +40,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -75,7 +77,8 @@ public class EReferenceItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -182,7 +185,8 @@ public class EReferenceItemProvider
          null,
          null)
         {
-          public Collection getChoiceOfValues(Object object)
+          @Override
+          public Collection<?> getChoiceOfValues(Object object)
           {
             EReference eReference = (EReference)object;
             EClass eContainingClass = eReference.getEContainingClass();
@@ -191,8 +195,8 @@ public class EReferenceItemProvider
             {
               return Collections.EMPTY_LIST;
             }
-            Collection result = new ArrayList(super.getChoiceOfValues(object));
-            for (Iterator i = result.iterator(); i.hasNext(); )
+            Collection<Object> result = new ArrayList<Object>(super.getChoiceOfValues(object));
+            for (Iterator<Object> i = result.iterator(); i.hasNext(); )
             {
               EReference eOpposite = (EReference)i.next();
               if (eOpposite != null)
@@ -217,11 +221,13 @@ public class EReferenceItemProvider
             return result;
           }
           
+          @Override
           public void resetPropertyValue(Object object)
           {
             setPropertyValue(object, null);
           }
 
+          @Override
           public void setPropertyValue(Object object, Object value)
           {
             EReference eReference = (EReference)object;
@@ -315,10 +321,10 @@ public class EReferenceItemProvider
          null)
       {
         @Override
-        public Collection getChoiceOfValues(Object object)
+        public Collection<?> getChoiceOfValues(Object object)
         {
           EReference eReference = (EReference)object;
-          List result = new ArrayList();
+          List<Object> result = new ArrayList<Object>();
           if (eReference.getEType() instanceof EClass)
           {
             result.addAll(eReference.getEReferenceType().getEAllAttributes());
@@ -334,6 +340,7 @@ public class EReferenceItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public Object getImage(Object object)
   {
     return overlayImage(object, getComposedImage(object, getResourceLocator().getImage("full/obj16/EReference")));
@@ -345,6 +352,7 @@ public class EReferenceItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public String getText(Object object)
   {
     EReference eReference = (EReference)object;
@@ -362,21 +370,24 @@ public class EReferenceItemProvider
    * This creates a custom initialize copy command that specially handles the eOpposite like it is
    * bidirectional, itself.
    */
+  @Override
   protected Command createInitializeCopyCommand(EditingDomain domain, EObject owner, Helper helper)
   {
     return new InitializeCopyCommand(domain, owner, helper)
     {
       // Don't use the normal reference copying for eOpposite.
       //
-      protected Collection getReferencesToCopy()
+      @Override
+      protected Collection<? extends EReference> getReferencesToCopy()
       {
-        List result = new ArrayList(super.getReferencesToCopy());
+        List<EReference> result = new ArrayList<EReference>(super.getReferencesToCopy());
         result.remove(EcorePackage.Literals.EREFERENCE__EOPPOSITE);
         return result;
       }
 
       // Handle eOpposite specially.
       //
+      @Override
       protected void copyReferences()
       {
         super.copyReferences();
@@ -402,6 +413,7 @@ public class EReferenceItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -426,7 +438,8 @@ public class EReferenceItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
   }
@@ -437,6 +450,7 @@ public class EReferenceItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EcoreEditPlugin.INSTANCE;

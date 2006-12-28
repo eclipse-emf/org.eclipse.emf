@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EAnnotationItemProvider.java,v 1.15 2006/05/15 21:02:45 davidms Exp $
+ * $Id: EAnnotationItemProvider.java,v 1.16 2006/12/28 06:46:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -27,9 +27,11 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -65,7 +67,8 @@ public class EAnnotationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -97,7 +100,8 @@ public class EAnnotationItemProvider
          null,
          null)
        {
-         public void setPropertyValue(Object object, Object value)
+         @Override
+        public void setPropertyValue(Object object, Object value)
          {
            super.setPropertyValue(object, stripToNull((String)value));
          }
@@ -135,7 +139,8 @@ public class EAnnotationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -151,6 +156,7 @@ public class EAnnotationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     // Check the type of the specified child object and return the proper feature to use for
@@ -165,6 +171,7 @@ public class EAnnotationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getImage(Object object)
   {
     return overlayImage(object, getResourceLocator().getImage("full/obj16/EAnnotation"));
@@ -176,6 +183,7 @@ public class EAnnotationItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public String getText(Object object)
   {
     EAnnotation eAnnotation = (EAnnotation)object;
@@ -202,6 +210,7 @@ public class EAnnotationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -226,7 +235,8 @@ public class EAnnotationItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     // super.collectNewChildDescriptors(newChildDescriptors, object);
 
@@ -242,6 +252,7 @@ public class EAnnotationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EcoreEditPlugin.INSTANCE;

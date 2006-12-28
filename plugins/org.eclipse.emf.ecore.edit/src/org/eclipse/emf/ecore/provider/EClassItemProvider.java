@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EClassItemProvider.java,v 1.15 2006/12/26 18:57:25 emerks Exp $
+ * $Id: EClassItemProvider.java,v 1.16 2006/12/28 06:46:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -26,17 +26,18 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -73,7 +74,8 @@ public class EClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -154,15 +156,16 @@ public class EClassItemProvider
          null,
          null)
        {
-         public Collection getChoiceOfValues(Object object)
+         @Override
+        public Collection<?> getChoiceOfValues(Object object)
          {
            EClass eClass = (EClass)object;
            
            // Filter out classes that aren't permitted.
            //
-           Collection result = super.getChoiceOfValues(object);
+           Collection<?> result = super.getChoiceOfValues(object);
            result.removeAll(EcorePackage.eINSTANCE.getEClassifiers());
-           for (Iterator i = result.iterator(); i.hasNext(); )
+           for (Iterator<?> i = result.iterator(); i.hasNext(); )
            {
              EClass otherEClass = (EClass)i.next();
              if (otherEClass == eClass || otherEClass.getEAllSuperTypes().contains(eClass))
@@ -184,9 +187,11 @@ public class EClassItemProvider
            else 
            {
              EClass eClass = (EClass)object;
-             List eGenericTypes = new ArrayList();
+             List<EGenericType> eGenericTypes = new ArrayList<EGenericType>();
+             @SuppressWarnings("unchecked")
+             List<EClass> list = (List<EClass>)value;
              LOOP:
-             for (EClass eSuperType : (List<EClass>)value)
+             for (EClass eSuperType : list)
              {
                for (EGenericType eGenericSuperType : eClass.getEGenericSuperTypes())
                {
@@ -219,7 +224,8 @@ public class EClassItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -236,6 +242,7 @@ public class EClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     // Check the type of the specified child object and return the proper feature to use for
@@ -245,7 +252,7 @@ public class EClassItemProvider
   }
 
   @Override
-  public String getCreateChildText(Object owner, Object feature, Object child, Collection selection)
+  public String getCreateChildText(Object owner, Object feature, Object child, Collection<?> selection)
   {
     return
       feature == EcorePackage.Literals.ECLASS__EGENERIC_SUPER_TYPES ?
@@ -259,6 +266,7 @@ public class EClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getImage(Object object)
   {
     return overlayImage(object, getResourceLocator().getImage("full/obj16/EClass"));
@@ -270,6 +278,7 @@ public class EClassItemProvider
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public String getText(Object object)
   {
     EClass eClass = (EClass)object;
@@ -297,9 +306,9 @@ public class EClassItemProvider
     if (!eClass.getEGenericSuperTypes().isEmpty())
     {
       result.append(" -> ");
-      for (Iterator i = eClass.getEGenericSuperTypes().iterator(); i.hasNext(); )
+      for (Iterator<EGenericType> i = eClass.getEGenericSuperTypes().iterator(); i.hasNext(); )
       {
-        EGenericType eGenericSuperType = (EGenericType)i.next();
+        EGenericType eGenericSuperType = i.next();
         result.append(EGenericTypeItemProvider.getText(eGenericSuperType));
         if (i.hasNext())
         {
@@ -324,6 +333,7 @@ public class EClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -353,7 +363,8 @@ public class EClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 
@@ -384,6 +395,7 @@ public class EClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EcoreEditPlugin.INSTANCE;

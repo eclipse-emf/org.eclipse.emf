@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EStringToStringMapEntryItemProvider.java,v 1.12 2006/05/15 21:01:58 davidms Exp $
+ * $Id: EStringToStringMapEntryItemProvider.java,v 1.13 2006/12/28 06:46:20 marcelop Exp $
  */
 package org.eclipse.emf.ecore.provider;
 
@@ -29,10 +29,12 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -69,7 +71,8 @@ public class EStringToStringMapEntryItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -133,6 +136,7 @@ public class EStringToStringMapEntryItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object getImage(Object object)
   {
     return overlayImage(object, getResourceLocator().getImage("full/obj16/EStringToStringMapEntry"));
@@ -144,9 +148,10 @@ public class EStringToStringMapEntryItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
-    Map.Entry eStringToStringMapEntry = (Map.Entry)object;
+    Map.Entry<?, ?> eStringToStringMapEntry = (Map.Entry<?, ?>)object;
     String key = "" + eStringToStringMapEntry.getKey();
     String value = crop("" + eStringToStringMapEntry.getValue());
     return key + " -> " + value;
@@ -159,6 +164,7 @@ public class EStringToStringMapEntryItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -180,7 +186,8 @@ public class EStringToStringMapEntryItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
   }
@@ -188,6 +195,7 @@ public class EStringToStringMapEntryItemProvider
   /**
    * When setting the key attribute, use a command wrapper that reindexes the attribute's details map.
    */
+  @Override
   protected Command createSetCommand(EditingDomain domain, final EObject owner, EStructuralFeature feature, Object value, int index) 
   {
     Command result = super.createSetCommand(domain, owner, feature, value, index);
@@ -196,18 +204,21 @@ public class EStringToStringMapEntryItemProvider
       result = new
         CommandWrapper(result)
         {
+          @Override
           public void execute() 
           {
             super.execute();
             reindex();
           }
   
+          @Override
           public void undo() 
           {
             super.undo();
             reindex();
           }
   
+          @Override
           public void redo() 
           {
             super.redo();
@@ -220,7 +231,8 @@ public class EStringToStringMapEntryItemProvider
             if (parent != null)
             {
               EStructuralFeature feature = owner.eContainmentFeature();
-              List list = (List)parent.eGet(feature);
+              @SuppressWarnings("unchecked")
+              List<Object> list = (List<Object>)parent.eGet(feature);
               list.set(list.indexOf(owner), owner);
             }
           }
@@ -235,6 +247,7 @@ public class EStringToStringMapEntryItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return EcoreEditPlugin.INSTANCE;
