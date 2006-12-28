@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterApplication.java,v 1.10 2006/12/07 03:48:18 marcelop Exp $
+ * $Id: XSDImporterApplication.java,v 1.11 2006/12/28 07:03:54 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,14 +31,16 @@ import org.eclipse.emf.importer.ModelImporterApplication;
 
 public class XSDImporterApplication extends ModelImporterApplication
 {
-  protected Map nsURIToPackageName;
-  protected Set packages;
+  protected Map<String, String> nsURIToPackageName;
+  protected Set<String> packages;
 
+  @Override
   protected ModelImporter createModelImporter()
   {
     return new XSDImporter();
   }
 
+  @Override
   protected StringBuffer getUsage()
   {
     StringBuffer result = new StringBuffer();
@@ -79,13 +80,14 @@ public class XSDImporterApplication extends ModelImporterApplication
     return result;
   }
 
+  @Override
   protected int processArgument(String[] arguments, int index)
   {
     if (arguments[index].equalsIgnoreCase("-packagemap"))
     {
       if (nsURIToPackageName == null)
       {
-        nsURIToPackageName = new HashMap();
+        nsURIToPackageName = new HashMap<String, String>();
       }
 
       do
@@ -99,7 +101,7 @@ public class XSDImporterApplication extends ModelImporterApplication
     {
       if (packages == null)
       {
-        packages = new HashSet();
+        packages = new HashSet<String>();
       }
 
       do
@@ -120,6 +122,7 @@ public class XSDImporterApplication extends ModelImporterApplication
     return "##local".equals(nsURI) ? null : nsURI;
   }
 
+  @Override
   protected void adjustEPackages(Monitor monitor)
   {
     try
@@ -128,14 +131,12 @@ public class XSDImporterApplication extends ModelImporterApplication
 
       super.adjustEPackages(CodeGenUtil.createMonitor(monitor, 1));
 
-      for (Iterator i = getModelImporter().getEPackages().iterator(); i.hasNext();)
+      for (EPackage ePackage : getModelImporter().getEPackages())
       {
-        EPackage ePackage = (EPackage)i.next();
         String nsURI = ExtendedMetaData.INSTANCE.getNamespace(ePackage);
-
         if (nsURIToPackageName != null)
         {
-          String packageName = (String)nsURIToPackageName.get(nsURI);
+          String packageName = nsURIToPackageName.get(nsURI);
           if (packageName != null)
           {
             ePackage.setName(packageName);

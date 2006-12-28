@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDImporterWizard.java,v 1.5 2005/12/14 08:00:01 marcelop Exp $
+ * $Id: XSDImporterWizard.java,v 1.6 2006/12/28 07:03:54 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer.ui;
 
@@ -28,11 +28,13 @@ import org.eclipse.xsd.ecore.importer.XSDImporter;
  */
 public class XSDImporterWizard extends ModelImporterWizard
 {
+  @Override
   protected ModelConverter createModelConverter()
   {
     return new XSDImporter();
   }
 
+  @Override
   public void addPages()
   {
     XSDDetailPage detailPage = new XSDDetailPage(getModelImporter(), "XSDModel");

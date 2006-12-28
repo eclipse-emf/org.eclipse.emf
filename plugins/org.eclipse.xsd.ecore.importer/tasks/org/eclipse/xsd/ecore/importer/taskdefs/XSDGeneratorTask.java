@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2004-2005 IBM Corporation and others.
+ * Copyright (c) 2004-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGeneratorTask.java,v 1.3 2006/05/10 20:18:33 marcelop Exp $
+ * $Id: XSDGeneratorTask.java,v 1.4 2006/12/28 07:03:54 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer.taskdefs;
 
@@ -70,6 +70,7 @@ import org.eclipse.xsd.ecore.importer.XSDImporterApplication;
  */
 public class XSDGeneratorTask extends GeneratorTask
 {
+  @Override
   protected void createGenModel(String[] arguments) throws Exception
   {
     new XSDImporterApplication().run(getProgressMonitor(), arguments);

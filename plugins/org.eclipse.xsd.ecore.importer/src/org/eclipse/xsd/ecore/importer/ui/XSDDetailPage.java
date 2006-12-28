@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDetailPage.java,v 1.7 2005/12/14 08:00:01 marcelop Exp $
+ * $Id: XSDDetailPage.java,v 1.8 2006/12/28 07:03:54 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer.ui;
 
@@ -45,6 +45,7 @@ public class XSDDetailPage extends ModelImporterDetailPage
       "_UI_XSDImportNewProject_description": "_UI_XSDImportFile_description" ));
   }
 
+  @Override
   public void dispose()
   {
     if (createMapButton != null)
@@ -61,6 +62,7 @@ public class XSDDetailPage extends ModelImporterDetailPage
     return (XSDImporter)getModelImporter();
   }
 
+  @Override
   protected void addDetailControl(Composite parent)
   {
     if (getXSDImporter().canCreateEcoreMap())
@@ -76,6 +78,7 @@ public class XSDDetailPage extends ModelImporterDetailPage
     }
   }
 
+  @Override
   protected void doHandleEvent(Event event)
   {
     if (event.type == SWT.Selection && event.widget == createMapButton)

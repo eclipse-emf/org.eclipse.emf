@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,11 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XSDImporter.java,v 1.9 2006/05/26 20:09:38 marcelop Exp $
+ * $Id: XSDImporter.java,v 1.10 2006/12/28 07:03:54 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.importer;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
@@ -29,12 +28,12 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.DiagnosticException;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.converter.ConverterPlugin;
+import org.eclipse.emf.converter.util.ConverterUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.importer.ModelImporter;
-import org.eclipse.emf.converter.ConverterPlugin;
-import org.eclipse.emf.converter.util.ConverterUtil;
 
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 
@@ -60,12 +59,14 @@ public class XSDImporter extends ModelImporter
   protected boolean createEcoreMap = false;
   protected EObject mappingRoot;
 
+  @Override
   public void dispose()
   {
     mappingRoot = null;
     super.dispose();
   }
 
+  @Override
   public String getID()
   {
     return "org.eclipse.xsd.ecore.importer";
@@ -96,11 +97,12 @@ public class XSDImporter extends ModelImporter
     return mappingRoot;
   }
 
+  @Override
   protected Diagnostic doComputeEPackages(Monitor monitor) throws Exception
   {
     BasicDiagnostic basicDiagnostic = null;
 
-    List locationURIs = getModelLocationURIs();
+    List<URI> locationURIs = getModelLocationURIs();
     if (locationURIs.isEmpty())
     {
       basicDiagnostic = new BasicDiagnostic(
@@ -120,12 +122,15 @@ public class XSDImporter extends ModelImporter
       {
         new MapHelper().setNewMapper(ecoreBuilder);
       }
-      List result = (List)ecoreBuilder.generate(locationURIs);
+      
+      @SuppressWarnings("unchecked")
+      List<Object> result = (List)ecoreBuilder.generate(locationURIs);
 
       Object lastElement = removeNonEPackageFromTheEnd(result);
       if (lastElement instanceof List)
       {
-        List diagnostics = (List)lastElement;
+        @SuppressWarnings("unchecked")
+        List<List<?>> diagnostics = (List)lastElement;
         if (!diagnostics.isEmpty())
         {
           BasicDiagnostic diagnostic = new BasicDiagnostic(
@@ -134,9 +139,8 @@ public class XSDImporter extends ModelImporter
             XSDImporterPlugin.INSTANCE.getString("_UI_ErrorsWereDetectedXMLSchema_message"),
             null);
 
-          for (Iterator i = diagnostics.iterator(); i.hasNext();)
+          for (List<?> information : diagnostics)
           {
-            List information = (List)i.next();
             diagnostic.add(new BasicDiagnostic(
               "error".equals(information.get(0)) ? Diagnostic.ERROR : "warning".equals(information.get(0)) ? Diagnostic.WARNING : Diagnostic.INFO,
               XSDImporterPlugin.getPlugin().getBundle().getSymbolicName(),
@@ -155,7 +159,9 @@ public class XSDImporter extends ModelImporter
         setMappingRoot((EObject)lastElement);
       }
 
-      getEPackages().addAll(result);
+      @SuppressWarnings("unchecked")
+      List<EPackage> ePackages = (List)result;
+      getEPackages().addAll(ePackages);
     }
 
     if (basicDiagnostic == null)
@@ -168,7 +174,7 @@ public class XSDImporter extends ModelImporter
     }
   }
 
-  protected Object removeNonEPackageFromTheEnd(List list)
+  protected Object removeNonEPackageFromTheEnd(List<Object> list)
   {
     int lastIndex = list.size() - 1;
     if (lastIndex >= 0 && !(list.get(lastIndex) instanceof EPackage))
@@ -181,11 +187,13 @@ public class XSDImporter extends ModelImporter
     }
   }
 
+  @Override
   protected void adjustGenPackageDuringTraverse(GenPackage genPackage)
   {
     genPackage.setResource(GenResourceKind.XML_LITERAL);
   }
 
+  @Override
   protected void adjustGenModel(Monitor monitor)
   {
     super.adjustGenModel(monitor);
@@ -193,9 +201,9 @@ public class XSDImporter extends ModelImporter
     IPath genModelFileFullPath = getGenModelPath();
     URI genModelURI = createFileURI(genModelFileFullPath.toString());
 
-    for (Iterator i = getModelLocationURIs().iterator(); i.hasNext();)
+    for (URI uri : getModelLocationURIs())
     {
-      getGenModel().getForeignModel().add(makeRelative((URI)i.next(), genModelURI).toString());
+      getGenModel().getForeignModel().add(makeRelative(uri, genModelURI).toString());
     }
 
     if (getMappingRoot() != null)
@@ -207,9 +215,10 @@ public class XSDImporter extends ModelImporter
     }
   }
 
-  protected List computeResourcesToBeSaved()
+  @Override
+  protected List<Resource> computeResourcesToBeSaved()
   {
-    List resources = super.computeResourcesToBeSaved();
+    List<Resource> resources = super.computeResourcesToBeSaved();
     if (getMappingRoot() != null)
     {
       resources.add(getMappingRoot().eResource());
@@ -217,13 +226,13 @@ public class XSDImporter extends ModelImporter
     return resources;
   }
 
+  @Override
   protected void handleOriginalGenModel() throws DiagnosticException
   {
     URI genModelURI = getOriginalGenModel().eResource().getURI();
     StringBuffer text = new StringBuffer();
-    for (Iterator i = getOriginalGenModel().getForeignModel().iterator(); i.hasNext();)
+    for (String value : getOriginalGenModel().getForeignModel())
     {
-      String value = (String)i.next();
       if (value.endsWith(".xsd") || value.endsWith(".wsdl"))
       {
         text.append(makeAbsolute(URI.createURI(value), genModelURI).toString());
