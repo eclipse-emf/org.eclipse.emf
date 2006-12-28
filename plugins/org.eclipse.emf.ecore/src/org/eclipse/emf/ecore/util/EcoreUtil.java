@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EcoreUtil.java,v 1.51 2006/12/06 00:09:13 marcelop Exp $
+ * $Id: EcoreUtil.java,v 1.52 2006/12/28 06:45:14 marcelop Exp $
  */
 package org.eclipse.emf.ecore.util;
 
@@ -1315,7 +1315,7 @@ public class EcoreUtil
      * @param eObject the parent object.
      * @return the children iterator.
      */
-    protected Iterator<EObject> getEObjectChildren(EObject eObject)
+    protected Iterator<? extends EObject> getEObjectChildren(EObject eObject)
     {
       return isResolveProxies() ? eObject.eContents().iterator() : ((InternalEList<EObject>)eObject.eContents()).basicIterator();
     }
