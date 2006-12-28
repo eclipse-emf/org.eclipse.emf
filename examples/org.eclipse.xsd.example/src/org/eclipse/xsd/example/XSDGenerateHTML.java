@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGenerateHTML.java,v 1.2 2006/12/28 08:18:29 marcelop Exp $
+ * $Id: XSDGenerateHTML.java,v 1.3 2006/12/28 12:43:52 emerks Exp $
  */
 package org.eclipse.xsd.example;
 
@@ -38,11 +38,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import org.eclipse.emf.common.util.EclipseApplication;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.equinox.app.IApplication;
+import org.eclipse.equinox.app.IApplicationContext;
 
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeUse;
@@ -103,7 +104,7 @@ import org.eclipse.xsd.util.XSDResourceImpl;
  * allows you to pass in your own annotations.
  * </p>
  */
-public class XSDGenerateHTML extends EclipseApplication
+public class XSDGenerateHTML implements IApplication
 {
   {
     // This is needed because we can't have the following in the plugin.xml
@@ -652,17 +653,36 @@ public class XSDGenerateHTML extends EclipseApplication
     return result;
   }
 
+  public Object start(IApplicationContext context) throws Exception
+  {
+    String [] arguments = (String[])context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
+    return run(arguments == null ? new String [0] : arguments);
+  }
+
+  public void stop()
+  {
+    // Subclasses may override
+  }
+
   /**
    * Generate HTML annotated documentation that summarizes the built-in simple type hierarchy.
    * @param object an array of Strings.
    * @return <code>0</code> indicating success, or <code>1</code> indicating failure.
    */
-  @Override
   public Object run(Object object) 
   {
     try
     {
       String [] arguments = (String [])object;
+
+      // Filter out inappropriate arguments added by the PDE.
+      //
+      if (arguments != null && arguments.length > 0 && "-pdelaunch".equals(arguments[0]))
+      {
+        String [] oldArguments = arguments;
+        arguments = new String [arguments.length - 1];
+        System.arraycopy(oldArguments, 1, arguments, 0, arguments.length);
+      }
 
       readMarkup(arguments[0]);
 

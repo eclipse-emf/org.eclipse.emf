@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMainExample.java,v 1.4 2006/12/28 08:18:53 marcelop Exp $
+ * $Id: XSDMainExample.java,v 1.5 2006/12/28 12:43:52 emerks Exp $
  */
 package org.eclipse.xsd.example;
 
@@ -21,11 +21,12 @@ import java.io.File;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import org.eclipse.emf.common.util.EclipseApplication;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.equinox.app.IApplication;
+import org.eclipse.equinox.app.IApplicationContext;
 
 import org.eclipse.xsd.XSDDiagnostic;
 import org.eclipse.xsd.XSDImport;
@@ -59,7 +60,7 @@ import org.eclipse.xsd.util.XSDResourceImpl;
  * @see #run
  * @see #main
  */
-public class XSDMainExample // implements IPlatformRunnable 
+public class XSDMainExample
 {
   {
     // This is needed because we can't have the following in the plugin.xml
@@ -73,12 +74,17 @@ public class XSDMainExample // implements IPlatformRunnable
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
   }
 
-  public static class Runnable extends EclipseApplication
+  public static class Runnable implements IApplication
   {
-    @Override
-    public Object run(Object args) throws Exception
+    public Object start(IApplicationContext context) throws Exception
     {
-      return new XSDMainExample().run(args);
+      String [] args = (String[])context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
+      return new XSDMainExample().run(args == null ? new String [0] : args);
+    }
+
+    public void stop()
+    {
+      // Do nothing
     }
   }
 
