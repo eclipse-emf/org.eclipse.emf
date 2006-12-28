@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractExampleInstallerWizard.java,v 1.3 2006/10/16 03:46:10 davidms Exp $
+ * $Id: AbstractExampleInstallerWizard.java,v 1.4 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -213,6 +213,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       projectList.setLayoutData(new GridData(GridData.FILL_BOTH));
       projectList.addSelectionListener(new SelectionAdapter()
         {
+          @Override
           public void widgetSelected(SelectionEvent e)
           {
             itemSelected();
@@ -241,6 +242,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       renameButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_Rename_label"));
       renameButton.addSelectionListener(new SelectionAdapter()
         {
+          @Override
           public void widgetSelected(SelectionEvent e)
           {
             renameExistingProject();
@@ -253,6 +255,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       deleteButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_Delete_label"));
       deleteButton.addSelectionListener(new SelectionAdapter()
         {
+          @Override
           public void widgetSelected(SelectionEvent e)
           {
             deleteExistingProject();
@@ -272,6 +275,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       deleteAllButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_DeleteAll_label"));
       deleteAllButton.addSelectionListener(new SelectionAdapter()
         {
+          @Override
           public void widgetSelected(SelectionEvent e)
           {
             deleteAllExistingProjects();
@@ -309,11 +313,9 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
 
         boolean atLeastOneExists = false;
         projectList.removeAll();
-        for (Iterator i = getProjectDescriptors().iterator(); i.hasNext();)
+        for (ProjectDescriptor projectDescriptor : getProjectDescriptors())
         {
-          ProjectDescriptor projectDescriptor = (ProjectDescriptor)i.next();
           String name = projectDescriptor.getName();
-
           boolean exists = projectDescriptor.getProject().exists();
           atLeastOneExists |= exists;
           String item = exists
@@ -351,10 +353,9 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
 
     protected void deleteAllExistingProjects()
     {
-      List projects = new ArrayList();
-      for (Iterator i = getProjectDescriptors().iterator(); i.hasNext();)
+      List<IProject> projects = new ArrayList<IProject>();
+      for (ProjectDescriptor projectDescriptor : getProjectDescriptors())
       {
-        ProjectDescriptor projectDescriptor = (ProjectDescriptor)i.next();
         if (projectDescriptor.getProject().exists())
         {
           projects.add(projectDescriptor.getProject());
@@ -369,13 +370,13 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       ProjectDescriptor projectDescriptor = getSelectedProjectDescriptor();
       if (projectDescriptor.getProject().exists())
       {
-        List projects = new ArrayList();
+        List<IProject> projects = new ArrayList<IProject>();
         projects.add(projectDescriptor.getProject());
         deleteExistingProjects(projects);
       }
     }
     
-    protected void deleteExistingProjects(List existingProjects)
+    protected void deleteExistingProjects(List<IProject> existingProjects)
     {
       if (!existingProjects.isEmpty())
       {
@@ -388,7 +389,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       }
     }
 
-    protected void waitForDeleteJob(final List existingProjects)
+    protected void waitForDeleteJob(final List<IProject> existingProjects)
     {
       // If the no project is deleted in the first 3s, this code
       // assumes that the user has canceled the delete job.
@@ -401,9 +402,9 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
             int size = initialSize;
             while (size > 0 && counter < 30)
             {
-              for (Iterator i = existingProjects.iterator(); i.hasNext();)
+              for (Iterator<IProject> i = existingProjects.iterator(); i.hasNext();)
               {
-                IProject project = (IProject)i.next();
+                IProject project = i.next();
                 if (!project.exists())
                 {
                   i.remove();
@@ -423,6 +424,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
                 }
                 catch (InterruptedException e)
                 {
+                  // Ignore
                 }
               }
             }
@@ -467,17 +469,19 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     this.structuredSelection = selection;
   }
 
-  protected abstract List/*<ProjectDescriptor>*/ getProjectDescriptors();
-  protected abstract List/*<FileToOpen>*/ getFilesToOpen();
+  protected abstract List<ProjectDescriptor> getProjectDescriptors();
+  protected abstract List<FileToOpen> getFilesToOpen();
 
   protected ProjectPage projectPage;
 
+  @Override
   public void dispose()
   {
     projectPage = null;
     super.dispose();
   }
 
+  @Override
   public void addPages()
   {
     projectPage = new ProjectPage("projectPage", CommonUIPlugin.INSTANCE.getString("_UI_ProjectPage_title"), null);
@@ -485,6 +489,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     addPage(projectPage);
   }
 
+  @Override
   public boolean performFinish()
   {
     final Exception exceptionWrapper = new Exception();
@@ -499,6 +504,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
 
             WorkspaceModifyOperation op = new WorkspaceModifyOperation()
               {
+                @Override
                 protected void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException
                 {
                   try
@@ -542,12 +548,10 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
   
   protected void installExample(IProgressMonitor progressMonitor) throws Exception
   {
-    List projectDescriptors = getProjectDescriptors();
+    List<ProjectDescriptor> projectDescriptors = getProjectDescriptors();
     progressMonitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_CreatingProjects_message"), 2 * projectDescriptors.size());
-    for (Iterator i = projectDescriptors.iterator(); i.hasNext();)
+    for (ProjectDescriptor projectDescriptor : projectDescriptors)
     {
-      ProjectDescriptor projectDescriptor = (ProjectDescriptor)i.next();
-
       ImportOperation importOperation = createImportOperation(projectDescriptor);
       createProject(projectDescriptor, new SubProgressMonitor(progressMonitor, 1));
       importOperation.setContext(getShell());
@@ -558,13 +562,12 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
   
   protected void openFiles(IProgressMonitor progressMonitor)
   {
-    List filesToOpen = getFilesToOpen();
+    List<FileToOpen> filesToOpen = getFilesToOpen();
     if (!filesToOpen.isEmpty())
     {
       progressMonitor.beginTask(CommonUIPlugin.INSTANCE.getString("_UI_OpeningFiles_message"), filesToOpen.size());
-      for (Iterator i = filesToOpen.iterator(); i.hasNext();)
+      for (FileToOpen fileToOpen : filesToOpen)
       {
-        FileToOpen fileToOpen = (FileToOpen)i.next();
         IFile workspaceFile = fileToOpen.getWorkspaceFile();
         if (workspaceFile != null && workspaceFile.exists())
         {
@@ -629,7 +632,7 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
       File directory = new File(location);
       if (directory.isDirectory() && directory.canRead())
       {
-        List filesToImport = new ArrayList();
+        List<File> filesToImport = new ArrayList<File>();
         filesToImport.addAll(Arrays.asList(directory.listFiles()));
 
         ImportOperation importOperation = new ImportOperation(
@@ -680,9 +683,11 @@ public abstract class AbstractExampleInstallerWizard extends Wizard implements I
     }
     catch (ZipException e)
     {
+      // Ignore
     }
     catch (IOException e)
     {
+      // Ignore
     }
     return false;
   }

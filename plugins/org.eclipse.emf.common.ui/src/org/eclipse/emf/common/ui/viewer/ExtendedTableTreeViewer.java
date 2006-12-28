@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ExtendedTableTreeViewer.java,v 1.2 2005/06/08 06:24:33 nickb Exp $
+ * $Id: ExtendedTableTreeViewer.java,v 1.3 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.viewer;
 
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.eclipse.jface.viewers.TableTreeViewer;
@@ -42,6 +41,7 @@ import org.eclipse.swt.widgets.Widget;
 /**
  * This class extends a TableTreeViewer to draw images and tree lines in the tree column.
  */
+@Deprecated
 public class ExtendedTableTreeViewer extends TableTreeViewer
 {
   public static final String ITEM_ID = "TableTreeItemID"; 
@@ -61,6 +61,7 @@ public class ExtendedTableTreeViewer extends TableTreeViewer
     super(parent, style);
   }
 
+  @Override
   protected Item newItem(Widget parent, int flags, int index) 
   {
     TableTreeItem item = 
@@ -85,6 +86,7 @@ public class ExtendedTableTreeViewer extends TableTreeViewer
   protected Point interactorSize = new Point(12, 12);
   protected boolean interactorFound = false;
 
+  @Override
   protected void hookControl(Control control)
   {
     super.hookControl(control);
@@ -108,7 +110,7 @@ public class ExtendedTableTreeViewer extends TableTreeViewer
          protected boolean isStarted;
          protected TableTreeItem firstTableTreeItem;
          protected TableTreeItem lastTableTreeItem;
-         protected LinkedList chain; 
+         protected LinkedList<TableTreeItem> chain; 
          protected int scrollX;
 
          /**
@@ -213,7 +215,7 @@ public class ExtendedTableTreeViewer extends TableTreeViewer
            if (firstTableTreeItem != null && isIndenting())
            {
              isStarted = false;
-             chain = new LinkedList();
+             chain = new LinkedList<TableTreeItem>();
              event.gc.setForeground(table.getDisplay().getSystemColor(SWT.COLOR_WIDGET_NORMAL_SHADOW));
              scrollX = items[0].getBounds(0).x;
              paintLines(event.gc, getTableTree().getItems());
@@ -274,9 +276,8 @@ public class ExtendedTableTreeViewer extends TableTreeViewer
                  Rectangle bounds = tableTreeItem.getBounds(0);
                  int x = 1 + scrollX;
 
-                 for (Iterator j = chain.iterator(); j.hasNext(); )
+                 for (TableTreeItem ancestor : chain)
                  {
-                   TableTreeItem ancestor = (TableTreeItem)j.next();
                    if (ancestor != null)
                    {
                      gc.drawLine(x + offset/2, bounds.y, x + offset/2, bounds.y + bounds.height);
@@ -431,6 +432,7 @@ public class ExtendedTableTreeViewer extends TableTreeViewer
       super(parent, style, index);
     }
 
+    @Override
     public void setText(int index, String text)
     {
       // System.out.println("setting the text " + index + " " + text + " " + getImage(index));
@@ -451,6 +453,7 @@ public class ExtendedTableTreeViewer extends TableTreeViewer
       }
     }
 
+    @Override
     public String getText(int index)
     {
       String result = super.getText(index);
@@ -462,6 +465,7 @@ public class ExtendedTableTreeViewer extends TableTreeViewer
       return result;
     }
 
+    @Override
     public void setImage(int index, Image image)
     {
       if (index == 0)

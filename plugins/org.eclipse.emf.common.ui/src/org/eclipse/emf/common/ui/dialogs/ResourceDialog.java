@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ResourceDialog.java,v 1.1 2006/01/23 20:44:35 davidms Exp $
+ * $Id: ResourceDialog.java,v 1.2 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.dialogs;
 
@@ -124,6 +124,7 @@ public class ResourceDialog extends Dialog
     return (style & SWT.MULTI) != 0;
   }
 
+  @Override
   protected void configureShell(Shell shell) 
   {
     super.configureShell(shell);
@@ -136,6 +137,7 @@ public class ResourceDialog extends Dialog
    * file system and workspace. These buttons are configured (selection listeners are added) by calling
    * {@link #prepareBrowseFileSystemButton} and {@link #prepareBrowseWorkspaceButton}, respectively.
    */
+  @Override
   protected Control createDialogArea(Composite parent) 
   {
     boolean resourcesBundleIsAvailable = (Platform.getBundle("org.eclipse.core.resources") != null);
@@ -235,7 +237,8 @@ public class ResourceDialog extends Dialog
     browseFileSystemButton.addSelectionListener
       (new SelectionAdapter()
        {
-         public void widgetSelected(SelectionEvent event)
+         @Override
+        public void widgetSelected(SelectionEvent event)
          {
            FileDialog fileDialog = new FileDialog(getShell(), style);
            fileDialog.open();
@@ -274,7 +277,8 @@ public class ResourceDialog extends Dialog
     browseWorkspaceButton.addSelectionListener
       (new SelectionAdapter()
        {
-         public void widgetSelected(SelectionEvent event)
+         @Override
+        public void widgetSelected(SelectionEvent event)
          {
            if (isMulti())
            {
@@ -320,6 +324,7 @@ public class ResourceDialog extends Dialog
    * It then calls {@link #processResources} to handle the specified URIs and optionally closes the dialog,
    * based on its return value. 
    */
+  @Override
   protected void okPressed()
   {
     uriText = getURIText();
@@ -345,9 +350,9 @@ public class ResourceDialog extends Dialog
   /**
    * Returns the list of space-separated URIs from the URI text field.
    */
-  public List getURIs()
+  public List<URI> getURIs()
   {
-    List uris = new ArrayList();
+    List<URI> uris = new ArrayList<URI>();
     for (StringTokenizer stringTokenizer = new StringTokenizer(getURIText()); stringTokenizer.hasMoreTokens(); )
     {
       String uri = stringTokenizer.nextToken();

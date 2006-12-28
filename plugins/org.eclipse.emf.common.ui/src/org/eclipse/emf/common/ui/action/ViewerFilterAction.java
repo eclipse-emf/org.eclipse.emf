@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ViewerFilterAction.java,v 1.1 2005/12/05 20:07:24 marcelop Exp $
+ * $Id: ViewerFilterAction.java,v 1.2 2006/12/28 06:42:02 marcelop Exp $
  */
 
 package org.eclipse.emf.common.ui.action;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.action.Action;
@@ -33,7 +32,7 @@ import org.eclipse.emf.common.util.UniqueEList;
  */
 public abstract class ViewerFilterAction extends Action
 {
-  protected List viewers;
+  protected List<Viewer> viewers;
   protected ViewerFilter viewerFilter;
   
   public ViewerFilterAction(String text, int style)
@@ -48,7 +47,7 @@ public abstract class ViewerFilterAction extends Action
     {
       if (viewers == null)
       {
-        viewers = new UniqueEList.FastCompare();
+        viewers = new UniqueEList.FastCompare<Viewer>();
       }
       
       if (viewers.add(viewer))
@@ -57,6 +56,7 @@ public abstract class ViewerFilterAction extends Action
         {
           viewerFilter = new ViewerFilter()
           {
+            @Override
             public boolean select(Viewer viewer, Object parentElement, Object element)
             {
               return ViewerFilterAction.this.select(viewer, parentElement, element);
@@ -87,9 +87,8 @@ public abstract class ViewerFilterAction extends Action
   {
     if (viewers != null)
     {
-      for (Iterator i = viewers.iterator(); i.hasNext();)
+      for (Viewer viewer : viewers)
       {
-        Viewer viewer = (Viewer)i.next();
         if (!viewer.getControl().isDisposed())
         {
           ((StructuredViewer)viewer).removeFilter(viewerFilter);
@@ -101,6 +100,7 @@ public abstract class ViewerFilterAction extends Action
     viewerFilter = null;
   }
   
+  @Override
   public void setChecked(boolean checked)
   {
     boolean wasChecked = isChecked();
@@ -115,9 +115,8 @@ public abstract class ViewerFilterAction extends Action
   {
     if (viewers != null)
     {
-      for (Iterator i = viewers.iterator(); i.hasNext();)
+      for (Viewer viewer : viewers)
       {
-        Viewer viewer = (Viewer)i.next();
         if (!viewer.getControl().isDisposed())
         {
           viewer.refresh();

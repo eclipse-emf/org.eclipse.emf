@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedComboBoxCellEditor.java,v 1.4 2006/12/09 19:02:05 emerks Exp $
+ * $Id: ExtendedComboBoxCellEditor.java,v 1.5 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.Control;
  */
 public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 {
-  private static class StringPositionPair implements Comparable
+  private static class StringPositionPair implements Comparable<StringPositionPair>
   {
     Collator collator = Collator.getInstance();
 
@@ -54,7 +54,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
       this.position = position;
     }
 
-    public int compareTo(Object object)
+    public int compareTo(StringPositionPair object)
     {
       if (object == this)
       {
@@ -62,7 +62,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
       }
       else
       {
-        StringPositionPair that = (StringPositionPair)object;
+        StringPositionPair that = object;
         return collator.compare(key, that.key);
       }
     }
@@ -87,12 +87,12 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     return true;
   }
 
-  public static String[] createItems(List list, ILabelProvider labelProvider, boolean sorted)
+  public static <T> String[] createItems(List<T> list, ILabelProvider labelProvider, boolean sorted)
   {
     return createItems(list, labelProvider, null, sorted);
   }
 
-  public static String[] createItems(List list, ILabelProvider labelProvider, String filter, boolean sorted)
+  public static <T> String[] createItems(List<T> list, ILabelProvider labelProvider, String filter, boolean sorted)
   {
     String[] result;
 
@@ -107,7 +107,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     {
       if (sorted)
       {
-        List unsortedList = new ArrayList(list.size());
+        List<T> unsortedList = new ArrayList<T>(list.size());
         if (filter != null && filter.length() > 0)
         {
           for (int i = 0; i < list.size(); i++)
@@ -170,32 +170,32 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
   /**
    * This keeps track of the list of model objects.
    */
-  protected List originalList;
+  protected List<?> originalList;
 
-  protected List list;
+  protected List<?> list;
 
   protected ILabelProvider labelProvider;
 
   protected boolean sorted;
 
-  public ExtendedComboBoxCellEditor(Composite composite, List list, ILabelProvider labelProvider)
+  public ExtendedComboBoxCellEditor(Composite composite, List<?> list, ILabelProvider labelProvider)
   {
     this(composite, list, labelProvider, false, SWT.READ_ONLY);
   }
 
-  public ExtendedComboBoxCellEditor(Composite composite, List list, ILabelProvider labelProvider, boolean sorted)
+  public ExtendedComboBoxCellEditor(Composite composite, List<?> list, ILabelProvider labelProvider, boolean sorted)
   {
     this(composite, list, labelProvider, sorted, SWT.READ_ONLY);
   }
 
-  public ExtendedComboBoxCellEditor(Composite composite, List list, ILabelProvider labelProvider, int style)
+  public ExtendedComboBoxCellEditor(Composite composite, List<?> list, ILabelProvider labelProvider, int style)
   {
     this(composite, list, labelProvider, false, style);
   }
 
-  public ExtendedComboBoxCellEditor(Composite composite, List list, ILabelProvider labelProvider, boolean sorted, int style)
+  public ExtendedComboBoxCellEditor(Composite composite, List<?> list, ILabelProvider labelProvider, boolean sorted, int style)
   {
-    super(composite, createItems(sorted ? list = new ArrayList(list) : list, labelProvider, null, sorted), style);
+    super(composite, createItems(sorted ? list = new ArrayList<Object>(list) : list, labelProvider, null, sorted), style);
     this.originalList = list;
     this.list = list;
     this.labelProvider = labelProvider;
@@ -211,7 +211,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     CCombo combo = (CCombo)getControl();
     if (combo != null && (!combo.isDisposed()))
     {
-      String[] items = createItems(list = new ArrayList(originalList), labelProvider, filter, sorted);
+      String[] items = createItems(list = new ArrayList<Object>(originalList), labelProvider, filter, sorted);
       combo.setItems(items);
       if (items.length > 0)
       {
@@ -220,6 +220,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     }
   }
 
+  @Override
   public Object doGetValue()
   {
     // Get the index into the list via this call to super.
@@ -228,6 +229,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
     return index < list.size() && index >= 0 ? list.get(((Integer)super.doGetValue()).intValue()) : null;
   }
 
+  @Override
   public void doSetValue(Object value)
   {
     // Set the index of the object value in the list via this call to super.
@@ -286,6 +288,7 @@ public class ExtendedComboBoxCellEditor extends ComboBoxCellEditor
 
     public void keyReleased(KeyEvent e)
     {
+      // Do nothing
     }
 
     public void focusGained(FocusEvent e)

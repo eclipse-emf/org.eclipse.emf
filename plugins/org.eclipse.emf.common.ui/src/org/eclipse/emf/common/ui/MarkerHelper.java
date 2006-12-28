@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: MarkerHelper.java,v 1.7 2006/12/26 18:55:52 emerks Exp $
+ * $Id: MarkerHelper.java,v 1.8 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -66,12 +65,11 @@ public class MarkerHelper
 
   protected IFile getFile(Diagnostic diagnostic)
   {
-    List data = diagnostic.getData();
+    List<?> data = diagnostic.getData();
     if (data != null)
     {
-      for (Iterator i = data.iterator(); i.hasNext(); )
+      for (Object datum : data)
       {
-        Object datum = i.next();
         IFile result = getFile(datum);
         if (result != null)
         {
@@ -106,16 +104,15 @@ public class MarkerHelper
     }
     else if (diagnostic.getMessage() == null)
     {
-      for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+      for (Diagnostic childDiagnostic : diagnostic.getChildren())
       {
-        createMarkers((Diagnostic)i.next());
+        createMarkers(childDiagnostic);
       }
     }
     else
     {
-      for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+      for (Diagnostic childDiagnostic : diagnostic.getChildren())
       {
-        Diagnostic childDiagnostic = (Diagnostic)i.next();
         createMarkers(getFile(childDiagnostic), childDiagnostic, diagnostic);
       }
     }
@@ -159,6 +156,7 @@ public class MarkerHelper
    */
   protected void adjustMarker(IMarker marker, Diagnostic diagnostic, Diagnostic parentDiagnostic) throws CoreException
   {
+    // Subclasses may override
   }  
       
   /**
@@ -199,6 +197,7 @@ public class MarkerHelper
       }
       catch (CoreException e)
       {
+        // Ignore
       }
     }
     return false;

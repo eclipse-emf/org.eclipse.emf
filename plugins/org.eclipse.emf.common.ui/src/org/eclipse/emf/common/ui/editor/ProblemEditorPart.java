@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ProblemEditorPart.java,v 1.3 2006/05/02 12:43:04 emerks Exp $
+ * $Id: ProblemEditorPart.java,v 1.4 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.editor;
 
@@ -75,6 +75,7 @@ public class ProblemEditorPart extends EditorPart
 
   protected MarkerHelper markerUtil;
 
+  @Override
   public void dispose()
   {
     diagnostic = null;
@@ -100,6 +101,7 @@ public class ProblemEditorPart extends EditorPart
     return markerUtil;
   }
 
+  @Override
   public void init(IEditorSite site, IEditorInput input) throws PartInitException
   {
     setSite(site);
@@ -107,6 +109,7 @@ public class ProblemEditorPart extends EditorPart
     setPartName(CommonUIPlugin.getPlugin().getString("_UI_Problems_label"));
   }
 
+  @Override
   public void createPartControl(Composite parent)
   {
     {
@@ -150,6 +153,7 @@ public class ProblemEditorPart extends EditorPart
       openButton.setText(CommonUIPlugin.getPlugin().getString("_UI_ErrorEditor_OpenEditor_label"));
       openButton.addSelectionListener(new SelectionAdapter()
         {
+          @Override
           public void widgetSelected(SelectionEvent e)
           {
             openEditor();
@@ -164,6 +168,7 @@ public class ProblemEditorPart extends EditorPart
       createMarkersButton.setText(CommonUIPlugin.getPlugin().getString("_UI_ErrorEditor_CreateMarkers_label"));
       createMarkersButton.addSelectionListener(new SelectionAdapter()
         {
+          @Override
           public void widgetSelected(SelectionEvent e)
           {
             createMarkers();
@@ -176,6 +181,7 @@ public class ProblemEditorPart extends EditorPart
     detailsButton.setData(Boolean.FALSE);
     detailsButton.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent e)
         {
           toggleDetails();
@@ -307,10 +313,12 @@ public class ProblemEditorPart extends EditorPart
 
         public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
         {
+          // Empty block
         }
 
         public void dispose()
         {
+          // Empty block
         }
 
         public Object getParent(Object element)
@@ -345,6 +353,7 @@ public class ProblemEditorPart extends EditorPart
 
     detailsTreeViewer.setLabelProvider(new LabelProvider()
       {
+        @Override
         public String getText(Object element)
         {
           Diagnostic diagnostic = (Diagnostic)element;
@@ -461,25 +470,33 @@ public class ProblemEditorPart extends EditorPart
         ? ((CoreException)exception).getStatus() : BasicDiagnostic.toIStatus(BasicDiagnostic.toDiagnostic(exception)));
   }
 
+  @Override
   public void doSave(IProgressMonitor monitor)
   {
+    // Empty block
   }
 
+  @Override
   public void doSaveAs()
   {
+    // Empty block
   }
 
+  @Override
   public boolean isDirty()
   {
     return false;
   }
 
+  @Override
   public boolean isSaveAsAllowed()
   {
     return false;
   }
 
+  @Override
   public void setFocus()
   {
+    // Empty block
   }
 }

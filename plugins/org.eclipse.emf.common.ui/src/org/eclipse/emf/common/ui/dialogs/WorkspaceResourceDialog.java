@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: WorkspaceResourceDialog.java,v 1.2 2005/12/16 06:00:09 marcelop Exp $
+ * $Id: WorkspaceResourceDialog.java,v 1.3 2006/12/28 06:42:02 marcelop Exp $
  */
 
 package org.eclipse.emf.common.ui.dialogs;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -57,7 +56,7 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.dialogs.NewFolderDialog;
 import org.eclipse.ui.model.WorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
-import org.eclipse.ui.views.navigator.ResourceSorter;
+import org.eclipse.ui.views.navigator.ResourceComparator;
 
 import org.eclipse.emf.common.ui.CommonUIPlugin;
 
@@ -73,7 +72,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     String message,
     boolean allowMultipleSelection,
     Object[] initialSelection,
-    List viewerFilters)
+    List<ViewerFilter> viewerFilters)
   {
     WorkspaceResourceDialog dialog = new WorkspaceResourceDialog(parent, new WorkbenchLabelProvider(), new WorkbenchContentProvider());
     dialog.setAllowMultiple(allowMultipleSelection);
@@ -84,9 +83,8 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     dialog.addFilter(dialog.createDefaultViewerFilter(false));
     if (viewerFilters != null)
     {
-      for (Iterator i = viewerFilters.iterator(); i.hasNext();)
+      for (ViewerFilter viewerFilter : viewerFilters)
       {
-        ViewerFilter viewerFilter = (ViewerFilter)i.next();
         dialog.addFilter(viewerFilter);
       }
     }
@@ -106,7 +104,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     String message,
     boolean allowMultipleSelection,
     Object[] initialSelection,
-    List viewerFilters)
+    List<ViewerFilter> viewerFilters)
   {
     WorkspaceResourceDialog dialog = new WorkspaceResourceDialog(parent, new WorkbenchLabelProvider(), new WorkbenchContentProvider());
     dialog.setAllowMultiple(allowMultipleSelection);
@@ -116,9 +114,8 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     dialog.addFilter(dialog.createDefaultViewerFilter(true));
     if (viewerFilters != null)
     {
-      for (Iterator i = viewerFilters.iterator(); i.hasNext();)
+      for (ViewerFilter viewerFilter : viewerFilters)
       {
-        ViewerFilter viewerFilter = (ViewerFilter)i.next();
         dialog.addFilter(viewerFilter);
       }
     }
@@ -137,7 +134,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     String title, 
     String message, 
     IPath suggestedFile, 
-    List viewerFilters)
+    List<ViewerFilter> viewerFilters)
   {
     WorkspaceResourceDialog dialog = new WorkspaceResourceDialog(parent, new WorkbenchLabelProvider(), new WorkbenchContentProvider());
     dialog.setAllowMultiple(false);
@@ -149,9 +146,8 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     dialog.addFilter(dialog.createDefaultViewerFilter(false));
     if (viewerFilters != null)
     {
-      for (Iterator i = viewerFilters.iterator(); i.hasNext();)
+      for (ViewerFilter viewerFilter : viewerFilters)
       {
-        ViewerFilter viewerFilter = (ViewerFilter)i.next();
         dialog.addFilter(viewerFilter);
       }
     }
@@ -190,7 +186,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
   public WorkspaceResourceDialog(Shell parent, ILabelProvider labelProvider, ITreeContentProvider contentProvider)
   {
     super(parent, labelProvider, contentProvider);
-    setSorter(new ResourceSorter(ResourceSorter.NAME));
+    setComparator(new ResourceComparator(ResourceComparator.NAME));
     setValidator(this);
   }
 
@@ -205,6 +201,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     this.showFiles = showFiles;
     return new ViewerFilter()
       {
+        @Override
         public boolean select(Viewer viewer, Object parentElement, Object element)
         {
           if (element instanceof IResource)
@@ -218,6 +215,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
       };
   }
 
+  @Override
   protected Control createDialogArea(Composite parent)
   {
     Composite composite = (Composite)super.createDialogArea(parent);
@@ -241,6 +239,7 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
     newFolderButton.setText(CommonUIPlugin.INSTANCE.getString("_UI_NewFolder_label"));
     newFolderButton.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent event)
         {
           newFolderButtonPressed();
@@ -346,30 +345,30 @@ public class WorkspaceResourceDialog extends ElementTreeSelectionDialog implemen
   
   public IContainer[] getSelectedContainers()
   {
-    List containers = new ArrayList();
+    List<IContainer> containers = new ArrayList<IContainer>();
     Object[] result = getResult();
     for (int i = 0; i < result.length; i++)
     {
       if (result[i] instanceof IContainer)
       {
-        containers.add(result[i]);
+        containers.add((IContainer)result[i]);
       }
     }
-    return (IContainer[])containers.toArray(new IContainer [containers.size()]);
+    return containers.toArray(new IContainer [containers.size()]);
   }
 
   public IFile[] getSelectedFiles()
   {
-    List files = new ArrayList();
+    List<IFile> files = new ArrayList<IFile>();
     Object[] result = getResult();
     for (int i = 0; i < result.length; i++)
     {
       if (result[i] instanceof IFile)
       {
-        files.add(result[i]);
+        files.add((IFile)result[i]);
       }
     }
-    return (IFile[])files.toArray(new IFile [files.size()]);
+    return files.toArray(new IFile[files.size()]);
   }
 
   public IFile getFile()

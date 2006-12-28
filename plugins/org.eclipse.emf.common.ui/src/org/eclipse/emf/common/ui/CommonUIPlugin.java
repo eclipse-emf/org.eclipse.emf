@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CommonUIPlugin.java,v 1.5 2005/08/19 16:48:37 davidms Exp $
+ * $Id: CommonUIPlugin.java,v 1.6 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -56,6 +56,7 @@ public final class CommonUIPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

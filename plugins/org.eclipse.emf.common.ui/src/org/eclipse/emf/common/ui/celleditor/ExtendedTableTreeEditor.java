@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedTableTreeEditor.java,v 1.3 2005/06/12 13:24:22 emerks Exp $
+ * $Id: ExtendedTableTreeEditor.java,v 1.4 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -41,7 +41,10 @@ import org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer;
  * This base class for implementing a {@link TableTreeEditor} calls {@link #editItem}
  * when the cell editor potentially needs to be activated.
  * This API is under construction; please do not use it for anything more than experimentation.
+ * @deprecated
+ * @see ExtendedTreeEditor
  */
+@Deprecated
 public abstract class ExtendedTableTreeEditor 
   extends TableTreeEditor
   implements KeyListener, MouseListener, SelectionListener
@@ -196,6 +199,7 @@ public abstract class ExtendedTableTreeEditor
 
   public void keyPressed(KeyEvent event)
   {
+    // Do nothing
   }
 
   public void keyReleased(KeyEvent event)
@@ -211,6 +215,7 @@ public abstract class ExtendedTableTreeEditor
 
   protected abstract void editItem(TableItem tableItem, TableTreeItem tableTreeItem, int column);
 
+  @Override
   public void setEditor(Control canvas, TableTreeItem tableTreeItem, int column)
   {
     super.setEditor(canvas, tableTreeItem, column);

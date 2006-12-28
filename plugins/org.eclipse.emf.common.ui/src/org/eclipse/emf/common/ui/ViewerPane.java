@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ViewerPane.java,v 1.6 2006/05/07 15:38:18 emerks Exp $
+ * $Id: ViewerPane.java,v 1.7 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui;
 
@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.ToolBarManager;
@@ -73,7 +73,7 @@ public abstract class ViewerPane implements IPropertyListener, Listener
 {
   protected IWorkbenchPage page;
   protected IWorkbenchPart part;
-  protected Collection buddies = new ArrayList();
+  protected Collection<Object> buddies = new ArrayList<Object>();
   protected Viewer viewer;
   protected Composite container;
   boolean isActive;
@@ -88,10 +88,12 @@ public abstract class ViewerPane implements IPropertyListener, Listener
   protected MouseListener mouseListener = 
     new MouseAdapter() 
     {
+      @Override
       public void mouseDown(MouseEvent e) 
       {
         requestActivation();
       }
+      @Override
       public void mouseDoubleClick(MouseEvent e)
       {
         if (e.getSource() == titleLabel)
@@ -106,12 +108,16 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     {
       public void partActivated(IWorkbenchPart p) 
       {
+        // Do nothing
       }
+      
       public void partBroughtToTop(IWorkbenchPart p) 
       {
+        // Do nothing
       }
       public void partClosed(IWorkbenchPart p)
       {
+        // Do nothing
       }
       public void partDeactivated(IWorkbenchPart p)
       {
@@ -120,8 +126,10 @@ public abstract class ViewerPane implements IPropertyListener, Listener
           showFocus(false);
         }
       }
+      
       public void partOpened(IWorkbenchPart p)
       {
+        // Do nothing
       }
     };
 
@@ -140,7 +148,7 @@ public abstract class ViewerPane implements IPropertyListener, Listener
 
   abstract public Viewer createViewer(Composite parent);
 
-  public Collection getBudies()
+  public Collection<Object> getBudies()
   {
     return buddies;
   }
@@ -252,6 +260,7 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     /**
      *  EATM I have no idea how this is supposed to be called.
      */
+    @Override
     protected void relayout(ToolBar toolBar, int oldCount, int newCount) 
     {
       // remove/add the action bar from the view so to avoid
@@ -310,7 +319,8 @@ public abstract class ViewerPane implements IPropertyListener, Listener
         ti.addSelectionListener
           (new SelectionAdapter() 
            {
-             public void widgetSelected(SelectionEvent e) 
+             @Override
+            public void widgetSelected(SelectionEvent e) 
              {
               showViewMenu();
              }
@@ -318,6 +328,7 @@ public abstract class ViewerPane implements IPropertyListener, Listener
       }
       catch (MalformedURLException exception)
       {
+        // Do nothing
       }
     }
   }
@@ -342,7 +353,8 @@ public abstract class ViewerPane implements IPropertyListener, Listener
       titleLabel.addMouseListener
         (new MouseAdapter() 
          {
-           public void mouseDown(MouseEvent e) 
+           @Override
+          public void mouseDown(MouseEvent e) 
            {
              if (e.button == 3)
              {
@@ -519,6 +531,7 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     aMenu.setVisible(true);
   }
 
+  @Override
   public String toString() 
   {
     String label = "disposed";
@@ -600,7 +613,8 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     restoreItem.addSelectionListener
       (new SelectionAdapter() 
        {
-         public void widgetSelected(SelectionEvent selectionEvent) 
+         @Override
+        public void widgetSelected(SelectionEvent selectionEvent) 
          {
            doMaximize();
          }
@@ -612,7 +626,8 @@ public abstract class ViewerPane implements IPropertyListener, Listener
     maximizeItem.addSelectionListener
       (new SelectionAdapter() 
        {
-         public void widgetSelected(SelectionEvent selectionEvent) 
+         @Override
+        public void widgetSelected(SelectionEvent selectionEvent) 
          {
            doMaximize();
          }
@@ -635,7 +650,7 @@ public abstract class ViewerPane implements IPropertyListener, Listener
 class WorkbenchColors 
 {
   static private boolean init = false;
-  static private HashMap colorMap;
+  static private Map<Object, Color> colorMap;
   static private Color [] activeGradient;
   static private int [] activePercentages;
   final static private String CLR_GRAD_START = "clrGradStart";
@@ -652,14 +667,14 @@ static public Color [] getActiveGradient() {
  * Returns the active gradient start color.
  */
 static public Color getActiveGradientStart() {
-  Color clr = (Color)colorMap.get(CLR_GRAD_START);
+  Color clr = colorMap.get(CLR_GRAD_START);
   return clr;
 }
 /**
  * Returns the active gradient end color.
  */
 static public Color getActiveGradientEnd() {
-  Color clr = (Color)colorMap.get(CLR_GRAD_END);
+  Color clr = colorMap.get(CLR_GRAD_END);
   return clr;
 }
 /**
@@ -672,7 +687,7 @@ static public int [] getActiveGradientPercents() {
  * Returns a color identified by an RGB value.
  */
 static public Color getColor(RGB rgbValue) {
-  Color clr = (Color)colorMap.get(rgbValue);
+  Color clr = colorMap.get(rgbValue);
   if (clr == null) {
     Display disp = Display.getDefault();
     clr = new Color(disp, rgbValue);
@@ -685,7 +700,7 @@ static public Color getColor(RGB rgbValue) {
  */
 static public Color getSystemColor(int swtId) {
   Integer bigInt = new Integer(swtId);
-  Color clr = (Color)colorMap.get(bigInt);
+  Color clr = colorMap.get(bigInt);
   if (clr == null) {
     Display disp = Display.getDefault();
     clr = disp.getSystemColor(swtId);
@@ -700,10 +715,9 @@ static public void shutdown() {
   if (!init)
     return;
     
-  Iterator iter = colorMap.values().iterator();
-  while (iter.hasNext()) {
-    Color clr = (Color)iter.next();
-    clr.dispose();
+  for (Color color : colorMap.values())
+  {
+    color.dispose();
   }
   colorMap.clear();
   gradient.dispose();
@@ -718,7 +732,7 @@ static public void startup() {
     
   init = true;
   Display disp = Display.getDefault();
-  colorMap = new HashMap(10);
+  colorMap = new HashMap<Object, Color>(10);
 
 /*
   // Define gradient (blue to widget background color)

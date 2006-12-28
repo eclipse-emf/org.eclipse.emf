@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedTreeEditor.java,v 1.2 2005/06/08 06:24:33 nickb Exp $
+ * $Id: ExtendedTreeEditor.java,v 1.3 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.celleditor;
 
@@ -53,6 +53,7 @@ public abstract class ExtendedTreeEditor extends TreeEditor implements Selection
 
   public void mouseDoubleClick(MouseEvent event) 
   {
+    // Do nothing
   }
 
   public void mouseDown(MouseEvent event) 
@@ -97,6 +98,7 @@ public abstract class ExtendedTreeEditor extends TreeEditor implements Selection
 
   public void keyPressed(KeyEvent event)
   {
+    // Do nothing
   }
 
   public void keyReleased(KeyEvent event)

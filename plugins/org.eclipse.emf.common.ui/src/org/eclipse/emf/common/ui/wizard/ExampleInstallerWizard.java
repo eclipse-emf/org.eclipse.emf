@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExampleInstallerWizard.java,v 1.3 2006/10/16 03:46:10 davidms Exp $
+ * $Id: ExampleInstallerWizard.java,v 1.4 2006/12/28 06:42:02 marcelop Exp $
  */
 package org.eclipse.emf.common.ui.wizard;
 
@@ -43,15 +43,16 @@ import org.eclipse.emf.common.util.URI;
 public class ExampleInstallerWizard extends AbstractExampleInstallerWizard implements IExecutableExtension
 {
   protected IConfigurationElement wizardConfigurationElement;
-  protected List projectDescriptors;
-  protected List filesToOpen;
+  protected List<ProjectDescriptor> projectDescriptors;
+  protected List<FileToOpen> filesToOpen;
   
   public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException
   {
     wizardConfigurationElement = config;
   }  
   
-  protected List getProjectDescriptors()
+  @Override
+  protected List<ProjectDescriptor> getProjectDescriptors()
   {
     if (projectDescriptors == null)
     {
@@ -60,7 +61,8 @@ public class ExampleInstallerWizard extends AbstractExampleInstallerWizard imple
     return projectDescriptors;
   }
   
-  protected List getFilesToOpen()
+  @Override
+  protected List<FileToOpen> getFilesToOpen()
   {
     if (filesToOpen == null)
     {
@@ -71,8 +73,8 @@ public class ExampleInstallerWizard extends AbstractExampleInstallerWizard imple
 
   protected void loadFromExtensionPoints()
   {
-    projectDescriptors = new ArrayList();
-    filesToOpen = new ArrayList();
+    projectDescriptors = new ArrayList<ProjectDescriptor>();
+    filesToOpen = new ArrayList<FileToOpen>();
     
     String wizardID = wizardConfigurationElement.getAttribute("id");
     
@@ -143,6 +145,7 @@ public class ExampleInstallerWizard extends AbstractExampleInstallerWizard imple
             }
             catch (Exception e)
             {
+              // Ignore
             }
           }
                     
