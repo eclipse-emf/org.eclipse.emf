@@ -6,7 +6,7 @@
     editorDirectory="/org.eclipse.emf.codegen.ecore.ui/src" modelPluginID="org.eclipse.emf.codegen.ecore"
     runtimeJar="true" modelName="GenModel" editPluginClass="org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin"
     editorPluginClass="" updateClasspath="false" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
-    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    complianceLevel="5.0" usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
   <foreignModel>GenModel.mdl</foreignModel>
   <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
   <foreignModel>../..</foreignModel>

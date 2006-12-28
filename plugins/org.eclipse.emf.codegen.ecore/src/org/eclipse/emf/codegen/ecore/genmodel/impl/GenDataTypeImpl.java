@@ -12,13 +12,13 @@
  *
  * </copyright>
  *
- * $Id: GenDataTypeImpl.java,v 1.21 2006/12/05 20:30:05 emerks Exp $
+ * $Id: GenDataTypeImpl.java,v 1.22 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -33,12 +33,11 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -81,6 +80,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_DATA_TYPE;
@@ -134,6 +134,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -150,6 +151,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -166,6 +168,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -182,6 +185,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -192,11 +196,13 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return super.eIsSet(featureID);
   }
 
+  @Override
   public EClassifier getEcoreClassifier()
   {
     return getEcoreDataType();
   }
 
+  @Override
   public String getImportedMetaType()
   {
     return getGenModel().getImportedName("org.eclipse.emf.ecore.EDataType");
@@ -243,6 +249,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
    return getGenModel().getImportedName(getRawQualifiedInstanceClassName()); 
   }
 
+  @Override
   public String getImportedParameterizedInstanceClassName()
   {
     String result = getImportedInstanceClassName();
@@ -270,6 +277,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return result;
   }
 
+  @Override
   public String getImportedWildcardInstanceClassName()
   {
     String result = getImportedInstanceClassName();
@@ -324,6 +332,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return result;
   }
   
+  @Override
   public String getImportedBoundedWildcardInstanceClassName()
   {
     String result = getImportedInstanceClassName();
@@ -417,7 +426,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
   public String getPrimitiveValueFunction()
   {
-    Class instanceClass = getEcoreDataType().getInstanceClass();
+    Class<?> instanceClass = getEcoreDataType().getInstanceClass();
     if (instanceClass == java.lang.Boolean.TYPE)
       return "booleanValue";
     if (instanceClass == java.lang.Byte.TYPE)
@@ -437,6 +446,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return null;
   }
 
+  @Override
   public String getModelInfo()
   {
     StringBuffer result = new StringBuffer();
@@ -479,27 +489,25 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return null;
   }
 
-  public List /*GenDataType*/ getMemberTypes()
+  public List<GenDataType> getMemberTypes()
   {
-    List result = new ArrayList();
-    for (Iterator i = getExtendedMetaData().getMemberTypes(getEcoreDataType()).iterator(); i.hasNext(); )
+    List<GenDataType> result = new ArrayList<GenDataType>();
+    for (EDataType memberType : getExtendedMetaData().getMemberTypes(getEcoreDataType()))
     {
-      EDataType memberType = (EDataType)i.next();
-      result.add(findGenClassifier(memberType));
+      result.add((GenDataType)findGenClassifier(memberType));
     }
     return result;
   }
 
-  public List /*GenDataType*/ getEffectiveMemberTypes()
+  public List<GenDataType> getEffectiveMemberTypes()
   {
     ExtendedMetaData extendedMetaData = getExtendedMetaData();
     for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
     {
-      List result = new ArrayList();
-      for (Iterator i = getExtendedMetaData().getMemberTypes(eDataType).iterator(); i.hasNext(); )
+      List<GenDataType> result = new ArrayList<GenDataType>();
+      for (EDataType memberType : getExtendedMetaData().getMemberTypes(eDataType))
       {
-        EDataType memberType = (EDataType)i.next();
-        result.add(findGenClassifier(memberType));
+        result.add((GenDataType)findGenClassifier(memberType));
       }
       if (result.isEmpty())
       {
@@ -683,18 +691,18 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return -1;
   }
 
-  public List getEnumerationLiterals()
+  public List<String> getEnumerationLiterals()
   {
     ExtendedMetaData extendedMetaData = getExtendedMetaData();
     for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
     {
-      List literals = extendedMetaData.getEnumerationFacet(eDataType);
+      List<String> literals = extendedMetaData.getEnumerationFacet(eDataType);
       if (!literals.isEmpty())
       {
         return literals;
       }
     }
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   public String getWhiteSpace()
@@ -711,7 +719,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return ExtendedMetaData.WHITE_SPACE_KINDS[ExtendedMetaData.UNSPECIFIED_WHITE_SPACE];
   }
 
-  protected static final List xmlCalendarTypes = 
+  protected static final List<String> xmlCalendarTypes = 
     Arrays.asList
       (new String[]
        {
@@ -770,19 +778,19 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return false;
   }
 
-  public List getPatterns()
+  public List<List<String>> getPatterns()
   {
-    List result = new ArrayList();
+    List<List<String>> result = new ArrayList<List<String>>();
     ExtendedMetaData extendedMetaData = getExtendedMetaData();
     for (EDataType eDataType = getEcoreDataType(); eDataType != null; eDataType = extendedMetaData.getBaseType(eDataType))
     {
-      List patterns = extendedMetaData.getPatternFacet(eDataType);
+      List<String> patterns = extendedMetaData.getPatternFacet(eDataType);
       if (!patterns.isEmpty())
       {
-        List literals = new ArrayList();
-        for (Iterator i = patterns.iterator(); i.hasNext(); )
+        List<String> literals = new ArrayList<String>();
+        for (String pattern : patterns)
         {
-          literals.add(Literals.toLiteral(i.next()));
+          literals.add(Literals.toLiteral(pattern));
         }
         result.add(literals);
       }
@@ -793,15 +801,15 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   public void initialize(EDataType eDataType)
   {
     setEcoreDataType(eDataType);
-    List typeParameters = eDataType.getETypeParameters();
+    List<ETypeParameter> typeParameters = eDataType.getETypeParameters();
     LOOP:
     for (int i = 0; i < typeParameters.size(); ++i) 
     {
-      ETypeParameter typeParameter = (ETypeParameter)typeParameters.get(i);
+      ETypeParameter typeParameter = typeParameters.get(i);
 
       for (int j = 0; j < getGenTypeParameters().size(); ++j)
       {
-        GenTypeParameter genTypeParameter = (GenTypeParameter)getGenTypeParameters().get(j);
+        GenTypeParameter genTypeParameter = getGenTypeParameters().get(j);
         if (genTypeParameter.getEcoreTypeParameter() == typeParameter)
         {
           genTypeParameter.initialize(typeParameter);
@@ -824,10 +832,10 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
   {
     if (getEcoreDataType().getName().equals(oldGenDataTypeVersion.getEcoreDataType().getName()))
     {
-      for (Iterator i = getGenTypeParameters().iterator(), j = oldGenDataTypeVersion.getGenTypeParameters().iterator(); i.hasNext() && j.hasNext(); )
+      for (int i = 0, size = Math.min(getGenTypeParameters().size(), oldGenDataTypeVersion.getGenTypeParameters().size()); i < size; i++)
       {
-        GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
-        GenTypeParameter oldGenTypeParameterVersion = (GenTypeParameter)j.next();
+        GenTypeParameter genTypeParameter = getGenTypeParameters().get(i);
+        GenTypeParameter oldGenTypeParameterVersion = oldGenDataTypeVersion.getGenTypeParameters().get(i);
         genTypeParameter.reconcile(oldGenTypeParameterVersion);
       }
 
@@ -856,9 +864,9 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
       }
       else
       {
-        for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+        for (Iterator<GenTypeParameter> i = getGenTypeParameters().iterator(); i.hasNext(); )
         {
-          GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+          GenTypeParameter genTypeParameter = i.next();
           if (!genTypeParameter.reconcile())
           {
             i.remove();
@@ -874,9 +882,10 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     }
   }
 
-  public List getGenConstraints()
+  @Override
+  public List<String> getGenConstraints()
   {
-    List constraints = new UniqueEList(super.getGenConstraints());
+    List<String> constraints = new UniqueEList<String>(super.getGenConstraints());
     ExtendedMetaData extendedMetaData = getExtendedMetaData();
     EDataType eDataType = getEcoreDataType();
     // White space is not a constraint; it should affect createFromString only.
@@ -933,9 +942,10 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return constraints;
   }
 
-  public List getAllGenConstraints()
+  @Override
+  public List<String> getAllGenConstraints()
   {
-    List allBaseTypes = new ArrayList();
+    List<GenDataType> allBaseTypes = new ArrayList<GenDataType>();
     if (getExtendedMetaData().getEnumerationFacet(getEcoreDataType()).isEmpty())
     {
       for (GenDataType baseType = getBaseType(); baseType != null; baseType = baseType.getBaseType())
@@ -950,6 +960,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     return collectGenConstraints(allBaseTypes, getGenConstraints(), null);
   }
 
+  @Override
   public GenClassifier getConstraintImplementor(String constraint)
   {
     for (GenDataType baseType = this; baseType != null; baseType = baseType.getBaseType())
@@ -986,9 +997,8 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
     if (eDataType.getEPackage() != EcorePackage.eINSTANCE && literal != null)
     {
       boolean replaced = false;
-      for (Iterator i = EcorePackage.eINSTANCE.getEClassifiers().iterator(); i.hasNext(); )
+      for (EClassifier eClassifier : EcorePackage.eINSTANCE.getEClassifiers())
       {
-        EClassifier eClassifier = (EClassifier)i.next();
         if (eClassifier instanceof EDataType && 
             eClassifier.getInstanceClassName().equals(eDataType.getInstanceClassName()) &&
             ((EDataType)eClassifier).isSerializable() &&
@@ -1042,7 +1052,7 @@ public class GenDataTypeImpl extends GenClassifierImpl implements GenDataType
 
     // Include static field or constructor for wrapped primitive types.
     //
-    Class typeClass = getInstanceClass(eDataType);
+    Class<?> typeClass = getInstanceClass(eDataType);
     if (typeClass == Boolean.class)
     {
       StringBuffer wrapped = new StringBuffer(getGenModel().getImportedName("java.lang.Boolean"));

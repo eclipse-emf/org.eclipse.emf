@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.8 2006/09/18 14:12:22 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="ItemProviderAdapterFactory" version="$Id: ItemProviderAdapterFactory.javajet,v 1.9 2006/12/28 06:40:38 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -15,7 +15,7 @@
  * </copyright>
  */
 %>
-<%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
+<%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel(); if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getProviderPackageName()%>;
 
@@ -32,8 +32,8 @@ package <%=genPackage.getProviderPackageName()%>;
 <%genModel.addImport("org.eclipse.emf.edit.provider.INotifyChangedListener");%>
 <%genModel.addImport("org.eclipse.emf.edit.provider.IStructuredItemContentProvider");%>
 <%genModel.addImport("org.eclipse.emf.edit.provider.ITreeItemContentProvider");%>
-<%genModel.addImport("java.util.ArrayList");%>
-<%genModel.addImport("java.util.Collection");%>
+<%String _ArrayList = genModel.getImportedName(genModel.useGenerics() ? "java.util.ArrayList<java.lang.Object>" : "java.util.ArrayList");%>
+<%String _Collection = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<java.lang.Object>" : "java.util.Collection");%>
 <%genModel.markImportLocation(stringBuffer);%>
 
 /**
@@ -88,7 +88,7 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Collection supportedTypes = new ArrayList();
+	protected <%=_Collection%> supportedTypes = new <%=_ArrayList%>();
 
 	/**
 	 * This constructs an instance.
@@ -98,12 +98,12 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	 */
 	public <%=genPackage.getItemProviderAdapterFactoryClassName()%>()
 	{
-<%for (Iterator i = genPackage.getProviderSupportedTypes().iterator(); i.hasNext(); ) {%>
-		supportedTypes.add(<%=genModel.getImportedName((String)i.next())%>.class);
-<%}%>		
+<%for (String name : genPackage.getProviderSupportedTypes()) {%>
+		supportedTypes.add(<%=genModel.getImportedName(name)%>.class);
+<%}%>
 	}
 
-<%for (Iterator i=genPackage.getAdapterDelegatePackages().iterator(); i.hasNext();) { GenPackage genDelegate = (GenPackage)i.next();%>
+<%for (GenPackage genDelegate : genPackage.getAdapterDelegatePackages()) {%>
 	/**
 	 * This keeps track of the factory to which to delegate adapter creation for objects from that package.
 	 * <!-- begin-user-doc -->
@@ -137,7 +137,7 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	}
 
 <%}%>
-<%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+<%for (GenClass genClass : genPackage.getGenClasses()) {%>
 <%if (!genClass.isAbstract() && genClass.getProvider() != GenProviderKind.NONE_LITERAL) {%>
 <%if (genClass.isProviderSingleton()) {%>
 	/**
@@ -154,6 +154,9 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public Adapter create<%=genClass.getName()%>Adapter()
 	{
 		if (<%=genClass.getUncapName()%>ItemProvider == null)
@@ -179,7 +182,7 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 <%}%>
 <%}%>
 <%}%>
-<%for (Iterator i=genPackage.getAdapterDelegateSuperClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+<%for (GenClass genClass : genPackage.getAdapterDelegateSuperClasses()) {%>
 	/**
 	 * <%=genClass.getName()%> of <%=genClass.getItemProviderAdapterFactoryClassName()%>
 	 * <!-- begin-user-doc -->
@@ -222,6 +225,9 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public boolean isFactoryForType(Object type)
 	{
 		return supportedTypes.contains(type) || super.isFactoryForType(type);
@@ -233,6 +239,9 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public Adapter adapt(Notifier notifier, Object type)
 	{
 		return super.adapt(notifier, this);
@@ -243,12 +252,15 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public Object adapt(Object object, Object type)
 	{
 		if (isFactoryForType(type))
 		{
 			Object adapter = super.adapt(object, type);
-			if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+			if (!(type instanceof Class) || (((Class<%if (genModel.useGenerics()) {%><?><%}%>)type).isInstance(adapter)))
 			{
 				return adapter;
 			}
@@ -324,7 +336,7 @@ public class <%=genPackage.getItemProviderAdapterFactoryClassName()%> extends <%
 <%if (genPackage.hasStatefulProvider()) {%>
 		disposable.dispose();
 <%} else {%>
-<%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+<%for (GenClass genClass : genPackage.getGenClasses()) {%>
 <%if (!genClass.isAbstract() && genClass.isProviderSingleton()) {%>
 		if (<%=genClass.getUncapName()%>ItemProvider != null) <%=genClass.getUncapName()%>ItemProvider.dispose();
 <%}%>

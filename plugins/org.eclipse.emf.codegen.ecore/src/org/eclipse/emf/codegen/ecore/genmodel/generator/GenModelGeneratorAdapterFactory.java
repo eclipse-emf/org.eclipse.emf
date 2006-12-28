@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapterFactory.java,v 1.5 2006/11/09 20:28:40 davidms Exp $
+ * $Id: GenModelGeneratorAdapterFactory.java,v 1.6 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -72,11 +72,13 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
 
   public GenModelGeneratorAdapterFactory()
   {
+    super();
   }
 
   /**
    * Returns <code>true</code> when the type is <code>GeneratorAdapter.class</code>.
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return type == GeneratorAdapter.class;
@@ -87,6 +89,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
    * substituting <code>this</code> for the given <code>type</code>. This substitution is necessary because each of many
    * generator adapter factories can have its own generator adapter on a single object.
    */ 
+  @Override
   public Adapter adapt(Notifier target, Object type)
   {
     return super.adapt(target, this);
@@ -95,6 +98,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
   /**
    * Returns a singleton {@link GenModelGeneratorAdapter}.
    */
+  @Override
   public Adapter createGenModelAdapter()
   {
     if (genModelGeneratorAdapter == null)
@@ -107,6 +111,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
   /**
    * Returns a singleton {@link GenPackageGeneratorAdapter}.
    */
+  @Override
   public Adapter createGenPackageAdapter()
   {
     if (genPackageGeneratorAdapter == null)
@@ -119,6 +124,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
   /**
    * Returns a singleton {@link GenClassGeneratorAdapter}.
    */
+  @Override
   public Adapter createGenClassAdapter()
   {
     if (genClassGeneratorAdapter == null)
@@ -131,6 +137,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
   /**
    * Returns a singleton {@link GenEnumGeneratorAdapter}.
    */
+  @Override
   public Adapter createGenEnumAdapter()
   {
     if (genEnumGeneratorAdapter == null)
@@ -164,9 +171,20 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     options.forceOverwrite = genModel.isForceOverwrite();
     options.dynamicTemplates = genModel.isDynamicTemplates();
 
-    // For backwards compatibility, we must check whether getTemplatePath() has been overridden to return something
-    // other than the default, and, if so, behave as before.
-    //
+    initializeMergeRulesURI(options, genModel);
+
+    options.mergerFacadeHelperClass = genModel.getFacadeHelperClass();
+    options.codeFormatting = genModel.isCodeFormatting();
+    options.resourceSet = resource != null ? resource.getResourceSet() : null;
+  }
+  
+  /**
+   * For backwards compatibility, we must check whether getTemplatePath() has been overridden to return something
+   * other than the default, and, if so, behave as before.
+   */
+  @SuppressWarnings("deprecation")
+  protected void initializeMergeRulesURI(Generator.Options options, GenModel genModel)
+  {
     String[] defaultTemplatePath = getDefaultTemplatePath(genModel);
     String[] templatePath = getTemplatePath(genModel);
     if (!Arrays.equals(templatePath, defaultTemplatePath))
@@ -177,11 +195,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
     else
     {
       options.mergeRulesURI = getMergeRulesURI(genModel);
-    }
-
-    options.mergerFacadeHelperClass = genModel.getFacadeHelperClass();
-    options.codeFormatting = genModel.isCodeFormatting();
-    options.resourceSet = resource != null ? resource.getResourceSet() : null;
+    }    
   }
 
   /**
@@ -205,6 +219,7 @@ public class GenModelGeneratorAdapterFactory extends GenModelAdapterFactory impl
    *              {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter#addBaseTemplatePathEntries(java.util.List)}
    *              and, if needed, {@link #getMergeRulesURI(GenModel)}, instead.
    */
+  @Deprecated
   protected String[] getTemplatePath(GenModel genModel)
   {
     return getDefaultTemplatePath(genModel);

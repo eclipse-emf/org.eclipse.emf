@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelFactoryImpl.java,v 1.9 2006/12/05 20:30:02 emerks Exp $
+ * $Id: GenModelFactoryImpl.java,v 1.10 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -75,6 +75,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
@@ -100,6 +101,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object createFromString(EDataType eDataType, String initialValue)
   {
     switch (eDataType.getClassifierID())
@@ -124,6 +126,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
     switch (eDataType.getClassifierID())
@@ -390,6 +393,7 @@ public class GenModelFactoryImpl extends EFactoryImpl implements GenModelFactory
    * @deprecated
    * @generated
    */
+  @Deprecated
   public static GenModelPackage getPackage()
   {
     return GenModelPackage.eINSTANCE;

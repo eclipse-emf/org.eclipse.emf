@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageGeneratorAdapter.java,v 1.10 2006/11/08 20:39:33 davidms Exp $
+ * $Id: GenPackageGeneratorAdapter.java,v 1.11 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -20,19 +20,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
+import org.eclipse.emf.codegen.ecore.genmodel.GenBase;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -114,32 +115,36 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     super(generatorAdapterFactory);
   }
 
-  protected Collection getGenerateModelChildren(Object object)
+  @Override
+  protected Collection<?> getGenerateModelChildren(Object object)
   {
     GenPackage genPackage = (GenPackage)object;
-    List result = new ArrayList(genPackage.getGenClasses());
+    List<GenBase> result = new ArrayList<GenBase>(genPackage.getGenClasses());
     result.addAll(genPackage.getGenEnums());
     result.addAll(genPackage.getNestedGenPackages());
     return result;
   }
 
-  protected Collection getGenerateEditChildren(Object object)
+  @Override
+  protected Collection<?> getGenerateEditChildren(Object object)
   {
     GenPackage genPackage = (GenPackage)object;
-    List result = new ArrayList(genPackage.getGenClasses());
+    List<GenBase> result = new ArrayList<GenBase>(genPackage.getGenClasses());
     result.addAll(genPackage.getNestedGenPackages());
     return result;
   }
 
-  protected Collection getGenerateEditorChildren(Object object)
+  @Override
+  protected Collection<?> getGenerateEditorChildren(Object object)
   {
-    return new ArrayList(((GenPackage)object).getNestedGenPackages());
+    return new ArrayList<GenPackage>(((GenPackage)object).getNestedGenPackages());
   }
 
-  protected Collection getGenerateTestsChildren(Object object)
+  @Override
+  protected Collection<?> getGenerateTestsChildren(Object object)
   {
     GenPackage genPackage = (GenPackage)object;
-    List result = new ArrayList(genPackage.getGenClasses());
+    List<GenBase> result = new ArrayList<GenBase>(genPackage.getGenClasses());
     result.addAll(genPackage.getNestedGenPackages());
     return result;
   }
@@ -147,6 +152,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
   /**
    * Returns the {@link GenModel} or {@link GenPackage} that contains the given {@link GenPackage}.
    */
+  @Override
   public Object getGenerateParent(Object object, Object projectType)
   {
     return getParent(object);
@@ -155,6 +161,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
   /**
    * Prepares the {@link GenPackage} for generation.
    */
+  @Override
   protected Diagnostic doPreGenerate(Object object, Object projectType)
   {
     if (MODEL_PROJECT_TYPE.equals(projectType))
@@ -168,6 +175,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
   /**
    * Cleans up the {@link GenPackage} after generation.
    */
+  @Override
   protected Diagnostic doPostGenerate(Object object, Object projectType)
   {
     if (MODEL_PROJECT_TYPE.equals(projectType))
@@ -178,6 +186,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     return super.doPostGenerate(object, projectType);
   }
 
+  @Override
   protected Diagnostic generateModel(Object object, Monitor monitor)
   {
     monitor.beginTask("", 13);
@@ -207,6 +216,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     return Diagnostic.OK_INSTANCE;
   }
 
+  @SuppressWarnings("deprecation")
   protected void generateSchema(GenPackage genPackage, Monitor monitor)
   {
     if (genPackage.hasClassifiers() && genPackage.getGenModel().isGenerateSchema())
@@ -242,16 +252,14 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
         ResourceSet set = outputResource.getResourceSet();
         URI targetURI = toPlatformResourceURI(targetFile);
 
-        Map oldURIs = new HashMap();
+        Map<Resource, URI> oldURIs = new HashMap<Resource, URI>();
 
         // Set URIs of EPackage-containing resources: output resource to desired target URI, and others to package
         // namespace URIs (so cross-references will be resolved via package registry when deserialized). 
         //
-        for (Iterator i = set.getResources().iterator(); i.hasNext(); )
+        for (Resource resource : set.getResources())
         {
-          Resource resource = (Resource)i.next();
-          List contents = resource.getContents();
-  
+          List<EObject> contents = resource.getContents();
           if (!contents.isEmpty() && contents.get(0) instanceof EPackage)
           {
             EPackage ePackage = (EPackage)contents.get(0);
@@ -272,14 +280,12 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
 
         // Restore original resource URI values.
         //
-        for (Iterator i = set.getResources().iterator(); i.hasNext(); )
+        for (Resource resource : set.getResources())
         {
-          Resource resource = (Resource)i.next();
-          List contents = resource.getContents();
-  
+          List<EObject> contents = resource.getContents();  
           if (!contents.isEmpty() && contents.get(0) instanceof EPackage)
           {
-            resource.setURI((URI)oldURIs.get(resource));
+            resource.setURI(oldURIs.get(resource));
           }        
         }
       }
@@ -520,6 +526,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     }
   }
 
+  @Override
   protected Diagnostic generateEdit(Object object, Monitor monitor)
   {
     monitor.beginTask("", 2);
@@ -559,6 +566,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     }
   }
 
+  @Override
   protected Diagnostic generateEditor(Object object, Monitor monitor)
   {
     monitor.beginTask("", 6);
@@ -686,6 +694,7 @@ public class GenPackageGeneratorAdapter extends GenBaseGeneratorAdapter
     }
   }
 
+  @Override
   protected Diagnostic generateTests(Object object, Monitor monitor)
   {
     monitor.beginTask("", 3);

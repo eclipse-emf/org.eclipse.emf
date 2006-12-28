@@ -15,7 +15,7 @@
  * </copyright>
  */
 %>
-<%GenClass genClass = (GenClass)argument; GenPackage genPackage = genClass.getGenPackage(); GenModel genModel=genPackage.getGenModel();%>
+<%GenClass genClass = (GenClass)argument; GenPackage genPackage = genClass.getGenPackage(); GenModel genModel=genPackage.getGenModel(); if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getTestsPackageName()%>;
 
@@ -26,7 +26,7 @@ package <%=genPackage.getTestsPackageName()%>;
  * A test case for the model object '<em><b><%=genClass.getFormattedName()%></b></em>'.
  * <!-- end-user-doc -->
 <%if (!genClass.getImplementedGenFeatures().isEmpty()) { boolean first = true;%>
-  <%for (Iterator genFeatures = genClass.getImplementedGenFeatures().iterator(); genFeatures.hasNext();) { GenFeature genFeature = (GenFeature)genFeatures.next();%>
+  <%for (GenFeature genFeature : genClass.getImplementedGenFeatures()) {%>
     <%if ((genFeature.isVolatile() || genFeature.isDerived()) && !genFeature.isSuppressedGetVisibility()) {%>
       <%if (first) { first = false;%>
  * <p>
@@ -42,7 +42,7 @@ package <%=genPackage.getTestsPackageName()%>;
   <%}%>
 <%}%>
 <%if (!genClass.getImplementedGenOperations().isEmpty()) { boolean first = true;%>
-  <%for (Iterator genOperations = genClass.getImplementedGenOperations().iterator(); genOperations.hasNext();) { GenOperation genOperation = (GenOperation)genOperations.next();%>
+  <%for (GenOperation genOperation : genClass.getImplementedGenOperations()) {%>
     <%if (first) { first = false;%>
  * <p>
  * The following operations are tested:
@@ -130,7 +130,10 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private <%=genClass.getImportedInterfaceName()%> getFixture()
+<%if (!genClass.isModelRoot() && genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
+	<%if (genModel.useGenerics()) {%>protected<%} else {%>private<%}%> <%=genClass.getImportedInterfaceName()%> getFixture()
 	{
 <%if (genClass.isModelRoot()) {%>
 		return fixture;
@@ -146,6 +149,9 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * @see junit.framework.TestCase#setUp()
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	protected void setUp() throws Exception
 	{
 		setFixture(<%=genPackage.getQualifiedEFactoryInternalInstanceAccessor()%>.create<%=genClass.getName()%>());
@@ -157,12 +163,15 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 	 * @see junit.framework.TestCase#tearDown()
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	protected void tearDown() throws Exception
 	{
 		setFixture(null);
 	}
 <%}%>
-<%for (Iterator genFeatures=genClass.getImplementedGenFeatures().iterator(); genFeatures.hasNext();) { GenFeature genFeature = (GenFeature)genFeatures.next();%>
+<%for (GenFeature genFeature : genClass.getImplementedGenFeatures()) {%>
 <%@ include file="TestCase/implementedGenFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
   <%if (genFeature.isVolatile() || genFeature.isDerived()) {%>
@@ -258,7 +267,7 @@ public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getTestCa
 <%@ include file="TestCase/implementedGenFeature.insert.javajetinc" fail="silent" %>
 <%@ end %><%//TestCase/implementedGenFeature.override.javajetinc%>
 <%}%>
-<%for (Iterator genOperations = genClass.getImplementedGenOperations().iterator(); genOperations.hasNext();) { GenOperation genOperation = (GenOperation)genOperations.next();%>
+<%for (GenOperation genOperation : genClass.getImplementedGenOperations()) {%>
 <%@ include file="TestCase/implementedGenOperation.override.javajetinc" fail="alternative" %>
 <%@ start %>
 

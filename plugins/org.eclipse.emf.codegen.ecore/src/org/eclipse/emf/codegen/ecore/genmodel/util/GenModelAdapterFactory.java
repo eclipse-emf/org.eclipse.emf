@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelAdapterFactory.java,v 1.7 2006/12/05 20:30:25 emerks Exp $
+ * $Id: GenModelAdapterFactory.java,v 1.8 2006/12/28 06:40:39 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -65,6 +65,7 @@ public class GenModelAdapterFactory extends AdapterFactoryImpl
    * @return whether this factory is applicable for the type of the object.
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object object)
   {
     if (object == modelPackage)
@@ -84,66 +85,81 @@ public class GenModelAdapterFactory extends AdapterFactoryImpl
    * <!-- end-user-doc -->
    * @generated
    */
-  protected GenModelSwitch modelSwitch =
-    new GenModelSwitch()
+  protected GenModelSwitch<Adapter> modelSwitch =
+    new GenModelSwitch<Adapter>()
     {
-      public Object caseGenModel(GenModel object)
+      @Override
+      public Adapter caseGenModel(GenModel object)
       {
         return createGenModelAdapter();
       }
-      public Object caseGenPackage(GenPackage object)
+      @Override
+      public Adapter caseGenPackage(GenPackage object)
       {
         return createGenPackageAdapter();
       }
-      public Object caseGenClass(GenClass object)
+      @Override
+      public Adapter caseGenClass(GenClass object)
       {
         return createGenClassAdapter();
       }
-      public Object caseGenFeature(GenFeature object)
+      @Override
+      public Adapter caseGenFeature(GenFeature object)
       {
         return createGenFeatureAdapter();
       }
-      public Object caseGenBase(GenBase object)
+      @Override
+      public Adapter caseGenBase(GenBase object)
       {
         return createGenBaseAdapter();
       }
-      public Object caseGenEnum(GenEnum object)
+      @Override
+      public Adapter caseGenEnum(GenEnum object)
       {
         return createGenEnumAdapter();
       }
-      public Object caseGenEnumLiteral(GenEnumLiteral object)
+      @Override
+      public Adapter caseGenEnumLiteral(GenEnumLiteral object)
       {
         return createGenEnumLiteralAdapter();
       }
-      public Object caseGenClassifier(GenClassifier object)
+      @Override
+      public Adapter caseGenClassifier(GenClassifier object)
       {
         return createGenClassifierAdapter();
       }
-      public Object caseGenDataType(GenDataType object)
+      @Override
+      public Adapter caseGenDataType(GenDataType object)
       {
         return createGenDataTypeAdapter();
       }
-      public Object caseGenOperation(GenOperation object)
+      @Override
+      public Adapter caseGenOperation(GenOperation object)
       {
         return createGenOperationAdapter();
       }
-      public Object caseGenParameter(GenParameter object)
+      @Override
+      public Adapter caseGenParameter(GenParameter object)
       {
         return createGenParameterAdapter();
       }
-      public Object caseGenTypedElement(GenTypedElement object)
+      @Override
+      public Adapter caseGenTypedElement(GenTypedElement object)
       {
         return createGenTypedElementAdapter();
       }
-      public Object caseGenAnnotation(GenAnnotation object)
+      @Override
+      public Adapter caseGenAnnotation(GenAnnotation object)
       {
         return createGenAnnotationAdapter();
       }
-      public Object caseGenTypeParameter(GenTypeParameter object)
+      @Override
+      public Adapter caseGenTypeParameter(GenTypeParameter object)
       {
         return createGenTypeParameterAdapter();
       }
-      public Object defaultCase(EObject object)
+      @Override
+      public Adapter defaultCase(EObject object)
       {
         return createEObjectAdapter();
       }
@@ -157,9 +173,10 @@ public class GenModelAdapterFactory extends AdapterFactoryImpl
    * @return the adapter for the <code>target</code>.
    * @generated
    */
+  @Override
   public Adapter createAdapter(Notifier target)
   {
-    return (Adapter)modelSwitch.doSwitch((EObject)target);
+    return modelSwitch.doSwitch((EObject)target);
   }
 
 

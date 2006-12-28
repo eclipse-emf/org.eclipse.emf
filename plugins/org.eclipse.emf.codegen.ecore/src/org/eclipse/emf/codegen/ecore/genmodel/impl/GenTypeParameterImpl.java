@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypeParameterImpl.java,v 1.2 2006/12/26 18:58:52 emerks Exp $
+ * $Id: GenTypeParameterImpl.java,v 1.3 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -20,16 +20,12 @@ import java.util.Iterator;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
-
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -71,6 +67,7 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_TYPE_PARAMETER;
@@ -124,6 +121,7 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -140,6 +138,7 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -156,6 +155,7 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -172,6 +172,7 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -182,6 +183,7 @@ public class GenTypeParameterImpl extends GenBaseImpl implements GenTypeParamete
     return super.eIsSet(featureID);
   }
 
+  @Override
   public String getName()
   {
     return getEcoreTypeParameter().getName();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenDataType.java,v 1.8 2006/12/05 20:30:25 emerks Exp $
+ * $Id: GenDataType.java,v 1.9 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -90,7 +90,7 @@ public interface GenDataType extends GenClassifier
 
   GenDataType getBaseType();
   GenDataType getItemType();
-  List /*GenDataType*/ getMemberTypes();
+  List<GenDataType> getMemberTypes();
   GenDataType getObjectType();
 
   String getMinLiteral();
@@ -106,11 +106,11 @@ public interface GenDataType extends GenClassifier
   int getTotalDigits();
   int getFractionDigits();
 
-  List getEnumerationLiterals();
+  List<String> getEnumerationLiterals();
 
   String getWhiteSpace();
 
-  List /*List of String*/ getPatterns();
+  List<List<String>> getPatterns();
 
   boolean isXMLCalendar();
   boolean isXMLDuration();

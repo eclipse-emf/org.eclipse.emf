@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperationImpl.java,v 1.27 2006/12/05 20:29:53 emerks Exp $
+ * $Id: GenOperationImpl.java,v 1.28 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -87,7 +87,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * @generated
    * @ordered
    */
-  protected EList genParameters = null;
+  protected EList<GenParameter> genParameters = null;
 
   /**
    * The cached value of the '{@link #getGenTypeParameters() <em>Gen Type Parameters</em>}' containment reference list.
@@ -97,7 +97,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * @generated
    * @ordered
    */
-  protected EList genTypeParameters = null;
+  protected EList<GenTypeParameter> genTypeParameters = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -114,6 +114,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_OPERATION;
@@ -212,11 +213,11 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenParameters()
+  public EList<GenParameter> getGenParameters()
   {
     if (genParameters == null)
     {
-      genParameters = new EObjectContainmentWithInverseEList(GenParameter.class, this, GenModelPackage.GEN_OPERATION__GEN_PARAMETERS, GenModelPackage.GEN_PARAMETER__GEN_OPERATION);
+      genParameters = new EObjectContainmentWithInverseEList<GenParameter>(GenParameter.class, this, GenModelPackage.GEN_OPERATION__GEN_PARAMETERS, GenModelPackage.GEN_PARAMETER__GEN_OPERATION);
     }
     return genParameters;
   }
@@ -226,11 +227,11 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenTypeParameters()
+  public EList<GenTypeParameter> getGenTypeParameters()
   {
     if (genTypeParameters == null)
     {
-      genTypeParameters = new EObjectContainmentEList(GenTypeParameter.class, this, GenModelPackage.GEN_OPERATION__GEN_TYPE_PARAMETERS);
+      genTypeParameters = new EObjectContainmentEList<GenTypeParameter>(GenTypeParameter.class, this, GenModelPackage.GEN_OPERATION__GEN_TYPE_PARAMETERS);
     }
     return genTypeParameters;
   }
@@ -240,6 +241,8 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -249,7 +252,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
           msgs = eBasicRemoveFromContainer(msgs);
         return basicSetGenClass((GenClass)otherEnd, msgs);
       case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
-        return ((InternalEList)getGenParameters()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getGenParameters()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -259,6 +262,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -266,9 +270,9 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       case GenModelPackage.GEN_OPERATION__GEN_CLASS:
         return basicSetGenClass(null, msgs);
       case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
-        return ((InternalEList)getGenParameters()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenParameters()).basicRemove(otherEnd, msgs);
       case GenModelPackage.GEN_OPERATION__GEN_TYPE_PARAMETERS:
-        return ((InternalEList)getGenTypeParameters()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenTypeParameters()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -278,6 +282,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -293,6 +298,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -315,6 +321,8 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -327,11 +335,11 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         return;
       case GenModelPackage.GEN_OPERATION__GEN_PARAMETERS:
         getGenParameters().clear();
-        getGenParameters().addAll((Collection)newValue);
+        getGenParameters().addAll((Collection<? extends GenParameter>)newValue);
         return;
       case GenModelPackage.GEN_OPERATION__GEN_TYPE_PARAMETERS:
         getGenTypeParameters().clear();
-        getGenTypeParameters().addAll((Collection)newValue);
+        getGenTypeParameters().addAll((Collection<? extends GenTypeParameter>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -342,6 +350,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -367,6 +376,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -383,11 +393,13 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     return super.eIsSet(featureID);
   }
 
+  @Override
   public ETypedElement getEcoreTypedElement()
   {
     return getEcoreOperation();
   }
 
+  @Override
   public String getName()
   {
     return getEcoreOperation().getName();
@@ -413,71 +425,85 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   /**
    * @deprecated As of EMF 2.1, simply call <code>getEcoreTypedElement().getEType()</code>.
    */
+  @Deprecated
   protected EClassifier getReturn()
   {
     return getEcoreOperation().getEType();
   }
 
+  @Override
   public String getTypeClassifierAccessorName()
   {
     return isVoid() ? "null" : super.getTypeClassifierAccessorName();
   }
 
+  @Override
   public GenPackage getTypeGenPackage()
   {
     return isVoid() ? null : super.getTypeGenPackage();
   }
 
+  @Override
   public String getType()
   {
     return isVoid() ? "void" : super.getType();
   }
 
+  @Override
   public String getImportedType()
   {
     return isVoid() ? "void" : super.getImportedType();
   }
 
+  @Override
   public String getObjectType()
   {
     return isVoid() ? "void" : super.getObjectType();
   }
 
+  @Override
   public String getImportedInternalType()
   {
     return isVoid() ? "void" : super.getImportedInternalType();
   }
 
+  @Override
   public boolean isFeatureMapType()
   {
     return !isVoid() && super.isFeatureMapType();
   }
 
+  @Override
   public String getListItemType()
   {
     return isVoid() ? "void" : super.getListItemType();
   }
 
+  @Override
   public String getQualifiedListItemType()
   {
     return isVoid() ? "void" : super.getQualifiedListItemType();
   }
 
+  @Override
   public boolean isPrimitiveType()
   {
     return !isVoid() && super.isPrimitiveType();
   }
 
+  @Override
   public String getPrimitiveValueFunction()
   {
     return isVoid() ? null : super.getPrimitiveValueFunction();
   }
 
+  @Override
   public boolean isStringType()
   {
     return !isVoid() && super.isStringType();
   }
 
+  @Override
   public boolean isStringBasedType()
   {
     return !isVoid() && super.isStringBasedType();
@@ -486,6 +512,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getTypeClassifierAccessorName() getTypeClassifierAccessorName} instead.
    */
+  @Deprecated
   public String getReturnTypeClassifier()
   {
     return getTypeClassifierAccessorName();
@@ -494,6 +521,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getTypeGenPackage getTypeGenPackage} instead.
    */
+  @Deprecated
   public GenPackage getReturnTypeGenPackage()
   {
     return getTypeGenPackage();
@@ -502,6 +530,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getType getType} instead.
    */
+  @Deprecated
   public String getReturnType()
   {
     return getType();
@@ -510,6 +539,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getImporterType getImportedType} instead.
    */
+  @Deprecated
   public String getImportedReturnType()
   {
     return getImportedType();
@@ -518,6 +548,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#getObjectType getObjectType} instead.
    */
+  @Deprecated
   public String getObjectReturnType()
   {
     return getObjectType();
@@ -526,6 +557,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElementImpl#isPrimitiveType isPrimitiveType} instead.
    */
+  @Deprecated
   public boolean isPrimitiveReturnType()
   {
     return isPrimitiveType();
@@ -539,9 +571,9 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   protected String getParameters(boolean formal)
   {
     StringBuffer result = new StringBuffer();
-    for (Iterator iter = getGenParameters().iterator(); iter.hasNext(); )
+    for (Iterator<GenParameter> iter = getGenParameters().iterator(); iter.hasNext(); )
     {
-      GenParameter genParameter = (GenParameter)iter.next();
+      GenParameter genParameter = iter.next();
       if (formal)
       {
         result.append(genParameter.getImportedType());
@@ -563,9 +595,9 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   {
     StringBuffer parameterTypes = new StringBuffer();
 
-    for (Iterator genParameters = getGenParameters().iterator(); genParameters.hasNext();)
+    for (Iterator<GenParameter> genParameterIterator = getGenParameters().iterator(); genParameterIterator.hasNext();)
     {
-      GenParameter genParameter = (GenParameter)genParameters.next();
+      GenParameter genParameter = genParameterIterator.next();
       String type = genParameter.getRawType();
 
       if (!qualified)
@@ -587,7 +619,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
 
       parameterTypes.append(type);
 
-      if (genParameters.hasNext())
+      if (genParameterIterator.hasNext())
       {
         parameterTypes.append(separator);
       }
@@ -610,15 +642,15 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   {
     setEcoreOperation(eOperation);
 
-    List parameters = eOperation.getEParameters();
+    List<EParameter> parameters = eOperation.getEParameters();
     LOOP:
     for (int i = 0; i < parameters.size(); ++i) 
     {
-      EParameter parameter = (EParameter)parameters.get(i);
+      EParameter parameter = parameters.get(i);
 
       for (int j = 0; j < getGenParameters().size(); ++j)
       {
-        GenParameter genParameter = (GenParameter)getGenParameters().get(j);
+        GenParameter genParameter = getGenParameters().get(j);
         if (genParameter.getEcoreParameter() == parameter)
         {
           genParameter.initialize(parameter);
@@ -636,15 +668,15 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       genParameter.initialize(parameter);
     }
 
-    List typeParameters = eOperation.getETypeParameters();
+    List<ETypeParameter> typeParameters = eOperation.getETypeParameters();
     LOOP:
     for (int i = 0; i < typeParameters.size(); ++i) 
     {
-      ETypeParameter typeParameter = (ETypeParameter)typeParameters.get(i);
+      ETypeParameter typeParameter = typeParameters.get(i);
 
       for (int j = 0; j < getGenTypeParameters().size(); ++j)
       {
-        GenTypeParameter genTypeParameter = (GenTypeParameter)getGenTypeParameters().get(j);
+        GenTypeParameter genTypeParameter = getGenTypeParameters().get(j);
         if (genTypeParameter.getEcoreTypeParameter() == typeParameter)
         {
           genTypeParameter.initialize(typeParameter);
@@ -663,6 +695,7 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     }
   }
 
+  @Override
   public String getModelInfo()
   {
     EOperation eOperation = getEcoreOperation();
@@ -718,13 +751,12 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       }
     }
     
-    List genExceptions = getGenExceptions();
+    List<GenClassifier> genExceptions = getGenExceptions();
     if (!genExceptions.isEmpty())
     {
       StringBuffer exceptions = new StringBuffer();
-      for (Iterator i = genExceptions.iterator(); i.hasNext(); )
+      for (GenClassifier genClassifier : genExceptions)
       {
-        GenClassifier genClassifier = (GenClassifier)i.next();
         GenPackage genPackage = genClassifier.getGenPackage();
         if (genPackage != null)
         {
@@ -738,9 +770,9 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
       appendModelSetting(result, "exceptions", exceptions.toString());
     }
 
-    for (Iterator i = getGenParameters().iterator(); i.hasNext(); )
+    for (GenParameter genParameter : getGenParameters())
     {
-      String parameterResult = ((GenParameter)i.next()).getQualifiedModelInfo();
+      String parameterResult = genParameter.getQualifiedModelInfo();
       if (parameterResult.length() > 0)
       {
         result.append(parameterResult);
@@ -757,25 +789,25 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     if (getEcoreOperation().getName().equals(oldGenOperationVersion.getEcoreOperation().getName()) &&
           getGenParameters().size() == oldGenOperationVersion.getGenParameters().size())
     {
-      for (Iterator i = getGenParameters().iterator(), j = oldGenOperationVersion.getGenParameters().iterator(); i.hasNext(); )
+      for (int i = 0, size = Math.min(getGenParameters().size(), oldGenOperationVersion.getGenParameters().size()); i < size; i++)
       {
-        GenParameter genParameter = (GenParameter)i.next();
-        GenParameter oldGenParameterVersion = (GenParameter)j.next();
+        GenParameter genParameter = getGenParameters().get(i);
+        GenParameter oldGenParameterVersion = oldGenOperationVersion.getGenParameters().get(i);
         if (!genParameter.getType().equals(oldGenParameterVersion.getType()))
         {
           return false;
         }
       }
-      for (Iterator i = getGenParameters().iterator(), j = oldGenOperationVersion.getGenParameters().iterator(); i.hasNext(); )
+      for (int i = 0, size = Math.min(getGenParameters().size(), oldGenOperationVersion.getGenParameters().size()); i < size; i++)
       {
-        GenParameter genParameter = (GenParameter)i.next();
-        GenParameter oldGenParameterVersion = (GenParameter)j.next();
+        GenParameter genParameter = getGenParameters().get(i);
+        GenParameter oldGenParameterVersion = oldGenOperationVersion.getGenParameters().get(i);
         genParameter.reconcile(oldGenParameterVersion);
       }
-      for (Iterator i = getGenTypeParameters().iterator(), j = oldGenOperationVersion.getGenTypeParameters().iterator(); i.hasNext() && j.hasNext(); )
+      for (int i = 0, size = Math.min(getGenTypeParameters().size(), oldGenOperationVersion.getGenTypeParameters().size()); i < size; i++)
       {
-        GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
-        GenTypeParameter oldGenTypeParameterVersion = (GenTypeParameter)j.next();
+        GenTypeParameter genTypeParameter = getGenTypeParameters().get(i);
+        GenTypeParameter oldGenTypeParameterVersion = oldGenOperationVersion.getGenTypeParameters().get(i);
         genTypeParameter.reconcile(oldGenTypeParameterVersion);
       }
       reconcileSettings(oldGenOperationVersion);
@@ -801,18 +833,18 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     }
     else
     {
-      for (Iterator i = getGenParameters().iterator(); i.hasNext(); )
+      for (Iterator<GenParameter> i = getGenParameters().iterator(); i.hasNext(); )
       {
-        GenParameter genParameter = (GenParameter)i.next();
+        GenParameter genParameter = i.next();
         if (!genParameter.reconcile())
         {
           i.remove();
         }
       }
 
-      for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+      for (Iterator<GenTypeParameter> i = getGenTypeParameters().iterator(); i.hasNext(); )
       {
-        GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+        GenTypeParameter genTypeParameter = i.next();
         if (!genTypeParameter.reconcile())
         {
           i.remove();
@@ -877,12 +909,12 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     }
   }
 
-  public List getGenExceptions()
+  public List<GenClassifier> getGenExceptions()
   {
-    List result = new ArrayList();
-    for (Iterator i = getEcoreOperation().getEExceptions().iterator(); i.hasNext(); )
+    List<GenClassifier> result = new ArrayList<GenClassifier>();
+    for (EClassifier eClassifier : getEcoreOperation().getEExceptions())
     {
-      result.add(findGenClassifier((EClassifier)i.next()));
+      result.add(findGenClassifier(eClassifier));
     }
     return result;
   }
@@ -917,18 +949,18 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
         "boolean".equals(getReturnType()) &&
         getGenParameters().size() == 2 &&
         "org.eclipse.emf.common.util.DiagnosticChain".equals
-          (((GenParameter)getGenParameters().get(0)).getEcoreParameter().getEType().getInstanceClassName()) &&
+          ((getGenParameters().get(0)).getEcoreParameter().getEType().getInstanceClassName()) &&
         "java.util.Map".equals
-          (((GenParameter)getGenParameters().get(1)).getEcoreParameter().getEType().getInstanceClassName());
+          ((getGenParameters().get(1)).getEcoreParameter().getEType().getInstanceClassName());
   }
 
   public String getParameterNames(String separator)
   {
     StringBuffer parameterNames = new StringBuffer();
-    for (Iterator genParameters = getGenParameters().iterator(); genParameters.hasNext();)
+    for (Iterator<GenParameter> genParameterIterator = getGenParameters().iterator(); genParameterIterator.hasNext();)
     {
-      parameterNames.append(((GenParameter)genParameters.next()).getName());
-      if (genParameters.hasNext())
+      parameterNames.append(genParameterIterator.next().getName());
+      if (genParameterIterator.hasNext())
       {
         parameterNames.append(separator);
       }
@@ -941,14 +973,14 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
   {
     if (genOperation.getName().equals(getName()))
     {
-      List parameters = getGenParameters();
-      List otherParameters = genOperation.getGenParameters();
+      List<GenParameter> parameters = getGenParameters();
+      List<GenParameter> otherParameters = genOperation.getGenParameters();
       if (parameters.size() == otherParameters.size())
       {
-        for (Iterator i = parameters.iterator(), j = otherParameters.iterator(); i.hasNext(); )
+        for (Iterator<GenParameter> i = parameters.iterator(), j = otherParameters.iterator(); i.hasNext(); )
         {
-          GenParameter genParameter = (GenParameter)i.next();
-          GenParameter otherGenParameter = (GenParameter)j.next();
+          GenParameter genParameter = i.next();
+          GenParameter otherGenParameter = j.next();
           if (!genParameter.getType().equals(otherGenParameter.getType()))
           {
             return false;
@@ -965,17 +997,17 @@ public class GenOperationImpl extends GenTypedElementImpl implements GenOperatio
     if (!getGenTypeParameters().isEmpty() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
       StringBuilder result = new StringBuilder("<");
-      for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+      for (Iterator<GenTypeParameter> i = getGenTypeParameters().iterator(); i.hasNext(); )
       {
-        GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+        GenTypeParameter genTypeParameter = i.next();
         result.append(genTypeParameter.getName());
         List<EGenericType> eBounds = genTypeParameter.getEcoreTypeParameter().getEBounds();
         if (!eBounds.isEmpty())
         {
           result.append(" extends ");
-          for (Iterator j = genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); j.hasNext(); )
+          for (Iterator<EGenericType> j = genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); j.hasNext(); )
           {
-            EGenericType eBound = (EGenericType)j.next();
+            EGenericType eBound = j.next();
             result.append(getTypeArgument(eBound, true));
             if (j.hasNext())
             {

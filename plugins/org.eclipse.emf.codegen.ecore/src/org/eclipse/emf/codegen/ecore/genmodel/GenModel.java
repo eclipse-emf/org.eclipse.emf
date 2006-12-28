@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModel.java,v 1.39 2006/12/05 20:30:18 emerks Exp $
+ * $Id: GenModel.java,v 1.40 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -400,7 +400,7 @@ public interface GenModel extends GenBase
    * @model type="java.lang.String"
    * @generated
    */
-  EList getForeignModel();
+  EList<String> getForeignModel();
 
   /**
    * Returns the value of the '<em><b>Dynamic Templates</b></em>' attribute.
@@ -754,7 +754,7 @@ public interface GenModel extends GenBase
    * @model type="java.lang.String"
    * @generated
    */
-  EList getStaticPackages();
+  EList<String> getStaticPackages();
 
   /**
    * Returns the value of the '<em><b>Model Plugin Variables</b></em>' attribute list.
@@ -770,7 +770,7 @@ public interface GenModel extends GenBase
    * @model type="java.lang.String"
    * @generated
    */
-  EList getModelPluginVariables();
+  EList<String> getModelPluginVariables();
 
   /**
    * Returns the value of the '<em><b>Root Extends Interface</b></em>' attribute.
@@ -1114,6 +1114,7 @@ public interface GenModel extends GenBase
    * @see #isReflectiveDelegation()
    * @generated
    */
+  @Deprecated
   void setReflectiveDelegation(boolean value);
 
   /**
@@ -1614,7 +1615,7 @@ public interface GenModel extends GenBase
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenPackage" opposite="genModel" containment="true"
    * @generated
    */
-  EList getGenPackages();
+  EList<GenPackage> getGenPackages();
 
   /**
    * Returns the value of the '<em><b>Used Gen Packages</b></em>' reference list.
@@ -1630,11 +1631,11 @@ public interface GenModel extends GenBase
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenPackage"
    * @generated
    */
-  EList getUsedGenPackages();
+  EList<GenPackage> getUsedGenPackages();
 
-  EList getStaticGenPackages();
+  EList<GenPackage> getStaticGenPackages();
 
-  void initialize(Collection ePackages);
+  void initialize(Collection<? extends EPackage> ePackages);
 
   String getDriverNumber();
   String getDate();
@@ -1661,6 +1662,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} provides an
    * equivalent way to obtain this information. This method will be removed after 2.2.
    */
+  @Deprecated
   String getMergeRulesLocation();
 
   /**
@@ -1668,6 +1670,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} provides an equivalent to this method.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   JControlModel getJControlModel();
 
   /**
@@ -1675,6 +1678,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getClassEmitter();
 
   /**
@@ -1682,6 +1686,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEnumClassEmitter();
 
   /**
@@ -1689,6 +1694,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getFactoryClassEmitter();
 
   /**
@@ -1696,6 +1702,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getPackageClassEmitter();
 
   /**
@@ -1703,6 +1710,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getAdapterFactoryClassEmitter();
 
   /**
@@ -1710,6 +1718,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getSwitchClassEmitter();
 
   /**
@@ -1717,6 +1726,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getValidatorClassEmitter();
 
   /**
@@ -1724,6 +1734,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getPluginXMLEmitter();
 
   /**
@@ -1731,6 +1742,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getManifestMFEmitter();
 
   /**
@@ -1738,6 +1750,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getModelPluginClassEmitter();
 
   /**
@@ -1745,6 +1758,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getResourceClassEmitter();
 
   /**
@@ -1752,6 +1766,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getResourceFactoryClassEmitter();
 
   /**
@@ -1759,6 +1774,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getBuildPropertiesEmitter();
 
   /**
@@ -1766,6 +1782,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getXMLProcessorClassEmitter();
 
   //
@@ -1778,6 +1795,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getItemProviderEmitter();
 
   /**
@@ -1785,6 +1803,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getItemProviderAdapterFactoryEmitter();
 
   /**
@@ -1792,6 +1811,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditPluginClassEmitter();
 
   /**
@@ -1799,6 +1819,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditPluginXMLEmitter();
 
   /**
@@ -1806,6 +1827,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditManifestMFEmitter();
 
   /**
@@ -1813,6 +1835,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditPluginPropertiesEmitter();
 
   /**
@@ -1820,6 +1843,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditBuildPropertiesEmitter();
 
   //
@@ -1832,6 +1856,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditorEmitter();
 
   /**
@@ -1839,6 +1864,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getActionBarContributorEmitter();
 
   /**
@@ -1846,6 +1872,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getModelWizardEmitter();
 
   /**
@@ -1853,6 +1880,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditorAdvisorEmitter();
 
   /**
@@ -1860,6 +1888,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditorPluginClassEmitter();
 
   /**
@@ -1867,6 +1896,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditorPluginXMLEmitter();
 
   /**
@@ -1874,6 +1904,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditorManifestMFEmitter();
 
   /**
@@ -1881,6 +1912,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditorPluginPropertiesEmitter();
 
   /**
@@ -1888,6 +1920,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getEditorBuildPropertiesEmitter();
 
   //
@@ -1900,6 +1933,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getTestCaseEmitter();
 
   /**
@@ -1907,6 +1941,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getModelTestSuiteEmitter();
 
   /**
@@ -1914,6 +1949,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getPackageTestSuiteEmitter();
 
   /**
@@ -1921,6 +1957,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getPackageExampleEmitter();
 
   /**
@@ -1928,6 +1965,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getTestsPluginXMLEmitter();
 
   /**
@@ -1935,6 +1973,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getTestsManifestMFEmitter();
 
   /**
@@ -1942,6 +1981,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getTestsPluginPropertiesEmitter();
 
   /**
@@ -1949,6 +1989,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   JETEmitter getTestsBuildPropertiesEmitter();
 
   // boolean isGenerateEditPlugin();
@@ -1976,10 +2017,10 @@ public interface GenModel extends GenBase
    */
   GenClassifier findGenClassifier(EClassifier eClassifier);
 
-  List getAllGenPackagesWithClassifiers();
-  List getAllUsedGenPackagesWithClassifiers();
-  List getAllGenAndUsedGenPackagesWithClassifiers();
-  List getAllGenUsedAndStaticGenPackagesWithClassifiers();
+  List<GenPackage> getAllGenPackagesWithClassifiers();
+  List<GenPackage> getAllUsedGenPackagesWithClassifiers();
+  List<GenPackage> getAllGenAndUsedGenPackagesWithClassifiers();
+  List<GenPackage> getAllGenUsedAndStaticGenPackagesWithClassifiers();
 
   boolean hasModelPluginClass();
   boolean hasPluginSupport();
@@ -2009,23 +2050,23 @@ public interface GenModel extends GenBase
   String getEditorPluginID();
   String getTestsPluginID();
 
-  List getModelQualifiedPackageNames();
-  List getModelRequiredPlugins();
-  List getEditQualifiedPackageNames();
-  List getEditRequiredPlugins();
-  List getEditorQualifiedPackageNames();
-  List getEditorRequiredPlugins();
-  List getTestsQualifiedPackageNames();
-  List getTestsRequiredPlugins();
+  List<String> getModelQualifiedPackageNames();
+  List<String> getModelRequiredPlugins();
+  List<String> getEditQualifiedPackageNames();
+  List<String> getEditRequiredPlugins();
+  List<String> getEditorQualifiedPackageNames();
+  List<String> getEditorRequiredPlugins();
+  List<String> getTestsQualifiedPackageNames();
+  List<String> getTestsRequiredPlugins();
 
-  List getEditResourceDelegateImportedPluginClassNames();
+  List<String> getEditResourceDelegateImportedPluginClassNames();
 
   /**
    * Restore all the corresponding settings of the old version into this version.
    */
   boolean reconcile(GenModel oldGenModelVersion);
 
-  List getMissingPackages();
+  List<EPackage> getMissingPackages();
 
   boolean hasXMLDependency();
 
@@ -2034,12 +2075,12 @@ public interface GenModel extends GenBase
 
   String getXMLEncodingChoices();
 
-  List getEffectiveModelPluginVariables();
+  List<String> getEffectiveModelPluginVariables();
 
   boolean needsRuntimeCompatibility();
   
-  List/*of GenFeature*/ getAllGenFeatures();
-  List/*of GenFeature*/ getFilteredAllGenFeatures(); // Filtered for property keys to remove duplicates.
+  List<GenFeature> getAllGenFeatures();
+  List<GenFeature> getFilteredAllGenFeatures(); // Filtered for property keys to remove duplicates.
 
   /**
    * Set the code formatter options to be used to {@link #createCodeFormatter create} a new code formatter.
@@ -2047,6 +2088,8 @@ public interface GenModel extends GenBase
    * @deprecated In EMF 2.2, the {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} should be used to
    * record code formatter options in order to be used via the new Generator-based design. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   void setCodeFormatterOptions(Map options);
 
   /**
@@ -2056,6 +2099,7 @@ public interface GenModel extends GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   CodeFormatter createCodeFormatter();
 
   boolean isBooleanFlagsEnabled();
@@ -2076,7 +2120,7 @@ public interface GenModel extends GenBase
    */
   GenTypeParameter createGenTypeParameter();
 
-  Set getPropertyCategories();
+  Set<String> getPropertyCategories();
   
   boolean hasLocalGenModel();
   String getRelativeGenModelLocation();
@@ -2085,7 +2129,7 @@ public interface GenModel extends GenBase
 
   ExtendedMetaData getExtendedMetaData();
   
-  List computeMissingUsedGenPackages();
+  List<GenPackage> computeMissingUsedGenPackages();
 
   boolean isVirtualDelegation();
 

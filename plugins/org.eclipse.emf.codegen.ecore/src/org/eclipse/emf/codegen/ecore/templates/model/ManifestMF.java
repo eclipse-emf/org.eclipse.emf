@@ -68,21 +68,21 @@ public class ManifestMF
     stringBuffer.append(TEXT_6);
     }
     stringBuffer.append(TEXT_7);
-    Iterator packagesIterator = genModel.getModelQualifiedPackageNames().iterator(); if (packagesIterator.hasNext()) { String pack = (String)packagesIterator.next();
+    Iterator<String> packagesIterator = genModel.getModelQualifiedPackageNames().iterator(); if (packagesIterator.hasNext()) { String pack = packagesIterator.next();
     stringBuffer.append(TEXT_8);
     stringBuffer.append(pack);
-    while(packagesIterator.hasNext()) { pack = (String)packagesIterator.next();
+    while(packagesIterator.hasNext()) { pack = packagesIterator.next();
     stringBuffer.append(TEXT_9);
     stringBuffer.append(TEXT_10);
     stringBuffer.append(pack);
     }
     }
-    Iterator requiredPluginIterator = genModel.getModelRequiredPlugins().iterator(); if (requiredPluginIterator.hasNext()) { String pluginID = (String)requiredPluginIterator.next();
+    Iterator<String> requiredPluginIterator = genModel.getModelRequiredPlugins().iterator(); if (requiredPluginIterator.hasNext()) { String pluginID = requiredPluginIterator.next();
     stringBuffer.append(TEXT_11);
     stringBuffer.append(pluginID);
     if (!pluginID.startsWith("org.eclipse.core.runtime")){
     stringBuffer.append(TEXT_12);
-    } while(requiredPluginIterator.hasNext()) { pluginID = (String)requiredPluginIterator.next();
+    } while(requiredPluginIterator.hasNext()) { pluginID = requiredPluginIterator.next();
     stringBuffer.append(TEXT_13);
     stringBuffer.append(TEXT_14);
     stringBuffer.append(pluginID);

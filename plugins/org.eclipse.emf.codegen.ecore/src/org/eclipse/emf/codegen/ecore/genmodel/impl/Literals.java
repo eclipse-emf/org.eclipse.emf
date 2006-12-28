@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Literals.java,v 1.4 2005/06/08 06:18:44 nickb Exp $
+ * $Id: Literals.java,v 1.5 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -31,7 +31,10 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 public class Literals
 {
   // Supress default constructor for non-instantiability.
-  private Literals() {}
+  private Literals()
+  {
+    super();
+  }
 
   /**
    * Convenience dispatch method.  If the argument is an instance of
@@ -111,7 +114,7 @@ public class Literals
     }
     if (o instanceof Class)
     {
-      return toClassLiteral((Class)o, genModel);
+      return toClassLiteral((Class<?>)o, genModel);
     }
     return null;
   }
@@ -286,14 +289,17 @@ public class Literals
   /**
    * Returns a literal expression for the given <code>Class</code> value.
    */
-  public static String toClassLiteral(Class c, GenModel genModel)
+  public static String toClassLiteral(Class<?> c, GenModel genModel)
   {
     if (c == null) return "null";
     String name = c.getName(); 
 
     // See java.lang.Class.getName() javadoc for explanation of array encoding.
     int arrayDepth = 0;
-    for (; name.charAt(arrayDepth) == '['; arrayDepth++);
+    while (name.charAt(arrayDepth) == '[')
+    {
+      ++arrayDepth;
+    }
 
     if (arrayDepth > 0)
     {

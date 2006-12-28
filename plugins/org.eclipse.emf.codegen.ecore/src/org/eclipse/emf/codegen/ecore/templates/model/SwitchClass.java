@@ -107,13 +107,11 @@ public class SwitchClass
 String templateParameterName = null;
 if (genModel.useGenerics())
 {
-  Set usedNames = new HashSet();
-  for (Iterator i = genPackage.getGenClasses().iterator(); i.hasNext(); )
+  Set<String> usedNames = new HashSet<String>();
+  for (GenClass genClass : genPackage.getGenClasses())
   {
-    GenClass genClass = (GenClass)i.next();
-    for (Iterator j = genClass.getGenTypeParameters().iterator(); j.hasNext(); )
+    for (GenTypeParameter genTypeParameter : genClass.getGenTypeParameters())
     {
-      GenTypeParameter genTypeParameter = (GenTypeParameter)j.next();
       usedNames.add(genTypeParameter.getName());
     }
   }
@@ -166,7 +164,7 @@ if (genModel.useGenerics())
     stringBuffer.append(TEXT_23);
     stringBuffer.append(returnType);
     stringBuffer.append(TEXT_24);
-    for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
+    for (GenClass genClass : genPackage.getGenClasses()) {
     if (!genClass.isExternalInterface() && !genClass.isEObject() || genClass.isMapEntry()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; 
     stringBuffer.append(TEXT_25);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
@@ -192,7 +190,7 @@ if (genModel.useGenerics())
     stringBuffer.append(TEXT_34);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_35);
-    for (Iterator b=genClass.getSwitchGenClasses().iterator(); b.hasNext();) { GenClass baseGenClass = (GenClass)b.next();
+    for (GenClass baseGenClass : genClass.getSwitchGenClasses()) {
     stringBuffer.append(TEXT_36);
     stringBuffer.append(result);
     stringBuffer.append(TEXT_37);
@@ -219,7 +217,7 @@ if (genModel.useGenerics())
     }
     }
     stringBuffer.append(TEXT_47);
-    for (Iterator i=genPackage.getAllSwitchGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
+    for (GenClass genClass : genPackage.getAllSwitchGenClasses()) {
     stringBuffer.append(TEXT_48);
     stringBuffer.append(genClass.getFormattedName());
     stringBuffer.append(TEXT_49);

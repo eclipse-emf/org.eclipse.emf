@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenParameterImpl.java,v 1.14 2006/08/22 19:24:16 emerks Exp $
+ * $Id: GenParameterImpl.java,v 1.15 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -75,6 +75,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_PARAMETER;
@@ -173,6 +174,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -190,6 +192,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -205,6 +208,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -220,6 +224,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -238,6 +243,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -257,6 +263,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -276,6 +283,7 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -288,11 +296,13 @@ public class GenParameterImpl extends GenTypedElementImpl implements GenParamete
     return super.eIsSet(featureID);
   }
 
+  @Override
   public ETypedElement getEcoreTypedElement()
   {
     return getEcoreParameter();
   }
 
+  @Override
   public String getName()
   {
     return getEcoreParameter().getName();

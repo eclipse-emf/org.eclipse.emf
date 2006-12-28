@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapter.java,v 1.9 2006/11/09 20:38:09 davidms Exp $
+ * $Id: AbstractGeneratorAdapter.java,v 1.10 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -159,6 +159,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   public AbstractGeneratorAdapter()
   {
+    super();
   }
 
   public AbstractGeneratorAdapter(GeneratorAdapterFactory adapterFactory)
@@ -180,6 +181,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * Returns <code>true</code> when the type is this adapter's {@link #getAdapterFactory() factory}.
    * This allows generator adapters from different factories to be attached to the same objects.
    */
+  @Override
   public boolean isAdapterForType(Object type)
   {
     return type == adapterFactory;
@@ -189,7 +191,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * Returns an empty collection, indicating that by default no children are involved in determining whether code can be
    * generated for an object.
    */
-  public Collection getCanGenerateChildren(Object object, Object projectType)
+  public Collection<?> getCanGenerateChildren(Object object, Object projectType)
   {
     return Collections.EMPTY_LIST;
   }
@@ -209,7 +211,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * Returns an empty collection, indicating that by default there are no children of an object for which code should
    * be generated.
    */
-  public Collection getGenerateChildren(Object object, Object projectType)
+  public Collection<?> getGenerateChildren(Object object, Object projectType)
   {
     return Collections.EMPTY_LIST;
   }
@@ -425,16 +427,17 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
   {
     // Consult the generator option for backwards compatibility.
     //
+    @SuppressWarnings("deprecation")
     String[] legacyPath = getGenerator().getOptions().templatePath;
     if (legacyPath != null)
     {
       return legacyPath;
     }
 
-    List result = new ArrayList(getUserTemplatePath());
+    List<String> result = new ArrayList<String>(getUserTemplatePath());
     result.addAll(getBaseTemplatePath());
 
-    return (String[])result.toArray(new String[result.size()]);
+    return result.toArray(new String[result.size()]);
   }
 
   /**
@@ -449,17 +452,17 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * @see org.eclipse.emf.codegen.jet.JETCompiler#find(String[], String)
    * @since org.eclipse.emf.codegen.ecore 2.2.2
    */
-  protected List getUserTemplatePath()
+  protected List<String> getUserTemplatePath()
   {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /*
    * Returns the base portion of the dynamic template path.
    */
-  private List getBaseTemplatePath()
+  private List<String> getBaseTemplatePath()
   {
-    List result = new ArrayList();
+    List<String> result = new ArrayList<String>();
     addBaseTemplatePathEntries(result);
     return result;
   }
@@ -477,11 +480,12 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    * @see org.eclipse.emf.codegen.jet.JETCompiler#find(String[], String)
    * @since org.eclipse.emf.codegen.ecore 2.2.2
    */
-  protected void addBaseTemplatePathEntries(List templatePath)
+  protected void addBaseTemplatePathEntries(List<String> templatePath)
   {
+    // Subclasses may override
   }
 
-  protected static final Class[] OBJECT_ARGUMENT = new Class [ ] { Object.class };
+  protected static final Class<?>[] OBJECT_ARGUMENT = new Class[]{ Object.class };
 
   /**
    * If {@link Generator.Options#dynamicTemplates dynamic templates} are not being used, attempts to set the emitter to
@@ -493,7 +497,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
     {
       try
       {
-        Class templateClass = getClass().getClassLoader().loadClass(className);
+        Class<?> templateClass = getClass().getClassLoader().loadClass(className);
         Method emitterMethod = templateClass.getDeclaredMethod("generate", OBJECT_ARGUMENT);
         jetEmitter.setMethod(emitterMethod);
       }
@@ -512,6 +516,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    */
   protected void addClasspathEntries(JETEmitter jetEmitter) throws JETException
   {
+    // Subclasses may override
   }
 
   /**
@@ -1327,7 +1332,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
    *          {@link org.eclipse.jdt.core.formatter.CodeFormatter CodeFormatter}; however, it is not statically typed
    *          as such to avoid failure when running standalone.
    */
-  protected Object createCodeFormatter(Map options, URI workspacePath)
+  protected Object createCodeFormatter(Map<?, ?> options, URI workspacePath)
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
     {
@@ -1371,7 +1376,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
             org.eclipse.emf.codegen.ecore.Generator.createEMFProject
               (javaSource,
                null,
-               Collections.EMPTY_LIST,
+               Collections.<IProject>emptyList(),
                monitor,
                org.eclipse.emf.codegen.ecore.Generator.EMF_PLUGIN_PROJECT_STYLE);
           }
@@ -1479,7 +1484,7 @@ public abstract class AbstractGeneratorAdapter extends SingletonAdapterImpl impl
       }
     }
 
-    public static Object createCodeFormatter(Map options, String workspacePath)
+    public static Object createCodeFormatter(Map<?, ?> options, String workspacePath)
     {
       if (options == null)
       {

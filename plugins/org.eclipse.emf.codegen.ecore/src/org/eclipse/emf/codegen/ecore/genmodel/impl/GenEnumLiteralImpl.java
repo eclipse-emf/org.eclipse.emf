@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralImpl.java,v 1.13 2006/12/05 20:29:51 emerks Exp $
+ * $Id: GenEnumLiteralImpl.java,v 1.14 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -73,6 +73,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_ENUM_LITERAL;
@@ -123,6 +124,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM, newGenEnum, newGenEnum));
   }
 
+  @Override
   public EModelElement getEcoreModelElement()
   {
     return getEcoreEnumLiteral();
@@ -176,6 +178,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -193,6 +196,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -208,6 +212,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -223,6 +228,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -241,6 +247,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -260,6 +267,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -279,6 +287,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -291,6 +300,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
     return super.eIsSet(featureID);
   }
 
+  @Override
   public String getName()
   {
     return getEcoreEnumLiteral().getName();
@@ -352,6 +362,7 @@ public class GenEnumLiteralImpl extends GenBaseImpl implements GenEnumLiteral
     setEcoreEnumLiteral(eEnumLiteral);
   }
 
+  @Override
   public String getModelInfo()
   {
     StringBuffer result = new StringBuffer();

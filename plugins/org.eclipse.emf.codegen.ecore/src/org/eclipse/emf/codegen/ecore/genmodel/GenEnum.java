@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnum.java,v 1.4 2006/12/05 20:30:23 emerks Exp $
+ * $Id: GenEnum.java,v 1.5 2006/12/28 06:40:37 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -111,7 +111,7 @@ public interface GenEnum extends GenDataType
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenEnumLiteral" opposite="genEnum" containment="true"
    * @generated
    */
-  EList getGenEnumLiterals();
+  EList<GenEnumLiteral> getGenEnumLiterals();
 
   String getQualifiedName();
   String getImportedName();
@@ -120,7 +120,7 @@ public interface GenEnum extends GenDataType
   String getEnumLiteralID(GenEnumLiteral genEnumLiteral);
   int getEnumLiteralValue(GenEnumLiteral genEnumLiteral);
 
-  List/*of GenEnumLiteral*/ getUniqueValuedGenEnumLiterals();
+  List<GenEnumLiteral> getUniqueValuedGenEnumLiterals();
 
   void initialize(EEnum eEnum);
 

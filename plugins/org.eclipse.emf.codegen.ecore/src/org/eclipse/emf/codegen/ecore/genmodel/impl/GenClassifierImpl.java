@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifierImpl.java,v 1.11 2006/12/05 20:29:52 emerks Exp $
+ * $Id: GenClassifierImpl.java,v 1.12 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -60,7 +60,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * @generated
    * @ordered
    */
-  protected EList genTypeParameters = null;
+  protected EList<GenTypeParameter> genTypeParameters = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -77,6 +77,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_CLASSIFIER;
@@ -97,11 +98,11 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenTypeParameters()
+  public EList<GenTypeParameter> getGenTypeParameters()
   {
     if (genTypeParameters == null)
     {
-      genTypeParameters = new EObjectContainmentEList(GenTypeParameter.class, this, GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS);
+      genTypeParameters = new EObjectContainmentEList<GenTypeParameter>(GenTypeParameter.class, this, GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS);
     }
     return genTypeParameters;
   }
@@ -111,12 +112,13 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS:
-        return ((InternalEList)getGenTypeParameters()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenTypeParameters()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -126,6 +128,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -143,13 +146,15 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS:
         getGenTypeParameters().clear();
-        getGenTypeParameters().addAll((Collection)newValue);
+        getGenTypeParameters().addAll((Collection<? extends GenTypeParameter>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -160,6 +165,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -176,6 +182,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -188,6 +195,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
     return super.eIsSet(featureID);
   }
 
+  @Override
   public EModelElement getEcoreModelElement()
   {
     return getEcoreClassifier();
@@ -203,6 +211,7 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
     return importedName.substring(importedName.lastIndexOf(".") + 1);
   }
 
+  @Override
   public String getName()
   {
     return getEcoreClassifier().getName();
@@ -252,12 +261,12 @@ public abstract class GenClassifierImpl extends GenBaseImpl implements GenClassi
     return format(name, '_', prefix, true, true).toUpperCase();
   }
 
-  public List /* of String */ getGenConstraints()
+  public List<String> getGenConstraints()
   {
     return EcoreUtil.getConstraints(getEcoreClassifier());
   }
 
-  public List /* of String */ getAllGenConstraints()
+  public List<String> getAllGenConstraints()
   {
     return getGenConstraints();
   }

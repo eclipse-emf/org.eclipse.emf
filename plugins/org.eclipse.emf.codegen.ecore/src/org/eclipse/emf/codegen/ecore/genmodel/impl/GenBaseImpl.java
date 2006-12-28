@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseImpl.java,v 1.54 2006/12/13 20:36:39 marcelop Exp $
+ * $Id: GenBaseImpl.java,v 1.55 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -134,7 +134,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @generated
    * @ordered
    */
-  protected EList genAnnotations = null;
+  protected EList<GenAnnotation> genAnnotations = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -151,6 +151,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_BASE;
@@ -161,11 +162,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenAnnotations()
+  public EList<GenAnnotation> getGenAnnotations()
   {
     if (genAnnotations == null)
     {
-      genAnnotations = new EObjectContainmentWithInverseEList(GenAnnotation.class, this, GenModelPackage.GEN_BASE__GEN_ANNOTATIONS, GenModelPackage.GEN_ANNOTATION__GEN_BASE);
+      genAnnotations = new EObjectContainmentWithInverseEList<GenAnnotation>(GenAnnotation.class, this, GenModelPackage.GEN_BASE__GEN_ANNOTATIONS, GenModelPackage.GEN_ANNOTATION__GEN_BASE);
     }
     return genAnnotations;
   }
@@ -179,9 +180,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     if (source == null)
     {
-      for (Iterator i = getGenAnnotations().iterator(); i.hasNext(); )
+      for (GenAnnotation genAnnotation : getGenAnnotations())
       {
-        GenAnnotation genAnnotation = (GenAnnotation)i.next();
         if (genAnnotation.getSource() == null)
         {
           return genAnnotation;
@@ -190,9 +190,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
     else
     {
-      for (Iterator i = getGenAnnotations().iterator(); i.hasNext(); )
+      for (GenAnnotation genAnnotation : getGenAnnotations())
       {
-        GenAnnotation genAnnotation = (GenAnnotation)i.next();
         if (source.equals(genAnnotation.getSource()))
         {
           return genAnnotation;
@@ -208,12 +207,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_BASE__GEN_ANNOTATIONS:
-        return ((InternalEList)getGenAnnotations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getGenAnnotations()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -223,12 +224,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_BASE__GEN_ANNOTATIONS:
-        return ((InternalEList)getGenAnnotations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenAnnotations()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -238,6 +240,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -253,13 +256,15 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_BASE__GEN_ANNOTATIONS:
         getGenAnnotations().clear();
-        getGenAnnotations().addAll((Collection)newValue);
+        getGenAnnotations().addAll((Collection<? extends GenAnnotation>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -270,6 +275,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -286,6 +292,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -348,6 +355,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public final void generate(IProgressMonitor progressMonitor)
   {
     generate(BasicMonitor.toMonitor(progressMonitor));
@@ -357,6 +365,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public final void gen(Monitor progressMonitor)
   {
     generate(progressMonitor);
@@ -366,8 +375,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public void generate(Monitor progressMonitor)
   {
+    // Does nothing
   }
   
   /**
@@ -375,6 +386,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   protected void generate(Monitor progressMonitor, int style, List pluginVariables, String outputFilePath, JETEmitter jetEmitter)
   {
     try
@@ -490,6 +503,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   protected Monitor createMonitor(Monitor monitor, int ticks)
   {
     return CodeGenUtil.createMonitor(monitor, ticks);
@@ -500,6 +514,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   protected void generate
     (Monitor progressMonitor, 
      int style, 
@@ -516,6 +532,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   protected void generate
     (Monitor progressMonitor,
      int style, 
@@ -559,6 +577,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   public void gen
     (Monitor progressMonitor, 
      int style, 
@@ -576,6 +596,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   protected void generate
     (Monitor progressMonitor, 
      int style, 
@@ -593,6 +615,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   protected void generate
     (Monitor progressMonitor, 
      int style, 
@@ -775,6 +799,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   protected String formatCode(String contents, CodeFormatter codeFormatter)
   {
     return 
@@ -786,6 +811,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   /**
    * @deprecated in 2.2. Please use {@link #format(String, char, String, boolean, boolean)} instead.
    */
+  @Deprecated
   public String format(String name, char separator, String prefix, boolean includePrefix)
   {
     return CodeGenUtil.format(name, separator, prefix, includePrefix);
@@ -804,18 +830,20 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * Now, it simply returns an empty list.
    * @deprecated in 2.1.0.  Use {@link CodeGenUtil#parseName(String, char)} instead.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   protected final List parseName(String sourceName, char sourceSeparator)
   {
     return Collections.EMPTY_LIST;
   }
 
-  protected List getAllGenPackages()
+  protected List<GenPackage> getAllGenPackages()
   {
     GenModel genModel = getGenModel();
-    List genPackages =  genModel.getGenPackages();
-    List usedGenPackages =  genModel.getUsedGenPackages();
-    List staticGenPackages =  genModel.getStaticGenPackages();
-    List result = new ArrayList(genPackages.size() + usedGenPackages.size() + staticGenPackages.size());
+    List<GenPackage> genPackages =  genModel.getGenPackages();
+    List<GenPackage> usedGenPackages =  genModel.getUsedGenPackages();
+    List<GenPackage> staticGenPackages =  genModel.getStaticGenPackages();
+    List<GenPackage> result = new ArrayList<GenPackage>(genPackages.size() + usedGenPackages.size() + staticGenPackages.size());
     result.addAll(genPackages);
     result.addAll(usedGenPackages);
     result.addAll(staticGenPackages);
@@ -834,9 +862,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return genPackage;
     }
 
-    for (Iterator nestedGenPackages = genPackage.getNestedGenPackages().iterator(); nestedGenPackages.hasNext(); )
+    for (GenPackage nestedGenPackage : genPackage.getNestedGenPackages())
     {
-      GenPackage nestedGenPackage = (GenPackage)nestedGenPackages.next();
       GenPackage nestedResult = findGenPackageHelper(nestedGenPackage, ePackage);
       if (nestedResult != null)
       {
@@ -894,9 +921,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   protected GenFeature findGenFeature(EStructuralFeature eStructuralFeature)
   {
     GenClass genClass = findGenClass(eStructuralFeature.getEContainingClass());
-    for (Iterator i = genClass.getGenFeatures().iterator(); i.hasNext(); )
+    for (GenFeature genFeature : genClass.getGenFeatures())
     {
-      GenFeature genFeature = (GenFeature)i.next();
       if (eStructuralFeature.getName().equals(genFeature.getEcoreFeature().getName())) //FB TBD different objects for ecore model!
       {
         return genFeature;
@@ -909,18 +935,17 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   protected GenOperation findGenOperation(EOperation eOperation)
   {
     GenClass genClass = findGenClass(eOperation.getEContainingClass());
-    genOperationsLoop: for (Iterator i = genClass.getGenOperations().iterator(); i.hasNext();)
+    genOperationsLoop: for (GenOperation genOperation : genClass.getGenOperations())
     {
-      GenOperation genOperation = (GenOperation)i.next();
       EOperation ecoreOperation = genOperation.getEcoreOperation();
       if (eOperation.getName().equals(ecoreOperation.getName())
         && eOperation.getEParameters().size() == ecoreOperation.getEParameters().size())
       {
         for (int j = 0; j < eOperation.getEParameters().size(); j++)
         {
-          EParameter ecoreParameter = (EParameter)eOperation.getEParameters().get(j);
+          EParameter ecoreParameter = eOperation.getEParameters().get(j);
 
-          if (!ecoreParameter.getEType().getName().equals(((EParameter)ecoreOperation.getEParameters().get(j)).getEType().getName()))
+          if (!ecoreParameter.getEType().getName().equals((ecoreOperation.getEParameters().get(j)).getEType().getName()))
           {
             continue genOperationsLoop;
           }
@@ -1010,11 +1035,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return getGenModel().getImportedName(isBlank(result) ? "org.eclipse.emf.ecore.util.FeatureMap" : result);
   }
 
-  protected Class getInstanceClass(EClassifier eType)
+  protected Class<?> getInstanceClass(EClassifier eType)
   {
     try
     {
-      Class instanceClass = eType.getInstanceClass();
+      Class<?> instanceClass = eType.getInstanceClass();
       return instanceClass;
     }
     catch (Exception e)
@@ -1034,7 +1059,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       {
         return false;
       }
-      Class instanceClass = (Class)result;
+      Class<?> instanceClass = (Class<?>)result;
       return instanceClass.isPrimitive();
     }
     catch (Exception e)
@@ -1045,7 +1070,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected String getPrimitiveObjectType(EClassifier eType)
   {
-    Class instanceClass = getInstanceClass(eType);
+    Class<?> instanceClass = getInstanceClass(eType);
     if (instanceClass == java.lang.Boolean.TYPE)
       return "java.lang.Boolean";
     if (instanceClass == java.lang.Byte.TYPE)
@@ -1069,7 +1094,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     if (isPrimitiveType(eType))
     {
-      Class instanceClass = eType.getInstanceClass();
+      Class<?> instanceClass = eType.getInstanceClass();
       if (instanceClass == java.lang.Boolean.TYPE)
         return "false";
       if (instanceClass == java.lang.Byte.TYPE    ||
@@ -1183,12 +1208,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * anonymous complex type, only that class itself is returned; otherwise,
    * no such anonymous classes are included.
    */
-  protected List getTypeGenClasses(EClassifier eType, GenPackage firstGenPackage, List genPackages, int max)
+  protected List<GenClass> getTypeGenClasses(EClassifier eType, GenPackage firstGenPackage, List<GenPackage> genPackages, int max)
   {
-    if (max == 0 || !(eType instanceof EClass)) return Collections.EMPTY_LIST;
+    if (max == 0 || !(eType instanceof EClass)) return Collections.emptyList();
 
     boolean hasMax = max > -1;
-    List result = new ArrayList();
+    List<GenClass> result = new ArrayList<GenClass>();
     EClass baseClass = (EClass)eType;
 
     ExtendedMetaData extendedMetaData = getExtendedMetaData();
@@ -1199,25 +1224,23 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
 
     // order genPackages by putting firstGenPackage (if non-null) first
-    List orderedGenPackages = genPackages;
+    List<GenPackage> orderedGenPackages = genPackages;
     if (firstGenPackage != null)
     {
-      orderedGenPackages = new ArrayList(genPackages.size() + 1);
+      orderedGenPackages = new ArrayList<GenPackage>(genPackages.size() + 1);
       orderedGenPackages.add(firstGenPackage);
-      for (Iterator iter = genPackages.iterator(); iter.hasNext(); )
+      for (GenPackage genPackage : genPackages)
       {
-        GenPackage genPackage = (GenPackage)iter.next();
         if (genPackage != firstGenPackage) orderedGenPackages.add(genPackage);
       }
     }
 
-    for (Iterator pIter = orderedGenPackages.iterator(); pIter.hasNext(); )
+    for (GenPackage genPackage : orderedGenPackages)
     {
       if (baseClass == EcorePackage.eINSTANCE.getEObject())
       {
-        for (Iterator cIter = ((GenPackage)pIter.next()).getOrderedGenClasses().iterator(); cIter.hasNext(); )
+        for (GenClass genClass : genPackage.getOrderedGenClasses())
         {
-          GenClass genClass = (GenClass)cIter.next();
           if (!genClass.isAbstract() && !extendedMetaData.isAnonymous(genClass.getEcoreClass()))
           {
             result.add(genClass);
@@ -1227,9 +1250,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       }
       else
       {
-        for (Iterator cIter = ((GenPackage)pIter.next()).getOrderedGenClasses().iterator(); cIter.hasNext(); )
+        for (GenClass genClass : genPackage.getOrderedGenClasses())
         {
-          GenClass genClass = (GenClass)cIter.next();
           if (!genClass.isAbstract() && 
                 baseClass.isSuperTypeOf(genClass.getEcoreClass()) && 
                 !extendedMetaData.isAnonymous(genClass.getEcoreClass()))
@@ -1248,6 +1270,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * 1.4.
    * @deprecated
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   protected static Set getJavaReservedWords()
   {
     return CodeGenUtil.getJavaReservedWords();
@@ -1256,6 +1280,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   /**
    * @deprecated
    */
+  @Deprecated
+  @SuppressWarnings("unchecked")
   protected static Set getJavaLangTypes()
   {
     return CodeGenUtil.getJavaDefaultTypes();
@@ -1285,12 +1311,11 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * Return all GenClasses in the specified genClasses list that are
    * accepted by filter; all are accepted if filter is null.
    */
-  protected List filterGenClasses(List genClasses, GenClassFilter filter)
+  protected List<GenClass> filterGenClasses(List<GenClass> genClasses, GenClassFilter filter)
   {
-    List result = new ArrayList();
-    for (Iterator iter = genClasses.iterator(); iter.hasNext(); )
+    List<GenClass> result = new ArrayList<GenClass>();
+    for (GenClass genClass : genClasses)
     {
-      GenClass genClass = (GenClass)iter.next();
       if (filter == null || filter.accept(genClass))
       {
         result.add(genClass);
@@ -1304,13 +1329,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * corresponding to each EClass.  Return all such GenClasses if filter is
    * null, or those accepted by filter, otherwise.
    */
-  protected List collectGenClasses(List eClasses, GenClassFilter filter)
+  protected List<GenClass> collectGenClasses(List<EClass> eClasses, GenClassFilter filter)
   {
     GenModelImpl genModelImpl = (GenModelImpl)getGenModel();
-    List result = new ArrayList();
+    List<GenClass> result = new ArrayList<GenClass>();
     for (int i = 0, size = eClasses.size(); i < size; ++i)
     {
-      GenClass genClass = genModelImpl.findGenClass((EClass)eClasses.get(i));
+      GenClass genClass = genModelImpl.findGenClass(eClasses.get(i));
       if (filter == null || filter.accept(genClass))
       {
         result.add(genClass);
@@ -1325,16 +1350,16 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * all such GenFeatures if filter is null, or those accepted by filter,
    * otherwise.  Either list argument is ignored if it is null.
    */
-  protected List collectGenFeatures(List genClasses, List genFeatures, GenFeatureFilter filter)
+  protected List<GenFeature> collectGenFeatures(List<GenClass> genClasses, List<GenFeature> genFeatures, GenFeatureFilter filter)
   {
-    List result = new ArrayList();
+    List<GenFeature> result = new ArrayList<GenFeature>();
 
     if (genClasses != null)
     {
       for (int i = 0, iSize = genClasses.size(); i < iSize; ++i)
       {
-        GenClass genClass = (GenClass)genClasses.get(i);
-        List features = genClass.getGenFeatures();
+        GenClass genClass = genClasses.get(i);
+        List<GenFeature> features = genClass.getGenFeatures();
         if (filter == null)
         {
           result.addAll(features);
@@ -1343,7 +1368,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         {
           for (int j = 0, jSize = features.size(); j < jSize; ++j)
           {
-            GenFeature genFeature = (GenFeature)features.get(j);
+            GenFeature genFeature = features.get(j);
             if (filter.accept(genFeature))
             {
               result.add(genFeature);
@@ -1363,7 +1388,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       {
         for (int i = 0, size = genFeatures.size(); i < size; ++i)
         {
-          GenFeature genFeature = (GenFeature)genFeatures.get(i);
+          GenFeature genFeature = genFeatures.get(i);
           if (filter.accept(genFeature))
           {
             result.add(genFeature);
@@ -1380,24 +1405,21 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * Return all such GenOperations if filter is null, or those accepted by
    * filter, otherwise.  Either list argument is ignored if it is null.
    */
-  protected List collectGenOperations(List genClasses, List genOperations, GenOperationFilter filter)
+  protected List<GenOperation> collectGenOperations(List<GenClass> genClasses, List<GenOperation> genOperations, GenOperationFilter filter)
   {
-    List result = new ArrayList();
+    List<GenOperation> result = new ArrayList<GenOperation>();
 
     if (genClasses != null)
     {
-      for (Iterator iter = genClasses.iterator(); iter.hasNext(); )
+      for (GenClass genClass : genClasses)
       {
-        GenClass genClass = (GenClass)iter.next();
         LOOP:
-        for (Iterator sIter = genClass.getGenOperations().iterator(); sIter.hasNext(); )
+        for (GenOperation genOperation : genClass.getGenOperations())
         {
-          GenOperation genOperation = (GenOperation)sIter.next();
           if (filter == null || filter.accept(genOperation))
           {
-            for (Iterator i = result.iterator(); i.hasNext(); )
+            for (GenOperation otherGenOperation : result)
             {
-              GenOperation otherGenOperation = (GenOperation)i.next();
               if (otherGenOperation.isOverrideOf(genOperation))
               {
                 continue LOOP;
@@ -1412,14 +1434,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     if (genOperations != null)
     {
       LOOP:
-      for (Iterator iter = genOperations.iterator(); iter.hasNext(); )
+      for (GenOperation genOperation : genOperations)
       {
-        GenOperation genOperation = (GenOperation)iter.next();
         if (filter == null || filter.accept(genOperation))
         {
-          for (Iterator i = result.iterator(); i.hasNext(); )
+          for (GenOperation otherGenOperation : result)
           {
-            GenOperation otherGenOperation = (GenOperation)i.next();
             if (otherGenOperation.isOverrideOf(genOperation))
             {
               continue LOOP;
@@ -1438,18 +1458,16 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * all such constraint if filter is null, or those accepted by filter,
    * otherwise.  Either list argument is ignored if it is null.
    */
-  protected List collectGenConstraints(List genClassifiers, List genConstraints, GenConstraintFilter filter)
+  protected List<String> collectGenConstraints(List<? extends GenClassifier> genClassifiers, List<String> genConstraints, GenConstraintFilter filter)
   {
-    List result = new UniqueEList();
+    List<String> result = new UniqueEList<String>();
 
     if (genClassifiers != null)
     {
-      for (Iterator iter = genClassifiers.iterator(); iter.hasNext(); )
+      for (GenClassifier genClassifier : genClassifiers)
       {
-        GenClassifier genClassifier = (GenClassifier)iter.next();
-        for (Iterator sIter = genClassifier.getGenConstraints().iterator(); sIter.hasNext(); )
+        for (String genConstraint : genClassifier.getGenConstraints())
         {
-          String genConstraint = (String)sIter.next();
           if (filter == null || filter.accept(genConstraint))
           {
             result.add(genConstraint);
@@ -1460,9 +1478,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
     if (genConstraints != null)
     {
-      for (Iterator iter = genConstraints.iterator(); iter.hasNext(); )
+      for (String genConstraint : genConstraints)
       {
-        String genConstraint = (String)iter.next();
         if (filter == null || filter.accept(genConstraint))
         {
           result.add(genConstraint);
@@ -1486,6 +1503,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   {
     public AnnotationFilterImpl()
     {
+      super();
     }
     
     public boolean accept(EModelElement eModelElement, String source, String key, String value)
@@ -1496,26 +1514,24 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   
   protected static final AnnotationFilter DEFAULT_ANNOTATION_FILTER = new AnnotationFilterImpl();
   
-  protected List getAnnotationInfo(EModelElement eModelElement)
+  protected List<String> getAnnotationInfo(EModelElement eModelElement)
   {
     return getAnnotationInfo(eModelElement, DEFAULT_ANNOTATION_FILTER);
   }
   
-  protected List getAnnotationInfo(EModelElement eModelElement, AnnotationFilter annotationFilter)
+  protected List<String> getAnnotationInfo(EModelElement eModelElement, AnnotationFilter annotationFilter)
   {
-    List result = Collections.EMPTY_LIST;
-    for (Iterator i = eModelElement.getEAnnotations().iterator(); i.hasNext(); )
+    List<String> result = Collections.emptyList();
+    for (EAnnotation eAnnotation : eModelElement.getEAnnotations())
     {
-      EAnnotation eAnnotation = (EAnnotation)i.next();
       String source = eAnnotation.getSource();
       if (source != null)
       {
         StringBuffer stringBuffer = null;
-        for (Iterator j = eAnnotation.getDetails().iterator(); j.hasNext(); )
+        for (Map.Entry<String, String> entry : eAnnotation.getDetails())
         {
-          Map.Entry mapEntry = (Map.Entry)j.next();
-          String key = (String)mapEntry.getKey();
-          String value = (String)mapEntry.getValue();
+          String key = entry.getKey();
+          String value = entry.getValue();
           if (annotationFilter.accept(eModelElement, source, key, value))
           {
             if (stringBuffer == null)
@@ -1533,7 +1549,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         {
           if (result.size() == 0)
           {
-            result = new ArrayList();
+            result = new ArrayList<String>();
           }
           result.add(stringBuffer.toString());
         } 
@@ -1554,9 +1570,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected void appendAnnotationInfo(StringBuffer result, boolean qualified, EModelElement eModelElement, AnnotationFilter annotationFilter)
   {
-    for (Iterator i = getAnnotationInfo(eModelElement, annotationFilter).iterator(); i.hasNext(); )
+    for (String annotationInfo : getAnnotationInfo(eModelElement, annotationFilter))
     {
-      String annotationInfo = (String)i.next();
       appendLineBreak(result);
       String qualifier = qualified && eModelElement instanceof ENamedElement ? ((ENamedElement)eModelElement).getName() : null;
       if (annotationInfo.startsWith(ExtendedMetaData.ANNOTATION_URI))
@@ -1678,32 +1693,32 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
   protected abstract class UniqueNameHelper
   {
-    private Map nameToObjectMap;
-    private Map objectToNameMap;
+    private Map<String, Object> nameToObjectMap;
+    private Map<Object, String> objectToNameMap;
 
     protected UniqueNameHelper()
     {
-      nameToObjectMap = new HashMap();
-      objectToNameMap = new HashMap();
+      nameToObjectMap = new HashMap<String, Object>();
+      objectToNameMap = new HashMap<Object, String>();
     }
 
     protected UniqueNameHelper(int initialMapCapacity)
     {
-      nameToObjectMap = new HashMap(initialMapCapacity);
-      objectToNameMap = new HashMap(initialMapCapacity);
+      nameToObjectMap = new HashMap<String, Object>(initialMapCapacity);
+      objectToNameMap = new HashMap<Object, String>(initialMapCapacity);
     }
 
     protected abstract String getName(Object o);
 
-    protected List getAlternateNames(Object o)
+    protected List<String> getAlternateNames(Object o)
     {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
 
     public String getUniqueName(Object o)
     {
       if (!contains(o)) add(o);
-      return (String)objectToNameMap.get(o);
+      return objectToNameMap.get(o);
     }
 
     protected boolean add(Object o)
@@ -1714,11 +1729,14 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
 
       if (containsName(name))
       {
-        List alternates = getAlternateNames(o);
-        for (Iterator i = alternates.iterator(); i.hasNext(); )
+        List<String> alternates = getAlternateNames(o);
+        for (String aName : alternates)
         {
-          name = (String)i.next();
-          if (!containsName(name)) break;
+          if (!containsName(name)) 
+          {
+            name = aName;
+            break;
+          }
         }
       }
 
@@ -1742,12 +1760,12 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       return true;
     }
 
-    public boolean addAll(Collection c)
+    public boolean addAll(Collection<?> c)
     {
       boolean result = false;
-      for (Iterator i = c.iterator(); i.hasNext(); )
+      for (Object o : c)
       {
-        if (add(i.next())) result = true;
+        if (add(o)) result = true;
       }
       return result;
     }
@@ -1775,6 +1793,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public final void generateEdit(IProgressMonitor progressMonitor)
   {
     generateEdit(BasicMonitor.toMonitor(progressMonitor));
@@ -1784,6 +1803,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public final void genEdit(Monitor progressMonitor)
   {
     generateEdit(progressMonitor);
@@ -1793,8 +1813,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public void generateEdit(Monitor progressMonitor)
   {
+    // Do nothing
   }
 
   public boolean canGenerateEditor()
@@ -1806,6 +1828,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public final void generateEditor(IProgressMonitor progressMonitor)
   {
     generateEditor(BasicMonitor.toMonitor(progressMonitor));
@@ -1815,6 +1838,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public final void genEditor(Monitor progressMonitor)
   {
     generateEditor(progressMonitor);
@@ -1824,13 +1848,16 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public void generateEditor(Monitor progressMonitor)
   {
+    // Do nothing
   }
 
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @Deprecated
   public boolean canGenerateSchema()
   {
     return false;
@@ -1839,6 +1866,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @Deprecated
   public final void generateSchema(IProgressMonitor progressMonitor)
   {
     generateSchema(BasicMonitor.toMonitor(progressMonitor));
@@ -1847,6 +1875,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @Deprecated
   public final void genSchema(Monitor progressMonitor)
   {
     generateSchema(progressMonitor);
@@ -1855,8 +1884,10 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @Deprecated
   public void generateSchema(Monitor progressMonitor)
   {
+    // Do nothing
   }
 
   public boolean canGenerateTests()
@@ -1868,6 +1899,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public final void generateTests(IProgressMonitor progressMonitor)
   {
     generateTests(BasicMonitor.toMonitor(progressMonitor));
@@ -1877,6 +1909,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public final void genTests(Monitor progressMonitor)
   {
     generateTests(progressMonitor);
@@ -1886,14 +1919,17 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public void generateTests(Monitor progressMonitor)
   {
+    // Do nothing
   }
 
   /**
    * @deprecated In EMF 2.2, this moved to {@link org.eclipse.emf.codegen.util.GIFEmitter GIFEmitter}.
    * This copy will be removed after 2.2.
    */
+  @Deprecated
   protected static class GIFEmitter
   {
     protected String inputFile;
@@ -2010,6 +2046,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, this moved to {@link org.eclipse.emf.codegen.util.GIFEmitter GIFEmitter}.
    * This copy will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   public static class ColorInformation
   {
     public static ColorInformation getColor(int index)
@@ -2130,6 +2168,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
   }
 
+  @Override
   public String eURIFragmentSegment(EStructuralFeature eStructuralFeature, EObject eObject)
   {
     if (eObject instanceof GenBaseImpl)
@@ -2139,9 +2178,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       if (name != null)
       {
         int count = 0;
-        for (Iterator i = eContents().iterator(); i.hasNext(); )
+        for (EObject otherEObject: eContents())
         {
-          Object otherEObject = i.next();
           if (otherEObject == eObject)
           {
             break;
@@ -2164,6 +2202,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return super.eURIFragmentSegment(eStructuralFeature, eObject);
   }
 
+  @Override
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
     if (!uriFragmentSegment.startsWith("@"))
@@ -2183,9 +2222,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
         }
       }
 
-      for (Iterator i = eContents().iterator(); i.hasNext(); )
+      for (Object object : eContents())
       {
-        Object object = i.next();
         if (object instanceof GenBaseImpl)
         {
           GenBaseImpl genBaseImpl = (GenBaseImpl)object;
@@ -2208,6 +2246,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * @deprecated In EMF 2.2, this moved to {@link org.eclipse.emf.codegen.util.CodeGenUtil#unicodeEscapeEncode CodeGenUtil}.
    * This copy will be removed after 2.2.
    */
+  @Deprecated
   protected static String unicodeEscapeEncode(String unicode)
   {
     StringBuffer result = new StringBuffer(unicode.length());
@@ -2287,16 +2326,15 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     return eContainer() == null ? ExtendedMetaData.INSTANCE : ((GenBaseImpl)eContainer()).getExtendedMetaData();
   }
 
-  protected void addNonDuplicates(Collection target, Collection source, Set noDupSet)
+  protected <T> void addNonDuplicates(Collection<T> target, Collection<? extends T> source, Set<T> noDupSet)
   {
     if (noDupSet == null)
     {
-      noDupSet = new HashSet(target);
+      noDupSet = new HashSet<T>(target);
     }
 
-    for (Iterator iter = source.iterator(); iter.hasNext(); )
+    for (T o : source)
     {
-      Object o = iter.next();
       if (noDupSet.add(o))
       {
         target.add(o);
@@ -2309,6 +2347,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalents to the methods in this class. This class will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   protected static class EclipseUtil
   {
     protected static String formatCode(String contents, CodeFormatter codeFormatter)
@@ -2702,11 +2742,13 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   /**
    * @deprecated in EMF 2.2
    */
+  @Deprecated
   protected static final URI PLATFORM_RESOURCE_URI = URI.createURI("platform:/resource/");
 
   /**
    * @deprecated in EMF 2.2
    */
+  @Deprecated
   protected static final URI EMPTY_URI = URI.createURI("/");
 
   /**
@@ -2714,6 +2756,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   public boolean findOrCreateContainer
     (Monitor progressMonitor, int style, List pluginVariables, URI outputURI, boolean forceStyle)
   {
@@ -2737,6 +2781,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public boolean exists(URI uri)
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -2774,6 +2819,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public boolean isReadOnly(URI uri)
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -2803,6 +2849,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public InputStream createInputStream(URI uri) throws Exception
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -2823,6 +2870,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public OutputStream createOutputStream(URI uri) throws Exception
   {
     URIConverter uriConverter = eResource().getResourceSet().getURIConverter();
@@ -2834,6 +2882,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public String getContents(URI uri) throws Exception
   {
     BufferedInputStream bufferedInputStream = new BufferedInputStream(createInputStream(uri));
@@ -2848,6 +2897,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public String getEncoding(URI uri)
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -2866,6 +2916,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public void setOverwriteable(URI uri) throws Exception
   {
     if (EMFPlugin.IS_ECLIPSE_RUNNING)
@@ -2890,6 +2941,8 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
   
   protected static class GenAnnotationCopier extends EcoreUtil.Copier
   {
+    private static final long serialVersionUID = 1L;
+
     protected ResourceSet newContext;
     protected EObject oldContext;
     
@@ -2906,6 +2959,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     }
     
     // If the value is null, the key is a referenced object
+    @Override
     public EObject get(Object key)
     {
       EObject value = super.get(key);
@@ -2934,7 +2988,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
     if (!oldGenBase.getGenAnnotations().isEmpty() && eResource() != null && eResource().getResourceSet() != null)
     {
       GenAnnotationCopier copier = new GenAnnotationCopier(eResource().getResourceSet(), oldGenBase);
-      Collection genAnnotationsCopy = copier.copyAll(oldGenBase.getGenAnnotations());
+      Collection<GenAnnotation> genAnnotationsCopy = copier.copyAll(oldGenBase.getGenAnnotations());
       copier.copyReferences();
 
       getGenAnnotations().clear();
@@ -2978,7 +3032,7 @@ public abstract class GenBaseImpl extends EObjectImpl implements GenBase
       EClassifier eClassifier = eGenericType.getEClassifier();
       if (eClassifier != null)
       {
-        GenClassifier genClassifier = findGenClassifier(eClassifier);
+        findGenClassifier(eClassifier);
         result.append(isImported ? getImportedType(eClassifier, false) : getType(eClassifier, false));
         result.append(getTypeArguments(eGenericType.getETypeArguments(), isImported));
       }

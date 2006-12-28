@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorAdapterFactory.java,v 1.2 2006/11/08 20:36:10 davidms Exp $
+ * $Id: GeneratorAdapterFactory.java,v 1.3 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -86,7 +86,7 @@ public interface GeneratorAdapterFactory extends AdapterFactory
       /**
        * Returns the descriptors registered against the given package ID.
        */
-      Collection getDescriptors(String packageID);
+      Collection<Descriptor> getDescriptors(String packageID);
 
       /**
        * Registers the given descriptor against the specified package ID.
@@ -122,10 +122,11 @@ public interface GeneratorAdapterFactory extends AdapterFactory
     public static class DelegatingRegistry implements Registry
     {
       protected Registry delegateRegistry;
-      protected Map map = new HashMap();
+      protected Map<String, List<Descriptor>> map = new HashMap<String, List<Descriptor>>();
 
       public DelegatingRegistry()
       {
+        super();
       }
 
       public DelegatingRegistry(Registry delegateRegistry)
@@ -133,15 +134,15 @@ public interface GeneratorAdapterFactory extends AdapterFactory
         this.delegateRegistry = delegateRegistry;
       }
 
-      public Collection getDescriptors(String packageID)
+      public Collection<Descriptor> getDescriptors(String packageID)
       {
-        List descriptors = getDescriptors(packageID, false);
-        return descriptors != null && !descriptors.isEmpty() ? new ArrayList(descriptors) : delegatedGetDescriptors(packageID);
+        List<Descriptor> descriptors = getDescriptors(packageID, false);
+        return descriptors != null && !descriptors.isEmpty() ? new ArrayList<Descriptor>(descriptors) : delegatedGetDescriptors(packageID);
       }
 
-      protected Collection delegatedGetDescriptors(String packageID)
+      protected Collection<Descriptor> delegatedGetDescriptors(String packageID)
       {
-        return delegateRegistry != null ? delegateRegistry.getDescriptors(packageID) : Collections.EMPTY_LIST;
+        return delegateRegistry != null ? delegateRegistry.getDescriptors(packageID) : Collections.<Descriptor>emptyList();
       }
 
       public boolean addDescriptor(String packageID, Descriptor descriptor)
@@ -151,7 +152,7 @@ public interface GeneratorAdapterFactory extends AdapterFactory
 
       public boolean removeDescriptor(String packageID, Descriptor descriptor)
       {
-        List list = getDescriptors(packageID, false);
+        List<Descriptor> list = getDescriptors(packageID, false);
         if (list != null)
         {
           return list.remove(descriptor);
@@ -161,7 +162,7 @@ public interface GeneratorAdapterFactory extends AdapterFactory
 
       public boolean removeDescriptors(String packageID)
       {
-        List list = getDescriptors(packageID, false);
+        List<Descriptor> list = getDescriptors(packageID, false);
         if (list != null && !list.isEmpty())
         {
           map.remove(packageID);
@@ -175,12 +176,12 @@ public interface GeneratorAdapterFactory extends AdapterFactory
         map.clear();
       }
 
-      protected List getDescriptors(String packageID, boolean forceCreate)
+      protected List<Descriptor> getDescriptors(String packageID, boolean forceCreate)
       {
-        List result = (List)map.get(packageID);
+        List<Descriptor> result = map.get(packageID);
         if (result == null && forceCreate)
         {
-          result = new ArrayList();
+          result = new ArrayList<Descriptor>();
           map.put(packageID, result);
         }
         return result;

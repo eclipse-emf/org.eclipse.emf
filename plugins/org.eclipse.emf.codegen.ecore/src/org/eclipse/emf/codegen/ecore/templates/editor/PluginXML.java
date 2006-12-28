@@ -128,7 +128,7 @@ public class PluginXML
     stringBuffer.append(TEXT_9);
     stringBuffer.append(genModel.getQualifiedEditorPluginClassName());
     stringBuffer.append(TEXT_10);
-    for (Iterator j=genModel.getEditorRequiredPlugins().iterator(); j.hasNext();) { String pluginID = (String)j.next();
+    for (String pluginID : genModel.getEditorRequiredPlugins()) { 
     stringBuffer.append(TEXT_11);
     stringBuffer.append(pluginID);
     stringBuffer.append(TEXT_12);
@@ -149,14 +149,14 @@ public class PluginXML
     }
     stringBuffer.append(TEXT_20);
     if (genModel.sameEditEditorProject()) {
-     for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); 
+     for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
     if (!genPackage.getGenClasses().isEmpty()) {
     stringBuffer.append(TEXT_21);
     stringBuffer.append(genPackage.getNSURI());
     stringBuffer.append(TEXT_22);
     stringBuffer.append(genPackage.getQualifiedItemProviderAdapterFactoryClassName());
     stringBuffer.append(TEXT_23);
-    for (ListIterator j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {
+    for (ListIterator<?> j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {
     stringBuffer.append(TEXT_24);
     stringBuffer.append((j.hasPrevious()? " " : "\"") + j.next() + (j.hasNext() ? "" : "\""));
     }
@@ -165,7 +165,7 @@ public class PluginXML
     }
     }
     if (genModel.sameModelEditorProject()) {
-     for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); 
+     for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
     stringBuffer.append(TEXT_26);
     stringBuffer.append(genPackage.getNSURI());
     stringBuffer.append(TEXT_27);
@@ -228,7 +228,7 @@ public class PluginXML
     stringBuffer.append(genModel.getQualifiedEditorAdvisorClassName());
     stringBuffer.append(TEXT_55);
     }
-    for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();
+    for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
     if (genPackage.hasConcreteClasses()){
     if (genPackage.isGenerateModelWizard()) {
     if (genModel.isRichClientPlatform()) {

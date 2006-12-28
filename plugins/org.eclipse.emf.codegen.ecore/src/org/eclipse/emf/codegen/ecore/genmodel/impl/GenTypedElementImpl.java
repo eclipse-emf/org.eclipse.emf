@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElementImpl.java,v 1.12 2006/12/13 20:44:42 emerks Exp $
+ * $Id: GenTypedElementImpl.java,v 1.13 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -63,6 +63,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_TYPED_ELEMENT;
@@ -70,6 +71,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
 
   public abstract ETypedElement getEcoreTypedElement();
 
+  @Override
   public EModelElement getEcoreModelElement()
   {
     return getEcoreTypedElement();
@@ -88,6 +90,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getTypeClassifierAccessorName}. 
    */
+  @Deprecated
   public String getTypeClassifier()
   {
     return getTypeClassifierAccessorName();
@@ -182,26 +185,31 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #isWrappedFeatureMapType}. 
    */
+  @Deprecated
   public boolean isFeatureMapWrapped()
   {
     return isWrappedFeatureMapType();
   }
 
+  @Override
   public GenJDKLevel getEffectiveComplianceLevel()
   {
     return super.getEffectiveComplianceLevel();
   }
 
+  @Override
   public boolean isEffectiveSuppressEMFTypes()
   {
     return super.isEffectiveSuppressEMFTypes();
   }
 
+  @Override
   public String getImportedEffectiveFeatureMapWrapperInternalInterface()
   {
     return super.getImportedEffectiveFeatureMapWrapperInternalInterface();
   }
 
+  @Override
   public String getImportedEffectiveFeatureMapWrapperClass()
   {
     return super.getImportedEffectiveFeatureMapWrapperClass();
@@ -286,6 +294,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getMapEntryTypeGenClass}.
    */
+  @Deprecated
   public GenClass getMapGenClass()
   {
     return getMapEntryTypeGenClass();
@@ -294,6 +303,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getImportedMapEntryType}.
    */
+  @Deprecated
   public String getMapItemType()
   {
     return getImportedMapEntryType();
@@ -422,7 +432,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
 
   public String getPrimitiveValueFunction()
   {
-    Class instanceClass = getInstanceClass(getEcoreTypedElement().getEType());
+    Class<?> instanceClass = getInstanceClass(getEcoreTypedElement().getEType());
     if (instanceClass == java.lang.Boolean.TYPE)
       return "booleanValue";
     if (instanceClass == java.lang.Byte.TYPE)
@@ -496,6 +506,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getTypeGenEnum}.
    */
+  @Deprecated
   public GenEnum getGenEnumType()
   {
     return getTypeGenEnum();
@@ -504,6 +515,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getTypeGenDataType}.
    */
+  @Deprecated
   public GenDataType getGenDataTypeType()
   {
     return getTypeGenDataType();
@@ -512,6 +524,7 @@ public abstract class GenTypedElementImpl extends GenBaseImpl implements GenType
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getTypeGenClass}.
    */
+  @Deprecated
   public GenClass getGenClassType()
   {
     return getTypeGenClass();

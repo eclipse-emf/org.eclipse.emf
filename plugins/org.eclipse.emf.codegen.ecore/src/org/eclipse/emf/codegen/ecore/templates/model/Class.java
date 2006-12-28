@@ -1428,7 +1428,7 @@ public class Class
     stringBuffer.append(TEXT_15);
     if (!genClass.getGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_16);
-    for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getGenFeatures()) {
     if (!genFeature.isSuppressedGetVisibility()) {
     stringBuffer.append(TEXT_17);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
@@ -1469,7 +1469,7 @@ public class Class
     stringBuffer.append(TEXT_32);
     if (!genClass.getImplementedGenFeatures().isEmpty()) {
     stringBuffer.append(TEXT_33);
-    for (Iterator i=genClass.getImplementedGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getImplementedGenFeatures()) {
     stringBuffer.append(TEXT_34);
     stringBuffer.append(genClass.getQualifiedClassName());
     stringBuffer.append(TEXT_35);
@@ -1527,9 +1527,9 @@ public class Class
     stringBuffer.append(eVirtualValuesField);
     stringBuffer.append(TEXT_55);
     }
-    { List eVirtualIndexBitFields = genClass.getEVirtualIndexBitFields(new ArrayList());
+    { List<String> eVirtualIndexBitFields = genClass.getEVirtualIndexBitFields(new ArrayList<String>());
     if (!eVirtualIndexBitFields.isEmpty()) {
-    for (Iterator i = eVirtualIndexBitFields.iterator(); i.hasNext();) { String eVirtualIndexBitField = (String)i.next();
+    for (String eVirtualIndexBitField : eVirtualIndexBitFields) {
     stringBuffer.append(TEXT_56);
     stringBuffer.append(eVirtualIndexBitField);
     stringBuffer.append(TEXT_57);
@@ -1543,7 +1543,7 @@ public class Class
     stringBuffer.append(TEXT_59);
     }
     if (isImplementation && !genModel.isReflectiveDelegation()) {
-    for (Iterator i=genClass.getDeclaredFieldGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getDeclaredFieldGenFeatures()) {
     if (genFeature.isListType() || genFeature.isReferenceType()) {
     if (genClass.isField(genFeature)) {
     stringBuffer.append(TEXT_60);
@@ -1675,7 +1675,7 @@ public class Class
     stringBuffer.append(TEXT_113);
     stringBuffer.append(genClass.getClassName());
     stringBuffer.append(TEXT_114);
-    for (Iterator i=genClass.getFlagGenFeatures("true").iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getFlagGenFeatures("true")) {
     stringBuffer.append(TEXT_115);
     stringBuffer.append(genClass.getFlagsField(genFeature));
     stringBuffer.append(TEXT_116);
@@ -1693,7 +1693,7 @@ public class Class
     stringBuffer.append(TEXT_122);
     }
     new Runnable() { public void run() {
-    for (Iterator i=(isImplementation ? genClass.getImplementedGenFeatures() : genClass.getDeclaredGenFeatures()).iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : (isImplementation ? genClass.getImplementedGenFeatures() : genClass.getDeclaredGenFeatures())) {
     if (genModel.isArrayAccessors() && genFeature.isListType() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) {
     stringBuffer.append(TEXT_123);
     if (!isImplementation) {
@@ -3534,7 +3534,7 @@ public class Class
     //Class/genFeature.override.javajetinc
     }//for
     }}.run();
-    for (Iterator i= (isImplementation ? genClass.getImplementedGenOperations() : genClass.getDeclaredGenOperations()).iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();
+    for (GenOperation genOperation : (isImplementation ? genClass.getImplementedGenOperations() : genClass.getDeclaredGenOperations())) {
     if (isInterface) {
     stringBuffer.append(TEXT_947);
     if (genOperation.hasDocumentation()) {
@@ -3580,7 +3580,7 @@ public class Class
     if (genOperation.hasBody()) {
     stringBuffer.append(TEXT_965);
     stringBuffer.append(genOperation.getBody(genModel.getIndentation(stringBuffer)));
-    } else if (genOperation.isInvariant()) {GenClass opClass = genOperation.getGenClass(); String diagnostics = ((GenParameter)genOperation.getGenParameters().get(0)).getName(); String context = ((GenParameter)genOperation.getGenParameters().get(1)).getName();
+    } else if (genOperation.isInvariant()) {GenClass opClass = genOperation.getGenClass(); String diagnostics = genOperation.getGenParameters().get(0).getName(); String context = genOperation.getGenParameters().get(1).getName();
     stringBuffer.append(TEXT_966);
     stringBuffer.append(diagnostics);
     stringBuffer.append(TEXT_967);
@@ -3618,7 +3618,7 @@ public class Class
     if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseAddGenFeatures())) {
     stringBuffer.append(TEXT_981);
     if (genModel.useGenerics()) {
-    for (Iterator i=genClass.getEInverseAddGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getEInverseAddGenFeatures()) {
     if (genFeature.isUncheckedCast()) {
     stringBuffer.append(TEXT_982);
     break; }
@@ -3634,7 +3634,7 @@ public class Class
     stringBuffer.append(TEXT_986);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_987);
-    for (Iterator i=genClass.getEInverseAddGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getEInverseAddGenFeatures()) {
     stringBuffer.append(TEXT_988);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_989);
@@ -3729,7 +3729,7 @@ public class Class
     stringBuffer.append(TEXT_1030);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_1031);
-    for (Iterator i=genClass.getEInverseRemoveGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getEInverseRemoveGenFeatures()) {
     stringBuffer.append(TEXT_1032);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1033);
@@ -3792,7 +3792,7 @@ public class Class
     stringBuffer.append(TEXT_1058);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.notify.NotificationChain"));
     stringBuffer.append(TEXT_1059);
-    for (Iterator i=genClass.getEBasicRemoveFromContainerGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getEBasicRemoveFromContainerGenFeatures()) {
     GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();
     stringBuffer.append(TEXT_1060);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
@@ -3816,7 +3816,7 @@ public class Class
     stringBuffer.append(TEXT_1069);
     }
     stringBuffer.append(TEXT_1070);
-    for (Iterator i=genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenFeatures().iterator() : genClass.getAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenFeatures() : genClass.getAllGenFeatures()) {
     stringBuffer.append(TEXT_1071);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1072);
@@ -3887,7 +3887,7 @@ public class Class
     if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getESetGenFeatures())) {
     stringBuffer.append(TEXT_1102);
     if (genModel.useGenerics()) {
-    for (Iterator i=genClass.getESetGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getESetGenFeatures()) {
     if (genFeature.isUncheckedCast() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) {
     stringBuffer.append(TEXT_1103);
     break; }
@@ -3897,7 +3897,7 @@ public class Class
     stringBuffer.append(TEXT_1104);
     }
     stringBuffer.append(TEXT_1105);
-    for (Iterator i=genClass.getESetGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getESetGenFeatures()) {
     stringBuffer.append(TEXT_1106);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1107);
@@ -3979,7 +3979,7 @@ public class Class
     stringBuffer.append(TEXT_1143);
     }
     stringBuffer.append(TEXT_1144);
-    for (Iterator i=genClass.getESetGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getESetGenFeatures()) {
     stringBuffer.append(TEXT_1145);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1146);
@@ -4029,7 +4029,7 @@ public class Class
     stringBuffer.append(TEXT_1166);
     }
     stringBuffer.append(TEXT_1167);
-    for (Iterator i=genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenFeatures().iterator() : genClass.getAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genModel.isMinimalReflectiveMethods() ? genClass.getImplementedGenFeatures() : genClass.getAllGenFeatures()) {
     stringBuffer.append(TEXT_1168);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1169);
@@ -4210,11 +4210,11 @@ public class Class
     stringBuffer.append(TEXT_1242);
     stringBuffer.append(singleWildcard);
     stringBuffer.append(TEXT_1243);
-    for (Iterator m=genClass.getMixinGenClasses().iterator(); m.hasNext();) { GenClass mixinGenClass = (GenClass)m.next(); 
+    for (GenClass mixinGenClass : genClass.getMixinGenClasses()) {
     stringBuffer.append(TEXT_1244);
     stringBuffer.append(mixinGenClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_1245);
-    for (Iterator f=mixinGenClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next(); 
+    for (GenFeature genFeature : mixinGenClass.getGenFeatures()) {
     stringBuffer.append(TEXT_1246);
     stringBuffer.append(genClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1247);
@@ -4230,11 +4230,11 @@ public class Class
     stringBuffer.append(TEXT_1252);
     stringBuffer.append(singleWildcard);
     stringBuffer.append(TEXT_1253);
-    for (Iterator m=genClass.getMixinGenClasses().iterator(); m.hasNext();) { GenClass mixinGenClass = (GenClass)m.next(); 
+    for (GenClass mixinGenClass : genClass.getMixinGenClasses()) {
     stringBuffer.append(TEXT_1254);
     stringBuffer.append(mixinGenClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_1255);
-    for (Iterator f=mixinGenClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next(); 
+    for (GenFeature genFeature : mixinGenClass.getGenFeatures()) {
     stringBuffer.append(TEXT_1256);
     stringBuffer.append(mixinGenClass.getQualifiedFeatureID(genFeature));
     stringBuffer.append(TEXT_1257);
@@ -4261,8 +4261,8 @@ public class Class
     stringBuffer.append(eVirtualValuesField);
     stringBuffer.append(TEXT_1267);
     }
-    { List eVirtualIndexBitFields = genClass.getEVirtualIndexBitFields(new ArrayList());
-    if (!eVirtualIndexBitFields.isEmpty()) { List allEVirtualIndexBitFields = genClass.getAllEVirtualIndexBitFields(new ArrayList());
+    { List<String> eVirtualIndexBitFields = genClass.getEVirtualIndexBitFields(new ArrayList<String>());
+    if (!eVirtualIndexBitFields.isEmpty()) { List<String> allEVirtualIndexBitFields = genClass.getAllEVirtualIndexBitFields(new ArrayList<String>());
     stringBuffer.append(TEXT_1268);
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_1269);
@@ -4298,7 +4298,7 @@ public class Class
     }
     stringBuffer.append(TEXT_1283);
     { boolean first = true;
-    for (Iterator i=genClass.getToStringGenFeatures().iterator(); i.hasNext(); ) { GenFeature genFeature = (GenFeature)i.next();
+    for (GenFeature genFeature : genClass.getToStringGenFeatures()) {
     if (first) { first = false;
     stringBuffer.append(TEXT_1284);
     stringBuffer.append(genFeature.getName());

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenTypedElement.java,v 1.5 2006/12/05 20:30:24 emerks Exp $
+ * $Id: GenTypedElement.java,v 1.6 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -39,6 +39,7 @@ public interface GenTypedElement extends GenBase
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getTypeClassifierAccessorName}. 
    */
+  @Deprecated
   String getTypeClassifier();
 
   /**
@@ -65,6 +66,7 @@ public interface GenTypedElement extends GenBase
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #isWrappedFeatureMapType}. 
    */
+  @Deprecated
   boolean isFeatureMapWrapped();
 
   boolean isEffectiveSuppressEMFTypes();
@@ -107,11 +109,13 @@ public interface GenTypedElement extends GenBase
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getMapEntryTypeGenClass}.
    */
+  @Deprecated
   GenClass getMapGenClass(); 
 
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getImportedMapEntryType}.
    */
+  @Deprecated
   String getMapItemType(); 
 
   /**
@@ -144,16 +148,19 @@ public interface GenTypedElement extends GenBase
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getTypeGenEnum}.
    */
+  @Deprecated
   GenEnum getGenEnumType();
 
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getTypeGenDataType}.
    */
+  @Deprecated
   GenDataType getGenDataTypeType();
 
   /**
    * @deprecated As of EMF 2.1, replaced by {@link #getTypeGenClass}.
    */
+  @Deprecated
   GenClass getGenClassType();
 
   String getLowerBound();

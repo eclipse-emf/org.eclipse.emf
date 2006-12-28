@@ -12,11 +12,9 @@
  *
  * </copyright>
  *
- * $Id: GenClassGeneratorAdapter.java,v 1.7 2006/11/08 20:39:33 davidms Exp $
+ * $Id: GenClassGeneratorAdapter.java,v 1.8 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
-
-import java.util.Iterator;
 
 import org.eclipse.emf.codegen.ecore.CodeGenEcorePlugin;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter;
@@ -86,11 +84,13 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
   /**
    * Returns the {@link GenPackage} that contains the given {@link GenClass}.
    */
+  @Override
   public Object getGenerateParent(Object object, Object projectType)
   {
     return getParent(object);
   }
 
+  @Override
   protected Diagnostic generateModel(Object object, Monitor monitor)
   {
     monitor.beginTask("", 3);
@@ -158,6 +158,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
     }
   }
 
+  @Override
   protected Diagnostic generateEdit(Object object, Monitor monitor)
   {
     GenClass genClass = (GenClass)object;
@@ -214,9 +215,8 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
   protected int countCreateChildIcons(GenClass genClass)
   {
     int result = 0;
-    for (Iterator i = genClass.getAllCreateChildFeaturesIncludingDelegation().iterator(); i.hasNext(); )
+    for (GenFeature feature : genClass.getAllCreateChildFeaturesIncludingDelegation())
     {
-      GenFeature feature = (GenFeature)i.next();
       result += genClass.getChildrenClasses(feature).size();
     }
     return result;
@@ -228,12 +228,10 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
 
     if (genModel.isCreationCommands() && genModel.isCreationIcons())
     {
-      for (Iterator i = genClass.getAllCreateChildFeaturesIncludingDelegation().iterator(); i.hasNext(); )
+      for (GenFeature feature : genClass.getAllCreateChildFeaturesIncludingDelegation())
       {
-        GenFeature feature = (GenFeature)i.next();
-        for (Iterator j = genClass.getChildrenClasses(feature).iterator(); j.hasNext(); )
+        for (GenClass childClass : genClass.getChildrenClasses(feature))
         {
-          GenClass childClass = (GenClass)j.next();
           message = CodeGenEcorePlugin.INSTANCE.getString
             ("_UI_GeneratingCreateChildIcon_message", new Object[] { genClass.getCreateChildIconFileName(feature, childClass) });
           monitor.subTask(message);
@@ -253,6 +251,7 @@ public class GenClassGeneratorAdapter extends GenBaseGeneratorAdapter
     }
   }
 
+  @Override
   protected Diagnostic generateTests(Object object, Monitor monitor)
   {
     monitor.beginTask("", 2);

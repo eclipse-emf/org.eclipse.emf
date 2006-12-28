@@ -12,17 +12,15 @@
  *
  * </copyright>
  *
- * $Id: GenFeatureImpl.java,v 1.41 2006/12/18 22:00:10 marcelop Exp $
+ * $Id: GenFeatureImpl.java,v 1.42 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
 
-import java.util.Collection;
-
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -37,7 +35,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPropertyKind;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -197,7 +194,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * @generated
    * @ordered
    */
-  protected EList propertyFilterFlags = null;
+  protected EList<String> propertyFilterFlags = null;
 
   /**
    * The default value of the '{@link #getPropertyDescription() <em>Property Description</em>}' attribute.
@@ -284,6 +281,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_FEATURE;
@@ -459,11 +457,11 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getPropertyFilterFlags()
+  public EList<String> getPropertyFilterFlags()
   {
     if (propertyFilterFlags == null)
     {
-      propertyFilterFlags = new EDataTypeUniqueEList(String.class, this, GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS);
+      propertyFilterFlags = new EDataTypeUniqueEList<String>(String.class, this, GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS);
     }
     return propertyFilterFlags;
   }
@@ -638,6 +636,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -655,6 +654,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -670,6 +670,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -685,6 +686,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -721,6 +723,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -742,7 +746,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         return;
       case GenModelPackage.GEN_FEATURE__PROPERTY_FILTER_FLAGS:
         getPropertyFilterFlags().clear();
-        getPropertyFilterFlags().addAll((Collection)newValue);
+        getPropertyFilterFlags().addAll((Collection<? extends String>)newValue);
         return;
       case GenModelPackage.GEN_FEATURE__PROPERTY_DESCRIPTION:
         setPropertyDescription((String)newValue);
@@ -768,6 +772,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -814,6 +819,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -849,6 +855,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -876,11 +883,13 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return result.toString();
   }
 
+  @Override
   public ETypedElement getEcoreTypedElement()
   {
     return getEcoreFeature();
   }
 
+  @Override
   public String getName()
   {
     return getEcoreFeature().getName();
@@ -920,9 +929,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
     if (rootImplementsInterface != null && !rootImplementsInterface.isEObject())
     {
-      for (Iterator i = rootImplementsInterface.getAllGenOperations().iterator(); i.hasNext(); )
+      for (GenOperation genOperation : rootImplementsInterface.getAllGenOperations())
       {
-        GenOperation genOperation = (GenOperation)i.next();
         if (genOperation.getName().equals(result) && 
               genOperation.getGenParameters().isEmpty() && 
               !genOperation.getType().equals(getType()))
@@ -1035,16 +1043,19 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return getEcoreFeature() instanceof EReference;
   }
 
+  @Override
   protected boolean isEObjectExtensionType()
   {
     return isReferenceType() && super.isEObjectExtensionType();
   }
 
+  @Override
   protected boolean isEObjectType()
   {
     return isReferenceType() && super.isEObjectType();
   }
 
+  @Override
   public boolean isMapType()
   {
     return !isContainer() && super.isMapType();
@@ -1123,9 +1134,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       GenClass genClass = findGenClass(eReverseClass);
       if (genClass != null)
       {
-        for (Iterator iter = genClass.getGenFeatures().iterator(); iter.hasNext(); )
+        for (GenFeature genFeature : genClass.getGenFeatures())
         {
-          GenFeature genFeature = (GenFeature)iter.next();
           if (genFeature.getEcoreFeature() == eReverseFeature)
           {
             return genFeature;
@@ -1136,15 +1146,14 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     return null;
   }
 
-  public List getKeys()
+  public List<GenFeature> getKeys()
   {
-    List result = new ArrayList();
+    List<GenFeature> result = new ArrayList<GenFeature>();
     for (EAttribute eAttribute : ((EReference)getEcoreFeature()).getEKeys())
     {
       GenClass genClass = getTypeGenClass();
-      for (Iterator iter = genClass.getGenFeatures().iterator(); iter.hasNext(); )
+      for (GenFeature genFeature : genClass.getGenFeatures())
       {
-        GenFeature genFeature = (GenFeature)iter.next();
         if (genFeature.getEcoreFeature() == eAttribute)
         {
           result.add(genFeature);
@@ -1288,12 +1297,12 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   /**
    * It considers mixed types, model groups, subsitution groups and wildcards.
    */
-  public List/*of GenFeature*/ getDelegatedFeatures()
+  public List<GenFeature> getDelegatedFeatures()
   {
-    if (!isFeatureMapType()) return Collections.EMPTY_LIST;
+    if (!isFeatureMapType()) return Collections.emptyList();
 
     GenClass genClass = getGenClass();
-    List delegated = new ArrayList();
+    List<GenFeature> delegated = new ArrayList<GenFeature>();
 
     ExtendedMetaData extendedMetaData = getExtendedMetaData();
     if (genClass.getMixedGenFeature() == this)
@@ -1307,9 +1316,8 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
          delegated.add(findGenFeature(XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA));
        }
 
-       for (Iterator iter = genClass.getGenFeatures().iterator(); iter.hasNext(); )
+       for (GenFeature otherFeature : genClass.getGenFeatures())
        {
-         GenFeature otherFeature = (GenFeature)iter.next();
          if (otherFeature != this && otherFeature.isDerived() &&
              extendedMetaData.getGroup(otherFeature.getEcoreFeature()) == null)
          {
@@ -1323,11 +1331,10 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
       {
         case ExtendedMetaData.GROUP_FEATURE:
         {
-          Set allDelegated = new HashSet();
-          Set qNames = new HashSet();
-          for (Iterator i = genClass.getGenFeatures().iterator(); i.hasNext(); )
+          Set<EStructuralFeature> allDelegated = new HashSet<EStructuralFeature>();
+          Set<String> qNames = new HashSet<String>();
+          for (GenFeature otherFeature : genClass.getGenFeatures())
           {
-            GenFeature otherFeature = (GenFeature)i.next();
             if (otherFeature != this && otherFeature.isDerived() && 
                 extendedMetaData.getGroup(otherFeature.getEcoreFeature()) == getEcoreFeature())
             { 
@@ -1342,15 +1349,13 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
             }
           }
           
-          for (Iterator i = getGenModel().getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext(); )
+          for (GenPackage genPackage : getGenModel().getAllGenAndUsedGenPackagesWithClassifiers())
           {
-            GenPackage genPackage = (GenPackage)i.next(); 
             if (genPackage.hasDocumentRoot())
             {
               GenClass documentRoot = findGenClass(extendedMetaData.getDocumentRoot(genPackage.getEcorePackage()));
-              for (Iterator j = documentRoot.getGenFeatures().iterator(); j.hasNext(); )
+              for (GenFeature otherFeature : documentRoot.getGenFeatures())
               {
-                GenFeature otherFeature = (GenFeature)j.next();
                 if (otherFeature != this && 
                       otherFeature.isChangeable() &&
                       otherFeature.isDerived() &&
@@ -1372,15 +1377,13 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
         case ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE:
         case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
         {
-          for (Iterator i = getGenModel().getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext(); )
+          for (GenPackage genPackage : getGenModel().getAllGenAndUsedGenPackagesWithClassifiers())
           {
-            GenPackage genPackage = (GenPackage)i.next(); 
             if (genPackage.hasDocumentRoot())
             {
               GenClass documentRoot = findGenClass(extendedMetaData.getDocumentRoot(genPackage.getEcorePackage()));
-              for (Iterator j = documentRoot.getGenFeatures().iterator(); j.hasNext(); )
+              for (GenFeature otherFeature : documentRoot.getGenFeatures())
               {
-                GenFeature otherFeature = (GenFeature)j.next();
                 if (otherFeature != this && 
                       otherFeature.isChangeable() &&
                       otherFeature.isDerived() &&
@@ -1410,10 +1413,9 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     }
     */
 
-    List result = new ArrayList();
-    for (Iterator iter = delegated.iterator(); iter.hasNext(); )
+    List<GenFeature> result = new ArrayList<GenFeature>();
+    for (GenFeature feature : delegated)
     {
-      GenFeature feature = (GenFeature)iter.next();
       if (feature.isFeatureMapType())
       {
         result.addAll(feature.getDelegatedFeatures());
@@ -1432,7 +1434,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
 
     if (result == null)
     {
-      Class c = getEcoreFeature().getEType().getInstanceClass();
+      Class<?> c = getEcoreFeature().getEType().getInstanceClass();
 
       if (c == Boolean.TYPE || c == Boolean.class)
       {
@@ -1522,6 +1524,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     }
   }
 
+  @Override
   public String getModelInfo()
   {
     return getModelInfo(false);
@@ -1535,6 +1538,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
   AnnotationFilter DEFAULT_GEN_FEATURE_ANNOTATION_FILTER = 
     new AnnotationFilterImpl()
     {
+      @Override
       public boolean accept(EModelElement eModelElement, String source, String key, String value)
       {
         return 
@@ -1689,7 +1693,7 @@ public class GenFeatureImpl extends GenTypedElementImpl implements GenFeature
     EClassifier eType = getEcoreFeature().getEType();
     if (isPrimitiveType(eType))
     {
-      Class instanceClass = eType.getInstanceClass();
+      Class<?> instanceClass = eType.getInstanceClass();
       if (instanceClass == Boolean.TYPE || instanceClass == Boolean.class)
       {
         return "BOOLEAN_VALUE_IMAGE";

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassifier.java,v 1.7 2006/12/05 20:30:24 emerks Exp $
+ * $Id: GenClassifier.java,v 1.8 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -71,7 +71,7 @@ public interface GenClassifier extends GenBase {
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter" containment="true"
    * @generated
    */
-  EList getGenTypeParameters();
+  EList<GenTypeParameter> getGenTypeParameters();
 
   EClassifier getEcoreClassifier();
   String getImportedMetaType();
@@ -118,8 +118,8 @@ public interface GenClassifier extends GenBase {
   String getClassifierInstanceName();
   String getClassifierID();
 
-  List /* of String */ getGenConstraints();
-  List /* of String */ getAllGenConstraints();
+  List<String> getGenConstraints();
+  List<String> getAllGenConstraints();
   GenClassifier getConstraintImplementor(String constraint);
   GenClassifier getConstraintDelegate(String constraint);
   boolean hasOnlyDefaultConstraints();

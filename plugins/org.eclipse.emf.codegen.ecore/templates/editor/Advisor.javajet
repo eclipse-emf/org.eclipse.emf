@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.List java.util.Iterator org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.6 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.List java.util.Iterator org.eclipse.emf.codegen.ecore.genmodel.*" class="Advisor" version="$Id: Advisor.javajet,v 1.7 2006/12/28 06:40:39 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -20,9 +20,12 @@
 package <%=genModel.getEditorPluginPackageName()%>;
 
 import java.io.File;
+<%if (!genModel.useGenerics()) {%>
 import java.util.Iterator;
+<%}%>
 
-import org.eclipse.core.runtime.IPlatformRunnable;
+import org.eclipse.equinox.app.IApplication;
+import org.eclipse.equinox.app.IApplicationContext;
 
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
@@ -109,15 +112,15 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static class Application implements IPlatformRunnable
+	public static class Application implements IApplication
 	{
 		/**
-		 * @see org.eclipse.core.runtime.IPlatformRunnable#run(java.lang.Object)
+		 * @see org.eclipse.equinox.app.IApplication#start(org.eclipse.equinox.app.IApplicationContext)
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		public Object run(Object args)
+		public Object start(IApplicationContext context) throws Exception
 		{
 			WorkbenchAdvisor workbenchAdvisor = new <%=genModel.getEditorAdvisorClassName()%>();
 			Display display = PlatformUI.createDisplay();
@@ -126,17 +129,28 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 				int returnCode = PlatformUI.createAndRunWorkbench(display, workbenchAdvisor);
 				if (returnCode == PlatformUI.RETURN_RESTART)
 				{
-					return IPlatformRunnable.EXIT_RESTART;
+					return IApplication.EXIT_RESTART;
 				}
 				else
 				{
-					return IPlatformRunnable.EXIT_OK;
+					return IApplication.EXIT_OK;
 				}
 			}
 			finally
 			{
 				display.dispose();
 			}
+		}
+
+		/**
+		 * @see org.eclipse.equinox.app.IApplication#stop()
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		public void stop()
+		{
+			// Do nothing.
 		}
 	}
 
@@ -200,6 +214,9 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+		@Override
+<%}%>
 		public void preWindowOpen()
 		{
 			IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
@@ -215,6 +232,9 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+		@Override
+<%}%>
 		public ActionBarAdvisor createActionBarAdvisor(IActionBarConfigurer configurer)
 		{
 			return new WindowActionBarAdvisor(configurer);
@@ -246,6 +266,9 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+		@Override
+<%}%>
 		protected void fillMenuBar(IMenuManager menuBar)
 		{
 			IWorkbenchWindow window = getActionBarConfigurer().getWindowConfigurer().getWindow();
@@ -367,10 +390,10 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 		protected void addToMenuAndRegister(IMenuManager menuManager, IAction action)
 		{
 			menuManager.add(action);
-			getActionBarConfigurer().registerGlobalAction(action);			
-		}		
+			getActionBarConfigurer().registerGlobalAction(action);
+		}
 	}
-
+	
 	/**
 	 * About action for the RCP application.
 	 * <!-- begin-user-doc -->
@@ -391,7 +414,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 			getString("_UI_About_text"));<%=genModel.getNonNLS()%>
 		}
 	}
-
+	
 	/**
 	 * Open action for the objects from the <%=genModel.getModelName()%> model.
 	 * <!-- begin-user-doc -->
@@ -415,7 +438,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 			}
 		}
 	}
-
+	
 	/**
 	 * Open URI action for the objects from the <%=genModel.getModelName()%> model.
 	 * <!-- begin-user-doc -->
@@ -435,14 +458,21 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 			LoadResourceAction.LoadResourceDialog loadResourceDialog = new LoadResourceAction.LoadResourceDialog(getWindow().getShell());
 			if (Dialog.OK == loadResourceDialog.open())
 			{
+<%if (genModel.useGenerics()) {%>
+				for (URI uri : loadResourceDialog.getURIs())
+				{
+					openEditor(getWindow().getWorkbench(), uri);
+				}
+<%} else {%>
 				for (Iterator i = loadResourceDialog.getURIs().iterator(); i.hasNext();)
 				{
 					openEditor(getWindow().getWorkbench(), (URI)i.next());
 				}
+<%}%>
 			}
 		}
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -451,17 +481,17 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	public static String openFilePathDialog(Shell shell, String fileExtensionFilter, int style)
 	{
 		FileDialog fileDialog = new FileDialog(shell, style);
-<% List genPackages = genModel.getAllGenPackagesWithClassifiers(); if (!genPackages.isEmpty()) {%>
+<% List<GenPackage> genPackages = genModel.getAllGenPackagesWithClassifiers(); if (!genPackages.isEmpty()) {%>
 		if (fileExtensionFilter == null)
 		{
 			fileExtensionFilter =
-  <%for (Iterator i = genPackages.iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); %>
-  				"*." + getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension")<%if (i.hasNext()) {%> + ";" +<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%><%} else {%>;<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%}%>
+  <%for (Iterator<GenPackage> i = genPackages.iterator(); i.hasNext(); ) { GenPackage genPackage = i.next();%>
+				"*." + getString("_UI_<%=genPackage.getEditorClassName()%>FilenameExtension")<%if (i.hasNext()) {%> + ";" +<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%><%} else {%>;<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%}%>
   <%}%>
 		}
 		fileDialog.setFilterExtensions(new String[]{fileExtensionFilter});
 <%}%>
-
+	
 		fileDialog.open();
 		if (fileDialog.getFileName() != null && fileDialog.getFileName().length() > 0)
 		{
@@ -472,7 +502,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 			return null;
 		}
 	}
-
+	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -482,7 +512,7 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	{
 		IWorkbenchWindow workbenchWindow = workbench.getActiveWorkbenchWindow();
 		IWorkbenchPage page = workbenchWindow.getActivePage();
-
+	
 		IEditorDescriptor editorDescriptor = workbench.getEditorRegistry().getDefaultEditor(fileURI.toFileString());
 		if (editorDescriptor == null)
 		{
@@ -507,16 +537,19 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 				return false;
 			}
 		}
-
+	
 		return true;
 	}
-
+	
 	/**
 	 * @see org.eclipse.ui.application.WorkbenchAdvisor#getInitialWindowPerspectiveId()
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+		@Override
+<%}%>
 	public String getInitialWindowPerspectiveId()
 	{
 		return Perspective.ID_PERSPECTIVE;
@@ -528,6 +561,9 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+		@Override
+<%}%>
 	public void initialize(IWorkbenchConfigurer configurer)
 	{
 		super.initialize(configurer);
@@ -540,9 +576,12 @@ public final class <%=genModel.getEditorAdvisorClassName()%> extends WorkbenchAd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+		@Override
+<%}%>
 	public WorkbenchWindowAdvisor createWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer)
 	{
 		return new WindowAdvisor(configurer);
-	}	
+	}
 }
 <%genModel.emitSortedImports();%>

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenDelegationKind.java,v 1.1 2005/11/14 16:47:10 khussey Exp $
+ * $Id: GenDelegationKind.java,v 1.2 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,8 +21,35 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class GenDelegationKind extends AbstractEnumerator
+public enum GenDelegationKind implements Enumerator
 {
+  /**
+   * The '<em><b>None</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #NONE
+   * @generated
+   * @ordered
+   */
+  NONE_LITERAL(0, "None", "None"),
+  /**
+   * The '<em><b>Reflective</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #REFLECTIVE
+   * @generated
+   * @ordered
+   */
+  REFLECTIVE_LITERAL(1, "Reflective", "Reflective"),
+  /**
+   * The '<em><b>Virtual</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #VIRTUAL
+   * @generated
+   * @ordered
+   */
+  VIRTUAL_LITERAL(2, "Virtual", "Virtual");
   /**
    * The '<em><b>None</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -69,36 +96,6 @@ public final class GenDelegationKind extends AbstractEnumerator
   public static final int VIRTUAL = 2;
 
   /**
-   * The '<em><b>None</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #NONE
-   * @generated
-   * @ordered
-   */
-  public static final GenDelegationKind NONE_LITERAL = new GenDelegationKind(NONE, "None", "None");
-
-  /**
-   * The '<em><b>Reflective</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #REFLECTIVE
-   * @generated
-   * @ordered
-   */
-  public static final GenDelegationKind REFLECTIVE_LITERAL = new GenDelegationKind(REFLECTIVE, "Reflective", "Reflective");
-
-  /**
-   * The '<em><b>Virtual</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #VIRTUAL
-   * @generated
-   * @ordered
-   */
-  public static final GenDelegationKind VIRTUAL_LITERAL = new GenDelegationKind(VIRTUAL, "Virtual", "Virtual");
-
-  /**
    * An array of all the '<em><b>Gen Delegation Kind</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -118,7 +115,7 @@ public final class GenDelegationKind extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<GenDelegationKind> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Gen Delegation Kind</b></em>' literal with the specified literal value.
@@ -172,8 +169,29 @@ public final class GenDelegationKind extends AbstractEnumerator
       case REFLECTIVE: return REFLECTIVE_LITERAL;
       case VIRTUAL: return VIRTUAL_LITERAL;
     }
-    return null;	
+    return null;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
 
   /**
    * Only this class can construct instances.
@@ -183,7 +201,50 @@ public final class GenDelegationKind extends AbstractEnumerator
    */
   private GenDelegationKind(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //GenDelegationKind
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}

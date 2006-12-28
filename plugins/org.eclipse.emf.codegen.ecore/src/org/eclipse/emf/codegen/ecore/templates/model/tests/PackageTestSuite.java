@@ -58,7 +58,7 @@ public class PackageTestSuite
  * </copyright>
  */
 
-    GenPackage genPackage = (GenPackage)argument; GenModel genModel = genPackage.getGenModel();
+    GenPackage genPackage = (GenPackage)argument; GenModel genModel = genPackage.getGenModel(); if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     stringBuffer.append("$");
@@ -95,7 +95,7 @@ public class PackageTestSuite
     stringBuffer.append(genPackage.getPackageName());
     stringBuffer.append(TEXT_18);
     stringBuffer.append(genModel.getNonNLS());
-    for (Iterator genClasses = genPackage.getGenClasses().iterator(); genClasses.hasNext();) { GenClass genClass = (GenClass)genClasses.next();
+    for (GenClass genClass : genPackage.getGenClasses()) {
     if (!genClass.isExternalInterface() && !genClass.isAbstract() && genClass.hasTests()) {
     stringBuffer.append(TEXT_19);
     stringBuffer.append(genClass.getImportedTestCaseClassName());

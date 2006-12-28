@@ -557,8 +557,8 @@ public class ValidatorClass
     stringBuffer.append(TEXT_17);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_18);
-    int count = 0; for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
-    for (Iterator j=genClass.getInvariantOperations().iterator(); j.hasNext();) { GenOperation genOperation = (GenOperation)j.next();
+    int count = 0; for (GenClass genClass : genPackage.getGenClasses()) {
+    for (GenOperation genOperation : genClass.getInvariantOperations()) {
     stringBuffer.append(TEXT_19);
     stringBuffer.append(genOperation.getFormattedName());
     stringBuffer.append(TEXT_20);
@@ -572,7 +572,7 @@ public class ValidatorClass
     stringBuffer.append(TEXT_24);
     stringBuffer.append(count);
     stringBuffer.append(TEXT_25);
-    for (Iterator i = genPackage.getAllValidatorBaseGenPackages().iterator(); i.hasNext(); ) { GenPackage baseGenPackage = (GenPackage)i.next(); 
+    for (GenPackage baseGenPackage : genPackage.getAllValidatorBaseGenPackages()) {
     stringBuffer.append(TEXT_26);
     stringBuffer.append(baseGenPackage.getImportedValidatorClassName());
     stringBuffer.append(TEXT_27);
@@ -582,7 +582,7 @@ public class ValidatorClass
     stringBuffer.append(TEXT_29);
     stringBuffer.append(genPackage.getValidatorClassName());
     stringBuffer.append(TEXT_30);
-    for (Iterator i = genPackage.getAllValidatorBaseGenPackages().iterator(); i.hasNext(); ) { GenPackage baseGenPackage = (GenPackage)i.next(); 
+    for (GenPackage baseGenPackage : genPackage.getAllValidatorBaseGenPackages()) {
     stringBuffer.append(TEXT_31);
     stringBuffer.append(genPackage.getValidatorPackageUniqueSafeName(baseGenPackage));
     stringBuffer.append(TEXT_32);
@@ -602,7 +602,7 @@ public class ValidatorClass
     stringBuffer.append(TEXT_39);
     stringBuffer.append(_Map);
     stringBuffer.append(TEXT_40);
-    for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();
+    for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {
     stringBuffer.append(TEXT_41);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_42);
@@ -637,7 +637,7 @@ public class ValidatorClass
     }
     }
     stringBuffer.append(TEXT_56);
-    for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next(); String result = "result".equals(genClassifier.getSafeUncapName()) ? "theResult" : "result"; String diagnostics = "diagnostics".equals(genClassifier.getSafeUncapName()) ? "theDiagnostics" : "diagnostics"; String item = "item".equals(genClassifier.getSafeUncapName()) ? "theItem" : "item"; String context = "context".equals(genClassifier.getSafeUncapName()) ? "theContext" : "context";
+    for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {String result = "result".equals(genClassifier.getSafeUncapName()) ? "theResult" : "result"; String diagnostics = "diagnostics".equals(genClassifier.getSafeUncapName()) ? "theDiagnostics" : "diagnostics"; String item = "item".equals(genClassifier.getSafeUncapName()) ? "theItem" : "item"; String context = "context".equals(genClassifier.getSafeUncapName()) ? "theContext" : "context";
     stringBuffer.append(TEXT_57);
     stringBuffer.append(genClassifier.getName());
     stringBuffer.append(TEXT_58);
@@ -667,8 +667,7 @@ public class ValidatorClass
     stringBuffer.append(context);
     stringBuffer.append(TEXT_70);
     } else { boolean first = true;
-    for (Iterator j=genClassifier.getAllGenConstraints().iterator(); j.hasNext(); ) { String constraint = (String)j.next(); 
-  GenClassifier constraintImplementor = genClassifier.getConstraintImplementor(constraint); 
+    for (String constraint : genClassifier.getAllGenConstraints()) {GenClassifier constraintImplementor = genClassifier.getConstraintImplementor(constraint); 
   String delegate = constraintImplementor == null || constraintImplementor.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(constraintImplementor.getGenPackage()) + "Validator."; 
   String cast = constraintImplementor == null && genClassifier instanceof GenClass && !((GenClass)genClassifier).isEObjectExtension() ? "(" + genModel.getImportedName("org.eclipse.emf.ecore.EObject") + ")" : "";
   String accessor = constraintImplementor != null && genClassifier instanceof GenDataType && !((GenDataType)genClassifier).isPrimitiveType() && ((GenDataType)constraintImplementor).isPrimitiveType() ? "." + ((GenDataType)constraintImplementor).getPrimitiveValueFunction() + "()" : "";
@@ -717,9 +716,8 @@ public class ValidatorClass
     stringBuffer.append(TEXT_89);
     }
     stringBuffer.append(TEXT_90);
-    for (Iterator j=genClassifier.getGenConstraints().iterator(); j.hasNext();) 
-{ String constraint = (String)j.next();
-  GenClassifier constraintDelegate = genClassifier.getConstraintDelegate(constraint); 
+    for (String constraint : genClassifier.getGenConstraints()) 
+{GenClassifier constraintDelegate = genClassifier.getConstraintDelegate(constraint); 
   String constant = genClassifier.getClassifierID() + "__" + CodeGenUtil.format(constraint, '_', null, false, false).toUpperCase();
   String delegate = constraintDelegate == null || constraintDelegate.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(constraintDelegate.getGenPackage()) + "Validator."; 
   String cast = constraintDelegate == null && genClassifier instanceof GenClass && !((GenClass)genClassifier).isEObjectExtension() ? "(" + genModel.getImportedName("org.eclipse.emf.ecore.EObject") + ")" : "";
@@ -779,9 +777,9 @@ public class ValidatorClass
     stringBuffer.append(TEXT_116);
     stringBuffer.append(constant);
     stringBuffer.append(TEXT_117);
-    for (Iterator k = genDataType.getPatterns().iterator(); k.hasNext(); ) { List patternList = (List)k.next();
+    for (Iterator<List<String>> k = genDataType.getPatterns().iterator(); k.hasNext(); ) { List<String> patternList = k.next();
     stringBuffer.append(TEXT_118);
-    for (Iterator p = patternList.iterator(); p.hasNext(); ) { String pattern = (String)p.next();
+    for (Iterator<String> p = patternList.iterator(); p.hasNext(); ) { String pattern = p.next();
     stringBuffer.append(TEXT_119);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil"));
     stringBuffer.append(TEXT_120);
@@ -803,7 +801,7 @@ public class ValidatorClass
     stringBuffer.append(TEXT_127);
     stringBuffer.append(constant);
     stringBuffer.append(TEXT_128);
-    for (Iterator k = genDataType.getEnumerationLiterals().iterator(); k.hasNext(); ) { String literal = (String)k.next();
+    for (Iterator<String> k = genDataType.getEnumerationLiterals().iterator(); k.hasNext(); ) { String literal = k.next();
     stringBuffer.append(TEXT_129);
     if (genDataType.isPrimitiveType()) {
     stringBuffer.append(TEXT_130);
@@ -889,7 +887,7 @@ public class ValidatorClass
     stringBuffer.append(TEXT_166);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic"));
     stringBuffer.append(TEXT_167);
-    for (ListIterator k = genDataType.getMemberTypes().listIterator(); k.hasNext(); ) { GenDataType memberType = (GenDataType)k.next(); String memberDelegate = memberType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(memberType.getGenPackage()) + "Validator.";
+    for (ListIterator<GenDataType> k = genDataType.getMemberTypes().listIterator(); k.hasNext(); ) { GenDataType memberType = k.next(); String memberDelegate = memberType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(memberType.getGenPackage()) + "Validator.";
     if (genDataType.isPrimitiveType()) {
     stringBuffer.append(TEXT_168);
     stringBuffer.append(memberDelegate);
@@ -945,7 +943,7 @@ public class ValidatorClass
     stringBuffer.append(TEXT_191);
     }
     stringBuffer.append(TEXT_192);
-    for (ListIterator k = genDataType.getMemberTypes().listIterator(); k.hasNext(); ) { GenDataType memberType = (GenDataType)k.next(); String memberDelegate = memberType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(memberType.getGenPackage()) + "Validator.";
+    for (ListIterator<GenDataType> k = genDataType.getMemberTypes().listIterator(); k.hasNext(); ) { GenDataType memberType = k.next(); String memberDelegate = memberType.getGenPackage() == genPackage ? "" : genPackage.getValidatorPackageUniqueSafeName(memberType.getGenPackage()) + "Validator.";
     if (genDataType.isPrimitiveType()) {
     stringBuffer.append(TEXT_193);
     stringBuffer.append(memberDelegate);

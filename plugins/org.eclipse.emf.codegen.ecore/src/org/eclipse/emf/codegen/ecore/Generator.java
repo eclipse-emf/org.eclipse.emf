@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.27 2006/07/07 17:21:11 marcelop Exp $
+ * $Id: Generator.java,v 1.28 2006/12/28 06:40:39 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -41,7 +41,6 @@ import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IPlatformRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -82,6 +81,7 @@ public class Generator extends CodeGen
    * you are invoking this method, you should instantiate a Generator and call
    * {@link #run(Object)}.  This method will be removed in a future release.
    */
+  @Deprecated
   public static void main(String args[]) 
   {
     new Generator().run(args);
@@ -110,16 +110,18 @@ public class Generator extends CodeGen
   /**
    * This is called with the command line arguments of a headless workbench invocation.
    */
+  @Override
   public Object run(Object object) 
   {
     return PlatformRunnable.run(this, object);
   }
     
-  public static class PlatformRunnable extends Generator implements IPlatformRunnable
+  public static class PlatformRunnable extends Generator implements org.eclipse.core.runtime.IPlatformRunnable
   {
     /**
      * This is called with the command line arguments of a headless workbench invocation.
      */
+    @Override
     public Object run(Object object) 
     {
        return run(this, object);
@@ -171,7 +173,7 @@ public class Generator extends CodeGen
                   genModel.setModelDirectory("/TargetProject/src");
                   genModel.getForeignModel().add(ecorePath.toString());
                   genModel.initialize(Collections.singleton(ePackage));
-                  GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(0);
+                  GenPackage genPackage = genModel.getGenPackages().get(0);
                   genModel.setModelName(genModelURI.trimFileExtension().lastSegment());
   
                   genPackage.setPrefix(prefix);
@@ -390,7 +392,7 @@ public class Generator extends CodeGen
   
                     if (profileFile != null)
                     {
-                      Map options = CodeFormatterProfileParser.parse(profileFile);
+                      Map<String, String> options = CodeFormatterProfileParser.parse(profileFile);
                       if (options == null)
                       {
                         throw new CoreException
@@ -472,20 +474,20 @@ public class Generator extends CodeGen
   public static IProject createEMFProject
     (IPath javaSource,
      IPath projectLocationPath,
-     List referencedProjects,
+     List<IProject> referencedProjects,
      IProgressMonitor progressMonitor,
      int style)
   {
-    return createEMFProject(javaSource, projectLocationPath, referencedProjects, progressMonitor, style, Collections.EMPTY_LIST);
+    return createEMFProject(javaSource, projectLocationPath, referencedProjects, progressMonitor, style, Collections.emptyList());
   }
 
   public static IProject createEMFProject
     (IPath javaSource,
      IPath projectLocationPath,
-     List referencedProjects,
+     List<IProject> referencedProjects,
      IProgressMonitor progressMonitor,
      int style,
-     List pluginVariables)
+     List<?> pluginVariables)
   {
     return 
       EclipseHelper.createEMFProject
@@ -495,20 +497,20 @@ public class Generator extends CodeGen
   public static IProject createEMFProject
     (IPath javaSource,
      IPath projectLocationPath,
-     List referencedProjects,
+     List<IProject> referencedProjects,
      Monitor progressMonitor,
      int style)
   {
-    return createEMFProject(javaSource, projectLocationPath, referencedProjects, progressMonitor, style, Collections.EMPTY_LIST);
+    return createEMFProject(javaSource, projectLocationPath, referencedProjects, progressMonitor, style, Collections.emptyList());
   }
 
   public static IProject createEMFProject
     (IPath javaSource,
      IPath projectLocationPath,
-     List referencedProjects,
+     List<IProject> referencedProjects,
      Monitor progressMonitor,
      int style,
-     List pluginVariables)
+     List<?> pluginVariables)
   {
     return EclipseHelper.createEMFProject(javaSource, projectLocationPath, referencedProjects, progressMonitor, style, pluginVariables);
   }
@@ -547,18 +549,20 @@ public class Generator extends CodeGen
    */
   static class CodeFormatterProfileParser extends DefaultHandler
   {
-    private Map options = null;
+    private Map<String, String> options = null;
 
     private String SETTING = "setting";
     private String ID = "id";
     private String VALUE = "value";
     private String EMPTY = "";
 
+    @Override
     public void startDocument()
     {
-      options = new HashMap();
+      options = new HashMap<String, String>();
     }
 
+    @Override
     public void startElement(String namespaceURI, String localName, String qualifiedName, Attributes atts)
     {
       if (EMPTY.equals(namespaceURI) && SETTING.equals(localName))
@@ -573,12 +577,12 @@ public class Generator extends CodeGen
       }
     }
 
-    public Map getOptions()
+    public Map<String, String> getOptions()
     {
       return options;
     }
  
-    public static Map parse(String systemID)
+    public static Map<String, String> parse(String systemID)
     {
       try
       {
@@ -590,6 +594,7 @@ public class Generator extends CodeGen
       }
       catch (Exception e)
       {
+        // Ignore
       }
       return null;
     }
@@ -600,17 +605,17 @@ public class Generator extends CodeGen
     public static IProject createEMFProject
       (IPath javaSource,
        IPath projectLocationPath,
-       List referencedProjects,
+       List<IProject> referencedProjects,
        Monitor monitor,
        int style,
-       List pluginVariables)
+       List<?> pluginVariables)
     {
       IProgressMonitor progressMonitor = BasicMonitor.toIProgressMonitor(monitor);
       String projectName = javaSource.segment(0);
       IProject project = null;
       try
       {
-        List classpathEntries = new UniqueEList();
+        List<IClasspathEntry> classpathEntries = new UniqueEList<IClasspathEntry>();
   
         progressMonitor.beginTask("", 10);
         progressMonitor.subTask(CodeGenEcorePlugin.INSTANCE.getString("_UI_CreatingEMFProject_message", new Object [] { projectName, projectLocationPath != null ? projectLocationPath.toOSString() : projectName }));
@@ -654,10 +659,9 @@ public class Generator extends CodeGen
           if (referencedProjects.size() != 0 && (style & (EMF_PLUGIN_PROJECT_STYLE | EMF_EMPTY_PROJECT_STYLE)) == 0)
           {
             projectDescription.setReferencedProjects
-              ((IProject [])referencedProjects.toArray(new IProject [referencedProjects.size()]));
-            for (Iterator i = referencedProjects.iterator(); i.hasNext(); )
+              (referencedProjects.toArray(new IProject[referencedProjects.size()]));
+            for (IProject referencedProject : referencedProjects)
             {
-              IProject referencedProject = (IProject)i.next();
               IClasspathEntry referencedProjectClasspathEntry = JavaCore.newProjectEntry(referencedProject.getFullPath());
               classpathEntries.add(referencedProjectClasspathEntry);
             }
@@ -753,9 +757,9 @@ public class Generator extends CodeGen
           {
             IClasspathEntry sourceClasspathEntry = 
               JavaCore.newSourceEntry(javaSource);
-            for (Iterator i = classpathEntries.iterator(); i.hasNext(); )
+            for (Iterator<IClasspathEntry> i = classpathEntries.iterator(); i.hasNext(); )
             {
-              IClasspathEntry classpathEntry = (IClasspathEntry)i.next();
+              IClasspathEntry classpathEntry = i.next();
               if (classpathEntry.getPath().isPrefixOf(javaSource))
               {
                 i.remove();
@@ -766,9 +770,9 @@ public class Generator extends CodeGen
             IClasspathEntry jreClasspathEntry =
               JavaCore.newVariableEntry
                 (new Path(JavaRuntime.JRELIB_VARIABLE), new Path(JavaRuntime.JRESRC_VARIABLE), new Path(JavaRuntime.JRESRCROOT_VARIABLE));
-            for (Iterator i = classpathEntries.iterator(); i.hasNext(); )
+            for (Iterator<IClasspathEntry> i = classpathEntries.iterator(); i.hasNext(); )
             {
-              IClasspathEntry classpathEntry = (IClasspathEntry)i.next();
+              IClasspathEntry classpathEntry = i.next();
               if (classpathEntry.getPath().isPrefixOf(jreClasspathEntry.getPath()))
               {
                 i.remove();
@@ -786,9 +790,9 @@ public class Generator extends CodeGen
   
               // Remove variables since the plugin.xml should provide the complete path information.
               //
-              for (Iterator i = classpathEntries.iterator(); i.hasNext(); )
+              for (Iterator<IClasspathEntry> i = classpathEntries.iterator(); i.hasNext(); )
               {
-                IClasspathEntry classpathEntry = (IClasspathEntry)i.next();
+                IClasspathEntry classpathEntry = i.next();
                 if (classpathEntry.getEntryKind() == IClasspathEntry.CPE_VARIABLE && 
                       !JavaRuntime.JRELIB_VARIABLE.equals(classpathEntry.getPath().toString()) ||
                       classpathEntry.getEntryKind() == IClasspathEntry.CPE_PROJECT)
@@ -837,12 +841,12 @@ public class Generator extends CodeGen
   
               if (pluginVariables != null)
               {
-                for (Iterator i = pluginVariables.iterator(); i.hasNext(); )
+                for (Iterator<?> i = pluginVariables.iterator(); i.hasNext(); )
                 {
                   Object variable = i.next();
                   if (variable instanceof IClasspathEntry)
                   {
-                    classpathEntries.add(variable);
+                    classpathEntries.add((IClasspathEntry)variable);
                   }
                   else if (variable instanceof String)
                   {
@@ -868,7 +872,7 @@ public class Generator extends CodeGen
           }
   
           javaProject.setRawClasspath
-            ((IClasspathEntry [])classpathEntries.toArray(new IClasspathEntry [classpathEntries.size()]),
+            (classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]),
              new SubProgressMonitor(progressMonitor, 1));
         }
   

@@ -15,7 +15,7 @@
  * </copyright>
  */
 %>
-<%GenPackage genPackage = (GenPackage)argument; GenModel genModel = genPackage.getGenModel();%>
+<%GenPackage genPackage = (GenPackage)argument; GenModel genModel = genPackage.getGenModel(); if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getTestsPackageName()%>;
 
@@ -57,7 +57,7 @@ public class <%=genPackage.getTestSuiteClassName()%> extends <%=genModel.getImpo
 	public static <%=genModel.getImportedName("junit.framework.Test")%> suite()
 	{
 		<%=genModel.getImportedName("junit.framework.TestSuite")%> suite = new <%=genPackage.getTestSuiteClassName()%>("<%=genPackage.getPackageName()%> Tests");<%=genModel.getNonNLS()%>
-<%for (Iterator genClasses = genPackage.getGenClasses().iterator(); genClasses.hasNext();) { GenClass genClass = (GenClass)genClasses.next();%>
+<%for (GenClass genClass : genPackage.getGenClasses()) {%>
   <%if (!genClass.isExternalInterface() && !genClass.isAbstract() && genClass.hasTests()) {%>
 		suite.addTestSuite(<%=genClass.getImportedTestCaseClassName()%>.class);
   <%}%>

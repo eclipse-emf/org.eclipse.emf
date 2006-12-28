@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.6 2006/12/13 20:30:16 marcelop Exp $
+ * $Id: Generator.java,v 1.7 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,6 +77,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public class Generator
 {
+  private static final boolean SYSOUT_BEGIN_END = false;
+  
   /**
    * A set of code generation options that should be shared among the generator, adapter factories and adapters.
    * Additional options may be added to this class in the future.
@@ -106,6 +107,7 @@ public class Generator
      * @deprecated org.eclipse.emf.codegen.ecore 2.2.2 Override {@link AbstractGeneratorAdapter#addBaseTemplatePathEntries(List)} instead. 
      * @see AbstractGeneratorAdapter#addBaseTemplatePathEntries(List)
      */
+    @Deprecated
     public String[] templatePath;
 
     /**
@@ -128,7 +130,7 @@ public class Generator
     /**
      * Code formatter options to be used instead of the defaults for Java code formatting.
      */
-    public Map codeFormatterOptions;
+    public Map<?, ?> codeFormatterOptions;
 
     /**
      * The resource set containing the input, from which a URI converter, package registry, resource factory registry,
@@ -143,6 +145,7 @@ public class Generator
 
     public Options()
     {
+      super();
     }
   }
 
@@ -154,7 +157,7 @@ public class Generator
   /**
    * The cached set of generator adapter factories for this generator, keyed by package ID.
    */
-  protected Map packageIDToAdapterFactories;
+  protected Map<String, Collection<GeneratorAdapterFactory>> packageIDToAdapterFactories;
 
   protected Object input;
   protected Options options;
@@ -176,6 +179,7 @@ public class Generator
    */
   public Generator()
   {
+    super();
   }
 
   /**
@@ -239,9 +243,9 @@ public class Generator
    */
   protected void initialize()
   {
-    for (Iterator i = getAdapterFactories(input).iterator(); i.hasNext(); )
+    for (GeneratorAdapterFactory adapterFactory : getAdapterFactories(input))
     {
-      ((GeneratorAdapterFactory)i.next()).initialize(input);
+      adapterFactory.initialize(input);
     }
   }
 
@@ -313,22 +317,22 @@ public class Generator
    * @see #getPackageID(Object)
    * @see GeneratorAdapterFactory.Descriptor
    */
-  protected Collection getAdapterFactories(Object object)
+  protected Collection<GeneratorAdapterFactory> getAdapterFactories(Object object)
   {
     if (packageIDToAdapterFactories == null)
     {
-      packageIDToAdapterFactories = new HashMap();
+      packageIDToAdapterFactories = new HashMap<String, Collection<GeneratorAdapterFactory>>();
     }
 
     String packageID = getPackageID(object);
-    Collection result = (Collection)packageIDToAdapterFactories.get(packageID);
+    Collection<GeneratorAdapterFactory> result = packageIDToAdapterFactories.get(packageID);
     if (result == null)
     {
-      Collection descriptors = getAdapterFactoryDescriptorRegistry().getDescriptors(packageID);
-      result = new ArrayList(descriptors.size());
-      for (Iterator i = descriptors.iterator(); i.hasNext(); )
+      Collection<GeneratorAdapterFactory.Descriptor> descriptors = getAdapterFactoryDescriptorRegistry().getDescriptors(packageID);
+      result = new ArrayList<GeneratorAdapterFactory>(descriptors.size());
+      for (GeneratorAdapterFactory.Descriptor descriptor : descriptors)
       {
-        GeneratorAdapterFactory adapterFactory = ((GeneratorAdapterFactory.Descriptor)i.next()).createAdapterFactory();
+        GeneratorAdapterFactory adapterFactory = descriptor.createAdapterFactory();
         adapterFactory.setGenerator(this);
         result.add(adapterFactory);
       }
@@ -360,22 +364,19 @@ public class Generator
    * @see #getAdapterFactories(Object)
    * @see GeneratorAdapter
    */
-  protected Collection getAdapters(Object object)
+  protected Collection<GeneratorAdapter> getAdapters(Object object)
   {
-    Collection adapterFactories = getAdapterFactories(object);
-    List result = new ArrayList(adapterFactories.size());
+    Collection<GeneratorAdapterFactory> adapterFactories = getAdapterFactories(object);
+    List<GeneratorAdapter> result = new ArrayList<GeneratorAdapter>(adapterFactories.size());
 
-    for (Iterator i = adapterFactories.iterator(); i.hasNext(); )
+    for (AdapterFactory adapterFactory : adapterFactories)
     {
-      AdapterFactory adapterFactory = (AdapterFactory)i.next();
+      if (adapterFactory.isFactoryForType(GeneratorAdapter.class))
       {
-        if (adapterFactory.isFactoryForType(GeneratorAdapter.class))
+        Object adapter = adapterFactory.adapt(object, GeneratorAdapter.class);
+        if (adapter != null)
         {
-          Object adapter = adapterFactory.adapt(object, GeneratorAdapter.class);
-          if (adapter != null)
-          {
-            result.add(adapter);
-          }
+          result.add((GeneratorAdapter)adapter);
         }
       }
     }
@@ -398,45 +399,43 @@ public class Generator
   {
     // Since we're invoking plugged-in code, we must be defensive against cycles.
     //
-    Set objects = new HashSet();
+    Set<Object> objects = new HashSet<Object>();
 
     // Compute the GeneratorData for the given object and its children, then for the parents of the given object.
     //
-    List childrenData = getGeneratorData(object, projectType, forGenerate, true, false, objects);
-    List parentsData = getGeneratorData(object, projectType, forGenerate, false, true, objects);
+
+    List<GeneratorData> childrenData = getGeneratorData(object, projectType, forGenerate, true, false, objects);
+    List<GeneratorData> parentsData = getGeneratorData(object, projectType, forGenerate, false, true, objects);
 
     // Combine the two lists.
     //
-    List result = new ArrayList(parentsData.size() + childrenData.size());
+    List<GeneratorData> result = new ArrayList<GeneratorData>(parentsData.size() + childrenData.size());
     Collections.reverse(parentsData);
     result.addAll(parentsData);
     result.addAll(childrenData);
-    return (GeneratorData[])result.toArray(new GeneratorData[result.size()]);
+    return result.toArray(new GeneratorData[result.size()]);
   }
 
-  private List getGeneratorData(Object object, Object projectType, boolean forGenerate, boolean forChildren, boolean skipFirst, Set objects)
+  private List<GeneratorData> getGeneratorData(Object object, Object projectType, boolean forGenerate, boolean forChildren, boolean skipFirst, Set<Object> objects)
   {
-    List result  = new ArrayList();
+    List<Object> result  = new ArrayList<Object>();
     result.add(object);
 
     for (int i = 0; i < result.size(); skipFirst = false)
     {
       Object o = result.get(i);
 
-      Collection adapters = getAdapters(o);
+      Collection<GeneratorAdapter> adapters = getAdapters(o);
       result.remove(i);
       if (!adapters.isEmpty())
       {
-        for (Iterator adaptersIter = adapters.iterator(); adaptersIter.hasNext(); )
+        for (GeneratorAdapter adapter : adapters)
         {
-          GeneratorAdapter adapter = (GeneratorAdapter)adaptersIter.next();
           if (forChildren)
           {
-            Collection children = forGenerate ? adapter.getGenerateChildren(o, projectType) : adapter.getCanGenerateChildren(o, projectType);
-
-            for (Iterator childrenIter = children.iterator(); childrenIter.hasNext(); )
+            Collection<?> children = forGenerate ? adapter.getGenerateChildren(o, projectType) : adapter.getCanGenerateChildren(o, projectType);
+            for (Object child : children)
             {
-              Object child = childrenIter.next();
               if (objects.add(child))
               {
                 result.add(child);
@@ -446,7 +445,6 @@ public class Generator
           else
           {
             Object parent = forGenerate ? adapter.getGenerateParent(o, projectType) : adapter.getCanGenerateParent(o, projectType);
-
             if (parent != null && objects.add(parent))
             {
               result.add(parent);
@@ -460,7 +458,10 @@ public class Generator
         }
       }
     }
-    return result;
+    
+    @SuppressWarnings({"cast","unchecked"})
+    List<GeneratorData> list = (List<GeneratorData>)(List)result;
+    return list;
   }
 
   /**
@@ -571,6 +572,7 @@ public class Generator
    */
   public Diagnostic generate(Object object, Object projectType, String projectTypeName, Monitor monitor)
   {
+    if (SYSOUT_BEGIN_END) System.out.println("******* Begin: " + new java.util.Date());
     try
     {
       String message = projectTypeName != null ?
@@ -622,6 +624,7 @@ public class Generator
     finally
     {
       monitor.done();
+      if (SYSOUT_BEGIN_END) System.out.println("******* End: " + new java.util.Date());
     }
   }
 
@@ -647,11 +650,11 @@ public class Generator
   {
     if (packageIDToAdapterFactories != null)
     {
-      for (Iterator i = packageIDToAdapterFactories.values().iterator(); i.hasNext(); )
+      for (Collection<GeneratorAdapterFactory> adapterFactories : packageIDToAdapterFactories.values())
       {
-        for (Iterator j = ((Collection)i.next()).iterator(); j.hasNext(); )
+        for (GeneratorAdapterFactory adapterFactory : adapterFactories)
         {
-          ((GeneratorAdapterFactory)j.next()).dispose();
+          adapterFactory.dispose();
         }
       }
     }

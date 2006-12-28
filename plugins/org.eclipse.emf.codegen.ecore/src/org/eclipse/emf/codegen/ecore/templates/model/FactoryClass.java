@@ -452,7 +452,7 @@ public class FactoryClass
  * </copyright>
  */
 
-    GenPackage genPackage = (GenPackage)((Object[])argument)[0]; GenModel genModel=genPackage.getGenModel();
+    GenPackage genPackage = (GenPackage)((Object[])argument)[0]; GenModel genModel=genPackage.getGenModel(); if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}
     boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);
     String publicStaticFinalFlag = isImplementation ? "public static final " : "";
     stringBuffer.append(TEXT_1);
@@ -569,7 +569,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_47);
     }
     stringBuffer.append(TEXT_48);
-    for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
+    for (GenClass genClass : genPackage.getGenClasses()) {
     if (!genClass.isAbstract()) {
     stringBuffer.append(TEXT_49);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
@@ -594,7 +594,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_58);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EDataType"));
     stringBuffer.append(TEXT_59);
-    for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();
+    for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {
     if (genDataType.isSerializable()) {
     stringBuffer.append(TEXT_60);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
@@ -615,7 +615,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_67);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EDataType"));
     stringBuffer.append(TEXT_68);
-    for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();
+    for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {
     if (genDataType.isSerializable()) {
     stringBuffer.append(TEXT_69);
     stringBuffer.append(genPackage.getImportedPackageInterfaceName());
@@ -631,7 +631,7 @@ public class FactoryClass
     stringBuffer.append(genModel.getNonNLS(2));
     stringBuffer.append(TEXT_74);
     }
-    for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
+    for (GenClass genClass : genPackage.getGenClasses()) {
     if (!genClass.isAbstract()) {
     stringBuffer.append(TEXT_75);
     stringBuffer.append(genClass.getTypeParameters());
@@ -671,7 +671,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_90);
     }
     }
-    for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();
+    for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {
     if (genDataType.isSerializable()) {
     if (genPackage.isDataTypeConverters()) { String eDataType = genDataType.getQualifiedClassifierAccessor();
     stringBuffer.append(TEXT_91);
@@ -784,7 +784,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_138);
     stringBuffer.append(genDataType.getStaticValue(null));
     stringBuffer.append(TEXT_139);
-    for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();
+    for (GenDataType genMemberType : genDataType.getMemberTypes()) {
     stringBuffer.append(TEXT_140);
     if (genMemberType.getGenPackage() == genPackage) {
     if (genPackage.isDataTypeConverters()) { if (!genDataType.isPrimitiveType()) genMemberType = genMemberType.getObjectType();
@@ -972,7 +972,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_223);
     stringBuffer.append(genDataType.getObjectInstanceClassName());
     stringBuffer.append(TEXT_224);
-    for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();
+    for (GenDataType genMemberType : genDataType.getMemberTypes()) {
     stringBuffer.append(TEXT_225);
     if (genMemberType.getGenPackage() == genPackage) {
     stringBuffer.append(TEXT_226);
@@ -1111,7 +1111,7 @@ public class FactoryClass
     } else if (!genDataType.getMemberTypes().isEmpty()) {
     if (!genDataType.isPrimitiveType()) {
     stringBuffer.append(TEXT_288);
-    for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();
+    for (GenDataType genMemberType : genDataType.getMemberTypes()) {
     stringBuffer.append(TEXT_289);
     stringBuffer.append(genMemberType.getQualifiedClassifierAccessor());
     stringBuffer.append(TEXT_290);
@@ -1163,7 +1163,7 @@ public class FactoryClass
     stringBuffer.append(TEXT_310);
     }
     } else {
-    for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();
+    for (GenDataType genMemberType : genDataType.getMemberTypes()) {
     stringBuffer.append(TEXT_311);
     if (genMemberType.getGenPackage() == genPackage) {
     if (genPackage.isDataTypeConverters()) {
@@ -1311,7 +1311,7 @@ public class FactoryClass
     }
     } else {
     stringBuffer.append(TEXT_377);
-    for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();
+    for (GenDataType genMemberType : genDataType.getMemberTypes()) {
     stringBuffer.append(TEXT_378);
     stringBuffer.append(genMemberType.getQualifiedClassifierAccessor());
     stringBuffer.append(TEXT_379);
@@ -1345,7 +1345,7 @@ public class FactoryClass
     }
     }
     } else {
-    for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
+    for (GenClass genClass : genPackage.getGenClasses()) {
     if (genClass.hasFactoryInterfaceCreateMethod()) {
     stringBuffer.append(TEXT_393);
     stringBuffer.append(genClass.getFormattedName());
@@ -1361,7 +1361,7 @@ public class FactoryClass
     }
     }
     if (genPackage.isDataTypeConverters()) {
-    for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();
+    for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {
     if (genDataType.isSerializable()) {
     stringBuffer.append(TEXT_398);
     stringBuffer.append(genDataType.getFormattedName());

@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.24 2006/12/05 20:29:10 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="FactoryClass" version="$Id: FactoryClass.javajet,v 1.25 2006/12/28 06:40:38 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -15,7 +15,7 @@
  * </copyright>
  */
 %>
-<%GenPackage genPackage = (GenPackage)((Object[])argument)[0]; GenModel genModel=genPackage.getGenModel();%>
+<%GenPackage genPackage = (GenPackage)((Object[])argument)[0]; GenModel genModel=genPackage.getGenModel(); if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}%>
 <%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
 <%String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
 <%@ include file="../Header.javajetinc"%>
@@ -143,7 +143,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	{
 		switch (eClass.getClassifierID())
 		{
-<%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+<%for (GenClass genClass : genPackage.getGenClasses()) {%>
 <%if (!genClass.isAbstract()) {%>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genClass.getClassifierID()%>: return <%=!genClass.isEObjectExtension() ? "(EObject)" : "" %>create<%=genClass.getName()%>();
 <%}%>
@@ -166,7 +166,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	{
 		switch (eDataType.getClassifierID())
 		{
-<%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
+<%for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {%>
   <%if (genDataType.isSerializable()) {%>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genDataType.getClassifierID()%>:
 				return create<%=genDataType.getName()%>FromString(eDataType, initialValue);
@@ -189,7 +189,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	{
 		switch (eDataType.getClassifierID())
 		{
-<%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
+<%for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {%>
   <%if (genDataType.isSerializable()) {%>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genDataType.getClassifierID()%>:
 				return convert<%=genDataType.getName()%>ToString(eDataType, instanceValue);
@@ -201,7 +201,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	}
 
 <%}%>
-<%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+<%for (GenClass genClass : genPackage.getGenClasses()) {%>
   <%if (!genClass.isAbstract()) {%>
 	/**
 	 * <!-- begin-user-doc -->
@@ -220,7 +220,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 
   <%}%>
 <%}%>
-<%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
+<%for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {%>
   <%if (genDataType.isSerializable()) {%>
 <%if (genPackage.isDataTypeConverters()) { String eDataType = genDataType.getQualifiedClassifierAccessor();%>
 	/**
@@ -278,7 +278,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 		if (literal == null) return <%=genDataType.getStaticValue(null)%>;
 		<%=genDataType.getImportedInstanceClassName()%> result = <%=genDataType.getStaticValue(null)%>;
 		RuntimeException exception = null;
-      <%for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();%>
+      <%for (GenDataType genMemberType : genDataType.getMemberTypes()) {%>
 		try
 		{
       <%if (genMemberType.getGenPackage() == genPackage) {%>
@@ -373,7 +373,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 		if (initialValue == null) return null;
 		<%=genDataType.getObjectInstanceClassName()%> result = null;
 		RuntimeException exception = null;
-      <%for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();%>
+      <%for (GenDataType genMemberType : genDataType.getMemberTypes()) {%>
 		try
 		{
       <%if (genMemberType.getGenPackage() == genPackage) {%>
@@ -457,7 +457,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
     <%} else if (!genDataType.getMemberTypes().isEmpty()) {%>
       <%if (!genDataType.isPrimitiveType()) {%>
 		if (instanceValue == null) return null;
-        <%for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();%>
+        <%for (GenDataType genMemberType : genDataType.getMemberTypes()) {%>
 		if (<%=genMemberType.getQualifiedClassifierAccessor()%>.isInstance(instanceValue))
 		{
 			try
@@ -490,7 +490,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 		}
         <%}%>
       <%} else {%>
-        <%for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();%>
+        <%for (GenDataType genMemberType : genDataType.getMemberTypes()) {%>
 		try
 		{
           <%if (genMemberType.getGenPackage() == genPackage) {%>
@@ -579,7 +579,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
         <%}%>
       <%} else {%>
 		if (instanceValue == null) return null;
-        <%for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); ) { GenDataType genMemberType = (GenDataType)j.next();%>
+        <%for (GenDataType genMemberType : genDataType.getMemberTypes()) {%>
 		if (<%=genMemberType.getQualifiedClassifierAccessor()%>.isInstance(instanceValue))
 		{
 			try
@@ -613,7 +613,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
   <%}%>
 <%}%>
 <%} else {%>
-  <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+  <%for (GenClass genClass : genPackage.getGenClasses()) {%>
     <%if (genClass.hasFactoryInterfaceCreateMethod()) {%>
 	/**
 	 * Returns a new object of class '<em><%=genClass.getFormattedName()%></em>'.
@@ -627,7 +627,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
     <%}%>
   <%}%>
   <%if (genPackage.isDataTypeConverters()) {%>
-    <%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
+    <%for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {%>
       <%if (genDataType.isSerializable()) {%>
 	/**
 	 * Returns an instance of data type '<em><%=genDataType.getFormattedName()%></em>' corresponding the given literal.

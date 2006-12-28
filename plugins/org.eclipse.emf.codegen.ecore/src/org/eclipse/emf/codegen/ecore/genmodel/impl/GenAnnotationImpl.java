@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenAnnotationImpl.java,v 1.3 2006/05/03 18:42:11 davidms Exp $
+ * $Id: GenAnnotationImpl.java,v 1.4 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -75,7 +75,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * @generated
    * @ordered
    */
-  protected EMap details = null;
+  protected EMap<String, String> details = null;
 
   /**
    * The cached value of the '{@link #getReferences() <em>References</em>}' reference list.
@@ -85,7 +85,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * @generated
    * @ordered
    */
-  protected EList references = null;
+  protected EList<EObject> references = null;
 
   /**
    * The cached value of the '{@link #getContents() <em>Contents</em>}' containment reference list.
@@ -95,7 +95,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * @generated
    * @ordered
    */
-  protected EList contents = null;
+  protected EList<EObject> contents = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -112,6 +112,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_ANNOTATION;
@@ -145,11 +146,11 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public EMap getDetails()
+  public EMap<String, String> getDetails()
   {
     if (details == null)
     {
-      details = new EcoreEMap(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, GenModelPackage.GEN_ANNOTATION__DETAILS);
+      details = new EcoreEMap<String,String>(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY, EStringToStringMapEntryImpl.class, this, GenModelPackage.GEN_ANNOTATION__DETAILS);
     }
     return details;
   }
@@ -204,11 +205,11 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getReferences()
+  public EList<EObject> getReferences()
   {
     if (references == null)
     {
-      references = new EObjectResolvingEList(EObject.class, this, GenModelPackage.GEN_ANNOTATION__REFERENCES);
+      references = new EObjectResolvingEList<EObject>(EObject.class, this, GenModelPackage.GEN_ANNOTATION__REFERENCES);
     }
     return references;
   }
@@ -218,11 +219,11 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getContents()
+  public EList<EObject> getContents()
   {
     if (contents == null)
     {
-      contents = new EObjectContainmentEList(EObject.class, this, GenModelPackage.GEN_ANNOTATION__CONTENTS);
+      contents = new EObjectContainmentEList<EObject>(EObject.class, this, GenModelPackage.GEN_ANNOTATION__CONTENTS);
     }
     return contents;
   }
@@ -232,6 +233,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -249,16 +251,17 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_ANNOTATION__DETAILS:
-        return ((InternalEList)getDetails()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getDetails()).basicRemove(otherEnd, msgs);
       case GenModelPackage.GEN_ANNOTATION__GEN_BASE:
         return basicSetGenBase(null, msgs);
       case GenModelPackage.GEN_ANNOTATION__CONTENTS:
-        return ((InternalEList)getContents()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getContents()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -268,6 +271,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -283,6 +287,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -307,6 +312,8 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -322,11 +329,11 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
         return;
       case GenModelPackage.GEN_ANNOTATION__REFERENCES:
         getReferences().clear();
-        getReferences().addAll((Collection)newValue);
+        getReferences().addAll((Collection<? extends EObject>)newValue);
         return;
       case GenModelPackage.GEN_ANNOTATION__CONTENTS:
         getContents().clear();
-        getContents().addAll((Collection)newValue);
+        getContents().addAll((Collection<? extends EObject>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -337,6 +344,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -365,6 +373,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -388,6 +397,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -404,6 +414,7 @@ public class GenAnnotationImpl extends GenBaseImpl implements GenAnnotation
     return true;
   }
 
+  @Override
   public String getName()
   {
     return getSource();

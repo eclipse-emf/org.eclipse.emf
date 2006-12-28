@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.13 2006/11/02 16:21:57 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginXML" version="$Id: plugin.xmljet,v 1.14 2006/12/28 06:40:38 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -29,7 +29,7 @@
     class = "<%=genModel.getQualifiedEditPluginClassName()%>$Implementation">
 
   <requires>
-<%for (Iterator j=genModel.getEditRequiredPlugins().iterator(); j.hasNext();) { String pluginID = (String)j.next();%>
+<%for (String pluginID : genModel.getEditRequiredPlugins()) {%>
     <import plugin="<%=pluginID%>" <%if (!pluginID.startsWith("org.eclipse.core.runtime")) {%>export="true"<%}%>/>
 <%}%>
   </requires>
@@ -44,7 +44,7 @@
     </library>
   </runtime>
 <%}%>
-<% for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); %>
+<% for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
   <%if (!genPackage.getGenClasses().isEmpty()) {%>
     
   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
@@ -52,13 +52,13 @@
        uri = "<%=genPackage.getNSURI()%>" 
        class = "<%=genPackage.getQualifiedItemProviderAdapterFactoryClassName()%>" 
        supportedTypes = 
-  <%for (ListIterator j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {%>
+  <%for (ListIterator<?> j = genPackage.getProviderSupportedTypes().listIterator(); j.hasNext(); ) {%>
          <%=(j.hasPrevious()? " " : "\"") + j.next() + (j.hasNext() ? "" : "\"")%><%}%> />
   </extension>
   <%}%>
 <%}%>
 <%if (genModel.sameModelEditProject()) {%>
-  <% for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); %>
+  <% for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package

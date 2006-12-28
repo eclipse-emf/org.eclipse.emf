@@ -55,7 +55,7 @@ public class PluginXML
  * </copyright>
  */
 
-    GenModel genModel = (GenModel)argument;
+    GenModel genModel = (GenModel)argument; if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     stringBuffer.append(TEXT_3);
@@ -70,7 +70,7 @@ public class PluginXML
     stringBuffer.append(TEXT_8);
     stringBuffer.append(genModel.getTestsPluginID());
     stringBuffer.append(TEXT_9);
-    for (Iterator j=genModel.getTestsRequiredPlugins().iterator(); j.hasNext();) { String pluginID = (String)j.next();
+    for (String pluginID : genModel.getTestsRequiredPlugins()) {
     stringBuffer.append(TEXT_10);
     stringBuffer.append(pluginID);
     stringBuffer.append(TEXT_11);

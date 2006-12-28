@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.11 2006/12/09 14:48:18 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.* java.util.* org.eclipse.emf.ecore.EStructuralFeature org.eclipse.emf.ecore.util.*" class="ResourceClass" version="$Id: ResourceClass.javajet,v 1.12 2006/12/28 06:40:38 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -50,7 +50,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 	public <%=genPackage.getResourceClassName()%>(URI uri)
 	{
 		super(uri);
-<%if (genPackage.getResource() == GenResourceKind.XML_LITERAL) {%>
+<%if (genPackage.getResource() == GenResourceKind.XML_LITERAL) { // Do nothing%>
 <%}%>
 	}
 
@@ -206,7 +206,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		 */
 		public static final FrameFactory INSTANCE = new FrameFactory();
 	
-<%for (Iterator i = genPackage.getGenClasses().iterator(); i.hasNext(); ) { GenClass genClass = (GenClass)i.next();%>
+<%for (GenClass genClass : genPackage.getGenClasses()) {%>
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -215,7 +215,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		protected <%=genClass.getInterfaceName()%>StackFrame <%=genClass.getSafeUncapName()%>;
 
 <%}%>
-<%for (Iterator i = genPackage.getAllGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();%>
+<%for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {%>
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -224,9 +224,9 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		protected <%=_DataFrame%> <%=genDataType.getSafeUncapName()%>;
 
 <%}%>
-<%for (Iterator i = genPackage.getGenClasses().iterator(); i.hasNext(); ) { GenClass genClass = (GenClass)i.next();%>
-<%List attributes = extendedMetaData.getAllAttributes(genClass.getEcoreClass());%>
-<%List elements = extendedMetaData.getAllElements(genClass.getEcoreClass());%>
+<%for (GenClass genClass : genPackage.getGenClasses()) {%>
+<%List<EStructuralFeature> attributes = extendedMetaData.getAllAttributes(genClass.getEcoreClass());%>
+<%List<EStructuralFeature> elements = extendedMetaData.getAllElements(genClass.getEcoreClass());%>
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -267,7 +267,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 			 */
 			protected <%=genClass.getImportedInterfaceName()%> the<%=genClass.getInterfaceName()%>;
 		
-<%for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();%>
+<%for (GenFeature genFeature : genClass.getAllGenFeatures()) {%>
 <%String name = extendedMetaData.getName(genFeature.getEcoreFeature());%>
 <%if ((elements.contains(genFeature.getEcoreFeature()) || attributes.contains(genFeature.getEcoreFeature())) && name.indexOf(":") == -1) {%>
 <%if (genFeature.isReferenceType()) {%>
@@ -299,7 +299,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
   <%}%>
 			public void handleAttributes(Attributes attributes)
 			{
-<%int count = 0; for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();%>
+<%int count = 0; for (GenFeature genFeature : genClass.getAllGenFeatures()) {%>
 <%String name = extendedMetaData.getName(genFeature.getEcoreFeature());%>
 <%if (attributes.contains(genFeature.getEcoreFeature()) && !genFeature.isDerived() && name.indexOf(":") == -1) {%>
 <%String namespace = Literals.toStringLiteral(extendedMetaData.getNamespace(genFeature.getEcoreFeature()), genModel); if ("null".equals(namespace)) namespace = "\"\"";%>
@@ -335,7 +335,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
   <%}%>
 			public <%=_StackFrame%> startElement(String namespace, String localName, String qName, Attributes attributes) throws SAXException
 			{
-<%count = 0; for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();%>
+<%count = 0; for (GenFeature genFeature : genClass.getAllGenFeatures()) {%>
 <%String name = extendedMetaData.getName(genFeature.getEcoreFeature());%>
 <%if (elements.contains(genFeature.getEcoreFeature()) && name.indexOf(":") == -1) {%>
 <%String namespace = Literals.toStringLiteral(extendedMetaData.getNamespace(genFeature.getEcoreFeature()), genModel); if ("null".equals(namespace)) namespace = "\"\"";%>
@@ -365,7 +365,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
   <%}%>
 			public void endElement(<%=_StackFrame%> child) throws SAXException
 			{
-<%count = 0; for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();%>
+<%count = 0; for (GenFeature genFeature : genClass.getAllGenFeatures()) {%>
 <%String name = extendedMetaData.getName(genFeature.getEcoreFeature());%>
 <%if (elements.contains(genFeature.getEcoreFeature()) && name.indexOf(":") == -1) {%>
 				<%if (count++ != 0) {%>else <%}%>if (child == <%=genFeature.getSafeName()%>)
@@ -418,7 +418,7 @@ public class <%=genPackage.getResourceClassName()%> extends <%=genPackage.getImp
 		}
 
 <%}%>
-<%for (Iterator i = genPackage.getAllGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();%>
+<%for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {%>
 		/**
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->

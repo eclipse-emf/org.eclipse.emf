@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.6 2006/11/14 17:57:21 davidms Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.7 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -25,6 +25,7 @@ import java.util.List;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
@@ -82,7 +83,8 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   public static final String TESTS_PROJECT_TYPE = "org.eclipse.emf.codegen.ecore.genmodel.generator.TestsProject";
 
   public GenBaseGeneratorAdapter()
-  {    
+  {
+    super();
   }
 
   public GenBaseGeneratorAdapter(GeneratorAdapterFactory generatorAdapterFactory)
@@ -94,6 +96,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
    * Based on the given project type, dispatches to one of {@link #canGenerateModel(Object)},
    * {@link #canGenerateEdit(Object)}, {@link #canGenerateEditor(Object)}, or {@link #canGenerateTests(Object)}.
    */
+  @Override
   public boolean canGenerate(Object object, Object projectType)
   {
     if (MODEL_PROJECT_TYPE.equals(projectType))
@@ -152,7 +155,8 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
    * {@link #getGenerateEditChildren(Object)}, {@link #getGenerateEditorChildren(Object)}, or
    * {@link #getGenerateTestsChildren(Object)}.
    */
-  public Collection getGenerateChildren(Object object, Object projectType)
+  @Override
+  public Collection<?> getGenerateChildren(Object object, Object projectType)
   {
     if (MODEL_PROJECT_TYPE.equals(projectType))
     {
@@ -173,22 +177,22 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
     return Collections.EMPTY_LIST;
   }
 
-  protected Collection getGenerateModelChildren(Object object)
+  protected Collection<?> getGenerateModelChildren(Object object)
   {
     return Collections.EMPTY_LIST;
   }
 
-  protected Collection getGenerateEditChildren(Object object)
+  protected Collection<?> getGenerateEditChildren(Object object)
   {
     return Collections.EMPTY_LIST;
   }
 
-  protected Collection getGenerateEditorChildren(Object object)
+  protected Collection<?> getGenerateEditorChildren(Object object)
   {
     return Collections.EMPTY_LIST;
   }
 
-  protected Collection getGenerateTestsChildren(Object object)
+  protected Collection<?> getGenerateTestsChildren(Object object)
   {
     return Collections.EMPTY_LIST;
   }
@@ -207,6 +211,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
    * {@link #generateEdit(Object, Monitor)}, {@link #generateEditor(Object, Monitor)}, or
    * {@link #generateTests(Object, Monitor)}.
    */
+  @Override
   public Diagnostic doGenerate(Object object, Object projectType, Monitor monitor)
   {
     if (MODEL_PROJECT_TYPE.equals(projectType))
@@ -252,7 +257,8 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
    * Returns the user-specified portion of the dynamic template path from the GenModel.
    * @since org.eclipse.emf.codegen.ecore 2.2.2
    */
-  protected List getUserTemplatePath()
+  @Override
+  protected List<String> getUserTemplatePath()
   {
     String templateLocation = ((GenBase)generatingObject).getGenModel().getTemplateDirectory();
     if (templateLocation != null && templateLocation.length() != 0)
@@ -263,7 +269,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
       }
       return Collections.singletonList(templateLocation);
     }
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /**
@@ -271,7 +277,8 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
    * override this to add to the front of the path, and then invoke this implementation.
    * @since org.eclipse.emf.codegen.ecore 2.2.2
    */
-  protected void addBaseTemplatePathEntries(List templatePath)
+  @Override
+  protected void addBaseTemplatePathEntries(List<String> templatePath)
   {
     templatePath.add(CodeGenEcorePlugin.INSTANCE.getBaseURL().toString() + "templates");
     super.addBaseTemplatePathEntries(templatePath);
@@ -280,6 +287,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   /**
    * Adds the plug-ins required for GenModel/Ecore-based templates to the <code>JETEmitter</code>'s classpath.
    */
+  @Override
   protected void addClasspathEntries(JETEmitter jetEmitter) throws JETException
   {
     jetEmitter.addVariable("EMF_CODEGEN", "org.eclipse.emf.codegen");
@@ -291,6 +299,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   /**
    * Creates the import manager and stores it on the <code>GenModel</code>, for use its in computing names.
    */
+  @Override
   protected void createImportManager(String packageName, String className)
   {
     super.createImportManager(packageName, className);
@@ -300,6 +309,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   /**
    * Clears the import manager and removes it from the <code>GenModel</code>.
    */
+  @Override
   protected void clearImportManager()
   {
     super.clearImportManager();
@@ -318,6 +328,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
    * Ensures that a project exists. If not, a properly configured EMF project will be created. Similarly, if the project
    * does exist and <code>force</code> is true, it will be reconfigured to match the default EMF configuration.
    */
+  @Override
   protected void ensureProjectExists(String workspacePath, Object object, Object projectType, boolean force, Monitor monitor)
   {
     try
@@ -354,12 +365,12 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
           if (!project.exists() || force)
           {
             IPath projectLocation = null;
-            List referencedProjects = new UniqueEList();
+            List<IProject> referencedProjects = new UniqueEList<IProject>();
 
             if (project.exists())
             {
               referencedProjects.addAll(Arrays.asList(project.getDescription().getReferencedProjects()));
-              projectLocation = project.getDescription().getLocation();
+              projectLocation = getLocation(project);
             }
             else
             {
@@ -367,7 +378,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
               if (genModelURI.isPlatformResource())
               {
                 IProject genModelProject = workspace.getRoot().getProject(genModelURI.segments()[1]);
-                projectLocation = genModelProject.getDescription().getLocation();
+                projectLocation = getLocation(genModelProject);
               }
             }
 
@@ -391,7 +402,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   
                 if (testsProject.exists())
                 {
-                  projectLocation = testsProject.getDescription().getLocation();
+                  projectLocation = getLocation(testsProject);
                 }
 
                 referencedProjects.add(modelProject);
@@ -407,15 +418,15 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
                 javaSource = new Path(genModel.getEditDirectory());
                 if (editProject.exists())
                 {
-                  projectLocation = editProject.getDescription().getLocation();
+                  projectLocation = getLocation(editProject);
                 }
 
                 referencedProjects.add(modelProject);
               }
   
-              for (Iterator i = genModel.getUsedGenPackages().iterator(); i.hasNext(); )
+              for (GenPackage genPackage : genModel.getUsedGenPackages())
               {
-                GenModel otherGenModel = ((GenPackage)i.next()).getGenModel();
+                GenModel otherGenModel = genPackage.getGenModel();
                 if (otherGenModel.hasEditSupport())
                 {
                   IProject otherEditProject = workspace.getRoot().getProject(otherGenModel.getEditProjectDirectory());
@@ -440,9 +451,9 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
 
             //  Remove any non-Java dependencies from being added.
             //
-            for (Iterator i = referencedProjects.iterator(); i.hasNext(); )
+            for (Iterator<IProject> i = referencedProjects.iterator(); i.hasNext(); )
             {
-              IProject referencedProject = (IProject)i.next();
+              IProject referencedProject = i.next();
               IJavaProject referencedJavaProject = JavaCore.create(referencedProject);
               if (!referencedJavaProject.exists())
               {
@@ -482,6 +493,11 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
         CodeGenEcorePlugin.INSTANCE.log(exception);
       }
       return false;
+    }
+    
+    protected static IPath getLocation(IProject project) throws CoreException
+    {
+      return project.getDescription().getLocation();
     }
   }
 }

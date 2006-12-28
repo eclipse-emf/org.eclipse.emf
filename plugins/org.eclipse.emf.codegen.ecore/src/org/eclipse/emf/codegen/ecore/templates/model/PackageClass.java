@@ -589,7 +589,7 @@ public class PackageClass
     if (genPackage.isLiteralsInterface()) {
     genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + ".Literals");
     }
-    for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + "." + genPackage.getClassifierID((GenClassifier)i.next()));
+    for (GenClassifier genClassifier : genPackage.getOrderedGenClassifiers()) genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + "." + genPackage.getClassifierID(genClassifier));
     }
     if (isInterface) {
     stringBuffer.append(TEXT_10);
@@ -667,7 +667,7 @@ public class PackageClass
     stringBuffer.append(TEXT_39);
     stringBuffer.append(genPackage.getQualifiedPackageClassName());
     stringBuffer.append(TEXT_40);
-    for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();
+    for (GenClassifier genClassifier : genPackage.getOrderedGenClassifiers()) {
     stringBuffer.append(TEXT_41);
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
     if (!genClass.isInterface()) {
@@ -713,7 +713,7 @@ public class PackageClass
     stringBuffer.append(genPackage.getClassifierValue(genClassifier));
     stringBuffer.append(TEXT_59);
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
-    for (Iterator f=genClass.getAllGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();
+    for (GenFeature genFeature : genClass.getAllGenFeatures()) {
     stringBuffer.append(TEXT_60);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_61);
@@ -746,7 +746,7 @@ public class PackageClass
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_73);
     }
-    for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();
+    for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {
     stringBuffer.append(TEXT_74);
     stringBuffer.append(genClassifier.getImportedMetaType());
     stringBuffer.append(TEXT_75);
@@ -788,7 +788,7 @@ public class PackageClass
     stringBuffer.append(TEXT_93);
     if (!genPackage.getPackageSimpleDependencies().isEmpty()) {
     stringBuffer.append(TEXT_94);
-    for (Iterator p=genPackage.getPackageSimpleDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();
+    for (GenPackage dep : genPackage.getPackageSimpleDependencies()) {
     stringBuffer.append(TEXT_95);
     stringBuffer.append(dep.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_96);
@@ -797,7 +797,7 @@ public class PackageClass
     }
     if (!genPackage.getPackageInterDependencies().isEmpty()) {
     stringBuffer.append(TEXT_98);
-    for (Iterator p=genPackage.getPackageInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();
+    for (GenPackage interdep : genPackage.getPackageInterDependencies()) {
     stringBuffer.append(TEXT_99);
     stringBuffer.append(interdep.getImportedPackageClassName());
     stringBuffer.append(TEXT_100);
@@ -827,7 +827,7 @@ public class PackageClass
     stringBuffer.append(genPackage.getPackageInterfaceName());
     stringBuffer.append(TEXT_112);
     }
-    for (Iterator p=genPackage.getPackageLoadInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();
+    for (GenPackage interdep : genPackage.getPackageLoadInterDependencies()) {
     if (interdep.isLoadingInitialization()) {
     stringBuffer.append(TEXT_113);
     stringBuffer.append(genPackage.getPackageInstanceVariable(interdep));
@@ -843,7 +843,7 @@ public class PackageClass
     stringBuffer.append(genPackage.getPackageInterfaceName());
     stringBuffer.append(TEXT_118);
     }
-    for (Iterator p=genPackage.getPackageBuildInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();
+    for (GenPackage interdep : genPackage.getPackageBuildInterDependencies()) {
     stringBuffer.append(TEXT_119);
     stringBuffer.append(genPackage.getPackageInstanceVariable(interdep));
     stringBuffer.append(TEXT_120);
@@ -854,7 +854,7 @@ public class PackageClass
     stringBuffer.append(genPackage.getPackageInterfaceName());
     stringBuffer.append(TEXT_123);
     }
-    for (Iterator p=genPackage.getPackageBuildInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();
+    for (GenPackage interdep : genPackage.getPackageBuildInterDependencies()) {
     stringBuffer.append(TEXT_124);
     stringBuffer.append(genPackage.getPackageInstanceVariable(interdep));
     stringBuffer.append(TEXT_125);
@@ -868,7 +868,7 @@ public class PackageClass
     stringBuffer.append(genPackage.getPackageInterfaceName());
     stringBuffer.append(TEXT_129);
     }
-    for (Iterator p=genPackage.getPackageLoadInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();
+    for (GenPackage interdep : genPackage.getPackageLoadInterDependencies()) {
     stringBuffer.append(TEXT_130);
     stringBuffer.append(genPackage.getPackageInstanceVariable(interdep));
     stringBuffer.append(TEXT_131);
@@ -900,7 +900,7 @@ public class PackageClass
     if (isInterface) { // TODO REMOVE THIS BOGUS EMPTY LINE
     stringBuffer.append(TEXT_143);
     }
-    for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();
+    for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {
     if (isInterface) {
     stringBuffer.append(TEXT_144);
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
@@ -995,7 +995,7 @@ public class PackageClass
     stringBuffer.append(TEXT_183);
     }
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
-    for (Iterator f=genClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();
+    for (GenFeature genFeature : genClass.getGenFeatures()) {
     if (isInterface) {
     stringBuffer.append(TEXT_184);
     stringBuffer.append(genFeature.getFeatureKind());
@@ -1085,7 +1085,7 @@ public class PackageClass
     stringBuffer.append(TEXT_222);
     if (!genPackage.getGenClasses().isEmpty()) {
     stringBuffer.append(TEXT_223);
-    for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next();
+    for (Iterator<GenClass> c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = c.next();
     stringBuffer.append(TEXT_224);
     stringBuffer.append(genClass.getClassifierInstanceName());
     stringBuffer.append(TEXT_225);
@@ -1093,7 +1093,7 @@ public class PackageClass
     stringBuffer.append(TEXT_226);
     stringBuffer.append(genClass.getClassifierID());
     stringBuffer.append(TEXT_227);
-    for (Iterator f=genClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();
+    for (GenFeature genFeature : genClass.getGenFeatures()) {
     stringBuffer.append(TEXT_228);
     stringBuffer.append(genFeature.getMetaType());
     stringBuffer.append(TEXT_229);
@@ -1109,7 +1109,7 @@ public class PackageClass
     }
     if (!genPackage.getGenEnums().isEmpty()) {
     stringBuffer.append(TEXT_233);
-    for (Iterator e=genPackage.getGenEnums().iterator(); e.hasNext();) { GenEnum genEnum = (GenEnum)e.next();
+    for (GenEnum genEnum : genPackage.getGenEnums()) {
     stringBuffer.append(TEXT_234);
     stringBuffer.append(genEnum.getClassifierInstanceName());
     stringBuffer.append(TEXT_235);
@@ -1119,7 +1119,7 @@ public class PackageClass
     }
     if (!genPackage.getGenDataTypes().isEmpty()) {
     stringBuffer.append(TEXT_237);
-    for (Iterator d=genPackage.getGenDataTypes().iterator(); d.hasNext();) { GenDataType genDataType = (GenDataType)d.next();
+    for (GenDataType genDataType : genPackage.getGenDataTypes()) {
     stringBuffer.append(TEXT_238);
     stringBuffer.append(genDataType.getClassifierInstanceName());
     stringBuffer.append(TEXT_239);
@@ -1132,6 +1132,7 @@ public class PackageClass
 ///////////////////////
 class Information
 {
+  @SuppressWarnings("unused")
   EGenericType eGenericType;
   int depth;
   String type;
@@ -1140,7 +1141,7 @@ class Information
 
 class InformationIterator
 {
-  Iterator iterator;
+  Iterator<?> iterator;
   InformationIterator(EGenericType eGenericType)
   {
     iterator = EcoreUtil.getAllContents(Collections.singleton(eGenericType));
@@ -1200,7 +1201,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(TEXT_242);
     if (!genPackage.getPackageInitializationDependencies().isEmpty()) {
     stringBuffer.append(TEXT_243);
-    for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();
+    for (GenPackage dep : genPackage.getPackageInitializationDependencies()) {
     stringBuffer.append(TEXT_244);
     stringBuffer.append(dep.getImportedPackageInterfaceName());
     stringBuffer.append(TEXT_245);
@@ -1216,7 +1217,7 @@ int maxGenericTypeAssignment = 0;
     }
     if (!genPackage.getSubGenPackages().isEmpty()) {
     stringBuffer.append(TEXT_250);
-    for (Iterator p=genPackage.getSubGenPackages().iterator(); p.hasNext();) { GenPackage sub = (GenPackage)p.next();
+    for (GenPackage sub : genPackage.getSubGenPackages()) {
     stringBuffer.append(TEXT_251);
     stringBuffer.append(genPackage.getPackageInstanceVariable(sub));
     stringBuffer.append(TEXT_252);
@@ -1225,8 +1226,8 @@ int maxGenericTypeAssignment = 0;
     if (!genPackage.getGenClasses().isEmpty()) { boolean firstOperationAssignment = true; int maxTypeParameterAssignment = 0;
     if (genModel.useGenerics()) {
     stringBuffer.append(TEXT_253);
-    for (Iterator c=genPackage.getGenClassifiers().iterator(); c.hasNext();) { GenClassifier genClassifier = (GenClassifier)c.next();
-    for (Iterator t=genClassifier.getGenTypeParameters().iterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = (GenTypeParameter)t.next();
+    for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {
+    for (GenTypeParameter genTypeParameter : genClassifier.getGenTypeParameters()) {
     if (!genTypeParameter.getEcoreTypeParameter().getEBounds().isEmpty() || genTypeParameter.isUsed()) {
     stringBuffer.append(TEXT_254);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.ETypeParameter"));
@@ -1253,10 +1254,10 @@ int maxGenericTypeAssignment = 0;
     }
     if (genModel.useGenerics()) {
     stringBuffer.append(TEXT_263);
-    for (Iterator c=genPackage.getGenClassifiers().iterator(); c.hasNext();) { GenClassifier genClassifier = (GenClassifier)c.next();
-    for (Iterator t=genClassifier.getGenTypeParameters().iterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = (GenTypeParameter)t.next();
-    for (Iterator b=genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); b.hasNext();) {
-    for (InformationIterator i=new InformationIterator((EGenericType)b.next()); i.hasNext(); ) { Information info = i.next(); String prefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }
+    for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {
+    for (GenTypeParameter genTypeParameter : genClassifier.getGenTypeParameters()) {
+    for (EGenericType bound : genTypeParameter.getEcoreTypeParameter().getEBounds()) {
+    for (InformationIterator i=new InformationIterator(bound); i.hasNext(); ) { Information info = i.next(); String prefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }
     stringBuffer.append(TEXT_264);
     stringBuffer.append(prefix);
     stringBuffer.append(TEXT_265);
@@ -1284,9 +1285,9 @@ int maxGenericTypeAssignment = 0;
     }
     }
     stringBuffer.append(TEXT_275);
-    for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next();
+    for (GenClass genClass : genPackage.getGenClasses()) {
     if (!genClass.hasGenericSuperTypes()) {
-    for (Iterator b=genClass.getBaseGenClasses().iterator(); b.hasNext();) { GenClass baseGenClass = (GenClass)b.next();
+    for (GenClass baseGenClass : genClass.getBaseGenClasses()) {
     stringBuffer.append(TEXT_276);
     stringBuffer.append(genClass.getClassifierInstanceName());
     stringBuffer.append(TEXT_277);
@@ -1296,8 +1297,8 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(TEXT_279);
     }
     } else {
-    for (Iterator b=genClass.getEcoreClass().getEGenericSuperTypes().iterator(); b.hasNext();) {
-    for (InformationIterator i=new InformationIterator((EGenericType)b.next()); i.hasNext(); ) { Information info = i.next(); String prefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }
+    for (EGenericType superType : genClass.getEcoreClass().getEGenericSuperTypes()) {
+    for (InformationIterator i=new InformationIterator(superType); i.hasNext(); ) { Information info = i.next(); String prefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }
     stringBuffer.append(TEXT_280);
     stringBuffer.append(prefix);
     stringBuffer.append(TEXT_281);
@@ -1322,7 +1323,7 @@ int maxGenericTypeAssignment = 0;
     }
     }
     stringBuffer.append(TEXT_290);
-    for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next(); boolean hasInstanceTypeName = genModel.useGenerics() && genClass.getEcoreClass().getInstanceTypeName() != null && genClass.getEcoreClass().getInstanceTypeName().contains("<");
+    for (Iterator<GenClass> c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = c.next(); boolean hasInstanceTypeName = genModel.useGenerics() && genClass.getEcoreClass().getInstanceTypeName() != null && genClass.getEcoreClass().getInstanceTypeName().contains("<");
     stringBuffer.append(TEXT_291);
     stringBuffer.append(genClass.getClassifierInstanceName());
     stringBuffer.append(TEXT_292);
@@ -1350,7 +1351,7 @@ int maxGenericTypeAssignment = 0;
     if (hasInstanceTypeName) {
     stringBuffer.append(genModel.getNonNLS(2));
     }
-    for (Iterator f=genClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();
+    for (GenFeature genFeature : genClass.getGenFeatures()) {
     if (genFeature.hasGenericType()) {
     for (InformationIterator i=new InformationIterator(genFeature.getEcoreFeature().getEGenericType()); i.hasNext(); ) { Information info = i.next(); String prefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }
     stringBuffer.append(TEXT_302);
@@ -1417,7 +1418,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(TEXT_330);
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(genModel.getNonNLS(genFeature.getDefaultValue(), 2));
-    for (Iterator k=genFeature.getKeys().iterator(); k.hasNext(); ) { GenFeature keyFeature = (GenFeature)k.next();
+    for (GenFeature keyFeature : genFeature.getKeys()) {
     stringBuffer.append(TEXT_331);
     stringBuffer.append(genFeature.getFeatureAccessorName());
     stringBuffer.append(TEXT_332);
@@ -1469,7 +1470,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(genModel.getNonNLS(genFeature.getDefaultValue(), 2));
     }
     }
-    for (Iterator o=genClass.getGenOperations().iterator(); o.hasNext();) { GenOperation genOperation = (GenOperation)o.next(); String prefix = ""; if (!genOperation.isVoid() || !genOperation.getGenParameters().isEmpty() || !genOperation.getGenExceptions().isEmpty() || !genOperation.getGenTypeParameters().isEmpty()) { if (firstOperationAssignment) { firstOperationAssignment = false; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EOperation") + " op = "; } else { prefix = "op = "; }} 
+    for (GenOperation genOperation : genClass.getGenOperations()) {String prefix = ""; if (!genOperation.isVoid() || !genOperation.getGenParameters().isEmpty() || !genOperation.getGenExceptions().isEmpty() || !genOperation.getGenTypeParameters().isEmpty()) { if (firstOperationAssignment) { firstOperationAssignment = false; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EOperation") + " op = "; } else { prefix = "op = "; }} 
     stringBuffer.append(TEXT_354);
     if (!genOperation.isVoid()) {
     stringBuffer.append(TEXT_355);
@@ -1504,15 +1505,15 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(genModel.getNonNLS());
     }
     if (genModel.useGenerics()) {
-    for (ListIterator t=genOperation.getGenTypeParameters().listIterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = (GenTypeParameter)t.next(); String typeParameterVariable = ""; if (!genTypeParameter.getEcoreTypeParameter().getEBounds().isEmpty() || genTypeParameter.isUsed()) { if (maxTypeParameterAssignment <= t.previousIndex()) { ++maxTypeParameterAssignment; typeParameterVariable = genModel.getImportedName("org.eclipse.emf.ecore.ETypeParameter") + " t" + t.nextIndex() + " = "; } else { typeParameterVariable = "t" + t.nextIndex() + " = "; }} 
+    for (ListIterator<GenTypeParameter> t=genOperation.getGenTypeParameters().listIterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = t.next(); String typeParameterVariable = ""; if (!genTypeParameter.getEcoreTypeParameter().getEBounds().isEmpty() || genTypeParameter.isUsed()) { if (maxTypeParameterAssignment <= t.previousIndex()) { ++maxTypeParameterAssignment; typeParameterVariable = genModel.getImportedName("org.eclipse.emf.ecore.ETypeParameter") + " t" + t.nextIndex() + " = "; } else { typeParameterVariable = "t" + t.nextIndex() + " = "; }} 
     stringBuffer.append(TEXT_369);
     stringBuffer.append(typeParameterVariable);
     stringBuffer.append(TEXT_370);
     stringBuffer.append(genTypeParameter.getName());
     stringBuffer.append(TEXT_371);
     stringBuffer.append(genModel.getNonNLS());
-    for (Iterator b=genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); b.hasNext();) {
-    for (InformationIterator i=new InformationIterator((EGenericType)b.next()); i.hasNext(); ) { Information info = i.next(); String typePrefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; typePrefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }
+    for (EGenericType typeParameter : genTypeParameter.getEcoreTypeParameter().getEBounds()) {
+    for (InformationIterator i=new InformationIterator(typeParameter); i.hasNext(); ) { Information info = i.next(); String typePrefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; typePrefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }
     stringBuffer.append(TEXT_372);
     stringBuffer.append(typePrefix);
     stringBuffer.append(TEXT_373);
@@ -1536,7 +1537,7 @@ int maxGenericTypeAssignment = 0;
     }
     }
     }
-    for (Iterator p=genOperation.getGenParameters().iterator(); p.hasNext();) { GenParameter genParameter = (GenParameter)p.next();
+    for (GenParameter genParameter : genOperation.getGenParameters()) {
     if (genParameter.hasGenericType()) {
     for (InformationIterator i=new InformationIterator(genParameter.getEcoreParameter().getEGenericType()); i.hasNext(); ) { Information info = i.next(); String typePrefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; typePrefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }
     stringBuffer.append(TEXT_382);
@@ -1576,8 +1577,8 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(genModel.getNonNLS());
     }
     if (genOperation.hasGenericExceptions()) {
-    for (Iterator b=genOperation.getEcoreOperation().getEGenericExceptions().iterator(); b.hasNext();) {
-    for (InformationIterator i=new InformationIterator((EGenericType)b.next()); i.hasNext(); ) { Information info = i.next(); String typePrefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; typePrefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }
+    for (EGenericType genericExceptions : genOperation.getEcoreOperation().getEGenericExceptions()) {
+    for (InformationIterator i=new InformationIterator(genericExceptions); i.hasNext(); ) { Information info = i.next(); String typePrefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; typePrefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }
     stringBuffer.append(TEXT_398);
     stringBuffer.append(typePrefix);
     stringBuffer.append(TEXT_399);
@@ -1600,7 +1601,7 @@ int maxGenericTypeAssignment = 0;
     }
     }
     } else {
-    for (Iterator p=genOperation.getGenExceptions().iterator(); p.hasNext();) { GenClassifier genException = (GenClassifier)p.next();
+    for (GenClassifier genException : genOperation.getGenExceptions()) {
     stringBuffer.append(TEXT_408);
     stringBuffer.append(genPackage.getPackageInstanceVariable(genException.getGenPackage()));
     stringBuffer.append(TEXT_409);
@@ -1637,7 +1638,7 @@ int maxGenericTypeAssignment = 0;
     }
     if (!genPackage.getGenEnums().isEmpty()) {
     stringBuffer.append(TEXT_421);
-    for (Iterator e=genPackage.getGenEnums().iterator(); e.hasNext();) { GenEnum genEnum = (GenEnum)e.next();
+    for (Iterator<GenEnum> e=genPackage.getGenEnums().iterator(); e.hasNext();) { GenEnum genEnum = e.next();
     stringBuffer.append(TEXT_422);
     stringBuffer.append(genEnum.getClassifierInstanceName());
     stringBuffer.append(TEXT_423);
@@ -1646,7 +1647,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(genEnum.getName());
     stringBuffer.append(TEXT_425);
     stringBuffer.append(genModel.getNonNLS());
-    for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();
+    for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
     stringBuffer.append(TEXT_426);
     stringBuffer.append(genEnum.getClassifierInstanceName());
     stringBuffer.append(TEXT_427);
@@ -1662,7 +1663,7 @@ int maxGenericTypeAssignment = 0;
     }
     if (!genPackage.getGenDataTypes().isEmpty()) {
     stringBuffer.append(TEXT_431);
-    for (Iterator d=genPackage.getGenDataTypes().iterator(); d.hasNext();) { GenDataType genDataType = (GenDataType)d.next();  boolean hasInstanceTypeName = genModel.useGenerics() && genDataType.getEcoreDataType().getInstanceTypeName() != null && genDataType.getEcoreDataType().getInstanceTypeName().contains("<");
+    for (GenDataType genDataType : genPackage.getGenDataTypes()) {boolean hasInstanceTypeName = genModel.useGenerics() && genDataType.getEcoreDataType().getInstanceTypeName() != null && genDataType.getEcoreDataType().getInstanceTypeName().contains("<");
     stringBuffer.append(TEXT_432);
     stringBuffer.append(genDataType.getClassifierInstanceName());
     stringBuffer.append(TEXT_433);
@@ -1690,7 +1691,7 @@ int maxGenericTypeAssignment = 0;
     }
     if (!genPackage.isEcorePackage() && !genPackage.getAnnotationSources().isEmpty()) {
     stringBuffer.append(TEXT_441);
-    for (Iterator i = genPackage.getAnnotationSources().iterator(); i.hasNext();) { String annotationSource = (String)i.next();
+    for (String annotationSource : genPackage.getAnnotationSources()) {
     stringBuffer.append(TEXT_442);
     stringBuffer.append(annotationSource);
     stringBuffer.append(TEXT_443);
@@ -1699,7 +1700,7 @@ int maxGenericTypeAssignment = 0;
     }
     }
     stringBuffer.append(TEXT_445);
-    for (Iterator i = genPackage.getAnnotationSources().iterator(); i.hasNext();) { String annotationSource = (String)i.next();
+    for (String annotationSource : genPackage.getAnnotationSources()) {
     stringBuffer.append(TEXT_446);
     stringBuffer.append(annotationSource);
     stringBuffer.append(TEXT_447);
@@ -1713,13 +1714,13 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(TEXT_451);
     stringBuffer.append(genModel.getNonNLS());
     }
-    for (Iterator j = genPackage.getAllAnnotations().iterator(); j.hasNext();) { EAnnotation eAnnotation = (EAnnotation)j.next();
+    for (EAnnotation eAnnotation : genPackage.getAllAnnotations()) {
     stringBuffer.append(TEXT_452);
     if (annotationSource == null ? eAnnotation.getSource() == null : annotationSource.equals(eAnnotation.getSource())) {
     stringBuffer.append(TEXT_453);
     stringBuffer.append(genPackage.getAnnotatedModelElementAccessor(eAnnotation));
     stringBuffer.append(TEXT_454);
-    for (Iterator k = eAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);
+    for (Iterator<Map.Entry<String, String>> k = eAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry<String, String> detail = k.next(); String key = Literals.toStringLiteral(detail.getKey(), genModel); String value = Literals.toStringLiteral(detail.getValue(), genModel);
     stringBuffer.append(TEXT_455);
     stringBuffer.append(key);
     stringBuffer.append(TEXT_456);
@@ -1729,7 +1730,7 @@ int maxGenericTypeAssignment = 0;
     }
     stringBuffer.append(TEXT_457);
     }
-    for (Iterator k = genPackage.getAllNestedAnnotations(eAnnotation).iterator(); k.hasNext(); ) { EAnnotation nestedEAnnotation = (EAnnotation)k.next(); String nestedAnnotationSource = nestedEAnnotation.getSource(); int depth = 1; for (EObject eContainer = nestedEAnnotation.eContainer(); eContainer != eAnnotation; eContainer = eContainer.eContainer()) { ++depth; }
+    for (EAnnotation nestedEAnnotation : genPackage.getAllNestedAnnotations(eAnnotation)) {String nestedAnnotationSource = nestedEAnnotation.getSource(); int depth = 1; for (EObject eContainer = nestedEAnnotation.eContainer(); eContainer != eAnnotation; eContainer = eContainer.eContainer()) { ++depth; }
     stringBuffer.append(TEXT_458);
     stringBuffer.append(genPackage.getAnnotatedModelElementAccessor(eAnnotation));
     stringBuffer.append(TEXT_459);
@@ -1744,7 +1745,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(genModel.getNonNLS());
     }
     stringBuffer.append(TEXT_464);
-    for (Iterator l = nestedEAnnotation.getDetails().iterator(); l.hasNext();) { Map.Entry detail = (Map.Entry)l.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);
+    for (Iterator<Map.Entry<String, String>> l = nestedEAnnotation.getDetails().iterator(); l.hasNext();) { Map.Entry<String, String> detail = l.next(); String key = Literals.toStringLiteral(detail.getKey(), genModel); String value = Literals.toStringLiteral(detail.getValue(), genModel);
     stringBuffer.append(TEXT_465);
     stringBuffer.append(key);
     stringBuffer.append(TEXT_466);
@@ -1754,7 +1755,7 @@ int maxGenericTypeAssignment = 0;
     }
     stringBuffer.append(TEXT_467);
     }
-    for (Iterator k = genPackage.getAllNestedAnnotations(eAnnotation).iterator(); k.hasNext(); ) { EAnnotation nestedEAnnotation = (EAnnotation)k.next(); String nestedAnnotationSource = nestedEAnnotation.getSource(); int depth = 1; for (EObject eContainer = nestedEAnnotation.eContainer(); eContainer != eAnnotation; eContainer = eContainer.eContainer()) { ++depth; }
+    for (EAnnotation nestedEAnnotation : genPackage.getAllNestedAnnotations(eAnnotation)) {String nestedAnnotationSource = nestedEAnnotation.getSource(); int depth = 1; for (EObject eContainer = nestedEAnnotation.eContainer(); eContainer != eAnnotation; eContainer = eContainer.eContainer()) { ++depth; }
     stringBuffer.append(TEXT_468);
     stringBuffer.append(genPackage.getAnnotatedModelElementAccessor(eAnnotation));
     stringBuffer.append(TEXT_469);
@@ -1769,7 +1770,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(genModel.getNonNLS());
     }
     stringBuffer.append(TEXT_474);
-    for (Iterator l = nestedEAnnotation.getDetails().iterator(); l.hasNext();) { Map.Entry detail = (Map.Entry)l.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);
+    for (Iterator<Map.Entry<String, String>> l = nestedEAnnotation.getDetails().iterator(); l.hasNext();) { Map.Entry<String, String> detail = l.next(); String key = Literals.toStringLiteral(detail.getKey(), genModel); String value = Literals.toStringLiteral(detail.getValue(), genModel);
     stringBuffer.append(TEXT_475);
     stringBuffer.append(key);
     stringBuffer.append(TEXT_476);
@@ -1823,7 +1824,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(TEXT_496);
     }
     stringBuffer.append(TEXT_497);
-    for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();
+    for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {
     stringBuffer.append(TEXT_498);
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
     if (!genClass.isInterface()) {
@@ -1870,7 +1871,7 @@ int maxGenericTypeAssignment = 0;
     stringBuffer.append(genClassifier.getClassifierAccessorName());
     stringBuffer.append(TEXT_516);
     if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;
-    for (Iterator f=genClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();
+    for (GenFeature genFeature : genClass.getGenFeatures()) {
     stringBuffer.append(TEXT_517);
     stringBuffer.append(genFeature.getFormattedName());
     stringBuffer.append(TEXT_518);

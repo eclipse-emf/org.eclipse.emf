@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenProviderKind.java,v 1.2 2005/11/14 16:47:10 khussey Exp $
+ * $Id: GenProviderKind.java,v 1.3 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -21,8 +21,47 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class GenProviderKind extends AbstractEnumerator
+public enum GenProviderKind implements Enumerator
 {
+  /**
+   * The '<em><b>Singleton</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * If the meaning of '<em><b>SINGLETON</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #SINGLETON
+   * @generated
+   * @ordered
+   */
+  SINGLETON_LITERAL(0, "Singleton", "Singleton"),
+  /**
+   * The '<em><b>Stateful</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * If the meaning of '<em><b>STATEFUL</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #STATEFUL
+   * @generated
+   * @ordered
+   */
+  STATEFUL_LITERAL(1, "Stateful", "Stateful"),
+  /**
+   * The '<em><b>None</b></em>' literal object.
+   * <!-- begin-user-doc --> 
+   * <p>
+   * If the meaning of '<em><b>NONE</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc --> 
+   * @see #NONE
+   * @generated
+   * @ordered
+   */
+  NONE_LITERAL(2, "None", "None");
   /**
    * The '<em><b>Singleton</b></em>' literal value.
    * <!-- begin-user-doc --> 
@@ -57,48 +96,6 @@ public final class GenProviderKind extends AbstractEnumerator
   public static final int NONE = 2;
 
   /**
-   * The '<em><b>Singleton</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * If the meaning of '<em><b>SINGLETON</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #SINGLETON
-   * @generated
-   * @ordered
-   */
-  public static final GenProviderKind SINGLETON_LITERAL = new GenProviderKind(SINGLETON, "Singleton", "Singleton");
-
-  /**
-   * The '<em><b>Stateful</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * If the meaning of '<em><b>STATEFUL</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #STATEFUL
-   * @generated
-   * @ordered
-   */
-  public static final GenProviderKind STATEFUL_LITERAL = new GenProviderKind(STATEFUL, "Stateful", "Stateful");
-
-  /**
-   * The '<em><b>None</b></em>' literal object.
-   * <!-- begin-user-doc --> 
-   * <p>
-   * If the meaning of '<em><b>NONE</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc --> 
-   * @see #NONE
-   * @generated
-   * @ordered
-   */
-  public static final GenProviderKind NONE_LITERAL = new GenProviderKind(NONE, "None", "None");
-
-  /**
    * An array of all the '<em><b>Gen Provider Kind</b></em>' enumerators.
    * <!-- begin-user-doc --> 
    * <!-- end-user-doc --> 
@@ -118,7 +115,7 @@ public final class GenProviderKind extends AbstractEnumerator
    * <!-- end-user-doc --> 
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<GenProviderKind> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Gen Provider Kind</b></em>' literal with the specified literal value.
@@ -172,8 +169,29 @@ public final class GenProviderKind extends AbstractEnumerator
       case STATEFUL: return STATEFUL_LITERAL;
       case NONE: return NONE_LITERAL;
     }
-    return null;	
+    return null;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
 
   /**
    * Only this class can construct instances.
@@ -183,7 +201,50 @@ public final class GenProviderKind extends AbstractEnumerator
    */
   private GenProviderKind(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //GenProviderKind
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}

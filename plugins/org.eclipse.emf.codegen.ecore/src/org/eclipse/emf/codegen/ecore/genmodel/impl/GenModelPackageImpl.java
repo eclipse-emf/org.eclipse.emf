@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelPackageImpl.java,v 1.38 2006/12/05 20:29:52 emerks Exp $
+ * $Id: GenModelPackageImpl.java,v 1.39 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -1843,6 +1843,10 @@ public class GenModelPackageImpl extends EPackageImpl implements GenModelPackage
 
     // Obtain other dependent packages
     EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+
+    // Create type parameters
+
+    // Set bounds for type parameters
 
     // Add supertypes to classes
     genModelEClass.getESuperTypes().add(this.getGenBase());

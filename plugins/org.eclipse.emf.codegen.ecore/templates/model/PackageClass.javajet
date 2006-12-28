@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.34 2006/12/26 18:59:34 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.ecore.* org.eclipse.emf.ecore.util.EcoreUtil org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals" class="PackageClass" version="$Id: PackageClass.javajet,v 1.35 2006/12/28 06:40:38 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -32,7 +32,7 @@ package <%=genPackage.getReflectionPackageName()%>;
   <%if (genPackage.isLiteralsInterface()) {%>
 <%genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + ".Literals");%>
   <%}%>
-<%for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + "." + genPackage.getClassifierID((GenClassifier)i.next()));%>
+<%for (GenClassifier genClassifier : genPackage.getOrderedGenClassifiers()) genModel.addPseudoImport(genPackage.getQualifiedPackageInterfaceName() + "." + genPackage.getClassifierID(genClassifier));%>
 <%}%>
 <%if (isInterface) {%>
 
@@ -119,7 +119,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	 */
 	<%=publicStaticFinalFlag%><%=genPackage.getPackageInterfaceName()%> eINSTANCE = <%=genPackage.getQualifiedPackageClassName()%>.init();
 
-  <%for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();%>
+  <%for (GenClassifier genClassifier : genPackage.getOrderedGenClassifiers()) {%>
 	/**
     <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
       <%if (!genClass.isInterface()) {%>
@@ -152,7 +152,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	<%=publicStaticFinalFlag%>int <%=genPackage.getClassifierID(genClassifier)%> = <%=genPackage.getClassifierValue(genClassifier)%>;
 
     <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
-      <%for (Iterator f=genClass.getAllGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
+      <%for (GenFeature genFeature : genClass.getAllGenFeatures()) {%>
 	/**
 	 * The feature id for the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
@@ -185,7 +185,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 	protected String packageFilename = "<%=genPackage.getSerializedPackageFilename()%>";<%=genModel.getNonNLS()%>
 
   <%}%>
-  <%for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();%>
+  <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -256,14 +256,14 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 
     <%if (!genPackage.getPackageSimpleDependencies().isEmpty()) {%>
 		// Initialize simple dependencies
-    <%for (Iterator p=genPackage.getPackageSimpleDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
+    <%for (GenPackage dep : genPackage.getPackageSimpleDependencies()) {%>
 		<%=dep.getImportedPackageInterfaceName()%>.eINSTANCE.eClass();
     <%}%>
 
   <%}%>
   <%if (!genPackage.getPackageInterDependencies().isEmpty()) {%>
 		// Obtain or create and register interdependencies
-    <%for (Iterator p=genPackage.getPackageInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
+    <%for (GenPackage interdep : genPackage.getPackageInterDependencies()) {%>
 		<%=interdep.getImportedPackageClassName()%> <%=genPackage.getPackageInstanceVariable(interdep)%> = (<%=interdep.getImportedPackageClassName()%>)(<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI) instanceof <%=interdep.getImportedPackageClassName()%> ? <%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=interdep.getImportedPackageInterfaceName()%>.eNS_URI) : <%=interdep.getImportedPackageInterfaceName()%>.eINSTANCE);
     <%}%>
 
@@ -273,7 +273,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
     <%if (genPackage.isLoadingInitialization()) {%>
 		the<%=genPackage.getPackageInterfaceName()%>.loadPackage();
     <%}%>
-    <%for (Iterator p=genPackage.getPackageLoadInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
+    <%for (GenPackage interdep : genPackage.getPackageLoadInterDependencies()) {%>
       <%if (interdep.isLoadingInitialization()) {%>
 		<%=genPackage.getPackageInstanceVariable(interdep)%>.loadPackage();
       <%}%>
@@ -285,7 +285,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
     <%if (!genPackage.isLoadedInitialization()) {%>
 		the<%=genPackage.getPackageInterfaceName()%>.createPackageContents();
     <%}%>
-    <%for (Iterator p=genPackage.getPackageBuildInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
+    <%for (GenPackage interdep : genPackage.getPackageBuildInterDependencies()) {%>
 		<%=genPackage.getPackageInstanceVariable(interdep)%>.createPackageContents();
     <%}%>
 
@@ -293,7 +293,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
     <%if (!genPackage.isLoadedInitialization()) {%>
 		the<%=genPackage.getPackageInterfaceName()%>.initializePackageContents();
     <%}%>
-    <%for (Iterator p=genPackage.getPackageBuildInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
+    <%for (GenPackage interdep : genPackage.getPackageBuildInterDependencies()) {%>
 		<%=genPackage.getPackageInstanceVariable(interdep)%>.initializePackageContents();
     <%}%>
 
@@ -303,7 +303,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
     <%if (genPackage.isLoadedInitialization()) {%>
 		the<%=genPackage.getPackageInterfaceName()%>.fixPackageContents();
     <%}%>
-    <%for (Iterator p=genPackage.getPackageLoadInterDependencies().iterator(); p.hasNext();) { GenPackage interdep = (GenPackage)p.next();%>
+    <%for (GenPackage interdep : genPackage.getPackageLoadInterDependencies()) {%>
 		<%=genPackage.getPackageInstanceVariable(interdep)%>.fixPackageContents();
     <%}%>
 
@@ -333,7 +333,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 <%if (isInterface) { // TODO REMOVE THIS BOGUS EMPTY LINE%>
 
 <%}%>
-  <%for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();%>
+  <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
 <%if (isInterface) {%>
 	/**
     <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
@@ -401,7 +401,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 
 <%}%>
     <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
-      <%for (Iterator f=genClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
+      <%for (GenFeature genFeature : genClass.getGenFeatures()) {%>
 <%if (isInterface) {%>
 	/**
 	 * Returns the meta object for the <%=genFeature.getFeatureKind()%> '{@link <%=genClass.getQualifiedInterfaceName()%><%if (!genClass.isMapEntry() && !genFeature.isSuppressedGetVisibility()) {%>#<%=genFeature.getGetAccessor()%><%}%> <em><%=genFeature.getFormattedName()%></em>}'.
@@ -482,9 +482,9 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
     <%if (!genPackage.getGenClasses().isEmpty()) {%>
 
 		// Create classes and their features
-      <%for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next();%>
+      <%for (Iterator<GenClass> c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = c.next();%>
 		<%=genClass.getClassifierInstanceName()%> = create<%=genClass.getMetaType()%>(<%=genClass.getClassifierID()%>);
-        <%for (Iterator f=genClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
+        <%for (GenFeature genFeature : genClass.getGenFeatures()) {%>
 		create<%=genFeature.getMetaType()%>(<%=genClass.getClassifierInstanceName()%>, <%=genClass.getFeatureID(genFeature)%>);
         <%}%>
         <%if (c.hasNext()) {%>
@@ -495,14 +495,14 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
     <%if (!genPackage.getGenEnums().isEmpty()) {%>
 
 		// Create enums
-      <%for (Iterator e=genPackage.getGenEnums().iterator(); e.hasNext();) { GenEnum genEnum = (GenEnum)e.next();%>
+      <%for (GenEnum genEnum : genPackage.getGenEnums()) {%>
 		<%=genEnum.getClassifierInstanceName()%> = createEEnum(<%=genEnum.getClassifierID()%>);
       <%}%>
     <%}%>
     <%if (!genPackage.getGenDataTypes().isEmpty()) {%>
 
 		// Create data types
-      <%for (Iterator d=genPackage.getGenDataTypes().iterator(); d.hasNext();) { GenDataType genDataType = (GenDataType)d.next();%>
+      <%for (GenDataType genDataType : genPackage.getGenDataTypes()) {%>
 		<%=genDataType.getClassifierInstanceName()%> = createEDataType(<%=genDataType.getClassifierID()%>);
       <%}%>
     <%}%>
@@ -519,6 +519,7 @@ public interface <%=genPackage.getPackageInterfaceName()%> extends <%=genModel.g
 ///////////////////////
 class Information
 {
+  @SuppressWarnings("unused")
   EGenericType eGenericType;
   int depth;
   String type;
@@ -527,7 +528,7 @@ class Information
 
 class InformationIterator
 {
-  Iterator iterator;
+  Iterator<?> iterator;
   InformationIterator(EGenericType eGenericType)
   {
     iterator = EcoreUtil.getAllContents(Collections.singleton(eGenericType));
@@ -603,14 +604,14 @@ int maxGenericTypeAssignment = 0;
     <%if (!genPackage.getPackageInitializationDependencies().isEmpty()) {%>
 
 		// Obtain other dependent packages
-      <%for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
+      <%for (GenPackage dep : genPackage.getPackageInitializationDependencies()) {%>
 		<%=dep.getImportedPackageInterfaceName()%> <%=genPackage.getPackageInstanceVariable(dep)%> = (<%=dep.getImportedPackageInterfaceName()%>)<%=genModel.getImportedName("org.eclipse.emf.ecore.EPackage")%>.Registry.INSTANCE.getEPackage(<%=dep.getImportedPackageInterfaceName()%>.eNS_URI);
       <%}%>
     <%}%>
     <%if (!genPackage.getSubGenPackages().isEmpty()) {%>
 
 		// Add subpackages
-      <%for (Iterator p=genPackage.getSubGenPackages().iterator(); p.hasNext();) { GenPackage sub = (GenPackage)p.next();%>
+      <%for (GenPackage sub : genPackage.getSubGenPackages()) {%>
 		getESubpackages().add(<%=genPackage.getPackageInstanceVariable(sub)%>);
       <%}%>
     <%}%>
@@ -618,8 +619,8 @@ int maxGenericTypeAssignment = 0;
       <%if (genModel.useGenerics()) {%>
 
 		// Create type parameters
-        <%for (Iterator c=genPackage.getGenClassifiers().iterator(); c.hasNext();) { GenClassifier genClassifier = (GenClassifier)c.next();%>
-          <%for (Iterator t=genClassifier.getGenTypeParameters().iterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = (GenTypeParameter)t.next();%>
+        <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
+          <%for (GenTypeParameter genTypeParameter : genClassifier.getGenTypeParameters()) {%>
             <%if (!genTypeParameter.getEcoreTypeParameter().getEBounds().isEmpty() || genTypeParameter.isUsed()) {%>
 		<%=genModel.getImportedName("org.eclipse.emf.ecore.ETypeParameter")%> <%=genClassifier.getClassifierInstanceName()%>_<%=genTypeParameter.getName()%> = addETypeParameter(<%=genClassifier.getClassifierInstanceName()%>, "<%=genTypeParameter.getName()%>");<%=genModel.getNonNLS()%>
             <%} else {%>
@@ -631,10 +632,10 @@ int maxGenericTypeAssignment = 0;
       <%if (genModel.useGenerics()) {%>
 
 		// Set bounds for type parameters
-        <%for (Iterator c=genPackage.getGenClassifiers().iterator(); c.hasNext();) { GenClassifier genClassifier = (GenClassifier)c.next();%>
-          <%for (Iterator t=genClassifier.getGenTypeParameters().iterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = (GenTypeParameter)t.next();%>
-            <%for (Iterator b=genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); b.hasNext();) {%>
-              <%for (InformationIterator i=new InformationIterator((EGenericType)b.next()); i.hasNext(); ) { Information info = i.next(); String prefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }%>
+        <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
+          <%for (GenTypeParameter genTypeParameter : genClassifier.getGenTypeParameters()) {%>
+            <%for (EGenericType bound : genTypeParameter.getEcoreTypeParameter().getEBounds()) {%>
+              <%for (InformationIterator i=new InformationIterator(bound); i.hasNext(); ) { Information info = i.next(); String prefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }%>
 		<%=prefix%>g<%=info.depth + 1%> = createEGenericType(<%=info.type%>);
                 <%if (info.depth > 0) {%>
 		g<%=info.depth%>.<%=info.accessor%>(g<%=info.depth + 1%>);
@@ -647,14 +648,14 @@ int maxGenericTypeAssignment = 0;
       <%}%>
 
 		// Add supertypes to classes
-      <%for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next();%>
+      <%for (GenClass genClass : genPackage.getGenClasses()) {%>
         <%if (!genClass.hasGenericSuperTypes()) {%>
-          <%for (Iterator b=genClass.getBaseGenClasses().iterator(); b.hasNext();) { GenClass baseGenClass = (GenClass)b.next();%>
+          <%for (GenClass baseGenClass : genClass.getBaseGenClasses()) {%>
 		<%=genClass.getClassifierInstanceName()%>.getESuperTypes().add(<%=genPackage.getPackageInstanceVariable(baseGenClass.getGenPackage())%>.get<%=baseGenClass.getClassifierAccessorName()%>());
           <%}%>
         <%} else {%>
-          <%for (Iterator b=genClass.getEcoreClass().getEGenericSuperTypes().iterator(); b.hasNext();) {%>
-            <%for (InformationIterator i=new InformationIterator((EGenericType)b.next()); i.hasNext(); ) { Information info = i.next(); String prefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }%>
+          <%for (EGenericType superType : genClass.getEcoreClass().getEGenericSuperTypes()) {%>
+            <%for (InformationIterator i=new InformationIterator(superType); i.hasNext(); ) { Information info = i.next(); String prefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }%>
 		<%=prefix%>g<%=info.depth + 1%> = createEGenericType(<%=info.type%>);
               <%if (info.depth > 0) {%>
 		g<%=info.depth%>.<%=info.accessor%>(g<%=info.depth + 1%>);
@@ -666,9 +667,9 @@ int maxGenericTypeAssignment = 0;
       <%}%>
 
 		// Initialize classes and features; add operations and parameters
-      <%for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next(); boolean hasInstanceTypeName = genModel.useGenerics() && genClass.getEcoreClass().getInstanceTypeName() != null && genClass.getEcoreClass().getInstanceTypeName().contains("<");%>
+      <%for (Iterator<GenClass> c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = c.next(); boolean hasInstanceTypeName = genModel.useGenerics() && genClass.getEcoreClass().getInstanceTypeName() != null && genClass.getEcoreClass().getInstanceTypeName().contains("<");%>
 		initEClass(<%=genClass.getClassifierInstanceName()%>, <%if (genClass.isDynamic()) {%>null<%} else {%><%=genClass.getRawImportedInterfaceName()%>.class<%}%>, "<%=genClass.getName()%>", <%=genClass.getAbstractFlag()%>, <%=genClass.getInterfaceFlag()%>, <%=genClass.getGeneratedInstanceClassFlag()%><%if (hasInstanceTypeName) {%>, "<%=genClass.getEcoreClass().getInstanceTypeName()%>"<%}%>);<%=genModel.getNonNLS()%><%if (hasInstanceTypeName) {%><%=genModel.getNonNLS(2)%><%}%>
-        <%for (Iterator f=genClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
+        <%for (GenFeature genFeature : genClass.getGenFeatures()) {%>
           <%if (genFeature.hasGenericType()) {%>
             <%for (InformationIterator i=new InformationIterator(genFeature.getEcoreFeature().getEGenericType()); i.hasNext(); ) { Information info = i.next(); String prefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }%>
 		<%=prefix%>g<%=info.depth + 1%> = createEGenericType(<%=info.type%>);
@@ -680,14 +681,14 @@ int maxGenericTypeAssignment = 0;
           <%if (genFeature.isReferenceType()) { GenFeature reverseGenFeature = genFeature.getReverse();%>
           <%String reverse = reverseGenFeature == null ? "null" : genPackage.getPackageInstanceVariable(reverseGenFeature.getGenPackage()) + ".get" + reverseGenFeature.getFeatureAccessorName() + "()";%>
 		initEReference(get<%=genFeature.getFeatureAccessorName()%>(), <%if (genFeature.hasGenericType()) {%>g1<%} else {%><%=genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage())%>.get<%=genFeature.getTypeClassifierAccessorName()%>()<%}%>, <%=reverse%>, "<%=genFeature.getName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getTransientFlag()%>, <%=genFeature.getVolatileFlag()%>, <%=genFeature.getChangeableFlag()%>, <%=genFeature.getContainmentFlag()%>, <%=genFeature.getResolveProxiesFlag()%>, <%=genFeature.getUnsettableFlag()%>, <%=genFeature.getUniqueFlag()%>, <%=genFeature.getDerivedFlag()%>, <%=genFeature.getOrderedFlag()%>);<%=genModel.getNonNLS()%><%=genModel.getNonNLS(genFeature.getDefaultValue(), 2)%>
-            <%for (Iterator k=genFeature.getKeys().iterator(); k.hasNext(); ) { GenFeature keyFeature = (GenFeature)k.next();%>
+            <%for (GenFeature keyFeature : genFeature.getKeys()) {%>
 		get<%=genFeature.getFeatureAccessorName()%>().getEKeys().add(<%=genPackage.getPackageInstanceVariable(keyFeature.getGenPackage())%>.get<%=keyFeature.getFeatureAccessorName()%>());
             <%}%>
           <%} else {%>
 		initEAttribute(get<%=genFeature.getFeatureAccessorName()%>(), <%if (genFeature.hasGenericType()) {%>g1<%} else {%><%=genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage())%>.get<%=genFeature.getTypeClassifierAccessorName()%>()<%}%>, "<%=genFeature.getName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getTransientFlag()%>, <%=genFeature.getVolatileFlag()%>, <%=genFeature.getChangeableFlag()%>, <%=genFeature.getUnsettableFlag()%>, <%=genFeature.getIDFlag()%>, <%=genFeature.getUniqueFlag()%>, <%=genFeature.getDerivedFlag()%>, <%=genFeature.getOrderedFlag()%>);<%=genModel.getNonNLS()%><%=genModel.getNonNLS(genFeature.getDefaultValue(), 2)%>
           <%}%>
         <%}%>
-        <%for (Iterator o=genClass.getGenOperations().iterator(); o.hasNext();) { GenOperation genOperation = (GenOperation)o.next(); String prefix = ""; if (!genOperation.isVoid() || !genOperation.getGenParameters().isEmpty() || !genOperation.getGenExceptions().isEmpty() || !genOperation.getGenTypeParameters().isEmpty()) { if (firstOperationAssignment) { firstOperationAssignment = false; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EOperation") + " op = "; } else { prefix = "op = "; }} %>
+        <%for (GenOperation genOperation : genClass.getGenOperations()) {String prefix = ""; if (!genOperation.isVoid() || !genOperation.getGenParameters().isEmpty() || !genOperation.getGenExceptions().isEmpty() || !genOperation.getGenTypeParameters().isEmpty()) { if (firstOperationAssignment) { firstOperationAssignment = false; prefix = genModel.getImportedName("org.eclipse.emf.ecore.EOperation") + " op = "; } else { prefix = "op = "; }} %>
 
           <%if (!genOperation.isVoid()) {%>
 		<%=prefix%>addEOperation(<%=genClass.getClassifierInstanceName()%>, <%if (genOperation.hasGenericType()) {%>null<%} else {%><%=genPackage.getPackageInstanceVariable(genOperation.getTypeGenPackage())%>.get<%=genOperation.getTypeClassifierAccessorName()%>()<%}%>, "<%=genOperation.getName()%>", <%=genOperation.getLowerBound()%>, <%=genOperation.getUpperBound()%>);<%=genModel.getNonNLS()%>
@@ -695,10 +696,10 @@ int maxGenericTypeAssignment = 0;
 		<%=prefix%>addEOperation(<%=genClass.getClassifierInstanceName()%>, null, "<%=genOperation.getName()%>");<%=genModel.getNonNLS()%>
           <%}%>
           <%if (genModel.useGenerics()) {%>
-            <%for (ListIterator t=genOperation.getGenTypeParameters().listIterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = (GenTypeParameter)t.next(); String typeParameterVariable = ""; if (!genTypeParameter.getEcoreTypeParameter().getEBounds().isEmpty() || genTypeParameter.isUsed()) { if (maxTypeParameterAssignment <= t.previousIndex()) { ++maxTypeParameterAssignment; typeParameterVariable = genModel.getImportedName("org.eclipse.emf.ecore.ETypeParameter") + " t" + t.nextIndex() + " = "; } else { typeParameterVariable = "t" + t.nextIndex() + " = "; }} %>
+            <%for (ListIterator<GenTypeParameter> t=genOperation.getGenTypeParameters().listIterator(); t.hasNext(); ) { GenTypeParameter genTypeParameter = t.next(); String typeParameterVariable = ""; if (!genTypeParameter.getEcoreTypeParameter().getEBounds().isEmpty() || genTypeParameter.isUsed()) { if (maxTypeParameterAssignment <= t.previousIndex()) { ++maxTypeParameterAssignment; typeParameterVariable = genModel.getImportedName("org.eclipse.emf.ecore.ETypeParameter") + " t" + t.nextIndex() + " = "; } else { typeParameterVariable = "t" + t.nextIndex() + " = "; }} %>
 		<%=typeParameterVariable%>addETypeParameter(op, "<%=genTypeParameter.getName()%>");<%=genModel.getNonNLS()%>
-              <%for (Iterator b=genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); b.hasNext();) {%>
-                <%for (InformationIterator i=new InformationIterator((EGenericType)b.next()); i.hasNext(); ) { Information info = i.next(); String typePrefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; typePrefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }%>
+              <%for (EGenericType typeParameter : genTypeParameter.getEcoreTypeParameter().getEBounds()) {%>
+                <%for (InformationIterator i=new InformationIterator(typeParameter); i.hasNext(); ) { Information info = i.next(); String typePrefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; typePrefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }%>
 		<%=typePrefix%>g<%=info.depth + 1%> = createEGenericType(<%=info.type%>);
                   <%if (info.depth > 0) {%>
 		g<%=info.depth%>.<%=info.accessor%>(g<%=info.depth + 1%>);
@@ -708,7 +709,7 @@ int maxGenericTypeAssignment = 0;
               <%}%>
             <%}%>
           <%}%>
-          <%for (Iterator p=genOperation.getGenParameters().iterator(); p.hasNext();) { GenParameter genParameter = (GenParameter)p.next();%>
+          <%for (GenParameter genParameter : genOperation.getGenParameters()) {%>
             <%if (genParameter.hasGenericType()) {%>
               <%for (InformationIterator i=new InformationIterator(genParameter.getEcoreParameter().getEGenericType()); i.hasNext(); ) { Information info = i.next(); String typePrefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; typePrefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }%>
 		<%=typePrefix%>g<%=info.depth + 1%> = createEGenericType(<%=info.type%>);
@@ -720,8 +721,8 @@ int maxGenericTypeAssignment = 0;
 		addEParameter(op, <%if (genParameter.hasGenericType()){%>g1<%} else {%><%=genPackage.getPackageInstanceVariable(genParameter.getTypeGenPackage())%>.get<%=genParameter.getTypeClassifierAccessorName()%>()<%}%>, "<%=genParameter.getName()%>", <%=genParameter.getLowerBound()%>, <%=genParameter.getUpperBound()%>);<%=genModel.getNonNLS()%>
           <%}%>
           <%if (genOperation.hasGenericExceptions()) {%>
-              <%for (Iterator b=genOperation.getEcoreOperation().getEGenericExceptions().iterator(); b.hasNext();) {%>
-                <%for (InformationIterator i=new InformationIterator((EGenericType)b.next()); i.hasNext(); ) { Information info = i.next(); String typePrefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; typePrefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }%>
+              <%for (EGenericType genericExceptions : genOperation.getEcoreOperation().getEGenericExceptions()) {%>
+                <%for (InformationIterator i=new InformationIterator(genericExceptions); i.hasNext(); ) { Information info = i.next(); String typePrefix = ""; if (maxGenericTypeAssignment <= info.depth) { ++maxGenericTypeAssignment; typePrefix = genModel.getImportedName("org.eclipse.emf.ecore.EGenericType") + " "; }%>
 		<%=typePrefix%>g<%=info.depth + 1%> = createEGenericType(<%=info.type%>);
                   <%if (info.depth > 0) {%>
 		g<%=info.depth%>.<%=info.accessor%>(g<%=info.depth + 1%>);
@@ -730,7 +731,7 @@ int maxGenericTypeAssignment = 0;
                 <%}%>
               <%}%>
           <%} else {%>
-            <%for (Iterator p=genOperation.getGenExceptions().iterator(); p.hasNext();) { GenClassifier genException = (GenClassifier)p.next();%>
+            <%for (GenClassifier genException : genOperation.getGenExceptions()) {%>
 		addEException(op, <%=genPackage.getPackageInstanceVariable(genException.getGenPackage())%>.get<%=genException.getClassifierAccessorName()%>());
             <%}%>
           <%}%>
@@ -752,9 +753,9 @@ int maxGenericTypeAssignment = 0;
     <%if (!genPackage.getGenEnums().isEmpty()) {%>
 
 		// Initialize enums and add enum literals
-      <%for (Iterator e=genPackage.getGenEnums().iterator(); e.hasNext();) { GenEnum genEnum = (GenEnum)e.next();%>
+      <%for (Iterator<GenEnum> e=genPackage.getGenEnums().iterator(); e.hasNext();) { GenEnum genEnum = e.next();%>
 		initEEnum(<%=genEnum.getClassifierInstanceName()%>, <%=genEnum.getImportedName()%>.class, "<%=genEnum.getName()%>");<%=genModel.getNonNLS()%>
-        <%for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();%>
+        <%for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {%>
 		addEEnumLiteral(<%=genEnum.getClassifierInstanceName()%>, <%=genEnum.getImportedName().equals(genEnum.getClassifierID()) ? genEnum.getQualifiedName() : genEnum.getImportedName()%>.<%=genEnumLiteral.getEnumLiteralInstanceConstantName()%>);
         <%}%>
         <%if (e.hasNext()) {%>
@@ -765,7 +766,7 @@ int maxGenericTypeAssignment = 0;
     <%if (!genPackage.getGenDataTypes().isEmpty()) {%>
 
 		// Initialize data types
-      <%for (Iterator d=genPackage.getGenDataTypes().iterator(); d.hasNext();) { GenDataType genDataType = (GenDataType)d.next();  boolean hasInstanceTypeName = genModel.useGenerics() && genDataType.getEcoreDataType().getInstanceTypeName() != null && genDataType.getEcoreDataType().getInstanceTypeName().contains("<");%>
+      <%for (GenDataType genDataType : genPackage.getGenDataTypes()) {boolean hasInstanceTypeName = genModel.useGenerics() && genDataType.getEcoreDataType().getInstanceTypeName() != null && genDataType.getEcoreDataType().getInstanceTypeName().contains("<");%>
 		initEDataType(<%=genDataType.getClassifierInstanceName()%>, <%=genDataType.getRawImportedInstanceClassName()%>.class, "<%=genDataType.getName()%>", <%=genDataType.getSerializableFlag()%>, <%=genDataType.getGeneratedInstanceClassFlag()%><%if (hasInstanceTypeName) {%>, "<%=genDataType.getEcoreDataType().getInstanceTypeName()%>"<%}%>);<%=genModel.getNonNLS()%><%if (hasInstanceTypeName) {%><%=genModel.getNonNLS(2)%><%}%>
       <%}%>
     <%}%>
@@ -777,14 +778,14 @@ int maxGenericTypeAssignment = 0;
     <%if (!genPackage.isEcorePackage() && !genPackage.getAnnotationSources().isEmpty()) {%>
 
 		// Create annotations
-      <%for (Iterator i = genPackage.getAnnotationSources().iterator(); i.hasNext();) { String annotationSource = (String)i.next();%>
+      <%for (String annotationSource : genPackage.getAnnotationSources()) {%>
 		// <%=annotationSource%>
 		create<%=genPackage.getAnnotationSourceIdentifier(annotationSource)%>Annotations();
       <%}%>
     <%}%>
 	}
 
-    <%for (Iterator i = genPackage.getAnnotationSources().iterator(); i.hasNext();) { String annotationSource = (String)i.next();%>
+    <%for (String annotationSource : genPackage.getAnnotationSources()) {%>
 	/**
 	 * Initializes the annotations for <b><%=annotationSource%></b>.
 	 * <!-- begin-user-doc -->
@@ -794,38 +795,38 @@ int maxGenericTypeAssignment = 0;
 	protected void create<%=genPackage.getAnnotationSourceIdentifier(annotationSource)%>Annotations()
 	{
 		String source = <%if (annotationSource == null) {%>null;<%} else {%>"<%=annotationSource%>";<%=genModel.getNonNLS()%><%}%>
-      <%for (Iterator j = genPackage.getAllAnnotations().iterator(); j.hasNext();) { EAnnotation eAnnotation = (EAnnotation)j.next();%>	
+      <%for (EAnnotation eAnnotation : genPackage.getAllAnnotations()) {%>	
         <%if (annotationSource == null ? eAnnotation.getSource() == null : annotationSource.equals(eAnnotation.getSource())) {%>	
 		addAnnotation
 		  (<%=genPackage.getAnnotatedModelElementAccessor(eAnnotation)%>, 
 		   source, 
 		   new String[] 
 		   {
-          <%for (Iterator k = eAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+          <%for (Iterator<Map.Entry<String, String>> k = eAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry<String, String> detail = k.next(); String key = Literals.toStringLiteral(detail.getKey(), genModel); String value = Literals.toStringLiteral(detail.getValue(), genModel);%>
 			 <%=key%>, <%=value%><%=k.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
           <%}%>
 		   });
         <%}%>
-        <%for (Iterator k = genPackage.getAllNestedAnnotations(eAnnotation).iterator(); k.hasNext(); ) { EAnnotation nestedEAnnotation = (EAnnotation)k.next(); String nestedAnnotationSource = nestedEAnnotation.getSource(); int depth = 1; for (EObject eContainer = nestedEAnnotation.eContainer(); eContainer != eAnnotation; eContainer = eContainer.eContainer()) { ++depth; }%>
+        <%for (EAnnotation nestedEAnnotation : genPackage.getAllNestedAnnotations(eAnnotation)) {String nestedAnnotationSource = nestedEAnnotation.getSource(); int depth = 1; for (EObject eContainer = nestedEAnnotation.eContainer(); eContainer != eAnnotation; eContainer = eContainer.eContainer()) { ++depth; }%>
 		addAnnotation
 		  (<%=genPackage.getAnnotatedModelElementAccessor(eAnnotation)%>, 
 		   <%=depth%>,
 		   <%if (nestedAnnotationSource == null) {%>null,<%} else {%>"<%=nestedAnnotationSource%>",<%=genModel.getNonNLS()%><%}%>
 		   new String[] 
 		   {
-          <%for (Iterator l = nestedEAnnotation.getDetails().iterator(); l.hasNext();) { Map.Entry detail = (Map.Entry)l.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+          <%for (Iterator<Map.Entry<String, String>> l = nestedEAnnotation.getDetails().iterator(); l.hasNext();) { Map.Entry<String, String> detail = l.next(); String key = Literals.toStringLiteral(detail.getKey(), genModel); String value = Literals.toStringLiteral(detail.getValue(), genModel);%>
 		    <%=key%>, <%=value%><%=l.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
           <%}%>
 		   });
         <%}%>
-        <%for (Iterator k = genPackage.getAllNestedAnnotations(eAnnotation).iterator(); k.hasNext(); ) { EAnnotation nestedEAnnotation = (EAnnotation)k.next(); String nestedAnnotationSource = nestedEAnnotation.getSource(); int depth = 1; for (EObject eContainer = nestedEAnnotation.eContainer(); eContainer != eAnnotation; eContainer = eContainer.eContainer()) { ++depth; }%>
+        <%for (EAnnotation nestedEAnnotation : genPackage.getAllNestedAnnotations(eAnnotation)) {String nestedAnnotationSource = nestedEAnnotation.getSource(); int depth = 1; for (EObject eContainer = nestedEAnnotation.eContainer(); eContainer != eAnnotation; eContainer = eContainer.eContainer()) { ++depth; }%>
 		addAnnotation
 		  (<%=genPackage.getAnnotatedModelElementAccessor(eAnnotation)%>, 
 		   <%=depth%>,
 		   <%if (nestedAnnotationSource == null) {%>null,<%} else {%>"<%=nestedAnnotationSource%>",<%=genModel.getNonNLS()%><%}%>
 		   new String[] 
 		   {
-          <%for (Iterator l = nestedEAnnotation.getDetails().iterator(); l.hasNext();) { Map.Entry detail = (Map.Entry)l.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+          <%for (Iterator<Map.Entry<String, String>> l = nestedEAnnotation.getDetails().iterator(); l.hasNext();) { Map.Entry<String, String> detail = l.next(); String key = Literals.toStringLiteral(detail.getKey(), genModel); String value = Literals.toStringLiteral(detail.getValue(), genModel);%>
 		    <%=key%>, <%=value%><%=l.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
           <%}%>
 		   });
@@ -930,7 +931,7 @@ int maxGenericTypeAssignment = 0;
 	 */
 	<%if (isImplementation) {%>public <%}%>interface Literals
 	{
-  <%for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();%>
+  <%for (GenClassifier genClassifier : genPackage.getGenClassifiers()) {%>
 		/**
     <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
       <%if (!genClass.isInterface()) {%>
@@ -963,7 +964,7 @@ int maxGenericTypeAssignment = 0;
 		<%=publicStaticFinalFlag%><%=genClassifier.getImportedMetaType()%> <%=genPackage.getClassifierID(genClassifier)%> = eINSTANCE.get<%=genClassifier.getClassifierAccessorName()%>();
 
     <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass)genClassifier;%>
-      <%for (Iterator f=genClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
+      <%for (GenFeature genFeature : genClass.getGenFeatures()) {%>
 		/**
 		 * The meta object literal for the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%> feature.
 		 * <!-- begin-user-doc -->

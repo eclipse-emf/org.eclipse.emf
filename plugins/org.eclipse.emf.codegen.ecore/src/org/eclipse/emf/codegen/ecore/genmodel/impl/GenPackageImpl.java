@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackageImpl.java,v 1.64 2006/12/13 20:38:19 marcelop Exp $
+ * $Id: GenPackageImpl.java,v 1.65 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -505,7 +505,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @generated
    * @ordered
    */
-  protected EList genEnums = null;
+  protected EList<GenEnum> genEnums = null;
 
   /**
    * The cached value of the '{@link #getGenDataTypes() <em>Gen Data Types</em>}' containment reference list.
@@ -515,7 +515,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @generated
    * @ordered
    */
-  protected EList genDataTypes = null;
+  protected EList<GenDataType> genDataTypes = null;
 
   /**
    * The cached value of the '{@link #getGenClasses() <em>Gen Classes</em>}' containment reference list.
@@ -525,7 +525,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @generated
    * @ordered
    */
-  protected EList genClasses = null;
+  protected EList<GenClass> genClasses = null;
 
   /**
    * The cached value of the '{@link #getNestedGenPackages() <em>Nested Gen Packages</em>}' containment reference list.
@@ -535,7 +535,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @generated
    * @ordered
    */
-  protected EList nestedGenPackages = null;
+  protected EList<GenPackage> nestedGenPackages = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -552,6 +552,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_PACKAGE;
@@ -993,6 +994,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       eNotify(new ENotificationImpl(this, Notification.SET, GenModelPackage.GEN_PACKAGE__GENERATE_MODEL_WIZARD, oldGenerateModelWizard, generateModelWizard));
   }
 
+  @Override
   public  EModelElement getEcoreModelElement()
   {
     return getEcorePackage();
@@ -1044,6 +1046,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   GenModel genModelContainer;
   GenBase genBaseContainer;
 
+  @Override
   public GenModel getGenModel() 
   {
     // We can't blindly cache the genModel, since we need to support moving the GenPackage to another container,
@@ -1073,6 +1076,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Deprecated
   public GenModel getGenModelGen()
   {
     if (eContainerFeatureID != GenModelPackage.GEN_PACKAGE__GEN_MODEL) return null;
@@ -1118,11 +1122,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenEnums()
+  public EList<GenEnum> getGenEnums()
   {
     if (genEnums == null)
     {
-      genEnums = new EObjectContainmentEList(GenEnum.class, this, GenModelPackage.GEN_PACKAGE__GEN_ENUMS);
+      genEnums = new EObjectContainmentEList<GenEnum>(GenEnum.class, this, GenModelPackage.GEN_PACKAGE__GEN_ENUMS);
     }
     return genEnums;
   }
@@ -1132,11 +1136,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenDataTypes()
+  public EList<GenDataType> getGenDataTypes()
   {
     if (genDataTypes == null)
     {
-      genDataTypes = new EObjectContainmentEList(GenDataType.class, this, GenModelPackage.GEN_PACKAGE__GEN_DATA_TYPES);
+      genDataTypes = new EObjectContainmentEList<GenDataType>(GenDataType.class, this, GenModelPackage.GEN_PACKAGE__GEN_DATA_TYPES);
     }
     return genDataTypes;
   }
@@ -1146,11 +1150,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenClasses()
+  public EList<GenClass> getGenClasses()
   {
     if (genClasses == null)
     {
-      genClasses = new EObjectContainmentEList(GenClass.class, this, GenModelPackage.GEN_PACKAGE__GEN_CLASSES);
+      genClasses = new EObjectContainmentEList<GenClass>(GenClass.class, this, GenModelPackage.GEN_PACKAGE__GEN_CLASSES);
     }
     return genClasses;
   }
@@ -1160,11 +1164,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getNestedGenPackages()
+  public EList<GenPackage> getNestedGenPackages()
   {
     if (nestedGenPackages == null)
     {
-      nestedGenPackages = new EObjectContainmentEList(GenPackage.class, this, GenModelPackage.GEN_PACKAGE__NESTED_GEN_PACKAGES);
+      nestedGenPackages = new EObjectContainmentEList<GenPackage>(GenPackage.class, this, GenModelPackage.GEN_PACKAGE__NESTED_GEN_PACKAGES);
     }
     return nestedGenPackages;
   }
@@ -1174,13 +1178,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getGenClassifiers()
+  public EList<GenClassifier> getGenClassifiers()
   {
-    EList result = new BasicEList();
+    EList<GenClassifier> result = new BasicEList<GenClassifier>();
     result.addAll(getGenClasses());
     result.addAll(getGenEnums());
     result.addAll(getGenDataTypes());
-    return new BasicEList.UnmodifiableEList(result.size(), result.toArray());
+    return new BasicEList.UnmodifiableEList<GenClassifier>(result.size(), result.toArray());
   }
 
   /**
@@ -1188,6 +1192,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -1205,6 +1210,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -1212,13 +1218,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       case GenModelPackage.GEN_PACKAGE__GEN_MODEL:
         return basicSetGenModel(null, msgs);
       case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:
-        return ((InternalEList)getGenEnums()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenEnums()).basicRemove(otherEnd, msgs);
       case GenModelPackage.GEN_PACKAGE__GEN_DATA_TYPES:
-        return ((InternalEList)getGenDataTypes()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenDataTypes()).basicRemove(otherEnd, msgs);
       case GenModelPackage.GEN_PACKAGE__GEN_CLASSES:
-        return ((InternalEList)getGenClasses()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenClasses()).basicRemove(otherEnd, msgs);
       case GenModelPackage.GEN_PACKAGE__NESTED_GEN_PACKAGES:
-        return ((InternalEList)getNestedGenPackages()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getNestedGenPackages()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -1228,6 +1234,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs)
   {
     switch (eContainerFeatureID)
@@ -1243,6 +1250,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -1307,6 +1315,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -1373,19 +1383,19 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         return;
       case GenModelPackage.GEN_PACKAGE__GEN_ENUMS:
         getGenEnums().clear();
-        getGenEnums().addAll((Collection)newValue);
+        getGenEnums().addAll((Collection<? extends GenEnum>)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__GEN_DATA_TYPES:
         getGenDataTypes().clear();
-        getGenDataTypes().addAll((Collection)newValue);
+        getGenDataTypes().addAll((Collection<? extends GenDataType>)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__GEN_CLASSES:
         getGenClasses().clear();
-        getGenClasses().addAll((Collection)newValue);
+        getGenClasses().addAll((Collection<? extends GenClass>)newValue);
         return;
       case GenModelPackage.GEN_PACKAGE__NESTED_GEN_PACKAGES:
         getNestedGenPackages().clear();
-        getNestedGenPackages().addAll((Collection)newValue);
+        getNestedGenPackages().addAll((Collection<? extends GenPackage>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -1396,6 +1406,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -1481,6 +1492,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -1544,6 +1556,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -1589,6 +1602,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return result.toString();
   }
 
+  @Override
   public String getName()
   {
     return getPackageName();
@@ -1816,9 +1830,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   public boolean hasConstraints()
   {
     if (NO_CONSTRAINTS) return false;
-    for (Iterator i = getGenClassifiers().iterator(); i.hasNext(); )
+    for (GenClassifier genClassifier : getGenClassifiers())
     {
-      GenClassifier genClassifier = (GenClassifier)i.next();
       if (!genClassifier.getGenConstraints().isEmpty())
       {
         return true;
@@ -1866,23 +1879,23 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return name;
   }
 
-  public List getAllGenDataTypes()
+  public List<GenDataType> getAllGenDataTypes()
   {
-    List result = new ArrayList();
+    List<GenDataType> result = new ArrayList<GenDataType>();
     result.addAll(getGenEnums());
     result.addAll(getGenDataTypes());
     return result;
   }
 
-  public List getOrderedGenClasses()
+  public List<GenClass> getOrderedGenClasses()
   {
-    List result = new ArrayList();
-    Set resultSet = new HashSet();
+    List<GenClass> result = new ArrayList<GenClass>();
+    Set<GenClass> resultSet = new HashSet<GenClass>();
 
-    for (Iterator iter = getGenClasses().iterator(); iter.hasNext(); )
+    for (Iterator<GenClass> iter = getGenClasses().iterator(); iter.hasNext(); )
     {
-      List extendChain = new LinkedList();
-      for (GenClass genClass = (GenClass)iter.next(); genClass != null; genClass = genClass.getBaseGenClass())
+      List<GenClass> extendChain = new LinkedList<GenClass>();
+      for (GenClass genClass = iter.next(); genClass != null; genClass = genClass.getBaseGenClass())
       {
         if (this == genClass.getGenPackage() && resultSet.add(genClass))
         {
@@ -1894,9 +1907,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return result;
   }
 
-  public List getOrderedGenClassifiers()
+  public List<GenClassifier> getOrderedGenClassifiers()
   {
-    List result = new ArrayList(getOrderedGenClasses());
+    List<GenClassifier> result = new ArrayList<GenClassifier>(getOrderedGenClasses());
     result.addAll(getGenEnums());
     result.addAll(getGenDataTypes());
     return result;
@@ -1917,11 +1930,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return getEcorePackage().getEClassifiers().indexOf(genClassifier.getEcoreClassifier());
   }
 
-  public List getPackageSimpleDependencies()
+  public List<GenPackage> getPackageSimpleDependencies()
   {
     if (isEcorePackage())
     {
-      return new ArrayList();
+      return new ArrayList<GenPackage>();
     }
     else
     {
@@ -1929,26 +1942,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
   }
 
-  public List getPackageInterDependencies()
+  public List<GenPackage> getPackageInterDependencies()
   {
     return dependencyHelper.getInterDependencies();
   }
 
-  public List getPackageLoadInterDependencies()
+  public List<GenPackage> getPackageLoadInterDependencies()
   {
     return dependencyHelper.getLoadInterDependencies();
   }
 
-  public List getPackageBuildInterDependencies()
+  public List<GenPackage> getPackageBuildInterDependencies()
   {
     return dependencyHelper.getBuildInterDependencies();
   }
 
-  public List getPackageInitializationDependencies()
+  public List<GenPackage> getPackageInitializationDependencies()
   {
     if (isEcorePackage())
     {
-      return new ArrayList();
+      return new ArrayList<GenPackage>();
     }
     else
     {
@@ -1968,11 +1981,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   private class DependencyHelper extends GenBaseImpl.UniqueNameHelper
   {
-    private List simpleDependencies;
-    private List interDependencies;
-    private List loadInterDependencies;
-    private List buildInterDependencies;
-    private List initializationDependencies;
+    private List<GenPackage> simpleDependencies;
+    private List<GenPackage> interDependencies;
+    private List<GenPackage> loadInterDependencies;
+    private List<GenPackage> buildInterDependencies;
+    private List<GenPackage> initializationDependencies;
 
     public DependencyHelper()
     {
@@ -1980,20 +1993,19 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       add(GenPackageImpl.this);
 
-      simpleDependencies = new ArrayList();
+      simpleDependencies = new ArrayList<GenPackage>();
       collectPackages(simpleDependencies, getGenModel().getUsedGenPackages(), 1);
       addAll(simpleDependencies);
       
-      interDependencies = new ArrayList();
+      interDependencies = new ArrayList<GenPackage>();
       collectPackages(interDependencies, getGenModel().getGenPackages(), -1);
       interDependencies.remove(GenPackageImpl.this);
       addAll(interDependencies);
 
-      loadInterDependencies = new ArrayList();
-      buildInterDependencies = new ArrayList();
-      for (Iterator i = interDependencies.iterator(); i.hasNext(); )
+      loadInterDependencies = new ArrayList<GenPackage>();
+      buildInterDependencies = new ArrayList<GenPackage>();
+      for (GenPackage genPackage : interDependencies)
       {
-        GenPackage genPackage = (GenPackage)i.next();
         if (genPackage.isLoadedInitialization())
         {
           loadInterDependencies.add(genPackage);
@@ -2004,24 +2016,20 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         }
       }
 
-      initializationDependencies = new UniqueEList();
-      for (Iterator i = getSubGenPackages().iterator(); i.hasNext(); )
+      initializationDependencies = new UniqueEList<GenPackage>();
+      for (Iterator<GenPackage> i = getSubGenPackages().iterator(); i.hasNext(); )
       {
         initializationDependencies.add(i.next());
       }
-      for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+      for (GenClass genClass : getGenClasses())
       {
-        GenClass genClass = (GenClass)i.next();
-        for (Iterator j = genClass.getBaseGenClasses().iterator(); j.hasNext(); )
+        for (GenClass baseGenClass : genClass.getBaseGenClasses())
         {
-          GenClass baseGenClass = (GenClass)j.next();
           initializationDependencies.add(baseGenClass.getGenPackage());
         }
-        for (Iterator j = genClass.getGenFeatures().iterator(); j.hasNext(); )
+        for (GenFeature genFeature : genClass.getGenFeatures())
         {
-          GenFeature genFeature = (GenFeature)j.next();
           initializationDependencies.add(genFeature.getTypeGenPackage());
-
           if (genFeature.isReferenceType())
           {
             GenFeature reverseGenFeature = genFeature.getReverse();
@@ -2037,21 +2045,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
             initializationDependencies.add(delegateFeature.getGenPackage());
           }
         }
-        for (Iterator j = genClass.getGenOperations().iterator(); j.hasNext(); )
+        for (GenOperation genOperation : genClass.getGenOperations())
         {
-          GenOperation genOperation = (GenOperation)j.next();
           if (!genOperation.isVoid())
           {
             initializationDependencies.add(genOperation.getTypeGenPackage());
           }
-          for (Iterator k = genOperation.getGenParameters().iterator(); k.hasNext(); )
+          for (GenParameter genParameter : genOperation.getGenParameters())
           {
-            GenParameter genParameter = (GenParameter)k.next();
             initializationDependencies.add(genParameter.getTypeGenPackage());
           }
-          for (Iterator k = genOperation.getGenExceptions().iterator(); k.hasNext(); )
+          for (GenClassifier genClassifier : genOperation.getGenExceptions())
           {
-            GenClassifier genClassifier = (GenClassifier)k.next();
             initializationDependencies.add(genClassifier.getGenPackage());
           }
         }
@@ -2092,32 +2097,33 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       initializationDependencies.remove(findGenPackage(EcorePackage.eINSTANCE));
     }
 
+    @Override
     protected String getName(Object o)
     {
       return ((GenPackage)o).getPackageInterfaceName();
     }
 
-    public List getSimpleDependencies()
+    public List<GenPackage> getSimpleDependencies()
     {
       return simpleDependencies;
     }
 
-    public List getInterDependencies()
+    public List<GenPackage> getInterDependencies()
     {
       return interDependencies;
     }
 
-    public List getLoadInterDependencies()
+    public List<GenPackage> getLoadInterDependencies()
     {
       return loadInterDependencies;
     }
 
-    public List getBuildInterDependencies()
+    public List<GenPackage> getBuildInterDependencies()
     {
       return buildInterDependencies;
     }
 
-    public List getInitializationDependencies()
+    public List<GenPackage> getInitializationDependencies()
     {
       return initializationDependencies;
     }
@@ -2128,13 +2134,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * not counting those without classifiers (for which nothing is ever
    * generated); -1 for no limit.
    */
-  protected void collectPackages(List result, List genPackages, int depth)
+  protected void collectPackages(List<GenPackage> result, List<GenPackage> genPackages, int depth)
   {
     if (depth == 0) return;
 
-    for (Iterator i = genPackages.iterator(); i.hasNext(); )
+    for (GenPackage genPackage : genPackages)
     {
-      GenPackage genPackage = (GenPackage)i.next();
       if (genPackage.hasClassifiers())
       {
         result.add(genPackage);
@@ -2147,9 +2152,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
   }
 
-  public List getSubGenPackages()
+  public List<GenPackage> getSubGenPackages()
   {
-    List result = new ArrayList();
+    List<GenPackage> result = new ArrayList<GenPackage>();
     collectPackages(result, getNestedGenPackages(), 1);
     return result;
   }
@@ -2203,9 +2208,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   {
     if (genPackage.isLoadInitialization()) return true;
     
-    for (Iterator i = genPackage.getSubGenPackages().iterator(); i.hasNext(); )
+    for (GenPackage subGenPackage : genPackage.getSubGenPackages())
     {
-      if (needsLoadInitialization((GenPackage)i.next())) return true;
+      if (needsLoadInitialization(subGenPackage)) return true;
     }
     return false;
   }
@@ -2220,12 +2225,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return !getJavaLangConflicts().isEmpty();
   }
 
-  public List getJavaLangConflicts()
+  public List<String> getJavaLangConflicts()
   {
-    List result = new ArrayList();
-    for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+    List<String> result = new ArrayList<String>();
+    for (GenClass genClass : getGenClasses())
     {
-      GenClass genClass = (GenClass)i.next();
       String name = genClass.getName();
       if (CodeGenUtil.isJavaDefaultType(name))
       {
@@ -2237,26 +2241,23 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public boolean hasInterfaceImplConflict()
   {
-    Set names = new HashSet();
-    for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+    Set<String> names = new HashSet<String>();
+    for (GenClass genClass : getGenClasses())
     {
-      GenClass genClass = (GenClass)i.next();
       names.add(genClass.getName());
     }
 
-    for (Iterator i = names.iterator(); i.hasNext(); )
+    for (String name : names)
     {
-      String name = (String)i.next();
       if (names.contains(name + "Impl"))
       {
         return true;
       }
     }
-
     return false;
   }
 
-  public List getAllSwitchGenClasses()
+  public List<GenClass> getAllSwitchGenClasses()
   {
     if (switchHelper == null)
     {
@@ -2278,8 +2279,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   private class SwitchHelper extends GenBaseImpl.UniqueNameHelper
   {
-    protected List allGenClasses = new LinkedList();
-    protected List allBaseGenPackages = new UniqueEList();
+    protected List<GenClass> allGenClasses = new LinkedList<GenClass>();
+    protected List<GenPackage> allBaseGenPackages = new UniqueEList<GenPackage>();
 
     public SwitchHelper()
     {
@@ -2297,10 +2298,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     {
       // Add all classes from this package first, to guarantee they get the
       // simple names
-      for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+      for (GenClass genClass : getGenClasses())
       {
-        GenClass genClass = (GenClass)i.next();
-        
         // EObject is handled by default case
         if (!genClass.isEObject() && add(genClass))
         {
@@ -2312,14 +2311,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     protected void initBases()
     {
       // Go through class supertypes to catch any from other packages
-      for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+      for (GenClass genClass : getGenClasses())
       {
-        GenClass genClass = (GenClass)i.next();
         if (genClass.isEObject()) continue;
 
-        for (Iterator j = genClass.getEcoreClass().getEAllSuperTypes().iterator(); j.hasNext(); )
+        for (EClass base : genClass.getEcoreClass().getEAllSuperTypes())
         {
-          EClass base = (EClass)j.next();
           GenClass baseGenClass = findGenClass(base);
           if (baseGenClass != null && !baseGenClass.isEObject() && add(baseGenClass))
           {
@@ -2333,24 +2330,26 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       }
     }
 
+    @Override
     protected String getName(Object o)
     {
       return ((GenClassifier)o).getName();
     }
 
-    protected List getAlternateNames(Object o)
+    @Override
+    protected List<String> getAlternateNames(Object o)
     {
       GenClassifier genClassifier = (GenClassifier)o;
       return Collections.singletonList(genClassifier.getGenPackage().getPrefix() + "_" + genClassifier.getName());
     }
 
-    public List getAllGenClasses()
+    public List<GenClass> getAllGenClasses()
     {
       return allGenClasses;
     }
   }
 
-  public List getAllValidatorBaseGenPackages()
+  public List<GenPackage> getAllValidatorBaseGenPackages()
   {
     if (validatorHelper == null)
     {
@@ -2372,7 +2371,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   private class ValidatorHelper extends UniqueNameHelper
   {
-    protected List allBaseGenPackages = new UniqueEList();
+    protected List<GenPackage> allBaseGenPackages = new UniqueEList<GenPackage>();
 
     public ValidatorHelper()
     {
@@ -2382,14 +2381,12 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     protected void init()
     {
       // Go through class supertypes to catch constraints from other packages
-      for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+      for (GenClass genClass : getGenClasses())
       {
-        GenClass genClass = (GenClass)i.next();
         if (!genClass.isEObject()) 
         {
-          for (Iterator j = genClass.getEcoreClass().getEAllSuperTypes().iterator(); j.hasNext(); )
+          for (EClass base : genClass.getEcoreClass().getEAllSuperTypes())
           {
-            EClass base = (EClass)j.next();
             GenClass baseGenClass = findGenClass(base);
             if (baseGenClass != null && 
                   !baseGenClass.isEObject() && 
@@ -2402,9 +2399,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         }
       }
 
-      for (Iterator i = getGenDataTypes().iterator(); i.hasNext(); )
+      for (GenDataType genDataType : getGenDataTypes())
       {
-        GenDataType genDataType = (GenDataType)i.next();
         for (GenDataType baseType = genDataType.getBaseType(); baseType != null; baseType = baseType.getBaseType())
         {
           if (baseType.getGenPackage().hasConstraints())
@@ -2420,9 +2416,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
             allBaseGenPackages.add(itemType.getGenPackage());
           }
         }
-        for (Iterator j = genDataType.getMemberTypes().iterator(); j.hasNext(); )
+        for (GenDataType memberType : genDataType.getMemberTypes())
         {
-          GenDataType memberType = (GenDataType)j.next();
           if (memberType.getGenPackage().hasConstraints())
           {
             allBaseGenPackages.add(memberType.getGenPackage());
@@ -2432,13 +2427,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
       allBaseGenPackages.remove(GenPackageImpl.this);      
       
-      for (Iterator i = allBaseGenPackages.iterator(); i.hasNext(); )
+      for (Iterator<GenPackage> i = allBaseGenPackages.iterator(); i.hasNext(); )
       {
         getUniqueName(i.next());
       }
     }
 
-    public List getAllBaseGenPackages()
+    public List<GenPackage> getAllBaseGenPackages()
     {
       return allBaseGenPackages;
     }
@@ -2448,6 +2443,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       return getUniqueName(genPackage);
     }
 
+    @Override
     protected String getName(Object o)
     {
       return safeName(uncapPrefixedName(((GenPackage)o).getPrefix(), true)); 
@@ -2478,13 +2474,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
 
     CLASSIFIER_LOOP:
-    for (Iterator iter = ePackage.getEClassifiers().iterator(); iter.hasNext(); )
+    for (EClassifier eClassifier : ePackage.getEClassifiers())
     {
-      EClassifier eClassifier = (EClassifier)iter.next();
-
-      for (Iterator j = getGenClassifiers().iterator(); j.hasNext(); )
+      for (GenClassifier genClassifier : getGenClassifiers())
       {
-        GenClassifier genClassifier = (GenClassifier)j.next();
         if (genClassifier.getEcoreClassifier() == eClassifier)
         {
           if (eClassifier instanceof EClass)
@@ -2529,13 +2522,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
 
     PACKAGE_LOOP:
-    for (Iterator iter = ePackage.getESubpackages().iterator(); iter.hasNext(); )
+    for (EPackage nestedEPackage : ePackage.getESubpackages())
     {
-      EPackage nestedEPackage = (EPackage)iter.next();
-
-      for (Iterator j = getNestedGenPackages().iterator(); j.hasNext(); )
+      for (GenPackage nestedGenPackage : getNestedGenPackages())
       {
-        GenPackage nestedGenPackage = (GenPackage)j.next();
         if (nestedGenPackage.getEcorePackage() == nestedEPackage)
         {
           nestedGenPackage.initialize(nestedEPackage);
@@ -2554,6 +2544,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
   }
 
+  @Override
   protected boolean hasModelContribution()
   {
     return hasClassifiers() || !getNestedGenPackages().isEmpty();
@@ -2563,6 +2554,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Override
+  @Deprecated
   public void generate(Monitor progressMonitor)
   {
     try
@@ -2792,6 +2786,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @Deprecated
   public void generateSchema()
   {
     generateSchema(new BasicMonitor());
@@ -2800,6 +2795,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @Override
+  @Deprecated
   public boolean canGenerateSchema()
   {
     return canGenerate();
@@ -2808,6 +2805,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @Override
+  @SuppressWarnings("unchecked")
+  @Deprecated
   public void generateSchema(Monitor progressMonitor)
   {
     if (!canGenerateSchema()) return;
@@ -2839,6 +2839,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   protected void generateXSD(String type)
   {
     Bundle xsdPlugin = Platform.getBundle("org.eclipse.xsd");
@@ -2981,6 +2983,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   public void generatePackageSerialization(Monitor progressMonitor)
   {
     try
@@ -3205,20 +3209,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return capName(getPackageID());
   }
 
-  public List/*GenFeature*/ getAllGenFeatures()
+  public List<GenFeature> getAllGenFeatures()
   {
-    List result = new ArrayList();
+    List<GenFeature> result = new ArrayList<GenFeature>();
 
     // Any features that delegate to features in this package.
     //
-    List delegated = new ArrayList();
+    List<GenFeature> delegated = new ArrayList<GenFeature>();
 
-    for (Iterator iter = getGenClasses().iterator(); iter.hasNext(); )
+    for (GenClass genClass : getGenClasses())
     {
-      GenClass genClass = (GenClass)iter.next();
-      for (Iterator fIter = genClass.getGenFeatures().iterator(); fIter.hasNext(); )
+      for (GenFeature genFeature : genClass.getGenFeatures())
       {
-        GenFeature genFeature = (GenFeature)fIter.next();
         result.add(genFeature);
         delegated.addAll(genFeature.getDelegatedFeatures());
       }
@@ -3233,21 +3235,19 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return result;
   }
 
-  public List/*GenFeature*/ getFilteredAllGenFeatures()
+  public List<GenFeature> getFilteredAllGenFeatures()
   {
-    ArrayList result = new ArrayList();
+    ArrayList<GenFeature> result = new ArrayList<GenFeature>();
 
     // We need to screen out duplicates in the unlikely event that we have two
     //  features with the same class-qualifed name. We'll only generate one property
     //  string in that case and let the user add the second one mannually, if necessary.
     //
-    HashSet noDupHash = new HashSet();
-    for (Iterator iter = getGenClasses().iterator(); iter.hasNext(); )
+    Set<String> noDupHash = new HashSet<String>();
+    for (GenClass genClass : getGenClasses())
     {
-      GenClass genClass = (GenClass)iter.next();
-      for (Iterator fIter = genClass.getGenFeatures().iterator(); fIter.hasNext(); )
+      for (GenFeature genFeature : genClass.getGenFeatures())
       {
-        GenFeature genFeature = (GenFeature)fIter.next();
         if (noDupHash.add(genFeature.getGenClass().getName() + genFeature.getName()))
         {
           result.add(genFeature);
@@ -3258,18 +3258,18 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return result;
   }
 
-  public List/*GenPackage*/ getAdapterDelegatePackages()
+  public List<GenPackage> getAdapterDelegatePackages()
   {
-    List result = new ArrayList();
+    List<GenPackage> result = new ArrayList<GenPackage>();
 
     //TBD return (user selected subset?) of referenced packages that contain super classes of classes in this package.
 
     return result;
   }
 
-  public List/*GenClass*/ getAdapterDelegateSuperClasses()
+  public List<GenClass> getAdapterDelegateSuperClasses()
   {
-    List result = new ArrayList();
+    List<GenClass> result = new ArrayList<GenClass>();
 
     //TBD return superclasses of classes in this package that come from a delegate package.
 
@@ -3278,9 +3278,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public boolean hasStatefulProvider()
   {
-    for (Iterator iter = getGenClasses().iterator(); iter.hasNext(); )
+    for (GenClass genClass : getGenClasses())
     {
-      GenClass genClass = (GenClass)iter.next();
       if (!genClass.isAbstract() && genClass.getProvider() == GenProviderKind.STATEFUL_LITERAL)
       {
         return true;
@@ -3293,6 +3292,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
+  @Override
   public void generateEdit(Monitor progressMonitor)
   {
     try
@@ -3346,6 +3348,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Override
+  @Deprecated
   public void generateEditor(Monitor progressMonitor)
   {
     try
@@ -3432,9 +3437,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   public boolean hasTests()
   {
-    for (Iterator i = getGenClasses().iterator(); i.hasNext();)
+    for (GenClass genClass : getGenClasses())
     {
-      if (((GenClass)i.next()).hasTests())
+      if (genClass.hasTests())
       {
         return true;
       }
@@ -3443,6 +3448,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return false;
   }
 
+  @Override
   public boolean canGenerateTests()
   {
     return getGenModel().canGenerateTests() && hasClassifiers(true);
@@ -3452,6 +3458,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Override
+  @Deprecated
   public void generateTests(Monitor progressMonitor)
   {
     try
@@ -3532,9 +3541,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     else if (traverseNestedPackages)
     {
-      for (Iterator i = getNestedGenPackages().iterator(); i.hasNext();)
+      for (GenPackage genPackage : getNestedGenPackages())
       {
-        GenPackage genPackage = (GenPackage)i.next();
         if (genPackage.hasClassifiers(true))
         {
           return true;
@@ -3544,6 +3552,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return false;
   }
 
+  @Override
   public String getModelInfo()
   {
     StringBuffer result = new StringBuffer();
@@ -3558,12 +3567,10 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
           getEcorePackage().getName().equals(oldGenPackageVersion.getEcorePackage().getName()) :
           getEcorePackage().getNsURI().equals(oldGenPackageVersion.getEcorePackage().getNsURI()))
     {
-      for (Iterator i = getGenClassifiers().iterator(); i.hasNext(); )
+      for (GenClassifier genClassifier : getGenClassifiers())
       {
-        GenClassifier genClassifier = (GenClassifier)i.next();
-        for (Iterator j = oldGenPackageVersion.getGenClassifiers().iterator(); j.hasNext(); )
+        for (GenClassifier oldGenClassifierVersion : oldGenPackageVersion.getGenClassifiers())
         {
-          GenClassifier oldGenClassifierVersion = (GenClassifier)j.next();
           if (genClassifier instanceof GenEnum)
           {
             if (oldGenClassifierVersion instanceof GenEnum &&
@@ -3592,19 +3599,16 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
         }
       }
 
-      for (Iterator i = getNestedGenPackages().iterator(); i.hasNext(); )
+      for (GenPackage nestedGenPackage : getNestedGenPackages())
       {
-        GenPackage nestedGenPackage = (GenPackage)i.next();
-        for (Iterator j = oldGenPackageVersion.getNestedGenPackages().iterator(); j.hasNext(); )
+        for (GenPackage oldNestedGenPackageVersion : oldGenPackageVersion.getNestedGenPackages())
         {
-          GenPackage oldNestedGenPackageVersion = (GenPackage)j.next();
           if (nestedGenPackage.reconcile(oldNestedGenPackageVersion))
           {
             break;
           }
         }
       }
-
       reconcileSettings(oldGenPackageVersion);
       return true;
     }
@@ -3648,36 +3652,36 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
     else
     {
-      for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+      for (Iterator<GenClass> i = getGenClasses().iterator(); i.hasNext(); )
       {
-        GenClass genClass = (GenClass)i.next();
+        GenClass genClass = i.next();
         if (!genClass.reconcile())
         {
           i.remove();
         }
       }
       
-      for (Iterator i = getGenEnums().iterator(); i.hasNext(); )
+      for (Iterator<GenEnum> i = getGenEnums().iterator(); i.hasNext(); )
       {
-        GenEnum genEnum = (GenEnum)i.next();
+        GenEnum genEnum = i.next();
         if (!genEnum.reconcile())
         {
           i.remove();
         }
       }
       
-      for (Iterator i = getGenDataTypes().iterator(); i.hasNext(); )
+      for (Iterator<GenDataType> i = getGenDataTypes().iterator(); i.hasNext(); )
       {
-        GenDataType genDataType = (GenDataType)i.next();
+        GenDataType genDataType = i.next();
         if (!genDataType.reconcile())
         {
           i.remove();
         }
       }
 
-      for (Iterator i = getNestedGenPackages().iterator(); i.hasNext(); )
+      for (Iterator<GenPackage> i = getNestedGenPackages().iterator(); i.hasNext(); )
       {
-        GenPackage nestedGenPackage = (GenPackage)i.next();
+        GenPackage nestedGenPackage = i.next();
         if (!nestedGenPackage.reconcile())
         {
           i.remove();
@@ -3689,11 +3693,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     }
   }
 
-  public List getAnnotationSources()
+  public List<String> getAnnotationSources()
   {
-    List result = new UniqueEList();
+    List<String> result = new UniqueEList<String>();
     EPackage ePackage = getEcorePackage();
-    for (TreeIterator i = ePackage.eAllContents(); i.hasNext(); )
+    for (TreeIterator<?> i = ePackage.eAllContents(); i.hasNext(); )
     {
       Object object = i.next();
       if (object instanceof EPackage)
@@ -3724,13 +3728,13 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     public AnnotationSourceHelper()
     {
       super(0);
-      
-      for (Iterator i = getAllAnnotations().iterator(); i.hasNext(); )
+      for (EAnnotation eAnnotation : getAllAnnotations())
       {
-        getUniqueName(((EAnnotation)i.next()).getSource());
+        getUniqueName(eAnnotation.getSource());
       }
     }
 
+    @Override
     protected String getName(Object o)
     {
       String result = (String)o;
@@ -3765,11 +3769,11 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return annotationSourceHelper.getUniqueName(annotationSource);
   }
 
-  public List getAllAnnotations()
+  public List<EAnnotation> getAllAnnotations()
   {
-    List result = new UniqueEList();
+    List<EAnnotation> result = new UniqueEList<EAnnotation>();
     EPackage ePackage = getEcorePackage();
-    for (TreeIterator i = ePackage.eAllContents(); i.hasNext(); )
+    for (TreeIterator<?> i = ePackage.eAllContents(); i.hasNext(); )
     {
       Object object = i.next();
       if (object instanceof EPackage)
@@ -3778,7 +3782,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
       }
       else if (object instanceof EAnnotation)
       {
-        result.add(object);
+        result.add((EAnnotation)object);
         i.prune();
       }
     }
@@ -3789,25 +3793,28 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
   {
     EModelElement eModelElement = eAnnotation.getEModelElement();
     String result =
-      (String)
-        new EcoreSwitch()
+        new EcoreSwitch<String>()
         {
-          public Object caseEPackage(EPackage ePackage)
+          @Override
+          public String caseEPackage(EPackage ePackage)
           {
             return "this";
           }
 
-          public Object caseEClassifier(EClassifier eClassifier)
+          @Override
+          public String caseEClassifier(EClassifier eClassifier)
           {
             return findGenClassifier(eClassifier).getClassifierInstanceName();
           }
 
-          public Object caseEStructuralFeature(EStructuralFeature eStructuralFeature)
+          @Override
+          public String caseEStructuralFeature(EStructuralFeature eStructuralFeature)
           {
             return "get" + findGenFeature(eStructuralFeature).getFeatureAccessorName() + "()";
           }
 
-          public Object caseEOperation(EOperation eOperation)
+          @Override
+          public String caseEOperation(EOperation eOperation)
           {
             EClass eClass = eOperation.getEContainingClass();
             return 
@@ -3819,7 +3826,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
                 eClass.getEOperations().indexOf(eOperation) +
                 ")";
           }
-          public Object caseEEnumLiteral(EEnumLiteral eEnumLiteral)
+          @Override
+          public String caseEEnumLiteral(EEnumLiteral eEnumLiteral)
           {
             EEnum eEnum = eEnumLiteral.getEEnum();
             return 
@@ -3832,7 +3840,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
                 ")";
           }
 
-          public Object caseEParameter(EParameter eParameter)
+          @Override
+          public String caseEParameter(EParameter eParameter)
           {
             EOperation eOperation = eParameter.getEOperation();
             return 
@@ -3849,15 +3858,15 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return result;
   }
 
-  public List getAllNestedAnnotations(EAnnotation eAnnotation)
+  public List<EAnnotation> getAllNestedAnnotations(EAnnotation eAnnotation)
   {
-    List result = new ArrayList();
-    for (TreeIterator i = eAnnotation.eAllContents(); i.hasNext();)
+    List<EAnnotation> result = new ArrayList<EAnnotation>();
+    for (TreeIterator<?> i = eAnnotation.eAllContents(); i.hasNext();)
     {
       Object content = i.next();
       if (content instanceof EAnnotation)
       {
-        result.add(content);
+        result.add((EAnnotation)content);
       }
       else
       {
@@ -3942,7 +3951,7 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
 
   protected static boolean hasExtendedMetaData(EPackage ePackage)
   {
-    for (TreeIterator i = ePackage.eAllContents(); i.hasNext(); )
+    for (TreeIterator<?> i = ePackage.eAllContents(); i.hasNext(); )
     {
       Object object = i.next();
       if (object instanceof EPackage)
@@ -3999,16 +4008,14 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     int parameters = 0;
     int exceptions = 0;
     
-    for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+    for (GenClass genClass : getGenClasses())
     {
-      GenClass genClass = (GenClass)i.next();
       supers += genClass.getEcoreClass().getESuperTypes().size();
       features += genClass.getGenFeatures().size();
       operations += genClass.getGenOperations().size();
       
-      for (Iterator j = genClass.getGenOperations().iterator(); j.hasNext(); )
+      for (GenOperation genOperation : genClass.getGenOperations())
       {
-        GenOperation genOperation = (GenOperation)j.next();
         parameters += genOperation.getGenParameters().size();
         exceptions += genOperation.getEcoreOperation().getEExceptions().size();
       }
@@ -4017,9 +4024,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     int enums = getGenEnums().size();
     int literals = 0;
 
-    for (Iterator i = getGenEnums().iterator(); i.hasNext(); )
+    for (GenEnum genEnum : getGenEnums())
     {
-      GenEnum genEnum = (GenEnum)i.next();
       literals += genEnum.getGenEnumLiterals().size();
     }
 
@@ -4028,9 +4034,9 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     return (classes + supers + features + operations + parameters + exceptions + enums + literals + datatypes) > 500;
   }
   
-  public List /*String*/ getProviderSupportedTypes()
+  public List<String> getProviderSupportedTypes()
   {
-    List result = new ArrayList();
+    List<String> result = new ArrayList<String>();
     result.add("org.eclipse.emf.edit.provider.IEditingDomainItemProvider");
     result.add("org.eclipse.emf.edit.provider.IStructuredItemContentProvider");
     result.add("org.eclipse.emf.edit.provider.ITreeItemContentProvider");
@@ -4044,9 +4050,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     GenFeature rootFeature = getRootFeature();
     if (rootFeature == null)
     {
-      for (Iterator i = getGenClasses().iterator(); i.hasNext();)
+      for (GenClass genClass : getGenClasses())
       {
-        GenClass genClass = (GenClass)i.next();
         if (!genClass.isAbstract() && !genClass.isMapEntry())
         {
           return genClass;
@@ -4065,9 +4070,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     EClass documentRoot = getExtendedMetaData().getDocumentRoot(getEcorePackage());
     if (documentRoot != null)
     {
-      for (Iterator i = getExtendedMetaData().getAllElements(documentRoot).iterator(); i.hasNext();)
+      for (EStructuralFeature eStructuralFeature : getExtendedMetaData().getAllElements(documentRoot))
       {
-        EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
         if (eStructuralFeature instanceof EReference && !((EClass)eStructuralFeature.getEType()).isAbstract())
         {
           return findGenFeature(eStructuralFeature);
@@ -4079,9 +4083,8 @@ public class GenPackageImpl extends GenBaseImpl implements GenPackage
     
   public boolean hasConcreteClasses()
   {
-    for (Iterator i = getGenClasses().iterator(); i.hasNext(); )
+    for (GenClass genClass : getGenClasses())
     {
-      GenClass genClass = (GenClass)i.next();
       if (!genClass.isAbstract())
       {
         return true;

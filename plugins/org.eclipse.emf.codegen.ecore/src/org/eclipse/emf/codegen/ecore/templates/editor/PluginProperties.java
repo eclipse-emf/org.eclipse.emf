@@ -76,7 +76,7 @@ public class PluginProperties
  * </copyright>
  */
 
-    GenModel genModel = (GenModel)argument;
+    GenModel genModel = (GenModel)argument; if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     stringBuffer.append("$");
@@ -86,7 +86,7 @@ public class PluginProperties
     stringBuffer.append(genModel.getModelName());
     stringBuffer.append(TEXT_5);
     boolean hasMultiPageEditor = false;
-    for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); if (genPackage.isMultipleEditorPages()) { hasMultiPageEditor = true; }
+    for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {if (genPackage.isMultipleEditorPages()) { hasMultiPageEditor = true; }
     stringBuffer.append(TEXT_6);
     stringBuffer.append(genPackage.getEditorClassName());
     stringBuffer.append(TEXT_7);
@@ -102,7 +102,7 @@ public class PluginProperties
     stringBuffer.append(TEXT_12);
     }
     stringBuffer.append(TEXT_13);
-    for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next();
+    for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
     if (genPackage.isGenerateModelWizard()) {
     stringBuffer.append(TEXT_14);
     stringBuffer.append(genPackage.getModelWizardClassName());
@@ -150,7 +150,7 @@ public class PluginProperties
     stringBuffer.append(TEXT_35);
     stringBuffer.append(genModel.getModelName());
     stringBuffer.append(TEXT_36);
-    for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage genPackage = (GenPackage)i.next(); if (genPackage.isGenerateModelWizard()) {
+    for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {if (genPackage.isGenerateModelWizard()) {
     stringBuffer.append(TEXT_37);
     stringBuffer.append(genPackage.getModelWizardClassName());
     stringBuffer.append(TEXT_38);

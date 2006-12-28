@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Plugin" version="$Id: Plugin.javajet,v 1.6 2005/06/08 21:40:20 marcelop Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Plugin" version="$Id: Plugin.javajet,v 1.7 2006/12/28 06:40:38 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -15,7 +15,7 @@
  * </copyright>
  */
 %>
-<%GenModel genModel = (GenModel)argument;%>
+<%GenModel genModel = (GenModel)argument; if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genModel.getEditPluginPackageName()%>;
 
@@ -67,7 +67,7 @@ public final class <%=genModel.getEditPluginClassName()%> extends EMFPlugin
 		super
 		  (new ResourceLocator [] 
 		   {
-<%for (Iterator i = genModel.getEditResourceDelegateImportedPluginClassNames().iterator(); i.hasNext(); ) { String pluginClassName = (String)i.next(); %>
+<%for (String pluginClassName : genModel.getEditResourceDelegateImportedPluginClassNames()) {%>
 		     <%=pluginClassName%>.INSTANCE,
 <%}%>
 		   });
@@ -80,6 +80,9 @@ public final class <%=genModel.getEditPluginClassName()%> extends EMFPlugin
 	 * @return the singleton instance.
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public ResourceLocator getPluginResourceLocator()
 	{
 		return plugin;

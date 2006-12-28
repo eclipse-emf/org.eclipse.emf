@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.15 2006/12/16 19:07:41 emerks Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SwitchClass" version="$Id: SwitchClass.javajet,v 1.16 2006/12/28 06:40:38 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -26,13 +26,11 @@ package <%=genPackage.getUtilitiesPackageName()%>;
 String templateParameterName = null;
 if (genModel.useGenerics())
 {
-  Set usedNames = new HashSet();
-  for (Iterator i = genPackage.getGenClasses().iterator(); i.hasNext(); )
+  Set<String> usedNames = new HashSet<String>();
+  for (GenClass genClass : genPackage.getGenClasses())
   {
-    GenClass genClass = (GenClass)i.next();
-    for (Iterator j = genClass.getGenTypeParameters().iterator(); j.hasNext(); )
+    for (GenTypeParameter genTypeParameter : genClass.getGenTypeParameters())
     {
-      GenTypeParameter genTypeParameter = (GenTypeParameter)j.next();
       usedNames.add(genTypeParameter.getName());
     }
   }
@@ -139,13 +137,13 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%>
 	{
 		switch (classifierID)
 		{
-<%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+<%for (GenClass genClass : genPackage.getGenClasses()) {%>
 <%if (!genClass.isExternalInterface() && !genClass.isEObject() || genClass.isMapEntry()) { String result = "result".equals(genClass.getSafeUncapName()) ? "theResult" : "result"; %>
 			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genPackage.getClassifierID(genClass)%>:
 			{
 				<%if (genClass.isUncheckedCast() || genClass.getInterfaceWildTypeArguments().length() > 0) {%>@SuppressWarnings("unchecked") <%}%><%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%> <%=genClass.getSafeUncapName()%> = (<%=genClass.getImportedInterfaceName()%><%=genClass.getInterfaceWildTypeArguments()%>)theEObject;
 				<%=returnType%> <%=result%> = case<%=genPackage.getClassUniqueName(genClass)%>(<%=genClass.getSafeUncapName()%>);
-<%for (Iterator b=genClass.getSwitchGenClasses().iterator(); b.hasNext();) { GenClass baseGenClass = (GenClass)b.next();%>
+<%for (GenClass baseGenClass : genClass.getSwitchGenClasses()) {%>
 				if (<%=result%> == null) <%=result%> = case<%=genPackage.getClassUniqueName(baseGenClass)%>(<%if (genClass.isMapEntry()) {%>(<%=baseGenClass.getImportedInterfaceName()%><%=baseGenClass.getInterfaceTypeArguments()%>)<%}%><%=genClass.getSafeUncapName()%>);
 <%}%>
 				if (<%=result%> == null) <%=result%> = defaultCase(theEObject);
@@ -156,7 +154,7 @@ public class <%=genPackage.getSwitchClassName()%><%=templateParameters%>
 			default: return defaultCase(theEObject);
 		}
 	}
-<%for (Iterator i=genPackage.getAllSwitchGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+<%for (GenClass genClass : genPackage.getAllSwitchGenClasses()) {%>
 
 	/**
 	 * Returns the result of interpretting the object as an instance of '<em><%=genClass.getFormattedName()%></em>'.

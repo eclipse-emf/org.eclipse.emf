@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.40 2006/10/18 03:26:28 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="Editor" version="$Id: Editor.javajet,v 1.41 2006/12/28 06:40:39 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -17,8 +17,20 @@
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();
 String importedOperationClassName = genModel.getImportedName(genModel.isRichClientPlatform() ? "org.eclipse.jface.operation.IRunnableWithProgress" : "org.eclipse.ui.actions.WorkspaceModifyOperation");
-String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute";
+String operationMethodName = genModel.isRichClientPlatform() ? "run" : "execute"; if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}
 %>
+<%String _ArrayListOfObject = "ArrayList" + (genModel.useGenerics() ? "<Object>" : "");%>
+<%String _ArrayListOfAdapterFactory = "ArrayList" + (genModel.useGenerics() ? "<AdapterFactory>" : "");%>
+<%String _ListOfAdapterFactory = "List" + (genModel.useGenerics() ? "<AdapterFactory>" : "");%>
+<%String _ArrayListOfSelectionChangedListener = "ArrayList" + (genModel.useGenerics() ? "<ISelectionChangedListener>" : "");%>
+<%String _CollectionOfSelectionChangedListener = "Collection" + (genModel.useGenerics() ? "<ISelectionChangedListener>" : "");%>
+<%String _ArrayListOfResource = "ArrayList" + (genModel.useGenerics() ? "<Resource>" : "");%>
+<%String _CollectionOfResource = "Collection" + (genModel.useGenerics() ? "<Resource>" : "");%>
+<%String _MapOfResourceToDiagnostic = "Map" + (genModel.useGenerics() ? "<Resource, Diagnostic>" : "");%>
+<%String _HashMapOfResourceToBoolean = "HashMap" + (genModel.useGenerics() ? "<Resource, Boolean>" : "");%>
+<%String _LinkedHashMapOfResourceToDiagnostic = "LinkedHashMap" + (genModel.useGenerics() ? "<Resource, Diagnostic>" : "");%>
+<%String _CollectionOfAnything = "Collection" + (genModel.useGenerics() ? "<?>" : "");%>
+<%String _ListOfAnything = "List" + (genModel.useGenerics() ? "<?>" : "");%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getPresentationPackageName()%>;
 
@@ -164,8 +176,8 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 
-import org.eclipse.emf.ecore.EObject;
 <%if (!genModel.isRichClientPlatform()) {%>
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 <%}%>
 
@@ -359,7 +371,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Collection selectionChangedListeners = new ArrayList();
+	protected <%=_CollectionOfSelectionChangedListener%> selectionChangedListeners = new <%=_ArrayListOfSelectionChangedListener%>();
 
 	/**
 	 * This keeps track of the selection of the editor as a whole.
@@ -415,15 +427,19 @@ public class <%=genPackage.getEditorClassName()%>
 			}
 			public void partBroughtToTop(IWorkbenchPart p)
 			{
+				// Ignore.
 			}
 			public void partClosed(IWorkbenchPart p)
 			{
+				// Ignore.
 			}
 			public void partDeactivated(IWorkbenchPart p)
 			{
+				// Ignore.
 			}
 			public void partOpened(IWorkbenchPart p)
 			{
+				// Ignore.
 			}
 		};
 
@@ -433,7 +449,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Collection removedResources = new ArrayList();
+	protected <%=_CollectionOfResource%> removedResources = new <%=_ArrayListOfResource%>();
 
 	/**
 	 * Resources that have been changed since last activation.
@@ -441,7 +457,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Collection changedResources = new ArrayList();
+	protected <%=_CollectionOfResource%> changedResources = new <%=_ArrayListOfResource%>();
 
 	/**
 	 * Resources that have been saved.
@@ -449,7 +465,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Collection savedResources = new ArrayList();
+	protected <%=_CollectionOfResource%> savedResources = new <%=_ArrayListOfResource%>();
 
 	/**
 	 * Map to store the diagnostic associated with a resource.
@@ -457,7 +473,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected Map resourceToDiagnosticMap = new LinkedHashMap();
+	protected <%=_MapOfResourceToDiagnostic%> resourceToDiagnosticMap = new <%=_LinkedHashMapOfResourceToDiagnostic%>();
 
 	/**
 	 * Controls whether the problem indication should be updated.
@@ -476,6 +492,9 @@ public class <%=genPackage.getEditorClassName()%>
 	protected EContentAdapter problemIndicationAdapter = 
 		new EContentAdapter()
 		{
+<%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			public void notifyChanged(Notification notification)
 			{
 				if (notification.getNotifier() instanceof Resource)
@@ -508,6 +527,7 @@ public class <%=genPackage.getEditorClassName()%>
 										 }
 									 });
 							}
+							break;
 						}
 					}
 				}
@@ -517,11 +537,17 @@ public class <%=genPackage.getEditorClassName()%>
 				}
 			}
 
+<%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			protected void setTarget(Resource target)
 			{
 				basicSetTarget(target);
 			}
 
+<%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			protected void unsetTarget(Resource target)
 			{
 				basicUnsetTarget(target);
@@ -549,8 +575,8 @@ public class <%=genPackage.getEditorClassName()%>
 						class ResourceDeltaVisitor implements IResourceDeltaVisitor
 						{
 							protected ResourceSet resourceSet = editingDomain.getResourceSet();
-							protected Collection changedResources = new ArrayList();
-							protected Collection removedResources = new ArrayList();
+							protected <%=_CollectionOfResource%> changedResources = new <%=_ArrayListOfResource%>();
+							protected <%=_CollectionOfResource%> removedResources = new <%=_ArrayListOfResource%>();
 
 							public boolean visit(IResourceDelta delta)
 							{
@@ -577,12 +603,12 @@ public class <%=genPackage.getEditorClassName()%>
 								return true;
 							}
 
-							public Collection getChangedResources()
+							public <%=_CollectionOfResource%> getChangedResources()
 							{
 								return changedResources;
 							}
 
-							public Collection getRemovedResources()
+							public <%=_CollectionOfResource%> getRemovedResources()
 							{
 								return removedResources;
 							}
@@ -688,9 +714,15 @@ public class <%=genPackage.getEditorClassName()%>
 			editingDomain.getCommandStack().flush();
 
 			updateProblemIndication = false;
+<%if (genModel.useGenerics()) {%>
+			for (Resource resource : changedResources)
+<%} else {%>
 			for (Iterator i = changedResources.iterator(); i.hasNext(); )
+<%}%>
 			{
+<%if (!genModel.useGenerics()) {%>
 				Resource resource = (Resource)i.next();
+<%}%>
 				if (resource.isLoaded())
 				{
 					resource.unload();
@@ -729,9 +761,15 @@ public class <%=genPackage.getEditorClassName()%>
 					 0,
 					 null,
 					 new Object [] { editingDomain.getResourceSet() });
+<%if (genModel.useGenerics()) {%>
+			for (Diagnostic childDiagnostic : resourceToDiagnosticMap.values())
+<%} else {%>
 			for (Iterator i = resourceToDiagnosticMap.values().iterator(); i.hasNext(); )
+<%}%>
 			{
+<%if (!genModel.useGenerics()) {%>
 				Diagnostic childDiagnostic = (Diagnostic)i.next();
+<%}%>
 				if (childDiagnostic.getSeverity() != Diagnostic.OK)
 				{
 					diagnostic.add(childDiagnostic);
@@ -814,14 +852,14 @@ public class <%=genPackage.getEditorClassName()%>
 
 		// Create an adapter factory that yields item providers.
 		//
-		List factories = new ArrayList();
+		<%=_ListOfAdapterFactory%> factories = new <%=_ArrayListOfAdapterFactory%>();
 		factories.add(new ResourceItemProviderAdapterFactory());
-<%for (Iterator i = genModel.getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage aGenPackage = (GenPackage)i.next();%>
+<%for (GenPackage aGenPackage : genModel.getAllGenPackagesWithClassifiers()) {%>
   <%if (!aGenPackage.getGenClasses().isEmpty() && aGenPackage.getGenModel().hasEditSupport()) {%>
 		factories.add(new <%=aGenPackage.getImportedItemProviderAdapterFactoryClassName()%>());
   <%}%>
 <%}%>
-<%for (Iterator i = genModel.getAllUsedGenPackagesWithClassifiers().iterator(); i.hasNext(); ) { GenPackage aGenPackage = (GenPackage)i.next();%>
+<%for (GenPackage aGenPackage : genModel.getAllUsedGenPackagesWithClassifiers()) {%>
   <%if (!aGenPackage.getGenClasses().isEmpty() && aGenPackage.getGenModel().hasEditSupport()) {%>
 		factories.add(new <%=aGenPackage.getImportedItemProviderAdapterFactoryClassName()%>());
   <%}%>
@@ -866,7 +904,7 @@ public class <%=genPackage.getEditorClassName()%>
 
 		// Create the editing domain with a special command stack.
 		//
-		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new <%=genModel.getImportedName("java.util.HashMap")%>());
+		editingDomain = new AdapterFactoryEditingDomain(adapterFactory, commandStack, new <%=_HashMapOfResourceToBoolean%>());
 	}
 
 	/**
@@ -875,6 +913,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+<%}%>
 	protected void firePropertyChange(int action)
 	{
 		super.firePropertyChange(action);
@@ -886,9 +927,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setSelectionToViewer(Collection collection)
+	public void setSelectionToViewer(<%=_CollectionOfAnything%> collection)
 	{
-		final Collection theSelection = collection;
+		final <%=_CollectionOfAnything%> theSelection = collection;
 		// Make sure it's okay.
 		//
 		if (theSelection != null && !theSelection.isEmpty())
@@ -940,24 +981,36 @@ public class <%=genPackage.getEditorClassName()%>
 			super(adapterFactory);
 		}
 
+<%if (genModel.useClassOverrideAnnotation()) {%>
+		@Override
+<%}%>
 		public Object [] getElements(Object object)
 		{
 			Object parent = super.getParent(object);
 			return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
 		}
 
+<%if (genModel.useClassOverrideAnnotation()) {%>
+		@Override
+<%}%>
 		public Object [] getChildren(Object object)
 		{
 			Object parent = super.getParent(object);
 			return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
 		}
 
+<%if (genModel.useClassOverrideAnnotation()) {%>
+		@Override
+<%}%>
 		public boolean hasChildren(Object object)
 		{
 			Object parent = super.getParent(object);
 			return parent != null;
 		}
 
+<%if (genModel.useClassOverrideAnnotation()) {%>
+		@Override
+<%}%>
 		public Object getParent(Object object)
 		{
 			return null;
@@ -1085,7 +1138,7 @@ public class <%=genPackage.getEditorClassName()%>
 		//
 		IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
 		URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);
-<%}%>;
+<%}%>
 		Exception exception = null;
 		Resource resource = null;
 		try
@@ -1151,6 +1204,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void createPages()
 	{
 		// Creates the model from the editor input
@@ -1160,7 +1216,7 @@ public class <%=genPackage.getEditorClassName()%>
 		// Only creates the other pages if there is something that can be edited
 		//
 		if (!getEditingDomain().getResourceSet().getResources().isEmpty() &&
-		    !((Resource)getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
+		    !(<%if (!genModel.useGenerics()){%>(Resource)<%}%>getEditingDomain().getResourceSet().getResources().get(0)).getContents().isEmpty())
 		{
 			// Create a page for the selection tree view.
 			//
@@ -1169,12 +1225,18 @@ public class <%=genPackage.getEditorClassName()%>
 				ViewerPane viewerPane =
 					new ViewerPane(getSite().getPage(), <%=genPackage.getEditorClassName()%>.this)
 					{
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public Viewer createViewer(Composite composite)
 						{
 							Tree tree = new Tree(composite, SWT.MULTI);
 							TreeViewer newTreeViewer = new TreeViewer(tree);
 							return newTreeViewer;
 						}
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public void requestActivation()
 						{
 							super.requestActivation();
@@ -1204,12 +1266,18 @@ public class <%=genPackage.getEditorClassName()%>
 				ViewerPane viewerPane =
 					new ViewerPane(getSite().getPage(), <%=genPackage.getEditorClassName()%>.this)
 					{
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public Viewer createViewer(Composite composite)
 						{
 							Tree tree = new Tree(composite, SWT.MULTI);
 							TreeViewer newTreeViewer = new TreeViewer(tree);
 							return newTreeViewer;
 						}
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public void requestActivation()
 						{
 							super.requestActivation();
@@ -1234,10 +1302,16 @@ public class <%=genPackage.getEditorClassName()%>
 				ViewerPane viewerPane =
 					new ViewerPane(getSite().getPage(), <%=genPackage.getEditorClassName()%>.this)
 					{
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public Viewer createViewer(Composite composite)
 						{
 							return new ListViewer(composite);
 						}
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public void requestActivation()
 						{
 							super.requestActivation();
@@ -1260,10 +1334,16 @@ public class <%=genPackage.getEditorClassName()%>
 				ViewerPane viewerPane =
 					new ViewerPane(getSite().getPage(), <%=genPackage.getEditorClassName()%>.this)
 					{
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public Viewer createViewer(Composite composite)
 						{
 							return new TreeViewer(composite);
 						}
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public void requestActivation()
 						{
 							super.requestActivation();
@@ -1288,10 +1368,16 @@ public class <%=genPackage.getEditorClassName()%>
 				ViewerPane viewerPane =
 					new ViewerPane(getSite().getPage(), <%=genPackage.getEditorClassName()%>.this)
 					{
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public Viewer createViewer(Composite composite)
 						{
 							return new TableViewer(composite);
 						}
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public void requestActivation()
 						{
 							super.requestActivation();
@@ -1332,10 +1418,16 @@ public class <%=genPackage.getEditorClassName()%>
 				ViewerPane viewerPane =
 					new ViewerPane(getSite().getPage(), <%=genPackage.getEditorClassName()%>.this)
 					{
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public Viewer createViewer(Composite composite)
 						{
 							return new TreeViewer(composite);
 						}
+<%if (genModel.useClassOverrideAnnotation()) {%>
+						@Override
+<%}%>
 						public void requestActivation()
 						{
 							super.requestActivation();
@@ -1396,6 +1488,9 @@ public class <%=genPackage.getEditorClassName()%>
 			(new ControlAdapter()
 			 {
 				boolean guard = false;
+<%if (genModel.useClassOverrideAnnotation()) {%>
+				@Override
+<%}%>
 				public void controlResized(ControlEvent event)
 				{
 					if (!guard)
@@ -1458,6 +1553,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	protected void pageChange(int pageIndex)
 	{
 		super.pageChange(pageIndex);
@@ -1474,6 +1572,12 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useGenerics()) {%>
+	@SuppressWarnings("unchecked")
+<%}%>
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public Object getAdapter(Class key)
 	{
 		if (key.equals(IContentOutlinePage.class))
@@ -1510,6 +1614,9 @@ public class <%=genPackage.getEditorClassName()%>
 			//
 			class MyContentOutlinePage extends ContentOutlinePage
 			{
+<%if (genModel.useClassOverrideAnnotation()) {%>
+				@Override
+<%}%>
 				public void createControl(Composite parent)
 				{
 					super.createControl(parent);
@@ -1534,12 +1641,18 @@ public class <%=genPackage.getEditorClassName()%>
 					}
 				}
 
+<%if (genModel.useClassOverrideAnnotation()) {%>
+				@Override
+<%}%>
 				public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
 				{
 					super.makeContributions(menuManager, toolBarManager, statusLineManager);
 					contentOutlineStatusLineManager = statusLineManager;
 				}
 
+<%if (genModel.useClassOverrideAnnotation()) {%>
+				@Override
+<%}%>
 				public void setActionBars(IActionBars actionBars)
 				{
 					super.setActionBars(actionBars);
@@ -1579,12 +1692,18 @@ public class <%=genPackage.getEditorClassName()%>
 			propertySheetPage =
 				new ExtendedPropertySheetPage(editingDomain)
 				{
-					public void setSelectionToViewer(List selection)
+<%if (genModel.useClassOverrideAnnotation()) {%>
+					@Override
+<%}%>
+					public void setSelectionToViewer(<%=_ListOfAnything%> selection)
 					{
 						<%=genPackage.getEditorClassName()%>.this.setSelectionToViewer(selection);
 						<%=genPackage.getEditorClassName()%>.this.setFocus();
 					}
 
+<%if (genModel.useClassOverrideAnnotation()) {%>
+					@Override
+<%}%>
 					public void setActionBars(IActionBars actionBars)
 					{
 						super.setActionBars(actionBars);
@@ -1611,7 +1730,7 @@ public class <%=genPackage.getEditorClassName()%>
 		if (selectionViewer != null && !selection.isEmpty() && selection instanceof IStructuredSelection)
 <%}%>
 		{
-			Iterator selectedElements = ((IStructuredSelection)selection).iterator();
+			Iterator<%if (genModel.useGenerics()) {%><?><%}%> selectedElements = ((IStructuredSelection)selection).iterator();
 			if (selectedElements.hasNext())
 			{
 				// Get the first selected element.
@@ -1623,7 +1742,7 @@ public class <%=genPackage.getEditorClassName()%>
 				//
 				if (currentViewerPane.getViewer() == selectionViewer)
 				{
-					ArrayList selectionList = new ArrayList();
+					<%=_ArrayListOfObject%> selectionList = new <%=_ArrayListOfObject%>();
 					selectionList.add(selectedElement);
 					while (selectedElements.hasNext())
 					{
@@ -1645,7 +1764,7 @@ public class <%=genPackage.getEditorClassName()%>
 					}
 				}
 <%} else {%>
-				ArrayList selectionList = new ArrayList();
+				<%=_ArrayListOfObject%> selectionList = new <%=_ArrayListOfObject%>();
 				selectionList.add(selectedElement);
 				while (selectedElements.hasNext())
 				{
@@ -1666,6 +1785,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public boolean isDirty()
 	{
 		return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
@@ -1677,6 +1799,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void doSave(IProgressMonitor progressMonitor)
 	{
 		// Do the work within an operation because this is a long running activity that modifies the workbench.
@@ -1686,14 +1811,23 @@ public class <%=genPackage.getEditorClassName()%>
 			{
 				// This is the method that gets invoked when the operation runs.
 				//
+<%if (!genModel.isRichClientPlatform() && genModel.useClassOverrideAnnotation()) {%>
+				@Override
+<%}%>
 				public void <%=operationMethodName%>(IProgressMonitor monitor)
 				{
 					// Save the resources to the file system.
 					//
 					boolean first = true;
+<%if (genModel.useGenerics()) {%>
+					for (Resource resource : editingDomain.getResourceSet().getResources())
+<%} else {%>
 					for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
+<%}%>
 					{
+<%if (!genModel.useGenerics()) {%>
 						Resource resource = (Resource)i.next();
+<%}%>
 						if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
 						{
 							try
@@ -1754,6 +1888,7 @@ public class <%=genPackage.getEditorClassName()%>
 		}
 		catch (IOException e)
 		{
+			// Ignore
 		}
 		return result;
 	}
@@ -1764,6 +1899,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public boolean isSaveAsAllowed()
 	{
 		return true;
@@ -1775,6 +1913,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void doSaveAs()
 	{
 <%if (genModel.isRichClientPlatform()) {%>
@@ -1811,7 +1952,7 @@ public class <%=genPackage.getEditorClassName()%>
 	 */
 	protected void doSaveAs(URI uri, IEditorInput editorInput)
 	{
-		((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
+		(<%if (!genModel.useGenerics()) {%>(Resource)<%}%>editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
 		setInputWithNotify(editorInput);
 		setPartName(editorInput.getName());
 		IProgressMonitor progressMonitor =
@@ -1858,6 +1999,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void init(IEditorSite site, IEditorInput editorInput)
 	{
 		setSite(site);
@@ -1875,6 +2019,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void setFocus()
 	{
 <%if (genPackage.isMultipleEditorPages()) {%>
@@ -1935,9 +2082,15 @@ public class <%=genPackage.getEditorClassName()%>
 	{
 		editorSelection = selection;
 
+<%if (genModel.useGenerics()) {%>
+		for (ISelectionChangedListener listener : selectionChangedListeners)
+<%} else {%>
 		for (Iterator listeners = selectionChangedListeners.iterator(); listeners.hasNext(); )
+<%}%>
 		{
+<%if (!genModel.useGenerics()) {%>
 			ISelectionChangedListener listener = (ISelectionChangedListener)listeners.next();
+<%}%>
 			listener.selectionChanged(new SelectionChangedEvent(this, selection));
 		}
 		setStatusLineManager(selection);
@@ -1957,7 +2110,7 @@ public class <%=genPackage.getEditorClassName()%>
 		{
 			if (selection instanceof IStructuredSelection)
 			{
-				Collection collection = ((IStructuredSelection)selection).toList();
+				<%=_CollectionOfAnything%> collection = ((IStructuredSelection)selection).toList();
 				switch (collection.size())
 				{
 					case 0:
@@ -2053,6 +2206,9 @@ public class <%=genPackage.getEditorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void dispose()
 	{
 		updateProblemIndication = false;

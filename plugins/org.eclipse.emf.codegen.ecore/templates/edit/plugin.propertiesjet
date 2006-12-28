@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.12 2005/10/28 14:09:45 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.edit" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="PluginProperties" version="$Id: plugin.propertiesjet,v 1.13 2006/12/28 06:40:38 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -15,7 +15,7 @@
  * </copyright>
  */
 %>
-<%GenModel genModel = (GenModel)argument;%>
+<%GenModel genModel = (GenModel)argument; if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}%>
 <%@ include file="../Header.propertiesjetinc"%>
 
 # ====================================================================
@@ -44,9 +44,9 @@ _UI_CreateSibling_description = Create a new sibling of type {0} for the selecte
 <%}%>
 _UI_PropertyDescriptor_description = The {0} of the {1}
 
-<%for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();%>
+<%for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {%>
   <%if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) { %>
-    <%for (Iterator j=genPackage.getGenClasses().iterator(); j.hasNext();) { GenClass genClass = (GenClass)j.next();%>
+    <%for (GenClass genClass : genPackage.getGenClasses()) {%>
 _UI_<%=genClass.getName()%>_type = <%=genClass.getFormattedName()%>
     <%}%>
   <%}%>
@@ -55,7 +55,7 @@ _UI_Unknown_type = Object
 
 _UI_Unknown_datatype= Value
 
-<%for (Iterator i=genModel.getFilteredAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next(); String description = genFeature.getPropertyDescription();%>
+<%for (GenFeature genFeature : genModel.getFilteredAllGenFeatures()) { String description = genFeature.getPropertyDescription();%>
 _UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_feature = <%=genFeature.getFormattedName()%>
   <%if (description != null && description.length() > 0) {%>
 _UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_description = <%=description%>
@@ -63,15 +63,15 @@ _UI_<%=genFeature.getGenClass().getName()%>_<%=genFeature.getName()%>_descriptio
 <%}%>
 _UI_Unknown_feature = Unspecified
 
-<%for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();%>
+<%for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {%>
   <%if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) {%>
-    <%for (Iterator j=genPackage.getGenEnums().iterator(); j.hasNext();) { GenEnum genEnum = (GenEnum)j.next();%>
-      <%for (Iterator k=genEnum.getGenEnumLiterals().iterator(); k.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)k.next();%>
+    <%for (GenEnum genEnum : genPackage.getGenEnums()) {%>
+      <%for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {%>
 _UI_<%=genEnum.getName()%>_<%=genEnumLiteral.getName()%>_literal = <%=genEnumLiteral.getLiteral()%>
       <%}%>
     <%}%>
   <%}%>
 <%}%>
-<%for (Iterator i=genModel.getPropertyCategories().iterator(); i.hasNext();) { String category = (String)i.next();%>
+<%for (String category : genModel.getPropertyCategories()) {%>
 <%=genModel.getPropertyCategoryKey(category)%> = <%=category%>
 <%}%>

@@ -58,7 +58,7 @@ public class PluginProperties
  * </copyright>
  */
 
-    GenModel genModel = (GenModel)argument;
+    GenModel genModel = (GenModel)argument; if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     stringBuffer.append("$");
@@ -71,9 +71,9 @@ public class PluginProperties
     stringBuffer.append(TEXT_6);
     }
     stringBuffer.append(TEXT_7);
-    for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();
+    for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {
     if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) { 
-    for (Iterator j=genPackage.getGenClasses().iterator(); j.hasNext();) { GenClass genClass = (GenClass)j.next();
+    for (GenClass genClass : genPackage.getGenClasses()) {
     stringBuffer.append(TEXT_8);
     stringBuffer.append(genClass.getName());
     stringBuffer.append(TEXT_9);
@@ -82,7 +82,7 @@ public class PluginProperties
     }
     }
     stringBuffer.append(TEXT_10);
-    for (Iterator i=genModel.getFilteredAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next(); String description = genFeature.getPropertyDescription();
+    for (GenFeature genFeature : genModel.getFilteredAllGenFeatures()) { String description = genFeature.getPropertyDescription();
     stringBuffer.append(TEXT_11);
     stringBuffer.append(genFeature.getGenClass().getName());
     stringBuffer.append(TEXT_12);
@@ -99,10 +99,10 @@ public class PluginProperties
     }
     }
     stringBuffer.append(TEXT_17);
-    for (Iterator i=genModel.getAllGenAndUsedGenPackagesWithClassifiers().iterator(); i.hasNext();) { GenPackage genPackage = (GenPackage)i.next();
+    for (GenPackage genPackage : genModel.getAllGenAndUsedGenPackagesWithClassifiers()) {
     if (genPackage.getGenModel() == genModel || !genPackage.getGenModel().hasEditSupport()) {
-    for (Iterator j=genPackage.getGenEnums().iterator(); j.hasNext();) { GenEnum genEnum = (GenEnum)j.next();
-    for (Iterator k=genEnum.getGenEnumLiterals().iterator(); k.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)k.next();
+    for (GenEnum genEnum : genPackage.getGenEnums()) {
+    for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
     stringBuffer.append(TEXT_18);
     stringBuffer.append(genEnum.getName());
     stringBuffer.append(TEXT_19);
@@ -113,7 +113,7 @@ public class PluginProperties
     }
     }
     }
-    for (Iterator i=genModel.getPropertyCategories().iterator(); i.hasNext();) { String category = (String)i.next();
+    for (String category : genModel.getPropertyCategories()) {
     stringBuffer.append(TEXT_21);
     stringBuffer.append(genModel.getPropertyCategoryKey(category));
     stringBuffer.append(TEXT_22);

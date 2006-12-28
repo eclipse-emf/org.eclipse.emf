@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenOperation.java,v 1.11 2006/12/05 20:30:17 emerks Exp $
+ * $Id: GenOperation.java,v 1.12 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -113,7 +113,7 @@ public interface GenOperation extends GenTypedElement {
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenParameter" opposite="genOperation" containment="true"
    * @generated
    */
-  EList getGenParameters();
+  EList<GenParameter> getGenParameters();
 
   /**
    * Returns the value of the '<em><b>Gen Type Parameters</b></em>' containment reference list.
@@ -128,7 +128,7 @@ public interface GenOperation extends GenTypedElement {
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter" containment="true"
    * @generated
    */
-  EList getGenTypeParameters();
+  EList<GenTypeParameter> getGenTypeParameters();
 
   String getName();
   String getCapName();
@@ -139,31 +139,37 @@ public interface GenOperation extends GenTypedElement {
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElement#getTypeClassifierAccessorName getTypeClassifierAccessorName} instead.
    */
+  @Deprecated
   String getReturnTypeClassifier();
 
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElement#getTypeGenPackage getTypeGenPackage} instead.
    */
+  @Deprecated
   GenPackage getReturnTypeGenPackage();
 
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElement#getType getType} instead.
    */
+  @Deprecated
   String getReturnType();
 
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElement#getImportedType getImportedType} instead.
    */
+  @Deprecated
   String getImportedReturnType();
 
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElement#getObjectType getObjectType} instead.
    */
+  @Deprecated
   String getObjectReturnType();
 
   /**
    * @deprecated As of EMF 2.1, use {@link GenTypedElement#isPrimitiveType isPrimitiveType} instead.
    */
+  @Deprecated
   boolean isPrimitiveReturnType();
 
   String getParameters();
@@ -182,7 +188,7 @@ public interface GenOperation extends GenTypedElement {
   boolean hasBody();
   String getBody(String indentation);
 
-  List getGenExceptions();
+  List<GenClassifier> getGenExceptions();
   String getThrows();
 
   boolean isInvariant();

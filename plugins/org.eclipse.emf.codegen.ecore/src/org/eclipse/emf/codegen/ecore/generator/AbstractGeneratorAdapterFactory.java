@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AbstractGeneratorAdapterFactory.java,v 1.2 2006/11/08 20:32:47 davidms Exp $
+ * $Id: AbstractGeneratorAdapterFactory.java,v 1.3 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -39,11 +39,13 @@ public abstract class AbstractGeneratorAdapterFactory extends AdapterFactoryImpl
 
   public AbstractGeneratorAdapterFactory()
   {
+    super();
   }
 
   /**
    * Returns <code>true</code> when the type is <code>GeneratorAdapter.class</code>.
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return type == GeneratorAdapter.class;
@@ -54,6 +56,7 @@ public abstract class AbstractGeneratorAdapterFactory extends AdapterFactoryImpl
    * substituting <code>this</code> for the given <code>type</code>. This substitution is necessary because each of many
    * generator adapter factories can have its own generator adapter on a single object.
    */ 
+  @Override
   public Adapter adapt(Notifier target, Object type)
   {
     return super.adapt(target, this);
@@ -63,6 +66,7 @@ public abstract class AbstractGeneratorAdapterFactory extends AdapterFactoryImpl
    * Calls {@link #createAdapter(Notifier)} to create an adapter for the given <code>Notifier</code> and sets its
    * {@link GeneratorAdapter#setAdapterFactory(GeneratorAdapterFactory) adapter factory} to <code>this</code>.
    */ 
+  @Override
   protected Adapter createAdapter(Notifier target, Object type)
   {
     Adapter adapter = createAdapter(target);
@@ -77,6 +81,7 @@ public abstract class AbstractGeneratorAdapterFactory extends AdapterFactoryImpl
    * Override this to create the adapter for a <code>Notifier</code>. The adapter must implement
    * <code>GeneratorAdapter</code>.
    */
+  @Override
   protected abstract Adapter createAdapter(Notifier target);
 
   /**
@@ -85,6 +90,7 @@ public abstract class AbstractGeneratorAdapterFactory extends AdapterFactoryImpl
    * {@link #adapt(Notifier, Object)} for plain Java objects, and is not usually needed when dealing only with
    * <code>EObject</code>s.
    */
+  @Override
   protected Object resolve(Object object, Object type)
   {
     return createAdapter(object, type);
@@ -133,6 +139,7 @@ public abstract class AbstractGeneratorAdapterFactory extends AdapterFactoryImpl
    */
   public void initialize(Object input)
   {
+    // Subclasses may override
   }
 
   public abstract void dispose();

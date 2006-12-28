@@ -74,7 +74,7 @@ public class AdapterFactoryClass
  * </copyright>
  */
 
-    GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();
+    GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel(); if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     stringBuffer.append("$");
@@ -123,7 +123,7 @@ public class AdapterFactoryClass
     stringBuffer.append(genPackage.getSwitchClassName());
     stringBuffer.append(typeArgument);
     stringBuffer.append(TEXT_20);
-    for (Iterator i=genPackage.getAllSwitchGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
+    for (GenClass genClass : genPackage.getAllSwitchGenClasses()) {
     if (genModel.useClassOverrideAnnotation()) {
     stringBuffer.append(TEXT_21);
     }
@@ -151,7 +151,7 @@ public class AdapterFactoryClass
     stringBuffer.append(TEXT_31);
     stringBuffer.append(adapterCast);
     stringBuffer.append(TEXT_32);
-    for (Iterator i=genPackage.getAllSwitchGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();
+    for (GenClass genClass : genPackage.getAllSwitchGenClasses()) {
     stringBuffer.append(TEXT_33);
     stringBuffer.append(genClass.getQualifiedInterfaceName());
     stringBuffer.append(TEXT_34);

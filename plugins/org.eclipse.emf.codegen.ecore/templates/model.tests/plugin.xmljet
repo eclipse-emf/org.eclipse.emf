@@ -15,7 +15,7 @@
  * </copyright>
  */
 %>
-<%GenModel genModel = (GenModel)argument;%>
+<%GenModel genModel = (GenModel)argument; if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}%>
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 
@@ -28,7 +28,7 @@
     provider-name = "%providerName">
 
   <requires>
-<%for (Iterator j=genModel.getTestsRequiredPlugins().iterator(); j.hasNext();) { String pluginID = (String)j.next();%>
+<%for (String pluginID : genModel.getTestsRequiredPlugins()) {%>
     <import plugin="<%=pluginID%>" <%if (!pluginID.startsWith("org.eclipse.core.runtime")) {%>export="true"<%}%>/>
 <%}%>
   </requires>

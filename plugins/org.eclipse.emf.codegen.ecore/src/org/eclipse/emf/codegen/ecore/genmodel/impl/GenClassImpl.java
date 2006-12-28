@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassImpl.java,v 1.68 2006/12/26 19:00:24 emerks Exp $
+ * $Id: GenClassImpl.java,v 1.69 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -37,6 +37,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenOperation;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenParameter;
 import org.eclipse.emf.codegen.ecore.genmodel.GenProviderKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter;
@@ -57,7 +58,6 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -162,7 +162,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @generated
    * @ordered
    */
-  protected EList genFeatures = null;
+  protected EList<GenFeature> genFeatures = null;
 
   /**
    * The cached value of the '{@link #getGenOperations() <em>Gen Operations</em>}' containment reference list.
@@ -172,7 +172,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @generated
    * @ordered
    */
-  protected EList genOperations = null;
+  protected EList<GenOperation> genOperations = null;
 
   /**
    * The cached value of the '{@link #getLabelFeature() <em>Label Feature</em>}' reference.
@@ -199,6 +199,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_CLASS;
@@ -326,11 +327,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenFeatures()
+  public EList<GenFeature> getGenFeatures()
   {
     if (genFeatures == null)
     {
-      genFeatures = new EObjectContainmentWithInverseEList(GenFeature.class, this, GenModelPackage.GEN_CLASS__GEN_FEATURES, GenModelPackage.GEN_FEATURE__GEN_CLASS);
+      genFeatures = new EObjectContainmentWithInverseEList<GenFeature>(GenFeature.class, this, GenModelPackage.GEN_CLASS__GEN_FEATURES, GenModelPackage.GEN_FEATURE__GEN_CLASS);
     }
     return genFeatures;
   }
@@ -340,20 +341,22 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenOperations()
+  public EList<GenOperation> getGenOperations()
   {
     if (genOperations == null)
     {
-      genOperations = new EObjectContainmentWithInverseEList(GenOperation.class, this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenModelPackage.GEN_OPERATION__GEN_CLASS);
+      genOperations = new EObjectContainmentWithInverseEList<GenOperation>(GenOperation.class, this, GenModelPackage.GEN_CLASS__GEN_OPERATIONS, GenModelPackage.GEN_OPERATION__GEN_CLASS);
     }
     return genOperations;
   }
 
+  @Override
   public EClassifier getEcoreClassifier()
   {
     return getEcoreClass();
   }
 
+  @Override
   public String getImportedMetaType()
   {
     return getGenModel().getImportedName("org.eclipse.emf.ecore.EClass");
@@ -430,21 +433,21 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getGenModel().getImportedName(getQualifiedClassName());
   }
 
-  public List getBaseGenClasses()
+  public List<GenClass> getBaseGenClasses()
   {
     return collectGenClasses(getEcoreClass().getESuperTypes(), null);
   }
 
-  public List getAllBaseGenClasses()
+  public List<GenClass> getAllBaseGenClasses()
   {
     return collectGenClasses(getEcoreClass().getEAllSuperTypes(), null);
   }
 
-  public List getSwitchGenClasses()
+  public List<GenClass> getSwitchGenClasses()
   {
     // for Ecore or something that explicitly extends it, we need to exclude
     // EObject, which is already handled by the default case
-    List result = 
+    List<GenClass> result = 
       collectGenClasses
         (getEcoreClass().getESuperTypes(), 
          new GenClassFilter()
@@ -454,14 +457,13 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
              return !genClass.isEObject();
            }
          });
-    Set resultSet = new HashSet(result);
+    Set<GenClass> resultSet = new HashSet<GenClass>(result);
 
     for (int i = 0; i < result.size(); i++)
     {
-      GenClass base = (GenClass)result.get(i);
-      for (Iterator iter = base.getBaseGenClasses().iterator(); iter.hasNext(); )
+      GenClass base = result.get(i);
+      for (GenClass baseOfBase : base.getBaseGenClasses())
       {
-        GenClass baseOfBase = (GenClass)iter.next();
         if (!baseOfBase.isEObject() && resultSet.add(baseOfBase))
         {
           result.add(baseOfBase);
@@ -473,8 +475,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public GenClass getBaseGenClass()
   {
-    List s = getEcoreClass().getESuperTypes();
-    return s.isEmpty() ? null : findGenClass((EClass)s.get(0));
+    List<EClass> s = getEcoreClass().getESuperTypes();
+    return s.isEmpty() ? null : findGenClass(s.get(0));
   }
 
   public GenClass getClassExtendsGenClass()
@@ -541,9 +543,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return false;
   }
 
-  protected List getClassImplementsList()
+  protected List<String> getClassImplementsList()
   {
-    List result = new UniqueEList();
+    List<String> result = new UniqueEList<String>();
     if (isMapEntry())
     {
       if (getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
@@ -566,9 +568,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         {
           StringBuilder stringBuilder = new StringBuilder(getImportedInterfaceName());
           stringBuilder.append('<');
-          for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+          for (Iterator<GenTypeParameter> i = getGenTypeParameters().iterator(); i.hasNext(); )
           {
-            GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+            GenTypeParameter genTypeParameter = i.next();
             stringBuilder.append(genTypeParameter.getName());
             if (i.hasNext())
             {
@@ -599,7 +601,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
     if (getGenModel().isSuppressInterfaces())
     {
-      List interfaceExtends = getInterfaceExtendsList();
+      List<String> interfaceExtends = getInterfaceExtendsList();
       GenClassImpl classExtendsClass = (GenClassImpl)getClassExtendsGenClass();
       if (classExtendsClass != null)
       {
@@ -613,17 +615,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getClassImplements()
   {
-    List classImplements = getClassImplementsList();
+    List<String> classImplements = getClassImplementsList();
     if (classImplements.isEmpty())
     {
       return "";
     }
 
     StringBuffer result = new StringBuffer(" implements ");
-    for (Iterator iter = classImplements.iterator(); iter.hasNext(); )
+    for (Iterator<String> i = classImplements.iterator(); i.hasNext(); )
     {
-      result.append(iter.next());
-      if (iter.hasNext()) result.append(", ");
+      result.append(i.next());
+      if (i.hasNext()) result.append(", ");
     } 
     return result.toString();
   }
@@ -640,9 +642,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       return false;
     }
 
-    for (Iterator iter = getAllBaseGenClasses().iterator(); iter.hasNext(); )
+    for (GenClass genClass : getAllBaseGenClasses())
     {
-      GenClass genClass = (GenClass)iter.next();
       if (genClass.getEcoreClass().getInstanceClassName() == null &&
             rootExtendsInterface.equals(genClass.getGenModel().getRootExtendsInterface()))
       {
@@ -653,9 +654,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return !rootExtendsInterface.equals("org.eclipse.emf.ecore.EObject");
   }
 
-  public List getInterfaceExtendsList()
+  public List<String> getInterfaceExtendsList()
   {
-    List result = new UniqueEList();
+    List<String> result = new UniqueEList<String>();
     String rootExtendsInterface = getGenModel().getRootExtendsInterface();
     if (rootExtendsInterface == null)
     {
@@ -671,9 +672,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
 
     boolean needsRootExtendsInterface = true;
-    for (Iterator iter = getAllBaseGenClasses().iterator(); iter.hasNext(); )
+    for (GenClass genClass : getAllBaseGenClasses())
     {
-      GenClass genClass = (GenClass)iter.next();
       if (genClass.getEcoreClass().getInstanceClassName() == null &&
             rootExtendsInterface.equals(genClass.getGenModel().getRootExtendsInterface()))
       {
@@ -688,10 +688,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
 
     boolean includeTypeArguments = getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50;
-    for (Iterator iter = getBaseGenClasses().iterator(), j = getEcoreClass().getEGenericSuperTypes().iterator(); iter.hasNext(); )
+    for (int i = 0, size=getBaseGenClasses().size(); i < size; i++)
     {
-      GenClass genClass = (GenClass)iter.next();
-      EGenericType eGenericType = (EGenericType)j.next();
+      GenClass genClass = getBaseGenClasses().get(i);
+      EGenericType eGenericType = getEcoreClass().getEGenericSuperTypes().get(i);
       if (genClass.isExternalInterface() || genClass.isInterface() || !genClass.getGenModel().isSuppressInterfaces())
       {
         if (includeTypeArguments && !eGenericType.getETypeArguments().isEmpty())
@@ -710,17 +710,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getInterfaceExtends()
   {
-    List interfaceExtends = getInterfaceExtendsList();
+    List<String> interfaceExtends = getInterfaceExtendsList();
     if (interfaceExtends.isEmpty())
     {
       return "";
     }
 
     StringBuffer result = new StringBuffer(" extends ");
-    for (Iterator iter = interfaceExtends.iterator(); iter.hasNext(); )
+    for (Iterator<String> i = interfaceExtends.iterator(); i.hasNext(); )
     {
-      result.append(iter.next());
-      if (iter.hasNext()) result.append(", ");
+      result.append(i.next());
+      if (i.hasNext()) result.append(", ");
     } 
     return result.toString();
   }
@@ -745,17 +745,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     if (!getGenTypeParameters().isEmpty() && getEffectiveComplianceLevel().getValue() >= GenJDKLevel.JDK50)
     {
       StringBuilder result = new StringBuilder("<");
-      for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+      for (Iterator<GenTypeParameter> i = getGenTypeParameters().iterator(); i.hasNext(); )
       {
-        GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+        GenTypeParameter genTypeParameter = i.next();
         result.append(genTypeParameter.getName());
         List<EGenericType> eBounds = genTypeParameter.getEcoreTypeParameter().getEBounds();
         if (!eBounds.isEmpty())
         {
           result.append(" extends ");
-          for (Iterator j = genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); j.hasNext(); )
+          for (Iterator<EGenericType> j = genTypeParameter.getEcoreTypeParameter().getEBounds().iterator(); j.hasNext(); )
           {
-            EGenericType eBound = (EGenericType)j.next();
+            EGenericType eBound = j.next();
             result.append(getTypeArgument(eBound, true));
             if (j.hasNext())
             {
@@ -788,6 +788,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getTypeArguments(true, false);
   }
   
+  @Override
   public String getImportedWildcardInstanceClassName()
   {
     String result = getImportedInstanceClassName();
@@ -811,9 +812,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       if (!getGenTypeParameters().isEmpty())
       {
         StringBuilder result = new StringBuilder("<");
-        for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+        for (Iterator<GenTypeParameter> i = getGenTypeParameters().iterator(); i.hasNext(); )
         {
-          GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+          GenTypeParameter genTypeParameter = i.next();
           result.append(isWild ? "?" : genTypeParameter.getName());
           if (i.hasNext())
           {
@@ -832,17 +833,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return "";
   }
 
-  public List getAllGenFeatures()
+  public List<GenFeature> getAllGenFeatures()
   {
     return collectGenFeatures(getAllBaseGenClasses(), getGenFeatures(), null);
   }
 
-  public List getInheritedGenFeatures()
+  public List<GenFeature> getInheritedGenFeatures()
   {
     return collectGenFeatures(getAllBaseGenClasses(), null, null);
   }
 
-  public List getAllGenOperations()
+  public List<GenOperation> getAllGenOperations()
   {
     return collectGenOperations(getAllBaseGenClasses(), getGenOperations(), null);
   }
@@ -864,7 +865,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public String getFeatureValue(GenFeature genFeature)
   {
-    List allFeatures = getAllGenFeatures();
+    List<GenFeature> allFeatures = getAllGenFeatures();
     int i = allFeatures.indexOf(genFeature);
     GenClass base = getBaseGenClass();
 
@@ -915,9 +916,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       int reservedBooleanFlags = getImplementingGenModel(genFeature).getBooleanFlagsReservedBits();
 	    int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
 
-      for (Iterator otherGenFeatures = getAllGenFeatures().iterator(); otherGenFeatures.hasNext();)
+      for (GenFeature otherGenFeature : getAllGenFeatures())
       {
-        GenFeature otherGenFeature = (GenFeature)otherGenFeatures.next();
         if (isFlag(otherGenFeature))
         {
           index++;
@@ -959,9 +959,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       int reservedBooleanFlags = getImplementingGenModel(genFeature).getBooleanFlagsReservedBits();
       int index = reservedBooleanFlags > 0 ? reservedBooleanFlags - 1 : -1;
 
-      for (Iterator otherGenFeatures = getAllGenFeatures().iterator(); otherGenFeatures.hasNext();)
+      for (GenFeature otherGenFeature : getAllGenFeatures())
       {
-        GenFeature otherGenFeature = (GenFeature)otherGenFeatures.next();
         if (isFlag(otherGenFeature))
         {
           index++;
@@ -1024,9 +1023,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         return false;
       }
 
-      for (Iterator iter = getAllBaseGenClasses().iterator(); iter.hasNext(); )
+      for (GenClass genClass : getAllBaseGenClasses())
       {
-        GenClass genClass = (GenClass)iter.next();
         if (genClass.isEObjectExtension())
         {
           return true;
@@ -1100,19 +1098,19 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return findGenFeature(getEcoreClass().getEStructuralFeature("value"));
   }
 
-  public List getImplementedGenClasses()
+  public List<GenClass> getImplementedGenClasses()
   {
-    List allBases = getAllBaseGenClasses();
+    List<GenClass> allBases = getAllBaseGenClasses();
     GenClass extendedBase = getClassExtendsGenClass();
-    List result = 
+    List<GenClass> result = 
       extendedBase == null ?
-        new ArrayList(allBases) :
-        new ArrayList(allBases.subList(allBases.indexOf(extendedBase) + 1, allBases.size()));
+        new ArrayList<GenClass>(allBases) :
+        new ArrayList<GenClass>(allBases.subList(allBases.indexOf(extendedBase) + 1, allBases.size()));
     result.add(this);
     return result;
   }
 
-  public List getImplementedGenFeatures()
+  public List<GenFeature> getImplementedGenFeatures()
   {
     return collectGenFeatures(getImplementedGenClasses(), null, null);
   }
@@ -1130,19 +1128,19 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
   }
 
-  public List getImplementedGenOperations()
+  public List<GenOperation> getImplementedGenOperations()
   {
-    EList implementedGenClasses = new UniqueEList(getImplementedGenClasses());
+    EList<GenClass> implementedGenClasses = new UniqueEList<GenClass>(getImplementedGenClasses());
     ECollections.reverse(implementedGenClasses);
     if (needsRootImplementsInterfaceOperations())
     {
       GenClass rootImplementsInterface = getGenModel().getRootImplementsInterfaceGenClass();
       if (rootImplementsInterface != null)
       {
-        List allBaseClasses = new UniqueEList(rootImplementsInterface.getAllBaseGenClasses());
-        for (Iterator i = allBaseClasses.iterator(); i.hasNext(); )
+        List<GenClass> allBaseClasses = new UniqueEList<GenClass>(rootImplementsInterface.getAllBaseGenClasses());
+        for (Iterator<GenClass> i = allBaseClasses.iterator(); i.hasNext(); )
         {
-          GenClass genClass = (GenClass)i.next();
+          GenClass genClass = i.next();
           if (genClass.isEObject())
           {
             i.remove();
@@ -1159,20 +1157,20 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          new CollidingGenOperationFilter());
   }
 
-  public List getExtendedGenClasses()
+  public List<GenClass> getExtendedGenClasses()
   {
-    List allBases = getAllBaseGenClasses();
+    List<GenClass> allBases = getAllBaseGenClasses();
     GenClass extendedBase = getClassExtendsGenClass();
     int i = extendedBase == null ? 0 : allBases.indexOf(extendedBase) + 1;
-    return new ArrayList(allBases.subList(0, i));
+    return new ArrayList<GenClass>(allBases.subList(0, i));
   }
 
-  public List getExtendedGenFeatures()
+  public List<GenFeature> getExtendedGenFeatures()
   {
     return collectGenFeatures(getExtendedGenClasses(), null, null);
   }
 
-  public List getExtendedGenOperations()
+  public List<GenOperation> getExtendedGenOperations()
   {
     return
       collectGenOperations
@@ -1181,17 +1179,17 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          new CollidingGenOperationFilter());
   }
 
-  public List getDeclaredGenFeatures()
+  public List<GenFeature> getDeclaredGenFeatures()
   {
     return getGenFeatures();
   }
 
-  public List getDeclaredGenOperations()
+  public List<GenOperation> getDeclaredGenOperations()
   {
     return getGenOperations();
   }
 
-  public List getFlagGenFeatures()
+  public List<GenFeature> getFlagGenFeatures()
   {
     return collectGenFeatures(null, getImplementedGenFeatures(), new GenFeatureFilter()
       {
@@ -1202,7 +1200,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       });
   }
 
-  public List getFlagGenFeatures(final String staticDefaultValue)
+  public List<GenFeature> getFlagGenFeatures(final String staticDefaultValue)
   {
     return collectGenFeatures(null, getFlagGenFeatures(), new GenFeatureFilter()
       {
@@ -1213,7 +1211,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       });
   }
 
-  public List getESetGenFeatures()
+  public List<GenFeature> getESetGenFeatures()
   {
     return 
       collectGenFeatures
@@ -1228,7 +1226,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          });
   }
 
-  public List getEInverseAddGenFeatures()
+  public List<GenFeature> getEInverseAddGenFeatures()
   {
     return 
      collectGenFeatures
@@ -1243,7 +1241,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         });
   }
 
-  public List getEInverseRemoveGenFeatures()
+  public List<GenFeature> getEInverseRemoveGenFeatures()
   {
     return 
       collectGenFeatures
@@ -1261,7 +1259,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          });
   }
 
-  public List getEBasicRemoveFromContainerGenFeatures()
+  public List<GenFeature> getEBasicRemoveFromContainerGenFeatures()
   {
     return 
       collectGenFeatures
@@ -1276,7 +1274,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          });
   }
 
-  public List getToStringGenFeatures()
+  public List<GenFeature> getToStringGenFeatures()
   {
     return 
       collectGenFeatures
@@ -1291,18 +1289,18 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          });
   }
 
-  public List getMixinGenClasses()
+  public List<GenClass> getMixinGenClasses()
   {
     // Simple cases: no mixins for no inheritance or for a single base class.
     //
-    List superTypes = getEcoreClass().getESuperTypes();
-    if (superTypes.isEmpty() || (superTypes.size() == 1 && !((EClass)superTypes.get(0)).isInterface()))
+    List<EClass> superTypes = getEcoreClass().getESuperTypes();
+    if (superTypes.isEmpty() || (superTypes.size() == 1 && !superTypes.get(0).isInterface()))
     {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
 
-    List allBases = getAllBaseGenClasses();
-    List result = new ArrayList(allBases.size());
+    List<GenClass> allBases = getAllBaseGenClasses();
+    List<GenClass> result = new ArrayList<GenClass>(allBases.size());
 
     // If extending an interface, its mixins must be included, since there is no implementation to handle them.
     //
@@ -1319,12 +1317,12 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return result;
   }
 
-  public List getMixinGenFeatures()
+  public List<GenFeature> getMixinGenFeatures()
   {
       return collectGenFeatures(getMixinGenClasses(), null, null);  
   }
 
-  public List getMixinGenOperations()
+  public List<GenOperation> getMixinGenOperations()
   {
     return collectGenOperations(getMixinGenClasses(), null, new CollidingGenOperationFilter());
   }
@@ -1343,15 +1341,15 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       setImage(!eClass.isAbstract());
     }
     
-    List typeParameters = eClass.getETypeParameters();
+    List<ETypeParameter> typeParameters = eClass.getETypeParameters();
     LOOP:
     for (int i = 0; i < typeParameters.size(); ++i) 
     {
-      ETypeParameter typeParameter = (ETypeParameter)typeParameters.get(i);
+      ETypeParameter typeParameter = typeParameters.get(i);
 
       for (int j = 0; j < getGenTypeParameters().size(); ++j)
       {
-        GenTypeParameter genTypeParameter = (GenTypeParameter)getGenTypeParameters().get(j);
+        GenTypeParameter genTypeParameter = getGenTypeParameters().get(j);
         if (genTypeParameter.getEcoreTypeParameter() == typeParameter)
         {
           genTypeParameter.initialize(typeParameter);
@@ -1371,16 +1369,13 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
     int localFeatureIndex = 0;
     LOOP:
-    for (Iterator iter = eClass.getEStructuralFeatures().iterator(); iter.hasNext(); )
+    for (EStructuralFeature eStructuralFeature : eClass.getEStructuralFeatures())
     {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)iter.next();
       if (eStructuralFeature instanceof EAttribute)
       {
         EAttribute attribute = (EAttribute)eStructuralFeature;
-
-        for (Iterator j = getGenFeatures().iterator(); j.hasNext(); )
+        for (GenFeature genFeature : getGenFeatures())
         {
-          GenFeature genFeature = (GenFeature)j.next();
           if (genFeature.getEcoreFeature() == attribute)
           {
             genFeature.initialize(attribute);
@@ -1396,10 +1391,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       else
       {
         EReference reference = (EReference)eStructuralFeature;
-
-        for (Iterator j = getGenFeatures().iterator(); j.hasNext(); )
+        for (GenFeature genFeature : getGenFeatures())
         {
-          GenFeature genFeature = (GenFeature)j.next();
           if (genFeature.getEcoreFeature() == reference)
           {
             genFeature.initialize(reference);
@@ -1415,13 +1408,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
     
     OPERATION_LOOP:
-    for (Iterator iter = eClass.getEOperations().iterator(); iter.hasNext(); )
+    for (EOperation operation : eClass.getEOperations())
     {
-      EOperation operation = (EOperation)iter.next();
-
-      for (Iterator j = getGenOperations().iterator(); j.hasNext(); )
+      for (GenOperation genOperation : getGenOperations())
       {
-        GenOperation genOperation = (GenOperation)j.next();
         if (genOperation.getEcoreOperation() == operation)
         {
           genOperation.initialize(operation);
@@ -1435,6 +1425,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
   }
 
+  @Override
   protected boolean hasModelContribution()
   {
     return true;
@@ -1444,6 +1435,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Override
+  @Deprecated
   public void generate(Monitor progressMonitor)
   {
     try
@@ -1494,6 +1487,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
   }
 
+  @Override
   public String getModelInfo()
   {
     StringBuffer result = new StringBuffer();
@@ -1501,9 +1495,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     {
       StringBuffer names = new StringBuffer();
       StringBuffer body = new StringBuffer();
-      for (Iterator i = getGenFeatures().iterator(); i.hasNext(); )
+      for (GenFeature genFeature : getGenFeatures())
       {
-        GenFeature genFeature = (GenFeature)i.next();
         appendLineBreak(body);
         body.append(genFeature.getQualifiedModelInfo());
         body.append(' ');
@@ -1544,9 +1537,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
       StringBuffer suppressedNames = new StringBuffer();
       StringBuffer suppressedInfo = new StringBuffer();
-      for (Iterator iter = getGenFeatures().iterator(); iter.hasNext(); )
+      for (GenFeature genFeature : getGenFeatures())
       {
-        GenFeature genFeature = (GenFeature)iter.next();
         if (genFeature.isSuppressedGetVisibility())
         {
           suppressedNames.append(genFeature.getName());
@@ -1619,22 +1611,22 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return baseClass != null ?  baseClass.getImportedProviderClassName() : null;
   }
 
-  public List getProviderImplementedGenClasses()
+  public List<GenClass> getProviderImplementedGenClasses()
   {
-    List allBases = getAllBaseGenClasses();
+    List<GenClass> allBases = getAllBaseGenClasses();
     GenClass extendedBase = getProviderExtendsGenClass();
     int i = extendedBase == null ? 0 : allBases.indexOf(extendedBase) + 1;
-    List result = new ArrayList(allBases.subList(i, allBases.size()));
+    List<GenClass> result = new ArrayList<GenClass>(allBases.subList(i, allBases.size()));
     result.add(this);
     return result;
   }
 
-  protected List getProviderImplementedGenFeatures()
+  protected List<GenFeature> getProviderImplementedGenFeatures()
   {
     return collectGenFeatures(getProviderImplementedGenClasses(), null, null);
   }
 
-  public List/*of GenFeature*/ getLabelFeatureCandidates()
+  public List<GenFeature> getLabelFeatureCandidates()
   {
     return 
       collectGenFeatures
@@ -1649,7 +1641,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          });
   }
 
-  public List/*of GenFeature*/ getPropertyFeatures()
+  public List<GenFeature> getPropertyFeatures()
   {
     return 
       collectGenFeatures
@@ -1665,7 +1657,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          });
   }
 
-  public List/*of GenFeature*/ getNotifyFeatures()
+  public List<GenFeature> getNotifyFeatures()
   {
     return 
      collectGenFeatures
@@ -1680,7 +1672,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         });
   }
 
-  public List/*of GenFeature*/ getLabelNotifyFeatures()
+  public List<GenFeature> getLabelNotifyFeatures()
   {
     return collectGenFeatures(getProviderImplementedGenClasses(), null,
       new GenFeatureFilter()
@@ -1692,7 +1684,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       });
   }
 
-  public List/*of GenFeature*/ getContentNotifyFeatures()
+  public List<GenFeature> getContentNotifyFeatures()
   {
     return collectGenFeatures(getProviderImplementedGenClasses(), null,
       new GenFeatureFilter()
@@ -1704,15 +1696,15 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       });
   }
 
-  public List/*of GenFeature*/ getLabelAndContentNotifyFeatures()
+  public List<GenFeature> getLabelAndContentNotifyFeatures()
   {
     GenFeature feature = getLabelFeature();
     return feature != null && feature.isNotify() && feature.isChildren() ?
       Collections.singletonList(feature) :
-      Collections.EMPTY_LIST;
+      Collections.<GenFeature>emptyList();
   }
 
-  public List/*of GenFeature*/ getChildrenFeatures()
+  public List<GenFeature> getChildrenFeatures()
   {
     return collectGenFeatures
        (getProviderImplementedGenClasses(), 
@@ -1726,7 +1718,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         });
   }
 
-  public List/*of GenFeature*/ getAllChildrenFeatures()
+  public List<GenFeature> getAllChildrenFeatures()
   {
     return 
       collectGenFeatures
@@ -1741,9 +1733,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
          });
   }
 
-  public List/*of GenFeature*/ getCreateChildFeatures()
+  public List<GenFeature> getCreateChildFeatures()
   {
-    List result = new ArrayList();
+    List<GenFeature> result = new ArrayList<GenFeature>();
 
     // If this is class has mixed content, the mixed feature should always be included, even if inherited, and come first.
     //
@@ -1768,7 +1760,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return result;
   }
   
-  public List/*of GenFeature*/ getAllCreateChildFeatures()
+  public List<GenFeature> getAllCreateChildFeatures()
   {
     return collectGenFeatures(getAllBaseGenClasses(), getGenFeatures(),
       new GenFeatureFilter()
@@ -1780,7 +1772,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       });
   }
 
-  public List getAllCreateChildFeaturesIncludingDelegation()
+  public List<GenFeature> getAllCreateChildFeaturesIncludingDelegation()
   {
     return collectGenFeatures(getAllBaseGenClasses(), getGenFeatures(),
       new GenFeatureFilter()
@@ -1797,7 +1789,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       });
   }
 
-  public List getCrossPackageCreateChildFeatures()
+  public List<GenFeature> getCrossPackageCreateChildFeatures()
   {
     GenClass base = getProviderExtendsGenClass();
 
@@ -1807,7 +1799,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     if (base == null || base.getGenPackage() == getGenPackage() ||
         getGenModel().getAllGenPackagesWithClassifiers().contains(base.getGenPackage()))
     {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
 
     return collectGenFeatures(base.getProviderImplementedGenClasses(), null,
@@ -1820,30 +1812,25 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       });
   }
 
-  public List getSharedClassCreateChildFeatures()
+  public List<GenFeature> getSharedClassCreateChildFeatures()
   {
-    List childrenFeatures = getAllCreateChildFeatures();
+    List<GenFeature> childrenFeatures = getAllCreateChildFeatures();
     
     // build mapping from classes to list of features that use them
-    Map classToFeatureMap = new LinkedHashMap();
-    List packages = getGenModel().getAllGenAndUsedGenPackagesWithClassifiers();
-    for (Iterator iter = childrenFeatures.iterator(); iter.hasNext(); )
+    Map<GenClass, List<GenFeature>> classToFeatureMap = new LinkedHashMap<GenClass, List<GenFeature>>();
+    List<GenPackage> packages = getGenModel().getAllGenAndUsedGenPackagesWithClassifiers();
+    for (GenFeature childGenFeature : childrenFeatures)
     {
-      GenFeature f = (GenFeature)iter.next();
-
-      List fl = f.isFeatureMapType() ? f.getDelegatedFeatures() : Collections.singletonList(f);
-      for (Iterator fIter = fl.iterator(); fIter.hasNext(); )
+      List<GenFeature> childGenFeatureList = childGenFeature.isFeatureMapType() ? childGenFeature.getDelegatedFeatures() : Collections.singletonList(childGenFeature);
+      for (GenFeature genFeature : childGenFeatureList)
       {
-        GenFeature genFeature = (GenFeature)fIter.next();
-        List genClasses = getTypeGenClasses(genFeature.getEcoreFeature().getEType(), null, packages, -1);
-
-        for (Iterator cIter = genClasses.iterator(); cIter.hasNext(); )
+        List<GenClass> genClasses = getTypeGenClasses(genFeature.getEcoreFeature().getEType(), null, packages, -1);
+        for (GenClass genClass : genClasses)
         {
-          GenClass genClass = (GenClass)cIter.next();
-          List genFeatures = (List)classToFeatureMap.get(genClass);
+          List<GenFeature> genFeatures = classToFeatureMap.get(genClass);
           if (genFeatures == null)
           {
-            genFeatures = new ArrayList(5);
+            genFeatures = new ArrayList<GenFeature>(5);
             classToFeatureMap.put(genClass, genFeatures);
           }
           genFeatures.add(genFeature);
@@ -1852,10 +1839,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
 
     // scan feature lists for those with multiple elements and return them
-    List result = new UniqueEList(childrenFeatures.size());
-    for (Iterator iter = classToFeatureMap.values().iterator(); iter.hasNext();)
+    List<GenFeature> result = new UniqueEList<GenFeature>(childrenFeatures.size());
+    for (List<GenFeature> genFeatures : classToFeatureMap.values())
     {
-      List genFeatures = (List)iter.next();
       if (genFeatures.size() > 1) result.addAll(genFeatures);
     }
     return result;
@@ -1863,20 +1849,19 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public boolean hasFeatureMapCreateChildFeatures()
   {
-    for (Iterator iter = getAllCreateChildFeatures().iterator(); iter.hasNext(); )
+    for (GenFeature genFeature : getAllCreateChildFeatures())
     {
-      GenFeature genFeature = (GenFeature)iter.next();
       if (genFeature.isFeatureMapType()) return true;
     }
     return false;
   }
 
-  public List getChildrenClasses(GenFeature genFeature)
+  public List<GenClass> getChildrenClasses(GenFeature genFeature)
   {
     return getTypeGenClasses(genFeature.getEcoreFeature().getEType(), getGenPackage(), getGenModel().getAllGenAndUsedGenPackagesWithClassifiers(), -1);
   }
 
-  public List getCrossPackageChildrenClasses(GenFeature genFeature)
+  public List<GenClass> getCrossPackageChildrenClasses(GenFeature genFeature)
   {
     return getTypeGenClasses(genFeature.getEcoreFeature().getEType(), getGenPackage(), getGenModel().getAllGenPackagesWithClassifiers(), -1);
   }
@@ -1908,9 +1893,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       return labelFeature;
     
     //FB TBD can we come up with a better algorithm for choosing the default label feature?
-    for (Iterator iter = getLabelFeatureCandidates().iterator(); iter.hasNext(); )
+    for (GenFeature feature : getLabelFeatureCandidates())
     {
-      GenFeature feature = (GenFeature) iter.next();
       if (!feature.isListType())
       {
         String featureName = feature.getName();
@@ -1982,14 +1966,16 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_CLASS__GEN_FEATURES:
-        return ((InternalEList)getGenFeatures()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getGenFeatures()).basicAdd(otherEnd, msgs);
       case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
-        return ((InternalEList)getGenOperations()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getGenOperations()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -1999,14 +1985,15 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_CLASS__GEN_FEATURES:
-        return ((InternalEList)getGenFeatures()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenFeatures()).basicRemove(otherEnd, msgs);
       case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
-        return ((InternalEList)getGenOperations()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenOperations()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -2016,6 +2003,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -2045,6 +2033,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -2063,11 +2053,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         return;
       case GenModelPackage.GEN_CLASS__GEN_FEATURES:
         getGenFeatures().clear();
-        getGenFeatures().addAll((Collection)newValue);
+        getGenFeatures().addAll((Collection<? extends GenFeature>)newValue);
         return;
       case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
         getGenOperations().clear();
-        getGenOperations().addAll((Collection)newValue);
+        getGenOperations().addAll((Collection<? extends GenOperation>)newValue);
         return;
       case GenModelPackage.GEN_CLASS__LABEL_FEATURE:
         setLabelFeature((GenFeature)newValue);
@@ -2081,6 +2071,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -2115,6 +2106,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -2142,6 +2134,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -2177,16 +2170,19 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getGenModel().getImportedName(getQualifiedTestCaseClassName());
   }
 
+  @Override
   public boolean canGenerate()
   {
     return super.canGenerate() && !isDynamic();
   }
 
+  @Override
   public boolean canGenerateEdit()
   {
     return super.canGenerateEdit() && !isInterface() && getProvider() != GenProviderKind.NONE_LITERAL;
   }
 
+  @Override
   public boolean canGenerateEditor()
   {
     return false;
@@ -2196,6 +2192,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Override
+  @Deprecated
   public void generateEdit(Monitor progressMonitor)
   {
     try
@@ -2262,9 +2261,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public boolean hasTests()
   {
-    for (Iterator i = getAllGenFeatures().iterator(); i.hasNext();)
+    for (GenFeature genFeature : getAllGenFeatures())
     {
-      GenFeature genFeature = (GenFeature)i.next();
       if (((genFeature.isGet() && !genFeature.isSuppressedGetVisibility())
         || (genFeature.isSet() && !genFeature.isSuppressedSetVisibility())
         || (genFeature.isUnset() && !genFeature.isSuppressedUnsetVisibility())
@@ -2278,6 +2276,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return !getAllGenOperations().isEmpty();
   }
 
+  @Override
   public boolean canGenerateTests()
   {
     return getGenModel().canGenerateTests() && !isExternalInterface();
@@ -2287,6 +2286,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Override
+  @Deprecated
   public void generateTests(Monitor progressMonitor)
   {
     try
@@ -2318,12 +2319,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   {
     if (getEcoreClass().getName().equals(oldGenClassVersion.getEcoreClass().getName()))
     {
-      for (Iterator i = getGenFeatures().iterator(); i.hasNext(); )
+      for (GenFeature genFeature : getGenFeatures())
       {
-        GenFeature genFeature = (GenFeature)i.next();
-        for (Iterator j = oldGenClassVersion.getGenFeatures().iterator(); j.hasNext(); )
+        for (GenFeature oldGenFeatureVersion : oldGenClassVersion.getGenFeatures())
         {
-          GenFeature oldGenFeatureVersion = (GenFeature)j.next();
           if (genFeature.reconcile(oldGenFeatureVersion))
           {
             break;
@@ -2331,12 +2330,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         }
       }
 
-      for (Iterator i = getGenOperations().iterator(); i.hasNext(); )
+      for (GenOperation genOperation : getGenOperations())
       {
-        GenOperation genOperation = (GenOperation)i.next();
-        for (Iterator j = oldGenClassVersion.getGenOperations().iterator(); j.hasNext(); )
+        for (GenOperation oldGenOperation : oldGenClassVersion.getGenOperations())
         {
-          GenOperation oldGenOperation = (GenOperation)j.next();
           if (genOperation.reconcile(oldGenOperation))
           {
             break;
@@ -2344,10 +2341,10 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         }
       }
 
-      for (Iterator i = getGenTypeParameters().iterator(), j = oldGenClassVersion.getGenTypeParameters().iterator(); i.hasNext() && j.hasNext(); )
+      for (int i = 0, size = Math.min(getGenTypeParameters().size(), oldGenClassVersion.getGenTypeParameters().size()); i < size; i++)
       {
-        GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
-        GenTypeParameter oldGenTypeParameterVersion = (GenTypeParameter)j.next();
+        GenTypeParameter genTypeParameter = getGenTypeParameters().get(i);
+        GenTypeParameter oldGenTypeParameterVersion = oldGenClassVersion.getGenTypeParameters().get(i);
         genTypeParameter.reconcile(oldGenTypeParameterVersion);
       }
 
@@ -2388,27 +2385,27 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
       else
       {
-        for (Iterator i = getGenTypeParameters().iterator(); i.hasNext(); )
+        for (Iterator<GenTypeParameter> i = getGenTypeParameters().iterator(); i.hasNext(); )
         {
-          GenTypeParameter genTypeParameter = (GenTypeParameter)i.next();
+          GenTypeParameter genTypeParameter = i.next();
           if (!genTypeParameter.reconcile())
           {
             i.remove();
           }
         }
 
-        for (Iterator i = getGenFeatures().iterator(); i.hasNext(); )
+        for (Iterator<GenFeature> i = getGenFeatures().iterator(); i.hasNext(); )
         {
-          GenFeature genFeature = (GenFeature)i.next();
+          GenFeature genFeature = i.next();
           if (!genFeature.reconcile())
           {
             i.remove();
           }
         }
   
-        for (Iterator i = getGenOperations().iterator(); i.hasNext(); )
+        for (Iterator<GenOperation> i = getGenOperations().iterator(); i.hasNext(); )
         {
-          GenOperation genOperation = (GenOperation)i.next();
+          GenOperation genOperation = i.next();
           if (!genOperation.reconcile())
           {
             i.remove();
@@ -2424,19 +2421,18 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
   }
 
-  public List getGenConstraints()
+  @Override
+  public List<String> getGenConstraints()
   {
-    List result = new UniqueEList(super.getGenConstraints());
-    for (Iterator i = getInvariantOperations().iterator(); i.hasNext(); )
+    List<String> result = new UniqueEList<String>(super.getGenConstraints());
+    for (GenOperation genOperation : getInvariantOperations())
     {
-      GenOperation genOperation = (GenOperation)i.next();
       result.add(genOperation.getName());
     }
-
     return result;
   }
 
-  public static final List INTRINSIC_CONSTRAINTS = 
+  public static final List<String> INTRINSIC_CONSTRAINTS = 
     Arrays.asList
       (new String [] 
        {
@@ -2449,13 +2445,15 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
         "EveryMapEntryUnique"
        });
 
-  public List getAllGenConstraints()
+  @Override
+  public List<String> getAllGenConstraints()
   {
-    List result = new ArrayList(INTRINSIC_CONSTRAINTS);
+    List<String> result = new ArrayList<String>(INTRINSIC_CONSTRAINTS);
     result.addAll(collectGenConstraints(getAllBaseGenClasses(), getGenConstraints(), null));
     return result;
   }
 
+  @Override
   public GenClassifier getConstraintImplementor(String constraint)
   {
     if (getGenConstraints().contains(constraint))
@@ -2464,9 +2462,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     }
     else
     {
-      for (Iterator i = getBaseGenClasses().iterator(); i.hasNext(); )
+      for (GenClass baseGenClass : getBaseGenClasses())
       {
-        GenClass baseGenClass = (GenClass)i.next();
         if (baseGenClass.getGenConstraints().contains(constraint))
         {
           return baseGenClass;
@@ -2482,9 +2479,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public GenClassifier getConstraintDelegate(String constraint)
   {
-    for (Iterator i = getBaseGenClasses().iterator(); i.hasNext(); )
+    for (GenClass baseGenClass : getBaseGenClasses())
     {
-      GenClass baseGenClass = (GenClass)i.next();
       if (baseGenClass.getGenConstraints().contains(constraint))
       {
         return baseGenClass;
@@ -2497,11 +2493,11 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return null;
   }
 
+  @Override
   public boolean hasOnlyDefaultConstraints()
   {
-    for (Iterator i = getAllGenConstraints().iterator(); i.hasNext(); )
+    for (String genConstraint : getAllGenConstraints())
     {
-      String genConstraint = (String)i.next();
       if (getConstraintImplementor(genConstraint) != null)
       {
         return false;
@@ -2510,7 +2506,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return true;
   }
 
-  public List getInvariantOperations()
+  public List<GenOperation> getInvariantOperations()
   {
     return collectGenOperations(null, getGenOperations(), new GenOperationFilter()
       {
@@ -2523,9 +2519,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public GenOperation getInvariantOperation(String constraint)
   {
-    for (Iterator j = getInvariantOperations().iterator(); j.hasNext(); )
+    for (GenOperation genOperation : getInvariantOperations())
     {
-      GenOperation genOperation = (GenOperation)j.next();
       if (genOperation.getName().equals(constraint))
       {
         return genOperation;
@@ -2740,7 +2735,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return getClassExtendsGenClass() == null || getClassExtendsGenClass().getGenModel() != getGenModel();
   }
 
-  public List getDeclaredFieldGenFeatures()
+  public List<GenFeature> getDeclaredFieldGenFeatures()
   {
     return getImplementedGenFeatures();
   }
@@ -2770,8 +2765,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
   public class CollidingGenOperationFilter implements GenOperationFilter
   {
-    protected List allGenFeatures = getAllGenFeatures();
-    protected List extendsGenClassOperations;
+    protected List<GenFeature> allGenFeatures = getAllGenFeatures();
+    protected List<GenOperation> extendsGenClassOperations;
     
     public CollidingGenOperationFilter()
     {
@@ -2782,7 +2777,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
       else
       {
-        extendsGenClassOperations = Collections.EMPTY_LIST;
+        extendsGenClassOperations = Collections.emptyList();
       }
     }
 
@@ -2790,9 +2785,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     {
       if (genOperation.getName().startsWith("isSet") && genOperation.getGenParameters().isEmpty())
       {
-        for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
+        for (GenFeature genFeature : allGenFeatures)
         {
-          GenFeature genFeature = (GenFeature)i.next();
           if (genFeature.isChangeable() && genFeature.isUnsettable()
             && genOperation.getName().equals("isSet" + genFeature.getAccessorName()))
           {
@@ -2803,9 +2797,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       else if ((genOperation.getName().startsWith("get") || genOperation.getName().startsWith("is"))
         && genOperation.getGenParameters().isEmpty())
       {
-        for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
+        for (GenFeature genFeature : allGenFeatures)
         {
-          GenFeature genFeature = (GenFeature)i.next();
           if (genFeature.getGetAccessor().equals(genOperation.getName()))
           {
             return false;
@@ -2814,10 +2807,9 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
       else if (genOperation.getName().startsWith("set") && genOperation.getGenParameters().size() == 1)
       {
-        GenParameter genParameter = (GenParameter)genOperation.getGenParameters().get(0);
-        for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
+        GenParameter genParameter = genOperation.getGenParameters().get(0);
+        for (GenFeature genFeature : allGenFeatures)
         {
-          GenFeature genFeature = (GenFeature)i.next();
           if (genFeature.isChangeable() && !genFeature.isListType() && genOperation.getName().equals("set" + genFeature.getAccessorName())
             && genParameter.getType().equals(genFeature.getType()))
           {
@@ -2827,9 +2819,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
       }
       else if (genOperation.getName().startsWith("unset") && genOperation.getGenParameters().isEmpty())
       {
-        for (Iterator i = allGenFeatures.iterator(); i.hasNext();)
+        for (GenFeature genFeature : allGenFeatures)
         {
-          GenFeature genFeature = (GenFeature)i.next();
           if (genFeature.isChangeable() && genFeature.isUnsettable()
             && genOperation.getName().equals("unset" + genFeature.getAccessorName()))
           {
@@ -2840,9 +2831,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
 
       if (!genOperation.hasBody())
       {
-        for (Iterator i = extendsGenClassOperations.iterator(); i.hasNext();)
+        for (GenOperation baseOperation : extendsGenClassOperations)
         {
-          GenOperation baseOperation = (GenOperation)i.next();
           if (baseOperation.isOverrideOf(genOperation))
           {
             return false;
@@ -2855,14 +2845,14 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   }
 
   // Returns whether this class implements any of the given features.
-  public boolean implementsAny(Collection genFeatures)
+  public boolean implementsAny(Collection<GenFeature> genFeatures)
   {
-    List implementedGenFeatures = getImplementedGenFeatures();
+    List<GenFeature> implementedGenFeatures = getImplementedGenFeatures();
     if (!implementedGenFeatures.isEmpty())
     {  
-      for (Iterator i = genFeatures.iterator(); i.hasNext(); )
+      for (GenFeature genFeature : genFeatures)
       {
-        if (implementedGenFeatures.contains(i.next()))
+        if (implementedGenFeatures.contains(genFeature))
         {
           return true;
         }
@@ -2898,13 +2888,13 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return eVirtualValuesField == null && getGenModel().isVirtualDelegation() && getNonPrimitiveFeatureCount() > 0 ? "eVirtualValues" : null;
   }
 
-  public List getEVirtualIndexBitFields(List eVirtualIndexBitFields)
+  public List<String> getEVirtualIndexBitFields(List<String> eVirtualIndexBitFields)
   {
     if (getGenModel().isVirtualDelegation() && getNonPrimitiveFeatureCount() > 0)
     {
       GenClass classExtendsGenClass = getClassExtendsGenClass();
 
-      for (int i = (classExtendsGenClass == null ? 0 : classExtendsGenClass.getAllEVirtualIndexBitFields(new ArrayList()).size()); i < (getFeatureCount() / 32) + 1; i++)
+      for (int i = (classExtendsGenClass == null ? 0 : classExtendsGenClass.getAllEVirtualIndexBitFields(new ArrayList<String>()).size()); i < (getFeatureCount() / 32) + 1; i++)
       {
         eVirtualIndexBitFields.add("eVirtualIndexBits" + i);
       }
@@ -2913,7 +2903,7 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     return eVirtualIndexBitFields;
   }
 
-  public List getAllEVirtualIndexBitFields(List allEVirtualIndexBitFields)
+  public List<String> getAllEVirtualIndexBitFields(List<String> allEVirtualIndexBitFields)
   {
     GenClass classExtendsGenClass = getClassExtendsGenClass();
     return getEVirtualIndexBitFields(classExtendsGenClass == null
@@ -2922,9 +2912,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
   
   public boolean isJavaIOSerializable()
   {
-    for (Iterator i = getAllBaseGenClasses().iterator(); i.hasNext(); )
+    for (GenClass baseGenClass : getAllBaseGenClasses())
     {
-      GenClass baseGenClass = (GenClass)i.next();
       if ("java.io.Serializeable".equals(baseGenClass.getQualifiedInterfaceName()))
       {
         return true;
@@ -2934,9 +2923,8 @@ public class GenClassImpl extends GenClassifierImpl implements GenClass
     GenClass rootImplementsInterfaceGenClass = getGenModel().getRootImplementsInterfaceGenClass();
     if (rootImplementsInterfaceGenClass != null)
     {
-      for (Iterator i = rootImplementsInterfaceGenClass.getAllBaseGenClasses().iterator(); i.hasNext(); )
+      for (GenClass baseGenClass : rootImplementsInterfaceGenClass.getAllBaseGenClasses())
       {
-        GenClass baseGenClass = (GenClass)i.next();
         if ("java.io.Serializable".equals(baseGenClass.getQualifiedInterfaceName()))
         {
           return true;

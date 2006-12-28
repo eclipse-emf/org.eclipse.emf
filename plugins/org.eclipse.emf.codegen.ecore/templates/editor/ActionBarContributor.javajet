@@ -1,4 +1,4 @@
-<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.18 2006/10/13 21:41:09 davidms Exp $" %>
+<%@ jet package="org.eclipse.emf.codegen.ecore.templates.editor" imports="org.eclipse.emf.codegen.ecore.genmodel.*" class="ActionBarContributor" version="$Id: ActionBarContributor.javajet,v 1.19 2006/12/28 06:40:39 marcelop Exp $" %>
 <%
 /**
  * <copyright>
@@ -16,6 +16,21 @@
  */
 %>
 <%GenPackage genPackage = (GenPackage)argument; GenModel genModel=genPackage.getGenModel();%>
+<%
+String _CollectionOfCommandParameter = null;
+String _CollectionOfExtendsCommandParameter = null;
+String _CollectionOfIAction = null;
+String _ArrayListOfIAction = null;
+String _CollectionOfExtendsIAction = null;
+if (genModel.isCreationCommands())
+{
+  _CollectionOfCommandParameter = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<org.eclipse.emf.edit.command.CommandParameter>" : "java.util.Collection");
+  _CollectionOfExtendsCommandParameter = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<? extends org.eclipse.emf.edit.command.CommandParameter>" : "java.util.Collection");
+  _CollectionOfIAction = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<org.eclipse.jface.action.IAction>" : "java.util.Collection");
+  _ArrayListOfIAction = genModel.getImportedName(genModel.useGenerics() ? "java.util.ArrayList<org.eclipse.jface.action.IAction>" : "java.util.ArrayList");
+  _CollectionOfExtendsIAction = genModel.getImportedName(genModel.useGenerics() ? "java.util.Collection<? extends org.eclipse.jface.action.IAction>" : "java.util.Collection");
+}
+%>
 <%@ include file="../Header.javajetinc"%>
 package <%=genPackage.getPresentationPackageName()%>;
 
@@ -90,6 +105,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	protected <%=genModel.getImportedName("org.eclipse.jface.action.IAction")%> showPropertiesViewAction =
 		new <%=genModel.getImportedName("org.eclipse.jface.action.Action")%>(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))<%=genModel.getNonNLS()%>
 		{
+<%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			public void run()
 			{
 				try
@@ -113,11 +131,17 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	protected <%=genModel.getImportedName("org.eclipse.jface.action.IAction")%> refreshViewerAction =
 		new <%=genModel.getImportedName("org.eclipse.jface.action.Action")%>(<%=genPackage.getImportedEditorPluginClassName()%>.INSTANCE.getString("_UI_RefreshViewer_menu_item"))<%=genModel.getNonNLS()%>
 		{
+<%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			public boolean isEnabled()
 			{
 				return activeEditorPart instanceof <%=genModel.getImportedName("org.eclipse.emf.common.ui.viewer.IViewerProvider")%>;
 			}
 
+<%if (genModel.useClassOverrideAnnotation()) {%>
+			@Override
+<%}%>
 			public void run()
 			{
 				if (activeEditorPart instanceof <%=genModel.getImportedName("org.eclipse.emf.common.ui.viewer.IViewerProvider")%>)
@@ -139,7 +163,7 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genModel.getImportedName("java.util.Collection")%> createChildActions;
+	protected <%=_CollectionOfIAction%> createChildActions;
 
 	/**
 	 * This is the menu manager into which menu contribution items should be added for CreateChild actions.
@@ -156,7 +180,7 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genModel.getImportedName("java.util.Collection")%> createSiblingActions;
+	protected <%=_CollectionOfIAction%> createSiblingActions;
 
 	/**
 	 * This is the menu manager into which menu contribution items should be added for CreateSibling actions.
@@ -187,6 +211,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void contributeToToolBar(<%=genModel.getImportedName("org.eclipse.jface.action.IToolBarManager")%> toolBarManager)
 	{
 		toolBarManager.add(new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>("<%=genPackage.getPrefix().toLowerCase()%>-settings"));<%=genModel.getNonNLS()%>
@@ -200,6 +227,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void contributeToMenu(<%=genModel.getImportedName("org.eclipse.jface.action.IMenuManager")%> menuManager)
 	{
 		super.contributeToMenu(menuManager);
@@ -247,6 +277,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void setActiveEditor(<%=genModel.getImportedName("org.eclipse.ui.IEditorPart")%> part)
 	{
 		super.setActiveEditor(part);
@@ -300,8 +333,8 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 
 		// Query the new selection for appropriate new child/sibling descriptors
 		//
-		<%=genModel.getImportedName("java.util.Collection")%> newChildDescriptors = null;
-		<%=genModel.getImportedName("java.util.Collection")%> newSiblingDescriptors = null;
+		<%=_CollectionOfCommandParameter%> newChildDescriptors = null;
+		<%=_CollectionOfCommandParameter%> newSiblingDescriptors = null;
 
 		<%=genModel.getImportedName("org.eclipse.jface.viewers.ISelection")%> selection = event.getSelection();
 		if (selection instanceof <%=genModel.getImportedName("org.eclipse.jface.viewers.IStructuredSelection")%> && ((IStructuredSelection)selection).size() == 1)
@@ -343,14 +376,18 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genModel.getImportedName("java.util.Collection")%> generateCreateChildActions(Collection descriptors, <%=genModel.getImportedName("org.eclipse.jface.viewers.ISelection")%> selection)
+	protected <%=_CollectionOfIAction%> generateCreateChildActions(<%=_CollectionOfExtendsCommandParameter%> descriptors, <%=genModel.getImportedName("org.eclipse.jface.viewers.ISelection")%> selection)
 	{
-		<%=genModel.getImportedName("java.util.Collection")%> actions = new <%=genModel.getImportedName("java.util.ArrayList")%>();
+		<%=_CollectionOfIAction%> actions = new <%=_ArrayListOfIAction%>();
 		if (descriptors != null)
 		{
+<%if (genModel.useGenerics()) {%>
+			for (<%=genModel.getImportedName("org.eclipse.emf.edit.command.CommandParameter")%> descriptor : descriptors)
+<%} else {%>
 			for (<%=genModel.getImportedName("java.util.Iterator")%> i = descriptors.iterator(); i.hasNext(); )
+<%}%>
 			{
-				actions.add(new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.CreateChildAction")%>(activeEditorPart, selection, i.next()));
+				actions.add(new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.CreateChildAction")%>(activeEditorPart, selection, <%if (genModel.useGenerics()) {%>descriptor<%} else {%>i.next()<%}%>));
 			}
 		}
 		return actions;
@@ -363,14 +400,18 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genModel.getImportedName("java.util.Collection")%> generateCreateSiblingActions(Collection descriptors, <%=genModel.getImportedName("org.eclipse.jface.viewers.ISelection")%> selection)
+	protected <%=_CollectionOfIAction%> generateCreateSiblingActions(<%=_CollectionOfExtendsCommandParameter%> descriptors, <%=genModel.getImportedName("org.eclipse.jface.viewers.ISelection")%> selection)
 	{
-		<%=genModel.getImportedName("java.util.Collection")%> actions = new <%=genModel.getImportedName("java.util.ArrayList")%>();
+		<%=_CollectionOfIAction%> actions = new <%=_ArrayListOfIAction%>();
 		if (descriptors != null)
 		{
+<%if (genModel.useGenerics()) {%>
+			for (<%=genModel.getImportedName("org.eclipse.emf.edit.command.CommandParameter")%> descriptor : descriptors)
+<%} else {%>
 			for (<%=genModel.getImportedName("java.util.Iterator")%> i = descriptors.iterator(); i.hasNext(); )
+<%}%>
 			{
-				actions.add(new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.CreateSiblingAction")%>(activeEditorPart, selection, i.next()));
+				actions.add(new <%=genModel.getImportedName("org.eclipse.emf.edit.ui.action.CreateSiblingAction")%>(activeEditorPart, selection, <%if (genModel.useGenerics()) {%>descriptor<%} else {%>i.next()<%}%>));
 			}
 		}
 		return actions;
@@ -385,13 +426,19 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void populateManager(<%=genModel.getImportedName("org.eclipse.jface.action.IContributionManager")%> manager, <%=genModel.getImportedName("java.util.Collection")%> actions, String contributionID)
+	protected void populateManager(<%=genModel.getImportedName("org.eclipse.jface.action.IContributionManager")%> manager, <%=_CollectionOfExtendsIAction%> actions, String contributionID)
 	{
 		if (actions != null)
 		{
+<%if (genModel.useGenerics()) {%>
+			for (<%=genModel.getImportedName("org.eclipse.jface.action.IAction")%> action : actions)
+<%} else {%>
 			for (<%=genModel.getImportedName("java.util.Iterator")%> i = actions.iterator(); i.hasNext(); )
+<%}%>
 			{
+<%if (!genModel.useGenerics()) {%>
 				<%=genModel.getImportedName("org.eclipse.jface.action.IAction")%> action = (IAction)i.next();
+<%}%>
 				if (contributionID != null)
 				{
 					manager.insertBefore(contributionID, action);
@@ -411,7 +458,7 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void depopulateManager(<%=genModel.getImportedName("org.eclipse.jface.action.IContributionManager")%> manager, <%=genModel.getImportedName("java.util.Collection")%> actions)
+	protected void depopulateManager(<%=genModel.getImportedName("org.eclipse.jface.action.IContributionManager")%> manager, <%=_CollectionOfExtendsIAction%> actions)
 	{
 		if (actions != null)
 		{
@@ -447,6 +494,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	public void menuAboutToShow(<%=genModel.getImportedName("org.eclipse.jface.action.IMenuManager")%> menuManager)
 	{
 		super.menuAboutToShow(menuManager);
@@ -469,6 +519,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	protected void addGlobalActions(<%=genModel.getImportedName("org.eclipse.jface.action.IMenuManager")%> menuManager)
 	{
 		menuManager.insertAfter("additions-end", new <%=genModel.getImportedName("org.eclipse.jface.action.Separator")%>("ui-actions"));<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
@@ -486,6 +539,9 @@ public class <%=genPackage.getActionBarContributorClassName()%>
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+<%if (genModel.useClassOverrideAnnotation()) {%>
+	@Override
+<%}%>
 	protected boolean removeAllReferencesOnDelete()
 	{
 		return true;

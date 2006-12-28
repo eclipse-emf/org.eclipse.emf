@@ -194,7 +194,7 @@ public class EnumClass
     stringBuffer.append(genModel.isSuppressEMFMetaData() && !genModel.isSuppressInterfaces() ? "Internal" + genEnum.getName() : genModel.getImportedName(isEnum ? "org.eclipse.emf.common.util.Enumerator" : "org.eclipse.emf.common.util.AbstractEnumerator"));
     stringBuffer.append(TEXT_22);
     if (isEnum) {
-    for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();
+    for (Iterator<GenEnumLiteral> l = genEnum.getGenEnumLiterals().iterator(); l.hasNext(); ) { GenEnumLiteral genEnumLiteral = l.next(); 
     stringBuffer.append(TEXT_23);
     stringBuffer.append(genEnumLiteral.getFormattedName());
     stringBuffer.append(TEXT_24);
@@ -227,7 +227,7 @@ public class EnumClass
     stringBuffer.append(genModel.getNonNLS());
     stringBuffer.append(TEXT_36);
     }
-    for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();
+    for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
     stringBuffer.append(TEXT_37);
     stringBuffer.append(genEnumLiteral.getFormattedName());
     stringBuffer.append(TEXT_38);
@@ -259,7 +259,7 @@ public class EnumClass
     stringBuffer.append(genEnumLiteral.getValue());
     stringBuffer.append(TEXT_50);
     }
-    if (!isEnum) for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();
+    if (!isEnum) for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
     stringBuffer.append(TEXT_51);
     stringBuffer.append(genEnumLiteral.getFormattedName());
     stringBuffer.append(TEXT_52);
@@ -288,7 +288,7 @@ public class EnumClass
     stringBuffer.append(TEXT_63);
     stringBuffer.append(genEnum.getName());
     stringBuffer.append(TEXT_64);
-    for (Iterator l=genEnum.getGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();
+    for (GenEnumLiteral genEnumLiteral : genEnum.getGenEnumLiterals()) {
     stringBuffer.append(TEXT_65);
     stringBuffer.append(genEnumLiteral.getEnumLiteralInstanceConstantName());
     stringBuffer.append(TEXT_66);
@@ -322,7 +322,7 @@ public class EnumClass
     stringBuffer.append(TEXT_80);
     stringBuffer.append(genEnum.getName());
     stringBuffer.append(TEXT_81);
-    for (Iterator l=genEnum.getUniqueValuedGenEnumLiterals().iterator(); l.hasNext();) { GenEnumLiteral genEnumLiteral = (GenEnumLiteral)l.next();
+    for (GenEnumLiteral genEnumLiteral : genEnum.getUniqueValuedGenEnumLiterals()) {
     stringBuffer.append(TEXT_82);
     stringBuffer.append(genEnumLiteral.getEnumLiteralValueConstantName());
     stringBuffer.append(TEXT_83);

@@ -58,7 +58,7 @@ public class ModelTestSuite
  * </copyright>
  */
 
-    GenModel genModel = (GenModel)argument;
+    GenModel genModel = (GenModel)argument; if (false) {/* Trick to import java.util.* without warnings */Iterator.class.getName();}
     stringBuffer.append(TEXT_1);
     stringBuffer.append(TEXT_2);
     stringBuffer.append("$");
@@ -95,7 +95,7 @@ public class ModelTestSuite
     stringBuffer.append(genModel.getModelName());
     stringBuffer.append(TEXT_18);
     stringBuffer.append(genModel.getNonNLS());
-    for (Iterator genPackages = genModel.getAllGenPackagesWithClassifiers().iterator(); genPackages.hasNext();) { GenPackage genPackage = (GenPackage)genPackages.next();
+    for (GenPackage genPackage : genModel.getAllGenPackagesWithClassifiers()) {
     if (genPackage.hasTests()) {
     stringBuffer.append(TEXT_19);
     stringBuffer.append(genModel.getImportedName(genPackage.getImportedTestSuiteClassName()));

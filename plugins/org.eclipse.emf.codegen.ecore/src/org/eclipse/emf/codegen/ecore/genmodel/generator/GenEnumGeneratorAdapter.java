@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumGeneratorAdapter.java,v 1.5 2006/11/08 20:39:33 davidms Exp $
+ * $Id: GenEnumGeneratorAdapter.java,v 1.6 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -63,11 +63,13 @@ public class GenEnumGeneratorAdapter extends GenBaseGeneratorAdapter
   /**
    * Returns the {@link org.eclipse.emf.codegen.ecore.genmodel.GenPackage} that contains the given {@link GenEnum}.
    */
+  @Override
   public Object getGenerateParent(Object object, Object projectType)
   {
     return getParent(object);
   }
 
+  @Override
   protected Diagnostic generateModel(Object object, Monitor monitor)
   {
     monitor.beginTask("", 2);

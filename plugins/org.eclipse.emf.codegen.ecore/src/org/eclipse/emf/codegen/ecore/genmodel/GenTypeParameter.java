@@ -12,11 +12,10 @@
  *
  * </copyright>
  *
- * $Id: GenTypeParameter.java,v 1.2 2006/12/26 18:58:52 emerks Exp $
+ * $Id: GenTypeParameter.java,v 1.3 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
-import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.ETypeParameter;
 
 /**

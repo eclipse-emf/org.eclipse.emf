@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClass.java,v 1.23 2006/12/05 20:30:17 emerks Exp $
+ * $Id: GenClass.java,v 1.24 2006/12/28 06:40:37 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -172,7 +172,7 @@ public interface GenClass extends GenClassifier
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenFeature" opposite="genClass" containment="true"
    * @generated
    */
-  EList getGenFeatures();
+  EList<GenFeature> getGenFeatures();
 
   /**
    * Returns the value of the '<em><b>Gen Operations</b></em>' containment reference list.
@@ -190,7 +190,7 @@ public interface GenClass extends GenClassifier
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenOperation" opposite="genClass" containment="true"
    * @generated
    */
-  EList getGenOperations();
+  EList<GenOperation> getGenOperations();
 
   /**
    * Returns the value of the '<em><b>Label Feature</b></em>' reference.
@@ -243,15 +243,15 @@ public interface GenClass extends GenClassifier
    */  
   String getUncapName();
 
-  List/*of GenClass*/ getBaseGenClasses();
-  List/*of GenClass*/ getAllBaseGenClasses();
+  List<GenClass> getBaseGenClasses();
+  List<GenClass> getAllBaseGenClasses();
 
   /**
    * Like getAllBaseGenClasses(), this returns the GenClasses for all of the
    * supertypes, but the result is ordered by a breadth-first search, making
    * it appropriate for use in the switch class.
    */
-  List/*of GenClass*/ getSwitchGenClasses();
+  List<GenClass> getSwitchGenClasses();
 
   /**
    * This returns the GenClass for the first immediate supertype.
@@ -296,9 +296,9 @@ public interface GenClass extends GenClassifier
    */
   String getClassTypeArguments();
 
-  List/*of GenFeature*/ getAllGenFeatures();
-  List/*of GenFeature*/ getInheritedGenFeatures();
-  List/*of GenOperation*/ getAllGenOperations();
+  List<GenFeature> getAllGenFeatures();
+  List<GenFeature> getInheritedGenFeatures();
+  List<GenOperation> getAllGenOperations();
 
   String getFeatureID(GenFeature genFeature);
   String getQualifiedFeatureID(GenFeature genFeature);
@@ -335,36 +335,36 @@ public interface GenClass extends GenClassifier
   GenFeature getMapEntryKeyFeature();
   GenFeature getMapEntryValueFeature();
 
-  List/*of GenClass*/ getImplementedGenClasses();
-  List/*of GenFeature*/ getImplementedGenFeatures();
-  List/*of GenOperation*/ getImplementedGenOperations();
+  List<GenClass> getImplementedGenClasses();
+  List<GenFeature> getImplementedGenFeatures();
+  List<GenOperation> getImplementedGenOperations();
 
   GenModel getImplementingGenModel(GenFeature genFeature);
 
   // Returns whether this class implements any of the given features.
-  public boolean implementsAny(Collection genFeatures);
+  public boolean implementsAny(Collection<GenFeature> genFeatures);
 
-  List/*of GenClass*/ getExtendedGenClasses();
-  List/*of GenFeature*/ getExtendedGenFeatures();
-  List/*of GenOperation*/ getExtendedGenOperations();
+  List<GenClass> getExtendedGenClasses();
+  List<GenFeature> getExtendedGenFeatures();
+  List<GenOperation> getExtendedGenOperations();
 
-  List/*of GenFeature*/ getDeclaredFieldGenFeatures();
+  List<GenFeature> getDeclaredFieldGenFeatures();
 
-  List/*of GenFeature*/ getDeclaredGenFeatures();
-  List/*of GenOperation*/ getDeclaredGenOperations();
+  List<GenFeature> getDeclaredGenFeatures();
+  List<GenOperation> getDeclaredGenOperations();
 
-  List/*of GenFeature*/ getFlagGenFeatures();
-  List/*of GenFeature*/ getFlagGenFeatures(String staticDefaultValue);
+  List<GenFeature> getFlagGenFeatures();
+  List<GenFeature> getFlagGenFeatures(String staticDefaultValue);
 
-  List/*of GenFeature*/ getESetGenFeatures();
-  List/*of GenFeature*/ getEInverseAddGenFeatures();
-  List/*of GenFeature*/ getEInverseRemoveGenFeatures();
-  List/*of GenFeature*/ getEBasicRemoveFromContainerGenFeatures();
-  List/*of GenFeature*/ getToStringGenFeatures();
+  List<GenFeature> getESetGenFeatures();
+  List<GenFeature> getEInverseAddGenFeatures();
+  List<GenFeature> getEInverseRemoveGenFeatures();
+  List<GenFeature> getEBasicRemoveFromContainerGenFeatures();
+  List<GenFeature> getToStringGenFeatures();
 
-  List/*of GenClass*/ getMixinGenClasses();
-  List/*of GenFeature*/ getMixinGenFeatures();
-  List/*of GenOperation*/ getMixinGenOperations();
+  List<GenClass> getMixinGenClasses();
+  List<GenFeature> getMixinGenFeatures();
+  List<GenOperation> getMixinGenOperations();
 
   void initialize(EClass eClass);
   //
@@ -380,28 +380,28 @@ public interface GenClass extends GenClassifier
   String getCreateChildIconFileName(GenFeature feature, GenClass childClass);
 
   String getProviderBaseClassName();
-  List/*of GenClass*/ getProviderImplementedGenClasses();
+  List<GenClass> getProviderImplementedGenClasses();
 
-  List/*of GenFeature*/ getLabelFeatureCandidates();
-  List/*of GenFeature*/ getPropertyFeatures();
+  List<GenFeature> getLabelFeatureCandidates();
+  List<GenFeature> getPropertyFeatures();
 
-  List/*of GenFeature*/ getNotifyFeatures();
-  List/*of GenFeature*/ getLabelNotifyFeatures();
-  List/*of GenFeature*/ getContentNotifyFeatures();
-  List/*of GenFeature*/ getLabelAndContentNotifyFeatures();
+  List<GenFeature> getNotifyFeatures();
+  List<GenFeature> getLabelNotifyFeatures();
+  List<GenFeature> getContentNotifyFeatures();
+  List<GenFeature> getLabelAndContentNotifyFeatures();
 
-  List/*of GenFeature*/ getChildrenFeatures();
-  List/*of GenFeature*/ getAllChildrenFeatures();
+  List<GenFeature> getChildrenFeatures();
+  List<GenFeature> getAllChildrenFeatures();
 
-  List/*of GenFeature*/ getCreateChildFeatures();
-  List/*of GenFeature*/ getAllCreateChildFeatures();
-  List/*of GenFeature*/ getAllCreateChildFeaturesIncludingDelegation();
-  List/*of GenFeature*/ getCrossPackageCreateChildFeatures();
-  List/*of GenFeature*/ getSharedClassCreateChildFeatures();
+  List<GenFeature> getCreateChildFeatures();
+  List<GenFeature> getAllCreateChildFeatures();
+  List<GenFeature> getAllCreateChildFeaturesIncludingDelegation();
+  List<GenFeature> getCrossPackageCreateChildFeatures();
+  List<GenFeature> getSharedClassCreateChildFeatures();
   boolean hasFeatureMapCreateChildFeatures();
 
-  List/*of GenClass*/ getChildrenClasses(GenFeature genFeature);
-  List/*of GenClass*/ getCrossPackageChildrenClasses(GenFeature genFeature);
+  List<GenClass> getChildrenClasses(GenFeature genFeature);
+  List<GenClass> getCrossPackageChildrenClasses(GenFeature genFeature);
 
   String getItemProviderAdapterFactoryClassName();
 
@@ -413,7 +413,7 @@ public interface GenClass extends GenClassifier
 
   boolean reconcile(GenClass oldGenClassVersion);
 
-  List/*of GenOperation*/ getInvariantOperations();
+  List<GenOperation> getInvariantOperations();
   GenOperation getInvariantOperation(String constraint);
 
   boolean isDocumentRoot();
@@ -432,8 +432,8 @@ public interface GenClass extends GenClassifier
   boolean hasTests();
 
   String getEVirtualValuesField();
-  List/*of String*/ getEVirtualIndexBitFields(List eVirtualIndexBitFields);
-  List/*of String*/ getAllEVirtualIndexBitFields(List allEVirtualIndexBitFields);
+  List<String> getEVirtualIndexBitFields(List<String> eVirtualIndexBitFields);
+  List<String> getAllEVirtualIndexBitFields(List<String> allEVirtualIndexBitFields);
   
   boolean isJavaIOSerializable();
   boolean hasFactoryInterfaceCreateMethod();

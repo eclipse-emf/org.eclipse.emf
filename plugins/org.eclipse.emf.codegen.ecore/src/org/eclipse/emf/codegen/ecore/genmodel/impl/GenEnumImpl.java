@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumImpl.java,v 1.16 2006/12/05 20:29:54 emerks Exp $
+ * $Id: GenEnumImpl.java,v 1.17 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -100,7 +100,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * @generated
    * @ordered
    */
-  protected EList genEnumLiterals = null;
+  protected EList<GenEnumLiteral> genEnumLiterals = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -117,6 +117,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_ENUM;
@@ -193,11 +194,11 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenEnumLiterals()
+  public EList<GenEnumLiteral> getGenEnumLiterals()
   {
     if (genEnumLiterals == null)
     {
-      genEnumLiterals = new EObjectContainmentWithInverseEList(GenEnumLiteral.class, this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM);
+      genEnumLiterals = new EObjectContainmentWithInverseEList<GenEnumLiteral>(GenEnumLiteral.class, this, GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS, GenModelPackage.GEN_ENUM_LITERAL__GEN_ENUM);
     }
     return genEnumLiterals;
   }
@@ -207,12 +208,14 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS:
-        return ((InternalEList)getGenEnumLiterals()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getGenEnumLiterals()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -222,12 +225,13 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS:
-        return ((InternalEList)getGenEnumLiterals()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenEnumLiterals()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -237,6 +241,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -257,6 +262,8 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -269,7 +276,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
         return;
       case GenModelPackage.GEN_ENUM__GEN_ENUM_LITERALS:
         getGenEnumLiterals().clear();
-        getGenEnumLiterals().addAll((Collection)newValue);
+        getGenEnumLiterals().addAll((Collection<? extends GenEnumLiteral>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -280,6 +287,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -302,6 +310,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -321,6 +330,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -332,16 +342,19 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     return result.toString();
   }
 
+  @Override
   public EClassifier getEcoreClassifier()
   {
     return getEcoreEnum();
   }
 
+  @Override
   public EDataType getEcoreDataType()
   {
     return getEcoreEnum();
   }
 
+  @Override
   public String getImportedMetaType()
   {
     return getGenModel().getImportedName("org.eclipse.emf.ecore.EEnum");
@@ -357,6 +370,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     return getGenModel().getImportedName(getQualifiedName());
   }
 
+  @Override
   public String getRawQualifiedInstanceClassName()
   {
     return getGenPackage().getInterfacePackageName() + "." + getName();
@@ -381,9 +395,8 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
 
   public GenEnumLiteral getGenEnumLiteral(String literalName)
   {
-    for (Iterator iter = getGenEnumLiterals().iterator(); iter.hasNext(); )
+    for (GenEnumLiteral genEnumLiteral : getGenEnumLiterals())
     {
-      GenEnumLiteral genEnumLiteral = (GenEnumLiteral)iter.next();
       if (genEnumLiteral.getName().equals(literalName))
       {
         return genEnumLiteral;
@@ -393,15 +406,14 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     return getGenEnumLiterals().isEmpty() ? null : (GenEnumLiteral)getGenEnumLiterals().get(0);
   }
 
-  public List getUniqueValuedGenEnumLiterals()
+  public List<GenEnumLiteral> getUniqueValuedGenEnumLiterals()
   {
-    List result = new ArrayList();
-    Set resultSet = new HashSet();
+    List<GenEnumLiteral> result = new ArrayList<GenEnumLiteral>();
+    Set<Integer> resultSet = new HashSet<Integer>();
 
-    for (Iterator iter = getGenEnumLiterals().iterator(); iter.hasNext(); )
+    for (GenEnumLiteral genEnumLiteral : getGenEnumLiterals())
     {
-      GenEnumLiteral genEnumLiteral = (GenEnumLiteral)iter.next();
-      if (resultSet.add(new Integer(genEnumLiteral.getValue())))
+      if (resultSet.add(genEnumLiteral.getValue()))
       {
         result.add(genEnumLiteral);
       }      
@@ -409,6 +421,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     return result;
   }
 
+  @Override
   public boolean isSerializable()
   {
     return true;
@@ -423,13 +436,10 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     }
 
     LOOP:
-    for (Iterator iter = eEnum.getELiterals().iterator(); iter.hasNext(); )
+    for (EEnumLiteral eEnumLiteral : eEnum.getELiterals())
     {
-      EEnumLiteral eEnumLiteral = (EEnumLiteral)iter.next();
-
-      for (Iterator j = getGenEnumLiterals().iterator(); j.hasNext(); )
+      for (GenEnumLiteral genEnumLiteral : getGenEnumLiterals())
       {
-        GenEnumLiteral genEnumLiteral = (GenEnumLiteral)j.next();
         if (genEnumLiteral.getEcoreEnumLiteral() == eEnumLiteral)
         {
           genEnumLiteral.initialize(eEnumLiteral);
@@ -443,6 +453,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     }
   }
 
+  @Override
   protected boolean hasModelContribution()
   {
     return true;
@@ -452,6 +463,8 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @Deprecated
+  @Override
   public void generate(Monitor progressMonitor)
   {
     try
@@ -480,11 +493,13 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     }
   }
 
+  @Override
   public boolean canGenerateEdit()
   {
     return false;
   }
 
+  @Override
   public boolean canGenerateEditor()
   {
     return false;
@@ -494,12 +509,10 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
   {
     if (getEcoreEnum().getName().equals(oldGenEnumVersion.getEcoreEnum().getName()))
     {
-      for (Iterator i = getGenEnumLiterals().iterator(); i.hasNext(); )
+      for (GenEnumLiteral genEnumLiteral : getGenEnumLiterals())
       {
-        GenEnumLiteral genEnumLiteral = (GenEnumLiteral)i.next();
-        for (Iterator j = oldGenEnumVersion.getGenEnumLiterals().iterator(); j.hasNext(); )
+        for (GenEnumLiteral oldGenEnumLiteralVersion : oldGenEnumVersion.getGenEnumLiterals())
         {
-          GenEnumLiteral oldGenEnumLiteralVersion = (GenEnumLiteral)j.next();
           if (genEnumLiteral.reconcile(oldGenEnumLiteralVersion))
           {
             break;
@@ -521,6 +534,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     reconcileGenAnnotations(oldGenEnumVersion);
   }
 
+  @Override
   public boolean reconcile()
   {
     try
@@ -532,9 +546,9 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
       }
       else
       {
-        for (Iterator i = getGenEnumLiterals().iterator(); i.hasNext(); )
+        for (Iterator<GenEnumLiteral> i = getGenEnumLiterals().iterator(); i.hasNext(); )
         {
-          GenEnumLiteral genEnumLiteral = (GenEnumLiteral)i.next();
+          GenEnumLiteral genEnumLiteral = i.next();
           if (!genEnumLiteral.reconcile())
           {
             i.remove();
@@ -550,6 +564,7 @@ public class GenEnumImpl extends GenDataTypeImpl implements GenEnum
     }
   }
 
+  @Override
   public String getStaticValue(String literal)
   {
     GenEnumLiteral genEnumLiteral = getGenEnumLiteral(literal);

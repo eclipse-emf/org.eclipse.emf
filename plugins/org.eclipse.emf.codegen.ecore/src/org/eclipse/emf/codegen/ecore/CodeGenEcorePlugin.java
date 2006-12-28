@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGenEcorePlugin.java,v 1.5 2006/05/01 10:22:27 davidms Exp $
+ * $Id: CodeGenEcorePlugin.java,v 1.6 2006/12/28 06:40:39 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -64,6 +64,7 @@ public final class CodeGenEcorePlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;
@@ -95,6 +96,7 @@ public final class CodeGenEcorePlugin extends EMFPlugin
       plugin = this;
     }
 
+    @Override
     public void start(BundleContext context) throws Exception
     {
       super.start(context);
@@ -117,6 +119,7 @@ public final class CodeGenEcorePlugin extends EMFPlugin
       super(Platform.getExtensionRegistry(), getPlugin().getBundle().getSymbolicName(), EXTENSION_POINT_ID);
     }
 
+    @Override
     protected boolean readElement(IConfigurationElement element)
     {
       String name = element.getName();
@@ -186,6 +189,7 @@ public final class CodeGenEcorePlugin extends EMFPlugin
       {
         protected GeneratorAdapter adapter;
 
+        @Override
         protected Adapter createAdapter(Notifier target)
         {
           ResourceSet resourceSet = getGenerator().getOptions().resourceSet;
@@ -203,6 +207,7 @@ public final class CodeGenEcorePlugin extends EMFPlugin
           return null;
         }
 
+        @Override
         protected GeneratorAdapter createAdapter(Object object)
         {
           try
@@ -213,11 +218,15 @@ public final class CodeGenEcorePlugin extends EMFPlugin
               return adapter;
             }
           }
-          catch (ClassNotFoundException e) { }
+          catch (ClassNotFoundException e)
+          {
+            // Ignore
+          }
 
           return null;
         }
 
+        @Override
         public void dispose()
         {
           if (adapter != null) adapter.dispose();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenPackage.java,v 1.28 2006/10/12 20:55:57 marcelop Exp $
+ * $Id: GenPackage.java,v 1.29 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -617,7 +617,7 @@ public interface GenPackage extends GenBase
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenEnum" containment="true"
    * @generated
    */
-  EList getGenEnums();
+  EList<GenEnum> getGenEnums();
 
   /**
    * Returns the value of the '<em><b>Gen Data Types</b></em>' containment reference list.
@@ -633,7 +633,7 @@ public interface GenPackage extends GenBase
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenDataType" containment="true"
    * @generated
    */
-  EList getGenDataTypes();
+  EList<GenDataType> getGenDataTypes();
 
   /**
    * Returns the value of the '<em><b>Gen Classes</b></em>' containment reference list.
@@ -649,7 +649,7 @@ public interface GenPackage extends GenBase
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenClass" containment="true"
    * @generated
    */
-  EList getGenClasses();
+  EList<GenClass> getGenClasses();
 
   /**
    * Returns the value of the '<em><b>Nested Gen Packages</b></em>' containment reference list.
@@ -665,7 +665,7 @@ public interface GenPackage extends GenBase
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenPackage" containment="true"
    * @generated
    */
-  EList getNestedGenPackages();
+  EList<GenPackage> getNestedGenPackages();
 
   /**
    * Returns the value of the '<em><b>Gen Classifiers</b></em>' reference list.
@@ -683,7 +683,7 @@ public interface GenPackage extends GenBase
    * @model type="org.eclipse.emf.codegen.ecore.genmodel.GenClassifier" opposite="genPackage" resolveProxies="false" transient="true" changeable="false" volatile="true"
    * @generated
    */
-  EList getGenClassifiers();
+  EList<GenClassifier> getGenClassifiers();
 
   String getInterfacePackageName();
   String getReflectionPackageName();
@@ -739,7 +739,7 @@ public interface GenPackage extends GenBase
   String getXMLProcessorClassName();
   String getImportedXMLProcessorBaseClassName();
 
-  List getAllGenDataTypes();
+  List<GenDataType> getAllGenDataTypes();
 
   /**
    * Returns the list of GenClasses in the GenPackage, ordered such that
@@ -747,25 +747,25 @@ public interface GenPackage extends GenBase
    * for use in package interface to declare feature constants, which will
    * depend on (and hence must follow) constants for the extended class.
    */
-  List getOrderedGenClasses();
-  List getOrderedGenClassifiers();
+  List<GenClass> getOrderedGenClasses();
+  List<GenClassifier> getOrderedGenClassifiers();
 
   String getClassifierID(GenClassifier genClassifier);
   int getClassifierValue(GenClassifier genClassifier);
   int getLocalClassifierIndex(GenClassifier genClassifier);
 
-  List /*of GenPackage*/ getPackageSimpleDependencies();
-  List /*of GenPackage*/ getPackageInterDependencies();
-  List /*of GenPackage*/ getPackageLoadInterDependencies();
-  List /*of GenPackage*/ getPackageBuildInterDependencies();
-  List /*of GenPackage*/ getPackageInitializationDependencies();
+  List<GenPackage> getPackageSimpleDependencies();
+  List<GenPackage> getPackageInterDependencies();
+  List<GenPackage> getPackageLoadInterDependencies();
+  List<GenPackage> getPackageBuildInterDependencies();
+  List<GenPackage> getPackageInitializationDependencies();
   String getPackageInstanceVariable(GenPackage genPackage);
 
   /**
    * Returns a list of those nestedGenPackages for which hasClassifiers() is
    * true.
    */
-  List/*of GenPackage*/ getSubGenPackages();
+  List<GenPackage> getSubGenPackages();
 
   /**
    * Returns the closest GenPackage-typed container for which
@@ -792,14 +792,14 @@ public interface GenPackage extends GenBase
   boolean isEcorePackage();
   boolean hasInterfaceImplConflict();
   boolean hasJavaLangConflict();
-  List getJavaLangConflicts();
+  List<String> getJavaLangConflicts();
   boolean hasClassifiers();
   boolean hasClassifiers(boolean traverseNestedPackages);
 
-  List /*of GenClass*/ getAllSwitchGenClasses();
+  List<GenClass> getAllSwitchGenClasses();
   String getClassUniqueName(GenClass genClass);
 
-  List /*of GenPackage*/ getAllValidatorBaseGenPackages();
+  List<GenPackage> getAllValidatorBaseGenPackages();
   String getValidatorPackageUniqueSafeName(GenPackage genPackage);
 
   void initialize(EPackage ePackage);
@@ -810,6 +810,7 @@ public interface GenPackage extends GenBase
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @Deprecated
   void generateSchema();
 
   //
@@ -847,10 +848,10 @@ public interface GenPackage extends GenBase
   String getModelWizardIconFileName();
 
   // String getCapPackageID();
-  List/*GenFeature*/ getAllGenFeatures(); // Includes features in other packages that delegate to those in this one.
+  List<GenFeature> getAllGenFeatures(); // Includes features in other packages that delegate to those in this one.
 
-  List/*GenPackage*/ getAdapterDelegatePackages();
-  List/*GenClass*/ getAdapterDelegateSuperClasses();
+  List<GenPackage> getAdapterDelegatePackages();
+  List<GenClass> getAdapterDelegateSuperClasses();
 
   boolean hasStatefulProvider();
 
@@ -858,11 +859,11 @@ public interface GenPackage extends GenBase
 
   boolean reconcile(GenPackage oldGenPackageVersion);
 
-  List getAnnotationSources();
+  List<String> getAnnotationSources();
   String getAnnotationSourceIdentifier(String annotationSource);
-  List getAllAnnotations();
+  List<EAnnotation> getAllAnnotations();
   String getAnnotatedModelElementAccessor(EAnnotation eAnnotation);
-  List getAllNestedAnnotations(EAnnotation eAnnotation);
+  List<EAnnotation> getAllNestedAnnotations(EAnnotation eAnnotation);
 
   String getResourceClassName();
   String getQualifiedResourceClassName();
@@ -884,7 +885,7 @@ public interface GenPackage extends GenBase
 
   String getSerializedPackageFilename();
   
-  List /*String*/ getProviderSupportedTypes();
+  List<String> getProviderSupportedTypes();
   
   GenClass getRootClass();
   GenFeature getRootFeature();

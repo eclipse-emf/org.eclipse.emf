@@ -2,12 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: GenAnnotation.java,v 1.1 2005/12/05 20:11:14 marcelop Exp $
+ * $Id: GenAnnotation.java,v 1.2 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -72,7 +73,7 @@ public interface GenAnnotation extends GenBase
    * @model mapType="org.eclipse.emf.ecore.EStringToStringMapEntry" keyType="java.lang.String" valueType="java.lang.String"
    * @generated
    */
-  EMap getDetails();
+  EMap<String, String> getDetails();
 
   /**
    * Returns the value of the '<em><b>Gen Base</b></em>' container reference.
@@ -116,7 +117,7 @@ public interface GenAnnotation extends GenBase
    * @model type="org.eclipse.emf.ecore.EObject"
    * @generated
    */
-  EList getReferences();
+  EList<EObject> getReferences();
 
   /**
    * Returns the value of the '<em><b>Contents</b></em>' containment reference list.
@@ -132,6 +133,6 @@ public interface GenAnnotation extends GenBase
    * @model type="org.eclipse.emf.ecore.EObject" containment="true"
    * @generated
    */
-  EList getContents();
+  EList<EObject> getContents();
 
 } // GenAnnotation

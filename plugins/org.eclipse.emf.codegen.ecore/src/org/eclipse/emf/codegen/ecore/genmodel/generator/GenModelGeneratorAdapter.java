@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelGeneratorAdapter.java,v 1.5 2006/11/08 20:39:33 davidms Exp $
+ * $Id: GenModelGeneratorAdapter.java,v 1.6 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
@@ -107,20 +108,23 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
   /**
    * Returns the {@link GenModel}'s packages.
    */
-  public Collection getGenerateChildren(Object object, Object projectType)
+  @Override
+  public Collection<?> getGenerateChildren(Object object, Object projectType)
   {
-    return new ArrayList(((GenModel)object).getGenPackages());
+    return new ArrayList<GenPackage>(((GenModel)object).getGenPackages());
   }
 
   /**
    * Prepares the {@link GenModel} for generation.
    */
+  @Override
   protected Diagnostic doPreGenerate(Object object, Object projectType)
   {
     ((GenModel)object).getStaticGenPackages();
     return Diagnostic.OK_INSTANCE;
   }
 
+  @Override
   protected Diagnostic generateModel(Object object, Monitor monitor)
   {
     monitor.beginTask("", 6);
@@ -236,6 +240,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     }
   }
 
+  @Override
   protected Diagnostic generateEdit(Object object, Monitor monitor)
   {
     monitor.beginTask("", 6);
@@ -337,6 +342,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
        createMonitor(monitor, 1));
   }
 
+  @Override
   protected Diagnostic generateEditor(Object object, Monitor monitor)
   {
     monitor.beginTask("", 7);
@@ -446,6 +452,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     }
   }
 
+  @Override
   protected Diagnostic generateTests(Object object, Monitor monitor)
   {
     monitor.beginTask("", 6);
@@ -561,6 +568,7 @@ public class GenModelGeneratorAdapter extends GenBaseGeneratorAdapter
     }
   }
 
+  @Override
   public void notifyChanged(Notification notification)
   {
     switch (notification.getFeatureID(GenModel.class))

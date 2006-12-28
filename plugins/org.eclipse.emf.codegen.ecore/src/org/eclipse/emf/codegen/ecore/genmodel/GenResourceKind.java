@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenResourceKind.java,v 1.4 2005/11/14 16:47:10 khussey Exp $
+ * $Id: GenResourceKind.java,v 1.5 2006/12/28 06:40:37 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,8 +31,60 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class GenResourceKind extends AbstractEnumerator
+public enum GenResourceKind implements Enumerator
 {
+  /**
+   * The '<em><b>None</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #NONE
+   * @generated
+   * @ordered
+   */
+  NONE_LITERAL(0, "None", "None"),
+  /**
+   * The '<em><b>Basic</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>Basic</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #BASIC
+   * @generated
+   * @ordered
+   */
+  BASIC_LITERAL(1, "Basic", "Basic"),
+  /**
+   * The '<em><b>XMI</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>XMI</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #XMI
+   * @generated
+   * @ordered
+   */
+  XMI_LITERAL(2, "XMI", "XMI"),
+  /**
+   * The '<em><b>XML</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of '<em><b>XML</b></em>' literal object isn't clear,
+   * there really should be more of a description here...
+   * </p>
+   * <!-- end-user-doc -->
+   * @see #XML
+   * @generated
+   * @ordered
+   */
+  XML_LITERAL(3, "XML", "XML");
   /**
    * The '<em><b>None</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -78,62 +130,6 @@ public final class GenResourceKind extends AbstractEnumerator
   public static final int XML = 3;
 
   /**
-   * The '<em><b>None</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>None</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #NONE
-   * @generated
-   * @ordered
-   */
-  public static final GenResourceKind NONE_LITERAL = new GenResourceKind(NONE, "None", "None");
-
-  /**
-   * The '<em><b>Basic</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>Basic</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #BASIC
-   * @generated
-   * @ordered
-   */
-  public static final GenResourceKind BASIC_LITERAL = new GenResourceKind(BASIC, "Basic", "Basic");
-
-  /**
-   * The '<em><b>XMI</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>XMI</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #XMI
-   * @generated
-   * @ordered
-   */
-  public static final GenResourceKind XMI_LITERAL = new GenResourceKind(XMI, "XMI", "XMI");
-
-  /**
-   * The '<em><b>XML</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of '<em><b>XML</b></em>' literal object isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @see #XML
-   * @generated
-   * @ordered
-   */
-  public static final GenResourceKind XML_LITERAL = new GenResourceKind(XML, "XML", "XML");
-
-  /**
    * An array of all the '<em><b>Gen Resource Kind</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -154,7 +150,7 @@ public final class GenResourceKind extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<GenResourceKind> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Gen Resource Kind</b></em>' literal with the specified literal value.
@@ -209,8 +205,29 @@ public final class GenResourceKind extends AbstractEnumerator
       case XMI: return XMI_LITERAL;
       case XML: return XML_LITERAL;
     }
-    return null;	
+    return null;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
 
   /**
    * Only this class can construct instances.
@@ -220,7 +237,50 @@ public final class GenResourceKind extends AbstractEnumerator
    */
   private GenResourceKind(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //GenResourceKind
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}

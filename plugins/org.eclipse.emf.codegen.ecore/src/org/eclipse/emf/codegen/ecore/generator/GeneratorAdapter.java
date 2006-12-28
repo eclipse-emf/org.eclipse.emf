@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorAdapter.java,v 1.3 2006/11/08 20:33:51 davidms Exp $
+ * $Id: GeneratorAdapter.java,v 1.4 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -73,7 +73,7 @@ public interface GeneratorAdapter
    * Returns any children of the specified object that are relevant to determining whether code, of the given project
    * type, can be generated for the specified object.
    */
-  Collection getCanGenerateChildren(Object object, Object projectType);
+  Collection<?> getCanGenerateChildren(Object object, Object projectType);
 
   /**
    * Returns the parent of the specified object if it is relevant to determining whether code, of the given project
@@ -89,7 +89,7 @@ public interface GeneratorAdapter
   /**
    * Returns any children of the specified object for which code of the given project type may be generated.
    */  
-  Collection getGenerateChildren(Object object, Object projectType);
+  Collection<?> getGenerateChildren(Object object, Object projectType);
 
   /**
    * Returns the parent of the specified object if code of the given project type may be generated for it.

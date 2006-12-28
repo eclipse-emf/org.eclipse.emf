@@ -12,15 +12,14 @@
  *
  * </copyright>
  *
- * $Id: GenFeature.java,v 1.20 2006/12/18 22:00:10 marcelop Exp $
+ * $Id: GenFeature.java,v 1.21 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
 
-import org.eclipse.emf.common.util.EList;
-
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 
@@ -229,7 +228,7 @@ public interface GenFeature extends GenTypedElement
    * @model type="java.lang.String"
    * @generated
    */
-  EList getPropertyFilterFlags();
+  EList<String> getPropertyFilterFlags();
 
   /**
    * Returns the value of the '<em><b>Property Description</b></em>' attribute.
@@ -397,7 +396,7 @@ public interface GenFeature extends GenTypedElement
   boolean isBidirectional();
   GenFeature getReverse();
   
-  List getKeys();
+  List<GenFeature> getKeys();
 
   String getContainerClass();
 
@@ -420,7 +419,7 @@ public interface GenFeature extends GenTypedElement
   boolean hasDelegateFeature();
   GenFeature getDelegateFeature();
 
-  List/*of GenFeature*/ getDelegatedFeatures();
+  List<GenFeature> getDelegatedFeatures();
 
   String getCreateChildValueLiteral();
 

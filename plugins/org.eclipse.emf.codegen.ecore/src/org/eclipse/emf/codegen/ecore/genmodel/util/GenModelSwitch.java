@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelSwitch.java,v 1.11 2006/12/05 20:30:25 emerks Exp $
+ * $Id: GenModelSwitch.java,v 1.12 2006/12/28 06:40:39 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.util;
 
@@ -37,7 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage
  * @generated
  */
-public class GenModelSwitch {
+public class GenModelSwitch<T> {
   /**
    * The cached model package
    * <!-- begin-user-doc -->
@@ -67,7 +67,7 @@ public class GenModelSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  public Object doSwitch(EObject theEObject)
+  public T doSwitch(EObject theEObject)
   {
     return doSwitch(theEObject.eClass(), theEObject);
   }
@@ -79,7 +79,7 @@ public class GenModelSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(EClass theEClass, EObject theEObject)
+  protected T doSwitch(EClass theEClass, EObject theEObject)
   {
     if (theEClass.eContainer() == modelPackage)
     {
@@ -87,11 +87,11 @@ public class GenModelSwitch {
     }
     else
     {
-      List eSuperTypes = theEClass.getESuperTypes();
+      List<EClass> eSuperTypes = theEClass.getESuperTypes();
       return
         eSuperTypes.isEmpty() ?
           defaultCase(theEObject) :
-          doSwitch((EClass)eSuperTypes.get(0), theEObject);
+          doSwitch(eSuperTypes.get(0), theEObject);
     }
   }
 
@@ -102,14 +102,14 @@ public class GenModelSwitch {
    * @return the first non-null result returned by a <code>caseXXX</code> call.
    * @generated
    */
-  protected Object doSwitch(int classifierID, EObject theEObject)
+  protected T doSwitch(int classifierID, EObject theEObject)
   {
     switch (classifierID)
     {
       case GenModelPackage.GEN_MODEL:
       {
         GenModel genModel = (GenModel)theEObject;
-        Object result = caseGenModel(genModel);
+        T result = caseGenModel(genModel);
         if (result == null) result = caseGenBase(genModel);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -117,7 +117,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_PACKAGE:
       {
         GenPackage genPackage = (GenPackage)theEObject;
-        Object result = caseGenPackage(genPackage);
+        T result = caseGenPackage(genPackage);
         if (result == null) result = caseGenBase(genPackage);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -125,7 +125,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_CLASS:
       {
         GenClass genClass = (GenClass)theEObject;
-        Object result = caseGenClass(genClass);
+        T result = caseGenClass(genClass);
         if (result == null) result = caseGenClassifier(genClass);
         if (result == null) result = caseGenBase(genClass);
         if (result == null) result = defaultCase(theEObject);
@@ -134,7 +134,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_FEATURE:
       {
         GenFeature genFeature = (GenFeature)theEObject;
-        Object result = caseGenFeature(genFeature);
+        T result = caseGenFeature(genFeature);
         if (result == null) result = caseGenTypedElement(genFeature);
         if (result == null) result = caseGenBase(genFeature);
         if (result == null) result = defaultCase(theEObject);
@@ -143,14 +143,14 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_BASE:
       {
         GenBase genBase = (GenBase)theEObject;
-        Object result = caseGenBase(genBase);
+        T result = caseGenBase(genBase);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
       case GenModelPackage.GEN_ENUM:
       {
         GenEnum genEnum = (GenEnum)theEObject;
-        Object result = caseGenEnum(genEnum);
+        T result = caseGenEnum(genEnum);
         if (result == null) result = caseGenDataType(genEnum);
         if (result == null) result = caseGenClassifier(genEnum);
         if (result == null) result = caseGenBase(genEnum);
@@ -160,7 +160,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_ENUM_LITERAL:
       {
         GenEnumLiteral genEnumLiteral = (GenEnumLiteral)theEObject;
-        Object result = caseGenEnumLiteral(genEnumLiteral);
+        T result = caseGenEnumLiteral(genEnumLiteral);
         if (result == null) result = caseGenBase(genEnumLiteral);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -168,7 +168,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_CLASSIFIER:
       {
         GenClassifier genClassifier = (GenClassifier)theEObject;
-        Object result = caseGenClassifier(genClassifier);
+        T result = caseGenClassifier(genClassifier);
         if (result == null) result = caseGenBase(genClassifier);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -176,7 +176,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_DATA_TYPE:
       {
         GenDataType genDataType = (GenDataType)theEObject;
-        Object result = caseGenDataType(genDataType);
+        T result = caseGenDataType(genDataType);
         if (result == null) result = caseGenClassifier(genDataType);
         if (result == null) result = caseGenBase(genDataType);
         if (result == null) result = defaultCase(theEObject);
@@ -185,7 +185,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_OPERATION:
       {
         GenOperation genOperation = (GenOperation)theEObject;
-        Object result = caseGenOperation(genOperation);
+        T result = caseGenOperation(genOperation);
         if (result == null) result = caseGenTypedElement(genOperation);
         if (result == null) result = caseGenBase(genOperation);
         if (result == null) result = defaultCase(theEObject);
@@ -194,7 +194,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_PARAMETER:
       {
         GenParameter genParameter = (GenParameter)theEObject;
-        Object result = caseGenParameter(genParameter);
+        T result = caseGenParameter(genParameter);
         if (result == null) result = caseGenTypedElement(genParameter);
         if (result == null) result = caseGenBase(genParameter);
         if (result == null) result = defaultCase(theEObject);
@@ -203,7 +203,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_TYPED_ELEMENT:
       {
         GenTypedElement genTypedElement = (GenTypedElement)theEObject;
-        Object result = caseGenTypedElement(genTypedElement);
+        T result = caseGenTypedElement(genTypedElement);
         if (result == null) result = caseGenBase(genTypedElement);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -211,7 +211,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_ANNOTATION:
       {
         GenAnnotation genAnnotation = (GenAnnotation)theEObject;
-        Object result = caseGenAnnotation(genAnnotation);
+        T result = caseGenAnnotation(genAnnotation);
         if (result == null) result = caseGenBase(genAnnotation);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -219,7 +219,7 @@ public class GenModelSwitch {
       case GenModelPackage.GEN_TYPE_PARAMETER:
       {
         GenTypeParameter genTypeParameter = (GenTypeParameter)theEObject;
-        Object result = caseGenTypeParameter(genTypeParameter);
+        T result = caseGenTypeParameter(genTypeParameter);
         if (result == null) result = caseGenBase(genTypeParameter);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -239,7 +239,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenModel(GenModel object)
+  public T caseGenModel(GenModel object)
   {
     return null;
   }
@@ -255,7 +255,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenPackage(GenPackage object)
+  public T caseGenPackage(GenPackage object)
   {
     return null;
   }
@@ -271,7 +271,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenClass(GenClass object)
+  public T caseGenClass(GenClass object)
   {
     return null;
   }
@@ -287,7 +287,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenFeature(GenFeature object)
+  public T caseGenFeature(GenFeature object)
   {
     return null;
   }
@@ -303,7 +303,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenBase(GenBase object)
+  public T caseGenBase(GenBase object)
   {
     return null;
   }
@@ -319,7 +319,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenEnum(GenEnum object)
+  public T caseGenEnum(GenEnum object)
   {
     return null;
   }
@@ -335,7 +335,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenEnumLiteral(GenEnumLiteral object)
+  public T caseGenEnumLiteral(GenEnumLiteral object)
   {
     return null;
   }
@@ -351,7 +351,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenClassifier(GenClassifier object)
+  public T caseGenClassifier(GenClassifier object)
   {
     return null;
   }
@@ -367,7 +367,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenDataType(GenDataType object)
+  public T caseGenDataType(GenDataType object)
   {
     return null;
   }
@@ -383,7 +383,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenOperation(GenOperation object)
+  public T caseGenOperation(GenOperation object)
   {
     return null;
   }
@@ -399,7 +399,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenParameter(GenParameter object)
+  public T caseGenParameter(GenParameter object)
   {
     return null;
   }
@@ -415,7 +415,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenTypedElement(GenTypedElement object)
+  public T caseGenTypedElement(GenTypedElement object)
   {
     return null;
   }
@@ -431,7 +431,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenAnnotation(GenAnnotation object)
+  public T caseGenAnnotation(GenAnnotation object)
   {
     return null;
   }
@@ -447,7 +447,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public Object caseGenTypeParameter(GenTypeParameter object)
+  public T caseGenTypeParameter(GenTypeParameter object)
   {
     return null;
   }
@@ -463,7 +463,7 @@ public class GenModelSwitch {
    * @see #doSwitch(org.eclipse.emf.ecore.EObject)
    * @generated
    */
-  public Object defaultCase(EObject object)
+  public T defaultCase(EObject object)
   {
     return null;
   }

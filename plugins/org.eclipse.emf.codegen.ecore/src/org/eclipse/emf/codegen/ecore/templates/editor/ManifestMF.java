@@ -64,21 +64,21 @@ public class ManifestMF
     stringBuffer.append(TEXT_5);
     stringBuffer.append(genModel.getQualifiedEditorPluginClassName());
     stringBuffer.append(TEXT_6);
-    Iterator packagesIterator = genModel.getEditorQualifiedPackageNames().iterator(); if (packagesIterator.hasNext()) { String pack = (String)packagesIterator.next();
+    Iterator<String> packagesIterator = genModel.getEditorQualifiedPackageNames().iterator(); if (packagesIterator.hasNext()) { String pack = packagesIterator.next();
     stringBuffer.append(TEXT_7);
     stringBuffer.append(pack);
-    while(packagesIterator.hasNext()) { pack = (String)packagesIterator.next();
+    while(packagesIterator.hasNext()) { pack = packagesIterator.next();
     stringBuffer.append(TEXT_8);
     stringBuffer.append(TEXT_9);
     stringBuffer.append(pack);
     }
     }
-    Iterator requiredPluginIterator = genModel.getEditorRequiredPlugins().iterator(); if (requiredPluginIterator.hasNext()) { String pluginID = (String)requiredPluginIterator.next();
+    Iterator<String> requiredPluginIterator = genModel.getEditorRequiredPlugins().iterator(); if (requiredPluginIterator.hasNext()) { String pluginID = requiredPluginIterator.next();
     stringBuffer.append(TEXT_10);
     stringBuffer.append(pluginID);
     if (!pluginID.startsWith("org.eclipse.core.runtime")){
     stringBuffer.append(TEXT_11);
-    } while(requiredPluginIterator.hasNext()) { pluginID = (String)requiredPluginIterator.next();
+    } while(requiredPluginIterator.hasNext()) { pluginID = requiredPluginIterator.next();
     stringBuffer.append(TEXT_12);
     stringBuffer.append(TEXT_13);
     stringBuffer.append(pluginID);

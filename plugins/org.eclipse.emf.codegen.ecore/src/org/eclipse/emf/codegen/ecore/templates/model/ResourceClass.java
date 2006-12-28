@@ -3,6 +3,7 @@ package org.eclipse.emf.codegen.ecore.templates.model;
 import org.eclipse.emf.codegen.ecore.genmodel.*;
 import org.eclipse.emf.codegen.ecore.genmodel.impl.*;
 import java.util.*;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.*;
 
 public class ResourceClass
@@ -265,7 +266,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_14);
     stringBuffer.append(genPackage.getResourceClassName());
     stringBuffer.append(TEXT_15);
-    if (genPackage.getResource() == GenResourceKind.XML_LITERAL) {
+    if (genPackage.getResource() == GenResourceKind.XML_LITERAL) { // Do nothing
     }
     stringBuffer.append(TEXT_16);
     if (genPackage.isDataTypeConverters() && (genPackage.hasDocumentRoot() || org.eclipse.emf.ecore.xml.type.XMLTypePackage.eNS_URI.equals(genPackage.getNSURI()))) { boolean isXMLTypePackage = org.eclipse.emf.ecore.xml.type.XMLTypePackage.eNS_URI.equals(genPackage.getNSURI());
@@ -333,23 +334,23 @@ public class ResourceClass
     stringBuffer.append(TEXT_37);
     }
     stringBuffer.append(TEXT_38);
-    for (Iterator i = genPackage.getGenClasses().iterator(); i.hasNext(); ) { GenClass genClass = (GenClass)i.next();
+    for (GenClass genClass : genPackage.getGenClasses()) {
     stringBuffer.append(TEXT_39);
     stringBuffer.append(genClass.getInterfaceName());
     stringBuffer.append(TEXT_40);
     stringBuffer.append(genClass.getSafeUncapName());
     stringBuffer.append(TEXT_41);
     }
-    for (Iterator i = genPackage.getAllGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();
+    for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {
     stringBuffer.append(TEXT_42);
     stringBuffer.append(_DataFrame);
     stringBuffer.append(TEXT_43);
     stringBuffer.append(genDataType.getSafeUncapName());
     stringBuffer.append(TEXT_44);
     }
-    for (Iterator i = genPackage.getGenClasses().iterator(); i.hasNext(); ) { GenClass genClass = (GenClass)i.next();
-    List attributes = extendedMetaData.getAllAttributes(genClass.getEcoreClass());
-    List elements = extendedMetaData.getAllElements(genClass.getEcoreClass());
+    for (GenClass genClass : genPackage.getGenClasses()) {
+    List<EStructuralFeature> attributes = extendedMetaData.getAllAttributes(genClass.getEcoreClass());
+    List<EStructuralFeature> elements = extendedMetaData.getAllElements(genClass.getEcoreClass());
     stringBuffer.append(TEXT_45);
     stringBuffer.append(genClass.getInterfaceName());
     stringBuffer.append(TEXT_46);
@@ -405,7 +406,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_71);
     stringBuffer.append(genClass.getInterfaceName());
     stringBuffer.append(TEXT_72);
-    for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();
+    for (GenFeature genFeature : genClass.getAllGenFeatures()) {
     String name = extendedMetaData.getName(genFeature.getEcoreFeature());
     if ((elements.contains(genFeature.getEcoreFeature()) || attributes.contains(genFeature.getEcoreFeature())) && name.indexOf(":") == -1) {
     if (genFeature.isReferenceType()) {
@@ -430,7 +431,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_81);
     }
     stringBuffer.append(TEXT_82);
-    int count = 0; for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();
+    int count = 0; for (GenFeature genFeature : genClass.getAllGenFeatures()) {
     String name = extendedMetaData.getName(genFeature.getEcoreFeature());
     if (attributes.contains(genFeature.getEcoreFeature()) && !genFeature.isDerived() && name.indexOf(":") == -1) {
     String namespace = Literals.toStringLiteral(extendedMetaData.getNamespace(genFeature.getEcoreFeature()), genModel); if ("null".equals(namespace)) namespace = "\"\"";
@@ -486,7 +487,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_105);
     stringBuffer.append(_StackFrame);
     stringBuffer.append(TEXT_106);
-    count = 0; for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();
+    count = 0; for (GenFeature genFeature : genClass.getAllGenFeatures()) {
     String name = extendedMetaData.getName(genFeature.getEcoreFeature());
     if (elements.contains(genFeature.getEcoreFeature()) && name.indexOf(":") == -1) {
     String namespace = Literals.toStringLiteral(extendedMetaData.getNamespace(genFeature.getEcoreFeature()), genModel); if ("null".equals(namespace)) namespace = "\"\"";
@@ -519,7 +520,7 @@ public class ResourceClass
     stringBuffer.append(TEXT_119);
     stringBuffer.append(_StackFrame);
     stringBuffer.append(TEXT_120);
-    count = 0; for (Iterator j = genClass.getAllGenFeatures().iterator(); j.hasNext(); ) { GenFeature genFeature = (GenFeature)j.next();
+    count = 0; for (GenFeature genFeature : genClass.getAllGenFeatures()) {
     String name = extendedMetaData.getName(genFeature.getEcoreFeature());
     if (elements.contains(genFeature.getEcoreFeature()) && name.indexOf(":") == -1) {
     stringBuffer.append(TEXT_121);
@@ -590,7 +591,7 @@ public class ResourceClass
     stringBuffer.append(genClass.getInterfaceName());
     stringBuffer.append(TEXT_153);
     }
-    for (Iterator i = genPackage.getAllGenDataTypes().iterator(); i.hasNext(); ) { GenDataType genDataType = (GenDataType)i.next();
+    for (GenDataType genDataType : genPackage.getAllGenDataTypes()) {
     stringBuffer.append(TEXT_154);
     stringBuffer.append(_DataFrame);
     stringBuffer.append(TEXT_155);

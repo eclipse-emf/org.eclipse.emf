@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenJDKLevel.java,v 1.1 2006/12/05 20:30:17 emerks Exp $
+ * $Id: GenJDKLevel.java,v 1.2 2006/12/28 06:40:37 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel;
 
@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.emf.common.util.AbstractEnumerator;
+import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,8 +32,35 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * @model
  * @generated
  */
-public final class GenJDKLevel extends AbstractEnumerator
+public enum GenJDKLevel implements Enumerator
 {
+  /**
+   * The '<em><b>JDK14</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #JDK14
+   * @generated
+   * @ordered
+   */
+  JDK14_LITERAL(0, "JDK14", "1.4"),
+  /**
+   * The '<em><b>JDK50</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #JDK50
+   * @generated
+   * @ordered
+   */
+  JDK50_LITERAL(1, "JDK50", "5.0"),
+  /**
+   * The '<em><b>JDK60</b></em>' literal object.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #JDK60
+   * @generated
+   * @ordered
+   */
+  JDK60_LITERAL(2, "JDK60", "6.0");
   /**
    * The '<em><b>JDK14</b></em>' literal value.
    * <!-- begin-user-doc -->
@@ -80,36 +107,6 @@ public final class GenJDKLevel extends AbstractEnumerator
   public static final int JDK60 = 2;
 
   /**
-   * The '<em><b>JDK14</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #JDK14
-   * @generated
-   * @ordered
-   */
-  public static final GenJDKLevel JDK14_LITERAL = new GenJDKLevel(JDK14, "JDK14", "1.4");
-
-  /**
-   * The '<em><b>JDK50</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #JDK50
-   * @generated
-   * @ordered
-   */
-  public static final GenJDKLevel JDK50_LITERAL = new GenJDKLevel(JDK50, "JDK50", "5.0");
-
-  /**
-   * The '<em><b>JDK60</b></em>' literal object.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #JDK60
-   * @generated
-   * @ordered
-   */
-  public static final GenJDKLevel JDK60_LITERAL = new GenJDKLevel(JDK60, "JDK60", "6.0");
-
-  /**
    * An array of all the '<em><b>Gen JDK Level</b></em>' enumerators.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -129,7 +126,7 @@ public final class GenJDKLevel extends AbstractEnumerator
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final List VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+  public static final List<GenJDKLevel> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
   /**
    * Returns the '<em><b>Gen JDK Level</b></em>' literal with the specified literal value.
@@ -183,8 +180,29 @@ public final class GenJDKLevel extends AbstractEnumerator
       case JDK50: return JDK50_LITERAL;
       case JDK60: return JDK60_LITERAL;
     }
-    return null;	
+    return null;
   }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final int value;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String name;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private final String literal;
 
   /**
    * Only this class can construct instances.
@@ -194,7 +212,50 @@ public final class GenJDKLevel extends AbstractEnumerator
    */
   private GenJDKLevel(int value, String name, String literal)
   {
-    super(value, name, literal);
+    this.value = value;
+    this.name = name;
+    this.literal = literal;
   }
 
-} //GenJDKLevel
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getValue()
+  {
+    return value;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String getLiteral()
+  {
+    return literal;
+  }
+
+  /**
+   * Returns the literal value of the enumerator, which is its string representation.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    return literal;
+  }
+}

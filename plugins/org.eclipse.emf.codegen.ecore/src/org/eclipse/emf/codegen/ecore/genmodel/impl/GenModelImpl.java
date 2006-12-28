@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelImpl.java,v 1.75 2006/12/27 11:14:04 emerks Exp $
+ * $Id: GenModelImpl.java,v 1.76 2006/12/28 06:40:38 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.impl;
 
@@ -373,7 +373,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList foreignModel = null;
+  protected EList<String> foreignModel = null;
 
   /**
    * The default value of the '{@link #isDynamicTemplates() <em>Dynamic Templates</em>}' attribute.
@@ -621,7 +621,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList staticPackages = null;
+  protected EList<String> staticPackages = null;
 
   /**
    * The cached value of the '{@link #getModelPluginVariables() <em>Model Plugin Variables</em>}' attribute list.
@@ -631,7 +631,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList modelPluginVariables = null;
+  protected EList<String> modelPluginVariables = null;
 
   /**
    * The default value of the '{@link #getRootExtendsInterface() <em>Root Extends Interface</em>}' attribute.
@@ -1230,9 +1230,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList genPackages = null;
+  protected EList<GenPackage> genPackages = null;
 
-  protected EList staticGenPackages = null;
+  protected EList<GenPackage> staticGenPackages = null;
 
   /**
    * The cached value of the '{@link #getUsedGenPackages() <em>Used Gen Packages</em>}' reference list.
@@ -1242,7 +1242,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @generated
    * @ordered
    */
-  protected EList usedGenPackages = null;
+  protected EList<GenPackage> usedGenPackages = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -1254,24 +1254,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     super();
   }
   
+  @Override
   public GenModel getGenModel()
   {
     return this;
   }
   
-  Map ePackageToGenPackageMap;
+  Map<EPackage, GenPackage> ePackageToGenPackageMap;
 
+  @Override
   public GenPackage findGenPackage(EPackage ePackage)
   {
     GenPackage result;
     if (ePackageToGenPackageMap == null)
     {
-      ePackageToGenPackageMap = new HashMap();
+      ePackageToGenPackageMap = new HashMap<EPackage, GenPackage>();
       result = null;
     }
     else
     {
-      result = (GenPackage)ePackageToGenPackageMap.get(ePackage);
+      result = ePackageToGenPackageMap.get(ePackage);
       if (result != null)
       {
         return result;
@@ -1285,7 +1287,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         GenModel ecoreGenModel = getGenModel().createGenModel();
         ecoreGenModel.initialize(Collections.singleton(EcorePackage.eINSTANCE));
         ecoreGenModel.setImportManager(getImportManager());
-        ecoreGenPackage = (GenPackage)ecoreGenModel.getGenPackages().get(0);
+        ecoreGenPackage = ecoreGenModel.getGenPackages().get(0);
         ecoreGenPackage.setPrefix("Ecore");
         ecoreGenPackage.setBasePackage("org.eclipse.emf");
       }
@@ -1298,7 +1300,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         GenModel xmlTypeGenModel = getGenModel().createGenModel();
         xmlTypeGenModel.initialize(Collections.singleton(XMLTypePackage.eINSTANCE));
         xmlTypeGenModel.setImportManager(getImportManager());
-        xmlTypeGenPackage = (GenPackage)xmlTypeGenModel.getGenPackages().get(0);
+        xmlTypeGenPackage = xmlTypeGenModel.getGenPackages().get(0);
         xmlTypeGenPackage.setPrefix("XMLType");
         xmlTypeGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
         xmlTypeGenPackage.setDataTypeConverters(true);
@@ -1312,7 +1314,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         GenModel xmlNamespaceGenModel = getGenModel().createGenModel();
         xmlNamespaceGenModel.initialize(Collections.singleton(XMLNamespacePackage.eINSTANCE));
         xmlNamespaceGenModel.setImportManager(getImportManager());
-        xmlNamespaceGenPackage = (GenPackage)xmlNamespaceGenModel.getGenPackages().get(0);
+        xmlNamespaceGenPackage = xmlNamespaceGenModel.getGenPackages().get(0);
         xmlNamespaceGenPackage.setPrefix("XMLNamespace");
         xmlNamespaceGenPackage.setBasePackage("org.eclipse.emf.ecore.xml");
       }
@@ -1320,9 +1322,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     else if (ePackage != null)
     {
-      for (Iterator pIter = getAllGenPackages().iterator(); pIter.hasNext() && result == null; )
+      for (Iterator<GenPackage> pIter = getAllGenPackages().iterator(); pIter.hasNext() && result == null; )
       {
-        GenPackage genPackage = (GenPackage)pIter.next();
+        GenPackage genPackage = pIter.next();
         result = findGenPackageHelper(genPackage, ePackage);
       }
     }
@@ -1332,13 +1334,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
   
-  Map eClassifierToGenClassifierMap;
+  Map<EClassifier, GenClassifier> eClassifierToGenClassifierMap;
   
+  @Override
   protected GenClass findGenClass(EClass eClass)
   {
     if (eClassifierToGenClassifierMap == null)
     {
-      eClassifierToGenClassifierMap = new HashMap();
+      eClassifierToGenClassifierMap = new HashMap<EClassifier, GenClassifier>();
     }
     else
     {
@@ -1355,8 +1358,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       EPackage targetEPackage = genPackage.getEcorePackage();
       EClassifier targetEClassifier = targetEPackage == ePackage ? eClass : targetEPackage.getEClassifier(eClass.getName());
-      EList genClasses = genPackage.getGenClasses();
-      GenClass [] genClassesData = (GenClass[])((BasicEList)genClasses).data();
+      EList<GenClass> genClasses = genPackage.getGenClasses();
+      GenClass[] genClassesData = (GenClass[])((BasicEList<GenClass>)genClasses).data();
       for (int i = 0, size = genClasses.size(); i < size; ++i)
       {
         GenClass genClass = genClassesData[i];
@@ -1370,11 +1373,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return null;
   }
   
+  @Override
   protected GenEnum findGenEnum(EEnum eEnum)
   {
     if (eClassifierToGenClassifierMap == null)
     {
-      eClassifierToGenClassifierMap = new HashMap();
+      eClassifierToGenClassifierMap = new HashMap<EClassifier, GenClassifier>();
     }
     else
     {
@@ -1388,9 +1392,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     GenPackage genPackage = findGenPackage(eEnum.getEPackage());
     if (genPackage != null)
     {
-      for (Iterator iter = genPackage.getGenEnums().iterator(); iter.hasNext(); )
+      for (GenEnum genEnum : genPackage.getGenEnums())
       {
-        GenEnum genEnum = (GenEnum)iter.next();
         if (eEnum.getName().equals(genEnum.getEcoreEnum().getName())) //FB TBD different objects for ecore model!
         {
           eClassifierToGenClassifierMap.put(eEnum, genEnum);
@@ -1401,11 +1404,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return null;
   }
 
+  @Override
   protected GenDataType findGenDataType(EDataType eDataType)
   {
     if (eClassifierToGenClassifierMap == null)
     {
-      eClassifierToGenClassifierMap = new HashMap();
+      eClassifierToGenClassifierMap = new HashMap<EClassifier, GenClassifier>();
     }
     else
     {
@@ -1419,9 +1423,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     GenPackage genPackage = findGenPackage(eDataType.getEPackage());
     if (genPackage != null)
     {
-      for (Iterator iter = genPackage.getGenDataTypes().iterator(); iter.hasNext(); )
+      for (GenDataType genDataType : genPackage.getGenDataTypes())
       {
-        GenDataType genDataType = (GenDataType)iter.next();
         if (eDataType.getName().equals(genDataType.getEcoreDataType().getName())) //FB TBD different objects for ecore model!
         {
           eClassifierToGenClassifierMap.put(eDataType, genDataType);
@@ -1437,6 +1440,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EClass eStaticClass()
   {
     return GenModelPackage.Literals.GEN_MODEL;
@@ -1633,26 +1637,26 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     importManager.addPseudoImport(qualifiedName);
   }
 
+  @Override
   public ImportManager getImportManager()
   {
     return importManager;
   }
 
+  @Override
   public void setImportManager(ImportManager importManager)
   {
     this.importManager = importManager;
 
     // We also need to set it on any GenModels holding any used or static packages that may be refered to.
     //
-    for (Iterator iter = getUsedGenPackages().iterator(); iter.hasNext(); )
+    for (GenPackage genPackage : getUsedGenPackages())
     {
-      GenPackage genPackage = (GenPackage)iter.next();
       genPackage.getGenModel().setImportManager(importManager);
     }
 
-    for (Iterator iter = getStaticGenPackages().iterator(); iter.hasNext(); )
+    for (GenPackage genPackage : getStaticGenPackages())
     {
-      GenPackage genPackage = (GenPackage)iter.next();
       genPackage.getGenModel().setImportManager(importManager);
     }
 
@@ -1726,16 +1730,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result.toString();
   }
 
-  public void initialize(Collection ePackages)
+  public void initialize(Collection<? extends EPackage> ePackages)
   {
     LOOP:
-    for (Iterator iter = ePackages.iterator(); iter.hasNext(); )
+    for (EPackage ePackage : ePackages)
     {
-      EPackage ePackage = (EPackage)iter.next();
-
-      for (Iterator j = getGenPackages().iterator(); j.hasNext(); )
+      for (GenPackage genPackage : getGenPackages())
       {
-        GenPackage genPackage = (GenPackage)j.next();
         if (genPackage.getEcorePackage() == ePackage)
         {
           genPackage.initialize(ePackage);
@@ -1752,192 +1753,230 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String jControlModelName = "emf-merge.xml";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String interfaceTemplateName = "model/Interface.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String classTemplateName = "model/Class.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String enumClassTemplateName = "model/EnumClass.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String packageClassTemplateName = "model/PackageClass.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String factoryInterfaceTemplateName = "model/FactoryInterface.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String factoryClassTemplateName = "model/FactoryClass.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String adapterFactoryClassTemplateName = "model/AdapterFactoryClass.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String switchClassTemplateName = "model/SwitchClass.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String validatorSwitchClassTemplateName = "model/ValidatorClass.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String xmlProcessorClassTemplateName = "model/XMLProcessorClass.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String pluginXMLTemplateName = "model/plugin.xmljet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String manifestMFTemplateName = "model/manifest.mfjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String pluginPropertiesTemplateName = "model/plugin.propertiesjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String buildPropertiesTemplateName = "model/build.propertiesjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String modelPluginTemplateName = "model/Plugin.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String resourceTemplateName = "model/ResourceClass.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String resourceFactoryTemplateName = "model/ResourceFactoryClass.javajet";
 
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String [] templatePath = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JControlModel jControlModel = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter interfaceEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter classEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter enumClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter packageInterfaceEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter packageClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter factoryInterfaceEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter factoryClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter adapterFactoryClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter switchClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter validatorSwitchClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter xmlProcessorClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter pluginXMLEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter manifestMFEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter pluginPropertiesEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter buildPropertiesEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter modelPluginClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter resourceClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter resourceFactoryClassEmitter = null;
 
   /**
@@ -1945,6 +1984,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} provides an
    * equivalent way to obtain this information. This method will be removed after 2.2.
    */
+  @Deprecated
   protected String [] getTemplatePath()
   {
     if (templatePath == null)
@@ -1967,6 +2007,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} provides an
    * equivalent way to obtain this information. This method will be removed after 2.2.
    */
+  @Deprecated
   public String getMergeRulesLocation()
   {
     return JETCompiler.find(getTemplatePath(), jControlModelName);
@@ -1977,6 +2018,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} provides an equivalent to this method.
    * This method will be removed after 2.2.
    */
+  @Deprecated
   public JControlModel getJControlModel()
   {
     if (jControlModel == null)
@@ -1989,13 +2031,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated in EMF 2.2. This field will be removed after 2.2.
    */
-  public static final Class [] OBJECT_ARGUMENT = new Class [ ] { Object.class };
+  @Deprecated
+  public static final Class<?>[] OBJECT_ARGUMENT = new Class[]{ Object.class };
 
   /**
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.GeneratorAdapter GeneratorAdapter} should be used to
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   public void setMethod(JETEmitter jetEmitter, String className)
   {
     if (!isDynamicTemplates())
@@ -2019,11 +2064,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter createJETEmitter(String relativeTemplateURI)
   {
     JETEmitter jetEmitter = 
       new JETEmitter(getTemplatePath(), relativeTemplateURI, getClass().getClassLoader())
       {
+        @Override
         public void initialize(Monitor progressMonitor) throws JETException
         {
           if (getClasspathEntries().isEmpty())
@@ -2041,6 +2088,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   protected void addClasspathEntries(JETEmitter jetEmitter) throws JETException
   {
     jetEmitter.addVariable("EMF_CODEGEN", "org.eclipse.emf.codegen");
@@ -2054,6 +2102,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getClassEmitter()
   {
     if (classEmitter == null)
@@ -2069,6 +2118,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEnumClassEmitter()
   {
     if (enumClassEmitter == null)
@@ -2084,6 +2134,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getFactoryClassEmitter()
   {
     if (factoryClassEmitter == null)
@@ -2099,6 +2150,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getPackageClassEmitter()
   {
     if (packageClassEmitter == null)
@@ -2114,6 +2166,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getAdapterFactoryClassEmitter()
   {
     if (adapterFactoryClassEmitter == null)
@@ -2129,6 +2182,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getSwitchClassEmitter()
   {
     if (switchClassEmitter == null)
@@ -2144,6 +2198,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getValidatorClassEmitter()
   {
     if (validatorSwitchClassEmitter == null)
@@ -2159,6 +2214,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getXMLProcessorClassEmitter()
   {
     if (xmlProcessorClassEmitter == null)
@@ -2174,6 +2230,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getPluginXMLEmitter()
   {
     if (pluginXMLEmitter == null)
@@ -2189,6 +2246,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getManifestMFEmitter()
   {
     if (manifestMFEmitter == null)
@@ -2204,6 +2262,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getPluginPropertiesEmitter()
   {
     if (pluginPropertiesEmitter == null)
@@ -2219,6 +2278,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getBuildPropertiesEmitter()
   {
     if (buildPropertiesEmitter == null)
@@ -2234,6 +2294,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getModelPluginClassEmitter()
   {
     if (modelPluginClassEmitter == null)
@@ -2249,6 +2310,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getResourceClassEmitter()
   {
     if (resourceClassEmitter == null)
@@ -2264,6 +2326,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getResourceFactoryClassEmitter()
   {
     if (resourceFactoryClassEmitter == null)
@@ -2280,6 +2343,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     // Don't care about plugin class; we can generate a model without one.
   }
 
+  @Override
   public boolean canGenerate()
   {
     return canGenerate && hasModelSupport();
@@ -2304,12 +2368,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
          CodeGenEcorePlugin.INSTANCE.getString("_UI_ProblemsEncounteredInTheModel_message"),
          null);
 
-    List all = new ArrayList(getGenPackages());
+    List<EObject> all = new ArrayList<EObject>(getGenPackages());
     all.addAll(getUsedGenPackages());
-    for (Iterator i = new ArrayList(all).iterator(); i.hasNext(); )
+    for (EObject eObject : new ArrayList<EObject>(all))
     {
-      GenPackage genPackage = (GenPackage)i.next();
-      EObject root = EcoreUtil.getRootContainer(genPackage.getEcorePackage());
+      EObject root = EcoreUtil.getRootContainer(((GenPackage)eObject).getEcorePackage());
       if (!all.contains(root))
       {
         all.add(root);
@@ -2317,14 +2380,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
 
     all.addAll(getGenAnnotations());
-    Map map = EcoreUtil.UnresolvedProxyCrossReferencer.find(all);
+    Map<EObject, Collection<EStructuralFeature.Setting>> map = EcoreUtil.UnresolvedProxyCrossReferencer.find(all);
     if (!map.isEmpty())
     {
-      for (Iterator i = map.entrySet().iterator(); i.hasNext(); )
+      for (Map.Entry<EObject, Collection<EStructuralFeature.Setting>> entry : map.entrySet())
       {
-        Map.Entry entry = (Map.Entry)i.next();
-        EObject unresolvedProxy = (EObject)entry.getKey();
-
+        EObject unresolvedProxy = entry.getKey();
         BasicDiagnostic nestedStatus =
           new BasicDiagnostic
             (CodeGenEcorePlugin.INSTANCE.getSymbolicName(),
@@ -2333,9 +2394,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
                ("_UI_UnableToResolveProxy_message", new Object [] { EcoreUtil.getURI(unresolvedProxy) }),
              null);
 
-        for (Iterator j = ((List)entry.getValue()).iterator(); j.hasNext(); )
+        for (EStructuralFeature.Setting setting : entry.getValue())
         {
-          EStructuralFeature.Setting setting = (EStructuralFeature.Setting)j.next();
           if (!setting.getEStructuralFeature().isDerived())
           {
             nestedStatus.add
@@ -2354,19 +2414,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
     else
     {
-      List referencedEPackages = new UniqueEList();
-      for (Iterator i = all.iterator(); i.hasNext(); )
+      List<EPackage> referencedEPackages = new UniqueEList<EPackage>();
+      for (EObject object : all)
       {
-        Object object = i.next();
         if (object instanceof EPackage)
         {
           EPackage ePackage = (EPackage)object;
-          for (Iterator j = ePackage.eAllContents(); j.hasNext();)
+          for (Iterator<EObject> j = ePackage.eAllContents(); j.hasNext();)
           {
-            EObject eObject = (EObject)j.next();
-            for (Iterator k = eObject.eCrossReferences().iterator(); k.hasNext(); )
+            EObject eObject = j.next();
+            for (EObject o : eObject.eCrossReferences())
             {
-              Object o = k.next();
               if (o instanceof EClassifier)
               {
                 EClassifier eClassifier = (EClassifier)o;
@@ -2377,9 +2435,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         }
       }
     
-      for (Iterator i = referencedEPackages.iterator(); i.hasNext(); )
+      for (EPackage ePackage : referencedEPackages)
       {
-        EPackage ePackage = (EPackage)i.next();
         GenPackage genPackage = findGenPackage(ePackage);
         if (genPackage == null)
         {
@@ -2408,9 +2465,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       // TODO reporting problems makes command line utilities abort.
       //
       if (false)
-      for (Iterator i = getAllGenPackages().iterator(); i.hasNext(); )
+      for (GenPackage genPackage : getAllGenPackages())
       {
-        EPackage ePackage = ((GenPackage)i.next()).getEcorePackage();
+        EPackage ePackage = genPackage.getEcorePackage();
         if (ePackage != null)
         {
           Diagnostician diagnostician = 
@@ -2449,6 +2506,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   }
 
   protected ExtendedMetaData extendedMetaData;
+  
+  @Override
   public ExtendedMetaData getExtendedMetaData()
   {
     if (extendedMetaData == null)
@@ -2470,11 +2529,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return extendedMetaData;
   }
 
-  protected void populateExtendedMetaData(List genPackages)
+  protected void populateExtendedMetaData(List<GenPackage> genPackages)
   {
-    for (Iterator i = genPackages.iterator(); i.hasNext(); )
+    for (GenPackage genPackage : genPackages)
     {
-      GenPackage genPackage = (GenPackage)i.next();
       EPackage ePackage = genPackage.getEcorePackage();
       if (ePackage != null)  // genPackage can be a broken proxy
       {
@@ -2496,6 +2554,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Override
+  @Deprecated
   public void generate(Monitor progressMonitor)
   {
     try
@@ -2599,6 +2660,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       !isBlank(getEditDirectory());
   }
 
+  @Override
   public boolean canGenerateEdit()
   {
     return canGenerate && hasEditSupport();
@@ -2608,6 +2670,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Override
+  @Deprecated
   public void generateEdit(Monitor progressMonitor)
   {
     try
@@ -2705,6 +2770,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
       !isBlank(getEditorDirectory());
   }
 
+  @Override
   public boolean canGenerateEditor()
   {
     return canGenerate && hasEditorSupport();
@@ -2714,6 +2780,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @deprecated In EMF 2.2, a {@link org.eclipse.emf.codegen.ecore.generator.Generator Generator} should be used to generate code.
    * This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Override
+  @Deprecated
   public void generateEditor(Monitor progressMonitor)
   {
     try
@@ -2818,6 +2887,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @Override
+  @Deprecated
   public boolean canGenerateSchema()
   {
     return canGenerate();
@@ -2826,6 +2897,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Override
+  @Deprecated
   public void generateSchema(Monitor progressMonitor)
   {
     for (Iterator i = getGenPackages().iterator(); i.hasNext();)
@@ -2839,6 +2913,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return hasModelSupport() && !isBlank(getTestsDirectory());
   }
 
+  @Override
   public boolean canGenerateTests()
   {
     return canGenerate && hasTestSupport();
@@ -2847,6 +2922,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated In EMF 2.2, schema generation is properly done via a model exporter. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Override
+  @Deprecated
   public void generateTests(Monitor progressMonitor)
   {
     try
@@ -2943,204 +3021,243 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String itemProviderTemplateName = "edit/ItemProvider.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String itemProviderAdapterFactoryTemplateName = "edit/ItemProviderAdapterFactory.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editPluginTemplateName = "edit/Plugin.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editPluginXMLTemplateName = "edit/plugin.xmljet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editManifestMFTemplateName = "edit/manifest.mfjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editPluginPropertiesTemplateName = "edit/plugin.propertiesjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editBuildPropertiesTemplateName = "edit/build.propertiesjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String itemGIFName = "edit/Item.gif";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String createChildGIFName = "edit/CreateChild.gif";
-
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editorTemplateName = "editor/Editor.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String actionBarContributorTemplateName = "editor/ActionBarContributor.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String modelWizardTemplateName = "editor/ModelWizard.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String advisorTemplateName = "editor/Advisor.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editorPluginTemplateName = "editor/Plugin.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editorPluginXMLTemplateName = "editor/plugin.xmljet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editorManifestMFTemplateName = "editor/manifest.mfjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editorPluginPropertiesTemplateName = "editor/plugin.propertiesjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String editorBuildPropertiesTemplateName = "editor/build.propertiesjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String modelGIFName = "editor/ModelFile.gif";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String modelWizardGIFName = "editor/NewModel.gif";
 
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter itemProviderEmitter = null;
  //   protected JETEmitter extendedItemProviderEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter itemProviderAdapterFactoryEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editPluginClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editPluginXMLEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editManifestMFEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editPluginPropertiesEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editBuildPropertiesEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected GIFEmitter itemGIFEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected GIFEmitter createChildGIFEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editorEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter actionBarContributorEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter modelWizardEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter advisorEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editorPluginClassEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editorManifestMFEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editorPluginXMLEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editorPluginPropertiesEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter editorBuildPropertiesEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected GIFEmitter modelGIFEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected GIFEmitter modelWizardGIFEmitter = null;
 
   /**
@@ -3148,6 +3265,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getItemProviderEmitter()
   {
     if (itemProviderEmitter == null)
@@ -3173,6 +3291,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getItemProviderAdapterFactoryEmitter()
   {
     if (itemProviderAdapterFactoryEmitter == null)
@@ -3188,6 +3307,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditPluginClassEmitter()
   {
     if (editPluginClassEmitter == null)
@@ -3203,6 +3323,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditPluginXMLEmitter()
   {
     if (editPluginXMLEmitter == null)
@@ -3218,6 +3339,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditManifestMFEmitter()
   {
     if (editManifestMFEmitter == null)
@@ -3234,6 +3356,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditPluginPropertiesEmitter()
   {
     if (editPluginPropertiesEmitter == null)
@@ -3249,6 +3372,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditBuildPropertiesEmitter()
   {
     if (editBuildPropertiesEmitter == null)
@@ -3264,6 +3388,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public GIFEmitter getItemGIFEmitter()
   {
     if (itemGIFEmitter == null)
@@ -3278,6 +3403,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public GIFEmitter getCreateChildGIFEmitter()
   {
     if (createChildGIFEmitter == null)
@@ -3292,6 +3418,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public GIFEmitter getModelGIFEmitter()
   {
     if (modelGIFEmitter == null)
@@ -3306,6 +3433,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public GIFEmitter getModelWizardGIFEmitter()
   {
     if (modelWizardGIFEmitter == null)
@@ -3320,6 +3448,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditorEmitter()
   {
     if (editorEmitter == null)
@@ -3335,6 +3464,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getActionBarContributorEmitter()
   {
     if (actionBarContributorEmitter == null)
@@ -3350,6 +3480,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getModelWizardEmitter()
   {
     if (modelWizardEmitter == null)
@@ -3365,6 +3496,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditorAdvisorEmitter()
   {
     if (advisorEmitter == null)
@@ -3380,6 +3512,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditorPluginClassEmitter()
   {
     if (editorPluginClassEmitter == null)
@@ -3395,6 +3528,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditorPluginXMLEmitter()
   {
     if (editorPluginXMLEmitter == null)
@@ -3410,6 +3544,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditorManifestMFEmitter()
   {
     if (editorManifestMFEmitter == null)
@@ -3425,6 +3560,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditorPluginPropertiesEmitter()
   {
     if (editorPluginPropertiesEmitter == null)
@@ -3440,6 +3576,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getEditorBuildPropertiesEmitter()
   {
     if (editorBuildPropertiesEmitter == null)
@@ -3457,81 +3594,97 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String testCaseTemplateName = "model.tests/TestCase.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String modelTestSuiteTemplateName = "model.tests/ModelTestSuite.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String packageTestSuiteTemplateName = "model.tests/PackageTestSuite.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String packageExampleTemplateName = "model.tests/PackageExample.javajet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String testsPluginXMLTemplateName = "model.tests/plugin.xmljet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String testsManifestMFTemplateName = "model.tests/manifest.mfjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String testsPluginPropertiesTemplateName = "model.tests/plugin.propertiesjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected String testsBuildPropertiesTemplateName = "model.tests/build.propertiesjet";
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter testCaseEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter modelTestSuiteEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter packageTestSuiteEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter packageExampleEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter testsPluginXMLEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter testsManifestMFEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter testsPluginPropertiesEmitter = null;
 
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @Deprecated
   protected JETEmitter testsBuildPropertiesEmitter = null;
 
   /**
@@ -3539,6 +3692,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getTestCaseEmitter()
   {
     if (testCaseEmitter == null)
@@ -3555,6 +3709,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getModelTestSuiteEmitter()
   {
     if (modelTestSuiteEmitter == null)
@@ -3571,6 +3726,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getPackageTestSuiteEmitter()
   {
     if (packageTestSuiteEmitter == null)
@@ -3587,6 +3743,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getPackageExampleEmitter()
   {
     if (packageExampleEmitter == null)
@@ -3602,6 +3759,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getTestsPluginXMLEmitter()
   {
     if (testsPluginXMLEmitter == null)
@@ -3617,6 +3775,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getTestsManifestMFEmitter()
   {
     if (testsManifestMFEmitter == null)
@@ -3632,6 +3791,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getTestsPluginPropertiesEmitter()
   {
     if (testsPluginPropertiesEmitter == null)
@@ -3647,6 +3807,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public JETEmitter getTestsBuildPropertiesEmitter()
   {
     if (testsBuildPropertiesEmitter == null)
@@ -3854,11 +4015,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getForeignModel()
+  public EList<String> getForeignModel()
   {
     if (foreignModel == null)
     {
-      foreignModel = new EDataTypeUniqueEList(String.class, this, GenModelPackage.GEN_MODEL__FOREIGN_MODEL);
+      foreignModel = new EDataTypeUniqueEList<String>(String.class, this, GenModelPackage.GEN_MODEL__FOREIGN_MODEL);
     }
     return foreignModel;
   }
@@ -3961,6 +4122,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     setNonExternalizedStringTagGen(null);
   }
 
+  @Override
   public String getName()
   {
     return getModelName();
@@ -4076,10 +4238,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     if (!getGenPackages().isEmpty())
     {
-      GenPackage genPackage = (GenPackage)getGenPackages().get(0);
+      GenPackage genPackage = getGenPackages().get(0);
       while (genPackage.getGenClassifiers().isEmpty() && !genPackage.getNestedGenPackages().isEmpty())
       {
-        genPackage = (GenPackage)genPackage.getNestedGenPackages().get(0);
+        genPackage = genPackage.getNestedGenPackages().get(0);
       }
       return genPackage;
     }
@@ -4267,13 +4429,16 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getStaticPackages()
+  public EList<String> getStaticPackages()
   {
     if (staticPackages == null)
     {
       staticPackages = 
-        new EDataTypeUniqueEList(String.class, this, GenModelPackage.GEN_MODEL__STATIC_PACKAGES)
+        new EDataTypeUniqueEList<String>(String.class, this, GenModelPackage.GEN_MODEL__STATIC_PACKAGES)
         {
+          private static final long serialVersionUID = 1L;
+
+          @Override
           protected void didChange()
           {
             super.didChange();
@@ -4289,11 +4454,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getModelPluginVariables()
+  public EList<String> getModelPluginVariables()
   {
     if (modelPluginVariables == null)
     {
-      modelPluginVariables = new EDataTypeUniqueEList(String.class, this, GenModelPackage.GEN_MODEL__MODEL_PLUGIN_VARIABLES);
+      modelPluginVariables = new EDataTypeUniqueEList<String>(String.class, this, GenModelPackage.GEN_MODEL__MODEL_PLUGIN_VARIABLES);
     }
     return modelPluginVariables;
   }
@@ -4360,12 +4525,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   {
     if (rootImplementsInterfaceGenClass == null && !isBlank(rootImplementsInterface))
     {
-      for (Iterator i = getAllGenUsedAndStaticGenPackagesWithClassifiers().iterator(); i.hasNext(); )
+      for (GenPackage genPackage : getAllGenUsedAndStaticGenPackagesWithClassifiers())
       {
-        GenPackage genPackage = (GenPackage)i.next();
-        for (Iterator j = genPackage.getGenClasses().iterator(); j.hasNext(); )
+        for (GenClass genClass : genPackage.getGenClasses())
         {
-          GenClass genClass = (GenClass)j.next();
           if (genClass.getQualifiedInterfaceName().equals(rootImplementsInterface))
           {
             return rootImplementsInterfaceGenClass = genClass;
@@ -4396,32 +4559,23 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     rootImplementsInterfaceGenClass = null;
   }
 
-  public List getEffectiveModelPluginVariables()
+  public List<String> getEffectiveModelPluginVariables()
   {
     return getModelPluginVariables();
   }
 
-  public List getEffectiveModelPluginIDs()
+  public List<String> getEffectiveModelPluginIDs()
   {
-    List result = new ArrayList(getModelPluginVariables());
-    for (ListIterator i = result.listIterator(); i.hasNext(); )
+    List<String> result = new ArrayList<String>(getModelPluginVariables());
+    for (ListIterator<String> i = result.listIterator(); i.hasNext(); )
     {
-      Object item = i.next();
-      if (item instanceof String)
+      String variable = i.next();
+      int index = variable.indexOf("=");
+      if (index != -1)
       {
-        String variable = (String)item;
-        int index = variable.indexOf("=");
-        if (index != -1)
-        {
-          i.set(variable.substring(index + 1));
-        }
-      }
-      else
-      {
-        i.remove();
+        i.set(variable.substring(index + 1));
       }
     }
-
     return result;
   }
 
@@ -5100,27 +5254,25 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getGenPackages()
+  public EList<GenPackage> getGenPackages()
   {
     if (genPackages == null)
     {
-      genPackages = new EObjectContainmentWithInverseEList(GenPackage.class, this, GenModelPackage.GEN_MODEL__GEN_PACKAGES, GenModelPackage.GEN_PACKAGE__GEN_MODEL);
+      genPackages = new EObjectContainmentWithInverseEList<GenPackage>(GenPackage.class, this, GenModelPackage.GEN_MODEL__GEN_PACKAGES, GenModelPackage.GEN_PACKAGE__GEN_MODEL);
     }
     return genPackages;
   }
 
-  public EList getStaticGenPackages()
+  public EList<GenPackage> getStaticGenPackages()
   {
     if (staticGenPackages == null)
     {
-      staticGenPackages = new UniqueEList();
+      staticGenPackages = new UniqueEList<GenPackage>();
       LOOP:
-      for (Iterator i = getStaticPackages().iterator(); i.hasNext(); )
+      for (String nsURI : getStaticPackages())
       {
-        String nsURI = (String)i.next();
-        for (Iterator j = getStaticGenPackages().iterator(); j.hasNext(); )
+        for (GenPackage staticGenPackage : getStaticGenPackages())
         {
-          GenPackage staticGenPackage = (GenPackage)j.next();
           if (staticGenPackage.getNSURI().equals(nsURI))
           {
             continue LOOP;
@@ -5132,7 +5284,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
           // See if a GenModel is registered for the package's URI, and if so, try to load it.
           //
           GenPackage staticGenPackage = null;
-          URI genModelURI = (URI)EcorePlugin.getEPackageNsURIToGenModelLocationMap().get(nsURI);
+          URI genModelURI = EcorePlugin.getEPackageNsURIToGenModelLocationMap().get(nsURI);
           if (genModelURI != null)
           {
             try
@@ -5168,11 +5320,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
-  public EList getUsedGenPackages()
+  public EList<GenPackage> getUsedGenPackages()
   {
     if (usedGenPackages == null)
     {
-      usedGenPackages = new EObjectResolvingEList(GenPackage.class, this, GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES);
+      usedGenPackages = new EObjectResolvingEList<GenPackage>(GenPackage.class, this, GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES);
     }
     return usedGenPackages;
   }
@@ -5182,12 +5334,14 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
-        return ((InternalEList)getGenPackages()).basicAdd(otherEnd, msgs);
+        return ((InternalEList<InternalEObject>)(InternalEList<?>)getGenPackages()).basicAdd(otherEnd, msgs);
     }
     return super.eInverseAdd(otherEnd, featureID, msgs);
   }
@@ -5197,12 +5351,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
     {
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
-        return ((InternalEList)getGenPackages()).basicRemove(otherEnd, msgs);
+        return ((InternalEList<?>)getGenPackages()).basicRemove(otherEnd, msgs);
     }
     return super.eInverseRemove(otherEnd, featureID, msgs);
   }
@@ -5212,6 +5367,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
@@ -5333,6 +5489,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
@@ -5366,7 +5524,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__FOREIGN_MODEL:
         getForeignModel().clear();
-        getForeignModel().addAll((Collection)newValue);
+        getForeignModel().addAll((Collection<? extends String>)newValue);
         return;
       case GenModelPackage.GEN_MODEL__DYNAMIC_TEMPLATES:
         setDynamicTemplates(((Boolean)newValue).booleanValue());
@@ -5403,11 +5561,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__STATIC_PACKAGES:
         getStaticPackages().clear();
-        getStaticPackages().addAll((Collection)newValue);
+        getStaticPackages().addAll((Collection<? extends String>)newValue);
         return;
       case GenModelPackage.GEN_MODEL__MODEL_PLUGIN_VARIABLES:
         getModelPluginVariables().clear();
-        getModelPluginVariables().addAll((Collection)newValue);
+        getModelPluginVariables().addAll((Collection<? extends String>)newValue);
         return;
       case GenModelPackage.GEN_MODEL__ROOT_EXTENDS_INTERFACE:
         setRootExtendsInterface((String)newValue);
@@ -5498,11 +5656,11 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         return;
       case GenModelPackage.GEN_MODEL__GEN_PACKAGES:
         getGenPackages().clear();
-        getGenPackages().addAll((Collection)newValue);
+        getGenPackages().addAll((Collection<? extends GenPackage>)newValue);
         return;
       case GenModelPackage.GEN_MODEL__USED_GEN_PACKAGES:
         getUsedGenPackages().clear();
-        getUsedGenPackages().addAll((Collection)newValue);
+        getUsedGenPackages().addAll((Collection<? extends GenPackage>)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -5513,6 +5671,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void eUnset(int featureID)
   {
     switch (featureID)
@@ -5688,6 +5847,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean eIsSet(int featureID)
   {
     switch (featureID)
@@ -5809,6 +5969,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String toString()
   {
     if (eIsProxy()) return super.toString();
@@ -6238,11 +6399,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return getTestSuitePackageName() + "." + getTestSuiteClassName();
   }
 
-  protected void getAllGenPackagesWithClassifiersHelper(List result, List genPackages)
+  protected void getAllGenPackagesWithClassifiersHelper(List<GenPackage> result, List<GenPackage> genPackages)
   {
-    for (Iterator i = genPackages.iterator(); i.hasNext(); )
+    for (GenPackage genPackage : genPackages)
     {
-      GenPackage genPackage = (GenPackage)i.next();
       if (genPackage.hasClassifiers())
       {
         result.add(genPackage);
@@ -6251,55 +6411,60 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
 
-  public List getAllGenPackagesWithClassifiers()
+  public List<GenPackage> getAllGenPackagesWithClassifiers()
   {
-    List result = new ArrayList();
+    List<GenPackage> result = new ArrayList<GenPackage>();
     getAllGenPackagesWithClassifiersHelper(result, getGenPackages());
     return result;
   }
 
-  public List getAllUsedGenPackagesWithClassifiers()
+  public List<GenPackage> getAllUsedGenPackagesWithClassifiers()
   {
-    List result = new ArrayList();
+    List<GenPackage> result = new ArrayList<GenPackage>();
     getAllGenPackagesWithClassifiersHelper(result, getUsedGenPackages());
     return result;
   }
 
-  public List getAllGenAndUsedGenPackagesWithClassifiers()
+  public List<GenPackage> getAllGenAndUsedGenPackagesWithClassifiers()
   {
-    List result = new ArrayList();
+    List<GenPackage> result = new ArrayList<GenPackage>();
     getAllGenPackagesWithClassifiersHelper(result, getGenPackages());
     getAllGenPackagesWithClassifiersHelper(result, getUsedGenPackages());
     return result;
   }
 
-  public List getAllGenUsedAndStaticGenPackagesWithClassifiers()
+  public List<GenPackage> getAllGenUsedAndStaticGenPackagesWithClassifiers()
   {
-    List result = new ArrayList();
+    List<GenPackage> result = new ArrayList<GenPackage>();
     getAllGenPackagesWithClassifiersHelper(result, getGenPackages());
     getAllGenPackagesWithClassifiersHelper(result, getUsedGenPackages());
     getAllGenPackagesWithClassifiersHelper(result, getStaticGenPackages());
     return result;
   }
   
-  public List getModelQualifiedPackageNames()
+  public List<String> getModelQualifiedPackageNames()
   {
-    EList packageNames = sameModelTestsProject() ?
-      (EList)getTestsQualifiedPackageNames() :
-      new UniqueEList();
+    EList<String> packageNames = sameModelTestsProject() ?
+      (EList<String>)getTestsQualifiedPackageNames() :
+      new UniqueEList<String>();
       
-    TreeIterator genPackagesIterator = new AbstractTreeIterator(getGenPackages(), false)
-    {
-      protected Iterator getChildren(Object object)
+    TreeIterator<GenPackage> genPackagesIterator = 
+      new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
-        return object instanceof Collection ? 
-          ((Collection)object).iterator() :
-          ((GenPackage)object).getNestedGenPackages().iterator();
-      }
-    };
+        private static final long serialVersionUID = 1L;
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Iterator<GenPackage> getChildren(Object object)
+        {
+          return object instanceof Collection ? 
+            ((Collection<GenPackage>)object).iterator() :
+            ((GenPackage)object).getNestedGenPackages().iterator();
+        }
+      };
     while(genPackagesIterator.hasNext())
     {
-      GenPackage genPackage = (GenPackage)genPackagesIterator.next();
+      GenPackage genPackage = genPackagesIterator.next();
       addQualifiedModelPackageNames(packageNames, genPackage);
     }
     
@@ -6313,7 +6478,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return packageNames;
   }
   
-  protected void addQualifiedModelPackageNames(List packageNames, GenPackage genPackage)
+  protected void addQualifiedModelPackageNames(List<String> packageNames, GenPackage genPackage)
   {
     if (genPackage.hasClassifiers())
     {
@@ -6332,34 +6497,38 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
 
-  public List getModelRequiredPlugins()
+  public List<String> getModelRequiredPlugins()
   {
-    List result = new UniqueEList();
+    List<String> result = new UniqueEList<String>();
     result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
     result.add("org.eclipse.emf.ecore");
     result.addAll(getEffectiveModelPluginIDs());
     
-    TreeIterator genPackagesIterator = new AbstractTreeIterator(getGenPackages(), false)
-    {
-      protected Iterator getChildren(Object object)
+    TreeIterator<GenPackage> genPackagesIterator = 
+      new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
-        return object instanceof Collection ? 
-          ((Collection)object).iterator() :
-          ((GenPackage)object).getNestedGenPackages().iterator();
-      }
-    };
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        @SuppressWarnings("unchecked")
+        protected Iterator<GenPackage> getChildren(Object object)
+        {
+          return object instanceof Collection ? 
+            ((Collection<GenPackage>)object).iterator() :
+            ((GenPackage)object).getNestedGenPackages().iterator();
+        }
+      };
     while(genPackagesIterator.hasNext())
     {
-      GenPackage genPackage = (GenPackage)genPackagesIterator.next();
+      GenPackage genPackage = genPackagesIterator.next();
       if (genPackage.getResource() != GenResourceKind.NONE_LITERAL || genPackage.isLoadingInitialization())
       {
         result.add("org.eclipse.emf.ecore.xmi");
         break;
       }
     }
-    for (Iterator i = getUsedGenPackages().iterator(); i.hasNext(); )
+    for (GenPackage genPackage : getUsedGenPackages())
     {
-      GenPackage genPackage = (GenPackage)i.next();
       result.add(genPackage.getGenModel().getModelPluginID());
     }
 
@@ -6371,24 +6540,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
 
-  public List getEditQualifiedPackageNames()
+  public List<String> getEditQualifiedPackageNames()
   {
-    EList packageNames = sameModelEditProject() ? 
-      (EList)getModelQualifiedPackageNames() :
-      new UniqueEList();
+    EList<String> packageNames = sameModelEditProject() ? 
+      (EList<String>)getModelQualifiedPackageNames() :
+      new UniqueEList<String>();
 
-    TreeIterator genPackagesIterator = new AbstractTreeIterator(getGenPackages(), false)
-    {
-      protected Iterator getChildren(Object object)
+    TreeIterator<GenPackage> genPackagesIterator = 
+      new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
-        return object instanceof Collection ? 
-          ((Collection)object).iterator() :
-          ((GenPackage)object).getNestedGenPackages().iterator();
-      }
-    };
+        private static final long serialVersionUID = 1L;
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Iterator<GenPackage> getChildren(Object object)
+        {
+          return object instanceof Collection ? 
+            ((Collection<GenPackage>)object).iterator() :
+            ((GenPackage)object).getNestedGenPackages().iterator();
+        }
+      };
     while(genPackagesIterator.hasNext())
     {
-      GenPackage genPackage = (GenPackage)genPackagesIterator.next();
+      GenPackage genPackage = genPackagesIterator.next();
       addQualifiedEditPackageNames(packageNames, genPackage);
     }
     
@@ -6402,7 +6576,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return packageNames;
   }
 
-  protected void addQualifiedEditPackageNames(List packageNames, GenPackage genPackage)
+  protected void addQualifiedEditPackageNames(List<String> packageNames, GenPackage genPackage)
   {
     if (!genPackage.getGenClasses().isEmpty())
     {
@@ -6410,16 +6584,15 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
 
-  public List getEditRequiredPlugins()
+  public List<String> getEditRequiredPlugins()
   {
-    List result = new UniqueEList();
+    List<String> result = new UniqueEList<String>();
     result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
 
     if (!sameModelEditProject())
     {
-      for (Iterator i = getGenPackages().iterator(); i.hasNext(); )
+      for (GenPackage genPackage : getGenPackages())
       {
-        GenPackage genPackage = (GenPackage)i.next();
         result.add(genPackage.getGenModel().getModelPluginID());
       }
     }
@@ -6430,9 +6603,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     
     result.add("org.eclipse.emf.edit");
     
-    for (Iterator i = getUsedGenPackages().iterator(); i.hasNext(); )
+    for (GenPackage genPackage : getUsedGenPackages())
     {
-      GenPackage genPackage = (GenPackage)i.next();
       GenModel genModel = genPackage.getGenModel();
       result.add(genModel.getModelPluginID());
       if (genModel.hasEditSupport())
@@ -6443,24 +6615,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
 
-  public List getEditorQualifiedPackageNames()
+  public List<String> getEditorQualifiedPackageNames()
   {
-    EList packageNames = sameModelEditorProject() || sameEditEditorProject() ? 
-      (EList)getEditQualifiedPackageNames() :
-      new UniqueEList();
+    EList<String> packageNames = sameModelEditorProject() || sameEditEditorProject() ? 
+      (EList<String>)getEditQualifiedPackageNames() :
+      new UniqueEList<String>();
 
-    TreeIterator genPackagesIterator = new AbstractTreeIterator(getGenPackages(), false)
-    {
-      protected Iterator getChildren(Object object)
+    TreeIterator<GenPackage> genPackagesIterator = 
+      new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
-        return object instanceof Collection ? 
-          ((Collection)object).iterator() :
-          ((GenPackage)object).getNestedGenPackages().iterator();
-      }
-    };
+        private static final long serialVersionUID = 1L;
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Iterator<GenPackage> getChildren(Object object)
+        {
+          return object instanceof Collection ? 
+            ((Collection<GenPackage>)object).iterator() :
+            ((GenPackage)object).getNestedGenPackages().iterator();
+        }
+      };
     while(genPackagesIterator.hasNext())
     {
-      GenPackage genPackage = (GenPackage)genPackagesIterator.next();
+      GenPackage genPackage = genPackagesIterator.next();
       addQualifiedEditorPackageNames(packageNames, genPackage);
     }
 
@@ -6474,7 +6651,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return packageNames;
   }
 
-  protected void addQualifiedEditorPackageNames(List packageNames, GenPackage genPackage)
+  protected void addQualifiedEditorPackageNames(List<String> packageNames, GenPackage genPackage)
   {
     if (genPackage.hasConcreteClasses())
     {
@@ -6482,9 +6659,9 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
 
-  public List getEditorRequiredPlugins()
+  public List<String> getEditorRequiredPlugins()
   {
-    List result = new UniqueEList();
+    List<String> result = new UniqueEList<String>();
     result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
     if (!isRichClientPlatform())
     {
@@ -6493,9 +6670,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     
     if (!sameEditEditorProject())
     {
-      for (Iterator i = getGenPackages().iterator(); i.hasNext(); )
+      for (GenPackage genPackage : getGenPackages())
       {
-        GenPackage genPackage = (GenPackage)i.next();
         GenModel genModel = genPackage.getGenModel();
         if (genModel.hasEditSupport())
         {
@@ -6513,9 +6689,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     {
       result.add("org.eclipse.ui.ide");
     }
-    for (Iterator i = getUsedGenPackages().iterator(); i.hasNext(); )
+    for (GenPackage genPackage : getUsedGenPackages())
     {
-      GenPackage genPackage = (GenPackage)i.next();
       GenModel genModel = genPackage.getGenModel();
       if (genModel.hasEditSupport())
       {
@@ -6525,22 +6700,27 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
 
-  public List getTestsQualifiedPackageNames()
+  public List<String> getTestsQualifiedPackageNames()
   {
-    EList packageNames = new UniqueEList();
+    EList<String> packageNames = new UniqueEList<String>();
 
-    TreeIterator genPackagesIterator = new AbstractTreeIterator(getGenPackages(), false)
-    {
-      protected Iterator getChildren(Object object)
+    TreeIterator<GenPackage> genPackagesIterator = 
+      new AbstractTreeIterator<GenPackage>(getGenPackages(), false)
       {
-        return object instanceof Collection ? 
-          ((Collection)object).iterator() :
-          ((GenPackage)object).getNestedGenPackages().iterator();
-      }
-    };
+        private static final long serialVersionUID = 1L;
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected Iterator<GenPackage> getChildren(Object object)
+        {
+          return object instanceof Collection ? 
+            ((Collection<GenPackage>)object).iterator() :
+            ((GenPackage)object).getNestedGenPackages().iterator();
+        }
+      };
     while(genPackagesIterator.hasNext())
     {
-      GenPackage genPackage = (GenPackage)genPackagesIterator.next();
+      GenPackage genPackage = genPackagesIterator.next();
       addQualifiedTestsPackageNames(packageNames, genPackage);
     }
 
@@ -6554,7 +6734,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return packageNames;
   }
 
-  protected void addQualifiedTestsPackageNames(List packageNames, GenPackage genPackage)
+  protected void addQualifiedTestsPackageNames(List<String> packageNames, GenPackage genPackage)
   {
     if (genPackage.hasClassifiers())
     {
@@ -6562,32 +6742,29 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
 
-  public List getTestsRequiredPlugins()
+  public List<String> getTestsRequiredPlugins()
   {
-    List result = new UniqueEList();
+    List<String> result = new UniqueEList<String>();
     result.add(needsRuntimeCompatibility() ? "org.eclipse.core.runtime.compatibility" : "org.eclipse.core.runtime");
 
     result.add(getModelPluginID());
-    for (Iterator i = getUsedGenPackages().iterator(); i.hasNext();)
+    for (GenPackage genPackage : getUsedGenPackages())
     {
-      GenPackage genPackage = (GenPackage)i.next();
       GenModel genModel = genPackage.getGenModel();
       result.add(genModel.getModelPluginID());
     }
 
     result.add("org.eclipse.emf.ecore.xmi");
-
     result.add("org.junit");
 
     return result;
   }
 
-  public List getEditResourceDelegateImportedPluginClassNames()
+  public List<String> getEditResourceDelegateImportedPluginClassNames()
   {
-    List result = new UniqueEList();
-    for (Iterator i = getUsedGenPackages().iterator(); i.hasNext(); )
+    List<String> result = new UniqueEList<String>();
+    for (GenPackage genPackage : getUsedGenPackages())
     {
-      GenPackage genPackage = (GenPackage)i.next();
       GenModel genModel = genPackage.getGenModel();
       if (genModel.hasEditSupport())
       {
@@ -6602,12 +6779,10 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     boolean result = false;
     if (oldGenModelVersion != null)
     {
-      for (Iterator i = getGenPackages().iterator(); i.hasNext(); )
+      for (GenPackage genPackage : getGenPackages())
       {
-        GenPackage genPackage = (GenPackage)i.next();
-        for (Iterator j = oldGenModelVersion.getGenPackages().iterator(); j.hasNext(); )
+        for (GenPackage oldGenPackageVersion : oldGenModelVersion.getGenPackages())
         {
-          GenPackage oldGenPackageVersion = (GenPackage)j.next();
           if (genPackage.reconcile(oldGenPackageVersion))
           {
             result = true;
@@ -6732,17 +6907,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public boolean reconcile()
   {
-    for (Iterator i = getGenPackages().iterator(); i.hasNext(); )
+    for (Iterator<GenPackage> i = getGenPackages().iterator(); i.hasNext(); )
     {
-      GenPackage genPackage = (GenPackage)i.next();
+      GenPackage genPackage = i.next();
       if (!genPackage.reconcile())
       {
         i.remove();
       }
     }
-    for (Iterator i = getUsedGenPackages().iterator(); i.hasNext(); )
+    for (Iterator<GenPackage> i = getUsedGenPackages().iterator(); i.hasNext(); )
     {
-      GenPackage genPackage = (GenPackage)i.next();
+      GenPackage genPackage = i.next();
       if (!genPackage.reconcile())
       {
         i.remove();
@@ -6753,19 +6928,19 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return !getGenPackages().isEmpty();
   }
   
-  public List computeMissingUsedGenPackages()
+  public List<GenPackage> computeMissingUsedGenPackages()
   {
-    List missingEPackages = getMissingPackages();
+    List<EPackage> missingEPackages = getMissingPackages();
     if (!missingEPackages.isEmpty())
     {
-      List allGenModels = new UniqueEList.FastCompare();
+      List<GenModel> allGenModels = new UniqueEList.FastCompare<GenModel>();
       allGenModels.add(this);
       for (int i = 0; i < allGenModels.size(); i++)
       {
-        GenModel genModel = (GenModel)allGenModels.get(i);
+        GenModel genModel = allGenModels.get(i);
         for (int j = 0; j < genModel.getUsedGenPackages().size(); j++)
         {
-          GenPackage genPackage = (GenPackage)genModel.getUsedGenPackages().get(j);
+          GenPackage genPackage = genModel.getUsedGenPackages().get(j);
           if (genPackage.getGenModel() != null)
           {
             allGenModels.add(genPackage.getGenModel());
@@ -6773,13 +6948,13 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
         }
       }
 
-      List usedGenPackages = new UniqueEList.FastCompare();
+      List<GenPackage> usedGenPackages = new UniqueEList.FastCompare<GenPackage>();
       for (int i = 0; i < missingEPackages.size(); i++)
       {
-        EPackage ePackage = (EPackage)missingEPackages.get(i);
+        EPackage ePackage = missingEPackages.get(i);
         for (int j = 0; j < allGenModels.size(); j++)
         {
-          GenModel genModel = (GenModel)allGenModels.get(j);
+          GenModel genModel = allGenModels.get(j);
           GenPackage genPackage = genModel.findGenPackage(ePackage);
           if (genPackage != null)
           {
@@ -6793,32 +6968,31 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     } 
     else
     {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
   }
 
-  public List getMissingPackages()
+  public List<EPackage> getMissingPackages()
   {
-    List ePackages = new UniqueEList();
+    List<EPackage> ePackages = new UniqueEList<EPackage>();
     getMissingPackagesHelper(ePackages, getGenPackages());
     getMissingPackagesHelper(ePackages, getUsedGenPackages());
     return ePackages;
   }
 
-  protected void getMissingPackagesHelper(List ePackages, List genPackages)
+  protected void getMissingPackagesHelper(List<EPackage> ePackages, List<GenPackage> genPackages)
   {
-    for (Iterator i = genPackages.iterator(); i.hasNext(); )
+    for (GenPackage genPackage : genPackages)
     {
-      GenPackage genPackage = (GenPackage)i.next();
       EPackage ePackage = genPackage.getEcorePackage();
       if (ePackage != null)
       {
-        for (Iterator j = ePackage.eAllContents(); j.hasNext();)
+        for (Iterator<EObject> j = ePackage.eAllContents(); j.hasNext();)
         {
-          EObject eObject = (EObject)j.next();
-          for (Iterator k = eObject.eCrossReferences().iterator(); k.hasNext(); )
+          EObject eObject = j.next();
+          for (Iterator<EObject> k = eObject.eCrossReferences().iterator(); k.hasNext(); )
           {
-            Object o = k.next();
+            EObject o = k.next();
             if (o instanceof EClassifier)
             {
               EClassifier eClassifier = (EClassifier)o;
@@ -6836,9 +7010,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
 
   public boolean hasXMLDependency()
   {
-    for (Iterator i = getAllGenPackagesWithClassifiers().iterator(); i.hasNext(); )
+    for (GenPackage genPackage : getAllGenPackagesWithClassifiers())
     {
-      GenPackage genPackage = (GenPackage)i.next();
       switch (genPackage.getResource().getValue())
       {
         case GenResourceKind.XML:
@@ -6874,23 +7047,21 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return stringBuffer.substring(index + 1);
   }
 
-  public List/*GenFeature*/ getAllGenFeatures()
+  public List<GenFeature> getAllGenFeatures()
   {
-    List result = new ArrayList();
+    List<GenFeature> result = new ArrayList<GenFeature>();
 
     // Any features from one package that delegate to features in another.
     //
-    List delegated = new ArrayList();
+    List<GenFeature> delegated = new ArrayList<GenFeature>();
 
-    for (Iterator iter = getAllGenAndUsedGenPackagesWithClassifiers().iterator(); iter.hasNext(); )
+    for (GenPackage genPackage : getAllGenAndUsedGenPackagesWithClassifiers())
     {
-      GenPackage genPackage = (GenPackage)iter.next();
       if (genPackage.getGenModel() == this || !genPackage.getGenModel().hasEditSupport())
       {
-        for (Iterator fIter = genPackage.getAllGenFeatures().iterator(); fIter.hasNext(); )
+        for (GenFeature genFeature : genPackage.getAllGenFeatures())
         {
-          GenFeature genFeature = (GenFeature)fIter.next();
-          List addTo = genFeature.getGenPackage() == genPackage ? result : delegated;
+          List<GenFeature> addTo = genFeature.getGenPackage() == genPackage ? result : delegated;
           addTo.add(genFeature);
         }
       }
@@ -6905,18 +7076,17 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     return result;
   }
 
-  public List/*GenFeature*/ getFilteredAllGenFeatures()
+  public List<GenFeature> getFilteredAllGenFeatures()
   {
-    ArrayList result = new ArrayList();
+    ArrayList<GenFeature> result = new ArrayList<GenFeature>();
 
     // We need to filer out duplicates in the unlikely event that we have two
     // features with the same class-qualifed name. We'll only generate one property
     // string in that case and let the user add the second one mannually, if necessary.
     //
-    Set noDupSet = new HashSet();
-    for (Iterator iter = getAllGenFeatures().iterator(); iter.hasNext(); )
+    Set<String> noDupSet = new HashSet<String>();
+    for (GenFeature genFeature : getAllGenFeatures())
     {
-      GenFeature genFeature = (GenFeature)iter.next();
       if (isCreationCommands() || genFeature.isProperty())
       {
         if (noDupSet.add(genFeature.getGenClass().getName() + "_" + genFeature.getName()))
@@ -6931,6 +7101,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
   /**
    * @deprecated In EMF 2.2, the Generator-based design renders this field obsolete. It will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   protected Map codeFormatterOptions = null;
 
   /**
@@ -6939,6 +7111,8 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * @deprecated In EMF 2.2, the {@link org.eclipse.emf.codegen.ecore.generator.Generator.Options Generator.Options} should be used to
    * record code formatter options in order to be used via the new Generator-based design. This method will be removed after 2.2.
    */
+  @SuppressWarnings("unchecked")
+  @Deprecated
   public void setCodeFormatterOptions(Map options)
   {
     codeFormatterOptions = options;
@@ -6951,6 +7125,7 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
    * implement code generation. {@link org.eclipse.emf.codegen.ecore.generator.AbstractGeneratorAdapter AbstractGeneratorAdapter} provides
    * an equivalent to this method. This method will be removed after 2.2.
    */
+  @Deprecated
   public CodeFormatter createCodeFormatter()
   {
     return ToolFactory.createCodeFormatter(codeFormatterOptions);
@@ -7035,12 +7210,12 @@ public class GenModelImpl extends GenBaseImpl implements GenModel
     }
   }
   
-  public Set getPropertyCategories()
+  public Set<String> getPropertyCategories()
   {
-    Set categories = new HashSet();
-    for (Iterator i = getFilteredAllGenFeatures().iterator(); i.hasNext();)
+    Set<String> categories = new HashSet<String>();
+    for (GenFeature genFeature : getFilteredAllGenFeatures())
     {
-      String category = ((GenFeature)i.next()).getPropertyCategory();
+      String category = genFeature.getPropertyCategory();
 
       if (!isBlank(category))
       {
