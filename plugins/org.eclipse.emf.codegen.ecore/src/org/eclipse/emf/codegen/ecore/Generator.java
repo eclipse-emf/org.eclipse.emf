@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.28 2006/12/28 06:40:39 marcelop Exp $
+ * $Id: Generator.java,v 1.29 2006/12/28 08:13:18 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -46,6 +46,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.equinox.app.IApplication;
+import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
@@ -58,6 +60,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.common.util.EclipseApplication;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -116,8 +119,19 @@ public class Generator extends CodeGen
     return PlatformRunnable.run(this, object);
   }
     
-  public static class PlatformRunnable extends Generator implements org.eclipse.core.runtime.IPlatformRunnable
+  @SuppressWarnings("deprecation")
+  public static class PlatformRunnable extends Generator implements org.eclipse.core.runtime.IPlatformRunnable, IApplication
   {
+    public Object start(IApplicationContext context) throws Exception
+    {
+      return EclipseApplication.delegateToPlatformRunnable(this, context);
+    }
+    
+    public void stop()
+    {
+      // Do nothing
+    }
+    
     /**
      * This is called with the command line arguments of a headless workbench invocation.
      */
