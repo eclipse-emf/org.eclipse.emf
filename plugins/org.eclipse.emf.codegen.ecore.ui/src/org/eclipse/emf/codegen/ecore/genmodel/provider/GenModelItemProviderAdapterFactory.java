@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelItemProviderAdapterFactory.java,v 1.6 2006/12/05 20:36:20 emerks Exp $
+ * $Id: GenModelItemProviderAdapterFactory.java,v 1.7 2006/12/28 16:49:46 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -68,7 +68,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -82,7 +82,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
     supportedTypes.add(IStructuredItemContentProvider.class);
     supportedTypes.add(ITreeItemContentProvider.class);
     supportedTypes.add(IItemLabelProvider.class);
-    supportedTypes.add(IItemPropertySource.class);		
+    supportedTypes.add(IItemPropertySource.class);
   }
 
   /**
@@ -99,6 +99,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createGenModelAdapter()
   {
     if (genModelItemProvider == null)
@@ -123,6 +124,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createGenPackageAdapter()
   {
     if (genPackageItemProvider == null)
@@ -147,6 +149,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createGenClassAdapter()
   {
     if (genClassItemProvider == null)
@@ -171,6 +174,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createGenFeatureAdapter()
   {
     if (genFeatureItemProvider == null)
@@ -195,6 +199,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createGenEnumAdapter()
   {
     if (genEnumItemProvider == null)
@@ -219,6 +224,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createGenEnumLiteralAdapter()
   {
     if (genEnumLiteralItemProvider == null)
@@ -243,6 +249,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createGenDataTypeAdapter()
   {
     if (genDataTypeItemProvider == null)
@@ -267,6 +274,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createGenOperationAdapter()
   {
     if (genOperationItemProvider == null)
@@ -291,6 +299,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter createGenAnnotationAdapter()
   {
     if (genAnnotationItemProvider == null)
@@ -299,30 +308,6 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
     }
 
     return genAnnotationItemProvider;
-  }
-
-  /**
-   * This keeps track of the one adapter used for all {@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter} instances.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected GenTypeParameterItemProvider genTypeParameterItemProvider;
-
-  /**
-   * This creates an adapter for a {@link org.eclipse.emf.codegen.ecore.genmodel.GenTypeParameter}.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public Adapter createGenTypeParameterAdapter()
-  {
-    if (genTypeParameterItemProvider == null)
-    {
-      genTypeParameterItemProvider = new GenTypeParameterItemProvider(this);
-    }
-
-    return genTypeParameterItemProvider;
   }
 
   /**
@@ -352,6 +337,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return supportedTypes.contains(type) || super.isFactoryForType(type);
@@ -363,6 +349,7 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
@@ -373,12 +360,13 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public Object adapt(Object object, Object type)
   {
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
@@ -442,7 +430,6 @@ public class GenModelItemProviderAdapterFactory extends GenModelAdapterFactory i
     if (genDataTypeItemProvider != null) genDataTypeItemProvider.dispose();
     if (genOperationItemProvider != null) genOperationItemProvider.dispose();
     if (genAnnotationItemProvider != null) genAnnotationItemProvider.dispose();
-    if (genTypeParameterItemProvider != null) genTypeParameterItemProvider.dispose();
   }
 
 }

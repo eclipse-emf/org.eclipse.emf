@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenEnumLiteralItemProvider.java,v 1.10 2006/05/15 19:34:39 davidms Exp $
+ * $Id: GenEnumLiteralItemProvider.java,v 1.11 2006/12/28 16:49:46 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -27,6 +27,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -64,7 +65,8 @@ public class GenEnumLiteralItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -100,6 +102,7 @@ public class GenEnumLiteralItemProvider
 
   /**
    */
+  @Override
   public Object getImage(Object object)
   {
     return new UnderlayedImage(getResourceLocator().getImage("full/obj16/EEnumLiteral"));
@@ -108,6 +111,7 @@ public class GenEnumLiteralItemProvider
   /**
    * This returns the label text for the adapted class.
    */
+  @Override
   public String getText(Object object)
   {
     GenEnumLiteral genEnumLiteral = (GenEnumLiteral)object;
@@ -121,6 +125,7 @@ public class GenEnumLiteralItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -140,6 +145,7 @@ public class GenEnumLiteralItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return GenModelEditPlugin.INSTANCE;

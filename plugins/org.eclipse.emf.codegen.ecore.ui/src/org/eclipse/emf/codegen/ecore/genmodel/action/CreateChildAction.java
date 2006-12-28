@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateChildAction.java,v 1.2 2005/06/08 06:17:51 nickb Exp $
+ * $Id: CreateChildAction.java,v 1.3 2006/12/28 16:49:46 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.action;
 
@@ -58,6 +58,7 @@ public class CreateChildAction extends StaticSelectionCommandAction
    * This returns the image that is used if the command does not provide an
    * override.
    */
+  @Override
   protected ImageDescriptor getDefaultImageDescriptor()
   {
     return ExtendedImageRegistry.INSTANCE.getImageDescriptor(GenModelEditPlugin.INSTANCE.getImage("CreateChild"));
@@ -67,7 +68,8 @@ public class CreateChildAction extends StaticSelectionCommandAction
    * This creates the command that creates the child and adds it under the
    * single selected object, specified in collection.
    */
-  protected Command createActionCommand(EditingDomain editingDomain, Collection collection)
+  @Override
+  protected Command createActionCommand(EditingDomain editingDomain, Collection<?> collection)
   {
     if (collection.size() == 1)
     {

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: GenOperationItemProvider.java,v 1.11 2006/12/05 20:36:20 emerks Exp $
+ * $Id: GenOperationItemProvider.java,v 1.12 2006/12/28 16:49:46 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
 
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,6 +31,7 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -69,7 +69,8 @@ public class GenOperationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -105,6 +106,7 @@ public class GenOperationItemProvider
 
   /**
    */
+  @Override
   public Object getImage(Object object)
   {
     return new UnderlayedImage(getResourceLocator().getImage("full/obj16/EOperation"));
@@ -113,6 +115,7 @@ public class GenOperationItemProvider
   /**
    * This returns the label text for the adapted class.
    */
+  @Override
   public String getText(Object object)
   {
     GenOperation genOperation = (GenOperation)object;
@@ -120,9 +123,9 @@ public class GenOperationItemProvider
     StringBuffer result = new StringBuffer();
     result.append(eOperation.getName());
     result.append("("); //)
-    for (Iterator i = eOperation.getEParameters().iterator(); i.hasNext(); )
+    for (Iterator<EParameter> i = eOperation.getEParameters().iterator(); i.hasNext(); )
     {
-      EParameter eParameter = (EParameter)i.next();
+      EParameter eParameter = i.next();
       if (eParameter.getEType() != null)
       {
         result.append(eParameter.getEType().getName());
@@ -143,9 +146,9 @@ public class GenOperationItemProvider
     if (!eOperation.getEExceptions().isEmpty())
     {
       result.append(" throws ");
-      for (Iterator i = eOperation.getEExceptions().iterator(); i.hasNext(); )
+      for (Iterator<EClassifier> i = eOperation.getEExceptions().iterator(); i.hasNext(); )
       {
-        EClassifier eClassifier = (EClassifier)i.next();
+        EClassifier eClassifier = i.next();
         result.append(eClassifier.getName());
         if (i.hasNext())
         {
@@ -164,6 +167,7 @@ public class GenOperationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -185,6 +189,7 @@ public class GenOperationItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return GenModelEditPlugin.INSTANCE;

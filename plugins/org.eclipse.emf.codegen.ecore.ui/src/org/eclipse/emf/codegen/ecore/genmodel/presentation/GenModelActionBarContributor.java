@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: GenModelActionBarContributor.java,v 1.20 2006/05/15 22:01:00 emerks Exp $
+ * $Id: GenModelActionBarContributor.java,v 1.21 2006/12/28 16:49:46 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -117,6 +116,7 @@ public class GenModelActionBarContributor
   protected IAction showPropertiesViewAction =
     new Action(GenModelEditPlugin.INSTANCE.getString("_UI_ShowPropertiesView_menu_item"))
     {
+      @Override
       public void run()
       {
         try
@@ -140,11 +140,13 @@ public class GenModelActionBarContributor
   protected IAction refreshViewerAction =
     new Action(GenModelEditPlugin.INSTANCE.getString("_UI_RefreshViewer_menu_item"))
     {
+      @Override
       public boolean isEnabled()
       {
         return activeEditorPart instanceof IViewerProvider;
       }
 
+      @Override
       public void run()
       {
         if (activeEditorPart instanceof IViewerProvider)
@@ -299,6 +301,7 @@ public class GenModelActionBarContributor
       this.projectTypes = projectTypes;
     }
 
+    @Override
     public boolean isEnabled()
     {
       if (activeEditorPart instanceof GenModelEditor)
@@ -323,9 +326,8 @@ public class GenModelActionBarContributor
         return false;
       }
 
-      for (Iterator iter = ss.iterator(); iter.hasNext(); )
+      for (Object object : ss.toList())
       {
-        Object object = iter.next();
         boolean canGenerateObject = false;
 
         for (int i = 0; i < projectTypes.length; i++)
@@ -344,6 +346,7 @@ public class GenModelActionBarContributor
       return true;
     }
 
+    @Override
     public void run()
     {
       // Do the work within an operation because this is a long running activity that modifies the workbench.
@@ -352,18 +355,18 @@ public class GenModelActionBarContributor
       {
         // This is the method that gets invoked when the operation runs.
         //
+        @Override
         protected void execute(IProgressMonitor progressMonitor) throws CoreException
         {
-          Collection selection = ((IStructuredSelection)getActiveEditorSelection()).toList();
+          Collection<?> selection = ((IStructuredSelection)getActiveEditorSelection()).toList();
           progressMonitor.beginTask("", selection.size() * projectTypes.length);
           try
           {
             BasicDiagnostic diagnostic = new BasicDiagnostic(GenModelEditPlugin.ID, 0, getText(), null);
 
             LOOP:
-            for (Iterator iter = selection.iterator(); iter.hasNext(); )
+            for (Object object : selection)
             {
-              Object object = iter.next();
               for (int i = 0; i < projectTypes.length; i++)
               {
                 diagnostic.add
@@ -533,6 +536,7 @@ public class GenModelActionBarContributor
 
   protected ViewerFilterAction showGenAnnotationsAction = new ViewerFilterAction(GenModelEditPlugin.INSTANCE.getString("_UI_ShowGenAnnotation_menu_item"), IAction.AS_CHECK_BOX)
   {
+    @Override
     public boolean select(Viewer viewer, Object parentElement, Object element)
     {
       return !(element instanceof GenAnnotation) || isChecked();
@@ -554,7 +558,8 @@ public class GenModelActionBarContributor
       setEditingDomain(null);
     }
     
-    public Command createCommand(Collection selection)
+    @Override
+    public Command createCommand(Collection<?> selection)
     {
       if (activeEditorPart instanceof IEditingDomainProvider)
       {
@@ -584,6 +589,7 @@ public class GenModelActionBarContributor
     GenModelEditPlugin.INSTANCE.getString("_UI_Annotate_menu_item"),
     GenModelEditPlugin.INSTANCE.getString("_UI_Annotate_text"))
   {
+    @Override
     protected Command doCreateCommand(GenBase selectedObject)
     {
       return AddCommand.create(getEditingDomain(), selectedObject, GenModelPackage.Literals.GEN_BASE__GEN_ANNOTATIONS, selectedObject.getGenModel().createGenAnnotation());
@@ -594,6 +600,7 @@ public class GenModelActionBarContributor
     GenModelEditPlugin.INSTANCE.getString("_UI_AddDetail_menu_item"),
     GenModelEditPlugin.INSTANCE.getString("_UI_AddDetail_text"))
   {
+    @Override
     protected Command doCreateCommand(GenBase selectedObject)
     {
       return AddCommand.create(getEditingDomain(), selectedObject, GenModelPackage.Literals.GEN_ANNOTATION__DETAILS, EcoreUtil.create(EcorePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY));
@@ -615,6 +622,7 @@ public class GenModelActionBarContributor
       clearCache();
     }
     
+    @Override
     public void run()
     {
       if (eObject != null)
@@ -630,6 +638,7 @@ public class GenModelActionBarContributor
       }
     }
     
+    @Override
     protected boolean updateSelection(IStructuredSelection selection)
     {
       if (selection.size() == 1)
@@ -646,6 +655,7 @@ public class GenModelActionBarContributor
   
   protected OpenEObjectEditorAction openEcoreAction = new OpenEObjectEditorAction(GenModelEditPlugin.INSTANCE.getString("_UI_OpenEcore_menu_item"))
   {
+    @Override
     protected EObject getEObject(Object element)
     {
       return element instanceof GenBase ? ((GenBase)element).getEcoreModelElement() : null;
@@ -654,6 +664,7 @@ public class GenModelActionBarContributor
 
   protected OpenEObjectEditorAction openGenModelAction = new OpenEObjectEditorAction(GenModelEditPlugin.INSTANCE.getString("_UI_OpenGenModel_menu_item"))
   {
+    @Override
     protected EObject getEObject(Object element)
     {
       if (activeEditorPart instanceof IEditingDomainProvider && element instanceof EObject)
@@ -680,6 +691,7 @@ public class GenModelActionBarContributor
       Boolean.valueOf(GenModelEditPlugin.getPlugin().getDialogSettings().get("showGenAnnotationsAction")).booleanValue());
   }
   
+  @Override
   public void dispose()
   {
     GenModelEditPlugin.getPlugin().getDialogSettings().put(
@@ -697,6 +709,7 @@ public class GenModelActionBarContributor
   /**
    * This adds menu contributions for the generate actions.
    */
+  @Override
   public void contributeToMenu(IMenuManager menuManager)
   {
     super.contributeToMenu(menuManager);
@@ -723,6 +736,7 @@ public class GenModelActionBarContributor
   /**
    * This adds Separators for editor additions to the tool bar.
    */
+  @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
     toolBarManager.add(new Separator("genmodel-settings"));
@@ -732,6 +746,7 @@ public class GenModelActionBarContributor
   /**
    * When the active editor changes, this remembers the change,
    */
+  @Override
   public void setActiveEditor(IEditorPart part)
   {
     super.setActiveEditor(part);
@@ -790,6 +805,7 @@ public class GenModelActionBarContributor
   /**
    * This populates the pop-up menu before it appears.
    */
+  @Override
   public void menuAboutToShow(IMenuManager menuManager)
   {
     generateAllAction.setEnabled(generateAllAction.isEnabled());
@@ -830,6 +846,7 @@ public class GenModelActionBarContributor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected void addGlobalActions(IMenuManager menuManager)
   {
     menuManager.insertAfter("additions-end", new Separator("ui-actions"));

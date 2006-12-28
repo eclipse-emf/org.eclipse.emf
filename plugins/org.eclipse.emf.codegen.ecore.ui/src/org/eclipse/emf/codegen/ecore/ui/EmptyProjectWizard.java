@@ -62,10 +62,12 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
     setWindowTitle(GenModelEditPlugin.INSTANCE.getString("_UI_NewEmptyProject_title"));
   }
 
+  @Override
   public void addPages()
   {
     WizardNewProjectCreationPage newProjectCreationPage = new WizardNewProjectCreationPage("NewProjectCreationPage")
       {
+        @Override
         protected boolean validatePage()
         {
           if (super.validatePage())
@@ -91,10 +93,12 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
   
   
 
+  @Override
   public boolean performFinish()
   {
     WorkspaceModifyOperation operation = new WorkspaceModifyOperation()
       {
+        @Override
         protected void execute(IProgressMonitor progressMonitor)
         {
           try
@@ -102,7 +106,7 @@ public class EmptyProjectWizard extends Wizard implements INewWizard
             project = Generator.createEMFProject(
               new Path(genModelContainerPath.toString()),
               genModelProjectLocation,
-              Collections.EMPTY_LIST,
+              Collections.<IProject>emptyList(),
               progressMonitor,
               Generator.EMF_MODEL_PROJECT_STYLE | Generator.EMF_PLUGIN_PROJECT_STYLE);
 

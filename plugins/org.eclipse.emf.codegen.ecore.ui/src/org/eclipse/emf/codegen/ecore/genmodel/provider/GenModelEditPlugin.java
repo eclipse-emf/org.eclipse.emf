@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditPlugin.java,v 1.10 2006/05/04 12:24:11 emerks Exp $
+ * $Id: GenModelEditPlugin.java,v 1.11 2006/12/28 16:49:46 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -57,9 +57,9 @@ public final class GenModelEditPlugin extends EMFPlugin
   {
     super
       (new ResourceLocator [] 
-       {
-         EcoreEditPlugin.INSTANCE,
-       });
+      {
+        EcoreEditPlugin.INSTANCE,
+      });
   }
 
   /**
@@ -69,6 +69,7 @@ public final class GenModelEditPlugin extends EMFPlugin
    * @return the singleton instance.
    * @generated
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;
@@ -103,7 +104,7 @@ public final class GenModelEditPlugin extends EMFPlugin
     public Implementation()
     {
       super();
-
+  
       // Remember the static instance.
       //
       plugin = this;

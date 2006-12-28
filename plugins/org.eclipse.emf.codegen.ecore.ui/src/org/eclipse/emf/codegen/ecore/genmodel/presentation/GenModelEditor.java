@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenModelEditor.java,v 1.38 2006/12/13 20:28:45 marcelop Exp $
+ * $Id: GenModelEditor.java,v 1.39 2006/12/28 16:49:46 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.presentation;
 
@@ -263,7 +263,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection selectionChangedListeners = new ArrayList();
+  protected Collection<ISelectionChangedListener> selectionChangedListeners = new ArrayList<ISelectionChangedListener>();
 
   /**
    * This keeps track of the selection of the editor as a whole.
@@ -317,15 +317,19 @@ public class GenModelEditor
       }
       public void partBroughtToTop(IWorkbenchPart p)
       {
+        // Ignore.
       }
       public void partClosed(IWorkbenchPart p)
       {
+        // Ignore.
       }
       public void partDeactivated(IWorkbenchPart p)
       {
+        // Ignore.
       }
       public void partOpened(IWorkbenchPart p)
       {
+        // Ignore.
       }
     };
 
@@ -335,7 +339,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection removedResources = new ArrayList();
+  protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
   /**
    * Resources that have been changed since last activation.
@@ -343,7 +347,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection changedResources = new ArrayList();
+  protected Collection<Resource> changedResources = new ArrayList<Resource>();
 
   /**
    * Resources that have been saved.
@@ -351,7 +355,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Collection savedResources = new ArrayList();
+  protected Collection<Resource> savedResources = new ArrayList<Resource>();
 
   /**
    * Map to store the diagnostic associated with a resource.
@@ -359,7 +363,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  protected Map resourceToDiagnosticMap = new LinkedHashMap();
+  protected Map<Resource, Diagnostic> resourceToDiagnosticMap = new LinkedHashMap<Resource, Diagnostic>();
 
   /**
    * Controls whether the problem indication should be updated.
@@ -378,6 +382,7 @@ public class GenModelEditor
   protected EContentAdapter problemIndicationAdapter = 
     new EContentAdapter()
     {
+      @Override
       public void notifyChanged(Notification notification)
       {
         if (notification.getNotifier() instanceof Resource)
@@ -410,6 +415,7 @@ public class GenModelEditor
                      }
                    });
               }
+              break;
             }
           }
         }
@@ -419,11 +425,13 @@ public class GenModelEditor
         }
       }
 
+      @Override
       protected void setTarget(Resource target)
       {
         basicSetTarget(target);
       }
 
+      @Override
       protected void unsetTarget(Resource target)
       {
         basicUnsetTarget(target);
@@ -450,8 +458,8 @@ public class GenModelEditor
             class ResourceDeltaVisitor implements IResourceDeltaVisitor
             {
               protected ResourceSet resourceSet = editingDomain.getResourceSet();
-              protected Collection changedResources = new ArrayList();
-              protected Collection removedResources = new ArrayList();
+              protected Collection<Resource> changedResources = new ArrayList<Resource>();
+              protected Collection<Resource> removedResources = new ArrayList<Resource>();
 
               public boolean visit(IResourceDelta delta)
               {
@@ -478,12 +486,12 @@ public class GenModelEditor
                 return true;
               }
 
-              public Collection getChangedResources()
+              public Collection<Resource> getChangedResources()
               {
                 return changedResources;
               }
 
-              public Collection getRemovedResources()
+              public Collection<Resource> getRemovedResources()
               {
                 return removedResources;
               }
@@ -588,12 +596,11 @@ public class GenModelEditor
     if (!changedResources.isEmpty() && (!isDirty() || handleDirtyConflict()))
     {
       editingDomain.getCommandStack().flush();
-      Resource mainResource = (Resource)editingDomain.getResourceSet().getResources().get(0);
+      Resource mainResource = editingDomain.getResourceSet().getResources().get(0);
 
       updateProblemIndication = false;
-      for (Iterator i = changedResources.iterator(); i.hasNext(); )
+      for (Resource resource : changedResources)
       {
-        Resource resource = (Resource)i.next();
         if (resource.isLoaded())
         {
           resource.unload();
@@ -639,7 +646,7 @@ public class GenModelEditor
     }
     else
     {
-      Map options = JavaCore.getOptions();
+      Map<?, ?> options = JavaCore.getOptions();
       String tabSize = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_SIZE);
       String braceStyle = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_BRACE_POSITION_FOR_TYPE_DECLARATION);
       String tabCharacter = (String)options.get(DefaultCodeFormatterConstants.FORMATTER_TAB_CHAR);
@@ -679,9 +686,8 @@ public class GenModelEditor
            0,
            null,
            new Object [] { editingDomain.getResourceSet() });
-      for (Iterator i = resourceToDiagnosticMap.values().iterator(); i.hasNext(); )
+      for (Diagnostic childDiagnostic : resourceToDiagnosticMap.values())
       {
-        Diagnostic childDiagnostic = (Diagnostic)i.next();
         if (childDiagnostic.getSeverity() != Diagnostic.OK)
         {
           diagnostic.add(childDiagnostic);
@@ -800,6 +806,7 @@ public class GenModelEditor
     editingDomain = 
       new AdapterFactoryEditingDomain(adapterFactory, commandStack)
       {
+        @Override
         public boolean isReadOnly(Resource resource)
         {
           return super.isReadOnly(resource) || getResourceSet().getResources().indexOf(resource) != 0;  
@@ -815,6 +822,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected void firePropertyChange(int action)
   {
     super.firePropertyChange(action);
@@ -826,9 +834,9 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setSelectionToViewer(Collection collection)
+  public void setSelectionToViewer(Collection<?> collection)
   {
-    final Collection theSelection = collection;
+    final Collection<?> theSelection = collection;
     // Make sure it's okay.
     //
     if (theSelection != null && !theSelection.isEmpty())
@@ -880,24 +888,28 @@ public class GenModelEditor
       super(adapterFactory);
     }
 
+    @Override
     public Object [] getElements(Object object)
     {
       Object parent = super.getParent(object);
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    @Override
     public Object [] getChildren(Object object)
     {
       Object parent = super.getParent(object);
       return (parent == null ? Collections.EMPTY_SET : Collections.singleton(parent)).toArray();
     }
 
+    @Override
     public boolean hasChildren(Object object)
     {
       Object parent = super.getParent(object);
       return parent != null;
     }
 
+    @Override
     public Object getParent(Object object)
     {
       return null;
@@ -997,6 +1009,7 @@ public class GenModelEditor
     viewer.getControl().addMouseListener
      (new MouseAdapter()
       {
+        @Override
         public void mouseDoubleClick(MouseEvent event) 
         {
           if (event.button == 1)
@@ -1025,7 +1038,7 @@ public class GenModelEditor
     // Assumes that the input is a file object.
     //
     IFileEditorInput modelFile = (IFileEditorInput)getEditorInput();
-    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);;
+    URI resourceURI = URI.createPlatformResourceURI(modelFile.getFile().getFullPath().toString(), true);
     Exception exception = null;
     Resource resource = null;
     try
@@ -1091,6 +1104,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public void createPages()
   {
     // Creates the model from the editor input
@@ -1101,7 +1115,7 @@ public class GenModelEditor
     //
     if (!getEditingDomain().getResourceSet().getResources().isEmpty())
     {
-      Resource resource = (Resource)getEditingDomain().getResourceSet().getResources().get(0);
+      Resource resource = getEditingDomain().getResourceSet().getResources().get(0);
       if (!resource.getContents().isEmpty() && resource.getContents().get(0) instanceof GenModel)
       {
         GenModel genModel = (GenModel)resource.getContents().get(0);
@@ -1135,6 +1149,7 @@ public class GenModelEditor
       (new ControlAdapter()
        {
         boolean guard = false;
+        @Override
         public void controlResized(ControlEvent event)
         {
           if (!guard)
@@ -1197,6 +1212,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected void pageChange(int pageIndex)
   {
     super.pageChange(pageIndex);
@@ -1213,6 +1229,8 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @SuppressWarnings("unchecked")
+  @Override
   public Object getAdapter(Class key)
   {
     if (key.equals(IContentOutlinePage.class))
@@ -1247,6 +1265,7 @@ public class GenModelEditor
       //
       class MyContentOutlinePage extends ContentOutlinePage
       {
+        @Override
         public void createControl(Composite parent)
         {
           super.createControl(parent);
@@ -1271,12 +1290,14 @@ public class GenModelEditor
           }
         }
 
+        @Override
         public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
         {
           super.makeContributions(menuManager, toolBarManager, statusLineManager);
           contentOutlineStatusLineManager = statusLineManager;
         }
 
+        @Override
         public void setActionBars(IActionBars actionBars)
         {
           super.setActionBars(actionBars);
@@ -1316,12 +1337,14 @@ public class GenModelEditor
       propertySheetPage =
         new ExtendedPropertySheetPage(editingDomain)
         {
-          public void setSelectionToViewer(List selection)
+          @Override
+          public void setSelectionToViewer(List<?> selection)
           {
             GenModelEditor.this.setSelectionToViewer(selection);
             GenModelEditor.this.setFocus();
           }
 
+          @Override
           public void setActionBars(IActionBars actionBars)
           {
             super.setActionBars(actionBars);
@@ -1344,14 +1367,14 @@ public class GenModelEditor
   {
     if (selectionViewer != null && !selection.isEmpty() && selection instanceof IStructuredSelection)
     {
-      Iterator selectedElements = ((IStructuredSelection)selection).iterator();
+      Iterator<?> selectedElements = ((IStructuredSelection)selection).iterator();
       if (selectedElements.hasNext())
       {
         // Get the first selected element.
         //
         Object selectedElement = selectedElements.next();
 
-        ArrayList selectionList = new ArrayList();
+        ArrayList<Object> selectionList = new ArrayList<Object>();
         selectionList.add(selectedElement);
         while (selectedElements.hasNext())
         {
@@ -1371,6 +1394,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isDirty()
   {
     return ((BasicCommandStack)editingDomain.getCommandStack()).isSaveNeeded();
@@ -1382,6 +1406,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void doSave(IProgressMonitor progressMonitor)
   {
     // Do the work within an operation because this is a long running activity that modifies the workbench.
@@ -1391,14 +1416,14 @@ public class GenModelEditor
       {
         // This is the method that gets invoked when the operation runs.
         //
+        @Override
         public void execute(IProgressMonitor monitor)
         {
           // Save the resources to the file system.
           //
           boolean first = true;
-          for (Iterator i = editingDomain.getResourceSet().getResources().iterator(); i.hasNext(); )
+          for (Resource resource : editingDomain.getResourceSet().getResources())
           {
-            Resource resource = (Resource)i.next();
             if ((first || !resource.getContents().isEmpty() || isPersisted(resource)) && !editingDomain.isReadOnly(resource))
             {
               try
@@ -1459,6 +1484,7 @@ public class GenModelEditor
     }
     catch (IOException e)
     {
+      // Ignore
     }
     return result;
   }
@@ -1469,6 +1495,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean isSaveAsAllowed()
   {
     return true;
@@ -1480,6 +1507,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void doSaveAs()
   {
     SaveAsDialog saveAsDialog = new SaveAsDialog(getSite().getShell());
@@ -1502,7 +1530,7 @@ public class GenModelEditor
    */
   protected void doSaveAs(URI uri, IEditorInput editorInput)
   {
-    ((Resource)editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
+    (editingDomain.getResourceSet().getResources().get(0)).setURI(uri);
     setInputWithNotify(editorInput);
     setPartName(editorInput.getName());
     IProgressMonitor progressMonitor =
@@ -1547,6 +1575,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  @Override
   public void init(IEditorSite site, IEditorInput editorInput) throws PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException, PartInitException
   {
     setSite(site);
@@ -1569,6 +1598,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void setFocus()
   {
     getControl(getActivePage()).setFocus();
@@ -1618,9 +1648,8 @@ public class GenModelEditor
   {
     editorSelection = selection;
 
-    for (Iterator listeners = selectionChangedListeners.iterator(); listeners.hasNext(); )
+    for (ISelectionChangedListener listener : selectionChangedListeners)
     {
-      ISelectionChangedListener listener = (ISelectionChangedListener)listeners.next();
       listener.selectionChanged(new SelectionChangedEvent(this, selection));
     }
     setStatusLineManager(selection);
@@ -1640,7 +1669,7 @@ public class GenModelEditor
     {
       if (selection instanceof IStructuredSelection)
       {
-        Collection collection = ((IStructuredSelection)selection).toList();
+        Collection<?> collection = ((IStructuredSelection)selection).toList();
         switch (collection.size())
         {
           case 0:
@@ -1736,6 +1765,7 @@ public class GenModelEditor
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void dispose()
   {
     updateProblemIndication = false;
@@ -1776,12 +1806,12 @@ public class GenModelEditor
   }
   public void validate()
   {
-    Resource mainResource = (Resource)editingDomain.getResourceSet().getResources().get(0);
+    Resource mainResource = editingDomain.getResourceSet().getResources().get(0);
     GenModel genModel = (GenModel)mainResource.getContents().get(0);
     Diagnostic diagnostic = genModel.diagnose();
     if (diagnostic.getSeverity() != Diagnostic.OK)
     {
-      Diagnostic mapDiagnostic = (Diagnostic)resourceToDiagnosticMap.get(mainResource);
+      Diagnostic mapDiagnostic = resourceToDiagnosticMap.get(mainResource);
       if (mapDiagnostic != null)
       {
         ((DiagnosticChain)diagnostic).add(mapDiagnostic);

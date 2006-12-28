@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseItemProvider.java,v 1.9 2006/05/24 18:14:20 emerks Exp $
+ * $Id: GenBaseItemProvider.java,v 1.10 2006/12/28 16:49:46 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.ComposedImage;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -74,12 +75,13 @@ public class GenBaseItemProvider
            }));
     }
 
-    public List getDrawPoints(Size size)
+    @Override
+    public List<ComposedImage.Point> getDrawPoints(Size size)
     {
-      List result = super.getDrawPoints(size);
+      List<ComposedImage.Point> result = super.getDrawPoints(size);
       if (result.size() > 2)
       {
-        ((Point)result.get(1)).y = -2;
+        result.get(1).y = -2;
       }
       return result;
     }
@@ -102,7 +104,8 @@ public class GenBaseItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -120,7 +123,8 @@ public class GenBaseItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -131,11 +135,26 @@ public class GenBaseItemProvider
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  protected EStructuralFeature getChildFeature(Object object, Object child)
+  {
+    // Check the type of the specified child object and return the proper feature to use for
+    // adding (see {@link AddCommand}) it as a child.
+
+    return super.getChildFeature(object, child);
+  }
+
+  /**
    * This returns the label text for the adapted class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public String getText(Object object)
   {
     return getString("_UI_GenBase_type");
@@ -148,6 +167,7 @@ public class GenBaseItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -167,6 +187,7 @@ public class GenBaseItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return GenModelEditPlugin.INSTANCE;
@@ -189,6 +210,7 @@ public class GenBaseItemProvider
     return false;
   }
 
+  @Override
   protected ItemPropertyDescriptor createItemPropertyDescriptor
     (AdapterFactory adapterFactory, 
      ResourceLocator resourceLocator, 
@@ -257,11 +279,13 @@ public class GenBaseItemProvider
       super(adapterFactory, resourceLocator, displayName, description, feature, isSettable, multiLine, sortChoices, staticImage, category, filterFlags);
     }
 
+    @Override
     public boolean canSetProperty(Object object)
     {
       return super.canSetProperty(object) && canEdit(object);
     }
     
+    @Override
     protected Object createPropertyValueWrapper(Object object, Object propertyValue)
     {
       return propertyValue instanceof EModelElement ?

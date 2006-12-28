@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenClassItemProvider.java,v 1.14 2006/12/05 20:36:20 emerks Exp $
+ * $Id: GenClassItemProvider.java,v 1.15 2006/12/28 16:49:46 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.provider;
 
@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -70,7 +71,8 @@ public class GenClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -191,7 +193,8 @@ public class GenClassItemProvider
          true,
          getString("_UI_EditPropertyCategory"))
        {
-         protected Collection getComboBoxObjects(Object object)
+         @Override
+        protected Collection<?> getComboBoxObjects(Object object)
          {
            GenClass genClass = (GenClass)object;
            return genClass.getLabelFeatureCandidates();
@@ -207,12 +210,12 @@ public class GenClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
       super.getChildrenFeatures(object);
-      childrenFeatures.add(GenModelPackage.Literals.GEN_CLASSIFIER__GEN_TYPE_PARAMETERS);
       childrenFeatures.add(GenModelPackage.Literals.GEN_CLASS__GEN_FEATURES);
       childrenFeatures.add(GenModelPackage.Literals.GEN_CLASS__GEN_OPERATIONS);
     }
@@ -224,6 +227,7 @@ public class GenClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     // Check the type of the specified child object and return the proper feature to use for
@@ -234,6 +238,7 @@ public class GenClassItemProvider
 
   /**
    */
+  @Override
   public Object getImage(Object object)
   {
     return new UnderlayedImage(getResourceLocator().getImage("full/obj16/EClass"));
@@ -242,6 +247,7 @@ public class GenClassItemProvider
   /**
    * This returns the label text for the adapted class.
    */
+  @Override
   public String getText(Object object)
   {
     GenClass genClass = (GenClass)object;
@@ -254,9 +260,9 @@ public class GenClassItemProvider
     if (!eClass.getESuperTypes().isEmpty())
     {
       result.append(" -> ");
-      for (Iterator i = eClass.getESuperTypes().iterator(); i.hasNext(); )
+      for (Iterator<EClass> i = eClass.getESuperTypes().iterator(); i.hasNext(); )
       {
-        EClass eSuperType = (EClass)i.next();
+        EClass eSuperType = i.next();
         result.append(eSuperType.getName());
         if (i.hasNext())
         {
@@ -281,6 +287,7 @@ public class GenClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void notifyChanged(Notification notification)
   {
     updateChildren(notification);
@@ -288,6 +295,7 @@ public class GenClassItemProvider
     switch (notification.getFeatureID(GenClass.class))
     {
       case GenModelPackage.GEN_CLASS__GEN_PACKAGE:
+      case GenModelPackage.GEN_CLASS__GEN_TYPE_PARAMETERS:
       case GenModelPackage.GEN_CLASS__PROVIDER:
       case GenModelPackage.GEN_CLASS__IMAGE:
       case GenModelPackage.GEN_CLASS__DYNAMIC:
@@ -295,7 +303,6 @@ public class GenClassItemProvider
       case GenModelPackage.GEN_CLASS__LABEL_FEATURE:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
         return;
-      case GenModelPackage.GEN_CLASS__GEN_TYPE_PARAMETERS:
       case GenModelPackage.GEN_CLASS__GEN_FEATURES:
       case GenModelPackage.GEN_CLASS__GEN_OPERATIONS:
         fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
@@ -310,6 +317,7 @@ public class GenClassItemProvider
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public ResourceLocator getResourceLocator()
   {
     return GenModelEditPlugin.INSTANCE;
