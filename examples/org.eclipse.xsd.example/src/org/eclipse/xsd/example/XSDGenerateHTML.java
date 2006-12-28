@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDGenerateHTML.java,v 1.1 2005/06/13 14:08:22 marcelop Exp $
+ * $Id: XSDGenerateHTML.java,v 1.2 2006/12/28 08:18:29 marcelop Exp $
  */
 package org.eclipse.xsd.example;
 
@@ -38,8 +38,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import org.eclipse.core.runtime.IPlatformRunnable;
-
+import org.eclipse.emf.common.util.EclipseApplication;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -104,7 +103,7 @@ import org.eclipse.xsd.util.XSDResourceImpl;
  * allows you to pass in your own annotations.
  * </p>
  */
-public class XSDGenerateHTML implements IPlatformRunnable 
+public class XSDGenerateHTML extends EclipseApplication
 {
   {
     // This is needed because we can't have the following in the plugin.xml
@@ -121,38 +120,38 @@ public class XSDGenerateHTML implements IPlatformRunnable
   /**
    * The map from schema type to Java class.
    */
-  public Map schemaTypeToJavaClassMap = new HashMap();
+  public Map<String, String> schemaTypeToJavaClassMap = new HashMap<String, String>();
 
   /**
    * The map from String keys to documentation.
    * @see #readMarkup
    * @see #handleMarkup
    */
-  public Map contentDocumentationMap = new HashMap();
+  public Map<String, String> contentDocumentationMap = new HashMap<String, String>();
 
   /**
    * The map from String keys to documentation for {@link XSDElementDeclaration}.
    * @see #readMarkup
    * @see #handleMarkup
    */
-  public Map elementDeclarationMarkupMap = new HashMap();
+  public Map<String, String> elementDeclarationMarkupMap = new HashMap<String, String>();
 
   /**
    * The map from String keys to documentation for {@link XSDAttributeDeclaration}s.
    * @see #readMarkup
    * @see #handleMarkup
    */
-  public Map attributeDeclarationMarkupMap = new HashMap();
+  public Map<String, String> attributeDeclarationMarkupMap = new HashMap<String, String>();
 
   /**
    * The map from {@link XSDElementDeclaration} to an anchor string.
    */
-  public Map specialAnchorMap = new HashMap();
+  public Map<XSDElementDeclaration, XSDElementDeclaration> specialAnchorMap = new HashMap<XSDElementDeclaration, XSDElementDeclaration>();
 
   /**
    * The list of anchors in <a href="http://www.w3.org/TR/xmlschema-1/">Part 1</a>.
    */
-  protected List part1Anchors =
+  protected List<String> part1Anchors =
     Arrays.asList
      (new String []
       {
@@ -195,7 +194,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
   /**
    * The list of components in <a href="http://www.w3.org/TR/xmlschema-1/">Part 1</a>.
    */
-  List part1Components =
+  List<String> part1Components =
     Arrays.asList
      (new String []
       {
@@ -238,7 +237,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
   /**
    * The list of anchors in <a href="http://www.w3.org/TR/xmlschema-2/">Part 2</a>.
    */
-  protected List part2Anchors =
+  protected List<String> part2Anchors =
     Arrays.asList
       (new String []
        {
@@ -263,7 +262,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
   /**
    * The list of components in <a href="http://www.w3.org/TR/xmlschema-2/">Part 2</a>.
    */
-  protected List part2Components =
+  protected List<String> part2Components =
     Arrays.asList
       (new String []
        {
@@ -315,6 +314,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
    */
   public XSDGenerateHTML() 
   {
+    super();
   }
 
   /**
@@ -364,7 +364,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
    * @param markupMap the map to contain the markup.
    * @param markupElement the element specifying the markup.
    */
-  public void handleMarkup(Map markupMap, Element markupElement)
+  public void handleMarkup(Map<String, String> markupMap, Element markupElement)
   {
     String keyList = markupElement.getAttribute("key");
     for (StringTokenizer stringTokenizer = new StringTokenizer(keyList); stringTokenizer.hasMoreTokens(); )
@@ -410,7 +410,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
    */
   public String getContentDocumentation(String key)
   {
-    String result = (String)contentDocumentationMap.get(key);
+    String result = contentDocumentationMap.get(key);
     if (result != null)
     {
       result = result.substring(result.indexOf("@") + 1);
@@ -430,7 +430,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
    */
   public String getElementDeclarationMarkup(String key)
   {
-    String result = (String)elementDeclarationMarkupMap.get(key);
+    String result = elementDeclarationMarkupMap.get(key);
     if (result != null)
     {
       result = result.substring(0, result.indexOf("@"));
@@ -450,7 +450,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
    */
   public String getElementDeclarationDocumentation(String key)
   {
-    String result = (String)elementDeclarationMarkupMap.get(key);
+    String result = elementDeclarationMarkupMap.get(key);
     if (result != null)
     {
       result = result.substring(result.indexOf("@") + 1);
@@ -470,7 +470,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
    */
   public String getAttributeDeclarationMarkup(String key)
   {
-    String result = (String)attributeDeclarationMarkupMap.get(key);
+    String result = attributeDeclarationMarkupMap.get(key);
     if (result != null)
     {
       result = result.substring(0, result.indexOf("@"));
@@ -490,7 +490,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
    */
   public String getAttributeDeclarationDocumentation(String key)
   {
-    String result = (String)attributeDeclarationMarkupMap.get(key);
+    String result = attributeDeclarationMarkupMap.get(key);
     if (result != null)
     {
       result = result.substring(result.indexOf("@") + 1);
@@ -510,7 +510,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
   public String getStandardLink(XSDElementDeclaration xsdElementDeclaration)
   {
     String result = xsdElementDeclaration.getName();
-    XSDElementDeclaration parentElementDeclaration = (XSDElementDeclaration)specialAnchorMap.get(xsdElementDeclaration);
+    XSDElementDeclaration parentElementDeclaration = specialAnchorMap.get(xsdElementDeclaration);
     if (parentElementDeclaration != null)
     {
       result = "<a target='Part1' href='" + XSDConstants.PART1 + "#element-" + parentElementDeclaration.getName() + "::" + result;
@@ -535,7 +535,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
   public String getComponentLinks(XSDElementDeclaration xsdElementDeclaration)
   {
     String name = xsdElementDeclaration.getName();
-    XSDElementDeclaration parentElementDeclaration = (XSDElementDeclaration)specialAnchorMap.get(xsdElementDeclaration);
+    XSDElementDeclaration parentElementDeclaration = specialAnchorMap.get(xsdElementDeclaration);
     if (parentElementDeclaration != null)
     {
       name = parentElementDeclaration.getName() + "::" + name;
@@ -547,7 +547,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
     if (index != -1)
     {
       part = 2;
-      anchors = (String)part2Components.get(index + 1);
+      anchors = part2Components.get(index + 1);
     }
     else
     {
@@ -555,7 +555,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
       if (index != -1)
       {
         part = 1;
-        anchors = (String)part1Components.get(index + 1);
+        anchors = part1Components.get(index + 1);
       }
     }
 
@@ -635,7 +635,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
   public String getLocalAnchor(XSDElementDeclaration xsdElementDeclaration)
   {
     String result = xsdElementDeclaration.getName();
-    XSDElementDeclaration parentElementDeclaration = (XSDElementDeclaration)specialAnchorMap.get(xsdElementDeclaration);
+    XSDElementDeclaration parentElementDeclaration = specialAnchorMap.get(xsdElementDeclaration);
     if (parentElementDeclaration != null)
     {
       result = "element-" + parentElementDeclaration.getName() + "::" + result;
@@ -657,6 +657,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
    * @param object an array of Strings.
    * @return <code>0</code> indicating success, or <code>1</code> indicating failure.
    */
+  @Override
   public Object run(Object object) 
   {
     try
@@ -737,7 +738,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
       System.out.println(elementContentHeaderDocumentation);
     }
 
-    List all = new ArrayList(xsdSchema.getElementDeclarations());
+    List<XSDElementDeclaration> all = new ArrayList<XSDElementDeclaration>(xsdSchema.getElementDeclarations());
 
     XSDElementDeclaration simpleContent = xsdSchema.resolveElementDeclaration("simpleContent");
     XSDElementDeclaration complexContent = xsdSchema.resolveElementDeclaration("complexContent");
@@ -749,27 +750,26 @@ public class XSDGenerateHTML implements IPlatformRunnable
         XSDComplexTypeDefinition xsdComplexTypeDefinition = (XSDComplexTypeDefinition)parentElement.getTypeDefinition();
         XSDElementDeclaration specialElementDeclaration = 
           (XSDElementDeclaration)
-            ((XSDParticle)
+            ((XSDModelGroup)
               ((XSDModelGroup)
-                ((XSDParticle)
-                  ((XSDModelGroup)
-                    ((XSDParticle)(xsdComplexTypeDefinition.getContentType())).
-                      getTerm()).
-                    getParticles().get(1)).
+                ((XSDParticle)(xsdComplexTypeDefinition.getContentType())).
                   getTerm()).
-                getParticles().get(j)).
+                getParticles().get(1).
+                getTerm()).
+              getParticles().get(j).
               getTerm();
         all.add(specialElementDeclaration);
         specialAnchorMap.put(specialElementDeclaration, parentElement);
       }
     }
 
-    all = XSDNamedComponentImpl.sortNamedComponents(all);
+    @SuppressWarnings("unchecked")
+    List<XSDElementDeclaration> aux = (List)XSDNamedComponentImpl.sortNamedComponents((List)all);
+    all = aux;
 
-    for (Iterator i = all.iterator(); i.hasNext(); )
+    for (XSDElementDeclaration xsdElementDeclaration : all)
     {
-      XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)i.next();
-      XSDElementDeclaration parentElementDeclaration = (XSDElementDeclaration)specialAnchorMap.get(xsdElementDeclaration);
+      XSDElementDeclaration parentElementDeclaration = specialAnchorMap.get(xsdElementDeclaration);
       String elementDeclarationName = xsdElementDeclaration.getName();
       String key = (parentElementDeclaration == null ? "" : parentElementDeclaration.getName() + "::") + elementDeclarationName;
       String elementDeclarationMarkup = getElementDeclarationMarkup(key);
@@ -817,7 +817,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
       System.out.println("<br>");
 
       StringBuffer attributeDocumentationBuffer = new StringBuffer();
-      Map repeatedDocumentationMap = new HashMap();
+      Map<String, Integer> repeatedDocumentationMap = new HashMap<String, Integer>();
 
       XSDTypeDefinition xsdTypeDefinition = xsdElementDeclaration.getTypeDefinition();
       XSDComplexTypeDefinition generalType = xsdSchema.resolveComplexTypeDefinitionURI(xsdElementDeclaration.getURI());
@@ -833,9 +833,9 @@ public class XSDGenerateHTML implements IPlatformRunnable
       else if (xsdTypeDefinition instanceof XSDComplexTypeDefinition)
       {
         XSDComplexTypeDefinition xsdComplexTypeDefinition = (XSDComplexTypeDefinition)xsdTypeDefinition;
-        for (Iterator attributeUses = xsdComplexTypeDefinition.getAttributeUses().iterator(); attributeUses.hasNext(); )
+        for (Iterator<XSDAttributeUse> attributeUses = xsdComplexTypeDefinition.getAttributeUses().iterator(); attributeUses.hasNext(); )
         {
-          XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)attributeUses.next();
+          XSDAttributeUse xsdAttributeUse = attributeUses.next();
           XSDAttributeDeclaration xsdAttributeDeclaration = xsdAttributeUse.getAttributeDeclaration();
           String attributeDeclarationName = xsdAttributeDeclaration.getName();
           System.out.print("<tt>&nbsp;&nbsp;");
@@ -864,7 +864,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
 
           if (attributeDeclarationDocumentation != null)
           {
-            Integer oldInsertIndex = (Integer)repeatedDocumentationMap.get(attributeDeclarationDocumentation);
+            Integer oldInsertIndex = repeatedDocumentationMap.get(attributeDeclarationDocumentation);
             if (oldInsertIndex != null)
             {
               String insertion = "<br>" + attributeDeclarationName;
@@ -1019,12 +1019,11 @@ public class XSDGenerateHTML implements IPlatformRunnable
     xsdSchema.getContents().add(anyUnionTypeDefinition);
     anyUnionTypeDefinition.getElement().setAttribute(XSDConstants.ID_ATTRIBUTE, "anyUnionType");
 
-    List allTypeDefinitions = new ArrayList(xsdSchema.getTypeDefinitions());
+    List<XSDTypeDefinition> allTypeDefinitions = new ArrayList<XSDTypeDefinition>(xsdSchema.getTypeDefinitions());
     allTypeDefinitions.add(0, anySimpleTypeDefinition);
     allTypeDefinitions.add(0, anyTypeDefinition);
-    for (Iterator i = allTypeDefinitions.iterator(); i.hasNext(); )
+    for (XSDTypeDefinition xsdTypeDefinition : allTypeDefinitions)
     {
-      XSDTypeDefinition xsdTypeDefinition = (XSDTypeDefinition)i.next();
       if (xsdTypeDefinition instanceof XSDSimpleTypeDefinition && 
             xsdTypeDefinition.getElement() != null && 
             xsdTypeDefinition.getName().equals(xsdTypeDefinition.getElement().getAttribute(XSDConstants.ID_ATTRIBUTE)))
@@ -1048,7 +1047,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
         for (XSDSimpleTypeDefinition baseTypeDefinition = xsdSimpleTypeDefinition;; 
              baseTypeDefinition = baseTypeDefinition.getBaseTypeDefinition())
         {
-          String javaClass = (String)schemaTypeToJavaClassMap.get(baseTypeDefinition.getName());
+          String javaClass = schemaTypeToJavaClassMap.get(baseTypeDefinition.getName());
           if (javaClass != null)
           {
             System.out.println("<br>&nbsp;<br>");
@@ -1198,7 +1197,7 @@ public class XSDGenerateHTML implements IPlatformRunnable
           if (xsdSimpleTypeDefinition.getEffectiveEnumerationFacet() != null)
           {
             XSDEnumerationFacet xsdEnumerationFacet = xsdSimpleTypeDefinition.getEffectiveEnumerationFacet();
-            for (Iterator enumerators = xsdEnumerationFacet.getValue().iterator(); enumerators.hasNext(); )
+            for (Iterator<?> enumerators = xsdEnumerationFacet.getValue().iterator(); enumerators.hasNext(); )
             {
               String enumerator = (String)enumerators.next();
               effectiveFacetValues.append(enumerator);
@@ -1411,12 +1410,12 @@ public class XSDGenerateHTML implements IPlatformRunnable
     else if (xsdTerm instanceof XSDModelGroup)
     {
       XSDModelGroup xsdModelGroup = (XSDModelGroup)xsdTerm;
-      List particles = xsdModelGroup.getParticles();
+      List<XSDParticle> particles = xsdModelGroup.getParticles();
       boolean isRedundant = 
         particles.size() == 1 && 
           minOccurs == 1 && 
           maxOccurs == 1 &&
-          ((XSDParticle)particles.get(0)).getTerm() instanceof XSDModelGroup;
+          particles.get(0).getTerm() instanceof XSDModelGroup;
       if (!isRedundant)
       {
         System.out.print("(");  // )
@@ -1429,9 +1428,9 @@ public class XSDGenerateHTML implements IPlatformRunnable
             ",  " :
             "  &  ";
 
-      for (Iterator i = xsdModelGroup.getParticles().iterator(); i.hasNext(); )
+      for (Iterator<XSDParticle> i = xsdModelGroup.getParticles().iterator(); i.hasNext(); )
       {
-        XSDParticle childParticle = (XSDParticle)i.next();
+        XSDParticle childParticle = i.next();
         printParticle(childParticle, rootElementDeclarationMarkup);
         if (i.hasNext())
         {
@@ -1474,15 +1473,16 @@ public class XSDGenerateHTML implements IPlatformRunnable
   {
     if (xsdSimpleTypeDefinition == null)
     {
+      // Do nothing
     }
     else if (xsdSimpleTypeDefinition.getEffectiveEnumerationFacet() != null)
     {
-      List value = xsdSimpleTypeDefinition.getEffectiveEnumerationFacet().getValue();
+      List<?> value = xsdSimpleTypeDefinition.getEffectiveEnumerationFacet().getValue();
       if (value.size() > 1)
       {
         System.out.print("(");
       }
-      for (Iterator enumerators = value.iterator(); enumerators.hasNext(); )
+      for (Iterator<?> enumerators = value.iterator(); enumerators.hasNext(); )
       {
         String enumerator = enumerators.next().toString();
         System.out.print("<em>");
@@ -1508,9 +1508,9 @@ public class XSDGenerateHTML implements IPlatformRunnable
     else if (XSDVariety.UNION_LITERAL == xsdSimpleTypeDefinition.getVariety())
     {
       System.out.print("(");
-      for (Iterator members = xsdSimpleTypeDefinition.getMemberTypeDefinitions().iterator(); members.hasNext(); )
+      for (Iterator<XSDSimpleTypeDefinition> members = xsdSimpleTypeDefinition.getMemberTypeDefinitions().iterator(); members.hasNext(); )
       {
-        XSDSimpleTypeDefinition memberTypeDefinition = (XSDSimpleTypeDefinition)members.next();
+        XSDSimpleTypeDefinition memberTypeDefinition = members.next();
         printSimpleTypeDefinition(memberTypeDefinition);
         if (members.hasNext())
         {

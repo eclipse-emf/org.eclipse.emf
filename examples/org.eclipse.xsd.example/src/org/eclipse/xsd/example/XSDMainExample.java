@@ -12,19 +12,16 @@
  *
  * </copyright>
  *
- * $Id: XSDMainExample.java,v 1.2 2005/12/01 14:17:19 emerks Exp $
+ * $Id: XSDMainExample.java,v 1.3 2006/12/28 08:18:29 marcelop Exp $
  */
 package org.eclipse.xsd.example;
 
-
 import java.io.File;
-import java.util.Iterator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import org.eclipse.core.runtime.IPlatformRunnable;
-
+import org.eclipse.emf.common.util.EclipseApplication;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -76,8 +73,13 @@ public class XSDMainExample // implements IPlatformRunnable
     Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xsd", new XSDResourceFactoryImpl());
   }
 
-  public static class Runnable extends XSDMainExample implements IPlatformRunnable
+  public static class Runnable extends EclipseApplication
   {
+    @Override
+    public Object run(Object args) throws Exception
+    {
+      return new XSDMainExample().run(args);
+    }
   }
 
   /**
@@ -95,6 +97,7 @@ public class XSDMainExample // implements IPlatformRunnable
    */
   public XSDMainExample() 
   {
+    super();
   }
 
   /**
@@ -271,9 +274,8 @@ public class XSDMainExample // implements IPlatformRunnable
     if (!xsdSchema.getReferencingDirectives().isEmpty())
     {
       System.out.println(indent + "  <referencingDirectives>");
-      for (Iterator referencingDirectives = xsdSchema.getReferencingDirectives().iterator(); referencingDirectives.hasNext(); )
+      for (XSDSchemaDirective xsdSchemaDirective : xsdSchema.getReferencingDirectives())
       {
-        XSDSchemaDirective xsdSchemaDirective = (XSDSchemaDirective)referencingDirectives.next();
         XSDSchema referencingSchema = xsdSchemaDirective.getSchema();
         System.out.print(indent + "    ");
         printSchemaStart(referencingSchema);
@@ -310,9 +312,8 @@ public class XSDMainExample // implements IPlatformRunnable
     if (!xsdSchema.getIncorporatedVersions().isEmpty())
     {
       System.out.println(indent + "  <incorporatedVersions>");
-      for (Iterator incorporatedVersions = xsdSchema.getIncorporatedVersions().iterator(); incorporatedVersions.hasNext(); )
+      for (XSDSchema incorporatedVersion : xsdSchema.getIncorporatedVersions())
       {
-        XSDSchema incorporatedVersion = (XSDSchema)incorporatedVersions.next();
         printDirectives(indent + "    ", incorporatedVersion);
       }
       System.out.println(indent + "  </incorporatedVersions>");
@@ -350,9 +351,8 @@ public class XSDMainExample // implements IPlatformRunnable
 
     // Iterate over all the resources, i.e., the main resource and those that have been included or imported.
     //
-    for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )
+    for (Object resource : resourceSet.getResources())
     {
-      Object resource = resources.next();
       if (resource instanceof XSDResourceImpl)
       {
         XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
@@ -413,9 +413,8 @@ public class XSDMainExample // implements IPlatformRunnable
 
     // Iterate over all the resources, i.e., the main resource and those that have been included or imported.
     //
-    for (Iterator resources = resourceSet.getResources().iterator(); resources.hasNext(); )
+    for (Object resource : resourceSet.getResources())
     {
-      Object resource = resources.next();
       if (resource instanceof XSDResourceImpl)
       {
         XSDResourceImpl xsdResource = (XSDResourceImpl)resource;
@@ -427,10 +426,8 @@ public class XSDMainExample // implements IPlatformRunnable
 
         if (!xsdSchema.getAllDiagnostics().isEmpty())
         {
-          for (Iterator i = xsdSchema.getAllDiagnostics().iterator(); i.hasNext(); )
+          for (XSDDiagnostic xsdDiagnostic : xsdSchema.getAllDiagnostics())
           {
-            XSDDiagnostic xsdDiagnostic = (XSDDiagnostic)i.next();
-  
             String localizedSeverity = 
              XSDPlugin.INSTANCE.getString("_UI_XSDDiagnosticSeverity_" + xsdDiagnostic.getSeverity());
 
