@@ -17,8 +17,13 @@
   </extension>
 
   <extension point="org.eclipse.ui.propertyPages">
-    <page id="JETSettingsPropertiesPage" name="%_UI_JETSettings_label" objectClass="org.eclipse.core.resources.IProject" adaptable="true" class="org.eclipse.emf.codegen.presentation.JETPropertyPage">
+    <page id="JETSettingsPropertiesPage" name="%_UI_JETSettings_label" class="org.eclipse.emf.codegen.presentation.JETPropertyPage">
       <filter name="nature" value="org.eclipse.emf.codegen.jet.IJETNature" />
+      <enabledWhen>
+         <adapt
+               type="org.eclipse.core.resources.IProject">
+         </adapt>
+      </enabledWhen>
     </page>
   </extension>
 </plugin>

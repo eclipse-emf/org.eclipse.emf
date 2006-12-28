@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CompileTemplateAction.java,v 1.2 2005/06/08 06:23:43 nickb Exp $
+ * $Id: CompileTemplateAction.java,v 1.3 2006/12/28 16:50:24 marcelop Exp $
  */
 package org.eclipse.emf.codegen.action;
 
@@ -53,7 +53,7 @@ public class CompileTemplateAction implements IActionDelegate
          {
            try
            {
-             for (Iterator i = getSelectedObjects().iterator(); i.hasNext(); )
+             for (Iterator<?> i = getSelectedObjects().iterator(); i.hasNext(); )
              {
                IFile file = (IFile)i.next();
                JETNature jetNature = JETNature.getRuntime(file.getProject());
@@ -96,7 +96,7 @@ public class CompileTemplateAction implements IActionDelegate
     action.setEnabled(true);
   }
 
-  protected List getSelectedObjects()
+  protected List<?> getSelectedObjects()
   {
     return
       selection instanceof IStructuredSelection ?

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConvertToJETProjectWizard.java,v 1.4 2005/06/08 06:23:43 nickb Exp $
+ * $Id: ConvertToJETProjectWizard.java,v 1.5 2006/12/28 16:50:24 marcelop Exp $
  */
 package org.eclipse.emf.codegen.presentation;
 
@@ -63,7 +63,7 @@ import org.eclipse.emf.codegen.jet.JETNature;
 public class ConvertToJETProjectWizard extends Wizard implements INewWizard
 {
   protected IWorkbench workbench;
-  protected List projectsToConvert = new ArrayList();
+  protected List<IProject> projectsToConvert = new ArrayList<IProject>();
   protected ConversionPage conversionPage;
 
   public ConvertToJETProjectWizard() 
@@ -75,9 +75,8 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
   public void init(IWorkbench workbench, IStructuredSelection selection)
   {
     this.workbench = workbench;
-    for (Iterator i = selection.iterator(); i.hasNext(); )
+    for (Object object : selection.toList())
     {
-      Object object = i.next();
       if (object instanceof IProject)
       {
         IProject project = (IProject)object;
@@ -89,6 +88,7 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
     }
   }
 
+  @Override
   public void addPages() 
   {
     super.addPages();
@@ -96,11 +96,13 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
     addPage(conversionPage);
   }
 
+  @Override
   public boolean performFinish() 
   {
     IRunnableWithProgress operation = 
       new WorkspaceModifyOperation() 
       {
+        @Override
         public void execute(IProgressMonitor monitor) 
         {
           try 
@@ -141,6 +143,7 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
       setDescription(CodeGenUIPlugin.getPlugin().getString("_UI_JETConvertProject_message"));
     }
 
+    @Override
     public boolean isPageComplete()
     {
       return !projectsToConvert.isEmpty();
@@ -215,12 +218,14 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
       projectsCheckboxTableViewer.setLabelProvider
         (new LabelProvider()
          {
-           public Image getImage(Object o)
+           @Override
+          public Image getImage(Object o)
            {
              return workbench.getSharedImages().getImage(IDE.SharedImages.IMG_OBJ_PROJECT);
            }
            
-           public String getText(Object o)
+           @Override
+          public String getText(Object o)
            {
              return ((IProject)o).getName();
            }
@@ -232,15 +237,17 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
            public void checkStateChanged(CheckStateChangedEvent event)
            {
              projectsToConvert.clear();
-             projectsToConvert.addAll(Arrays.asList(projectsCheckboxTableViewer.getCheckedElements()));
+             @SuppressWarnings("unchecked")
+             List<IProject> list = (List<IProject>)(List<?>)Arrays.asList(projectsCheckboxTableViewer.getCheckedElements());
+            projectsToConvert.addAll(list);
              setPageComplete(isPageComplete());
            }
          });
 
-      final List projects = new ArrayList(Arrays.asList(ResourcesPlugin.getWorkspace().getRoot().getProjects()));
-      for (Iterator i = projects.iterator(); i.hasNext(); )
+      final List<IProject> projects = new ArrayList<IProject>(Arrays.asList(ResourcesPlugin.getWorkspace().getRoot().getProjects()));
+      for (Iterator<IProject> i = projects.iterator(); i.hasNext(); )
       {
-        IProject project = (IProject)i.next();
+        IProject project = i.next();
         boolean isJavaProject = false;
         try
         {
@@ -248,6 +255,7 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
         }
         catch (CoreException e)
         {
+          // Ignore
         }
         
         if (!project.isOpen() || JETNature.getRuntime(project) != null || !isJavaProject)
@@ -261,7 +269,8 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
       selectAllButton.addSelectionListener
         (new SelectionAdapter()
          {
-           public void widgetSelected(SelectionEvent event)
+           @Override
+          public void widgetSelected(SelectionEvent event)
            {
              projectsToConvert.addAll(projects);
              projectsCheckboxTableViewer.setCheckedElements(projects.toArray());
@@ -271,7 +280,8 @@ public class ConvertToJETProjectWizard extends Wizard implements INewWizard
       deselectAllButton.addSelectionListener
         (new SelectionAdapter()
          {
-           public void widgetSelected(SelectionEvent event)
+           @Override
+          public void widgetSelected(SelectionEvent event)
            {
              projectsCheckboxTableViewer.setCheckedElements(new Object [0]);
              projectsToConvert.clear();

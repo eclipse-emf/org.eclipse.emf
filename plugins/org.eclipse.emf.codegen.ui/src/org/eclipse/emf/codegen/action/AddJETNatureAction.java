@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: AddJETNatureAction.java,v 1.2 2005/06/08 06:23:43 nickb Exp $
+ * $Id: AddJETNatureAction.java,v 1.3 2006/12/28 16:50:24 marcelop Exp $
  */
 package org.eclipse.emf.codegen.action;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -38,12 +37,12 @@ import org.eclipse.emf.codegen.presentation.CodeGenUIPlugin;
 
 public class AddJETNatureAction implements IActionDelegate 
 {
-  protected List projects;
+  protected List<IProject> projects;
   
   public AddJETNatureAction() 
   {
     super();
-    projects = new ArrayList();
+    projects = new ArrayList<IProject>();
   }
 
   public void run(IAction action) 
@@ -85,12 +84,11 @@ public class AddJETNatureAction implements IActionDelegate
     projects.clear();
     if (selection instanceof IStructuredSelection)
     {
-      for (Iterator i = ((IStructuredSelection)selection).iterator(); i.hasNext(); )
+      for (Object object : ((IStructuredSelection)selection).toList())
       {
-        Object object = i.next();
         if (object instanceof IProject)
         {
-          projects.add(object);
+          projects.add((IProject)object);
         }
         else if (object instanceof IJavaProject)
         {

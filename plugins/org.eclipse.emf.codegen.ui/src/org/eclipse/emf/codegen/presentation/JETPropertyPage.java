@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: JETPropertyPage.java,v 1.4 2006/10/17 11:32:56 davidms Exp $
+ * $Id: JETPropertyPage.java,v 1.5 2006/12/28 16:50:24 marcelop Exp $
  */
 package org.eclipse.emf.codegen.presentation;
 
@@ -47,13 +47,14 @@ public class JETPropertyPage extends PropertyPage implements Listener
   protected Text templateContainerField;
   protected Text javaSourceField;
 
-  protected List oldTemplateContainers;
-  protected List oldTemplateSourceContainers;
-  protected List newTemplateContainers;
-  protected List newTemplateSourceContainers;
+  protected List<Object> oldTemplateContainers;
+  protected List<Object> oldTemplateSourceContainers;
+  protected List<Object> newTemplateContainers;
+  protected List<Object> newTemplateSourceContainers;
   protected IContainer oldJavaSoureContainer;
   protected IContainer newJavaSourceContainer;
 
+  @Override
   protected Control createContents(Composite parent) 
   {
     Control control = null;
@@ -191,12 +192,14 @@ public class JETPropertyPage extends PropertyPage implements Listener
     }
   }
 
+  @Override
   public boolean performOk() 
   {
     performApply();
     return super.performOk();
   }
 
+  @Override
   protected void performApply() 
   {
     IJETNature jetNature = JETNature.getRuntime(project);
@@ -214,6 +217,7 @@ public class JETPropertyPage extends PropertyPage implements Listener
     }
   }
 
+  @Override
   protected void performDefaults() 
   {
     IJETNature jetNature = JETNature.getRuntime(project);
