@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryLabelProvider.java,v 1.3 2005/06/08 06:20:52 nickb Exp $
+ * $Id: AdapterFactoryLabelProvider.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -60,10 +59,10 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
   /**
    * This keeps track of the label provider listeners.
    */
-  protected Collection labelProviderListeners;
+  protected Collection<ILabelProviderListener> labelProviderListeners;
 
-  private static final Class IItemLabelProviderClass = IItemLabelProvider.class;
-  private static final Class ITableItemLabelProviderClass = ITableItemLabelProvider.class;
+  private static final Class<?> IItemLabelProviderClass = IItemLabelProvider.class;
+  private static final Class<?> ITableItemLabelProviderClass = ITableItemLabelProvider.class;
 
   /**
    *  Construct an instance that wraps this factory.
@@ -77,7 +76,7 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
       ((IChangeNotifier)adapterFactory).addListener(this);
     }
 
-    labelProviderListeners = new ArrayList();
+    labelProviderListeners = new ArrayList<ILabelProviderListener>();
   }
 
   /**
@@ -291,9 +290,8 @@ public class AdapterFactoryLabelProvider implements ILabelProvider, ITableLabelP
 
   public void fireLabelProviderChanged()
   {
-    for (Iterator i = labelProviderListeners.iterator(); i.hasNext(); )
+    for (ILabelProviderListener labelProviderListener : labelProviderListeners)
     {
-      ILabelProviderListener labelProviderListener = (ILabelProviderListener)i.next();
       labelProviderListener.labelProviderChanged(new LabelProviderChangedEvent(this));
     }
   }

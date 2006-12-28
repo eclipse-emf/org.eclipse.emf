@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryTreeEditor.java,v 1.2 2005/06/08 06:20:52 nickb Exp $
+ * $Id: AdapterFactoryTreeEditor.java,v 1.3 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -60,6 +60,7 @@ public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
     this.adapterFactory = adapterFactory;
   }
 
+  @Override
   protected void editItem(final TreeItem treeItem)
   {
     final Object object = treeItem.getData();
@@ -85,6 +86,7 @@ public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
           text.addFocusListener
            (new FocusAdapter()
             {
+              @Override
               public void focusLost(FocusEvent event)
               {
                 updateableItemText.setText(object, text.getText());
@@ -94,6 +96,7 @@ public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
           text.addKeyListener
            (new KeyAdapter()
             {
+              @Override
               public void keyPressed(KeyEvent event)
               {
                 if (event.character == '\r' || event.character == '\n')
@@ -125,6 +128,7 @@ public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
           combo.addFocusListener
            (new FocusAdapter()
             {
+              @Override
               public void focusLost(FocusEvent event)
               {
                 System.out.println("Combo lost focus");
@@ -136,6 +140,7 @@ public class AdapterFactoryTreeEditor extends ExtendedTreeEditor
           combo.addKeyListener
            (new KeyAdapter()
             {
+              @Override
               public void keyPressed(KeyEvent event)
               {
                 System.out.println("Combo key event");

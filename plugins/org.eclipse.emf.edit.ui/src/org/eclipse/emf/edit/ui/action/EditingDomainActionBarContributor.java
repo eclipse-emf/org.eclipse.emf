@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainActionBarContributor.java,v 1.12 2006/05/15 21:59:34 emerks Exp $
+ * $Id: EditingDomainActionBarContributor.java,v 1.13 2006/12/28 06:50:04 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -139,6 +139,7 @@ public class EditingDomainActionBarContributor
     this.style = style;
   }
 
+  @Override
   public void init(IActionBars actionBars)
   {
     super.init(actionBars);
@@ -180,16 +181,19 @@ public class EditingDomainActionBarContributor
     return false;
   }
 
+  @Override
   public void contributeToMenu(IMenuManager menuManager) 
   {
     super.contributeToMenu(menuManager);
   }
 
+  @Override
   public void contributeToStatusLine(IStatusLineManager statusLineManager) 
   {
     super.contributeToStatusLine(statusLineManager);
   }
 
+  @Override
   public void contributeToToolBar(IToolBarManager toolBarManager)
   {
     super.contributeToToolBar(toolBarManager);
@@ -211,6 +215,7 @@ public class EditingDomainActionBarContributor
   /**
    * @deprecated
    */
+  @Deprecated
   public void setActiveView(IViewPart part)
   {
     IActionBars actionBars = part.getViewSite().getActionBars();
@@ -232,6 +237,7 @@ public class EditingDomainActionBarContributor
     return activeEditor;
   }
 
+  @Override
   public void setActiveEditor(IEditorPart part) 
   {
     super.setActiveEditor(part);
@@ -252,8 +258,10 @@ public class EditingDomainActionBarContributor
     }
   }
 
+  @Override
   public void setActivePage(IEditorPart part) 
   {
+    // Do nothing
   }
 
   public void deactivate()

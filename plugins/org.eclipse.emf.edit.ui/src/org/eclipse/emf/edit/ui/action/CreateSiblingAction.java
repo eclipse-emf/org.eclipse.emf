@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CreateSiblingAction.java,v 1.3 2005/06/08 06:20:52 nickb Exp $
+ * $Id: CreateSiblingAction.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -30,8 +30,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 
 /**
- * A sibling creation action is implemented by creating a {@link
- * CreateChildCommand}.
+ * A sibling creation action is implemented by creating a {@link CreateChildCommand}.
  */
 public class CreateSiblingAction extends StaticSelectionCommandAction
 {
@@ -45,8 +44,7 @@ public class CreateSiblingAction extends StaticSelectionCommandAction
    * specified by <code>descriptor</code>.
    * @since 2.1.0
    */
-  public CreateSiblingAction(IWorkbenchPart workbenchPart, ISelection selection, 
-                             Object descriptor)
+  public CreateSiblingAction(IWorkbenchPart workbenchPart, ISelection selection,  Object descriptor)
   {
     super(workbenchPart);
     this.descriptor = descriptor;
@@ -58,8 +56,7 @@ public class CreateSiblingAction extends StaticSelectionCommandAction
    * calls the {@link #CreateSiblingAction(IWorkbenchPart, ISelection, Object)
    * new form}.
    */
-  public CreateSiblingAction(IEditorPart editorPart, ISelection selection, 
-                              Object descriptor)
+  public CreateSiblingAction(IEditorPart editorPart, ISelection selection,  Object descriptor)
   {
     this((IWorkbenchPart)editorPart, selection, descriptor);
   }
@@ -68,8 +65,8 @@ public class CreateSiblingAction extends StaticSelectionCommandAction
    * This creates the command for {@link
    * StaticSelectionCommandAction#createActionCommand}.
    */
-  protected Command createActionCommand(EditingDomain editingDomain,
-                                        Collection collection)
+  @Override
+  protected Command createActionCommand(EditingDomain editingDomain, Collection<?> collection)
   {
     if (collection.size() == 1)
     {

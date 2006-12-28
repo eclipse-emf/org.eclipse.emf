@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ControlAction.java,v 1.3 2006/11/09 12:19:17 emerks Exp $
+ * $Id: ControlAction.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -68,6 +68,7 @@ public class ControlAction extends CommandActionHandler
   // We can create the RemoveCommand for an uncontrol, but we must defer creating an AddCommand
   // to control until run(), when the user specifies a target resource.
   //
+  @Override
   public boolean updateSelection(IStructuredSelection selection)
   {
     this.selection = selection;
@@ -104,12 +105,14 @@ public class ControlAction extends CommandActionHandler
       super(label, command);
     }
 
-    public Collection getResult()
+    @Override
+    public Collection<?> getResult()
     {
       return selection.toList();
     }
 
-    public Collection getAffectedObjects()
+    @Override
+    public Collection<?> getAffectedObjects()
     {
       return selection.toList();
     }
@@ -117,6 +120,7 @@ public class ControlAction extends CommandActionHandler
 
   // For the control case, we need a dialog to ask for the URI and obtain the resource, then we create the command.
   //
+  @Override
   public void run()
   {
     if (command == null)
@@ -175,12 +179,13 @@ public class ControlAction extends CommandActionHandler
      * it is not read-only in the editing domain. If there is an existing resource with that URI, it prompts
      * before overriding or adding to it.
      */
+    @Override
     protected boolean processResources()
     {
-      List uris = getURIs();
+      List<URI> uris = getURIs();
       if (uris.isEmpty()) return false;
 
-      URI uri = (URI)uris.get(0);
+      URI uri = uris.get(0);
       ResourceSet resourceSet = domain.getResourceSet();
       Resource resource = resourceSet.getResource(uri, false);
       boolean resourceInSet = resource != null;
@@ -206,7 +211,10 @@ public class ControlAction extends CommandActionHandler
           stream.close();
         }
       }
-      catch (IOException exception) { }
+      catch (IOException exception) 
+      { 
+        // Ignore 
+      }
 
       boolean resourceBad = false;
       if (!resourceInSet)

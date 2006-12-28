@@ -1,13 +1,19 @@
-/*******************************************************************************
- * Copyright (c) 2000, 2006 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
+/**
+ * <copyright> 
+ *
+ * Copyright (c) 2000-2006 IBM Corporation and others.
+ * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: 
+ *   IBM - Initial API and implementation
  *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
+ * </copyright>
+ *
+ * $Id: InputDialog.java,v 1.2 2006/12/28 06:50:05 marcelop Exp $
+ */
 package org.eclipse.emf.edit.ui.provider;
 
 import org.eclipse.jface.dialogs.Dialog;
@@ -113,6 +119,7 @@ class InputDialog extends Dialog {
     /*
      * (non-Javadoc) Method declared on Dialog.
      */
+    @Override
     protected void buttonPressed(int buttonId) {
         if (buttonId == IDialogConstants.OK_ID) {
             value = text.getText();
@@ -127,6 +134,7 @@ class InputDialog extends Dialog {
      * 
      * @see org.eclipse.jface.window.Window#configureShell(org.eclipse.swt.widgets.Shell)
      */
+    @Override
     protected void configureShell(Shell shell) {
         super.configureShell(shell);
         if (title != null) {
@@ -139,6 +147,7 @@ class InputDialog extends Dialog {
      * 
      * @see org.eclipse.jface.dialogs.Dialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
      */
+    @Override
     protected void createButtonsForButtonBar(Composite parent) {
         // create OK and Cancel buttons by default
         okButton = createButton(parent, IDialogConstants.OK_ID,
@@ -157,6 +166,7 @@ class InputDialog extends Dialog {
     /*
      * (non-Javadoc) Method declared on Dialog.
      */
+    @Override
     protected Control createDialogArea(Composite parent) {
         // create composite
         Composite composite = (Composite) super.createDialogArea(parent);
@@ -213,6 +223,7 @@ class InputDialog extends Dialog {
      * @return the error message label
      * @deprecated use setErrorMessage(String) instead
      */
+    @Deprecated
     protected Label getErrorMessageLabel() {
         return null;
     }

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,14 @@
  *
  * </copyright>
  *
- * $Id: CommandActionHandler.java,v 1.3 2005/06/08 06:20:52 nickb Exp $
+ * $Id: CommandActionHandler.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.actions.BaseSelectionListenerAction;
@@ -86,6 +86,7 @@ public class CommandActionHandler extends BaseSelectionListenerAction
   /**
    * This simply execute the command.
    */
+  @Override
   public void run()
   {
     domain.getCommandStack().execute(command);
@@ -94,14 +95,11 @@ public class CommandActionHandler extends BaseSelectionListenerAction
   /**
    * When the selection changes, this will call {@link #createCommand} with the appopriate collection of selected objects.
    */
+  @Override
   public boolean updateSelection(IStructuredSelection selection)
   {
-    Collection collection = new ArrayList();
-    for (Iterator objects = selection.iterator(); objects.hasNext(); )
-    {
-      collection.add(objects.next());
-    }
-
+    List<?> list = selection.toList();
+    Collection<Object> collection = new ArrayList<Object>(list);
     command = createCommand(collection);
 
     return command.canExecute();
@@ -110,7 +108,7 @@ public class CommandActionHandler extends BaseSelectionListenerAction
   /**
    * This default implementation simply returns {@link org.eclipse.emf.common.command.UnexecutableCommand#INSTANCE}.
    */
-  public Command createCommand(Collection selection)
+  public Command createCommand(Collection<?> selection)
   {
     return UnexecutableCommand.INSTANCE;
   }

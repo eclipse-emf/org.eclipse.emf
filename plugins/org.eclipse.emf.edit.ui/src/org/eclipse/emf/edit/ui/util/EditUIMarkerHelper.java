@@ -12,13 +12,11 @@
  *
  * </copyright>
  *
- * $Id: EditUIMarkerHelper.java,v 1.10 2006/12/26 18:56:00 emerks Exp $
+ * $Id: EditUIMarkerHelper.java,v 1.11 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -33,7 +31,6 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
-import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
 
 /**
@@ -44,6 +41,7 @@ import org.eclipse.emf.edit.ui.EMFEditUIPlugin;
  */
 public class EditUIMarkerHelper extends MarkerHelper
 {
+  @Override
   protected IFile getFile(Object datum)
   {
     if (datum instanceof Resource)
@@ -69,6 +67,7 @@ public class EditUIMarkerHelper extends MarkerHelper
     return super.getFile(datum);
   }
   
+  @Override
   protected void adjustMarker(IMarker marker, Diagnostic diagnostic, Diagnostic parentDiagnostic) throws CoreException
   {
     if (!adjustMarker(marker, diagnostic) && parentDiagnostic != null)
@@ -81,9 +80,8 @@ public class EditUIMarkerHelper extends MarkerHelper
   {
     if (diagnostic.getData() != null)
     {
-      for (Iterator i = diagnostic.getData().iterator(); i.hasNext();)
+      for (Object element : diagnostic.getData())
       {
-        Object element = (Object)i.next();
         if (element instanceof Resource.Diagnostic)
         {
           Resource.Diagnostic resourceDiagnostic = (Resource.Diagnostic)element;
@@ -108,12 +106,13 @@ public class EditUIMarkerHelper extends MarkerHelper
     return false;
   }  
   
+  @Override
   public boolean hasMarkers(Object object, boolean includeSubtypes, int depth)
   {
     if (object instanceof ResourceSet)
     {
       ResourceSet resourceSet = (ResourceSet)object;
-      List resources = resourceSet.getResources();
+      List<Resource> resources = resourceSet.getResources();
       for (int i=0, size=resources.size(); i<size; i++)
       {
         if (hasMarkers(resources.get(i), includeSubtypes, depth))
@@ -125,12 +124,11 @@ public class EditUIMarkerHelper extends MarkerHelper
     }
     else if (object instanceof Diagnostic)
     {
-      List data = ((Diagnostic)object).getData();
+      List<?> data = ((Diagnostic)object).getData();
       if (data != null)
       {
-        for (Iterator i = data.iterator(); i.hasNext(); )
+        for (Object datum : data)
         {
-          Object datum = i.next();
           if (datum instanceof ResourceSet)
           {
             return hasMarkers(datum, includeSubtypes, depth); 
@@ -142,12 +140,13 @@ public class EditUIMarkerHelper extends MarkerHelper
     return super.hasMarkers(object, includeSubtypes, depth);
   }
 
+  @Override
   public void deleteMarkers(Object object, boolean includeSubtypes, int depth)
   {
     if (object instanceof ResourceSet)
     {
       ResourceSet resourceSet = (ResourceSet)object;
-      List resources = resourceSet.getResources();
+      List<Resource> resources = resourceSet.getResources();
       for (int i=0, size=resources.size(); i<size; i++)
       {
         deleteMarkers(resources.get(i), includeSubtypes, depth);
@@ -155,12 +154,11 @@ public class EditUIMarkerHelper extends MarkerHelper
     }
     else if (object instanceof Diagnostic)
     {
-      List data = ((Diagnostic)object).getData();
+      List<?> data = ((Diagnostic)object).getData();
       if (data != null)
       {
-        for (Iterator i = data.iterator(); i.hasNext(); )
+        for (Object datum : data)
         {
-          Object datum = i.next();
           if (datum instanceof ResourceSet)
           {
             deleteMarkers(datum, includeSubtypes, depth); 

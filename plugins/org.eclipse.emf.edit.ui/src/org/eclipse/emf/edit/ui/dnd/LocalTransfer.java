@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: LocalTransfer.java,v 1.2 2005/06/08 06:20:52 nickb Exp $
+ * $Id: LocalTransfer.java,v 1.3 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -77,11 +77,13 @@ public class LocalTransfer extends ByteArrayTransfer
    */
   protected LocalTransfer()
   {
+    super();
   }
 
   /**
    * This returns the transfer ids that this agent supports.
    */
+  @Override
   protected int[] getTypeIds() 
   {
     return new int[] { TYPE_ID };
@@ -90,6 +92,7 @@ public class LocalTransfer extends ByteArrayTransfer
   /**
    * This returns the transfer names that this agent supports.
    */
+  @Override
   public String[] getTypeNames() 
   {
     return new String[] { TYPE_NAME };
@@ -98,6 +101,7 @@ public class LocalTransfer extends ByteArrayTransfer
   /**
    * This records the object and current time and encodes only the current time into the transfer data.
    */
+  @Override
   public void javaToNative(Object object, TransferData transferData) 
   {
     startTime = System.currentTimeMillis();
@@ -111,6 +115,7 @@ public class LocalTransfer extends ByteArrayTransfer
   /**
    * This decodes the time of the transfer and returns the recorded the object if the recorded time and the decoded time match.
    */
+  @Override
   public Object nativeToJava(TransferData transferData) 
   {
     byte[] bytes = (byte[])super.nativeToJava(transferData); 

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: PropertySource.java,v 1.2 2005/06/08 06:20:52 nickb Exp $
+ * $Id: PropertySource.java,v 1.3 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.ui.views.properties.IPropertyDescriptor;
@@ -67,18 +66,17 @@ public class PropertySource implements IPropertySource
    */
   public IPropertyDescriptor [] getPropertyDescriptors()
   {
-    Collection result = new ArrayList();
-    List itemPropertyDescriptors = itemPropertySource.getPropertyDescriptors(object);
+    Collection<IPropertyDescriptor> result = new ArrayList<IPropertyDescriptor>();
+    List<IItemPropertyDescriptor> itemPropertyDescriptors = itemPropertySource.getPropertyDescriptors(object);
     if (itemPropertyDescriptors != null)
     {
-      for (Iterator i = itemPropertyDescriptors.iterator(); i.hasNext(); )
+      for (IItemPropertyDescriptor itemPropertyDescriptor : itemPropertyDescriptors)
       {
-        IItemPropertyDescriptor itemPropertyDescriptor = (IItemPropertyDescriptor)i.next();
         result.add(createPropertyDescriptor(itemPropertyDescriptor));
       }
     }
 
-    return (IPropertyDescriptor [])result.toArray(new IPropertyDescriptor [result.size()]);
+    return result.toArray(new IPropertyDescriptor [result.size()]);
   }
 
   protected IPropertyDescriptor createPropertyDescriptor(IItemPropertyDescriptor itemPropertyDescriptor)

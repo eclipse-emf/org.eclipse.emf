@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,14 @@
  *
  * </copyright>
  *
- * $Id: CommandAction.java,v 1.3 2005/06/08 06:20:52 nickb Exp $
+ * $Id: CommandAction.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -68,6 +68,7 @@ public class CommandAction implements IEditorActionDelegate, IViewActionDelegate
    * This field was retained for backwards compatibility.
    * @deprecated As of EMF 2.1.0, replaced by {@link #workbenchPart}.
    */
+  @Deprecated
   protected IEditorPart editorPart;
 
   /**
@@ -85,7 +86,7 @@ public class CommandAction implements IEditorActionDelegate, IViewActionDelegate
    * This records the collection of selected objects so that a new command can be easily constructed 
    * after the execution of the command previously constructed from this selection.
    */
-  protected Collection collection;
+  protected Collection<Object> collection;
 
   /**
    * This records the command that is created each time the selection changes.
@@ -97,13 +98,14 @@ public class CommandAction implements IEditorActionDelegate, IViewActionDelegate
    */
   public CommandAction()
   {
+    super();
   }
 
   /**
    * This method must be implemented to create the command for this action, 
    * given the editing domain and the collection of selected objects.
    */
-  protected Command createActionCommand(EditingDomain editingDomain, Collection collection)
+  protected Command createActionCommand(EditingDomain editingDomain, Collection<?> collection)
   {
     return UnexecutableCommand.INSTANCE;
   }
@@ -132,6 +134,7 @@ public class CommandAction implements IEditorActionDelegate, IViewActionDelegate
    */
   public void dispose()
   {
+    // Do nothing
   }
 
   /**
@@ -225,11 +228,8 @@ public class CommandAction implements IEditorActionDelegate, IViewActionDelegate
     {
       // Convert the selection to a collection of the selected objects.
       //
-      collection = new ArrayList();
-      for (Iterator elements = ((IStructuredSelection)selection).iterator(); elements.hasNext(); )
-      {
-        collection.add(elements.next());
-      }
+      List<?> list = ((IStructuredSelection)selection).toList();
+      collection = new ArrayList<Object>(list);
 
       // If we aren't getting the domain from the workbench part...
       // This happens when this action is used for a global popup action.
@@ -237,9 +237,8 @@ public class CommandAction implements IEditorActionDelegate, IViewActionDelegate
       //
       if (workbenchPart == null && editorPart == null) //DMS editingDomain == null) ?
       {
-        for (Iterator objects = collection.iterator(); objects.hasNext(); )
+        for (Object object : collection)
         {
-          Object object = objects.next();
           editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(object);
           if (editingDomain != null)
           {

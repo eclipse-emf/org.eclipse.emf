@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: EditingDomainViewerDropAdapter.java,v 1.4 2005/06/14 04:18:18 marcelop Exp $
+ * $Id: EditingDomainViewerDropAdapter.java,v 1.5 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.dnd;
 
@@ -20,7 +20,7 @@ package org.eclipse.emf.edit.ui.dnd;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
@@ -38,7 +38,6 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer;
 import org.eclipse.emf.edit.command.DragAndDropCommand;
 import org.eclipse.emf.edit.command.DragAndDropFeedback;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -97,7 +96,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
   /**
    * This is the collection of source objects being dragged.
    */
-  protected Collection source;
+  protected Collection<?> source;
 
   /**
    * This is the command created during dragging which provides the feedback and will carry out the action upon completion.
@@ -135,6 +134,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
   /**
    * This is called when the mouse first enters or starts dragging in the viewer.
    */
+  @Override
   public void dragEnter(DropTargetEvent event)
   {
     // Remember the requested operation.
@@ -150,6 +150,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
    * between the two cases.  So, we do the clean-up now and recreate the
    * command later, if necessary.
    */
+  @Override
   public void dragLeave(DropTargetEvent event)
   {
     // Clean up the command if there is one.  If we need it again in drop,
@@ -171,6 +172,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
   /**
    * This is called when the operation has changed in some way, typically because the user changes keyboard modifiers.
    */
+  @Override
   public void dragOperationChanged(DropTargetEvent event)
   {
     // Remember the requested operation.
@@ -182,6 +184,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
   /**
    * This is called repeatedly, as the mouse moves over the viewer.
    */
+  @Override
   public void dragOver(DropTargetEvent event) 
   {
     helper(event);
@@ -191,6 +194,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
    * This is called when the mouse is released over the viewer to initiate a
    * drop, between dragLeave and drop.
    */
+  @Override
   public void dropAccept(DropTargetEvent event) 
   {
     helper(event);
@@ -199,6 +203,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
   /**
    * This is called to indicate that the drop action should be invoked.
    */
+  @Override
   public void drop(DropTargetEvent event)
   {
     // A command was created if the source was available early, and the
@@ -348,7 +353,7 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
    * {@link org.eclipse.emf.edit.ui.dnd.LocalTransfer}. If the data is not yet
    * available (e.g. on platforms other than win32), it just returns null.
    */
-  protected Collection getDragSource(DropTargetEvent event)
+  protected Collection<?> getDragSource(DropTargetEvent event)
   {
     // Check whether the current data type can be transfered locally.
     //
@@ -389,18 +394,14 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
    * This extracts a collection of dragged source objects from the given object retrieved from the transfer agent.
    * This default implementation converts a structured selection into a collection of elements.
    */
-  protected Collection extractDragSource(Object object)
+  protected Collection<?> extractDragSource(Object object)
   {
     // Transfer the data and convert the structured selection to a collection of objects.
     //
     if (object instanceof IStructuredSelection)
     {
-      Collection result = new ArrayList();
-      for (Iterator elements = ((IStructuredSelection)object).iterator(); elements.hasNext(); )
-      {
-        result.add(elements.next());
-      }
-      return result;
+      List<?> list = ((IStructuredSelection)object).toList();
+      return list;
     }
     else
     {
@@ -413,11 +414,12 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
    * support required by an 
    * {@link org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer.ExtendedTableTreeItem}.
    */
+  @SuppressWarnings("deprecation")
   protected static Object extractDropTarget(Widget item)
   {
     if (item == null) return null;
-    return item.getData(ExtendedTableTreeViewer.ITEM_ID) instanceof Item ?
-      ((Item)item.getData(ExtendedTableTreeViewer.ITEM_ID)).getData() :
+    return item.getData(org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer.ITEM_ID) instanceof Item ?
+      ((Item)item.getData(org.eclipse.emf.common.ui.viewer.ExtendedTableTreeViewer.ITEM_ID)).getData() :
       item.getData();
   }
 
@@ -461,16 +463,16 @@ public class EditingDomainViewerDropAdapter extends DropTargetAdapter
     protected float location;
     protected int operations;
     protected int operation;
-    protected Collection source;
+    protected Collection<?> source;
     public DragAndDropCommandInformation
-      (EditingDomain domain, Object target, float location, int operations, int operation, Collection source)
+      (EditingDomain domain, Object target, float location, int operations, int operation, Collection<?> source)
     {
       this.domain = domain;
       this.target = target;
       this.location = location;
       this.operations = operations;
       this.operation = operation;
-      this.source = new ArrayList(source);
+      this.source = new ArrayList<Object>(source);
     }
 
     public Command createCommand()

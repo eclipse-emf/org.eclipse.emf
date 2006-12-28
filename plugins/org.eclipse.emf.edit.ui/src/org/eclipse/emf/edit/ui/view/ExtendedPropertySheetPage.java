@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,12 @@
  *
  * </copyright>
  *
- * $Id: ExtendedPropertySheetPage.java,v 1.3 2006/06/01 20:51:08 marcelop Exp $
+ * $Id: ExtendedPropertySheetPage.java,v 1.4 2006/12/28 06:50:04 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.view;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -42,7 +41,7 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
  */
 public class ExtendedPropertySheetPage extends PropertySheetPage
 {
-  protected List objectsToSelect = new ArrayList();
+  protected List<Object> objectsToSelect = new ArrayList<Object>();
   protected AdapterFactoryEditingDomain editingDomain;
   
   protected IAction locateValueAction = new LocateValueAction();
@@ -57,12 +56,13 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
       setDisabledImageDescriptor(ExtendedImageRegistry.INSTANCE.getImageDescriptor(EMFEditUIPlugin.INSTANCE.getImage("full/dlcl16/LocateValue")));
     }
 
+    @Override
     public void run()
     {
-      List selection = new ArrayList();
-      for (Iterator i = objectsToSelect.iterator(); i.hasNext(); )
+      List<Object> selection = new ArrayList<Object>();
+      for (Object object : objectsToSelect)
       {
-        selection.add(editingDomain.getWrapper(i.next()));
+        selection.add(editingDomain.getWrapper(object));
       }
       setSelectionToViewer(selection);
     }
@@ -77,16 +77,19 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
   /**
    * This method should be overridden to set the selection.
    */
-  protected void setSelectionToViewer(List selection)
+  protected void setSelectionToViewer(List<?> selection)
   {
+    // Do nothing.
   }
 
+  @Override
   public void makeContributions(IMenuManager menuManager, IToolBarManager toolBarManager, IStatusLineManager statusLineManager)
   {
     super.makeContributions(menuManager, toolBarManager, statusLineManager);
     toolBarManager.add(locateValueAction);
   }
 
+  @Override
   public void handleEntrySelection(ISelection selection)
   {
     super.handleEntrySelection(selection);
@@ -111,9 +114,9 @@ public class ExtendedPropertySheetPage extends PropertySheetPage
                 Object realValue = ((IItemPropertySource)value).getEditableValue(null);
                 if (realValue instanceof Collection)
                 {
-                  for (Iterator iter = ((Collection)realValue).iterator(); iter.hasNext(); )
+                  for (Object o : (Collection<?>)realValue)
                   {
-                    addObjectToSelect(iter.next());
+                    addObjectToSelect(o);
                   }
                 }
                 else

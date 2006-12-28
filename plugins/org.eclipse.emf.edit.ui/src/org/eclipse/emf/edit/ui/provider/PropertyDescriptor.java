@@ -1,9 +1,8 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
-                }
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
@@ -13,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: PropertyDescriptor.java,v 1.13 2006/05/15 19:41:25 davidms Exp $
+ * $Id: PropertyDescriptor.java,v 1.14 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -21,7 +20,6 @@ package org.eclipse.emf.edit.ui.provider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -119,10 +117,12 @@ public class PropertyDescriptor implements IPropertyDescriptor
     return 
       new LabelProvider()
       {
+        @Override
         public String getText(Object object)
         {
           return itemLabelProvider.getText(object);
         }
+        @Override
         public Image getImage(Object object)
         {
           return ExtendedImageRegistry.getInstance().getImage(itemLabelProvider.getImage(object));
@@ -188,7 +188,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
       }
       else
       {
-        return ((Diagnostic)diagnostic.getChildren().get(0)).getMessage().replaceAll("'","''").replaceAll("\\{", "'{'"); // }}
+        return (diagnostic.getChildren().get(0)).getMessage().replaceAll("'","''").replaceAll("\\{", "'{'"); // }}
       }
     }
 
@@ -223,11 +223,13 @@ public class PropertyDescriptor implements IPropertyDescriptor
       setValidator(valueHandler);
     }
 
+    @Override
     public Object doGetValue()
     {
       return valueHandler.toValue((String)super.doGetValue());
     }
 
+    @Override
     public void doSetValue(Object value)
     {
       value = valueHandler.toString(value);
@@ -244,6 +246,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
       setShellStyle(getShellStyle() | SWT.RESIZE);
     }
 
+    @Override
     protected Text createText(Composite composite)
     {
       Text text = new Text(composite, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
@@ -263,6 +266,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
       {
         protected EDataTypeValueHandler valueHandler = new EDataTypeValueHandler(eDataType);
 
+        @Override
         protected Object openDialogBox(Control cellEditorWindow)
         {
           InputDialog dialog = new MultiLineInputDialog
@@ -283,6 +287,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
    * This cell editor ensures that only Integer values are supported
    * @deprecated
    */
+  @Deprecated
   public static class IntegerCellEditor extends TextCellEditor
   {
     public IntegerCellEditor(Composite composite)
@@ -314,11 +319,13 @@ public class PropertyDescriptor implements IPropertyDescriptor
          });
     }
 
+    @Override
     public Object doGetValue()
     {
       return new Integer(Integer.parseInt((String)super.doGetValue()));
     }
 
+    @Override
     public void doSetValue(Object value)
     {
       super.doSetValue(value.toString());
@@ -329,6 +336,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
    * This cell editor ensures that only Float values are supported
    * @deprecated
    */
+  @Deprecated
   public static class FloatCellEditor extends TextCellEditor
   {
     public FloatCellEditor(Composite composite)
@@ -360,11 +368,13 @@ public class PropertyDescriptor implements IPropertyDescriptor
          });
     }
 
+    @Override
     public Object doGetValue()
     {
       return new Float(Float.parseFloat((String)super.doGetValue()));
     }
 
+    @Override
     public void doSetValue(Object value)
     {
       super.doSetValue(value.toString());
@@ -391,7 +401,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
     {
       result = new ExtendedComboBoxCellEditor(
         composite,
-        new ArrayList(itemPropertyDescriptor.getChoiceOfValues(object)),
+        new ArrayList<Object>(itemPropertyDescriptor.getChoiceOfValues(object)),
         getEditLabelProvider(),
         itemPropertyDescriptor.isSortChoices(object));
     }
@@ -399,15 +409,14 @@ public class PropertyDescriptor implements IPropertyDescriptor
     {
       final EStructuralFeature feature = (EStructuralFeature)genericFeature;
       final EClassifier eType = feature.getEType();
-      final Collection choiceOfValues = itemPropertyDescriptor.getChoiceOfValues(object);
+      final Collection<?> choiceOfValues = itemPropertyDescriptor.getChoiceOfValues(object);
       if (choiceOfValues != null)
       {
         if (itemPropertyDescriptor.isMany(object))
         {
           boolean valid = true;
-          for (Iterator i = choiceOfValues.iterator(); i.hasNext();)
+          for (Object choice : choiceOfValues)
           {
-            Object choice = i.next();
             if (!eType.isInstance(choice))
             {
               valid = false;
@@ -419,6 +428,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
           {
             result = new ExtendedDialogCellEditor(composite, getEditLabelProvider())
               {
+                @Override
                 protected Object openDialogBox(Control cellEditorWindow)
                 {
                   FeatureEditorDialog dialog = new FeatureEditorDialog(
@@ -426,9 +436,9 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     getEditLabelProvider(),
                     object,
                     feature.getEType(),
-                    (List)((IItemPropertySource)itemPropertyDescriptor.getPropertyValue(object)).getEditableValue(object),
+                    (List<?>)((IItemPropertySource)itemPropertyDescriptor.getPropertyValue(object)).getEditableValue(object),
                     getDisplayName(),
-                    new ArrayList(choiceOfValues),
+                    new ArrayList<Object>(choiceOfValues),
                     false,
                     itemPropertyDescriptor.isSortChoices(object));
                   dialog.open();
@@ -440,7 +450,9 @@ public class PropertyDescriptor implements IPropertyDescriptor
 
         if (result == null)
         {
-          result = new ExtendedComboBoxCellEditor(composite, new ArrayList(choiceOfValues), getEditLabelProvider(), itemPropertyDescriptor.isSortChoices(object));
+          result = 
+            new ExtendedComboBoxCellEditor
+              (composite, new ArrayList<Object>(choiceOfValues), getEditLabelProvider(), itemPropertyDescriptor.isSortChoices(object));
         }
       }
       else if (eType instanceof EDataType)
@@ -452,6 +464,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
           {
             result = new ExtendedDialogCellEditor(composite, getEditLabelProvider())
               {
+                @Override
                 protected Object openDialogBox(Control cellEditorWindow)
                 {
                   FeatureEditorDialog dialog = new FeatureEditorDialog(
@@ -459,7 +472,7 @@ public class PropertyDescriptor implements IPropertyDescriptor
                     getEditLabelProvider(),
                     object,
                     feature.getEType(),
-                    (List)((IItemPropertySource)itemPropertyDescriptor.getPropertyValue(object)).getEditableValue(object),
+                    (List<?>)((IItemPropertySource)itemPropertyDescriptor.getPropertyValue(object)).getEditableValue(object),
                     getDisplayName(),
                     null,
                     itemPropertyDescriptor.isMultiLine(object),

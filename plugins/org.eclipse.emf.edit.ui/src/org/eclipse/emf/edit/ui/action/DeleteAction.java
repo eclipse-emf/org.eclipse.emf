@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: DeleteAction.java,v 1.4 2005/07/08 02:08:33 davidms Exp $
+ * $Id: DeleteAction.java,v 1.5 2006/12/28 06:50:04 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -69,7 +69,8 @@ public class DeleteAction extends CommandActionHandler
     this(null);
   }
   
-  public Command createCommand(Collection selection)
+  @Override
+  public Command createCommand(Collection<?> selection)
   {
     return removeAllReferences ? DeleteCommand.create(domain, selection) : RemoveCommand.create(domain, selection);
   }
@@ -77,6 +78,7 @@ public class DeleteAction extends CommandActionHandler
   /**
    * @deprecated As of EMF 2.1.0, replaced by {@link #setActiveWorkbenchPart}.
    */
+  @Deprecated
   public void setActiveEditor(IEditorPart editorPart)
   {
     setActiveWorkbenchPart(editorPart);

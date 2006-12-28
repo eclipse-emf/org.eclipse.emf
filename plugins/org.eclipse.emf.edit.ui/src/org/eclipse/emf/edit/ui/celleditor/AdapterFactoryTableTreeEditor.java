@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryTableTreeEditor.java,v 1.3 2005/06/12 13:33:17 emerks Exp $
+ * $Id: AdapterFactoryTableTreeEditor.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -57,7 +57,10 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
  * This base class for implementing {@link org.eclipse.swt.custom.TableTreeEditor}s that 
  * delegate to adapters produced by an {@link AdapterFactory}.
  * This API is under construction; please do not use it for anything more than experimentation.
+ * @deprecated 
+ * @see AdapterFactoryTreeEditor
  */
+@Deprecated
 public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
 {
   protected AdapterFactory adapterFactory;
@@ -91,6 +94,7 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
     keyListener = 
       new KeyAdapter()
       {
+        @Override
         public void keyPressed(KeyEvent event)
         {
           if (event.character == ' ')
@@ -157,11 +161,6 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
 
   public boolean hasInPlaceEditor(Object object, int column)
   {
-    IItemPropertyDescriptor itemPropertyDescriptor = getColumnPropertyDescriptor(object, column);
-    if (itemPropertyDescriptor != null)
-    {
-    }
-
     return column == 0;
   }
 
@@ -182,6 +181,7 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
 
   public void createLaunchedEditor(Composite parent, Object object, int column)
   {
+    // Do nothing
   }
 
   protected void setDown(boolean isDown)
@@ -195,6 +195,7 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
     return isDown;
   }
 
+  @Override
   protected void editItem(TableItem tableItem, TableTreeItem tableTreeItem, int column)
   {
     if (getEditor() != null)
@@ -221,14 +222,16 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
     canvas.addMouseListener
       (new MouseAdapter()
        {
-         public void mouseDown(MouseEvent event)
+         @Override
+        public void mouseDown(MouseEvent event)
          {
            if (event.button == 1)
            {
              setDown(true);
            }
          }
-         public void mouseUp(MouseEvent event)
+         @Override
+        public void mouseUp(MouseEvent event)
          {
            if (event.button == 1 && isDown())
            {
@@ -373,7 +376,8 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
         control.addMouseListener
           (new MouseAdapter()
            {
-             public void mouseDoubleClick(MouseEvent event)
+             @Override
+            public void mouseDoubleClick(MouseEvent event)
              {
                if (event.button == 1)
                {
@@ -386,6 +390,7 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
         control.addKeyListener
          (new KeyAdapter()
           {
+            @Override
             public void keyPressed(KeyEvent e)
             {
               if (e.character == ' ' || e.character == '\r' || e.character == '\n')
@@ -414,12 +419,14 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
       canvas.setLayout
         (new org.eclipse.swt.widgets.Layout()
          {
-           protected  Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) 
+           @Override
+          protected  Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) 
            {
              return canvas.getSize();
            }
 
-           protected void layout(Composite composite, boolean flushCache) 
+           @Override
+          protected void layout(Composite composite, boolean flushCache) 
            {
              if (text.isDisposed())
              {
@@ -449,6 +456,7 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
       text.addKeyListener
        (new KeyAdapter()
         {
+          @Override
           public void keyPressed(KeyEvent e)
           {
             if (e.character == '\r' || e.character == '\n')
@@ -466,6 +474,7 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
       text.addFocusListener
        (new FocusAdapter()
         {
+          @Override
           public void focusLost(FocusEvent e)
           {
             apply();
@@ -494,6 +503,7 @@ public class AdapterFactoryTableTreeEditor extends ExtendedTableTreeEditor
     }
   }
 
+  @Override
   public void dismiss()
   {
     if (canvas != null)

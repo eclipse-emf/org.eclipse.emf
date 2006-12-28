@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: AdapterFactoryContentProvider.java,v 1.9 2006/07/13 16:22:56 davidms Exp $
+ * $Id: AdapterFactoryContentProvider.java,v 1.10 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -75,9 +75,9 @@ public class AdapterFactoryContentProvider
    */
   protected ViewerRefresh viewerRefresh;
 
-  private static final Class IStructuredItemContentProviderClass = IStructuredItemContentProvider.class;
-  private static final Class ITreeItemContentProviderClass = ITreeItemContentProvider.class;
-  private static final Class IItemPropertySourceClass = IItemPropertySource.class;
+  private static final Class<?> IStructuredItemContentProviderClass = IStructuredItemContentProvider.class;
+  private static final Class<?> ITreeItemContentProviderClass = ITreeItemContentProvider.class;
+  private static final Class<?> IItemPropertySourceClass = IItemPropertySource.class;
 
   /**
    * This constructs an instance that wraps this factory.
@@ -286,7 +286,7 @@ public class AdapterFactoryContentProvider
   public static class ViewerRefresh implements Runnable
   {
     Viewer viewer;
-    List notifications;
+    List<IViewerNotification> notifications;
     boolean compatibility;
 
     /**
@@ -300,6 +300,7 @@ public class AdapterFactoryContentProvider
     /**
      * @deprecated in 2.2.0
      */
+    @Deprecated
     public ViewerRefresh(Viewer viewer, IViewerNotification notification)
     {
       this.viewer = viewer;
@@ -319,7 +320,7 @@ public class AdapterFactoryContentProvider
     {
       if (notifications == null)
       {
-        notifications = new ArrayList();
+        notifications = new ArrayList<IViewerNotification>();
       }
 
       if (notifications.isEmpty())
@@ -330,9 +331,9 @@ public class AdapterFactoryContentProvider
 
       if (viewer instanceof StructuredViewer)
       {
-        for (Iterator i = notifications.iterator(); i.hasNext() && notification != null; )
+        for (Iterator<IViewerNotification> i = notifications.iterator(); i.hasNext() && notification != null; )
         {
-          IViewerNotification old = (IViewerNotification)i.next();
+          IViewerNotification old = i.next();
           IViewerNotification merged = merge(old, notification);
           if (merged == old)
           {
@@ -435,7 +436,7 @@ public class AdapterFactoryContentProvider
     {
       if (viewer != null && viewer.getControl() != null && !viewer.getControl().isDisposed())
       {
-        List current;
+        List<IViewerNotification> current;
   
         synchronized (this)
         {
@@ -445,9 +446,9 @@ public class AdapterFactoryContentProvider
   
         if (current != null)
         {
-          for (Iterator i = current.iterator(); i.hasNext(); )
+          for (IViewerNotification viewerNotification : current)
           {
-            refresh((IViewerNotification)i.next());
+            refresh(viewerNotification);
           }
         }
       }

@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,14 @@
  *
  * </copyright>
  *
- * $Id: StaticSelectionCommandAction.java,v 1.3 2005/06/08 06:20:52 nickb Exp $
+ * $Id: StaticSelectionCommandAction.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -105,8 +105,7 @@ public abstract class StaticSelectionCommandAction extends Action
   /**
    * This should be implemented to create a command that performs the action.
    */
-  protected abstract Command createActionCommand(EditingDomain editingDomain,
-                                                 Collection collection);
+  protected abstract Command createActionCommand(EditingDomain editingDomain, Collection<?> collection);
 
   /**
    * This extracts the objects from selection, invokes createActionCommand
@@ -124,19 +123,18 @@ public abstract class StaticSelectionCommandAction extends Action
     {
       // convert the selection to a collection of the selected objects
       IStructuredSelection sselection = (IStructuredSelection) selection;
-      Collection collection = new ArrayList(sselection.size());
-      for (Iterator i = sselection.iterator(); i.hasNext(); )
-      {
-        collection.add(i.next());
-      }
+      List<?> list = sselection.toList();
+      Collection<Object> collection = new ArrayList<Object>(list);
       
       // if the editing domain wasn't given by the workbench part, try to get
       // it from the selection
-      for (Iterator i = collection.iterator();
-           editingDomain == null && i.hasNext(); )
+      for (Object o : collection)
       {
-        Object o = i.next();
         editingDomain = AdapterFactoryEditingDomain.getEditingDomainFor(o);
+        if (editingDomain != null)
+        {
+          break;
+        }
       }
 
       // if we found an editing domain, create command
@@ -221,6 +219,7 @@ public abstract class StaticSelectionCommandAction extends Action
   /**
    * This executes the command.
    */
+  @Override
   public void run()
   {
     // this guard is for extra security, but should not be necessary

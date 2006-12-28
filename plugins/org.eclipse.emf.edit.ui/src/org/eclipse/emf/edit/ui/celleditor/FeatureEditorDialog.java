@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: FeatureEditorDialog.java,v 1.9 2006/05/26 20:02:46 marcelop Exp $
+ * $Id: FeatureEditorDialog.java,v 1.10 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.celleditor;
 
@@ -70,8 +70,8 @@ public class FeatureEditorDialog extends Dialog
   protected EClassifier eClassifier;
   protected String displayName;
   protected ItemProvider values;
-  protected List choiceOfValues;
-  protected EList result;
+  protected List<?> choiceOfValues;
+  protected EList<?> result;
   protected boolean multiLine;
 
   public FeatureEditorDialog
@@ -79,9 +79,9 @@ public class FeatureEditorDialog extends Dialog
      ILabelProvider labelProvider, 
      Object object, 
      EClassifier eClassifier, 
-     List currentValues, 
+     List<?> currentValues, 
      String displayName, 
-     List choiceOfValues,
+     List<?> choiceOfValues,
      boolean multiLine,
      boolean sortChoices)
   {
@@ -94,12 +94,12 @@ public class FeatureEditorDialog extends Dialog
     this.choiceOfValues = choiceOfValues;
     this.multiLine = multiLine;
 
-    AdapterFactory adapterFactory = new ComposedAdapterFactory(Collections.EMPTY_LIST);
+    AdapterFactory adapterFactory = new ComposedAdapterFactory(Collections.<AdapterFactory>emptyList());
     values = new ItemProvider(adapterFactory, currentValues);
     contentProvider = new AdapterFactoryContentProvider(adapterFactory);
     if (sortChoices && choiceOfValues != null)
     {
-      this.choiceOfValues = new ArrayList(choiceOfValues);
+      this.choiceOfValues = new ArrayList<Object>(choiceOfValues);
       ExtendedComboBoxCellEditor.createItems(this.choiceOfValues, labelProvider, true);
     }
   }
@@ -109,9 +109,9 @@ public class FeatureEditorDialog extends Dialog
      ILabelProvider labelProvider, 
      Object object, 
      EClassifier eClassifier, 
-     List currentValues, 
+     List<?> currentValues, 
      String displayName, 
-     List choiceOfValues)
+     List<?> choiceOfValues)
   {
     this(parent, labelProvider, object, eClassifier, currentValues, displayName, choiceOfValues, false, false);
   }
@@ -122,17 +122,18 @@ public class FeatureEditorDialog extends Dialog
      EObject eObject, 
      EStructuralFeature eStructuralFeature, 
      String displayName, 
-     List choiceOfValues)
+     List<?> choiceOfValues)
   {
     this(parent,
          labelProvider,
          eObject,
          eStructuralFeature.getEType(),
-         (List)eObject.eGet(eStructuralFeature),
+         (List<?>)eObject.eGet(eStructuralFeature),
          displayName,
          choiceOfValues);
   }
 
+  @Override
   protected void configureShell(Shell shell) 
   {
     super.configureShell(shell);
@@ -142,6 +143,7 @@ public class FeatureEditorDialog extends Dialog
     shell.setImage(labelProvider.getImage(object));
   }
 
+  @Override
   protected Control createDialogArea(Composite parent) 
   {
     Composite contents = (Composite)super.createDialogArea(parent);
@@ -334,6 +336,7 @@ public class FeatureEditorDialog extends Dialog
       choiceText.addKeyListener(
         new KeyAdapter()
         {
+          @Override
           public void keyPressed(KeyEvent event)
           {
             if (!multiLine && (event.character == '\r' || event.character == '\n'))
@@ -348,6 +351,7 @@ public class FeatureEditorDialog extends Dialog
               }
               catch (RuntimeException exception)
               {
+                // Ignore
               }
             }
             else if (event.character == '\33')
@@ -362,11 +366,12 @@ public class FeatureEditorDialog extends Dialog
     upButton.addSelectionListener(
       new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent event)
         {
           IStructuredSelection selection = (IStructuredSelection)featureTableViewer.getSelection();
           int minIndex = 0;
-          for (Iterator i = selection.iterator(); i.hasNext();)
+          for (Iterator<?> i = selection.iterator(); i.hasNext();)
           {
             Object value = i.next();
             int index = values.getChildren().indexOf(value);
@@ -378,11 +383,12 @@ public class FeatureEditorDialog extends Dialog
     downButton.addSelectionListener(
       new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent event)
         {
           IStructuredSelection selection = (IStructuredSelection)featureTableViewer.getSelection();
           int maxIndex = values.getChildren().size() - selection.size();
-          for (Iterator i = selection.iterator(); i.hasNext();)
+          for (Iterator<?> i = selection.iterator(); i.hasNext();)
           {
             Object value = i.next();
             int index = values.getChildren().indexOf(value);
@@ -395,12 +401,13 @@ public class FeatureEditorDialog extends Dialog
       new SelectionAdapter()
       {
         // event is null when choiceTableViewer is double clicked
+        @Override
         public void widgetSelected(SelectionEvent event)
         {
           if (choiceTableViewer != null)
           {
             IStructuredSelection selection = (IStructuredSelection)choiceTableViewer.getSelection();
-            for (Iterator i = selection.iterator(); i.hasNext();)
+            for (Iterator<?> i = selection.iterator(); i.hasNext();)
             {
               Object value = i.next();
               if (!values.getChildren().contains(value))
@@ -421,6 +428,7 @@ public class FeatureEditorDialog extends Dialog
             }
             catch (RuntimeException exception)
             {
+              // Ignore
             }
           }
         }
@@ -430,11 +438,12 @@ public class FeatureEditorDialog extends Dialog
       new SelectionAdapter()
       {
         // event is null when featureTableViewer is double clicked 
+        @Override
         public void widgetSelected(SelectionEvent event)
         {
           IStructuredSelection selection = (IStructuredSelection)featureTableViewer.getSelection();
           Object firstValue = null;
-          for (Iterator i = selection.iterator(); i.hasNext();)
+          for (Iterator<?> i = selection.iterator(); i.hasNext();)
           {
             Object value = i.next();
             if (firstValue == null)
@@ -467,19 +476,21 @@ public class FeatureEditorDialog extends Dialog
     return contents;
   }
 
+  @Override
   protected void okPressed()
   {
-    result = new BasicEList(values.getChildren());
+    result = new BasicEList<Object>(values.getChildren());
     super.okPressed();
   }
 
+  @Override
   public boolean close()
   {
     contentProvider.dispose();
     return super.close();
   }
 
-  public EList getResult()
+  public EList<?> getResult()
   {
     return result;
   }

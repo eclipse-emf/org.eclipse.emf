@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,18 +12,16 @@
  *
  * </copyright>
  *
- * $Id: NotifyChangedToViewerRefresh.java,v 1.3 2006/05/09 12:31:44 emerks Exp $
+ * $Id: NotifyChangedToViewerRefresh.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.StructuredViewer;
-import org.eclipse.jface.viewers.TableTreeViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -70,6 +68,7 @@ public class NotifyChangedToViewerRefresh
     }
   }
 
+  @SuppressWarnings("deprecation")
   public void refresh
     (Viewer viewer, 
      Object object, 
@@ -83,9 +82,9 @@ public class NotifyChangedToViewerRefresh
     {
       refreshTreeViewer((TreeViewer)viewer, object, eventType, feature, oldValue, newValue, index);
     }
-    else if (viewer instanceof TableTreeViewer)
+    else if (viewer instanceof org.eclipse.jface.viewers.TableTreeViewer)
     {
-      refreshTableTreeViewer((TableTreeViewer)viewer, object, eventType, feature, oldValue, newValue, index);
+      refreshTableTreeViewer((org.eclipse.jface.viewers.TableTreeViewer)viewer, object, eventType, feature, oldValue, newValue, index);
     }
     else if (viewer instanceof TableViewer)
     {
@@ -127,8 +126,9 @@ public class NotifyChangedToViewerRefresh
     }
   }
 
+  @Deprecated
   public void refreshTableTreeViewer
-    (TableTreeViewer viewer, 
+    (org.eclipse.jface.viewers.TableTreeViewer viewer, 
      Object object, 
      int eventType, 
      Object feature, 
@@ -171,7 +171,7 @@ public class NotifyChangedToViewerRefresh
       }
       case Notification.ADD_MANY:
       {
-        viewer.add(((Collection)newValue).toArray());
+        viewer.add(((Collection<?>)newValue).toArray());
         break;
       }
       case Notification.REMOVE:
@@ -181,7 +181,7 @@ public class NotifyChangedToViewerRefresh
       }
       case Notification.REMOVE_MANY:
       {
-        viewer.remove(((Collection)oldValue).toArray());
+        viewer.remove(((Collection<?>)oldValue).toArray());
         break;
       }
       case Notification.MOVE:
@@ -218,13 +218,13 @@ public class NotifyChangedToViewerRefresh
       {
         if (index == -1)
         {
-          viewer.add(((Collection)newValue).toArray());
+          viewer.add(((Collection<?>)newValue).toArray());
         }
         else
         {
-          for (Iterator i = ((Collection)newValue).iterator(); i.hasNext(); )
+          for (Object value : (Collection<?>)newValue)
           {
-            viewer.insert(i.next(), index++);
+            viewer.insert(value, index++);
           }
         }
         break;
@@ -236,7 +236,7 @@ public class NotifyChangedToViewerRefresh
       }
       case Notification.REMOVE_MANY:
       {
-        viewer.remove(((Collection)oldValue).toArray());
+        viewer.remove(((Collection<?>)oldValue).toArray());
         break;
       }
       case Notification.MOVE:
@@ -275,7 +275,7 @@ public class NotifyChangedToViewerRefresh
       }
       case Notification.ADD_MANY:
       {
-        viewer.add(object, ((Collection)newValue).toArray());
+        viewer.add(object, ((Collection<?>)newValue).toArray());
         break;
       }
       case Notification.REMOVE:
@@ -292,7 +292,7 @@ public class NotifyChangedToViewerRefresh
       }
       case Notification.REMOVE_MANY:
       {
-        viewer.remove(((Collection)oldValue).toArray());
+        viewer.remove(((Collection<?>)oldValue).toArray());
         break;
       }
       case Notification.MOVE:

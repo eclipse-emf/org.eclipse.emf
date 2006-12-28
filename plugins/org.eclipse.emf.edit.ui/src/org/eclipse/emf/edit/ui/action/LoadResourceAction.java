@@ -12,12 +12,10 @@
  *
  * </copyright>
  *
- * $Id: LoadResourceAction.java,v 1.12 2006/01/23 20:52:34 davidms Exp $
+ * $Id: LoadResourceAction.java,v 1.13 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
-
-import java.util.Iterator;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.SWT;
@@ -69,6 +67,7 @@ public class LoadResourceAction extends Action
     this.domain = domain;
   }
 
+  @Override
   public void run()
   {
     LoadResourceDialog loadResourceDialog =
@@ -86,6 +85,7 @@ public class LoadResourceAction extends Action
   /**
    * @deprecated As of EMF 2.1.0, replaced by {@link #setActiveWorkbenchPart}.
    */
+  @Deprecated
   public void setActiveEditor(IEditorPart editorPart)
   {
     setActiveWorkbenchPart(editorPart);
@@ -114,20 +114,21 @@ public class LoadResourceAction extends Action
       this.domain = domain;
     }
 
+    @Override
     protected boolean processResources()
     {
       if (domain != null)
       {
-        for (Iterator i = getURIs().iterator(); i.hasNext();)
+        for (URI uri : getURIs())
         {
-            try
-            {
-              domain.getResourceSet().getResource((URI)i.next(), true);
-            }
-            catch (RuntimeException exception)
-            {
-              EMFEditUIPlugin.INSTANCE.log(exception);
-            }
+          try
+          {
+            domain.getResourceSet().getResource(uri, true);
+          }
+          catch (RuntimeException exception)
+          {
+            EMFEditUIPlugin.INSTANCE.log(exception);
+          }
         }
       }
       return true;

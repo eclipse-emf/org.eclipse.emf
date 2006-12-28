@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ValidateAction.java,v 1.19 2006/12/26 18:56:17 emerks Exp $
+ * $Id: ValidateAction.java,v 1.20 2006/12/28 06:50:04 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -73,6 +73,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       return new WorkspaceModifyDelegatingOperation(runnableWithProgress);
     }
     
+    @Override
     protected String getMarkerID()
     {
       return EValidator.MARKER;
@@ -90,6 +91,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       }
     }
 
+    @Override
     protected String composeMessage(Diagnostic diagnostic, Diagnostic parentDiagnostic)
     {
       String message = diagnostic.getMessage();
@@ -104,9 +106,10 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       return message;
     }
 
+    @Override
     protected void adjustMarker(IMarker marker, Diagnostic diagnostic, Diagnostic parentDiagnostic) throws CoreException
     {
-      List data = diagnostic.getData();
+      List<?> data = diagnostic.getData();
       StringBuilder relatedURIs = new StringBuilder();
       boolean first = true;
       for (Object object : data)
@@ -140,7 +143,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   }
   
   protected ISelectionProvider selectionProvider;
-  protected List selectedObjects;
+  protected List<Object> selectedObjects;
   protected EditingDomain domain;
   protected EclipseResourcesUtil eclipseResourcesUtil = 
     Platform.getBundle("org.eclipse.core.resources") != null ? 
@@ -155,6 +158,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     setDescription(EMFEditUIPlugin.INSTANCE.getString("_UI_Validate_simple_description"));
   }
 
+  @Override
   public void run()
   {
     final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
@@ -213,7 +217,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
   {
     EObject eObject = (EObject)selectedObjects.iterator().next();
     int count = 0;
-    for (Iterator i = eObject.eAllContents(); i.hasNext(); i.next())
+    for (Iterator<?> i = eObject.eAllContents(); i.hasNext(); i.next())
     {
       ++count;
     }
@@ -226,6 +230,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     Diagnostician diagnostician = 
       new Diagnostician()
       {
+        @Override
         public String getObjectLabel(EObject eObject)
         {
           if (adapterFactory != null && !eObject.eIsProxy())
@@ -240,7 +245,8 @@ public class ValidateAction extends Action implements ISelectionChangedListener
           return super.getObjectLabel(eObject);
         }
 
-        public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map context)
+        @Override
+        public boolean validate(EClass eClass, EObject eObject, DiagnosticChain diagnostics, Map<Object, Object> context)
         {
           progressMonitor.worked(1);
           return super.validate(eClass, eObject, diagnostics, context);
@@ -282,7 +288,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
     if (eclipseResourcesUtil != null)
     {
-      Resource resource = (Resource)domain.getResourceSet().getResources().get(0);
+      Resource resource = domain.getResourceSet().getResources().get(0);
       if (resource != null)
       {
         eclipseResourcesUtil.deleteMarkers(resource);
@@ -292,7 +298,7 @@ public class ValidateAction extends Action implements ISelectionChangedListener
       {
         if (!diagnostic.getChildren().isEmpty())
         {
-          List data = ((Diagnostic)diagnostic.getChildren().get(0)).getData();
+          List<?> data = (diagnostic.getChildren().get(0)).getData();
           if (!data.isEmpty() && data.get(0) instanceof EObject)
           {
             Object part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart();
@@ -313,9 +319,8 @@ public class ValidateAction extends Action implements ISelectionChangedListener
     
         if (resource != null)
         {
-          for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext(); )
+          for (Diagnostic childDiagnostic : diagnostic.getChildren())
           {
-            Diagnostic childDiagnostic = (Diagnostic)i.next();
             eclipseResourcesUtil.createMarkers(resource, childDiagnostic);
           }
         }
@@ -338,8 +343,8 @@ public class ValidateAction extends Action implements ISelectionChangedListener
 
   public boolean updateSelection(IStructuredSelection selection)
   {
-    selectedObjects = new ArrayList();
-    for (Iterator objects = selection.iterator(); objects.hasNext(); )
+    selectedObjects = new ArrayList<Object>();
+    for (Iterator<?> objects = selection.iterator(); objects.hasNext(); )
     {
       selectedObjects.add(AdapterFactoryEditingDomain.unwrap(objects.next()));
     }

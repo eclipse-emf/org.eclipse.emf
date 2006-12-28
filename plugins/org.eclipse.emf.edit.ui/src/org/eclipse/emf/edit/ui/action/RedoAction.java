@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: RedoAction.java,v 1.3 2005/06/08 06:20:52 nickb Exp $
+ * $Id: RedoAction.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.action;
 
@@ -62,6 +62,7 @@ public class RedoAction extends Action
     this.domain = domain;
   }
 
+  @Override
   public void run()
   {
     domain.getCommandStack().redo();
@@ -94,6 +95,7 @@ public class RedoAction extends Action
   /**
    * @deprecated As of EMF 2.1.0, replaced by {@link #setActiveWorkbenchPart}.
    */
+  @Deprecated
   public void setActiveEditor(IEditorPart editorPart)
   {
     setActiveWorkbenchPart(editorPart);

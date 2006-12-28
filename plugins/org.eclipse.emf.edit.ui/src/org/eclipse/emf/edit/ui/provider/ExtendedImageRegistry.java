@@ -1,7 +1,7 @@
 /**
  * <copyright> 
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ExtendedImageRegistry.java,v 1.3 2005/06/08 06:20:52 nickb Exp $
+ * $Id: ExtendedImageRegistry.java,v 1.4 2006/12/28 06:50:05 marcelop Exp $
  */
 package org.eclipse.emf.edit.ui.provider;
 
@@ -56,7 +56,7 @@ public class ExtendedImageRegistry
     return INSTANCE;
   }
 
-  protected HashMap table = new HashMap(10);
+  protected HashMap<Object, Image> table = new HashMap<Object, Image>(10);
 
   public ExtendedImageRegistry() 
   {
@@ -86,7 +86,7 @@ public class ExtendedImageRegistry
     }
     else
     {
-      Image result = (Image)table.get(object);
+      Image result = table.get(object);
       if (result == null)
       {
         if (object instanceof Image)
@@ -118,6 +118,7 @@ public class ExtendedImageRegistry
             }
             catch (IOException exception)
             {
+              // Ignore
             }
           }
           else if (urlString.startsWith(createChildURLPrefix))
@@ -137,6 +138,7 @@ public class ExtendedImageRegistry
             }
             catch (IOException exception)
             {
+              // Ignore
             }
           }
           else
@@ -147,6 +149,7 @@ public class ExtendedImageRegistry
             }
             catch (IOException exception)
             {
+              // Ignore
             }
           }
           result = imageDescriptor.createImage();
@@ -190,9 +193,8 @@ public class ExtendedImageRegistry
 
   protected void handleDisplayDispose() 
   {
-    for (Iterator images = table.values().iterator(); images.hasNext();) 
+    for (Image image : table.values())
     {
-      Image image = (Image)images.next();
       image.dispose();
     }
     table = null;
@@ -221,6 +223,7 @@ class ImageWrapperImageDescriptor extends ImageDescriptor
     this.image = image;
   }
 
+  @Override
   public boolean equals(Object that)
   {
     return 
@@ -228,11 +231,13 @@ class ImageWrapperImageDescriptor extends ImageDescriptor
         ((ImageWrapperImageDescriptor)that).image.equals(image);
   }
 
+  @Override
   public int hashCode()
   {
     return image.hashCode();
   }
 
+  @Override
   public ImageData getImageData()
   {
     return image.getImageData();
@@ -243,34 +248,36 @@ class ImageWrapperImageDescriptor extends ImageDescriptor
 class ComposedImageDescriptor extends CompositeImageDescriptor
 {
   protected ComposedImage composedImage;
-  protected List imageDatas;
+  protected List<ImageData> imageDatas;
 
   public ComposedImageDescriptor(ComposedImage composedImage)
   {
     this.composedImage = composedImage;
   }
 
+  @Override
   public void drawCompositeImage(int width, int height)
   {
     ComposedImage.Size size = new ComposedImage.Size();
     size.width = width;
     size.height = height;
-    Iterator images = imageDatas.iterator();
-    for (Iterator points = composedImage.getDrawPoints(size).iterator(); points.hasNext(); )
+    Iterator<ImageData> images = imageDatas.iterator();
+    for (Iterator<ComposedImage.Point> points = composedImage.getDrawPoints(size).iterator(); points.hasNext(); )
     {
-      ComposedImage.Point point = (ComposedImage.Point)points.next();
-      drawImage((ImageData)images.next(), point.x, point.y);
+      ComposedImage.Point point = points.next();
+      drawImage(images.next(), point.x, point.y);
     }
   }
 
+  @Override
   public Point getSize()
   {
-    List images = composedImage.getImages();
-    imageDatas = new ArrayList(images.size());
-    List sizes = new ArrayList(images.size());
-    for (Iterator i = images.iterator(); i.hasNext(); )
+    List<Object> images = composedImage.getImages();
+    imageDatas = new ArrayList<ImageData>(images.size());
+    List<ComposedImage.Size> sizes = new ArrayList<ComposedImage.Size>(images.size());
+    for (Object object : images)
     {
-      Image image = ExtendedImageRegistry.getInstance().getImage(i.next());
+      Image image = ExtendedImageRegistry.getInstance().getImage(object);
       ImageData imageData = image.getImageData();
       imageDatas.add(imageData);
 
@@ -298,6 +305,7 @@ class URLImageDescriptor extends ImageDescriptor
     this.key2 = key2;
   }
 
+  @Override
   public ImageData getImageData() 
   {
     InputStream in = null;
@@ -341,11 +349,13 @@ class URLImageDescriptor extends ImageDescriptor
       return url.openStream();
   }
 
+  @Override
   public int hashCode() 
   {
     return url.hashCode() | (key1 == null ? 0 : key1.hashCode()) | (key2 == null ? 0 : key2.hashCode());
   }
 
+  @Override
   public boolean equals(Object that) 
   {
     if (that instanceof URLImageDescriptor)
@@ -362,6 +372,7 @@ class URLImageDescriptor extends ImageDescriptor
     }
   }
 
+  @Override
   public String toString() 
   {
     return getClass().getName() + "(" + url + "#" + key1 + "/" + key2 + ")"; 
@@ -499,12 +510,12 @@ class ImageDataSynthesizer
         entries.add(entry);
         instance.fixFactor();
       }
-      return (ColorInformation)entries.get(index);
+      return entries.get(index);
     }
 
     protected static ColorInformation instance = new ColorInformation();
 
-    protected static List entries = new ArrayList(1000);
+    protected static List<ColorInformation> entries = new ArrayList<ColorInformation>(1000);
 
     public int red = 192;
     public int green = 64;
