@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.29 2006/12/28 08:13:18 marcelop Exp $
+ * $Id: Generator.java,v 1.30 2006/12/28 12:36:25 emerks Exp $
  */
 package org.eclipse.emf.codegen.ecore;
 
@@ -60,7 +60,6 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
-import org.eclipse.emf.common.util.EclipseApplication;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -119,12 +118,12 @@ public class Generator extends CodeGen
     return PlatformRunnable.run(this, object);
   }
     
-  @SuppressWarnings("deprecation")
-  public static class PlatformRunnable extends Generator implements org.eclipse.core.runtime.IPlatformRunnable, IApplication
+  public static class PlatformRunnable extends Generator implements IApplication, DeprecatedPlatformRunnable
   {
     public Object start(IApplicationContext context) throws Exception
     {
-      return EclipseApplication.delegateToPlatformRunnable(this, context);
+      String [] args = (String[])context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
+      return run(args == null ? new String[0] : args);
     }
     
     public void stop()
@@ -966,4 +965,10 @@ public class Generator extends CodeGen
       return encodedPath;
     }
   }
+}
+
+@SuppressWarnings("deprecation")
+interface DeprecatedPlatformRunnable extends org.eclipse.core.runtime.IPlatformRunnable
+{
+  // Empty extension to limit the effect of suppressing the deprecation warning.
 }
