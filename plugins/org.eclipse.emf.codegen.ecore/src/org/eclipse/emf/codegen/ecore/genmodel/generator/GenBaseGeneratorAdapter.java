@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GenBaseGeneratorAdapter.java,v 1.7 2006/12/28 06:40:38 marcelop Exp $
+ * $Id: GenBaseGeneratorAdapter.java,v 1.8 2006/12/28 16:47:41 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.genmodel.generator;
 
@@ -364,13 +364,13 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
 
           if (!project.exists() || force)
           {
-            IPath projectLocation = null;
+            URI projectLocation = null;
             List<IProject> referencedProjects = new UniqueEList<IProject>();
 
             if (project.exists())
             {
               referencedProjects.addAll(Arrays.asList(project.getDescription().getReferencedProjects()));
-              projectLocation = getLocation(project);
+              projectLocation = getLocationURI(project);
             }
             else
             {
@@ -378,7 +378,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
               if (genModelURI.isPlatformResource())
               {
                 IProject genModelProject = workspace.getRoot().getProject(genModelURI.segments()[1]);
-                projectLocation = getLocation(genModelProject);
+                projectLocation = getLocationURI(genModelProject);
               }
             }
 
@@ -402,7 +402,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
   
                 if (testsProject.exists())
                 {
-                  projectLocation = getLocation(testsProject);
+                  projectLocation = getLocationURI(testsProject);
                 }
 
                 referencedProjects.add(modelProject);
@@ -418,7 +418,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
                 javaSource = new Path(genModel.getEditDirectory());
                 if (editProject.exists())
                 {
-                  projectLocation = getLocation(editProject);
+                  projectLocation = getLocationURI(editProject);
                 }
 
                 referencedProjects.add(modelProject);
@@ -463,7 +463,7 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
 
             if (projectLocation != null)
             {
-              projectLocation = projectLocation.removeLastSegments(1).append(javaSource.segment(0));
+              projectLocation = projectLocation.trimSegments(1).appendSegment(javaSource.segment(0));
             }
 
             if (genModel.hasXMLDependency())
@@ -495,9 +495,10 @@ public class GenBaseGeneratorAdapter extends AbstractGeneratorAdapter
       return false;
     }
     
-    protected static IPath getLocation(IProject project) throws CoreException
+    protected static URI getLocationURI(IProject project) throws CoreException
     {
-      return project.getDescription().getLocation();
+      java.net.URI locationURI = project.getDescription().getLocationURI();
+      return locationURI == null ? null : URI.createURI(locationURI.toString());
     }
   }
 }
