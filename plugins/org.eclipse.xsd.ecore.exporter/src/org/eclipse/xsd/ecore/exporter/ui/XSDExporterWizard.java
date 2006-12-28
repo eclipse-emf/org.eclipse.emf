@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDExporterWizard.java,v 1.1 2005/12/14 08:13:51 marcelop Exp $
+ * $Id: XSDExporterWizard.java,v 1.2 2006/12/28 07:02:39 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.exporter.ui;
 
@@ -35,11 +35,13 @@ public class XSDExporterWizard extends ModelExporterWizard
     super();
   }
   
+  @Override
   protected ModelConverter createModelConverter()
   {
     return new XSDExporter();
   }
   
+  @Override
   public void addPages()
   {
     ModelExporterDirectoryURIPage directoryURIPage = new ModelExporterDirectoryURIPage(getModelExporter(), "XSDExporterBaseLocationPage");

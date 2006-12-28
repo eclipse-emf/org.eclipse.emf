@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDExporterPlugin.java,v 1.2 2006/06/01 13:24:27 davidms Exp $
+ * $Id: XSDExporterPlugin.java,v 1.3 2006/12/28 07:02:39 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
@@ -48,6 +48,7 @@ public final class XSDExporterPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIExporter.java,v 1.4 2006/04/30 17:22:58 emerks Exp $
+ * $Id: XMIExporter.java,v 1.5 2006/12/28 07:02:39 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
@@ -31,16 +31,19 @@ import org.eclipse.xsd.ecore.EcoreXMISchemaBuilder;
  */
 public class XMIExporter extends XSDExporter
 {
+  @Override
   public String getID()
   {
     return "org.eclipse.xsd.ecore.exporter.xmi";
   }
   
+  @Override
   protected String getDefaultArtifactLocation(EPackage ePackage)
   {
     return getDefaultArtifactFileName(ePackage) + "XMI.xsd";
   }
   
+  @Override
   protected XSDSchema getSchema(EPackage ePackage)
   {
     if (mapBuilder == null)
@@ -50,6 +53,7 @@ public class XMIExporter extends XSDExporter
     return (XSDSchema)((EcoreXMISchemaBuilder)mapBuilder).generate(ePackage).iterator().next();
   }
   
+  @Override
   protected String computeSchemaLocation(XSDSchemaDirective xsdSchemaDirective, URI artifactURI)
   {
     if (artifactURI != null)

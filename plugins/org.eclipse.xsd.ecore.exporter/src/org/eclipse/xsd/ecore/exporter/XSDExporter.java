@@ -12,11 +12,10 @@
  *
  * </copyright>
  *
- * $Id: XSDExporter.java,v 1.6 2006/08/27 16:52:44 emerks Exp $
+ * $Id: XSDExporter.java,v 1.7 2006/12/28 07:02:39 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.exporter;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
@@ -44,22 +43,26 @@ public class XSDExporter extends ModelExporter
 {
   protected MapBuilder mapBuilder;
   
+  @Override
   public String getID()
   {
     return "org.eclipse.xsd.ecore.exporter";
   }
   
+  @Override
   public void dispose()
   {
     mapBuilder = null;
     super.dispose();
   }
   
+  @Override
   protected String getDefaultArtifactLocation(EPackage ePackage)
   {
     return getDefaultArtifactFileName(ePackage) + ".xsd";
   }
   
+  @Override
   protected String doCheckEPackageArtifactLocation(String location, String packageName)
   {
     if (!location.endsWith(".xsd"))
@@ -75,6 +78,7 @@ public class XSDExporter extends ModelExporter
     {
       mapBuilder = new EcoreSchemaBuilder(genModel.getExtendedMetaData())
       {
+        @Override
         protected String getQualifiedPackageName(EPackage ePackage) 
         {
           return genModel.findGenPackage(ePackage).getQualifiedPackageName();
@@ -84,19 +88,18 @@ public class XSDExporter extends ModelExporter
     return ((EcoreSchemaBuilder)mapBuilder).getSchema(ePackage);
   }
 
+  @Override
   protected Diagnostic doExport(Monitor monitor, ModelExporter.ExportData exportData) throws Exception
   {
     ResourceSet resourceSet = new ResourceSetImpl();    
-    for (Iterator i = exportData.genPackageToArtifactURI.entrySet().iterator(); i.hasNext();)
+    for (Map.Entry<GenPackage, URI> entry : exportData.genPackageToArtifactURI.entrySet())
     {
-      Map.Entry entry = (Map.Entry)i.next();
-      GenPackage genPackage = (GenPackage)entry.getKey();
+      GenPackage genPackage = entry.getKey();
       EPackage ePackage = genPackage.getEcorePackage();
-      URI schemaLocationURI = (URI)entry.getValue();
+      URI schemaLocationURI = entry.getValue();
       XSDSchema xsdSchema = getSchema(ePackage);
-      for (Iterator j = xsdSchema.getContents().iterator(); j.hasNext(); )
+      for (Object content : xsdSchema.getContents())
       {
-        Object content = j.next();
         if (content instanceof XSDImport)
         {
           XSDImport xsdImport = (XSDImport)content;
@@ -126,20 +129,19 @@ public class XSDExporter extends ModelExporter
   
   protected URI getReferencedGenPackageArtifactURI(ModelExporter.ExportData exportData, GenPackage genPackage)
   {
-    URI artifactURI = (URI)exportData.referencedGenPackagesToArtifactURI.get(genPackage);
+    URI artifactURI = exportData.referencedGenPackagesToArtifactURI.get(genPackage);
     if (artifactURI == null)
     {
-      artifactURI = (URI)exportData.genPackageToArtifactURI.get(genPackage);
+      artifactURI = exportData.genPackageToArtifactURI.get(genPackage);
       if (artifactURI == null)
       {
-        for (Iterator i = exportData.referencedGenPackagesToArtifactURI.entrySet().iterator(); i.hasNext();)
+        for (Map.Entry<GenPackage, URI> entry : exportData.referencedGenPackagesToArtifactURI.entrySet())
         {
-          Map.Entry entry = (Map.Entry)i.next();
-          GenPackage referencedGenPackage = (GenPackage)entry.getKey();
+          GenPackage referencedGenPackage = entry.getKey();
           if (genPackage.getNSURI().equals(referencedGenPackage.getNSURI()) 
               && genPackage.getEcorePackage().getName().equals(referencedGenPackage.getEcorePackage().getName()))
           {
-            artifactURI = (URI)entry.getValue();
+            artifactURI = entry.getValue();
           }
         }
       }

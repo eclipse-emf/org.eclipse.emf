@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XMIExporterWizard.java,v 1.1 2005/12/14 14:56:08 emerks Exp $
+ * $Id: XMIExporterWizard.java,v 1.2 2006/12/28 07:02:39 marcelop Exp $
  */
 package org.eclipse.xsd.ecore.exporter.ui;
 
@@ -29,6 +29,7 @@ public class XMIExporterWizard extends XSDExporterWizard
     super();
   }
   
+  @Override
   protected ModelConverter createModelConverter()
   {
     return new XMIExporter();
