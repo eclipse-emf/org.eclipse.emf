@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: GeneratorTask.java,v 1.16 2006/12/28 03:12:59 marcelop Exp $
+ * $Id: GeneratorTask.java,v 1.17 2006/12/28 08:40:06 marcelop Exp $
  */
 package org.eclipse.emf.ant.taskdefs.codegen.ecore;
 
@@ -118,6 +118,11 @@ import org.eclipse.emf.common.util.URI;
  *    <td>The JDK level for the generated code. &quot;1.4&quot;, &quot;5.0&quot;, and
  *    &quot;6.0&quot; are valid values.</td>
  * </tr>
+ * <tr>
+ *    <td valign="top">validateModel</td>
+ *    <td>Boolean value indicating whether the Ecore model should be validated before
+ *    generating the code.</td>
+ * </tr>
  * </table>
  * 
  * <p>If the Ant task knows how to handle multiple model specifications,  
@@ -183,6 +188,7 @@ public abstract class GeneratorTask extends EMFTask
   protected String copyright;
   protected boolean sdo = false;
   protected String jdkLevel;
+  protected String validateModel;
 
   protected int reconcileGenModel = GENMODEL_OVERWRITE;
   protected boolean generateJavaCode = true;
@@ -311,6 +317,11 @@ public abstract class GeneratorTask extends EMFTask
   public void setAutoBuild(boolean autoBuild)
   {
     this.autoBuild = Boolean.valueOf(autoBuild);
+  }
+  
+  public void setValidateModel(boolean validateModel)
+  {
+    this.validateModel = Boolean.toString(validateModel);
   }
   
   public void setJdkLevel(String jdkLevel)
@@ -452,6 +463,12 @@ public abstract class GeneratorTask extends EMFTask
     {
       getCommandline().createArgument().setValue("-copyright");
       getCommandline().createArgument().setValue(copyright);
+    }
+    
+    if (validateModel != null)
+    {
+      getCommandline().createArgument().setValue("-validateModel");
+      getCommandline().createArgument().setValue(validateModel);
     }
     
     if (jdkLevel != null)
