@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: CodeGen.java,v 1.11 2006/12/19 01:49:58 marcelop Exp $
+ * $Id: CodeGen.java,v 1.12 2006/12/28 08:12:11 marcelop Exp $
  */
 package org.eclipse.emf.codegen;
 
@@ -33,10 +33,10 @@ import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IPlatformRunnable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.jdt.core.IClasspathEntry;
 
 import org.eclipse.emf.codegen.jet.JETCompiler;
 import org.eclipse.emf.codegen.jet.JETException;
@@ -44,7 +44,7 @@ import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.merge.java.JMerger;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.DiagnosticException;
-import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.emf.common.util.EclipseApplication;
 
 
 /**
@@ -122,11 +122,12 @@ public class CodeGen
     return PlatformRunnable.runHelper(object);
   }
 
-  public static class PlatformRunnable implements IPlatformRunnable
+  public static class PlatformRunnable extends EclipseApplication
   {
     /**
      * This is called with the command line arguments of a headless workbench invocation.
      */
+    @Override
     public Object run(Object object) 
     {
       return runHelper(object);
