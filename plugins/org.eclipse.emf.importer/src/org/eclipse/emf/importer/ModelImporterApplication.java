@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.25 2006/12/28 08:41:06 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.26 2006/12/28 12:43:31 emerks Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -45,7 +45,6 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.codegen.util.CodeGenUtil.EclipseUtil.StreamProgressMonitor;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.DiagnosticException;
-import org.eclipse.emf.common.util.EclipseApplication;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -54,12 +53,14 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.importer.util.ImporterUtil;
+import org.eclipse.equinox.app.IApplication;
+import org.eclipse.equinox.app.IApplicationContext;
 
 
 /**
  * @since 2.1.0
  */
-public abstract class ModelImporterApplication extends EclipseApplication
+public abstract class ModelImporterApplication implements IApplication, DeprecatedPlatformRunnable
 {
   protected ModelImporter modelImporter;
 
@@ -98,7 +99,17 @@ public abstract class ModelImporterApplication extends EclipseApplication
 
   protected abstract ModelImporter createModelImporter();
 
-  @Override
+  public Object start(IApplicationContext context) throws Exception
+  {
+    String [] args = (String[])context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
+    return run(args == null ? new String [0] : args);
+  }
+
+  public void stop()
+  {
+    // Subclasses may override
+  }
+
   public Object run(final Object args) throws Exception
   {
     try
@@ -640,4 +651,10 @@ public abstract class ModelImporterApplication extends EclipseApplication
       }
     }    
   }
+}
+
+@SuppressWarnings("deprecation")
+interface DeprecatedPlatformRunnable extends org.eclipse.core.runtime.IPlatformRunnable
+{
+  // Empty extension to limit the effect of suppressing the deprecation warning.
 }
