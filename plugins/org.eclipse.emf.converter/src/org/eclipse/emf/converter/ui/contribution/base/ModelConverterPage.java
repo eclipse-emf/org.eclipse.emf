@@ -40,21 +40,25 @@ public abstract class ModelConverterPage extends WizardPage implements Listener
       this.modelConverterPage = modelConverterPage;
     }
     
+    @Override
     protected boolean doMessages()
     {
       return true;
     }
     
+    @Override
     protected void setMessage(String message)
     {
       modelConverterPage.setMessage(message);
     }
     
+    @Override
     protected void setMessage(String message, int messageType)
     {
       modelConverterPage.setMessage(message, messageType);
     }
     
+    @Override
     protected void setErrorMessage(String message)
     {
       modelConverterPage.setErrorMessage(message);
@@ -81,6 +85,7 @@ public abstract class ModelConverterPage extends WizardPage implements Listener
     setPageComplete(false);
   }
 
+  @Override
   public void dispose()
   {
     modelConverter = null;
@@ -95,24 +100,29 @@ public abstract class ModelConverterPage extends WizardPage implements Listener
 
   protected void pageActivated(boolean firstTime, int cause)
   {
+    // Subclasses may override
   }
 
   protected void pageDeactivated(int cause)
   {
+    // Subclasses may override
   }
   
+  @Override
   public IWizardPage getNextPage()
   {
     forwardDirection = true;
     return super.getNextPage();
   }
   
+  @Override
   public IWizardPage getPreviousPage()
   {
     forwardDirection = false;
     return super.getPreviousPage();
   }
 
+  @Override
   public boolean isPageComplete()
   {
     return getErrorMessage() == null;
@@ -138,7 +148,7 @@ public abstract class ModelConverterPage extends WizardPage implements Listener
   
   protected void doHandleEvent(Event event)
   {
-    
+    // Subclasses may override
   }
 
   protected void handleDiagnostic(Diagnostic diagnostic)

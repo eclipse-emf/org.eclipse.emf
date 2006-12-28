@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,12 +12,11 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterDescriptorSelectionPage.java,v 1.1 2005/12/14 07:45:42 marcelop Exp $
+ * $Id: ModelConverterDescriptorSelectionPage.java,v 1.2 2006/12/28 06:43:30 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,25 +51,26 @@ import org.eclipse.emf.codegen.ecore.genmodel.provider.GenModelEditPlugin;
 import org.eclipse.emf.converter.ConverterPlugin;
 import org.eclipse.emf.converter.ui.contribution.ModelConverterDescriptor;
 import org.eclipse.emf.converter.ui.contribution.ModelConverterManager;
+import org.eclipse.emf.converter.ui.contribution.ModelConverterManager.ModelConverterDescriptorWizardNode;
 
 /**
  * @since 2.2.0
  */
 public abstract class ModelConverterDescriptorSelectionPage extends WizardSelectionPage implements ISelectionChangedListener
 {
-  protected ModelConverterManager modelConverterManager;
+  protected ModelConverterManager<?> modelConverterManager;
   protected ModelConverterDescriptor descriptor;
   
   protected TableViewer descriptorTableViewer;  
   protected ImageDescriptor modeConverterWizardDefaultImageDescriptor;
-  protected Map modelConverterWizardNodeMap;
+  protected Map<? extends ModelConverterDescriptor, ModelConverterDescriptorWizardNode> modelConverterWizardNodeMap;
   protected IStructuredSelection selection;
   protected IWorkbench workbench;  
   
   protected boolean firstTime = true;
-  protected Set initializedWizards = new HashSet();
+  protected Set<IWizard> initializedWizards = new HashSet<IWizard>();
 
-  public ModelConverterDescriptorSelectionPage(String pageId, ModelConverterManager modelConverterManager, IWorkbench workbench, IStructuredSelection selection)
+  public ModelConverterDescriptorSelectionPage(String pageId, ModelConverterManager<?> modelConverterManager, IWorkbench workbench, IStructuredSelection selection)
   {
     super(pageId);
     this.modelConverterManager = modelConverterManager;
@@ -78,6 +78,7 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
     this.selection = selection;
   }
   
+  @Override
   public void dispose()
   {
     if (descriptorTableViewer != null)
@@ -106,9 +107,8 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
   {
     if (modelConverterWizardNodeMap != null)
     {
-      for (Iterator i = modelConverterWizardNodeMap.values().iterator(); i.hasNext();)
+      for (IWizardNode wizardNode : modelConverterWizardNodeMap.values())
       {
-        IWizardNode wizardNode = (IWizardNode)i.next();
         wizardNode.dispose();
       }
 
@@ -163,6 +163,7 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
     return descriptor;
   }
 
+  @Override
   public void setVisible(boolean visible)
   {
     super.setVisible(visible);
@@ -280,7 +281,7 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
           modelConverterWizardNodeMap = modelConverterManager.createModelConverterDescriptorWizardNodeMap();
         }
         setMessage(descriptor.getDescription(), IMessageProvider.NONE);
-        setSelectedNode((IWizardNode)modelConverterWizardNodeMap.get(descriptor));
+        setSelectedNode(modelConverterWizardNodeMap.get(descriptor));
         return;
       }
     }
@@ -288,14 +289,16 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
     setPageComplete(false);
   }
 
+  @Override
   public boolean isPageComplete()
   {
     return descriptor != null;
   }
 
+  @Override
   public IWizardPage getNextPage()
   {
-    IWizard modelConverterWizard = (IWizard)getSelectedNode().getWizard();
+    IWizard modelConverterWizard = getSelectedNode().getWizard();
     if (initializedWizards.add(modelConverterWizard))
     {
       if (modelConverterWizard instanceof Wizard)
@@ -329,6 +332,7 @@ public abstract class ModelConverterDescriptorSelectionPage extends WizardSelect
   }
   
   protected void adjustModelConverterWizard(IWizard modelConverterWizard)
-  {   
+  {
+    // Subclasses may overrride 
   }
 }

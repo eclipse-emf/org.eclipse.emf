@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterWizard.java,v 1.3 2006/04/10 19:34:05 marcelop Exp $
+ * $Id: ModelConverterWizard.java,v 1.4 2006/12/28 06:43:30 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -137,6 +137,7 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
     }
   }
 
+  @Override
   public void dispose()
   {
     selection = null;
@@ -190,6 +191,7 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
     return selection;
   }
   
+  @Override
   public void setContainer(IWizardContainer wizardContainer)
   {
     super.setContainer(wizardContainer);
@@ -200,12 +202,14 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
     }
   }
 
+  @Override
   public boolean performCancel()
   {
     pageHelper.firePageDeactivated(ModelConverterPage.CAUSE_CANCEL);
     return true;
   }
 
+  @Override
   public boolean performFinish()
   {
     pageHelper.firePageDeactivated(ModelConverterPage.CAUSE_FINISH);
@@ -214,6 +218,7 @@ public abstract class ModelConverterWizard extends Wizard implements IWorkbenchW
     {
       WorkspaceModifyOperation operation = new WorkspaceModifyOperation()
         {
+          @Override
           protected void execute(IProgressMonitor progressMonitor) throws CoreException
           {
             Monitor monitor = BasicMonitor.toMonitor(progressMonitor);

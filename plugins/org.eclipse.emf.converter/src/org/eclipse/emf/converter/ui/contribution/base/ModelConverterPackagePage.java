@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterPackagePage.java,v 1.8 2006/10/16 03:25:57 davidms Exp $
+ * $Id: ModelConverterPackagePage.java,v 1.9 2006/12/28 06:43:30 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -86,6 +86,7 @@ import org.eclipse.emf.converter.ModelConverter;
 import org.eclipse.emf.converter.util.ConverterUIUtil;
 import org.eclipse.emf.converter.util.ConverterUtil;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.edit.provider.ItemProvider;
@@ -102,7 +103,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
   protected CheckboxTableViewer ePackagesCheckboxTableViewer;
   protected int ePackageDataTableColumn = 1;
   protected CheckboxTreeViewer referencedGenModelsCheckboxTreeViewer;
-  protected List filteredEPackages = new ConverterUtil.EPackageList();
+  protected List<EPackage> filteredEPackages = new ConverterUtil.EPackageList();
   protected boolean showReferencedGenModels = false;
   protected boolean isCellEditing = false;
 
@@ -113,6 +114,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
     setTitle(ConverterPlugin.INSTANCE.getString("_UI_PackageSelection_title"));
   }
 
+  @Override
   public void dispose()
   {
     ePackagesCheckboxTableViewer = null;
@@ -137,6 +139,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
     return showReferencedGenModels;
   }
 
+  @Override
   protected void pageActivated(final boolean firstTime, int cause)
   {
     getControl().getDisplay().asyncExec(new Runnable()
@@ -150,6 +153,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
       });
   }
 
+  @Override
   public boolean isPageComplete()
   {
     return super.isPageComplete() && !getModelConverter().getEPackages().isEmpty() && ePackagesCheckboxTableViewer != null
@@ -232,6 +236,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
     selectAllButton.setText(getSelectAllLabel());
     selectAllButton.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent event)
         {
           ePackagesCheckboxTableViewer.setCheckedElements(getModelConverter().getEPackages().toArray());
@@ -244,6 +249,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
     deselectAllButton.setText(getDeselectAllLabel());
     deselectAllButton.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent event)
         {
           ePackagesCheckboxTableViewer.setCheckedElements(new Object [0]);
@@ -310,6 +316,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
   {
     return new ExtendedTableEditor(ePackagesCheckboxTableViewer.getTable())
     {
+      @Override
       protected void editItem(final TableItem tableItem, final int index)
       {
         if (index == ePackageDataTableColumn)
@@ -327,6 +334,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
 
           text.addFocusListener(new FocusAdapter()
             {
+              @Override
               public void focusLost(FocusEvent event)
               {
                 modify(tableItem, index, text);
@@ -335,6 +343,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
 
           text.addKeyListener(new KeyAdapter()
             {
+              @Override
               public void keyPressed(KeyEvent event)
               {
                 if (event.character == '\r' || event.character == '\n')
@@ -389,6 +398,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
   
   protected void setEPackageData(EPackage ePackage, String data)
   {
+    // Subclasses may override
   }
 
   protected String getEPackageData(EPackage ePackage)
@@ -405,6 +415,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
   {
     return new AdapterFactoryLabelProvider(adapterFactory)
     {
+      @Override
       public Image getColumnImage(Object o, int columnIndex)
       {
         switch (columnIndex)
@@ -420,6 +431,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
         }
       }
 
+      @Override
       public String getColumnText(Object o, int columnIndex)
       {
         EPackage ePackage = (EPackage)o;
@@ -452,44 +464,39 @@ public class ModelConverterPackagePage extends ModelConverterPage
     validate();
     getContainer().updateButtons();
 
-    Set checkedElements = new HashSet(Arrays.asList(ePackagesCheckboxTableViewer.getCheckedElements()));
-    for (Iterator i = getModelConverter().getEPackages().iterator(); i.hasNext();)
+    Set<Object> checkedElements = new HashSet<Object>(Arrays.asList(ePackagesCheckboxTableViewer.getCheckedElements()));
+    for (EPackage ePackage : getModelConverter().getEPackages())
     {
-      EPackage ePackage = (EPackage)i.next();
       getModelConverter().getEPackageConvertInfo(ePackage).setConvert(checkedElements.contains(ePackage));
     }
   }
 
-  public List getCheckedEPackages()
+  @SuppressWarnings("unchecked")
+  public List<EPackage> getCheckedEPackages()
   {
-    if (ePackagesCheckboxTableViewer != null)
-    {
-      return Arrays.asList(ePackagesCheckboxTableViewer.getCheckedElements());
-    }
-    else
-    {
-      return Collections.EMPTY_LIST;
-    }
+    return ePackagesCheckboxTableViewer != null ?
+      (List<EPackage>)(List)Arrays.asList(ePackagesCheckboxTableViewer.getCheckedElements())
+      :  Collections.<EPackage>emptyList();
   }
 
-  public List getCheckedReferencedGenPackages()
+  public List<GenPackage> getCheckedReferencedGenPackages()
   {
     if (referencedGenModelsCheckboxTreeViewer != null)
     {
-      List genPackages = new ConverterUtil.GenPackageList();
+      List<GenPackage> genPackages = new ConverterUtil.GenPackageList();
       Object[] checkedElements = referencedGenModelsCheckboxTreeViewer.getCheckedElements();
       for (int i = 0; i < checkedElements.length; i++)
       {
         if (checkedElements[i] instanceof GenPackage)
         {
-          genPackages.add(checkedElements[i]);
+          genPackages.add((GenPackage)checkedElements[i]);
         }
       }
       return genPackages;
     }
     else
     {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
   }
   
@@ -546,6 +553,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
     referencedGenModelsBrowseButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_END));
     referencedGenModelsBrowseButton.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent event)
         {
           referencedGenModelsBrowseSelected(referencedGenModelsCheckboxTreeViewer);
@@ -570,6 +578,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
 
   protected void addReferencedGenModelsTreeColumns(CheckboxTreeViewer referencedGenModelsTreeViewer)
   {
+    // Subclasses may override
   }
   
   protected boolean supportsNestedPackages()
@@ -581,13 +590,15 @@ public class ModelConverterPackagePage extends ModelConverterPage
   {
     GenModelItemProviderAdapterFactory genModelItemProviderAdapterFactory = new GenModelItemProviderAdapterFactory()
       {
+        @Override
         public Adapter createGenModelAdapter()
         {
           if (genModelItemProvider == null)
           {
             genModelItemProvider = new GenModelItemProvider(this)
               {
-                public Collection getChildrenFeatures(Object object)
+                @Override
+                public Collection<?> getChildrenFeatures(Object object)
                 {
                   return Collections.singleton(GenModelPackage.Literals.GEN_MODEL__GEN_PACKAGES);
                 }
@@ -596,17 +607,19 @@ public class ModelConverterPackagePage extends ModelConverterPage
           return genModelItemProvider;
         }
         
+        @Override
         public Adapter createGenPackageAdapter()
         {
           if (genPackageItemProvider == null)
           {
             genPackageItemProvider = new GenPackageItemProvider(this)
               {
-                public Collection getChildrenFeatures(Object object)
+                @Override
+                public Collection<EStructuralFeature> getChildrenFeatures(Object object)
                 {
                   return supportsNestedPackages() ?
-                    Collections.singleton(GenModelPackage.Literals.GEN_PACKAGE__NESTED_GEN_PACKAGES) :
-                    Collections.EMPTY_SET;
+                    Collections.<EStructuralFeature>singleton(GenModelPackage.Literals.GEN_PACKAGE__NESTED_GEN_PACKAGES) :
+                    Collections.<EStructuralFeature>emptyList();
                 }
               };
           }
@@ -617,6 +630,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
     // Sorting only the genModels
     referencedGenModelsTreeViewer.setSorter(new ViewerSorter()
       {
+        @Override
         public void sort(Viewer viewer, Object[] elements)
         {
           if (elements.length > 0 && elements[0] instanceof GenModel)
@@ -647,6 +661,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
   {
     return new AdapterFactoryLabelProvider(adapterFactory)
     {
+      @Override
       public String getText(Object element)
       {
         return getLabel(element, super.getText(element));
@@ -695,7 +710,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
     Resource resource = getModelConverter().getGenModel().eResource();
     if (resource != null)
     {
-      if (resource.getURI().isPlatformResource());
+      if (resource.getURI().isPlatformResource())
       {
         path = new Path(resource.getURI().toPlatformString(true)).makeAbsolute();
       }
@@ -704,6 +719,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
     
     ViewerFilter genModelFilter = new ViewerFilter()
     {
+      @Override
       public boolean select(Viewer viewer, Object parentElement, Object element)
       {
         if (element instanceof IFile)
@@ -723,7 +739,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
     if (files.length > 0)
     {
       ResourceSet referencedGenModels = getModelConverter().createResourceSet();
-      List genModels = new UniqueEList.FastCompare();
+      List<GenModel> genModels = new UniqueEList.FastCompare<GenModel>();
       for (int i = 0; i < files.length; ++i)
       {
         URI genModelURI = URI.createPlatformResourceURI(files[i].getFullPath().toString(), true);
@@ -735,7 +751,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
       addExternalGenModels(genModels);
       addReferencedGenModels(genModels);
 
-      List genPackagesToCheck = new ArrayList();
+      List<GenPackage> genPackagesToCheck = new ArrayList<GenPackage>();
       Object[] checkedElements = treeViewer.getCheckedElements();
       LOOP:
       for (int i = 0; i < checkedElements.length; i++)
@@ -744,11 +760,10 @@ public class ModelConverterPackagePage extends ModelConverterPage
         {
           GenPackage checkedGenPackage = (GenPackage)checkedElements[i];
           String nsURI = checkedGenPackage.getNSURI();
-          for (Iterator j = genModels.iterator(); j.hasNext(); )
+          for (GenModel genModel : genModels)
           {
-            for (Iterator k = ((GenModel)j.next()).getGenPackages().iterator(); k.hasNext(); )
+            for (GenPackage genPackage : genModel.getGenPackages())
             {
-              GenPackage genPackage = (GenPackage)k.next();
               if (nsURI.equals(genPackage.getNSURI()))
               {
                 genPackagesToCheck.add(genPackage);
@@ -760,7 +775,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
       }
       treeViewer.getTree().deselectAll();
       treeViewer.setInput(new ItemProvider(genModels));
-      for (Iterator i = genModels.iterator(); i.hasNext();)
+      for (Iterator<?> i = genModels.iterator(); i.hasNext();)
       {
         treeViewer.expandToLevel(i.next(), AbstractTreeViewer.ALL_LEVELS);
       }
@@ -802,12 +817,11 @@ public class ModelConverterPackagePage extends ModelConverterPage
   {
     String message = null;
 
-    Map nsURIToGenPackage = new HashMap();
-    List referencedGenPackages = getModelConverter().getReferencedGenPackages();
-    for (Iterator i = referencedGenPackages.iterator(); i.hasNext();)
+    Map<String, GenPackage> nsURIToGenPackage = new HashMap<String, GenPackage>();
+    List<GenPackage> referencedGenPackages = getModelConverter().getReferencedGenPackages();
+    for (GenPackage genPackage : referencedGenPackages)
     {
-      GenPackage genPackage = (GenPackage)i.next();
-      GenPackage previousGenPackage = (GenPackage)nsURIToGenPackage.put(genPackage.getNSURI(), genPackage);
+      GenPackage previousGenPackage = nsURIToGenPackage.put(genPackage.getNSURI(), genPackage);
       if (previousGenPackage != null)
       {
         message = ConverterPlugin.INSTANCE.getString("_UI_SameReferencedNSURI_error", new Object []{getLabel(previousGenPackage), getLabel(genPackage)});
@@ -817,21 +831,19 @@ public class ModelConverterPackagePage extends ModelConverterPage
     
     if (message == null)
     {
-      List tableCheckedEPackages = getCheckedEPackages();
+      List<EPackage> tableCheckedEPackages = getCheckedEPackages();
   
-      List referencedEPackages = new ConverterUtil.EPackageList();
-      for (Iterator i = getModelConverter().getEPackages().iterator(); i.hasNext();)
+      List<EPackage> referencedEPackages = new ConverterUtil.EPackageList();
+      for (EPackage ePackage : getModelConverter().getEPackages())
       {
-        EPackage ePackage = (EPackage)i.next();
         if (tableCheckedEPackages.contains(ePackage) || !filteredEPackages.contains(ePackage))
         {
           referencedEPackages.addAll(ConverterUtil.computeRequiredPackages(ePackage));
         }
       }
   
-      for (Iterator i = referencedEPackages.iterator(); i.hasNext();)
+      for (EPackage ePackage : referencedEPackages)
       {
-        EPackage ePackage = (EPackage)i.next();
         while (ePackage.getESuperPackage() != null)
         {
           ePackage = ePackage.getESuperPackage();
@@ -849,20 +861,18 @@ public class ModelConverterPackagePage extends ModelConverterPage
 
   protected void filterEPackagesTable(boolean reloadReferencedGenPackagesTable)
   {
-    List genPackagesToCheck = null;
+    List<GenPackage> genPackagesToCheck = null;
     if (referencedGenModelsCheckboxTreeViewer != null)
     {
       if (reloadReferencedGenPackagesTable)
       {
         if (!getModelConverter().getReferencedGenPackages().isEmpty() || !getModelConverter().getExternalGenModels().isEmpty())
         {
-          List genModels = new UniqueEList.FastCompare();
+          List<GenModel> genModels = new UniqueEList.FastCompare<GenModel>();
           genPackagesToCheck = new ConverterUtil.GenPackageList();
-          for (Iterator i = getModelConverter().getReferencedGenPackages().iterator(); i.hasNext();)
+          for (GenPackage genPackage : getModelConverter().getReferencedGenPackages())
           {
-            GenPackage genPackage = (GenPackage)i.next();
             genModels.add(genPackage.getGenModel());
-
             ModelConverter.ReferencedGenPackageConvertInfo genPackageInfo = 
               getModelConverter().getReferenceGenPackageConvertInfo(genPackage);
             if (genPackageInfo.isValidReference())
@@ -894,7 +904,7 @@ public class ModelConverterPackagePage extends ModelConverterPage
       }
     }
     
-    genPackagesToCheck = getReferencedGenPackagesToCheck(genPackagesToCheck == null ? Collections.EMPTY_LIST : genPackagesToCheck, reloadReferencedGenPackagesTable);
+    genPackagesToCheck = getReferencedGenPackagesToCheck(genPackagesToCheck == null ? Collections.<GenPackage>emptyList() : genPackagesToCheck, reloadReferencedGenPackagesTable);
     if (genPackagesToCheck.isEmpty())
     {
       filteredEPackages = getModelConverter().getEPackages();
@@ -909,10 +919,9 @@ public class ModelConverterPackagePage extends ModelConverterPage
       filteredEPackages = getModelConverter().filterReferencedEPackages(getModelConverter().getEPackages(), genPackagesToCheck);
     }
 
-    List checkedEPackages = new ArrayList();
-    for (Iterator i = getModelConverter().getEPackages().iterator(); i.hasNext();)
+    List<EPackage> checkedEPackages = new ArrayList<EPackage>();
+    for (EPackage ePackage : getModelConverter().getEPackages())
     {
-      EPackage ePackage = (EPackage)i.next();
       ModelConverter.EPackageConvertInfo ePackageInfo = getModelConverter().getEPackageConvertInfo(ePackage);
       if (filteredEPackages.contains(ePackage) && ePackageInfo.isConvert())
       {
@@ -933,14 +942,14 @@ public class ModelConverterPackagePage extends ModelConverterPage
    * is not null and contains all GenPackages that can be marked.  This list
    * can be both changed and returned. 
    */
-  protected List getReferencedGenPackagesToCheck(List genPackages, boolean reloadReferencedGenPackagesTable)
+  protected List<GenPackage> getReferencedGenPackagesToCheck(List<GenPackage> genPackages, boolean reloadReferencedGenPackagesTable)
   {
     return genPackages;
   }  
   
-  protected void addExternalGenModels(List genModels)
+  protected void addExternalGenModels(List<GenModel> genModels)
   {    
-    List externalGenModels = new ArrayList(getModelConverter().getExternalGenModels());
+    List<GenModel> externalGenModels = new ArrayList<GenModel>(getModelConverter().getExternalGenModels());
     if (!externalGenModels.isEmpty())
     {
       GenModel exporterGenModel = getModelConverter().getGenModel();
@@ -950,12 +959,11 @@ public class ModelConverterPackagePage extends ModelConverterPage
         genModels.add(exporterGenModel);
       }
       
-      for (Iterator i = genModels.iterator(); i.hasNext();)
+      for (GenModel genModel : genModels)
       {
-        GenModel genModel = (GenModel)i.next();
-        for (Iterator j = externalGenModels.iterator(); j.hasNext();)
+        for (Iterator<GenModel> j = externalGenModels.iterator(); j.hasNext();)
         {
-          GenModel externalGenModel = (GenModel)j.next();
+          GenModel externalGenModel = j.next();
           if (genModel == externalGenModel)
           {
             j.remove();
@@ -989,7 +997,8 @@ public class ModelConverterPackagePage extends ModelConverterPage
     }
   }
 
-  protected void addReferencedGenModels(List genModels)
+  protected void addReferencedGenModels(List<GenModel> genModels)
   {
+    // Subclasses may override
   }
 }

@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterManager.java,v 1.2 2006/02/22 22:28:57 marcelop Exp $
+ * $Id: ModelConverterManager.java,v 1.3 2006/12/28 06:43:30 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution;
 
@@ -20,7 +20,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ import org.eclipse.swt.graphics.Point;
 /**
  * @since 2.2.0
  */
-public abstract class ModelConverterManager
+public abstract class ModelConverterManager<D extends ModelConverterDescriptor>
 {
   public static class ModelConverterDescriptorImpl implements ModelConverterDescriptor
   {
@@ -101,6 +100,7 @@ public abstract class ModelConverterManager
         }
         catch (Exception e)
         {
+          // Ignore
         }
       }
       return null;
@@ -109,6 +109,7 @@ public abstract class ModelConverterManager
 
   public static class ModelConverterDescriptorLabelProvider extends LabelProvider
   {
+    @Override
     public Image getImage(Object element)
     {
       if (element instanceof ModelConverterDescriptor)
@@ -121,6 +122,7 @@ public abstract class ModelConverterManager
       }
     }
 
+    @Override
     public String getText(Object element)
     {
       if (element instanceof ModelConverterDescriptor)
@@ -187,7 +189,7 @@ public abstract class ModelConverterManager
     }
   }
 
-  protected List descriptors;
+  protected List<D> descriptors;
 
   public void dispose()
   {
@@ -198,20 +200,19 @@ public abstract class ModelConverterManager
     }
   }
   
-  abstract protected ModelConverterDescriptorWizardNode createModelConverterDescriptorWizardNode(ModelConverterDescriptor descriptor);
+  abstract protected ModelConverterDescriptorWizardNode createModelConverterDescriptorWizardNode(D descriptor);
 
   /**
    * @return a map in which the key is a {@link ModelConverterDescriptor} and 
    * the value is a {@link ModelConverterDescriptorWizardNode}
    */
-  public Map createModelConverterDescriptorWizardNodeMap()
+  public Map<D, ModelConverterDescriptorWizardNode> createModelConverterDescriptorWizardNodeMap()
   {
     if (descriptors != null)
     {
-      Map map = new HashMap();
-      for (Iterator i = descriptors.iterator(); i.hasNext();)
+      Map<D, ModelConverterDescriptorWizardNode> map = new HashMap<D, ModelConverterDescriptorWizardNode>();
+      for (D descriptor : descriptors)
       {
-        ModelConverterDescriptor descriptor = (ModelConverterDescriptor)i.next();
         ModelConverterDescriptorWizardNode wizardNode = createModelConverterDescriptorWizardNode(descriptor);
         map.put(descriptor, wizardNode);
       }
@@ -219,11 +220,11 @@ public abstract class ModelConverterManager
     }
     else
     {
-      return Collections.EMPTY_MAP;
+      return Collections.emptyMap();
     }
   }
 
-  public List getModelConverterDescriptors()
+  public List<D> getModelConverterDescriptors()
   {
     if (descriptors == null)
     {
@@ -232,13 +233,12 @@ public abstract class ModelConverterManager
     return descriptors;
   }
 
-  public ModelConverterDescriptor getModelConverterDescriptor(String id)
+  public D getModelConverterDescriptor(String id)
   {
     if (id != null)
     {
-      for (Iterator i = getModelConverterDescriptors().iterator(); i.hasNext();)
+      for (D descriptor : getModelConverterDescriptors())
       {
-        ModelConverterDescriptor descriptor = (ModelConverterDescriptor)i.next();
         if (id.equals(descriptor.getID()))
         {
           return descriptor;
@@ -251,15 +251,15 @@ public abstract class ModelConverterManager
   abstract protected String getPluginId();
   abstract protected String getExtensionPointId();
 
-  public List retrieveContributedModelConverterDescriptors()
+  public List<D> retrieveContributedModelConverterDescriptors()
   {
-    List descriptors = new ArrayList();
+    List<D> descriptors = new ArrayList<D>();
 
     IExtensionPoint extensionPoint = Platform.getExtensionRegistry().getExtensionPoint(getPluginId(), getExtensionPointId());
     IConfigurationElement[] configurationElements = extensionPoint.getConfigurationElements();
     for (int i = 0; i < configurationElements.length; i++)
     {
-      ModelConverterDescriptor descriptor = createFromContribution(configurationElements[i]);
+      D descriptor = createFromContribution(configurationElements[i]);
       if (descriptor != null)
       {
         descriptors.add(descriptor);
@@ -272,7 +272,7 @@ public abstract class ModelConverterManager
   abstract protected String getElementName();
   abstract protected ModelConverterDescriptorImpl createModelConverterDescriptorImpl();
 
-  protected ModelConverterDescriptor createFromContribution(IConfigurationElement configurationElement)
+  protected D createFromContribution(IConfigurationElement configurationElement)
   {
     if (getElementName().equals(configurationElement.getName()))
     {
@@ -301,10 +301,13 @@ public abstract class ModelConverterManager
           }
           catch (Exception e)
           {
+            // Ignore
           }
         }
 
-        return descriptorImpl;
+        @SuppressWarnings("unchecked")
+        D descriptor = (D)descriptorImpl;
+        return descriptor;
       }
     }
 

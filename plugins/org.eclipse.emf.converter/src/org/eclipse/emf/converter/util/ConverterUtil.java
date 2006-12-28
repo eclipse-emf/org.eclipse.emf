@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConverterUtil.java,v 1.5 2006/11/03 11:39:17 emerks Exp $
+ * $Id: ConverterUtil.java,v 1.6 2006/12/28 06:43:30 marcelop Exp $
  */
 package org.eclipse.emf.converter.util;
 
@@ -45,14 +45,16 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
  */
 public class ConverterUtil
 {
-  public static class EPackageList extends UniqueEList.FastCompare
+  public static class EPackageList extends UniqueEList.FastCompare<EPackage>
   {
+    private static final long serialVersionUID = 1L;
+
     public EPackageList()
     {
       super();
     }
 
-    public EPackageList(Collection collection)
+    public EPackageList(Collection<? extends EPackage> collection)
     {
       super(collection);
     }
@@ -62,20 +64,23 @@ public class ConverterUtil
       super(initialCapacity);
     }
 
+    @Override
     protected Object[] newData(int capacity)
     {
       return new EPackage [capacity];
     }
   }
   
-  public static class GenPackageList extends UniqueEList.FastCompare
+  public static class GenPackageList extends UniqueEList.FastCompare<GenPackage>
   {
+    private static final long serialVersionUID = 1L;
+
     public GenPackageList()
     {
       super();
     }
 
-    public GenPackageList(Collection collection)
+    public GenPackageList(Collection<? extends GenPackage> collection)
     {
       super(collection);
     }
@@ -85,6 +90,7 @@ public class ConverterUtil
       super(initialCapacity);
     }
 
+    @Override
     protected Object[] newData(int capacity)
     {
       return new GenPackage [capacity];
@@ -100,16 +106,15 @@ public class ConverterUtil
      * @param emfResources
      * @return String
      */
-    public static String validate(List emfResources)
+    public static String validate(List<Resource> emfResources)
     {
       org.eclipse.core.resources.IWorkspace workspace = org.eclipse.core.resources.ResourcesPlugin.getWorkspace();
       org.eclipse.core.resources.IWorkspaceRoot workspaceRoot= workspace.getRoot();
       
-      List workspaceFiles = new ArrayList(emfResources.size());
-      List externalFiles = new ArrayList(emfResources.size());
-      for (Iterator i = emfResources.iterator(); i.hasNext();)
+      List<org.eclipse.core.resources.IResource> workspaceFiles = new ArrayList<org.eclipse.core.resources.IResource>(emfResources.size());
+      List<File> externalFiles = new ArrayList<File>(emfResources.size());
+      for (Resource resource : emfResources)
       {
-        Resource resource = (Resource)i.next();
         URI uri = resource.getURI().trimFragment();
         if (uri.isFile())
         {
@@ -139,7 +144,7 @@ public class ConverterUtil
           context = ShellFinder.getActiveShell();
         }
         
-        org.eclipse.core.resources.IFile[] files = (org.eclipse.core.resources.IFile[])workspaceFiles.toArray(new org.eclipse.core.resources.IFile [workspaceFiles.size()]);
+        org.eclipse.core.resources.IFile[] files = workspaceFiles.toArray(new org.eclipse.core.resources.IFile [workspaceFiles.size()]);
         if (!workspace.validateEdit(files, context).isOK())
         {
           for (int i = 0; i < files.length; i++)
@@ -153,9 +158,8 @@ public class ConverterUtil
       }
       if (!externalFiles.isEmpty())
       {
-        for (Iterator i = externalFiles.iterator(); i.hasNext();)
+        for (File file : externalFiles)
         {
-          File file = (File)i.next();
           readOnlyFiles.append(", ").append(file.getAbsolutePath());
         }
       }
@@ -178,6 +182,7 @@ public class ConverterUtil
         }
         catch (Throwable t)
         {
+          // Ignore
         }
       }      
       return null;
@@ -259,9 +264,8 @@ public class ConverterUtil
     if (ConverterPlugin.ID.equals(diagnostic.getSource()))
     {
       int actionCode = diagnostic.getCode();
-      for (Iterator i = diagnostic.getChildren().iterator(); i.hasNext();)
+      for (Diagnostic child : diagnostic.getChildren())
       {
-        Diagnostic child = (Diagnostic)i.next();
         actionCode |= computeActionCode(child);
       }
       return actionCode;
@@ -368,15 +372,14 @@ public class ConverterUtil
     return result;    
   }
   
-  public static List computeRequiredPackages(EPackage ePackage)
+  public static List<EPackage> computeRequiredPackages(EPackage ePackage)
   {
-    List referencedEPackages = new ConverterUtil.EPackageList();
-    for (Iterator j = ePackage.eAllContents(); j.hasNext();)
+    List<EPackage> referencedEPackages = new ConverterUtil.EPackageList();
+    for (Iterator<EObject> j = ePackage.eAllContents(); j.hasNext();)
     {
-      EObject eObject = (EObject)j.next();
-      for (Iterator k = eObject.eCrossReferences().iterator(); k.hasNext();)
+      EObject eObject = j.next();
+      for (Object o : eObject.eCrossReferences())
       {
-        Object o = k.next();
         if (o instanceof EClassifier)
         {
           EClassifier eClassifier = (EClassifier)o;
@@ -386,15 +389,15 @@ public class ConverterUtil
     }
     
     referencedEPackages.remove(ePackage);
-    for (Iterator i = referencedEPackages.iterator(); i.hasNext();)
+    for (Iterator<EPackage> i = referencedEPackages.iterator(); i.hasNext();)
     {
-      EPackage referencedEPackage = (EPackage)i.next();
+      EPackage referencedEPackage = i.next();
       if (referencedEPackage.getNsURI().equals(ePackage.getNsURI()))
       {
         i.remove();
       }
     }
-    return referencedEPackages.isEmpty() ? Collections.EMPTY_LIST : referencedEPackages;
+    return referencedEPackages.isEmpty() ? Collections.<EPackage>emptyList() : referencedEPackages;
   }
   
   public static String getQualifiedName(EPackage ePackage)

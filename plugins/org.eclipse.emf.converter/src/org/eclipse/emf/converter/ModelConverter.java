@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverter.java,v 1.3 2006/02/14 19:40:26 emerks Exp $
+ * $Id: ModelConverter.java,v 1.4 2006/12/28 06:43:30 marcelop Exp $
  */
 package org.eclipse.emf.converter;
 
@@ -86,12 +86,11 @@ public abstract class ModelConverter
   
   protected class ReferencedEPackageFilter
   {
-    public List computeValidReferencedGenPackages()
+    public List<GenPackage> computeValidReferencedGenPackages()
     {
-      List genPackages = new ConverterUtil.GenPackageList();
-      for (Iterator i = getReferencedGenPackages().iterator(); i.hasNext();)
+      List<GenPackage> genPackages = new ConverterUtil.GenPackageList();
+      for (GenPackage genPackage : getReferencedGenPackages())
       {
-        GenPackage genPackage = (GenPackage)i.next();
         EPackage ePackage = getReferredEPackage(genPackage);
         if (ePackage != null)
         {
@@ -102,7 +101,7 @@ public abstract class ModelConverter
       
     }
     
-    public List filterReferencedEPackages(Collection ePackages, List referencedGenPackages)
+    public List<EPackage> filterReferencedEPackages(Collection<EPackage> ePackages, List<GenPackage> referencedGenPackages)
     {
       if (referencedGenPackages == null)
       {
@@ -111,18 +110,17 @@ public abstract class ModelConverter
       
       if (ePackages.isEmpty())
       {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
       }
       else if (referencedGenPackages.isEmpty())
       {
-        return new ArrayList(ePackages);
+        return new ArrayList<EPackage>(ePackages);
       }
       else
       {
-        List filteredEPackages = new ConverterUtil.EPackageList(ePackages);
-        for (Iterator i = referencedGenPackages.iterator(); i.hasNext();)
+        List<EPackage> filteredEPackages = new ConverterUtil.EPackageList(ePackages);
+        for (GenPackage genPackage : referencedGenPackages)
         {
-          GenPackage genPackage = (GenPackage)i.next();
           EPackage ePackage = getReferredEPackage(genPackage);
           if (ePackage != null)
           {
@@ -147,13 +145,13 @@ public abstract class ModelConverter
   }
 
   protected GenModel genModel;
-  protected List ePackages;
-  protected Map ePackageToInfoMap;
-  protected List referencedGenPackages;
-  protected Map referencedGenPackageToInfoMap;
+  protected List<EPackage> ePackages;
+  protected Map<EPackage, EPackageConvertInfo> ePackageToInfoMap;
+  protected List<GenPackage> referencedGenPackages;
+  protected Map<GenPackage, ReferencedGenPackageConvertInfo> referencedGenPackageToInfoMap;
   
   protected ResourceSet externalGenModelResourceSet;
-  protected List externalGenModelList;  
+  protected List<GenModel> externalGenModelList;  
   protected ReferencedEPackageFilter referencedEPackageFilter;
   protected ReferencedEPackageFilter referencedEPackageFilterToConvert;
 
@@ -190,7 +188,7 @@ public abstract class ModelConverter
     return genModel;
   }
   
-  public List getEPackages()
+  public List<EPackage> getEPackages()
   {
     if (ePackages == null)
     {
@@ -199,12 +197,12 @@ public abstract class ModelConverter
     return ePackages;
   }
   
-  protected List createEPackagesList()
+  protected List<EPackage> createEPackagesList()
   {
     return new ConverterUtil.EPackageList();
   }
   
-  public List getReferencedGenPackages()
+  public List<GenPackage> getReferencedGenPackages()
   {
     if (referencedGenPackages == null)
     {
@@ -213,7 +211,7 @@ public abstract class ModelConverter
     return referencedGenPackages;
   }
   
-  protected List createReferencedGenPackagesList()
+  protected List<GenPackage> createReferencedGenPackagesList()
   {
     return new ConverterUtil.GenPackageList();
   }
@@ -244,18 +242,18 @@ public abstract class ModelConverter
     return ConverterUtil.createResourceSet();
   }
   
-  protected Map getEPackageToInfoMap()
+  protected Map<EPackage, EPackageConvertInfo> getEPackageToInfoMap()
   {
     if (ePackageToInfoMap == null)
     {
-      ePackageToInfoMap = new HashMap();
+      ePackageToInfoMap = new HashMap<EPackage, EPackageConvertInfo>();
     }
     return ePackageToInfoMap;
   }
 
   public EPackageConvertInfo getEPackageConvertInfo(EPackage ePackage)
   {
-    EPackageConvertInfo ePackageInfo = (EPackageConvertInfo)getEPackageToInfoMap().get(ePackage);
+    EPackageConvertInfo ePackageInfo = getEPackageToInfoMap().get(ePackage);
     if (ePackageInfo == null)
     {
       ePackageInfo = createEPackageInfo(ePackage);
@@ -274,18 +272,18 @@ public abstract class ModelConverter
     return new EPackageConvertInfo();
   }
   
-  protected Map getReferencedGenPackageToInfoMap()
+  protected Map<GenPackage, ReferencedGenPackageConvertInfo> getReferencedGenPackageToInfoMap()
   {
     if (referencedGenPackageToInfoMap == null)
     {
-      referencedGenPackageToInfoMap = new HashMap();
+      referencedGenPackageToInfoMap = new HashMap<GenPackage, ReferencedGenPackageConvertInfo>();
     }
     return referencedGenPackageToInfoMap;
   }
  
   public ReferencedGenPackageConvertInfo getReferenceGenPackageConvertInfo(GenPackage genPackage)
   {
-    ReferencedGenPackageConvertInfo genPackageConvertInfo = (ReferencedGenPackageConvertInfo)getReferencedGenPackageToInfoMap().get(genPackage);
+    ReferencedGenPackageConvertInfo genPackageConvertInfo = getReferencedGenPackageToInfoMap().get(genPackage);
     if (genPackageConvertInfo == null)
     {
       genPackageConvertInfo = createGenPackageConvertInfo(genPackage);
@@ -304,7 +302,7 @@ public abstract class ModelConverter
     return new ReferencedGenPackageConvertInfo();
   }
 
-  public List filterReferencedEPackages(Collection ePackages, List referencedGenPackages)
+  public List<EPackage> filterReferencedEPackages(Collection<EPackage> ePackages, List<GenPackage> referencedGenPackages)
   {
     if (referencedEPackageFilter == null)
     {
@@ -318,12 +316,11 @@ public abstract class ModelConverter
     return new ReferencedEPackageFilter();
   }  
 
-  protected List computeEPackagesToConvert()
+  protected List<EPackage> computeEPackagesToConvert()
   {
-    List ePackages = new ConverterUtil.EPackageList();
-    for (Iterator i = getEPackages().iterator(); i.hasNext();)
+    List<EPackage> ePackages = new ConverterUtil.EPackageList();
+    for (EPackage ePackage : getEPackages())
     {
-      EPackage ePackage = (EPackage)i.next();
       if (canConvert(ePackage))
       {
         ePackages.add(ePackage);
@@ -332,7 +329,7 @@ public abstract class ModelConverter
     return filterReferencedEPackagesToConvert(ePackages, null);
   }
     
-  protected List filterReferencedEPackagesToConvert(Collection ePackages, List referencedGenPackages)
+  protected List<EPackage> filterReferencedEPackagesToConvert(Collection<EPackage> ePackages, List<GenPackage> referencedGenPackages)
   {
     if (referencedEPackageFilterToConvert == null)
     {
@@ -341,7 +338,7 @@ public abstract class ModelConverter
     return referencedEPackageFilterToConvert.filterReferencedEPackages(ePackages, referencedGenPackages);
   }
   
-  protected List computeValidReferencedGenPackages()
+  protected List<GenPackage> computeValidReferencedGenPackages()
   {
     if (referencedEPackageFilterToConvert == null)
     {
@@ -371,9 +368,8 @@ public abstract class ModelConverter
     String nsURI = genPackage.getEcorePackage().getNsURI();
     if (nsURI != null)
     {
-      for (Iterator j = getEPackages().iterator(); j.hasNext();)
+      for (EPackage ePackage : getEPackages())
       {
-        EPackage ePackage = (EPackage)j.next();
         if (nsURI.equals(ePackage.getNsURI()))
         {
           return ePackage;
@@ -383,28 +379,31 @@ public abstract class ModelConverter
     return null;
   }
   
-  public List getExternalGenModels()
+  public List<GenModel> getExternalGenModels()
   {
     if (externalGenModelList == null)
     {
-      externalGenModelList = new UniqueEList.FastCompare();
+      externalGenModelList = new UniqueEList.FastCompare<GenModel>();
       if (externalGenModelResourceSet == null)
       {
         externalGenModelResourceSet = createExternalGenModelResourceSet();
       }
-      Map ePackageToGenModelMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
-      for (TreeIterator i = 
-             new EcoreUtil.ContentTreeIterator(getEPackages())
+      Map<String, URI> ePackageToGenModelMap = EcorePlugin.getEPackageNsURIToGenModelLocationMap();
+      for (TreeIterator<EPackage> i = 
+             new EcoreUtil.ContentTreeIterator<EPackage>(getEPackages())
              {
-               protected Iterator getEObjectChildren(EObject eObject)
+               private static final long serialVersionUID = 1L;
+
+               @Override
+               protected Iterator<? extends EObject> getEObjectChildren(EObject eObject)
                {
                  return ((EPackage)eObject).getESubpackages().iterator();
                }
              };
            i.hasNext(); )
       {
-        EPackage ePackage = (EPackage)i.next();
-        URI genModelURI = (URI)ePackageToGenModelMap.get(ePackage.getNsURI());
+        EPackage ePackage = i.next();
+        URI genModelURI = ePackageToGenModelMap.get(ePackage.getNsURI());
         if (genModelURI != null)
         {
           try
@@ -413,7 +412,7 @@ public abstract class ModelConverter
             if (genModelResource == null)
             {
               genModelResource = externalGenModelResourceSet.getResource(genModelURI, true);
-              externalGenModelList.add(genModelResource.getContents().get(0));
+              externalGenModelList.add((GenModel)genModelResource.getContents().get(0));
             }
           }
           catch (Exception exception)
@@ -432,7 +431,7 @@ public abstract class ModelConverter
     return createResourceSet();
   }  
   
-  protected Map getGenmodelSaveOptions()
+  protected Map<?, ?> getGenmodelSaveOptions()
   {
     return Collections.EMPTY_MAP;
   }
@@ -445,17 +444,16 @@ public abstract class ModelConverter
   {
     if (!getEPackageToInfoMap().isEmpty())
     {
-      Map dataToCounter = new HashMap();
-      List ePackages = filterReferencedEPackages(getEPackageToInfoMap().keySet(), null);
+      Map<String, Integer> dataToCounter = new HashMap<String, Integer>();
+      List<EPackage> ePackages = filterReferencedEPackages(getEPackageToInfoMap().keySet(), null);
       if (!ePackages.isEmpty())
       {
-        List packageInfos = new ArrayList(ePackages.size());
-        for (Iterator i = ePackages.iterator(); i.hasNext();)
+        List<EPackageConvertInfo> packageInfos = new ArrayList<EPackageConvertInfo>(ePackages.size());
+        for (EPackage ePackage : ePackages)
         {
-          EPackage ePackage = (EPackage)i.next();
           if (ePackage.getESuperPackage() == null || !ePackages.contains(ePackage.getESuperPackage()))
           {
-            EPackageConvertInfo packageInfo = (EPackageConvertInfo)getEPackageToInfoMap().get(ePackage);
+            EPackageConvertInfo packageInfo = getEPackageToInfoMap().get(ePackage);
             if (packageInfo.isConvert())
             {
               packageInfos.add(0, packageInfo);
@@ -472,13 +470,12 @@ public abstract class ModelConverter
           }
         }
         
-        for (Iterator i = packageInfos.iterator(); i.hasNext();)
+        for (EPackageConvertInfo packageInfo : packageInfos)
         {        
-          EPackageConvertInfo packageInfo = (EPackageConvertInfo)i.next();
           String data = packageInfo.getConvertData();
           if (data != null)
           {
-            Integer counterObject = (Integer)dataToCounter.get(data);
+            Integer counterObject = dataToCounter.get(data);
             if (counterObject != null)
             {
               int counter = counterObject.intValue();

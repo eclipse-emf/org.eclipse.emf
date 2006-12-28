@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelConverterURIPage.java,v 1.1 2005/12/14 07:45:42 marcelop Exp $
+ * $Id: ModelConverterURIPage.java,v 1.2 2006/12/28 06:43:30 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui.contribution.base;
 
@@ -45,6 +45,7 @@ public class ModelConverterURIPage extends ModelConverterPage
     super(modelConverter, pageName);
   }
   
+  @Override
   public void dispose()
   {
     if (uriText != null)
@@ -158,12 +159,15 @@ public class ModelConverterURIPage extends ModelConverterPage
 
   protected void addURIControl(Composite parent)
   {
+    // Subclasses may override
   }
 
   protected void addControl(Composite parent)
   {
+    // Subclasses may override
   }
   
+  @Override
   protected void doHandleEvent(Event event)
   {
     if (event.type == SWT.Modify && event.widget == uriText)

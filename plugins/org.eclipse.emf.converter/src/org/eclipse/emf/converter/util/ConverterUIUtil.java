@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ConverterUIUtil.java,v 1.2 2006/04/10 19:31:16 marcelop Exp $
+ * $Id: ConverterUIUtil.java,v 1.3 2006/12/28 06:43:30 marcelop Exp $
  */
 
 package org.eclipse.emf.converter.util;
@@ -201,17 +201,17 @@ public class ConverterUIUtil
     
     protected void setMessage(String message)
     {
-      
+      // Subclasses may override
     }
     
     protected void setMessage(String message, int messageType)
     {
-      
+      // Subclasses may override
     }
 
     protected void setErrorMessage(String message)
     {
-      
+      // Subclasses may override
     }
     
     protected boolean doDialog()
@@ -315,6 +315,7 @@ public class ConverterUIUtil
               dialogMessage,
               BasicDiagnostic.toIStatus(diagnostic), IStatus.INFO | IStatus.WARNING | IStatus.ERROR)
               {
+                @Override
                 protected Image getImage()
                 {
                   return  getErrorImage();

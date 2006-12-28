@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2005 IBM Corporation and others.
+ * Copyright (c) 2005-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: OpenWizardActionDelegate.java,v 1.1 2005/12/14 07:45:42 marcelop Exp $
+ * $Id: OpenWizardActionDelegate.java,v 1.2 2006/12/28 06:43:30 marcelop Exp $
  */
 package org.eclipse.emf.converter.ui;
 
@@ -53,12 +53,14 @@ public abstract class OpenWizardActionDelegate extends ActionDelegate implements
     this();
   }
 
+  @Override
   public void dispose()
   {
     file = null;
     super.dispose();
   }
 
+  @Override
   public void selectionChanged(IAction action, ISelection selection)
   {
     if (fixedFile) return;
@@ -97,6 +99,7 @@ public abstract class OpenWizardActionDelegate extends ActionDelegate implements
     action.setEnabled(false);
   }
 
+  @Override
   public void run(IAction action)
   {
     run(PlatformUI.getWorkbench(), PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), file);
