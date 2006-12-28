@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: ModelImporterApplication.java,v 1.24 2006/12/28 08:12:12 marcelop Exp $
+ * $Id: ModelImporterApplication.java,v 1.25 2006/12/28 08:41:06 marcelop Exp $
  */
 package org.eclipse.emf.importer;
 
@@ -79,6 +79,7 @@ public abstract class ModelImporterApplication extends EclipseApplication
   protected String copyright;
   protected boolean sdo = false;
   protected String modelPluginID;
+  protected String validateModel;
   protected GenJDKLevel genJDKLevel;
 
   protected List<EPackage> referencedEPackages;
@@ -321,6 +322,10 @@ public abstract class ModelImporterApplication extends EclipseApplication
     {
       genJDKLevel = GenJDKLevel.get(arguments[++index]);
     }
+    else if (arguments[index].equalsIgnoreCase("-validateModel"))
+    {
+      validateModel = arguments[++index];
+    }
     else if (arguments[index].equalsIgnoreCase("-refGenModel"))
     {
       if (referencedGenModelURIToEPackageNSURIs == null)
@@ -544,6 +549,10 @@ public abstract class ModelImporterApplication extends EclipseApplication
       if (genJDKLevel != null)
       {
         genModel.setComplianceLevel(genJDKLevel);
+      }
+      if (validateModel != null)
+      {
+        genModel.setValidateModel(Boolean.parseBoolean(validateModel));
       }
     }
     finally
