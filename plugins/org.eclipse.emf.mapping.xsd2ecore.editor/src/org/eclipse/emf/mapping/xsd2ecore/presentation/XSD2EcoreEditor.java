@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreEditor.java,v 1.3 2005/06/12 13:40:19 emerks Exp $
+ * $Id: XSD2EcoreEditor.java,v 1.4 2006/12/29 18:29:15 marcelop Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.presentation;
 
@@ -72,6 +72,7 @@ public class XSD2EcoreEditor extends MappingEditor
     /**
      * @see org.eclipse.emf.common.command.Command#execute()
      */
+    @Override
     public void execute() 
     {
       super.execute();
@@ -103,6 +104,7 @@ public class XSD2EcoreEditor extends MappingEditor
         mappingDomainKey);
     }
 
+    @Override
     protected Command createInitializeCopyOverrideCommand(InitializeCopyCommand initializeCopyCommand) 
     {
       // If the owner and the copy are of the same type, we can proceed with the command, i.e. no override.
@@ -117,6 +119,7 @@ public class XSD2EcoreEditor extends MappingEditor
     }
   }
 
+  @Override
   protected AdapterFactoryMappingDomain createMappingDomain() 
   {
     AdapterFactory mappingAdapterFactory =
@@ -159,6 +162,7 @@ public class XSD2EcoreEditor extends MappingEditor
   /**
    * @see org.eclipse.emf.mapping.presentation.MappingEditor#handleMissingModelFile()
    */
+  @Override
   protected void handleMissingModelFile() 
   {
     try 
@@ -168,7 +172,7 @@ public class XSD2EcoreEditor extends MappingEditor
           (new Path(new Path(modelFile.getName()).removeFileExtension().toOSString() + ".mapper"));
 
       MappingRoot originalRootObject =
-        (MappingRoot) ((Resource) mappingDomain.getResourceSet().getResources().iterator().next()).getContents().get(0);
+        (MappingRoot) (mappingDomain.getResourceSet().getResources().iterator().next()).getContents().get(0);
 
       // Switch over.
       //

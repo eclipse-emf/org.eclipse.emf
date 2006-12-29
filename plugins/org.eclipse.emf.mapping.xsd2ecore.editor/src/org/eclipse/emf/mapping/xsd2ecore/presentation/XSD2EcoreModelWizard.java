@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSD2EcoreModelWizard.java,v 1.5 2006/10/16 03:35:30 davidms Exp $
+ * $Id: XSD2EcoreModelWizard.java,v 1.6 2006/12/29 18:29:15 marcelop Exp $
  */
 package org.eclipse.emf.mapping.xsd2ecore.presentation;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.MissingResourceException;
 
@@ -157,6 +156,7 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public boolean performFinish()
   {
     try
@@ -170,6 +170,7 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
       WorkspaceModifyOperation operation =
         new WorkspaceModifyOperation()
         {
+          @Override
           protected void execute(IProgressMonitor progressMonitor)
           {
             try
@@ -285,6 +286,7 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     protected boolean validatePage()
     {
       if (super.validatePage())
@@ -407,10 +409,9 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
         initialObjectField.setLayoutData(data);
       }
 
-      List eClasses = new ArrayList();
-      for (Iterator classifier = xsD2EcorePackage.getEClassifiers().iterator(); classifier.hasNext(); )
+      List<String> eClasses = new ArrayList<String>();
+      for (EClassifier eClassifier : xsD2EcorePackage.getEClassifiers())
       {
-        EClassifier eClassifier = (EClassifier)classifier.next();
         if (eClassifier instanceof EClass)
         {
           EClass eClass = (EClass)eClassifier;
@@ -422,16 +423,16 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
       }
 
       Collections.sort(eClasses, java.text.Collator.getInstance());
-      for (Iterator i = eClasses.iterator(); i.hasNext(); )
+      for (String eClassName : eClasses)
       {
-        String eClassName = (String)i.next();
         initialObjectField.add(eClassName);
       }
 
       initialObjectField.addSelectionListener
         (new SelectionAdapter()
          {
-           public void widgetSelected(SelectionEvent e)
+           @Override
+          public void widgetSelected(SelectionEvent e)
            {
              setPageComplete(isPageComplete());
            }
@@ -446,6 +447,7 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
      * <!-- end-user-doc -->
      * @generated
      */
+    @Override
     public boolean isPageComplete()
     {
       if (super.isPageComplete())
@@ -484,9 +486,8 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
       else
       {
         String label = initialObjectField.getText();
-        for (Iterator classifier = xsD2EcorePackage.getEClassifiers().iterator(); classifier.hasNext(); )
+        for (EClassifier eClassifier : xsD2EcorePackage.getEClassifiers())
         {
-          EClassifier eClassifier = (EClassifier)classifier.next();
           if (eClassifier instanceof EClass)
           {
             EClass eClass = (EClass)eClassifier;
@@ -515,6 +516,7 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
       }
       catch(MissingResourceException mre)
       {
+        // Ignore
       }
       return name;
     }    
@@ -526,6 +528,7 @@ public class XSD2EcoreModelWizard extends Wizard implements INewWizard
    * <!-- end-user-doc -->
    * @generated
    */
+  @Override
   public void addPages()
   {
     // Create a page, set the title, and the initial model file name.
