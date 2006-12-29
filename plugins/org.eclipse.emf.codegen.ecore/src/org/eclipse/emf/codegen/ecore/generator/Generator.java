@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: Generator.java,v 1.8 2006/12/29 18:06:38 marcelop Exp $
+ * $Id: Generator.java,v 1.9 2006/12/29 18:07:43 marcelop Exp $
  */
 package org.eclipse.emf.codegen.ecore.generator;
 
@@ -77,7 +77,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
  */
 public class Generator
 {
-  private static final boolean SYSOUT_BEGIN_END = true;
+  private static final boolean SYSOUT_BEGIN_END = false;
   
   /**
    * A set of code generation options that should be shared among the generator, adapter factories and adapters.
