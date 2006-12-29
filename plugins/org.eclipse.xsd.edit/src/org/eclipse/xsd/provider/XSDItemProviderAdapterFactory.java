@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapterFactory.java,v 1.5 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDItemProviderAdapterFactory.java,v 1.6 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -73,7 +73,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This keeps track of all the supported types checked by {@link #isFactoryForType isFactoryForType}.
    */
-  protected Collection supportedTypes = new ArrayList();
+  protected Collection<Object> supportedTypes = new ArrayList<Object>();
 
   /**
    * This constructs an instance.
@@ -96,6 +96,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDAnnotation}.
    */
+  @Override
   public Adapter createXSDAnnotationAdapter()
   {
     if (xsdAnnotationItemProvider == null)
@@ -114,6 +115,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDConcreteComponent}.
    */
+  @Override
   public Adapter createXSDConcreteComponentAdapter()
   {
     if (xsdConcreteComponentItemProvider == null)
@@ -132,6 +134,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDComponent}.
    */
+  @Override
   public Adapter createXSDComponentAdapter()
   {
     if (xsdComponentItemProvider == null)
@@ -150,6 +153,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDAttributeUse}.
    */
+  @Override
   public Adapter createXSDAttributeUseAdapter()
   {
     if (xsdAttributeUseItemProvider == null)
@@ -168,6 +172,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDFeature}.
    */
+  @Override
   public Adapter createXSDFeatureAdapter()
   {
     if (xsdFeatureItemProvider == null)
@@ -186,6 +191,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDElementDeclaration}.
    */
+  @Override
   public Adapter createXSDElementDeclarationAdapter()
   {
     if (xsdElementDeclarationItemProvider == null)
@@ -204,6 +210,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDSchema}.
    */
+  @Override
   public Adapter createXSDSchemaAdapter()
   {
     if (xsdSchemaItemProvider == null)
@@ -222,6 +229,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDComplexTypeDefinition}.
    */
+  @Override
   public Adapter createXSDComplexTypeDefinitionAdapter()
   {
     if (xsdComplexTypeDefinitionItemProvider == null)
@@ -240,6 +248,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDScope}.
    */
+  @Override
   public Adapter createXSDScopeAdapter()
   {
     if (xsdScopeItemProvider == null)
@@ -258,6 +267,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDTypeDefinition}.
    */
+  @Override
   public Adapter createXSDTypeDefinitionAdapter()
   {
     if (xsdTypeDefinitionItemProvider == null)
@@ -276,6 +286,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDSimpleTypeDefinition}.
    */
+  @Override
   public Adapter createXSDSimpleTypeDefinitionAdapter()
   {
     if (xsdSimpleTypeDefinitionItemProvider == null)
@@ -294,6 +305,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDComplexTypeContent}.
    */
+  @Override
   public Adapter createXSDComplexTypeContentAdapter()
   {
     if (xsdComplexTypeContentItemProvider == null)
@@ -312,6 +324,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDParticle}.
    */
+  @Override
   public Adapter createXSDParticleAdapter()
   {
     if (xsdParticleItemProvider == null)
@@ -330,6 +343,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDModelGroup}.
    */
+  @Override
   public Adapter createXSDModelGroupAdapter()
   {
     if (xsdModelGroupItemProvider == null)
@@ -348,6 +362,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDTerm}.
    */
+  @Override
   public Adapter createXSDTermAdapter()
   {
     if (xsdTermItemProvider == null)
@@ -366,6 +381,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDParticleContent}.
    */
+  @Override
   public Adapter createXSDParticleContentAdapter()
   {
     if (xsdParticleContentItemProvider == null)
@@ -384,6 +400,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDModelGroupDefinition}.
    */
+  @Override
   public Adapter createXSDModelGroupDefinitionAdapter()
   {
     if (xsdModelGroupDefinitionItemProvider == null)
@@ -402,6 +419,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDRedefineContent}.
    */
+  @Override
   public Adapter createXSDRedefineContentAdapter()
   {
     if (xsdRedefineContentItemProvider == null)
@@ -420,6 +438,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDRedefinableComponent}.
    */
+  @Override
   public Adapter createXSDRedefinableComponentAdapter()
   {
     if (xsdRedefinableComponentItemProvider == null)
@@ -438,6 +457,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDAttributeGroupDefinition}.
    */
+  @Override
   public Adapter createXSDAttributeGroupDefinitionAdapter()
   {
     if (xsdAttributeGroupDefinitionItemProvider == null)
@@ -456,6 +476,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDAttributeGroupContent}.
    */
+  @Override
   public Adapter createXSDAttributeGroupContentAdapter()
   {
     if (xsdAttributeGroupContentItemProvider == null)
@@ -474,6 +495,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDWildcard}.
    */
+  @Override
   public Adapter createXSDWildcardAdapter()
   {
     if (xsdWildcardItemProvider == null)
@@ -492,6 +514,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDNamedComponent}.
    */
+  @Override
   public Adapter createXSDNamedComponentAdapter()
   {
     if (xsdNamedComponentItemProvider == null)
@@ -510,6 +533,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDIdentityConstraintDefinition}.
    */
+  @Override
   public Adapter createXSDIdentityConstraintDefinitionAdapter()
   {
     if (xsdIdentityConstraintDefinitionItemProvider == null)
@@ -528,6 +552,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDXPathDefinition}.
    */
+  @Override
   public Adapter createXSDXPathDefinitionAdapter()
   {
     if (xsdxPathDefinitionItemProvider == null)
@@ -546,6 +571,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDNotationDeclaration}.
    */
+  @Override
   public Adapter createXSDNotationDeclarationAdapter()
   {
     if (xsdNotationDeclarationItemProvider == null)
@@ -564,6 +590,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDSchemaContent}.
    */
+  @Override
   public Adapter createXSDSchemaContentAdapter()
   {
     if (xsdSchemaContentItemProvider == null)
@@ -582,6 +609,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDAttributeDeclaration}.
    */
+  @Override
   public Adapter createXSDAttributeDeclarationAdapter()
   {
     if (xsdAttributeDeclarationItemProvider == null)
@@ -600,6 +628,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDSchemaDirective}.
    */
+  @Override
   public Adapter createXSDSchemaDirectiveAdapter()
   {
     if (xsdSchemaDirectiveItemProvider == null)
@@ -618,6 +647,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDImport}.
    */
+  @Override
   public Adapter createXSDImportAdapter()
   {
     if (xsdImportItemProvider == null)
@@ -636,6 +666,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDSchemaCompositor}.
    */
+  @Override
   public Adapter createXSDSchemaCompositorAdapter()
   {
     if (xsdSchemaCompositorItemProvider == null)
@@ -654,6 +685,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDRedefine}.
    */
+  @Override
   public Adapter createXSDRedefineAdapter()
   {
     if (xsdRedefineItemProvider == null)
@@ -672,6 +704,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDInclude}.
    */
+  @Override
   public Adapter createXSDIncludeAdapter()
   {
     if (xsdIncludeItemProvider == null)
@@ -690,6 +723,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDFacet}.
    */
+  @Override
   public Adapter createXSDFacetAdapter()
   {
     if (xsdFacetItemProvider == null)
@@ -708,6 +742,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDConstrainingFacet}.
    */
+  @Override
   public Adapter createXSDConstrainingFacetAdapter()
   {
     if (xsdConstrainingFacetItemProvider == null)
@@ -726,6 +761,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDFixedFacet}.
    */
+  @Override
   public Adapter createXSDFixedFacetAdapter()
   {
     if (xsdFixedFacetItemProvider == null)
@@ -744,6 +780,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDFractionDigitsFacet}.
    */
+  @Override
   public Adapter createXSDFractionDigitsFacetAdapter()
   {
     if (xsdFractionDigitsFacetItemProvider == null)
@@ -762,6 +799,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDLengthFacet}.
    */
+  @Override
   public Adapter createXSDLengthFacetAdapter()
   {
     if (xsdLengthFacetItemProvider == null)
@@ -780,6 +818,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDMaxFacet}.
    */
+  @Override
   public Adapter createXSDMaxFacetAdapter()
   {
     if (xsdMaxFacetItemProvider == null)
@@ -798,6 +837,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDMaxExclusiveFacet}.
    */
+  @Override
   public Adapter createXSDMaxExclusiveFacetAdapter()
   {
     if (xsdMaxExclusiveFacetItemProvider == null)
@@ -816,6 +856,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDEnumerationFacet}.
    */
+  @Override
   public Adapter createXSDEnumerationFacetAdapter()
   {
     if (xsdEnumerationFacetItemProvider == null)
@@ -834,6 +875,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDRepeatableFacet}.
    */
+  @Override
   public Adapter createXSDRepeatableFacetAdapter()
   {
     if (xsdRepeatableFacetItemProvider == null)
@@ -852,6 +894,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDPatternFacet}.
    */
+  @Override
   public Adapter createXSDPatternFacetAdapter()
   {
     if (xsdPatternFacetItemProvider == null)
@@ -870,6 +913,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDMinFacet}.
    */
+  @Override
   public Adapter createXSDMinFacetAdapter()
   {
     if (xsdMinFacetItemProvider == null)
@@ -888,6 +932,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDMinExclusiveFacet}.
    */
+  @Override
   public Adapter createXSDMinExclusiveFacetAdapter()
   {
     if (xsdMinExclusiveFacetItemProvider == null)
@@ -906,6 +951,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDMinInclusiveFacet}.
    */
+  @Override
   public Adapter createXSDMinInclusiveFacetAdapter()
   {
     if (xsdMinInclusiveFacetItemProvider == null)
@@ -924,6 +970,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDMaxInclusiveFacet}.
    */
+  @Override
   public Adapter createXSDMaxInclusiveFacetAdapter()
   {
     if (xsdMaxInclusiveFacetItemProvider == null)
@@ -942,6 +989,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDMaxLengthFacet}.
    */
+  @Override
   public Adapter createXSDMaxLengthFacetAdapter()
   {
     if (xsdMaxLengthFacetItemProvider == null)
@@ -960,6 +1008,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDMinLengthFacet}.
    */
+  @Override
   public Adapter createXSDMinLengthFacetAdapter()
   {
     if (xsdMinLengthFacetItemProvider == null)
@@ -978,6 +1027,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDTotalDigitsFacet}.
    */
+  @Override
   public Adapter createXSDTotalDigitsFacetAdapter()
   {
     if (xsdTotalDigitsFacetItemProvider == null)
@@ -996,6 +1046,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDWhiteSpaceFacet}.
    */
+  @Override
   public Adapter createXSDWhiteSpaceFacetAdapter()
   {
     if (xsdWhiteSpaceFacetItemProvider == null)
@@ -1014,6 +1065,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDFundamentalFacet}.
    */
+  @Override
   public Adapter createXSDFundamentalFacetAdapter()
   {
     if (xsdFundamentalFacetItemProvider == null)
@@ -1032,6 +1084,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDBoundedFacet}.
    */
+  @Override
   public Adapter createXSDBoundedFacetAdapter()
   {
     if (xsdBoundedFacetItemProvider == null)
@@ -1050,6 +1103,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDCardinalityFacet}.
    */
+  @Override
   public Adapter createXSDCardinalityFacetAdapter()
   {
     if (xsdCardinalityFacetItemProvider == null)
@@ -1068,6 +1122,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDNumericFacet}.
    */
+  @Override
   public Adapter createXSDNumericFacetAdapter()
   {
     if (xsdNumericFacetItemProvider == null)
@@ -1086,6 +1141,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDOrderedFacet}.
    */
+  @Override
   public Adapter createXSDOrderedFacetAdapter()
   {
     if (xsdOrderedFacetItemProvider == null)
@@ -1104,6 +1160,7 @@ public class XSDItemProviderAdapterFactory
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDDiagnostic}.
    */
+  @Override
   public Adapter createXSDDiagnosticAdapter()
   {
     if (xsdDiagnosticItemProvider == null)
@@ -1129,6 +1186,7 @@ public class XSDItemProviderAdapterFactory
     this.parentAdapterFactory = parentAdapterFactory;
   }
 
+  @Override
   public boolean isFactoryForType(Object type)
   {
     return super.isFactoryForType(type) || supportedTypes.contains(type);
@@ -1137,11 +1195,13 @@ public class XSDItemProviderAdapterFactory
   /**
    * This implementation substitutes the factory itself as the key for the adapter.
    */
+  @Override
   public Adapter adapt(Notifier notifier, Object type)
   {
     return super.adapt(notifier, this);
   }
 
+  @Override
   public Object adapt(Object object, Object type)
   {
     // This is a kludge to deal with enumerators, which crash the doSwitch.
@@ -1154,7 +1214,7 @@ public class XSDItemProviderAdapterFactory
     if (isFactoryForType(type))
     {
       Object adapter = super.adapt(object, type);
-      if (!(type instanceof Class) || (((Class)type).isInstance(adapter)))
+      if (!(type instanceof Class) || (((Class<?>)type).isInstance(adapter)))
       {
         return adapter;
       }
@@ -1192,6 +1252,7 @@ public class XSDItemProviderAdapterFactory
     }
   }
 
+  @Override
   protected void associate(Adapter adapter, Notifier target)
   {
     super.associate(adapter, target);

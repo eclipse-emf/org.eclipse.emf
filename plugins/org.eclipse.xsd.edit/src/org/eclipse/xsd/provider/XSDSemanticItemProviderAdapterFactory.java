@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSemanticItemProviderAdapterFactory.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDSemanticItemProviderAdapterFactory.java,v 1.6 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -25,6 +25,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.NotificationImpl;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ItemProvider;
 
@@ -45,6 +46,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     super();
   }
 
+  @Override
   public Adapter createXSDSchemaAdapter()
   {
     // if (xsdSchemaItemProvider == null)
@@ -52,37 +54,41 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdSchemaItemProvider = 
         new XSDSchemaItemProvider(this)
         {
-          protected List children;
+          protected List<Object> children;
 
-          public Collection getChildrenFeatures(Object object)
+          @Override
+          public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
           {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
           }
 
-          public Collection getChildren(Object object)
+          @Override
+          public Collection<?> getChildren(Object object)
           {
             if (children == null)
             {
               final XSDSchema xsdSchema = (XSDSchema)object;
               class ChildItemProvider extends ItemProvider
               {
-                Collection children;
-                public ChildItemProvider(String label, Object image, Collection children)
+                Collection<?> children;
+                public ChildItemProvider(String label, Object image, Collection<?> children)
                 {
                   super(label, image, xsdSchema);
                   this.children = children;
                 }
+                @Override
                 public boolean hasChildren(Object o)
                 {
                   return !children.isEmpty();
                 }
-                public Collection getChildren(Object o)
+                @Override
+                public Collection<?> getChildren(Object o)
                 {
                   return children;
                 }
               }
 
-              children = new ArrayList();
+              children = new ArrayList<Object>();
               children.add
                 (new ChildItemProvider
                   (XSDEditPlugin.INSTANCE.getString("_UI_Elements_label"), 
@@ -127,6 +133,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             return children;
           }
 
+          @Override
           public void notifyChanged(final Notification msg)
           {
             class CagetoryNotification extends NotificationImpl
@@ -138,10 +145,12 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
                 this.category = category;
               }
 
+              @Override
               public Object getNotifier()
               {
                 return category;
               }
+              @Override
               public Object getFeature()
               {
                 return msg.getFeature();
@@ -202,6 +211,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdSchemaItemProvider;
   }
 
+  @Override
   public Adapter createXSDElementDeclarationAdapter()
   {
     if (xsdElementDeclarationItemProvider == null)
@@ -209,7 +219,8 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdElementDeclarationItemProvider = 
         new XSDElementDeclarationItemProvider(this)
         {
-          public Collection getChildrenFeatures(Object object)
+          @Override
+          public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
           {
             if (childrenFeatures == null)
             {
@@ -220,12 +231,13 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             return childrenFeatures;
           }
 
+          @Override
           public Object getParent(Object object)
           {
             Object result = super.getParent(object);
             if (result instanceof XSDSchema)
             {
-              return ((List)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(0);
+              return ((List<?>)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(0);
             }
             else
             {
@@ -233,6 +245,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             }
           }
 
+          @Override
           public String getText(Object object)
           {
             XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
@@ -245,6 +258,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdElementDeclarationItemProvider;
   }
 
+  @Override
   public Adapter createXSDAttributeDeclarationAdapter()
   {
     if (xsdAttributeDeclarationItemProvider == null)
@@ -252,7 +266,8 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdAttributeDeclarationItemProvider = 
         new XSDAttributeDeclarationItemProvider(this)
         {
-          public Collection getChildrenFeatures(Object object)
+          @Override
+          public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
           {
             if (childrenFeatures == null)
             {
@@ -262,17 +277,19 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             }
             return childrenFeatures;
           }
+          @Override
           public Object getParent(Object object)
           {
             Object result = super.getParent(object);
             if (result instanceof XSDSchema)
             {
-              return ((List)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(1);
+              return ((List<?>)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(1);
             }
 
             return result;
           }
 
+          @Override
           public String getText(Object object)
           {
             XSDAttributeDeclaration xsdAttributeDeclaration = ((XSDAttributeDeclaration)object);
@@ -286,6 +303,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdAttributeDeclarationItemProvider;
   }
 
+  @Override
   public Adapter createXSDAttributeGroupDefinitionAdapter()
   {
     if (xsdAttributeGroupDefinitionItemProvider == null)
@@ -293,7 +311,8 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdAttributeGroupDefinitionItemProvider = 
         new XSDAttributeGroupDefinitionItemProvider(this)
         {
-          public Collection getChildrenFeatures(Object object)
+          @Override
+          public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
           {
             if (childrenFeatures == null)
             {
@@ -305,12 +324,13 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             }
             return childrenFeatures;
           }
+          @Override
           public Object getParent(Object object)
           {
             Object result = super.getParent(object);
             if (result instanceof XSDSchema)
             {
-              return ((List)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(2);
+              return ((List<?>)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(2);
             }
             else
             {
@@ -323,6 +343,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdAttributeGroupDefinitionItemProvider;
   }
 
+  @Override
   public Adapter createXSDComplexTypeDefinitionAdapter()
   {
     if (xsdComplexTypeDefinitionItemProvider == null)
@@ -330,7 +351,8 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdComplexTypeDefinitionItemProvider = 
         new XSDComplexTypeDefinitionItemProvider(this)
         {
-          public Collection getChildrenFeatures(Object object)
+          @Override
+          public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
           {
             if (childrenFeatures == null)
             {
@@ -346,18 +368,20 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
 
             return childrenFeatures;
           }
+          @Override
           public Object getParent(Object object)
           {
             Object result = super.getParent(object);
             if (result instanceof XSDSchema)
             {
-              return ((List)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(3);
+              return ((List<?>)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(3);
             }
             else
             {
               return result;
             }
           }
+          @Override
           public String getText(Object object)
           {
             return getText(object, false);
@@ -368,6 +392,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdComplexTypeDefinitionItemProvider;
   }
 
+  @Override
   public Adapter createXSDSimpleTypeDefinitionAdapter()
   {
     if (xsdSimpleTypeDefinitionItemProvider == null)
@@ -375,7 +400,8 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdSimpleTypeDefinitionItemProvider = 
         new XSDSimpleTypeDefinitionItemProvider(this)
         {
-          public Collection getChildrenFeatures(Object object)
+          @Override
+          public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
           {
             if (childrenFeatures == null)
             {
@@ -390,18 +416,20 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             return childrenFeatures;
           }
 
+          @Override
           public Object getParent(Object object)
           {
             Object result = super.getParent(object);
             if (result instanceof XSDSchema)
             {
-              return ((List)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(3);
+              return ((List<?>)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(3);
             }
             else
             {
               return result;
             }
           }
+          @Override
           public String getText(Object object)
           {
             return getText(object, false);
@@ -412,6 +440,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdSimpleTypeDefinitionItemProvider;
   }
 
+  @Override
   public Adapter createXSDModelGroupDefinitionAdapter()
   {
     if (xsdModelGroupDefinitionItemProvider == null)
@@ -419,12 +448,13 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdModelGroupDefinitionItemProvider = 
         new XSDModelGroupDefinitionItemProvider(this)
         {
+          @Override
           public Object getParent(Object object)
           {
             Object result = super.getParent(object);
             if (result instanceof XSDSchema)
             {
-              return ((List)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(4);
+              return ((List<?>)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(4);
             }
             else
             {
@@ -437,6 +467,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdModelGroupDefinitionItemProvider;
   }
 
+  @Override
   public Adapter createXSDNotationDeclarationAdapter()
   {
     if (xsdNotationDeclarationItemProvider == null)
@@ -444,12 +475,13 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdNotationDeclarationItemProvider = 
         new XSDNotationDeclarationItemProvider(this)
         {
+          @Override
           public Object getParent(Object object)
           {
             Object result = super.getParent(object);
             if (result instanceof XSDSchema)
             {
-              return ((List)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(5);
+              return ((List<?>)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(5);
             }
             else
             {
@@ -462,6 +494,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdNotationDeclarationItemProvider;
   }
 
+  @Override
   public Adapter createXSDAnnotationAdapter()
   {
     if (xsdAnnotationItemProvider == null)
@@ -469,12 +502,13 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdAnnotationItemProvider = 
         new XSDAnnotationItemProvider(this)
         {
+          @Override
           public Object getParent(Object object)
           {
             Object result = super.getParent(object);
             if (result instanceof XSDSchema)
             {
-              return ((List)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(7);
+              return ((List<?>)new AdapterFactoryItemDelegator(XSDSemanticItemProviderAdapterFactory.this).getChildren(result)).get(7);
             }
             else
             {
@@ -487,6 +521,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdAnnotationItemProvider;
   }
 
+  @Override
   public Adapter createXSDParticleAdapter()
   {
     if (xsdParticleItemProvider == null)
@@ -494,6 +529,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdParticleItemProvider = 
         new XSDParticleItemProvider(this)
         {
+          @Override
           protected XSDParticleContent getDelegate(XSDParticle xsdParticle)
           {
             return xsdParticle.getTerm();
@@ -504,6 +540,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdParticleItemProvider;
   }
 
+  @Override
   public Adapter createXSDModelGroupAdapter()
   {
     if (xsdModelGroupItemProvider == null)
@@ -511,7 +548,8 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdModelGroupItemProvider = 
         new XSDModelGroupItemProvider(this)
         {
-          public Collection getChildrenFeatures(Object object)
+          @Override
+          public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
           {
             if (childrenFeatures == null)
             {
@@ -529,6 +567,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
 
 
 
+  @Override
   public Adapter createXSDCardinalityFacetAdapter()
   {
     if (xsdCardinalityFacetItemProvider == null)
@@ -540,6 +579,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDNumericFacetAdapter()
   {
     if (xsdNumericFacetItemProvider == null)
@@ -551,6 +591,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDOrderedFacetAdapter()
   {
     if (xsdOrderedFacetItemProvider == null)
@@ -561,6 +602,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdOrderedFacetItemProvider;
   }
 
+  @Override
   public Adapter createXSDFractionDigitsFacetAdapter()
   {
     if (xsdFractionDigitsFacetItemProvider == null)
@@ -572,6 +614,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDLengthFacetAdapter()
   {
     if (xsdLengthFacetItemProvider == null)
@@ -583,6 +626,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDMaxExclusiveFacetAdapter()
   {
     if (xsdMaxExclusiveFacetItemProvider == null)
@@ -594,6 +638,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDMaxInclusiveFacetAdapter()
   {
     if (xsdMaxInclusiveFacetItemProvider == null)
@@ -605,6 +650,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDMaxLengthFacetAdapter()
   {
     if (xsdMaxLengthFacetItemProvider == null)
@@ -616,6 +662,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDMinExclusiveFacetAdapter()
   {
     if (xsdMinExclusiveFacetItemProvider == null)
@@ -627,6 +674,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDMinInclusiveFacetAdapter()
   {
     if (xsdMinInclusiveFacetItemProvider == null)
@@ -638,6 +686,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDMinLengthFacetAdapter()
   {
     if (xsdMinLengthFacetItemProvider == null)
@@ -649,6 +698,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDTotalDigitsFacetAdapter()
   {
     if (xsdTotalDigitsFacetItemProvider == null)
@@ -660,6 +710,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDWhiteSpaceFacetAdapter()
   {
     if (xsdWhiteSpaceFacetItemProvider == null)
@@ -671,6 +722,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDRepeatableFacetAdapter()
   {
     if (xsdRepeatableFacetItemProvider == null)
@@ -682,6 +734,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDEnumerationFacetAdapter()
   {
     if (xsdEnumerationFacetItemProvider == null)
@@ -689,7 +742,8 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdEnumerationFacetItemProvider = 
         new XSDEnumerationFacetItemProvider(this)
         {
-          public Collection getChildrenFeatures(Object object)
+          @Override
+          public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
           {
             if (childrenFeatures == null)
             {
@@ -706,6 +760,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   }
 
 
+  @Override
   public Adapter createXSDPatternFacetAdapter()
   {
     if (xsdPatternFacetItemProvider == null)
@@ -713,7 +768,8 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdPatternFacetItemProvider = 
         new XSDPatternFacetItemProvider(this)
         {
-          public Collection getChildrenFeatures(Object object)
+          @Override
+          public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
           {
             if (childrenFeatures == null)
             {
@@ -728,6 +784,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdPatternFacetItemProvider;
   }
 
+  @Override
   public Adapter createXSDAttributeUseAdapter()
   {
     if (xsdAttributeUseItemProvider == null)
@@ -735,6 +792,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdAttributeUseItemProvider = 
         new XSDAttributeUseItemProvider(this)
         {
+          @Override
           public XSDAttributeDeclaration getDelegate(XSDAttributeUse xsdAttributeUse)
           {
             return xsdAttributeUse.getAttributeDeclaration();
@@ -745,6 +803,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdAttributeUseItemProvider;
   }
 
+  @Override
   public Adapter createXSDWildcardAdapter()
   {
     if (xsdWildcardItemProvider == null)
@@ -752,7 +811,8 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
       xsdWildcardItemProvider = 
         new XSDWildcardItemProvider(this)
         {
-          public Collection getChildrenFeatures(Object object)
+          @Override
+          public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
           {
             if (childrenFeatures == null)
             {
@@ -762,6 +822,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
             }
             return childrenFeatures;
           }
+          @Override
           public String getText(Object object)
           {
             XSDWildcard xsdWildcard = (XSDWildcard)object;
@@ -784,6 +845,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdWildcardItemProvider;
   }
 
+  @Override
   public Adapter createXSDIdentityConstraintDefinitionAdapter()
   {
     if (xsdIdentityConstraintDefinitionItemProvider == null)
@@ -794,6 +856,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdIdentityConstraintDefinitionItemProvider;
   }
 
+  @Override
   public Adapter createXSDXPathDefinitionAdapter()
   {
     if (xsdxPathDefinitionItemProvider == null)
@@ -804,6 +867,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdxPathDefinitionItemProvider;
   }
 
+  @Override
   public Adapter createXSDRedefineAdapter()
   {
     if (xsdRedefineItemProvider == null)
@@ -814,6 +878,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdRedefineItemProvider;
   }
 
+  @Override
   public Adapter createXSDImportAdapter()
   {
     if (xsdImportItemProvider == null)
@@ -824,6 +889,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
     return xsdImportItemProvider;
   }
 
+  @Override
   public Adapter createXSDIncludeAdapter()
   {
     if (xsdIncludeItemProvider == null)
@@ -837,6 +903,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDDiagnostic}.
    */
+  @Override
   public Adapter createXSDDiagnosticAdapter()
   {
     if (xsdDiagnosticItemProvider == null)
@@ -850,6 +917,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDMinFacet}.
    */
+  @Override
   public Adapter createXSDMinFacetAdapter()
   {
     if (xsdMinFacetItemProvider == null)
@@ -863,6 +931,7 @@ public class XSDSemanticItemProviderAdapterFactory extends XSDItemProviderAdapte
   /**
    * This creates an adapter for a {@link org.eclipse.xsd.XSDMaxFacet}.
    */
+  @Override
   public Adapter createXSDMaxFacetAdapter()
   {
     if (xsdMaxFacetItemProvider == null)

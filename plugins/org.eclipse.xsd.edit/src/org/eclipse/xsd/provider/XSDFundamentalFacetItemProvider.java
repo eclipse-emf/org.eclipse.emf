@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDFundamentalFacetItemProvider.java,v 1.3 2005/06/12 12:34:45 emerks Exp $
+ * $Id: XSDFundamentalFacetItemProvider.java,v 1.4 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -23,6 +23,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -51,7 +52,8 @@ public class XSDFundamentalFacetItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -63,6 +65,7 @@ public class XSDFundamentalFacetItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     super.notifyChanged(msg);

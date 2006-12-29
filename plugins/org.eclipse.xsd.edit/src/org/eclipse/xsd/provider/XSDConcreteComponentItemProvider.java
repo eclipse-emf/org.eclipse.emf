@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDConcreteComponentItemProvider.java,v 1.4 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDConcreteComponentItemProvider.java,v 1.5 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -24,6 +24,7 @@ import java.util.List;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.command.CopyCommand;
 import org.eclipse.emf.edit.command.InitializeCopyCommand;
@@ -31,6 +32,7 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -62,7 +64,8 @@ public class XSDConcreteComponentItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -86,7 +89,8 @@ public class XSDConcreteComponentItemProvider
          false,
          ItemPropertyDescriptor.GENERIC_VALUE_IMAGE)
        {
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            XSDConcreteComponent concreteComponent = ((XSDConcreteComponent)o);
            if (concreteComponent.getElement() == null)
@@ -104,14 +108,16 @@ public class XSDConcreteComponentItemProvider
   /**
    * We don't want to copy any references other than containment references.
    */
+  @Override
   protected Command createInitializeCopyCommand(EditingDomain domain, EObject owner, CopyCommand.Helper helper)
   {
     return 
       new InitializeCopyCommand(domain, owner, helper)
       {
-        protected Collection getAttributesToCopy()
+        @Override
+        protected Collection<? extends EAttribute> getAttributesToCopy()
         {
-          Collection result = new ArrayList(this.owner.eClass().getEAllAttributes());
+          Collection<EAttribute> result = new ArrayList<EAttribute>(this.owner.eClass().getEAllAttributes());
           result.remove(xsdPackage.getXSDConcreteComponent_Element());
           return result;
         }
@@ -121,6 +127,7 @@ public class XSDConcreteComponentItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     if (msg.getFeature() == xsdPackage.getXSDConcreteComponent_Element())

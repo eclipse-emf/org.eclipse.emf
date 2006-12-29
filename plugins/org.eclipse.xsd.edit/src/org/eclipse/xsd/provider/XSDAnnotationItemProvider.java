@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDAnnotationItemProvider.java,v 1.4 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDAnnotationItemProvider.java,v 1.5 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -25,6 +25,7 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -56,7 +57,8 @@ public class XSDAnnotationItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -68,19 +70,21 @@ public class XSDAnnotationItemProvider
   /**
    * This returns XSDAnnotation.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDAnnotation");
   }
 
+  @Override
   public String getText(Object object)
   {
     XSDAnnotation xsdAnnotation = ((XSDAnnotation)object);
     String result = "";
-    List userInformation = xsdAnnotation.getUserInformation();
+    List<Element> userInformation = xsdAnnotation.getUserInformation();
     if (!userInformation.isEmpty())
     {
-      Element element = (Element)userInformation.get(0);
+      Element element = userInformation.get(0);
       if (element.hasAttribute(XSDConstants.SOURCE_ATTRIBUTE))
       {
         result = element.getAttribute(XSDConstants.SOURCE_ATTRIBUTE);
@@ -110,6 +114,7 @@ public class XSDAnnotationItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     super.notifyChanged(msg);

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDXPathDefinitionItemProvider.java,v 1.4 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDXPathDefinitionItemProvider.java,v 1.5 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -22,9 +22,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -57,7 +59,8 @@ public class XSDXPathDefinitionItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -81,6 +84,7 @@ public class XSDXPathDefinitionItemProvider
   /**
    * This returns XSDXPathDefinition.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     XSDXPathDefinition xsdXPathDefinition = ((XSDXPathDefinition)object);
@@ -91,6 +95,7 @@ public class XSDXPathDefinitionItemProvider
           "full/obj16/XSDXPathDefinitionField");
   }
 
+  @Override
   public String getText(Object object)
   {
     XSDXPathDefinition xsdXPathDefinition = ((XSDXPathDefinition)object);
@@ -101,6 +106,7 @@ public class XSDXPathDefinitionItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     if (
@@ -117,8 +123,8 @@ public class XSDXPathDefinitionItemProvider
    * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s 
    * describing all of the children that can be created under this object.
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors,
-                                            Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
 

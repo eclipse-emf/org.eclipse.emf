@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDComplexTypeDefinitionItemProvider.java,v 1.6 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDComplexTypeDefinitionItemProvider.java,v 1.7 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -25,9 +25,11 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -64,7 +66,8 @@ public class XSDComplexTypeDefinitionItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -148,7 +151,8 @@ public class XSDComplexTypeDefinitionItemProvider
            false,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
          {
-           public Object getPropertyValue(Object o)
+           @Override
+          public Object getPropertyValue(Object o)
            {
              return ((XSDComplexTypeDefinition)o).getStringProhibitedSubstitutions();
            }
@@ -205,17 +209,20 @@ public class XSDComplexTypeDefinitionItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDComplexTypeDefinition)o).getStringLexicalFinal();
          }
-         public void setPropertyValue(Object o, Object value)
+         @Override
+        public void setPropertyValue(Object o, Object value)
          {
            ((XSDComplexTypeDefinition)o).setStringLexicalFinal((String)value);
          }
-         public Collection getChoiceOfValues(Object o)
+         @Override
+        public Collection<?> getChoiceOfValues(Object o)
          {
-           Collection result = new ArrayList();
+           Collection<Object> result = new ArrayList<Object>();
            result.add("");
            result.add("#all");
            result.add("extension");
@@ -240,7 +247,8 @@ public class XSDComplexTypeDefinitionItemProvider
          false,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDComplexTypeDefinition)o).getStringFinal();
          }
@@ -261,17 +269,20 @@ public class XSDComplexTypeDefinitionItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDComplexTypeDefinition)o).getStringBlock();
          }
-         public void setPropertyValue(Object o, Object value)
+         @Override
+        public void setPropertyValue(Object o, Object value)
          {
            ((XSDComplexTypeDefinition)o).setStringBlock((String)value);
          }
-         public Collection getChoiceOfValues(Object o)
+         @Override
+        public Collection<?> getChoiceOfValues(Object o)
          {
-           Collection result = new ArrayList();
+           Collection<Object> result = new ArrayList<Object>();
            result.add("");
            result.add("#all");
            result.add("extension");
@@ -291,7 +302,8 @@ public class XSDComplexTypeDefinitionItemProvider
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -306,6 +318,7 @@ public class XSDComplexTypeDefinitionItemProvider
     return childrenFeatures;
   }
 
+  @Override
   protected EStructuralFeature getChildFeature(Object object, Object child)
   {
     EObject refObject = (EObject)child;
@@ -320,6 +333,7 @@ public class XSDComplexTypeDefinitionItemProvider
   /**
    * This returns XSDComplexTypeDefinition.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     XSDComplexTypeDefinition xsdComplexTypeDefinition = ((XSDComplexTypeDefinition)object);
@@ -330,6 +344,7 @@ public class XSDComplexTypeDefinitionItemProvider
           "full/obj16/XSDComplexTypeDefinition");
   }
 
+  @Override
   public String getText(Object object)
   {
     return getText(object, true);
@@ -365,6 +380,7 @@ public class XSDComplexTypeDefinitionItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     if (msg.getFeature() == xsdPackage.getXSDComplexTypeDefinition_DerivationMethod() || 
@@ -391,7 +407,8 @@ public class XSDComplexTypeDefinitionItemProvider
    * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s 
    * describing all of the children that can be created under this object.
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors,
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors,
                                             Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);

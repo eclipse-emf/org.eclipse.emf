@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDSchemaItemProvider.java,v 1.6 2006/08/26 13:25:14 emerks Exp $
+ * $Id: XSDSchemaItemProvider.java,v 1.7 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -25,12 +25,16 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CopyCommand;
 import org.eclipse.emf.edit.command.InitializeCopyCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 import org.eclipse.xsd.XSDInclude;
@@ -55,7 +59,8 @@ public class XSDSchemaItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -98,7 +103,8 @@ public class XSDSchemaItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public void setPropertyValue(Object o, Object value)
+         @Override
+        public void setPropertyValue(Object o, Object value)
          {
            if ("".equals(value))
            {
@@ -125,17 +131,20 @@ public class XSDSchemaItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDSchema)o).getStringFinalDefault();
          }
-         public void setPropertyValue(Object o, Object value)
+         @Override
+        public void setPropertyValue(Object o, Object value)
          {
            ((XSDSchema)o).setStringFinalDefault((String)value);
          }
-         public Collection getChoiceOfValues(Object o)
+         @Override
+        public Collection<?> getChoiceOfValues(Object o)
          {
-           Collection result = new ArrayList();
+           Collection<Object> result = new ArrayList<Object>();
            result.add("");
            result.add("#all");
            result.add("extension");
@@ -159,17 +168,20 @@ public class XSDSchemaItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDSchema)o).getStringBlockDefault();
          }
-         public void setPropertyValue(Object o, Object value)
+         @Override
+        public void setPropertyValue(Object o, Object value)
          {
            ((XSDSchema)o).setStringBlockDefault((String)value);
          }
-         public Collection getChoiceOfValues(Object o)
+         @Override
+        public Collection<?> getChoiceOfValues(Object o)
          {
-           Collection result = new ArrayList();
+           Collection<Object> result = new ArrayList<Object>();
            result.add("");
            result.add("#all");
            result.add("extension");
@@ -217,7 +229,8 @@ public class XSDSchemaItemProvider
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -230,11 +243,13 @@ public class XSDSchemaItemProvider
   /**
    * This returns XSDSchema.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDSchema");
   }
 
+  @Override
   public String getText(Object object)
   {
     XSDSchema xsdSchema = (XSDSchema)object;
@@ -252,6 +267,7 @@ public class XSDSchemaItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     if (
@@ -280,7 +296,8 @@ public class XSDSchemaItemProvider
    * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s 
    * describing all of the children that can be created under this object.
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
     XSDSchema xsdSchema = (XSDSchema) object;
@@ -332,19 +349,22 @@ public class XSDSchemaItemProvider
   /**
    * We need to copy the prefix to namespace map as well as the schema for schema prefix.
    */
+  @Override
   protected Command createInitializeCopyCommand(EditingDomain domain, EObject owner, CopyCommand.Helper helper)
   {
     return 
       new InitializeCopyCommand(domain, owner, helper)
       {
-        protected Collection getAttributesToCopy()
+        @Override
+        protected Collection<? extends EAttribute> getAttributesToCopy()
         {
-          Collection result = new ArrayList(this.owner.eClass().getEAllAttributes());
+          Collection<EAttribute> result = new ArrayList<EAttribute>(this.owner.eClass().getEAllAttributes());
           result.remove(xsdPackage.getXSDConcreteComponent_Element());
           result.remove(xsdPackage.getXSDSchema_Document());
           return result;
         }
         
+        @Override
         protected void copyAttributes()
         {
           XSDSchema ownerSchema = (XSDSchema)owner;

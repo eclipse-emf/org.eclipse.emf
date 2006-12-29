@@ -12,14 +12,13 @@
  *
  * </copyright>
  *
- * $Id: XSDAttributeUseItemProvider.java,v 1.4 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDAttributeUseItemProvider.java,v 1.5 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
@@ -27,6 +26,7 @@ import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CreateChildCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
@@ -76,7 +76,8 @@ public class XSDAttributeUseItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     itemPropertyDescriptors = null;
     super.getPropertyDescriptors(object);
@@ -85,10 +86,8 @@ public class XSDAttributeUseItemProvider
     XSDAttributeDeclaration xsdAttributeDeclaration = getDelegate(xsdAttributeUse);
     if (xsdAttributeDeclaration != null)
     {
-      for (Iterator delegatedPropertyDescriptors = itemDelegator.getPropertyDescriptors(xsdAttributeDeclaration).iterator();
-           delegatedPropertyDescriptors.hasNext(); )
+      for (IItemPropertyDescriptor delegatedItemPropertyDescriptor : itemDelegator.getPropertyDescriptors(xsdAttributeDeclaration))
       {
-        IItemPropertyDescriptor delegatedItemPropertyDescriptor = (IItemPropertyDescriptor)delegatedPropertyDescriptors.next();
         Object feature = delegatedItemPropertyDescriptor.getFeature(object);
         if (feature != XSDPackage.eINSTANCE.getXSDFeature_Constraint() && 
               feature != XSDPackage.eINSTANCE.getXSDFeature_Value() &&
@@ -156,7 +155,8 @@ public class XSDAttributeUseItemProvider
     return itemPropertyDescriptors;
   }
 
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -170,7 +170,8 @@ public class XSDAttributeUseItemProvider
     return childrenFeatures;
   }
 
-  public Collection getChildren(Object object)
+  @Override
+  public Collection<?> getChildren(Object object)
   {
     XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)object;
     XSDAttributeDeclaration xsdAttributeDeclaration = getDelegate(xsdAttributeUse);
@@ -184,6 +185,7 @@ public class XSDAttributeUseItemProvider
     }
   }
 
+  @Override
   public boolean hasChildren(Object object)
   {
     XSDAttributeUse xsdAttributeUse = (XSDAttributeUse)object;
@@ -195,13 +197,14 @@ public class XSDAttributeUseItemProvider
   /**
    * This returns XSDAttributeUse.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     XSDAttributeUse xsdAttributeUse = ((XSDAttributeUse)object);
     XSDAttributeDeclaration xsdAttributeDeclaration = getDelegate(xsdAttributeUse);
     if (xsdAttributeDeclaration != null)
     {
-      Collection images = new ArrayList();
+      Collection<Object> images = new ArrayList<Object>();
       images.add(itemDelegator.getImage(xsdAttributeDeclaration));
 
       // Try this way, i.e., not showing the 1 case.
@@ -226,6 +229,7 @@ public class XSDAttributeUseItemProvider
     }
   }
 
+  @Override
   public String getText(Object object)
   {
     return getText(object, true);
@@ -260,6 +264,7 @@ public class XSDAttributeUseItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     if (msg.getFeature() == xsdPackage.getXSDAttributeUse_Required() || 
@@ -278,7 +283,8 @@ public class XSDAttributeUseItemProvider
    * This returns a list of child descriptors based on the attributeUse
    * content, not the attributeUse itself.
    */
-  public Collection getNewChildDescriptors(Object object, EditingDomain domain, Object sibling)
+  @Override
+  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain domain, Object sibling)
   {
     Object content = ((XSDAttributeUse) object).getContent();
     return domain.getNewChildDescriptors(content, sibling);
@@ -288,7 +294,8 @@ public class XSDAttributeUseItemProvider
    * This returns Remove and CreateChild commands (at least) that are based
    * on the attributeUse content, not the attributeUse itself.
    */
-  public Command createCommand(final Object object, final EditingDomain domain, Class commandClass, CommandParameter commandParameter)
+  @Override
+  public Command createCommand(final Object object, final EditingDomain domain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     if (commandClass == RemoveCommand.class ||
         commandClass == CreateChildCommand.class)
@@ -309,8 +316,9 @@ public class XSDAttributeUseItemProvider
         return new CommandWrapper(
           domain.createCommand(commandClass, commandParameter))
         {
-          private Collection affectedObjects = Collections.EMPTY_SET;
+          private Collection<?> affectedObjects = Collections.EMPTY_SET;
 
+          @Override
           public void execute()
           {
             super.execute();
@@ -318,12 +326,14 @@ public class XSDAttributeUseItemProvider
               Collections.EMPTY_SET : Collections.singleton(object);
           }
             
+          @Override
           public void undo()
           {
             super.undo();
             affectedObjects = super.getAffectedObjects();
           }
 
+          @Override
           public void redo()
           {
             super.redo();
@@ -331,7 +341,8 @@ public class XSDAttributeUseItemProvider
               Collections.EMPTY_SET : Collections.singleton(object);
           }
 
-          public Collection getAffectedObjects()
+          @Override
+          public Collection<?> getAffectedObjects()
           {
             return affectedObjects;
           }

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDDiagnosticItemProvider.java,v 1.4 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDDiagnosticItemProvider.java,v 1.5 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -55,7 +56,8 @@ public class XSDDiagnosticItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -145,11 +147,13 @@ public class XSDDiagnosticItemProvider
   /**
    * This returns XSDDiagnostic.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     return XSDEditPlugin.INSTANCE.getImage("full/obj16/XSDDiagnostic");
   }
 
+  @Override
   public String getText(Object object)
   {
     XSDDiagnostic xsdDiagnostic = ((XSDDiagnostic)object);
@@ -159,6 +163,7 @@ public class XSDDiagnosticItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     if (msg.getFeature() == xsdPackage.getXSDDiagnostic_Severity() || 

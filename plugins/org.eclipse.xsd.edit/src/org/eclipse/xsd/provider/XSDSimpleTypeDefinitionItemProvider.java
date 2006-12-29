@@ -12,23 +12,25 @@
  *
  * </copyright>
  *
- * $Id: XSDSimpleTypeDefinitionItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDSimpleTypeDefinitionItemProvider.java,v 1.6 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 
 import org.eclipse.xsd.XSDBoundedFacet;
@@ -72,7 +74,8 @@ public class XSDSimpleTypeDefinitionItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -99,12 +102,12 @@ public class XSDSimpleTypeDefinitionItemProvider
            false,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
          {
-           public Object getPropertyValue(Object o)
+           @Override
+          public Object getPropertyValue(Object o)
            {
              XSDSimpleTypeDefinition simpleTypeDefinition = (XSDSimpleTypeDefinition)o;
-             for (Iterator fundamentalFacets = simpleTypeDefinition.getFundamentalFacets().iterator(); fundamentalFacets.hasNext(); )
+             for (XSDFundamentalFacet xsdFundamentalFacet : simpleTypeDefinition.getFundamentalFacets())
              {
-               XSDFundamentalFacet xsdFundamentalFacet = (XSDFundamentalFacet)fundamentalFacets.next();
                if (xsdFundamentalFacet instanceof XSDOrderedFacet)
                {
                  return ((XSDOrderedFacet)xsdFundamentalFacet).getValue().getName();
@@ -125,12 +128,12 @@ public class XSDSimpleTypeDefinitionItemProvider
            false,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
          {
-           public Object getPropertyValue(Object o)
+           @Override
+          public Object getPropertyValue(Object o)
            {
              XSDSimpleTypeDefinition simpleTypeDefinition = (XSDSimpleTypeDefinition)o;
-             for (Iterator fundamentalFacets = simpleTypeDefinition.getFundamentalFacets().iterator(); fundamentalFacets.hasNext(); )
+             for (XSDFundamentalFacet xsdFundamentalFacet : simpleTypeDefinition.getFundamentalFacets())
              {
-               XSDFundamentalFacet xsdFundamentalFacet = (XSDFundamentalFacet)fundamentalFacets.next();
                if (xsdFundamentalFacet instanceof XSDCardinalityFacet)
                {
                  String result = ((XSDCardinalityFacet)xsdFundamentalFacet).getValue().getName();
@@ -156,12 +159,12 @@ public class XSDSimpleTypeDefinitionItemProvider
            false,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
          {
-           public Object getPropertyValue(Object o)
+           @Override
+          public Object getPropertyValue(Object o)
            {
              XSDSimpleTypeDefinition simpleTypeDefinition = (XSDSimpleTypeDefinition)o;
-             for (Iterator fundamentalFacets = simpleTypeDefinition.getFundamentalFacets().iterator(); fundamentalFacets.hasNext(); )
+             for (XSDFundamentalFacet xsdFundamentalFacet : simpleTypeDefinition.getFundamentalFacets())
              {
-               XSDFundamentalFacet xsdFundamentalFacet = (XSDFundamentalFacet)fundamentalFacets.next();
                if (xsdFundamentalFacet instanceof XSDBoundedFacet)
                {
                  return ((XSDBoundedFacet)xsdFundamentalFacet).isValue() ? "true" : "false";
@@ -182,12 +185,12 @@ public class XSDSimpleTypeDefinitionItemProvider
            false,
            ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
          {
-           public Object getPropertyValue(Object o)
+           @Override
+          public Object getPropertyValue(Object o)
            {
              XSDSimpleTypeDefinition simpleTypeDefinition = (XSDSimpleTypeDefinition)o;
-             for (Iterator fundamentalFacets = simpleTypeDefinition.getFundamentalFacets().iterator(); fundamentalFacets.hasNext(); )
+             for (XSDFundamentalFacet xsdFundamentalFacet : simpleTypeDefinition.getFundamentalFacets())
              {
-               XSDFundamentalFacet xsdFundamentalFacet = (XSDFundamentalFacet)fundamentalFacets.next();
                if (xsdFundamentalFacet instanceof XSDNumericFacet)
                {
                  return ((XSDNumericFacet)xsdFundamentalFacet).isValue() ? "true" : "false";
@@ -226,7 +229,8 @@ public class XSDSimpleTypeDefinitionItemProvider
            xsdPackage.getXSDSimpleTypeDefinition_Variety(), 
            false)
          {
-           public Object getPropertyValue(Object o)
+           @Override
+          public Object getPropertyValue(Object o)
            {
              if (((XSDSimpleTypeDefinition)o).isSetVariety())
              {
@@ -270,22 +274,26 @@ public class XSDSimpleTypeDefinitionItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyDefaultValue(Object o)
+         @Override
+        public Object getPropertyDefaultValue(Object o)
          {
            return 
              XSDEditPlugin.INSTANCE.getString("_UI_DefaultValue_label", new Object [] { ((XSDSimpleTypeDefinition)o).getStringLexicalFinal() });
          }
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDSimpleTypeDefinition)o).getStringLexicalFinal();
          }
-         public void setPropertyValue(Object o, Object value)
+         @Override
+        public void setPropertyValue(Object o, Object value)
          {
            ((XSDSimpleTypeDefinition)o).setStringLexicalFinal((String)value);
          }
-         public Collection getChoiceOfValues(Object o)
+         @Override
+        public Collection<?> getChoiceOfValues(Object o)
          {
-           Collection result = new ArrayList();
+           Collection<Object> result = new ArrayList<Object>();
            result.add("");
            result.add("#all");
            result.add("restriction");
@@ -314,7 +322,8 @@ public class XSDSimpleTypeDefinitionItemProvider
          false,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDSimpleTypeDefinition)o).getStringFinal();
          }
@@ -326,7 +335,8 @@ public class XSDSimpleTypeDefinitionItemProvider
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -342,6 +352,7 @@ public class XSDSimpleTypeDefinitionItemProvider
   /**
    * This returns XSDSimpleTypeDefinition.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     XSDSimpleTypeDefinition xsdSimpleTypeDefinition = ((XSDSimpleTypeDefinition)object);
@@ -358,6 +369,7 @@ public class XSDSimpleTypeDefinitionItemProvider
                     "full/obj16/XSDSimpleTypeDefinition");
   }
 
+  @Override
   public String getText(Object object)
   {
     return getText(object, true);
@@ -400,13 +412,12 @@ public class XSDSimpleTypeDefinitionItemProvider
         }
         else 
         {
-          List memberTypeDefinitions = xsdSimpleTypeDefinition.getMemberTypeDefinitions();
+          List<XSDSimpleTypeDefinition> memberTypeDefinitions = xsdSimpleTypeDefinition.getMemberTypeDefinitions();
           if (!memberTypeDefinitions.isEmpty())
           {
             boolean first = true;
-            for (Iterator members = memberTypeDefinitions.iterator(); members.hasNext(); )
+            for (XSDSimpleTypeDefinition memberTypeDefinition : memberTypeDefinitions)
             {
-              XSDSimpleTypeDefinition memberTypeDefinition = (XSDSimpleTypeDefinition)members.next();
               if (memberTypeDefinition.getName() != null) 
               {
                 if (first)
@@ -440,6 +451,7 @@ public class XSDSimpleTypeDefinitionItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     if (msg.getFeature() == xsdPackage.getXSDSimpleTypeDefinition_FacetContents() || 
@@ -473,8 +485,8 @@ public class XSDSimpleTypeDefinitionItemProvider
    * disabled, {@link org.eclipse.emf.edit.command.CommandParameter#feature} 
    * is <code>null</code>.
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors,
-                                            Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
     XSDSimpleTypeDefinition std = (XSDSimpleTypeDefinition) object;
@@ -493,7 +505,7 @@ public class XSDSimpleTypeDefinitionItemProvider
     {
       boolean isAtomic = std.getVariety() == XSDVariety.ATOMIC_LITERAL;
       boolean isUnion = std.getVariety() == XSDVariety.UNION_LITERAL;
-      Collection validFacets = std.getValidFacets();
+      Collection<String> validFacets = std.getValidFacets();
 
       // anonymous simple type definition(s) for derivation (single-valued
       // for non-list varieties)
@@ -502,10 +514,9 @@ public class XSDSimpleTypeDefinitionItemProvider
       addSimpleTypeDefinitionChildParameters(newChildDescriptors, std, feature,
                                              true, isUnion, !isAtomic);
       // facets
-      for (Iterator i = validFacets.iterator(); i.hasNext(); )
+      for (String validFacet : validFacets)
       {
-        XSDConstrainingFacet facet =
-          (XSDConstrainingFacet)xsdFactory.create((EClass)xsdPackage.getEClassifier(formFacetTypeName(i.next())));
+        XSDConstrainingFacet facet = (XSDConstrainingFacet)xsdFactory.create((EClass)xsdPackage.getEClassifier(formFacetTypeName(validFacet)));
         facet.setLexicalValue("");
         feature = !canAccomodateFacet(std, facet) ? null :
           xsdPackage.getXSDSimpleTypeDefinition_FacetContents();

@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDElementDeclarationItemProvider.java,v 1.6 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDElementDeclarationItemProvider.java,v 1.7 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -27,11 +27,13 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -68,7 +70,8 @@ public class XSDElementDeclarationItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -105,11 +108,13 @@ public class XSDElementDeclarationItemProvider
       super(adapterFactory, displayName, description, feature, isSettable, staticImage);
     }
 
+    @Override
     public Object getPropertyValue(Object object)
     {
       return super.getPropertyValue(((XSDElementDeclaration)object).getResolvedElementDeclaration());
     }
 
+    @Override
     public void setPropertyValue(Object object, Object value)
     {
       super.setPropertyValue(((XSDElementDeclaration)object).getResolvedElementDeclaration(), value);
@@ -117,6 +122,7 @@ public class XSDElementDeclarationItemProvider
 
   }
 
+  @Override
   protected void createNamePropertyDescriptor(Object object)
   {
 
@@ -131,7 +137,8 @@ public class XSDElementDeclarationItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public void setPropertyValue(Object o, Object value)
+         @Override
+        public void setPropertyValue(Object o, Object value)
          {
            XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)o;
            if (xsdElementDeclaration.isElementDeclarationReference())
@@ -175,23 +182,27 @@ public class XSDElementDeclarationItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyDefaultValue(Object o)
+         @Override
+        public Object getPropertyDefaultValue(Object o)
          {
            return 
              XSDEditPlugin.INSTANCE.getString
                ("_UI_DefaultValue_label", new Object [] { ((XSDElementDeclaration)o).getStringLexicalFinal() });
          }
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDElementDeclaration)o).getStringLexicalFinal();
          }
-         public void setPropertyValue(Object o, Object value)
+         @Override
+        public void setPropertyValue(Object o, Object value)
          {
            ((XSDElementDeclaration)o).setStringLexicalFinal((String)value);
          }
-         public Collection getChoiceOfValues(Object o)
+         @Override
+        public Collection<?> getChoiceOfValues(Object o)
          {
-           Collection result = new ArrayList();
+           Collection<Object> result = new ArrayList<Object>();
            result.add("");
            result.add("#all");
            result.add("restriction");
@@ -215,23 +226,27 @@ public class XSDElementDeclarationItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyDefaultValue(Object o)
+         @Override
+        public Object getPropertyDefaultValue(Object o)
          {
            return 
              XSDEditPlugin.INSTANCE.getString
                ("_UI_DefaultValue_label", new Object [] { ((XSDElementDeclaration)o).getStringBlock() });
          }
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDElementDeclaration)o).getStringBlock();
          }
-         public void setPropertyValue(Object o, Object value)
+         @Override
+        public void setPropertyValue(Object o, Object value)
          {
            ((XSDElementDeclaration)o).setStringBlock((String)value);
          }
-         public Collection getChoiceOfValues(Object o)
+         @Override
+        public Collection<?> getChoiceOfValues(Object o)
          {
-           Collection result = new ArrayList();
+           Collection<Object> result = new ArrayList<Object>();
            result.add("");
            result.add("#all");
            result.add("extension");
@@ -246,6 +261,7 @@ public class XSDElementDeclarationItemProvider
        });
   }
 
+  @Override
   protected void createTargetNamespacePropertyDescriptor(Object object)
   {
 
@@ -260,7 +276,8 @@ public class XSDElementDeclarationItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public void setPropertyValue(Object o, Object value)
+         @Override
+        public void setPropertyValue(Object o, Object value)
          {
            XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)o;
            if (xsdElementDeclaration.isElementDeclarationReference())
@@ -308,7 +325,8 @@ public class XSDElementDeclarationItemProvider
          true,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyDefaultValue(Object o)
+         @Override
+        public Object getPropertyDefaultValue(Object o)
          {
            return 
              XSDEditPlugin.INSTANCE.getString
@@ -317,6 +335,7 @@ public class XSDElementDeclarationItemProvider
        });
   }
 
+  @Override
   protected void createLexicalValuePropertyDescriptor(Object object)
   {
     // This is for the value feature.
@@ -331,6 +350,7 @@ public class XSDElementDeclarationItemProvider
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
   }
 
+  @Override
   protected void createConstraintPropertyDescriptor(Object object)
   {
     // This is for the constraint feature.
@@ -345,6 +365,7 @@ public class XSDElementDeclarationItemProvider
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE));
   }
 
+  @Override
   protected void createScopePropertyDescriptor(Object object)
   {
     // This is for the scope feature.
@@ -372,12 +393,14 @@ public class XSDElementDeclarationItemProvider
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE)
        {
-         public Object getPropertyDefaultValue(Object o)
+         @Override
+        public Object getPropertyDefaultValue(Object o)
          {
            return XSDEditPlugin.INSTANCE.getString("_UI_DefaultValue_label", new Object [] { "false" });
          }
 
-         public Collection getChoiceOfValues(Object o)
+         @Override
+        public Collection<?> getChoiceOfValues(Object o)
          {
            return 
              Arrays.asList
@@ -403,7 +426,8 @@ public class XSDElementDeclarationItemProvider
          false,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDElementDeclaration)o).getStringDisallowedSubstitutions();
          }
@@ -423,7 +447,8 @@ public class XSDElementDeclarationItemProvider
          false,
          ItemPropertyDescriptor.TEXT_VALUE_IMAGE)
        {
-         public Object getPropertyValue(Object o)
+         @Override
+        public Object getPropertyValue(Object o)
          {
            return ((XSDElementDeclaration)o).getStringSubstitutionGroupExclusions();
          }
@@ -443,12 +468,14 @@ public class XSDElementDeclarationItemProvider
          true,
          ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE)
        {
-         public Object getPropertyDefaultValue(Object o)
+         @Override
+        public Object getPropertyDefaultValue(Object o)
          {
            return XSDEditPlugin.INSTANCE.getString("_UI_DefaultValue_label", new Object [] { "false" });
          }
 
-         public Collection getChoiceOfValues(Object o)
+         @Override
+        public Collection<?> getChoiceOfValues(Object o)
          {
            return 
              Arrays.asList
@@ -520,7 +547,8 @@ public class XSDElementDeclarationItemProvider
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -535,6 +563,7 @@ public class XSDElementDeclarationItemProvider
   /**
    * This returns XSDElementDeclaration.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
@@ -548,6 +577,7 @@ public class XSDElementDeclarationItemProvider
              "full/obj16/XSDElementUse");
   }
 
+  @Override
   public String getText(Object object)
   {
     XSDElementDeclaration xsdElementDeclaration = ((XSDElementDeclaration)object);
@@ -579,6 +609,7 @@ public class XSDElementDeclarationItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     XSDElementDeclaration xsdElementDeclaration = (XSDElementDeclaration)msg.getNotifier();
@@ -618,7 +649,8 @@ public class XSDElementDeclarationItemProvider
    * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s 
    * describing all of the children that can be created under this object.
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors,
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors,
                                             Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);

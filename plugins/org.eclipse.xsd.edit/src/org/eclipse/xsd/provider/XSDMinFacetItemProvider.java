@@ -1,7 +1,7 @@
 /**
  * <copyright>
  *
- * Copyright (c) 2002-2004 IBM Corporation and others.
+ * Copyright (c) 2002-2006 IBM Corporation and others.
  * All rights reserved.   This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDMinFacetItemProvider.java,v 1.2 2005/06/08 06:16:36 nickb Exp $
+ * $Id: XSDMinFacetItemProvider.java,v 1.3 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -48,6 +48,7 @@ public class XSDMinFacetItemProvider
     super(adapterFactory);
   }
 
+  @Override
   public String getText(Object object)
   {
     XSDMinFacet xsdMinFacet = ((XSDMinFacet)object);
@@ -58,6 +59,7 @@ public class XSDMinFacetItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     if (

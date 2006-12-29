@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDParticleItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDParticleItemProvider.java,v 1.6 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -20,7 +20,6 @@ package org.eclipse.xsd.provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.command.Command;
@@ -28,6 +27,7 @@ import org.eclipse.emf.common.command.CommandWrapper;
 import org.eclipse.emf.common.command.UnexecutableCommand;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.command.CreateChildCommand;
 import org.eclipse.emf.edit.command.RemoveCommand;
@@ -75,7 +75,8 @@ public class XSDParticleItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     itemPropertyDescriptors = null;
     super.getPropertyDescriptors(object);
@@ -84,10 +85,8 @@ public class XSDParticleItemProvider
     XSDParticleContent xsdParticleContent = getDelegate(xsdParticle);
     if (xsdParticleContent != null)
     {
-      for (Iterator delegatedPropertyDescriptors = itemDelegator.getPropertyDescriptors(xsdParticleContent).iterator();
-           delegatedPropertyDescriptors.hasNext(); )
+      for (IItemPropertyDescriptor delegatedItemPropertyDescriptor : itemDelegator.getPropertyDescriptors(xsdParticleContent))
       {
-        IItemPropertyDescriptor delegatedItemPropertyDescriptor = (IItemPropertyDescriptor)delegatedPropertyDescriptors.next();
         itemPropertyDescriptors.add(new ItemPropertyDescriptorDecorator(xsdParticleContent, delegatedItemPropertyDescriptor));
       }
     }
@@ -123,7 +122,8 @@ public class XSDParticleItemProvider
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -137,7 +137,8 @@ public class XSDParticleItemProvider
     return childrenFeatures;
   }
 
-  public Collection getChildren(Object object)
+  @Override
+  public Collection<?> getChildren(Object object)
   {
     XSDParticle xsdParticle = (XSDParticle)object;
     XSDParticleContent xsdParticleContent = getDelegate(xsdParticle);
@@ -151,6 +152,7 @@ public class XSDParticleItemProvider
     }
   }
 
+  @Override
   public boolean hasChildren(Object object)
   {
     XSDParticle xsdParticle = (XSDParticle)object;
@@ -162,13 +164,14 @@ public class XSDParticleItemProvider
   /**
    * This returns XSDParticle.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     XSDParticle xsdParticle = ((XSDParticle)object);
     XSDParticleContent xsdParticleContent = getDelegate(xsdParticle);
     if (xsdParticleContent != null)
     {
-      Collection images = new ArrayList();
+      Collection<Object> images = new ArrayList<Object>();
       images.add(itemDelegator.getImage(xsdParticleContent));
       String imageName = "full/obj16/XSDOccurrence";
       int minOccurs = xsdParticle.getMinOccurs();
@@ -238,6 +241,7 @@ public class XSDParticleItemProvider
     }
   }
 
+  @Override
   public String getText(Object object)
   {
     XSDParticle xsdParticle = ((XSDParticle)object);
@@ -258,6 +262,7 @@ public class XSDParticleItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     if (
@@ -277,7 +282,8 @@ public class XSDParticleItemProvider
    * This returns a list of child descriptors based on the particle content,
    * not the particle itself.
    */
-  public Collection getNewChildDescriptors(Object object, EditingDomain domain, Object sibling)
+  @Override
+  public Collection<CommandParameter> getNewChildDescriptors(Object object, EditingDomain domain, Object sibling)
   {
     Object content = ((XSDParticle) object).getContent();
     return domain.getNewChildDescriptors(content, sibling);
@@ -287,7 +293,8 @@ public class XSDParticleItemProvider
    * This returns Remove and CreateChild commands (at least) that are based
    * on the attributeUse content, not the attributeUse itself.
    */
-  public Command createCommand(final Object object, final EditingDomain domain, Class commandClass, CommandParameter commandParameter)
+  @Override
+  public Command createCommand(final Object object, final EditingDomain domain, Class<? extends Command> commandClass, CommandParameter commandParameter)
   {
     if (commandClass == RemoveCommand.class ||
         commandClass == CreateChildCommand.class)
@@ -308,8 +315,9 @@ public class XSDParticleItemProvider
         return new CommandWrapper(
           domain.createCommand(commandClass, commandParameter))
         {
-          private Collection affectedObjects = Collections.EMPTY_SET;
+          private Collection<?> affectedObjects = Collections.EMPTY_SET;
 
+          @Override
           public void execute()
           {
             super.execute();
@@ -317,12 +325,14 @@ public class XSDParticleItemProvider
               Collections.EMPTY_SET : Collections.singleton(object);
           }
             
+          @Override
           public void undo()
           {
             super.undo();
             affectedObjects = super.getAffectedObjects();
           }
 
+          @Override
           public void redo()
           {
             super.redo();
@@ -330,7 +340,8 @@ public class XSDParticleItemProvider
               Collections.EMPTY_SET : Collections.singleton(object);
           }
 
-          public Collection getAffectedObjects()
+          @Override
+          public Collection<?> getAffectedObjects()
           {
             return affectedObjects;
           }

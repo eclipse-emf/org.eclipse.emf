@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDEditPlugin.java,v 1.6 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDEditPlugin.java,v 1.7 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -55,6 +55,7 @@ public final class XSDEditPlugin extends EMFPlugin
   /*
    * Javadoc copied from base class.
    */
+  @Override
   public ResourceLocator getPluginResourceLocator()
   {
     return plugin;

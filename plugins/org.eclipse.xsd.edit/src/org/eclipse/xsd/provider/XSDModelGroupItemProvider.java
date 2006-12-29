@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDModelGroupItemProvider.java,v 1.5 2006/01/25 00:27:41 emerks Exp $
+ * $Id: XSDModelGroupItemProvider.java,v 1.6 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -25,9 +25,11 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.edit.command.CommandParameter;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
@@ -64,7 +66,8 @@ public class XSDModelGroupItemProvider
   /**
    * This returns the property descriptors for the adapted class.
    */
-  public List getPropertyDescriptors(Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(Object object)
   {
     if (itemPropertyDescriptors == null)
     {
@@ -100,7 +103,8 @@ public class XSDModelGroupItemProvider
    * {@link org.eclipse.emf.edit.command.AddCommand}, {@link org.eclipse.emf.edit.command.RemoveCommand} or
    * {@link org.eclipse.emf.edit.command.MoveCommand} in {@link #createCommand}.
    */
-  public Collection getChildrenFeatures(Object object)
+  @Override
+  public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object)
   {
     if (childrenFeatures == null)
     {
@@ -114,6 +118,7 @@ public class XSDModelGroupItemProvider
   /**
    * This returns XSDModelGroup.gif.
    */
+  @Override
   public Object getImage(Object object)
   {
     XSDModelGroup xsdModelGroup = ((XSDModelGroup)object);
@@ -131,6 +136,7 @@ public class XSDModelGroupItemProvider
     }
   }
 
+  @Override
   public String getText(Object object)
   {
     XSDModelGroup xsdModelGroup = ((XSDModelGroup)object);
@@ -140,6 +146,7 @@ public class XSDModelGroupItemProvider
   /**
    * This handles notification by calling {@link #fireNotifyChanged fireNotifyChanged}.
    */
+  @Override
   public void notifyChanged(Notification msg) 
   {
     XSDModelGroup xsdModelGroup = (XSDModelGroup)msg.getNotifier();
@@ -170,7 +177,8 @@ public class XSDModelGroupItemProvider
    * This adds to the collection of {@link org.eclipse.emf.edit.command.CommandParameter}s 
    * describing all of the children that can be created under this object.
    */
-  protected void collectNewChildDescriptors(Collection newChildDescriptors, Object object)
+  @Override
+  protected void collectNewChildDescriptors(Collection<CommandParameter> newChildDescriptors, Object object)
   {
     super.collectNewChildDescriptors(newChildDescriptors, object);
     XSDModelGroup mg = (XSDModelGroup) object;

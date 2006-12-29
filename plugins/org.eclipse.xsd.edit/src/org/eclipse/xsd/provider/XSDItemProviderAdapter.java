@@ -12,7 +12,7 @@
  *
  * </copyright>
  *
- * $Id: XSDItemProviderAdapter.java,v 1.6 2006/08/15 13:46:39 emerks Exp $
+ * $Id: XSDItemProviderAdapter.java,v 1.7 2006/12/29 18:32:33 marcelop Exp $
  */
 package org.eclipse.xsd.provider;
 
@@ -20,7 +20,6 @@ package org.eclipse.xsd.provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -91,6 +90,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
   /**
    * This returns the parent.
    */
+  @Override
   public Object getParent(Object object)
   {
     EObject parent = ((EObject)object).eContainer();
@@ -106,19 +106,22 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
     return parent;
   }
 
-  public List getPropertyDescriptors(final Object object)
+  @Override
+  public List<IItemPropertyDescriptor> getPropertyDescriptors(final Object object)
   {
     if (itemPropertyDescriptors == null)
     {
       itemPropertyDescriptors = 
-        new ArrayList()
+        new ArrayList<IItemPropertyDescriptor>()
         {
-          public boolean add(Object o)
+          private static final long serialVersionUID = 1L;
+
+          @Override
+          public boolean add(IItemPropertyDescriptor o)
           {
-            String id = ((IItemPropertyDescriptor)o).getId(object);
-            for (Iterator i = iterator(); i.hasNext(); )
+            String id = o.getId(object);
+            for (IItemPropertyDescriptor propertyDescriptor : this)
             {
-              IItemPropertyDescriptor propertyDescriptor = (IItemPropertyDescriptor)i.next();
               if (id.equals(propertyDescriptor.getId(object)))
               {
                 return false;
@@ -145,6 +148,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
       super(adapterFactory, displayName, description, feature, isSettable, staticImage);
     }
 
+    @Override
     public Object getPropertyValue(Object o)
     {
       if (feature instanceof EAttribute)
@@ -159,6 +163,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
       return super.getPropertyValue(o);
     }
 
+    @Override
     public void setPropertyValue(Object o, Object value)
     {
       if (feature instanceof EAttribute)
@@ -177,15 +182,16 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
       super.setPropertyValue(o, value);
     }
 
-    public Collection getChoiceOfValues(Object o)
+    @Override
+    public Collection<?> getChoiceOfValues(Object o)
     {
-      Collection result = super.getChoiceOfValues(o);
+      Collection<Object> result = new ArrayList<Object>(super.getChoiceOfValues(o));
       if (result != null && feature instanceof EAttribute)
       {
         EAttribute attribute = (EAttribute)feature;
         if (!attribute.isMany())
         {
-          List newResult = new ArrayList(result);
+          List<Object> newResult = new ArrayList<Object>(result);
           Object propertyDefaultValue = getPropertyDefaultValue(o);
           newResult.add(propertyDefaultValue);
           result = newResult;
@@ -255,7 +261,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
    * collection.  If <code>useParticle</code> is <code>true</code>, each
    * model group will be the content of a new particle.
    */
-  protected void addModelGroupChildParameters(Collection newChildDescriptors,
+  protected void addModelGroupChildParameters(Collection<CommandParameter> newChildDescriptors,
                                               EReference feature,
                                               boolean all,
                                               boolean useParticle)
@@ -286,7 +292,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
    * and <code>union</code>.
    */
   protected void addSimpleTypeDefinitionChildParameters
-    (Collection newChildDescriptors, 
+    (Collection<CommandParameter> newChildDescriptors, 
      XSDConcreteComponent parent,
      EReference feature, 
      boolean atomic, 
@@ -373,7 +379,7 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
       {
         namespace = schema.getTargetNamespace();
       }
-      Collection siblings = getAttributeSiblings(parent);
+      Collection<? extends XSDAttributeUse> siblings = getAttributeSiblings(parent);
       String name = null;
       int i = 0;
       do
@@ -402,9 +408,9 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
    * or complex type definition, and returning the attribute uses for it.
    * Returns <code>null</code> if there is no such parent.
    */
-  protected Collection getAttributeSiblings(XSDConcreteComponent parent)
+  protected Collection<? extends XSDAttributeUse> getAttributeSiblings(XSDConcreteComponent parent)
   {
-    Collection siblings = null;
+    Collection<XSDAttributeUse> siblings = null;
     if (parent instanceof XSDAttributeGroupDefinition)
     {
       XSDAttributeGroupDefinition group = (XSDAttributeGroupDefinition)parent;
@@ -438,24 +444,24 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
    * <code>attributeUse</code> is <code>null</code>, and two null strings
    * are considered equal.
    */
-  protected boolean isUniqueAttributeDeclarationName(String localName, String targetNamespace, Collection attributeUses)
+  protected boolean isUniqueAttributeDeclarationName(String localName, String targetNamespace, Collection<? extends XSDAttributeUse> attributeUses)
   {
-    boolean dup = false;
-
     if (attributeUses != null)
     {
-      for (Iterator i = attributeUses.iterator(); !dup && i.hasNext(); )
+      for (XSDAttributeUse attributeUse : attributeUses)
       {
-        XSDAttributeUse attributeUse = (XSDAttributeUse) i.next();
         if (attributeUse.getAttributeDeclaration() != null)
         {
           XSDAttributeDeclaration other = 
             attributeUse.getAttributeDeclaration();
-          dup = other.hasNameAndTargetNamespace(localName, targetNamespace);
+          if (other.hasNameAndTargetNamespace(localName, targetNamespace))
+          {
+            return false;
+          }
         }
       }
     }
-    return !dup;
+    return true;
   }
 
   /**
@@ -555,36 +561,37 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
    * situation, and should be <code>null</code> when the method is initially
    * called.
    */
-  protected boolean isUniqueElementDeclarationName(String localName, String targetNamespace, XSDModelGroup modelGroup, HashSet visited)
+  protected boolean isUniqueElementDeclarationName(String localName, String targetNamespace, XSDModelGroup modelGroup, HashSet<XSDModelGroup> visited)
   {
-    boolean dup = false;
-
     if (visited == null)
     {
-      visited = new HashSet();
+      visited = new HashSet<XSDModelGroup>();
     }
 
-    if (modelGroup != null && visited.add(modelGroup)
-        && modelGroup.getParticles() != null)
+    if (modelGroup != null && visited.add(modelGroup) && modelGroup.getParticles() != null)
     {
-      for (Iterator i = modelGroup.getParticles().iterator();
-           !dup && i.hasNext(); )
+      for (XSDParticle particle : modelGroup.getParticles())
       {
-        XSDParticle particle = (XSDParticle) i.next();
         if (particle.getTerm() instanceof XSDElementDeclaration)
         {
           XSDElementDeclaration other = 
             (XSDElementDeclaration) particle.getTerm();
-          dup = other.hasNameAndTargetNamespace(localName, targetNamespace);
+          if (other.hasNameAndTargetNamespace(localName, targetNamespace))
+          {
+            return false;
+          }
         }
         else if (particle.getTerm() instanceof XSDModelGroup)
         {
           XSDModelGroup others = (XSDModelGroup) particle.getTerm();
-          dup = !isUniqueElementDeclarationName(localName, targetNamespace, others, visited);
+          if (!isUniqueElementDeclarationName(localName, targetNamespace, others, visited))
+          {
+            return false;
+          }
         }
       }
     }
-    return !dup;
+    return true;
   }
 
   /**
@@ -816,9 +823,10 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
   /**
    * This returns the default result collection for {@link CreateChildCommand}.
    */
-  public Collection getCreateChildResult(Object child)
+  @Override
+  public Collection<?> getCreateChildResult(Object child)
   {
-    Collection result = new ArrayList(1);
+    Collection<Object> result = new ArrayList<Object>(1);
     result.add(child);
     return result;
   }
@@ -826,8 +834,9 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
   /**
    * This returns the translated label for {@link CreateChildCommand}.
    */
+  @Override
   public String getCreateChildText(Object parent, Object feature,
-                                   Object child, Collection selection)
+                                   Object child, Collection<?> selection)
   {
     child = getParticleOrAttributeUseContent(child);
 
@@ -841,8 +850,9 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
   /**
    * This returns the translated description for {@link CreateChildCommand}.
    */
+  @Override
   public String getCreateChildDescription(Object parent, Object feature,
-                                          Object child, Collection selection)
+                                          Object child, Collection<?> selection)
   {
     child = getParticleOrAttributeUseContent(child);
 
@@ -869,8 +879,9 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
   /**
    * This returns the translated tool tip for {@link CreateChildCommand}.
    */
+  @Override
   public String getCreateChildToolTipText(Object parent, Object feature,
-                                          Object child, Collection selection)
+                                          Object child, Collection<?> selection)
   {
     child = getParticleOrAttributeUseContent(child);
 
@@ -916,8 +927,9 @@ public class XSDItemProviderAdapter extends ItemProviderAdapter
   /**
    * This returns the icon for {@link CreateChildCommand}.
    */
+  @Override
   public Object getCreateChildImage(Object parent, Object feature,
-                                    Object child, Collection selection)
+                                    Object child, Collection<?> selection)
   {
     child = getParticleOrAttributeUseContent(child);
     Object image = null;
