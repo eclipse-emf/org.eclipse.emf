@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -47,7 +48,7 @@ import org.eclipse.emf.examples.jet.article2.model.TypesafeEnum;
  * enumeration class, and the attribute values for each instance.
  * 
  * @author Remko Popma
- * @version $Revision: 1.2 $ ($Date: 2005/06/12 13:33:48 $)
+ * @version $Revision: 1.3 $ ($Date: 2006/12/29 18:36:19 $)
  */
 public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
 {
@@ -85,8 +86,8 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
   {
     public Object[] getElements(Object inputElement)
     {
-      List result = new ArrayList();
-      for (Iterator i = ((TypesafeEnum)inputElement).instances(); i.hasNext();)
+      List<Instance> result = new ArrayList<Instance>();
+      for (Iterator<Instance> i = ((TypesafeEnum)inputElement).instances(); i.hasNext();)
       {
         result.add(i.next());
       }
@@ -95,10 +96,12 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
 
     public void dispose()
     {
+      // Ignore
     }
 
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
     {
+      // Ignore
     }
   }
 
@@ -229,6 +232,7 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
 
     mButtonAdd.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent e)
         {
           handleAddPressed();
@@ -236,6 +240,7 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
       });
     mButtonEdit.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent e)
         {
           handleEditPressed();
@@ -243,6 +248,7 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
       });
     mButtonRemove.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent e)
         {
           handleRemovePressed();
@@ -253,9 +259,9 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
   private void syncTableCheckWithModel()
   {
     mIgnoreCheckEvents = true;
-    for (Iterator i = getTypesafeEnumModel().instances(); i.hasNext();)
+    for (Iterator<Instance> i = getTypesafeEnumModel().instances(); i.hasNext();)
     {
-      Instance inst = (Instance)i.next();
+      Instance inst = i.next();
       mTableViewer.setChecked(inst, inst.isDefault());
     }
     mIgnoreCheckEvents = false;
@@ -282,7 +288,7 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
     dialog.setTitle(WizardMessages.getString("NewEnumWizPageInst.Add_Instance"));
 
     int reply = dialog.open();
-    if (reply == EditAttributeDialog.OK)
+    if (reply == Window.OK)
     {
       mTableViewer.refresh();
       mTableViewer.setSelection(new StructuredSelection(dialog.getInstance()));
@@ -448,9 +454,9 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
       setPageComplete(false);
       return;
     }
-    for (Iterator i = type.instances(); i.hasNext();)
+    for (Iterator<Instance> i = type.instances(); i.hasNext();)
     {
-      Instance instance = (Instance)i.next();
+      Instance instance = i.next();
       if (instance.getName().length() == 0)
       {
         setErrorMessage(WizardMessages.getString("NewEnumWizPageInst.Every_instance_must_have_a_name"));
@@ -463,9 +469,9 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
         setPageComplete(false);
         return;
       }
-      for (Iterator attributes = type.attributes(); attributes.hasNext();)
+      for (Iterator<Attribute> attributes = type.attributes(); attributes.hasNext();)
       {
-        Attribute attribute = (Attribute)attributes.next();
+        Attribute attribute = attributes.next();
         String value = instance.getAttributeValue(attribute);
         if (value == null || value.trim().length() == 0)
         {
@@ -484,6 +490,7 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
   /*
    * Attributes may have changed. Re-initialize the table widget.
    */
+  @Override
   public void setVisible(boolean visible)
   {
     if (visible)
@@ -517,9 +524,9 @@ public class NewTypesafeEnumCreationWizardPageInstances extends WizardPage
     int col = 0;
     mColumnNames[col++] = WizardMessages.getString("NewEnumWizPageInst.col.Default");
     mColumnNames[col++] = WizardMessages.getString("NewEnumWizPageInst.col.Name");
-    for (Iterator i = getTypesafeEnumModel().attributes(); i.hasNext();)
+    for (Iterator<Attribute> i = getTypesafeEnumModel().attributes(); i.hasNext();)
     {
-      Attribute attribute = (Attribute)i.next();
+      Attribute attribute = i.next();
       mColumnNames[col++] = attribute.getName();
       //System.out.println("colname[" + (col-1) + "] = " +
       // attribute.getName());

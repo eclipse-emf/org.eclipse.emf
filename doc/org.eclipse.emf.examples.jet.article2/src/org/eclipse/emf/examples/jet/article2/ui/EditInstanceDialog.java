@@ -23,7 +23,7 @@ import org.eclipse.emf.examples.jet.article2.model.Instance;
 /**
  * Dialog for editing an <code>Instance</code>.
  * 
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:49 $)
+ * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
  * @author Remko Popma
  */
 public class EditInstanceDialog extends Dialog
@@ -55,6 +55,7 @@ public class EditInstanceDialog extends Dialog
   /*
    * @see org.eclipse.jface.dialogs.Dialog#okPressed()
    */
+  @Override
   protected void okPressed()
   {
     if (mCheckboxDefault.getSelection())
@@ -81,6 +82,7 @@ public class EditInstanceDialog extends Dialog
   /*
    * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
    */
+  @Override
   protected void cancelPressed()
   {
     super.cancelPressed();
@@ -89,6 +91,7 @@ public class EditInstanceDialog extends Dialog
   /**
    * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(Composite)
    */
+  @Override
   protected Control createDialogArea(Composite parent)
   {
     Composite result = (Composite)super.createDialogArea(parent);
@@ -124,6 +127,7 @@ public class EditInstanceDialog extends Dialog
     return result;
   }
 
+  @Override
   protected Control createContents(Composite parent)
   {
     Control result = super.createContents(parent);
@@ -185,6 +189,7 @@ public class EditInstanceDialog extends Dialog
     getButton(IDialogConstants.OK_ID).setEnabled(enabled);
   }
 
+  @Override
   protected void configureShell(Shell newShell)
   {
     super.configureShell(newShell);

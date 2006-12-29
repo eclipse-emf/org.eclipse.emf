@@ -9,7 +9,7 @@ import java.util.Iterator;
  * Class modelling a Java typesafe enumeration class.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:49 $)
+ * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
  */
 public class TypesafeEnum
 {
@@ -22,9 +22,9 @@ public class TypesafeEnum
 
   private String mVersion = "";
 
-  private ArrayList mInstances = new ArrayList();
+  private ArrayList<Instance> mInstances = new ArrayList<Instance>();
 
-  private ArrayList mAttributes = new ArrayList();
+  private ArrayList<Attribute> mAttributes = new ArrayList<Attribute>();
 
   private Instance mDefaultInstance = null;
 
@@ -62,13 +62,13 @@ public class TypesafeEnum
     return parameterDescription(keyAttributes());
   }
 
-  private String parameterDescription(Iterator attributes)
+  private String parameterDescription(Iterator<Attribute> attributes)
   {
     StringBuffer result = new StringBuffer();
 
-    for (Iterator i = attributes; i.hasNext();)
+    for (Iterator<Attribute> i = attributes; i.hasNext();)
     {
-      Attribute attrib = (Attribute)i.next();
+      Attribute attrib = i.next();
       result.append(attrib.getType()).append(' ');
       result.append(attrib.getUncappedName());
 
@@ -201,7 +201,7 @@ public class TypesafeEnum
    * 
    * @return an <code>Iterator</code> over the instances of this type
    */
-  public Iterator instances()
+  public Iterator<Instance> instances()
   {
     return mInstances.iterator();
   }
@@ -211,7 +211,7 @@ public class TypesafeEnum
    * 
    * @return an <code>Iterator</code> over the attributes of this type
    */
-  public Iterator attributes()
+  public Iterator<Attribute> attributes()
   {
     return mAttributes.iterator();
   }
@@ -222,12 +222,12 @@ public class TypesafeEnum
    * 
    * @return an <code>Iterator</code> over the key attributes
    */
-  public Iterator keyAttributes()
+  public Iterator<Attribute> keyAttributes()
   {
-    ArrayList result = new ArrayList();
-    for (Iterator i = attributes(); i.hasNext();)
+    ArrayList<Attribute> result = new ArrayList<Attribute>();
+    for (Iterator<Attribute> i = attributes(); i.hasNext();)
     {
-      Attribute attrib = (Attribute)i.next();
+      Attribute attrib = i.next();
       if (attrib.isKey())
       {
         result.add(attrib);
@@ -363,9 +363,9 @@ public class TypesafeEnum
    */
   public boolean hasAttribute(String property)
   {
-    for (Iterator i = attributes(); i.hasNext();)
+    for (Iterator<Attribute> i = attributes(); i.hasNext();)
     {
-      if (((Attribute)i.next()).getName().equals(property))
+      if (i.next().getName().equals(property))
       {
         return true;
       }
@@ -380,6 +380,6 @@ public class TypesafeEnum
    */
   public Attribute[] attributeArray()
   {
-    return (Attribute[])mAttributes.toArray(new Attribute [mAttributes.size()]);
+    return mAttributes.toArray(new Attribute [mAttributes.size()]);
   }
 }

@@ -11,7 +11,7 @@ import java.util.Properties;
  * of the enumeration.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:49 $)
+ * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
  */
 public class Instance
 {
@@ -27,6 +27,7 @@ public class Instance
    */
   public Instance()
   {
+    super();
   }
 
   /**
@@ -72,9 +73,9 @@ public class Instance
     assertTypeNotNull();
 
     StringBuffer result = new StringBuffer();
-    for (Iterator i = mType.keyAttributes(); i.hasNext();)
+    for (Iterator<Attribute> i = mType.keyAttributes(); i.hasNext();)
     {
-      Attribute attribute = (Attribute)i.next();
+      Attribute attribute = i.next();
       result.append(attribute.getCappedName());
       result.append(" = ");
       result.append(getAttributeValue(attribute));
@@ -100,9 +101,9 @@ public class Instance
     assertTypeNotNull(); // check we've been added to a TypesafeEnum
 
     StringBuffer result = new StringBuffer();
-    for (Iterator i = getType().attributes(); i.hasNext();)
+    for (Iterator<Attribute> i = getType().attributes(); i.hasNext();)
     {
-      Attribute attribute = (Attribute)i.next();
+      Attribute attribute = i.next();
       result.append(getAttributeValue(attribute));
       if (i.hasNext())
       {

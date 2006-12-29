@@ -25,7 +25,7 @@ import org.eclipse.emf.examples.jet.article2.model.TypesafeEnum;
  * to create.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:48 $)
+ * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
  */
 public class NewTypesafeEnumCreationWizardPage extends NewTypeWizardPage
 {
@@ -109,6 +109,7 @@ public class NewTypesafeEnumCreationWizardPage extends NewTypeWizardPage
   /**
    * @see IWizardPage#canFlipToNextPage
    */
+  @Override
   public boolean canFlipToNextPage()
   {
     boolean complete = isPageComplete();
@@ -119,6 +120,7 @@ public class NewTypesafeEnumCreationWizardPage extends NewTypeWizardPage
   /*
    * @see NewContainerWizardPage#handleFieldChanged
    */
+  @Override
   protected void handleFieldChanged(String fieldName)
   {
     super.handleFieldChanged(fieldName);

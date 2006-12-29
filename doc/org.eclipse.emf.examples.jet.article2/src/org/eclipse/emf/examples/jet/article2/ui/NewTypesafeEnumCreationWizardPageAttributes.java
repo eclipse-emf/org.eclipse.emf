@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -46,7 +47,7 @@ import org.eclipse.emf.examples.jet.article2.model.TypesafeEnum;
  * the typesafe enumeration class.
  * 
  * @author Remko Popma
- * @version $Revision: 1.2 $ ($Date: 2005/06/12 13:33:48 $)
+ * @version $Revision: 1.3 $ ($Date: 2006/12/29 18:36:19 $)
  */
 public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
 {
@@ -83,8 +84,8 @@ public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
   {
     public Object[] getElements(Object inputElement)
     {
-      List result = new ArrayList();
-      for (Iterator i = ((TypesafeEnum)inputElement).attributes(); i.hasNext();)
+      List<Attribute> result = new ArrayList<Attribute>();
+      for (Iterator<Attribute> i = ((TypesafeEnum)inputElement).attributes(); i.hasNext();)
       {
         result.add(i.next());
       }
@@ -93,10 +94,12 @@ public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
 
     public void dispose()
     {
+      // Ignore
     }
 
     public void inputChanged(Viewer viewer, Object oldInput, Object newInput)
     {
+      // Ignore
     }
   }
 
@@ -211,6 +214,7 @@ public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
 
     mButtonAdd.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent e)
         {
           handleAddPressed();
@@ -218,6 +222,7 @@ public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
       });
     mButtonEdit.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent e)
         {
           handleEditPressed();
@@ -225,6 +230,7 @@ public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
       });
     mButtonRemove.addSelectionListener(new SelectionAdapter()
       {
+        @Override
         public void widgetSelected(SelectionEvent e)
         {
           handleRemovePressed();
@@ -248,7 +254,7 @@ public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
     dialog.setAttribute(new Attribute());
     dialog.setTitle(WizardMessages.getString("NewEnumWizPageAttr.Add_Attribute"));
     int reply = dialog.open();
-    if (reply == EditAttributeDialog.OK)
+    if (reply == Window.OK)
     {
       getTypesafeEnumModel().addAttribute(dialog.getAttribute());
       mTableViewer.refresh();
@@ -376,9 +382,9 @@ public class NewTypesafeEnumCreationWizardPageAttributes extends WizardPage
       setPageComplete(false);
       return;
     }
-    for (Iterator i = type.attributes(); i.hasNext();)
+    for (Iterator<Attribute> i = type.attributes(); i.hasNext();)
     {
-      Attribute attribute = (Attribute)i.next();
+      Attribute attribute = i.next();
       if (attribute.getName().length() == 0)
       {
         setErrorMessage(WizardMessages.getString("NewEnumWizPageAttr.attribute_must_have_a_name"));

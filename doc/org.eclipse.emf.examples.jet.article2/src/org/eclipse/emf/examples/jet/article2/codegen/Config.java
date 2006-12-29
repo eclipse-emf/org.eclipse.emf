@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.Platform;
  * Meta-data for code generation.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:49 $)
+ * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
  */
 public class Config
 {
@@ -36,6 +36,7 @@ public class Config
    */
   public Config()
   {
+    super();
   }
 
   /**

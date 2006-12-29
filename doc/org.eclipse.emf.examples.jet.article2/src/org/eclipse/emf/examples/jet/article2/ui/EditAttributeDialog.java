@@ -22,7 +22,7 @@ import org.eclipse.emf.examples.jet.article2.model.Attribute;
 /**
  * Dialog for editing an <code>Attribute</code>.
  * 
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:48 $)
+ * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
  * @author Remko Popma
  */
 public class EditAttributeDialog extends Dialog
@@ -52,6 +52,7 @@ public class EditAttributeDialog extends Dialog
   /*
    * @see org.eclipse.jface.dialogs.Dialog#okPressed()
    */
+  @Override
   protected void okPressed()
   {
     getAttribute().setKey(mCheckboxKey.getSelection());
@@ -63,6 +64,7 @@ public class EditAttributeDialog extends Dialog
   /*
    * @see org.eclipse.jface.dialogs.Dialog#cancelPressed()
    */
+  @Override
   protected void cancelPressed()
   {
     super.cancelPressed();
@@ -71,6 +73,7 @@ public class EditAttributeDialog extends Dialog
   /**
    * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(Composite)
    */
+  @Override
   protected Control createDialogArea(Composite parent)
   {
     Composite result = (Composite)super.createDialogArea(parent);
@@ -101,6 +104,7 @@ public class EditAttributeDialog extends Dialog
     return result;
   }
 
+  @Override
   protected Control createContents(Composite parent)
   {
     Control result = super.createContents(parent);
@@ -147,6 +151,7 @@ public class EditAttributeDialog extends Dialog
     getButton(IDialogConstants.OK_ID).setEnabled(enabled);
   }
 
+  @Override
   protected void configureShell(Shell newShell)
   {
     super.configureShell(newShell);

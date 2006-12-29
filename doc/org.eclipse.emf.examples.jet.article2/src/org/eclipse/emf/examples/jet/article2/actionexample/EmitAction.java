@@ -44,7 +44,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
  * templates.
  * 
  * @author Remko Popma
- * @version $Revision: 1.3 $ ($Date: 2006/10/16 03:30:34 $)
+ * @version $Revision: 1.4 $ ($Date: 2006/12/29 18:36:19 $)
  */
 public class EmitAction implements IActionDelegate
 {
@@ -58,9 +58,9 @@ public class EmitAction implements IActionDelegate
 
   public void run(IAction action)
   {
-    List files = (selection instanceof IStructuredSelection) ? ((IStructuredSelection)selection).toList() : Collections.EMPTY_LIST;
+    List<?> files = (selection instanceof IStructuredSelection) ? ((IStructuredSelection)selection).toList() : Collections.EMPTY_LIST;
 
-    for (Iterator i = files.iterator(); i.hasNext();)
+    for (Iterator<?> i = files.iterator(); i.hasNext();)
     {
       IFile file = (IFile)i.next();
       IPath fullPath = file.getFullPath();
@@ -107,6 +107,7 @@ public class EmitAction implements IActionDelegate
 
     WorkspaceModifyOperation op = new WorkspaceModifyOperation()
       {
+        @Override
         public void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException
         {
           try

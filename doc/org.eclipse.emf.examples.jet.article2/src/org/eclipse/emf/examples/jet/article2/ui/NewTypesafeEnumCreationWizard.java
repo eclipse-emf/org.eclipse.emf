@@ -38,7 +38,7 @@ import org.eclipse.emf.examples.jet.article2.codegen.JETGateway;
  * enumeration
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:49 $)
+ * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
  */
 public class NewTypesafeEnumCreationWizard extends Wizard implements INewWizard
 {
@@ -82,6 +82,7 @@ public class NewTypesafeEnumCreationWizard extends Wizard implements INewWizard
   /*
    * @see Wizard#addPages
    */
+  @Override
   public void addPages()
   {
     super.addPages();
@@ -127,6 +128,7 @@ public class NewTypesafeEnumCreationWizard extends Wizard implements INewWizard
   /*
    * @see Wizard#performFinish
    */
+  @Override
   public boolean performFinish()
   {
     IWorkspaceRunnable op = new IWorkspaceRunnable()

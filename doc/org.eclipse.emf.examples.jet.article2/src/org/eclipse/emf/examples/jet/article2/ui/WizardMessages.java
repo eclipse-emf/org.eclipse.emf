@@ -14,7 +14,7 @@ import org.eclipse.emf.examples.jet.article2.TypesafeEnumPlugin;
  * Convenience class for getting strings from a resource bundle.
  * 
  * @author Remko Popma
- * @version $Revision: 1.1 $ ($Date: 2005/05/25 13:37:48 $)
+ * @version $Revision: 1.2 $ ($Date: 2006/12/29 18:36:19 $)
  */
 public class WizardMessages
 {
@@ -22,6 +22,7 @@ public class WizardMessages
 
   private WizardMessages()
   {
+    super();
   }
 
   public static String getString(String key)
